@@ -1,27 +1,95 @@
-[tool.poetry]
-# required ones
-name = "geoips"                                          # geoips package available at the root of the project
-version = "0.0.0"                                        # 0.0.0 will be auto-updated with poetry dynamic versioning!
+[project]
+name = "geoips"
+version = "0.0.0"
 description = "Geolocated Information Processing System"
-authors = ["GeoIPS <geoips@nrlmry.navy.mil>"]
-
-# optional ones
-maintainers = ["GeoIPS <geoips@nrlmry.navy.mil>"]
-#homepage = "set the url"   // optional
-repository = "https://github.com/NRLMMD-GEOIPS/geoips" #optional
-#documentation = "set the url"      // optional
-#license = {file = "LICENSE"}   // required
 readme = "README.md"
-keywords = ["GeoIPS", "Poetry"]
-packages = [
-    { include = "geoips" },
-] # not needed as tool.poetry.name is properly set already
-classifiers = [ # // list of PyPI trove classifiers to describe the project
-    "Programming Language :: Python :: 3",
-]
-include = ["**/*.txt", "**/*.py", "**/*.yaml"]
 
-# uses current version .postN and not incrementing
+maintainers = [ { name = "GeoIPS ", email = "geoips@nrlmry.navy.mil" } ]
+authors = [ { name = "GeoIPS ", email = "geoips@nrlmry.navy.mil" } ]
+requires-python = ">=3.11.0,<3.13.0"
+classifiers = [
+  "Programming Language :: Python :: 3 :: Only",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+]
+dependencies = [
+  "alphashape>=1.3.1",
+  "astropy",
+  "cartopy>=0.23",
+  "colorama",
+  "ephem",
+  "h5py",
+  "hdf5plugin",
+  "isodate",
+  "jsonschema>4.18",
+  "matplotlib>=3.7",
+  "netcdf4>1.7",
+  "numexpr",
+  "numpy>=2.3,<2.4",
+  "psutil",
+  "pyaml-env",
+  "pydantic>=2.10",
+  "pyhdf",
+  "pyorbital",
+  "pypublicdecompwt",
+  "pyresample",
+  "pyyaml",
+  "rasterio",
+  "referencing",
+  "rio-cogeo",
+  "satpy",
+  "scikit-image",
+  "scipy>1.2",
+  "setuptools<70",
+  "tabulate",
+  "tqdm",
+  "xarray>=2025.3.1",
+]
+optional-dependencies.debug = [ "ipython" ]
+optional-dependencies.dev = [ "poetry-dynamic-versioning"] # pygrib requires setuptools but does not list it as a dependency
+optional-dependencies.doc = [
+  "brassy>=0.0.3",
+  "m2r2",
+  "mistune==0.8.4",
+  "pydata-sphinx-theme",
+  "rich",
+  "rich-argparse",
+  "sphinx<7.2",
+  "sphinx-argparse",
+  "sphinx-design",
+  "sphinxcontrib-autoprogram",
+  "sphinxcontrib-mermaid",
+]
+optional-dependencies.lint = [
+  "bandit",
+  "black",
+  "doc8",
+  "flake8",
+  "flake8-docstrings",
+  "flake8-rst",
+  "flake8-rst-docstrings",
+  "pinkrst",
+  "prettier",
+  "pylint",
+]
+optional-dependencies.test = [ "pixelmatch", "pytest", "pytest-cov", "pytest-mock>=3.14", "pytest-xdist" ]
+scripts.convert_trackfile_to_yaml = "geoips.commandline.convert_trackfile_to_yaml:main"
+scripts.create_plugin_registries = "geoips.commandline.commandline_interface:main"
+scripts.expose = "geoips.geoips_utils:expose_geoips_commands"
+scripts.geoips = "geoips.commandline.commandline_interface:main"
+scripts.list_available_plugins = "geoips.commandline.list_available_plugins:main"
+scripts.run_procflow = "geoips.commandline.commandline_interface:main"
+scripts.update_tc_tracks_database = "geoips.commandline.update_tc_tracks_database:main"
+scripts.xml_to_yaml_sector = "geoips.commandline.xml_to_yaml_sector:main"
+
+[tool.setuptools]
+packages = ["geoips"]
+
+#[tool.setuptools.find]
+#where = ["."]
+#include = ["geoips/*"]
+#exclude = ["setup*", "environments*", "tests*", "test*", "*.tests", "*.test"]
+
 [tool.poetry-dynamic-versioning]
 enable = true
 vcs = "git"
@@ -44,159 +112,4 @@ pattern = "(?x)^((?P<epoch>\\d+)!)?(?P<base>\\d+(\\.\\d+)*)([-._]?((?P<stage>[a-
 #     (those steps are called automatically when running pip install, but
 #     NOT when running pip install -e)
 [tool.poetry-dynamic-versioning.substitution]
-files = ["*/_version.py"]
-
-# This is where you would specify a pre-build script from pyproject.toml/poetry.
-# [tool.poetry.build]
-# generate-setup-file = false  # I have no idea what this does
-# script = prebuild.py  # This gets called as a python script prior to running build steps
-
-[build-system]
-requires = ["poetry-core>=1.0.0", "poetry-dynamic-versioning>=1.0.0,<2.0.0"]
-build-backend = "poetry_dynamic_versioning.backend"                          # object used to perform the build process
-
-[tool.poetry.dependencies] # must download to run
-# NOTE this setuptools dependency should be removed altogether once meson fortran builds are working
-setuptools = "<70"     # Required for any fortran builds until meson working
-python = ">=3.11.0,<3.13.0"    # mandatory to declare the required python version
-matplotlib = ">=3.7.0" # Base requirement works, version specific to test outputs
-netcdf4 = ">1.7.0"     # Base requirement >= 1.7.0 works without reader seg faults
-numpy = ">=2.3.0,<2.4.0"      # Base requirement, 2.3.0 float pyYAML serialization resolved, pinned under 2.4.0 for astropy compatibility 
-pyresample = "*"       # Base requirement Geospatial image resampling
-# efficiency improvements >= 1.22.3
-pyyaml = "*"           # Base requirement
-scipy = ">1.2"         # Base requirement, requires openblas
-# Resolved as of 2025.3.1 https://github.com/NRLMMD-GEOIPS/geoips/issues/558
-# Also note, ufuncs went away 2022.06, and back 2025.3.1, impacting scat_noaa_winds_netcdf
-xarray = ">=2025.3.1"  # Base requirement
-astropy = "*"          # Used for accounting leap seconds when converting epoch timestamps
-cartopy = ">=0.23.0"   # No longer requires libgeos; 0.22.0 works but 0.23.0 is needed for tests to pass
-ephem = "*"            # Required for overpass predictor
-h5py = "*"             # hdf5 readers (GMI)
-isodate = "*"          # Required for overpass predictor
-jsonschema = ">4.18.0" # Provides validation for YAML plugins
-numexpr = "*"          # for efficiency improvements
-psutil = "*"           # Required for memory checks
-pydantic = ">=2.10.0"  # Data validation using Python type hints
-pyhdf = "*"            # hdf4 readers (MODIS)
-pyaml-env = "*"        # Reading YAML output config files, with paths
-pyorbital = "*"        # required by satpy
-pypublicdecompwt = "*" # Required to read SEVIRI data
-rio-cogeo = "*"        # Cloud Optimized GEOTIFF output
-rasterio = "*"         # GEOTIFF output; Pinned to <1.3.10 due to the bug in geotiff_standard
-referencing = "*"
-satpy = "*"        # efficiency improvements >= 0.33.1
-scikit-image = "*" # Radius based center coverage checks
-alphashape = ">=1.3.1" # For masking scipy's griddata output
-tabulate = "*"     # Tables for the CLI
-tqdm = "*"         # Progress bars for CLI dataset installs
-colorama = "*"     # Easy terminal color codes
-pygrib = "*" # Reading GRIB model data
-hdf5plugin = "*" # Reading compressed netCDF FCI data. This installs required decomp plugins
-                 # In order to use the MTG FCI reader, the HDF5_PLUGIN_PATH is a required
-                 # environment variable that points to the directory holding the compiled
-                 # decompression plugin. The satpy documentation notes that
-                 # 'import hdf5plugin' should be the only requirement to load the data
-                 # using their reader, and while that is the case, it appears that you are
-                 # unable to manipulate the data outside the satpy.scene object and will
-                 # still encounter a "NetCDF: Filter error: undefined filter encountered"
-                 # error unless HDF5_PLUGIN_PATH is a valid environment variable. We are
-                 # using the pypi hdf5plugin package, and set HDF5_PLUGIN_PATH to
-                 # site-packages/hdf5plugin/plugins in the config_geoips file.
-
-# Optional dependencies
-# To add a new optional dependency it must be added both here and in one of the "extra"
-# groups below.
-#
-# Doc group
-pydata-sphinx-theme = { version = "*", optional = true }
-sphinx = { version = "<7.2", optional = true }
-sphinx-design = { version = "*", optional = true }
-sphinxcontrib-autoprogram = { version = "*", optional = true }
-sphinxcontrib-mermaid = { version = "*", optional = true }
-m2r2 = { version = "*", optional = true }
-brassy = { version = ">=0.0.3", optional = true }
-sphinx-argparse = { version = "*", optional = true }
-rich = { version = "*", optional = true }
-rich-argparse = { version = "*", optional = true }
-# Version 3.0.2 causes error , 0.8.4 works
-# Unsure why there was such a wide range of version numbers installed.
-#  File "lib/python3.10/site-packages/m2r2.py", line 82, in <module>
-#    class RestBlockGrammar(mistune.BlockGrammar):
-# AttributeError: module 'mistune' has no attribute 'BlockGrammar'
-mistune = { version = "0.8.4", optional = true }
-# Lint group
-bandit = { version = "*", optional = true }
-black = { version = "*", optional = true }
-pylint = { version = "*", optional = true }
-flake8 = { version = "*", optional = true }
-flake8-rst-docstrings = { version = "*", optional = true }
-flake8-docstrings = { version = "*", optional = true }
-flake8-rst = { version = "*", optional = true }
-prettier = { version = "*", optional = true }
-doc8 = { version = "*", optional = true }
-pinkrst = { version = "*", optional = true }
-# Test group
-pytest = { version = "*", optional = true }
-pytest-cov = { version = "*", optional = true }
-pytest-mock = { version = ">=3.14.0", optional = true}
-pytest-xdist = { version = "*", optional = true }
-pixelmatch = { version = "*", optional = true }
-# Debug group
-ipython = { version = "*", optional = true }
-# Dev group
-poetry-dynamic-versioning = { version = "*", optional = true }
-
-#[tool.poetry.dev-dependencies]
-# nothing at this stage;
-
-[tool.poetry.extras]
-doc = [
-    "pydata-sphinx-theme",       # Required for building documentation
-    "sphinx",                    # Required for building documentation, v7.2 errors
-    "sphinx-argparse",           # Required for building documentation for the CLI, which uses autoprogram
-    "sphinx-design",             # Required for building documentation
-    "sphinxcontrib-autoprogram", # Required for adding command line options to documentation
-    "sphinxcontrib-mermaid",     # Required for UML rendering
-    "m2r2",                      # Required for rendering markdown into RST-based documentation
-    "brassy",                    # Release Note Generation
-    "mistune", 	# Required for rendering markdown into RST-based documentation
-    "rich", # for building docs; also a dependency of brassy
-    "rich-argparse" # for building docs; also a dependency of brassy
-]
-lint = [
-    "bandit",                # Syntax/security checking
-    "black",                 # Syntax checking and reformatting
-    "pylint",                # Syntax checking
-    "flake8",                # Syntax checking
-    "flake8-rst-docstrings", # numpy docstring checking
-    "flake8-docstrings",     # docstring checking
-    "flake8-rst",            # RST checking
-    "prettier",              # YAML, JSON, etc linting
-    "doc8",                  # RST linting
-    "pinkrst",               # RST Auto-formatting
-]
-test = [
-    "pytest",          # Required for unit tests
-    "pytest-cov",      # Reports on test coverage
-    "pytest-mock",     # Required for unit tests
-    "pixelmatch",
-    "pytest-xdist",
-]
-debug = ["ipython"]
-dev = [
-    "poetry-dynamic-versioning",  # Required for updating version in editable mode
-]
-
-[tool.poetry.plugins."geoips.plugin_packages"]
-geoips = "geoips"
-
-[tool.poetry.scripts]
-convert_trackfile_to_yaml = "geoips.commandline.convert_trackfile_to_yaml:main"
-list_available_plugins = "geoips.commandline.list_available_plugins:main"
-run_procflow = "geoips.commandline.commandline_interface:main"
-update_tc_tracks_database = "geoips.commandline.update_tc_tracks_database:main"
-xml_to_yaml_sector = "geoips.commandline.xml_to_yaml_sector:main"
-expose = "geoips.geoips_utils:expose_geoips_commands"
-geoips = "geoips.commandline.commandline_interface:main"
-create_plugin_registries = "geoips.commandline.commandline_interface:main"
+files = [ "*/_version.py" ]
