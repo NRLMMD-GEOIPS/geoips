@@ -19,6 +19,7 @@ import referencing
 from referencing import jsonschema as refjs
 from jsonschema.exceptions import ValidationError, SchemaError
 
+from geoips.interfaces.class_based_plugin import BaseClassPlugin
 from geoips.errors import PluginError
 from geoips.filenames.base_paths import PATHS
 
@@ -302,12 +303,6 @@ class BaseYamlPlugin(dict):
 #         override this field. For example, the ProductPlugin class overrides
 #         this to a tuple containing 'source_name' and 'name'."""
 #         return self.name
-
-
-class BaseModulePlugin:
-    """Base class for GeoIPS plugins."""
-
-    pass
 
 
 class BaseInterface(abc.ABC):
@@ -732,7 +727,7 @@ class BaseClassInterface(BaseInterface):
         plugin_interface_name = obj_attrs["interface"].title().replace("_", "")
         plugin_type = f"{plugin_interface_name}Plugin"
 
-        plugin_base_class = BaseModulePlugin
+        plugin_base_class = BaseClassPlugin
         if hasattr(cls, "plugin_class") and cls.plugin_class:
             plugin_base_class = cls.plugin_class
 
