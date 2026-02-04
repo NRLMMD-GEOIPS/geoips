@@ -118,7 +118,7 @@ Output Formatter step in the code block below includes two additional plugins,
           self_register: [None]
           variables: ['B14BT']
         algorithm_1:
-          kind: algorithm
+          kind: alogrithm
           name: single_channel
           arguments:
           output_data_range: [-90.0, 30.0]

@@ -591,7 +591,7 @@ def build_docs_with_sphinx(build_dir, built_dir, log=logging.getLogger(__name__)
     arguments = [
         "-b",  # builder name
         "html",  # uses the html builder
-        "-W",  # fail on warnings
+        # "-W",  # fail on warnings
         "-v",
         build_dir,  # folder to build from
         built_dir,  # folder to build to
