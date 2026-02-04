@@ -54,7 +54,7 @@ def create_radius(temp_arr, radius_pixels=300, x_center=0, y_center=0):
     temp_arr : int
         The 2D array.
     radius : int, optional
-        The radius of the circle. 500 is default value.
+        The radius of the circle. Defaults to 300.
     x : int, optional
         The x coordinate of middle circle point. 0 is default value.
     y : int, optional
