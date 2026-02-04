@@ -548,8 +548,10 @@ def add_yaml_plugin(filepath, relpath, package, plugins, namespace):
         try:
             interface_name = plugin["interface"]
         except KeyError:
-            raise PluginRegistryError(f"""No 'interface' level in '{filepath}'.
-                    Ensure all required metadata is included.""")
+            raise PluginRegistryError(
+                f"""No 'interface' level in '{filepath}'.
+                    Ensure all required metadata is included."""
+            )
         if namespace != "geoips.plugin_packages":
             mod = import_module(package)
             interface_module = getattr(mod.interfaces, f"{interface_name}")
@@ -948,7 +950,7 @@ def add_class_plugin(package, relpath, plugins):
     # Attempting importing module, catch ImportError
     # We have to fix these to be able to import the module to
     # see if 'interface' is defined, in order to see if it
-    # is a properly formatted python module..
+    # is a properly formatted python module.
     try:
         spec.loader.exec_module(module)
     except ImportError as resp:

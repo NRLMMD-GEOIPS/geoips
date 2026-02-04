@@ -11,6 +11,7 @@ from os.path import basename, dirname, exists, isdir, join, splitext
 from shutil import copyfileobj
 
 from geoips.commandline.log_setup import log_with_emphasis
+
 from geoips.filenames.base_paths import make_dirs
 from geoips.interfaces.class_based_plugin import BaseClassPlugin
 
@@ -984,8 +985,8 @@ class BaseOutputCheckerPlugin(BaseClassPlugin, abstract=True):
         else:
             comp_str = self.name.upper() + " "
         compare_strings += [comp_str]
-        if self.module.outputs_match(
-            self,
+
+        if self.outputs_match(
             output_product,
             compare_product,
             **kwargs,

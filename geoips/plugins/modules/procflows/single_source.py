@@ -2477,7 +2477,6 @@ def call(fnames, command_line_args=None):
             if output_checker.name in output_checker_kwargs:
                 kwargs = output_checker_kwargs[output_checker.name]
             retval += output_checker(
-                output_checker,
                 compare_path.replace("<product>", product_name)
                 .replace("<procflow>", "single_source")
                 .replace("<output>", output_formatter),

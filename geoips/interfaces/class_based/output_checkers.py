@@ -57,10 +57,10 @@ class OutputCheckersInterface(BaseClassInterface):
         string
             - The name of the discovered output checker.
         """
-        plugin_names = [checker.module.name for checker in self.get_plugins()]
+        plugin_names = [checker.name for checker in self.get_plugins()]
         # First, check if an override was requested for this file.
         if checker_override_name and checker_override_name in plugin_names:
-            return self.get_plugin(checker_override_name).module.name
+            return self.get_plugin(checker_override_name).name
 
         checker_found = False
         checker_name = None
@@ -71,9 +71,9 @@ class OutputCheckersInterface(BaseClassInterface):
                 filename, is_comparison_product=False, clobber=True
             )
         for output_checker in self.get_plugins():
-            checker_found = output_checker.module.correct_file_format(filename)
+            checker_found = output_checker.correct_file_format(filename)
             if checker_found:
-                checker_name = output_checker.module.name
+                checker_name = output_checker.name
                 break
         if not checker_found:
             raise TypeError("There isn't an output checker built for this data type.")
@@ -101,13 +101,10 @@ class OutputCheckersInterface(BaseClassInterface):
 
     def valid_plugin(self, plugin):
         """Check the validity of the supplied output_checker plugin."""
-        # NOTE: The following logic will need to change (likely to just
-        # hasattr(plugin, <attr>)) once we fully convert to class-based. There will not
-        # be a 'module' attribute of the plugin class once this conversion has occured.
         if (
-            not hasattr(plugin.module, "outputs_match")
-            or not hasattr(plugin.module, "correct_file_format")
-            or not hasattr(plugin.module, "call")
+            not hasattr(plugin, "outputs_match")
+            or not hasattr(plugin, "correct_file_format")
+            or not hasattr(plugin, "call")
         ):
             raise ValidationError(
                 "The plugin returned is missing one or more of the following functions."
