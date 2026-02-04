@@ -34,56 +34,49 @@ def call(workflow, fnames, command_line_args=None):
     command_line_args : list of str, None
         Command line arguments to pass to the workflow.
     """
-    LOG.interactive(f"Begin processing '{workflow}' workflow.")
-    wf_plugin = interfaces.workflows.get_plugin(workflow)
+    LOG.interactive(f"Begin processing '{workflow['name']}' workflow.")
+    wf_plugin = workflow
 
     handled_interfaces = ["readers", "coverage_checkers"]
-    for step_id, step_def in wf_plugin.spec.steps.items():
-        interface = str(Lexeme(step_def.kind).plural)
+    for step_id, step_def in wf_plugin["spec"]["steps"].items():
+        interface = str(Lexeme(step_def["kind"]).plural)
 
         if interface not in handled_interfaces:
             LOG.interactive(
                 "⚠️ Skipping unhandled interface '%s'. Would have called the '%s'"
                 "plugin.",
                 interface,
-                step_def.name,
+                step_def["name"],
             )
             continue
         else:
-            plg = getattr(interfaces, interface, None).get_plugin(step_def.name)
+            plg = getattr(interfaces, interface, None).get_plugin(step_def["name"])
 
             LOG.interactive(
                 "Beginning Step: '%s', plugin_kind: '%s', plugin_name:'%s'.",
                 step_id,
-                step_def.kind,
-                step_def.name,
+                step_def["kind"],
+                step_def["name"],
             )
-            LOG.info("Arguments: '%s'", step_def.arguments)
+            LOG.info("Arguments: '%s'", step_def["arguments"])
 
             if interface == "readers":
                 # TEMPORARY FIX: Remove when all readers are updated to accept
                 # "variables"
-                if "variables" in step_def.arguments:
-                    step_def.arguments["chans"] = step_def.arguments.pop("variables")
-                data = plg(fnames, **step_def.arguments)
+                if "variables" in step_def["arguments"]:
+                    step_def["arguments"]["chans"] = step_def["arguments"].pop(
+                        "variables"
+                    )
+                data = plg(fnames, **step_def["arguments"])
                 print(data)
             else:
-                data = plg(data, **step_def.arguments)
+                data = plg(data, **step_def["arguments"])
             LOG.interactive(
                 "Completed Step: step_id: '%s', plugin_kind: '%s', plugin_name: '%s'.",
                 step_id,
-                step_def.name,
-                step_def.kind,
+                step_def["name"],
+                step_def["kind"],
             )
-
-            if interface == "coverage_checkers":
-                # uncomment once DataTreeDitto is available
-                # if variable_name not in xarray_obj:
-                #     raise KeyError(
-                #         f"Missing variable {variable_name!r}; cannot compute coverage." # noqa: E501
-                #         )
-                # else:
-                data = plg(data, **step_def.arguments)
 
     LOG.interactive(f"\nThe workflow '{workflow}' has finished processing.\n")
 
@@ -101,4 +94,4 @@ if __name__ == "__main__":
     )
     args = parser.parse_args()
     LOG = setup_logging(logging_level=args.loglevel)
-    call(args.workflow, args.fnames)
+    call(interface.workflows.get_plugin(args.workflow), args.fnames)

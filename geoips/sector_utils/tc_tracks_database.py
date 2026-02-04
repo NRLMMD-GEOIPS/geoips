@@ -31,8 +31,7 @@ def open_tc_db(dbname=TC_DECKS_DB):
     # Try to create the table - if it already exists, it will just fail
     # trying to create, pass, and return the already opened db.
     try:
-        conn_cursor.execute(
-            """CREATE TABLE tc_trackfiles
+        conn_cursor.execute("""CREATE TABLE tc_trackfiles
             (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
                 filename text,
                 last_updated timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,
@@ -44,8 +43,7 @@ def open_tc_db(dbname=TC_DECKS_DB):
                 start_vmax real,
                 start_name real,
                 vmax real,
-                end_datetime timestamp)"""
-        )
+                end_datetime timestamp)""")
         # Add in at some point?
         # storm_start_datetime timestamp,
     except sqlite3.OperationalError:
