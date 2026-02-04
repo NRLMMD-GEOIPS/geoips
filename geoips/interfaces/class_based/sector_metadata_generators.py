@@ -3,6 +3,7 @@
 
 """Sector metadata generators interface class."""
 
+from geoips.base_class_plugins import BaseSectorMetadataAdjusterPlugin
 from geoips.interfaces.base import BaseClassInterface
 
 
@@ -15,6 +16,8 @@ class SectorMetadataGeneratorsInterface(BaseClassInterface):
     """
 
     name = "sector_metadata_generators"
+    plugin_class = BaseSectorMetadataAdjusterPlugin
+
     required_args = {"tc": ["trackfile_name"], "volc": ["trackfile_name"]}
     required_kwargs = {"tc": [], "volc": []}
 

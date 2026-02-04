@@ -21,7 +21,6 @@ from jsonschema.exceptions import ValidationError, SchemaError
 
 from geoips.errors import PluginError
 from geoips.filenames.base_paths import PATHS
-from geoips.interfaces.class_based_plugin import BaseClassPlugin
 
 LOG = logging.getLogger(__name__)
 
@@ -305,10 +304,10 @@ class BaseYamlPlugin(dict):
 #         return self.name
 
 
-# class BaseModulePlugin:
-#     """Base class for GeoIPS plugins."""
+class BaseModulePlugin:
+    """Base class for GeoIPS plugins."""
 
-#     pass
+    pass
 
 
 class BaseInterface(abc.ABC):
@@ -669,8 +668,8 @@ class BaseClassInterface(BaseInterface):
         from ``BasePlugin``.
 
         This function is used instead of predefined classes to allow setting ``__doc__``
-        and ``__call__`` on a plugin-by-plugin basis. This allows collecting ``__doc__``
-        and ``__call__`` from the plugin modules and using them in the objects.
+        and ``call`` on a plugin-by-plugin basis. This allows collecting ``__doc__``
+        and ``call`` from the plugin modules and using them in the objects.
 
         For a module to be converted into an object it must meet the following
         requirements:
@@ -733,7 +732,7 @@ class BaseClassInterface(BaseInterface):
         plugin_interface_name = obj_attrs["interface"].title().replace("_", "")
         plugin_type = f"{plugin_interface_name}Plugin"
 
-        plugin_base_class = BaseClassPlugin
+        plugin_base_class = BaseModulePlugin
         if hasattr(cls, "plugin_class") and cls.plugin_class:
             plugin_base_class = cls.plugin_class
 
@@ -814,7 +813,7 @@ class BaseClassInterface(BaseInterface):
         expected_args = self.required_args[plugin.family]
         expected_kwargs = self.required_kwargs[plugin.family]
 
-        sig = inspect.signature(plugin.__call__)
+        sig = inspect.signature(plugin.call)
         arg_list = []
         kwarg_list = []
         kwarg_defaults_list = []

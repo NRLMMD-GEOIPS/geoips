@@ -10,6 +10,7 @@ from os.path import basename
 import numpy as np
 from xarray import concat, Dataset
 
+from geoips.base_class_plugins import BaseReaderPlugin
 from geoips.errors import NoValidFilesError
 from geoips.interfaces.base import BaseClassInterface
 from geoips.plugins.modules.readers.utils.hrit_reader import HritError
@@ -23,6 +24,8 @@ class ReadersInterface(BaseClassInterface):
     """
 
     name = "readers"
+    plugin_class = BaseReaderPlugin
+
     required_args = {"standard": ["fnames"]}
     required_kwargs = {
         "standard": ["metadata_only", "chans", "area_def", "self_register"]

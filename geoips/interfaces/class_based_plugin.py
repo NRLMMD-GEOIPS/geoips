@@ -122,7 +122,7 @@ class BaseClassPlugin(ABC):
 
     # hooks are intentionally loose; document their accepted kwargs
     # def _pre_call(self, data: R, *args, **kwargs) -> R:
-    def _pre_call(self, data, *args, **kwargs):
+    def _pre_call(self, data=None, *args, **kwargs):
         """Preprocess the data before calling the main plugin method.
 
         Parameters
@@ -136,7 +136,7 @@ class BaseClassPlugin(ABC):
         return data
 
     # def _post_call(self, data: R, *args, **kwargs) -> R:
-    def _post_call(self, data, *args, **kwargs):
+    def _post_call(self, data=None, *args, **kwargs):
         """Post-process the data after calling the main plugin method.
 
         Parameters
@@ -151,10 +151,13 @@ class BaseClassPlugin(ABC):
         return data
 
     # def _invoke(self, data: R, *args: P.args, **kwargs: P.kwargs) -> R:
-    def _invoke(self, data, *args, **kwargs):
-        data = self._pre_call(data, *args, **kwargs)
-        data = self.call(data, *args, **kwargs)
-        data = self._post_call(data, *args, **kwargs)
+    def _invoke(self, data=None, *args, **kwargs):
+        if data:
+            data = self._pre_call(data, *args, **kwargs)
+            data = self.call(data, *args, **kwargs)
+            data = self._post_call(data, *args, **kwargs)
+        else:
+            data = self.call(*args, **kwargs)
         return data
 
     def __init__(self, module=None):
