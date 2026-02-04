@@ -135,7 +135,7 @@ def initialize_paths():
     )
     paths["NO_COLOR"] = get_env_var(
         "NO_COLOR",
-        True,
+        False,
     )
     paths["GEOIPS_GEOLOCATION_CACHE_BACKEND"] = get_env_var(
         "GEOIPS_GEOLOCATION_CACHE_BACKEND",
