@@ -14,6 +14,7 @@ if [[ "$1" == "" || "$2" == "" ]]; then
     echo "    "`basename $0`" black $GEOIPS_PACKAGES_DIR/geoips"
     echo "    "`basename $0`" flake8 $GEOIPS_PACKAGES_DIR/geoips"
     echo "    "`basename $0`" bandit $GEOIPS_PACKAGES_DIR/geoips"
+    echo "    "`basename $0`" doc8 $GEOIPS_PACKAGES_DIR/geoips"
     echo "    "`basename $0`" all $GEOIPS_PACKAGES_DIR/geoips"
     echo ""
     echo "Returns 0 if all checks pass"
@@ -31,6 +32,8 @@ elif [[ "$1" == "flake8" ]]; then
     test="flake8"
 elif [[ "$1" == "bandit" ]]; then
     test="bandit"
+elif [[ "$1" == "doc8" ]]; then
+    test="doc8"
 elif [[ "$1" == "all" ]]; then
     test="all"
 else
@@ -41,6 +44,7 @@ else
     echo "    black"
     echo "    flake8"
     echo "    bandit"
+    echo "    doc8"
     echo ""
     exit 1
 fi
@@ -138,12 +142,22 @@ if [[ "$test" == "bandit" || "$test" == "all" ]]; then
     echo "TEST COMPLETE bandit"
     retval=$((bandit_retval+retval))
 fi
+if [[ "$test" == "doc8" || "$test" == "all" ]]; then
+    echo ""
+    echo "CALLING TEST:"
+    echo "doc8 --max-line-length=120 $path/docs/source"
+    doc8 --max-line-length=120 $path/docs/source
+    doc8_retval=$?
+    echo "TEST COMPLETE doc8"
+    retval=$((doc8_retval+retval))
+fi
 echo ""
 echo "$0 $@"
 echo ""
 echo "  black return: $black_retval"
 echo "  flake8 return: $flake8_retval"
 echo "  bandit return: $bandit_retval"
+echo "  doc8 return: $doc8_retval"
 echo ""
 echo "Overall `basename $0` return: $retval"
 exit $retval
