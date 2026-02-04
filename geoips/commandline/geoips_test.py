@@ -140,7 +140,7 @@ class GeoipsTestSector(GeoipsExecutableCommand):
             "--outdir",
             "-o",
             type=str,
-            default=PATHS['GEOIPS_OUTDIRS'],
+            default=PATHS["GEOIPS_OUTDIRS"],
             help="The output directory to create your sector image in.",
         )
         self.parser.add_argument(
