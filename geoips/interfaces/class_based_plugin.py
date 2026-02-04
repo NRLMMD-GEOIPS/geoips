@@ -157,6 +157,26 @@ class BaseClassPlugin(ABC):
         data = self._post_call(data, *args, **kwargs)
         return data
 
+    def __init__(self, module=None):
+        """
+        Initialize the plugin object inheriting from BaseClasePlugin.
+
+        Parameters
+        ----------
+        module: ModuleType, default=None
+            - The module in which the class-based plugin came from. This is used to
+              collect metadata from the module and attach it to the plugin object. This
+              can then be used when validating plugins to denote where failing plugins
+              come from. If None, we will set the 'testing' attributes to a string
+              which can be used in tests as well.
+        """
+        if module:
+            self.module_name = module.__name__
+            self.module_path = module.__file__
+        else:
+            self.module_name = "No associated module name."
+            self.module_path = "No associated module path."
+
     def __init_subclass__(cls, *, abstract=False, **kwargs) -> None:
         """
         Initialize a subclass of the plugin.

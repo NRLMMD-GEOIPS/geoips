@@ -21,6 +21,7 @@ from jsonschema.exceptions import ValidationError, SchemaError
 
 from geoips.errors import PluginError
 from geoips.filenames.base_paths import PATHS
+from geoips.interfaces.class_based_plugin import BaseClassPlugin
 
 LOG = logging.getLogger(__name__)
 
@@ -304,10 +305,10 @@ class BaseYamlPlugin(dict):
 #         return self.name
 
 
-class BaseModulePlugin:
-    """Base class for GeoIPS plugins."""
+# class BaseModulePlugin:
+#     """Base class for GeoIPS plugins."""
 
-    pass
+#     pass
 
 
 class BaseInterface(abc.ABC):
@@ -697,7 +698,6 @@ class BaseClassInterface(BaseInterface):
         name of the interface that the desired plugin belongs to.
         """
         obj_attrs["id"] = name
-        obj_attrs["module"] = module
 
         missing = []
         for attr in ["interface", "family", "name"]:
@@ -721,9 +721,9 @@ class BaseClassInterface(BaseInterface):
             )
         obj_attrs["docstring"] = module.__doc__
 
-        # Collect the callable and assign to __call__
+        # Collect the callable and assign to call
         try:
-            obj_attrs["__call__"] = staticmethod(getattr(module, "call"))
+            obj_attrs["call"] = staticmethod(getattr(module, "call"))
         except AttributeError as err:
             raise PluginError(
                 f"Plugin modules must contain a callable name 'call'. This is missing "
@@ -733,12 +733,12 @@ class BaseClassInterface(BaseInterface):
         plugin_interface_name = obj_attrs["interface"].title().replace("_", "")
         plugin_type = f"{plugin_interface_name}Plugin"
 
-        plugin_base_class = BaseModulePlugin
+        plugin_base_class = BaseClassPlugin
         if hasattr(cls, "plugin_class") and cls.plugin_class:
             plugin_base_class = cls.plugin_class
 
         # Create an object of type ``plugin_type`` with attributes from ``obj_attrs``
-        return type(plugin_type, (plugin_base_class,), obj_attrs)()
+        return type(plugin_type, (plugin_base_class,), obj_attrs)(module)
 
     def get_plugin(self, name, rebuild_registries=None):
         """Retrieve a plugin from this interface by name.
@@ -800,16 +800,16 @@ class BaseClassInterface(BaseInterface):
                 f"'{plugin.family}' must be added to required args list"
                 f"\nfor '{self.name}' interface,"
                 f"\nfound in '{plugin.name}' plugin,"
-                f"\nin '{plugin.module.__name__}' module"
-                f"\nat '{plugin.module.__file__}'\n"
+                f"\nin '{plugin.module_name}' module"
+                f"\nat '{plugin.module_path}'\n"
             )
         if plugin.family not in self.required_kwargs:
             raise PluginError(
                 f"'{plugin.family}' must be added to required kwargs list"
                 f"\nfor '{self.name}' interface,"
                 f"\nfound in '{plugin.name}' plugin,"
-                f"\nin '{plugin.module.__name__}' module"
-                f"\nat '{plugin.module.__file__}'\n"
+                f"\nin '{plugin.module_name}' module"
+                f"\nat '{plugin.module_path}'\n"
             )
         expected_args = self.required_args[plugin.family]
         expected_kwargs = self.required_kwargs[plugin.family]
@@ -836,8 +836,8 @@ class BaseClassInterface(BaseInterface):
                     f"MISSING expected arg '{expected_arg}' in '{plugin.name}'"
                     f"\nfor '{self.name}' interface,"
                     f"\nfound in '{plugin.name}' plugin,"
-                    f"\nin '{plugin.module.__name__}' module"
-                    f"\nat '{plugin.module.__file__}'\n"
+                    f"\nin '{plugin.module_name}' module"
+                    f"\nat '{plugin.module_path}'\n"
                 )
         for expected_kwarg in expected_kwargs:
             # If expected_kwarg is a tuple, first item is kwarg, second default value
@@ -847,16 +847,16 @@ class BaseClassInterface(BaseInterface):
                         f"MISSING expected kwarg '{expected_kwarg}' in '{plugin.name}'"
                         f"\nfor '{self.name}' interface,"
                         f"\nfound in '{plugin.name}' plugin,"
-                        f"\nin '{plugin.module.__name__}' module"
-                        f"\nat '{plugin.module.__file__}'\n"
+                        f"\nin '{plugin.module_name}' module"
+                        f"\nat '{plugin.module_path}'\n"
                     )
             elif expected_kwarg not in kwarg_list:
                 raise PluginError(
                     f"MISSING expected kwarg '{expected_kwarg}' in '{plugin.name}'"
                     f"\nfor '{self.name}' interface,"
                     f"\nfound in '{plugin.name}' plugin,"
-                    f"\nin '{plugin.module.__name__}' module"
-                    f"\nat '{plugin.module.__file__}'\n"
+                    f"\nin '{plugin.module_name}' module"
+                    f"\nat '{plugin.module_path}'\n"
                 )
 
         return True

@@ -667,7 +667,7 @@ class PluginRegistry:
         else:
             # Otherwise, just grab the associated plugin class and instantiate it.
             PLUGIN_CLASS = getattr(module, "PLUGIN_CLASS")
-            plugin = PLUGIN_CLASS()
+            plugin = PLUGIN_CLASS(module)
             # Set attributes required to test the interface of a given plugin
             plugin.id = plugin.name
             plugin.docstring = plugin.__doc__
