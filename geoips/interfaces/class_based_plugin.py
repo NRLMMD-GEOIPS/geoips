@@ -152,6 +152,8 @@ class BaseClassPlugin(ABC):
 
     # def _invoke(self, data: R, *args: P.args, **kwargs: P.kwargs) -> R:
     def _invoke(self, data=None, *args, **kwargs):
+        # In the long run every plugin will accept a data tree
+        # (I.e. colormapper modifies metadata)
         if data:
             data = self._pre_call(data, *args, **kwargs)
             data = self.call(data, *args, **kwargs)
