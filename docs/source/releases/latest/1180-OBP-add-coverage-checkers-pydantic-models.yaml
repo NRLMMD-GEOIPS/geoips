@@ -1,6 +1,6 @@
 feature:
 - title: 'Order-Based Procflow: Add Coverage Checkers'
-  description: "Define OBP Pydantic model for Coverage Checker plugins and add associate code for CBP pre-call method."
+  description: "Define OBP Pydantic model for Coverage Checker plugins."
   files:
     deleted:
     - ''
@@ -8,7 +8,6 @@ feature:
     - ''
     added:
     - 'docs/source/releases/latest/1180-OBP-add-coverage-checkers-pydantic-models.yaml'
-    - 'docs/source/releases/latest/1182-centralize-varaible-name-lookup-in-xarray-obj-coverage-checkers.yaml'
     - 'geoips/pydantic_models/v1/coverage_checkers.py'
     - 'geoips/plugins/yaml/workflows/read_test_v1_coverage_checker.yaml'
     - 'tests/unit_tests/pydantic_models/v1/coverage_checkers/conftest.py'
