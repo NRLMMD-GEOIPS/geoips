@@ -16,7 +16,7 @@ yaml_based:
       family: area_definition_static
       package: geoips
       relpath: /somewhere/in/geoips/denver.yaml
-module_based:
+class_based:
   algorithms:
     the_best_alg:
       docstring: I am an algorithm that is the best

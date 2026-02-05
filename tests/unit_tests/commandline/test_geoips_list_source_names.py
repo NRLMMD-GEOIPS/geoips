@@ -102,7 +102,7 @@ class TestGeoipsListSourceNames(BaseCliTest):
             )
             # assert that the provided interface doesn't exist within that package's
             # plugin registry
-            assert "readers" not in plugin_registry["module_based"].keys()
+            assert "readers" not in plugin_registry["class_based"].keys()
         else:
             # Assert that the correct headers exist in the CLI output
             selected_cols = self.retrieve_selected_columns(args)

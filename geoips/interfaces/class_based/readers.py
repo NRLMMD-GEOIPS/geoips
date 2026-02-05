@@ -1,7 +1,7 @@
 # # # This source code is subject to the license referenced at
 # # # https://github.com/NRLMMD-GEOIPS.
 
-"""Readers interface module."""
+"""Readers interface class."""
 
 import collections
 from datetime import datetime
@@ -11,11 +11,11 @@ import numpy as np
 from xarray import concat, Dataset
 
 from geoips.errors import NoValidFilesError
-from geoips.interfaces.base import BaseModuleInterface
+from geoips.interfaces.base import BaseClassInterface
 from geoips.plugins.modules.readers.utils.hrit_reader import HritError
 
 
-class ReadersInterface(BaseModuleInterface):
+class ReadersInterface(BaseClassInterface):
     """Interface for ingesting a specific data type.
 
     Provides specification for ingensting a specific data type, and storing in

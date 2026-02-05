@@ -1,4 +1,4 @@
-module_based:
+class_based:
   algorithms:
     georing_3d:
       docstring: 'Data manipulation steps for standard "georing_3d" algorithm.
