@@ -1,0 +1,10 @@
+name: Hello World CI
+
+on: workflow_dispatch
+
+jobs:
+  my-job:
+    runs-on: cira-prem
+    steps:
+      - name: Say hello world!
+        run: echo "Hello World!"
