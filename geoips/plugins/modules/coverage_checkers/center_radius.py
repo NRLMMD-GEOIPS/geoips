@@ -53,17 +53,17 @@ def create_radius(temp_arr, radius_pixels=300, x_center=0, y_center=0):
     ----------
     temp_arr : int
         The 2D array.
-    radius : int, optional
+    radius_pixels : int, optional
         The radius of the circle. Defaults to 300.
-    x : int, optional
+    x_center : int, optional
         The x coordinate of middle circle point. 0 is default value.
-    y : int, optional
-        The x coordinate of middle circle point. 0 is default value.
+    y_center : int, optional
+        The y coordinate of middle circle point. 0 is default value.
 
     Returns
     -------
     numpy.ndarray
-        2D array with circle created at the x,y coordinate with the given radius
+        2D array with circle created at the (x, y) coordinate with the given radius
         All circles are marked as 1.
     """
     dumby_arr = numpy.zeros((temp_arr.shape), dtype=numpy.uint8)
@@ -91,13 +91,18 @@ def call(
     variable_name : str
         variable name to check percent unmasked
     radius_km : float
-        Radius of center disk to check for coverage
+        Radius of center disk to check for coverage. Defaults to 300 km.
 
     Returns
     -------
     float
         Percent coverage of variable_name
     """
+    if variable_name not in xarray_obj:
+        raise KeyError(
+            f"Variable {variable_name} did not exist. Can not calculate coverage."
+        )
+
     temp_arr = xarray_obj[variable_name].to_masked_array()
 
     res_km = (
@@ -105,9 +110,9 @@ def call(
             xarray_obj.area_definition.pixel_size_x,
             xarray_obj.area_definition.pixel_size_y,
         )
-        / 1000.0
+        / 1000
     )
-    radius_pixels = 1.0 * radius_km / res_km
+    radius_pixels = radius_km / res_km
     LOG.info(
         "Using %s km radius, %s pixels radius, "
         "%s km resolution, variable %s, area_def %s",
