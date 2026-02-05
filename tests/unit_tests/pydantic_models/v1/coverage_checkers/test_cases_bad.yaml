@@ -20,5 +20,5 @@ radius_km_invalid_type:
   description: "Invalid type for 'radius_km' (expects int, got string)"
   key: radius_km
   val: "test"
-  cls: TitleFormatterArgumentsModel
-  err_str: Input should be a valid int
+  cls: CoverageCheckerArgumentsModel
+  err_str: Input should be a valid number
