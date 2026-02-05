@@ -1,10 +1,188 @@
-name: Hello World CI
+name: Run linters locally
 
 on: push
 
+defaults:
+  run:
+    shell: bash
+
 jobs:
-  my-job:
+  # Set variables that should be accessible to all jobs
+  get-job-flags:
     runs-on: integration
+    env:
+      CURR_REPO: ${{ github.event.repository.name }}
+    outputs:
+      CI_LINT_BANDIT: ${{ steps.get_job_flags.outputs.CI_LINT_BANDIT }}
+      CI_LINT_DOC8: ${{ steps.get_job_flags.outputs.CI_LINT_DOC8 }}
+      CI_LINT_FLAKE8: ${{ steps.get_job_flags.outputs.CI_LINT_FLAKE8 }}
+      CI_LINT_BLACK: ${{ steps.get_job_flags.outputs.CI_LINT_BLACK }}
     steps:
-      - name: Say hello world!
-        run: echo "Hello World!"
+      - name: Get job flags
+        id: get_job_flags
+        run: |
+          # Define an array of flags and their corresponding secret values
+          flags=(CI_LINT_BANDIT \
+                 CI_LINT_DOC8 \
+                 CI_LINT_FLAKE8 \
+                 CI_LINT_BLACK)
+          for flag in "${flags[@]}"; do
+              # Dynamically construct the variable name and access the corresponding secret
+              case $flag in
+                  CI_LINT_BANDIT) val="${{ vars.CI_LINT_BANDIT }}" ;;
+                  CI_LINT_DOC8) val="${{ vars.CI_LINT_DOC8 }}" ;;
+                  CI_LINT_FLAKE8) val="${{ vars.CI_LINT_FLAKE8 }}" ;;
+                  CI_LINT_BLACK) val="${{ vars.CI_LINT_BLACK }}" ;;
+              esac
+              # Check if the secret value is "true" and set the environment variable and output
+              if [ "$val" == "false" ]; then
+                  echo "${flag}=false"
+                  echo "${flag}=false" >> $GITHUB_ENV
+                  echo "${flag}=false" >> $GITHUB_OUTPUT
+              else
+                  echo "${flag}=true"
+                  echo "${flag}=true" >> $GITHUB_ENV
+                  echo "${flag}=true" >> $GITHUB_OUTPUT
+              fi
+          done
+
+  print-variables:
+    name: Print variables
+    needs: [get-job-flags]
+    uses: NRLMMD-GEOIPS/geoips_ci/.github/workflows/reusable-print-variables.yaml@main
+    with:
+      # These are outputs defined in the check-release-branch and get-versions
+      # reusable workflows.  Explicitly pass them in here to track what
+      # variables we have available to this workflow.
+      IS_VERSION_RELEASE_BRANCH: ${{ needs.check-release-branch.outputs.IS_VERSION_RELEASE_BRANCH }}
+      CI_LINT_BANDIT: ${{ needs.get-job-flags.outputs.CI_LINT_BANDIT }}
+      CI_LINT_DOC8: ${{ needs.get-job-flags.outputs.CI_LINT_DOC8 }}
+      CI_LINT_FLAKE8: ${{ needs.get-job-flags.outputs.CI_LINT_FLAKE8 }}
+      CI_LINT_BLACK: ${{ needs.get-job-flags.outputs.CI_LINT_BLACK }}
+
+  run_linters:
+    runs-on: ${{ vars.RUNNER }}
+    needs: [get-job-flags]
+    steps:
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.11"
+          check-latest: true
+      - name: Update pip
+        run: pip install --upgrade pip
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          path: ./current_repo_current_branch
+      - name: Checkout geoips default branch
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          repository: ${{ vars.GEOIPS_ORGANIZATION }}/geoips
+          ref: ${{ vars.GEOIPS_DEFAULT_BRANCH }}
+          token: ${{ secrets.token }}
+          path: ./geoips_repo_default_branch
+          clean: true
+      - name: List cloned directory
+        run: |
+          echo $PWD
+          ls -l $PWD/*
+      - name: Install black
+        if: ${{ needs.get-job-flags.outputs.CI_LINT_BLACK == 'true' }}
+        run: pip install black
+      - name: Run code check script black
+        if: ${{ needs.get-job-flags.outputs.CI_LINT_BLACK == 'true' }}
+        shell: bash -l {0}
+        run: |
+          echo "::group::black_analysis"
+          echo "BLACK analysis of code"
+          black --version
+          echo "./geoips_repo_default_branch/tests/utils/check_code.sh black ./current_repo_current_branch"
+          ./geoips_repo_default_branch/tests/utils/check_code.sh black ./current_repo_current_branch
+          ret=$?
+          echo "Return code: ${ret}"
+          echo "::endgroup::"
+          if [[ "${ret}" != *"0"* ]]; then
+            echo "::error::due to black violations, return code ${ret}"
+            exit 1
+          fi
+      - name: Install doc8
+        # Always run doc8 if requested, whether other jobs succeeded or failed.
+        # Use ! cancelled so it will NOT run if the job was manually cancelled.
+        if: ${{ ! cancelled() && needs.get-job-flags.outputs.CI_LINT_DOC8 == 'true'}}
+        run: pip install doc8
+      - name: Run doc8
+        # Always run doc8 if requested, whether other jobs succeeded or failed.
+        # Use ! cancelled so it will NOT run if the job was manually cancelled.
+        if: ${{ ! cancelled() && needs.get-job-flags.outputs.CI_LINT_DOC8 == 'true'}}
+        shell: bash -l {0}
+        run: |
+          echo "::group::doc8_analysis"
+          if [ ! -d "./current_repo_current_branch/docs/source/new-docs" ]; then
+            echo "No new-docs directory found in ${CURR_REPO}"
+            exit 0
+          fi
+          echo "Doc8 analysis of code"
+          doc8 --max-line-length=120 ./current_repo_current_branch/docs/source/new-docs/
+          ret=$?
+          echo "Return code: ${ret}"
+          echo "::endgroup::"
+          if [[ "${ret}" != *"0"* ]]; then
+            echo "::error::due to doc8 violations, return code ${ret}"
+            exit 1
+          fi
+      - name: Install flake8
+        # Always run flake8 if requested, whether other jobs succeeded or failed.
+        # Use ! cancelled so it will NOT run if the job was manually cancelled.
+        if: ${{ ! cancelled() && needs.get-job-flags.outputs.CI_LINT_FLAKE8 == 'true' }}
+        run: pip install flake8
+      - name: Install flake8-docstrings
+        # Always run flake8 if requested, whether other jobs succeeded or failed.
+        # Use ! cancelled so it will NOT run if the job was manually cancelled.
+        if: ${{ ! cancelled() && needs.get-job-flags.outputs.CI_LINT_FLAKE8 == 'true' }}
+        run: pip install flake8-docstrings
+      - name: Install flake8-rst-docstrings
+        # Always run flake8 if requested, whether other jobs succeeded or failed.
+        # Use ! cancelled so it will NOT run if the job was manually cancelled.
+        if: ${{ ! cancelled() && needs.get-job-flags.outputs.CI_LINT_FLAKE8 == 'true' }}
+        run: pip install flake8-rst-docstrings
+      - name: Run flake8
+        # Always run flake8 if requested, whether other jobs succeeded or failed.
+        # Use ! cancelled so it will NOT run if the job was manually cancelled.
+        if: ${{ ! cancelled() && needs.get-job-flags.outputs.CI_LINT_FLAKE8 == 'true' }}
+        shell: bash -l {0}
+        run: |
+          echo "::group::flake8_analysis"
+          echo "FLAKE8 analysis of code"
+          ./geoips_repo_default_branch/tests/utils/check_code.sh flake8 ./current_repo_current_branch
+          ret=$?
+          echo "Return code: ${ret}"
+          echo "::endgroup::"
+          if [[ "${ret}" != *"0"* ]]; then
+            echo "::error::due to flake8 violations, return code ${ret}"
+            exit 1
+          fi
+      - name: Install bandit
+        # Always run bandit if requested, whether other jobs succeeded or failed.
+        # Use ! cancelled so it will NOT run if the job was manually cancelled.
+        if: ${{ ! cancelled() && needs.get-job-flags.outputs.CI_LINT_BANDIT == 'true' }}
+        run: pip install bandit
+      - name: Run bandit
+        # Always run bandit if requested, whether other jobs succeeded or failed.
+        # Use ! cancelled so it will NOT run if the job was manually cancelled.
+        if: ${{ ! cancelled() && needs.get-job-flags.outputs.CI_LINT_BANDIT == 'true' }}
+        shell: bash -l {0}
+        run: |
+          echo "::group::bandit_analysis"
+          echo "BANDIT analysis of code"
+          echo "./geoips_repo_default_branch/tests/utils/check_code.sh bandit ./current_repo_current_branch"
+          ./geoips_repo_default_branch/tests/utils/check_code.sh bandit ./current_repo_current_branch
+          ret=$?
+          echo "Return code: ${ret}"
+          echo "::endgroup::"
+          if [[ "${ret}" != *"0"* ]]; then
+            echo "::error::due to bandit violations, return code ${ret}"
+            exit 1
+          fi
