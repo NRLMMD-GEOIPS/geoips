@@ -1,0 +1,20 @@
+checker_name_allows_null:
+  description: "checker_name is Optional but required to be present; explicitly setting it to null should validate."
+  key: checker_name
+  val: null
+  cls: OutputCheckersArgumentsModel
+  err_str: ""
+
+compare_path_whitespace_is_stripped:
+  description: "CoreBaseModel enables str_strip_whitespace; surrounding whitespace should be stripped and still validate."
+  key: compare_path
+  val: "   /tmp/expected.txt   "
+  cls: OutputCheckersArgumentsModel
+  err_str: ""
+
+output_products_allows_empty_list:
+  description: "output_products is a strict List[str]; an empty list should still be a valid list value."
+  key: output_products
+  val: []
+  cls: OutputCheckersArgumentsModel
+  err_str: ""
