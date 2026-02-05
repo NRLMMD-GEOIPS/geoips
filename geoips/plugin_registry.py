@@ -553,7 +553,7 @@ class PluginRegistry:
             plugin_json_formatted = self.load_plugin(plugin)
             plugin_dict_formatted = plugin_json_formatted.model_dump()
             validated = interface_obj.validator.validate(plugin_dict_formatted)
-            return plugin_json_formatted
+            return interface_obj._plugin_yaml_to_obj(name, validated)
         else:
             validated = interface_obj.validator.validate(plugin)
             return interface_obj._plugin_yaml_to_obj(name, validated)
