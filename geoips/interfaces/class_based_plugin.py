@@ -154,7 +154,10 @@ class BaseClassPlugin(ABC):
     def _invoke(self, data=None, *args, **kwargs):
         # In the long run every plugin will accept a data tree
         # (I.e. colormapper modifies metadata)
-        if data:
+        # Not sure why bug config based doesn't work unless we add the following
+        # condition. Otherwise the 'else' portion will always be hit and no arguments
+        # are sent to the procflow.
+        if data or self.interface == "procflows":
             data = self._pre_call(data, *args, **kwargs)
             data = self.call(data, *args, **kwargs)
             data = self._post_call(data, *args, **kwargs)
@@ -233,8 +236,8 @@ class BaseClassPlugin(ABC):
             raise TypeError(f"{cls.__name__} must implement call()")
 
         @functools.wraps(call_method)
-        def _call(self, *args, **kwargs):
-            return cls._invoke(self, *args, **kwargs)
+        def _call(self, data=None, *args, **kwargs):
+            return cls._invoke(self, data, *args, **kwargs)
 
         _call.__signature__ = inspect.signature(call_method)  # mirror only call()
         _call.__annotations__ = getattr(call_method, "__annotations__", {})
