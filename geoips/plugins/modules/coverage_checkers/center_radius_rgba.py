@@ -43,6 +43,10 @@ def call(
     float
         Percent coverage of variable_name
     """
+    if variable_name not in xarray_obj:
+        raise KeyError(
+            f"Variable {variable_name} did not exist. Can not calculate coverage."
+        )
     temp_arr = xarray_obj[variable_name][:, :, 3]
 
     res_km = (
@@ -72,4 +76,4 @@ def call(
         numpy.logical_and(numpy.where(dumby_arr, 1, 0), numpy.where(temp_arr, 1, 0))
     )
     num_total_in_radius = numpy.count_nonzero(dumby_arr)
-    return (float(num_valid_in_radius) / num_total_in_radius) * 100.0
+    return (float(num_valid_in_radius) / num_total_in_radius) * 100
