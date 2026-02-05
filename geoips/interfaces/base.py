@@ -19,7 +19,6 @@ import referencing
 from referencing import jsonschema as refjs
 from jsonschema.exceptions import ValidationError, SchemaError
 
-from geoips.interfaces.class_based_plugin import BaseClassPlugin
 from geoips.errors import PluginError
 from geoips.filenames.base_paths import PATHS
 
@@ -727,9 +726,17 @@ class BaseClassInterface(BaseInterface):
         plugin_interface_name = obj_attrs["interface"].title().replace("_", "")
         plugin_type = f"{plugin_interface_name}Plugin"
 
-        plugin_base_class = BaseClassPlugin
-        if hasattr(cls, "plugin_class") and cls.plugin_class:
-            plugin_base_class = cls.plugin_class
+        # Always require 'plugin_class' from each class-based interface
+        # TODO: Add this as a unit test for all class-based interfaces
+        if not hasattr(cls, "plugin_class") or cls.plugin_class is None:
+            raise PluginError(
+                f"Error: interface '{obj_attrs['interface']}' is missing required "
+                "attribute 'plugin_class'. Please create a base class plugin for this "
+                "interface and assign that object to the 'plugin_class' attribute of "
+                "this interface before continuing."
+            )
+
+        plugin_base_class = cls.plugin_class
 
         # Create an object of type ``plugin_type`` with attributes from ``obj_attrs``
         return type(plugin_type, (plugin_base_class,), obj_attrs)(module)
