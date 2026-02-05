@@ -3,7 +3,6 @@
 
 """Pydantic models used to validate GeoIPS OBP v1 coverage-checker plugins."""
 
-
 # Python Standard Libraries
 from typing import Optional
 
