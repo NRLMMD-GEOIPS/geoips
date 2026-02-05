@@ -35,7 +35,8 @@ def call(
         xarray object containing variable "variable_name"
     variable_name : str
         variable name to check percent unmasked
-        radius_km (float) : Radius of center disk to check for coverage
+    radius_km : float, optional
+        Radius of center disk to check for coverage. Defaults to 300 km.
 
     Returns
     -------
@@ -49,9 +50,9 @@ def call(
             xarray_obj.area_definition.pixel_size_x,
             xarray_obj.area_definition.pixel_size_y,
         )
-        / 1000.0
+        / 1000
     )
-    radius_pixels = 1.0 * radius_km / res_km
+    radius_pixels = radius_km / res_km
     LOG.info(
         "Using %s km radius, %s pixels radius, %s km resolution, area_def %s",
         radius_km,
