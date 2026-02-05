@@ -36,8 +36,8 @@ def plot_coverage(main_ax, area_def, covg_args):
 
     if "radius_km" in covg_args:
         radius_km = covg_args["radius_km"]
-        res_km = max(area_def.pixel_size_x, area_def.pixel_size_y) / 1000.0
-        radius_pixels = 1.0 * radius_km / res_km
+        res_km = max(area_def.pixel_size_x, area_def.pixel_size_y) / 1000
+        radius_pixels = radius_km / res_km
         main_ax.scatter(
             0, 0, s=2 * radius_pixels**2, facecolors="none", edgecolors=plot_color
         )
@@ -135,4 +135,4 @@ def call(
     )
     num_total_in_radius = numpy.count_nonzero(dumby_arr)
 
-    return (float(num_valid_in_radius) / num_total_in_radius) * 100.0
+    return (float(num_valid_in_radius) / num_total_in_radius) * 100
