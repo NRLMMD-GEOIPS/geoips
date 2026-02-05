@@ -24,7 +24,7 @@ In the following sections, we'll detail GeoIPS-specific environment variables an
 system-wide environment variables that GeoIPS recognizes.
 
 GeoIPS Environment Variables
-=============================
+============================
 
 The following environment variables are specific to GeoIPS and can be configured to control
 how GeoIPS operates.
@@ -80,7 +80,7 @@ If not set, this variable defaults to ``$HOME/GEOIPS_OUTDIRS``.
     export GEOIPS_OUTDIRS=$HOME/geoips_outdirs
 
 Setting GeoIPS Environment Variables
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Below are examples of how to set these required GeoIPS environment variables for
 different shells and environments.
@@ -152,7 +152,7 @@ when the GeoIPS environment is active.
     conda deactivate && conda activate geoips
 
 System-Wide Environment Variables
-==================================
+=================================
 
 GeoIPS recognizes a subset of system-wide environment variables. We'll detail what each
 variable accomplishes below.
