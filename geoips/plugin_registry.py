@@ -658,9 +658,7 @@ class PluginRegistry:
         module = util.module_from_spec(spec)
         spec.loader.exec_module(module)
 
-        if registered_class_plugins[interface_obj.name][name][
-            "is_derived_plugin_object"
-        ]:
+        if registered_class_plugins[interface_obj.name][name]["is_derived_from_module"]:
             # If the requested plugin was derived from a module, use the class factory
             # code.
             plugin = interface_obj._plugin_module_to_obj(name, module)
