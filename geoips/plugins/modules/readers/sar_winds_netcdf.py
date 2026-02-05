@@ -5,7 +5,6 @@
 
 # Python Standard Libraries
 from datetime import datetime
-import glob
 import logging
 from os.path import basename
 
@@ -321,18 +320,3 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
             )
 
     return wind_xarrays
-
-
-def get_test_files(test_data_dir):
-    """Generate testing xarray from test data."""
-    filepath = test_data_dir + "/test_data_sar/data/*.nc"
-    filelist = glob.glob(filepath)
-    tmp_xr = call(filelist)
-    if len(filelist) == 0:
-        raise NameError("No files found")
-    return tmp_xr
-
-
-def get_test_parameters():
-    """Generate test data key for unit testing."""
-    return [{"data_key": "WINDSPEED", "data_var": "wind_speed_kts"}]

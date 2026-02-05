@@ -5,7 +5,6 @@
 
 # Python Standard Libraries
 from datetime import datetime, timedelta
-import glob
 import logging
 import os
 from pathlib import Path
@@ -1130,25 +1129,3 @@ def call_single_time(
     LOG.info("Done reading GEOKOMPSAT AMI data for %s", adname)
 
     return xarray_objs
-
-
-# Unit test functions
-def get_test_files(test_data_dir):
-    """Generate testing xarray from test data."""
-    filepath = test_data_dir + "/test_data_ami/data/20231208_0300_daytime/*.nc"
-    filelist = glob.glob(filepath)
-    if len(filelist) == 0:
-        raise FileNotFoundError("No files found")
-    for file in filelist:
-        if not os.path.exists(file):
-            raise FileNotFoundError(f"File {file} does not exist")
-    tmp_xr = call(filelist)
-    return tmp_xr
-
-
-def get_test_parameters():
-    """Generate test data key for unit testing."""
-    return [
-        {"data_key": "HIGH", "data_var": "VI006Ref", "mean": 0.14788916},
-        {"data_key": "LOW", "data_var": "IR112BT", "mean": 286.63754873},
-    ]
