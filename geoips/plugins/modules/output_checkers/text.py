@@ -24,9 +24,12 @@ PROMPT_TO_OVERWRITE_COMPARISON_FILE = PATHS.get(
     "GEOIPS_PROMPT_TO_OVERWRITE_COMPARISON_FILE_IF_MISMATCH", False
 )
 
-interface = "output_checkers"
+interface = None
 family = "standard"
-name = "text"
+name = "text_to_be_implemented_as_class"
+
+# NOTE: This needs to be converted to a true-class base plugin before it can be used.
+# I'll do this at the end of this PR. Just trying to resolve a conflict right now.
 
 if USE_RICH:
     try:

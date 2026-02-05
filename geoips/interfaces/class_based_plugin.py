@@ -81,6 +81,8 @@ class BaseClassPlugin(ABC):
     developers to implement this functionality in every plugin class. Initially, this
     will be used to convert inputs from DataTree to other formats and back to DataTree
     after processing, but it could be used for other common tasks as well.
+
+    NOTE: add an init function that takes module as an argument [optional]
     """
 
     # If set to True, we are in OBP. False means we are in a legacy procflow.
@@ -120,7 +122,7 @@ class BaseClassPlugin(ABC):
 
     # hooks are intentionally loose; document their accepted kwargs
     # def _pre_call(self, data: R, *args, **kwargs) -> R:
-    def _pre_call(self, data, *args, **kwargs):
+    def _pre_call(self, data=None, *args, **kwargs):
         """Preprocess the data before calling the main plugin method.
 
         Parameters
@@ -134,7 +136,7 @@ class BaseClassPlugin(ABC):
         return data
 
     # def _post_call(self, data: R, *args, **kwargs) -> R:
-    def _post_call(self, data, *args, **kwargs):
+    def _post_call(self, data=None, *args, **kwargs):
         """Post-process the data after calling the main plugin method.
 
         Parameters
@@ -149,11 +151,43 @@ class BaseClassPlugin(ABC):
         return data
 
     # def _invoke(self, data: R, *args: P.args, **kwargs: P.kwargs) -> R:
-    def _invoke(self, data, *args, **kwargs):
-        data = self._pre_call(data, *args, **kwargs)
-        data = self.call(data, *args, **kwargs)
-        data = self._post_call(data, *args, **kwargs)
+    def _invoke(self, data=None, *args, **kwargs):
+        # In the long run every plugin will accept a data tree
+        # (I.e. colormapper modifies metadata)
+        # Not sure why bug config based doesn't work unless we add the following
+        # condition. Otherwise the 'else' portion will always be hit and no arguments
+        # are sent to the procflow.
+        if self.interface in [
+            "colormappers",
+            "sector_spec_generators",
+            "sector_metadata_generators",
+        ]:
+            data = self.call(*args, **kwargs)
+        else:
+            data = self._pre_call(data, *args, **kwargs)
+            data = self.call(data, *args, **kwargs)
+            data = self._post_call(data, *args, **kwargs)
         return data
+
+    def __init__(self, module=None):
+        """
+        Initialize the plugin object inheriting from BaseClasePlugin.
+
+        Parameters
+        ----------
+        module: ModuleType, default=None
+            - The module in which the class-based plugin came from. This is used to
+              collect metadata from the module and attach it to the plugin object. This
+              can then be used when validating plugins to denote where failing plugins
+              come from. If None, we will set the 'testing' attributes to a string
+              which can be used in tests as well.
+        """
+        if module:
+            self.module_name = module.__name__
+            self.module_path = module.__file__
+        else:
+            self.module_name = "No associated module name."
+            self.module_path = "No associated module path."
 
     def __init_subclass__(cls, *, abstract=False, **kwargs) -> None:
         """
@@ -196,7 +230,7 @@ class BaseClassPlugin(ABC):
             if attribute_checker is not None:
                 attribute_checker(cls)
 
-        # Prevent overriding __call__
+        # Prevent overriding __call__ in a True class-based plugin
         if "__call__" in cls.__dict__:
             raise TypeError(f"{cls.__name__} cannot override __call__")
 
@@ -206,27 +240,21 @@ class BaseClassPlugin(ABC):
             raise TypeError(f"{cls.__name__} must implement call()")
 
         @functools.wraps(call_method)
-        def _call(self, *args, **kwargs):
-            return cls._invoke(self, *args, **kwargs)
+        def _call(self, data=None, *args, **kwargs):
+            return cls._invoke(self, data, *args, **kwargs)
 
         _call.__signature__ = inspect.signature(call_method)  # mirror only call()
         _call.__annotations__ = getattr(call_method, "__annotations__", {})
         cls.__call__ = _call
 
 
-class BaseAlgorithmPlugin(BaseClassPlugin, abstract=True):
-    """Base class for GeoIPS algorithm plugins."""
+# class MyAlgorithm(BaseAlgorithmPlugin):
+#     """Dummy algorithm class."""
 
-    pass
+#     interface = "algorithms"
+#     family = "example_family"
+#     name = "example_name"
 
-
-class MyAlgorithm(BaseAlgorithmPlugin):
-    """Dummy algorithm class."""
-
-    interface = "algorithms"
-    family = "example_family"
-    name = "example_name"
-
-    def call(self, data: int, factor: int = 1) -> int:
-        """Call placeholder function docstring."""
-        return data * factor
+#     def call(self, data: int, factor: int = 1) -> int:
+#         """Call placeholder function docstring."""
+#         return data * factor

@@ -3,6 +3,7 @@
 
 """Sector adjusters interface class."""
 
+from geoips.base_class_plugins import BaseSectorAdjusterPlugin
 from geoips.interfaces.base import BaseClassInterface
 
 
@@ -14,6 +15,8 @@ class SectorAdjustersInterface(BaseClassInterface):
     """
 
     name = "sector_adjusters"
+    plugin_class = BaseSectorAdjusterPlugin
+
     required_args = {
         "list_xarray_list_variables_to_area_def_out_fnames": [
             "xobjs",

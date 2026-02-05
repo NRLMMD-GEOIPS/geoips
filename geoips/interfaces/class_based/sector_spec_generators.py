@@ -3,6 +3,7 @@
 
 """Sector spec generators interface class."""
 
+from geoips.base_class_plugins import BaseSectorSpecGeneratorPlugin
 from geoips.interfaces.base import BaseClassInterface
 
 
@@ -16,6 +17,8 @@ class SectorSpecGeneratorsInterface(BaseClassInterface):
     """
 
     name = "sector_spec_generators"
+    plugin_class = BaseSectorSpecGeneratorPlugin
+
     required_args = {"area_definition": []}
     required_kwargs = {"area_definition": []}
 
