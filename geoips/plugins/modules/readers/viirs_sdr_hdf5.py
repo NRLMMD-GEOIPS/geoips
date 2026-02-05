@@ -5,41 +5,44 @@
 
 This VIIRS reader is designed for reading the NPP/JPSS SDR HDF5 files.
 The input files are produced by CSPP Polar (CSPP RDR pipeline),
-and the read by satpy.
+and the read by hdf5.
 
-V1.1.0:  NRL-Monterey, Aug. 2024
+V2.0.0:  NRL-Monterey, 082025
 
 """
 
 # Python Standard Libraries
 import logging
 import os
+import re
+from itertools import chain
+from datetime import datetime, timedelta
 
 # Third-Party Libraries
 import h5py
 import numpy as np
-from pandas import DataFrame, date_range, to_datetime
-from scipy.interpolate import NearestNDInterpolator
 import xarray as xr
+from scipy.interpolate import NearestNDInterpolator
 
-# GeoIPS Libraries
-from geoips.plugins.modules.readers.utils.geostationary_geolocation import get_indexes
-from geoips.utils.context_managers import import_optional_dependencies
-
-# If this reader is not installed on the system, don't fail altogether, just skip this
-# import. This reader will not work if the import fails, and the package will have to be
-# installed to process data of this type.
+# geoips libraries
+from geoips.data_manipulations.corrections import apply_gamma
 
 LOG = logging.getLogger(__name__)
+
+try:
+    from lunarref.lib.liblunarref import lunarref
+
+    lunarref_lib = True
+except ImportError:
+    lunarref_lib = False
+    LOG.warning("Failed lunarref import, if needed, install it.")
+
 
 interface = "readers"
 family = "standard"
 name = "viirs_sdr_hdf5"
 source_names = ["viirs"]
 
-with import_optional_dependencies(loglevel="info"):
-    """Attempt to import a package and print to LOG.info if the import fails."""
-    import satpy
 
 VARLIST = {
     "DNB": ["DNB"],
@@ -81,13 +84,247 @@ def bowtie_correction(band, lat, lon):
     return res_band, ord_lat.astype(np.float64), sort_lon.astype(np.float64)
 
 
+def get_time(hfile):
+    """Get datetime from the metadata."""
+    with h5py.File(hfile) as h5data:
+        base_key = list(h5data["Data_Products"].keys())[0]
+        main_key = [
+            i for i in h5data["Data_Products"][base_key].keys() if "Gran_0" in i
+        ][0]
+
+        start_time = h5data["Data_Products"][base_key][main_key].attrs[
+            "N_Beginning_Time_IET"
+        ][0][0]
+        end_time = h5data["Data_Products"][base_key][main_key].attrs[
+            "N_Ending_Time_IET"
+        ][0][0]
+
+    stime = timedelta(microseconds=int(start_time)) + datetime.strptime(
+        "1958-01-01", "%Y-%m-%d"
+    )
+    etime = timedelta(microseconds=int(end_time)) + datetime.strptime(
+        "1958-01-01", "%Y-%m-%d"
+    )
+
+    return stime, etime
+
+
+def get_plat(hfile):
+    """Get platform from the metadata."""
+    with h5py.File(hfile) as h5data:
+        plat = h5data.attrs["Platform_Short_Name"][0][0].astype("str")
+    platform_dict = {
+        "NPP": "Suomi-NPP",
+        "JPSS-1": "NOAA-20",
+        "J01": "NOAA-20",
+        "JPSS-2": "NOAA-21",
+        "J02": "NOAA-21",
+    }
+    plat_name = platform_dict[plat]
+    return plat_name
+
+
+def get_sci_data(hfile, sv_key):
+    """Get science data from file."""
+    with h5py.File(hfile) as h5data:
+        band_key = list(h5data["All_Data"].keys())[0]
+        # get BT and Radiance
+        bt_flag = False
+        ref_flag = False
+
+        if "BrightnessTemperature" in h5data["All_Data"][band_key].keys():
+            bt_raw = h5data["All_Data"][band_key]["BrightnessTemperature"][...]
+            if "BrightnessTemperatureFactors" in h5data["All_Data"][band_key].keys():
+                bt_fac = h5data["All_Data"][band_key]["BrightnessTemperatureFactors"][
+                    ...
+                ]
+                bt_cal = bt_raw * bt_fac[0] + bt_fac[1]
+            else:
+                bt_cal = bt_raw
+            bt_flag = True
+        elif "Reflectance" in h5data["All_Data"][band_key].keys():
+
+            bt_raw = h5data["All_Data"][band_key]["Reflectance"][...]
+            if "ReflectanceFactors" in h5data["All_Data"][band_key].keys():
+                bt_fac = h5data["All_Data"][band_key]["ReflectanceFactors"][...]
+                bt_cal = bt_raw * bt_fac[0] + bt_fac[1]
+            else:
+                bt_cal = bt_raw
+            bt_cal = apply_gamma(bt_cal, 1.65) * 100
+            ref_flag = True
+
+        rad_raw = h5data["All_Data"][band_key]["Radiance"][...]
+        if "RadianceFactors" in h5data["All_Data"][band_key].keys():
+            rad_fac = h5data["All_Data"][band_key]["RadianceFactors"][...]
+            LOG.info("Applying calibration values to radiance data.")
+            rad_cal = rad_raw * rad_fac[0] + rad_fac[1]
+        else:
+            rad_cal = rad_raw
+        # flag data
+        flag_key = [k for k in h5data["All_Data"][band_key].keys() if "QF1_" in k][0]
+        qflag = h5data["All_Data"][band_key][flag_key][...]
+
+    mask = np.where(qflag > 1, True, False)
+    if not np.isdtype(rad_cal.dtype, np.float32):
+        rad_cal = rad_cal.astype(np.float32)
+    # seems like DNB quality flags are bad??
+    # leads to NaN granules
+    rad_cal[mask] = np.nan
+
+    if bt_flag or ref_flag:
+        if not np.isdtype(bt_cal.dtype, np.float32):
+            bt_cal = bt_cal.astype(np.float32)
+        bt_cal[mask] = np.nan
+
+    sci_xr = xr.Dataset()
+    if bt_flag:
+        sci_xr[sv_key + "BT"] = xr.DataArray(bt_cal, dims=("dim_0", "dim_1"))
+    if ref_flag:
+        sci_xr[sv_key + "Ref"] = xr.DataArray(bt_cal, dims=("dim_0", "dim_1"))
+
+    sci_xr[sv_key + "Rad"] = xr.DataArray(rad_cal, dims=("dim_0", "dim_1"))
+    sci_xr["Quality_Flag"] = xr.DataArray(qflag, dims=("dim_0", "dim_1"))
+
+    return sci_xr
+
+
+def get_geo_data(bname, band_type, flist):
+    """Get geolocation data based upon the band provided.
+
+    Input
+    -----
+    bname: basename of input file
+    band_type: band type (DNB, SVI, SVM)
+    flist: file list
+
+    Output:
+    -------
+    dict: output parameters
+    latitude:
+    longitude:
+    """
+    BAD_VAL = -998.0
+    geo_dict = {"SVI": "GITCO", "SVD": "GDNBO", "SVM": "GMTCO"}
+    geo_key = geo_dict[band_type]
+
+    # get proper geo file and at the right time
+    set_start = re.search(r"_t\d{7}_", bname)[0]
+    flist = [f for f in flist if set_start in f]
+
+    base_flist = list(map(os.path.basename, flist))
+    geo_list = [flist[i] for i, j in enumerate(base_flist) if geo_key in j]
+    if len(geo_list) == 0:
+        # try to find ellispoid files
+        LOG.warning("No GEO terrain corrected files found, reverting to ellispoid.")
+        geo_dict = {"SVI": "GIMGO", "SVM": "GMODO"}
+        # catch error for DNB files
+        if band_type not in geo_dict.keys():
+            raise LookupError("No VIIRS geo-file found, check input filelist.")
+        geo_key = geo_dict[band_type]
+        geo_list = [flist[i] for i, j in enumerate(base_flist) if geo_key in j]
+
+    if len(geo_list) == 0:
+        raise LookupError("No VIIRS GEO file found, check input filelist.")
+    geo_file = geo_list[0]
+    LOG.info("Reading geo file {}".format(os.path.basename(geo_file)))
+    with h5py.File(geo_file) as h5geo:
+        geo_key = list(h5geo["All_Data"].keys())[0]
+        latitude = h5geo["All_Data"][geo_key]["Latitude"][...]
+        longitude = h5geo["All_Data"][geo_key]["Longitude"][...]
+        mask = h5geo["All_Data"][geo_key]["QF2_VIIRSSDRGEO"][...]
+
+        sol_zea = h5geo["All_Data"][geo_key]["SolarZenithAngle"][...]
+        sol_azi = h5geo["All_Data"][geo_key]["SolarAzimuthAngle"][...]
+
+        sat_zea = h5geo["All_Data"][geo_key]["SatelliteZenithAngle"][...]
+        sat_azi = h5geo["All_Data"][geo_key]["SatelliteAzimuthAngle"][...]
+        extra_params = {}
+        if "DNB" in geo_key:
+            latitude = (
+                h5geo["All_Data"][geo_key]["Latitude_TC"]
+                if "latitude_tc" in h5geo["All_Data"][geo_key].keys()
+                else h5geo["All_Data"][geo_key]["Latitude"][...]
+            )
+            longitude = (
+                h5geo["All_Data"][geo_key]["Longitude_TC"]
+                if "longitude_tc" in h5geo["All_Data"][geo_key].keys()
+                else h5geo["All_Data"][geo_key]["Longitude"][...]
+            )
+
+            lza = h5geo["All_Data"][geo_key]["LunarZenithAngle"][...]
+            laa = h5geo["All_Data"][geo_key]["LunarAzimuthAngle"][...]
+            moon_frac = h5geo["All_Data"][geo_key]["MoonIllumFraction"][...]
+            moon_phase_ang = h5geo["All_Data"][geo_key]["MoonPhaseAngle"][...]
+
+            # moon_frac = 0.5 * (1 + np.cos(moon_phase_ang))
+            lza = np.where(lza < BAD_VAL, np.nan, lza)
+            laa = np.where(laa < BAD_VAL, np.nan, laa)
+
+            extra_params = {
+                "lza": lza,
+                "laa": laa,
+                "moon_fraction": moon_frac,
+                "moon_phase_angle": moon_phase_ang,
+            }
+
+    # mask and flagging
+    flag = np.where(mask > 0, True, False)
+    latitude[flag] = np.nan
+    longitude[flag] = np.nan
+
+    if np.any(latitude < -90) or np.any(latitude > 90):
+        lat_flag = np.where(latitude < -90, True, False)
+        lat_flag = np.logical_or(np.where(latitude > 90, True, False), lat_flag)
+        latitude[lat_flag] = np.nan
+
+    comb_mask = (
+        (sol_zea < BAD_VAL)
+        | (sol_azi < BAD_VAL)
+        | (sat_zea < BAD_VAL)
+        | (sat_azi < BAD_VAL)
+        | flag
+    )
+    sol_zea = np.where(sol_zea < BAD_VAL, np.nan, sol_zea)
+    sol_azi = np.where(sol_azi < BAD_VAL, np.nan, sol_azi)
+
+    sat_zea = np.where(sat_zea < BAD_VAL, np.nan, sat_zea)
+    sat_azi = np.where(sat_azi < BAD_VAL, np.nan, sat_azi)
+    # create xarray dataset
+    geo_xr = xr.Dataset()
+    geo_xr["latitude"] = xr.DataArray(latitude, dims=("dim_0", "dim_1"))
+    geo_xr["longitude"] = xr.DataArray(longitude, dims=("dim_0", "dim_1"))
+    geo_xr["solar_zenith_angle"] = xr.DataArray(sol_zea, dims=("dim_0", "dim_1"))
+    geo_xr["solar_azimuth_angle"] = xr.DataArray(sol_azi, dims=("dim_0", "dim_1"))
+    geo_xr["satellite_zenith_angle"] = xr.DataArray(sat_zea, dims=("dim_0", "dim_1"))
+    geo_xr["satellite_azimuth_angle"] = xr.DataArray(sat_azi, dims=("dim_0", "dim_1"))
+    geo_xr["geo_mask"] = xr.DataArray(comb_mask, dims=("dim_0", "dim_1"))
+
+    if len(extra_params.keys()) > 0:
+        geo_xr["lunar_zenith_angle"] = xr.DataArray(
+            extra_params["lza"], dims=("dim_0", "dim_1")
+        )
+        geo_xr["lunar_azimuth_angle"] = xr.DataArray(
+            extra_params["laa"], dims=("dim_0", "dim_1")
+        )
+        geo_xr["moon_frac"] = xr.DataArray(
+            np.full(sol_zea.shape, extra_params["moon_fraction"] / 100.0),
+            dims=("dim_0", "dim_1"),
+        )
+
+        geo_xr["moon_phase"] = xr.DataArray(
+            np.full(sol_zea.shape, extra_params["moon_phase_angle"]),
+            dims=("dim_0", "dim_1"),
+        )
+
+    return geo_xr
+
+
 def call(
     fnames,
     metadata_only=False,
     chans=None,
     area_def=None,
     self_register=False,
-    resample=False,
     bowtie=True,
 ):
     """Read VIIRS SDR hdf5 data products.
@@ -110,6 +347,8 @@ def call(
         * register all data to the specified dataset id (as specified in the
           return dictionary keys).
         * Read multiple resolutions of data if False.
+    bowtie: bool, default=True
+        * Preform bowtie correction for edge of scan.
 
     Returns
     -------
@@ -119,32 +358,29 @@ def call(
         * Dictionary keys can be any descriptive dataset ids.
         * Conforms to geoips xarray standards, see more in geoips documentation.
     """
-    # print("Reading")
-    tmp_scn = satpy.Scene(reader="viirs_sdr", filenames=fnames)
-    scn_start, scn_end = tmp_scn.start_time, tmp_scn.end_time
     base_fnames = list(map(os.path.basename, fnames))
+    sorted_fnames = sorted(fnames)
+
+    dt_start = get_time(sorted_fnames[0])[0]
+    dt_end = get_time(sorted_fnames[-1])[-1]
+    plat_name = get_plat(sorted_fnames[0])
+    meta_attrs = {
+        "source_file_name": base_fnames,
+        "start_datetime": dt_start,
+        "end_datetime": dt_end,
+        "source_name": "viirs",
+        "platform_name": plat_name,
+        "data_provider": "NOAA",
+        "sample_distance_km": 1,
+        "interpolation_radius_of_influence": 2000,
+    }
+
+    attr_xr = xr.Dataset(attrs=meta_attrs)
+    attr_dict = {"METADATA": attr_xr}
+    if metadata_only:
+        return attr_dict
 
     full_xr = {}
-    if metadata_only:
-        # average resolution
-        # sensor, plat name
-        tmp_scn.load([tmp_scn.available_dataset_names()[0]])
-        tmp_attrs = tmp_scn[tmp_scn.available_dataset_names()[0]].attrs
-        tmp_xr = xr.Dataset(
-            attrs={
-                "source_file_name": base_fnames[0],
-                "start_datetime": scn_start,
-                "end_datetime": scn_end,
-                "source_name": tmp_attrs["sensor"],
-                "platform_name": tmp_attrs["platform_name"],
-                "data_provider": "NOAA",
-                "sample_distance_km": 1,
-                "interpolation_radius_of_influence": 1000,  # guess!
-            }
-        )
-        tmp_dict = {"METADATA": tmp_xr}
-        return tmp_dict
-
     # trim VARLIST based on channels requested
     if chans:
         tmp_vl = VARLIST.copy()
@@ -156,202 +392,80 @@ def call(
                 matches = [s for s in val for c in chans if s in c]
                 VARLIST[key] = matches
 
-    # could opimize more
-    tmp_coor = {}
-    for var in VARLIST:
-        tmp_dask = {}
-        dataset_ids = [
-            idx
-            for idx in tmp_scn.available_dataset_ids()
-            if idx["name"] in VARLIST[var]
-        ]
-        if len(dataset_ids) == 0:
-            LOG.warning("No variables found in data for viirs_sdr reader.")
-            continue
+    # create list from requested keys
+    vlist = list(chain.from_iterable(VARLIST.values()))
+    trim_flist = [f for f in fnames for v in vlist if "SV" + v in os.path.basename(f)]
+    # parse all science files
+    for scifile in trim_flist:
 
-        for d in dataset_ids:
-            tmp_scn.load([d])
-            full_key = tmp_scn[d].attrs["name"] + tmp_scn[d].attrs[
-                "calibration"
-            ].capitalize()[:3].replace("Bri", "BT")
+        fn_base = os.path.basename(scifile)
+        band_fname = re.search(r"SV\w{1}(\d{2}|\w{2})", fn_base)[0]
+        LOG.info("Parsing VIIRS file; band {}, filename {}".format(band_fname, fn_base))
+        band_type = band_fname[:3]
+        band_spec = band_fname[2:]
 
-            tmp_ma = tmp_scn[d].to_masked_array().data
+        sci_xrt = get_sci_data(scifile, band_spec)
 
-            # load band
-            tmp_scn.load([d])
-
-            lat = tmp_scn[d].area.lats.to_masked_array().data
-            lon = tmp_scn[d].area.lons.to_masked_array().data
-
-            # bowtie correction
-            if bowtie:
-                band_data, band_lat, band_lon = bowtie_correction(tmp_ma, lat, lon)
+        # apply children xr to parents
+        parent_key = [k for k, v in VARLIST.items() if band_spec in v][0]
+        # update, append, or create xarray
+        if parent_key in full_xr.keys():
+            if band_spec + "Rad" in list(full_xr[parent_key].variables):
+                # append
+                geo_xrt = get_geo_data(fn_base, band_type, fnames)
+                sci_xrt.update(geo_xrt)
+                full_xr[parent_key] = xr.concat(
+                    [full_xr[parent_key], sci_xrt], dim="dim_0"
+                )
             else:
-                band_data, band_lat, band_lon = tmp_ma, lat, lon
+                # same geo, new data, same band
+                full_xr[parent_key].update(sci_xrt)
+        else:
+            # new geo, new data, new band
+            full_xr[parent_key] = sci_xrt
+            geo_xrt = get_geo_data(fn_base, band_type, fnames)
+            full_xr[parent_key].update(geo_xrt)
+            full_xr[parent_key].attrs = meta_attrs
+    if bowtie:
+        # update data
+        for k, dset in full_xr.items():
+            tmp_lat = dset["latitude"].data
+            tmp_lon = dset["longitude"].data
+            # trim_dset = dset.drop_vars(["latitude","longitude"])
+            var_avail = list(dset.variables)
 
-            if "Ref" in full_key:
-                from geoips.data_manipulations.corrections import apply_gamma
+            rad_list = [i for i in var_avail if "Rad" in i]
+            rad_map = {}
+            for rad_name in rad_list:
+                rad_var = dset[rad_name].data
+                rad_bow, slat, slon = bowtie_correction(rad_var, tmp_lat, tmp_lon)
+                rad_map[rad_name] = xr.DataArray(rad_bow, dims=("dim_0", "dim_1"))
+            bt_list = [i for i in var_avail if "Ref" in i or "BT" in i]
+            bt_map = {}
+            for bt_name in bt_list:
+                bt_var = dset[bt_name].data
+                bt_bow, slat, slon = bowtie_correction(bt_var, tmp_lat, tmp_lon)
+                bt_map[bt_name] = xr.DataArray(bt_bow, dims=("dim_0", "dim_1"))
 
-                # gamma expects data 0-1 range
-                # Gamma factor derived from log rule
-                # log(mean)/log(0.5) for mean rng 0 to 1
-                band_data = apply_gamma(band_data / 100, 1.65) * 100
+            udict = {
+                "latitude": xr.DataArray(slat, dims=("dim_0", "dim_1")),
+                "longitude": xr.DataArray(slon, dims=("dim_0", "dim_1")),
+            }
+            udict.update(bt_map)
+            udict.update(rad_map)
+            full_xr[k].update(udict)
 
-            tmp_dask |= {full_key: (("dim_0", "dim_1"), band_data)}
-
-        # coordinates
-        tmp_coor["latitude"] = (
-            ("dim_0", "dim_1"),
-            band_lat,
+    if "DNBRef" in chans or chans is None:
+        lunar_ref_data = lunarref(
+            full_xr["DNB"]["DNBRad"].data,
+            full_xr["DNB"]["solar_zenith_angle"].data,
+            full_xr["DNB"]["lunar_zenith_angle"].data,
+            meta_attrs["start_datetime"].strftime("%Y%m%d%H"),
+            meta_attrs["end_datetime"].strftime("%M"),
+            full_xr["DNB"]["moon_phase"].data,
         )
-        tmp_coor["longitude"] = (
-            ("dim_0", "dim_1"),
-            band_lon,
-        )
+        full_xr["DNB"]["DNBRef"] = xr.DataArray(lunar_ref_data, dims=("dim_0", "dim_1"))
 
-        # sample time to the proper shape (N*48), while lat/lon are ()
-        time_range = date_range(
-            start=scn_start,
-            end=scn_end,
-            periods=tmp_coor["latitude"][1].shape[0],
-        ).values
-        interp_time = np.tile(time_range, (tmp_coor["latitude"][1].shape[1], 1)).T
-        tmp_coor["time"] = (("dim_0", "dim_1"), interp_time)
-
-        tmp_attrs = tmp_scn[VARLIST[var][0]].attrs
-
-        cal_params = [
-            "satellite_azimuth_angle",
-            "satellite_zenith_angle",
-            "solar_azimuth_angle",
-            "solar_zenith_angle",
-        ]
-
-        if var == "DNB":
-            cal_params = [
-                "dnb_lunar_azimuth_angle",
-                "dnb_lunar_zenith_angle",
-                "dnb_satellite_azimuth_angle",
-                "dnb_satellite_zenith_angle",
-                "dnb_solar_azimuth_angle",
-                "dnb_solar_zenith_angle",
-            ]
-
-        tmp_scn.load(cal_params)
-        tmp_cal_params = {
-            i.removeprefix("dnb_"): (
-                ("dim_0", "dim_1"),
-                tmp_scn[i].to_masked_array(),
-            )
-            for i in cal_params
-        }
-
-        if var == "DNB":
-            try:
-                from lunarref.lib.liblunarref import lunarref
-
-                # this results in the wrong value..
-                # np.arccos((tmp_scn["dnb_moon_illumination_fraction"].data/50)-1)
-
-                dnb_geofile = [i for i in fnames if "GDNBO" in os.path.basename(i)][0]
-                h5_dnb = h5py.File(dnb_geofile)
-                phase_ang = h5_dnb["All_Data/VIIRS-DNB-GEO_All/MoonPhaseAngle"][...]
-
-                lunarref_data = lunarref(
-                    tmp_dask["DNBRad"][1],
-                    tmp_cal_params["solar_zenith_angle"][1],
-                    tmp_cal_params["lunar_zenith_angle"][1],
-                    scn_start.strftime("%Y%m%d%H"),
-                    scn_start.strftime("%M"),
-                    phase_ang,
-                )
-                lunarref_data = np.ma.masked_less_equal(lunarref_data, -999, copy=False)
-                tmp_dask |= {"DNBRef": (("dim_0", "dim_1"), lunarref_data)}
-            except ImportError:
-                LOG.info("Failed lunarref in viirs reader.  If you need it, build it")
-
-        # problem with sat_za/az values being too high, need to downsample
-        # print("Building xarray")
-        obs_xr = xr.Dataset(data_vars=tmp_dask)
-        coor_xr = xr.Dataset(data_vars=tmp_coor)
-        cal_xr = xr.Dataset(data_vars=tmp_cal_params)
-
-        if cal_xr.sizes["dim_0"] > coor_xr.sizes["dim_0"]:
-            cal_xr = cal_xr.coarsen(dim_0=2, dim_1=2).mean()
-
-        tmp_xr = xr.merge([obs_xr, coor_xr, cal_xr])
-
-        tmp_xr.attrs = {
-            "source_file_name": base_fnames,
-            "start_datetime": tmp_scn.start_time,
-            "end_datetime": tmp_scn.end_time,
-            "source_name": tmp_attrs["sensor"],
-            "platform_name": tmp_attrs["platform_name"],
-            "data_provider": "NOAA",
-            "sample_distance_km": tmp_attrs["resolution"] / 1e3,
-            "interpolation_radius_of_influence": 1000,
-        }
-
-        full_xr |= {var: tmp_xr}
-    full_xr["METADATA"] = xr.Dataset(attrs=tmp_xr.attrs)
-
-    # Geolocation resampling
-    if resample and area_def:
-        adname = area_def.area_id
-        new_shape = area_def.shape
-
-        LOG.info("")
-        LOG.info("Getting geolocation information for {}.".format(adname))
-
-        for dtype in full_xr.keys():
-            if "latitude" not in full_xr[dtype].variables:
-                LOG.info(
-                    "No data read for dataset %s, removing from xarray list", dtype
-                )
-                continue
-            fldk_lats = full_xr[dtype]["latitude"]
-            fldk_lons = full_xr[dtype]["longitude"]
-            # Get just the metadata we need
-            geo_metadata = full_xr[dtype].attrs.copy()
-            geo_metadata["num_lines"], geo_metadata["num_samples"] = fldk_lats.shape
-            geo_metadata["scene"] = "stitched_granules"
-            geo_metadata["fnames"] = geo_metadata.pop("source_file_name")
-            geo_metadata["roi_factor"] = 5
-            lines, samples = get_indexes(geo_metadata, fldk_lats, fldk_lons, area_def)
-
-            index_mask = lines != -999
-
-            new_dim0 = "dim_{:d}".format(new_shape[0])
-            new_dim1 = "dim_{:d}".format(new_shape[1])
-
-            for varname in full_xr[dtype].variables.keys():
-                new_var = np.full(new_shape, -999.1)
-                new_var[index_mask] = full_xr[dtype][varname].values[
-                    lines[index_mask], samples[index_mask]
-                ]
-                # out_var = new_var
-                if varname not in cal_params + ["latitude", "longitude"]:
-                    # Set values <= -999.9 to NaN so they also get interpolated.
-                    new_var[np.where(new_var <= -999.9)] = np.nan
-                    # Interpolate missing data.
-                    out_var = np.array(DataFrame(new_var).interpolate())
-                else:
-                    out_var = new_var
-                full_xr[dtype][varname] = xr.DataArray(
-                    out_var, dims=[new_dim0, new_dim1]
-                )
-            if "time" in full_xr[dtype].variables:
-                time_data = full_xr[dtype]["time"].data
-                time_data = np.asarray(to_datetime(time_data.ravel())).reshape(
-                    time_data.shape
-                )
-                full_xr[dtype]["time"].data = time_data
-
-            ll_mask = full_xr[dtype]["latitude"].data >= -90
-            for varname in full_xr[dtype].variables.keys():
-                full_xr[dtype][varname] = full_xr[dtype][varname].where(ll_mask)
-
-        LOG.interactive("Done with geolocation for {}".format(adname))
-        LOG.info("")
+    full_xr |= attr_dict
 
     return full_xr

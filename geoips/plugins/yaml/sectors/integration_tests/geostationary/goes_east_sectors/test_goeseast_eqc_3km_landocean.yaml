@@ -1,0 +1,52 @@
+interface: sectors
+family: area_definition_static
+name: test_goeseast_eqc_3km_landocean
+docstring: |
+  GOES East land/ocean subsector, centered at 3 latitude, -77.5 longitude
+  300x300 at 3km resolution
+
+  This sector is off the coast of Columbia, containing approximately half land and
+  half ocean pixels, near the center of scan for GOES East.
+
+  It is a very small sector that can be used for any basic GOES East test processing
+  that is not reliant on specific meteorological features or time of day being
+  contained within the dataset.
+
+  This sector is identical to the test_goeseast_eqc_3km_nadir test sector, as the
+  nadir test sector provides a good combination of land and ocean pixels.
+metadata:
+  region:
+    continent: Tests
+    country: x
+    area: Goes_East
+    subarea: x
+    state: x
+    city: x
+spec:
+  area_id: test_goeseast_eqc_3km_landocean
+  description: |
+    GOES East land/ocean subsector, centered at 3 latitude, -77.5 longitude
+    300x300 at 3km resolution
+
+    This sector is off the coast of Columbia, containing approximately half land and
+    half ocean pixels, near the center of scan for GOES East.
+ 
+    It is a very small sector that can be used for any basic GOES East test processing
+    that is not reliant on specific meteorological features or time of day being
+    contained within the dataset.
+
+    This sector is identical to the test_goeseast_eqc_3km_nadir test sector, as the
+    nadir test sector provides a good combination of land and ocean pixels.
+  projection:
+    a: 6371228.0
+    lat_0: 3 
+    lon_0: -77.5
+    proj: eqc
+    units: m
+  resolution:
+    - 3000
+    - 3000
+  shape:
+    height: 300
+    width: 300
+  center: [0, 0]

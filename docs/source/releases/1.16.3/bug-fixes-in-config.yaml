@@ -1,0 +1,18 @@
+bug fix:
+- title: 'Typos in config_geoips and geoips_conda_init_setup'
+  description: |
+    * config_geoips - ensure GEOIPS_OUTDIRS is not re-set if set upstream
+    * geoips_conda_init_setup - include then in elif statement
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - 'setup/config_geoips'
+    - 'setup/geoips_conda_init_setup'
+  date:
+    start: 2025-08-04
+    finish: 2025-08-04

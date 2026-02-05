@@ -1,0 +1,70 @@
+interface: sectors
+family: area_definition_static
+name: test_himawari8_eqc_10km_terminator_20200405T0000Z
+docstring: |
+  Himawari subsector, centered at 15 latitude, 98 longitude
+  300x300 at 10km resolution
+
+  This is a very small sector that will contain both day-time and night-time
+  data when used with the Himawari-8 dataset at 20240920T1500Z.
+
+  This dataset contains mostly day-time data with a small amount of night-time
+  data along the western edge of scan.
+
+  This sector is off the coast of Myanmar, containing approximately half ocean
+  and half land pixels for Himawari.
+
+  This sector was designed to contain approximately one quarter night-time data
+  along the western edge of the sector, and three quarters day-time data.
+
+  The test datasets corresponding to these sectors can be found in the
+  test_data_ahi test data repository.
+
+  ```
+  geoips config install test_data_ahi
+  ```
+metadata:
+  region:
+    continent: Tests
+    country: x
+    area: Himawari
+    subarea: x
+    state: x
+    city: x
+spec:
+  area_id: test_himawari8_eqc_10km_terminator_20200405T0000Z
+  description: |
+    Himawari subsector, centered at 15 latitude, 98 longitude
+    300x300 at 10km resolution
+
+    This is a very small sector that will contain both day-time and night-time
+    data when used with the Himawari-8 dataset at 20240920T1500Z.
+
+    This dataset contains mostly day-time data with a small amount of night-time
+    data along the western edge of scan.
+
+    This sector is off the coast of Myanmar, containing approximately half ocean
+    and half land pixels for Himawari.
+
+    This sector was designed to contain approximately one quarter night-time data
+    along the western edge of the sector, and three quarters day-time data.
+
+    The test datasets corresponding to these sectors can be found in the
+    test_data_ahi test data repository.
+
+    ```
+    geoips config install test_data_ahi
+    ```
+  projection:
+    a: 6371228.0
+    lat_0: 15
+    lon_0: 98
+    proj: eqc
+    units: m
+  resolution:
+    - 10000
+    - 10000
+  shape:
+    height: 300
+    width: 300
+  center: [0, 0]

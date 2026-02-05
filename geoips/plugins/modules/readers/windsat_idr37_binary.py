@@ -99,6 +99,7 @@ The actual idr37 data record (idr_record) in C::
 
     Its total length of idr_record is 72 bytes
 """
+
 # Python Standard Libraries
 from datetime import datetime
 import logging
@@ -109,7 +110,6 @@ import numpy as np
 
 # import pandas as pd
 import xarray
-
 
 LOG = logging.getLogger(__name__)
 
