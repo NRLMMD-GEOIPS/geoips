@@ -157,12 +157,16 @@ class BaseClassPlugin(ABC):
         # Not sure why bug config based doesn't work unless we add the following
         # condition. Otherwise the 'else' portion will always be hit and no arguments
         # are sent to the procflow.
-        if data or self.interface == "procflows":
+        if self.interface in [
+            "colormappers",
+            "sector_spec_generators",
+            "sector_metadata_generators",
+        ]:
+            data = self.call(*args, **kwargs)
+        else:
             data = self._pre_call(data, *args, **kwargs)
             data = self.call(data, *args, **kwargs)
             data = self._post_call(data, *args, **kwargs)
-        else:
-            data = self.call(*args, **kwargs)
         return data
 
     def __init__(self, module=None):
