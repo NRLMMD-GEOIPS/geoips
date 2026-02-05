@@ -1,6 +1,6 @@
 name: Hello World CI
 
-on: workflow_dispatch
+on: push
 
 jobs:
   my-job:
