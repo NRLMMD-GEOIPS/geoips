@@ -4,7 +4,7 @@ on: workflow_dispatch
 
 jobs:
   my-job:
-    runs-on: cira-prem
+    runs-on: nautilus
     steps:
       - name: Say hello world!
         run: echo "Hello World!"
