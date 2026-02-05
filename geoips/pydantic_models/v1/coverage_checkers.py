@@ -24,6 +24,6 @@ class CoverageCheckerArgumentsModel(DynamicModel):
         None, description="Variable name to check percent unmasked."
     )
     area_def: str = Field(None, description="Area definition identifier.")
-    radius_km: Optional[int] = Field(
+    radius_km: Optional[float] = Field(
         300, description="Radius of center disk to check for coverage. "
     )
