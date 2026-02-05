@@ -36,6 +36,10 @@ def call(
     float
         Percent coverage of variable_name over area_def
     """
+    if variable_name not in xarray_obj:
+        raise KeyError(
+            f"Variable {variable_name} did not exist. Can not calculate coverage."
+        )
     interp_plugin = interpolators.get_plugin("interp_nearest")
     output_xarray = interp_plugin(
         area_def, xarray_obj, None, [variable_name], array_num=0
