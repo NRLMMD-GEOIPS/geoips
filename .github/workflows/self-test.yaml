@@ -715,13 +715,6 @@ jobs:
           echo "Checking build output..."
           if [ -d "build/sphinx/html" ]; then
             echo "✓ HTML documentation built successfully"
-            echo ""
-            echo "Documentation structure:"
-            find ./build/sphinx/html -type f -name "*.html" | head -10
-            echo "... (truncated)"
-            echo ""
-            echo "Total HTML files: $(find build/sphinx/html -type f -name '*.html' | wc -l)"
-            echo "BUILT_DOCS_PATH=$(pwd)/build/sphinx/html" >> $GITHUB_OUTPUT
           else
             echo "::error::HTML documentation directory not found"
             ls -la build/ || echo "build/ directory does not exist"
