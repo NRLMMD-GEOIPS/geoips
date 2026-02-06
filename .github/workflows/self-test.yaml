@@ -710,6 +710,8 @@ jobs:
             echo "::error::Building HTML documentation failed with exit code ${ret}"
             exit 1
           fi
+          echo "Updating permissions..."
+          chmod 0777 -R $PWD/build/sphinx/html
           
           echo ""
           echo "Checking build output..."
@@ -732,7 +734,7 @@ jobs:
           name: html-documentation
           path: ${{ steps.build_html_docs.outputs.BUILT_DOCS_PATH }}
           if-no-files-found: error
-          retention-days: 30
+          retention-days: 5
 
       - name: Build Sphinx PDF Documentation
         if: ${{ steps.set_flags.outputs.CI_BUILD_SPHINX_PDF == 'true' }}
