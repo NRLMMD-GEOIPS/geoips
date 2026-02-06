@@ -5,9 +5,10 @@ on:
   workflow_dispatch:
 
 env:
-  # The path to the GeoIPS package in DOCLINTTEST images
+  # The path to the GeoIPS package in dev images
   BASE_GEOIPS_PATH: /packages/geoips
-  PLUGIN_DOCLINTTEST_TAG: dev-stable
+  PLUGIN_DEV_TAG: dev-stable
+  DOCKER_BUILD_TARGET: dev
 
 defaults:
   run:
@@ -27,7 +28,7 @@ jobs:
     permissions:
       contents: read
       packages: write
-    
+
     steps:
       #########################################
       # SETUP AND DEBUG
@@ -202,21 +203,21 @@ jobs:
           echo "IMAGE_NAME=${image_name}" >> $GITHUB_OUTPUT
           
           if [[ "${CURR_REPO}" == "geoips" ]]; then
-              doclinttest_tag="doclinttest-${GITHUB_SHA}"
+              dev_tag="dev-${GITHUB_SHA}"
               echo "GeoIPS repository detected - building new image"
           else
-              doclinttest_tag="${PLUGIN_DOCLINTTEST_TAG}"
+              dev_tag="${PLUGIN_DEV_TAG}"
               echo "Plugin repository detected - using existing image"
           fi
           
-          echo "DocLintTest Tag: ${doclinttest_tag}"
-          echo "DOCLINTTEST_TAG=${doclinttest_tag}" >> $GITHUB_ENV
-          echo "DOCLINTTEST_TAG=${doclinttest_tag}" >> $GITHUB_OUTPUT
+          echo "Dev Tag: ${dev_tag}"
+          echo "DEV_TAG=${dev_tag}" >> $GITHUB_ENV
+          echo "DEV_TAG=${dev_tag}" >> $GITHUB_OUTPUT
           
-          doclinttest_image="${image_name}:${doclinttest_tag}"
-          echo "DocLintTest Image: ${doclinttest_image}"
-          echo "DOCLINTTEST_IMAGE=${doclinttest_image}" >> $GITHUB_ENV
-          echo "DOCLINTTEST_IMAGE=${doclinttest_image}" >> $GITHUB_OUTPUT
+          dev_image="${image_name}:${dev_tag}"
+          echo "Dev Image: ${dev_image}"
+          echo "DEV_IMAGE=${dev_image}" >> $GITHUB_ENV
+          echo "DEV_IMAGE=${dev_image}" >> $GITHUB_OUTPUT
           
           buildcache_image="${image_name}:buildcache"
           echo "Build Cache Image: ${buildcache_image}"
@@ -225,18 +226,18 @@ jobs:
           
           # Build full image paths - only include registry if ENABLE_DOCKER_REGISTRY is true
           if [ "${ENABLE_DOCKER_REGISTRY}" == "true" ] && [ -n "$DOCKER_REGISTRY" ]; then
-            FULL_DOCLINTTEST_IMAGE="${DOCKER_REGISTRY}/${repo_name}/${doclinttest_image}"
+            FULL_DEV_IMAGE="${DOCKER_REGISTRY}/${repo_name}/${dev_image}"
             FULL_BUILDCACHE_IMAGE="${DOCKER_REGISTRY}/${repo_name}/${buildcache_image}"
             echo "Registry enabled - using full paths with registry"
           else
-            FULL_DOCLINTTEST_IMAGE="${doclinttest_image}"
+            FULL_DEV_IMAGE="${dev_image}"
             FULL_BUILDCACHE_IMAGE="${buildcache_image}"
             echo "Registry disabled - using local image names only"
           fi
           
-          echo "Full DocLintTest Image: ${FULL_DOCLINTTEST_IMAGE}"
+          echo "Full Dev Image: ${FULL_DEV_IMAGE}"
           echo "Full Build Cache Image: ${FULL_BUILDCACHE_IMAGE}"
-          echo "FULL_DOCLINTTEST_IMAGE=${FULL_DOCLINTTEST_IMAGE}" >> $GITHUB_ENV
+          echo "FULL_DEV_IMAGE=${FULL_DEV_IMAGE}" >> $GITHUB_ENV
           echo "FULL_BUILDCACHE_IMAGE=${FULL_BUILDCACHE_IMAGE}" >> $GITHUB_ENV
           
           echo "::endgroup::"
@@ -257,10 +258,10 @@ jobs:
           echo "============================================"
           echo "Repository Name: ${{ steps.set_images.outputs.REPO_NAME }}"
           echo "Base Image Name: ${{ steps.set_images.outputs.IMAGE_NAME }}"
-          echo "DocLintTest Tag: ${{ steps.set_images.outputs.DOCLINTTEST_TAG }}"
-          echo "DocLintTest Image: ${{ steps.set_images.outputs.DOCLINTTEST_IMAGE }}"
+          echo "Dev Tag: ${{ steps.set_images.outputs.DEV_TAG }}"
+          echo "Dev Image: ${{ steps.set_images.outputs.DEV_IMAGE }}"
           echo "Build Cache Image: ${BUILDCACHE_IMAGE}"
-          echo "Full DocLintTest Image: ${FULL_DOCLINTTEST_IMAGE}"
+          echo "Full Dev Image: ${FULL_DEV_IMAGE}"
           echo "Full Build Cache Image: ${FULL_BUILDCACHE_IMAGE}"
           echo ""
           echo "============================================"
@@ -372,16 +373,16 @@ jobs:
         run: |
           echo "::group::Determining Image Tags"
           
-          tags="${FULL_DOCLINTTEST_IMAGE},${FULL_BUILDCACHE_IMAGE}"
+          tags="${FULL_DEV_IMAGE},${FULL_BUILDCACHE_IMAGE}"
           
           if [[ "${GITHUB_REF}" == "refs/heads/${{ github.event.repository.default_branch }}" ]]; then
-            stableorlatest_tag="doclinttest-stable"
+            stableorlatest_tag="dev-stable"
             echo "On default branch - adding stable tag"
           elif [[ "${GITHUB_REF}" == "refs/tags/"* ]]; then
-            stableorlatest_tag="doclinttest-stable"
+            stableorlatest_tag="dev-stable"
             echo "On tag - adding stable tag"
           else
-            stableorlatest_tag="doclinttest-latest"
+            stableorlatest_tag="dev-latest"
             echo "On feature branch - adding latest tag"
           fi
           
@@ -413,7 +414,7 @@ jobs:
           echo "Using explicit 'docker build' command (default method)"
           echo ""
           echo "Building image with tags:"
-          echo "  1. ${FULL_DOCLINTTEST_IMAGE}"
+          echo "  1. ${FULL_DEV_IMAGE}"
           echo "  2. ${FULL_BUILDCACHE_IMAGE}"
           echo "  3. ${FULL_STABLEORLATEST_IMAGE}"
           echo ""
@@ -426,10 +427,10 @@ jobs:
           echo "Running docker build command..."
           docker build \
             --file Dockerfile \
-            --tag ${FULL_DOCLINTTEST_IMAGE} \
+            --tag ${FULL_DEV_IMAGE} \
             --tag ${FULL_BUILDCACHE_IMAGE} \
             --tag ${FULL_STABLEORLATEST_IMAGE} \
-            --target dev \
+            --target ${DOCKER_BUILD_TARGET} \
             --progress=plain \
             .
           
@@ -467,9 +468,9 @@ jobs:
           echo "✓ Build cache image pushed"
           echo ""
           
-          echo "Pushing ${FULL_DOCLINTTEST_IMAGE}..."
-          docker push ${FULL_DOCLINTTEST_IMAGE}
-          echo "✓ DocLintTest image pushed"
+          echo "Pushing ${FULL_DEV_IMAGE}..."
+          docker push ${FULL_DEV_IMAGE}
+          echo "✓ Dev image pushed"
           echo ""
           
           echo "Pushing ${FULL_STABLEORLATEST_IMAGE}..."
@@ -479,8 +480,8 @@ jobs:
           
           echo "Verifying images in registry..."
           echo ""
-          echo "Manifest for DocLintTest image:"
-          docker manifest inspect ${FULL_DOCLINTTEST_IMAGE}
+          echo "Manifest for Dev image:"
+          docker manifest inspect ${FULL_DEV_IMAGE}
           echo ""
           echo "Manifest for Build Cache image:"
           docker manifest inspect ${FULL_BUILDCACHE_IMAGE}
@@ -498,7 +499,7 @@ jobs:
           echo "Skipping push to Docker registry"
           echo ""
           echo "Images built locally:"
-          echo "  - ${FULL_DOCLINTTEST_IMAGE}"
+          echo "  - ${FULL_DEV_IMAGE}"
           echo "  - ${FULL_BUILDCACHE_IMAGE}"
           echo "  - ${FULL_STABLEORLATEST_IMAGE}"
           echo ""
@@ -513,7 +514,7 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           context: .
-          target: doclinttest
+          target: ${{ env.DOCKER_BUILD_TARGET }}
           push: true
           tags: ${{ env.PUSH_TAGS }}
           file: "Dockerfile"
@@ -528,7 +529,7 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           context: .
-          target: doclinttest
+          target: ${{ env.DOCKER_BUILD_TARGET }}
           push: false
           load: true
           tags: ${{ env.PUSH_TAGS }}
@@ -554,15 +555,15 @@ jobs:
           echo "⚠️  Registry operations are DISABLED (default)"
           echo "This is a plugin repository - checking for local image"
           echo ""
-          echo "Looking for image: ${FULL_DOCLINTTEST_IMAGE}"
+          echo "Looking for image: ${FULL_DEV_IMAGE}"
           echo ""
           
           # Check if image exists locally
-          if docker image inspect ${FULL_DOCLINTTEST_IMAGE} >/dev/null 2>&1; then
+          if docker image inspect ${FULL_DEV_IMAGE} >/dev/null 2>&1; then
             echo "✓ Image found locally"
-            docker images | grep -E "REPOSITORY|${FULL_DOCLINTTEST_IMAGE}" || true
+            docker images | grep -E "REPOSITORY|${FULL_DEV_IMAGE}" || true
           else
-            echo "::warning::Image not found locally: ${FULL_DOCLINTTEST_IMAGE}"
+            echo "::warning::Image not found locally: ${FULL_DEV_IMAGE}"
             echo ""
             echo "Available local images:"
             docker images
@@ -584,7 +585,7 @@ jobs:
           echo "::group::Pulling Docker Image"
           
           echo "Registry operations enabled - pulling image from registry"
-          echo "Image to pull: ${FULL_DOCLINTTEST_IMAGE}"
+          echo "Image to pull: ${FULL_DEV_IMAGE}"
           echo ""
           
           # Login first for plugin repos too (in case registry requires auth for pulls)
@@ -610,11 +611,11 @@ jobs:
           
           echo ""
           echo "Attempting to pull image..."
-          docker pull ${FULL_DOCLINTTEST_IMAGE}
+          docker pull ${FULL_DEV_IMAGE}
           
           pull_exit_code=$?
           if [ ${pull_exit_code} -ne 0 ]; then
-            echo "::error::Failed to pull Docker image ${FULL_DOCLINTTEST_IMAGE}"
+            echo "::error::Failed to pull Docker image ${FULL_DEV_IMAGE}"
             echo "Exit code: ${pull_exit_code}"
             echo ""
             echo "Available images:"
@@ -637,23 +638,23 @@ jobs:
           echo "::group::Testing Docker Image"
           
           echo "Testing basic image functionality..."
-          echo "Image: ${FULL_DOCLINTTEST_IMAGE}"
+          echo "Image: ${FULL_DEV_IMAGE}"
           echo ""
           
           echo "Test 1: Check Python version"
-          docker run --rm ${FULL_DOCLINTTEST_IMAGE} python3 --version
+          docker run --rm ${FULL_DEV_IMAGE} python3 --version
           echo ""
           
           echo "Test 2: Check pip version"
-          docker run --rm ${FULL_DOCLINTTEST_IMAGE} pip3 --version
+          docker run --rm ${FULL_DEV_IMAGE} pip3 --version
           echo ""
           
           echo "Test 3: Check GeoIPS base path"
-          docker run --rm ${FULL_DOCLINTTEST_IMAGE} ls -la ${BASE_GEOIPS_PATH} || echo "Base GeoIPS path not found (expected for fresh image)"
+          docker run --rm ${FULL_DEV_IMAGE} ls -la ${BASE_GEOIPS_PATH} || echo "Base GeoIPS path not found (expected for fresh image)"
           echo ""
           
           echo "Test 4: Check installed packages"
-          docker run --rm ${FULL_DOCLINTTEST_IMAGE} pip list
+          docker run --rm ${FULL_DEV_IMAGE} pip list
           
           echo "::endgroup::"
 
@@ -676,7 +677,7 @@ jobs:
           echo ""
           
           echo "Starting HTML documentation build..."
-          echo "Docker image: ${FULL_DOCLINTTEST_IMAGE}"
+          echo "Docker image: ${FULL_DEV_IMAGE}"
           echo "Repository path: $(pwd)"
           echo "Package name: ${run_on_package}"
           echo ""
@@ -685,7 +686,7 @@ jobs:
             -v $(pwd):/workspace \
             -w /workspace \
             -e BASE_GEOIPS_PATH=${BASE_GEOIPS_PATH} \
-            ${FULL_DOCLINTTEST_IMAGE} \
+            ${FULL_DEV_IMAGE} \
             bash -c "
               set -e
               echo 'Installing package...'
@@ -752,7 +753,7 @@ jobs:
   #          -v $(pwd):/workspace \
   #          -w /workspace \
   #          -e BASE_GEOIPS_PATH=${BASE_GEOIPS_PATH} \
-  #          ${FULL_DOCLINTTEST_IMAGE} \
+  #          ${FULL_DEV_IMAGE} \
   #          bash -c "
   #            set -e
   #            echo 'Installing package...'
@@ -804,14 +805,14 @@ jobs:
           echo "::group::Testing Interfaces"
           
           echo "Running interface validation tests..."
-          echo "Docker image: ${FULL_DOCLINTTEST_IMAGE}"
+          echo "Docker image: ${FULL_DEV_IMAGE}"
           echo ""
           
           docker run --rm \
             -v $(pwd):/workspace \
             -w /workspace \
             -e BASE_GEOIPS_PATH=${BASE_GEOIPS_PATH} \
-            ${FULL_DOCLINTTEST_IMAGE} \
+            ${FULL_DEV_IMAGE} \
             bash -c "
               set -e
               echo 'Installing package...'
@@ -859,7 +860,7 @@ jobs:
             -w /workspace \
             -e BASE_GEOIPS_PATH=${BASE_GEOIPS_PATH} \
             -e CURR_REPO=${CURR_REPO} \
-            ${FULL_DOCLINTTEST_IMAGE} \
+            ${FULL_DEV_IMAGE} \
             bash -c "
               set -e
               echo 'Installing package...'
@@ -911,7 +912,7 @@ jobs:
             -v $(pwd):/workspace \
             -w /workspace \
             -e BASE_GEOIPS_PATH=${BASE_GEOIPS_PATH} \
-            ${FULL_DOCLINTTEST_IMAGE} \
+            ${FULL_DEV_IMAGE} \
             bash -c "
               set -e
               echo 'Installing plugin package...'
