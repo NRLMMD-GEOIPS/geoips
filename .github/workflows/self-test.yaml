@@ -37,7 +37,7 @@ jobs:
       #   - Local dir in repo: ./geoips_testdata
       #   - Git URL (BuildKit): git://github.com/NRLMMD-GEOIPS/geoips_testdata.git#main
       #   - OCI image (BuildKit): docker-image://ghcr.io/<org>/<image>:<tag>
-      TESTDATA_BUILD_CONTEXT: ${{ vars.TESTDATA_BUILD_CONTEXT }}
+      TESTDATA_BUILD_CONTEXT: './geoips_testdata'
     permissions:
       contents: read
       packages: write
