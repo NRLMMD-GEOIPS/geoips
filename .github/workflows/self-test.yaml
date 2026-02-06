@@ -21,6 +21,8 @@ jobs:
       CURR_REPO: ${{ github.event.repository.name }}
       DOCKER_REGISTRY: ${{ vars.DOCKER_REGISTRY }}
       DOCKER_REGISTRY_USER: ${{ vars.DOCKER_REGISTRY_USER }}
+      # New flag to disable registry operations - defaults to 'false' (disabled)
+      ENABLE_DOCKER_REGISTRY: ${{ vars.ENABLE_DOCKER_REGISTRY }}
     permissions:
       contents: read
       packages: write
@@ -65,9 +67,9 @@ jobs:
           echo "============================================"
           echo "Docker Registry: $DOCKER_REGISTRY"
           echo "Docker Registry User: $DOCKER_REGISTRY_USER"
+          echo "Enable Docker Registry: ${ENABLE_DOCKER_REGISTRY:-false (default)}"
           echo "Upload Artifacts: ${{ vars.UPLOAD_GITHUB_ARTIFACTS }}"
           echo "Use Docker Buildx: ${{ vars.USE_DOCKER_BUILDX_ACTION }}"
-          echo "Use Container Registry: ${{ vars.USE_CONTAINER_REGISTRY }}"
           echo ""
           echo "CI Flags:"
           echo "  CI_BUILD_SPHINX_HTML: ${{ vars.CI_BUILD_SPHINX_HTML }}"
@@ -188,7 +190,12 @@ jobs:
           echo "REPO_NAME=${repo_name}" >> $GITHUB_ENV
           echo "REPO_NAME=${repo_name}" >> $GITHUB_OUTPUT
           
-          image_name=${DOCKER_REGISTRY_USER}/geoips
+          # Set base image name
+          if [ -n "$DOCKER_REGISTRY_USER" ]; then
+            image_name=${DOCKER_REGISTRY_USER}/geoips
+          else
+            image_name=geoips
+          fi
           echo "Base Image Name: ${image_name}"
           echo "IMAGE_NAME=${image_name}" >> $GITHUB_ENV
           echo "IMAGE_NAME=${image_name}" >> $GITHUB_OUTPUT
@@ -215,14 +222,15 @@ jobs:
           echo "BUILDCACHE_IMAGE=${buildcache_image}" >> $GITHUB_ENV
           echo "BUILDCACHE_IMAGE=${buildcache_image}" >> $GITHUB_OUTPUT
           
-          # Build full image paths including registry
-          if [ -n "$DOCKER_REGISTRY" ]; then
+          # Build full image paths - only include registry if ENABLE_DOCKER_REGISTRY is true
+          if [ "${ENABLE_DOCKER_REGISTRY}" == "true" ] && [ -n "$DOCKER_REGISTRY" ]; then
             FULL_DOCLINTTEST_IMAGE="${DOCKER_REGISTRY}/${repo_name}/${doclinttest_image}"
             FULL_BUILDCACHE_IMAGE="${DOCKER_REGISTRY}/${repo_name}/${buildcache_image}"
+            echo "Registry enabled - using full paths with registry"
           else
-            # No registry specified - use default Docker Hub format
             FULL_DOCLINTTEST_IMAGE="${doclinttest_image}"
             FULL_BUILDCACHE_IMAGE="${buildcache_image}"
+            echo "Registry disabled - using local image names only"
           fi
           
           echo "Full DocLintTest Image: ${FULL_DOCLINTTEST_IMAGE}"
@@ -257,9 +265,22 @@ jobs:
           echo "============================================"
           echo "REGISTRY CONFIGURATION"
           echo "============================================"
-          echo "DOCKER_REGISTRY: ${DOCKER_REGISTRY}"
-          echo "DOCKER_REGISTRY_USER: ${DOCKER_REGISTRY_USER}"
-          echo "USE_CONTAINER_REGISTRY: ${{ vars.USE_CONTAINER_REGISTRY }}"
+          echo "ENABLE_DOCKER_REGISTRY: ${ENABLE_DOCKER_REGISTRY:-false (default)}"
+          echo "DOCKER_REGISTRY: ${DOCKER_REGISTRY:-<not set>}"
+          echo "DOCKER_REGISTRY_USER: ${DOCKER_REGISTRY_USER:-<not set>}"
+          echo ""
+          if [ "${ENABLE_DOCKER_REGISTRY}" != "true" ]; then
+            echo "⚠️  Docker registry operations are DISABLED"
+            echo "   - No login to registry"
+            echo "   - No push to registry"
+            echo "   - No pull from registry"
+            echo "   - Building/using local images only"
+          else
+            echo "✓  Docker registry operations are ENABLED"
+            echo "   - Will login to registry"
+            echo "   - Will push images to registry"
+            echo "   - Will pull images from registry"
+          fi
           echo "::endgroup::"
 
       #########################################
@@ -270,14 +291,14 @@ jobs:
         uses: docker/setup-buildx-action@v3
 
       - name: Login to Docker Registry (GeoIPS repo)
-        if: ${{ github.event.repository.name == 'geoips' }}
+        if: ${{ github.event.repository.name == 'geoips' && vars.ENABLE_DOCKER_REGISTRY == 'true' }}
         env:
           DOCKER_TOKEN: ${{ secrets.DOCKER_TOKEN }}
           DOCKER_TOKEN_LOWER: ${{ secrets.docker_token }}
         run: |
           echo "::group::Docker Registry Login"
           
-          echo "Attempting to log in to Docker registry..."
+          echo "Registry operations enabled - logging in..."
           echo "Registry: ${{ env.DOCKER_REGISTRY }}"
           echo "Username: ${{ env.DOCKER_REGISTRY_USER }}"
           echo ""
@@ -315,6 +336,19 @@ jobs:
           
           echo "::endgroup::"
 
+      - name: Skip Registry Login
+        if: ${{ github.event.repository.name == 'geoips' && vars.ENABLE_DOCKER_REGISTRY != 'true' }}
+        run: |
+          echo "::group::Docker Registry Login"
+          echo "⚠️  Registry operations are DISABLED"
+          echo "Skipping Docker registry login"
+          echo "Images will be built and used locally only"
+          echo ""
+          echo "To enable registry operations, set:"
+          echo "  ENABLE_DOCKER_REGISTRY=true"
+          echo "in repository/organization variables"
+          echo "::endgroup::"
+
       - name: Cache Docker layers
         if: ${{ github.event.repository.name == 'geoips' }}
         uses: actions/cache@v4
@@ -345,7 +379,7 @@ jobs:
           
           stableorlatest_image="${IMAGE_NAME}:${stableorlatest_tag}"
           
-          if [ -n "$DOCKER_REGISTRY" ]; then
+          if [ "${ENABLE_DOCKER_REGISTRY}" == "true" ] && [ -n "$DOCKER_REGISTRY" ]; then
             FULL_STABLEORLATEST_IMAGE="${DOCKER_REGISTRY}/${REPO_NAME}/${stableorlatest_image}"
           else
             FULL_STABLEORLATEST_IMAGE="${stableorlatest_image}"
@@ -369,6 +403,11 @@ jobs:
           echo "  1. ${FULL_DOCLINTTEST_IMAGE}"
           echo "  2. ${FULL_BUILDCACHE_IMAGE}"
           echo "  3. ${FULL_STABLEORLATEST_IMAGE}"
+          echo ""
+          
+          if [ "${ENABLE_DOCKER_REGISTRY}" != "true" ]; then
+            echo "⚠️  Registry disabled - building local image only"
+          fi
           echo ""
           
           echo "Running docker build command..."
@@ -406,7 +445,7 @@ jobs:
           echo "::endgroup::"
 
       - name: Push Docker images to registry
-        if: ${{ github.event.repository.name == 'geoips' && vars.USE_DOCKER_BUILDX_ACTION == 'false' && vars.USE_CONTAINER_REGISTRY == 'true' }}
+        if: ${{ github.event.repository.name == 'geoips' && vars.USE_DOCKER_BUILDX_ACTION == 'false' && vars.ENABLE_DOCKER_REGISTRY == 'true' }}
         run: |
           echo "::group::Pushing Docker Images"
           
@@ -438,27 +477,71 @@ jobs:
           
           echo "::endgroup::"
 
+      - name: Skip pushing to registry
+        if: ${{ github.event.repository.name == 'geoips' && vars.USE_DOCKER_BUILDX_ACTION == 'false' && vars.ENABLE_DOCKER_REGISTRY != 'true' }}
+        run: |
+          echo "::group::Pushing Docker Images"
+          echo "⚠️  Registry operations are DISABLED"
+          echo "Skipping push to Docker registry"
+          echo ""
+          echo "Images built locally:"
+          echo "  - ${FULL_DOCLINTTEST_IMAGE}"
+          echo "  - ${FULL_BUILDCACHE_IMAGE}"
+          echo "  - ${FULL_STABLEORLATEST_IMAGE}"
+          echo ""
+          echo "These images are available on this runner for testing"
+          echo "::endgroup::"
+
       - name: Build and push Docker image (using buildx action)
         if: ${{ github.event.repository.name == 'geoips' && vars.USE_DOCKER_BUILDX_ACTION == 'true' }}
         uses: docker/build-push-action@v6
         with:
           context: .
           target: doclinttest
-          push: ${{ vars.USE_CONTAINER_REGISTRY == 'true' }}
+          push: ${{ vars.ENABLE_DOCKER_REGISTRY == 'true' }}
           tags: ${{ env.PUSH_TAGS }}
           file: "Dockerfile"
           cache-from: type=registry,ref=${{ env.BUILDCACHE_IMAGE }}
           cache-to: type=registry,ref=${{ env.FULL_BUILDCACHE_IMAGE }},mode=max
 
-      - name: Pull Docker image (for plugin repos)
-        if: ${{ github.event.repository.name != 'geoips' }}
+      - name: Use local Docker image (for plugin repos - registry disabled)
+        if: ${{ github.event.repository.name != 'geoips' && vars.ENABLE_DOCKER_REGISTRY != 'true' }}
+        run: |
+          echo "::group::Using Local Docker Image"
+          
+          echo "⚠️  Registry operations are DISABLED"
+          echo "This is a plugin repository - checking for local image"
+          echo ""
+          echo "Looking for image: ${FULL_DOCLINTTEST_IMAGE}"
+          echo ""
+          
+          # Check if image exists locally
+          if docker image inspect ${FULL_DOCLINTTEST_IMAGE} >/dev/null 2>&1; then
+            echo "✓ Image found locally"
+            docker images | grep -E "REPOSITORY|${FULL_DOCLINTTEST_IMAGE}" || true
+          else
+            echo "::warning::Image not found locally: ${FULL_DOCLINTTEST_IMAGE}"
+            echo ""
+            echo "Available local images:"
+            docker images
+            echo ""
+            echo "To use this workflow with a plugin repo when registry is disabled,"
+            echo "you need to either:"
+            echo "  1. Build the geoips image first on this runner, or"
+            echo "  2. Enable registry operations (ENABLE_DOCKER_REGISTRY=true)"
+          fi
+          
+          echo "::endgroup::"
+
+      - name: Pull Docker image (for plugin repos - registry enabled)
+        if: ${{ github.event.repository.name != 'geoips' && vars.ENABLE_DOCKER_REGISTRY == 'true' }}
         env:
           DOCKER_TOKEN: ${{ secrets.DOCKER_TOKEN }}
           DOCKER_TOKEN_LOWER: ${{ secrets.docker_token }}
         run: |
           echo "::group::Pulling Docker Image"
           
-          echo "This is a plugin repository - pulling existing DocLintTest image"
+          echo "Registry operations enabled - pulling image from registry"
           echo "Image to pull: ${FULL_DOCLINTTEST_IMAGE}"
           echo ""
           
@@ -512,6 +595,7 @@ jobs:
           echo "::group::Testing Docker Image"
           
           echo "Testing basic image functionality..."
+          echo "Image: ${FULL_DOCLINTTEST_IMAGE}"
           echo ""
           
           echo "Test 1: Check Python version"
@@ -856,13 +940,32 @@ jobs:
           echo "Event: ${{ github.event_name }}"
           echo ""
           echo "============================================"
+          echo "REGISTRY STATUS"
+          echo "============================================"
+          if [ "${ENABLE_DOCKER_REGISTRY}" == "true" ]; then
+            echo "✓  Docker registry operations ENABLED"
+          else
+            echo "⚠️  Docker registry operations DISABLED (default)"
+            echo "   Using local images only"
+          fi
+          echo ""
+          echo "============================================"
           echo "EXECUTED STEPS"
           echo "============================================"
           
           if [[ "${{ github.event.repository.name }}" == "geoips" ]]; then
             echo "✓ Docker image build (geoips repository)"
+            if [ "${ENABLE_DOCKER_REGISTRY}" == "true" ]; then
+              echo "✓ Docker image push (registry enabled)"
+            else
+              echo "- Docker image push (registry disabled)"
+            fi
           else
-            echo "✓ Docker image pull (plugin repository)"
+            if [ "${ENABLE_DOCKER_REGISTRY}" == "true" ]; then
+              echo "✓ Docker image pull (plugin repository, registry enabled)"
+            else
+              echo "✓ Using local Docker image (plugin repository, registry disabled)"
+            fi
           fi
           
           if [[ "${{ steps.set_flags.outputs.CI_BUILD_SPHINX_HTML }}" == "true" ]]; then
