@@ -8,7 +8,8 @@ on:
         required: true
       docker_token:
         required: true
-
+  pull_request:
+        
 # Assuming the below is in the workflow for an individual repository.
 # on:
 #   # Triggers the workflow when pull request created and updated
