@@ -1,4 +1,4 @@
-name: Build docs and test locally
+name: SELF Build docs and test 
 
 on:
   # Reusable workflow
