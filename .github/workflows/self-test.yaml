@@ -2,10 +2,6 @@ name: Local CI
 
 on:
   push:
-    branches:
-      - main
-      - develop
-      - 'feature/**'
   pull_request:
   workflow_dispatch:
 
