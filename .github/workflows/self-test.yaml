@@ -653,8 +653,7 @@ jobs:
           echo ""
           
           echo "Test 4: Check installed packages"
-          docker run --rm ${FULL_DOCLINTTEST_IMAGE} pip list | head -20
-          echo "... (truncated)"
+          docker run --rm ${FULL_DOCLINTTEST_IMAGE} pip list
           
           echo "::endgroup::"
 
