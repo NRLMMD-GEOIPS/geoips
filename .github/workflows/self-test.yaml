@@ -717,7 +717,7 @@ jobs:
             echo "✓ HTML documentation built successfully"
             echo ""
             echo "Documentation structure:"
-            find build/sphinx/html -type f -name "*.html" | head -10
+            find ./build/sphinx/html -type f -name "*.html" | head -10
             echo "... (truncated)"
             echo ""
             echo "Total HTML files: $(find build/sphinx/html -type f -name '*.html' | wc -l)"
