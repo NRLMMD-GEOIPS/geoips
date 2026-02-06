@@ -1,80 +1,172 @@
-name: SELF Build docs and test 
+name: Complete CI Pipeline
 
 on:
-  # Reusable workflow
+  push:
+  pull_request:
   workflow_dispatch:
-
-# Assuming the below is in the workflow for an individual repository.
-# on:
-#   # Triggers the workflow when pull request created and updated
-#   pull_request:
-#   # Allows run of this workflow manually from the Actions tab
-#   workflow_dispatch:
 
 env:
   # The path to the GeoIPS package in DOCLINTTEST images
   BASE_GEOIPS_PATH: /packages/geoips
+  PLUGIN_DOCLINTTEST_TAG: doclinttest-stable
 
 defaults:
   run:
     shell: bash
 
 jobs:
-  # Build the base GeoIPS doclinttest image
-  # This image is used in all subsequent tests
-  # It is only built for the main GeoIPS package but is used by all repositories
-  #
-  # Within this image, the GeoIPS package is located in /packages/geoips and is
-  # installed using `pip install .[doc,lint,test]`. Scripts from geoips can be called
-  # from /packages/geoips.
-  #
-  # Note the DOCKER_IMAGE_NAME is returned from reusable-build-docker-image
-  # by including it in the "outputs" listed at the top of the workflow.
-  get-doclinttest-image:
-    name: Get docker image
-    # You do not appear to be able to use variables in this "uses" field.
-    uses: NRLMMD-GEOIPS/geoips_ci/.github/workflows/reusable-build-docker-image.yaml@main
-    secrets:
-      token: ${{ secrets.token }}
-      docker_token: ${{ secrets.docker_token }}
-    permissions:
-      packages: write
-      contents: write
-
-  # Set variables that should be accessible to all jobs
-  get-job-flags:
+  # Single job that does everything
+  build-and-test:
     runs-on: ${{ vars.RUNNER }}
-    needs: [get-doclinttest-image]
     env:
       CURR_REPO: ${{ github.event.repository.name }}
-    outputs:
-      # Flags for enabling/disabling various parts of the workflow
-      # Default to enabled unless overridden by a repository-level variable
-      CI_BUILD_SPHINX_HTML: ${{ steps.get_job_flags.outputs.CI_BUILD_SPHINX_HTML }}
-      CI_BUILD_SPHINX_PDF: ${{ steps.get_job_flags.outputs.CI_BUILD_SPHINX_PDF }}
-      CI_TEST_INTERFACES: ${{ steps.get_job_flags.outputs.CI_TEST_INTERFACES }}
-      CI_TEST_PYTEST_SHORT: ${{ steps.get_job_flags.outputs.CI_TEST_PYTEST_SHORT }}
-      # DOCKER_IMAGE_NAME is defined in the "outputs" section at the top of
-      # reusable-build-docker-image
-      DOCKER_IMAGE_NAME: ${{ needs.get-doclinttest-image.outputs.DOCKER_IMAGE_NAME }}
+      DOCKER_REGISTRY: ${{ vars.DOCKER_REGISTRY }}
+      DOCKER_REGISTRY_USER: ${{ vars.DOCKER_REGISTRY_USER }}
+    permissions:
+      contents: read
+      packages: write
+    
     steps:
-      - name: Get job flags
-        id: get_job_flags
+      #########################################
+      # SETUP AND DEBUG
+      #########################################
+      - name: Debug - Print initial environment
         run: |
-          # Define an array of flags and their corresponding secret values
+          echo "::group::Initial Environment"
+          echo "============================================"
+          echo "SYSTEM INFORMATION"
+          echo "============================================"
+          echo "Hostname: $(hostname)"
+          echo "User: $(whoami)"
+          echo "Working Directory: $(pwd)"
+          echo "Home Directory: $HOME"
+          echo ""
+          echo "============================================"
+          echo "GITHUB CONTEXT"
+          echo "============================================"
+          echo "Repository: ${{ github.repository }}"
+          echo "Current Repo Name: $CURR_REPO"
+          echo "Ref: $GITHUB_REF"
+          echo "SHA: $GITHUB_SHA"
+          echo "Event: ${{ github.event_name }}"
+          echo "Actor: ${{ github.actor }}"
+          echo "Default Branch: ${{ github.event.repository.default_branch }}"
+          echo ""
+          echo "============================================"
+          echo "RUNNER INFORMATION"
+          echo "============================================"
+          echo "Runner OS: ${{ runner.os }}"
+          echo "Runner Name: ${{ runner.name }}"
+          echo "Runner: ${{ vars.RUNNER }}"
+          echo "Runner Docker Build: ${{ vars.RUNNER_DOCKERBUILD }}"
+          echo "Runner Docker Run: ${{ vars.RUNNER_DOCKERRUN }}"
+          echo ""
+          echo "============================================"
+          echo "CONFIGURATION VARIABLES"
+          echo "============================================"
+          echo "Docker Registry: $DOCKER_REGISTRY"
+          echo "Docker Registry User: $DOCKER_REGISTRY_USER"
+          echo "Upload Artifacts: ${{ vars.UPLOAD_GITHUB_ARTIFACTS }}"
+          echo "Use Docker Buildx: ${{ vars.USE_DOCKER_BUILDX_ACTION }}"
+          echo "Use Container Registry: ${{ vars.USE_CONTAINER_REGISTRY }}"
+          echo ""
+          echo "CI Flags:"
+          echo "  CI_BUILD_SPHINX_HTML: ${{ vars.CI_BUILD_SPHINX_HTML }}"
+          echo "  CI_BUILD_SPHINX_PDF: ${{ vars.CI_BUILD_SPHINX_PDF }}"
+          echo "  CI_TEST_INTERFACES: ${{ vars.CI_TEST_INTERFACES }}"
+          echo "  CI_TEST_PYTEST_SHORT: ${{ vars.CI_TEST_PYTEST_SHORT }}"
+          echo ""
+          echo "============================================"
+          echo "SYSTEM RESOURCES"
+          echo "============================================"
+          echo "Disk Space:"
+          df -h
+          echo ""
+          echo "Memory:"
+          free -h || echo "free command not available"
+          echo ""
+          echo "CPU Info:"
+          nproc || echo "nproc command not available"
+          echo "::endgroup::"
+
+      - name: Debug - Check installed software
+        run: |
+          echo "::group::Installed Software Versions"
+          echo "Git: $(git --version)"
+          echo "Docker: $(docker --version 2>&1 || echo 'Docker not installed')"
+          echo "Python: $(python3 --version 2>&1 || echo 'Python not installed')"
+          echo "Pip: $(pip3 --version 2>&1 || echo 'Pip not installed')"
+          echo ""
+          echo "Docker Info:"
+          docker info 2>&1 || echo "Cannot get docker info"
+          echo ""
+          echo "Docker Images:"
+          docker images 2>&1 || echo "Cannot list docker images"
+          echo "::endgroup::"
+
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Get full history for better git operations
+
+      - name: Debug - Repository contents
+        run: |
+          echo "::group::Repository Contents"
+          echo "Repository root contents:"
+          ls -la
+          echo ""
+          echo "Git status:"
+          git status
+          echo ""
+          echo "Git log (last 5 commits):"
+          git log --oneline -5
+          echo ""
+          echo "Git remote:"
+          git remote -v
+          echo ""
+          if [ -f "Dockerfile" ]; then
+            echo "Dockerfile exists - first 20 lines:"
+            head -20 Dockerfile
+          else
+            echo "WARNING: Dockerfile not found!"
+          fi
+          echo ""
+          if [ -f "setup.py" ] || [ -f "pyproject.toml" ]; then
+            echo "Python package configuration found"
+            [ -f "setup.py" ] && echo "setup.py exists"
+            [ -f "pyproject.toml" ] && echo "pyproject.toml exists"
+          else
+            echo "WARNING: No setup.py or pyproject.toml found!"
+          fi
+          echo "::endgroup::"
+
+      - name: Configure Git safe directory
+        run: |
+          git config --global --add safe.directory $PWD
+          echo "Git safe directory configured: $PWD"
+
+      #########################################
+      # SET JOB FLAGS AND IMAGE NAMES
+      #########################################
+      - name: Set CI job flags
+        id: set_flags
+        run: |
+          echo "::group::Setting CI Flags"
+          
+          # Set flags - default to true if not specified
           flags=(CI_BUILD_SPHINX_HTML \
                  CI_BUILD_SPHINX_PDF \
                  CI_TEST_INTERFACES \
                  CI_TEST_PYTEST_SHORT)
+          
           for flag in "${flags[@]}"; do
-              # Dynamically construct the variable name and access the corresponding secret
               case $flag in
                   CI_BUILD_SPHINX_HTML) val="${{ vars.CI_BUILD_SPHINX_HTML }}" ;;
                   CI_BUILD_SPHINX_PDF) val="${{ vars.CI_BUILD_SPHINX_PDF }}" ;;
                   CI_TEST_INTERFACES) val="${{ vars.CI_TEST_INTERFACES }}" ;;
                   CI_TEST_PYTEST_SHORT) val="${{ vars.CI_TEST_PYTEST_SHORT }}" ;;
               esac
-              # Check if the secret value is "true" and set the environment variable and output
+              
               if [ "$val" == "false" ]; then
                   echo "${flag}=false"
                   echo "${flag}=false" >> $GITHUB_ENV
@@ -85,174 +177,664 @@ jobs:
                   echo "${flag}=true" >> $GITHUB_OUTPUT
               fi
           done
-          echo "DOCKER_IMAGE_NAME=${DOCKER_IMAGE_NAME}"
-          echo "DOCKER_IMAGE_NAME=${DOCKER_IMAGE_NAME}" >> ${GITHUB_ENV}
-          echo "DOCKER_IMAGE_NAME=${DOCKER_IMAGE_NAME}" >> ${GITHUB_OUTPUT}
+          
+          echo "::endgroup::"
 
-  print-doc-test-variables:
-    name: Print doc-test variables
-    needs: [get-job-flags]
-    # You do not appear to be able to use variables in this "uses" field.
-    uses: NRLMMD-GEOIPS/geoips_ci/.github/workflows/reusable-print-variables.yaml@main
-    with:
-      # These are outputs defined above.  Explicitly pass them in here to track
-      # what variables we have available to this workflow.
-      CI_BUILD_SPHINX_HTML: ${{ needs.get-job-flags.outputs.CI_BUILD_SPHINX_HTML }}
-      CI_BUILD_SPHINX_PDF: ${{ needs.get-job-flags.outputs.CI_BUILD_SPHINX_PDF }}
-      CI_TEST_INTERFACES: ${{ needs.get-job-flags.outputs.CI_TEST_INTERFACES }}
-      CI_TEST_PYTEST_SHORT: ${{ needs.get-job-flags.outputs.CI_TEST_PYTEST_SHORT }}
-
-  #################################################
-  # Documentation builds - requires pip installed geoips, so use container
-  #################################################
-  docker_build_sphinx_html:
-    if: >
-      ! cancelled() &&
-      needs.get-job-flags.outputs.CI_BUILD_SPHINX_HTML == 'true' &&
-      (needs.get-doclinttest-image.result == 'success' ||
-      needs.get-doclinttest-image.result == 'skipped')
-    runs-on: ${{ vars.RUNNER_DOCKERRUN || vars.RUNNER }}
-    needs: [get-doclinttest-image, get-job-flags]
-    container:
-      image: ${{ needs.get-job-flags.outputs.DOCKER_IMAGE_NAME }}
-    env:
-      CURR_REPO: ${{ github.event.repository.name }}
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Configure Git safe directory
-        run: git config --global --add safe.directory $PWD
-
-      - name: Install package
-        run: pip install .
-
-      - name: Run build html
-        id: build-html-docs
+      - name: Set Docker image names
+        id: set_images
         run: |
-          # If we are specifically "template_basic_plugin" repo, then we must use
-          # my_package as the package name.  Otherwise the package name matches
-          # the plugin name.
-          echo "${{ needs.get-job-flags.outputs.DOCKER_IMAGE_NAME }}"
+          echo "::group::Setting Docker Image Names"
+          
+          # Get repository name
+          repo_name=$(echo ${{ github.repository }} | cut -d'/' -f2)
+          echo "Repository Name: ${repo_name}"
+          echo "REPO_NAME=${repo_name}" >> $GITHUB_ENV
+          echo "REPO_NAME=${repo_name}" >> $GITHUB_OUTPUT
+          
+          # Set base image name
+          image_name=${DOCKER_REGISTRY_USER}/geoips
+          echo "Base Image Name: ${image_name}"
+          echo "IMAGE_NAME=${image_name}" >> $GITHUB_ENV
+          echo "IMAGE_NAME=${image_name}" >> $GITHUB_OUTPUT
+          
+          # Determine if this is geoips repo or plugin
+          if [[ "${CURR_REPO}" == "geoips" ]]; then
+              doclinttest_tag="doclinttest-${GITHUB_SHA}"
+              echo "GeoIPS repository detected - building new image"
+          else
+              doclinttest_tag="${PLUGIN_DOCLINTTEST_TAG}"
+              echo "Plugin repository detected - using existing image"
+          fi
+          
+          echo "DocLintTest Tag: ${doclinttest_tag}"
+          echo "DOCLINTTEST_TAG=${doclinttest_tag}" >> $GITHUB_ENV
+          echo "DOCLINTTEST_TAG=${doclinttest_tag}" >> $GITHUB_OUTPUT
+          
+          # Build full image name
+          doclinttest_image="${image_name}:${doclinttest_tag}"
+          echo "DocLintTest Image: ${doclinttest_image}"
+          echo "DOCLINTTEST_IMAGE=${doclinttest_image}" >> $GITHUB_ENV
+          echo "DOCLINTTEST_IMAGE=${doclinttest_image}" >> $GITHUB_OUTPUT
+          
+          # Build cache image name
+          buildcache_image="${image_name}:buildcache"
+          echo "Build Cache Image: ${buildcache_image}"
+          echo "BUILDCACHE_IMAGE=${buildcache_image}" >> $GITHUB_ENV
+          echo "BUILDCACHE_IMAGE=${buildcache_image}" >> $GITHUB_OUTPUT
+          
+          # Full registry paths
+          FULL_DOCLINTTEST_IMAGE="${DOCKER_REGISTRY}/${repo_name}/${doclinttest_image}"
+          FULL_BUILDCACHE_IMAGE="${DOCKER_REGISTRY}/${repo_name}/${buildcache_image}"
+          
+          echo "Full DocLintTest Image: ${FULL_DOCLINTTEST_IMAGE}"
+          echo "Full Build Cache Image: ${FULL_BUILDCACHE_IMAGE}"
+          echo "FULL_DOCLINTTEST_IMAGE=${FULL_DOCLINTTEST_IMAGE}" >> $GITHUB_ENV
+          echo "FULL_BUILDCACHE_IMAGE=${FULL_BUILDCACHE_IMAGE}" >> $GITHUB_ENV
+          
+          echo "::endgroup::"
+
+      - name: Print final configuration
+        run: |
+          echo "::group::Final Configuration Summary"
+          echo "============================================"
+          echo "JOB FLAGS"
+          echo "============================================"
+          echo "Build Sphinx HTML: ${{ steps.set_flags.outputs.CI_BUILD_SPHINX_HTML }}"
+          echo "Build Sphinx PDF: ${{ steps.set_flags.outputs.CI_BUILD_SPHINX_PDF }}"
+          echo "Test Interfaces: ${{ steps.set_flags.outputs.CI_TEST_INTERFACES }}"
+          echo "Test Pytest Short: ${{ steps.set_flags.outputs.CI_TEST_PYTEST_SHORT }}"
+          echo ""
+          echo "============================================"
+          echo "IMAGE CONFIGURATION"
+          echo "============================================"
+          echo "Repository Name: ${{ steps.set_images.outputs.REPO_NAME }}"
+          echo "Base Image Name: ${{ steps.set_images.outputs.IMAGE_NAME }}"
+          echo "DocLintTest Tag: ${{ steps.set_images.outputs.DOCLINTTEST_TAG }}"
+          echo "DocLintTest Image: ${{ steps.set_images.outputs.DOCLINTTEST_IMAGE }}"
+          echo "Build Cache Image: ${BUILDCACHE_IMAGE}"
+          echo "Full DocLintTest Image: ${FULL_DOCLINTTEST_IMAGE}"
+          echo "Full Build Cache Image: ${FULL_BUILDCACHE_IMAGE}"
+          echo "::endgroup::"
+
+      #########################################
+      # BUILD DOCKER IMAGE (if geoips repo)
+      #########################################
+      - name: Setup Docker Buildx
+        if: ${{ github.event.repository.name == 'geoips' && vars.USE_DOCKER_BUILDX_ACTION == 'true' }}
+        uses: docker/setup-buildx-action@v3
+
+      - name: Login to Docker Registry
+        if: ${{ github.event.repository.name == 'geoips' }}
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.DOCKER_REGISTRY }}
+          username: ${{ env.DOCKER_REGISTRY_USER }}
+          password: ${{ secrets.docker_token }}
+
+      - name: Cache Docker layers
+        if: ${{ github.event.repository.name == 'geoips' }}
+        uses: actions/cache@v4
+        with:
+          path: /tmp/.buildx-cache
+          key: ${{ runner.os }}-buildx-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-buildx-
+
+      - name: Determine image tags
+        if: ${{ github.event.repository.name == 'geoips' }}
+        id: set_tags
+        run: |
+          echo "::group::Determining Image Tags"
+          
+          tags="${FULL_DOCLINTTEST_IMAGE},${FULL_BUILDCACHE_IMAGE}"
+          
+          # Add stable or latest tag based on branch
+          if [[ "${GITHUB_REF}" == "refs/heads/${{ github.event.repository.default_branch }}" ]]; then
+            stableorlatest_tag="doclinttest-stable"
+            echo "On default branch - adding stable tag"
+          elif [[ "${GITHUB_REF}" == "refs/tags/"* ]]; then
+            stableorlatest_tag="doclinttest-stable"
+            echo "On tag - adding stable tag"
+          else
+            stableorlatest_tag="doclinttest-latest"
+            echo "On feature branch - adding latest tag"
+          fi
+          
+          stableorlatest_image="${IMAGE_NAME}:${stableorlatest_tag}"
+          FULL_STABLEORLATEST_IMAGE="${DOCKER_REGISTRY}/${REPO_NAME}/${stableorlatest_image}"
+          tags="${tags},${FULL_STABLEORLATEST_IMAGE}"
+          
+          echo "All tags: ${tags}"
+          echo "PUSH_TAGS=${tags}" >> $GITHUB_ENV
+          echo "STABLEORLATEST_IMAGE=${stableorlatest_image}" >> $GITHUB_ENV
+          echo "FULL_STABLEORLATEST_IMAGE=${FULL_STABLEORLATEST_IMAGE}" >> $GITHUB_ENV
+          
+          echo "::endgroup::"
+
+      - name: Build Docker image (explicit docker build)
+        if: ${{ github.event.repository.name == 'geoips' && vars.USE_DOCKER_BUILDX_ACTION == 'false' }}
+        run: |
+          echo "::group::Building Docker Image"
+          
+          echo "Building image with tags:"
+          echo "  1. ${FULL_DOCLINTTEST_IMAGE}"
+          echo "  2. ${FULL_BUILDCACHE_IMAGE}"
+          echo "  3. ${FULL_STABLEORLATEST_IMAGE}"
+          echo ""
+          
+          echo "Running docker build command..."
+          docker build \
+            --file Dockerfile \
+            --tag ${FULL_DOCLINTTEST_IMAGE} \
+            --tag ${FULL_BUILDCACHE_IMAGE} \
+            --tag ${FULL_STABLEORLATEST_IMAGE} \
+            --target doclinttest \
+            --progress=plain \
+            .
+          
+          build_exit_code=$?
+          echo ""
+          echo "Docker build exit code: ${build_exit_code}"
+          
+          if [ ${build_exit_code} -ne 0 ]; then
+            echo "::error::Docker build failed with exit code ${build_exit_code}"
+            exit 1
+          fi
+          
+          echo ""
+          echo "Build successful!"
+          echo "::endgroup::"
+
+      - name: List built Docker images
+        if: ${{ github.event.repository.name == 'geoips' && vars.USE_DOCKER_BUILDX_ACTION == 'false' }}
+        run: |
+          echo "::group::Built Docker Images"
+          echo "All Docker images on system:"
+          docker images
+          echo ""
+          echo "Docker disk usage:"
+          docker system df
+          echo "::endgroup::"
+
+      - name: Push Docker images to registry
+        if: ${{ github.event.repository.name == 'geoips' && vars.USE_DOCKER_BUILDX_ACTION == 'false' && vars.USE_CONTAINER_REGISTRY == 'true' }}
+        run: |
+          echo "::group::Pushing Docker Images"
+          
+          echo "Pushing ${FULL_BUILDCACHE_IMAGE}..."
+          docker push ${FULL_BUILDCACHE_IMAGE}
+          echo "✓ Build cache image pushed"
+          echo ""
+          
+          echo "Pushing ${FULL_DOCLINTTEST_IMAGE}..."
+          docker push ${FULL_DOCLINTTEST_IMAGE}
+          echo "✓ DocLintTest image pushed"
+          echo ""
+          
+          echo "Pushing ${FULL_STABLEORLATEST_IMAGE}..."
+          docker push ${FULL_STABLEORLATEST_IMAGE}
+          echo "✓ Stable/Latest image pushed"
+          echo ""
+          
+          echo "Verifying images in registry..."
+          echo ""
+          echo "Manifest for DocLintTest image:"
+          docker manifest inspect ${FULL_DOCLINTTEST_IMAGE}
+          echo ""
+          echo "Manifest for Build Cache image:"
+          docker manifest inspect ${FULL_BUILDCACHE_IMAGE}
+          echo ""
+          echo "Manifest for Stable/Latest image:"
+          docker manifest inspect ${FULL_STABLEORLATEST_IMAGE}
+          
+          echo "::endgroup::"
+
+      - name: Build and push Docker image (using buildx action)
+        if: ${{ github.event.repository.name == 'geoips' && vars.USE_DOCKER_BUILDX_ACTION == 'true' }}
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          target: doclinttest
+          push: ${{ vars.USE_CONTAINER_REGISTRY == 'true' }}
+          tags: ${{ env.PUSH_TAGS }}
+          file: "Dockerfile"
+          cache-from: type=registry,ref=${{ env.BUILDCACHE_IMAGE }}
+          cache-to: type=registry,ref=${{ env.FULL_BUILDCACHE_IMAGE }},mode=max
+
+      - name: Pull Docker image (for plugin repos)
+        if: ${{ github.event.repository.name != 'geoips' }}
+        run: |
+          echo "::group::Pulling Docker Image"
+          
+          echo "This is a plugin repository - pulling existing DocLintTest image"
+          echo "Image to pull: ${FULL_DOCLINTTEST_IMAGE}"
+          echo ""
+          
+          echo "Attempting to pull image..."
+          docker pull ${FULL_DOCLINTTEST_IMAGE}
+          
+          pull_exit_code=$?
+          if [ ${pull_exit_code} -ne 0 ]; then
+            echo "::error::Failed to pull Docker image ${FULL_DOCLINTTEST_IMAGE}"
+            echo "Exit code: ${pull_exit_code}"
+            echo ""
+            echo "Available images:"
+            docker images
+            exit 1
+          fi
+          
+          echo "✓ Image pulled successfully"
+          echo ""
+          echo "Verifying pulled image:"
+          docker images | grep geoips || true
+          
+          echo "::endgroup::"
+
+      #########################################
+      # TEST ENVIRONMENT SETUP
+      #########################################
+      - name: Test Docker image
+        run: |
+          echo "::group::Testing Docker Image"
+          
+          echo "Testing basic image functionality..."
+          echo ""
+          
+          echo "Test 1: Check Python version"
+          docker run --rm ${FULL_DOCLINTTEST_IMAGE} python3 --version
+          echo ""
+          
+          echo "Test 2: Check pip version"
+          docker run --rm ${FULL_DOCLINTTEST_IMAGE} pip3 --version
+          echo ""
+          
+          echo "Test 3: Check GeoIPS base path"
+          docker run --rm ${FULL_DOCLINTTEST_IMAGE} ls -la ${BASE_GEOIPS_PATH} || echo "Base GeoIPS path not found (expected for fresh image)"
+          echo ""
+          
+          echo "Test 4: Check installed packages"
+          docker run --rm ${FULL_DOCLINTTEST_IMAGE} pip list | head -20
+          echo "... (truncated)"
+          
+          echo "::endgroup::"
+
+      #########################################
+      # BUILD DOCUMENTATION
+      #########################################
+      - name: Build Sphinx HTML Documentation
+        if: ${{ steps.set_flags.outputs.CI_BUILD_SPHINX_HTML == 'true' }}
+        id: build_html_docs
+        run: |
+          echo "::group::Building Sphinx HTML Documentation"
+          
+          # Determine package name
+          run_on_package=$CURR_REPO
+          if [[ "$CURR_REPO" == "template_basic_plugin" ]]; then
+            run_on_package=my_package
+            echo "Template detected - using package name: my_package"
+          else
+            echo "Using package name: ${run_on_package}"
+          fi
+          echo ""
+          
+          echo "Starting HTML documentation build..."
+          echo "Docker image: ${FULL_DOCLINTTEST_IMAGE}"
+          echo "Repository path: $(pwd)"
+          echo "Package name: ${run_on_package}"
+          echo ""
+          
+          # Run docker container for documentation build
+          docker run --rm \
+            -v $(pwd):/workspace \
+            -w /workspace \
+            -e BASE_GEOIPS_PATH=${BASE_GEOIPS_PATH} \
+            ${FULL_DOCLINTTEST_IMAGE} \
+            bash -c "
+              set -e
+              echo 'Installing package...'
+              pip install -v .
+              echo ''
+              echo 'Installed packages:'
+              pip list | grep -i geoips || true
+              echo ''
+              echo 'Running build_docs.py...'
+              python3 ${BASE_GEOIPS_PATH}/docs/build_docs.py \
+                --geoips-docs-path ${BASE_GEOIPS_PATH}/docs/ \
+                --force \
+                --repo-path /workspace \
+                ${run_on_package}
+            "
+          
+          ret=$?
+          echo ""
+          echo "Build exit code: ${ret}"
+          
+          if [ ${ret} -ne 0 ]; then
+            echo "::error::Building HTML documentation failed with exit code ${ret}"
+            exit 1
+          fi
+          
+          echo ""
+          echo "Checking build output..."
+          if [ -d "build/sphinx/html" ]; then
+            echo "✓ HTML documentation built successfully"
+            echo ""
+            echo "Documentation structure:"
+            find build/sphinx/html -type f -name "*.html" | head -10
+            echo "... (truncated)"
+            echo ""
+            echo "Total HTML files: $(find build/sphinx/html -type f -name '*.html' | wc -l)"
+            echo "BUILT_DOCS_PATH=$(pwd)/build/sphinx/html" >> $GITHUB_OUTPUT
+          else
+            echo "::error::HTML documentation directory not found"
+            ls -la build/ || echo "build/ directory does not exist"
+            ls -la build/sphinx/ || echo "build/sphinx/ directory does not exist"
+            exit 1
+          fi
+          
+          echo "::endgroup::"
+
+      - name: Upload HTML Documentation
+        if: ${{ steps.set_flags.outputs.CI_BUILD_SPHINX_HTML == 'true' && vars.UPLOAD_GITHUB_ARTIFACTS == 'true' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: html-documentation
+          path: ${{ steps.build_html_docs.outputs.BUILT_DOCS_PATH }}
+          if-no-files-found: error
+          retention-days: 30
+
+      - name: Build Sphinx PDF Documentation
+        if: ${{ steps.set_flags.outputs.CI_BUILD_SPHINX_PDF == 'true' }}
+        id: build_pdf_docs
+        run: |
+          echo "::group::Building Sphinx PDF Documentation"
+          
+          # Determine package name
           run_on_package=$CURR_REPO
           if [[ "$CURR_REPO" == "template_basic_plugin" ]]; then
             run_on_package=my_package
           fi
-          echo "Build html docs"
-          # Call build_docs.sh from the geoips default branch
-          # Pass in
-          #   the path to the current plugin repo,
-          #   the name of the current repo,
-          #   "html_only" to indicate producing only html output, and
-          #   the path to the docs template directory in the geoips default branch.
-          python3 $BASE_GEOIPS_PATH/docs/build_docs.py \
-            --geoips-docs-path $BASE_GEOIPS_PATH/docs/ \
-            --force \
-            --repo-path . \
-            $run_on_package
+          
+          echo "Building PDF documentation for: ${run_on_package}"
+          echo ""
+          
+          # Run docker container for PDF documentation build
+          docker run --rm \
+            -v $(pwd):/workspace \
+            -w /workspace \
+            -e BASE_GEOIPS_PATH=${BASE_GEOIPS_PATH} \
+            ${FULL_DOCLINTTEST_IMAGE} \
+            bash -c "
+              set -e
+              echo 'Installing package...'
+              pip install -v .
+              echo ''
+              echo 'Building PDF documentation...'
+              python3 ${BASE_GEOIPS_PATH}/docs/build_docs.py \
+                --geoips-docs-path ${BASE_GEOIPS_PATH}/docs/ \
+                --force \
+                --pdf-only \
+                --repo-path /workspace \
+                ${run_on_package}
+            "
+          
           ret=$?
-          if [[ "${ret##*:}" != *"0"* ]]; then
-            echo "::error::Building html docs ${ret##*:}"
+          
+          if [ ${ret} -ne 0 ]; then
+            echo "::error::Building PDF documentation failed with exit code ${ret}"
             exit 1
           fi
-          echo "BUILT_DOCS_PATH=$PWD/build/sphinx/html" >> $GITHUB_OUTPUT
-      - name: Upload HTML Docs
-        if: ${{ vars.UPLOAD_GITHUB_ARTIFACTS == 'true' }}
+          
+          echo ""
+          echo "Checking PDF output..."
+          if [ -d "build/sphinx/pdf" ]; then
+            echo "✓ PDF documentation built successfully"
+            find build/sphinx/pdf -type f -name "*.pdf"
+            echo "BUILT_PDF_PATH=$(pwd)/build/sphinx/pdf" >> $GITHUB_OUTPUT
+          else
+            echo "::warning::PDF documentation directory not found"
+          fi
+          
+          echo "::endgroup::"
+
+      - name: Upload PDF Documentation
+        if: ${{ steps.set_flags.outputs.CI_BUILD_SPHINX_PDF == 'true' && vars.UPLOAD_GITHUB_ARTIFACTS == 'true' }}
         uses: actions/upload-artifact@v4
         with:
-          name: HTML Docs
-          path: ${{ steps.build-html-docs.outputs.BUILT_DOCS_PATH }}
-          if-no-files-found: error
+          name: pdf-documentation
+          path: ${{ steps.build_pdf_docs.outputs.BUILT_PDF_PATH }}
+          if-no-files-found: warn
+          retention-days: 30
 
-  #################################################
-  # Code tests - requires pip installed geoips, so use container
-  #################################################
-  docker_test_interfaces:
-    if: >
-      ! cancelled() &&
-      needs.get-job-flags.outputs.CI_TEST_INTERFACES == 'true' &&
-      (needs.get-doclinttest-image.result == 'success' ||
-      needs.get-doclinttest-image.result == 'skipped')
-    runs-on: ${{ vars.RUNNER_DOCKERRUN || vars.RUNNER }}
-    needs: [get-doclinttest-image, get-job-flags]
-    container:
-      image: ${{ needs.get-job-flags.outputs.DOCKER_IMAGE_NAME }}
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-      - name: Configure Git safe directory
-        run: git config --global --add safe.directory $PWD
-      - name: Pip install package
-        run: pip install -v -e .
-      - name: create_plugin_registries
-        run: create_plugin_registries
-      - name: Run code check script interfaces
+      #########################################
+      # CODE TESTING - INTERFACES
+      #########################################
+      - name: Test Interfaces
+        if: ${{ steps.set_flags.outputs.CI_TEST_INTERFACES == 'true' }}
         run: |
-          python $BASE_GEOIPS_PATH/tests/utils/test_interfaces.py
+          echo "::group::Testing Interfaces"
+          
+          echo "Running interface validation tests..."
+          echo "Docker image: ${FULL_DOCLINTTEST_IMAGE}"
+          echo ""
+          
+          docker run --rm \
+            -v $(pwd):/workspace \
+            -w /workspace \
+            -e BASE_GEOIPS_PATH=${BASE_GEOIPS_PATH} \
+            ${FULL_DOCLINTTEST_IMAGE} \
+            bash -c "
+              set -e
+              echo 'Installing package...'
+              pip install -v -e .
+              echo ''
+              echo 'Creating plugin registries...'
+              create_plugin_registries
+              echo ''
+              echo 'Registry created successfully'
+              echo ''
+              echo 'Running interface tests...'
+              python ${BASE_GEOIPS_PATH}/tests/utils/test_interfaces.py
+            "
+          
           ret=$?
-          echo "::group::interface_analysis"
-          echo "INTERFACES analysis of code"
-          echo "${ret}"
-          echo "::endgroup::"
-          if [[ "${ret##*:}" != *"0"* ]]; then
-            echo "::error::due to interface violations ${ret##*:}"
+          echo ""
+          echo "Interface test exit code: ${ret}"
+          
+          if [ ${ret} -ne 0 ]; then
+            echo "::error::Interface tests failed with exit code ${ret}"
+            echo ""
+            echo "This usually means:"
+            echo "  - Plugin interface implementations don't match expected signatures"
+            echo "  - Required interface methods are missing"
+            echo "  - Interface validation checks failed"
             exit 1
           fi
+          
+          echo "✓ All interface tests passed"
+          echo "::endgroup::"
 
-  docker_test_pytest_short:
-    if: >
-      ! cancelled() &&
-      needs.get-job-flags.outputs.CI_TEST_PYTEST_SHORT == 'true' &&
-      (needs.get-doclinttest-image.result == 'success' ||
-      needs.get-doclinttest-image.result == 'skipped')
-    runs-on: ${{ vars.RUNNER_DOCKERRUN || vars.RUNNER }}
-    needs: [get-doclinttest-image, get-job-flags]
-    container:
-      image: ${{ needs.get-job-flags.outputs.DOCKER_IMAGE_NAME }}
-    env:
-      CURR_REPO: ${{ github.event.repository.name }}
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-      - name: Configure Git safe directory
-        run: git config --global --add safe.directory $PWD
-      - name: Pip install package
-        run: pip install -v -e .
-      - name: create_plugin_registries
-        run: create_plugin_registries
-      # Run unit tests for this repo if they exist
-      - name: Run pytest unit tests
+      #########################################
+      # CODE TESTING - PYTEST
+      #########################################
+      - name: Run Pytest Unit Tests (Repository-specific)
+        if: ${{ steps.set_flags.outputs.CI_TEST_PYTEST_SHORT == 'true' }}
         run: |
-          echo "::group::pytest_unit_test"
-          echo "Pytest short unit tests of ${CURR_REPO}"
-          echo "which pytest"
-          which pytest
-          if [ ! -d "./tests/unit_tests" ]; then
-            echo "No unit tests found in ${CURR_REPO}"
-            exit 0
-          fi
-          echo "pytest -q ./tests/unit_tests"
-          pytest -q ./tests/unit_tests
+          echo "::group::Running Repository Pytest Unit Tests"
+          
+          echo "Checking for unit tests in current repository..."
+          echo ""
+          
+          docker run --rm \
+            -v $(pwd):/workspace \
+            -w /workspace \
+            -e BASE_GEOIPS_PATH=${BASE_GEOIPS_PATH} \
+            -e CURR_REPO=${CURR_REPO} \
+            ${FULL_DOCLINTTEST_IMAGE} \
+            bash -c "
+              set -e
+              echo 'Installing package...'
+              pip install -v -e .
+              echo ''
+              echo 'Creating plugin registries...'
+              create_plugin_registries
+              echo ''
+              
+              if [ ! -d './tests/unit_tests' ]; then
+                echo 'ℹ No unit tests directory found in ${CURR_REPO}'
+                echo 'Skipping repository-specific tests'
+                exit 0
+              fi
+              
+              echo 'Found unit tests directory'
+              echo 'Test structure:'
+              find ./tests/unit_tests -name '*.py' | head -10
+              echo ''
+              
+              echo 'Running pytest with verbose output...'
+              echo 'Command: pytest -vv ./tests/unit_tests'
+              echo ''
+              pytest -vv ./tests/unit_tests
+            "
+          
           ret=$?
-          echo "Return code: ${ret}"
-          echo "::endgroup::"
-          if [[ "${ret}" != *"0"* ]]; then
-            echo "::error::due to geoips repo pytest errors, return code ${ret}"
+          echo ""
+          echo "Pytest exit code: ${ret}"
+          
+          if [ ${ret} -ne 0 ]; then
+            echo "::error::Repository pytest tests failed with exit code ${ret}"
             exit 1
           fi
-      - name: Run base GeoIPS pytest unit tests
-        if: ${{ env.CURR_REPO != 'geoips' }}
-        run: |
-          echo "::group::pytest_unit_test"
-          echo "Pytest short unit tests of ${CURR_REPO} using core GeoIPS tests"
-          echo "which pytest"
-          which pytest
-          echo "pytest -q $BASE_GEOIPS_PATH/tests/unit_tests"
-          pytest -q $BASE_GEOIPS_PATH/tests/unit_tests
-          ret=$?
-          echo "Return code: ${ret}"
+          
+          echo "✓ Repository pytest tests passed"
           echo "::endgroup::"
-          if [[ "${ret}" != *"0"* ]]; then
-            echo "::error::due to geoips repo pytest errors, return code ${ret}"
+
+      - name: Run Pytest Unit Tests (Core GeoIPS)
+        if: ${{ steps.set_flags.outputs.CI_TEST_PYTEST_SHORT == 'true' && github.event.repository.name != 'geoips' }}
+        run: |
+          echo "::group::Running Core GeoIPS Pytest Unit Tests"
+          
+          echo "Running core GeoIPS unit tests against plugin..."
+          echo "This validates plugin compatibility with GeoIPS core"
+          echo ""
+          
+          docker run --rm \
+            -v $(pwd):/workspace \
+            -w /workspace \
+            -e BASE_GEOIPS_PATH=${BASE_GEOIPS_PATH} \
+            ${FULL_DOCLINTTEST_IMAGE} \
+            bash -c "
+              set -e
+              echo 'Installing plugin package...'
+              pip install -v -e .
+              echo ''
+              echo 'Creating plugin registries...'
+              create_plugin_registries
+              echo ''
+              echo 'Running core GeoIPS unit tests...'
+              echo 'Command: pytest -vv ${BASE_GEOIPS_PATH}/tests/unit_tests'
+              echo ''
+              pytest -vv ${BASE_GEOIPS_PATH}/tests/unit_tests
+            "
+          
+          ret=$?
+          echo ""
+          echo "Core GeoIPS pytest exit code: ${ret}"
+          
+          if [ ${ret} -ne 0 ]; then
+            echo "::error::Core GeoIPS pytest tests failed with exit code ${ret}"
+            echo ""
+            echo "This suggests the plugin may not be compatible with the current GeoIPS version"
             exit 1
           fi
+          
+          echo "✓ Core GeoIPS pytest tests passed"
+          echo "::endgroup::"
+
+      #########################################
+      # FINAL CLEANUP AND SUMMARY
+      #########################################
+      - name: Cleanup Docker resources
+        if: always()
+        run: |
+          echo "::group::Cleanup Docker Resources"
+          
+          echo "Current Docker disk usage:"
+          docker system df
+          echo ""
+          
+          echo "Cleaning up dangling images and containers..."
+          docker system prune -f
+          echo ""
+          
+          echo "After cleanup:"
+          docker system df
+          
+          echo "::endgroup::"
+
+      - name: CI Summary
+        if: always()
+        run: |
+          echo "::group::CI Pipeline Summary"
+          echo "============================================"
+          echo "PIPELINE EXECUTION COMPLETE"
+          echo "============================================"
+          echo ""
+          echo "Repository: ${{ github.repository }}"
+          echo "Branch/Ref: ${GITHUB_REF}"
+          echo "Commit SHA: ${GITHUB_SHA}"
+          echo "Event: ${{ github.event_name }}"
+          echo ""
+          echo "============================================"
+          echo "EXECUTED STEPS"
+          echo "============================================"
+          
+          if [[ "${{ github.event.repository.name }}" == "geoips" ]]; then
+            echo "✓ Docker image build (geoips repository)"
+          else
+            echo "✓ Docker image pull (plugin repository)"
+          fi
+          
+          if [[ "${{ steps.set_flags.outputs.CI_BUILD_SPHINX_HTML }}" == "true" ]]; then
+            echo "✓ Sphinx HTML documentation build"
+          else
+            echo "- Sphinx HTML documentation build (disabled)"
+          fi
+          
+          if [[ "${{ steps.set_flags.outputs.CI_BUILD_SPHINX_PDF }}" == "true" ]]; then
+            echo "✓ Sphinx PDF documentation build"
+          else
+            echo "- Sphinx PDF documentation build (disabled)"
+          fi
+          
+          if [[ "${{ steps.set_flags.outputs.CI_TEST_INTERFACES }}" == "true" ]]; then
+            echo "✓ Interface validation tests"
+          else
+            echo "- Interface validation tests (disabled)"
+          fi
+          
+          if [[ "${{ steps.set_flags.outputs.CI_TEST_PYTEST_SHORT }}" == "true" ]]; then
+            echo "✓ Pytest unit tests"
+          else
+            echo "- Pytest unit tests (disabled)"
+          fi
+          
+          echo ""
+          echo "============================================"
+          echo "ARTIFACTS"
+          echo "============================================"
+          
+          if [[ -d "build/sphinx/html" ]]; then
+            html_size=$(du -sh build/sphinx/html 2>/dev/null | cut -f1)
+            html_files=$(find build/sphinx/html -name "*.html" 2>/dev/null | wc -l)
+            echo "HTML Documentation: ${html_size} (${html_files} files)"
+          fi
+          
+          if [[ -d "build/sphinx/pdf" ]]; then
+            pdf_files=$(find build/sphinx/pdf -name "*.pdf" 2>/dev/null | wc -l)
+            echo "PDF Documentation: ${pdf_files} file(s)"
+          fi
+          
+          echo ""
+          echo "Pipeline completed at: $(date)"
+          echo "::endgroup::"
