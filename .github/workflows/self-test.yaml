@@ -734,66 +734,66 @@ jobs:
   #        if-no-files-found: error
   #        retention-days: 5
 
-      - name: Build Sphinx PDF Documentation
-        if: ${{ steps.set_flags.outputs.CI_BUILD_SPHINX_PDF == 'true' }}
-        id: build_pdf_docs
-        run: |
-          echo "::group::Building Sphinx PDF Documentation"
-          
-          run_on_package=$CURR_REPO
-          if [[ "$CURR_REPO" == "template_basic_plugin" ]]; then
-            run_on_package=my_package
-          fi
-          
-          echo "Building PDF documentation for: ${run_on_package}"
-          echo ""
-          
-          docker run --rm \
-            -v $(pwd):/workspace \
-            -w /workspace \
-            -e BASE_GEOIPS_PATH=${BASE_GEOIPS_PATH} \
-            ${FULL_DOCLINTTEST_IMAGE} \
-            bash -c "
-              set -e
-              echo 'Installing package...'
-              pip install -v .
-              echo ''
-              echo 'Building PDF documentation...'
-              python3 ${BASE_GEOIPS_PATH}/docs/build_docs.py \
-                --geoips-docs-path ${BASE_GEOIPS_PATH}/docs/ \
-                --force \
-                --pdf-only \
-                --repo-path /workspace \
-                ${run_on_package}
-            "
-          
-          ret=$?
-          
-          if [ ${ret} -ne 0 ]; then
-            echo "::error::Building PDF documentation failed with exit code ${ret}"
-            exit 1
-          fi
-          
-          echo ""
-          echo "Checking PDF output..."
-          if [ -d "build/sphinx/pdf" ]; then
-            echo "✓ PDF documentation built successfully"
-            find build/sphinx/pdf -type f -name "*.pdf"
-            echo "BUILT_PDF_PATH=$(pwd)/build/sphinx/pdf" >> $GITHUB_OUTPUT
-          else
-            echo "::warning::PDF documentation directory not found"
-          fi
-          
-          echo "::endgroup::"
+  #    - name: Build Sphinx PDF Documentation
+  #      if: ${{ steps.set_flags.outputs.CI_BUILD_SPHINX_PDF == 'true' }}
+  #      id: build_pdf_docs
+  #      run: |
+  #        echo "::group::Building Sphinx PDF Documentation"
+  #        
+  #        run_on_package=$CURR_REPO
+  #        if [[ "$CURR_REPO" == "template_basic_plugin" ]]; then
+  #          run_on_package=my_package
+  #        fi
+  #        
+  #        echo "Building PDF documentation for: ${run_on_package}"
+  #        echo ""
+  #        
+  #        docker run --rm \
+  #          -v $(pwd):/workspace \
+  #          -w /workspace \
+  #          -e BASE_GEOIPS_PATH=${BASE_GEOIPS_PATH} \
+  #          ${FULL_DOCLINTTEST_IMAGE} \
+  #          bash -c "
+  #            set -e
+  #            echo 'Installing package...'
+  #            pip install -v .
+  #            echo ''
+  #            echo 'Building PDF documentation...'
+  #            python3 ${BASE_GEOIPS_PATH}/docs/build_docs.py \
+  #              --geoips-docs-path ${BASE_GEOIPS_PATH}/docs/ \
+  #              --force \
+  #              --pdf-only \
+  #              --repo-path /workspace \
+  #              ${run_on_package}
+  #          "
+  #        
+  #        ret=$?
+  #        
+  #        if [ ${ret} -ne 0 ]; then
+  #          echo "::error::Building PDF documentation failed with exit code ${ret}"
+  #          exit 1
+  #        fi
+  #        
+  #        echo ""
+  #        echo "Checking PDF output..."
+  #        if [ -d "build/sphinx/pdf" ]; then
+  #          echo "✓ PDF documentation built successfully"
+  #          find build/sphinx/pdf -type f -name "*.pdf"
+  #          echo "BUILT_PDF_PATH=$(pwd)/build/sphinx/pdf" >> $GITHUB_OUTPUT
+  #        else
+  #          echo "::warning::PDF documentation directory not found"
+  #        fi
+  #        
+  #        echo "::endgroup::"
 
-      - name: Upload PDF Documentation
-        if: ${{ steps.set_flags.outputs.CI_BUILD_SPHINX_PDF == 'true' && vars.UPLOAD_GITHUB_ARTIFACTS == 'true' }}
-        uses: actions/upload-artifact@v4
-        with:
-          name: pdf-documentation
-          path: ${{ steps.build_pdf_docs.outputs.BUILT_PDF_PATH }}
-          if-no-files-found: warn
-          retention-days: 30
+  #    - name: Upload PDF Documentation
+  #      if: ${{ steps.set_flags.outputs.CI_BUILD_SPHINX_PDF == 'true' && vars.UPLOAD_GITHUB_ARTIFACTS == 'true' }}
+  #      uses: actions/upload-artifact@v4
+  #      with:
+  #        name: pdf-documentation
+  #        path: ${{ steps.build_pdf_docs.outputs.BUILT_PDF_PATH }}
+  #        if-no-files-found: warn
+  #        retention-days: 30
 
       #########################################
       # CODE TESTING - INTERFACES
