@@ -1,6 +1,10 @@
 name: Run linters locally
 
-on: push
+on: 
+  workflow_call:
+    secrets:
+      token:
+        required: true
 
 defaults:
   run:
