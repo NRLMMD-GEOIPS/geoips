@@ -1,0 +1,17 @@
+bug fix:
+- title: 'Ignore dot files and directories from plugin registry'
+  description: |
+    As we encountered in our annual 2025 GeoIPS tutorial, we realized that 'plugins'
+    found in either '.' (dot) directories or files were included in the plugin registry.
+    Since these files are obfuscated from the user and in almost any situtation are not
+    'true' plugins, we should omit any instance of these plugins from the plugin
+    registry. This PR adds logic to do just that.
+  files:
+    modified:
+      - geoips/create_plugin_registries.py
+  related-issue:
+    number: 1116
+    repo_url: 'https://github.com/NRLMMD-GEOIPS/geoips/'
+  date:
+    start: 12/08/2025
+    finish: 12/09/2025
