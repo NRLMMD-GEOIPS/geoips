@@ -126,6 +126,7 @@ def pluign_types_and_plugins():
         ],
     }
 
+
 @pytest.fixture
 def valid_title_formatter_arguments():
     """Fixture providing valid data TitleFormatterArgumentsModel tests."""
