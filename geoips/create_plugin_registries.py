@@ -480,8 +480,9 @@ def parse_plugin_paths(plugin_paths, package, package_dir, plugins, namespace):
         for filepath in plugin_paths[plugin_type]:
             # If any 'part' of the full filepath starts with a '.' (dot) directory or
             # file, do not use this filepath. Just continue to the next filepath
-            # provided.
-            if any([str(part).startswith(".") for part in Path(filepath).parts]):
+            # provided. Resolving path to prevent false-positives on "." or ".." 
+            # paths for relative paths as an edge case.
+            if any(part.startswith(".") for part in Path(filepath).resolve().parts):
                 continue
 
             filepath = str(filepath)
