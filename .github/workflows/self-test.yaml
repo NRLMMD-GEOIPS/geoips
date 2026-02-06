@@ -1,7 +1,11 @@
-name: Complete CI Pipeline
+name: Local CI
 
 on:
   push:
+    branches:
+      - main
+      - develop
+      - 'feature/**'
   pull_request:
   workflow_dispatch:
 
@@ -15,7 +19,6 @@ defaults:
     shell: bash
 
 jobs:
-  # Single job that does everything
   build-and-test:
     runs-on: ${{ vars.RUNNER }}
     env:
@@ -77,6 +80,12 @@ jobs:
           echo "  CI_TEST_PYTEST_SHORT: ${{ vars.CI_TEST_PYTEST_SHORT }}"
           echo ""
           echo "============================================"
+          echo "SECRETS CHECK (not values, just existence)"
+          echo "============================================"
+          echo "DOCKER_TOKEN exists: ${{ secrets.DOCKER_TOKEN != '' }}"
+          echo "docker_token exists: ${{ secrets.docker_token != '' }}"
+          echo ""
+          echo "============================================"
           echo "SYSTEM RESOURCES"
           echo "============================================"
           echo "Disk Space:"
@@ -107,7 +116,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0  # Get full history for better git operations
+          fetch-depth: 0
 
       - name: Debug - Repository contents
         run: |
@@ -153,7 +162,6 @@ jobs:
         run: |
           echo "::group::Setting CI Flags"
           
-          # Set flags - default to true if not specified
           flags=(CI_BUILD_SPHINX_HTML \
                  CI_BUILD_SPHINX_PDF \
                  CI_TEST_INTERFACES \
@@ -185,19 +193,16 @@ jobs:
         run: |
           echo "::group::Setting Docker Image Names"
           
-          # Get repository name
           repo_name=$(echo ${{ github.repository }} | cut -d'/' -f2)
           echo "Repository Name: ${repo_name}"
           echo "REPO_NAME=${repo_name}" >> $GITHUB_ENV
           echo "REPO_NAME=${repo_name}" >> $GITHUB_OUTPUT
           
-          # Set base image name
           image_name=${DOCKER_REGISTRY_USER}/geoips
           echo "Base Image Name: ${image_name}"
           echo "IMAGE_NAME=${image_name}" >> $GITHUB_ENV
           echo "IMAGE_NAME=${image_name}" >> $GITHUB_OUTPUT
           
-          # Determine if this is geoips repo or plugin
           if [[ "${CURR_REPO}" == "geoips" ]]; then
               doclinttest_tag="doclinttest-${GITHUB_SHA}"
               echo "GeoIPS repository detected - building new image"
@@ -210,19 +215,16 @@ jobs:
           echo "DOCLINTTEST_TAG=${doclinttest_tag}" >> $GITHUB_ENV
           echo "DOCLINTTEST_TAG=${doclinttest_tag}" >> $GITHUB_OUTPUT
           
-          # Build full image name
           doclinttest_image="${image_name}:${doclinttest_tag}"
           echo "DocLintTest Image: ${doclinttest_image}"
           echo "DOCLINTTEST_IMAGE=${doclinttest_image}" >> $GITHUB_ENV
           echo "DOCLINTTEST_IMAGE=${doclinttest_image}" >> $GITHUB_OUTPUT
           
-          # Build cache image name
           buildcache_image="${image_name}:buildcache"
           echo "Build Cache Image: ${buildcache_image}"
           echo "BUILDCACHE_IMAGE=${buildcache_image}" >> $GITHUB_ENV
           echo "BUILDCACHE_IMAGE=${buildcache_image}" >> $GITHUB_OUTPUT
           
-          # Full registry paths
           FULL_DOCLINTTEST_IMAGE="${DOCKER_REGISTRY}/${repo_name}/${doclinttest_image}"
           FULL_BUILDCACHE_IMAGE="${DOCKER_REGISTRY}/${repo_name}/${buildcache_image}"
           
@@ -263,13 +265,43 @@ jobs:
         if: ${{ github.event.repository.name == 'geoips' && vars.USE_DOCKER_BUILDX_ACTION == 'true' }}
         uses: docker/setup-buildx-action@v3
 
+      # FIXED: Proper secret reference
       - name: Login to Docker Registry
         if: ${{ github.event.repository.name == 'geoips' }}
-        uses: docker/login-action@v3
-        with:
-          registry: ${{ env.DOCKER_REGISTRY }}
-          username: ${{ env.DOCKER_REGISTRY_USER }}
-          password: ${{ secrets.docker_token }}
+        run: |
+          echo "::group::Docker Registry Login"
+          
+          echo "Attempting to log in to Docker registry..."
+          echo "Registry: ${{ env.DOCKER_REGISTRY }}"
+          echo "Username: ${{ env.DOCKER_REGISTRY_USER }}"
+          echo ""
+          
+          # Check if secret is available
+          if [ -z "${{ secrets.DOCKER_TOKEN }}" ] && [ -z "${{ secrets.docker_token }}" ]; then
+            echo "::error::No Docker token found in secrets"
+            echo "Please set either DOCKER_TOKEN or docker_token in repository secrets"
+            exit 1
+          fi
+          
+          # Use the secret that exists
+          if [ -n "${{ secrets.DOCKER_TOKEN }}" ]; then
+            echo "Using DOCKER_TOKEN secret"
+            echo "${{ secrets.DOCKER_TOKEN }}" | docker login ${{ env.DOCKER_REGISTRY }} -u ${{ env.DOCKER_REGISTRY_USER }} --password-stdin
+          else
+            echo "Using docker_token secret"
+            echo "${{ secrets.docker_token }}" | docker login ${{ env.DOCKER_REGISTRY }} -u ${{ env.DOCKER_REGISTRY_USER }} --password-stdin
+          fi
+          
+          login_result=$?
+          
+          if [ $login_result -eq 0 ]; then
+            echo "✓ Successfully logged in to Docker registry"
+          else
+            echo "::error::Failed to log in to Docker registry (exit code: $login_result)"
+            exit 1
+          fi
+          
+          echo "::endgroup::"
 
       - name: Cache Docker layers
         if: ${{ github.event.repository.name == 'geoips' }}
@@ -288,7 +320,6 @@ jobs:
           
           tags="${FULL_DOCLINTTEST_IMAGE},${FULL_BUILDCACHE_IMAGE}"
           
-          # Add stable or latest tag based on branch
           if [[ "${GITHUB_REF}" == "refs/heads/${{ github.event.repository.default_branch }}" ]]; then
             stableorlatest_tag="doclinttest-stable"
             echo "On default branch - adding stable tag"
@@ -410,6 +441,15 @@ jobs:
           echo "Image to pull: ${FULL_DOCLINTTEST_IMAGE}"
           echo ""
           
+          # Login first for plugin repos too (in case registry requires auth for pulls)
+          echo "Logging in to registry for image pull..."
+          if [ -n "${{ secrets.DOCKER_TOKEN }}" ]; then
+            echo "${{ secrets.DOCKER_TOKEN }}" | docker login ${{ env.DOCKER_REGISTRY }} -u ${{ env.DOCKER_REGISTRY_USER }} --password-stdin
+          elif [ -n "${{ secrets.docker_token }}" ]; then
+            echo "${{ secrets.docker_token }}" | docker login ${{ env.DOCKER_REGISTRY }} -u ${{ env.DOCKER_REGISTRY_USER }} --password-stdin
+          fi
+          
+          echo ""
           echo "Attempting to pull image..."
           docker pull ${FULL_DOCLINTTEST_IMAGE}
           
@@ -467,7 +507,6 @@ jobs:
         run: |
           echo "::group::Building Sphinx HTML Documentation"
           
-          # Determine package name
           run_on_package=$CURR_REPO
           if [[ "$CURR_REPO" == "template_basic_plugin" ]]; then
             run_on_package=my_package
@@ -483,7 +522,6 @@ jobs:
           echo "Package name: ${run_on_package}"
           echo ""
           
-          # Run docker container for documentation build
           docker run --rm \
             -v $(pwd):/workspace \
             -w /workspace \
@@ -549,7 +587,6 @@ jobs:
         run: |
           echo "::group::Building Sphinx PDF Documentation"
           
-          # Determine package name
           run_on_package=$CURR_REPO
           if [[ "$CURR_REPO" == "template_basic_plugin" ]]; then
             run_on_package=my_package
@@ -558,7 +595,6 @@ jobs:
           echo "Building PDF documentation for: ${run_on_package}"
           echo ""
           
-          # Run docker container for PDF documentation build
           docker run --rm \
             -v $(pwd):/workspace \
             -w /workspace \
