@@ -7,7 +7,7 @@ on:
 env:
   # The path to the GeoIPS package in DOCLINTTEST images
   BASE_GEOIPS_PATH: /packages/geoips
-  PLUGIN_DOCLINTTEST_TAG: doclinttest-stable
+  PLUGIN_DOCLINTTEST_TAG: dev-stable
 
 defaults:
   run:
@@ -429,7 +429,7 @@ jobs:
             --tag ${FULL_DOCLINTTEST_IMAGE} \
             --tag ${FULL_BUILDCACHE_IMAGE} \
             --tag ${FULL_STABLEORLATEST_IMAGE} \
-            --target doclinttest \
+            --target dev \
             --progress=plain \
             .
           
@@ -869,21 +869,21 @@ jobs:
               create_plugin_registries
               echo ''
               
-              if [ ! -d './tests/unit_tests' ]; then
-                echo 'ℹ No unit tests directory found in ${CURR_REPO}'
+              if [ ! -d './tests' ]; then
+                echo 'ℹ No tests directory found in ${CURR_REPO}'
                 echo 'Skipping repository-specific tests'
                 exit 0
               fi
               
               echo 'Found unit tests directory'
               echo 'Test structure:'
-              find ./tests/unit_tests -name '*.py' | head -10
+              find ./tests -name '*.py' | head -10
               echo ''
               
               echo 'Running pytest with verbose output...'
-              echo 'Command: pytest -vv ./tests/unit_tests'
+              echo 'Command: pytest -vv'
               echo ''
-              pytest -vv ./tests/unit_tests
+              pytest -vv
             "
           
           ret=$?
@@ -921,9 +921,9 @@ jobs:
               create_plugin_registries
               echo ''
               echo 'Running core GeoIPS unit tests...'
-              echo 'Command: pytest -vv ${BASE_GEOIPS_PATH}/tests/unit_tests'
+              echo 'Command: pytest -vv ${BASE_GEOIPS_PATH}/tests'
               echo ''
-              pytest -vv ${BASE_GEOIPS_PATH}/tests/unit_tests
+              pytest -vv ${BASE_GEOIPS_PATH}/tests
             "
           
           ret=$?
