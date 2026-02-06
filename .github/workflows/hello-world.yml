@@ -2,12 +2,7 @@ name: Build docs and test locally
 
 on:
   # Reusable workflow
-  workflow_call:
-    secrets:
-      token:
-        required: true
-      docker_token:
-        required: true
+  workflow_dispatch:
 
 # Assuming the below is in the workflow for an individual repository.
 # on:
