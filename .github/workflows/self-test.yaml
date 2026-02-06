@@ -1036,21 +1036,6 @@ jobs:
             echo "- Pytest unit tests (disabled)"
           fi
           
-          echo ""
-          echo "============================================"
-          echo "ARTIFACTS"
-          echo "============================================"
-          
-          if [[ -d "build/sphinx/html" ]]; then
-            html_size=$(du -sh build/sphinx/html 2>/dev/null | cut -f1)
-            html_files=$(find build/sphinx/html -name "*.html" 2>/dev/null | wc -l)
-            echo "HTML Documentation: ${html_size} (${html_files} files)"
-          fi
-          
-          if [[ -d "build/sphinx/pdf" ]]; then
-            pdf_files=$(find build/sphinx/pdf -name "*.pdf" 2>/dev/null | wc -l)
-            echo "PDF Documentation: ${pdf_files} file(s)"
-          fi
           
           echo ""
           echo "Pipeline completed at: $(date)"
