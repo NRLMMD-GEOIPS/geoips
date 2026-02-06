@@ -1,42 +1,83 @@
-name: Run linters locally
+name: Build docs and test locally
 
-on: 
+on:
+  # Reusable workflow
   workflow_call:
     secrets:
       token:
         required: true
+      docker_token:
+        required: true
+
+# Assuming the below is in the workflow for an individual repository.
+# on:
+#   # Triggers the workflow when pull request created and updated
+#   pull_request:
+#   # Allows run of this workflow manually from the Actions tab
+#   workflow_dispatch:
+
+env:
+  # The path to the GeoIPS package in DOCLINTTEST images
+  BASE_GEOIPS_PATH: /packages/geoips
 
 defaults:
   run:
     shell: bash
 
 jobs:
+  # Build the base GeoIPS doclinttest image
+  # This image is used in all subsequent tests
+  # It is only built for the main GeoIPS package but is used by all repositories
+  #
+  # Within this image, the GeoIPS package is located in /packages/geoips and is
+  # installed using `pip install .[doc,lint,test]`. Scripts from geoips can be called
+  # from /packages/geoips.
+  #
+  # Note the DOCKER_IMAGE_NAME is returned from reusable-build-docker-image
+  # by including it in the "outputs" listed at the top of the workflow.
+  get-doclinttest-image:
+    name: Get docker image
+    # You do not appear to be able to use variables in this "uses" field.
+    uses: NRLMMD-GEOIPS/geoips_ci/.github/workflows/reusable-build-docker-image.yaml@main
+    secrets:
+      token: ${{ secrets.token }}
+      docker_token: ${{ secrets.docker_token }}
+    permissions:
+      packages: write
+      contents: write
+
   # Set variables that should be accessible to all jobs
   get-job-flags:
-    runs-on: integration
+    runs-on: ${{ vars.RUNNER }}
+    needs: [get-doclinttest-image]
     env:
       CURR_REPO: ${{ github.event.repository.name }}
     outputs:
-      CI_LINT_BANDIT: ${{ steps.get_job_flags.outputs.CI_LINT_BANDIT }}
-      CI_LINT_DOC8: ${{ steps.get_job_flags.outputs.CI_LINT_DOC8 }}
-      CI_LINT_FLAKE8: ${{ steps.get_job_flags.outputs.CI_LINT_FLAKE8 }}
-      CI_LINT_BLACK: ${{ steps.get_job_flags.outputs.CI_LINT_BLACK }}
+      # Flags for enabling/disabling various parts of the workflow
+      # Default to enabled unless overridden by a repository-level variable
+      CI_BUILD_SPHINX_HTML: ${{ steps.get_job_flags.outputs.CI_BUILD_SPHINX_HTML }}
+      CI_BUILD_SPHINX_PDF: ${{ steps.get_job_flags.outputs.CI_BUILD_SPHINX_PDF }}
+      CI_TEST_INTERFACES: ${{ steps.get_job_flags.outputs.CI_TEST_INTERFACES }}
+      CI_TEST_PYTEST_SHORT: ${{ steps.get_job_flags.outputs.CI_TEST_PYTEST_SHORT }}
+      # DOCKER_IMAGE_NAME is defined in the "outputs" section at the top of
+      # reusable-build-docker-image
+      DOCKER_IMAGE_NAME: ${{ needs.get-doclinttest-image.outputs.DOCKER_IMAGE_NAME }}
     steps:
       - name: Get job flags
         id: get_job_flags
         run: |
           # Define an array of flags and their corresponding secret values
-          flags=(CI_LINT_BANDIT \
-                 CI_LINT_DOC8 \
-                 CI_LINT_FLAKE8 \
-                 CI_LINT_BLACK)
+          flags=(CI_BUILD_SPHINX_HTML \
+                 CI_BUILD_SPHINX_PDF \
+                 CI_TEST_INTERFACES \
+                 CI_TEST_PYTEST_SHORT)
           for flag in "${flags[@]}"; do
               # Dynamically construct the variable name and access the corresponding secret
               case $flag in
-                  CI_LINT_BANDIT) val="${{ vars.CI_LINT_BANDIT }}" ;;
-                  CI_LINT_DOC8) val="${{ vars.CI_LINT_DOC8 }}" ;;
-                  CI_LINT_FLAKE8) val="${{ vars.CI_LINT_FLAKE8 }}" ;;
-                  CI_LINT_BLACK) val="${{ vars.CI_LINT_BLACK }}" ;;
+                  CI_BUILD_SPHINX_HTML) val="${{ vars.CI_BUILD_SPHINX_HTML }}" ;;
+                  CI_BUILD_SPHINX_PDF) val="${{ vars.CI_BUILD_SPHINX_PDF }}" ;;
+                  CI_TEST_INTERFACES) val="${{ vars.CI_TEST_INTERFACES }}" ;;
+                  CI_TEST_PYTEST_SHORT) val="${{ vars.CI_TEST_PYTEST_SHORT }}" ;;
               esac
               # Check if the secret value is "true" and set the environment variable and output
               if [ "$val" == "false" ]; then
@@ -49,144 +90,174 @@ jobs:
                   echo "${flag}=true" >> $GITHUB_OUTPUT
               fi
           done
+          echo "DOCKER_IMAGE_NAME=${DOCKER_IMAGE_NAME}"
+          echo "DOCKER_IMAGE_NAME=${DOCKER_IMAGE_NAME}" >> ${GITHUB_ENV}
+          echo "DOCKER_IMAGE_NAME=${DOCKER_IMAGE_NAME}" >> ${GITHUB_OUTPUT}
 
-  print-variables:
-    name: Print variables
+  print-doc-test-variables:
+    name: Print doc-test variables
     needs: [get-job-flags]
+    # You do not appear to be able to use variables in this "uses" field.
     uses: NRLMMD-GEOIPS/geoips_ci/.github/workflows/reusable-print-variables.yaml@main
     with:
-      # These are outputs defined in the check-release-branch and get-versions
-      # reusable workflows.  Explicitly pass them in here to track what
-      # variables we have available to this workflow.
-      IS_VERSION_RELEASE_BRANCH: ${{ needs.check-release-branch.outputs.IS_VERSION_RELEASE_BRANCH }}
-      CI_LINT_BANDIT: ${{ needs.get-job-flags.outputs.CI_LINT_BANDIT }}
-      CI_LINT_DOC8: ${{ needs.get-job-flags.outputs.CI_LINT_DOC8 }}
-      CI_LINT_FLAKE8: ${{ needs.get-job-flags.outputs.CI_LINT_FLAKE8 }}
-      CI_LINT_BLACK: ${{ needs.get-job-flags.outputs.CI_LINT_BLACK }}
+      # These are outputs defined above.  Explicitly pass them in here to track
+      # what variables we have available to this workflow.
+      CI_BUILD_SPHINX_HTML: ${{ needs.get-job-flags.outputs.CI_BUILD_SPHINX_HTML }}
+      CI_BUILD_SPHINX_PDF: ${{ needs.get-job-flags.outputs.CI_BUILD_SPHINX_PDF }}
+      CI_TEST_INTERFACES: ${{ needs.get-job-flags.outputs.CI_TEST_INTERFACES }}
+      CI_TEST_PYTEST_SHORT: ${{ needs.get-job-flags.outputs.CI_TEST_PYTEST_SHORT }}
 
-  run_linters:
-    runs-on: ${{ vars.RUNNER }}
-    needs: [get-job-flags]
+  #################################################
+  # Documentation builds - requires pip installed geoips, so use container
+  #################################################
+  docker_build_sphinx_html:
+    if: >
+      ! cancelled() &&
+      needs.get-job-flags.outputs.CI_BUILD_SPHINX_HTML == 'true' &&
+      (needs.get-doclinttest-image.result == 'success' ||
+      needs.get-doclinttest-image.result == 'skipped')
+    runs-on: ${{ vars.RUNNER_DOCKERRUN || vars.RUNNER }}
+    needs: [get-doclinttest-image, get-job-flags]
+    container:
+      image: ${{ needs.get-job-flags.outputs.DOCKER_IMAGE_NAME }}
+    env:
+      CURR_REPO: ${{ github.event.repository.name }}
     steps:
-      - name: Setup Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: "3.11"
-          check-latest: true
-      - name: Update pip
-        run: pip install --upgrade pip
       - name: Checkout code
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-          path: ./current_repo_current_branch
-      - name: Checkout geoips default branch
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-          repository: ${{ vars.GEOIPS_ORGANIZATION }}/geoips
-          ref: ${{ vars.GEOIPS_DEFAULT_BRANCH }}
-          token: ${{ secrets.token }}
-          path: ./geoips_repo_default_branch
-          clean: true
-      - name: List cloned directory
+
+      - name: Configure Git safe directory
+        run: git config --global --add safe.directory $PWD
+
+      - name: Install package
+        run: pip install .
+
+      - name: Run build html
+        id: build-html-docs
         run: |
-          echo $PWD
-          ls -l $PWD/*
-      - name: Install black
-        if: ${{ needs.get-job-flags.outputs.CI_LINT_BLACK == 'true' }}
-        run: pip install black
-      - name: Run code check script black
-        if: ${{ needs.get-job-flags.outputs.CI_LINT_BLACK == 'true' }}
-        shell: bash -l {0}
-        run: |
-          echo "::group::black_analysis"
-          echo "BLACK analysis of code"
-          black --version
-          echo "./geoips_repo_default_branch/tests/utils/check_code.sh black ./current_repo_current_branch"
-          ./geoips_repo_default_branch/tests/utils/check_code.sh black ./current_repo_current_branch
+          # If we are specifically "template_basic_plugin" repo, then we must use
+          # my_package as the package name.  Otherwise the package name matches
+          # the plugin name.
+          echo "${{ needs.get-job-flags.outputs.DOCKER_IMAGE_NAME }}"
+          run_on_package=$CURR_REPO
+          if [[ "$CURR_REPO" == "template_basic_plugin" ]]; then
+            run_on_package=my_package
+          fi
+          echo "Build html docs"
+          # Call build_docs.sh from the geoips default branch
+          # Pass in
+          #   the path to the current plugin repo,
+          #   the name of the current repo,
+          #   "html_only" to indicate producing only html output, and
+          #   the path to the docs template directory in the geoips default branch.
+          python3 $BASE_GEOIPS_PATH/docs/build_docs.py \
+            --geoips-docs-path $BASE_GEOIPS_PATH/docs/ \
+            --force \
+            --repo-path . \
+            $run_on_package
           ret=$?
-          echo "Return code: ${ret}"
-          echo "::endgroup::"
-          if [[ "${ret}" != *"0"* ]]; then
-            echo "::error::due to black violations, return code ${ret}"
+          if [[ "${ret##*:}" != *"0"* ]]; then
+            echo "::error::Building html docs ${ret##*:}"
             exit 1
           fi
-      - name: Install doc8
-        # Always run doc8 if requested, whether other jobs succeeded or failed.
-        # Use ! cancelled so it will NOT run if the job was manually cancelled.
-        if: ${{ ! cancelled() && needs.get-job-flags.outputs.CI_LINT_DOC8 == 'true'}}
-        run: pip install doc8
-      - name: Run doc8
-        # Always run doc8 if requested, whether other jobs succeeded or failed.
-        # Use ! cancelled so it will NOT run if the job was manually cancelled.
-        if: ${{ ! cancelled() && needs.get-job-flags.outputs.CI_LINT_DOC8 == 'true'}}
-        shell: bash -l {0}
+          echo "BUILT_DOCS_PATH=$PWD/build/sphinx/html" >> $GITHUB_OUTPUT
+      - name: Upload HTML Docs
+        if: ${{ vars.UPLOAD_GITHUB_ARTIFACTS == 'true' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: HTML Docs
+          path: ${{ steps.build-html-docs.outputs.BUILT_DOCS_PATH }}
+          if-no-files-found: error
+
+  #################################################
+  # Code tests - requires pip installed geoips, so use container
+  #################################################
+  docker_test_interfaces:
+    if: >
+      ! cancelled() &&
+      needs.get-job-flags.outputs.CI_TEST_INTERFACES == 'true' &&
+      (needs.get-doclinttest-image.result == 'success' ||
+      needs.get-doclinttest-image.result == 'skipped')
+    runs-on: ${{ vars.RUNNER_DOCKERRUN || vars.RUNNER }}
+    needs: [get-doclinttest-image, get-job-flags]
+    container:
+      image: ${{ needs.get-job-flags.outputs.DOCKER_IMAGE_NAME }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Configure Git safe directory
+        run: git config --global --add safe.directory $PWD
+      - name: Pip install package
+        run: pip install -v -e .
+      - name: create_plugin_registries
+        run: create_plugin_registries
+      - name: Run code check script interfaces
         run: |
-          echo "::group::doc8_analysis"
-          if [ ! -d "./current_repo_current_branch/docs/source/new-docs" ]; then
-            echo "No new-docs directory found in ${CURR_REPO}"
+          python $BASE_GEOIPS_PATH/tests/utils/test_interfaces.py
+          ret=$?
+          echo "::group::interface_analysis"
+          echo "INTERFACES analysis of code"
+          echo "${ret}"
+          echo "::endgroup::"
+          if [[ "${ret##*:}" != *"0"* ]]; then
+            echo "::error::due to interface violations ${ret##*:}"
+            exit 1
+          fi
+
+  docker_test_pytest_short:
+    if: >
+      ! cancelled() &&
+      needs.get-job-flags.outputs.CI_TEST_PYTEST_SHORT == 'true' &&
+      (needs.get-doclinttest-image.result == 'success' ||
+      needs.get-doclinttest-image.result == 'skipped')
+    runs-on: ${{ vars.RUNNER_DOCKERRUN || vars.RUNNER }}
+    needs: [get-doclinttest-image, get-job-flags]
+    container:
+      image: ${{ needs.get-job-flags.outputs.DOCKER_IMAGE_NAME }}
+    env:
+      CURR_REPO: ${{ github.event.repository.name }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Configure Git safe directory
+        run: git config --global --add safe.directory $PWD
+      - name: Pip install package
+        run: pip install -v -e .
+      - name: create_plugin_registries
+        run: create_plugin_registries
+      # Run unit tests for this repo if they exist
+      - name: Run pytest unit tests
+        run: |
+          echo "::group::pytest_unit_test"
+          echo "Pytest short unit tests of ${CURR_REPO}"
+          echo "which pytest"
+          which pytest
+          if [ ! -d "./tests/unit_tests" ]; then
+            echo "No unit tests found in ${CURR_REPO}"
             exit 0
           fi
-          echo "Doc8 analysis of code"
-          doc8 --max-line-length=120 ./current_repo_current_branch/docs/source/new-docs/
+          echo "pytest -q ./tests/unit_tests"
+          pytest -q ./tests/unit_tests
           ret=$?
           echo "Return code: ${ret}"
           echo "::endgroup::"
           if [[ "${ret}" != *"0"* ]]; then
-            echo "::error::due to doc8 violations, return code ${ret}"
+            echo "::error::due to geoips repo pytest errors, return code ${ret}"
             exit 1
           fi
-      - name: Install flake8
-        # Always run flake8 if requested, whether other jobs succeeded or failed.
-        # Use ! cancelled so it will NOT run if the job was manually cancelled.
-        if: ${{ ! cancelled() && needs.get-job-flags.outputs.CI_LINT_FLAKE8 == 'true' }}
-        run: pip install flake8
-      - name: Install flake8-docstrings
-        # Always run flake8 if requested, whether other jobs succeeded or failed.
-        # Use ! cancelled so it will NOT run if the job was manually cancelled.
-        if: ${{ ! cancelled() && needs.get-job-flags.outputs.CI_LINT_FLAKE8 == 'true' }}
-        run: pip install flake8-docstrings
-      - name: Install flake8-rst-docstrings
-        # Always run flake8 if requested, whether other jobs succeeded or failed.
-        # Use ! cancelled so it will NOT run if the job was manually cancelled.
-        if: ${{ ! cancelled() && needs.get-job-flags.outputs.CI_LINT_FLAKE8 == 'true' }}
-        run: pip install flake8-rst-docstrings
-      - name: Run flake8
-        # Always run flake8 if requested, whether other jobs succeeded or failed.
-        # Use ! cancelled so it will NOT run if the job was manually cancelled.
-        if: ${{ ! cancelled() && needs.get-job-flags.outputs.CI_LINT_FLAKE8 == 'true' }}
-        shell: bash -l {0}
+      - name: Run base GeoIPS pytest unit tests
+        if: ${{ env.CURR_REPO != 'geoips' }}
         run: |
-          echo "::group::flake8_analysis"
-          echo "FLAKE8 analysis of code"
-          ./geoips_repo_default_branch/tests/utils/check_code.sh flake8 ./current_repo_current_branch
+          echo "::group::pytest_unit_test"
+          echo "Pytest short unit tests of ${CURR_REPO} using core GeoIPS tests"
+          echo "which pytest"
+          which pytest
+          echo "pytest -q $BASE_GEOIPS_PATH/tests/unit_tests"
+          pytest -q $BASE_GEOIPS_PATH/tests/unit_tests
           ret=$?
           echo "Return code: ${ret}"
           echo "::endgroup::"
           if [[ "${ret}" != *"0"* ]]; then
-            echo "::error::due to flake8 violations, return code ${ret}"
-            exit 1
-          fi
-      - name: Install bandit
-        # Always run bandit if requested, whether other jobs succeeded or failed.
-        # Use ! cancelled so it will NOT run if the job was manually cancelled.
-        if: ${{ ! cancelled() && needs.get-job-flags.outputs.CI_LINT_BANDIT == 'true' }}
-        run: pip install bandit
-      - name: Run bandit
-        # Always run bandit if requested, whether other jobs succeeded or failed.
-        # Use ! cancelled so it will NOT run if the job was manually cancelled.
-        if: ${{ ! cancelled() && needs.get-job-flags.outputs.CI_LINT_BANDIT == 'true' }}
-        shell: bash -l {0}
-        run: |
-          echo "::group::bandit_analysis"
-          echo "BANDIT analysis of code"
-          echo "./geoips_repo_default_branch/tests/utils/check_code.sh bandit ./current_repo_current_branch"
-          ./geoips_repo_default_branch/tests/utils/check_code.sh bandit ./current_repo_current_branch
-          ret=$?
-          echo "Return code: ${ret}"
-          echo "::endgroup::"
-          if [[ "${ret}" != *"0"* ]]; then
-            echo "::error::due to bandit violations, return code ${ret}"
+            echo "::error::due to geoips repo pytest errors, return code ${ret}"
             exit 1
           fi
