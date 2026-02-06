@@ -81,8 +81,6 @@ class BaseClassPlugin(ABC):
     developers to implement this functionality in every plugin class. Initially, this
     will be used to convert inputs from DataTree to other formats and back to DataTree
     after processing, but it could be used for other common tasks as well.
-
-    NOTE: add an init function that takes module as an argument [optional]
     """
 
     # If set to True, we are in OBP. False means we are in a legacy procflow.
@@ -154,9 +152,6 @@ class BaseClassPlugin(ABC):
     def _invoke(self, data=None, *args, **kwargs):
         # In the long run every plugin will accept a data tree
         # (I.e. colormapper modifies metadata)
-        # Not sure why bug config based doesn't work unless we add the following
-        # condition. Otherwise the 'else' portion will always be hit and no arguments
-        # are sent to the procflow.
         if self.interface in [
             "colormappers",
             "sector_spec_generators",
