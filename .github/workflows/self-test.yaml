@@ -191,6 +191,33 @@ jobs:
           ls -la
           exit 1
 
+      - name: Ensure testdata build context directory exists
+        if: ${{ github.event.repository.name == 'geoips' }}
+        run: |
+          echo "::group::Creating testdata build context directory"
+          
+          # Get the testdata path (could be absolute or relative)
+          TESTDATA_PATH="${FINAL_TESTDATA_CONTEXT}"
+          
+          echo "Testdata context path: ${TESTDATA_PATH}"
+          
+          # If it's an absolute path (starts with /), create with sudo
+          if [[ "${TESTDATA_PATH}" = /* ]]; then
+            echo "Absolute path detected - creating with elevated permissions"
+            sudo mkdir -p "${TESTDATA_PATH}"
+            sudo chmod 777 "${TESTDATA_PATH}"
+            echo "Created directory: ${TESTDATA_PATH}"
+            ls -la "$(dirname "${TESTDATA_PATH}")" || true
+          else
+            # Relative path - create normally
+            echo "Relative path detected - creating in workspace"
+            mkdir -p "${TESTDATA_PATH}"
+            echo "Created directory: ${TESTDATA_PATH}"
+            ls -la "${TESTDATA_PATH}"
+          fi
+          
+          echo "::endgroup::"
+
       #########################################
       # SET JOB FLAGS AND IMAGE NAMES
       #########################################
