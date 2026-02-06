@@ -1,7 +1,6 @@
 name: Local CI
 
 on:
-  push:
   pull_request:
   workflow_dispatch:
 
@@ -23,6 +22,8 @@ jobs:
       DOCKER_REGISTRY_USER: ${{ vars.DOCKER_REGISTRY_USER }}
       # New flag to disable registry operations - defaults to 'false' (disabled)
       ENABLE_DOCKER_REGISTRY: ${{ vars.ENABLE_DOCKER_REGISTRY }}
+      # Buildx disabled by default - set to 'true' to enable
+      USE_DOCKER_BUILDX_ACTION: ${{ vars.USE_DOCKER_BUILDX_ACTION }}
     permissions:
       contents: read
       packages: write
@@ -68,8 +69,8 @@ jobs:
           echo "Docker Registry: $DOCKER_REGISTRY"
           echo "Docker Registry User: $DOCKER_REGISTRY_USER"
           echo "Enable Docker Registry: ${ENABLE_DOCKER_REGISTRY:-false (default)}"
+          echo "Use Docker Buildx: ${USE_DOCKER_BUILDX_ACTION:-false (default)}"
           echo "Upload Artifacts: ${{ vars.UPLOAD_GITHUB_ARTIFACTS }}"
-          echo "Use Docker Buildx: ${{ vars.USE_DOCKER_BUILDX_ACTION }}"
           echo ""
           echo "CI Flags:"
           echo "  CI_BUILD_SPHINX_HTML: ${{ vars.CI_BUILD_SPHINX_HTML }}"
@@ -263,14 +264,21 @@ jobs:
           echo "Full Build Cache Image: ${FULL_BUILDCACHE_IMAGE}"
           echo ""
           echo "============================================"
-          echo "REGISTRY CONFIGURATION"
+          echo "DOCKER BUILD CONFIGURATION"
           echo "============================================"
+          echo "USE_DOCKER_BUILDX_ACTION: ${USE_DOCKER_BUILDX_ACTION:-false (default)}"
           echo "ENABLE_DOCKER_REGISTRY: ${ENABLE_DOCKER_REGISTRY:-false (default)}"
           echo "DOCKER_REGISTRY: ${DOCKER_REGISTRY:-<not set>}"
           echo "DOCKER_REGISTRY_USER: ${DOCKER_REGISTRY_USER:-<not set>}"
           echo ""
+          if [ "${USE_DOCKER_BUILDX_ACTION}" != "true" ]; then
+            echo "✓  Using explicit 'docker build' command (default)"
+          else
+            echo "⚠️  Using Docker buildx action"
+          fi
+          echo ""
           if [ "${ENABLE_DOCKER_REGISTRY}" != "true" ]; then
-            echo "⚠️  Docker registry operations are DISABLED"
+            echo "⚠️  Docker registry operations are DISABLED (default)"
             echo "   - No login to registry"
             echo "   - No push to registry"
             echo "   - No pull from registry"
@@ -340,7 +348,7 @@ jobs:
         if: ${{ github.event.repository.name == 'geoips' && vars.ENABLE_DOCKER_REGISTRY != 'true' }}
         run: |
           echo "::group::Docker Registry Login"
-          echo "⚠️  Registry operations are DISABLED"
+          echo "⚠️  Registry operations are DISABLED (default)"
           echo "Skipping Docker registry login"
           echo "Images will be built and used locally only"
           echo ""
@@ -394,11 +402,16 @@ jobs:
           
           echo "::endgroup::"
 
-      - name: Build Docker image (explicit docker build)
-        if: ${{ github.event.repository.name == 'geoips' && vars.USE_DOCKER_BUILDX_ACTION == 'false' }}
+      #########################################
+      # DOCKER BUILD - EXPLICIT DOCKER COMMAND (DEFAULT)
+      #########################################
+      - name: Build Docker image (explicit docker build - DEFAULT)
+        if: ${{ github.event.repository.name == 'geoips' && vars.USE_DOCKER_BUILDX_ACTION != 'true' }}
         run: |
           echo "::group::Building Docker Image"
           
+          echo "Using explicit 'docker build' command (default method)"
+          echo ""
           echo "Building image with tags:"
           echo "  1. ${FULL_DOCLINTTEST_IMAGE}"
           echo "  2. ${FULL_BUILDCACHE_IMAGE}"
@@ -430,11 +443,11 @@ jobs:
           fi
           
           echo ""
-          echo "Build successful!"
+          echo "✓ Build successful!"
           echo "::endgroup::"
 
       - name: List built Docker images
-        if: ${{ github.event.repository.name == 'geoips' && vars.USE_DOCKER_BUILDX_ACTION == 'false' }}
+        if: ${{ github.event.repository.name == 'geoips' && vars.USE_DOCKER_BUILDX_ACTION != 'true' }}
         run: |
           echo "::group::Built Docker Images"
           echo "All Docker images on system:"
@@ -445,7 +458,7 @@ jobs:
           echo "::endgroup::"
 
       - name: Push Docker images to registry
-        if: ${{ github.event.repository.name == 'geoips' && vars.USE_DOCKER_BUILDX_ACTION == 'false' && vars.ENABLE_DOCKER_REGISTRY == 'true' }}
+        if: ${{ github.event.repository.name == 'geoips' && vars.USE_DOCKER_BUILDX_ACTION != 'true' && vars.ENABLE_DOCKER_REGISTRY == 'true' }}
         run: |
           echo "::group::Pushing Docker Images"
           
@@ -478,10 +491,10 @@ jobs:
           echo "::endgroup::"
 
       - name: Skip pushing to registry
-        if: ${{ github.event.repository.name == 'geoips' && vars.USE_DOCKER_BUILDX_ACTION == 'false' && vars.ENABLE_DOCKER_REGISTRY != 'true' }}
+        if: ${{ github.event.repository.name == 'geoips' && vars.USE_DOCKER_BUILDX_ACTION != 'true' && vars.ENABLE_DOCKER_REGISTRY != 'true' }}
         run: |
           echo "::group::Pushing Docker Images"
-          echo "⚠️  Registry operations are DISABLED"
+          echo "⚠️  Registry operations are DISABLED (default)"
           echo "Skipping push to Docker registry"
           echo ""
           echo "Images built locally:"
@@ -492,24 +505,53 @@ jobs:
           echo "These images are available on this runner for testing"
           echo "::endgroup::"
 
-      - name: Build and push Docker image (using buildx action)
-        if: ${{ github.event.repository.name == 'geoips' && vars.USE_DOCKER_BUILDX_ACTION == 'true' }}
+      #########################################
+      # DOCKER BUILD - BUILDX ACTION (with registry)
+      #########################################
+      - name: Build and push Docker image (buildx with registry)
+        if: ${{ github.event.repository.name == 'geoips' && vars.USE_DOCKER_BUILDX_ACTION == 'true' && vars.ENABLE_DOCKER_REGISTRY == 'true' }}
         uses: docker/build-push-action@v6
         with:
           context: .
           target: doclinttest
-          push: ${{ vars.ENABLE_DOCKER_REGISTRY == 'true' }}
+          push: true
           tags: ${{ env.PUSH_TAGS }}
           file: "Dockerfile"
           cache-from: type=registry,ref=${{ env.BUILDCACHE_IMAGE }}
           cache-to: type=registry,ref=${{ env.FULL_BUILDCACHE_IMAGE }},mode=max
 
+      #########################################
+      # DOCKER BUILD - BUILDX ACTION (local only)
+      #########################################
+      - name: Build Docker image (buildx local only)
+        if: ${{ github.event.repository.name == 'geoips' && vars.USE_DOCKER_BUILDX_ACTION == 'true' && vars.ENABLE_DOCKER_REGISTRY != 'true' }}
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          target: doclinttest
+          push: false
+          load: true
+          tags: ${{ env.PUSH_TAGS }}
+          file: "Dockerfile"
+          cache-from: type=local,src=/tmp/.buildx-cache
+          cache-to: type=local,dest=/tmp/.buildx-cache-new,mode=max
+
+      - name: Move buildx cache
+        if: ${{ github.event.repository.name == 'geoips' && vars.USE_DOCKER_BUILDX_ACTION == 'true' && vars.ENABLE_DOCKER_REGISTRY != 'true' }}
+        run: |
+          echo "Moving buildx cache..."
+          rm -rf /tmp/.buildx-cache
+          mv /tmp/.buildx-cache-new /tmp/.buildx-cache || echo "No new cache to move"
+
+      #########################################
+      # PULL DOCKER IMAGE (for plugin repos)
+      #########################################
       - name: Use local Docker image (for plugin repos - registry disabled)
         if: ${{ github.event.repository.name != 'geoips' && vars.ENABLE_DOCKER_REGISTRY != 'true' }}
         run: |
           echo "::group::Using Local Docker Image"
           
-          echo "⚠️  Registry operations are DISABLED"
+          echo "⚠️  Registry operations are DISABLED (default)"
           echo "This is a plugin repository - checking for local image"
           echo ""
           echo "Looking for image: ${FULL_DOCLINTTEST_IMAGE}"
@@ -938,6 +980,15 @@ jobs:
           echo "Branch/Ref: ${GITHUB_REF}"
           echo "Commit SHA: ${GITHUB_SHA}"
           echo "Event: ${{ github.event_name }}"
+          echo ""
+          echo "============================================"
+          echo "BUILD METHOD"
+          echo "============================================"
+          if [ "${USE_DOCKER_BUILDX_ACTION}" == "true" ]; then
+            echo "⚠️  Docker buildx action"
+          else
+            echo "✓  Explicit docker build (default)"
+          fi
           echo ""
           echo "============================================"
           echo "REGISTRY STATUS"
