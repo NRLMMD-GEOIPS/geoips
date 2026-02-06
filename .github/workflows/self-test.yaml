@@ -76,12 +76,6 @@ jobs:
           echo "  CI_TEST_PYTEST_SHORT: ${{ vars.CI_TEST_PYTEST_SHORT }}"
           echo ""
           echo "============================================"
-          echo "SECRETS CHECK (not values, just existence)"
-          echo "============================================"
-          echo "DOCKER_TOKEN exists: ${{ secrets.DOCKER_TOKEN != '' }}"
-          echo "docker_token exists: ${{ secrets.docker_token != '' }}"
-          echo ""
-          echo "============================================"
           echo "SYSTEM RESOURCES"
           echo "============================================"
           echo "Disk Space:"
@@ -221,8 +215,15 @@ jobs:
           echo "BUILDCACHE_IMAGE=${buildcache_image}" >> $GITHUB_ENV
           echo "BUILDCACHE_IMAGE=${buildcache_image}" >> $GITHUB_OUTPUT
           
-          FULL_DOCLINTTEST_IMAGE="${DOCKER_REGISTRY}/${repo_name}/${doclinttest_image}"
-          FULL_BUILDCACHE_IMAGE="${DOCKER_REGISTRY}/${repo_name}/${buildcache_image}"
+          # Build full image paths including registry
+          if [ -n "$DOCKER_REGISTRY" ]; then
+            FULL_DOCLINTTEST_IMAGE="${DOCKER_REGISTRY}/${repo_name}/${doclinttest_image}"
+            FULL_BUILDCACHE_IMAGE="${DOCKER_REGISTRY}/${repo_name}/${buildcache_image}"
+          else
+            # No registry specified - use default Docker Hub format
+            FULL_DOCLINTTEST_IMAGE="${doclinttest_image}"
+            FULL_BUILDCACHE_IMAGE="${buildcache_image}"
+          fi
           
           echo "Full DocLintTest Image: ${FULL_DOCLINTTEST_IMAGE}"
           echo "Full Build Cache Image: ${FULL_BUILDCACHE_IMAGE}"
@@ -252,6 +253,13 @@ jobs:
           echo "Build Cache Image: ${BUILDCACHE_IMAGE}"
           echo "Full DocLintTest Image: ${FULL_DOCLINTTEST_IMAGE}"
           echo "Full Build Cache Image: ${FULL_BUILDCACHE_IMAGE}"
+          echo ""
+          echo "============================================"
+          echo "REGISTRY CONFIGURATION"
+          echo "============================================"
+          echo "DOCKER_REGISTRY: ${DOCKER_REGISTRY}"
+          echo "DOCKER_REGISTRY_USER: ${DOCKER_REGISTRY_USER}"
+          echo "USE_CONTAINER_REGISTRY: ${{ vars.USE_CONTAINER_REGISTRY }}"
           echo "::endgroup::"
 
       #########################################
@@ -261,9 +269,11 @@ jobs:
         if: ${{ github.event.repository.name == 'geoips' && vars.USE_DOCKER_BUILDX_ACTION == 'true' }}
         uses: docker/setup-buildx-action@v3
 
-      # FIXED: Proper secret reference
-      - name: Login to Docker Registry
+      - name: Login to Docker Registry (GeoIPS repo)
         if: ${{ github.event.repository.name == 'geoips' }}
+        env:
+          DOCKER_TOKEN: ${{ secrets.DOCKER_TOKEN }}
+          DOCKER_TOKEN_LOWER: ${{ secrets.docker_token }}
         run: |
           echo "::group::Docker Registry Login"
           
@@ -272,20 +282,26 @@ jobs:
           echo "Username: ${{ env.DOCKER_REGISTRY_USER }}"
           echo ""
           
-          # Check if secret is available
-          if [ -z "${{ secrets.DOCKER_TOKEN }}" ] && [ -z "${{ secrets.docker_token }}" ]; then
+          # Try to use the token (check which one is set)
+          if [ -n "${DOCKER_TOKEN}" ]; then
+            echo "Using DOCKER_TOKEN secret"
+            if [ -n "$DOCKER_REGISTRY" ]; then
+              echo "${DOCKER_TOKEN}" | docker login $DOCKER_REGISTRY -u $DOCKER_REGISTRY_USER --password-stdin
+            else
+              echo "${DOCKER_TOKEN}" | docker login -u $DOCKER_REGISTRY_USER --password-stdin
+            fi
+          elif [ -n "${DOCKER_TOKEN_LOWER}" ]; then
+            echo "Using docker_token secret"
+            if [ -n "$DOCKER_REGISTRY" ]; then
+              echo "${DOCKER_TOKEN_LOWER}" | docker login $DOCKER_REGISTRY -u $DOCKER_REGISTRY_USER --password-stdin
+            else
+              echo "${DOCKER_TOKEN_LOWER}" | docker login -u $DOCKER_REGISTRY_USER --password-stdin
+            fi
+          else
             echo "::error::No Docker token found in secrets"
             echo "Please set either DOCKER_TOKEN or docker_token in repository secrets"
+            echo "Go to: Settings → Secrets and variables → Actions → Secrets"
             exit 1
-          fi
-          
-          # Use the secret that exists
-          if [ -n "${{ secrets.DOCKER_TOKEN }}" ]; then
-            echo "Using DOCKER_TOKEN secret"
-            echo "${{ secrets.DOCKER_TOKEN }}" | docker login ${{ env.DOCKER_REGISTRY }} -u ${{ env.DOCKER_REGISTRY_USER }} --password-stdin
-          else
-            echo "Using docker_token secret"
-            echo "${{ secrets.docker_token }}" | docker login ${{ env.DOCKER_REGISTRY }} -u ${{ env.DOCKER_REGISTRY_USER }} --password-stdin
           fi
           
           login_result=$?
@@ -328,7 +344,13 @@ jobs:
           fi
           
           stableorlatest_image="${IMAGE_NAME}:${stableorlatest_tag}"
-          FULL_STABLEORLATEST_IMAGE="${DOCKER_REGISTRY}/${REPO_NAME}/${stableorlatest_image}"
+          
+          if [ -n "$DOCKER_REGISTRY" ]; then
+            FULL_STABLEORLATEST_IMAGE="${DOCKER_REGISTRY}/${REPO_NAME}/${stableorlatest_image}"
+          else
+            FULL_STABLEORLATEST_IMAGE="${stableorlatest_image}"
+          fi
+          
           tags="${tags},${FULL_STABLEORLATEST_IMAGE}"
           
           echo "All tags: ${tags}"
@@ -430,6 +452,9 @@ jobs:
 
       - name: Pull Docker image (for plugin repos)
         if: ${{ github.event.repository.name != 'geoips' }}
+        env:
+          DOCKER_TOKEN: ${{ secrets.DOCKER_TOKEN }}
+          DOCKER_TOKEN_LOWER: ${{ secrets.docker_token }}
         run: |
           echo "::group::Pulling Docker Image"
           
@@ -439,10 +464,23 @@ jobs:
           
           # Login first for plugin repos too (in case registry requires auth for pulls)
           echo "Logging in to registry for image pull..."
-          if [ -n "${{ secrets.DOCKER_TOKEN }}" ]; then
-            echo "${{ secrets.DOCKER_TOKEN }}" | docker login ${{ env.DOCKER_REGISTRY }} -u ${{ env.DOCKER_REGISTRY_USER }} --password-stdin
-          elif [ -n "${{ secrets.docker_token }}" ]; then
-            echo "${{ secrets.docker_token }}" | docker login ${{ env.DOCKER_REGISTRY }} -u ${{ env.DOCKER_REGISTRY_USER }} --password-stdin
+          
+          if [ -n "${DOCKER_TOKEN}" ]; then
+            echo "Using DOCKER_TOKEN secret"
+            if [ -n "$DOCKER_REGISTRY" ]; then
+              echo "${DOCKER_TOKEN}" | docker login $DOCKER_REGISTRY -u $DOCKER_REGISTRY_USER --password-stdin
+            else
+              echo "${DOCKER_TOKEN}" | docker login -u $DOCKER_REGISTRY_USER --password-stdin
+            fi
+          elif [ -n "${DOCKER_TOKEN_LOWER}" ]; then
+            echo "Using docker_token secret"
+            if [ -n "$DOCKER_REGISTRY" ]; then
+              echo "${DOCKER_TOKEN_LOWER}" | docker login $DOCKER_REGISTRY -u $DOCKER_REGISTRY_USER --password-stdin
+            else
+              echo "${DOCKER_TOKEN_LOWER}" | docker login -u $DOCKER_REGISTRY_USER --password-stdin
+            fi
+          else
+            echo "::warning::No Docker token found - attempting anonymous pull"
           fi
           
           echo ""
