@@ -1,0 +1,18 @@
+enhancement:
+- title: ''
+  description: ''
+  files:
+    added:
+    - 'tests/unit_tests/pydantic_models/v1/title_formatters/test_cases_neutral.yaml'
+    modified:
+    - 'tests/unit_tests/pydantic_models/v1/conftest.py'
+    - 'tests/unit_tests/pydantic_models/v1/test_pydantic_models.py'
+    deleted:
+    - 'tests/unit_tests/pydantic_models/v1/title_formatters/conftest.py'
+    - 'tests/unit_tests/pydantic_models/v1/title_formatters/test_title_formatters.py'
+  related-issue:
+    number: null
+    repo_url: ''
+  date:
+    start: null
+    finish: null
