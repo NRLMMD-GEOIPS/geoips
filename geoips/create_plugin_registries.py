@@ -16,6 +16,7 @@ from argparse import ArgumentParser
 import logging
 from importlib import metadata, resources, util, import_module
 from inspect import signature
+import json
 from os.path import (
     basename,
     dirname,
@@ -30,7 +31,6 @@ from pathlib import Path
 import re
 import warnings
 
-import json
 import yaml
 
 import geoips.interfaces
@@ -480,7 +480,7 @@ def parse_plugin_paths(plugin_paths, package, package_dir, plugins, namespace):
         for filepath in plugin_paths[plugin_type]:
             # If any 'part' of the full filepath starts with a '.' (dot) directory or
             # file, do not use this filepath. Just continue to the next filepath
-            # provided. Resolving path to prevent false-positives on "." or ".." 
+            # provided. Resolving path to prevent false-positives on "." or ".."
             # paths for relative paths as an edge case.
             if any(part.startswith(".") for part in Path(filepath).resolve().parts):
                 continue
