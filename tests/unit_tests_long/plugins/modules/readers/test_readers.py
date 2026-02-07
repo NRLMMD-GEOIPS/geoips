@@ -2,8 +2,11 @@
 # # # https://github.com/NRLMMD-GEOIPS.
 
 """Unit tests on all the readers."""
+
 import numpy as np
 import pytest
+
+
 from geoips.commandline.log_setup import setup_logging
 from geoips.interfaces import readers
 from os import environ
@@ -29,7 +32,14 @@ class TestReaders:
             data_var = test_parameter["data_var"]
             if "mean" in test_parameter:
                 mean = test_parameter["mean"]
-                assert np.isclose(inxr[data_key].variables[data_var].mean(), mean)
+                try:
+                    assert np.isclose(inxr[data_key].variables[data_var].mean(), mean)
+                except AssertionError:
+                    LOG.error(
+                        f"{data_key} {data_var} mean "
+                        f"{inxr[data_key].variables[data_var].mean()} != {mean}"
+                    )
+                    raise
 
             assert inxr
             assert inxr[data_key]

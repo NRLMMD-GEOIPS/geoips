@@ -1,0 +1,15 @@
+bug fix:
+  - title: "Fixed a typo"
+    description: "Fixed a typo within single_source."
+    files:
+      deleted:
+        - ""
+      moved:
+        - ""
+      added:
+        - ""
+      modified:
+        - "geoips/plugins/modules/procflows/single_source.py"
+    date:
+      start: 2025-12-09
+      finish: 2025-12-09

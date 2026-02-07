@@ -145,7 +145,7 @@ class PluginRegistry:
                 try:
                     registry = self._load_registry(reg_path)
                 except FileNotFoundError as e:
-                    if PATHS["GEOIPS_REBUILD_REGISTRIES"]:
+                    if PATHS["GEOIPS_REBUILD_REGISTRIES"] == True:
                         # This will be hit if we have this environment variable set to
                         # True
                         LOG.warning(
@@ -841,7 +841,12 @@ class PluginRegistry:
                     # Attempt to remove the files, pass silently if they don't exist.
                     try:
                         os.remove(path)
+                        print(f"Removed registry file @ {path} from package '{pkg}'.")
                     except FileNotFoundError:
+                        print(
+                            f"Unable to remove registry file @ {path} from package "
+                            f"'{pkg}'."
+                        )
                         continue
 
     def _validate_packages_input(self, packages):

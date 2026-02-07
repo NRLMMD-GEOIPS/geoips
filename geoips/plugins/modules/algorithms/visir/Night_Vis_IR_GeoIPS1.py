@@ -5,6 +5,7 @@
 
 This algorithm expects two VIIRS channels (DNBRad and M16BT) for a RGB image
 """
+
 import logging
 from geoips.data_manipulations.corrections import mask_day
 

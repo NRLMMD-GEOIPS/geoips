@@ -23,7 +23,6 @@ from geoips.errors import PluginError
 from geoips.geoips_utils import is_editable
 from geoips.interfaces import sectors
 
-
 # class GeoipsTestUnitTest(GeoipsExecutableCommand):
 #     """Test Command for running GeoIPS Unit Tests."""
 
