@@ -13,8 +13,8 @@ import pytest
 from geoips.pydantic_models.v1.title_formatters import TitleFormatterArgumentsModel
 from tests.unit_tests.pydantic_models.v1.utils import (
     PathDict,
-    load_test_cases,
     load_geoips_yaml_plugin,
+    load_test_cases,
     retrieve_model,
     validate_bad_plugin,
     validate_base_plugin,
