@@ -1,6 +1,8 @@
 enhancement:
-- title: ''
-  description: ''
+- title: 'Consolidate YAML-based and module-based unit tests into test_pydanitc_models.py'
+  description: |
+    Unifies YAML-based and module-based Pydantic unit tests into single location,
+    reducing redundancy and simplifying maintenance.
   files:
     added:
     - 'tests/unit_tests/pydantic_models/v1/title_formatters/test_cases_neutral.yaml'
@@ -11,8 +13,8 @@ enhancement:
     - 'tests/unit_tests/pydantic_models/v1/title_formatters/conftest.py'
     - 'tests/unit_tests/pydantic_models/v1/title_formatters/test_title_formatters.py'
   related-issue:
-    number: null
+    number: 1243
     repo_url: ''
   date:
-    start: null
-    finish: null
+    start: 02-05-2026
+    finish: 02-09-2026
