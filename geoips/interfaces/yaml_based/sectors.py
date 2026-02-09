@@ -160,6 +160,7 @@ class SectorsInterface(BaseYamlInterface):
 
     name = "sectors"
     plugin_class = SectorPluginBase
+    use_pydantic = False
     # Uncomment when ready to switch from JsonSchema to Pydantic
     # validator = SectorPluginModel
 

@@ -152,11 +152,12 @@ class BaseClassPlugin(ABC):
     def _invoke(self, data=None, *args, **kwargs):
         # In the long run every plugin will accept a data tree
         # (I.e. colormapper modifies metadata)
-        if self.interface in [
-            "colormappers",
-            "sector_spec_generators",
-            "sector_metadata_generators",
-        ]:
+        # if self.interface in [
+        #     "colormappers",
+        #     "sector_spec_generators",
+        #     # "sector_metadata_generators",
+        # ]:
+        if data is None:
             data = self.call(*args, **kwargs)
         else:
             data = self._pre_call(data, *args, **kwargs)
