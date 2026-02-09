@@ -58,10 +58,7 @@ def load_good_plugins(models_available):
           {interface_name: plugin[dict]}
     """
     good_plugins = {}
-    for (
-        interface,
-        cfg,
-    ) in models_available.items():
+    for interface, cfg in models_available.items():
         source_type, plugin = cfg["good_source"]
         if source_type == "yaml":
             good_plugins[interface] = load_geoips_yaml_plugin(interface, plugin)
@@ -107,7 +104,7 @@ def get_good_plugin(interface, request):
     """
     Return a "known-good" plugin instance or config for the given interface.
 
-    Source of the good plugin is defined in `models_available[interface]["good_soure"]`
+    Source of the good plugin is defined in `models_available[interface]["good_source"]`
     as a tuple: (source_type, source_value), where:
 
     - source_type == "yaml": return `good_plugins[interface]`
@@ -126,8 +123,20 @@ def get_good_plugin(interface, request):
         The good plugin object or config for the given interface.
 
     """
-    cfg = models_available[interface]
-    source_type, source_value = cfg["good_source"]
+    cfg = models_available.get(interface)
+    if cfg is None:
+        raise KeyError(
+            f"Unknown interface '{interface}' provided."
+            f" Available: {sorted(models_available)}"
+        )
+
+    try:
+        source_type, source_value = cfg["good_source"]
+    except (KeyError, TypeError, ValueError) as exc:
+        raise ValueError(
+            f"Invalid good_source for interface '{interface}'"
+            f"(source_type, source_value), got {cfg.get('good_source')!r}"
+        ) from exc
 
     if source_type == "yaml":
         try:
@@ -141,13 +150,13 @@ def get_good_plugin(interface, request):
         if not source_value:
             raise ValueError(
                 f"Fixture for the interface '{interface}' is empty or None:"
-                "{source_value!r}"
+                f"{source_value!r}"
             )
         return request.getfixturevalue(source_value)
 
     raise ValueError(
         f"unknown good_source type: {source_type} for interface '{interface}': "
-        "{source_type!r}. should be 'yaml' or 'fixture'"
+        f"{source_type!r}. should be 'yaml' or 'fixture'"
     )
 
 
