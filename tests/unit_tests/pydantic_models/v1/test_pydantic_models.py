@@ -3,10 +3,14 @@
 
 """Testing module for Pydantic PluginModels."""
 
+# Python Standard Libraries
 from copy import deepcopy
 
+# Third-Party Libraries
 import pytest
 
+# GeoIPS imports
+from geoips.pydantic_models.v1.title_formatters import TitleFormatterArgumentsModel
 from tests.unit_tests.pydantic_models.v1.utils import (
     PathDict,
     load_test_cases,
@@ -17,7 +21,6 @@ from tests.unit_tests.pydantic_models.v1.utils import (
     validate_neutral_plugin,
 )
 
-from geoips.pydantic_models.v1.title_formatters import TitleFormatterArgumentsModel
 
 # A mapping of interfaces implemented in pydantic and a plugin to validate against.
 models_available = {
