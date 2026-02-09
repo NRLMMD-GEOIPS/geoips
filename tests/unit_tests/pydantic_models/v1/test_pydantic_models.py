@@ -141,8 +141,8 @@ def get_good_plugin(interface, request):
         if not source_value:
             raise ValueError(
                 f"Fixture for the interface '{interface}' is empty or None:"
-                  "{source_value!r}"
-                  )
+                "{source_value!r}"
+            )
         return request.getfixturevalue(source_value)
 
     raise ValueError(
