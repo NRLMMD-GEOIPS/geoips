@@ -104,22 +104,55 @@ def generate_test_cases(test_type):
 
 
 def get_good_plugin(interface, request):
-    """Add docstring."""
+    """
+    Return a "known-good" plugin instance or config for the given interface.
+
+    Source of the good plugin is defined in `models_available[interface]["good_soure"]`
+    as a tuple: (source_type, source_value), where:
+
+    - source_type == "yaml": return `good_plugins[interface]`
+    - source_type == "fixture" return `request.getfixturevalue(source_value)`
+
+    Parameters
+    ----------
+    interface : str
+        GeoIPS interface name such as readers.
+    request : pytest.FixtureRequest
+        Pytest request object used to resolve fixture-based sources.
+
+    Returns
+    -------
+    Any
+        The good plugin object or config for the given interface.
+
+    """
     cfg = models_available[interface]
     source_type, source_value = cfg["good_source"]
 
     if source_type == "yaml":
-        return good_plugins[interface]
-    elif source_type == "fixture":
+        try:
+            return good_plugins[interface]
+        except KeyError as exc:
+            raise KeyError(
+                f"Missing good_plugins entry for interface '{interface}'"
+            ) from exc
+
+    if source_type == "fixture":
+        if not source_value:
+            raise ValueError(
+                f"Fixture for the interface '{interface}' is empty or None:"
+                  "{source_value!r}"
+                  )
         return request.getfixturevalue(source_value)
-    else:
-        raise ValueError(
-            f"unknown good_source type: {source_type}; should be YAML or a fixture"
-        )
+
+    raise ValueError(
+        f"unknown good_source type: {source_type} for interface '{interface}': "
+        "{source_type!r}. should be 'yaml' or 'fixture'"
+    )
 
 
 def get_model(interface, plugin):
-    """Add docstring."""
+    """Return the Pydantic model used to validate a plugin for a given interface."""
     cfg = models_available[interface]
     if cfg["model"] is not None:
         return cfg["model"]
