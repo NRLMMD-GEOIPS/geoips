@@ -13,3 +13,4 @@ Concepts
 
    functionality/index
    architecture/index
+   configuration/index
