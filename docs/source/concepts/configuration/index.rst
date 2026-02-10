@@ -142,6 +142,7 @@ variables when you activate your environment. This means the variables are only 
 when the GeoIPS environment is active.
 
 .. code-block:: bash
+
     # Set PACKAGES_DIR first
     conda env config vars set GEOIPS_PACKAGES_DIR=$HOME/geoips
 
@@ -166,6 +167,7 @@ terminal output. Some users may not prefer this, and in that case, you can set t
 variable to True in your ``.bashrc`` or comparable settings file.
 
 .. note::
+
    Environment variable ``NO_COLOR`` will disable any colored output from the
    terminal, even if it's not produced via GeoIPS. For example, if this is set to
    True in your shell configuration, even pytest output will be monochrome. We chose
