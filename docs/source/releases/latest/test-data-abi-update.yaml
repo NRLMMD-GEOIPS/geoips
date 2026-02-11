@@ -1,0 +1,15 @@
+testing:
+- title: 'Test Data ABI Dataset Update V1.17.1'
+  description: |
+    This PR updates the URL used for the test_data_abi dataset. It now points to V1.17.1
+    instead of our V1.15.1 dataset. This is a simple one line change to the URL of that
+    dataset that is used via the CLI for test dataset installation.
+  files:
+    modified:
+      - geoips/commandline/ancillary_info/test-data-urls.yaml
+  related-issue:
+    number: null
+    repo_url: ''
+  date:
+    start: null
+    finish: null
