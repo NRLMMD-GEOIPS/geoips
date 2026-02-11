@@ -79,6 +79,7 @@ enhancement:
       - tests/unit_tests/plugins/modules/output_checkers/test_output_checkers.py
       - tests/unit_tests_long/plugins/modules/readers/reader_dataset_variable_mappings.yaml
       - tests/unit_tests_long/plugins/modules/readers/test_readers.py
+      - tests/utils/test_interfaces.py
     deleted:
       - geoips/plugins/modules/output_checkers/geotiff.py
       - geoips/plugins/modules/output_checkers/image.py
