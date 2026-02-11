@@ -1,0 +1,92 @@
+enhancement:
+- title: 'Base Plugin Classes'
+  description: |
+    This PR builds off of #1235 by implementing base plugin classes for all class-based
+    interfaces (previously module-based interfaces). Additionally, this PR converts all
+    output_checker plugins to class-based plugins and refactors the output_checker
+    interface / base plugin code to remove any reference of ``plugin.module`` and make
+    use of functionality via inheritance instead. There is an additional PR for
+    recenter_tc (https://github.com/NRLMMD-GEOIPS/recenter_tc/pull/54) which converts
+    the ``fdeck`` output_checker to class-based as well.
+
+    Additionally, added documentation describing the purpose of class-based plugins and
+    how they impact the plugin registry. There is also an example of how to convert a
+    module-based plugin to a class-based plugin which also describes how the plugin
+    registry can access the metadata of the true class-based plugin.
+
+    Finally, refactored the long unit test ``test_readers`` by removing any reference of
+    ``plugin.module`` and updating logic to get all information needed for unit tests
+    via a hardcoded yaml file rather than having testing logic in the module of specific
+    reader plugins.
+  files:
+    added:
+      - docs/dev/class_based_plugins.rst
+      - geoips/base_class_plugins/__init__.py
+      - geoips/base_class_plugins/algorithms.py
+      - geoips/base_class_plugins/colormappers.py
+      - geoips/base_class_plugins/coverage_checkers.py
+      - geoips/base_class_plugins/databases.py
+      - geoips/base_class_plugins/filename_formatters.py
+      - geoips/base_class_plugins/interpolators.py
+      - geoips/base_class_plugins/output_checkers.py
+      - geoips/base_class_plugins/output_formatters.py
+      - geoips/base_class_plugins/procflows.py
+      - geoips/base_class_plugins/readers.py
+      - geoips/base_class_plugins/sector_adjusters.py
+      - geoips/base_class_plugins/sector_metadata_adjusters.py
+      - geoips/base_class_plugins/sector_spec_generators.py
+      - geoips/base_class_plugins/title_formatters.py
+      - geoips/plugins/classes/output_checkers/geotiff.py
+      - geoips/plugins/classes/output_checkers/image.py
+      - geoips/plugins/classes/output_checkers/netcdf.py
+      - geoips/plugins/classes/output_checkers/text.py
+    modified:
+      - docs/dev/order_based_procflow.rst
+      - geoips/create_plugin_registries.py
+      - geoips/image_utils/maps.py
+      - geoips/interfaces/__init__.py
+      - geoips/interfaces/base.py
+      - geoips/interfaces/class_based/algorithms.py
+      - geoips/interfaces/class_based/colormappers.py
+      - geoips/interfaces/class_based/coverage_checkers.py
+      - geoips/interfaces/class_based/databases.py
+      - geoips/interfaces/class_based/filename_formatters.py
+      - geoips/interfaces/class_based/interpolators.py
+      - geoips/interfaces/class_based/output_checkers.py
+      - geoips/interfaces/class_based/output_formatters.py
+      - geoips/interfaces/class_based/procflows.py
+      - geoips/interfaces/class_based/readers.py
+      - geoips/interfaces/class_based/sector_adjusters.py
+      - geoips/interfaces/class_based/sector_metadata_generators.py
+      - geoips/interfaces/class_based/sector_spec_generators.py
+      - geoips/interfaces/class_based/title_formatters.py
+      - geoips/interfaces/class_based_plugin.py
+      - geoips/interfaces/yaml_based/gridline_annotators.py
+      - geoips/interfaces/yaml_based/sectors.py
+      - geoips/plugin_registry.py
+      - geoips/plugins/classes/algorithms/single_channel.py
+      - geoips/plugins/modules/procflows/config_based.py
+      - geoips/plugins/modules/procflows/single_source.py
+      - geoips/plugins/modules/readers/ami_netcdf.py
+      - geoips/plugins/modules/readers/amsr2_netcdf.py
+      - geoips/plugins/modules/readers/amsr2_remss_winds_netcdf.py
+      - geoips/plugins/modules/readers/cygnss_netcdf.py
+      - geoips/plugins/modules/readers/gmi_hdf5.py
+      - geoips/plugins/modules/readers/sar_winds_netcdf.py
+      - geoips/plugins/modules/readers/scat_knmi_winds_netcdf.py
+      - geoips/plugins/modules/readers/scat_noaa_winds_netcdf.py
+      - geoips/plugins/modules/readers/smap_remss_winds_netcdf.py
+      - tests/unit_tests/plugins/modules/output_checkers/test_output_checkers.py
+      - tests/unit_tests_long/plugins/modules/readers/reader_dataset_variable_mappings.yaml
+      - tests/unit_tests_long/plugins/modules/readers/test_readers.py
+    deleted:
+      - geoips/plugins/modules/output_checkers/geotiff.py
+      - geoips/plugins/modules/output_checkers/image.py
+      - geoips/plugins/modules/output_checkers/netcdf.py
+      - geoips/plugins/modules/output_checkers/text.py
+  related-issue:
+    number: null
+    repo_url: ''
+  date:
+    start: null
+    finish: null
