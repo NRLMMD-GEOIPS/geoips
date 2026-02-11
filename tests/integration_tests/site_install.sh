@@ -25,7 +25,7 @@ fi
 . $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh source_repo data_fusion $test_exit $install_script
 . $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh source_repo geoips_clavrx $test_exit $install_script
 . $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh source_repo geoips_plugin_example $test_exit $install_script
-. $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh source_repo recenter_tc $test_exit $install_script
+#. $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh source_repo recenter_tc $test_exit $install_script # uncommenting this because recenter_tc is broken right now, see recenter_tc#52
 
 # Private repos - only clone if GEOIPS_USE_PRIVATE_PLUGINS is set to "true"
 if [[ "$GEOIPS_USE_PRIVATE_PLUGINS" == "true" ]]; then
