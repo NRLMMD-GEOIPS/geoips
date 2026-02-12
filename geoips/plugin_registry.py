@@ -108,11 +108,11 @@ class PluginRegistry:
         return self._registered_plugins["yaml_based"]
 
     @property
-    def registered_module_based_plugins(self):
-        """A dictionary of registered module-based plugins."""
+    def registered_class_based_plugins(self):
+        """A dictionary of registered class-based plugins."""
         if not hasattr(self, "_registered_plugins"):
             self._set_class_properties()
-        return self._registered_plugins["module_based"]
+        return self._registered_plugins["class_based"]
 
     def _set_class_properties(self, force_reset=False):
         """Find all plugins in registered plugin packages.
@@ -268,7 +268,7 @@ class PluginRegistry:
         interface_mapping: dict
             - Dictionary of interface types and interfaces of that type.
               GeoIPS has three types of interfaces, though only two are commonly used
-              (yaml_based, module_based). This dictionary has top level keys of all
+              (yaml_based, class_based). This dictionary has top level keys of all
               interface types, with their values being the list of unique interfaces
               that inherit that type.
         registered_plugins: dict
@@ -276,7 +276,7 @@ class PluginRegistry:
               namespace.
         registry: dict
             - A dictionary representing the contents of a plugin registry file. Can
-              include top-level keys such as 'yaml_based' or 'module_based' each of
+              include top-level keys such as 'yaml_based' or 'class_based' each of
               which is another dictionary containing interfaces of that type, which
               are also dictionaries containing plugins that correspond to that
               interface.
@@ -573,14 +573,17 @@ class PluginRegistry:
             plugins.append(self.get_yaml_plugin(interface_obj, name))
         return plugins
 
-    def get_module_plugin(self, interface_obj, name, rebuild_registries=None):
-        """Retrieve a plugin from this interface by name.
+    def get_class_plugin(self, interface_obj, name, rebuild_registries=None):
+        """Retrieve a class plugin from this interface by name.
+
+        In GeoIPS' current state, a class plugin can be a derived plugin object (I.e.
+        legacy module-based plugins) or true class-based plugins which are not derived.
 
         Parameters
         ----------
         interface_obj: GeoIPS Interface Object
-            - The object representing the interface class requesting this module plugin.
-        name : str
+            - The object representing the interface class requesting this class plugin.
+        name: str
             - The name the desired plugin.
         rebuild_registries: bool (default=None)
             - Whether or not to rebuild the registries if get_plugin fails. If set to
@@ -602,7 +605,7 @@ class PluginRegistry:
           If the specified plugin isn't found within the interface.
         """
         try:
-            registered_module_plugins = self.registered_plugins["module_based"]
+            registered_class_plugins = self.registered_plugins["class_based"]
         except KeyError:
             # Very likely could occur if registries haven't been built yet
             err_str = f"No plugins found for '{interface_obj.name}' interface."
@@ -616,7 +619,7 @@ class PluginRegistry:
                 f" value. Encountered this '{rebuild_registries}' instead."
             )
 
-        if name not in registered_module_plugins[interface_obj.name]:
+        if name not in registered_class_plugins[interface_obj.name]:
             err_str = (
                 f"Plugin '{name}', "
                 f"from interface '{interface_obj.name}' "
@@ -627,8 +630,8 @@ class PluginRegistry:
                 interface_obj, name, rebuild_registries, err_str
             )
 
-        package = registered_module_plugins[interface_obj.name][name]["package"]
-        relpath = registered_module_plugins[interface_obj.name][name]["relpath"]
+        package = registered_class_plugins[interface_obj.name][name]["package"]
+        relpath = registered_class_plugins[interface_obj.name][name]["relpath"]
         module_path = os.path.splitext(relpath.replace("/", "."))[0]
         module_path = f"{package}.{module_path}"
         abspath = resources.files(package) / relpath
@@ -652,14 +655,30 @@ class PluginRegistry:
         spec = util.spec_from_file_location(module_path, abspath)
         module = util.module_from_spec(spec)
         spec.loader.exec_module(module)
-        plugin = interface_obj._plugin_module_to_obj(name, module)
+
+        if registered_class_plugins[interface_obj.name][name][
+            "is_derived_plugin_object"
+        ]:
+            # If the requested plugin was derived from a module, use the class factory
+            # code.
+            plugin = interface_obj._plugin_module_to_obj(name, module)
+        else:
+            # Otherwise, just grab the associated plugin class and instantiate it.
+            PLUGIN_CLASS = getattr(module, "PLUGIN_CLASS")
+            plugin = PLUGIN_CLASS()
+            # Set attributes required to test the interface of a given plugin
+            plugin.id = plugin.name
+            plugin.docstring = plugin.__doc__
         # This function might raise a PluginError with pertinent information on why
         # the plugin is invalid. Don't catch that, we want the error to be raised.
         interface_obj.plugin_is_valid(plugin)
         return plugin
 
-    def get_module_plugins(self, interface_obj):
-        """Retrieve all module plugins for this interface.
+    def get_class_plugins(self, interface_obj):
+        """Retrieve all class plugins for this interface.
+
+        In GeoIPS' current state, this will grab all true class-based plugins and those
+        plugins who were derived into a plugin object from a legacy module-based plugin.
 
         Parameters
         ----------
@@ -679,20 +698,22 @@ class PluginRegistry:
         # Check if the current interface (self.name) is found in the
         # registered_plugins dictionary - if it is not, that means there
         # are no plugins for that interface, so return an empty list.
-        registered_module_plugins = self.registered_module_based_plugins
-        if interface_obj.name not in registered_module_plugins:
+
+        registered_class_plugins = self.registered_plugins["class_based"]
+        if interface_obj.name not in registered_class_plugins:
             LOG.debug("No plugins found for '%s' interface.", interface_obj.name)
             return plugins
 
-        for plugin_name in registered_module_plugins[interface_obj.name]:
+        for plugin_name in registered_class_plugins[interface_obj.name]:
             try:
-                plugins.append(self.get_module_plugin(interface_obj, plugin_name))
+                plugins.append(self.get_class_plugin(interface_obj, plugin_name))
             except AttributeError as resp:
                 raise PluginError(
                     f"Plugin '{plugin_name}' is missing the 'name' attribute, "
                     f"\nfrom package '{plugin_name['package']},' "
                     f"'{plugin_name['relpath']}' module,"
                 ) from resp
+
         return plugins
 
     def retry_get_plugin(

@@ -2469,7 +2469,7 @@ def call(fnames, command_line_args=None):
 
     retval = 0
     if compare_path:
-        from geoips.interfaces.module_based.output_checkers import output_checkers
+        from geoips.interfaces.class_based.output_checkers import output_checkers
 
         checker_override = command_line_args["output_checker_name"]
         for output_product in final_products:
