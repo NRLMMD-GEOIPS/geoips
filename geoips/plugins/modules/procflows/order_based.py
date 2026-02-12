@@ -37,7 +37,7 @@ def call(workflow, fnames, command_line_args=None):
     LOG.interactive(f"Begin processing '{workflow['name']}' workflow.")
     wf_plugin = workflow
 
-    handled_interfaces = ["readers"]
+    handled_interfaces = ["readers", "coverage_checkers"]
     for step_id, step_def in wf_plugin["spec"]["steps"].items():
         interface = str(Lexeme(step_def["kind"]).plural)
 
@@ -78,7 +78,7 @@ def call(workflow, fnames, command_line_args=None):
                 step_def["kind"],
             )
 
-    LOG.interactive(f"\nThe workflow '{workflow['name']}' has finished processing.\n")
+    LOG.interactive(f"\nThe workflow '{workflow}' has finished processing.\n")
 
 
 if __name__ == "__main__":

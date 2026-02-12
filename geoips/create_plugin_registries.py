@@ -965,10 +965,15 @@ def add_class_plugin(package, relpath, plugins):
                          at relpath '{relpath}'\n"""
         return error_message
 
+    # We've encountered a truly 'class-based' plugin. I.e. we don't need to generate
+    # the plugin object from the module itself. Collect metadata from this plugin
+    # in a different fashion to what we've done previously.
+
+    # Once we've fully implemented class-based plugins and removed support for
+    # module-based plugins, we can remove this conditional and only keep the 'if'
+    # portion of the if-else statement below. The 'else' part of the conditional handles
+    # legacy module based plugins for the time being.
     if "classes" in module_path or hasattr(module, "PLUGIN_CLASS"):
-        # We've encountered a truly 'class-based' plugin. I.e. we don't need to generate
-        # the plugin object from the module itself. Collect metadata from this plugin
-        # in a different fashion to what we've done previously.
         is_class = True
         try:
             PLUGIN_CLASS = getattr(module, "PLUGIN_CLASS")
