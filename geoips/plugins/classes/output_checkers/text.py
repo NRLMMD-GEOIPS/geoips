@@ -19,7 +19,6 @@ from geoips.commandline.log_setup import log_with_emphasis
 from geoips.geoips_utils import get_numpy_seeded_random_generator
 from geoips.filenames.base_paths import PATHS
 
-
 USE_RICH = PATHS["GEOIPS_RICH_CONSOLE_OUTPUT"]
 PRINT_TO_CONSOLE = PATHS["GEOIPS_TEST_PRINT_TEXT_OUTPUT_CHECKER_TO_CONSOLE"]
 PROMPT_TO_OVERWRITE_COMPARISON_FILE = PATHS.get(
