@@ -727,7 +727,7 @@ class BaseClassInterface(BaseInterface):
         plugin_type = f"{plugin_interface_name}Plugin"
 
         # Always require 'plugin_class' from each class-based interface
-        # TODO: Add this as a unit test for all class-based interfaces
+        # This is enforced in the 'test_interfaces' unit test.
         if not hasattr(cls, "plugin_class") or cls.plugin_class is None:
             raise PluginError(
                 f"Error: interface '{obj_attrs['interface']}' is missing required "
