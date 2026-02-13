@@ -551,7 +551,7 @@ class PluginRegistry:
         plugin["relpath"] = relpath
 
         if getattr(interface_obj, "use_pydantic", False):
-            return (self.load_plugin(plugin)).model_dump()
+            return self.load_plugin(plugin).model_dump()
         else:
             validated = interface_obj.validator.validate(plugin)
             return interface_obj._plugin_yaml_to_obj(name, validated)
@@ -656,16 +656,14 @@ class PluginRegistry:
         module = util.module_from_spec(spec)
         spec.loader.exec_module(module)
 
-        if registered_class_plugins[interface_obj.name][name][
-            "is_derived_plugin_object"
-        ]:
+        if registered_class_plugins[interface_obj.name][name]["is_derived_from_module"]:
             # If the requested plugin was derived from a module, use the class factory
             # code.
             plugin = interface_obj._plugin_module_to_obj(name, module)
         else:
             # Otherwise, just grab the associated plugin class and instantiate it.
             PLUGIN_CLASS = getattr(module, "PLUGIN_CLASS")
-            plugin = PLUGIN_CLASS()
+            plugin = PLUGIN_CLASS(module)
             # Set attributes required to test the interface of a given plugin
             plugin.id = plugin.name
             plugin.docstring = plugin.__doc__

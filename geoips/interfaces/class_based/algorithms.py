@@ -3,6 +3,7 @@
 
 """Algorithms interface class."""
 
+from geoips.base_class_plugins import BaseAlgorithmPlugin
 from geoips.interfaces.base import BaseClassInterface
 
 
@@ -10,6 +11,7 @@ class AlgorithmsInterface(BaseClassInterface):
     """Data manipulations to apply to the dataset."""
 
     name = "algorithms"
+    plugin_class = BaseAlgorithmPlugin
 
     required_args = {
         "scalar_to_scalar": [],

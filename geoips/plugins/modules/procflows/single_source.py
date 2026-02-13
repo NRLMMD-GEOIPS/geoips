@@ -1328,7 +1328,7 @@ def plot_data(
             if "feature_annotator" in output_kwargs:
                 output_kwargs["feature_annotator"] = output_kwargs[
                     "feature_annotator"
-                ].model_dump()
+                ]  # .model_dump()
             output_products = output_plugin(
                 area_def,
                 xarray_obj=alg_xarray,
@@ -2481,7 +2481,6 @@ def call(fnames, command_line_args=None):
             if output_checker.name in output_checker_kwargs:
                 kwargs = output_checker_kwargs[output_checker.name]
             retval += output_checker(
-                output_checker,
                 compare_path.replace("<product>", product_name)
                 .replace("<procflow>", "single_source")
                 .replace("<output>", output_formatter),

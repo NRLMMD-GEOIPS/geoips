@@ -411,7 +411,7 @@ def check_feature_annotator(feature_annotator):
         For complete list of fields, and appropriate defaults
     """
     if feature_annotator is None:
-        feature_annotator = feature_annotators.get_plugin("default").model_dump()
+        feature_annotator = feature_annotators.get_plugin("default")
     spec = feature_annotator["spec"]
 
     feature_types = ["coastline", "borders", "rivers", "states"]

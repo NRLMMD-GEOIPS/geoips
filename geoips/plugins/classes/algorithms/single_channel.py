@@ -9,7 +9,7 @@ to apply corrections to a single channel output product.
 
 import logging
 
-from geoips.interfaces.class_based_plugin import BaseAlgorithmPlugin
+from geoips.base_class_plugins import BaseAlgorithmPlugin
 
 LOG = logging.getLogger(__name__)
 
@@ -215,5 +215,4 @@ class SingleChannelAlgorithmPlugin(BaseAlgorithmPlugin):
         return data
 
 
-# potentially instantiate
 PLUGIN_CLASS = SingleChannelAlgorithmPlugin

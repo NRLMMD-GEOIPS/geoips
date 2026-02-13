@@ -1,0 +1,70 @@
+implemented_tests_for_readers:
+  ami_netcdf:
+    data_path: "/test_data_ami/data/20231208_0300_daytime/*.nc"
+    test_parameters:
+      - param1:
+          data_key: HIGH
+          data_var: VI006Ref
+          mean: 0.14788916
+      - param2:
+          data_key: LOW
+          data_var: IR112BT
+          mean: 286.63754873
+  amsr2_netcdf:
+    data_path: "/test_data_amsr2/data/AMSR2-MBT*.nc"
+    test_parameters:
+      - param1:
+          data_key: Brightness_Temperature_10_GHzH
+          data_var: tb10h
+  amsr2_remss_winds_netcdf:
+    data_path: "/test_data_amsr2/data/RSS*.nc"
+    test_parameters:
+      - param1:
+          data_key: WINDSPEED_1
+          data_var: wind_speed_kts
+          lon_bounds: []
+          lat_bounds: []
+  cygnss_netcdf:
+    data_path: "/test_data_cygnss/data/*.nc"
+    test_parameters:
+      - param1:
+          data_key: CYGNSS
+          data_var: wind_speed
+          mean: 7.0251474
+  gmi_hdf5:
+    data_path: "/test_data_gpm/data/1B*.RT-H5"
+    test_parameters:
+      - param1:
+          data_key: GMI
+          data_var: V10
+  sar_winds_netcdf:
+    data_path: "/test_data_sar/data/*.nc"
+    test_parameters:
+      - param1:
+          data_key: WINDSPEED
+          data_var: wind_speed_kts
+  scat_knmi_winds_netcdf:
+    data_path: "/test_data_scat/data/metopc*knmi*/*coa*.nc"
+    test_parameters:
+      - param1:
+          data_key: WINDSPEED
+          data_var: wind_speed_kts
+  scat_noaa_winds_netcdf:
+    data_path: "/test_data_scat/data/20230524_metopc_noaa_class_tc2023wp02mawar/L2OVW25kmASCAT_v1r1_m03_s202305242348000*.nc"
+    test_parameters:
+      - param1:
+          data_key: WINDSPEED
+          data_var: wind_speed_kts
+  smap_remss_winds_netcdf:
+    data_path: "/test_data_smap/data/*.nc"
+    test_parameters:
+      - param1:
+          data_key: WINDSPEED_1
+          data_var: wind_speed_kts
+  clavrx_hdf4:
+    data_path: "test_data_clavrx/data/himawari9_2023101_0300/clavrx_H09_20230411_0300_B01_FLDK_DK_R10_S0110.DAT.level2.hdf"
+    test_parameters:
+      - param1:
+          data_key: DATA
+          data_var: cld_height_acha
+

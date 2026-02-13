@@ -866,7 +866,7 @@ def collect_module_plugin_metadata(
         "plugin_type": "class_based",
         "signature": str(signature(module.call)),
         "relpath": relpath,
-        "is_derived_plugin_object": True,
+        "is_derived_from_module": True,
     }
 
     return metadata
@@ -901,7 +901,7 @@ def collect_class_plugin_metadata(plugin_class):
         "interface": plugin_class.interface,
         "plugin_type": "class_based",
         "signature": str(signature(plugin_class.call)),
-        "is_derived_plugin_object": False,
+        "is_derived_from_module": False,
     }
 
     return metadata
@@ -914,7 +914,7 @@ def add_class_plugin(package, relpath, plugins):
     converted to class-based objects via <interface>.get_plugin and true class-based
     plugins. Stores them all under the 'class_based' portion of the plugin registry and
     denotes whether a plugin is truly class based or not via the metadata variable
-    'is_derived_plugin_object'.
+    'is_derived_from_module'.
 
     Parameters
     ----------
