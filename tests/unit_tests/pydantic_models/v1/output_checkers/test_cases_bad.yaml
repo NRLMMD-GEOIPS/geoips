@@ -18,3 +18,26 @@ output_products_invalid_type:
   val: "/tmp/output.png"
   cls: OutputCheckersArgumentsModel
   err_str: "Input should be a valid list"
+
+output_products_non_string_element:
+  description: "output_products must be a list of strings; non-string elements inside the list should fail."
+  key: output_products
+  val:
+    - 16
+  cls: OutputCheckersArgumentsModel
+  err_str: "Input should be a valid string"
+
+output_products_null_element:
+  description: "output_products must be a list of strings; null elements inside the list should fail."
+  key: output_products
+  val:
+    - null
+  cls: OutputCheckersArgumentsModel
+  err_str: "Input should be a valid string"
+
+extra_field_forbidden:
+  description: "FrozenModel sets extra='forbid'; providing an unknown field should fail."
+  key: unexpected_key
+  val: "oops"
+  cls: OutputCheckersArgumentsModel
+  err_str: "Extra inputs are not permitted"

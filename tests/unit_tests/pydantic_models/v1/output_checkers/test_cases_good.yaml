@@ -18,3 +18,11 @@ output_products_allows_empty_list:
   val: []
   cls: OutputCheckersArgumentsModel
   err_str: ""
+
+output_products_item_whitespace_is_stripped:
+  description: "CoreBaseModel enables str_strip_whitespace; list items should have surrounding whitespace stripped and still validate."
+  key: output_products
+  val:
+    - "   /tmp/output.png   "
+  cls: OutputCheckersArgumentsModel
+  err_str: ""
