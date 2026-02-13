@@ -1,12 +1,12 @@
 # # # This source code is subject to the license referenced at
 # # # https://github.com/NRLMMD-GEOIPS.
 
-"""Interpolators interface module."""
+"""Interpolators interface class."""
 
-from geoips.interfaces.base import BaseModuleInterface
+from geoips.interfaces.base import BaseClassInterface
 
 
-class InterpolatorsInterface(BaseModuleInterface):
+class InterpolatorsInterface(BaseClassInterface):
     """Interpolation routine to apply when reprojecting data."""
 
     name = "interpolators"

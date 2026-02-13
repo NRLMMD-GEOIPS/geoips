@@ -15,28 +15,28 @@
 # via a per-file ignore within the flake8 config.
 # https://stackoverflow.com/questions/48153886/flake8-ignore-specific-warning-for-entire-file
 
-from geoips.interfaces.module_based.algorithms import algorithms
-from geoips.interfaces.module_based.colormappers import colormappers
-from geoips.interfaces.module_based.output_checkers import output_checkers
-from geoips.interfaces.module_based.coverage_checkers import coverage_checkers
-from geoips.interfaces.module_based.databases import databases
-from geoips.interfaces.module_based.filename_formatters import filename_formatters
-from geoips.interfaces.module_based.interpolators import interpolators
-from geoips.interfaces.module_based.output_formatters import (
+from geoips.interfaces.class_based.algorithms import algorithms
+from geoips.interfaces.class_based.colormappers import colormappers
+from geoips.interfaces.class_based.output_checkers import output_checkers
+from geoips.interfaces.class_based.coverage_checkers import coverage_checkers
+from geoips.interfaces.class_based.databases import databases
+from geoips.interfaces.class_based.filename_formatters import filename_formatters
+from geoips.interfaces.class_based.interpolators import interpolators
+from geoips.interfaces.class_based.output_formatters import (
     output_formatters,
 )
-from geoips.interfaces.module_based.procflows import procflows
-from geoips.interfaces.module_based.readers import readers
-from geoips.interfaces.module_based.sector_adjusters import (
+from geoips.interfaces.class_based.procflows import procflows
+from geoips.interfaces.class_based.readers import readers
+from geoips.interfaces.class_based.sector_adjusters import (
     sector_adjusters,
 )
-from geoips.interfaces.module_based.sector_metadata_generators import (
+from geoips.interfaces.class_based.sector_metadata_generators import (
     sector_metadata_generators,
 )
-from geoips.interfaces.module_based.sector_spec_generators import (
+from geoips.interfaces.class_based.sector_spec_generators import (
     sector_spec_generators,
 )
-from geoips.interfaces.module_based.title_formatters import (
+from geoips.interfaces.class_based.title_formatters import (
     title_formatters,
 )
 
@@ -54,7 +54,7 @@ from geoips.interfaces.yaml_based.workflows import workflows
 # These lists are the "master" lists of the interface names.
 # These are used in validating the plugins (ie, so we will catch a typo
 # in an interface name)
-module_based_interfaces = [
+class_based_interfaces = [
     "algorithms",
     "colormappers",
     "coverage_checkers",
@@ -83,7 +83,7 @@ yaml_based_interfaces = [
 # not recognize the above imports as being used.  F401 ignored via
 # per-file ignore in geoips/.config/flake8 config.  See comment above
 # for more information.
-__all__ = module_based_interfaces + yaml_based_interfaces
+__all__ = class_based_interfaces + yaml_based_interfaces
 
 
 def list_available_interfaces():
@@ -98,11 +98,11 @@ def list_available_interfaces():
     from geoips import interfaces
 
     all_interfaces = {
-        "module_based": [],
+        "class_based": [],
         "text_based": [],
         "yaml_based": [],
     }
-    for interface_type in ["module", "text", "yaml"]:
+    for interface_type in ["class", "text", "yaml"]:
         try:
             available_interfaces = [
                 str(mod_info[0])

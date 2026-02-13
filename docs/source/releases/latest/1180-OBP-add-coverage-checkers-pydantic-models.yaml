@@ -1,0 +1,32 @@
+feature:
+- title: 'Order-Based Procflow: Add Coverage Checkers'
+  description: "Define OBP Pydantic model for Coverage Checker plugins."
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - 'docs/source/releases/latest/1180-OBP-add-coverage-checkers-pydantic-models.yaml'
+    - 'geoips/pydantic_models/v1/coverage_checkers.py'
+    - 'geoips/plugins/yaml/workflows/read_test_v1_coverage_checker.yaml'
+    - 'tests/unit_tests/pydantic_models/v1/coverage_checkers/conftest.py'
+    - 'tests/unit_tests/pydantic_models/v1/coverage_checkers/test_cases_bad.yaml'
+    - 'tests/unit_tests/pydantic_models/v1/coverage_checkers/test_coverage_checkers.py'
+    modified:
+    - 'geoips/plugin_registry.py'
+    - 'geoips/plugins/modules/coverage_checkers/center_radius.py'
+    - 'geoips/plugins/modules/coverage_checkers/center_radius_rgba.py'
+    - 'geoips/plugins/modules/coverage_checkers/masked_arrays.py'
+    - 'geoips/plugins/modules/coverage_checkers/numpy_arrays_nan.py'
+    - 'geoips/plugins/modules/coverage_checkers/rgba.py'
+    - 'geoips/plugins/modules/coverage_checkers/windbarbs.py'
+    - 'geoips/plugins/modules/procflows/order_based.py'
+    - 'geoips/plugins/yaml/workflows/read_test_v1.yaml'
+    - 'geoips/pydantic_models/v1/workflows.py'
+  related-issue:
+    number: 1202
+    repo_url: 'https://github.com/NRLMMD-GEOIPS/geoips'
+  date:
+    start: null
+    finish: null

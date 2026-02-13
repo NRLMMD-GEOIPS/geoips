@@ -1,12 +1,12 @@
 # # # This source code is subject to the license referenced at
 # # # https://github.com/NRLMMD-GEOIPS.
 
-"""Sector adjusters interface module."""
+"""Sector adjusters interface class."""
 
-from geoips.interfaces.base import BaseModuleInterface
+from geoips.interfaces.base import BaseClassInterface
 
 
-class SectorAdjustersInterface(BaseModuleInterface):
+class SectorAdjustersInterface(BaseClassInterface):
     """Interface for adjusting a sector based on additional information.
 
     Ie, pass in data and the area definition, and modify the area_definition based
