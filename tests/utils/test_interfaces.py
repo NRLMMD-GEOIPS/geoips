@@ -124,18 +124,34 @@ def main():
     # Loop through all requested interfaces, fully testing all plugins in each.
     # Collect output in lists, so we can fully print everything at the end before
     # raising an exception on error.
+    # Additionally, filter all valid interfaces out first. For some reason,
+    # 'curr_interfaces' size would change over the full loop (if concatenated) with the
+    # loop below, and testing would always fail. I could not locate where and why the
+    # change in size occured. There is no code that directly modifies 'curr_interfaces',
+    # but filtering out beforehand works.
+    val_interfaces = []
     for curr_interface in curr_interfaces:
         # Do not test "BaseInterface"
         # Do not test workflows
+        # Do not test anything that is not a valid GeoIPS interface; there are lots of
+        # weird values in interfaces.__dict__ that don't relate to the testing set here
+        # at all. Like this:
+
+        # '{open': <function io.open(file, mode='r', buffering=-1, encoding=None,
+        # errors=None, newline=None, closefd=True, opener=None)>,
+        # 'copyright': Copyright (c) 2001-2023 Python Software Foundation.
+        # All Rights Reserved...'}
         if (
             (type(curr_interface) is BaseInterface)
             or not isinstance(curr_interface, BaseInterface)
             or isinstance(curr_interface, workflows.WorkflowsInterface)
         ):
             continue
+        val_interfaces.append(curr_interface)
+
+    for curr_interface in val_interfaces:
         LOG.info("")
         LOG.interactive(f"Testing {curr_interface.name}...")
-
         # Open all the interfaces (not just checking call signatures)
         # This returns a dictionary of all sorts of stuff.
         try:

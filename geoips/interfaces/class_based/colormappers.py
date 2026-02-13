@@ -1,12 +1,12 @@
 # # # This source code is subject to the license referenced at
 # # # https://github.com/NRLMMD-GEOIPS.
 
-"""Colormappers interface module."""
+"""Colormappers interface class."""
 
-from geoips.interfaces.base import BaseModuleInterface
+from geoips.interfaces.base import BaseClassInterface
 
 
-class ColormappersInterface(BaseModuleInterface):
+class ColormappersInterface(BaseClassInterface):
     """Interface for the colormapper to apply to the resulting product."""
 
     name = "colormappers"

@@ -1,0 +1,21 @@
+apiVersion: geoips/v1
+interface: workflows
+family: order_based
+name: read_test_v1_coverage_checker
+docstring: |
+  11.2 µm Infrared.
+
+  This product utilizes channel 14 (11.2 µm) and highlights areas of deep convection within a Tropical Cyclone.
+description: 11.2 µm Infrared.
+spec:
+  steps:
+    reader:
+      kind: reader
+      name: gmi_hdf5
+      arguments: {}
+    coverage_checker:
+      kind: coverage_checker
+      name: center_radius
+      arguments:
+        variable_name: 89pct
+        radius_km: 300

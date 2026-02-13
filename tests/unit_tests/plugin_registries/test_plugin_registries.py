@@ -36,7 +36,7 @@ class PluginRegistryValidator(PluginRegistry):
 
     def validate_plugin_types_exist(self, reg_dict, reg_path):
         """Test that all top level plugin types exist in each registry file."""
-        expected_plugin_types = ["yaml_based", "module_based", "text_based"]
+        expected_plugin_types = ["yaml_based", "class_based", "text_based"]
         for p_type in expected_plugin_types:
             if p_type not in reg_dict:
                 error_str = f"Expected plugin type '{p_type}' to be in the registry but"
@@ -150,10 +150,10 @@ class PluginRegistryValidator(PluginRegistry):
     def validate_registry_interfaces(self, current_registry):
         """Test Plugin Registry interfaces validity."""
         yaml_interfaces = []
-        module_interfaces = []
+        class_interfaces = []
 
         # NOTE: all <pkg>/interfaces/__init__.py files MUST
-        # contain a "module_based_interfaces" list and a
+        # contain a "class_based_interfaces" list and a
         # "yaml_based_interfaces" list - this is how we
         # identify the valid interface names.
         # We must avoid actually importing the interfaces within
@@ -167,21 +167,21 @@ class PluginRegistryValidator(PluginRegistry):
                     continue
                 else:
                     raise ModuleNotFoundError(resp)
-            module_interfaces += mod.module_based_interfaces
+            class_interfaces += mod.class_based_interfaces
             yaml_interfaces += mod.yaml_based_interfaces
 
         bad_interfaces = []
-        for plugin_type in ["module_based", "yaml_based"]:
+        for plugin_type in ["class_based", "yaml_based"]:
             for interface in current_registry[plugin_type]:
                 if (
-                    interface not in module_interfaces
+                    interface not in class_interfaces
                     and interface not in yaml_interfaces
                 ):
                     error_str = f"\nPlugin type '{plugin_type}' does not allow "
                     error_str += f"interface '{interface}'.\n"
                     error_str += "\nValid interfaces: "
-                    if plugin_type == "module_based":
-                        interface_list = module_interfaces
+                    if plugin_type == "class_based":
+                        interface_list = class_interfaces
                     else:
                         interface_list = yaml_interfaces
                     error_str += f"\n{interface_list}\n"
@@ -241,7 +241,7 @@ class TestPluginRegistry:
         print(self.pr_validator.registered_plugins)
         assert isinstance(self.pr_validator.registered_plugins, dict)
         assert "yaml_based" in self.pr_validator.registered_plugins
-        assert "module_based" in self.pr_validator.registered_plugins
+        assert "class_based" in self.pr_validator.registered_plugins
         assert "text_based" in self.pr_validator.registered_plugins
         assert self.pr_validator.registered_plugins
 
@@ -254,19 +254,19 @@ class TestPluginRegistry:
         print(self.pr_validator.interface_mapping)
         assert isinstance(self.pr_validator.interface_mapping, dict)
         assert "yaml_based" in self.pr_validator.interface_mapping
-        assert "module_based" in self.pr_validator.interface_mapping
+        assert "class_based" in self.pr_validator.interface_mapping
         assert "text_based" in self.pr_validator.interface_mapping
         assert isinstance(self.pr_validator.interface_mapping["yaml_based"], list)
-        assert isinstance(self.pr_validator.interface_mapping["module_based"], list)
+        assert isinstance(self.pr_validator.interface_mapping["class_based"], list)
         assert isinstance(self.pr_validator.interface_mapping["text_based"], list)
 
-    def test_registered_module_plugins_property(self):
-        """Ensure that registered_module_plugins exist and have contents."""
+    def test_registered_class_plugins_property(self):
+        """Ensure that registered_class_plugins exist and have contents."""
         if hasattr(self.pr_validator, "_registered_plugins"):
             del self.pr_validator._registered_plugins
-        print(self.pr_validator.registered_module_based_plugins)
-        assert isinstance(self.pr_validator.registered_module_based_plugins, dict)
-        assert len(self.pr_validator.registered_module_based_plugins)
+        print(self.pr_validator.registered_class_based_plugins)
+        assert isinstance(self.pr_validator.registered_class_based_plugins, dict)
+        assert len(self.pr_validator.registered_class_based_plugins)
 
     def test_registered_yaml_plugins_property(self):
         """Ensure that registered_yaml_plugins exist and have contents."""
@@ -484,38 +484,38 @@ class TestPluginRegistry:
         plugins = self.real_reg_validator.get_yaml_plugins(FakeInterface)
         assert len(plugins) == 0
 
-    def test_get_module_plugin(self):
-        """Retrieve a valid (existing and formatted correctly) module plugin.
+    def test_get_class_plugin(self):
+        """Retrieve a valid (existing and formatted correctly) class plugin.
 
         In this test case, we are using algorithms.single_channel.
         """
         self.real_reg_validator._set_class_properties(force_reset=True)
-        alg = self.real_reg_validator.get_module_plugin(algorithms, "single_channel")
+        alg = self.real_reg_validator.get_class_plugin(algorithms, "single_channel")
         assert alg.name == "single_channel"
         assert alg.interface == "algorithms"
 
-    def test_get_module_plugin_failing_cases(self):
-        """Attempt to retrieve a module plugin using cases that we know will fail."""
+    def test_get_class_plugin_failing_cases(self):
+        """Attempt to retrieve a class plugin using cases that we know will fail."""
         # Reconstruct the registry in memory so we start at a clean slate
         self.real_reg_validator._set_class_properties(force_reset=True)
         # Set algorithms' rebuild_registry attr to false for the time being
         algorithms.rebuild_registries = False
-        mod_reg = self.real_reg_validator.registered_plugins.pop("module_based")
-        # Caused due to 'module_based' not being at the top level of the registry
+        mod_reg = self.real_reg_validator.registered_plugins.pop("class_based")
+        # Caused due to 'class_based' not being at the top level of the registry
         with pytest.raises(PluginError):
-            self.real_reg_validator.get_module_plugin(algorithms, "single_channel")
+            self.real_reg_validator.get_class_plugin(algorithms, "single_channel")
         # Reset the registry to its original state
-        self.real_reg_validator.registered_plugins["module_based"] = mod_reg
+        self.real_reg_validator.registered_plugins["class_based"] = mod_reg
 
         # Caused due to invalid argument type (rebuild_registries) should be a boolean
         with pytest.raises(TypeError):
-            self.real_reg_validator.get_module_plugin(
+            self.real_reg_validator.get_class_plugin(
                 algorithms, "single_channel", rebuild_registries=Exception
             )
 
         # Caused due to a missing plugin
         with pytest.raises(PluginError):
-            self.real_reg_validator.get_module_plugin(
+            self.real_reg_validator.get_class_plugin(
                 algorithms, "fake_plugin", rebuild_registries=False
             )
 
@@ -528,7 +528,7 @@ class TestPluginRegistry:
             "family": "list_numpy_to_numpy",
             "interface": "algorithms",
             "package": "geoips",
-            "plugin_type": "module_based",
+            "plugin_type": "class_based",
             "signature": (
                 "(arrays, output_data_range=None, input_units=None, output_units=None, "
                 "min_outbounds='crop', max_outbounds='crop', norm=False, inverse=False,"
@@ -538,37 +538,37 @@ class TestPluginRegistry:
             ),
             "relpath": "/some/fake/path.py",
         }
-        self.real_reg_validator.registered_plugins["module_based"]["algorithms"][
+        self.real_reg_validator.registered_plugins["class_based"]["algorithms"][
             "fake_plugin"
         ] = fake_plugin_entry
         # Caused due to algorithm plugin being present in registry it's relative path
         # does not exist
         with pytest.raises(PluginRegistryError):
-            self.real_reg_validator.get_module_plugin(algorithms, "fake_plugin")
+            self.real_reg_validator.get_class_plugin(algorithms, "fake_plugin")
         # Remove the fake entry from the registry
-        self.real_reg_validator.registered_plugins["module_based"]["algorithms"].pop(
+        self.real_reg_validator.registered_plugins["class_based"]["algorithms"].pop(
             "fake_plugin"
         )
         # reset algorithms' rebuild_registries attr to true
         algorithms.rebuild_registries = True
 
-    def test_get_module_plugins(self):
-        """Retrieve valid (existing and formatted correctly) module plugins.
+    def test_get_class_plugins(self):
+        """Retrieve valid (existing and formatted correctly) class plugins.
 
-        In this case, we are retrieving all GeoIPS module algorithm plugins.
+        In this case, we are retrieving all GeoIPS class algorithm plugins.
         """
         self.real_reg_validator._set_class_properties(force_reset=True)
-        assert len(self.real_reg_validator.get_module_plugins(algorithms))
+        assert len(self.real_reg_validator.get_class_plugins(algorithms))
 
-    def test_get_module_plugins_failing_cases(self):
-        """Attempt to retrieve all module plugins from a fake interface."""
-        plugins = self.real_reg_validator.get_module_plugins(FakeInterface)
+    def test_get_class_plugins_failing_cases(self):
+        """Attempt to retrieve all class plugins from a fake interface."""
+        plugins = self.real_reg_validator.get_class_plugins(FakeInterface)
         assert len(plugins) == 0
 
     def test_retry_get_plugin(self):
         """Test that PluginRegistry.retry_get_plugin works as expected."""
         with pytest.raises(PluginError):
-            self.real_reg_validator.get_module_plugin(
+            self.real_reg_validator.get_class_plugin(
                 algorithms, "fake_plugin", rebuild_registries=True
             )
 

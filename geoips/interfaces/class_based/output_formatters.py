@@ -1,12 +1,12 @@
 # # # This source code is subject to the license referenced at
 # # # https://github.com/NRLMMD-GEOIPS.
 
-"""Output formatters interface module."""
+"""Output formatters interface class."""
 
-from geoips.interfaces.base import BaseModuleInterface
+from geoips.interfaces.base import BaseClassInterface
 
 
-class OutputFormattersInterface(BaseModuleInterface):
+class OutputFormattersInterface(BaseClassInterface):
     """Data format for the resulting output product (e.g. netCDF, png)."""
 
     name = "output_formatters"
