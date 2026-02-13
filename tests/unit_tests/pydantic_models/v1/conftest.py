@@ -138,3 +138,13 @@ def valid_title_formatter_arguments():
         "bg_datatype_title": "test_string",
         "title_copyright": "Data copyright 2021 EUMETSAT, Imagery NRL-MRY",
     }
+
+
+@pytest.fixture
+def valid_output_checker_arguments():
+    """Fixture providing valid data OutputCheckerArgumentsModel tests."""
+    return {
+        "checker_name": "test_string",
+        "compare_path": "test_string",
+        "output_products": ["test_string"],
+    }
