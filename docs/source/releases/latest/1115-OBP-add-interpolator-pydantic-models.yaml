@@ -1,0 +1,17 @@
+feature:
+- title: ''
+  description: ''
+  files:
+    added:
+    - 'geoips/pydantic_models/v1/interpolators.py'
+    modified:
+    - 'geoips/plugins/yaml/workflows/read_test_v1.yaml'
+    - 'geoips/pydantic_models/v1/workflows.py'
+    deleted:
+    moved:
+  related-issue:
+    number: null
+    repo_url: ''
+  date:
+    start: null
+    finish: null
