@@ -7,8 +7,6 @@ feature:
     modified:
     - 'geoips/plugins/yaml/workflows/read_test_v1.yaml'
     - 'geoips/pydantic_models/v1/workflows.py'
-    deleted:
-    moved:
   related-issue:
     number: null
     repo_url: ''
