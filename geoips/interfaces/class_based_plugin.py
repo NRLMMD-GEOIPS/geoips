@@ -242,15 +242,3 @@ class BaseClassPlugin(ABC):
         _call.__signature__ = inspect.signature(call_method)  # mirror only call()
         _call.__annotations__ = getattr(call_method, "__annotations__", {})
         cls.__call__ = _call
-
-
-# class MyAlgorithm(BaseAlgorithmPlugin):
-#     """Dummy algorithm class."""
-
-#     interface = "algorithms"
-#     family = "example_family"
-#     name = "example_name"
-
-#     def call(self, data: int, factor: int = 1) -> int:
-#         """Call placeholder function docstring."""
-#         return data * factor
