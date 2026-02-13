@@ -12,10 +12,13 @@ EVERY currently installed plugin package. A separate registered_plugins.json is
 created at the top level package directory for each plugin package.
 """
 
-import warnings
-import yaml
+from argparse import ArgumentParser
+
+# from copy import deepcopy
+import logging
 from importlib import metadata, resources, util, import_module
 from inspect import signature
+from os import remove
 from os.path import (
     basename,
     dirname,
@@ -25,13 +28,14 @@ from os.path import (
     join as os_join,
     relpath as os_relpath,
 )
-from os import remove
 import re
-import logging
-import geoips.interfaces
-from geoips.errors import PluginRegistryError
+import warnings
+
 import json
-from argparse import ArgumentParser
+import yaml
+
+from geoips.errors import PluginRegistryError
+import geoips.interfaces
 
 LOG = logging.getLogger(__name__)
 
@@ -158,7 +162,7 @@ def registry_sanity_check(plugin_packages, save_type):
             if pkg_idx <= comp_idx:
                 continue
             # Track sets of plugins by plugin type
-            # (schemas, yaml_based, and module_based)
+            # (text, yaml_based, and class_based)
             if save_type == "yaml":
                 registry_fname = resources.files(pkg.value) / "registered_plugins.yaml"
                 with open(registry_fname, "r") as reg_file:
@@ -168,10 +172,10 @@ def registry_sanity_check(plugin_packages, save_type):
                 with open(registry_fname, "r") as reg_file:
                     pkg_registry = json.load(reg_file)
             for plugin_type in list(pkg_registry.keys()):
-                # check the pkg's registry for both yaml-based and module-based plugins
+                # check the pkg's registry for both yaml-based and class-based plugins
                 for interface in comp_registry[plugin_type]:
                     # check each interface of comp_pkg
-                    # for each type of plugin (yaml/module)-based
+                    # for each type of plugin (yaml/class)-based
                     if interface in pkg_registry[plugin_type]:
                         # if this interface is also in the pkg_registry, then get the
                         # dictionary of comp_plugins for that interface
@@ -320,7 +324,7 @@ def write_registered_plugins(pkg_dir, plugins, save_type):
 def create_plugin_registries(plugin_packages, save_type, namespace):
     """Generate all plugin paths associated with every installed GeoIPS packages.
 
-    These paths include schema plugins, module_based plugins
+    These paths include text plugins, class_based plugins
     and normal YAML plugins. After these paths are generated, they are sent
     to parse_plugin_paths, which generates and adds the actual plugins to the
     plugins dictionary.
@@ -362,13 +366,12 @@ def create_plugin_registries(plugin_packages, save_type, namespace):
         # This is passed by reference and populated with each call to parse
         # plugin packages.
         plugins = {
-            # "schemas": {},
             "text_based": {},
             "yaml_based": {},
-            "module_based": {},
+            "class_based": {},
         }
         # Track sets of plugins by plugin type
-        # (schemas, yaml_based, and module_based)
+        # (text_based, yaml_based, and class_based)
         package = pkg.value
         LOG.debug("package == " + str(package))
         # We are specifically looping through all files in the ``plugins``
@@ -394,12 +397,11 @@ def create_plugin_registries(plugin_packages, save_type, namespace):
         # schema_yaml_path = resources.files(package) / "schema"
         # schema_yamls = schema_yaml_path.rglob("*.yaml")
         # plugin_paths dictionary contains lists of files for each plugin
-        # type (ie, yaml based, text based, and module based plugins, and
+        # type (ie, yaml based, text based, and class based plugins, and
         # in the future potentially schema)
         plugin_paths = {
             "yaml": sorted(yaml_files),
             "text": text_files,
-            # "schemas": schema_yamls,
             "py_files": python_files,
         }
         # `plugins` is passed by reference and populated with all YAML, text, and
@@ -417,8 +419,7 @@ def create_plugin_registries(plugin_packages, save_type, namespace):
             "Available YAML Plugin Interfaces:\n" + str(plugins["yaml_based"].keys())
         )
         LOG.debug(
-            "Available Module Plugin Interfaces:\n"
-            + str(plugins["module_based"].keys())
+            "Available Class Plugin Interfaces:\n" + str(plugins["class_based"].keys())
         )
         # Write the current plugin dictionary to the registered plugins file.
         write_registered_plugins(pkg_dir, plugins, save_type)
@@ -442,8 +443,8 @@ def parse_plugin_paths(plugin_paths, package, package_dir, plugins, namespace):
     """Parse the plugin_paths provided from the current installed GeoIPS package.
 
     Then, add them to the plugins dictionary based on the path of the plugin.
-    The path contains information as to whether the plugin is a schema, module_based,
-    or a normal yaml plugin.
+    The path contains information as to whether the plugin is a class_based, text_based,
+    or a yaml_based plugin.
 
     Parameters
     ----------
@@ -471,7 +472,7 @@ def parse_plugin_paths(plugin_paths, package, package_dir, plugins, namespace):
         resolving errors.
     """
     error_message = ""
-    # Loop through each plugin type, ie, text, yaml, module, and later schema.
+    # Loop through each plugin type, ie, text, yaml, class, and later schema.
     for plugin_type in plugin_paths:
         # Loop through each file of the current plugin type.
         for filepath in plugin_paths[plugin_type]:
@@ -497,10 +498,11 @@ def parse_plugin_paths(plugin_paths, package, package_dir, plugins, namespace):
             #     add_schema_plugin(
             #         filepath, abspath, relpath, package, plugins["schemas"]
             #     )
-            else:  # module based plugins
-                error_message += add_module_plugin(
-                    package, relpath, plugins["module_based"]
+            else:  # Python files; class based plugins
+                error_message += add_class_plugin(
+                    package, relpath, plugins["class_based"]
                 )
+
     # Ensure we return a string error_message with ALL errors appended.
     # This will be raised at the end if error_message has any contents.
     return error_message
@@ -691,14 +693,14 @@ def add_yaml_plugin(filepath, relpath, package, plugins, namespace):
 
 
 def add_text_plugin(package, relpath, plugins):
-    """Add all txt plugins into plugin registries.
+    """Add all text plugins into plugin registries.
 
     Parameters
     ----------
     package: str
         The current GeoIPS package being parsed
     relpath: str
-        The relpath path to the module plugin
+        The relpath path to the text plugin
     plugins: dict
         A dictionary object of all installed GeoIPS package plugins
 
@@ -765,54 +767,42 @@ def add_text_plugin(package, relpath, plugins):
 #     # )
 
 
-def add_module_plugin(package, relpath, plugins):
-    """Add the module plugin associated with the filepaths and package to plugins.
+def collect_module_plugin_metadata(
+    module, module_name, package, relpath, error_message
+):
+    """Collect metadata for the module-based plugin for the plugin registry.
+
+    Metadata necessary to collect here includes the interface of the plugin, the
+    plugin's name, its docstring, and the family it adheres to. Other metadata such as
+    relative path and the package it comes from is collected via 'add_class_plugin'.
+
+    NOTE: The 'Returns' section of this docstring is XOR. Either 'metadata' will be
+    returned, or 'error_message'. Not both or neither.
 
     Parameters
     ----------
+    module: ModuleType
+        - The object of the module which has been loaded in realtime. This should have
+          top level attributes such as 'interface', 'name', 'family' and so on.
+    module_name: str
+        - The name of the .py file.
     package: str
-        The current GeoIPS package being parsed
+        - The name of the package this plugin comes from
     relpath: str
-        The relpath path to the module plugin
-    plugins: dict
-        A dictionary object of all installed GeoIPS package plugins
+        - The relative path to the plugin found in 'package'
+    error_message: str
+        - The current state of errors found during building the registry, stored as a
+          string.
 
     Returns
     -------
+    metadata: dict
+        - A dictionary of metadata for the provided plugin class to store in the plugin
+          registry.
     error_message: str
-        String containing informative error messages from any plugins that
-        were improperly formatted.  An exception will be raised at the
-        very end if error_message is not the empty string - this allows
-        collecting ALL errors throughout the plugin registry process and
-        reporting them all at once, to facilitate rapidly identifying and
-        resolving errors.
+        - The current state of errors found during building the registry, stored as a
+          string.
     """
-    error_message = ""
-    if "__init__.py" in relpath:
-        return error_message
-    module_name = splitext(basename(relpath))[0]
-    # We need the full path to the module in order
-    # for relative imports to work within modules.
-    module_path = splitext(relpath.replace("/", "."))[0]
-    module_path = f"{package}.{module_path}"
-    abspath = resources.files(package) / relpath
-
-    spec = util.spec_from_file_location(module_path, abspath)
-
-    module = util.module_from_spec(spec)
-    # Attempting importing module, catch ImportError
-    # We have to fix these to be able to import the module to
-    # see if 'interface' is defined, in order to see if it
-    # is a properly formatted python module..
-    try:
-        spec.loader.exec_module(module)
-    except ImportError as resp:
-        LOG.exception(resp)
-        error_message += f"""\nError {str(resp)}:
-                         Failed importing '{module_name}' in
-                         package '{package}'
-                         at relpath '{relpath}'\n"""
-        return error_message
     # Try to get "interface" variable from the module.  This is required
     # on ALL files within the python module based plugins directory, to
     # ensure create_plugin_registries can explicitly tell whether a file
@@ -831,14 +821,14 @@ def add_module_plugin(package, relpath, plugins):
             at relpath '{relpath}'
 
             * must specify 'interface' variable at the
-              top level of ALL python modules within the
-              plugins subdirectory.
+            top level of ALL python modules within the
+            plugins subdirectory.
 
-              * FOR VALID GEOIPS PLUGINS:
+            * FOR VALID GEOIPS PLUGINS:
                 'interface', 'family', and 'name' must all be specified
                 as variables at the top level.
 
-              * FOR HELPER MODULES WITHIN THE plugins SUBDIRECTORY
+            * FOR HELPER MODULES WITHIN THE plugins SUBDIRECTORY
                 'interface = None' must be specified at the top level for modules
                 within the plugins subdirectory that are not intended to be
                 GeoIPS plugins on their own."""
@@ -860,12 +850,167 @@ def add_module_plugin(package, relpath, plugins):
         name = module.name
         family = module.family
     except AttributeError:
-        error_message += f"""\nError, 'family' or 'name' top level variable missing in
-            module '{module_name}' in package '{package}'
+        error_message += f"""\nError, 'family' or 'name' top level variable missing
+            in module '{module_name}' in package '{package}'
             at relpath '{relpath}'
             must specify 'interface', 'family', and 'name' variables at the
             top level of ALL module based plugins."""
         return error_message
+
+    metadata = {
+        "docstring": format_docstring(module.__doc__),
+        "name": name,
+        "family": family,
+        "interface": interface_name,
+        "package": package,
+        "plugin_type": "class_based",
+        "signature": str(signature(module.call)),
+        "relpath": relpath,
+        "is_derived_plugin_object": True,
+    }
+
+    return metadata
+
+
+def collect_class_plugin_metadata(plugin_class):
+    """Collect metadata linked to the class plugin in 'module' for the plugin registry.
+
+    Metadata necessary to collect here includes the interface of the plugin, the
+    plugin's name, its docstring, and the family it adheres to. Other metadata such as
+    relative path and the package it comes from is collected via 'add_module_plugin'.
+
+    Parameters
+    ----------
+    plugin_class: Object, default=None
+        - The plugin class from 'module' to collect metadata from. If None, this
+          function will attempt to locate the correct plugin class from the provided
+          module.
+
+    Returns
+    -------
+    metadata: dict
+        - A dictionary of metadata for the provided plugin class to store in the plugin
+          registry.
+    """
+    # NOTE: Probably should add some attribute checks here as
+    # 'collect_module_plugin_metadata' does
+    metadata = {
+        "docstring": format_docstring(plugin_class.__doc__),
+        "name": plugin_class.name,
+        "family": plugin_class.family,
+        "interface": plugin_class.interface,
+        "plugin_type": "class_based",
+        "signature": str(signature(plugin_class.call)),
+        "is_derived_plugin_object": False,
+    }
+
+    return metadata
+
+
+def add_class_plugin(package, relpath, plugins):
+    """Add the class-based plugin associated with the filepaths and package to plugins.
+
+    NOTE: This function will work for 'legacy' module-based plugins that are dynamically
+    converted to class-based objects via <interface>.get_plugin and true class-based
+    plugins. Stores them all under the 'class_based' portion of the plugin registry and
+    denotes whether a plugin is truly class based or not via the metadata variable
+    'is_derived_plugin_object'.
+
+    Parameters
+    ----------
+    package: str
+        The current GeoIPS package being parsed
+    relpath: str
+        The relpath path to the class-based plugin
+    plugins: dict
+        A dictionary object of all installed GeoIPS package plugins
+
+    Returns
+    -------
+    error_message: str
+        String containing informative error messages from any plugins that
+        were improperly formatted. An exception will be raised at the
+        very end if error_message is not the empty string - this allows
+        collecting ALL errors throughout the plugin registry process and
+        reporting them all at once, to facilitate rapidly identifying and
+        resolving errors.
+    """
+    error_message = ""
+
+    if "__init__.py" in relpath:
+        # Ignore init files. We should probably ignore other dunder files such as
+        # __version.py, etc.
+        return error_message
+
+    module_name = splitext(basename(relpath))[0]
+    # We need the full path to the module in order
+    # for relative imports to work within modules.
+    module_path = splitext(relpath.replace("/", "."))[0]
+    module_path = f"{package}.{module_path}"
+    abspath = resources.files(package) / relpath
+
+    spec = util.spec_from_file_location(module_path, abspath)
+    module = util.module_from_spec(spec)
+    # Attempting importing module, catch ImportError
+    # We have to fix these to be able to import the module to
+    # see if 'interface' is defined, in order to see if it
+    # is a properly formatted python module.
+    try:
+        spec.loader.exec_module(module)
+    except ImportError as resp:
+        LOG.exception(resp)
+        error_message += f"""\nError {str(resp)}:
+                         Failed importing '{module_name}' in
+                         package '{package}'
+                         at relpath '{relpath}'\n"""
+        return error_message
+
+    # We've encountered a truly 'class-based' plugin. I.e. we don't need to generate
+    # the plugin object from the module itself. Collect metadata from this plugin
+    # in a different fashion to what we've done previously.
+
+    # Once we've fully implemented class-based plugins and removed support for
+    # module-based plugins, we can remove this conditional and only keep the 'if'
+    # portion of the if-else statement below. The 'else' part of the conditional handles
+    # legacy module based plugins for the time being.
+    if "classes" in module_path or hasattr(module, "PLUGIN_CLASS"):
+        is_class = True
+        try:
+            PLUGIN_CLASS = getattr(module, "PLUGIN_CLASS")
+        except AttributeError:
+            plugin_class_error_message = (
+                f"Error: Detected class-based plugin at '{module_path}' but couldn't "
+                "locate the associated 'PLUGIN_CLASS' variable defining which class in "
+                "that module is the actual plugin class to use. \n Please define that "
+                "attribute before continuing. It should be a simple module-level "
+                "attribute that references the uninstantiated version of your plugin "
+                "class."
+            )
+            error_message += str(plugin_class_error_message)
+            return error_message
+
+        plugin_metadata = collect_class_plugin_metadata(PLUGIN_CLASS)
+        interface_name = plugin_metadata["interface"]
+        name = plugin_metadata.pop("name")
+
+        plugin_metadata["package"] = package
+        plugin_metadata["relpath"] = relpath
+    else:
+        is_class = False
+        # Collect top level metadata from the module plugin
+        return_type = collect_module_plugin_metadata(
+            module, module_name, package, relpath, error_message
+        )
+        if isinstance(return_type, str):
+            # This conditional checks if the returned object is of a string instance. If
+            # it is, that means an error message was added and we should just return it
+            return return_type
+        else:
+            # Otherwise, metadata was returned as expected
+            plugin_metadata = return_type
+            name = plugin_metadata.pop("name")
+            interface_name = plugin_metadata["interface"]
+
     # If the current interface_name is not in the plugins dictionary yet, add it
     # as an empty dictionary.
     if interface_name not in plugins.keys():
@@ -878,21 +1023,15 @@ def add_module_plugin(package, relpath, plugins):
     error_message += check_plugin_exists(
         package, plugins, interface_name, name, relpath
     )
-    # Add info shown below obtained from the module plugin. Every module plugin
-    # is required to have these entries in the registry to be considered a valid
-    # plugin.
-    plugins[interface_name][name] = {
-        "docstring": format_docstring(module.__doc__),
-        "family": family,
-        "interface": interface_name,
-        "package": package,
-        "plugin_type": "module_based",
-        "signature": str(signature(module.call)),
-        "relpath": relpath,
-    }
+
+    # Add the generated metadata to the plugin's entry in the registry
+    plugins[interface_name][name] = plugin_metadata
+
     if interface_name == "readers":
-        if hasattr(module, "source_names"):
+        if not is_class and hasattr(module, "source_names"):
             plugins[interface_name][name]["source_names"] = module.source_names
+        elif is_class and hasattr(PLUGIN_CLASS, "source_names"):
+            plugins[interface_name][name]["source_names"] = PLUGIN_CLASS.source_names
         else:
             warnings.warn(
                 (
@@ -907,6 +1046,7 @@ def add_module_plugin(package, relpath, plugins):
                 stacklevel=2,
             )
             plugins[interface_name][name]["source_names"] = ["Unspecified"]
+
     del module
     # Return the final error message - an exception will be raised at the very
     # end after collecting and reporting on all errors if there were any errors

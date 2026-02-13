@@ -1,12 +1,12 @@
 # # # This source code is subject to the license referenced at
 # # # https://github.com/NRLMMD-GEOIPS.
 
-"""Algorithms interface module."""
+"""Algorithms interface class."""
 
-from geoips.interfaces.base import BaseModuleInterface
+from geoips.interfaces.base import BaseClassInterface
 
 
-class AlgorithmsInterface(BaseModuleInterface):
+class AlgorithmsInterface(BaseClassInterface):
     """Data manipulations to apply to the dataset."""
 
     name = "algorithms"

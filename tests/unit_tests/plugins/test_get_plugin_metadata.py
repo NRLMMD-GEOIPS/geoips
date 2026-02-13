@@ -62,7 +62,7 @@ def test_get_plugin_metadata(iname_pname):
         with pytest.raises(KeyError):
             md = interface.get_plugin_metadata(pname)
         # Make sure to reset the interface type; algorithms will need this later on
-        interface.interface_type = "module_based"
+        interface.interface_type = "class_based"
         return
     else:
         interface = getattr(interfaces, iname)
