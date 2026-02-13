@@ -87,6 +87,7 @@ class ProductsInterface(BaseYamlInterface):
 
     name = "products"
     use_pydantic = False
+    validator = ProductsPluginValidator()
 
     def _create_registered_plugin_names(self, yaml_plugin):
         """Create a plugin name for plugin registry.
