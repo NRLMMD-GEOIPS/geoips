@@ -106,7 +106,7 @@ def load_test_cases(interface_name: str, test_type: str) -> dict:
     test_cases: dict
         - The dictionary of test cases used to validate your model.
     """
-    if test_type not in ("bad", "neutral"):
+    if test_type not in ("bad", "neutral", "good"):
         raise ValueError(f"Unsupported test type: {test_type}")
 
     fname = f"test_cases_{test_type}.yaml"
@@ -126,10 +126,15 @@ def load_test_cases(interface_name: str, test_type: str) -> dict:
     for test_case_id, raw_test_case in raw_test_cases.items():
         try:
             raw_test_case["test_case_id"] = test_case_id
+            if test_type == "good":
+                raw_test_case.setdefault("cls", "")
+                raw_test_case.setdefault("err_str", "")
             validated_test_case = TestCaseModel(**raw_test_case)
             validated_test_cases[test_case_id] = validated_test_case
         except ValidationError as e:
-            raise RuntimeError(f"Invalid test case '{test_case_id}': {e}")
+            raise RuntimeError(
+                f"Invalid {test_type} test case '{test_case_id}' in {fpath}: {e}"
+            )
 
     return validated_test_cases
 
@@ -299,6 +304,31 @@ def validate_base_plugin(base_plugin: dict, plugin_model: Type):
         - The pydantic-based model used to validate this plugin.
     """
     plugin_model(**base_plugin)
+
+
+def validate_good_plugin(
+        base_plugin: dict, test_tup: Tuple[str, Any, str, str], plugin_model: Type
+):
+    """Perform validation on any GeoIPS plugin, ensuring it remains valid.
+
+    Parameters
+    ----------
+    base_plugin: dict
+        - A dictionary representing a plugin that is valid.
+    test_tup:
+        - A tuple formatted (key, value, class, err_str). For good cases,
+          class/err_str can be empty strings and are ignored.
+    plugin_model: Type
+        - The pydantic-based model used to validate this plugin.
+    """
+    key, val, _failing_model, _err_str = _validate_test_tup_keys(test_tup)
+
+    good_plugin = deepcopy(base_plugin)
+    good_plugin[key] = val
+
+    with warnings.catch_warnings():
+        warnings.simplefilter("error", FutureWarning)
+        plugin_model(**good_plugin)
 
 
 def validate_neutral_plugin(
