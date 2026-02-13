@@ -21,7 +21,10 @@ from tests.unit_tests.pydantic_models.v1.utils import (
 models_available = {
     "feature_annotators": "default_oldlace",
     "gridline_annotators": "default_palegreen",
+    "products": ("abi", "Infrared"),
+    "product_defaults": "windbarbs",
     "sectors": "korea",
+    "dynamic_sectors": "tc_web",
 }
 
 
@@ -42,7 +45,10 @@ def load_good_plugins(models_available):
     """
     good_plugins = {}
     for interface, plugin in models_available.items():
-        good_plugins[interface] = load_geoips_yaml_plugin(interface, plugin)
+        if interface == "dynamic_sectors":
+            good_plugins[interface] = load_geoips_yaml_plugin("sectors", plugin)
+        else:
+            good_plugins[interface] = load_geoips_yaml_plugin(interface, plugin)
 
     return good_plugins
 

@@ -45,6 +45,13 @@ class PathDict(dict):
         value: any
             - The value to set the attribute to.
         """
+        if key in ("", "/"):  # special case: replace self entirely
+            if not isinstance(value, dict):
+                raise TypeError("Root replacement must be a dict-like object")
+            self.clear()
+            self.update(value)
+            return
+
         keys = key.split("/")
         if len(keys) > 1:
             current = self
@@ -72,6 +79,14 @@ class TestCaseModel(BaseModel):
     key: str = Field(..., description="Path to the attribute being mutated.")
     val: Any = Field(..., description="The value to set for the given key.")
     cls: object = Field(..., description="The name of the model expected to fail.")
+    loc: Tuple = Field(
+        None,
+        description=(
+            "Optional tuple which depicts the exact location of the failing "
+            "field. Sometimes needed for models which can take various forms (I.e. "
+            "sector plugins)."
+        ),
+    )
     err_str: str = Field(
         ..., description="Expected error message fragment for the ValidationError."
     )
@@ -172,7 +187,7 @@ def load_geoips_yaml_plugin(interface_name: str, plugin_name: str) -> dict:
         entry = registry[plugin_name]
 
     relpath = entry["relpath"]
-    print("relpaht \t", relpath)
+    print("relpath \t", relpath)
     abspath = str(resources.files("geoips") / relpath)
     package = "geoips"
 
@@ -202,9 +217,17 @@ def retrieve_model(plugin):
         - The associated plugin model used to validate this plugin.
     """
     interface = plugin["interface"]
+
+    if interface == "product_defaults":
+        module = import_module("geoips.pydantic_models.v1.products")
+        # module = geoips_models._modules["geoips.pydantic.products"]
+    else:
+        module = import_module(f"geoips.pydantic_models.v1.{interface}")
+        # module = geoips_models._modules[f"geoips.pydantic.{interface}"]
+
     # upcoming PR: https://github.com/NRLMMD-GEOIPS/geoips/issues/1125
     # module = geoips_models._modules[f"geoips.pydantic_models.v1.{interface}"]
-    module = import_module(f"geoips.pydantic_models.v1.{interface}")
+    # module = import_module(f"geoips.pydantic_models.v1.{interface}")
     if "_" in interface:
         int_split = interface.split("_")
         interface = f"{int_split[0].title()}{int_split[1].title()}"
@@ -366,21 +389,36 @@ def validate_bad_plugin(
         # reported, or, if no failing model could be associated with this error, we
         # just default to the last error reported.
         errors = e.errors()
+
         if len(e.errors()) > 1:
             val_err = _attempt_to_associate_model_with_error(failing_model, errors)
         else:
             val_err = errors[0]
         # In Pydantic ValidationError, the last element of 'loc' tuple identifies
         # the failing attribute
-        bad_field = val_err["loc"][-1]
-        err_msg = val_err["msg"]
 
+        if len(val_err["loc"]) == 0:
+            # occurs when ValueErrors are raised for products / product_default plugins
+            # specifying plugin types which don't adhere to their family type.
+            bad_field = failing_model
+        else:
+            bad_field = val_err["loc"][-1]
+
+        err_msg = val_err["msg"]
         model_class = _resolve_model_class(failing_model)
 
         if model_class:
-            assert (
-                bad_field in model_class.model_fields
-            ), f"Field '{bad_field}' not found in model '{failing_model}'"
+            # bad_field == model_class.__name__ in the case that a single product plugin
+            # provides both 'family' and 'product_default' keys, or when a plugin is
+            # added to a single product plugin's arguments that doesn't adhere to the
+            # family it falls under.
+            if test_tup.loc is not None:
+                assert test_tup.loc == val_err["loc"]
+            else:
+                assert (
+                    bad_field in model_class.model_fields
+                    or bad_field == model_class.__name__
+                ), f"Field '{bad_field}' not found in model '{failing_model}'"
         if err_str:
             assert (
                 err_str in err_msg or err_str == err_msg

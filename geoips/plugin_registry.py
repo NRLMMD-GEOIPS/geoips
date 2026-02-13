@@ -18,12 +18,12 @@ in all plugins multiple times.
 """
 
 from importlib import import_module, util, metadata, resources
-import json
 import logging
 import os
 from pathlib import Path
 from types import SimpleNamespace
 
+import json
 from pydantic import BaseModel
 import yaml
 
@@ -406,9 +406,15 @@ class PluginRegistry:
 
         # Construct module path and import
         try:
-            module = import_module(
-                f"{package_name}.pydantic_models.{model_version}.{interface}"
-            )
+            if interface == "product_defaults":
+                # product_defaults model defined in products pydantic module
+                module = import_module(
+                    f"{package_name}.pydantic_models.{model_version}.products"
+                )
+            else:
+                module = import_module(
+                    f"{package_name}.pydantic_models.{model_version}.{interface}"
+                )
         except ImportError as e:
             raise ImportError(
                 f"Could not import models from '{api_version}': {e}"
@@ -425,7 +431,7 @@ class PluginRegistry:
                 f"Model '{model_name}' not found in '{api_version}'"
             ) from e
 
-        return model_class.model_validate(data)
+        return model_class(**data)
 
     def get_yaml_plugin(self, interface_obj, name, rebuild_registries=None):
         """Get a YAML plugin by its name.
@@ -551,7 +557,17 @@ class PluginRegistry:
         plugin["relpath"] = relpath
 
         if getattr(interface_obj, "use_pydantic", False):
-            return (self.load_plugin(plugin)).model_dump()
+
+            def remove_none(d: dict) -> dict:
+                """Recursively remove all keys with value None from a dictionary."""
+                if not isinstance(d, dict):
+                    return d
+                return {k: remove_none(v) for k, v in d.items() if v is not None}
+
+            validated = self.load_plugin(plugin).model_dump()
+            validated = remove_none(validated)
+
+            return interface_obj._plugin_yaml_to_obj(name, validated)
         else:
             validated = interface_obj.validator.validate(plugin)
             return interface_obj._plugin_yaml_to_obj(name, validated)
