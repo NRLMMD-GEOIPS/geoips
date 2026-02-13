@@ -11,7 +11,7 @@ from pydantic import ConfigDict, Field
 import xarray as xr
 
 # GeoIPS imports
-from geoips.models.v1.bases import PermissiveFrozenModel
+from geoips.pydantic_models.v1.bases import PermissiveFrozenModel
 
 dataType: TypeAlias = Union[xr.DataArray, xr.Dataset]
 
