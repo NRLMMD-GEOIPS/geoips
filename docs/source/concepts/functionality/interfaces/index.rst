@@ -17,6 +17,7 @@ Interfaces
     module_based/procflows
     module_based/readers
     module_based/title_formats
+    module_based/validators
     yaml_based/dynamic_sectors
     yaml_based/feature_annotators
     yaml_based/gridline_annotators

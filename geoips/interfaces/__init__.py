@@ -39,6 +39,7 @@ from geoips.interfaces.class_based.sector_spec_generators import (
 from geoips.interfaces.class_based.title_formatters import (
     title_formatters,
 )
+from geoips.interfaces.module_based.validators import validators
 
 from geoips.interfaces.yaml_based.feature_annotators import (
     feature_annotators,
@@ -69,6 +70,7 @@ class_based_interfaces = [
     "sector_metadata_generators",
     "sector_spec_generators",
     "title_formatters",
+    "validators",
 ]
 yaml_based_interfaces = [
     "feature_annotators",
