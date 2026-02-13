@@ -39,7 +39,8 @@ class InterpGaussInterpolator(CommonInterpolatorArguments):
 
     sigmaval: int = Field(
         None,
-        description="Used for interp_type 'gauss' - multiplication factor for sigmas option: * sigmas = [sigmas]*len(list_of_arrays)",
+        description="Used for interp_type 'gauss' - multiplication factor for sigmas" \
+        " option: * sigmas = [sigmas]*len(list_of_arrays)",
     )
 
     drop_nan: bool = Field(
