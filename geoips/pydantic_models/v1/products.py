@@ -4,6 +4,7 @@ Validates Product plugins using pydantic. Intended to be a 'carryover' model whi
 be used until we fully switch over to using workflow plugins.
 """
 
+from __future__ import annotations
 from typing import List, Literal, Union
 
 from pydantic import ConfigDict, Field, model_validator, RootModel
@@ -50,7 +51,7 @@ class SpecPlugin(FrozenModel):
 
     plugin: ModulePluginArgumentsModel = Field(
         ...,
-        desciption=(
+        description=(
             "The specification of the module plugin being overridden or implemented "
             "directly."
         ),
@@ -152,9 +153,7 @@ class ProductsListSpec(FrozenModel):
     Uses FrozenModel, meaning no additional fields can be added.
     """
 
-    # Quotes are used here as this is a forward reference. Haven't found a workaround to
-    # this yet.
-    products: List["SingleProductPluginModel"] = Field(
+    products: List[SingleProductPluginModel] = Field(
         ...,
         description=(
             "A list of one or more products that fall under the same source name."
