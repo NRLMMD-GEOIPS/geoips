@@ -1,12 +1,12 @@
 # # # This source code is subject to the license referenced at
 # # # https://github.com/NRLMMD-GEOIPS.
 
-"""Sector metadata generators interface module."""
+"""Sector metadata generators interface class."""
 
-from geoips.interfaces.base import BaseModuleInterface
+from geoips.interfaces.base import BaseClassInterface
 
 
-class SectorMetadataGeneratorsInterface(BaseModuleInterface):
+class SectorMetadataGeneratorsInterface(BaseClassInterface):
     """Interface for generating appropriate metadata for a sector.
 
     Provides specification for generating a dictionary-based set of

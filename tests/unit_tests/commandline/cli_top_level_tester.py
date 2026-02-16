@@ -13,6 +13,7 @@ import subprocess
 import sys
 
 from geoips.commandline.ancillary_info import alias_mapping
+from geoips.commandline.ancillary_info.test_data import test_dataset_dict
 from geoips.commandline.commandline_interface import GeoipsCLI
 from geoips.commandline.commandline_interface import main as cli_main
 from geoips.geoips_utils import is_editable
@@ -89,17 +90,7 @@ class BaseCliTest(abc.ABC):
     def test_datasets(self):
         """List of every available GeoIPS test dataset name."""
         if not hasattr(self, "_test_datasets"):
-            self._test_datasets = [
-                "test_data_amsr2",
-                "test_data_clavrx",
-                "test_data_fusion",
-                "test_data_gpm",
-                "test_data_noaa_aws",
-                "test_data_sar",
-                "test_data_scat",
-                "test_data_smap",
-                "test_data_viirs",
-            ]
+            self._test_datasets = list(test_dataset_dict.keys())
         return self._test_datasets
 
     def retrieve_selected_columns(self, args):

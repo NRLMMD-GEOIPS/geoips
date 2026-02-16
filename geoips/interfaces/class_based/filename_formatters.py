@@ -1,12 +1,12 @@
 # # # This source code is subject to the license referenced at
 # # # https://github.com/NRLMMD-GEOIPS.
 
-"""Filename formatters interface module."""
+"""Filename formatters interface class."""
 
-from geoips.interfaces.base import BaseModuleInterface
+from geoips.interfaces.base import BaseClassInterface
 
 
-class FilenameFormattersInterface(BaseModuleInterface):
+class FilenameFormattersInterface(BaseClassInterface):
     """Specification for formatting the full path and file name.
 
     File path and name formatting is determined using attributes within the

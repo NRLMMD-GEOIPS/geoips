@@ -619,7 +619,7 @@ class BaseYamlInterface(BaseInterface):
         return output
 
 
-class BaseModuleInterface(BaseInterface):
+class BaseClassInterface(BaseInterface):
     """Base Class for GeoIPS Interfaces.
 
     This class should not be instantiated directly. Instead, interfaces should be
@@ -631,8 +631,8 @@ class BaseModuleInterface(BaseInterface):
     the GeoIPS algorithm plugins.
     """
 
-    interface_type = "module_based"
-    name = "BaseModuleInterface"
+    interface_type = "class_based"
+    name = "BaseClassInterface"
     required_args = {}
 
     def __repr__(self):
@@ -766,11 +766,11 @@ class BaseModuleInterface(BaseInterface):
         PluginError
           If the specified plugin isn't found within the interface.
         """
-        return self.plugin_registry.get_module_plugin(self, name, rebuild_registries)
+        return self.plugin_registry.get_class_plugin(self, name, rebuild_registries)
 
     def get_plugins(self):
         """Retrieve all module plugins for this interface."""
-        return self.plugin_registry.get_module_plugins(self)
+        return self.plugin_registry.get_class_plugins(self)
 
     def plugin_is_valid(self, plugin):
         """Check that an interface is valid.
