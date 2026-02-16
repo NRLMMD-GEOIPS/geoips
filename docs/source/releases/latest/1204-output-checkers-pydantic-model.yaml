@@ -1,15 +1,27 @@
 enhancement:
 - title: 'Adding an Output Checker Pydantic Model'
-  description: 'Creating a Pydantic model for output checkers.'
+  description: |
+    Creating a Pydantic model for output checkers and unit tests to ensure functionality.
+    The general pydantic test flow was also modified to allow for a `test_cases_good.yaml` file.
   files:
     deleted:
-    - ''
-    moved:
-    - ''
+    - 'tests/unit_tests/pydantic_models/v1/feature_annotators/test_cases.yaml'
+    - 'tests/unit_tests/pydantic_models/v1/sectors/test_cases.yaml'
+    moved: []
     added:
-    - 'geoips/pydantic_models/v1/output_checkers.py'
+    - 'docs/source/releases/latest/1204-output-checkers-pydantic-model.yaml'
+    - 'pydantic_models/v1/output_checkers.py'
+    - 'tests/unit_tests/pydantic_models/v1/feature_annotators/test_cases_good.yaml'
+    - 'tests/unit_tests/pydantic_models/v1/gridline_annotators/test_cases_good.yaml'
+    - 'tests/unit_tests/pydantic_models/v1/sectors/test_cases_good.yaml'
+    - 'tests/unit_tests/pydantic_models/v1/output_checkers/test_cases_bad.yaml'
+    - 'tests/unit_tests/pydantic_models/v1/output_checkers/test_cases_good.yaml'
+    - 'tests/unit_tests/pydantic_models/v1/output_checkers/test_cases_neutral.yaml'
     modified:
-    - ''
+    - 'tests/unit_tests/pydantic_models/v1/conftest.py'
+    - 'tests/unit_tests/pydantic_models/v1/test_pydantic_models.py'
+    - 'tests/unit_tests/pydantic_models/v1/utils.py'
+    - 'tests/unit_tests/pydantic_models/v1/feature_annotators/test_cases_neutral.yaml'
   related-issue:
     number: 1204
     repo_url: 'https://github.com/NRLMMD-GEOIPS/geoips'
