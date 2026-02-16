@@ -307,7 +307,7 @@ def validate_base_plugin(base_plugin: dict, plugin_model: Type):
 
 
 def validate_good_plugin(
-        base_plugin: dict, test_tup: Tuple[str, Any, str, str], plugin_model: Type
+    base_plugin: dict, test_tup: Tuple[str, Any, str, str], plugin_model: Type
 ):
     """Perform validation on any GeoIPS plugin, ensuring it remains valid.
 
