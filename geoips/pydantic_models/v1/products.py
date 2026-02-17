@@ -1,7 +1,8 @@
-"""Pydantic PluginModel for GeoIPS Product plugins.
+"""Pydantic PluginModel for GeoIPS Product and Product Default plugins.
 
-Validates Product plugins using pydantic. Intended to be a 'carryover' model which will
-be used until we fully switch over to using workflow plugins.
+Validates Product and product default plugins using pydantic. Intended to be a
+'carryover' model which will be used until we fully switch over to using workflow
+plugins.
 """
 
 from __future__ import annotations
@@ -140,7 +141,7 @@ class ProductSpec(ProductDefaultSpec):
     variables: List[str] = Field(
         ...,
         description=(
-            "A list of one or morevariables derived from one of the 'source_names' "
+            "A list of one or more variables derived from one of the 'source_names' "
             "referenced in the product plugin. For example, 'B13BT' from 'abi' or "
             "'ahi'."
         ),
@@ -198,9 +199,8 @@ class SingleProductPluginModel(PluginModel):
     spec: ProductSpec = Field(
         ...,
         description=(
-            "The specification of specific arguments for this product plugin. "
-            "Additionally, can override arguments specified in the product_defaults "
-            "plugin it referenced if applicable."
+            "Arguments to be passed to the product plugin. Will override arguments "
+            "provided by the product_defaults if applicable."
         ),
     )
 
