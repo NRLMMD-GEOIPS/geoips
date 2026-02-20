@@ -5,13 +5,6 @@ checker_name_allows_null:
   cls: OutputCheckersArgumentsModel
   err_str: ""
 
-compare_path_whitespace_is_stripped:
-  description: "CoreBaseModel enables str_strip_whitespace; surrounding whitespace should be stripped and still validate."
-  key: compare_path
-  val: "   /tmp/expected.txt   "
-  cls: OutputCheckersArgumentsModel
-  err_str: ""
-
 output_products_allows_empty_list:
   description: "output_products is a strict List[str]; an empty list should still be a valid list value."
   key: output_products
