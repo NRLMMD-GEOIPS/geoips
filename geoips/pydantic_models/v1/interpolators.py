@@ -22,10 +22,6 @@ class CommonInterpolatorArguments(PermissiveFrozenModel):
     model_config = ConfigDict(arbitrary_types_allowed=True)
 
     area_def: str = Field(..., description="Area definition identifier.")
-    input_xarray: dataType = Field(..., description="Input xarray Dataset")
-    output_xarray: dataType = Field(
-        ..., description="Output xarray DataArray or Dataset"
-    )
     varlist: List[str] = Field(
         ..., description="variables required for specific interpolation processing"
     )
