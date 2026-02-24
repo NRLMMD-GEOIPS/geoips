@@ -2145,7 +2145,7 @@ def call(fnames, command_line_args=None):
     failed_compares = {}
     for cpath in final_products:
         if cpath != "no_comparison":
-            from geoips.interfaces.module_based.output_checkers import output_checkers
+            from geoips.interfaces.class_based.output_checkers import output_checkers
 
             checker_override = command_line_args["output_checker_name"]
             for output_product in final_products[cpath]["files"]:

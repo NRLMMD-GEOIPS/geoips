@@ -1,12 +1,12 @@
 # # # This source code is subject to the license referenced at
 # # # https://github.com/NRLMMD-GEOIPS.
 
-"""Databases interface module."""
+"""Databases interface class."""
 
-from geoips.interfaces.base import BaseModuleInterface
+from geoips.interfaces.base import BaseClassInterface
 
 
-class DatabasesInterface(BaseModuleInterface):
+class DatabasesInterface(BaseClassInterface):
     """Interface for database table writers/quieriers."""
 
     name = "databases"

@@ -1,10 +1,10 @@
 # # # This source code is subject to the license referenced at
 # # # https://github.com/NRLMMD-GEOIPS.
 
-"""Output Checkers interface module."""
+"""Output Checkers interface class."""
 
 from geoips.interfaces.base import (
-    BaseModuleInterface,
+    BaseClassInterface,
     BaseModulePlugin,
     ValidationError,
 )
@@ -1003,7 +1003,7 @@ class OutputCheckersBasePlugin(BaseModulePlugin):
         return goodcomps, badcomps, compare_strings
 
 
-class OutputCheckersInterface(BaseModuleInterface):
+class OutputCheckersInterface(BaseClassInterface):
     """Output Checkers routines to apply when comparing data outputs."""
 
     name = "output_checkers"
