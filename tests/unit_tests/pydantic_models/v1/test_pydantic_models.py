@@ -33,8 +33,20 @@ models_available = {
         "good_source": ("yaml", "default_palegreen"),
         "model": None,
     },
+    "products": {
+        "good_source": ("yaml", ("abi", "Infrared")),
+        "model": None,
+    },
+    "product_defaults": {
+        "good_source": ("yaml", "windbarbs"),
+        "model": None,
+    },
     "sectors": {
         "good_source": ("yaml", "korea"),
+        "model": None,
+    },
+    "dynamic_sectors": {
+        "good_source": ("yaml", "tc_web"),
         "model": None,
     },
     "output_checkers": {
@@ -65,9 +77,12 @@ def load_good_plugins(models_available):
     """
     good_plugins = {}
     for interface, cfg in models_available.items():
-        source_type, plugin = cfg["good_source"]
-        if source_type == "yaml":
-            good_plugins[interface] = load_geoips_yaml_plugin(interface, plugin)
+        source_type, plugin_name = cfg["good_source"]
+        if source_type == "yaml" and interface == "dynamic_sectors":
+            good_plugins[interface] = load_geoips_yaml_plugin("sectors", plugin_name)
+        elif source_type == "yaml":
+            good_plugins[interface] = load_geoips_yaml_plugin(interface, plugin_name)
+
     return good_plugins
 
 
