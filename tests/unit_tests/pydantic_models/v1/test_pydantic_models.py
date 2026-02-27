@@ -48,6 +48,7 @@ models_available = {
     "dynamic_sectors": {
         "good_source": ("yaml", "tc_web"),
         "model": None,
+    },
     "output_checkers": {
         "good_source": ("fixture", "valid_output_checker_arguments"),
         "model": OutputCheckersArgumentsModel,
