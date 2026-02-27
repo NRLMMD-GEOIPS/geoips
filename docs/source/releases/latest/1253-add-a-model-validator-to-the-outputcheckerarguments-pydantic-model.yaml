@@ -1,0 +1,18 @@
+enhancement:
+- title: 'Add a model validator to the OutputCheckerArguments Pydantic model'
+  description: 'Add a model validator to ensure that if checker_name, is provided, compare_path is also provided'
+  files:
+    deleted: []
+    moved: []
+    added: []
+    modified:
+    - 'geoips/pydantic_models/v1/output_checkers.py'
+    - 'tests/unit_tests/pydantic_models/v1/output_checkers/test_cases_bad.yaml'
+    - 'tests/unit_tests/pydantic_models/v1/conftest.py'
+    - 'docs/source/releases/latest/1253-add-a-model-validator-to-the-outputcheckerarguments-pydantic-model.yaml'
+  related-issue:
+    number: 1253
+    repo_url: 'https://github.com/NRLMMD-GEOIPS/geoips'
+  date:
+    start: 2026/02/26
+    finish: 2026/02/27
