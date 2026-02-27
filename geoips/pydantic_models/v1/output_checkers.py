@@ -3,6 +3,8 @@
 
 """Pydantic models used to validate GeoIPS output checker plugins."""
 
+from __future__ import annotations
+
 from typing import List, Optional
 
 from pydantic import Field, model_validator
@@ -29,26 +31,23 @@ class OutputCheckersArgumentsModel(FrozenModel):
     )
 
     @model_validator(mode="after")
-    def _validate_output_checker_path(
-        cls, model: OutputCheckersArgumentsModel
-    ) -> OutputCheckersArgumentsModel:
+    def _validate_output_checker_path(self) -> OutputCheckersArgumentsModel:
         """
-        Ensure the Output Checker contains a compare_path if checker_name is present.
-
-        Parameters
-        ----------
-        model: OutputCheckersArgumentsModel
-            The OutputCheckersArgumentsModel instance to validate.
+        Ensure compare_path is provided if checker_name is present.
 
         Returns
         -------
         OutputCheckersArgumentsModel
-            The validated instance of OutputCheckersArgumentsModel
+            The validated instance.
 
         Raises
         ------
         ValueError
-            If the plugin name is not valid for the specified plugin kind.
+            If checker_name is provided without compare_path.
         """
-        shell()
-        return model
+        if self.checker_name is not None and self.compare_path is None:
+            raise ValueError(
+                "'compare_path' must be provided when 'checker_name' is set."
+            )
+
+        return self
