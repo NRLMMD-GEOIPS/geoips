@@ -145,6 +145,6 @@ def valid_output_checker_arguments():
     """Fixture providing valid data OutputCheckerArgumentsModel tests."""
     return {
         "checker_name": "test_string",
-        "compare_path": "test_string",
-        "output_products": ["test_string"],
+        "compare_path": "/tmp/reference.txt",
+        "output_products": ["/tmp/output.png"],
     }
