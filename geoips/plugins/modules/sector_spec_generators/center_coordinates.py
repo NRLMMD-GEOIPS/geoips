@@ -67,6 +67,7 @@ def call(
         area_def = AreaDefinition(
             area_id,
             long_description,
+            proj_id="{0}_{1}".format(proj4_dict["proj"], area_id),
             proj_dict=proj4_dict,
             x_size=num_samples,
             y_size=num_lines,
@@ -76,6 +77,7 @@ def call(
         area_def = AreaDefinition(
             area_id,
             long_description,
+            proj_id="{0}_{1}".format(proj4_dict["proj"], area_id),
             projection=proj4_dict,
             width=num_samples,
             height=num_lines,
