@@ -17,7 +17,6 @@ spec:
   area_id: goes_west_20km_longlat
   description: |
     GOES-West coverage: 20 km resolution, 1000x1000 grid, centered at longitude 137.2 W.
-  # proj_id: "EPSG:4326"
   projection:
     lat_0: 0
     lon_0: 0
