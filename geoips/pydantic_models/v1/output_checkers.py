@@ -11,8 +11,6 @@ from pydantic import Field, model_validator
 
 from geoips.pydantic_models.v1.bases import FrozenModel
 
-from ipdb import set_trace as shell
-
 
 class OutputCheckersArgumentsModel(FrozenModel):
     """Output Checker spec (specification) format."""
