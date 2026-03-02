@@ -238,4 +238,4 @@ class BaseYamlInterface(BaseYamlInterface):
     the GeoIPS products plugins.
     """
 
-    validator = YamlPluginValidator
+    validator = YamlPluginValidator()
