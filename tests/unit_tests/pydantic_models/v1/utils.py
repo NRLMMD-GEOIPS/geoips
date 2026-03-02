@@ -45,6 +45,13 @@ class PathDict(dict):
         value: any
             - The value to set the attribute to.
         """
+        if key in ("", "/"):  # special case: replace self entirely
+            if not isinstance(value, dict):
+                raise TypeError("Root replacement must be a dict-like object")
+            self.clear()
+            self.update(value)
+            return
+
         keys = key.split("/")
         if len(keys) > 1:
             current = self
@@ -72,6 +79,14 @@ class TestCaseModel(BaseModel):
     key: str = Field(..., description="Path to the attribute being mutated.")
     val: Any = Field(..., description="The value to set for the given key.")
     cls: object = Field(..., description="The name of the model expected to fail.")
+    loc: Tuple = Field(
+        None,
+        description=(
+            "Optional tuple which depicts the exact location of the failing "
+            "field. Sometimes needed for models which can take various forms (I.e. "
+            "sector plugins)."
+        ),
+    )
     err_str: str = Field(
         ..., description="Expected error message fragment for the ValidationError."
     )
@@ -106,7 +121,7 @@ def load_test_cases(interface_name: str, test_type: str) -> dict:
     test_cases: dict
         - The dictionary of test cases used to validate your model.
     """
-    if test_type not in ("bad", "neutral"):
+    if test_type not in ("bad", "neutral", "good"):
         raise ValueError(f"Unsupported test type: {test_type}")
 
     fname = f"test_cases_{test_type}.yaml"
@@ -126,10 +141,15 @@ def load_test_cases(interface_name: str, test_type: str) -> dict:
     for test_case_id, raw_test_case in raw_test_cases.items():
         try:
             raw_test_case["test_case_id"] = test_case_id
+            if test_type == "good":
+                raw_test_case.setdefault("cls", "")
+                raw_test_case.setdefault("err_str", "")
             validated_test_case = TestCaseModel(**raw_test_case)
             validated_test_cases[test_case_id] = validated_test_case
         except ValidationError as e:
-            raise RuntimeError(f"Invalid test case '{test_case_id}': {e}")
+            raise RuntimeError(
+                f"Invalid {test_type} test case '{test_case_id}' in {fpath}: {e}"
+            )
 
     return validated_test_cases
 
@@ -172,7 +192,7 @@ def load_geoips_yaml_plugin(interface_name: str, plugin_name: str) -> dict:
         entry = registry[plugin_name]
 
     relpath = entry["relpath"]
-    print("relpaht \t", relpath)
+    print("relpath \t", relpath)
     abspath = str(resources.files("geoips") / relpath)
     package = "geoips"
 
@@ -202,9 +222,17 @@ def retrieve_model(plugin):
         - The associated plugin model used to validate this plugin.
     """
     interface = plugin["interface"]
+
+    if interface == "product_defaults":
+        module = import_module("geoips.pydantic_models.v1.products")
+        # module = geoips_models._modules["geoips.pydantic.products"]
+    else:
+        module = import_module(f"geoips.pydantic_models.v1.{interface}")
+        # module = geoips_models._modules[f"geoips.pydantic.{interface}"]
+
     # upcoming PR: https://github.com/NRLMMD-GEOIPS/geoips/issues/1125
     # module = geoips_models._modules[f"geoips.pydantic_models.v1.{interface}"]
-    module = import_module(f"geoips.pydantic_models.v1.{interface}")
+    # module = import_module(f"geoips.pydantic_models.v1.{interface}")
     if "_" in interface:
         int_split = interface.split("_")
         interface = f"{int_split[0].title()}{int_split[1].title()}"
@@ -301,6 +329,31 @@ def validate_base_plugin(base_plugin: dict, plugin_model: Type):
     plugin_model(**base_plugin)
 
 
+def validate_good_plugin(
+    base_plugin: dict, test_tup: Tuple[str, Any, str, str], plugin_model: Type
+):
+    """Perform validation on any GeoIPS plugin, ensuring it remains valid.
+
+    Parameters
+    ----------
+    base_plugin: dict
+        - A dictionary representing a plugin that is valid.
+    test_tup:
+        - A tuple formatted (key, value, class, err_str). For good cases,
+          class/err_str can be empty strings and are ignored.
+    plugin_model: Type
+        - The pydantic-based model used to validate this plugin.
+    """
+    key, val, _failing_model, _err_str = _validate_test_tup_keys(test_tup)
+
+    good_plugin = deepcopy(base_plugin)
+    good_plugin[key] = val
+
+    with warnings.catch_warnings():
+        warnings.simplefilter("error", FutureWarning)
+        plugin_model(**good_plugin)
+
+
 def validate_neutral_plugin(
     base_plugin: dict, test_tup: Tuple[str, Any, str, str], plugin_model: type
 ):
@@ -366,21 +419,36 @@ def validate_bad_plugin(
         # reported, or, if no failing model could be associated with this error, we
         # just default to the last error reported.
         errors = e.errors()
+
         if len(e.errors()) > 1:
             val_err = _attempt_to_associate_model_with_error(failing_model, errors)
         else:
             val_err = errors[0]
         # In Pydantic ValidationError, the last element of 'loc' tuple identifies
         # the failing attribute
-        bad_field = val_err["loc"][-1]
-        err_msg = val_err["msg"]
 
+        if len(val_err["loc"]) == 0:
+            # occurs when ValueErrors are raised for products / product_default plugins
+            # specifying plugin types which don't adhere to their family type.
+            bad_field = failing_model
+        else:
+            bad_field = val_err["loc"][-1]
+
+        err_msg = val_err["msg"]
         model_class = _resolve_model_class(failing_model)
 
         if model_class:
-            assert (
-                bad_field in model_class.model_fields
-            ), f"Field '{bad_field}' not found in model '{failing_model}'"
+            # bad_field == model_class.__name__ in the case that a single product plugin
+            # provides both 'family' and 'product_default' keys, or when a plugin is
+            # added to a single product plugin's arguments that doesn't adhere to the
+            # family it falls under.
+            if test_tup.loc is not None:
+                assert test_tup.loc == val_err["loc"]
+            else:
+                assert (
+                    bad_field in model_class.model_fields
+                    or bad_field == model_class.__name__
+                ), f"Field '{bad_field}' not found in model '{failing_model}'"
         if err_str:
             assert (
                 err_str in err_msg or err_str == err_msg
