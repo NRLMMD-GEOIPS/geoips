@@ -20,67 +20,6 @@ from tqdm import tqdm
 import geoips
 from geoips.commandline.ancillary_info.test_data import test_dataset_dict
 from geoips.commandline.geoips_command import GeoipsCommand, GeoipsExecutableCommand
-from geoips.plugin_registry import PluginRegistry
-
-
-class GeoipsConfigCreateRegistries(GeoipsExecutableCommand):
-    """Config Command Class for creating plugin registries for plugin packages."""
-
-    name = "create-registries"
-    command_classes = []
-
-    def add_arguments(self):
-        """Add arguments to the config-subparser for the Config Command."""
-        self.parser.add_argument(
-            "-s",
-            "--save-type",
-            default="json",
-            type=str,
-            choices=["json", "yaml"],
-            help=(
-                "The file format to save the registry as. Defaults to 'json', which is "
-                "what's used by GeoIPS under the hood. For human readable output, you "
-                "can provide the optional argument '-s yaml'."
-            ),
-        )
-
-    def __call__(self, args):
-        """Run the `geoips config create-registries -n <namespace> -s <save_type> -p <packages>` command.  # NOQA
-
-        Parameters
-        ----------
-        args: Namespace()
-            - The argument namespace to parse through
-        """
-        packages = args.packages
-        namespace = args.namespace
-        save_type = args.save_type
-        plugin_registry = PluginRegistry(namespace)
-        plugin_registry.create_registries(packages, save_type)
-
-
-class GeoipsConfigDeleteRegistries(GeoipsExecutableCommand):
-    """Config Command Class for deleting plugin registries for plugin packages."""
-
-    name = "delete-registries"
-    command_classes = []
-
-    def add_arguments(self):
-        """Add arguments to the config-subparser for the Config Command."""
-        pass
-
-    def __call__(self, args):
-        """Run the `geoips config delete-registries -n <namespace> -p <packages>` command.  # NOQA
-
-        Parameters
-        ----------
-        args: Namespace()
-            - The argument namespace to parse through
-        """
-        packages = args.packages
-        namespace = args.namespace
-        plugin_registry = PluginRegistry(namespace)
-        plugin_registry.delete_registries(packages)
 
 
 class GeoipsConfigInstall(GeoipsExecutableCommand):
@@ -299,9 +238,4 @@ class GeoipsConfig(GeoipsCommand):
     """Config top-level command for configuring your GeoIPS environment."""
 
     name = "config"
-    command_classes = [
-        GeoipsConfigInstall,
-        GeoipsConfigInstallGithub,
-        GeoipsConfigCreateRegistries,
-        GeoipsConfigDeleteRegistries,
-    ]
+    command_classes = [GeoipsConfigInstall, GeoipsConfigInstallGithub]
