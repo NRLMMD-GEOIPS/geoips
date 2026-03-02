@@ -83,8 +83,9 @@ def call(workflow, fnames, command_line_args=None):
 
                     data_xr_dt[f"{step_id}/{name}"] = data_xr_dt[name].ds
                     del data_xr_dt[name]
-                
+
                 print("after2 \t", data_xr_dt)
+
                 def xarray_datatree_to_dataset(data, node="LOW"):
                     if (
                         hasattr(data, "__class__")
@@ -93,8 +94,9 @@ def call(workflow, fnames, command_line_args=None):
                         return data[node].ds
                     return data
 
-                
-                input_xarray = xarray_datatree_to_dataset(data_xr_dt, node=f"{step_id}/LOW")
+                input_xarray = xarray_datatree_to_dataset(
+                    data_xr_dt, node=f"{step_id}/LOW"
+                )
 
             elif interface == "interpolators":
 
