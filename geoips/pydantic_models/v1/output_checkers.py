@@ -31,7 +31,7 @@ class OutputCheckersArgumentsModel(FrozenModel):
     )
 
     @model_validator(mode="after")
-    def _validate_output_checker_path(self) -> OutputCheckersArgumentsModel:
+    def _validate_compare_path_against_checker_name(self) -> OutputCheckersArgumentsModel:
         """
         Ensure compare_path is provided if checker_name is present.
 
