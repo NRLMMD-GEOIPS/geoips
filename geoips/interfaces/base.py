@@ -16,7 +16,11 @@ from referencing import jsonschema as refjs
 from jsonschema.exceptions import ValidationError, SchemaError
 
 from geoips.errors import PluginError
-from pluginify.interfaces.base import BaseYamlInterface
+from pluginify.interfaces.base import BaseYamlInterface as pluginify_base_yaml
+from pluginify.interfaces.base import (  # NOQA: F401
+    BaseClassInterface,
+    BaseYamlPlugin,
+)  # imports used elsewhere in GeoIPS
 
 LOG = logging.getLogger(__name__)
 
@@ -226,7 +230,7 @@ def plugin_repr(obj):
     return f'{obj.__class__}(name="{obj.name}", module="{obj.module}")'
 
 
-class BaseYamlInterface(BaseYamlInterface):
+class BaseYamlInterface(pluginify_base_yaml):
     """Base class for GeoIPS yaml-based plugin interfaces.
 
     This class should not be instantiated directly. Instead, interfaces should be
