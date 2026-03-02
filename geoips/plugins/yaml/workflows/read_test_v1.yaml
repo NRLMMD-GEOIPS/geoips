@@ -9,12 +9,12 @@ docstring: |
 description: 11.2 µm Infrared.
 spec:
   steps:
-    reader:
+    read_abi_L1_data:
       kind: reader
       name: abi_netcdf
       arguments:
         variables: ['B14BT']
-    interpolator:
+    interpolate_using_gaussian:
       kind: interpolator
       name: interp_gauss
       arguments:
