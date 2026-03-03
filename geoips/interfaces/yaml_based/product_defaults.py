@@ -10,6 +10,7 @@ class ProductDefaultsInterface(BaseYamlInterface):
     """Default values that can be applied to products."""
 
     name = "product_defaults"
+    use_pydantic = False
 
 
 product_defaults = ProductDefaultsInterface()

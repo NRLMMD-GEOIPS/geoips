@@ -11,6 +11,7 @@ import pytest
 
 # GeoIPS imports
 from geoips.pydantic_models.v1.title_formatters import TitleFormatterArgumentsModel
+from geoips.pydantic_models.v1.output_checkers import OutputCheckersArgumentsModel
 from tests.unit_tests.pydantic_models.v1.utils import (
     PathDict,
     load_geoips_yaml_plugin,
@@ -19,6 +20,7 @@ from tests.unit_tests.pydantic_models.v1.utils import (
     validate_bad_plugin,
     validate_base_plugin,
     validate_neutral_plugin,
+    validate_good_plugin,
 )
 
 # A mapping of interfaces implemented in pydantic and a plugin to validate against.
@@ -31,9 +33,25 @@ models_available = {
         "good_source": ("yaml", "default_palegreen"),
         "model": None,
     },
+    "products": {
+        "good_source": ("yaml", ("abi", "Infrared")),
+        "model": None,
+    },
+    "product_defaults": {
+        "good_source": ("yaml", "windbarbs"),
+        "model": None,
+    },
     "sectors": {
         "good_source": ("yaml", "korea"),
         "model": None,
+    },
+    "dynamic_sectors": {
+        "good_source": ("yaml", "tc_web"),
+        "model": None,
+    },
+    "output_checkers": {
+        "good_source": ("fixture", "valid_output_checker_arguments"),
+        "model": OutputCheckersArgumentsModel,
     },
     "title_formatters": {
         "good_source": ("fixture", "valid_title_formatter_arguments"),
@@ -59,9 +77,12 @@ def load_good_plugins(models_available):
     """
     good_plugins = {}
     for interface, cfg in models_available.items():
-        source_type, plugin = cfg["good_source"]
-        if source_type == "yaml":
-            good_plugins[interface] = load_geoips_yaml_plugin(interface, plugin)
+        source_type, plugin_name = cfg["good_source"]
+        if source_type == "yaml" and interface == "dynamic_sectors":
+            good_plugins[interface] = load_geoips_yaml_plugin("sectors", plugin_name)
+        elif source_type == "yaml":
+            good_plugins[interface] = load_geoips_yaml_plugin(interface, plugin_name)
+
     return good_plugins
 
 
@@ -78,7 +99,7 @@ def generate_test_cases(test_type):
     Parameters
     ----------
     test_type: str
-        - The type of test being ran. Must be one of ["bad", "neutral"].
+        - The type of test being ran. Must be one of ["good", "bad", "neutral"].
 
     Returns
     -------
@@ -169,7 +190,7 @@ def get_model(interface, plugin):
 
 
 @pytest.mark.parametrize("interface", list(models_available.keys()))
-def test_good_plugin(interface, request):
+def test_base_plugin(interface, request):
     """Assert that a well formatted GeoIPS plugin is valid.
 
     Parameters
@@ -180,6 +201,18 @@ def test_good_plugin(interface, request):
     good_plugin = get_good_plugin(interface, request)
     model = get_model(interface, good_plugin)
     validate_base_plugin(good_plugin, model)
+
+
+@pytest.mark.parametrize("test_case", generate_test_cases("good"))
+def test_good_plugins(test_case, request):
+    """Perform validation on GeoIPS plugins, including passing 'good' cases."""
+    interface, _key, case_value = test_case
+
+    good_plugin = get_good_plugin(interface, request)
+    plugin = PathDict(deepcopy(good_plugin))
+    model = get_model(interface, plugin)
+
+    validate_good_plugin(plugin, case_value, model)
 
 
 @pytest.mark.parametrize("test_case", generate_test_cases("bad"))
