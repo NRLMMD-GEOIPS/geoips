@@ -86,6 +86,13 @@ class ProductDefaultSpec(PermissiveFrozenModel):
     pad_area_definition: bool = Field(
         None, description="Whether or not to pad your area definition if specified."
     )
+    mpl_colors_info: dict = Field(
+        None,
+        description=(
+            "Dictionary which overrides the defaults set in a product's colormapper "
+            "plugin if specified."
+        ),
+    )
     mtif_type: str = Field(None, description="The format of METOC TIFF to output.")
     display_name: str = Field(None, description="The display name of your product.")
 

@@ -568,8 +568,13 @@ class PluginRegistry:
 
             return interface_obj._plugin_yaml_to_obj(name, validated)
         else:
-            validated = interface_obj.validator.validate(plugin)
-            return interface_obj._plugin_yaml_to_obj(name, validated)
+            raise PluginError(
+                f"Error: Plugin of interface type {interface_obj.name}, named {name} "
+                "is missing a corresponding pydantic validator. This should be added "
+                "to geoips/pydantic_models/v1/ under the appropriate interface module. "
+                "Once pydantic models have been created for this interface, please set "
+                "`use_pydantic` to True on the corresponding interface class."
+            )
 
     def get_yaml_plugins(self, interface_obj):
         """Retrieve all yaml plugin objects for this interface.
