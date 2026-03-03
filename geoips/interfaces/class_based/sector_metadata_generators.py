@@ -3,8 +3,14 @@
 
 """Sector metadata generators interface class."""
 
-from geoips.base_class_plugins import BaseSectorMetadataAdjusterPlugin
+from geoips.interfaces.class_based_plugin import BaseClassPlugin
 from geoips.interfaces.base import BaseClassInterface
+
+
+class BaseSectorMetadataAdjusterPlugin(BaseClassPlugin, abstract=True):
+    """Base class for GeoIPS sector_metadata_adjuster plugins."""
+
+    pass
 
 
 class SectorMetadataGeneratorsInterface(BaseClassInterface):

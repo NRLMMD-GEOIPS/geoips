@@ -3,8 +3,14 @@
 
 """Output formatters interface class."""
 
-from geoips.base_class_plugins import BaseOutputFormatterPlugin
+from geoips.interfaces.class_based_plugin import BaseClassPlugin
 from geoips.interfaces.base import BaseClassInterface
+
+
+class BaseOutputFormatterPlugin(BaseClassPlugin, abstract=True):
+    """Base class for GeoIPS output_formatter plugins."""
+
+    pass
 
 
 class OutputFormattersInterface(BaseClassInterface):

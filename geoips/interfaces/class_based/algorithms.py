@@ -3,8 +3,14 @@
 
 """Algorithms interface class."""
 
-from geoips.base_class_plugins import BaseAlgorithmPlugin
+from geoips.interfaces.class_based_plugin import BaseClassPlugin
 from geoips.interfaces.base import BaseClassInterface
+
+
+class BaseAlgorithmPlugin(BaseClassPlugin, abstract=True):
+    """Base class for GeoIPS algorithm plugins."""
+
+    pass
 
 
 class AlgorithmsInterface(BaseClassInterface):

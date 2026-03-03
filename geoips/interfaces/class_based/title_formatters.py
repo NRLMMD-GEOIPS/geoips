@@ -3,8 +3,14 @@
 
 """Title formatters interface class."""
 
-from geoips.base_class_plugins import BaseTitleFormatterPlugin
+from geoips.interfaces.class_based_plugin import BaseClassPlugin
 from geoips.interfaces.base import BaseClassInterface
+
+
+class BaseTitleFormatterPlugin(BaseClassPlugin, abstract=True):
+    """Base class for GeoIPS title_formatter plugins."""
+
+    pass
 
 
 class TitleFormattersInterface(BaseClassInterface):

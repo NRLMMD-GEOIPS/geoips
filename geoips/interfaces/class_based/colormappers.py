@@ -3,8 +3,14 @@
 
 """Colormappers interface class."""
 
-from geoips.base_class_plugins import BaseColormapperPlugin
+from geoips.interfaces.class_based_plugin import BaseClassPlugin
 from geoips.interfaces.base import BaseClassInterface
+
+
+class BaseColormapperPlugin(BaseClassPlugin, abstract=True):
+    """Base class for GeoIPS colormapper plugins."""
+
+    pass
 
 
 class ColormappersInterface(BaseClassInterface):

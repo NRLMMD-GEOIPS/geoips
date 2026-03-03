@@ -10,10 +10,16 @@ from os.path import basename
 import numpy as np
 from xarray import concat, Dataset
 
-from geoips.base_class_plugins import BaseReaderPlugin
+from geoips.interfaces.class_based_plugin import BaseClassPlugin
 from geoips.errors import NoValidFilesError
 from geoips.interfaces.base import BaseClassInterface
 from geoips.plugins.modules.readers.utils.hrit_reader import HritError
+
+
+class BaseReaderPlugin(BaseClassPlugin, abstract=True):
+    """Base class for GeoIPS reader plugins."""
+
+    pass
 
 
 class ReadersInterface(BaseClassInterface):
