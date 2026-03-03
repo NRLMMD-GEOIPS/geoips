@@ -14,7 +14,7 @@ from shutil import copy
 from importlib.resources import files
 from dataclasses import dataclass
 
-from geoips.base_class_plugins import BaseOutputCheckerPlugin
+from geoips.interfaces.class_based.output_checkers import BaseOutputCheckerPlugin
 from geoips.commandline.log_setup import log_with_emphasis
 from geoips.geoips_utils import get_numpy_seeded_random_generator
 from geoips.filenames.base_paths import PATHS

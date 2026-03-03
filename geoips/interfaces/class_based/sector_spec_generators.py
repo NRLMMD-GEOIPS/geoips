@@ -3,8 +3,14 @@
 
 """Sector spec generators interface class."""
 
-from geoips.base_class_plugins import BaseSectorSpecGeneratorPlugin
+from geoips.interfaces.class_based_plugin import BaseClassPlugin
 from geoips.interfaces.base import BaseClassInterface
+
+
+class BaseSectorSpecGeneratorPlugin(BaseClassPlugin, abstract=True):
+    """Base class for GeoIPS sector_spec_generator plugins."""
+
+    pass
 
 
 class SectorSpecGeneratorsInterface(BaseClassInterface):

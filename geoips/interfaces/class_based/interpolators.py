@@ -3,8 +3,14 @@
 
 """Interpolators interface class."""
 
-from geoips.base_class_plugins import BaseInterpolatorPlugin
+from geoips.interfaces.class_based_plugin import BaseClassPlugin
 from geoips.interfaces.base import BaseClassInterface
+
+
+class BaseInterpolatorPlugin(BaseClassPlugin, abstract=True):
+    """Base class for GeoIPS interpolator plugins."""
+
+    pass
 
 
 class InterpolatorsInterface(BaseClassInterface):

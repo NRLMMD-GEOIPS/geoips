@@ -172,18 +172,18 @@ class BaseClassPlugin(ABC):
         Parameters
         ----------
         module: ModuleType, default=None
-            - The module in which the class-based plugin came from. This is used to
-              collect metadata from the module and attach it to the plugin object. This
-              can then be used when validating plugins to denote where failing plugins
-              come from. If None, we will set the 'testing' attributes to a string
-              which can be used in tests as well.
+            The module from which the class-based plugin originated. This is used to
+            collect metadata from the module and attach it to the plugin object. The
+            metadata can then be used during validation to indicate where failing
+            plugins originated. If None, the 'testing' attributes will be set to a
+            string value that can also be used in tests.
         """
         if module:
             self.module_name = module.__name__
             self.module_path = module.__file__
         else:
-            self.module_name = "No associated module name."
-            self.module_path = "No associated module path."
+            self.module_name = "Unknown."
+            self.module_path = "Unknown."
 
     def __init_subclass__(cls, *, abstract=False, **kwargs) -> None:
         """

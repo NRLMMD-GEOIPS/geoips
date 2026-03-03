@@ -5,7 +5,7 @@
 
 import logging
 
-from geoips.base_class_plugins.output_checkers import BaseOutputCheckerPlugin
+from geoips.interfaces.class_based.output_checkers import BaseOutputCheckerPlugin
 from geoips.commandline.log_setup import log_with_emphasis
 from geoips.geoips_utils import get_numpy_seeded_random_generator
 

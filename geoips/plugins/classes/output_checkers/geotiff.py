@@ -11,7 +11,7 @@ import numpy as np
 import rasterio
 from rasterio.errors import RasterioIOError
 
-from geoips.base_class_plugins.output_checkers import BaseOutputCheckerPlugin
+from geoips.interfaces.class_based.output_checkers import BaseOutputCheckerPlugin
 from geoips.commandline.log_setup import log_with_emphasis
 
 LOG = logging.getLogger(__name__)

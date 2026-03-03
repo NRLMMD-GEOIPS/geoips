@@ -9,7 +9,7 @@ import numpy as np
 from os import makedirs
 from os.path import exists, join, splitext
 
-from geoips.base_class_plugins.output_checkers import BaseOutputCheckerPlugin
+from geoips.interfaces.class_based.output_checkers import BaseOutputCheckerPlugin
 from geoips.filenames.base_paths import PATHS as gpaths
 from geoips.geoips_utils import get_numpy_seeded_random_generator
 
