@@ -1,0 +1,93 @@
+validation:
+- title: 'Turn on Pydantic Validators and remove JSON Schema'
+  description: |
+    There have been multiple PRs that have added pydantic validators whose job is to
+    replace the current JSON Schema validators used for YAML-based plugins. This PR
+    activates all of those pydantic validators and removes all JSON Schema code. Since
+    these pydantic validators completely replace our JSON schema validators, we have no
+    need for the schema code or the validator code found in interfaces/base.py.
+
+    Noteably, all pydantic validators are passing tests just fine, besides the product
+    pydantic models which are failing for the 'layered' data fusion products. This is
+    an issue with the actual data fusion products as those 'layered' products are
+    missing the 'variables' field in all of their products. Those products should be
+    updated accordingly so all tests pass on GeoIPS' side.
+  files:
+    deleted:
+      - geoips/schema/bases/docstring.yaml
+      - geoips/schema/bases/family.yaml
+      - geoips/schema/bases/interface.yaml
+      - geoips/schema/bases/name.yaml
+      - geoips/schema/bases/product_defaults.yaml
+      - geoips/schema/bases/top.yaml
+      - geoips/schema/bases/valid_identifier.yaml
+      - geoips/schema/feature_annotators/cartopy.yaml
+      - geoips/schema/gridline_annotators/cartopy.yaml
+      - geoips/schema/product_defaults/algorithm.yaml
+      - geoips/schema/product_defaults/algorithm_colormapper.yaml
+      - geoips/schema/product_defaults/algorithm_interpolator_colormapper.yaml
+      - geoips/schema/product_defaults/bases/algorithm.yaml
+      - geoips/schema/product_defaults/bases/colormapper.yaml
+      - geoips/schema/product_defaults/bases/coverage_checker.yaml
+      - geoips/schema/product_defaults/bases/interpolator.yaml
+      - geoips/schema/product_defaults/bases/unvalidated.yaml
+      - geoips/schema/product_defaults/bases/windbarb_plotter.yaml
+      - geoips/schema/product_defaults/interpolator.yaml
+      - geoips/schema/product_defaults/interpolator_algorithm.yaml
+      - geoips/schema/product_defaults/interpolator_algorithm_colormapper.yaml
+      - geoips/schema/product_defaults/sectored_xarray_dict_to_output_format.yaml
+      - geoips/schema/product_defaults/specs/algorithm.yaml
+      - geoips/schema/product_defaults/specs/algorithm_colormapper.yaml
+      - geoips/schema/product_defaults/specs/algorithm_interpolator_colormapper.yaml
+      - geoips/schema/product_defaults/specs/interpolator.yaml
+      - geoips/schema/product_defaults/specs/interpolator_algorithm.yaml
+      - geoips/schema/product_defaults/specs/interpolator_algorithm_colormapper.yaml
+      - geoips/schema/product_defaults/specs/xarray_dict_to_output_format.yaml
+      - geoips/schema/product_defaults/unmodified.yaml
+      - geoips/schema/product_defaults/unsectored_xarray_dict_area_to_output_format.yaml
+      - geoips/schema/product_defaults/unsectored_xarray_dict_to_algorithm_to_output_format.yaml
+      - geoips/schema/product_defaults/unsectored_xarray_dict_to_output_format.yaml
+      - geoips/schema/product_defaults/xarray_dict_to_output_format.yaml
+      - geoips/schema/products/algorithm.yaml
+      - geoips/schema/products/algorithm_colormapper.yaml
+      - geoips/schema/products/algorithm_interpolator_colormapper.yaml
+      - geoips/schema/products/bases/product.yaml
+      - geoips/schema/products/interpolator.yaml
+      - geoips/schema/products/interpolator_algorithm.yaml
+      - geoips/schema/products/interpolator_algorithm_colormapper.yaml
+      - geoips/schema/products/list.yaml
+      - geoips/schema/products/sectored_xarray_dict_area_to_output_format.yaml
+      - geoips/schema/products/sectored_xarray_dict_to_output_format.yaml
+      - geoips/schema/products/single.yaml
+      - geoips/schema/products/unmodified.yaml
+      - geoips/schema/products/unsectored_xarray_dict_area_to_output_format.yaml
+      - geoips/schema/products/unsectored_xarray_dict_to_algorithm_to_output_format.yaml
+      - geoips/schema/products/unsectored_xarray_dict_to_output_format.yaml
+      - geoips/schema/products/xarray_dict_to_output_format.yaml
+      - geoips/schema/sectors/generated.yaml
+      - geoips/schema/sectors/metadata_families/atmosriver.yaml
+      - geoips/schema/sectors/metadata_families/pyrocb.yaml
+      - geoips/schema/sectors/metadata_families/static.yaml
+      - geoips/schema/sectors/metadata_families/stitched.yaml
+      - geoips/schema/sectors/metadata_families/tc.yaml
+      - geoips/schema/sectors/metadata_families/volcano.yaml
+      - geoips/schema/sectors/specs/area_definition.yaml
+      - geoips/schema/sectors/specs/center.yaml
+      - geoips/schema/sectors/static.yaml
+    modified:
+      - geoips/interfaces/base.py
+      - geoips/interfaces/yaml_based/feature_annotators.py
+      - geoips/interfaces/yaml_based/gridline_annotators.py
+      - geoips/interfaces/yaml_based/product_defaults.py
+      - geoips/interfaces/yaml_based/products.py
+      - geoips/interfaces/yaml_based/sectors.py
+      - geoips/interfaces/yaml_based/workflows.py
+      - geoips/plugin_registry.py
+      - geoips/plugins/yaml/products/ascat.yaml
+      - geoips/pydantic_models/v1/products.py
+  related-issue:
+    number: null
+    repo_url: ''
+  date:
+    start: null
+    finish: null
