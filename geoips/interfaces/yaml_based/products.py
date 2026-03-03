@@ -86,8 +86,8 @@ class ProductsInterface(BaseYamlInterface):
     """GeoIPS interface for Products plugins."""
 
     name = "products"
-    use_pydantic = False
-    validator = ProductsPluginValidator()
+    use_pydantic = True
+    # validator = ProductsPluginValidator()
 
     def _create_registered_plugin_names(self, yaml_plugin):
         """Create a plugin name for plugin registry.
