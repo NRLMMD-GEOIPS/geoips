@@ -2,6 +2,7 @@
 # # # https://github.com/NRLMMD-GEOIPS.
 
 """Output Checkers interface class."""
+
 from glob import glob
 import gzip
 import logging
