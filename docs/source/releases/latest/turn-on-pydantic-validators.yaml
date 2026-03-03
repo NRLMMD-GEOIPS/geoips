@@ -12,6 +12,14 @@ validation:
     an issue with the actual data fusion products as those 'layered' products are
     missing the 'variables' field in all of their products. Those products should be
     updated accordingly so all tests pass on GeoIPS' side.
+
+    Output of ``pytest -v --no-fail-on-missing-data`` with data_fusion UNINSTALLED:
+
+    ```
+    ============================================================================= short test summary info ==============================================================================
+    FAILED tests/integration_tests/test_integration.py::test_integ_lint_test_script[$geoips_repopath/tests/utils/check_code.sh all $geoips_repopath] - RuntimeError: CalledProcessError, see output in log /home/evan/geoips/geoips_packages/outdirs/logs/pytests/integration/20260303.200929.check_code.sh_all_geoips.log
+    ============================================== 1 failed, 3764 passed, 53 deselected, 63 xfailed, 1580 warnings in 3690.64s (1:01:30) ===============================================
+    ```
   files:
     deleted:
       - geoips/schema/bases/docstring.yaml
@@ -74,6 +82,47 @@ validation:
       - geoips/schema/sectors/specs/area_definition.yaml
       - geoips/schema/sectors/specs/center.yaml
       - geoips/schema/sectors/static.yaml
+      - tests/unit_tests/schema/bad/bases/docstring.yaml
+      - tests/unit_tests/schema/bad/bases/docstring.yaml
+      - tests/unit_tests/schema/bad/bases/docstring.yaml
+      - tests/unit_tests/schema/bad/bases/docstring.yaml
+      - tests/unit_tests/schema/bad/bases/docstring.yaml
+      - tests/unit_tests/schema/bad/bases/valid_identifier.yaml
+      - tests/unit_tests/schema/bad/bases/valid_identifier.yaml
+      - tests/unit_tests/schema/bad/bases/valid_identifier.yaml
+      - tests/unit_tests/schema/bad/bases/valid_identifier.yaml
+      - tests/unit_tests/schema/bad/bases/valid_identifier.yaml
+      - tests/unit_tests/schema/bad/feature_annotators/cartopy.yaml
+      - tests/unit_tests/schema/bad/feature_annotators/cartopy.yaml
+      - tests/unit_tests/schema/bad/feature_annotators/cartopy.yaml
+      - tests/unit_tests/schema/bad/feature_annotators/cartopy.yaml
+      - tests/unit_tests/schema/bad/feature_annotators/cartopy.yaml
+      - tests/unit_tests/schema/bad/gridline_annotators/cartopy.yaml
+      - tests/unit_tests/schema/bad/product_defaults/algorithm_colormapper.yaml
+      - tests/unit_tests/schema/bad/product_defaults/algorithm_interpolator_colormapper.yaml
+      - tests/unit_tests/schema/bad/product_defaults/bases/algorithm.yaml
+      - tests/unit_tests/schema/bad/product_defaults/bases/colormapper.yaml
+      - tests/unit_tests/schema/bad/product_defaults/bases/coverage_checker.yaml
+      - tests/unit_tests/schema/bad/product_defaults/bases/interpolator.yaml
+      - tests/unit_tests/schema/bad/product_defaults/interpolator_algorithm.yaml
+      - tests/unit_tests/schema/bad/product_defaults/interpolator_algorithm_colormapper.yaml
+      - tests/unit_tests/schema/bad/products/bases/product.yaml
+      - tests/unit_tests/schema/bad/products/single.yaml
+      - tests/unit_tests/schema/good/bases/valid_identifier.yaml
+      - tests/unit_tests/schema/good/feature_annotators/cartopy.yaml
+      - tests/unit_tests/schema/good/gridline_annotators/cartopy.yaml
+      - tests/unit_tests/schema/good/product_defaults/algorithm_colormapper.yaml
+      - tests/unit_tests/schema/good/product_defaults/algorithm_interpolator_colormapper.yaml
+      - tests/unit_tests/schema/good/product_defaults/bases/algorithm.yaml
+      - tests/unit_tests/schema/good/product_defaults/bases/colormapper.yaml
+      - tests/unit_tests/schema/good/product_defaults/bases/coverage_checker.yaml
+      - tests/unit_tests/schema/good/product_defaults/bases/interpolator.yaml
+      - tests/unit_tests/schema/good/product_defaults/interpolator_algorithm.yaml
+      - tests/unit_tests/schema/good/product_defaults/interpolator_algorithm_colormapper.yaml
+      - tests/unit_tests/schema/good/products/bases/product.yaml
+      - tests/unit_tests/schema/good/products/single.yaml
+      - tests/unit_tests/schema/good/sectors/static.yaml
+      - tests/unit_tests/schema/test_yaml_schema.py
     modified:
       - geoips/interfaces/base.py
       - geoips/interfaces/yaml_based/feature_annotators.py
@@ -85,6 +134,7 @@ validation:
       - geoips/plugin_registry.py
       - geoips/plugins/yaml/products/ascat.yaml
       - geoips/pydantic_models/v1/products.py
+      - geoips/tests/unit_tests/plugins/yaml/test_all_yaml_plugins.py
   related-issue:
     number: null
     repo_url: ''
