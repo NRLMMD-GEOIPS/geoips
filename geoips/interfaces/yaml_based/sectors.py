@@ -158,8 +158,6 @@ class SectorsInterface(BaseYamlInterface):
     name = "sectors"
     plugin_class = SectorPluginBase
     use_pydantic = False
-    # Uncomment when ready to switch from JsonSchema to Pydantic
-    # validator = SectorPluginModel
 
     # if sectors.get_plugin(<name>) is found to be a dynamic sector. Otherwise, a static
     # sector plugin model (I.e. SectorPluginModel) will be used for all other sector
