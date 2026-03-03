@@ -172,7 +172,7 @@ class BaseClassPlugin(ABC):
         Parameters
         ----------
         module: ModuleType, default=None
-            - The module from which the class-based plugin originated. This is used to
+            The module from which the class-based plugin originated. This is used to
             collect metadata from the module and attach it to the plugin object. The
             metadata can then be used during validation to indicate where failing
             plugins originated. If None, the 'testing' attributes will be set to a
