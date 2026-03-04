@@ -23,6 +23,15 @@ family = "standard"
 name = "order_based"
 
 
+def xarray_datatree_to_dataset(data, node="MED"):
+    if (
+        hasattr(data, "__class__")
+        and data.__class__.__name__ == "DataTree"
+    ):
+        return data[node].ds
+    return data
+
+
 def call(workflow, fnames, command_line_args=None):
     """Run the order based procflow (OBP).
 
@@ -84,20 +93,10 @@ def call(workflow, fnames, command_line_args=None):
                     data_xr_dt[f"{step_id}/{name}"] = data_xr_dt[name].ds
                     del data_xr_dt[name]
 
-                print("after2 \t", data_xr_dt)
-
-                def xarray_datatree_to_dataset(data, node="LOW"):
-                    if (
-                        hasattr(data, "__class__")
-                        and data.__class__.__name__ == "DataTree"
-                    ):
-                        return data[node].ds
-                    return data
 
                 input_xarray = xarray_datatree_to_dataset(
-                    data_xr_dt, node=f"{step_id}/LOW"
+                    data_xr_dt, node=f"{step_id}/MED"
                 )
-
             elif interface == "interpolators":
 
                 if step_id not in data_xr_dt:
@@ -105,12 +104,9 @@ def call(workflow, fnames, command_line_args=None):
 
                 data_xr_dt[f"{step_id}/output_interpolated_xr_ds"] = xr.Dataset()
 
-                print("after \t", data_xr_dt)
-
-                print("keys data_xr_dt \t", list(data_xr_dt.keys()))
-
-                area_def = None
-                varlist = ["B14BT"]
+                # area_def = "goes_east_subsector"
+                area_def = input_xarray["B01Rad"]
+                varlist = input_xarray["B01Rad"]
 
                 data = plg(
                     area_def=area_def,
