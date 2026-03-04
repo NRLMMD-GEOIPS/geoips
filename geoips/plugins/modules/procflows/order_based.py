@@ -24,17 +24,18 @@ name = "order_based"
 
 
 def xarray_datatree_to_dataset(data, node="MED"):
-    """Convert an xarray DataTree to an xarray Dataset.
+    """
+    Convert an xarray DataTree to an xarray Dataset.
 
     Parameters
     ----------
     data: DataTree
-        The input xarray DataTree.
+        Input DataTree.
 
     Returns
     -------
     DataSet
-        The Datset representation of the provided DataTree.
+        Dataset representation of the DataTree.
     """
     if hasattr(data, "__class__") and data.__class__.__name__ == "DataTree":
         return data[node].ds
