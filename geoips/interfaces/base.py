@@ -5,7 +5,6 @@
 
 # cspell:ignore refjs
 
-import yaml
 import logging
 
 from importlib.resources import files
@@ -15,12 +14,16 @@ import referencing
 from referencing import jsonschema as refjs
 from jsonschema.exceptions import ValidationError, SchemaError
 
-from geoips.errors import PluginError
 from pluginify.interfaces.base import BaseYamlInterface as pluginify_base_yaml
 from pluginify.interfaces.base import (  # NOQA: F401
+    BaseInterface,
     BaseClassInterface,
     BaseYamlPlugin,
 )  # imports used elsewhere in GeoIPS
+import yaml
+
+from geoips.errors import PluginError
+
 
 LOG = logging.getLogger(__name__)
 

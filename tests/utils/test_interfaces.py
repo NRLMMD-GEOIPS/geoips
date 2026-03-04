@@ -6,7 +6,7 @@
 from pprint import pformat
 import traceback
 
-from pluginify.interfaces.base import BaseInterface
+from geoips.interfaces.base import BaseInterface
 
 from geoips import interfaces
 from geoips.interfaces.yaml_based import workflows
