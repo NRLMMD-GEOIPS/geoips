@@ -42,12 +42,6 @@ class OutputFormatterInvalidProjectionError(Exception):
     pass
 
 
-class PluginError(Exception):
-    """Exception to be raised when there is an error in a GeoIPS plugin."""
-
-    pass
-
-
 class CoverageError(Exception):
     """Raise exception on data coverage error."""
 

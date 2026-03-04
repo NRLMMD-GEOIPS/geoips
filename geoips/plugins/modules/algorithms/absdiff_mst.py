@@ -11,9 +11,9 @@ import logging
 
 import numpy as np
 import xarray as xr
+from pluginify.errors import PluginError
 
 from geoips.data_manipulations.corrections import apply_data_range
-from geoips.errors import PluginError
 
 LOG = logging.getLogger(__name__)
 

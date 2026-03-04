@@ -19,7 +19,7 @@ import sys
 from subprocess import call
 
 from geoips.commandline.geoips_command import GeoipsCommand, GeoipsExecutableCommand
-from geoips.errors import PluginError
+from pluginify.errors import PluginError
 from geoips.filenames.base_paths import PATHS
 from geoips.geoips_utils import is_editable
 from geoips.interfaces import sectors
@@ -194,7 +194,7 @@ class GeoipsTestSector(GeoipsExecutableCommand):
             raise self.parser.error(
                 f"Sector '{sector_name}' is not a valid plugin.\nPlease use a plugin "
                 "found under 'geoips list interface sectors' or create a new plugin "
-                f"named '{sector_name}' and run 'create_plugin_registries'."
+                f"named '{sector_name}' and run 'pluginify create'."
             )
         print(f"Creating {fname}.")
         sect.create_test_plot(fname, overlay=overlay)

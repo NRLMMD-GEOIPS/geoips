@@ -7,9 +7,9 @@ from importlib import reload
 
 import pytest
 from pluginify import plugin_registry as plugin_registry_module
+from pluginify.errors import PluginError
 
 from geoips import interfaces
-from geoips.errors import PluginError
 
 
 def yield_interface_plugin_tuples():

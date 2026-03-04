@@ -8,6 +8,7 @@ Retrieves the appropriate family/interface/package/plugin based on the args prov
 
 from importlib import metadata, resources, import_module
 
+from pluginify.create_plugin_registries import format_docstring
 import yaml
 
 from geoips.commandline.geoips_command import (
@@ -15,7 +16,6 @@ from geoips.commandline.geoips_command import (
     GeoipsCommand,
     GeoipsExecutableCommand,
 )
-from geoips.create_plugin_registries import format_docstring
 from geoips import interfaces
 
 
