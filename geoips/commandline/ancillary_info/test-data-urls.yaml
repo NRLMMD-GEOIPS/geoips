@@ -1,5 +1,5 @@
 test_data_urls:
-  test_data_abi: "https://io2.cira.colostate.edu/s/J73tEcn22smktMi/download?path=%2F&files=test_data_abi_1.15.1_github.com.tgz"
+  test_data_abi: "https://io2.cira.colostate.edu/s/J73tEcn22smktMi/download?path=%2F&files=test_data_abi_1.17.1_github.com.tgz"
   test_data_ahi: "https://io2.cira.colostate.edu/s/J73tEcn22smktMi/download?path=%2F&files=test_data_ahi_1.15.1_github.com.tgz"
   test_data_ami: "https://io2.cira.colostate.edu/s/J73tEcn22smktMi/download?path=%2F&files=test_data_ami_1.15.1_github.com.tgz"
   test_data_amsr2: "https://io2.cira.colostate.edu/s/J73tEcn22smktMi/download?path=%2F&files=test_data_amsr2_1.6.0_github.com.tgz"
