@@ -3,13 +3,22 @@
 
 """Interpolators interface class."""
 
+from geoips.interfaces.class_based_plugin import BaseClassPlugin
 from geoips.interfaces.base import BaseClassInterface
+
+
+class BaseInterpolatorPlugin(BaseClassPlugin, abstract=True):
+    """Base class for GeoIPS interpolator plugins."""
+
+    pass
 
 
 class InterpolatorsInterface(BaseClassInterface):
     """Interpolation routine to apply when reprojecting data."""
 
     name = "interpolators"
+    plugin_class = BaseInterpolatorPlugin
+
     required_args = {
         "2d": ["area_def", "input_xarray", "output_xarray", "varlist"],
         "grid": ["area_def", "input_xarray", "output_xarray", "varlist"],

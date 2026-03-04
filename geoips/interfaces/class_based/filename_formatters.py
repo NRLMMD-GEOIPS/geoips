@@ -3,7 +3,14 @@
 
 """Filename formatters interface class."""
 
+from geoips.interfaces.class_based_plugin import BaseClassPlugin
 from geoips.interfaces.base import BaseClassInterface
+
+
+class BaseFilenameFormatterPlugin(BaseClassPlugin, abstract=True):
+    """Base class for GeoIPS filename_formatter plugins."""
+
+    pass
 
 
 class FilenameFormattersInterface(BaseClassInterface):
@@ -14,6 +21,7 @@ class FilenameFormattersInterface(BaseClassInterface):
     """
 
     name = "filename_formatters"
+    plugin_class = BaseFilenameFormatterPlugin
 
     required_args = {
         "standard": ["area_def", "xarray_obj", "product_name"],

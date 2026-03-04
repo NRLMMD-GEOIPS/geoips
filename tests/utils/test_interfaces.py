@@ -157,6 +157,19 @@ def main():
         try:
             out_dict = curr_interface.test_interface()
             out_dicts[curr_interface.name] = out_dict
+
+            if curr_interface.interface_type == "class_based":
+                # Make sure that if we are dealing with a class-based interface that it
+                # has 'plugin_class' set and that attribute refers to a
+                # Base<interface>Plugin class.
+                assert (
+                    hasattr(curr_interface, "plugin_class")
+                    and curr_interface.plugin_class.__name__.startswith("Base")
+                    and curr_interface.plugin_class.__name__.endswith("Plugin")
+                ), (
+                    f"{curr_interface.name} is either missing or has improperly set its"
+                    "plugin_class attribute."
+                )
         except Exception as resp:
             LOG.info(traceback.format_exc())
             failed_plugins += [curr_interface.name]
