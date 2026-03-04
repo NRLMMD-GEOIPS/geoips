@@ -24,7 +24,6 @@ import yaml
 
 from geoips.errors import PluginError
 
-
 LOG = logging.getLogger(__name__)
 
 
