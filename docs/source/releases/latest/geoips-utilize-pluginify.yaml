@@ -38,15 +38,28 @@ refactor:
       - tests/unit_tests/plugin_registries/test_plugin_registries.py
     modified:
       - .cspell.json
+      - docs/source/concepts/architecture/index.rst
+      - docs/source/concepts/architecture/plugin-registries.rst
+      - docs/source/concepts/functionality/command-line/index.rst
+      - docs/source/concepts/functionality/index.rst
+      - docs/source/concepts/functionality/plugin-registries.rst
       - geoips/commandline/ancillary_info/alias_mapping.yaml
       - geoips/commandline/ancillary_info/cmd_instructions.yaml
       - geoips/commandline/geoips_config.py
+      - geoips/commandline/geoips_describe.py
+      - geoips/commandline/geoips_test.py
       - geoips/errors.py
       - geoips/geoips_utils.py
       - geoips/interfaces/base.py
+      - geoips/plugins/modules/algorithms/absdiff_mst.py
+      - geoips/plugins/modules/output_formatters/imagery_annotated.py
+      - geoips/plugins/modules/procflows/config_based.py
+      - geoips/plugins/modules/procflows/single_source.py
+      - geoips/sector_utils/utils.py
       - pyproject.toml
       - tests/unit_tests/plugins/test_get_plugin.py
       - tests/unit_tests/plugins/test_get_plugin_metadata.py
+      - tests/unit_tests_long/plugins/modules/readers/test_readers.py
       - tests/utils/test_interfaces.py
   related-issue:
     number: null
