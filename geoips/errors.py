@@ -42,6 +42,12 @@ class OutputFormatterInvalidProjectionError(Exception):
     pass
 
 
+class PluginError(Exception):
+    """Pass."""
+
+    pass
+
+
 class CoverageError(Exception):
     """Raise exception on data coverage error."""
 
