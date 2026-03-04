@@ -6,8 +6,8 @@
 import pytest
 
 from geoips.commandline.commandline_interface import main
-from geoips.errors import PluginRegistryError
-from geoips.plugin_registry import plugin_registry
+from pluginify.errors import PluginRegistryError
+from pluginify.plugin_registry import plugin_registry
 from tests.unit_tests.commandline.cli_top_level_tester import (
     generate_id,
     check_valid_command_using_monkeypatch,

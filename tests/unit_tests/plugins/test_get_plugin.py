@@ -4,11 +4,12 @@
 """Test retrieving GeoIPS and other plugin packages' plugins."""
 
 from importlib import reload
+
 import pytest
+from pluginify import plugin_registry as plugin_registry_module
 
 from geoips import interfaces
 from geoips.errors import PluginError
-from geoips import plugin_registry as plugin_registry_module
 
 
 def yield_interface_plugin_tuples():

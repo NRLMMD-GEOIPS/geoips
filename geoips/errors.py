@@ -48,12 +48,6 @@ class PluginError(Exception):
     pass
 
 
-class PluginRegistryError(Exception):
-    """Exception to be raised when there is an error in a plugin registry."""
-
-    pass
-
-
 class CoverageError(Exception):
     """Raise exception on data coverage error."""
 
