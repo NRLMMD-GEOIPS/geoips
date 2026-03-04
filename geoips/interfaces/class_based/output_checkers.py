@@ -3,21 +3,21 @@
 
 """Output Checkers interface class."""
 
+from glob import glob
+import gzip
+import logging
+from os import getenv, listdir, makedirs
+from os.path import basename, dirname, exists, isdir, join, splitext
+from shutil import copyfileobj
+
+from geoips.commandline.log_setup import log_with_emphasis
+
+from geoips.filenames.base_paths import make_dirs
+from geoips.interfaces.class_based_plugin import BaseClassPlugin
 from geoips.interfaces.base import (
     BaseClassInterface,
-    BaseModulePlugin,
     ValidationError,
 )
-import logging
-
-# import subprocess
-from geoips.commandline.log_setup import log_with_emphasis
-import gzip
-from glob import glob
-from os.path import exists, splitext, basename, dirname, isdir, join
-from os import makedirs, getenv, listdir
-from shutil import copyfileobj
-from geoips.filenames.base_paths import make_dirs
 
 LOG = logging.getLogger(__name__)
 rezip = False
@@ -177,7 +177,7 @@ def write_remove_temp_files_to_file(remove_temp_files, diffdir):
 def write_missing_products_to_file(missingproducts, compare_products, diffdir):
     """Write text file with rm commands to remove products from comparison directory.
 
-    Write a text file contatining rm commands that can be sourced to remove
+    Write a text file containing rm commands that can be sourced to remove
     existing test output comparison files from the test comparison directories
     that were NOT found in the most recent output.
 
@@ -305,7 +305,7 @@ def write_missing_products_to_file(missingproducts, compare_products, diffdir):
 def write_missing_comparisons_to_file(missingcomps, diffdir):
     """Write text file with cp commands to add products to comparison directory.
 
-    Write a text file contatining cp commands that can be sourced to add
+    Write a text file containing cp commands that can be sourced to add
     new test output comparison files to the test comparison directories
     that were found in the most recent output and were not previously in
     the test comparison directory.
@@ -561,7 +561,7 @@ def gunzip_product(fname, is_comparison_product=False, clobber=False):
     return gunzip_filename
 
 
-class OutputCheckersBasePlugin(BaseModulePlugin):
+class BaseOutputCheckerPlugin(BaseClassPlugin, abstract=True):
     """Output Checkers Base Plugin for comparing data outputs."""
 
     def is_gz(self, fname):
@@ -990,8 +990,8 @@ class OutputCheckersBasePlugin(BaseModulePlugin):
         else:
             comp_str = self.name.upper() + " "
         compare_strings += [comp_str]
-        if self.module.outputs_match(
-            self,
+
+        if self.outputs_match(
             output_product,
             compare_product,
             **kwargs,
@@ -1009,7 +1009,7 @@ class OutputCheckersInterface(BaseClassInterface):
     name = "output_checkers"
     required_args = {"standard": {}}
     required_kwargs = {"standard": {}}
-    plugin_class = OutputCheckersBasePlugin
+    plugin_class = BaseOutputCheckerPlugin
     # required_args = {
     #     "standard": ["fname", "output_product", "compare_product"],
     #     "print_gunzip": ["fobj", "gunzip_fname"],
@@ -1040,10 +1040,10 @@ class OutputCheckersInterface(BaseClassInterface):
         string
             - The name of the discovered output checker.
         """
-        plugin_names = [checker.module.name for checker in self.get_plugins()]
+        plugin_names = [checker.name for checker in self.get_plugins()]
         # First, check if an override was requested for this file.
         if checker_override_name and checker_override_name in plugin_names:
-            return self.get_plugin(checker_override_name).module.name
+            return self.get_plugin(checker_override_name).name
 
         checker_found = False
         checker_name = None
@@ -1054,9 +1054,9 @@ class OutputCheckersInterface(BaseClassInterface):
                 filename, is_comparison_product=False, clobber=True
             )
         for output_checker in self.get_plugins():
-            checker_found = output_checker.module.correct_file_format(filename)
+            checker_found = output_checker.correct_file_format(filename)
             if checker_found:
-                checker_name = output_checker.module.name
+                checker_name = output_checker.name
                 break
         if not checker_found:
             raise TypeError("There isn't an output checker built for this data type.")
@@ -1085,9 +1085,9 @@ class OutputCheckersInterface(BaseClassInterface):
     def valid_plugin(self, plugin):
         """Check the validity of the supplied output_checker plugin."""
         if (
-            not hasattr(plugin.module, "outputs_match")
-            or not hasattr(plugin.module, "correct_file_format")
-            or not hasattr(plugin.module, "call")
+            not hasattr(plugin, "outputs_match")
+            or not hasattr(plugin, "correct_file_format")
+            or not hasattr(plugin, "call")
         ):
             raise ValidationError(
                 "The plugin returned is missing one or more of the following functions."

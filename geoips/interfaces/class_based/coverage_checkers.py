@@ -3,13 +3,22 @@
 
 """Interpolators interface class."""
 
+from geoips.interfaces.class_based_plugin import BaseClassPlugin
 from geoips.interfaces.base import BaseClassInterface
+
+
+class BaseCoverageCheckerPlugin(BaseClassPlugin, abstract=True):
+    """Base class for GeoIPS coverage_checker plugins."""
+
+    pass
 
 
 class CoverageCheckersInterface(BaseClassInterface):
     """Interpolation routine to apply when reprojecting data."""
 
     name = "coverage_checkers"
+    plugin_class = BaseCoverageCheckerPlugin
+
     required_args = {"standard": ["xarray_obj", "variable_name"]}
     required_kwargs = {"standard": {}}
     allowable_kwargs = {
