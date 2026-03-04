@@ -24,10 +24,19 @@ name = "order_based"
 
 
 def xarray_datatree_to_dataset(data, node="MED"):
-    if (
-        hasattr(data, "__class__")
-        and data.__class__.__name__ == "DataTree"
-    ):
+    """Convert an xarray DataTree to an xarray Dataset.
+
+    Parameters
+    ----------
+    data: DataTree
+        The input xarray DataTree.
+
+    Returns
+    -------
+    DataSet
+        The Datset representation of the provided DataTree.
+    """
+    if hasattr(data, "__class__") and data.__class__.__name__ == "DataTree":
         return data[node].ds
     return data
 
@@ -92,7 +101,6 @@ def call(workflow, fnames, command_line_args=None):
 
                     data_xr_dt[f"{step_id}/{name}"] = data_xr_dt[name].ds
                     del data_xr_dt[name]
-
 
                 input_xarray = xarray_datatree_to_dataset(
                     data_xr_dt, node=f"{step_id}/MED"
