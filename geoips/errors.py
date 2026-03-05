@@ -3,6 +3,8 @@
 
 """GeoIPS error module."""
 
+from pluginify.errors import PluginError  # NOQA ; used in various imports
+
 
 class FileFormatError(Exception):
     """Exception to be raised when a file is badly formatted and cannot be used."""
@@ -38,12 +40,6 @@ class OutputFormatterDatelineError(Exception):
 
 class OutputFormatterInvalidProjectionError(Exception):
     """Exception to be raised when there is a projection error in an OutputFormatter."""
-
-    pass
-
-
-class PluginError(Exception):
-    """Pass."""
 
     pass
 

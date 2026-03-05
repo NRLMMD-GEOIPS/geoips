@@ -9,9 +9,9 @@ import logging
 from datetime import timedelta
 import inspect
 import xarray
-from pluginify.errors import PluginError
 
 # Internal utilities
+from geoips.errors import PluginError
 from geoips.errors import OutputFormatterDatelineError
 from geoips.errors import OutputFormatterInvalidProjectionError
 from geoips.filenames.duplicate_files import remove_duplicates

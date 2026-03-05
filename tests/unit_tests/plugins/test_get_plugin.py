@@ -7,8 +7,8 @@ from importlib import reload
 
 import pytest
 from pluginify import plugin_registry as plugin_registry_module
-from pluginify.errors import PluginError
 
+from geoips.errors import PluginError
 from geoips import interfaces
 
 

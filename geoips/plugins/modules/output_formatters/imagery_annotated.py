@@ -6,8 +6,8 @@
 import logging
 
 from jsonschema.exceptions import ValidationError
-from pluginify.errors import PluginError
 
+from geoips.errors import PluginError
 from geoips.interfaces import products
 
 LOG = logging.getLogger(__name__)

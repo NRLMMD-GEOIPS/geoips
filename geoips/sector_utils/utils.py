@@ -6,8 +6,8 @@
 import logging
 
 from pyresample import load_area
-from pluginify.errors import PluginError
 
+from geoips.errors import PluginError
 from geoips.sector_utils.tc_tracks import set_tc_area_def
 from geoips.interfaces import sectors
 

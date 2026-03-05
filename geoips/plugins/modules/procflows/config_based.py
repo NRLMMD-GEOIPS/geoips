@@ -11,9 +11,9 @@ from os.path import basename
 from os import getpid
 from datetime import datetime
 from pyaml_env import parse_config
-from pluginify.errors import PluginError
 
 from geoips.commandline.args import check_command_line_args
+from geoips.errors import PluginError
 from geoips.filenames.base_paths import PATHS as gpaths
 from geoips.utils.memusg import PidLog
 

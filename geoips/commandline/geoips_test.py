@@ -19,7 +19,7 @@ import sys
 from subprocess import call
 
 from geoips.commandline.geoips_command import GeoipsCommand, GeoipsExecutableCommand
-from pluginify.errors import PluginError
+from geoips.errors import PluginError
 from geoips.filenames.base_paths import PATHS
 from geoips.geoips_utils import is_editable
 from geoips.interfaces import sectors

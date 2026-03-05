@@ -10,9 +10,9 @@ from os.path import dirname, exists
 import numpy as np
 import pytest
 import yaml
-from pluginify.errors import PluginError
 
 from geoips.commandline.log_setup import setup_logging
+from geoips.errors import PluginError
 from geoips.interfaces import readers
 
 LOG = setup_logging()
