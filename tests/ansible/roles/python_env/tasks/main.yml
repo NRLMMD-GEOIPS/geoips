@@ -14,7 +14,7 @@
 ---
 - name: Install GeoIPS requirements.txt
   ansible.builtin.pip:
-    requirements: "{{ geoips_packages_dir }}/geoips/requirements.txt"
+    requirements: "{{ geoips_packages_dir }}/geoips/environments/requirements.txt"
     extra_args: "{{ pip_extra_args }}"
     state: present
   tags: [base, full, site]

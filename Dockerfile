@@ -20,13 +20,20 @@
 ###############################################################################
 # Stage 1: base-os — system packages only, no Python libs
 ###############################################################################
-FROM python:3.11-slim-bullseye AS base-os
+FROM python:3.11-slim-trixie AS base-os
 
 ARG DEBIAN_FRONTEND=noninteractive
+# Set compiler flags to work around pyhdf's outdated C wrapper
+ENV CFLAGS="-Wno-incompatible-pointer-types"
 RUN apt-get update \
     && apt-get upgrade -y \
     && apt-get install -y --no-install-recommends \
-       git wget libopenblas-dev g++ make gfortran \
+       git wget libopenblas-dev g++ make gfortran\
+# for pygrib
+       libeccodes-dev \ 
+    && echo "deb http://deb.debian.org/debian/ unstable main contrib non-free" | tee /etc/apt/sources.list.d/unstable.list \
+    && apt-get update \
+    && apt install -y -t unstable gdal-bin libgdal-dev \
     && rm -rf /var/lib/apt/lists/* \
     && pip install --no-cache-dir --upgrade pip
 
@@ -68,7 +75,7 @@ RUN groupadd -g ${GROUP_ID} ${USER} \
 # carries no pre-built wheel bloat.  ansible-core is a build-time tool
 # only (stripped in production) so it keeps its wheel for speed.
 COPY --chown=${USER}:${GROUP_ID} environments/requirements.txt /tmp/requirements.txt
-RUN pip install --no-cache-dir --no-binary :all: -r /tmp/requirements.txt \
+RUN pip install --no-cache-dir -r /tmp/requirements.txt \
     && pip install --no-cache-dir ansible-core
 
 ###############################################################################
