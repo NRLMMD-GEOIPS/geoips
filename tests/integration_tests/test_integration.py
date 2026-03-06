@@ -198,8 +198,15 @@ def _run_ansible_check(tags, label):
     log_fname = set_log_filename(["ansible-check", label])
     print(f"Ansible install check ({label}), log: {log_fname}")
 
-    # Point ansible at our config so it picks up roles_path correctly
-    env_override = {"ANSIBLE_CONFIG": os.path.join(_ANSIBLE_DIR, "ansible.cfg")}
+    # Point ansible at our config and roles directory.
+    # ANSIBLE_CONFIG finds the config file.
+    # ANSIBLE_ROLES_PATH provides an absolute path to roles/ so they resolve
+    # regardless of the working directory (roles_path in ansible.cfg is
+    # relative to CWD, which varies under pytest).
+    env_override = {
+        "ANSIBLE_CONFIG": os.path.join(_ANSIBLE_DIR, "ansible.cfg"),
+        "ANSIBLE_ROLES_PATH": os.path.join(_ANSIBLE_DIR, "roles"),
+    }
     orig_vals = {}
     for key, val in env_override.items():
         orig_vals[key] = os.environ.get(key)

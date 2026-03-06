@@ -97,8 +97,9 @@ RUN git config --global --add safe.directory '*'
 # compiled from source (requirements.txt deps were already built in the
 # deps stage, so this is a fast no-op for those).
 # -e 'pip_extra_args=--no-binary :all:' \ # saving this for later so builds complete
-RUN ansible-playbook \
-      ${GEOIPS_PACKAGES_DIR}/geoips/tests/ansible/playbooks/install.yml \
+# roles_path=roles resolves to tests/ansible/roles/.
+RUN cd ${GEOIPS_PACKAGES_DIR}/geoips/tests/ansible \
+    && ansible-playbook playbooks/install.yml \
       --tags base \
       -e pip_editable=false \
       -v
@@ -113,8 +114,8 @@ ARG USER_ID=1000
 ARG GROUP_ID=1000
 
 USER root
-RUN ansible-playbook \
-      ${GEOIPS_PACKAGES_DIR}/geoips/tests/ansible/playbooks/install.yml \
+RUN cd ${GEOIPS_PACKAGES_DIR}/geoips/tests/ansible \
+    && ansible-playbook playbooks/install.yml \
       --tags full \
       -e pip_editable=false \
       #-e 'pip_extra_args=--no-binary :all:' \
@@ -135,8 +136,8 @@ ARG GEOIPS_USE_PRIVATE_PLUGINS=false
 ENV GEOIPS_USE_PRIVATE_PLUGINS=${GEOIPS_USE_PRIVATE_PLUGINS}
 
 USER root
-RUN ansible-playbook \
-      ${GEOIPS_PACKAGES_DIR}/geoips/tests/ansible/playbooks/install.yml \
+RUN cd ${GEOIPS_PACKAGES_DIR}/geoips/tests/ansible \
+    && ansible-playbook playbooks/install.yml \
       --tags site \
       -e pip_editable=false \
       #-e 'pip_extra_args=--no-binary :all:' \

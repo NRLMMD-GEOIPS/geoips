@@ -72,38 +72,32 @@ testdata-base: build-base
 	mkdir -p $(TESTDATA)
 	docker run --rm \
 		-v $(TESTDATA):/geoips_testdata \
-		-e ANSIBLE_CONFIG=/packages/geoips/tests/ansible/ansible.cfg \
 		$(IMAGE_NAME):base-$(TAG) \
-		ansible-playbook \
-			/packages/geoips/tests/ansible/playbooks/test_data.yml \
-			-i /packages/geoips/tests/ansible/inventory/local.yml \
-			--tags base \
-			-e geoips_testdata_dir=/geoips_testdata -v
+		bash -c "cd /packages/geoips/tests/ansible \
+			&& ansible-playbook playbooks/test_data.yml \
+				--tags base \
+				-e geoips_testdata_dir=/geoips_testdata -v"
 
 testdata-full: build-full
 	mkdir -p $(TESTDATA)
 	docker run --rm \
 		-v $(TESTDATA):/geoips_testdata \
-		-e ANSIBLE_CONFIG=/packages/geoips/tests/ansible/ansible.cfg \
 		$(IMAGE_NAME):full-$(TAG) \
-		ansible-playbook \
-			/packages/geoips/tests/ansible/playbooks/test_data.yml \
-			-i /packages/geoips/tests/ansible/inventory/local.yml \
-			--tags base,full \
-			-e geoips_testdata_dir=/geoips_testdata -v
+		bash -c "cd /packages/geoips/tests/ansible \
+			&& ansible-playbook playbooks/test_data.yml \
+				--tags base,full \
+				-e geoips_testdata_dir=/geoips_testdata -v"
 
 testdata-site: build-site
 	mkdir -p $(TESTDATA)
 	docker run --rm \
 		-v $(TESTDATA):/geoips_testdata \
-		-e ANSIBLE_CONFIG=/packages/geoips/tests/ansible/ansible.cfg \
 		$(IMAGE_NAME):site-$(TAG) \
-		ansible-playbook \
-			/packages/geoips/tests/ansible/playbooks/test_data.yml \
-			-i /packages/geoips/tests/ansible/inventory/local.yml \
-			--tags base,full,site \
-			-e geoips_testdata_dir=/geoips_testdata \
-			-e "geoips_use_private_plugins=$(GEOIPS_USE_PRIVATE_PLUGINS)" -v
+		bash -c "cd /packages/geoips/tests/ansible \
+			&& ansible-playbook playbooks/test_data.yml \
+				--tags base,full,site \
+				-e geoips_testdata_dir=/geoips_testdata \
+				-e geoips_use_private_plugins=$(GEOIPS_USE_PRIVATE_PLUGINS) -v"
 
 # --- Bare-metal Ansible (no Docker) -----------------------------------------
 

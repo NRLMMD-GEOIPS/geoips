@@ -126,14 +126,14 @@ jobs:
           docker run --rm \
             -v ${TESTDATA_PATH}:/geoips_testdata \
             -e GEOIPS_TESTDATA_DIR=/geoips_testdata \
-            -e ANSIBLE_CONFIG=/packages/geoips/tests/ansible/ansible.cfg \
             $IMAGE_TAG \
-            ansible-playbook \
-              /packages/geoips/tests/ansible/playbooks/test_data.yml \
-              -i /packages/geoips/tests/ansible/inventory/local.yml \
-              --tags ${TAGS} \
-              -e geoips_testdata_dir=/geoips_testdata \
-              -v
+            bash -c "
+              cd /packages/geoips/tests/ansible
+              ansible-playbook playbooks/test_data.yml \
+                --tags ${TAGS} \
+                -e geoips_testdata_dir=/geoips_testdata \
+                -v
+            "
 
       - name: Verify downloaded datasets
         run: |
