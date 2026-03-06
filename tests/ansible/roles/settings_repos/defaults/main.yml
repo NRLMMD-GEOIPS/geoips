@@ -1,0 +1,6 @@
+# roles/settings_repos/defaults/main.yml
+# Defined in group_vars/all.yml — defaults here for standalone use.
+settings_repos:
+  - .vscode
+  - .github
+  - geoips_ci

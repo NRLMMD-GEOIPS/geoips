@@ -1,0 +1,29 @@
+# tests/ansible/playbooks/test_data.yml
+#
+# Downloads test datasets required for integration testing.
+# Kept separate from install.yml because test data is NEVER baked into
+# Docker images — it is downloaded on the CI runner (or dev machine)
+# and mounted into containers at runtime.
+#
+# Usage:
+#   # Base datasets only
+#   ansible-playbook playbooks/test_data.yml --tags base
+#
+#   # Base + full datasets
+#   ansible-playbook playbooks/test_data.yml --tags base,full
+#
+#   # Everything including site + private datasets
+#   ansible-playbook playbooks/test_data.yml --tags base,full,site \
+#     -e geoips_use_private_plugins=true
+#
+#   # Override the download location
+#   ansible-playbook playbooks/test_data.yml --tags base \
+#     -e geoips_testdata_dir=/data/geoips-testdata
+#
+---
+- name: Download GeoIPS test data
+  hosts: localhost
+  gather_facts: false
+
+  roles:
+    - role: test_data

@@ -1,0 +1,62 @@
+# roles/test_data/tasks/main.yml
+#
+# Downloads test datasets using `geoips config install`.
+# The command is idempotent — it skips datasets that already exist in
+# $GEOIPS_TESTDATA_DIR.
+#
+# This role is deliberately NOT part of the install.yml playbook because
+# test data is never baked into Docker images.  It has its own playbook
+# (test_data.yml) that CI and developers call separately.
+---
+
+- name: Ensure GEOIPS_TESTDATA_DIR exists
+  ansible.builtin.file:
+    path: "{{ geoips_testdata_dir }}"
+    state: directory
+    mode: "0755"
+  tags: [base, full, site]
+
+# ---- base tier datasets ----
+- name: "Install base test dataset: {{ item }}"
+  ansible.builtin.command:
+    cmd: "geoips config install {{ item }}"
+  environment:
+    GEOIPS_TESTDATA_DIR: "{{ geoips_testdata_dir }}"
+  register: _result
+  changed_when: "'SUCCESS' in _result.stdout"
+  loop: "{{ base_test_datasets }}"
+  tags: [base]
+
+# ---- full tier datasets ----
+- name: "Install full test dataset: {{ item }}"
+  ansible.builtin.command:
+    cmd: "geoips config install {{ item }}"
+  environment:
+    GEOIPS_TESTDATA_DIR: "{{ geoips_testdata_dir }}"
+  register: _result
+  changed_when: "'SUCCESS' in _result.stdout"
+  loop: "{{ full_test_datasets }}"
+  tags: [full]
+
+# ---- site tier datasets ----
+- name: "Install site test dataset: {{ item }}"
+  ansible.builtin.command:
+    cmd: "geoips config install {{ item }}"
+  environment:
+    GEOIPS_TESTDATA_DIR: "{{ geoips_testdata_dir }}"
+  register: _result
+  changed_when: "'SUCCESS' in _result.stdout"
+  loop: "{{ site_test_datasets }}"
+  tags: [site]
+
+# ---- private datasets (only when enabled) ----
+- name: "Install private test dataset: {{ item }}"
+  ansible.builtin.command:
+    cmd: "geoips config install {{ item }}"
+  environment:
+    GEOIPS_TESTDATA_DIR: "{{ geoips_testdata_dir }}"
+  register: _result
+  changed_when: "'SUCCESS' in _result.stdout"
+  loop: "{{ private_test_datasets }}"
+  when: geoips_use_private_plugins | bool
+  tags: [site]

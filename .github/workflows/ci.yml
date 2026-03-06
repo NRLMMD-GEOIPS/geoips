@@ -1,0 +1,207 @@
+name: CI
+
+on:
+  pull_request:
+  workflow_dispatch:
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  # ---------------------------------------------------------------------------
+  # Build the Docker image at the requested tier
+  # ---------------------------------------------------------------------------
+  build:
+    runs-on: ${{ vars.RUNNER || 'ubuntu-latest' }}
+    env:
+      IMAGE_TAG: geoips:dev-${{ github.sha }}
+    outputs:
+      image_tag: ${{ env.IMAGE_TAG }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Build image
+        run: |
+          DOCKER_BUILDKIT=1 docker build \
+            --target ${{ vars.DOCKER_BUILD_TARGET || 'geoips-full' }} \
+            --tag $IMAGE_TAG \
+            --build-arg EXTRA_PLUGINS="${{ vars.EXTRA_PLUGINS || '' }}" \
+            --build-arg GEOIPS_MODIFIED_BRANCH="${GITHUB_HEAD_REF}" \
+            --progress=plain \
+            .
+
+      - name: Smoke test
+        run: |
+          docker run --rm $IMAGE_TAG python3 -c "import geoips; print(geoips.__version__)"
+
+  # ---------------------------------------------------------------------------
+  # Lint + unit tests (no test data needed)
+  # ---------------------------------------------------------------------------
+  lint-and-unit:
+    needs: build
+    runs-on: ${{ vars.RUNNER || 'ubuntu-latest' }}
+    env:
+      IMAGE_TAG: geoips:dev-${{ github.sha }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Rebuild from cache (layers already present)
+        run: |
+          DOCKER_BUILDKIT=1 docker build \
+            --target ${{ vars.DOCKER_BUILD_TARGET || 'geoips-full' }} \
+            --tag $IMAGE_TAG \
+            --build-arg EXTRA_PLUGINS="${{ vars.EXTRA_PLUGINS || '' }}" \
+            --progress=plain \
+            .
+
+      - name: Lint
+        if: ${{ vars.CI_LINT != 'false' }}
+        run: |
+          docker run --rm \
+            -v $(pwd):/workspace -w /workspace \
+            $IMAGE_TAG \
+            bash -c "pip install -e . && geoips/tests/utils/check_code.sh all /packages/geoips"
+
+      - name: Unit tests
+        run: |
+          docker run --rm \
+            -v $(pwd):/workspace -w /workspace \
+            $IMAGE_TAG \
+            bash -c "pip install -e . && create_plugin_registries && pytest -vv tests/unit_tests"
+
+  # ---------------------------------------------------------------------------
+  # Download test data using ansible (runs in parallel with lint-and-unit)
+  #
+  # The ansible test_data playbook runs INSIDE the Docker container with
+  # a host volume mounted at TESTDATA_PATH.  This means:
+  #   - geoips and ansible are already installed (from the build)
+  #   - Downloaded data persists on self-hosted runners between CI runs
+  #   - `geoips config install` is idempotent so cached data is a fast no-op
+  # ---------------------------------------------------------------------------
+  test-data:
+    needs: build
+    runs-on: ${{ vars.RUNNER || 'ubuntu-latest' }}
+    if: ${{ vars.CI_INTEGRATION != 'false' }}
+    env:
+      IMAGE_TAG: geoips:dev-${{ github.sha }}
+      TESTDATA_PATH: ${{ vars.TESTDATA_PATH || '/data/geoips-testdata' }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Rebuild from cache
+        run: |
+          DOCKER_BUILDKIT=1 docker build \
+            --target ${{ vars.DOCKER_BUILD_TARGET || 'geoips-full' }} \
+            --tag $IMAGE_TAG \
+            --build-arg EXTRA_PLUGINS="${{ vars.EXTRA_PLUGINS || '' }}" \
+            --progress=plain \
+            .
+
+      - name: Ensure testdata directory exists on host
+        run: |
+          mkdir -p ${TESTDATA_PATH}
+
+      - name: Download test datasets via ansible
+        run: |
+          # Determine which tier of test data to download based on the
+          # Docker build target.  Default to base,full to match geoips-full.
+          BUILD_TARGET="${{ vars.DOCKER_BUILD_TARGET || 'geoips-full' }}"
+          case "$BUILD_TARGET" in
+            geoips-base) TAGS="base" ;;
+            geoips-full) TAGS="base,full" ;;
+            geoips-site) TAGS="base,full,site" ;;
+            *)           TAGS="base,full" ;;
+          esac
+
+          echo "Downloading test data for tags: ${TAGS}"
+          echo "Testdata path: ${TESTDATA_PATH}"
+
+          docker run --rm \
+            -v ${TESTDATA_PATH}:/geoips_testdata \
+            -e GEOIPS_TESTDATA_DIR=/geoips_testdata \
+            -e ANSIBLE_CONFIG=/packages/geoips/tests/ansible/ansible.cfg \
+            $IMAGE_TAG \
+            ansible-playbook \
+              /packages/geoips/tests/ansible/playbooks/test_data.yml \
+              -i /packages/geoips/tests/ansible/inventory/local.yml \
+              --tags ${TAGS} \
+              -e geoips_testdata_dir=/geoips_testdata \
+              -v
+
+      - name: Verify downloaded datasets
+        run: |
+          echo "Test data contents:"
+          ls -la ${TESTDATA_PATH}/
+          echo ""
+          echo "Total size:"
+          du -sh ${TESTDATA_PATH}/
+
+  # ---------------------------------------------------------------------------
+  # Integration tests (needs build + test data)
+  # ---------------------------------------------------------------------------
+  integration:
+    needs: [build, test-data]
+    runs-on: ${{ vars.RUNNER || 'ubuntu-latest' }}
+    if: ${{ vars.CI_INTEGRATION != 'false' }}
+    strategy:
+      fail-fast: false
+      matrix:
+        marker: [base, full]
+    env:
+      IMAGE_TAG: geoips:dev-${{ github.sha }}
+      TESTDATA_PATH: ${{ vars.TESTDATA_PATH || '/data/geoips-testdata' }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Rebuild from cache
+        run: |
+          DOCKER_BUILDKIT=1 docker build \
+            --target ${{ vars.DOCKER_BUILD_TARGET || 'geoips-full' }} \
+            --tag $IMAGE_TAG \
+            --build-arg EXTRA_PLUGINS="${{ vars.EXTRA_PLUGINS || '' }}" \
+            --progress=plain \
+            .
+
+      - name: Run ${{ matrix.marker }} integration tests
+        run: |
+          docker run --rm \
+            -v ${TESTDATA_PATH}:/geoips_testdata \
+            -v $(pwd):/workspace -w /workspace \
+            -e GEOIPS_TESTDATA_DIR=/geoips_testdata \
+            $IMAGE_TAG \
+            bash -c "
+              pip install -e .
+              create_plugin_registries
+              pytest -vv -m '${{ matrix.marker }} and integration' \
+                tests/integration_tests/test_integration.py
+            "
+
+  # ---------------------------------------------------------------------------
+  # Optional: push image to registry
+  # ---------------------------------------------------------------------------
+  push:
+    needs: [lint-and-unit, integration]
+    runs-on: ${{ vars.RUNNER || 'ubuntu-latest' }}
+    if: ${{ vars.ENABLE_DOCKER_REGISTRY == 'true' }}
+    env:
+      IMAGE_TAG: geoips:dev-${{ github.sha }}
+    steps:
+      - name: Login and push
+        env:
+          DOCKER_TOKEN: ${{ secrets.DOCKER_TOKEN }}
+        run: |
+          echo "${DOCKER_TOKEN}" | docker login ${{ vars.DOCKER_REGISTRY }} \
+            -u ${{ vars.DOCKER_REGISTRY_USER }} --password-stdin
+
+          REMOTE_TAG="${{ vars.DOCKER_REGISTRY }}/${{ vars.DOCKER_REGISTRY_USER }}/geoips:dev-${GITHUB_SHA}"
+          docker tag $IMAGE_TAG $REMOTE_TAG
+          docker push $REMOTE_TAG

@@ -1,0 +1,24 @@
+# tests/ansible/playbooks/install.yml
+#
+# Usage examples:
+#   ansible-playbook playbooks/install.yml --tags base
+#   ansible-playbook playbooks/install.yml --tags base,full
+#   ansible-playbook playbooks/install.yml --tags base,full,site
+#   ansible-playbook playbooks/install.yml --tags base,full,site -e geoips_use_private_plugins=true
+#   ansible-playbook playbooks/install.yml --tags base,full,site -e extra_plugins=my_plugin,other_plugin
+#
+# From a Dockerfile:
+#   RUN ansible-playbook /ansible/playbooks/install.yml --tags base,full,site
+#
+---
+- name: Install GeoIPS
+  hosts: localhost
+  gather_facts: false
+
+  roles:
+    - role: system_deps
+    - role: python_env
+    - role: cartopy_shapefiles
+    - role: settings_repos
+    - role: source_repos
+    - role: registries

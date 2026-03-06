@@ -1,0 +1,7 @@
+# roles/registries/tasks/main.yml
+---
+- name: Create GeoIPS plugin registries
+  ansible.builtin.command:
+    cmd: geoips config create-registries
+  changed_when: true
+  tags: [base, full, site]
