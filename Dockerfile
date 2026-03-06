@@ -67,8 +67,9 @@ RUN groupadd -g ${GROUP_ID} ${USER} \
 # binaries are optimised for the container's architecture and the image
 # carries no pre-built wheel bloat.  ansible-core is a build-time tool
 # only (stripped in production) so it keeps its wheel for speed.
+# --no-binary :all: - saving this for later.... so build actually complete!
 COPY --chown=${USER}:${GROUP_ID} environments/requirements.txt /tmp/requirements.txt
-RUN pip install --no-cache-dir --no-binary :all: -r /tmp/requirements.txt \
+RUN pip install --no-cache-dir -r /tmp/requirements.txt \ 
     && pip install --no-cache-dir ansible-core
 
 ###############################################################################
@@ -95,11 +96,11 @@ RUN git config --global --add safe.directory '*'
 # the entire source tree.  --no-binary :all: ensures every dependency is
 # compiled from source (requirements.txt deps were already built in the
 # deps stage, so this is a fast no-op for those).
+# -e 'pip_extra_args=--no-binary :all:' \ # saving this for later so builds complete
 RUN ansible-playbook \
       ${GEOIPS_PACKAGES_DIR}/geoips/tests/ansible/playbooks/install.yml \
       --tags base \
       -e pip_editable=false \
-      -e 'pip_extra_args=--no-binary :all:' \
       -v
 
 ###############################################################################
@@ -116,7 +117,7 @@ RUN ansible-playbook \
       ${GEOIPS_PACKAGES_DIR}/geoips/tests/ansible/playbooks/install.yml \
       --tags full \
       -e pip_editable=false \
-      -e 'pip_extra_args=--no-binary :all:' \
+      #-e 'pip_extra_args=--no-binary :all:' \
       -v \
     && chown -R ${USER_ID}:${GROUP_ID} ${GEOIPS_PACKAGES_DIR}
 
@@ -138,7 +139,7 @@ RUN ansible-playbook \
       ${GEOIPS_PACKAGES_DIR}/geoips/tests/ansible/playbooks/install.yml \
       --tags site \
       -e pip_editable=false \
-      -e 'pip_extra_args=--no-binary :all:' \
+      #-e 'pip_extra_args=--no-binary :all:' \
       -v \
     && chown -R ${USER_ID}:${GROUP_ID} ${GEOIPS_PACKAGES_DIR} ${GEOIPS_OUTDIRS}
 
