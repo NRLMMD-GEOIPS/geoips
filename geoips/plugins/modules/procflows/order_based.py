@@ -23,7 +23,7 @@ family = "standard"
 name = "order_based"
 
 
-def xarray_datatree_to_dataset(data, node="MED"):
+def xarray_datatree_to_dataset(data, node="LOW"):
     """
     Convert an xarray DataTree to an xarray Dataset.
 
@@ -74,7 +74,6 @@ def call(workflow, fnames, command_line_args=None):
             continue
         else:
             plg = getattr(interfaces, interface, None).get_plugin(step_def["name"])
-
             LOG.interactive(
                 "Beginning Step: '%s', plugin_kind: '%s', plugin_name:'%s'.",
                 step_id,
@@ -104,7 +103,7 @@ def call(workflow, fnames, command_line_args=None):
                     del data_xr_dt[name]
 
                 input_xarray = xarray_datatree_to_dataset(
-                    data_xr_dt, node=f"{step_id}/MED"
+                    data_xr_dt, node=f"{step_id}/LOW"
                 )
             elif interface == "interpolators":
 
@@ -114,9 +113,11 @@ def call(workflow, fnames, command_line_args=None):
                 data_xr_dt[f"{step_id}/output_interpolated_xr_ds"] = xr.Dataset()
 
                 # area_def = "goes_east_subsector"
-                area_def = input_xarray["B01Rad"]
-                varlist = input_xarray["B01Rad"]
+                area_def = input_xarray["IR112Rad"]
+                varlist = input_xarray["IR112Rad"]
 
+                if step_def["name"] == "interp_grid":
+                    step_def["arguments"].pop("sigmaval")
                 data = plg(
                     area_def=area_def,
                     input_xarray=input_xarray,
