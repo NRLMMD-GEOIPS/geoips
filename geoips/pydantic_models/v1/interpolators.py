@@ -48,5 +48,3 @@ class InterpolatorArgumentsModel(InterpGaussInterpolator, InterpGridInterpolator
     varlist: List[str] = Field(
         None, description="variables required for specific interpolation processing"
     )
-
-
