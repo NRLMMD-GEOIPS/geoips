@@ -1,7 +1,7 @@
 apiVersion: geoips/v1
 interface: workflows
 family: order_based
-name: read_test_v1
+name: read_test_v1_interpolator
 docstring: |
   tests/scripts/ami.static.mst.absdiff-IR-BD.imagery_clean.sh
 
