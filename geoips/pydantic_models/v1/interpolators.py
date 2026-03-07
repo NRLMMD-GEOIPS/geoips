@@ -16,18 +16,7 @@ from geoips.pydantic_models.v1.bases import PermissiveFrozenModel
 dataType: TypeAlias = Union[xr.DataArray, xr.Dataset]
 
 
-class CommonInterpolatorArguments(PermissiveFrozenModel):
-    """Validate common Interpolator arguments."""
-
-    model_config = ConfigDict(arbitrary_types_allowed=True)
-
-    area_def: str = Field(..., description="Area definition identifier.")
-    varlist: List[str] = Field(
-        ..., description="variables required for specific interpolation processing"
-    )
-
-
-class InterpGaussInterpolator(CommonInterpolatorArguments):
+class InterpGaussInterpolator(PermissiveFrozenModel):
     """Validate InterpGauss Interpolator."""
 
     sigmaval: int = Field(
@@ -41,13 +30,23 @@ class InterpGaussInterpolator(CommonInterpolatorArguments):
     )
 
 
-class InterpNearestInterpolator(CommonInterpolatorArguments):
-    """Validate InterpNearest Interpolator."""
-
-    pass
-
-
-class InterpGridInterpolator(CommonInterpolatorArguments):
+class InterpGridInterpolator(PermissiveFrozenModel):
     """Validate InterpGrid Interpolator."""
 
     method: str = Field(None, description="Method of interpolation; defaults to linear")
+
+
+class InterpolatorArgumentsModel(InterpGaussInterpolator, InterpGridInterpolator):
+    """Validate common Interpolator arguments."""
+
+    model_config = ConfigDict(arbitrary_types_allowed=True)
+
+    # area_def should be a required field after SSP -> OBP transition
+    # It is currently set optional because some SSP workflows compute
+    # area_def dynamically at runtime
+    area_def: str = Field(None, description="Area definition identifier.")
+    varlist: List[str] = Field(
+        None, description="variables required for specific interpolation processing"
+    )
+
+
