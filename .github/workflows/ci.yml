@@ -65,14 +65,23 @@ jobs:
           docker run --rm \
             -v $(pwd):/workspace -w /workspace \
             $IMAGE_TAG \
-            bash -c "pip install -e . && geoips/tests/utils/check_code.sh all /packages/geoips"
+            bash -c "
+              git config --global --add safe.directory /workspace
+              pip install -e .
+              geoips/tests/utils/check_code.sh all /packages/geoips
+            "
 
       - name: Unit tests
         run: |
           docker run --rm \
             -v $(pwd):/workspace -w /workspace \
             $IMAGE_TAG \
-            bash -c "pip install -e . && create_plugin_registries && pytest -vv tests/unit_tests"
+            bash -c "
+              git config --global --add safe.directory /workspace
+              pip install -e .
+              create_plugin_registries
+              pytest -vv tests/unit_tests
+            "
 
   # ---------------------------------------------------------------------------
   # Download test data using ansible (runs in parallel with lint-and-unit)
@@ -89,11 +98,19 @@ jobs:
     if: ${{ vars.CI_INTEGRATION != 'false' }}
     env:
       IMAGE_TAG: geoips:dev-${{ github.sha }}
-      TESTDATA_PATH: ${{ vars.TESTDATA_PATH || '/data/geoips-testdata' }}
+      TESTDATA_PATH: ${{ vars.TESTDATA_PATH || '' }}
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+
+      - name: Set testdata path
+        run: |
+          # Use the configured path, or fall back to a workspace-relative dir
+          if [ -z "${TESTDATA_PATH}" ]; then
+            TESTDATA_PATH="${{ github.workspace }}/.geoips-testdata"
+          fi
+          echo "TESTDATA_PATH=${TESTDATA_PATH}" >> $GITHUB_ENV
 
       - name: Rebuild from cache
         run: |
@@ -106,7 +123,7 @@ jobs:
 
       - name: Ensure testdata directory exists on host
         run: |
-          mkdir -p ${TESTDATA_PATH}
+          mkdir -p ${TESTDATA_PATH} || sudo mkdir -p ${TESTDATA_PATH}
 
       - name: Download test datasets via ansible
         run: |
@@ -156,11 +173,18 @@ jobs:
         marker: [base, full]
     env:
       IMAGE_TAG: geoips:dev-${{ github.sha }}
-      TESTDATA_PATH: ${{ vars.TESTDATA_PATH || '/data/geoips-testdata' }}
+      TESTDATA_PATH: ${{ vars.TESTDATA_PATH || '' }}
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+
+      - name: Set testdata path
+        run: |
+          if [ -z "${TESTDATA_PATH}" ]; then
+            TESTDATA_PATH="${{ github.workspace }}/.geoips-testdata"
+          fi
+          echo "TESTDATA_PATH=${TESTDATA_PATH}" >> $GITHUB_ENV
 
       - name: Rebuild from cache
         run: |
@@ -179,6 +203,7 @@ jobs:
             -e GEOIPS_TESTDATA_DIR=/geoips_testdata \
             $IMAGE_TAG \
             bash -c "
+              git config --global --add safe.directory /workspace
               pip install -e .
               create_plugin_registries
               pytest -vv -m '${{ matrix.marker }} and integration' \
