@@ -7,7 +7,7 @@
 from pydantic import Field
 
 
-class AlgorithmArgumentsModel():
+class AlgorithmArgumentsModel:
     """Algorithm step argument step definition.
 
     Pydantic model defining and validating Algorithm step arguments.
