@@ -161,7 +161,7 @@ class SectorsInterface(BaseYamlInterface):
 
     # if sectors.get_plugin(<name>) is found to be a dynamic sector. Otherwise, a static
     # sector plugin model (I.e. SectorPluginModel) will be used for all other sector
-    # types. See geoips.plugin_registry:562-570 for more info.
+    # types.
 
 
 sectors = SectorsInterface()

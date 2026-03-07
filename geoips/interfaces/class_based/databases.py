@@ -3,13 +3,22 @@
 
 """Databases interface class."""
 
+from geoips.interfaces.class_based_plugin import BaseClassPlugin
 from geoips.interfaces.base import BaseClassInterface
+
+
+class BaseDatabasePlugin(BaseClassPlugin, abstract=True):
+    """Base class for GeoIPS database plugins."""
+
+    pass
 
 
 class DatabasesInterface(BaseClassInterface):
     """Interface for database table writers/quieriers."""
 
     name = "databases"
+    plugin_class = BaseDatabasePlugin
+
     required_args = {
         "xarray_area_def_to_table": ["product_filename", "xarray_obj", "area_def"],
         "xarray_dict_to_table": ["product_filename", "xarray_dict"],
