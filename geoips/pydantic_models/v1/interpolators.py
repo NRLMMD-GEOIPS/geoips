@@ -25,9 +25,6 @@ class CommonInterpolatorArguments(PermissiveFrozenModel):
     varlist: List[str] = Field(
         ..., description="variables required for specific interpolation processing"
     )
-    array_num: List[int] = Field(
-        None, description="Column index to extract from xarray DataArray"
-    )
 
 
 class InterpGaussInterpolator(CommonInterpolatorArguments):
