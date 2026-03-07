@@ -148,3 +148,15 @@ def valid_output_checker_arguments():
         "compare_path": "test_string",
         "output_products": ["test_string"],
     }
+
+
+@pytest.fixture
+def valid_interpolator_arguments():
+    """Fixture providing valid data for InterpolatorArgumentsModel tests."""
+    return {
+        "area_def": "alpha",
+        "varlist": ["a", "b"],
+        "sigmaval": 1000,
+        "drop_nan": True,
+        "method": "linear",
+    }
