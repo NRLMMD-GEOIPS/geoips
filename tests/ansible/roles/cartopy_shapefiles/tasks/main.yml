@@ -3,10 +3,22 @@
 # Clones https://github.com/nvkelso/natural-earth-vector and symlinks the
 # shapefiles into the directory structure cartopy expects.
 #
+# Replicates the shell logic from check_system_requirements.sh:
+#   ln -sfv $clone_dir/*_cultural/*/* $link_dir/cultural
+#   ln -sfv $clone_dir/*_physical/*/* $link_dir/physical
+#   ln -sfv $clone_dir/*_cultural/* $link_dir/cultural
+#   ln -sfv $clone_dir/*_physical/* $link_dir/physical
+#
 ---
 - name: Set cartopy paths
   ansible.builtin.set_fact:
     cartopy_data_dir: "{{ lookup('env', 'CARTOPY_DATA_DIR') | default(geoips_packages_dir, true) }}"
+  tags: [full, site]
+
+- name: Set clone and link directories
+  ansible.builtin.set_fact:
+    clone_dir: "{{ cartopy_data_dir }}/shapefiles_clone/natural-earth-vector"
+    link_dir: "{{ cartopy_data_dir }}/shapefiles/natural_earth"
   tags: [full, site]
 
 - name: Create shapefile directories
@@ -16,57 +28,74 @@
     mode: "0755"
   loop:
     - "{{ cartopy_data_dir }}/shapefiles_clone"
-    - "{{ cartopy_data_dir }}/shapefiles/natural_earth/cultural"
-    - "{{ cartopy_data_dir }}/shapefiles/natural_earth/physical"
+    - "{{ link_dir }}/cultural"
+    - "{{ link_dir }}/physical"
   tags: [full, site]
 
 - name: Clone natural-earth-vector
   ansible.builtin.git:
     repo: https://github.com/nvkelso/natural-earth-vector
-    dest: "{{ cartopy_data_dir }}/shapefiles_clone/natural-earth-vector"
+    dest: "{{ clone_dir }}"
     depth: 1
   register: ne_clone
   tags: [full, site]
 
-# Two-pass symlink: first the subdirectories (*_cultural/*/*, *_physical/*/*),
-# then the top-level files (*_cultural/*, *_physical/*).  This mirrors the
-# original shell logic and ensures .shp, .shx, .dbf etc. all land correctly.
+# Replicate the exact four ln commands from check_system_requirements.sh.
+# Pass 1: subdirectory contents (*_cultural/*/* and *_physical/*/*)
+# Pass 2: top-level files (*_cultural/* and *_physical/*)
 
-- name: Find cultural shapefile subdirectory contents
-  ansible.builtin.find:
-    paths: "{{ cartopy_data_dir }}/shapefiles_clone/natural-earth-vector"
-    patterns: "*"
-    file_type: file
-    recurse: true
-  register: all_ne_files
+- name: Symlink cultural shapefiles (subdirectory contents)
+  ansible.builtin.shell: |
+    ln -sfv {{ clone_dir }}/*_cultural/*/* {{ link_dir }}/cultural/
+  args:
+    executable: /bin/bash
+  register: ln_cultural_sub
+  changed_when: ln_cultural_sub.stdout | length > 0
   tags: [full, site]
 
-- name: Symlink cultural shapefiles
-  ansible.builtin.file:
-    src: "{{ item.path }}"
-    dest: "{{ cartopy_data_dir }}/shapefiles/natural_earth/cultural/{{ item.path | basename }}"
-    state: link
-    force: true
-  loop: "{{ all_ne_files.files | selectattr('path', 'search', '_cultural') | list }}"
-  loop_control:
-    label: "{{ item.path | basename }}"
+- name: Symlink physical shapefiles (subdirectory contents)
+  ansible.builtin.shell: |
+    ln -sfv {{ clone_dir }}/*_physical/*/* {{ link_dir }}/physical/
+  args:
+    executable: /bin/bash
+  register: ln_physical_sub
+  changed_when: ln_physical_sub.stdout | length > 0
   tags: [full, site]
 
-- name: Symlink physical shapefiles
-  ansible.builtin.file:
-    src: "{{ item.path }}"
-    dest: "{{ cartopy_data_dir }}/shapefiles/natural_earth/physical/{{ item.path | basename }}"
-    state: link
-    force: true
-  loop: "{{ all_ne_files.files | selectattr('path', 'search', '_physical') | list }}"
-  loop_control:
-    label: "{{ item.path | basename }}"
+- name: Symlink cultural shapefiles (top-level files)
+  ansible.builtin.shell: |
+    ln -sfv {{ clone_dir }}/*_cultural/* {{ link_dir }}/cultural/
+  args:
+    executable: /bin/bash
+  register: ln_cultural_top
+  changed_when: ln_cultural_top.stdout | length > 0
+  tags: [full, site]
+
+- name: Symlink physical shapefiles (top-level files)
+  ansible.builtin.shell: |
+    ln -sfv {{ clone_dir }}/*_physical/* {{ link_dir }}/physical/
+  args:
+    executable: /bin/bash
+  register: ln_physical_top
+  changed_when: ln_physical_top.stdout | length > 0
   tags: [full, site]
 
 - name: Verify cultural shapefiles installed
-  ansible.builtin.find:
-    paths: "{{ cartopy_data_dir }}/shapefiles/natural_earth/cultural"
-    patterns: "*.shp"
+  ansible.builtin.shell: |
+    ls {{ link_dir }}/cultural/*.shp
+  args:
+    executable: /bin/bash
   register: cultural_shp
-  failed_when: cultural_shp.matched == 0
+  changed_when: false
+  failed_when: cultural_shp.rc != 0
+  tags: [full, site]
+
+- name: Verify physical shapefiles installed
+  ansible.builtin.shell: |
+    ls {{ link_dir }}/physical/*.shp
+  args:
+    executable: /bin/bash
+  register: physical_shp
+  changed_when: false
+  failed_when: physical_shp.rc != 0
   tags: [full, site]
