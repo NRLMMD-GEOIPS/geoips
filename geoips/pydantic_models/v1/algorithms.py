@@ -6,6 +6,7 @@
 # Third-Party Libraries
 from pydantic import Field
 
+
 class AlgorithmArgumentsModel():
     """Algorithm step argument step definition.
 
@@ -18,4 +19,4 @@ class AlgorithmArgumentsModel():
     min_outbounds: str = Field("crop")
     max_outbounds: str = Field("mask")
     norm: bool = Field(False)
-    inverse:bool = Field(False)
+    inverse: bool = Field(False)
