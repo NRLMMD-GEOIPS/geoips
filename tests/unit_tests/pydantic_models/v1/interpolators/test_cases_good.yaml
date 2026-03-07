@@ -1,0 +1,18 @@
+InterpolatorArguments_nearest:
+  description: "Invalid type for 'title_copyright' (expects string, got int)"
+  key: area_def
+  val: None
+  cls: InterpolatorArgumentsModel
+  err_str: Input should be a valid string
+InterpolatorArguments_gauss:
+  description: "Invalid type for 'title_copyright' (expects string, got int)"
+  key: area_def
+  val: None
+  cls: InterpolatorArgumentsModel
+  err_str: Input should be a valid string
+InterpolatorArguments_grid:
+  description: "Invalid type for 'title_copyright' (expects string, got int)"
+  key: area_def
+  val: None
+  cls: InterpolatorArgumentsModel
+  err_str: Input should be a valid string

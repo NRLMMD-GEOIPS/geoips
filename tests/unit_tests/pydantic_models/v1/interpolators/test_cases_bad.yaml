@@ -1,0 +1,6 @@
+CommonInterpolatorArguments_area_def:
+  description: "Invalid type for 'title_copyright' (expects string, got int)"
+  key: area_def
+  val: 
+  cls: InterpolatorArgumentsModel
+  err_str: Input should be a valid string
