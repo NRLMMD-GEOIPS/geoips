@@ -2,11 +2,12 @@ feature:
 - title: 'Order-Based Procflow : Algorithms'
   description: ''
   files:
+    added:
+    - 'docs/source/releases/latest/1262-OBP-add-algorithms-pydantic-models.yaml'
+    - 'geoips/pydantic_models/v1/algorithms.py'
     deleted:
     - ''
     moved:
-    - ''
-    added:
     - ''
     modified:
     - ''
@@ -14,5 +15,5 @@ feature:
     number: null
     repo_url: ''
   date:
-    start: null
+    start: 2026-03-07
     finish: null
