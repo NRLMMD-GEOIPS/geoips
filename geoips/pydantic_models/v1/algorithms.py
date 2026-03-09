@@ -32,4 +32,3 @@ class AlgorithmArgumentsModel(PermissiveFrozenModel):
     time_dim: str = Field(None)
     grid_geo: bool = Field(False)
     var_map: str = Field(None)
-
