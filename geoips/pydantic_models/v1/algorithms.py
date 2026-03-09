@@ -3,6 +3,9 @@
 
 """Pydantic models used to validate GeoIPS algorithm plugins."""
 
+# Python Standard Libraries
+from typing import Dict
+
 # Third-Party Libraries
 from pydantic import Field, StrictBool
 
@@ -53,7 +56,12 @@ class AlgorithmArgumentsModel(PermissiveFrozenModel):
         "* * If True, returned data will be in the range from 0 to 1:"
         "  * If False, returned data will be in the range from min_val to max_val",
     )
-    inverse: StrictBool = Field(False)
+    inverse: StrictBool = Field(
+        False,
+        description="* Boolean flag indicating whether to inverse (True) or not (False)"
+        " * If True, returned data will be inverted"
+        " * If False, returned data will not be inverted",
+    )
     # This should default to (?, 1000) or (1000, ?) or (None, None)
     pressure_level_range: tuple[int, int] | tuple[None, None] = Field(
         [None, None],
@@ -66,4 +74,6 @@ class AlgorithmArgumentsModel(PermissiveFrozenModel):
     # verify if the type should be string
     time_dim: str = Field(None)
     grid_geo: bool = Field(False)
-    var_map: str = Field(None)
+    var_map: Dict[str, str] = Field(
+        None, description="Dictionary that maps input variables to names used in xobj"
+    )
