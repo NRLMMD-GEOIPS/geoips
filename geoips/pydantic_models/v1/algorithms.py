@@ -77,3 +77,4 @@ class AlgorithmArgumentsModel(PermissiveFrozenModel):
     var_map: Dict[str, str] = Field(
         None, description="Dictionary that maps input variables to names used in xobj"
     )
+    max_night_zen: int = Field(90)
