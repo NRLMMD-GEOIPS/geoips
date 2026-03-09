@@ -159,6 +159,8 @@ def valid_algorithm_arguments():
         "output_units": "celsius",
         "min_outbounds": "crop",
         "max_outbounds": "crop",
-        "norm": None,
-        "inverse": None,
+        "norm": False,
+        "inverse": False,
+        # "norm": None,
+        # "inverse": None,
     }
