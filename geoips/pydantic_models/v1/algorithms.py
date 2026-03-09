@@ -9,6 +9,7 @@ from pydantic import Field
 # GeoIPS imports
 from geoips.pydantic_models.v1.bases import PermissiveFrozenModel
 
+
 class AlgorithmArgumentsModel(PermissiveFrozenModel):
     """Algorithm step argument step definition.
 
