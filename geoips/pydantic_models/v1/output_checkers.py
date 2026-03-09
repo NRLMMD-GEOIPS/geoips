@@ -29,7 +29,7 @@ class OutputCheckersArgumentsModel(FrozenModel):
     )
 
     @model_validator(mode="after")
-    def _validate_compare_path_against_checker_name(
+    def _if_checker_name_ensure_compare_path(
         self,
     ) -> OutputCheckersArgumentsModel:
         """
