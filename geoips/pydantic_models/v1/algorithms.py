@@ -21,8 +21,16 @@ class AlgorithmArgumentsModel(PermissiveFrozenModel):
         description="list of min and max value for wind speeds (kts or m s-1). "
         "Defaults to None, which results in using data.min and data.max.",
     )
-    input_units: str = Field(None)
-    output_units: str = Field(None)
+    input_units: str = Field(
+        None,
+        description="Units of input data, for applying "
+        "necessary conversions. Defaults to None, resulting in no unit conversions.",
+    )
+    output_units: str = Field(
+        None,
+        description="Units of input data, for applying "
+        "necessary conversions. Defaults to None, resulting in no unit conversions.",
+    )
     min_outbounds: str = Field("crop")
     max_outbounds: str = Field("mask")
     norm: StrictBool = Field(False)
