@@ -4,7 +4,7 @@
 """Pydantic models used to validate GeoIPS algorithm plugins."""
 
 # Third-Party Libraries
-from pydantic import Field
+from pydantic import Field, StrictBool
 
 # GeoIPS imports
 from geoips.pydantic_models.v1.bases import PermissiveFrozenModel
@@ -21,5 +21,5 @@ class AlgorithmArgumentsModel(PermissiveFrozenModel):
     output_units: str = Field(None)
     min_outbounds: str = Field("crop")
     max_outbounds: str = Field("mask")
-    norm: bool = Field(False)
-    inverse: bool = Field(False)
+    norm: StrictBool = Field(False)
+    inverse: StrictBool = Field(False)
