@@ -47,7 +47,12 @@ class AlgorithmArgumentsModel(PermissiveFrozenModel):
         " * mask: mask all pixels that are out of range"
         " * crop: set out of range values to the nearest bound (min_val or max_val)",
     )
-    norm: StrictBool = Field(False)
+    norm: StrictBool = Field(
+        False,
+        description="Boolean flag indicating whether to normalize (True) or not (False)"
+        "* * If True, returned data will be in the range from 0 to 1:"
+        "  * If False, returned data will be in the range from min_val to max_val",
+    )
     inverse: StrictBool = Field(False)
     # This should default to (?, 1000) or (1000, ?) or (None, None)
     pressure_level_range: tuple[int, int] | tuple[None, None] = Field(
