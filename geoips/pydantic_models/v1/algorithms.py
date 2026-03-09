@@ -31,8 +31,22 @@ class AlgorithmArgumentsModel(PermissiveFrozenModel):
         description="Units of input data, for applying "
         "necessary conversions. Defaults to None, resulting in no unit conversions.",
     )
-    min_outbounds: str = Field("crop")
-    max_outbounds: str = Field("mask")
+    min_outbounds: str = Field(
+        ...,
+        description="Method to use when applying bounds."
+        "  Valid values are: "
+        " * retain: keep all pixels as is"
+        " * mask: mask all pixels that are out of range"
+        " * crop: set out of range values to the nearest bound (min_val or max_val)",
+    )
+    max_outbounds: str = Field(
+        ...,
+        description="Method to use when applying bounds."
+        "  Valid values are: "
+        " * retain: keep all pixels as is"
+        " * mask: mask all pixels that are out of range"
+        " * crop: set out of range values to the nearest bound (min_val or max_val)",
+    )
     norm: StrictBool = Field(False)
     inverse: StrictBool = Field(False)
     # This should default to (?, 1000) or (1000, ?) or (None, None)
