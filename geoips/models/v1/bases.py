@@ -268,7 +268,7 @@ class PluginModel(FrozenModel, metaclass=PluginModelMetadata):
         """
         if "/v" not in value:
             raise ValueError(
-                "'{value}' must contain package name, separator /, and version name"
+                f"'{value}' must contain package name, separator /, and version name"
             )
         return value
 
