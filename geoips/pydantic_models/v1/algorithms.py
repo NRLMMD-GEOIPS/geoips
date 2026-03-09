@@ -16,7 +16,11 @@ class AlgorithmArgumentsModel(PermissiveFrozenModel):
     Pydantic model defining and validating Algorithm step arguments.
     """
 
-    output_data_range: tuple[float, float] = Field(None)
+    output_data_range: tuple[float, float] | tuple[None, None] = Field(
+        [None, None],
+        description="list of min and max value for wind speeds (kts or m s-1). "
+        "Defaults to None, which results in using data.min and data.max.",
+    )
     input_units: str = Field(None)
     output_units: str = Field(None)
     min_outbounds: str = Field("crop")
@@ -24,7 +28,11 @@ class AlgorithmArgumentsModel(PermissiveFrozenModel):
     norm: StrictBool = Field(False)
     inverse: StrictBool = Field(False)
     # This should default to (?, 1000) or (1000, ?) or (None, None)
-    pressure_level_range: int = Field()
+    pressure_level_range: tuple[int, int] | tuple[None, None] = Field(
+        [None, None],
+        description="list of min and max pressure levels to filter derived motion wind"
+        " retrievals. Defaults to None, which results in using all wind retrievals.",
+    )
     pressure_key: str = Field(None)
     time_key: str = Field(...)
     time_fcst: int = Field(-1)
