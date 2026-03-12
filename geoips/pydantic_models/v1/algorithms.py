@@ -10,8 +10,14 @@ from typing import Dict
 from pydantic import Field, StrictBool
 
 # GeoIPS imports
-from geoips.pydantic_models.v1.bases import PermissiveFrozenModel
+from geoips.pydantic_models.v1.bases import FrozenModel, PermissiveFrozenModel
 
+
+class CommonAlgorithmArguments(FrozenModel):
+    """Common algorithm arguments.
+
+    Pydantic model defining and validating parameters shared across algorithm plugins.
+    """
 
 class AlgorithmArgumentsModel(PermissiveFrozenModel):
     """Algorithm step argument step definition.
