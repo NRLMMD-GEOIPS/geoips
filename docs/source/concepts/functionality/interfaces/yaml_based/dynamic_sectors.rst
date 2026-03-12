@@ -5,8 +5,8 @@
 
 .. _dynamic_sectors_functionality:
 
-Dynamic Sectors in GeoIPS
-*************************
+Dynamic Sectors
+***************
 
 A dynamic sector is a YAML-based GeoIPS plugin that contains the information
 needed to generate a geographic sector for which data will be plotted. Dynamic

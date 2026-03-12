@@ -5,8 +5,8 @@
 
 .. _colormapper_functionality:
 
-Colormaps in GeoIPS
-*******************
+ColorMappers
+************
 
 A colormap is a module-based GeoIPS plugin that works in conjunction with an
 image-based output formatter to dictate which colors are used to represent your

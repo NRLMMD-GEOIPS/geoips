@@ -5,8 +5,8 @@
 
 .. _filename_formats_functionality:
 
-Filename Formatters in GeoIPS
-*****************************
+Filename Formatters
+*******************
 
 A filename formatter is a module-based GeoIPS plugin that defines how an output
 file is named. Filename formatters generally produce a unique filename based

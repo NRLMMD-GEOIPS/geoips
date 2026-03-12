@@ -5,9 +5,8 @@
 
 .. _output_formats_functionality:
 
-***************************
-Output Formatters in GeoIPS
-***************************
+Output Formatters
+*****************
 
 An output formatter is a module-based GeoIPS plugin designed to output a dataset
 to a file. This encompasses many varied types of output, including geotiff,

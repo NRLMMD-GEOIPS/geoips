@@ -5,8 +5,8 @@
 
 .. _products_functionality:
 
-Products in GeoIPS
-******************
+Products
+********
 
 A product is a YAML-based GeoIPS plugin that defines the information needed to
 produce a particular output from a particular data source. This information

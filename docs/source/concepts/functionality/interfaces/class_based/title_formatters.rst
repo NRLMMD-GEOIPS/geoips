@@ -5,8 +5,8 @@
 
 .. _title_formats_functionality:
 
-Title Formatters in GeoIPS
-**************************
+Title Formatters
+****************
 
 A title formatter is a module-based GeoIPS plugin that generates a title that is
 applied to image-based outputs. Title formatters generally contain useful

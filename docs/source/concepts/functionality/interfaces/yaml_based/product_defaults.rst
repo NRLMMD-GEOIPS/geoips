@@ -5,8 +5,8 @@
 
 .. _product_defaults_functionality:
 
-Product Templates (Defaults) in GeoIPS
-**************************************
+Product Templates (Defaults)
+****************************
 
 A product template (also referred to as a product default) is a YAML-based
 GeoIPS plugin that defines the default setup, or template, for a group of

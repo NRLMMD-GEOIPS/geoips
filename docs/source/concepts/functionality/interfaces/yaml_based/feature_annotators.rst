@@ -5,8 +5,8 @@
 
 .. _feature-annotators-functionality:
 
-Feature Annotators Interface
-****************************
+Feature Annotators
+******************
 GeoIPS Feature Annotators describe the format of the features shown in your imagery.
 Features in GeoIPS imagery include coastline, borders, rivers, states, and the
 background color of the map-based portion of your image. Similar to

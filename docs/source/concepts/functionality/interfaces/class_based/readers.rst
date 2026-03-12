@@ -5,8 +5,8 @@
 
 .. _readers_functionality:
 
-Readers in GeoIPS
-*****************
+Readers
+*******
 
 A reader is a module-based GeoIPS plugin that reads data from a specific
 source, such as, for example, Level 1b data from the GOES ABI sensor.

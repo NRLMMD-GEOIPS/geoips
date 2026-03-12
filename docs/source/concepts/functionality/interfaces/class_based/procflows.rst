@@ -5,8 +5,8 @@
 
 .. _procflows_functionality:
 
-Processing Workflows (Procflows) in GeoIPS
-******************************************
+Processing Workflows (Procflows)
+********************************
 
 A processing workflow (procflow) is a module-based GeoIPS plugin that
 determines the "steps" that are used for a particular type of processing.

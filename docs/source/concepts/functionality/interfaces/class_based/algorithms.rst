@@ -5,8 +5,8 @@
 
 .. _algorithm_functionality:
 
-Algorithms in GeoIPS
-********************
+Algorithms
+**********
 
 An algorithm is a GeoIPS plugin designed to manipulate and convert datasets. Algorithms
 cannot operate independently; they take raw meteorological data and transform them.

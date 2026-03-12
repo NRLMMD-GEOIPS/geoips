@@ -5,8 +5,8 @@
 
 .. _gridline-annotators-functionality:
 
-Gridline Annotators Interface
-*****************************
+Gridline Annotators
+*******************
 GeoIPS Gridline Annotators describe the format of the grid lines shown in your imagery.
 This includes the spacing of the grid lines, their units, the labels used for the grid
 lines, the thickness of the lines, and optionally, the background color of the annotated

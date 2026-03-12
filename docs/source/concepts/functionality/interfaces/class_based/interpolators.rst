@@ -5,8 +5,8 @@
 
 .. _interpolators_functionality:
 
-Interpolators in GeoIPS
-***********************
+Interpolators
+*************
 
 An interpolator is a module-based GeoIPS plugin that takes data in its native
 resolution and interpolates it to a grid with a different resolution. This

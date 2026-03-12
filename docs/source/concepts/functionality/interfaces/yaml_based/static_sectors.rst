@@ -5,8 +5,8 @@
 
 .. _static_sectors_functionality:
 
-Static Sectors in GeoIPS
-************************
+Static Sectors
+**************
 
 A static sector is a YAML-based GeoIPS plugin that defines the geographic
 region for which data will be plotted. Static sectors provide information to
