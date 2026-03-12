@@ -6,6 +6,7 @@
 # Python Standard Libraries
 from argparse import ArgumentParser
 import logging
+import os
 
 # GeoIPS imports
 from geoips import interfaces
@@ -17,15 +18,16 @@ interface = "procflows"
 family = "standard"
 name = "order_based"
 
-ef validate_workflow_file_inputs(wf, fnames):
+
+def validate_workflow_file_inputs(wf, fnames):
     """Validate that all required file inputs exist before processing begins.
- 
+
     Iterates over the workflow steps and checks that file paths required by
     ``reader``, ``output_checker``, and ``sector`` steps are accessible on the
     filesystem. If any paths are missing, the workflow is terminated with an
     actionable error message listing every missing file and the step that
     requires it.
- 
+
     Parameters
     ----------
     wf : WorkflowPluginModel
@@ -33,7 +35,7 @@ ef validate_workflow_file_inputs(wf, fnames):
         inspected.
     fnames : list of str
         List of input filenames provided on the command line for reader steps.
- 
+
     Raises
     ------
     FileNotFoundError
@@ -42,18 +44,18 @@ ef validate_workflow_file_inputs(wf, fnames):
         requires it.
     """
     missing = []
- 
+
     # Validate command-line fnames shared by all reader steps.
     for path in fnames:
         if not os.path.exists(path):
             missing.append(("command_line_args", "reader", path))
- 
+
     for step_id, step_def in wf.spec.steps.items():
         if step_def.kind == "output_checker":
             _validate_output_checker_files(step_id, step_def, missing)
         elif step_def.kind == "sector":
             _validate_sector_files(step_id, step_def, missing)
- 
+
     if missing:
         error_lines = [
             "The workflow cannot proceed because the following required "
@@ -61,19 +63,19 @@ ef validate_workflow_file_inputs(wf, fnames):
         ]
         for step_id, kind, path in missing:
             error_lines.append(f"  step '{step_id}' (kind: {kind}): {path}")
- 
+
         raise FileNotFoundError("\n".join(error_lines))
- 
- 
+
+
 def _validate_output_checker_files(step_id, step_def, missing):
     """Check that the comparison path for an output_checker step exists.
- 
+
     If ``compare_path`` is present and non-null in the step's arguments, its
     existence on the filesystem is verified. A null or absent ``compare_path``
     is not flagged here; logical consistency between ``checker_name`` and
     ``compare_path`` is already enforced by
     ``OutputCheckersArgumentsModel``.
- 
+
     Parameters
     ----------
     step_id : str
@@ -87,18 +89,18 @@ def _validate_output_checker_files(step_id, step_def, missing):
     compare_path = step_def.arguments.get("compare_path", None)
     if compare_path is None:
         return
- 
+
     if not os.path.exists(compare_path):
         missing.append((step_id, "output_checker", compare_path))
- 
- 
+
+
 def _validate_sector_files(step_id, step_def, missing):
     """Check that file paths in a sector step's arguments exist.
- 
+
     Sector steps may reference ancillary input files via an ``fnames`` key in
     their arguments. Each path in that list is checked for existence on the
     filesystem.
- 
+
     Parameters
     ----------
     step_id : str
@@ -112,11 +114,11 @@ def _validate_sector_files(step_id, step_def, missing):
     sector_fnames = step_def.arguments.get("fnames", None)
     if sector_fnames is None:
         return
- 
+
     for path in sector_fnames:
         if not os.path.exists(path):
             missing.append((step_id, "sector", path))
- 
+
 
 def call(workflow, fnames, command_line_args=None):
     """Run the order based procflow (OBP).
