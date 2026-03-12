@@ -7,7 +7,7 @@ documentation:
     moved:
     - ''
     added:
-    - ''
+    - 'docs/source/releases/latest/1266-update-product-name-references-in-model-windbarbs.yaml'
     modified:
     - 'geoips/plugins/modules/algorithms/model/model_channel.py'
     - 'geoips/plugins/modules/algorithms/model/model_windbarbs.py'
