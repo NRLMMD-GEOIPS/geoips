@@ -29,7 +29,7 @@ import pydantic
 import yaml
 
 from geoips.create_plugin_registries import create_plugin_registries
-from geoips.errors import PluginError, PluginRegistryError
+from geoips.errors import PluginError, PluginRegistryError, PluginValidationError
 from geoips.filenames.base_paths import PATHS
 from geoips.geoips_utils import merge_nested_dicts
 
@@ -482,12 +482,17 @@ class PluginRegistry:
         plugin["abspath"] = abspath
         plugin["relpath"] = relpath
 
-        if isclass(interface_obj.validator) and issubclass(
-            pydantic.BaseModel, interface_obj.validator
-        ):
-            validated = interface_obj.validator(**plugin)
-        else:
-            validated = interface_obj.validator.validate(plugin)
+        try:
+            if isclass(interface_obj.validator) and issubclass(
+                pydantic.BaseModel, interface_obj.validator
+            ):
+                validated = interface_obj.validator(**plugin)
+            else:
+                validated = interface_obj.validator.validate(plugin)
+        except pydantic.ValidationError as exc:
+            raise PluginValidationError(
+                plg_name, interface_obj.name, package, abspath, exc
+            ) from exc
 
         return interface_obj._plugin_yaml_to_obj(name, validated)
 
