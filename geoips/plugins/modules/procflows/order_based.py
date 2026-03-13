@@ -23,7 +23,7 @@ def validate_workflow_file_inputs(wf, fnames):
     """Validate that all required file inputs exist before processing begins.
 
     Iterates over the workflow steps and checks that file paths required by
-    ``reader``, ``output_checker``, and ``sector`` steps are accessible on the
+    `reader`, `output_checker`, and `sector` steps are accessible on the
     filesystem. If any paths are missing, the workflow is terminated with an
     actionable error message listing every missing file and the step that
     requires it.
@@ -51,7 +51,9 @@ def validate_workflow_file_inputs(wf, fnames):
             missing.append(("command_line_args", "reader", path))
 
     for step_id, step_def in wf.spec.steps.items():
-        if step_def.kind == "output_checker":
+        if step_def.kind == "reader":
+            _validate_reader_files(step_id, step_def, missing)
+        elif step_def.kind == "output_checker":
             _validate_output_checker_files(step_id, step_def, missing)
         elif step_def.kind == "sector":
             _validate_sector_files(step_id, step_def, missing)
@@ -67,23 +69,49 @@ def validate_workflow_file_inputs(wf, fnames):
         raise FileNotFoundError("\n".join(error_lines))
 
 
-def _validate_output_checker_files(step_id, step_def, missing):
-    """Check that the comparison path for an output_checker step exists.
+def _validate_reader_files(step_id, step_def, missing):
+    """Check that file paths in a reader step's arguments exist.
 
-    If ``compare_path`` is present and non-null in the step's arguments, its
-    existence on the filesystem is verified. A null or absent ``compare_path``
-    is not flagged here; logical consistency between ``checker_name`` and
-    ``compare_path`` is already enforced by
-    ``OutputCheckersArgumentsModel``.
+    Reader steps may declare an ``fnames`` list inside their arguments for
+    static dataset inputs. Each path in that list is checked for existence on
+    the filesystem.
 
     Parameters
     ----------
     step_id : str
         The identifier of the workflow step being validated.
     step_def : WorkflowStepDefinitionModel
-        The step definition whose arguments may contain a ``compare_path``.
+        The step definition whose arguments may contain an ``fnames`` list.
     missing : list of tuple
         Accumulator for ``(step_id, kind, path)`` entries describing missing
+        files. Modified in place.
+    """
+    step_fnames = step_def.arguments.get("fnames", None)
+    if step_fnames is None:
+        return
+
+    for path in step_fnames:
+        if not os.path.exists(path):
+            missing.append((step_id, "reader", path))
+
+
+def _validate_output_checker_files(step_id, step_def, missing):
+    """Check that the comparison path for an output_checker step exists.
+
+    If `compare_path` is present and non-null in the step's arguments, its
+    existence on the filesystem is verified. A null or absent `compare_path`
+    is not flagged here; logical consistency between `checker_name` and
+    `compare_path` is already enforced by
+    `OutputCheckersArgumentsModel`.
+
+    Parameters
+    ----------
+    step_id : str
+        The identifier of the workflow step being validated.
+    step_def : WorkflowStepDefinitionModel
+        The step definition whose arguments may contain a `compare_path`.
+    missing : list of tuple
+        Accumulator for `(step_id, kind, path)` entries describing missing
         files. Modified in place.
     """
     compare_path = step_def.arguments.get("compare_path", None)
@@ -97,7 +125,7 @@ def _validate_output_checker_files(step_id, step_def, missing):
 def _validate_sector_files(step_id, step_def, missing):
     """Check that file paths in a sector step's arguments exist.
 
-    Sector steps may reference ancillary input files via an ``fnames`` key in
+    Sector steps may reference ancillary input files via an `fnames` key in
     their arguments. Each path in that list is checked for existence on the
     filesystem.
 
@@ -106,9 +134,9 @@ def _validate_sector_files(step_id, step_def, missing):
     step_id : str
         The identifier of the workflow step being validated.
     step_def : WorkflowStepDefinitionModel
-        The step definition whose arguments may contain an ``fnames`` list.
+        The step definition whose arguments may contain an `fnames` list.
     missing : list of tuple
-        Accumulator for ``(step_id, kind, path)`` entries describing missing
+        Accumulator for `(step_id, kind, path)` entries describing missing
         files. Modified in place.
     """
     sector_fnames = step_def.arguments.get("fnames", None)
