@@ -5,12 +5,16 @@ feature:
     added:
     - 'docs/source/releases/latest/1262-OBP-add-algorithms-pydantic-models.yaml'
     - 'geoips/pydantic_models/v1/algorithms.py'
+    - 'tests/unit_tests/pydantic_models/v1/algorithms/test_cases_bad.yaml'
+    - 'tests/unit_tests/pydantic_models/v1/algorithms/test_cases_good.yaml'
+    - 'tests/unit_tests/pydantic_models/v1/algorithms/test_cases_neutral.yaml'
     deleted:
     - ''
     moved:
     - ''
     modified:
-    - ''
+    - 'tests/unit_tests/pydantic_models/v1/conftest.py'
+    - 'tests/unit_tests/pydantic_models/v1/test_pydantic_models.py'
   related-issue:
     number: null
     repo_url: ''
