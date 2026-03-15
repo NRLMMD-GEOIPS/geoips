@@ -103,6 +103,7 @@ class VisIRSpecificAlgorithmArgumentsModel(FrozenModel):
         description="Cutoff for masking data where satellite zenith angle exceeds"
         "threshold. None, no masking",
     )
+    max_night_zen: int = Field(90)
 
 
 class ModelSpecificAlgorithmArgumentsModel(FrozenModel):
@@ -125,10 +126,14 @@ class ModelSpecificAlgorithmArgumentsModel(FrozenModel):
     grid_geo: bool = Field(False)
 
 
-class AlgorithmArgumentsModel(PermissiveFrozenModel):
+class AlgorithmArgumentsModel(
+    CommonAlgorithmArgumentsModel,
+    ModelSpecificAlgorithmArgumentsModel,
+    VisIRSpecificAlgorithmArgumentsModel,
+    PressureWindsAlgorithmArgumentsModel,
+):
     """Algorithm step argument step definition.
 
     Pydantic model defining and validating Algorithm step arguments.
     """
-
-    max_night_zen: int = Field(90)
+    pass
