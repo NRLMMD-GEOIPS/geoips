@@ -3,6 +3,10 @@
 
 """Fixtures for testing the Order-based procflow pydantic models."""
 
+# cspell:ignore knmi
+# cspell:ignore wfabba
+# cspell:ignore ewsg
+
 # Third-Party Libraries
 import pytest
 
