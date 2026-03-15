@@ -94,9 +94,9 @@ class VisIRSpecificAlgorithmArgumentsModel(FrozenModel):
         False,
         description="Boolean flag indicating whether to apply solar zenith correction"
         "(True) or not (False)"
-        "   * If True, returned data will have solar zenith correction applied"
+        "  * If True, returned data will have solar zenith correction applied"
         "      (see data_manipulations.corrections.apply_solar_zenith_correction)"
-        "   * If False, returned data will not be modified based on solar zenith angle)",
+        "  * If False, returned data will not be modified based on solar zenith angle)",
     )
     satellite_zenith_angle_cutoff: float = Field(
         None,
