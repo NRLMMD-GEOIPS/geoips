@@ -12,7 +12,7 @@ from typing import Dict
 from pydantic import Field, StrictBool
 
 # GeoIPS imports
-from geoips.pydantic_models.v1.bases import FrozenModel, PermissiveFrozenModel
+from geoips.pydantic_models.v1.bases import FrozenModel
 
 
 class CommonAlgorithmArgumentsModel(FrozenModel):
@@ -136,4 +136,5 @@ class AlgorithmArgumentsModel(
 
     Pydantic model defining and validating Algorithm step arguments.
     """
+
     pass
