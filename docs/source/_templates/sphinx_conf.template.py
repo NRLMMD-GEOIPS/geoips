@@ -335,7 +335,22 @@ def rstjinja(app, docname, source):
     if app.builder.format != "html":
         return
     src = source[0]
-    rendered = app.builder.templates.render_string(src, app.config.html_context)
+    context = dict(app.config.html_context or {})
+    context.update(
+        {
+            "pkgname": "PKGNAME",
+            "pkgtitle": "PKGNAME" if "PKGNAME" != "geoips" else "GeoIPS",
+            "docname": docname,
+            "builder": app.builder,
+            "config": app.config,
+            "env": app.env,
+            "project": app.config.project,
+            "author": app.config.author,
+            "version": app.config.version,
+            "release": app.config.release,
+        }
+    )
+    rendered = app.builder.templates.render_string(src, context)
     source[0] = rendered
 
 
