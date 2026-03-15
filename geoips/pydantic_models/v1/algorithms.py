@@ -58,6 +58,32 @@ class CommonAlgorithmArgumentsModel(FrozenModel):
         " * If True, returned data will be inverted"
         " * If False, returned data will not be inverted",
     )
+    # This should default to (?, 1000) or (1000, ?) or (None, None)
+    pressure_level_range: tuple[int, int] | tuple[None, None] = Field(
+        [None, None],
+        description="list of min and max pressure levels to filter derived motion wind"
+        " retrievals. Defaults to None, which results in using all wind retrievals.",
+    )
+
+
+class ModelSpecificAlgorithmArgumentsModel(FrozenModel):
+    """Common arguments shared only by model-based algorithms.
+
+    A Pydantic model defining and validating parameters shared across model-based
+    algorithm plugins such as ``model_channel`` and ``model_windbarbs``. These
+    parameters control:
+
+    * Selection of data along time or other dimensions
+    * Optional scaling of output data variables
+    * Processing of values outside the specified data range
+    """
+
+    pressure_key: str = Field(None)
+    time_key: str = Field(...)
+    time_fcst: int = Field(-1)
+    # verify if the type should be string
+    time_dim: str = Field(None)
+    grid_geo: bool = Field(False)
 
 
 class AlgorithmArgumentsModel(PermissiveFrozenModel):
@@ -77,18 +103,6 @@ class AlgorithmArgumentsModel(PermissiveFrozenModel):
         "necessary conversions. Defaults to None, resulting in no unit conversions.",
     )
 
-    # This should default to (?, 1000) or (1000, ?) or (None, None)
-    pressure_level_range: tuple[int, int] | tuple[None, None] = Field(
-        [None, None],
-        description="list of min and max pressure levels to filter derived motion wind"
-        " retrievals. Defaults to None, which results in using all wind retrievals.",
-    )
-    pressure_key: str = Field(None)
-    time_key: str = Field(...)
-    time_fcst: int = Field(-1)
-    # verify if the type should be string
-    time_dim: str = Field(None)
-    grid_geo: bool = Field(False)
     var_map: Dict[str, str] = Field(
         None, description="Dictionary that maps input variables to names used in xobj"
     )
