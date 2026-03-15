@@ -64,7 +64,23 @@ class CommonAlgorithmArgumentsModel(FrozenModel):
         description="list of min and max pressure levels to filter derived motion wind"
         " retrievals. Defaults to None, which results in using all wind retrievals.",
     )
+    input_units: str = Field(
+        None,
+        description="Units of input data, for applying "
+        "necessary conversions. Defaults to None, resulting in no unit conversions.",
+    )
+    output_units: str = Field(
+        None,
+        description="Units of input data, for applying "
+        "necessary conversions. Defaults to None, resulting in no unit conversions.",
+    )
 
+
+class PressureWindsAlgorithmArgumentsModel(FrozenModel):
+    """Arguments specific to Dervied Motion Wind Products."""
+    var_map: Dict[str, str] = Field(
+        None, description="Dictionary that maps input variables to names used in xobj"
+    )
 
 class ModelSpecificAlgorithmArgumentsModel(FrozenModel):
     """Common arguments shared only by model-based algorithms.
@@ -91,19 +107,4 @@ class AlgorithmArgumentsModel(PermissiveFrozenModel):
 
     Pydantic model defining and validating Algorithm step arguments.
     """
-
-    input_units: str = Field(
-        None,
-        description="Units of input data, for applying "
-        "necessary conversions. Defaults to None, resulting in no unit conversions.",
-    )
-    output_units: str = Field(
-        None,
-        description="Units of input data, for applying "
-        "necessary conversions. Defaults to None, resulting in no unit conversions.",
-    )
-
-    var_map: Dict[str, str] = Field(
-        None, description="Dictionary that maps input variables to names used in xobj"
-    )
     max_night_zen: int = Field(90)
