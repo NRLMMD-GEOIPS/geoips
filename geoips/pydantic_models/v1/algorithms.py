@@ -13,32 +13,22 @@ from pydantic import Field, StrictBool
 from geoips.pydantic_models.v1.bases import FrozenModel, PermissiveFrozenModel
 
 
-class CommonAlgorithmArguments(FrozenModel):
-    """Common algorithm arguments.
+class CommonAlgorithmArgumentsModel(FrozenModel):
+    """Common arguments shared by multiple algorithm plugins.
 
-    Pydantic model defining and validating parameters shared across algorithm plugins.
-    """
+    A Pydantic model defining and validating parameters shared across model-based
+    algorithm plugins such as ``model_channel`` and ``model_windbarbs``. These
+    parameters control:
 
-class AlgorithmArgumentsModel(PermissiveFrozenModel):
-    """Algorithm step argument step definition.
-
-    Pydantic model defining and validating Algorithm step arguments.
+    * Selection of data along time or other dimensions
+    * Optional scaling of output data variables
+    * Processing of values outside the specified data range
     """
 
     output_data_range: tuple[float, float] | tuple[None, None] = Field(
         [None, None],
         description="list of min and max value for wind speeds (kts or m s-1). "
         "Defaults to None, which results in using data.min and data.max.",
-    )
-    input_units: str = Field(
-        None,
-        description="Units of input data, for applying "
-        "necessary conversions. Defaults to None, resulting in no unit conversions.",
-    )
-    output_units: str = Field(
-        None,
-        description="Units of input data, for applying "
-        "necessary conversions. Defaults to None, resulting in no unit conversions.",
     )
     min_outbounds: str = Field(
         ...,
@@ -68,6 +58,25 @@ class AlgorithmArgumentsModel(PermissiveFrozenModel):
         " * If True, returned data will be inverted"
         " * If False, returned data will not be inverted",
     )
+
+
+class AlgorithmArgumentsModel(PermissiveFrozenModel):
+    """Algorithm step argument step definition.
+
+    Pydantic model defining and validating Algorithm step arguments.
+    """
+
+    input_units: str = Field(
+        None,
+        description="Units of input data, for applying "
+        "necessary conversions. Defaults to None, resulting in no unit conversions.",
+    )
+    output_units: str = Field(
+        None,
+        description="Units of input data, for applying "
+        "necessary conversions. Defaults to None, resulting in no unit conversions.",
+    )
+
     # This should default to (?, 1000) or (1000, ?) or (None, None)
     pressure_level_range: tuple[int, int] | tuple[None, None] = Field(
         [None, None],
