@@ -3,6 +3,8 @@
 
 """Pydantic models used to validate GeoIPS algorithm plugins."""
 
+# cspell:ignore fcst
+
 # Python Standard Libraries
 from typing import Dict
 
