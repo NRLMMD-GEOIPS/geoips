@@ -3,7 +3,7 @@
  | # # # This source code is subject to the license referenced at
  | # # # https://github.com/NRLMMD-GEOIPS.
 
-.. _output_formats_functionality:
+.. _output_formatters_functionality:
 
 Output Formatters
 *****************

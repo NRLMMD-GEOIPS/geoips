@@ -3,7 +3,7 @@
  | # # # This source code is subject to the license referenced at
  | # # # https://github.com/NRLMMD-GEOIPS.
 
-.. _filename_formats_functionality:
+.. _filename_formatters_functionality:
 
 Filename Formatters
 *******************

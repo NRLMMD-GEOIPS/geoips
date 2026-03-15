@@ -3,7 +3,7 @@
  | # # # This source code is subject to the license referenced at
  | # # # https://github.com/NRLMMD-GEOIPS.
 
-.. _gridline-annotators-functionality:
+.. _gridline_annotators_functionality:
 
 Gridline Annotators
 *******************
