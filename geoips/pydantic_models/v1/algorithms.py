@@ -27,6 +27,7 @@ class CommonAlgorithmArgumentsModel(FrozenModel):
     * Processing of values outside the specified data range
     """
 
+    # add field for variables
     output_data_range: tuple[float, float] | tuple[None, None] = Field(
         [None, None],
         description="list of min and max value for wind speeds (kts or m s-1). "
