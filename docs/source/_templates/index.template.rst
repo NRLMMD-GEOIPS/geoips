@@ -7,9 +7,14 @@
 .. module:: PKGNAME
    :noindex:
 
-****************************************************************
-GeoIPS |reg| PKGNAME Documentation
-****************************************************************
+{% if pkgname == "geoips" %}
+{% set title = "GeoIPS |reg| Documentation" %}
+{% else %}
+{% set title = pkgtitle ~ " GeoIPS |reg| Plugin Package Documentation" %}
+{% endif %}
+
+{{ title }}
+{{ "=" * title|length }}
 
 **Date**: |today| **Version**: |release|
 
@@ -21,17 +26,47 @@ GeoIPS |reg| PKGNAME Documentation
 `GeoIPS License <https://github.com/NRLMMD-GEOIPS/geoips/blob/main/LICENSE>`__ |
 `NRLMMD <https://www.nrlmry.navy.mil/>`__ |
 
-:mod:`PKGNAME` is a free software program, using the NRL Open License Agreement.
+{% if pkgname == "geoips" %}
+Introduction
+------------
 
-::
+GeoIPS (Geolocated Information Processing System) is an extensible, open-source
+Python framework designed to process any dataset associated with latitude and
+longitude coordinates. It is plugin-based, allowing users to easily extend its
+functionality without modifying the core codebase. Users can add new plugins
+for data reading, interpolation, processing algorithms, output formatting, etc.,
+enabling the generation of both imagery and structured data products. Plugins
+can be employed in Python scripts/packages or configured in YAML files to
+produce consistent, reliable, infrastructure-as-code Workflows.
 
-    Distribution Statement A. Approved for public release. Distribution is unlimited.
+Scientific workflows frequently require transforming geolocated data into
+consistent imagery and derived products. Whether working with satellite
+observations, model output, or field measurements, researchers and operational
+centers must combine data reading, coordinate transformations, interpolation,
+algorithm application, and output formatting into reproduceable pipelines.
+These functions and their combined workflows are often implemented as ad-hoc
+scripts that become very difficult to extend, reuse, and put into production.
 
-    This source code is protected under the license referenced at
-    https://github.com/NRLMMD-GEOIPS.
+GeoIPS is a plugin-based Python framework, originally designed for production
+meteorological applications and currently used in real-time environments.
+Since becoming open-source, we have worked to adapt GeoIPS for broader
+community use and improve user experience. GeoIPS’ architecture is general to
+any dataset that has associated latitude and longitude coordinates. The
+package's two main goals are to help scientists avoid reinventing existing
+functionality and to facilitate the transition of scientific work to those who
+want to use it in production.
 
+GeoIPS separates data reading, interpolation, processing algorithms,
+output formatting, and other functions into plugins that can be pieced
+together into novel and reproducible workflows. The system supports generation
+of imagery and structured data products, enabling consistent transformation
+from input geolocated data products to analysis- and publication-ready
+outputs.
+
+{% else %}
 .. automodule:: PKGNAME
    :noindex:
+{% endif %}
 
 .. grid:: 1 2 2 2
     :gutter: 2
@@ -43,8 +78,9 @@ GeoIPS |reg| PKGNAME Documentation
            :scale: 25%
            :align: center
 
-        The getting started guide can help you get started with using
-        PKGNAME.
+           A quick introduction to PKGNAME, including an overview of the
+           package, system requirements, installation instructions, a quick
+           start guide, and best practices.
 
         .. button-link:: getting-started/index.html
             :ref-type: ref
