@@ -166,7 +166,7 @@ def valid_algorithm_arguments():
         "norm": False,
         "inverse": False,
         "pressure_level_range": [None, None],
-        "time_key": "atime"
+        "time_key": "atime",
         # "norm": None,
         # "inverse": None,
     }
