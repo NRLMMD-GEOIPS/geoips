@@ -25,6 +25,7 @@
 `Source Repository <https://github.com/NRLMMD-GEOIPS/PKGNAME>`__ |
 `GeoIPS License <https://github.com/NRLMMD-GEOIPS/geoips/blob/main/LICENSE>`__ |
 `NRLMMD <https://www.nrlmry.navy.mil/>`__ |
+`CIRA <https://www.cira.colostate.edu/>`__
 
 {% if pkgname == "geoips" %}
 Introduction
@@ -78,9 +79,9 @@ outputs.
            :scale: 25%
            :align: center
 
-           A quick introduction to PKGNAME, including an overview of the
-           package, system requirements, installation instructions, a quick
-           start guide, and best practices.
+        A quick introduction to PKGNAME, including an overview of the
+        package, system requirements, installation instructions, a quick
+        start guide, and best practices.
 
         .. button-link:: getting-started/index.html
             :ref-type: ref

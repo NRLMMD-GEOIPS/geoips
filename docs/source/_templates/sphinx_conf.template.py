@@ -135,8 +135,8 @@ html_theme_options = {
     "github_url": "https://github.com/NRLMMD-GEOIPS/PKGNAME",
     "navbar_end": ["theme-switcher", "navbar-icon-links"],
     "logo": {
-        "image_light": "_static/NRL_logo_RGB.jpg",
-        "image_dark": "_static/NRL_logo_sidebar_Reverse.png",
+        "image_light": "_static/geoips_logo.png",
+        "image_dark": "_static/geoips_logo.png",
     },
 }
 
