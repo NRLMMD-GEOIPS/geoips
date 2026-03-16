@@ -117,16 +117,7 @@ class VisIRSpecificAlgorithmArgumentsModel(FrozenModel):
 
 
 class ModelSpecificAlgorithmArgumentsModel(FrozenModel):
-    """Common arguments shared only by model-based algorithms.
-
-    A Pydantic model defining and validating parameters shared across model-based
-    algorithm plugins such as ``model_channel`` and ``model_windbarbs``. These
-    parameters control:
-
-    * Selection of data along time or other dimensions
-    * Optional scaling of output data variables
-    * Processing of values outside the specified data range
-    """
+    """Common arguments shared only by model-based algorithms."""
 
     pressure_key: str = Field(None)
     time_key: str = Field(...)
