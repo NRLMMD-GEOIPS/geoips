@@ -3,13 +3,22 @@
 
 """Output formatters interface class."""
 
+from geoips.interfaces.class_based_plugin import BaseClassPlugin
 from geoips.interfaces.base import BaseClassInterface
+
+
+class BaseOutputFormatterPlugin(BaseClassPlugin, abstract=True):
+    """Base class for GeoIPS output_formatter plugins."""
+
+    pass
 
 
 class OutputFormattersInterface(BaseClassInterface):
     """Data format for the resulting output product (e.g. netCDF, png)."""
 
     name = "output_formatters"
+    plugin_class = BaseOutputFormatterPlugin
+
     required_args = {
         "image": ["area_def", "xarray_obj", "product_name", "output_fnames"],
         "unprojected": ["xarray_obj", "product_name", "output_fnames"],

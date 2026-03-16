@@ -3,7 +3,14 @@
 
 """Procflows interface class."""
 
+from geoips.interfaces.class_based_plugin import BaseClassPlugin
 from geoips.interfaces.base import BaseClassInterface
+
+
+class BaseProcflowPlugin(BaseClassPlugin, abstract=True):
+    """Base class for GeoIPS procflow plugins."""
+
+    pass
 
 
 class ProcflowsInterface(BaseClassInterface):
@@ -20,6 +27,8 @@ class ProcflowsInterface(BaseClassInterface):
     """
 
     name = "procflows"
+    plugin_class = BaseProcflowPlugin
+
     required_args = {"standard": ["fnames"]}
     required_kwargs = {"standard": ["command_line_args"]}
 

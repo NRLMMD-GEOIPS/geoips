@@ -74,6 +74,10 @@ def main():
         val_interfaces.append(curr_interface)
 
     for curr_interface in val_interfaces:
+        if curr_interface.name == "workflows":
+            # Don't test workflows right now; they differ from other plugin objects
+            # currently
+            continue
         # This prints a "horizontal line" character U+2015, not a dash
         LOG.interactive("―" * len(curr_interface.name))
         LOG.interactive(f"{curr_interface.name}")

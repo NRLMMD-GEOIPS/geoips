@@ -2157,7 +2157,6 @@ def call(fnames, command_line_args=None):
                 if output_checker.name in output_checker_kwargs:
                     kwargs = output_checker_kwargs[output_checker.name]
                 curr_retval = output_checker(
-                    output_checker,
                     cpath,
                     [output_product],
                     **kwargs,
