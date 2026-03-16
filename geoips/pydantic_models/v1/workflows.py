@@ -177,7 +177,11 @@ class AlgorithmStepValidationModel(PermissiveFrozenModel):
         ValueError
             If the ``variables`` argument is required but nor provided.
         """
-        if self.name == "model_channel" and not self.arguments.get("variables"):
+        if self.name in [
+            "model_channel",
+            "windbarbs_dmw",
+            "absdiff_mst",
+        ] and not self.arguments.get("variables"):
             raise ValueError(
                 f"input for 'variables' must be provided and non-empty for {self.name}"
                 " algorithm plugin."
