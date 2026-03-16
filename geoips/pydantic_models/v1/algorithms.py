@@ -6,7 +6,7 @@
 # cspell:ignore fcst
 
 # Python Standard Libraries
-from typing import Dict
+from typing import Dict, List
 
 # Third-Party Libraries
 from pydantic import Field, StrictBool
@@ -90,6 +90,13 @@ class PressureWindsAlgorithmArgumentsModel(FrozenModel):
 class VisIRSpecificAlgorithmArgumentsModel(FrozenModel):
     """Arguments specific to Visible and Infrared algorithm plugins."""
 
+    gamma_list: List[float] = Field(None)
+    min_night_zen: float = Field(None)
+    max_night_zen: float = Field(90)
+    max_day_zen: float = Field(None)
+    mask_night: bool = Field(False)
+    mask_day: bool = Field(False)
+    scale_factor: float = Field(None)
     sun_zen_correction: bool = Field(
         False,
         description="Boolean flag indicating whether to apply solar zenith correction"
@@ -103,7 +110,6 @@ class VisIRSpecificAlgorithmArgumentsModel(FrozenModel):
         description="Cutoff for masking data where satellite zenith angle exceeds"
         "threshold. None, no masking",
     )
-    max_night_zen: int = Field(90)
 
 
 class ModelSpecificAlgorithmArgumentsModel(FrozenModel):
