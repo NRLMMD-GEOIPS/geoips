@@ -4,6 +4,7 @@ feature:
   files:
     added:
     - 'docs/source/releases/latest/1262-OBP-add-algorithms-pydantic-models.yaml'
+    - 'geoips/plugins/yaml/workflows/read_test_v1_demo.yaml'
     - 'geoips/pydantic_models/v1/algorithms.py'
     - 'tests/unit_tests/pydantic_models/v1/algorithms/test_cases_bad.yaml'
     - 'tests/unit_tests/pydantic_models/v1/algorithms/test_cases_good.yaml'
@@ -13,6 +14,8 @@ feature:
     moved:
     - ''
     modified:
+    - 'geoips/plugins/modules/procflows/order_based.py'
+    - 'geoips/pydantic_models/v1/workflows.py'
     - 'tests/unit_tests/pydantic_models/v1/conftest.py'
     - 'tests/unit_tests/pydantic_models/v1/test_pydantic_models.py'
   related-issue:
