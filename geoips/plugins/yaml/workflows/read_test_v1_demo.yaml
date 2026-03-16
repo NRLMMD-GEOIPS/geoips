@@ -2,7 +2,7 @@ apiVersion: geoips/v1
 interface: workflows
 family: order_based
 # source_names: [abi]
-name: read_test_v1
+name: read_test_demo
 docstring: |
     Use the windbarbs product_defaults for ABI L2 DMWV products.
 description: Use the windbarbs product_defaults for ABI L2 DMWV products.
