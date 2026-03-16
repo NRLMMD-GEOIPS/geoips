@@ -110,7 +110,8 @@ RUN cd ${GEOIPS_PACKAGES_DIR}/geoips/tests/ansible \
       --tags base \
       -e pip_editable=false \
 #      -e 'pip_extra_args=--no-binary :all:' \
-      -v
+      -v \
+    && chown -R ${USER_ID}:${GROUP_ID} ${GEOIPS_PACKAGES_DIR} /home/${USER}
 
 ###############################################################################
 # Stage 4: geoips-full — shapefiles, settings repos, doc/test extras
@@ -128,7 +129,7 @@ RUN cd ${GEOIPS_PACKAGES_DIR}/geoips/tests/ansible \
       -e pip_editable=false \
 #      -e 'pip_extra_args=--no-binary :all:' \
       -v \
-    && chown -R ${USER_ID}:${GROUP_ID} ${GEOIPS_PACKAGES_DIR}
+    && chown -R ${USER_ID}:${GROUP_ID} ${GEOIPS_PACKAGES_DIR} /home/${USER}
 
 USER ${USER}
 
@@ -150,7 +151,7 @@ RUN cd ${GEOIPS_PACKAGES_DIR}/geoips/tests/ansible \
       -e pip_editable=false \
 #      -e 'pip_extra_args=--no-binary :all:' \
       -v \
-    && chown -R ${USER_ID}:${GROUP_ID} ${GEOIPS_PACKAGES_DIR} ${GEOIPS_OUTDIRS}
+    && chown -R ${USER_ID}:${GROUP_ID} ${GEOIPS_PACKAGES_DIR} ${GEOIPS_OUTDIRS} /home/${USER}
 
 USER ${USER}
 
