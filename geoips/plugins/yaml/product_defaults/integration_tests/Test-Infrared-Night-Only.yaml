@@ -18,8 +18,8 @@ spec:
         max_outbounds: crop
         mask_day: true
         min_night_zen: 90
-        norm: null
-        inverse: null
+        norm: false
+        inverse: false
   mtif_type: ir
   colormapper:
     plugin:
