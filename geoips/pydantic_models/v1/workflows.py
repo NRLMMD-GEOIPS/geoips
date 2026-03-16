@@ -179,6 +179,7 @@ class AlgorithmStepValidationModel(PermissiveFrozenModel):
         """
         if self.name in [
             "model_channel",
+            "windbarbs_dmw",
             "absdiff_mst",
         ] and not self.arguments.get("variables"):
             raise ValueError(
