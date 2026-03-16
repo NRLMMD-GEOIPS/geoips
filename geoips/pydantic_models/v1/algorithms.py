@@ -135,7 +135,7 @@ class AlgorithmArgumentsModel(
 ):
     """Algorithm step argument definition.
 
-    Pydantic model defining and validating Reader step arguments.
+    Pydantic model defining and validating Algorithm step arguments.
     """
 
     pass
