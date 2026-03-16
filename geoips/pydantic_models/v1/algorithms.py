@@ -27,7 +27,11 @@ class CommonAlgorithmArgumentsModel(FrozenModel):
     * Processing of values outside the specified data range
     """
 
-    # add field for variables
+    variables: List[str] = Field(
+        None,
+        description="List of input variables used in algorithm processing, selects the "
+        "first when provided.",
+    )
     output_data_range: tuple[float, float] | tuple[None, None] = Field(
         [None, None],
         description="list of min and max value for wind speeds (kts or m s-1). "
@@ -138,9 +142,9 @@ class AlgorithmArgumentsModel(
     VisIRSpecificAlgorithmArgumentsModel,
     PressureWindsAlgorithmArgumentsModel,
 ):
-    """Algorithm step argument step definition.
+    """Algorithm step argument definition.
 
-    Pydantic model defining and validating Algorithm step arguments.
+    Pydantic model defining and validating Reader step arguments.
     """
 
     pass
