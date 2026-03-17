@@ -4,6 +4,12 @@
 """GeoIPS error module."""
 
 
+class FileFormatError(Exception):
+    """Exception to be raised when a file is badly formatted and cannot be used."""
+
+    pass
+
+
 class MissingRequiredXarrayMetadata(Exception):
     """Exception to be raised when required metadata missing from a geoips xarray.
 

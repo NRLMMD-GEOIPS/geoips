@@ -2,3 +2,7 @@
 ./output
 ./.github
 Dockerfile*
+docs/_build/
+docs/build/
+geoips_test_data
+geoips_test_data/

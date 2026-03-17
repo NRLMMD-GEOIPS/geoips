@@ -1,0 +1,27 @@
+interface: products
+family: list
+name: test-infrared-night-only
+docstring: |
+  Products only used for diagnostic integration tests
+
+spec:
+  products:
+    - name: Test-Visible-Logarithmic
+      source_names: [abi]
+      docstring: |
+        0.51 µm Visible with log-scaled colorbar. For integration test purposes only
+        until we have a valid product that relies on a log-scaled colorbar.
+      product_defaults: Visible
+      spec:
+        variables: ["B03Ref", "MED:solar_zenith_angle"]
+        algorithm:
+          plugin:
+            name: single_channel
+            arguments:
+              output_data_range: [0.01, 100.0]
+        colormapper:
+          plugin:
+            name: matplotlib_log_norm
+            arguments:
+              data_range: [0.01, 100.0]
+              cbar_label: "Log-Scaled Reflectance, ABI B03 0.86um Veggie Band"

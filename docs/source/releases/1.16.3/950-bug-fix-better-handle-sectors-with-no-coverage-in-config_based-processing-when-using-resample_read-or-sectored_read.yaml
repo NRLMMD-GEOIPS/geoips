@@ -1,0 +1,46 @@
+bug fix:
+- title: 'Better handle sectors with no coverage in config_based processing when using resample_read or sectored_read'
+  description: |
+    Store a copy of the xobjs metadata in config_based procflow separate from the full
+    xobjs dictionary, since sectored/resampled reads will return empty xobjs dictionary
+    if there is no coverage and we want to retain the original metadata.
+
+    If resampled_read or sectored_read are true, and we encounter a sector with no
+    coverage, the xobjs variable will be clobbered with an empty dictionary due to the
+    get_sectored_read function. This will break the area defintion sector_type loop,
+    since the next iteration will be unable to compile the list of all_source_names,
+    since it looks at the xobjs variable. When the get_sectored_read function
+    experiences a CoverageError and returns an empty dict, we will reset xobjs with
+    xobjs_meta. I opted not to move the all_source_names line outside of the loop, as
+    I'm unsure if that would break anything or not...
+
+    When creating the geolocation cache, rename a .partial cache file as .no_coverage
+    if we find there is no coverage for a given sector. This prevents concurrent
+    procflow from constantly regenerating a partial cache file, and complaining/crashing
+    due to the persistent .partial file. This will potentially cause an issue
+    specifically for dynamic sectors with interpolated positions where the initial
+    position (ie, storm location at 0Z) is outside satellite coverage, but a later
+    interpolated position (e.g., interpolated location at 5Z) may have coverage.
+    We are going to accept this case, because the interpolated location will likely
+    still be at edge of scan. Per images below, for TCs in particular, I really don't
+    think we care about this, since they don't move much in 6h and I can't imagine we
+    wouldn't want something at 0Z, but then would want it at 5Z.
+
+    Note there may be future cases where we would not want to accept this risk, if a
+    dynamic sector moves very quickly, and intermediate interpolated locations could
+    vary drastically from the reported positions at specific times.
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - 'geoips/plugins/modules/procflows/config_based.py'
+    - 'geoips/plugins/modules/readers/utils/geostationary_geolocation.py'
+  related-issue:
+    internal: GEOIPS#950
+  date:
+    start: 2025-09-26
+    finish: 2025-09-26

@@ -12,6 +12,30 @@ bounding_box:
     +units=m +x_0=0 +y_0=0
 clat: 16.6
 clon: 141.4
+covg_info:
+  fname_covg: 58.510596900349164
+  fname_covg_args:
+    radius_km: 300
+  fname_covg_func: center_radius
+  full_covg: 58.510596900349164
+  full_covg_args:
+    radius_km: 300
+  full_covg_func: center_radius
+  image_production_covg: 58.510596900349164
+  image_production_covg_args:
+    radius_km: 300
+  image_production_covg_func: center_radius
+data_attribution:
+  long: Contains modified Copernicus Sentinel data Data pre-processed by NOAA/NESDIS/STAR/SOCD
+  short: ESA-NOAA/NESDIS/STAR/SOCD
+  title:
+  - Contains modified Copernicus Sentinel data
+  - Data pre-processed by NOAA/NESDIS/STAR/SOCD
+data_provider: esa-star
+data_times:
+  end: 2018-10-25 20:32:06
+  mid: 2018-10-25 20:32:06
+  start: 2018-10-25 20:32:06
 deck_line: WP, 31, 2018102518,   , BEST,   0, 166N, 1414E, 130,  926, ST,  34, NEQ,  180,  175,  160,  170,
   1004,  210,  10,   0,   0,   W,   0,    ,   0,   0,       YUTU, D,
 final_storm_name: YUTU
@@ -23,6 +47,7 @@ sector_type: tc
 source_filename: $GEOIPS_PACKAGES_DIR/geoips/tests/sectors/tc_bdecks/bwp312018.dat
 source_sector_file: $GEOIPS_PACKAGES_DIR/geoips/tests/sectors/tc_bdecks/bwp312018.dat
 storm_basin: WP
+storm_id: tc2018wp31yutu
 storm_name: YUTU
 storm_num: 31
 storm_start_datetime: 2018-10-18 06:00:00

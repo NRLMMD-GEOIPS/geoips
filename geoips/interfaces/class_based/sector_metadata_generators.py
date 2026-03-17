@@ -1,0 +1,31 @@
+# # # This source code is subject to the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
+
+"""Sector metadata generators interface class."""
+
+from geoips.interfaces.class_based_plugin import BaseClassPlugin
+from geoips.interfaces.base import BaseClassInterface
+
+
+class BaseSectorMetadataAdjusterPlugin(BaseClassPlugin, abstract=True):
+    """Base class for GeoIPS sector_metadata_adjuster plugins."""
+
+    pass
+
+
+class SectorMetadataGeneratorsInterface(BaseClassInterface):
+    """Interface for generating appropriate metadata for a sector.
+
+    Provides specification for generating a dictionary-based set of
+    metadata that corresponds to a given sector.  The sector "family"
+    determines the formatting and contents of the metadata dictionary.
+    """
+
+    name = "sector_metadata_generators"
+    plugin_class = BaseSectorMetadataAdjusterPlugin
+
+    required_args = {"tc": ["trackfile_name"], "volc": ["trackfile_name"]}
+    required_kwargs = {"tc": [], "volc": []}
+
+
+sector_metadata_generators = SectorMetadataGeneratorsInterface()

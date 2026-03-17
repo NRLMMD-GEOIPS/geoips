@@ -3,6 +3,7 @@
 
 """Modules to access TC tracks, based on locations found in the deck files."""
 
+from datetime import datetime
 import logging
 
 from geoips.interfaces import (
@@ -112,13 +113,16 @@ def get_tc_area_id(fields, finalstormname, tcyear):
     """
     if not finalstormname:
         finalstormname = fields["storm_name"]
-    newname = "{0}{1:02d}{2}".format(
-        fields["storm_basin"].lower(), int(fields["storm_num"]), finalstormname.lower()
+    newname = "{0}{1:02d}{2}{3}".format(
+        fields["storm_basin"].lower(),
+        int(fields["storm_num"]),
+        finalstormname.lower(),
+        datetime.strftime(fields["synoptic_time"], "%Y%m%dT%H%M"),
     )
 
     newname = newname.replace("_", "").replace(".", "").replace("-", "")
 
-    # This ends up being tc2016io01one
+    # This ends up being tc2016io01one20220113T1200
     area_id = "tc" + str(tcyear) + newname
     return area_id
 
@@ -138,6 +142,41 @@ def get_tc_long_description(area_id, fields):
             area_id, str(fields["synoptic_time"])
         )
     return long_description
+
+
+def set_volc_area_def(fields, storm_name, sector_spec_template):
+    """Set volcano area definitions from fields."""
+    clat = fields["clat"]
+    clon = fields["clon"]
+    # TBD: reformat these to be part of a parser?
+    area_id = storm_name
+    long_description = "volcano {}".format(storm_name.lower())
+
+    tc_template_plugin = sectors.get_plugin(sector_spec_template)
+    # template_func_name = tc_template_plugin["spec"]["sector_spec_generator"]["name"]
+    template_args = tc_template_plugin["spec"]["sector_spec_generator"]["arguments"]
+
+    # Only one sector spec generator to choose from: 'center_coordinates'
+    template_func = sector_spec_generators.get_plugin("center_coordinates")
+    template_args["area_id"] = area_id
+    template_args["long_description"] = long_description
+    template_args["clat"] = clat
+    template_args["clon"] = clon
+    area_def = template_func(**template_args)
+
+    area_def.sector_start_datetime = fields["time"]
+    area_def.sector_end_datetime = fields["time"]
+    area_def.sector_type = "volc"
+    area_def.sector_info = {}
+
+    # area_def.description is Python3 compatible,
+    # and area_def.name is Python2 compatible
+    area_def.description = long_description
+
+    area_def.sector_info["storm_name"] = storm_name
+    area_def.sector_info["final_storm_name"] = storm_name
+    LOG.info("Finished volcano area def")
+    return area_def
 
 
 def set_tc_area_def(
@@ -277,10 +316,20 @@ def trackfile_to_area_defs(
 
     parser = sector_metadata_generators.get_plugin(trackfile_parser)
 
-    all_fields, final_storm_name, tc_year = parser(trackfile_name)
+    all_fields, final_storm_name, tc_year, allowed_aid_types = parser(trackfile_name)
+
+    # print(all_fields,final_storm_name,tc_year,trackfile_parser,tc_spec_template)
 
     area_defs = []
+    if "volc" in final_storm_name.lower():
+        LOG.info("STARTING setting VOLCANO area_defs")
+        # raise
+        for fields in all_fields:
+
+            area_defs += [set_volc_area_def(fields, final_storm_name, tc_spec_template)]
+        return area_defs, allowed_aid_types
     LOG.info("STARTING setting TC area_defs")
+
     for fields in all_fields:
         # area_defs += [set_tc_sector(fields, dynamic_templatefname, finalstormname,
         #               tcyear, sfname, dynamic_xmlpath)]
@@ -295,7 +344,7 @@ def trackfile_to_area_defs(
         ]
     LOG.info("FINISHED setting TC area_defs")
 
-    return area_defs
+    return area_defs, allowed_aid_types
 
 
 def interpolate_storm_location(interp_dt, longitudes, latitudes, synoptic_times):

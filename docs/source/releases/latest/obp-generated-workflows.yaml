@@ -1,0 +1,31 @@
+enhancement:
+- title: 'Order Based -- Dealing with generated and non-registered workflow plugins'
+  description: |
+    This PR updates how we can call the order based procflow. Instead of only being able
+    to provide a registered workflow plugin name to the commandline alongside other
+    procflow arguments GeoIPS supports, we've now added two additional arguments in
+    which we can specify a workflow. Those arguments are '--filepath' and '--generated'.
+
+    Neither of these arguments represent a 'registered' workflow plugin. Generated means
+    we're passing a literal evalation of a python dictionary (representing a workflow
+    plugin), and filepath means we're passing a path to an unregistered workflow plugin.
+
+    WorkflowPluginModel validation occurs for both of the new arguments and will only
+    send the provided workflows to the order based procflow once validation has passed.
+    Otherwise, appropriate errors will be raised.
+
+    Unit tests and commandline help information have been updated to reflect the changes
+    made in this PR.
+  files:
+    modified:
+      - geoips/commandline/ancillary_info/cmd_instructions.yaml
+      - geoips/commandline/geoips_run.py
+      - geoips/plugins/modules/procflows/order_based.py
+      - geoips/pydantic_models/v1/bases.py
+      - tests/unit_tests/commandline/test_geoips_run.py
+  related-issue:
+    number: null
+    repo_url: ''
+  date:
+    start: null
+    finish: null

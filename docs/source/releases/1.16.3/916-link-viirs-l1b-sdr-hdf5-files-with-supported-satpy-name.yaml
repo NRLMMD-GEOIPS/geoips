@@ -1,0 +1,25 @@
+bug fix:
+- title: 'Temporarily link VIIRS L1b SDR HDF5 files with supported satpy name'
+  description: |
+    The backend satpy reader in the viirs_sdr_hdf5 reader needs the creation time in the
+    filename, and will not read in files if they do not include that time in the file
+    name. Temporarily updated the viirs_sdr_hdf5 reader to softlink files to the cache
+    directory, and use those links to read in the file. The reader uses the end time in
+    the filename to create creation time. Files are unlinked at the end of the reader.
+
+    For example, SVM16_j02_d20250305_t1043171_e1044418_b12004_oeac_ops.h5 will be linked
+    to $GEOIPS_DATA_CACHE_DIR_SHORTTERM_CALIBRATED_DATA/viirs_sdr_hdf5_reader/SVM16_j02_d20250305_t1043171_e1044418_b12004_c202503051044418_oeac_ops.h5
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - 'geoips/plugins/modules/readers/viirs_sdr_hdf5.py'
+  related-issue:
+    internal: GEOIPS#916
+  date:
+    start: 2025-07-25
+    finish: 2025-07-25

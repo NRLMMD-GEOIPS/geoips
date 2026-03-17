@@ -1,0 +1,74 @@
+interface: sectors
+family: area_definition_static
+name: test_meteoeu_eqc_3km_landocean
+docstring: |
+  MeteoEU subsector, centered at 37 latitude, 0 longitude
+  300x300 at 3km resolution
+
+  This sector is off the coast of Spain, Algeria, and Morocco, and over the
+  Mediterranean, containing approximately half ocean and half land pixels for
+  MeteoEU.
+
+  It is a very small sector that can be used for MeteoEU Processing
+  for any MeteoEU dataset.
+
+  The test datasets corresponding to these sectors can be found in the
+  test_data_seviri or test_data_fci test data repositories.
+
+  Note the METEO-EU satellite location refers to the following METEOSAT satellites
+
+  * MSG-3 (aka METEOSAT-10, sensor SEVIRI)
+  * MSG-4 (aka METEOSAT-11, sensor SEVIRI)
+  * MTG-I1 (aka METEOSAT-12, sensor FCI)
+
+  '''
+  geoips config install test_data_fci
+  geoips config install test_data_seviri
+  '''
+metadata:
+  region:
+    continent: Tests
+    country: x
+    area: MeteoEU
+    subarea: x
+    state: x
+    city: x
+spec:
+  area_id: test_meteoeu_eqc_3km_landocean
+  description: |
+    MeteoEU subsector, centered at 37 latitude, 0 longitude
+    300x300 at 3km resolution
+
+    This sector is off the coast of Spain, Algeria, and Morocco, and over the
+    Mediterranean, containing approximately half ocean and half land pixels for
+    MeteoEU.
+
+    It is a very small sector that can be used for MeteoEU Processing
+    for any MeteoEU dataset.
+
+    The test datasets corresponding to these sectors can be found in the
+    test_data_seviri or test_data_fci test data repositories.
+
+    Note the METEO-EU satellite location refers to the following METEOSAT satellites
+
+    * MSG-3 (aka METEOSAT-10, sensor SEVIRI)
+    * MSG-4 (aka METEOSAT-11, sensor SEVIRI)
+    * MTG-I1 (aka METEOSAT-12, sensor FCI)
+
+    '''
+    geoips config install test_data_fci
+    geoips config install test_data_seviri
+    '''
+  projection:
+    a: 6371228.0
+    lat_0: 37
+    lon_0: 0
+    proj: eqc
+    units: m
+  resolution:
+    - 3000
+    - 3000
+  shape:
+    height: 300
+    width: 300
+  center: [0, 0]

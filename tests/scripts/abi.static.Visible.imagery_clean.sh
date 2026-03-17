@@ -5,16 +5,23 @@
 
 # Default values - if you do not have this exact test case available, call with available data files / sectors.
 
+# NOTE configuration here must match the geoips/tests/yaml_configs/abi... procflow
+# configs, since they use the same output directory to confirm different methods of
+# running the same produce yield the same results!
+#   tests/scripts/abi.static.Visible.imagery_clean.sh
+#   tests/yaml_configs/abi_test_full_zarr_cache_backend.yaml
+#   tests/yaml_configs/abi_test.yaml
+
 # This exact test case required for valid comparisons - remove "compare_path" argument if running a different
 # set of arguments.
-geoips run single_source $GEOIPS_TESTDATA_DIR/test_data_noaa_aws/data/goes16/20200918/1950/* \
+geoips run single_source $GEOIPS_TESTDATA_DIR/test_data_abi/data/goes16_20200918_1950/* \
              --reader_name abi_netcdf \
              --product_name Visible \
              --compare_path "$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/abi.static.<product>.imagery_clean" \
              --output_formatter imagery_clean \
              --filename_formatter geoips_fname \
              --resampled_read \
-             --sector_list goes_east_subsector
+             --sector_list test_goeseast_eqc_3km_landocean
 retval=$?
 
 exit $retval

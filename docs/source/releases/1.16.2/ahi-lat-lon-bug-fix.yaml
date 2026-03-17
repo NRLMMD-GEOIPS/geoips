@@ -1,0 +1,20 @@
+bug fix:
+- title: 'Resolve undefined lat/lons in ahi_hsd reader'
+  description: |
+    ahi_hsd reader was missing lats and lons assignment after geolocation cache
+    had been produced.  Add lats = zf["lats"] and lons = zf["lons"] in
+    get_latitude_longitude function
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - geoips/plugins/modules/readers/ahi_hsd.py
+  related-issue:
+    internal: GEOIPS#861
+  date:
+    start: 2025-07-14
+    finish: 2025-07-14

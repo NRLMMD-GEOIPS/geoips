@@ -1,7 +1,7 @@
 .. dropdown:: Distribution Statement
 
- This source code is subject to the license referenced at
- https://github.com/NRLMMD-GEOIPS.
+ | # # # This source code is subject to the license referenced at
+ | # # # https://github.com/NRLMMD-GEOIPS.
 
 .. _command_line:
 
@@ -760,7 +760,7 @@ For example, running ``geoips tree`` returns:
 
 ``geoips tree`` provides arguments to filter its output.
 
-* ``--color``: highlights output by depth
+* ``--color``: highlights output by depth (Environment variable 'NO_COLOR' must be disabled)
 
 * ``--max-depth``: limits tree levels outputted. Defaults to two levels.
 

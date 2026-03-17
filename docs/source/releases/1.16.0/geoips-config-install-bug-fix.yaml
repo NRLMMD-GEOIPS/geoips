@@ -1,0 +1,19 @@
+bug fix:
+- title: 'GeoIPS Config Install Bug Fix.'
+  description: |
+    The command 'geoips config install' will cause a KeyError if the environment
+    variable $GEOIPS_TESTDATA_DIR is not set. This PR updates this logic and raises an
+    argparse error if this environment variable isn't set and the --outdir variable was
+    not provided.
+
+    Additionally, this PR added new logic to create the specified output directory if it
+    doesn't already exist.
+  files:
+    modified:
+      - geoips/commandline/geoips_config.py
+  related-issue:
+    number: 1093, 1094
+    repo_url: 'https://github.com/NRLMMD-GEOIPS/geoips/'
+  date:
+    start: null
+    finish: null

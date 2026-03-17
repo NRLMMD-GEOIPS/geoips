@@ -2,6 +2,7 @@
 # # # https://github.com/NRLMMD-GEOIPS.
 
 """Test retrieving GeoIPS and other plugin packages' plugins."""
+
 from importlib import reload
 import pytest
 
@@ -35,7 +36,9 @@ def yield_interface_plugin_tuples():
             # remove this.
             continue
         for interface_name in registry[plugin_type]:
-            if interface_name == "products":
+            if interface_name == "workflows":
+                pass
+            elif interface_name == "products":
                 # Products have another level which is 'source_name', so we need
                 # different functionality here to handle that
                 for source_name in registry[plugin_type][interface_name]:
@@ -61,8 +64,8 @@ def yield_interface_plugin_tuples():
     # PluginError
     yield ("algorithms", ("another_fake_algorithm_plugin",), "no_rebuild")
     registry = plugin_registry_module.plugin_registry.registered_plugins
-    single_channel_entry = registry["module_based"]["algorithms"].pop("single_channel")
-    registry["module_based"]["algorithms"][
+    single_channel_entry = registry["class_based"]["algorithms"].pop("single_channel")
+    registry["class_based"]["algorithms"][
         "out_of_sync_single_channel"
     ] = single_channel_entry
     # Test that an out of sync plugin causes 'create_plugin_registries' to be ran so it
@@ -70,7 +73,7 @@ def yield_interface_plugin_tuples():
     yield ("algorithms", ("single_channel",), "out_of_sync")
     reload(plugin_registry_module)
     registry = plugin_registry_module.plugin_registry.registered_plugins
-    registry["module_based"]["algorithms"]["single_channel"][
+    registry["class_based"]["algorithms"]["single_channel"][
         "relpath"
     ] = "some/fake/path"
     # Test that pointing a fake path to an existing plugin resets the registry and the
