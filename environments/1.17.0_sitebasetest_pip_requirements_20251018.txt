@@ -1,0 +1,236 @@
+# =============== 12 passed, 4544 deselected in 637.96s (0:10:37) ================
+# Complete
+# geoips_packages  all
+# args       -m base
+# return     0
+# total time 641
+# Sat Oct 18 21:40:21 UTC 2025
+# =========================== short test summary info ============================
+# FAILED tests/unit_tests/plugin_registries/test_plugin_registries.py::TestPluginRegistry::test_get_yaml_plugin
+# FAILED tests/unit_tests/plugins/yaml/test_all_yaml_plugins.py::test_is_plugin_valid[abi.yaml1]
+# FAILED tests/unit_tests/plugins/yaml/test_all_yaml_plugins.py::test_is_plugin_valid[windbarbs_dmw_high.yaml1]
+# FAILED tests/unit_tests/plugins/yaml/test_all_yaml_plugins.py::test_is_plugin_valid[windbarbs_dmw_low.yaml1]
+# FAILED tests/unit_tests/plugins/yaml/test_all_yaml_plugins.py::test_is_plugin_valid[windbarbs_dmw_mid.yaml1]
+# FAILED tests/unit_tests/plugins/yaml/test_all_yaml_plugins.py::test_is_plugin_valid[windbarbs_dmw_multi_level.yaml1]
+# FAILED tests/unit_tests/plugins/yaml/test_all_yaml_plugins.py::test_is_plugin_valid[IR-BD.yaml1]
+# FAILED tests/unit_tests/plugins/yaml/test_all_yaml_plugins.py::test_is_plugin_valid[Infrared-Gray.yaml1]
+# FAILED tests/unit_tests/plugins/yaml/test_all_yaml_plugins.py::test_is_plugin_valid[Infrared.yaml1]
+# FAILED tests/unit_tests/plugins/yaml/test_all_yaml_plugins.py::test_is_plugin_valid[Visible.yaml1]
+# FAILED tests/unit_tests/plugins/yaml/test_all_yaml_plugins.py::test_is_plugin_valid[WV-Lower.yaml1]
+# FAILED tests/unit_tests/plugins/yaml/test_all_yaml_plugins.py::test_is_plugin_valid[WV-Upper.yaml1]
+# FAILED tests/unit_tests/plugins/yaml/test_all_yaml_plugins.py::test_is_plugin_valid[WV.yaml1]
+# FAILED tests/unit_tests/plugins/yaml/test_all_yaml_plugins.py::test_is_plugin_valid[nasa_dust_rgb.yaml1]
+# FAILED tests/unit_tests/pydantic_models/v1/feature_annotators/test_feature_annotators.py::test_good_feature_annotator[good_feature_annotator]
+# FAILED tests/unit_tests/pydantic_models/v1/feature_annotators/test_feature_annotators.py::test_bad_feature_annotator_plugins[spec_missing_coastline]
+# FAILED tests/unit_tests/pydantic_models/v1/feature_annotators/test_feature_annotators.py::test_bad_feature_annotator_plugins[coastline_missing_field]
+# FAILED tests/unit_tests/pydantic_models/v1/feature_annotators/test_feature_annotators.py::test_bad_feature_annotator_plugins[coastline_enabled_missing_edgecolor_linewidth]
+# FAILED tests/unit_tests/pydantic_models/v1/feature_annotators/test_feature_annotators.py::test_bad_feature_annotator_plugins[color_invalid_type]
+# FAILED tests/unit_tests/pydantic_models/v1/test_pydantic_models.py::test_good_plugin[feature_annotators]
+# FAILED tests/unit_tests/pydantic_models/v1/test_pydantic_models.py::test_bad_plugins[feature_annotators_spec_missing_coastline]
+# FAILED tests/unit_tests/pydantic_models/v1/test_pydantic_models.py::test_bad_plugins[feature_annotators_coastline_missing_field]
+# FAILED tests/unit_tests/pydantic_models/v1/test_pydantic_models.py::test_bad_plugins[feature_annotators_coastline_enabled_missing_edgecolor_linewidth]
+# FAILED tests/unit_tests/pydantic_models/v1/test_pydantic_models.py::test_bad_plugins[feature_annotators_color_invalid_type]
+# FAILED tests/unit_tests/pydantic_models/v1/test_pydantic_models.py::test_neutral_plugins[feature_annotators_docstring_missing_period]
+# FAILED tests/unit_tests/pydantic_models/v1/test_pydantic_models.py::test_neutral_plugins[feature_annotators_docstring_invalid_first_character]
+# FAILED tests/unit_tests/pydantic_models/v1/workflows/test_workflow_step_definition_model.py::test_good_workflow_step_definition_model_valid_step
+# FAILED tests/unit_tests/pydantic_models/v1/workflows/test_workflow_step_definition_model.py::test_bad_workflow_step_definition_model_validator_invalid_plugin_name
+# FAILED tests/unit_tests/plugins/yaml/test_all_yaml_plugins.py::test_is_plugin_valid[read_test_v1.yaml0]
+# FAILED tests/unit_tests/plugins/yaml/test_all_yaml_plugins.py::test_is_plugin_valid[read_test_v2alpha1.yaml0]
+# FAILED tests/unit_tests/plugins/yaml/test_all_yaml_plugins.py::test_is_plugin_valid[abi.yaml4]
+# FAILED tests/unit_tests/plugins/yaml/test_all_yaml_plugins.py::test_is_plugin_valid[read_test_v1.yaml1]
+# FAILED tests/unit_tests/plugins/yaml/test_all_yaml_plugins.py::test_is_plugin_valid[read_test_v2alpha1.yaml1]
+# FAILED tests/unit_tests/plugins/yaml/test_all_yaml_plugins.py::test_is_plugin_valid[windbarbs_dmw_high.yaml3]
+# FAILED tests/unit_tests/plugins/yaml/test_all_yaml_plugins.py::test_is_plugin_valid[windbarbs_dmw_low.yaml3]
+# FAILED tests/unit_tests/plugins/yaml/test_all_yaml_plugins.py::test_is_plugin_valid[windbarbs_dmw_mid.yaml3]
+# FAILED tests/unit_tests/plugins/yaml/test_all_yaml_plugins.py::test_is_plugin_valid[windbarbs_dmw_multi_level.yaml3]
+# FAILED tests/unit_tests/plugins/yaml/test_all_yaml_plugins.py::test_is_plugin_valid[IR-BD.yaml3]
+# FAILED tests/unit_tests/plugins/yaml/test_all_yaml_plugins.py::test_is_plugin_valid[Infrared-Gray.yaml3]
+# FAILED tests/unit_tests/plugins/yaml/test_all_yaml_plugins.py::test_is_plugin_valid[Infrared.yaml3]
+# FAILED tests/unit_tests/plugins/yaml/test_all_yaml_plugins.py::test_is_plugin_valid[Visible.yaml3]
+# FAILED tests/unit_tests/plugins/yaml/test_all_yaml_plugins.py::test_is_plugin_valid[WV-Lower.yaml3]
+# FAILED tests/unit_tests/plugins/yaml/test_all_yaml_plugins.py::test_is_plugin_valid[WV-Upper.yaml3]
+# FAILED tests/unit_tests/plugins/yaml/test_all_yaml_plugins.py::test_is_plugin_valid[WV.yaml3]
+# FAILED tests/unit_tests/plugins/yaml/test_all_yaml_plugins.py::test_is_plugin_valid[nasa_dust_rgb.yaml3]
+# ===== 45 failed, 4226 passed, 38 xfailed, 40 warnings in 497.35s (0:08:17) =====
+# Complete
+# geoips_packages  short
+# args
+# return     1
+# total time 500
+# Fri Oct 17 16:56:49 UTC 2025
+accessible-pygments==0.0.5
+affine==2.4.0
+akima86==0.1.1
+alabaster==0.7.16
+alphashape==1.3.1
+annotated-types==0.7.0
+astroid==4.0.1
+astropy==7.1.1
+astropy-iers-data==0.2025.10.13.0.37.17
+asttokens==3.0.0
+attrs==25.4.0
+babel==2.17.0
+bandit==1.8.6
+beautifulsoup4==4.14.2
+black==25.9.0
+brassy==0.0.3
+Cartopy==0.25.0
+certifi==2025.10.5
+cffi==2.0.0
+cftime==1.6.5
+charset-normalizer==3.4.4
+click==8.3.0
+click-log==0.4.0
+click-plugins==1.1.1.2
+cligj==0.7.2
+cloudpickle==3.1.1
+colorama==0.4.6
+configobj==5.0.9
+contourpy==1.3.3
+coverage==7.11.0
+crc32c==2.7.1.post0
+cycler==0.12.1
+dask==2025.10.0
+dateparser==1.2.2
+decorator==5.2.1
+defusedxml==0.7.1
+dill==0.4.0
+doc8==2.0.0
+docutils==0.20.1
+donfig==0.8.1.post1
+ephem==4.2
+execnet==2.1.1
+executing==2.2.1
+flake8==7.3.0
+flake8-docstrings==1.7.0
+flake8-rst==0.8.0
+flake8-rst-docstrings==0.4.0
+fonttools==4.60.1
+fsspec==2025.9.0
+h5py==3.15.1
+hdf5plugin==6.0.0
+idna==3.11
+imageio==2.37.0
+imagesize==1.4.1
+importlib_metadata==8.7.0
+iniconfig==2.1.0
+ipython==9.6.0
+ipython_pygments_lexers==1.1.1
+isodate==0.7.2
+isort==7.0.0
+jedi==0.19.2
+Jinja2==3.1.6
+jsonschema==4.25.1
+jsonschema-specifications==2025.9.1
+kiwisolver==1.4.9
+lazy_loader==0.4
+locket==1.0.0
+m2r2==0.3.4
+markdown-it-py==4.0.0
+MarkupSafe==3.0.3
+matplotlib==3.10.7
+matplotlib-inline==0.1.7
+mccabe==0.7.0
+mdurl==0.1.2
+mistune==0.8.4
+morecantile==6.2.0
+mypy_extensions==1.1.0
+netCDF4==1.7.3
+networkx==3.5
+numcodecs==0.16.3
+numexpr==2.14.1
+numpy==2.2.6
+packaging==25.0
+pandas==2.3.3
+parso==0.8.5
+partd==1.4.2
+pathspec==0.12.1
+pexpect==4.9.0
+pillow==12.0.0
+pinkrst==0.0.1.post2
+pixelmatch==0.3.0
+platformdirs==4.5.0
+pluggy==1.6.0
+pooch==1.8.2
+prettier==0.0.7
+prompt_toolkit==3.0.52
+psutil==7.1.0
+ptyprocess==0.7.0
+pure_eval==0.2.3
+pyaml_env==1.2.2
+pycodestyle==2.14.0
+pycparser==2.23
+pydantic==2.12.2
+pydantic_core==2.41.4
+pydata-sphinx-theme==0.16.1
+pydocstyle==6.3.0
+pyerfa==2.0.1.5
+pyflakes==3.4.0
+pygit2==1.18.2
+Pygments==2.19.2
+pygrib==2.1.6
+pyhdf==0.11.6
+pykdtree==1.4.3
+pylint==4.0.1
+pyorbital==1.10.2
+pyparsing==3.2.5
+pyproj==3.7.2
+pyPublicDecompWT==2.8.1.6
+pyresample==1.34.2
+pyshp==3.0.2.post1
+pytest==8.4.2
+pytest-cov==7.0.0
+pytest-mock==3.15.1
+pytest-xdist==3.8.0
+python-dateutil==2.9.0.post0
+pytokens==0.2.0
+pytz==2025.2
+PyYAML==6.0.3
+rasterio==1.4.3
+referencing==0.37.0
+regex==2025.9.18
+requests==2.32.5
+restructuredtext_lint==1.4.0
+rich==14.2.0
+rich-argparse==1.7.1
+rio-cogeo==5.4.2
+rpds-py==0.27.1
+rtree==1.4.1
+satpy==0.58.0
+scikit-image==0.25.2
+scipy==1.16.2
+shapely==2.1.2
+six==1.17.0
+snowballstemmer==3.0.1
+soupsieve==2.8
+Sphinx==7.1.2
+sphinx-argparse==0.5.2
+sphinx_design==0.6.1
+sphinxcontrib-applehelp==2.0.0
+sphinxcontrib-autoprogram==0.1.9
+sphinxcontrib-devhelp==2.0.0
+sphinxcontrib-htmlhelp==2.1.0
+sphinxcontrib-jsmath==1.0.1
+sphinxcontrib-mermaid==1.0.0
+sphinxcontrib-qthelp==2.0.0
+sphinxcontrib-serializinghtml==2.0.0
+stack-data==0.6.3
+stevedore==5.5.0
+tabulate==0.9.0
+tifffile==2025.10.4
+tomlkit==0.13.3
+toolz==1.0.0
+tqdm==4.67.1
+traitlets==5.14.3
+trimesh==4.8.3
+trollimage==1.27.0
+trollsift==1.0.0
+typing-inspection==0.4.2
+typing_extensions==4.15.0
+tzdata==2025.2
+tzlocal==5.3.1
+urllib3==2.5.0
+wcwidth==0.2.14
+xarray==2025.10.1
+zarr==3.1.3
+zipp==3.23.0

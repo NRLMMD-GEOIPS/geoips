@@ -1,0 +1,36 @@
+area_def_invalid_type:
+  description: "Invalid type for 'area_def' (expects string, got int)"
+  key: area_def
+  val: 15
+  cls: TitleFormatterArgumentsModel
+  err_str: Input should be a valid string
+product_name_title_invalid_type:
+  description: "Invalid type for 'product_name_title' (expects string, got int)"
+  key: product_name_title
+  val: 15
+  cls: TitleFormatterArgumentsModel
+  err_str: Input should be a valid string
+product_datatype_title_invalid_type:
+  description: "Invalid type for 'product_datatype_title' (expects string, got int)"
+  key: product_datatype_title
+  val: 15
+  cls: TitleFormatterArgumentsModel
+  err_str: Input should be a valid string
+bg_product_name_title_invalid_type:
+  description: "Invalid type for 'bg_product_name_title' (expects string, got int)"
+  key: bg_product_name_title
+  val: 15
+  cls: TitleFormatterArgumentsModel
+  err_str: Input should be a valid string
+bg_datatype_title_invalid_type:
+  description: "Invalid type for 'bg_datatype_title' (expects string, got int)"
+  key: bg_datatype_title
+  val: 15
+  cls: TitleFormatterArgumentsModel
+  err_str: Input should be a valid string
+title_copyright_invalid_type:
+  description: "Invalid type for 'title_copyright' (expects string, got int)"
+  key: title_copyright
+  val: 15
+  cls: TitleFormatterArgumentsModel
+  err_str: Input should be a valid string

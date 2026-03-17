@@ -1,0 +1,17 @@
+installation:
+- title: Update to GEOIPS_TC_DECKS_DIR, GEOIPS_TC_DECKS_DB, and add GEOIPS_TC_DECKS_TYPE
+  description: |
+    * Standardize to GEOIPS prefix env vars for TC_DECKS_DIR and TC_DECKS_DB, update in
+      both base_paths.py and tc_decks_database.py.
+    * Add GEOIPS_TC_DECKS_TYPE, which we can use when querying the TC decks database.
+  files:
+    modified:
+    - "geoips/filenames/base_paths.py"
+    - "geoips/sector_utils/tc_tracks_database.py"
+  date:
+    start: 2025-11-10
+    finish: 2025-11-10
+  related-issue:
+    internal: geoips#959 - 1.17.2 updates
+
+

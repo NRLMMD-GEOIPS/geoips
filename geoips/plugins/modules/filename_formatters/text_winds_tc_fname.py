@@ -29,7 +29,7 @@ def call(xarray_obj, extension=".txt", basedir=gpaths["TCWWW"], output_dict=None
     area_def = xarray_obj.area_definition
     return assemble_windspeeds_text_tc_fname(
         basedir=basedir,
-        tc_area_id=area_def.area_id,
+        tc_storm_id=area_def.sector_info["storm_id"],
         tc_year=int(area_def.sector_info["storm_year"]),
         tc_basin=area_def.sector_info["storm_basin"],
         tc_stormnum=int(area_def.sector_info["storm_num"]),
@@ -45,7 +45,7 @@ def call(xarray_obj, extension=".txt", basedir=gpaths["TCWWW"], output_dict=None
 
 def assemble_windspeeds_text_tc_fname(
     basedir,
-    tc_area_id,
+    tc_storm_id,
     tc_year,
     tc_basin,
     tc_stormnum,
@@ -124,7 +124,7 @@ def assemble_windspeeds_text_tc_fname(
             "surface_winds",
             data_provider,
             platform_name,
-            tc_area_id,
+            tc_storm_id,
             product_datetime.strftime("%Y%m%d%H%M"),
         ]
     )

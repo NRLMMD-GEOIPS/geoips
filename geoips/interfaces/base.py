@@ -3,6 +3,8 @@
 
 """Base classes for interfaces, plugins, and plugin validation machinery."""
 
+# cspell:ignore refjs
+
 import abc
 import yaml
 import inspect
@@ -190,8 +192,12 @@ class YamlPluginValidator:
             validator_id = f"{plugin['interface']}.{plugin['family']}"
 
         try:
+            if validator_id == "workflows.order_based":
+                return plugin
             validator = self.validators[validator_id]
         except KeyError as err:
+            if validator_id == "workflows.order_based":
+                return plugin
             raise ValidationError(
                 f"No validator found for '{validator_id}'"
                 f"\nfrom plugin '{plugin['name']}'"
@@ -298,12 +304,6 @@ class BaseYamlPlugin(dict):
 #         return self.name
 
 
-class BaseModulePlugin:
-    """Base class for GeoIPS plugins."""
-
-    pass
-
-
 class BaseInterface(abc.ABC):
     """Base class for GeoIPS interfaces.
 
@@ -322,7 +322,7 @@ class BaseInterface(abc.ABC):
     interface_type = None  # This is set by child classes
     rebuild_registries = PATHS["GEOIPS_REBUILD_REGISTRIES"]
     # Setting this attribute at the top level so it can be used by all methods.
-    # This can be overriden by setting them in child interface classes
+    # This can be overridden by setting them in child interface classes
     apiVersion = "geoips/v1"
 
     def __new__(cls):
@@ -429,6 +429,7 @@ class BaseYamlInterface(BaseInterface):
     validator = YamlPluginValidator()
     interface_type = "yaml_based"
     name = "BaseYamlInterface"
+    use_pydantic = False
 
     def __new__(cls):
         """YAML plugin interface new method."""
@@ -574,10 +575,26 @@ class BaseYamlInterface(BaseInterface):
         family_list = []
         plugin_ids = {}
         for plugin in plugins:
-            if plugin.family not in family_list:
-                family_list.append(plugin.family)
-                plugin_ids[plugin.family] = []
-            plugin_ids[plugin.family].append(plugin.id)
+            # TODO: Refactor to remove this `if` block after full migration from JSON
+            # to Pydantic schemas.
+            if hasattr(plugin, "model_dump"):
+                pdata = plugin.model_dump()
+            else:
+                pdata = plugin if isinstance(plugin, dict) else plugin.__dict__
+
+            plugin_family = pdata.get("family")
+            plugin_name = pdata.get("name")
+
+            if not plugin_family or not plugin_name:
+                raise ValueError(
+                    f"Missing required plugin fields. "
+                    f" Expected 'family' and 'name' got: family={plugin_family}, "
+                    f"name={plugin_name}. Full plugin data: {pdata}"
+                )
+            if plugin_family not in family_list:
+                family_list.append(plugin_family)
+                plugin_ids[plugin_family] = []
+            plugin_ids[plugin_family].append(plugin_name)
 
         output = {
             "all_valid": all_valid,
@@ -596,7 +613,7 @@ class BaseYamlInterface(BaseInterface):
         return output
 
 
-class BaseModuleInterface(BaseInterface):
+class BaseClassInterface(BaseInterface):
     """Base Class for GeoIPS Interfaces.
 
     This class should not be instantiated directly. Instead, interfaces should be
@@ -608,8 +625,8 @@ class BaseModuleInterface(BaseInterface):
     the GeoIPS algorithm plugins.
     """
 
-    interface_type = "module_based"
-    name = "BaseModuleInterface"
+    interface_type = "class_based"
+    name = "BaseClassInterface"
     required_args = {}
 
     def __repr__(self):
@@ -645,8 +662,8 @@ class BaseModuleInterface(BaseInterface):
         from ``BasePlugin``.
 
         This function is used instead of predefined classes to allow setting ``__doc__``
-        and ``__call__`` on a plugin-by-plugin basis. This allows collecting ``__doc__``
-        and ``__call__`` from the plugin modules and using them in the objects.
+        and ``call`` on a plugin-by-plugin basis. This allows collecting ``__doc__``
+        and ``call`` from the plugin modules and using them in the objects.
 
         For a module to be converted into an object it must meet the following
         requirements:
@@ -674,7 +691,6 @@ class BaseModuleInterface(BaseInterface):
         name of the interface that the desired plugin belongs to.
         """
         obj_attrs["id"] = name
-        obj_attrs["module"] = module
 
         missing = []
         for attr in ["interface", "family", "name"]:
@@ -698,9 +714,9 @@ class BaseModuleInterface(BaseInterface):
             )
         obj_attrs["docstring"] = module.__doc__
 
-        # Collect the callable and assign to __call__
+        # Collect the callable and assign to call
         try:
-            obj_attrs["__call__"] = staticmethod(getattr(module, "call"))
+            obj_attrs["call"] = staticmethod(getattr(module, "call"))
         except AttributeError as err:
             raise PluginError(
                 f"Plugin modules must contain a callable name 'call'. This is missing "
@@ -710,12 +726,20 @@ class BaseModuleInterface(BaseInterface):
         plugin_interface_name = obj_attrs["interface"].title().replace("_", "")
         plugin_type = f"{plugin_interface_name}Plugin"
 
-        plugin_base_class = BaseModulePlugin
-        if hasattr(cls, "plugin_class") and cls.plugin_class:
-            plugin_base_class = cls.plugin_class
+        # Always require 'plugin_class' from each class-based interface
+        # This is enforced in the 'test_interfaces' unit test.
+        if not hasattr(cls, "plugin_class") or cls.plugin_class is None:
+            raise PluginError(
+                f"Error: interface '{obj_attrs['interface']}' is missing required "
+                "attribute 'plugin_class'. Please create a base class plugin for this "
+                "interface and assign that object to the 'plugin_class' attribute of "
+                "this interface before continuing."
+            )
+
+        plugin_base_class = cls.plugin_class
 
         # Create an object of type ``plugin_type`` with attributes from ``obj_attrs``
-        return type(plugin_type, (plugin_base_class,), obj_attrs)()
+        return type(plugin_type, (plugin_base_class,), obj_attrs)(module)
 
     def get_plugin(self, name, rebuild_registries=None):
         """Retrieve a plugin from this interface by name.
@@ -743,11 +767,11 @@ class BaseModuleInterface(BaseInterface):
         PluginError
           If the specified plugin isn't found within the interface.
         """
-        return self.plugin_registry.get_module_plugin(self, name, rebuild_registries)
+        return self.plugin_registry.get_class_plugin(self, name, rebuild_registries)
 
     def get_plugins(self):
         """Retrieve all module plugins for this interface."""
-        return self.plugin_registry.get_module_plugins(self)
+        return self.plugin_registry.get_class_plugins(self)
 
     def plugin_is_valid(self, plugin):
         """Check that an interface is valid.
@@ -777,21 +801,21 @@ class BaseModuleInterface(BaseInterface):
                 f"'{plugin.family}' must be added to required args list"
                 f"\nfor '{self.name}' interface,"
                 f"\nfound in '{plugin.name}' plugin,"
-                f"\nin '{plugin.module.__name__}' module"
-                f"\nat '{plugin.module.__file__}'\n"
+                f"\nin '{plugin.module_name}' module"
+                f"\nat '{plugin.module_path}'\n"
             )
         if plugin.family not in self.required_kwargs:
             raise PluginError(
                 f"'{plugin.family}' must be added to required kwargs list"
                 f"\nfor '{self.name}' interface,"
                 f"\nfound in '{plugin.name}' plugin,"
-                f"\nin '{plugin.module.__name__}' module"
-                f"\nat '{plugin.module.__file__}'\n"
+                f"\nin '{plugin.module_name}' module"
+                f"\nat '{plugin.module_path}'\n"
             )
         expected_args = self.required_args[plugin.family]
         expected_kwargs = self.required_kwargs[plugin.family]
 
-        sig = inspect.signature(plugin.__call__)
+        sig = inspect.signature(plugin.call)
         arg_list = []
         kwarg_list = []
         kwarg_defaults_list = []
@@ -813,8 +837,8 @@ class BaseModuleInterface(BaseInterface):
                     f"MISSING expected arg '{expected_arg}' in '{plugin.name}'"
                     f"\nfor '{self.name}' interface,"
                     f"\nfound in '{plugin.name}' plugin,"
-                    f"\nin '{plugin.module.__name__}' module"
-                    f"\nat '{plugin.module.__file__}'\n"
+                    f"\nin '{plugin.module_name}' module"
+                    f"\nat '{plugin.module_path}'\n"
                 )
         for expected_kwarg in expected_kwargs:
             # If expected_kwarg is a tuple, first item is kwarg, second default value
@@ -824,16 +848,16 @@ class BaseModuleInterface(BaseInterface):
                         f"MISSING expected kwarg '{expected_kwarg}' in '{plugin.name}'"
                         f"\nfor '{self.name}' interface,"
                         f"\nfound in '{plugin.name}' plugin,"
-                        f"\nin '{plugin.module.__name__}' module"
-                        f"\nat '{plugin.module.__file__}'\n"
+                        f"\nin '{plugin.module_name}' module"
+                        f"\nat '{plugin.module_path}'\n"
                     )
             elif expected_kwarg not in kwarg_list:
                 raise PluginError(
                     f"MISSING expected kwarg '{expected_kwarg}' in '{plugin.name}'"
                     f"\nfor '{self.name}' interface,"
                     f"\nfound in '{plugin.name}' plugin,"
-                    f"\nin '{plugin.module.__name__}' module"
-                    f"\nat '{plugin.module.__file__}'\n"
+                    f"\nin '{plugin.module_name}' module"
+                    f"\nat '{plugin.module_path}'\n"
                 )
 
         return True

@@ -11,47 +11,98 @@ export GEOIPS_VERSION=`cat $GEOIPS_CONFIG_PATH/../.github/versions/tagged_versio
 # Backwards compatibility.
 export GEOIPS_VERS=$GEOIPS_VERSION
 
-export GEOIPS_BASEDIR=`dirname $GEOIPS_CONFIG_PATH`
-export GEOIPS_BASEDIR=`dirname $GEOIPS_BASEDIR`
-export GEOIPS_BASEDIR=`dirname $GEOIPS_BASEDIR`
+# Allow upstream overrides for
+# * GEOIPS_BASEDIR
+# * GEOIPS_OUTDIRS
+# * GEOIPS_PERSISTENT_DATA_DIRS
+# * GEOIPS_TESTDATA_DIR
+# * GEOIPS_ANCILDAT
+# * GEOIPS_SYSTEM_CACHE_DIR
+# * GEOIPS_CONDA_ENV_NAME
+# * GEOIPS_CONDA_DIR
+# * GEOIPS_REPO_URL
+# * GEOIPS_LOGGING_LEVEL
+# to ensure relative paths are set correctly within this config.
+# These MUST be unset or exported prior to sourcing this config, or the environment
+# will not be fully defined appropriately.
+
+
+if [[ -z "$GEOIPS_CONDA_ENV_NAME" ]]; then
+    export GEOIPS_CONDA_ENV_NAME=geoips_conda
+fi
+
+if [[ -z "$GEOIPS_BASEDIR" ]]; then
+    GEOIPS_BASEDIR=$(realpath $GEOIPS_CONFIG_PATH/../../../)
+fi
 
 if [[ -z "$GEOIPS_REPO_URL" ]]; then
     export GEOIPS_REPO_URL=https://github.com/NRLMMD-GeoIPS
 fi
 
 # This is the only *required* environment variable - all output goes here.
-export GEOIPS_OUTDIRS=$GEOIPS_BASEDIR/geoips_outdirs
+if [[ -z "$GEOIPS_OUTDIRS" ]]; then
+    export GEOIPS_OUTDIRS=$GEOIPS_BASEDIR/geoips_outdirs_test
+fi
+
+if [[ -z "$GEOIPS_PERSISTENT_DATA_DIRS" ]]; then
+    export GEOIPS_PERSISTENT_DATA_DIRS=`realpath $GEOIPS_BASEDIR/../persistent_data_dirs`
+fi
+
+# This is only used for finding test data within the test scripts - not used within python at all
+if [[ -z "$GEOIPS_TESTDATA_DIR" ]]; then
+    export GEOIPS_TESTDATA_DIR=$GEOIPS_PERSISTENT_DATA_DIRS/test_data
+fi
+
+# Only re-set GEOIPS_LOGGING_LEVEL to info if it is not set already.
+if [[ -z "$GEOIPS_LOGGING_LEVEL" ]]; then
+    export GEOIPS_LOGGING_LEVEL="info"
+fi
+
+# This directory should ONLY contain geoips packages - it is used in geoips/filenames/base_paths.py
+# to set up the list of available geoips packages / repos.
+export GEOIPS_PACKAGES_DIR=$GEOIPS_BASEDIR/geoips_packages
 
 # This directory contains external packages, system installs, etc
 # Not required for GeoIPS runtime
 export GEOIPS_DEPENDENCIES_DIR=$GEOIPS_BASEDIR/geoips_dependencies
 
+# Keep ancillary datasets consolidated within the ancildat subdirectory for easier
+# sharing across installations.
+if [[ -z "$GEOIPS_ANCILDAT" ]]; then
+    export GEOIPS_ANCILDAT=$GEOIPS_PERSISTENT_DATA_DIRS/ancildat
+fi
+
+# Keep cache files consolidated within the "cache" subdirectory for easier
+# sharing across installations. GEOIPS_SYSTEM_CACHE_DIR includes ALL cache files,
+# both internal geoips cache files as well as cache files from other packages
+# as appopriate (e.g., satpy, etc).
+if [[ -z "$GEOIPS_SYSTEM_CACHE_DIR" ]]; then
+    export GEOIPS_SYSTEM_CACHE_DIR=$GEOIPS_PERSISTENT_DATA_DIRS/cache
+fi
+
+if [[ -z "$GEOIPS_CONDA_INSTALL_DIR" ]]; then
+    export GEOIPS_CONDA_INSTALL_DIR=$GEOIPS_DEPENDENCIES_DIR/miniconda3
+fi
+
 # This uses GEOIPS_DEPENDENCIES_DIR variables, inits and activates conda
 . $GEOIPS_CONFIG_PATH/geoips_conda_init_setup
 
-# This directory should ONLY contain geoips packages - it is used in geoips/filenames/base_paths.py
-# to set up the list of available geoips packages / repos.
-# Temporarily include GEOIPS_MODULES_DIR so old documentation works.
-export GEOIPS_MODULES_DIR=$GEOIPS_BASEDIR/geoips_packages
-export GEOIPS_PACKAGES_DIR=$GEOIPS_BASEDIR/geoips_packages
-# This is only used for finding test data within the test scripts - not used within python at all
-export GEOIPS_TESTDATA_DIR=$GEOIPS_BASEDIR/test_data
-
+######################################################################
+### Data caching and ancillary dataset directories
+export CARTOPY_DATA_DIR=$GEOIPS_ANCILDAT/cartopy_data_dir
 # External package environment variables - without these environment variables set,
 # these packages will write to $HOME/.cache or $HOME/.local.
-#
-# GeoIPS generated cache files
-export GEOIPS_CACHE_DIR=$GEOIPS_OUTDIRS/cache
-# Cartopy shape files
-export CARTOPY_DATA_DIR=$GEOIPS_DEPENDENCIES_DIR/CARTOPY_DATA_DIR
-export GEOIPS_CACHE_DIR=$GEOIPS_OUTDIRS/cache/geoips
-export GEOIPS_DATA_CACHE_DIR=$GEOIPS_OUTDIRS/cache/geoips
-export SATPY_DATA_CACHE_DIR=$GEOIPS_OUTDIRS/cache/satpy
+export GEOIPS_GEOLOCATION_CACHE_BACKEND=zarr
+export GEOIPS_CACHE_DIR=$GEOIPS_SYSTEM_CACHE_DIR/geoips
+export GEOIPS_DATA_CACHE_DIR=$GEOIPS_SYSTEM_CACHE_DIR/geoips
+export GEOIPS_ANCILDAT_AUTOGEN=$GEOIPS_DATA_CACHE_DIR/ancildat_autogen
+export SATPY_DATA_CACHE_DIR=$GEOIPS_SYSTEM_CACHE_DIR/satpy
 export SATPY_CACHE_DIR=$SATPY_DATA_CACHE_DIR/longterm/geolocation
 export SATPY_TMP_DIR=$SATPY_DATA_CACHE_DIR/shortterm/tmp
 # Tell satpy to write cached files out to SATPY_CACHE_DIR
 export SATPY_CACHE_LONLATS=True
 export SATPY_CACHE_SENSOR_ANGLES=True
+######################################################################
 
 # export PYTHONPATH=$GEOIPS_BASEDIR/geoips_packages
 export PATH=$GEOIPS_DEPENDENCIES_DIR/bin:$PATH
@@ -75,7 +126,7 @@ source $GEOIPS_SETUP/bash_setup/gitall
 # a "NetCDF: Filter error: undefined filter encountered" error unless HDF5_PLUGIN_PATH
 # is a valid environment variable. We are using the pypi hdf5plugin package, and
 # set HDF5_PLUGIN_PATH to site-packages/hdf5plugin/plugins.
-export HDF5_PLUGIN_PATH=$(realpath $GEOIPS_DEPENDENCIES_DIR/miniconda3/envs/geoips_conda/lib/python3.1?/site-packages/hdf5plugin/plugins)
+export HDF5_PLUGIN_PATH=$(realpath $GEOIPS_CONDA_INSTALL_DIR/envs/${GEOIPS_CONDA_ENV_NAME}/lib/python3.1?/site-packages/hdf5plugin/plugins 2>/dev/null)
 
 # Add this temporary helper function that creates a brassy template changelog
 # file, and copies it to the proper location. This will be replaced/removed
@@ -83,14 +134,22 @@ export HDF5_PLUGIN_PATH=$(realpath $GEOIPS_DEPENDENCIES_DIR/miniconda3/envs/geoi
 create_brassy_changelog(){
     git_branch_name=$(git branch | grep \* | cut -d ' ' -f 2)
     in_git_clone=$?
+    real_pwd=$(realpath $PWD)
+    real_pkgs_dir=$(realpath $GEOIPS_PACKAGES_DIR)
+    real_test_data_dir=$(realpath $GEOIPS_TESTDATA_DIR)
     if [[ $in_git_clone -gt 0 ]]; then
         echo "Not in a git repo"
     elif [[ -z "$GEOIPS_PACKAGES_DIR" ]]; then
         echo "Need source geoips config file"
-    elif [[ "$PWD" == *"$GEOIPS_PACKAGES_DIR"* ]]; then
-        pkg_name=$(cut -d '/' -f1 <<< ${PWD/$GEOIPS_PACKAGES_DIR\//})
+    elif [[ "$real_pwd" == *"$real_pkgs_dir"* || "$real_pwd" == *"$real_test_data_dir"* ]]; then
         repo_url=$(git remote get-url origin)
-        docs_dir=$GEOIPS_PACKAGES_DIR/$pkg_name/docs/source/releases/latest
+        if [[ "$real_pwd" == *"$real_pkgs_dir"* ]]; then
+            pkg_name=$(cut -d '/' -f1 <<< ${real_pwd/$real_pkgs_dir\//})
+            docs_dir=$GEOIPS_PACKAGES_DIR/$pkg_name/docs/source/releases/latest
+        else
+            pkg_name=$(cut -d '/' -f1 <<< ${real_pwd/$real_test_data_dir\//})
+            docs_dir=$GEOIPS_TESTDATA_DIR/$pkg_name/docs/source/releases/latest
+        fi
         brassy_yaml=${git_branch_name}.yaml
         if [[ ! -f $docs_dir/$brassy_yaml ]]; then
             mkdir -p $docs_dir
@@ -102,6 +161,7 @@ create_brassy_changelog(){
                 cdate=$(date +"%Y-%m-%d")
                 sed -i "s|repo_url: ''|repo_url: '$repo_url'|g" $docs_dir/$brassy_yaml
                 sed -i "s|start: null|start: $cdate|g" $docs_dir/$brassy_yaml
+                sed -i "s|finish: null|finish: $cdate|g" $docs_dir/$brassy_yaml
             fi
         else
             echo "Changelog already exists: $docs_dir/$brassy_yaml"
@@ -110,6 +170,9 @@ create_brassy_changelog(){
         echo "Not in a geoips git repo!"
     fi
 }
+# Convenience
+source $GEOIPS_CONFIG_PATH/bash_setup/color_prompt
+
 # Don't accidentally run pytest directly and lose all the log output...
 alias pytest="""
 echo '\\pytest to run pytest directly.'
@@ -118,3 +181,13 @@ echo '$GEOIPS/tests/utils/interactive_pytest.sh ?'
 echo 'Can also do'
 echo '\\pytest | tee -ai $GEOIPS_OUTDIRS/logs/pytests_manual/`date -u +%Y%m%d.%H%M%S`.pytest.log'
 """
+alias interactive_pytest=$GEOIPS/tests/utils/interactive_pytest.sh
+
+echo "GEOIPS_BASEDIR:               $GEOIPS_BASEDIR"
+echo "GEOIPS_PACKAGES_DIR:          $GEOIPS_PACKAGES_DIR"
+echo "GEOIPS_OUTDIRS                $GEOIPS_OUTDIRS"
+echo "GEOIPS_PERSISTENT_DATA_DIRS   $GEOIPS_PERSISTENT_DATA_DIRS"
+echo "GEOIPS_TESTDATA_DIR           $GEOIPS_TESTDATA_DIR"
+echo "GEOIPS_ANCILDAT               $GEOIPS_ANCILDAT"
+echo "GEOIPS_SYSTEM_CACHE_DIR       $GEOIPS_SYSTEM_CACHE_DIR"
+echo "GEOIPS_REPO_URL               $GEOIPS_REPO_URL"

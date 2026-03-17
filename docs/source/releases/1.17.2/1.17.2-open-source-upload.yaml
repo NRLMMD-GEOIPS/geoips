@@ -1,0 +1,7 @@
+Release Updates - Open Source Upload:
+- title: Open source upload
+  description: "This repo updated with current geoips version release"
+  files:
+    modified:
+    - standard sync files
+    - release notes

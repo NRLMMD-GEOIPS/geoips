@@ -30,10 +30,25 @@ if [[ -z "$GEOIPS_OUTDIRS" || \
     exit 1
 fi
 
-install_log=$GEOIPS_OUTDIRS/logs/install/`date -u +%Y%m%d.%H%M%S`_install.log
+install_log=$GEOIPS_OUTDIRS/logs/install/`date -u +%Y%m%d.%H%M`_install.log
 mkdir -p `dirname $install_log`
-echo ""
-echo "Install log: $install_log"
+# These do not use install log, don't print it out.
+if [[ "$1" != "check_environment_variable" && \
+      "$1" != "geoips_base" && \
+      "$1" != "geoips_full" && \
+      "$1" != "geoips_site" && \
+      "$1" != "create_enviroment_files" && \
+      "$1" != "dump_pip_environment" && \
+      "$1" != "dump_mamba_environment" && \
+      "$1" != "clone_repo" && \
+      "$1" != "mamba_install" && \
+      "$1" != "set_gitconfig" ]]; then
+    # Only print install_log if it is new.
+    if [[ ! -e "$install_log" ]]; then
+        echo ""
+        echo "Install log: $install_log"
+    fi
+fi
 
 # Requirements to run base geoips tests
 if [[ "$1" == "geoips_base" ]]; then
@@ -52,7 +67,6 @@ if [[ "$1" == "geoips_site" ]]; then
     . $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh gcc
     . $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh gfortran
     . $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh g++
-    . $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh openblas
 fi
 
 if [[ "$1" == "set_gitconfig" ]]; then
@@ -60,13 +74,44 @@ if [[ "$1" == "set_gitconfig" ]]; then
 fi
 
 if [[ "$1" == "run_command" ]]; then
-    echo "Running $2 ... "
-    `$2 >> $install_log 2>&1`
-    if [[ "$?" != "0" ]]; then
+    if [[ "$3" == "tee" ]]; then
+        echo "RUNNING '$2' with tee" | tee -ai $install_log
+        $2 2>&1 | tee -ai $install_log
+        retval=${PIPESTATUS[0]}
+    elif [[ "$3" == "no_logfile_redirect" ]]; then
+        echo "RUNNING: '$2' with no logfile redirect"
+        $2
+        retval=$?
+    else
+        echo "TIME:    `date -u`"
+        echo "LOGFILE: $install_log"
+        echo "RUNNING: '$2' with logfile"
+        $2 >> $install_log 2>&1
+        retval=$?
+    fi
+    if [[ "$retval" != "0" ]]; then
         echo "'$2' failed. Quitting"
         exit 1
     else
         echo "SUCCESS: '$2' appears to have run successfully"
+    fi
+fi
+
+if [[ "$1" == "create_environment_files" ]]; then
+    env_tag="$2"
+    copy_to_final="$3"
+
+    GEOIPS_VERSION=`cat $GEOIPS/.github/versions/tagged_version`
+    mkdir -p $GEOIPS_PACKAGES_DIR/geoips/environments
+    pip_file=$GEOIPS_PACKAGES_DIR/geoips/environments/${GEOIPS_VERSION}_${env_tag}_pip_requirements_`date -u +%Y%m%d`.txt
+    mamba_file=$GEOIPS_PACKAGES_DIR/geoips/environments/${GEOIPS_VERSION}_${env_tag}_mamba_package_list_`date -u +%Y%m%d`.yml
+
+    $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh dump_pip_environment $pip_file
+    $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh dump_mamba_environment $mamba_file
+
+    if [[ "$copy_to_final" == "copy_to_final" ]]; then
+      cp -pv $pip_file $GEOIPS_PACKAGES_DIR/geoips/environments/requirements.txt
+      cp -pv $mamba_file $GEOIPS_PACKAGES_DIR/geoips/environments/environment.yml
     fi
 fi
 
@@ -118,7 +163,9 @@ if [[ "$1" == "check_environment_variable" ]]; then
         echo "WARNING: '\$$2' does not exist, must be defined before proceeding"
         exit 1
     else
-        echo "SUCCESS: '\$$2' appears to exist, ${!2}"
+        varname="\$$2"
+        pad_string=`printf '%-40s' "$varname"`
+        echo "SUCCESS: $pad_string exists, ${!2}"
     fi
 fi
 
@@ -243,19 +290,6 @@ if [[ "$1" == "g++" ]]; then
     else
         echo "SUCCESS: 'g++' appears to be installed successfully"
         echo "    "`which g++`
-    fi
-fi
-
-# Needed for building akima. If we can build a distributable wheel for akima, then maybe
-# we won't need this.
-if [[ "$1" == "scipy" || "$1" == "openblas" ]]; then
-    python -c "import scipy" >> $install_log 2>&1
-    retval=$?
-    if [[ "$retval" != "0" ]]; then
-        echo "WARNING: 'python -c 'import scipy'' failed, please install openblas/scipy before proceeding"
-        exit 1
-    else
-        echo "SUCCESS: 'scipy/openblas' appear to be installed successfully"
     fi
 fi
 

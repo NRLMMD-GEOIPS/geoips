@@ -10,7 +10,8 @@ import os
 
 # GeoIPS imports
 from geoips import interfaces
-from geoips.pydantic.workflows import WorkflowPluginModel
+from geoips.commandline.log_setup import setup_logging
+from geoips.utils.types.partial_lexeme import Lexeme
 
 LOG = logging.getLogger(__name__)
 
@@ -163,48 +164,53 @@ def call(workflow, fnames, command_line_args=None):
     command_line_args : list of str, None
         Command line arguments to pass to the workflow.
     """
-    LOG.interactive(f"Begin processing '{workflow}' workflow.")
-    wf_plugin = interfaces.workflows.get_plugin(workflow)
-    wf = WorkflowPluginModel(**wf_plugin)
+    LOG.interactive(f"Begin processing '{workflow['name']}' workflow.")
+    wf_plugin = workflow
 
     validate_workflow_file_inputs(wf, fnames)
 
     handled_interfaces = ["readers"]
     for step_id, step_def in wf.spec.steps.items():
         interface = step_def.kind + "s"
+    handled_interfaces = ["readers", "coverage_checkers"]
+    for step_id, step_def in wf_plugin["spec"]["steps"].items():
+        interface = str(Lexeme(step_def["kind"]).plural)
 
         if interface not in handled_interfaces:
             LOG.interactive(
                 "⚠️ Skipping unhandled interface '%s'. Would have called the '%s'"
                 "plugin.",
                 interface,
-                step_def.name,
+                step_def["name"],
             )
             continue
         else:
-            plg = getattr(interfaces, interface, None).get_plugin(step_def.name)
+            plg = getattr(interfaces, interface, None).get_plugin(step_def["name"])
+
             LOG.interactive(
                 "Beginning Step: '%s', plugin_kind: '%s', plugin_name:'%s'.",
                 step_id,
-                step_def.kind,
-                step_def.name,
+                step_def["kind"],
+                step_def["name"],
             )
-            LOG.info("Arguments: '%s'", step_def.arguments)
+            LOG.info("Arguments: '%s'", step_def["arguments"])
 
             if interface == "readers":
                 # TEMPORARY FIX: Remove when all readers are updated to accept
                 # "variables"
-                if "variables" in step_def.arguments:
-                    step_def.arguments["chans"] = step_def.arguments.pop("variables")
-                data = plg(fnames, **step_def.arguments)
+                if "variables" in step_def["arguments"]:
+                    step_def["arguments"]["chans"] = step_def["arguments"].pop(
+                        "variables"
+                    )
+                data = plg(fnames, **step_def["arguments"])
                 print(data)
             else:
-                data = plg(data, **step_def.arguments)
+                data = plg(data, **step_def["arguments"])
             LOG.interactive(
                 "Completed Step: step_id: '%s', plugin_kind: '%s', plugin_name: '%s'.",
                 step_id,
-                step_def.name,
-                step_def.kind,
+                step_def["name"],
+                step_def["kind"],
             )
 
     LOG.interactive(f"\nThe workflow '{workflow}' has finished processing.\n")
@@ -215,5 +221,12 @@ if __name__ == "__main__":
     parser = ArgumentParser(description="order-based procflow processing")
     parser.add_argument("workflow", help="The workflow name to process.")
     parser.add_argument("fnames", nargs="+", help="The filenames to process.")
+    parser.add_argument(
+        "-l",
+        "--loglevel",
+        choices=["debug", "info", "interactive", "warning", "error"],
+        default="interactive",
+    )
     args = parser.parse_args()
-    call(args.workflow, args.fnames)
+    LOG = setup_logging(logging_level=args.loglevel)
+    call(interface.workflows.get_plugin(args.workflow), args.fnames)

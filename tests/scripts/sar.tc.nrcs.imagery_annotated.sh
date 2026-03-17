@@ -15,12 +15,12 @@ geoips run single_source $GEOIPS_TESTDATA_DIR/test_data_sar/data/STAR_SAR_201810
           --feature_annotator default \
           --gridline_annotator default \
           --metadata_filename_formatter metadata_default_fname \
-          --metadata_output_formatter metadata_default \
+          --metadata_output_formatter metadata_tc \
           --trackfile_parser bdeck_parser \
           --trackfiles $GEOIPS_PACKAGES_DIR/geoips/tests/sectors/tc_bdecks/bwp312018.dat \
           --compare_path "$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/sar.tc.nrcs.imagery_annotated" \
           --product_spec_override '{}' \
-          --output_formatter_kwargs '{}' \
+          --output_formatter_kwargs '{"title_formatter": "tc_copyright"}' \
           --filename_formatter_kwargs '{}' \
           --metadata_output_formatter_kwargs '{}' \
           --metadata_filename_formatter_kwargs '{}'
