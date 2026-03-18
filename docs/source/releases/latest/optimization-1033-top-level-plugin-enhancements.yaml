@@ -1,0 +1,18 @@
+performance:
+- title: 'Validate that the version separator for GeoIPS package is "/"'
+  description: |
+    Add a field validator for the apiVersion field on PluginModel that
+    ensures GeoIPS-prefixed API versions contain a "/" separator between
+    the package name and version (e.g. "geoips/v1"). Non-GeoIPS packages
+    bypass this check. Includes unit tests for valid and invalid
+    apiVersion values.
+  files:
+    modified:
+      - geoips/pydantic_models/v2alpha1/bases.py
+      - tests/unit_tests/pydantic_models/v2alpha1/test_bases.py
+  related-issue:
+    number: 1033
+    repo_url: 'https://github.com/NRLMMD-GEOIPS/geoips/'
+  date:
+    start: 06/11/2025
+    finish: 03/18/2026
