@@ -20,19 +20,18 @@ family = "standard"
 name = "order_based"
 
 
-def validate_workflow_file_inputs(wf, fnames):
+def validate_workflow_file_inputs(workflow_plugin, fnames):
     """Validate that all required file inputs exist before processing begins.
 
-    Iterates over the workflow steps and checks that file paths required by
-    `reader`, `output_checker`, and `sector` steps are accessible on the
-    filesystem. If any paths are missing, the workflow is terminated with an
-    actionable error message listing every missing file and the step that
-    requires it.
+    Checks that file paths required by workflow steps are accessible on the
+    filesystem.  Inspects command-line *fnames*, per-step `fnames` lists,
+    and `compare_path` values.  If any paths are missing the workflow is
+    terminated with an actionable error message.
 
     Parameters
     ----------
-    wf : WorkflowPluginModel
-        The fully constructed workflow plugin model whose steps will be
+    workflow_plugin : dict
+        The raw workflow plugin dictionary whose `spec.steps` will be
         inspected.
     fnames : list of str
         List of input filenames provided on the command line for reader steps.
@@ -40,24 +39,25 @@ def validate_workflow_file_inputs(wf, fnames):
     Raises
     ------
     FileNotFoundError
-        If one or more required file paths do not exist. The error message
-        enumerates each missing path alongside the step ID and step kind that
-        requires it.
+        If one or more required file paths do not exist.
     """
     missing = []
 
-    # Validate command-line fnames shared by all reader steps.
     for path in fnames:
         if not os.path.exists(path):
             missing.append(("command_line_args", "reader", path))
 
-    for step_id, step_def in wf.spec.steps.items():
-        if step_def.kind == "reader":
-            _validate_reader_files(step_id, step_def, missing)
-        elif step_def.kind == "output_checker":
-            _validate_output_checker_files(step_id, step_def, missing)
-        elif step_def.kind == "sector":
-            _validate_sector_files(step_id, step_def, missing)
+    for step_id, step_def in workflow_plugin["spec"]["steps"].items():
+        kind = step_def["kind"]
+        arguments = step_def.get("arguments", {})
+
+        for path in arguments.get("fnames", []):
+            if not os.path.exists(path):
+                missing.append((step_id, kind, path))
+
+        compare_path = arguments.get("compare_path", None)
+        if compare_path and not os.path.exists(compare_path):
+            missing.append((step_id, kind, compare_path))
 
     if missing:
         error_lines = [
@@ -70,85 +70,6 @@ def validate_workflow_file_inputs(wf, fnames):
         raise FileNotFoundError("\n".join(error_lines))
 
 
-def _validate_reader_files(step_id, step_def, missing):
-    """Check that file paths in a reader step's arguments exist.
-
-    Reader steps may declare an ``fnames`` list inside their arguments for
-    static dataset inputs. Each path in that list is checked for existence on
-    the filesystem.
-
-    Parameters
-    ----------
-    step_id : str
-        The identifier of the workflow step being validated.
-    step_def : WorkflowStepDefinitionModel
-        The step definition whose arguments may contain an ``fnames`` list.
-    missing : list of tuple
-        Accumulator for ``(step_id, kind, path)`` entries describing missing
-        files. Modified in place.
-    """
-    step_fnames = step_def.arguments.get("fnames", None)
-    if step_fnames is None:
-        return
-
-    for path in step_fnames:
-        if not os.path.exists(path):
-            missing.append((step_id, "reader", path))
-
-
-def _validate_output_checker_files(step_id, step_def, missing):
-    """Check that the comparison path for an output_checker step exists.
-
-    If `compare_path` is present and non-null in the step's arguments, its
-    existence on the filesystem is verified. A null or absent `compare_path`
-    is not flagged here; logical consistency between `checker_name` and
-    `compare_path` is already enforced by
-    `OutputCheckersArgumentsModel`.
-
-    Parameters
-    ----------
-    step_id : str
-        The identifier of the workflow step being validated.
-    step_def : WorkflowStepDefinitionModel
-        The step definition whose arguments may contain a `compare_path`.
-    missing : list of tuple
-        Accumulator for `(step_id, kind, path)` entries describing missing
-        files. Modified in place.
-    """
-    compare_path = step_def.arguments.get("compare_path", None)
-    if compare_path is None:
-        return
-
-    if not os.path.exists(compare_path):
-        missing.append((step_id, "output_checker", compare_path))
-
-
-def _validate_sector_files(step_id, step_def, missing):
-    """Check that file paths in a sector step's arguments exist.
-
-    Sector steps may reference ancillary input files via an `fnames` key in
-    their arguments. Each path in that list is checked for existence on the
-    filesystem.
-
-    Parameters
-    ----------
-    step_id : str
-        The identifier of the workflow step being validated.
-    step_def : WorkflowStepDefinitionModel
-        The step definition whose arguments may contain an `fnames` list.
-    missing : list of tuple
-        Accumulator for `(step_id, kind, path)` entries describing missing
-        files. Modified in place.
-    """
-    sector_fnames = step_def.arguments.get("fnames", None)
-    if sector_fnames is None:
-        return
-
-    for path in sector_fnames:
-        if not os.path.exists(path):
-            missing.append((step_id, "sector", path))
-
-
 def call(workflow, fnames, command_line_args=None):
     """Run the order based procflow (OBP).
 
@@ -157,23 +78,19 @@ def call(workflow, fnames, command_line_args=None):
 
     Parameters
     ----------
-    workflow: str
-        The name of the workflow to process.
+    workflow: dict
+        The workflow plugin dictionary to process.
     fnames : list of str
         List of filenames from which to read data.
     command_line_args : list of str, None
         Command line arguments to pass to the workflow.
     """
     LOG.interactive(f"Begin processing '{workflow['name']}' workflow.")
-    wf_plugin = workflow
 
-    validate_workflow_file_inputs(wf, fnames)
+    validate_workflow_file_inputs(workflow, fnames)
 
-    handled_interfaces = ["readers"]
-    for step_id, step_def in wf.spec.steps.items():
-        interface = step_def.kind + "s"
     handled_interfaces = ["readers", "coverage_checkers"]
-    for step_id, step_def in wf_plugin["spec"]["steps"].items():
+    for step_id, step_def in workflow["spec"]["steps"].items():
         interface = str(Lexeme(step_def["kind"]).plural)
 
         if interface not in handled_interfaces:
