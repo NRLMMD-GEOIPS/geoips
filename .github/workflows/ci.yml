@@ -13,7 +13,9 @@ jobs:
   # Build the Docker image at the requested tier
   # ---------------------------------------------------------------------------
   build:
-    runs-on: ${{ vars.RUNNER || 'ubuntu-latest' }}
+    runs-on:
+      group: cira-prem
+      labels: self-hosted
     env:
       IMAGE_TAG: geoips:dev-${{ github.sha }}
     outputs:
