@@ -341,18 +341,27 @@ def get_trackfile_area_defs(
     from geoips.sector_utils.tc_tracks import trackfile_to_area_defs
 
     for trackfile in trackfiles:
-        area_defs += trackfile_to_area_defs(
+        adef, allowed_aid_types = trackfile_to_area_defs(
             trackfile,
             trackfile_parser=trackfile_parser,
             tc_spec_template=tc_spec_template,
         )
+        area_defs += adef
     if trackfile_sectorlist is not None and "all" not in trackfile_sectorlist:
         for area_def in area_defs:
-            if area_def.area_id in trackfile_sectorlist:
+            if "storm_id" not in area_def.sector_info:
+                LOG.warning("FAILED storm_id not defined in sector_info")
+                raise ValueError(
+                    "FAILED storm_id not defined in sector_info. Ensure storm_id "
+                    "defined in trackfile parser."
+                )
+            elif area_def.sector_info["storm_id"] in trackfile_sectorlist:
                 final_area_defs += [area_def]
             else:
                 LOG.info(
-                    "area_def %s not in trackfile_sectorlist %s, not including",
+                    "area_def storm_id %s area_id %s not in trackfile_sectorlist %s, "
+                    "not including",
+                    area_def.sector_info["storm_id"],
                     area_def.area_id,
                     str(trackfile_sectorlist),
                 )
@@ -370,7 +379,9 @@ def get_trackfile_area_defs(
                 ret_area_defs += [area_def]
 
     # Make sure there are no duplicates
-    ret_area_defs = remove_duplicate_storm_positions(ret_area_defs, aid_type)
+    ret_area_defs = remove_duplicate_storm_positions_and_unsupported_aid_types(
+        ret_area_defs, allowed_aid_types
+    )
 
     return ret_area_defs
 
@@ -474,7 +485,7 @@ def get_tc_area_defs_for_xarray(
     from datetime import timedelta
     from geoips.sector_utils.tc_tracks_database import get_all_storms_from_db
 
-    curr_area_defs = get_all_storms_from_db(
+    curr_area_defs, allowed_aid_types = get_all_storms_from_db(
         xarray_obj.start_datetime - timedelta(hours=hours_before_sector_time),
         xarray_obj.end_datetime + timedelta(hours=hours_after_sector_time),
         tc_spec_template=tc_spec_template,
@@ -482,11 +493,19 @@ def get_tc_area_defs_for_xarray(
     )
     if tcdb_sector_list is not None and "all" not in tcdb_sector_list:
         for area_def in curr_area_defs:
-            if area_def.area_id in tcdb_sector_list:
+            if "storm_id" not in area_def.sector_info:
+                LOG.warning("FAILED storm_id not defined in sector_info")
+                raise ValueError(
+                    "FAILED storm_id not defined in sector_info. Ensure storm_id "
+                    "defined in trackfile parser."
+                )
+            elif area_def.sector_info["storm_id"] in tcdb_sector_list:
                 area_defs += [area_def]
             else:
                 LOG.info(
-                    "area_def %s not in tcdb_sector_list %s, not including",
+                    "area_def storm_id %s area_id %s not in tcdb_sector_list %s, "
+                    "not including",
+                    area_def.sector_info["storm_id"],
                     area_def.area_id,
                     str(tcdb_sector_list),
                 )
@@ -494,16 +513,18 @@ def get_tc_area_defs_for_xarray(
         area_defs = curr_area_defs
 
     # Make sure there are no duplicates
-    ret_area_defs = remove_duplicate_storm_positions(area_defs, aid_type)
+    ret_area_defs = remove_duplicate_storm_positions_and_unsupported_aid_types(
+        area_defs, allowed_aid_types
+    )
     return ret_area_defs
 
 
-def is_requested_aid_type(area_def, aid_type=None):
+def is_requested_aid_type(area_def, allowed_aid_types=None):
     """Return True if passed area_def is of requested aid_type."""
     if (
-        aid_type is not None
+        allowed_aid_types is not None
         and "aid_type" in area_def.sector_info
-        and area_def.sector_info["aid_type"] != aid_type
+        and not any(area_def.sector_info["aid_type"] == x for x in allowed_aid_types)
     ):
         return False
     return True
@@ -529,14 +550,16 @@ def storm_locations_match(area_def, other_area_def):
     return False
 
 
-def remove_duplicate_storm_positions(area_defs, aid_type=None):
+def remove_duplicate_storm_positions_and_unsupported_aid_types(
+    area_defs, allowed_aid_types=None
+):
     """Remove duplicate storm positions from passed list of area_defs.
 
     Uses "is_requested_aid_type" and "storm_locations_match" utilities.
     """
     ret_area_defs = []
     for area_def in area_defs:
-        if not is_requested_aid_type(area_def, aid_type):
+        if not is_requested_aid_type(area_def, allowed_aid_types):
             LOG.debug(
                 "area_def %s aid_type %s not requested, not including",
                 area_def.description,
@@ -559,7 +582,7 @@ def remove_duplicate_storm_positions(area_defs, aid_type=None):
                     and other_area_def.sector_info["final_storm_name"].lower()
                     != "invest"
                     and storm_locations_match(area_def, other_area_def)
-                    and is_requested_aid_type(other_area_def, aid_type)
+                    and is_requested_aid_type(other_area_def, allowed_aid_types)
                 ):
                     kept_one = True
                     LOG.info(
@@ -568,17 +591,23 @@ def remove_duplicate_storm_positions(area_defs, aid_type=None):
                         area_def.description,
                     )
                     ret_area_defs += [other_area_def]
-                if (
+                if "storm_id" not in area_def.sector_info:
+                    LOG.warning("FAILED storm_id not defined in sector_info")
+                    raise ValueError(
+                        "FAILED storm_id not defined in sector_info. Ensure storm_id "
+                        "defined in trackfile parser."
+                    )
+                elif (
                     "invest_storm_id" in other_area_def.sector_info
                     and other_area_def.sector_info["invest_storm_id"]
-                    == area_def.area_id
+                    == area_def.sector_info["storm_id"]
                 ):
                     kept_one = True
                     LOG.info(
                         "Including area_def %s in return list, NOT including %s, "
                         "invest_storm_id defined",
-                        other_area_def.description,
-                        area_def.description,
+                        other_area_def.area_id,
+                        area_def.sector_info["storm_id"],
                     )
                     ret_area_defs += [other_area_def]
 
@@ -600,25 +629,25 @@ def filter_area_defs_actual_time(area_defs, actual_datetime):
     """Filter list of area_defs to only include the passed actual_datetime."""
     ret_area_def_ids = {}
     for area_def in area_defs:
-        if area_def.area_id not in ret_area_def_ids:
-            ret_area_def_ids[area_def.area_id] = area_def
+        storm_id = area_def.sector_info.get("storm_id")
+        if storm_id and storm_id not in ret_area_def_ids:
+            ret_area_def_ids[storm_id] = area_def
         elif is_dynamic_sector(area_def) and actual_datetime is not None:
             if abs(actual_datetime - area_def.sector_start_datetime) < abs(
-                actual_datetime
-                - ret_area_def_ids[area_def.area_id].sector_start_datetime
+                actual_datetime - ret_area_def_ids[storm_id].sector_start_datetime
             ):
                 LOG.debug(
                     "AREA_DEF LIST REPLACING %s with area_def %s",
-                    ret_area_def_ids[area_def.area_id].description,
-                    area_def.description,
+                    ret_area_def_ids[storm_id].area_id,
+                    area_def.area_id,
                 )
-                ret_area_def_ids[area_def.area_id] = area_def
+                ret_area_def_ids[storm_id] = area_def
         else:
             LOG.warning(
                 "AREA_DEF LIST REPLACING Multiple identical sectors - using latest %s",
-                area_def.description,
+                area_def.area_id,
             )
-            ret_area_def_ids[area_def.area_id] = area_def
+            ret_area_def_ids[storm_id] = area_def
 
     return ret_area_def_ids.values()
 

@@ -1,0 +1,17 @@
+interface: sectors
+family: generated
+name: volc_tonga
+docstring: |
+  Volcano dynamic sector for Tonga.
+
+  Shape: 1400 x 1400 pixels
+  Resolution: 1km x 1km
+spec:
+  sector_spec_generator:
+    name: center_coordinates
+    arguments:
+      projection: eqc
+      pixel_width: 1000
+      pixel_height: 1000
+      num_lines: 1400
+      num_samples: 1400

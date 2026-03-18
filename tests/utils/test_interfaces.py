@@ -2,12 +2,14 @@
 # # # https://github.com/NRLMMD-GEOIPS.
 
 """Simple test script to run "test_interface" for each interface."""
+
 from pprint import pformat
 import traceback
 import json
 
 from geoips import interfaces
 from geoips.interfaces.base import BaseInterface
+from geoips.interfaces.yaml_based import workflows
 from geoips.commandline.log_setup import setup_logging
 from geoips.commandline.args import get_argparser, check_command_line_args
 from geoips.utils.context_managers import import_optional_dependencies
@@ -122,21 +124,52 @@ def main():
     # Loop through all requested interfaces, fully testing all plugins in each.
     # Collect output in lists, so we can fully print everything at the end before
     # raising an exception on error.
+    # Additionally, filter all valid interfaces out first. For some reason,
+    # 'curr_interfaces' size would change over the full loop (if concatenated) with the
+    # loop below, and testing would always fail. I could not locate where and why the
+    # change in size occured. There is no code that directly modifies 'curr_interfaces',
+    # but filtering out beforehand works.
+    val_interfaces = []
     for curr_interface in curr_interfaces:
         # Do not test "BaseInterface"
-        if (type(curr_interface) is BaseInterface) or not isinstance(
-            curr_interface, BaseInterface
+        # Do not test workflows
+        # Do not test anything that is not a valid GeoIPS interface; there are lots of
+        # weird values in interfaces.__dict__ that don't relate to the testing set here
+        # at all. Like this:
+
+        # '{open': <function io.open(file, mode='r', buffering=-1, encoding=None,
+        # errors=None, newline=None, closefd=True, opener=None)>,
+        # 'copyright': Copyright (c) 2001-2023 Python Software Foundation.
+        # All Rights Reserved...'}
+        if (
+            (type(curr_interface) is BaseInterface)
+            or not isinstance(curr_interface, BaseInterface)
+            or isinstance(curr_interface, workflows.WorkflowsInterface)
         ):
             continue
+        val_interfaces.append(curr_interface)
 
+    for curr_interface in val_interfaces:
         LOG.info("")
         LOG.interactive(f"Testing {curr_interface.name}...")
-
         # Open all the interfaces (not just checking call signatures)
         # This returns a dictionary of all sorts of stuff.
         try:
             out_dict = curr_interface.test_interface()
             out_dicts[curr_interface.name] = out_dict
+
+            if curr_interface.interface_type == "class_based":
+                # Make sure that if we are dealing with a class-based interface that it
+                # has 'plugin_class' set and that attribute refers to a
+                # Base<interface>Plugin class.
+                assert (
+                    hasattr(curr_interface, "plugin_class")
+                    and curr_interface.plugin_class.__name__.startswith("Base")
+                    and curr_interface.plugin_class.__name__.endswith("Plugin")
+                ), (
+                    f"{curr_interface.name} is either missing or has improperly set its"
+                    "plugin_class attribute."
+                )
         except Exception as resp:
             LOG.info(traceback.format_exc())
             failed_plugins += [curr_interface.name]

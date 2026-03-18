@@ -43,6 +43,13 @@ spec:
       product_defaults: Night-Vis
       spec:
         variables: ["DNBRad", "DNB:solar_zenith_angle"]
+    - name: HNCC 
+      source_names: [viirs]
+      docstring: |
+        High and Near Constant Contrast product for VIIRS DNB radiance imagery.
+      product_defaults: HNCC
+      spec:
+        variables: ["DNBRad", "DNB:solar_zenith_angle","DNB:lunar_zenith_angle","DNB:moon_frac"]
     - name: Night-Vis-GeoIPS1
       source_names: [viirs]
       docstring: |
@@ -89,3 +96,15 @@ spec:
               output_data_range: [0, 100.0] # This replaces the default value found in product_params/Visible.yaml
               gamma_list: [] # This replaces the default value found in product_params/Visible.yaml
               scale_factor: 1.0
+    - name: Cloud-Phase-RGB
+      source_names: [viirs]
+      docstring: |
+        EUMETSAT Cloud Phase RGB product, intended to seperate information from clouds. 
+        Useful for seperation between ice and water clouds, and convective monitoring.
+        Channels used are M10 (1.6 um, red), M11 (2.25um, green), I01 (.64 um, blue)
+      product_defaults: RGB-Default 
+      spec:
+        variables: ["M10Ref","M11Ref","I01Ref"]  
+        algorithm:
+          plugin:
+            name: RGB_Default

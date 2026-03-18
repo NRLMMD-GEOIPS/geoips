@@ -9,18 +9,11 @@ bug fix:
     Also add error handling if either a b-deck or g-deck file cannot be parsed and added
     to the decks database.
   files:
-    deleted:
-    - ''
-    moved:
-    - ''
-    added:
-    - ''
     modified:
     - 'geoips/sector_utils/tc_tracks_database.py'
   related-issue:
-    internal: GEOIPS#759
+    internal: "GEOIPS#759 - Fix bug preventing invest b-deck files from being added to decks database"
     number: 759
-    repo_url: 'GEOIPS/geoips'
   date:
     start: 2025-03-13
     finish: 2025-03-13

@@ -1,0 +1,26 @@
+release updates:
+- title: 'Bug fixes on the open source github.com GeoIPS Site integration tests.'
+  description: |
+    Bug fixes required to get the GeoIPS Site integration tests to pass on all available
+    github.com open source repositories.
+
+    Also update standard sync files
+  files:
+    modified:
+    - 'docs/source/releases/'
+  date:
+    start: 2025-10-18
+    finish: 2025-10-22
+- title: 'geoips repo - Update tagged_version and upcoming_version'
+  description: |
+    tagged_version 1.17.1 (site-nrlmmd bug fixes)
+    upcoming_version 1.17.2 (system bug fixes)
+  files:
+    modified:
+    - '.github/versions/upcoming_version'
+    - '.github/versions/tagged_version'
+  date:
+    start: 2025-10-21
+    finish: 2025-10-22
+  related-issue:
+    internal: geoips#959 - 1.17.0 updates*

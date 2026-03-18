@@ -6,19 +6,12 @@ bug fix:
     issues with other plugins, such as recenter_tc. We should keep the old naming
     style for now, at least.
   files:
-    deleted:
-    - ''
-    moved:
-    - ''
-    added:
-    - ''
     modified:
     - 'geoips/plugins/modules/readers/amsua_mhs_mirs.py'
     - 'geoips/plugins/yaml/products/mhs.yaml'
   related-issue:
-    internal: GEOIPS#773
+    internal: "GEOIPS#773 - Revert naming of MHS variables"
     number: 773
-    repo_url: 'geoips'
   date:
     start: 2025-03-10
     finish: 2025-03-10

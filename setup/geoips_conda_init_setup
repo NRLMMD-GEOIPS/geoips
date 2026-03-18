@@ -4,24 +4,30 @@
 
 # These lines are pulled directly from the auto-generated .bashrc conda init.
 
-if [[ -z $GEOIPS_DEPENDENCIES_DIR ]]; then
-    GEOIPS_CONDA_DIR=$GEOIPS_PACKAGES_DIR/../geoips_dependencies/miniconda3
-else
-    GEOIPS_CONDA_DIR=$GEOIPS_DEPENDENCIES_DIR/miniconda3
+if [[ "$GEOIPS_CONDA_ENV_NAME" == "" ]]; then
+    GEOIPS_CONDA_ENV_NAME="geoips_conda"
 fi
 
+if [[ -z $GEOIPS_CONDA_INSTALL_DIR && -z $GEOIPS_DEPENDENCIES_DIR ]]; then
+    GEOIPS_CONDA_INSTALL_DIR=$GEOIPS_PACKAGES_DIR/../geoips_dependencies/miniconda3
+elif [[ -z $GEOIPS_CONDA_INSTALL_DIR ]]; then
+    GEOIPS_CONDA_INSTALL_DIR=$GEOIPS_DEPENDENCIES_DIR/miniconda3
+fi
+echo "GEOIPS_CONDA_ENV_NAME: $GEOIPS_CONDA_ENV_NAME"
+echo "GEOIPS_CONDA_INSTALL_DIR: $GEOIPS_CONDA_INSTALL_DIR"
+
 # DO NOT set PATH in here. Ever.
-if [[ -f $GEOIPS_CONDA_DIR/bin/conda ]]; then
+if [[ -f $GEOIPS_CONDA_INSTALL_DIR/bin/conda ]]; then
     # >>> conda initialize >>>
     # !! Contents within this block are managed by 'conda init' !!
-    __conda_setup=`$GEOIPS_CONDA_DIR/bin/conda 'shell.bash' 'hook'`
+    __conda_setup=`$GEOIPS_CONDA_INSTALL_DIR/bin/conda 'shell.bash' 'hook'`
     if [ $? -eq 0 ]; then
         eval "$__conda_setup"
     else
-        if [ -f "$GEOIPS_CONDA_DIR/etc/profile.d/conda.sh" ]; then
-            . "$GEOIPS_CONDA_DIR/etc/profile.d/conda.sh"
-        elif [ -f "$GEOIPS_DEPENDENCIES_DIR/miniconda3/etc/profile.d/mamba.sh" ]; then
-            . "$GEOIPS_DEPENDENCIES_DIR/miniconda3/etc/profile.d/mamba.sh"
+        if [ -f "$GEOIPS_CONDA_INSTALL_DIR/etc/profile.d/conda.sh" ]; then
+            . "$GEOIPS_CONDA_INSTALL_DIR/etc/profile.d/conda.sh"
+        elif [ -f "$GEOIPS_CONDA_INSTALL_DIR/etc/profile.d/mamba.sh" ]; then
+            . "$GEOIPS_CONDA_INSTALL_DIR/etc/profile.d/mamba.sh"
         fi
     fi
     unset __conda_setup
@@ -30,7 +36,7 @@ fi
 
 whichconda=`which conda 2> /dev/null`
 if [[ "$whichconda" != "" ]]; then
-    if conda env list | grep -q --regex '^geoips_conda'; then
-        eval "$(conda shell.bash activate geoips_conda)"
+    if conda env list | grep -q --regex "^${GEOIPS_CONDA_ENV_NAME}"; then
+        eval "$(conda shell.bash activate ${GEOIPS_CONDA_ENV_NAME})"
     fi
 fi

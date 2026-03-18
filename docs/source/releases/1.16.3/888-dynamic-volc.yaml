@@ -1,0 +1,26 @@
+enhancement:
+- title: 'Generalized dynamic sector using Volcanos as an example.'
+  description: |
+    'Added docs, sample files, and examples to use within 
+    geoips dynamic sectoring. Used the 2022 Tonga Volcano eruption as an
+    example.'
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - 'docs/source/tutorials/extending-with-plugins/dynamic_sector/index.rst'
+    - 'tests/outputs/ahi.tonga.volcano/20220115.043000.himawari-8.ahi.Infrared.TONGA_VOLCANO.100p00.jma.1p0.png'
+    - 'geoips/plugins/modules/sector_metadata_generators/volc_parser.py'
+    - 'geoips/plugins/yaml/sectors/dynamic/volc_dyn.yaml'
+    - 'tests/scripts/ahi.volcano.tonga.imagery_clean.sh'
+    - 'tests/sectors/volc_csv/tonga_trackfile.csv'
+    modified:
+    - 'docs/source/tutorials/extending-with-plugins/index.rst'
+    - 'docs/source/tutorials/extending-with-plugins/static_sector/index.rst'
+    - 'geoips/interfaces/module_based/sector_metadata_generators.py'
+    - 'geoips/sector_utils/tc_tracks.py'
+  date:
+    start: 2025-07-07
+    finish: 2025-08-07 

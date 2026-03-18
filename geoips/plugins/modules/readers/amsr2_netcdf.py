@@ -4,7 +4,6 @@
 """Read Advanced Microwave Scanning Radiometer (AMSR2) data products."""
 
 # Python Standard Libraries
-from glob import glob
 import logging
 from os.path import basename
 
@@ -182,7 +181,7 @@ def read_amsr2_mbt(full_xarray, varname, time_array=None):
     # sub_xarray.attrs['sample_distance_km'] = 3.0
     sub_xarray.attrs["sample_distance_km"] = 2.0
     sub_xarray.attrs["interpolation_radius_of_influence"] = 10000
-    for dim in sub_xarray.dims.keys():
+    for dim in sub_xarray.sizes.keys():
         if "low_rez" in dim:
             # MTIFs need to be "prettier" for PMW products, so 2km resolution for all
             # channels. sub_xarray.attrs['sample_distance_km'] = 7.0
@@ -324,7 +323,7 @@ def call(
     for fname in fnames:
         # full_xarray = xarray.open_dataset(str(fname))
         full_xarrays = [xarray.open_dataset(str(x)) for x in fnames]
-        full_xarray = xarray.merge(full_xarrays)
+        full_xarray = xarray.concat(full_xarrays, dim="Number_of_Scans")
         full_xarray.attrs["data_provider"] = "unknown"
         full_xarray.attrs["source_file_names"] = [basename(fname)]
         full_xarray.attrs["source_name"] = "amsr2"
@@ -377,17 +376,3 @@ def call(
         )
     final_xarrays["METADATA"] = list(final_xarrays.values())[0][[]]
     return final_xarrays
-
-
-def get_test_files(test_data_dir):
-    """Generate test files for unit testing reader."""
-    filepath = test_data_dir + "/test_data_amsr2/data/AMSR2-MBT*.nc"
-    filelist = glob(filepath)
-    tmp_xr = call(filelist)
-
-    return tmp_xr
-
-
-def get_test_parameters():
-    """Generate a data key for unit testing."""
-    return [{"data_key": "Brightness_Temperature_10_GHzH", "data_var": "tb10h"}]

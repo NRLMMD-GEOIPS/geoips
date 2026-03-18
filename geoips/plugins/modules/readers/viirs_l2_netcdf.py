@@ -90,11 +90,18 @@ def pair_file_names(file_list):
     unique_gran_times = sorted(np.unique(gran_times))
     paired_granules = OrderedDict()
     for gtimes in unique_gran_times:
-        paired_granules[gtimes] = sorted([x for x in file_list if gtimes in x])
+        paired_granules[str(gtimes)] = sorted([x for x in file_list if gtimes in x])
     return paired_granules
 
 
-def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=False):
+def call(
+    fnames,
+    metadata_only=False,
+    chans=None,
+    area_def=None,
+    self_register=False,
+    create_datetime_array=True,
+):
     """Read VIIRS L2 netCDF data.
 
     Parameters
@@ -197,8 +204,8 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
 
             empty_vars = []
 
-            for xr_dim_name, xr_dim_val in xr.dims.items():
-                for gr_dim_name, gr_dim_val in gran_xobj.dims.items():
+            for xr_dim_name, xr_dim_val in xr.sizes.items():
+                for gr_dim_name, gr_dim_val in gran_xobj.sizes.items():
                     if (xr_dim_name != gr_dim_name) & (xr_dim_val == gr_dim_val):
                         LOG.info(
                             "Detected %s shares the same dim size as %s",
@@ -217,7 +224,9 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
                     continue
                 # Check if time array exists
                 time_key = "datetime_" + "_".join(data.dims)
-                if (time_key not in gran_xobj) & (time_key not in xr):
+                if (time_key not in gran_xobj) & (
+                    time_key not in xr
+                ) and create_datetime_array:
                     LOG.info("Creating time key: %s", time_key)
                     time_array = np.empty(data.shape).astype(datetime)
                     time_array[:] = start_datetime
@@ -230,7 +239,7 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
             gran_xobj = gran_xobj.rename({"Latitude": "latitude"})
             gran_xobj = gran_xobj.rename({"Longitude": "longitude"})
 
-        loaded_vars = list(gran_xobj.variables.keys())
+        loaded_vars = list(gran_xobj.variables.keys()) + empty_vars
         if not all(x in loaded_vars for x in chans):
             # sorted(loaded_vars) != sorted(chans):
             LOG.info(
@@ -265,7 +274,7 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
         if geo_var not in xobj_1d.data_vars.keys():
             for key in xobj_1d.data_vars.keys():
                 if geo_var in key:
-                    print(f"Renaming {key} to latitude")
+                    LOG.info(f"Renaming {key} to latitude")
                     rename_vars[key] = geo_var
                     xobj_1d[geo_var] = xobj_1d[key]
 

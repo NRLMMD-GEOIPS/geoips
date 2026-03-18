@@ -36,8 +36,7 @@ enhancement:
     - 'geoips/plugins/modules/readers/utils/geostationary_geolocation.py'
     - 'geoips/utils/memusg.py'
   related-issue:
-    number: 797
-    repo_url: GEOIPS
+    internal: geoips#797
   date:
     start: 2025-03-26
     finish: 2025-04-29

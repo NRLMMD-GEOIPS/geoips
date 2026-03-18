@@ -97,9 +97,11 @@ location per line (split between 3 lines each in comments for readability)::
      25,   20,   30, 1009,  210,  20, 105,   0,   L,   0,    ,   0,   0,
             TEDDY, D, 12, NEQ,  330,  360,  300,  300, genesis-num, 039,
 """
+
 import os
 import logging
 from datetime import datetime
+from dateutil.relativedelta import relativedelta
 
 LOG = logging.getLogger(__name__)
 
@@ -108,7 +110,7 @@ family = "tc"
 name = "bdeck_parser"
 
 
-def call(trackfile_name):
+def call(trackfile_name, allowed_aid_types=None):
     """TC deckfile parser for B-Deck files.
 
     Each B-Deck file contains the full history of storm BEST tracks, one storm
@@ -119,6 +121,8 @@ def call(trackfile_name):
     trackfile_name : str
         Path to bdeck file, with full 6 hourly storm track
         history, formatted as follows:
+    allowed_aid_type : list
+        List of allowed aid types. Defaults to ["BEST"] if None
 
     Returns
     -------
@@ -130,6 +134,8 @@ def call(trackfile_name):
     :ref:`api`
         Valid fields can be found in geoips.sector_utils.utils.SECTOR_INFO_ATTRS
     """
+    if allowed_aid_types is None:
+        allowed_aid_types = ["BEST"]
     LOG.info("STARTING getting fields from %s", trackfile_name)
     # Must get tcyear out of the filename in case a storm
     # crosses TC vs calendar years.
@@ -138,11 +144,28 @@ def call(trackfile_name):
     # print tcyear
 
     flatsf_lines = open(trackfile_name).readlines()
-    final_storm_name = get_final_storm_name_bdeck(flatsf_lines, tc_year, trackfile_name)
-    invest_number = get_invest_number_bdeck(flatsf_lines)
-
     # This just pulls the time of the first entry in the deck file
     entry_storm_start_datetime = get_storm_start_datetime_from_bdeck_entry(flatsf_lines)
+
+    # Check if this storm is from an "archived" deck file.
+    # If this is an archived deck file, we do not want to fail catastrophically for
+    # poorly formatted old deck files. If it is a new deck file, we would want to
+    # fail in order to avoid masking issues with new deck files.
+    storm_age_seconds = (datetime.now() - entry_storm_start_datetime).total_seconds()
+    archived_threshold = (
+        datetime.now() - (datetime.now() - relativedelta(years=2))
+    ).total_seconds()
+    is_archived = storm_age_seconds > archived_threshold
+    if is_archived:
+        LOG.info(
+            "Storm age greater than 2 years - treating as an archived deck file"
+            "(will automatically skip any bad/poorly formatted lines)"
+        )
+
+    final_storm_name = get_final_storm_name_bdeck(
+        flatsf_lines, tc_year, trackfile_name, is_archived
+    )
+    invest_number = get_invest_number_bdeck(flatsf_lines, is_archived)
 
     # Note storms are often started with 3 locations, and the first 2 locations
     # are removed in later deck files, so initial storm start time often does
@@ -164,23 +187,30 @@ def call(trackfile_name):
     all_fields = []
 
     for line in flatsf_lines:
-        curr_fields = parse_bdeck_line(
-            line,
-            source_filename=trackfile_name,
-            storm_year=tc_year,
-            final_storm_name=final_storm_name,
-            invest_number=invest_number,
-            storm_start_datetime=entry_storm_start_datetime,
-            original_storm_start_datetime=filename_storm_start_datetime,
-            parser_name="bdeck_parser",
-        )
+        try:
+            curr_fields = parse_bdeck_line(
+                line,
+                source_filename=trackfile_name,
+                storm_year=tc_year,
+                final_storm_name=final_storm_name,
+                invest_number=invest_number,
+                storm_start_datetime=entry_storm_start_datetime,
+                original_storm_start_datetime=filename_storm_start_datetime,
+                parser_name="bdeck_parser",
+            )
+        except ValueError as e:
+            if is_archived:
+                LOG.warning("Skipping bad/poorly formatted line")
+                continue
+            else:
+                raise ValueError(e)
         # Was previously RE-SETTING finalstormname here.
         # That is why we were getting incorrect final_storm_name fields
         all_fields += [curr_fields]
 
     LOG.info("FINISHED getting fields from %s", trackfile_name)
 
-    return all_fields, final_storm_name, tc_year
+    return all_fields, final_storm_name, tc_year, allowed_aid_types
 
 
 def lat_to_dec(lat_str):
@@ -244,7 +274,13 @@ def parse_bdeck_line(
     # Need separate parser for B decks (best tracks)
     # parts = line.split(',', 40)
     parts = [part.strip() for part in line.split(",")]
-    if len(parts) != 38 and len(parts) != 30 and len(parts) != 40 and len(parts) != 42:
+    if (
+        len(parts) != 38
+        and len(parts) != 30
+        and len(parts) != 40
+        and len(parts) != 42
+        and len(parts) != 44
+    ):
         LOG.interactive(source_filename)
         LOG.interactive(line)
         raise ValueError(
@@ -253,9 +289,12 @@ def parse_bdeck_line(
             f"had {len(parts)}",
         )
     fields = {}
+    storm_num_str = parts[1]
+    storm_basin = parts[0]
+    storm_name = parts[27]
     fields["deck_line"] = line.strip()
-    fields["storm_basin"] = parts[0]
-    fields["storm_num"] = int(parts[1])
+    fields["storm_basin"] = storm_basin
+    fields["storm_num"] = int(storm_num_str)
     fields["synoptic_time"] = datetime.strptime(parts[2], "%Y%m%d%H")
 
     if isinstance(storm_start_datetime, datetime):
@@ -276,7 +315,7 @@ def parse_bdeck_line(
     if fields["pressure"]:
         fields["pressure"] = float(fields["pressure"])
 
-    fields["storm_name"] = parts[27]
+    fields["storm_name"] = storm_name
     fields["final_storm_name"] = "unknown"
     if final_storm_name:
         LOG.debug("USING passed final_storm_name %s", final_storm_name)
@@ -309,14 +348,28 @@ def parse_bdeck_line(
         else:
             fields["source_filename"] = source_filename
     fields["parser_name"] = parser_name
+    if "storm_year" in fields:
+        fields["storm_id"] = (
+            "tc"
+            + str(fields["storm_year"])
+            + storm_basin.lower()
+            + storm_num_str
+            + storm_name.lower()
+        )
     return fields
 
 
-def get_invest_number_bdeck(deck_lines):
+def get_invest_number_bdeck(deck_lines, is_archived):
     """Get invest number from full bdeck file."""
     invest_number = None
     for line in deck_lines:
-        fields = parse_bdeck_line(line)
+        try:
+            fields = parse_bdeck_line(line)
+        except ValueError:
+            if is_archived:
+                LOG.warning("Skipping bad/poorly formatted line")
+            else:
+                continue
         if fields["storm_name"] == "INVEST" and fields["storm_num"] > 89:
             invest_number = fields["storm_num"]
         if "invest_storm_id" in fields:
@@ -372,19 +425,27 @@ def get_stormyear_from_bdeck_filename(bdeck_filename):
     return int(os.path.basename(bdeck_filename)[5:9])
 
 
-def get_final_storm_name_bdeck(deck_lines, tcyear, trackfile_name=None):
+def get_final_storm_name_bdeck(
+    deck_lines, tcyear, trackfile_name=None, is_archived=False
+):
     """Get final storm name from full bdeck file."""
     final_storm_name = "INVEST"
     for line in deck_lines:
         # curr_fields = parse_bdeck_line(line, tcyear, finalstormname)
-        curr_fields = parse_bdeck_line(
-            line,
-            storm_year=tcyear,
-            final_storm_name=final_storm_name,
-            source_filename=trackfile_name,
-        )
-        # if curr_fields['storm_name']:
-        if curr_fields["storm_name"] and curr_fields["storm_name"] != "INVEST":
-            LOG.debug("UPDATING final_storm_name to %s", curr_fields["storm_name"])
-            final_storm_name = curr_fields["storm_name"]
+        try:
+            curr_fields = parse_bdeck_line(
+                line,
+                storm_year=tcyear,
+                final_storm_name=final_storm_name,
+                source_filename=trackfile_name,
+            )
+            # if curr_fields['storm_name']:
+            if curr_fields["storm_name"] and curr_fields["storm_name"] != "INVEST":
+                LOG.debug("UPDATING final_storm_name to %s", curr_fields["storm_name"])
+                final_storm_name = curr_fields["storm_name"]
+        except ValueError as e:
+            if is_archived:
+                LOG.warning("Skipping bad/poorly formatted line")
+            else:
+                raise ValueError(e)
     return final_storm_name
