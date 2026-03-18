@@ -289,10 +289,11 @@ def test_bad_plugin_model_validate_one_line_description_multi_line(valid_plugin_
 
     assert model.description
 
+
 @pytest.mark.parametrize(
     "api_version",
-    ["geoips/v1", "mypkg/v3"],
-    ids=["v1", "custom-pkg"],
+    ["geoips/v1", "mypkg/v3", "geoips_driver/v0.3", "mypkg-v3"],
+    ids=["v1", "custom-pkg", "geoips-driver", "non-geoips-no-slash"],
 )
 def test_good_plugin_model_api_version(valid_plugin_data, api_version):
     """Test that apiVersion containing '/v' is valid."""
@@ -300,6 +301,7 @@ def test_good_plugin_model_api_version(valid_plugin_data, api_version):
     data["apiVersion"] = api_version
     model = bases.PluginModel(**data)
     assert "/v" in model.apiVersion
+
 
 @pytest.mark.parametrize(
     "api_version",

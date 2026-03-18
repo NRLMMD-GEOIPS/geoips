@@ -266,7 +266,7 @@ class PluginModel(FrozenModel, metaclass=PluginModelMetadata):
         ValueError
             If the value does not contian '/v' to indicate a version.
         """
-        if "/v" not in value:
+        if value.lower().startswith("geoips") and "/v" not in value:
             raise ValueError(
                 f"'{value}' must contain package name, separator /, and version name"
             )
