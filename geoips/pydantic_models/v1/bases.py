@@ -503,6 +503,7 @@ class PluginModel(FrozenModel, metaclass=PluginModelMetadata):
             raise ValueError(err_msg)
         return value
 
+
     @model_validator(mode="before")
     def _set_description(
         cls: type[PluginModel], values: dict[str, str | int | float | None]
@@ -527,6 +528,7 @@ class PluginModel(FrozenModel, metaclass=PluginModelMetadata):
             if temp_string:
                 values["description"] = temp_string.strip().split("\n", 1)[0].strip()
         return values
+
 
     @field_validator("description", mode="after")
     def _validate_one_line_description(cls: type[PluginModel], value: str) -> str:
@@ -596,4 +598,34 @@ class PluginModel(FrozenModel, metaclass=PluginModelMetadata):
                 stacklevel=2,
             )
 
+        return value
+
+
+    @field_validator("apiVersion", mode="before")
+    def _validate_apiVersion(cls, value: str) -> str:
+        """Validate the apiVersion field.
+
+        Ensure GeoIPS-prefixed API versions contain a '/' separator between
+        the package name and version (e.g. 'geoips/v1'). Non-GeoIPS packages
+        bypass this check.
+
+        Parameters
+        ----------
+        value : str
+            The input string representing the API version.
+
+        Returns
+        -------
+        str
+            The validated API version string.
+
+        Raises
+        ------
+        ValueError
+            If the value does not contain '/v' to indicate a version.
+        """
+        if value.lower().startswith("geoips") and "/v" not in value:
+            raise ValueError(
+                f"'{value}' must contain package name, separator /, and version name"
+            )
         return value
