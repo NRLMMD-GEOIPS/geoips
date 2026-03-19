@@ -17,5 +17,6 @@ Getting Started
    installing/index
    first-workflow
    migrating-to-2.0
+   installation
    best-practices/research-and-ops
 

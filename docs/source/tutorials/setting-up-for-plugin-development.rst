@@ -8,7 +8,7 @@
 Setting up for Plugin Development
 =================================
 
-1. To develop a new GeoIPS plugin, first :ref:`install GeoIPS<installing>` and ensure
+1. To develop a new GeoIPS plugin, first :ref:`install GeoIPS<installation>` and ensure
    that you have your environment enabled and all environment variables set as described in
    the installation instructions.
 
@@ -73,7 +73,7 @@ Setting up for Plugin Development
    The ``-e`` portion of the command above means 'editable', so we can edit the package
    after it is installed and changes will be reflected in the installed package. Again,
    the only time you must reinstall is when you edit ``pyproject.toml``, which
-   generally only occurs when you create new class based plugins, and must add them as
+   generally only occurs when you create new module based plugins, and must add them as
    entry-points to ``pyproject.toml``. This is further discussed in the
    :ref:`Algorithms Section<add-an-algorithm>`.
 
@@ -91,5 +91,5 @@ pyproject.toml defines this information for pip, including:
 We make GeoIPS aware of our package using the “geoips.plugin_packages” namespace
 (allows GeoIPS to find YAML-based plugins)
 
-And makes it aware of our class-based plugins using one namespace per interface
+And makes it aware of our module-based plugins using one namespace per interface
 (e.g. “geoips.algorithms”).

@@ -19,6 +19,7 @@ current:
  # repo (we will wanted to be entirely sure we have the desired required
  # documentation layout before updating all plugin repos).
  - getting-started
+ - functionality
  - tutorials
  - concepts
  # devguide holds developer-facing 2.0a material (OBP internals, DataTree/Ditto,
@@ -30,6 +31,7 @@ current:
  # from legacy to current for the 2.0 documentation overhaul. Uses the existing
  # DEPLOYGUIDE_OPTIONAL placeholder in index.template.rst.
  - deployguide
+ - architecture
  - contribute
  - contact
 legacy:
@@ -38,4 +40,3 @@ legacy:
 - userguide
 - realtime_setup
 - opguide
-- contact
