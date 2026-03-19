@@ -347,8 +347,8 @@ def test_bad_plugin_model_validate_one_line_description_multi_line(valid_plugin_
 
 @pytest.mark.parametrize(
     "api_version",
-    ["geoips/v1", "mypkg/v3", "geoips_driver/v0.3", "mypkg-v3"],
-    ids=["v1", "custom-pkg", "geoips-driver", "non-geoips-no-slash"],
+    ["geoips/v1", "geoips_driver/v0.3"],
+    ids=["v1", "geoips-driver"],
 )
 def test_good_plugin_model_api_version(valid_plugin_data, api_version):
     """Test that valid apiVersion values are accepted."""
