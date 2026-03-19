@@ -54,7 +54,8 @@ class OutputCheckersArgumentsModel(FrozenModel):
         """
         if self.checker_name is not None and self.compare_path is None:
             raise ValueError(
-                "A valid file path must be provided in 'compare_path' when 'checker_name' is specified."
+                "A valid file path must be provided in 'compare_path'"
+                "when 'checker_name' is specified."
             )
 
         return self
