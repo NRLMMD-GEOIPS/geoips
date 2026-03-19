@@ -244,7 +244,6 @@ class PluginModel(FrozenModel, metaclass=PluginModelMetadata):
     )
     abspath: str = Field(None, description="Absolute path to the plugin file.")
 
-
     @model_validator(mode="before")
     def _derive_package_name(
         cls: type[PluginModel], values: dict[str, str | int | float | None]

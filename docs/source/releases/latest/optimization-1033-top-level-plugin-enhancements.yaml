@@ -7,9 +7,11 @@ performance:
     bypass this check. Includes unit tests for valid and invalid
     apiVersion values.
   files:
+    added:
+      - 'docs/source/releases/latest/optimization-1033-top-level-plugin-enhancements.yaml'
     modified:
-      - geoips/pydantic_models/v2alpha1/bases.py
-      - tests/unit_tests/pydantic_models/v2alpha1/test_bases.py
+      - 'geoips/pydantic_models/v1/bases.py'
+      - 'tests/unit_tests/pydantic_models/v1/bases/test_bases.py'
   related-issue:
     number: 1033
     repo_url: 'https://github.com/NRLMMD-GEOIPS/geoips/'
