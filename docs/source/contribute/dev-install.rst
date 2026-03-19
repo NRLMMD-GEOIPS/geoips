@@ -11,16 +11,28 @@ Developer Installation
 This guide is for developers who need the full GeoIPS development environment
 with source code access, testing capabilities, and all plugins.
 
-**For the fully supported user installation with all dependencies managed
-automatically, use the** :ref:`Complete Local conda-based GeoIPS
-Installation<linux-installation>`.
+Following this source-based installation guide may help users who are
+having difficulty with the pip installation due to dependency, architecture,
+or OS issues.
 
-System Dependencies
--------------------
+**For the fully supported user installation with all dependencies managed
+automatically, use the** :ref:`GeoIPS Installation Guide<installation>`.
+
+Prerequisites
+-------------
+Operating System:
+
+- Linux (RedHat and Debian flavors officially supported)
+- MacOS (Not officially supported)
+- Windows with WSL2 (Not officially supported)
+
+Python version 3.11 or higher. We recommend using `Mamba`_, `Miniconda`_, or
+`Anaconda`_ to manage your python environment, but any Python 3.11+
+installation should work. Please see the :ref:`system requirements
+<system-requirements>` for more information.
 
 Required system dependencies:
 
-* Python >= 3.11
 * git >= 2.19.1
 * libopenblas-dev
 * make
@@ -39,6 +51,12 @@ Set these environment variables before installation:
     export GEOIPS_PACKAGES_DIR=<installation_location>
     export GEOIPS_TESTDATA_DIR=<desired_test_data_location>
     export GEOIPS_OUTDIRS=<desired_output_file_location>
+
+.. tip::
+    These environment variables can be persisted either by adding them to your
+    shell environment (e.g. ``.bashrc``) or by adding them to your conda
+    environment using ``conda env config vars set
+    GEOIPS_OUTDIRS=$HOME/geoips_output``.
 
 Installation Steps
 ------------------
