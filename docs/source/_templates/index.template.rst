@@ -32,13 +32,13 @@ Introduction
 ------------
 
 GeoIPS (Geolocated Information Processing System) is an extensible, open-source
-Python framework designed to process any dataset associated with latitude and
-longitude coordinates. It is plugin-based, allowing users to easily extend its
+Python framework designed to process any dataset with latitude and longitude
+coordinates. It is plugin-based, allowing users to easily extend its
 functionality without modifying the core codebase. Users can add new plugins
-for data reading, interpolation, processing algorithms, output formatting, etc.,
-enabling the generation of both imagery and structured data products. Plugins
-can be employed in Python scripts/packages or configured in YAML files to
-produce consistent, reliable, infrastructure-as-code Workflows.
+for data reading, interpolation, processing algorithms, output formatting,
+etc., enabling the generation of both imagery and structured data products.
+Plugins can be employed in Python scripts/packages or configured in YAML files
+to produce consistent, reliable, infrastructure-as-code Workflows.
 
 Scientific workflows frequently require transforming geolocated data into
 consistent imagery and derived products. Whether working with satellite
