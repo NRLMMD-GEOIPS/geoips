@@ -503,7 +503,6 @@ class PluginModel(FrozenModel, metaclass=PluginModelMetadata):
             raise ValueError(err_msg)
         return value
 
-
     @model_validator(mode="before")
     def _set_description(
         cls: type[PluginModel], values: dict[str, str | int | float | None]
@@ -528,7 +527,6 @@ class PluginModel(FrozenModel, metaclass=PluginModelMetadata):
             if temp_string:
                 values["description"] = temp_string.strip().split("\n", 1)[0].strip()
         return values
-
 
     @field_validator("description", mode="after")
     def _validate_one_line_description(cls: type[PluginModel], value: str) -> str:
@@ -599,7 +597,6 @@ class PluginModel(FrozenModel, metaclass=PluginModelMetadata):
             )
 
         return value
-
 
     @field_validator("apiVersion", mode="before")
     def _validate_apiVersion(cls, value: str) -> str:
