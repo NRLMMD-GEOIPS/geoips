@@ -5,6 +5,7 @@
 
 import sys
 import os
+from pathlib import Path
 import PKGNAME
 
 VERSION = str(PKGNAME.__version__)
@@ -89,7 +90,14 @@ exclude_patterns = [
     # https://github.com/sphinx-doc/sphinx/issues/1965#issuecomment-124732907
     "**/includes/**",
     "import/*",
+    "getting-started/installing/**",
+    "links.rst",
 ]
+
+# The reST epilog is included at the end of every source file that is read, and
+# can be used to include common content, in this case, useful links.
+docs_dir = Path(__file__).parent
+rst_epilog = (docs_dir / "links.rst").read_text(encoding="utf-8")
 
 # The reST default role (used for this markup: `text`) to use for all
 # documents.
