@@ -603,7 +603,7 @@ class PluginModel(FrozenModel, metaclass=PluginModelMetadata):
 
     @field_validator("apiVersion", mode="before")
     def _validate_apiVersion(cls, value: str) -> str:
-        """Validate the apiVersion field.
+        """Validate input for the 'apiVersion' field.
 
         Ensure GeoIPS-prefixed API versions contain a '/' separator between
         the package name and version (e.g. 'geoips/v1'). Non-GeoIPS packages
