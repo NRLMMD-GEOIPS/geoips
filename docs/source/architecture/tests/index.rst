@@ -10,4 +10,5 @@ Testing Suite
     :maxdepth: 1
 
     unit-tests
+    integration-tests
     test-sectors
