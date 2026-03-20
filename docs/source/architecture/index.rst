@@ -23,3 +23,11 @@ integration test structure, documentation standards, code standards, and more.
 - Documentation Standards
 - Code Standards
 - CI/CD
+
+.. toctree::
+    :maxdepth: 1
+
+    data-structures
+    test-infrastructure
+    documentation
+    cached-files
