@@ -23,11 +23,11 @@ integration test structure, documentation standards, code standards, and more.
     plugin-registry
     interfaces/module_based/output-checkers/index.rst
     structure-of-geoips/index
-    xarray-standards
+    data-structures
     geoips-specification
     cached-files
-    tests/index
+    test-infrastructure
     ci-infrastructure
-    documentation/index
+    documentation
     command_line_interface
     custom-types/index
