@@ -3,10 +3,26 @@
  | # # # This source code is subject to the license referenced at
  | # # # https://github.com/NRLMMD-GEOIPS.
 
+Data Structures
+===============
+
+The data structures section describes the various data structures used in
+GeoIPS. Generally, GeoIPS relies on xarray Datasets to store and manage data,
+however, there is currently inconsistency. Sometimes we use dictionaries of
+Datasets, lists of masked Numpy arrays, and other data structures. The data
+structure expected and returned by a particular plugin is determined by the
+plugin's `family`.
+
+In the near future, we plan to standardize on a single data structure. We plan
+to use a nested series of xarray DataTrees containing Datasets. This will
+allow us to maintain data provenance and metadata while also providing a
+consistent interface for plugins to interact with data. We will also provide
+utilities for converting between different data structures as needed.
+
 .. _xarray_standards:
 
-Xarray and NetCDF Metadata Standards
-====================================
+Xarray Standards
+----------------
 
 All GeoIPS readers read data into xarray Datasets - a separate dataset for
 each shape/resolution of data - and contain standard metadata information for
@@ -17,7 +33,7 @@ with human readable keys for the different datasets
 (no standard for dictionary key names).
 
 Xarray Standard Variables
--------------------------
+^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Internal to GeoIPS, our xarray standards include the following variables for
 automated temporal and spatial sectoring.
@@ -32,7 +48,7 @@ and longitude arrays are strictly required, and time array is required
 for automated temporal sectoring*
 
 Xarray Standard Attributes
---------------------------
+^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 The following standard attributes are used internally to GeoIPS for consistent
 generation of titles, legends, regridding, etc
@@ -52,7 +68,7 @@ The following optional attributes can be used within processing if available.
 These are also referenced explicitly in geoips_utils.py copy_standard_metadata,
 and are included if they exist, and skipped if they do not exist.
 
-* 'data_attribution' - OPTIONAL dictionary containing the following entries: 
+* 'data_attribution' - OPTIONAL dictionary containing the following entries:
 
   * 'title'
 
