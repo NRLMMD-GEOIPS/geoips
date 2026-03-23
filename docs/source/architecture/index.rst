@@ -24,6 +24,7 @@ integration test structure, documentation standards, code standards, and more.
     interfaces/module_based/output-checkers/index.rst
     structure-of-geoips/index
     data-structures
+    data-structures
     geoips-specification
     cached-files
     test-infrastructure

@@ -1,19 +1,23 @@
-:orphan:
-
-.. dropdown:: Distribution Statement
-
- | # # # This source code is subject to the license referenced at
- | # # # https://github.com/NRLMMD-GEOIPS.
+.. _functionality:
 
 Functionality
 =============
 
-.. toctree::
-    :maxdepth: 1
+The functionality section gives overviews the core features of GeoIPS including
+plugins, scripting with plugins, using reproduceable infrstructure-as-code
+Workflows, extending GeoIPS with new plugins, the various plugin kinds, the
+CLI, and more.
 
-    order-based-processing/index
-    scripting/index
-    command-line/index
+More detailed information on each topic can be found in the
+Architecture and Tutorials sections of the documentation.
+
+.. toctree::
+    :maxdepth: 2
+
+    plugins/index
+    scripting
+    workflows-for-iac
+    extending-geoips
+    cli
+    plugin-registries
     documentation-building
-    examples/index
-    interfaces/index
