@@ -28,6 +28,6 @@ integration test structure, documentation standards, code standards, and more.
     :maxdepth: 1
 
     data-structures
-    test-infrastructure
-    documentation
+    test-infrastructure/index
+    documentation/index
     cached-files

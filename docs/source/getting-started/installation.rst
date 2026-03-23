@@ -110,13 +110,14 @@ from the conda-forge channel:
    conda install -c conda-forge xarray netcdf4 h5py pyhdf
 
 Other installation issues (e.g. dependency, architecture, or OS issues) may be
-solved by cloning the GeoIPS git repository and installing from source.
+solved by cloning the GeoIPS git repository and installing in editable mode
+from source.
 
 .. code-block:: bash
 
     git clone https://github.com/NRLMMD-GEOIPS/geoips.git
     cd geoips
-    pip install .
+    pip install -e .
 
 If you continue having difficulties, please open an issue on the `GEOIPS
 GitHub repository <geoips_github_>`_.
