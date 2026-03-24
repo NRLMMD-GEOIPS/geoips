@@ -31,7 +31,7 @@ class TestOutputCheckers:
             compare_paths, output_paths = plugin.get_test_files(permanent_test_data_dir)
         else:
             compare_paths, output_paths = plugin.get_test_files(tmp_path)
-        plugin.perform_test_comparisons(plugin, compare_paths, output_paths)
+        plugin.perform_test_comparisons(compare_paths, output_paths)
 
     @pytest.mark.parametrize("checker_name", available_output_checkers)
     def test_plugins(self, tmp_path, checker_name):
@@ -41,10 +41,10 @@ class TestOutputCheckers:
         # supported.  For now, xfail if we come across a "long" unit test.
         # We will eventually implement "long" running unit tests, but for
         # not just xfail.
-        if hasattr(plugin, "get_test_files_long") or not hasattr(
-            plugin, "perform_test_comparisons_long"
-        ):
-            pytest.xfail(checker_name + " should be run with the long unit tests.")
+        # if hasattr(plugin, "get_test_files_long") or not hasattr(
+        #     plugin, "perform_test_comparisons_long"
+        # ):
+        #     pytest.xfail(checker_name + " should be run with the long unit tests.")
         if not hasattr(plugin, "get_test_files") or not hasattr(
             plugin, "perform_test_comparisons"
         ):
