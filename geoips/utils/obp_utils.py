@@ -3,54 +3,23 @@
 
 """Utility functions for the order-based procflow."""
 
-import os
+from pathlib import Path
+from typing import Optional
 
 
-def validate_workflow_file_inputs(workflow_plugin, fnames):
-    """Validate that all required file inputs exist before processing begins.
-
-    Checks that file paths required by workflow steps are accessible on the
-    filesystem. Inspects command-line `fnames`, per-step `fnames` lists,
-    and `compare_path` values. If any paths are missing the workflow is
-    terminated with an actionable error message.
+def validate_paths(file_path: str) -> Optional[str]:
+    """
+    Check whether a file path exists.
 
     Parameters
     ----------
-    workflow_plugin : dict
-        The raw workflow plugin dictionary whose `spec.steps` will be
-        inspected.
-    fnames : list of str
-        List of input filenames provided on the command line for reader steps.
+    file_path : str
+        Path to the file to evaluate.
 
-    Raises
-    ------
-    FileNotFoundError
-        If one or more required file paths do not exist.
+    Returns
+    -------
+    Optional[str]
+        The file path if it does not exist.
     """
-    missing = []
-
-    for path in fnames:
-        if not os.path.exists(path):
-            missing.append(("command_line_args", "reader", path))
-
-    for step_id, step_def in workflow_plugin["spec"]["steps"].items():
-        kind = step_def["kind"]
-        arguments = step_def.get("arguments", {})
-
-        for path in arguments.get("fnames", []):
-            if not os.path.exists(path):
-                missing.append((step_id, kind, path))
-
-        compare_path = arguments.get("compare_path", None)
-        if compare_path and not os.path.exists(compare_path):
-            missing.append((step_id, kind, compare_path))
-
-    if missing:
-        error_lines = [
-            "The workflow cannot proceed because the following required "
-            "file(s) were not found:"
-        ]
-        for step_id, kind, path in missing:
-            error_lines.append(f"  step '{step_id}' (kind: {kind}): {path}")
-
-        raise FileNotFoundError("\n".join(error_lines))
+    if not Path(file_path).is_file():
+        return file_path
