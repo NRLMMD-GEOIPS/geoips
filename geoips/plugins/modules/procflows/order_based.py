@@ -122,13 +122,10 @@ def call(workflow, fnames, command_line_args=None):
                     step_def["arguments"]["chans"] = step_def["arguments"].pop(
                         "variables"
                     )
-                if fnames:
-                    data = plg(fnames, **step_def["arguments"])
-                else:
-                    data = plg(**step_def["arguments"])
+                if fnames and "fnames" in step_def["arguments"]:
+                    step_def["arguments"]["fnames"] = fnames
+                data = plg(**step_def["arguments"])
                 print(data)
-            else:
-                data = plg(data, **step_def["arguments"])
             LOG.interactive(
                 "Completed Step: step_id: '%s', plugin_kind: '%s', plugin_name: '%s'.",
                 step_id,
