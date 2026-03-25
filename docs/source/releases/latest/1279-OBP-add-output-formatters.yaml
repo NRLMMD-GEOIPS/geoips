@@ -1,0 +1,18 @@
+feature:
+- title: 'Order-Based Procflow: Add Output Formatters'
+  description: 'Introduce Pydantic model defining and validating OBP-v1 OutputFormatterArgumentsModel'
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - ''
+  related-issue:
+    number: null
+    repo_url: ''
+  date:
+    start: null
+    finish: null
