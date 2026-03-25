@@ -445,15 +445,16 @@ class WorkflowSpecModel(FrozenModel):
         """
         kind = step.get("kind")
         interface = getattr(interfaces, Lexeme(kind).plural)
+
         if kind == "product":
-            plugin = interface.get_plugin(*step.get("name"), rebuild_registries=False)
+            plugin = interface.get_plugin(*step.get("name"))
         else:
-            plugin = interface.get_plugin(step.get("name"), rebuild_registries=False)
+            plugin = interface.get_plugin(step.get("name"))
 
         if kind in ["product", "product_default"]:
             steps, global_vars = cls.product_to_steps(plugin)  # NOQA
         else:
-            steps = cls.expand_steps(plugin.get("spec"))
+            steps = cls.expand_steps(plugin.get("spec"))["steps"]
 
         return steps
 
