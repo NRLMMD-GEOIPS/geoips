@@ -18,7 +18,7 @@ bug fix:
     modified:
     - 'geoips/sector_utils/tc_tracks_database.py'
   related-issue:
-    internal: "GEOIPS#759 - Fix bug preventing invest b-deck files from being added to decks database"
+    internal: "geoips#759 - Fix bug preventing invest b-deck files from being added to decks database"
   date:
     start: 2025-03-13
     finish: 2025-03-13
