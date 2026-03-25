@@ -1,0 +1,20 @@
+apiVersion: geoips/v1
+interface: workflows
+family: order_based
+name: test_product
+docstring: |
+  11.2 µm Infrared.
+
+  This product utilizes channel 14 (11.2 µm) and highlights areas of deep convection within a Tropical Cyclone.
+description: 11.2 µm Infrared.
+spec:
+  steps:
+    reader:
+      kind: reader
+      name: abi_netcdf
+      arguments:
+        variables: ['B14BT']
+    product:
+      kind: product
+      name: [abi, Infrared]
+      arguments: {}
