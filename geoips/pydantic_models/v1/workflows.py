@@ -263,13 +263,9 @@ class WorkflowStepDefinitionModel(FrozenModel):
         ------
         ValueError
             If the plugin name is not valid for the specified plugin kind.
-
         """
         plugin_name = model.name
         plugin_kind = model.kind
-
-        if plugin_kind == "product":
-            plugin_name = plugin_name[1]
 
         valid_plugin_names = get_plugin_names(plugin_kind)
         if plugin_name not in valid_plugin_names:
@@ -524,8 +520,10 @@ class WorkflowPluginModel(PluginModel):
         examples=[
             {
                 "fnames": f"{environ['GEOIPS_TESTDATA_DIR']}/test_data_abi/data/goes16_20200918_1950/*",  # NOQA
-                "compare_path": f"{environ['GEOIPS_PACKAGES_DIR']}/geoips/tests/outputs/abi.static.<product>.imagery_clean",  # NOQA
-                "logging_level": "info",
+                "command_line_args": {
+                    "compare_path": f"{environ['GEOIPS_PACKAGES_DIR']}/geoips/tests/outputs/abi.static.<product>.imagery_clean",  # NOQA
+                    "logging_level": "info",
+                },
             },
         ],
     )
