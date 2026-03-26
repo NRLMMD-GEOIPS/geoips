@@ -1,0 +1,18 @@
+feature:
+- title: 'Extend ReaderArgumentsModel with additional configuration'
+  description: 
+  files:
+    added:
+    - 'geoips/pydantic_models/v1/readers.py'
+    modified:
+    - 'geoips/pydantic_models/v1/workflows.py'
+    deleted:
+    - 'tests/unit_tests/pydantic_models/v1/workflows/test_reader_arguments_model.py'
+    moved:
+    - ''
+  related-issue:
+    number: 1282
+    repo_url: ''
+  date:
+    start: null
+    finish: null
