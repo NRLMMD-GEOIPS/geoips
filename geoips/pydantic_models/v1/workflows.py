@@ -75,7 +75,20 @@ def get_plugin_names(plugin_kind: str) -> List[str]:
         error_message = f"{plugin_kind} is not a recognized plugin kind."
         LOG.critical(error_message, exc_info=True)
         raise AttributeError(error_message) from e
-    return [plugin.name for plugin in interface.get_plugins() or []]
+
+    interface_entry = interface.plugin_registry.registered_plugins[
+        interface.interface_type
+    ][interface_name]
+
+    if interface_name == "products":
+        plugin_names = []
+        for source_name in interface_entry:
+            for plugin_name in interface_entry[source_name]:
+                plugin_names.append((source_name, plugin_name))
+
+        return plugin_names
+    else:
+        return list(interface_entry.keys())
 
 
 def get_plugin_kinds() -> set[str]:
