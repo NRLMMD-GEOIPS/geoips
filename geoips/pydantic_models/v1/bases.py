@@ -603,8 +603,7 @@ class PluginModel(FrozenModel, metaclass=PluginModelMetadata):
         """Validate input for the 'apiVersion' field.
 
         Ensure GeoIPS-prefixed API versions contain a '/' separator between
-        the package name and version (e.g. 'geoips/v1'). Non-GeoIPS packages
-        bypass this check.
+        the package name and version (e.g. 'geoips/v1').
 
         Parameters
         ----------
@@ -621,7 +620,7 @@ class PluginModel(FrozenModel, metaclass=PluginModelMetadata):
         ValueError
             If the value does not contain '/v' to indicate a version.
         """
-        if value.lower().startswith("geoips") and "/v" not in value:
+        if "/v" not in value:
             raise ValueError(
                 f"'{value}' must contain package name, separator /, and version name"
             )
