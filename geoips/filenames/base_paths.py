@@ -50,7 +50,7 @@ def cast_to_bool(value):
     value: bool
         - The boolean casted value of the corresponding environment variable.
     """
-    if value == "0" or value == "False" or value == "false":
+    if value == "0" or value == "False" or value == "false" or value == False:
         return False
     else:
         return True
