@@ -484,6 +484,16 @@ instructions:
       <output_directory_path>`.
     output_info:
       - A path to the image of the sector you've created.
+  geoips_test_workflow:
+    help_str: |
+      Test the output of a workflow plugin. The ``test`` section in the specified
+      workflow plugin should include all parameters needed to produce a replicable
+      output which can be created by executing all the steps listed in the given
+      workflow.
+    usage_str: |
+      To use, type `geoips test workflow <workflow_name>.
+    output_info:
+      - All captured print and log output of executing the given workflow.
   # geoips_test_unit-test:
   #   help_str: |
   #     Run tests unit-test[s] implemented in a certain GeoIPS package. This command

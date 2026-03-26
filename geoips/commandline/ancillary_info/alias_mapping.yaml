@@ -72,6 +72,8 @@ products:
   - prod
   - prods
   - product
+sector:
+  - sec
 sectors:
   - sec
   - secs
@@ -80,6 +82,8 @@ workflows:
   - wf
   - wfs
   - workflow
+workflow:
+  - wf
 order-based:
   - ob
   - obp
