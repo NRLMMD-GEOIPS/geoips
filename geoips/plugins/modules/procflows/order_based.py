@@ -11,7 +11,7 @@ import logging
 from geoips import interfaces
 from geoips.commandline.log_setup import setup_logging
 from geoips.utils.types.partial_lexeme import Lexeme
-from geoips.utils.obp_utils import validate_paths
+from geoips.utils.obp_file_utils import validate_paths
 
 LOG = logging.getLogger(__name__)
 
