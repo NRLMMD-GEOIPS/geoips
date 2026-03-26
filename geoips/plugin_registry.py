@@ -36,6 +36,34 @@ from geoips.utils.types.partial_lexeme import Lexeme
 LOG = logging.getLogger(__name__)
 
 
+def env_constructor(loader, node):
+    """YAML constructor for the ``!ENV`` tag that expands environment variables.
+
+    This function allows YAML files to include environment variables using
+    the ``!ENV`` tag. The scalar value associated with the tag is read and
+    any environment variables within the string (e.g. ``${VAR_NAME}``) are
+    expanded using :func:`os.path.expandvars`.
+
+    Parameters
+    ----------
+    loader : yaml.Loader
+        The YAML loader instance currently parsing the document.
+    node : yaml.Node
+        The YAML node containing the scalar value associated with the ``!ENV`` tag.
+
+    Returns
+    -------
+    str
+        The scalar value with any environment variables expanded using the
+        current process environment.
+    """
+    value = loader.construct_scalar(node)
+    return os.path.expandvars(value)
+
+
+yaml.SafeLoader.add_constructor("!ENV", env_constructor)
+
+
 class PluginRegistry:
     """Plugin Registry class definition.
 

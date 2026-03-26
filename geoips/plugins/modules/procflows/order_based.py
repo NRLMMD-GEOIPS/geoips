@@ -5,6 +5,7 @@
 
 # Python Standard Libraries
 from argparse import ArgumentParser
+from glob import glob
 import logging
 
 # GeoIPS imports
@@ -34,6 +35,9 @@ def call(workflow, fnames, command_line_args=None):
     command_line_args : list of str, None
         Command line arguments to pass to the workflow.
     """
+    if isinstance(fnames, str):
+        fnames = glob(fnames)
+
     LOG.interactive(f"Begin processing '{workflow['name']}' workflow.")
     wf_plugin = workflow
 

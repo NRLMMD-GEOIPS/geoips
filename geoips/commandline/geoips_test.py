@@ -364,6 +364,7 @@ class GeoipsTestWorkflow(GeoipsExecutableCommand):
             # choices=[plugin.name for plugin in workflows.get_plugins()],
             help="GeoIPS workflow plugin to test.",
         )
+        # add a filepath option for an optional argument -f or --filepath
 
     def __call__(self, args):
         """CLI 'geoips test workflow <workflow_name>' command.
