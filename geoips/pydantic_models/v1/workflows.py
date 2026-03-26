@@ -19,6 +19,7 @@ from __future__ import annotations
 # Python Standard Libraries
 from copy import deepcopy
 import logging
+from os import environ
 from typing import Any, Dict, List
 
 # Third-Party Libraries
@@ -337,6 +338,19 @@ class WorkflowSpecModel(FrozenModel):
     steps: Dict[PythonIdentifier, WorkflowStepDefinitionModel] = Field(
         ..., description="Steps to produce the workflow."
     )
+    globals: Dict[str, Any] = Field(
+        None,
+        description=(
+            "Optional dictionary of  variables that can be used for multiple plugins in"
+            " a workflow."
+        ),
+        examples=[
+            {
+                "variables": ["B14BT"],
+                "mtif_type": "vis",
+            },
+        ],
+    )
 
     @classmethod
     def extend_dict(cls, base: dict, new: dict) -> dict:
@@ -489,3 +503,16 @@ class WorkflowPluginModel(PluginModel):
 
     model_config = ConfigDict(extra="allow")
     spec: WorkflowSpecModel = Field(..., description="The workflow specification")
+    test: Dict[str, Any] = Field(
+        None,
+        description=(
+            "An optional dictionary of parameters used to test this workflow.",
+        ),
+        examples=[
+            {
+                "fnames": f"{environ['GEOIPS_TESTDATA_DIR']}/test_data_abi/data/goes16_20200918_1950/*",  # NOQA
+                "compare_path": f"{environ['GEOIPS_PACKAGES_DIR']}/geoips/tests/outputs/abi.static.<product>.imagery_clean",  # NOQA
+                "logging_level": "info",
+            },
+        ],
+    )
