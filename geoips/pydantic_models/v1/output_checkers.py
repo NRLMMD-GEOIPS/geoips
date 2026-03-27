@@ -10,7 +10,7 @@ from pydantic import Field
 from geoips.pydantic_models.v1.bases import FrozenModel
 
 
-class OutputCheckersArgumentsModel(FrozenModel):
+class OutputCheckerArgumentsModel(FrozenModel):
     """Output Checker spec (specification) format."""
 
     checker_name: Optional[str] = Field(
