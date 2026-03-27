@@ -2,7 +2,7 @@ performance:
 - title: 'Validate that the version separator for GeoIPS package is "/"'
   description: |
     Add a field validator for the apiVersion field on PluginModel that
-    ensures GeoIPS-prefixed API versions contain a "/" separator between
+    ensures API versions contain a "/" separator between
     the package name and version (e.g. "geoips/v1"). Includes unit tests for valid and invalid
     apiVersion values.
   files:
