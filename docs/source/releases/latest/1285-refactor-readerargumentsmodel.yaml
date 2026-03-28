@@ -8,8 +8,9 @@ feature:
     modified:
     - 'geoips/pydantic_models/v1/workflows.py'
     deleted:
-    - 'tests/unit_tests/pydantic_models/v1/workflows/test_reader_arguments_model.py'
+    - ''
     moved:
+    - tests/unit_tests/pydantic_models/v1/{workflows => readers}/test_reader_arguments_model.py
   related-issue:
     number: null
     repo_url: ''
