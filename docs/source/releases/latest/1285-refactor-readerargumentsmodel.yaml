@@ -3,7 +3,7 @@ feature:
   description: 'Reorganize the reader Pydantic model and associated unit tests"
   files:
     added:
-    - 'docs/source/releases/latest/1283-extend-readerargumentsmodel-with-additional-configuration.yaml'
+    - 'docs/source/releases/latest/1285-refactor-readerargumentsmodel.yaml'
     - 'geoips/pydantic_models/v1/readers.py'
     modified:
     - 'geoips/pydantic_models/v1/workflows.py'
@@ -11,7 +11,7 @@ feature:
     - 'tests/unit_tests/pydantic_models/v1/workflows/test_reader_arguments_model.py'
     moved:
   related-issue:
-    number: 1282
+    number: null
     repo_url: ''
   date:
     start: null
