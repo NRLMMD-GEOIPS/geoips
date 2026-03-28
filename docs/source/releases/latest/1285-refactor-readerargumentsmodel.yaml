@@ -1,6 +1,6 @@
 feature:
 - title: 'Refactor ReaderArgumentsModel and corresponding tests'
-  description: 'Reorganize the reader Pydantic model and associated unit tests"
+  description: 'Reorganize the reader Pydantic model and associated unit tests'
   files:
     added:
     - 'docs/source/releases/latest/1285-refactor-readerargumentsmodel.yaml'
