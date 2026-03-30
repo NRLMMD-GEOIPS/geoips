@@ -34,7 +34,21 @@ function gitall {
     # Save current directory so they don't end up someplace new.
     cwd=$PWD
 
-    if [[ -e $GEOIPS_PACKAGES_DIR ]]; then
+    if [[ -e $GEOIPS_BASEDIR ]]; then
+        for package_dir in `ls -d $GEOIPS_BASEDIR/*_packages`; do
+            echo -e "\033[1;35mRunning $package_dir\n\t$@:\033[0m"
+            cd $package_dir
+            mods=`ls`
+            for mod in $mods; do
+                # Print directory
+                echo -e "\033[1;35m$package_dir/$mod:\n\t$@:\033[0m"
+                # Run the git command on passed arguments
+                mkdir -p $GEOIPS_OUTDIRS/gitlog
+                logf=$GEOIPS_OUTDIRS/gitlog/`date +%Y%m%d%H%M`.log
+                git -C $package_dir/$mod $@ | tee -a $logf
+            done
+        done
+    elif [[ -e $GEOIPS_PACKAGES_DIR ]]; then
         cd $GEOIPS_PACKAGES_DIR
         mods=`ls`
         for mod in $mods; do

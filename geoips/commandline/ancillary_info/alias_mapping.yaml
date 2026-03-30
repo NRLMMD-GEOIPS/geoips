@@ -80,6 +80,9 @@ workflows:
   - wf
   - wfs
   - workflow
+order-based:
+  - ob
+  - obp
 package:
   - pkg
 packages:

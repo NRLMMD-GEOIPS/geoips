@@ -14,8 +14,7 @@ documentation:
     start: 2025-05-09
     finish: 2025-05-09
   related-issue:
-    number: 753
-    internal: GEOIPS#753 - 1.15.2 updates
+    internal: geoips#753 - 1.15.2 updates
 documentation:
 - title: Update upcoming and tagged versions
   description: |
@@ -30,5 +29,4 @@ documentation:
     start: 2025-05-09
     finish: 2025-05-09
   related-issue:
-    number: 753
-    internal: GEOIPS#753 - 1.15.2 updates
+    internal: geoips#753 - 1.15.2 updates

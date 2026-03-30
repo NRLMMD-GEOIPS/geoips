@@ -41,7 +41,7 @@ enhancement:
     - 'setup/config_geoips'
     - 'tests/integration_tests/test_integration.py'
   related-issue:
-    internal: GEOIPS#852 caching options
+    internal: geoips#852 - caching options
   date:
     start: 2025-05-12
     finish: 2025-05-14

@@ -8,9 +8,10 @@ Runs the appropriate tests based on the arguments provided.
 
 from glob import glob
 from importlib import resources
+import warnings
 
 # from os import listdir
-from os import environ, makedirs
+from os import makedirs
 from os.path import basename, exists, join
 import sys
 
@@ -19,9 +20,9 @@ from subprocess import call
 
 from geoips.commandline.geoips_command import GeoipsCommand, GeoipsExecutableCommand
 from geoips.errors import PluginError
+from geoips.filenames.base_paths import PATHS
 from geoips.geoips_utils import is_editable
 from geoips.interfaces import sectors
-
 
 # class GeoipsTestUnitTest(GeoipsExecutableCommand):
 #     """Test Command for running GeoIPS Unit Tests."""
@@ -139,7 +140,7 @@ class GeoipsTestSector(GeoipsExecutableCommand):
             "--outdir",
             "-o",
             type=str,
-            default=f"{environ['GEOIPS_OUTDIRS']}",
+            default=PATHS["GEOIPS_OUTDIRS"],
             help="The output directory to create your sector image in.",
         )
         self.parser.add_argument(
@@ -249,6 +250,11 @@ class GeoipsTestScript(GeoipsExecutableCommand):
         args: Argparse Namespace()
             - The list argument namespace to parse through
         """
+        if args.warnings != "print":
+            warnings.warn(
+                "The 'warnings' argument is not yet supported for this command.",
+                UserWarning,
+            )
         package_name = args.package_name
         script_name = args.script_name
         is_integration_test = args.integration

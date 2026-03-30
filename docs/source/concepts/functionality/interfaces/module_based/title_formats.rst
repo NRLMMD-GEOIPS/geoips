@@ -5,7 +5,6 @@
 
 .. _title_formats_functionality:
 
-**************************
 Title Formatters in GeoIPS
 **************************
 
@@ -15,7 +14,8 @@ information (e.g. valid time) concerning the plotted data, but this plugin type
 can be customized however the user desires.
 
 For an example of a title formatter, see the
-`static standard <https://github.com/NRLMMD-GEOIPS/geoips/blob/main/geoips/plugins/modules/title_formatters/static_standard.py>`_
+`static standard
+<https://github.com/NRLMMD-GEOIPS/geoips/blob/main/geoips/plugins/modules/title_formatters/static_standard.py>`_
 title formatter.
 
 Title formatters can be applied in two ways:
@@ -40,5 +40,6 @@ a JSON dictionary:
       --output_formatter_kwargs '{"title_formatter": "static_standard"}'
 
 For an example of calling a title formatter from a test script, see the
-`HY-2 windspeed <https://github.com/NRLMMD-GEOIPS/geoips/blob/main/tests/scripts/hy2.tc.windspeed.imagery_annotated.sh>`_
+`HY-2 windspeed
+<https://github.com/NRLMMD-GEOIPS/geoips/blob/main/tests/scripts/hy2.tc.windspeed.imagery_annotated.sh>`_
 test script.

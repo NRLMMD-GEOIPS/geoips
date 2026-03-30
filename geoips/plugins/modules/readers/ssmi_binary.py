@@ -57,6 +57,7 @@ SSMI input data info::
     int16 lat[HIRES][2];         /* latitudes */
     char sft[HIRES][2];          /* surface types */
 """
+
 # Python Standard Libraries
 from datetime import datetime
 import logging
@@ -67,7 +68,6 @@ import matplotlib
 import numpy as np
 import pandas as pd
 import xarray as xr
-
 
 matplotlib.use("agg")
 

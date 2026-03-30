@@ -1,0 +1,23 @@
+interface: product_defaults
+family: interpolator_algorithm_colormapper
+name: HNCC
+docstring: |
+  The HNCC product_defaults configuration.
+spec:
+  algorithm:
+    plugin:
+      name: high_near_constant_contrast
+      arguments:
+        {}
+  mtif_type: vis
+  colormapper:
+    plugin:
+      name: matplotlib_linear_norm
+      arguments:
+        data_range: [0, 1]
+        cmap_name: Greys_r
+        cbar_label: Normalized Radiance
+  interpolator:
+    plugin:
+      name: interp_nearest
+      arguments: {}

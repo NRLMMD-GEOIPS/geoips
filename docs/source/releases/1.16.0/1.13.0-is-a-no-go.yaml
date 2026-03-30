@@ -1,0 +1,12 @@
+bug fix:
+- title: 'Pin python to <3.13.0'
+  description: 'Changes to datetime handling are breaking in python 3.13. This pins the python version below 3.13 for now.'
+  files:
+    modified:
+    - 'pyproject.toml'
+  related-issue:
+    number: null
+    repo_url: ''
+  date:
+    start: null
+    finish: null

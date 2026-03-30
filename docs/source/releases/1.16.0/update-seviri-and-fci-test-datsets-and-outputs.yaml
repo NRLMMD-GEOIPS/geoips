@@ -1,0 +1,83 @@
+bug fix:
+- title: 'Fix linting errors from flake8 and cspell'
+  description: 'Fix linting errors from flake8 and cspell'
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - 'geoips/plugins/modules/readers/amsua_mhs_mirs.py'
+  related-issue:
+    number: null
+    repo_url: ''
+  date:
+    start: 2025-06-25
+    finish: 2025-06-25
+continuous integration:
+- title: 'Update input data and output imagery'
+  description: |
+    Update input data and output imagery for FCI and SEVIRI.
+    Update output image for ami.tc.WV.geotiff.sh.
+    Move AMSUB tests to limited_dataset_availability tests.
+    Disable viirs.static.visible.imagery_clean.sh until issue 1076 is solved.
+  files:
+    deleted:
+    - 'tests/outputs/fci.static.Visible.imagery_annotated/20240113.115000.MTG-I1.fci.Visible.global_cylindrical.26p09.EUMETSAT.20p0.png'
+    - 'tests/outputs/fci.unprojected_image.Infrared/20240113.115000.MTG-I1.fci.Infrared.self_register.71p89.EUMETSAT.50p0.png'
+    - 'tests/outputs/seviri.Convective_Storms.imagery_clean/20200404.080000.msg-1.seviri.Convective_Storms.global_cylindrical.22p76.nesdisstar.20p0.png'
+    - 'tests/outputs/seviri.Day_Microphys_Summer.imagery_clean/20200404.080000.msg-1.seviri.Day_Microphys_Summer.global_cylindrical.22p76.nesdisstar.20p0.png'
+    - 'tests/outputs/seviri.Day_Microphys_Winter.imagery_clean/20200404.080000.msg-1.seviri.Day_Microphys_Winter.global_cylindrical.22p76.nesdisstar.20p0.png'
+    - 'tests/outputs/seviri.Day_Solar.imagery_clean/20200404.080000.msg-1.seviri.Day_Solar.global_cylindrical.22p76.nesdisstar.20p0.png'
+    - 'tests/outputs/seviri.Dust-RGB.imagery_clean/20200404.080000.msg-1.seviri.Dust-RGB.global_cylindrical.22p76.nesdisstar.20p0.png'
+    - 'tests/outputs/seviri.Dust-RGB.imagery_clean/20200404.080000.msg-1.seviri.Dust_RGB.global_cylindrical.22p76.nesdisstar.20p0.png'
+    - 'tests/outputs/seviri.Natural-Color.imagery_clean/20200404.080000.msg-1.seviri.Natural-Color.global_cylindrical.22p76.nesdisstar.20p0.png'
+    - 'tests/outputs/seviri.Natural-Color.imagery_clean/20200404.080000.msg-1.seviri.Natural_Color.global_cylindrical.22p76.nesdisstar.20p0.png'
+    - 'tests/outputs/seviri.Night_Microphys.imagery_clean/20240327.010000.msg-3.seviri.Night_Microphys.global_cylindrical.22p76.nesdisstar.20p0.png'
+    - 'tests/outputs/seviri.Volcanic_Ash.imagery_clean/20200404.080000.msg-1.seviri.Volcanic_Ash.global_cylindrical.22p76.nesdisstar.20p0.png'
+    - 'tests/outputs/seviri.WV-Upper.no_self_register.unprojected_image/20231211.080000.msg-2.seviri.WV-Upper-No-SR.unk.nesdisstar..png'
+    - 'tests/outputs/seviri.WV-Upper.unprojected_image/20200404.080000.msg-1.seviri.WV-Upper.self_register.69p07.nesdisstar.10p0.png'
+    - 'tests/outputs/seviri.WV-Upper.unprojected_image/20231211.080000.msg-2.seviri.WV-Upper.self_register.69p07.nesdisstar.10p0.png'
+    - 'tests/outputs/seviri.airmass.imagery_clean/20200404.080000.msg-1.seviri.airmass.global_cylindrical.22p76.nesdisstar.20p0.png'
+    - 'tests/scripts/seviri.Dust-RGB.imagery_clean.sh'
+    - 'tests/scripts/seviri.Natural-Color.imagery_clean.sh'
+    moved:
+    - ''
+    added:
+    - 'tests/outputs/fci.static.Visible.imagery_annotated/20250623.120000.MTG-I1.fci.Visible.global_cylindrical.25p71.EUMETSAT.20p0.png'
+    - 'tests/outputs/fci.unprojected_image.Infrared/20250623.120000.MTG-I1.fci.Infrared.self_register.71p89.EUMETSAT.50p0.png'
+    - 'tests/outputs/seviri.Convective_Storms.imagery_clean/20250624.120000.msg-3.seviri.Convective_Storms.global_cylindrical.22p76.nesdisstar.20p0.png'
+    - 'tests/outputs/seviri.Day_Microphys_Summer.imagery_clean/20250624.120000.msg-3.seviri.Day_Microphys_Summer.global_cylindrical.22p76.nesdisstar.20p0.png'
+    - 'tests/outputs/seviri.Day_Microphys_Winter.imagery_clean/20250624.120000.msg-3.seviri.Day_Microphys_Winter.global_cylindrical.22p76.nesdisstar.20p0.png'
+    - 'tests/outputs/seviri.Day_Solar.imagery_clean/20250624.120000.msg-3.seviri.Day_Solar.global_cylindrical.22p76.nesdisstar.20p0.png'
+    - 'tests/outputs/seviri.Dust-RGB.imagery_clean/20250624.120000.msg-3.seviri.Dust_RGB.global_cylindrical.22p76.nesdisstar.20p0.png'
+    - 'tests/outputs/seviri.Natural-Color.imagery_clean/20250624.120000.msg-3.seviri.Natural_Color.global_cylindrical.22p76.nesdisstar.20p0.png'
+    - 'tests/outputs/seviri.Night_Microphys.imagery_clean/20250624.120000.msg-3.seviri.Night_Microphys.global_cylindrical.22p76.nesdisstar.20p0.png'
+    - 'tests/outputs/seviri.Volcanic_Ash.imagery_clean/20250624.120000.msg-3.seviri.Volcanic_Ash.global_cylindrical.22p76.nesdisstar.20p0.png'
+    - 'tests/outputs/seviri.WV-Upper.no_self_register.unprojected_image/20250624.120000.msg-3.seviri.WV-Upper-No-SR.unk.nesdisstar..png'
+    - 'tests/outputs/seviri.WV-Upper.unprojected_image/20250624.120000.msg-3.seviri.WV-Upper.self_register.69p07.nesdisstar.10p0.png'
+    - 'tests/outputs/seviri.airmass.imagery_clean/20250624.120000.msg-3.seviri.airmass.global_cylindrical.22p76.nesdisstar.20p0.png'
+    modified:
+    - 'tests/integration_tests/test_integration.py'
+    - 'tests/scripts/atms.tc.165H.netcdf_geoips.sh'
+    - 'tests/scripts/fci.static.Visible.imagery_annotated.sh'
+    - 'tests/scripts/fci.unprojected_image.Infrared.sh'
+    - 'tests/scripts/seviri.Convective_Storms.imagery_clean.sh'
+    - 'tests/scripts/seviri.Day_Microphys_Summer.imagery_clean.sh'
+    - 'tests/scripts/seviri.Day_Microphys_Winter.imagery_clean.sh'
+    - 'tests/scripts/seviri.Day_Solar.imagery_clean.sh'
+    - 'tests/scripts/seviri.Dust_RGB.imagery_clean.sh'
+    - 'tests/scripts/seviri.Natural_Color.imagery_clean.sh'
+    - 'tests/scripts/seviri.Night_Microphys.imagery_clean.sh'
+    - 'tests/scripts/seviri.Volcanic_Ash.imagery_clean.sh'
+    - 'tests/scripts/seviri.WV-Upper.no_self_register.unprojected_image.sh'
+    - 'tests/scripts/seviri.WV-Upper.unprojected_image.sh'
+    - 'tests/scripts/seviri.airmass.imagery_clean.sh'
+  related-issue:
+    number: null
+    repo_url: ''
+  date:
+    start: 2025-06-24
+    finish: 2025-06-25

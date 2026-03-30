@@ -22,6 +22,7 @@ from geoips.commandline.geoips_test import GeoipsTest
 from geoips.commandline.geoips_tree import GeoipsTree
 from geoips.commandline.geoips_validate import GeoipsValidate
 from geoips.commandline.log_setup import setup_logging
+from geoips.filenames.base_paths import PATHS
 
 
 class GeoipsCLI(GeoipsCommand):
@@ -48,7 +49,7 @@ class GeoipsCLI(GeoipsCommand):
 
         The CLI contains a single top-level argparse.ArgumentParser() which contains
         subparsers related to each subcommand. This ensures that each command has a
-        unique set of arguments inheirted from command -> subcommand -> subcommand,
+        unique set of arguments inherited from command -> subcommand -> subcommand,
         and so on. For example, the GeoipsList Command Class's arguments are inherited
         by all subcommand child classes, which recursively can have their own child
         subcommand classes.
@@ -93,6 +94,21 @@ class GeoipsCLI(GeoipsCommand):
                 sys.argv.pop(log_idx + 1)
                 sys.argv.pop(log_idx)
                 sys.argv.insert(1, log_level)
+                sys.argv.insert(1, flag)
+        if "--warnings" in sys.argv:
+            # One of the flags was found in the arguments provided
+            warn_idx = max(
+                [idx if arg == "--warnings" else -1 for idx, arg in enumerate(sys.argv)]
+            )
+            # Make sure that the argument list is long enough for warning level to be
+            # provided. It doesn't have to be correct, that validation will be done
+            # by argparse
+            if len(sys.argv) > warn_idx + 1:
+                flag = sys.argv[warn_idx]
+                warn_level = sys.argv[warn_idx + 1]
+                sys.argv.pop(warn_idx + 1)
+                sys.argv.pop(warn_idx)
+                sys.argv.insert(1, warn_level)
                 sys.argv.insert(1, flag)
 
         super().__init__(legacy=legacy)
@@ -152,7 +168,15 @@ def support_legacy_procflows():
     """
     defined_procflow = None
     # Including '-h' here as we need to be able to support help messages for this cmd
-    supported_procflows = ["config_based", "data_fusion", "single_source", "-h"]
+    supported_procflows = [
+        "config_based",
+        "data_fusion",
+        "order_based",
+        "ob",
+        "obp",
+        "single_source",
+        "-h",
+    ]
     if (
         os.path.basename(sys.argv[0]) == "geoips"
         and len(sys.argv) > 2
@@ -199,7 +223,7 @@ def support_legacy_procflows():
 
 def print_beta_warning():
     """Notify the user that the CLI is still in Beta development stage."""
-    print(
+    warning_with_color = (
         Fore.RED
         + "\nWARNING: "
         + Fore.YELLOW
@@ -211,6 +235,18 @@ def print_beta_warning():
         + "https://github.com/NRLMMD-GEOIPS/geoips/issues/new/choose\n"
         + Style.RESET_ALL
     )
+    warning_no_color = (
+        "\nWARNING: The GeoIPS CLI is currently under development and is subject "
+        "to change.\nUntil this warning is removed, do not rely on the CLI to be "
+        "static.\nPlease feel free to test the CLI and report any bugs or comments as "
+        "an issue here:\n"
+        "https://github.com/NRLMMD-GEOIPS/geoips/issues/new/choose\n"
+    )
+
+    if PATHS["NO_COLOR"]:
+        print(warning_no_color)
+    else:
+        print(warning_with_color)
 
 
 def main(suppress_args=True):

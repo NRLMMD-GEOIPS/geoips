@@ -6,6 +6,8 @@
 See geoips/commandline/ancillary_info/cmd_instructions.yaml for more information.
 """
 
+from importlib.resources import files
+
 import pytest
 
 from tests.unit_tests.commandline.cli_top_level_tester import BaseCliTest
@@ -115,6 +117,52 @@ class TestGeoipsRun(BaseCliTest):
     new_geo_args.insert(1, "run")
     new_geo_args.insert(2, "data_fusion")
 
+    obp_args_workflow_name = [
+        "geoips",
+        "run",
+        "order_based",
+        "$GEOIPS_TESTDATA_DIR/test_data_noaa_aws/data/goes16/20200918/1950/*",
+        "--workflow",
+        "read_test_v1",
+    ]
+    obp_args_generated_workflow = [
+        "geoips",
+        "run",
+        "order_based",
+        "$GEOIPS_TESTDATA_DIR/test_data_noaa_aws/data/goes16/20200918/1950/*",
+        "--generated",
+        str(
+            {
+                "interface": "workflows",
+                "family": "order_based",
+                "name": "generated",
+                "docstring": "Dynamically generated workflow plugin.",
+                "spec": {
+                    "steps": {
+                        "reader": {
+                            "kind": "reader",
+                            "name": "abi_netcdf",
+                            "arguments": {"variables": ["B14BT"]},
+                        },
+                        "output_formatter": {
+                            "kind": "output_formatter",
+                            "name": "unprojected_image",
+                            "arguments": {"sectors": ["overcast_georing"]},
+                        },
+                    }
+                },
+            }
+        ),
+    ]
+    obp_args_workflow_path = [
+        "geoips",
+        "run",
+        "order_based",
+        "$GEOIPS_TESTDATA_DIR/test_data_noaa_aws/data/goes16/20200918/1950/*",
+        "--filepath",
+        f"{files('geoips') / 'plugins/yaml/workflows/read_test_v1.yaml'}",
+    ]
+
     @property
     def command_combinations(self):
         """A stochastic list of commands used by the GeoipsRun command.
@@ -133,6 +181,9 @@ class TestGeoipsRun(BaseCliTest):
             self._cmd_list.append(self.new_amsr2_config_based_args)
             self._cmd_list.append(self.abi_static_infrared_args)
             self._cmd_list.append(self.new_abi_static_infrared_args)
+            self._cmd_list.append(self.obp_args_workflow_name)
+            self._cmd_list.append(self.obp_args_generated_workflow)
+            self._cmd_list.append(self.obp_args_workflow_path)
             if "data_fusion" in self.plugin_package_names:
                 # Only add these argument lists if data_fusion is installed
                 self._cmd_list.append(self.geo_args)
@@ -142,6 +193,7 @@ class TestGeoipsRun(BaseCliTest):
             self._cmd_list.append(["run_procflow", "-h"])
             self._cmd_list.append(base_args + ["-h"])
             self._cmd_list.append(base_args + ["config_based", "-h"])
+            self._cmd_list.append(base_args + ["order_based", "-h"])
             self._cmd_list.append(base_args + ["single_source", "-h"])
             if "data_fusion" in self.plugin_package_names:
                 # Only add these argument lists if data_fusion is installed
@@ -186,6 +238,8 @@ class TestGeoipsRun(BaseCliTest):
             # Checking that output from geoips run command reports succeeds
             if "single_source" in args:
                 assert "Starting single_source procflow..." in output
+            if "order_based" in args:
+                assert "Begin processing" in output and "workflow" in output
             elif "config_based" in args:
                 assert "Starting config_based procflow..."
             elif "data_fusion" in args:

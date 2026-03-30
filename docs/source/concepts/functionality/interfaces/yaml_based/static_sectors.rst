@@ -5,7 +5,6 @@
 
 .. _static_sectors_functionality:
 
-************************
 Static Sectors in GeoIPS
 ************************
 

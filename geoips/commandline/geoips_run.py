@@ -6,9 +6,19 @@
 Runs the appropriate script based on the args provided.
 """
 
+from ast import literal_eval
+from colorama import Fore, Style
+from pathlib import Path
+
+import json
+import yaml
+
 from geoips.commandline.args import add_args
 from geoips.commandline.run_procflow import main
 from geoips.commandline.geoips_command import GeoipsCommand, GeoipsExecutableCommand
+from geoips.filenames.base_paths import PATHS
+from geoips.interfaces import procflows, workflows
+from geoips.pydantic_models.v1.workflows import WorkflowPluginModel
 from geoips.utils.context_managers import import_optional_dependencies
 
 data_fusion_installed = False
@@ -19,8 +29,20 @@ with import_optional_dependencies(loglevel="info"):
     # 'Failed to import data_fusion.commandline at /path/to/geoips/geoips/commandline/geoips_run.py:19. If you need it, install it.' # NOQA
     # every time we use the CLI. If a user needs the CLI, I'm assuming they'll know to
     # install it.
-    from data_fusion.commandline.args import add_args as data_fusion_add_args
-
+    try:
+        from data_fusion.commandline.args import add_args as data_fusion_add_args
+    except ModuleNotFoundError as e:
+        try:
+            # 'data_fusion' is not an allowed name for the data_fusion package on pypi.
+            # We have temporarily pushed it to pypi as geoips_data_fusion.
+            # This change allows geoips run to use the pypi packaged
+            # version of the data_fusion file, which is named
+            # 'geoips_data_fusion'
+            from geoips_data_fusion.commandline.args import (
+                add_args as data_fusion_add_args,
+            )
+        except ModuleNotFoundError:
+            raise e
     data_fusion_installed = True
 
 
@@ -100,6 +122,136 @@ class GeoipsRunDataFusion(GeoipsExecutableCommand):
             )
 
 
+class GeoipsRunOrderBased(GeoipsExecutableCommand):
+    """Run command for executing an order based process-workflow (procflow).
+
+    Makes use of workflow plugins and additional commandline arguments that single
+    source would use.
+    """
+
+    name = "order_based"
+    command_classes = []
+    warning_with_color = (
+        Fore.RED
+        + "\nWARNING: "
+        + Fore.YELLOW
+        + "`geoips run order_based` is experimental and is subject to "
+        + "change. This warning will be removed once this command is "
+        + "stable.\n"
+        + Style.RESET_ALL
+    )
+    warning_no_color = (
+        "\nWARNING: `geoips run order_based` is experimental and is subject to change. "
+        "This warning will be removed once this command is stable.\n"
+    )
+
+    def add_arguments(self):
+        """Add arguments to the run-subparser for the 'run order-based' command."""
+        self.obp_mutex_args = self.parser.add_mutually_exclusive_group(required=True)
+        self.obp_mutex_args.add_argument(
+            "-w",
+            "--workflow",
+            default=None,
+            type=str,
+            help=(
+                "The name of the workflow plugin to execute. Cannot be supplied "
+                "alongside the --generated or --filepath argument."
+            ),
+        )
+        self.obp_mutex_args.add_argument(
+            "-g",
+            "--generated",
+            default=None,
+            type=literal_eval,
+            help=(
+                "A literal evaluation of a string formatted python dictionary "
+                "representing a 'generated' (at runtime) workflow plugin to operate on."
+                " Cannot be supplied alongside the --workflow or --filepath argument."
+            ),
+        )
+
+        def json_or_yaml_path(value: str) -> Path:
+            """Ensure the value provided is a valid pathlib.Path json or yaml file.
+
+            Parameters
+            ----------
+            value: str
+                - The input value for the filepath to typecheck against.
+
+            Returns
+            -------
+            path: Path
+                - A json or yaml pathlib.Path object.
+            """
+            path = Path(value)
+
+            if not path.exists():
+                raise self.parser.error(f"Input filepath not found: {value}")
+
+            if path.suffix.lower() not in {".json", ".yaml", ".yml"}:
+                raise self.parser.error(
+                    f"File must have extension .json, .yaml, or .yml, not {path.suffix}"
+                )
+            return path
+
+        self.obp_mutex_args.add_argument(
+            "-f",
+            "--filepath",
+            default=None,
+            type=json_or_yaml_path,
+            help=(
+                "A absolute path to the workflow file to operate on."
+                " Cannot be supplied alongside the --workflow or --generated argument."
+            ),
+        )
+
+        add_args(parser=self.parser, legacy=self.legacy)
+
+    def __call__(self, args):
+        """Run the provided GeoIPS command.
+
+        In specific, run a GeoIPS order based process-workflow (procflow) to produce
+        some output.
+
+        Parameters
+        ----------
+        args: Namespace()
+            - The argument namespace to parse through.
+        """
+        if args.workflow:
+            workflow = workflows.get_plugin(args.workflow)
+        elif args.generated:
+            workflow = args.generated
+            if not isinstance(workflow, dict):
+                raise ValueError(
+                    "Error: Argument '--generated' was supplied but the format of the "
+                    "generated workflow could not be literally evaluated as a python "
+                    "dictionary."
+                )
+            # Validate the generated workflow with is_registered set to false as this
+            # plugin has been dynamically generated
+            WorkflowPluginModel(**workflow, is_registered=False)
+        else:  # This is the filepath option
+            if args.filepath.suffix.lower() == ".json":
+                loader = json.load
+            else:
+                loader = yaml.safe_load
+
+            with open(args.filepath, "r") as f:
+                workflow = loader(f)
+            # This assumes if you pass the filepath option that the plugin itself is not
+            # registered. Validate that it's formatted correctly.
+            WorkflowPluginModel(**workflow, is_registered=False)
+
+        obp = procflows.get_plugin("order_based")
+        obp(workflow, args.filenames, args)
+
+        if PATHS["NO_COLOR"]:
+            print(self.warning_no_color)
+        else:
+            print(self.warning_with_color)
+
+
 class GeoipsRunSingleSource(GeoipsExecutableCommand):
     """Run Command for executing the single source process-workflow (procflow)."""
 
@@ -139,7 +291,8 @@ class GeoipsRun(GeoipsCommand):
 
     name = "run"
     command_classes = [
-        GeoipsRunSingleSource,
         GeoipsRunDataFusion,
         GeoipsRunConfigBased,
+        GeoipsRunOrderBased,
+        GeoipsRunSingleSource,
     ]

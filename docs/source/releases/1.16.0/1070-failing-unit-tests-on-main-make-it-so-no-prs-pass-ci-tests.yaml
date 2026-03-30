@@ -1,0 +1,21 @@
+bug fix:
+- title: 'Fix error handling in YamlPluginValidator.validate()'
+  description: |
+    Handle the ``AttributeError`` that is raised when `plugin` doesn't have a
+    ``get()`` method. Narrow the scope of the current error handling to minimize
+    side effects.
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - 'geoips/interfaces/base.py'
+  related-issue:
+    number: 1070
+    repo_url: ''
+  date:
+    start: 2025-06-24
+    finish: 2025-06-24

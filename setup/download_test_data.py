@@ -4,6 +4,7 @@
 # # # https://github.com/NRLMMD-GEOIPS.
 
 """Download data from a specified URL."""
+
 import subprocess
 import requests
 import tarfile
@@ -187,7 +188,7 @@ def download_and_extract_compressed_tar(url, dest, comp="gz"):
                         or ".." in item_to_extract.name
                     ):
                         raise ValueError("Illegal tar archive entry from url {url}")
-                    tar.extract(item_to_extract, path=dest)
+                    tar.extract(item_to_extract, path=dest, filter="tar")
 
         output_to_console("Success. Files downloaded and extracted.", style="green")
     except Exception as e:

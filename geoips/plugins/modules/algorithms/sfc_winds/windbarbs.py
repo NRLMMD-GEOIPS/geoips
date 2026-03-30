@@ -6,6 +6,7 @@
 Data manipulation steps for surface winds products.
 This algorithm expects surface wind speeds in units of kts
 """
+
 import logging
 
 # install libraries

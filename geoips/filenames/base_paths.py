@@ -34,6 +34,28 @@ import platformdirs
 LOG = logging.getLogger(__name__)
 
 
+def cast_to_bool(value):
+    """Cast the environment variable with value 'value' to a boolean.
+
+    For example, if the variable was 'GEOIPS_REBUILD_REGISTRIES' and its value was '0',
+    then this variable would be cast as a False boolean.
+
+    Parameters
+    ----------
+    value: Any
+        - The value of an environment variable.
+
+    Returns
+    -------
+    value: bool
+        - The boolean casted value of the corresponding environment variable.
+    """
+    if value == "0" or value == "False" or value == "false":
+        return False
+    else:
+        return True
+
+
 def get_env_var(var_name, default, rstrip_path=True):
     """Retrieve environment variable or provided default, optionally rstrip a '/'.
 
@@ -111,6 +133,14 @@ def initialize_paths():
         "GEOIPS_REBUILD_REGISTRIES",
         True,
     )
+    paths["NO_COLOR"] = get_env_var(
+        "NO_COLOR",
+        False,
+    )
+    paths["GEOIPS_GEOLOCATION_CACHE_BACKEND"] = get_env_var(
+        "GEOIPS_GEOLOCATION_CACHE_BACKEND",
+        "memmap",
+    )
     paths["GEOIPS_DATA_CACHE_DIR"] = get_env_var(
         "GEOIPS_DATA_CACHE_DIR",
         os.path.join(paths["GEOIPS_OUTDIRS"], "cache", "geoips"),
@@ -118,13 +148,27 @@ def initialize_paths():
     paths["SATPY_DATA_CACHE_DIR"] = get_env_var(
         "SATPY_DATA_CACHE_DIR", os.path.join(paths["GEOIPS_OUTDIRS"], "cache", "satpy")
     )
+    # This list should include all env vars that could end up in output product paths
+    # or metadata. This ensures consistent tests and generalized output paths.
+    # This GEOIPS_REPLACE_OUTPUT_PATHS is referenced in the following scripts and files:
+    # * geoips/geoips/geoips_utils.py
+    # * geoips/tests/integration_tests/test_integration.py
+    # * geoips/geoips/filenames/base_paths.py
+    replace_output_paths = get_env_var(
+        "GEOIPS_REPLACE_OUTPUT_PATHS",
+        "TCWWW TCPRIVATEWWW PRIVATEWWW PUBLICWWW GEOTIFF_IMAGERY_PATH "
+        "ANNOTATED_IMAGERY_PATH CLEAN_IMAGERY_PATH ",
+    )
+    paths["GEOIPS_REPLACE_OUTPUT_PATHS"] = replace_output_paths.split(" ")
     # Convert the string to a bool
-    if paths["GEOIPS_REBUILD_REGISTRIES"] == "0":
-        paths["GEOIPS_REBUILD_REGISTRIES"] = False
-    if paths["GEOIPS_REBUILD_REGISTRIES"] == "False":
-        paths["GEOIPS_REBUILD_REGISTRIES"] = False
-    if paths["GEOIPS_REBUILD_REGISTRIES"] == "false":
-        paths["GEOIPS_REBUILD_REGISTRIES"] = False
+    paths["GEOIPS_REBUILD_REGISTRIES"] = cast_to_bool(
+        paths["GEOIPS_REBUILD_REGISTRIES"]
+    )
+    # NOTE: Environment variable 'NO_COLOR' will disable any colored output from the
+    # terminal, even if it's not produced via GeoIPS. For example, if this is set to
+    # True in your bashrc, even pytest output will be monochrome. We chose this variable
+    # name as it is consistent with the settings that other software packages use.
+    paths["NO_COLOR"] = cast_to_bool(paths["NO_COLOR"])
 
     # Identify defaults for global GeoIPS variables.  The actual values for
     # these variables will be set using get_env_var below.
@@ -157,6 +201,14 @@ def initialize_paths():
         "%(levelname)7s: %(message)s",
         "GEOIPS_LOGGING_DATEFMT_STRING": "%d_%H%M%S",
         "GEOIPS_LOGGING_LEVEL": "interactive",
+        # Changes the warning level used for warnings.simplefilter
+        # Valid options are "ignore", "default", "error", "always", "module", "once"
+        # See https://docs.python.org/3/library/warnings.html#the-warnings-filter
+        # for details on each option.
+        "GEOIPS_WARNING_LEVEL": "default",
+        "GEOIPS_TEST_PRINT_TEXT_OUTPUT_CHECKER_TO_CONSOLE": True,
+        "GEOIPS_RICH_CONSOLE_OUTPUT": False,
+        "GEOIPS_PROMPT_TO_OVERWRITE_COMPARISON_FILE_IF_MISMATCH": False,
     }
 
     # Long variables names to avoid black and flake8 conflicts.
@@ -199,11 +251,13 @@ def initialize_paths():
             "GEOIPS_ANCILDAT": "ancildat",
             # WWW Paths
             "TCWWW": "preprocessed/tcwww",
+            "TCPRIVATEWWW": "preprocessed/tcprivatewww",
             "PUBLICWWW": "preprocessed/publicwww",
             "PRIVATEWWW": "preprocessed/privatewww",
             # Tropical Cyclone Paths
-            "TC_DECKS_DB": "longterm_files/tc/tc_decks.db",
-            "TC_DECKS_DIR": "longterm_files/tc/decks",
+            "GEOIPS_TC_DECKS_DB": "longterm_files/tc/tc_decks.db",
+            "GEOIPS_TC_DECKS_DIR": "longterm_files/tc/decks",
+            "GEOIPS_TC_DECKS_TYPE": "bdecks",
         },
         paths["GEOIPS_DATA_CACHE_DIR"]: {
             "GEOIPS_DATA_CACHE_DIR_LONGTERM_GEOLOCATION_DYNAMIC": (
@@ -234,6 +288,10 @@ def initialize_paths():
             "GEOIPS_REBUILD_REGISTRIES_TRUE": True,
             "GEOIPS_REBUILD_REGISTRIES_FALSE": False,
         },
+        paths["NO_COLOR"]: {
+            "NO_COLOR_TRUE": True,
+            "NO_COLOR_FALSE": False,
+        },
     }
 
     # looping through all the directory-based paths and global variables set above
@@ -248,7 +306,7 @@ def initialize_paths():
         sub_directories,
     ) in default_derivative_directory_path_defaults.items():
         for key, sub_path in sub_directories.items():
-            if "GEOIPS_REBUILD_REGISTRIES" in key:
+            if "GEOIPS_REBUILD_REGISTRIES" in key or "NO_COLOR" in key:
                 paths[key] = get_env_var(key, sub_path, rstrip_path=False)
             else:
                 paths[key] = get_env_var(key, os.path.join(top_directory, sub_path))
@@ -261,7 +319,7 @@ def initialize_paths():
         paths["HOME"] = os.getenv("HOME").rstrip("/")
 
     # Setting links for WWW Paths
-    www_paths = ["TCWWW", "PUBLICWWW", "PRIVATEWWW"]
+    www_paths = ["TCWWW", "TCPRIVATEWWW", "PUBLICWWW", "PRIVATEWWW"]
     for path in www_paths:
         paths[f"{path}_URL"] = get_env_var(f"{path}_URL", paths[path])
 

@@ -37,10 +37,16 @@ def call(
     title_formatter=None,
     output_dict=None,
     var_name=None,
+    x_size=None,
+    y_size=None,
 ):
     """Plot annotated imagery."""
     if product_name_title is None:
         product_name_title = product_name
+
+    if x_size is None:
+        x_size = area_def.width
+        y_size = area_def.height
 
     success_outputs = []
     if var_name:
@@ -81,8 +87,8 @@ def call(
     if clean_fname:
         # Create matplotlib figure and main axis, where the main image will be plotted
         fig, main_ax, mapobj = create_figure_and_main_ax_and_mapobj(
-            area_def.x_size,
-            area_def.y_size,
+            x_size,
+            y_size,
             area_def,
             noborder=True,
             frame_clr=frame_clr,
@@ -109,8 +115,8 @@ def call(
 
     # Create matplotlib figure and main axis, where the main image will be plotted
     fig, main_ax, mapobj = create_figure_and_main_ax_and_mapobj(
-        area_def.x_size,
-        area_def.y_size,
+        x_size,
+        y_size,
         area_def,
         existing_mapobj=mapobj,
         noborder=False,
@@ -168,7 +174,7 @@ def call(
         title_copyright=title_copyright,
         title_formatter=title_formatter,
     )
-    set_title(main_ax, title_string, area_def.y_size)
+    set_title(main_ax, title_string, area_def.height)
 
     if mpl_colors_info["colorbar"] is True:
         # Create the colorbar to match the mpl_colors

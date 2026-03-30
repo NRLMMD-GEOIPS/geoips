@@ -7,16 +7,16 @@
 
 # This exact test case required for valid comparisons - remove "compare_path" argument if running a different
 # set of arguments.
-geoips run single_source $GEOIPS_TESTDATA_DIR/test_data_noaa_aws/data/goes16/20200918/1950/* \
+geoips run single_source $GEOIPS_TESTDATA_DIR/test_data_abi/data/goes16_20200918_1950/* \
     --reader_name abi_netcdf \
     --product_name Infrared \
-    --output_formatter imagery_annotated \
+    --output_formatter imagery_clean \
     --filename_formatter geoips_fname \
     --logging_level info \
     --resampled_read \
     --feature_annotator default_oldlace \
     --gridline_annotator default_palegreen \
-    --sector_list goes_east
+    --sector_list test_goes16_eqc_3km_night_20200918T1950Z
 retval=$?
 
 exit $retval

@@ -2,13 +2,14 @@
 # # # https://github.com/NRLMMD-GEOIPS.
 
 """Test all YAML plugins."""
+
 import pytest
 import yaml
 from importlib import resources, metadata
 
 from geoips.interfaces.base import YamlPluginValidator
 from geoips.interfaces.yaml_based.products import ProductsPluginValidator
-from geoips.pydantic.workflows import WorkflowPluginModel
+from geoips.pydantic_models.v1.workflows import WorkflowPluginModel
 
 validator = YamlPluginValidator()
 product_validator = ProductsPluginValidator()
