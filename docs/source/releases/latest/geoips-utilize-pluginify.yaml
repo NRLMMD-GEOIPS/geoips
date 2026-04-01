@@ -43,6 +43,7 @@ refactor:
       - docs/source/concepts/functionality/command-line/index.rst
       - docs/source/concepts/functionality/index.rst
       - docs/source/concepts/functionality/plugin-registries.rst
+      - docs/source/_templates/sphinx_conf.template.py
       - geoips/commandline/ancillary_info/alias_mapping.yaml
       - geoips/commandline/ancillary_info/cmd_instructions.yaml
       - geoips/commandline/geoips_config.py
