@@ -51,7 +51,7 @@ models_available = {
         "model": None,
     },
     "readers": {
-        "good_source": ("fixture", "valid_reader_arguments_model_data"), 
+        "good_source": ("fixture", "valid_reader_arguments_model_data"),
         "model": ReaderArgumentsModel,
     },
     "output_checkers": {
