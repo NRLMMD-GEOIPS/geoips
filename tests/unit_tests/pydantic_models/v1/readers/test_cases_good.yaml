@@ -1,0 +1,20 @@
+default_value_area_def:
+  key: area_def
+  val: None
+  cls: ReaderArgumentsModel
+default_value_variables:
+  key: variables
+  val: ["None"]
+  cls: ReaderArgumentsModel
+default_value_self_register:
+  key: self_register
+  val: ["None"]
+  cls: ReaderArgumentsModel
+default_value_fnames:
+  key: fnames
+  val: ["None"]
+  cls: ReaderArgumentsModel
+default_values_metadata_only:
+  key: metadata_only
+  val: False
+  cls: ReaderArgumentsModel
