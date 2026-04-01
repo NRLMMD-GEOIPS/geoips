@@ -8,13 +8,33 @@ default_value_variables:
   cls: ReaderArgumentsModel
 default_value_self_register:
   key: self_register
-  val: ["None"]
+  val: False
   cls: ReaderArgumentsModel
 default_value_fnames:
   key: fnames
   val: ["None"]
   cls: ReaderArgumentsModel
-default_values_metadata_only:
+default_value_metadata_only:
   key: metadata_only
   val: False
+  cls: ReaderArgumentsModel
+valid_input_area_def:
+  key: area_def
+  val: "test_meteoeu_eqc_3km_landocean"
+  cls: ReaderArgumentsModel
+valid_input_variables:
+  key: variables
+  val: ["wind_speed_kts"]
+  cls: ReaderArgumentsModel
+valid_input_self_register:
+  key: self_register
+  val: "LOW"
+  cls: ReaderArgumentsModel
+valid_input_fnames:
+  key: fnames
+  val: ['test_data/test_data_amsr2/data/RSS_amsr2_TC-wind_daily_2020_05_18_v08.1.nc']
+  cls: ReaderArgumentsModel
+valid_input_metadata_only:
+  key: metadata_only
+  val: True
   cls: ReaderArgumentsModel

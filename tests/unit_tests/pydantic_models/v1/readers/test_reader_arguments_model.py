@@ -20,7 +20,7 @@ def test_good_valid_reader_arguments_model(valid_reader_arguments_model_data):
     assert model.area_def == "None"
     assert model.variables == ["None"]
     assert model.metadata_only is True
-    assert model.self_register == ["None"]
+    assert model.self_register == "LOW"
     assert model.fnames == ["None"]
 
 
@@ -32,7 +32,7 @@ def test_bad_reader_arguments_model_field_defaults():
         "area_def": None,
         "variables": None,
         "metadata_only": False,
-        "self_register": None,
+        "self_register": False,
         "fnames": None,
     }
 
