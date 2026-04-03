@@ -1,9 +1,9 @@
 feature:
-- title: 'Migrate ReaderArgumentsModel tests to new test framework'
-  description: 'Reorganize the reader Pydantic model and associated unit tests'
+- title: 'Migrate ReaderArgumentsModel tests to new YAML-based test framework'
+  description: 'Refactor unit tests to use YAML-driven test inputs to enhance consistency and maintainability'
   files:
     added:
-    - 'docs/source/releases/latest/1285-refactor-readerargumentsmodel.yaml'
+    - 'docs/source/releases/latest/1002-migrate-readerargumentsmodel-tests-to-new-framework.yaml'
     - 'geoips/pydantic_models/v1/readers.py'
     - 'tests/unit_tests/pydantic_models/v1/readers/test_cases_bad.yaml'
     - 'tests/unit_tests/pydantic_models/v1/readers/test_cases_good.yaml'
