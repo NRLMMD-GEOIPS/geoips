@@ -24,4 +24,4 @@ defined_name_without_compare_path:
   key: compare_path
   val: null
   cls: OutputCheckersArgumentsModel
-  err_str: "'compare_path' must be provided when 'checker_name' is set."
+  err_str: "A valid file path must be provided in 'compare_path'when 'checker_name' is specified."
