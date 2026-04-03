@@ -1,1 +1,26 @@
-{}
+invalid_input_area_def:
+  key: area_def
+  val: 123
+  cls: ReaderArgumentsModel
+  err_str: "Input should be a valid string"
+invalid_input_variables:
+  key: variables
+  val: 123
+  cls: ReaderArgumentsModel
+  err_str: "Input should be a valid list"
+invalid_input_self_register:
+  key: self_register
+  val: 123
+  cls: ReaderArgumentsModel
+  err_str: "Input should be a valid string"
+invalid_input_fnames:
+  key: fnames
+  val: True
+  cls: ReaderArgumentsModel
+  err_str: "Input should be a valid list"
+invalid_input_metadata_only:
+  key: metadata_only
+  val: 123
+  cls: ReaderArgumentsModel
+  err_str: "Input should be a valid boolean, unable to interpret input"
+  
