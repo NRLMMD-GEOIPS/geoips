@@ -20,7 +20,7 @@ from colorama import Fore, Style
 from tabulate import tabulate
 import yaml
 
-from geoips.commandline.cmd_instructions import cmd_instructions, alias_mapping
+from geoips.commandline.ancillary_info import cmd_instructions, alias_mapping
 from geoips.commandline.log_setup import setup_logging
 from geoips.filenames.base_paths import PATHS
 
