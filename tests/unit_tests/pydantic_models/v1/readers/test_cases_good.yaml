@@ -26,6 +26,10 @@ valid_input_variables:
   key: variables
   val: ["wind_speed_kts"]
   cls: ReaderArgumentsModel
+valid_input_variables_empty_list:
+  key: variables
+  val: [ ]
+  cls: ReaderArgumentsModel
 valid_input_self_register:
   key: self_register
   val: "LOW"
