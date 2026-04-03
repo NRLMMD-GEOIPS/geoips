@@ -20,6 +20,9 @@ refactor:
     the large dependency that is GeoIPS.
   files:
     deleted:
+      - docs/source/concepts/architecture/plugin-registries.rst
+      - docs/source/concepts/functionality/plugin-registries.rst
+      - geoips/commandline/cmd_instructions.py
       - geoips/create_plugin_registries.py
       - geoips/plugin_registry.py
       - tests/unit_tests/commandline/test_geoips_config_create_registries.py
@@ -38,14 +41,15 @@ refactor:
       - tests/unit_tests/plugin_registries/test_plugin_registries.py
     modified:
       - .cspell.json
+      - Dockerfile
+      - docs/source/_templates/sphinx_conf.template.py
       - docs/source/concepts/architecture/index.rst
-      - docs/source/concepts/architecture/plugin-registries.rst
       - docs/source/concepts/functionality/command-line/index.rst
       - docs/source/concepts/functionality/index.rst
-      - docs/source/concepts/functionality/plugin-registries.rst
       - docs/source/_templates/sphinx_conf.template.py
       - geoips/commandline/ancillary_info/alias_mapping.yaml
       - geoips/commandline/ancillary_info/cmd_instructions.yaml
+      - geoips/commandline/geoips_command.py
       - geoips/commandline/geoips_config.py
       - geoips/commandline/geoips_describe.py
       - geoips/commandline/geoips_test.py
