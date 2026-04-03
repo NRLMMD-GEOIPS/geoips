@@ -17,7 +17,7 @@ from jsonschema.exceptions import ValidationError, SchemaError
 from pluginify.interfaces.base import BaseYamlInterface as pluginify_base_yaml
 from pluginify.interfaces.base import (  # NOQA: F401
     BaseInterface,
-    BaseClassInterface,
+    BaseClassInterface as pluginify_base_class,
     BaseYamlPlugin,
 )  # imports used elsewhere in GeoIPS
 import yaml
@@ -232,6 +232,23 @@ def plugin_repr(obj):
     return f'{obj.__class__}(name="{obj.name}", module="{obj.module}")'
 
 
+class BaseClassInterface(pluginify_base_class):
+    """Base class for class-based interfaces.
+
+    This class should not be instantiated directly. Instead, a package should implement
+    custom interfaces that inherit from the children of this class. Those custom
+    interfaces would then be accessed by importing them from
+    ``geoips.interfaces``. For example:
+    ```
+    from geoips.interfaces import algorithms
+    ```
+    will retrieve an instance of ``AlgorithmsInterface`` which will provide access to
+    the geoips algorithm plugins.
+    """
+
+    apiVersion = "geoips/v1"
+
+
 class BaseYamlInterface(pluginify_base_yaml):
     """Base class for GeoIPS yaml-based plugin interfaces.
 
@@ -245,3 +262,4 @@ class BaseYamlInterface(pluginify_base_yaml):
     """
 
     validator = YamlPluginValidator()
+    apiVersion = "geoips/v1"
