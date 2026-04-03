@@ -32,7 +32,7 @@ def test_bad_reader_arguments_model_field_defaults():
         "area_def": None,
         "variables": None,
         "metadata_only": False,
-        "self_register": False,
+        "self_register": None,
         "fnames": None,
     }
 
