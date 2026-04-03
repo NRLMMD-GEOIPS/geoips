@@ -8,7 +8,7 @@ default_value_variables:
   cls: ReaderArgumentsModel
 default_value_self_register:
   key: self_register
-  val: False
+  val: None
   cls: ReaderArgumentsModel
 default_value_fnames:
   key: fnames
