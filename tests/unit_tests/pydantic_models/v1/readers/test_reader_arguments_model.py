@@ -94,4 +94,7 @@ def test_bad_reader_arguments_model_chans_deprecation(
     assert model
 
     # Check that a warning was logged
-    assert any("'chans' is deprecated" in msg for msg in caplog.messages)
+    assert any(
+        "'chans' is deprecated and will be removed in GeoIPS 2.0." in msg
+        for msg in caplog.messages
+    )
