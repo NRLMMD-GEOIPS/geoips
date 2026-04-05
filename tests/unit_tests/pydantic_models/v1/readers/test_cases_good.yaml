@@ -18,6 +18,22 @@ default_value_metadata_only:
   key: metadata_only
   val: False
   cls: ReaderArgumentsModel
+default_value_sectored_read:
+  key: sectored_read
+  val: False
+  cls: ReaderArgumentsModel
+default_value_resampled_read:
+  key: resampled_read
+  val: False
+  cls: ReaderArgumentsModel
+default_value_self_register_source:
+  key: self_register_source
+  val: None
+  cls: ReaderArgumentsModel
+default_value_self_register_dataset:
+  key: self_register_dataset
+  val: None
+  cls: ReaderArgumentsModel
 valid_input_area_def:
   key: area_def
   val: "test_meteoeu_eqc_3km_landocean"
@@ -41,4 +57,20 @@ valid_input_fnames:
 valid_input_metadata_only:
   key: metadata_only
   val: True
+  cls: ReaderArgumentsModel
+valid_sectored_read:
+  key: sectored_read
+  val: True
+  cls: ReaderArgumentsModel
+valid_resampled_read:
+  key: resampled_read
+  val: True
+  cls: ReaderArgumentsModel
+valid_self_register_source:
+  key: self_register_source
+  val: 'ami'
+  cls: ReaderArgumentsModel
+valid_value_self_register_dataset:
+  key: self_register_dataset
+  val: 'Full-Disk'
   cls: ReaderArgumentsModel
