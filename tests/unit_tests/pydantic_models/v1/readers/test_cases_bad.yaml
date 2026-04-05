@@ -20,7 +20,26 @@ invalid_input_fnames:
   err_str: "Input should be a valid list"
 invalid_input_metadata_only:
   key: metadata_only
-  val: 123
+  val: non-boolean
   cls: ReaderArgumentsModel
   err_str: "Input should be a valid boolean, unable to interpret input"
-  
+invalid_sectored_read:
+  key: sectored_read
+  val: non-boolean
+  cls: ReaderArgumentsModel
+  err_str: "Input should be a valid boolean, unable to interpret input"
+invalid_resampled_read:
+  key: resampled_read
+  val: non-boolean
+  cls: ReaderArgumentsModel
+  err_str: "Input should be a valid boolean, unable to interpret input"
+invalid_self_register_source:
+  key: self_register_source
+  val: True
+  cls: ReaderArgumentsModel
+  err_str: "Input should be a valid string"
+invalid_value_self_register_dataset:
+  key: self_register_dataset
+  val: True
+  cls: ReaderArgumentsModel
+  err_str: "Input should be a valid string"
