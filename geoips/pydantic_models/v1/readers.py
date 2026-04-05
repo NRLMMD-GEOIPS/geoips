@@ -42,6 +42,10 @@ class ReaderArgumentsModel(PermissiveFrozenModel):
     fnames: List[str] = Field(
         None, description="full path to the file(s) for static dataset inputs."
     )
+    sectored_read: bool = Field(False)
+    self_register_source: str = Field(None)
+    self_register_dataset: str = Field(None)
+    resampled_read: bool = Field(False)
 
     @model_validator(mode="before")
     def _handle_deprecated_chans(cls, values):
