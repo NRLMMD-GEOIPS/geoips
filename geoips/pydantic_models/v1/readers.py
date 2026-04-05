@@ -43,8 +43,12 @@ class ReaderArgumentsModel(PermissiveFrozenModel):
         None, description="full path to the file(s) for static dataset inputs."
     )
     sectored_read: bool = Field(False)
-    self_register_source: str = Field(None)
-    self_register_dataset: str = Field(None)
+    self_register_source: str = Field(
+        None, description="Source dataset to use for self-registration"
+    )
+    self_register_dataset: str = Field(
+        None, description="Dataset within the source to use for self-registration"
+    )
     resampled_read: bool = Field(False)
 
     @model_validator(mode="before")
