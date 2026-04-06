@@ -68,8 +68,8 @@ def call(workflow, fnames, command_line_args=None):
                         "variables"
                     )
 
-                # # If we need to pull area_defs from the reader, then we need to read in
-                # # order to determin what to run
+                # If we need to pull area_defs from the reader, then we need to read in
+                # order to determin what to run
                 # if (not sectored_read and not resampled_read) and (
                 #     reader_defined_area_def or (self_register_source and self_register_dataset)
                 # ):
