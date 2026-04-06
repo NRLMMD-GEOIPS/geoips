@@ -17,7 +17,7 @@ def valid_step_data():
             "area_def": "None",
             "variables": ["None"],
             "metadata_only": False,
-            "self_register": ["None"],
+            "self_register": "LOW",
         },
     }
 
@@ -35,7 +35,7 @@ def valid_reader_arguments_model_data():
         "area_def": "None",
         "variables": ["None"],
         "metadata_only": True,
-        "self_register": ["None"],
+        "self_register": "LOW",
         "fnames": ["None"],
     }
 

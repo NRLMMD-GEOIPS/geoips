@@ -56,7 +56,7 @@ def test_good_workflow_step_definition_model_valid_step(valid_step_data):
         "area_def": "None",
         "variables": ["None"],
         "metadata_only": False,
-        "self_register": ["None"],
+        "self_register": "LOW",
     }
 
 
