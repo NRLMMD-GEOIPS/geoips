@@ -49,11 +49,7 @@ class ReaderArgumentsModel(PermissiveFrozenModel):
     self_register_dataset: str = Field(
         None, description="Dataset within the source to use for self-registration"
     )
-    resampled_read: bool = Field(
-        False,
-        description="Specify whether a resampled read is required, needed for "
-        "datatypes that will be read within 'get_alg_xarray'",
-    )
+    resampled_read: bool = Field(False)
 
     @model_validator(mode="before")
     def _handle_deprecated_chans(cls, values):
