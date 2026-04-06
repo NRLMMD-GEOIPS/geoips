@@ -6,6 +6,7 @@
 Data manipulation steps for the "nasa_dust_rgb" product.
 This algorithm expects Brightness Temperatures in units of degrees Kelvin
 """
+
 import logging
 
 LOG = logging.getLogger(__name__)

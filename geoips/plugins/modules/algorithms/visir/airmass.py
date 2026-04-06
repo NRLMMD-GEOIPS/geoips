@@ -8,6 +8,7 @@ This algorithm expects four Infrared channels for an RGB image:
 * Green SEVIRI B08BT - B09BT
 * Blue SEVIRI B05BT
 """
+
 import logging
 
 LOG = logging.getLogger(__name__)

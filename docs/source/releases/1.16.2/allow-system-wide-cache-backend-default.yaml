@@ -1,0 +1,30 @@
+bug fix:
+- title: 'Allow system wide default cache backend'
+  description: |
+    * Add GEOIPS_GEOLOCATION_CACHE_BACKEND environment variable to base_paths, which
+      defaults to the current memmap default.
+    * Update all geostationary readers to use the GEOIPS_GEOLOCATION_CACHE_BACKEND
+      as default rather than hard coded "memmap"
+    * Add default to config_geoips for zarr backend
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - setup/config_geoips
+    - geoips/filenames/base_paths.py
+    - geoips/plugins/modules/readers/abi_l2_netcdf.py
+    - geoips/plugins/modules/readers/abi_netcdf.py
+    - geoips/plugins/modules/readers/ahi_hsd.py
+    - geoips/plugins/modules/readers/ami_netcdf.py
+    - geoips/plugins/modules/readers/ewsg_netcdf.py
+    - geoips/plugins/modules/readers/fci_netcdf.py
+    - geoips/plugins/modules/readers/seviri_hrit.py
+  related-issue:
+    internal: GEOIPS#861
+  date:
+    start: 2025-07-14
+    finish: 2025-07-14

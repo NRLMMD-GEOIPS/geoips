@@ -121,7 +121,7 @@ class TestGeoipsDescribePlugin(BaseCliTest):
             ]
             if interface_name == "products":
                 expected_outputs.append("source_names")
-            elif interface_name in interfaces.module_based_interfaces:
+            elif interface_name in interfaces.class_based_interfaces:
                 expected_outputs.append("signature")
             for output_item in expected_outputs:
                 assert f"{output_item}:" in output

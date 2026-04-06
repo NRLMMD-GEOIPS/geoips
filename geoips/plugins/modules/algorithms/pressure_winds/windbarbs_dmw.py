@@ -6,6 +6,7 @@
 Data manipulation steps for derived motion winds products.
 This algorithm expects derived motion wind speeds at various pressures
 """
+
 import logging
 
 LOG = logging.getLogger(__name__)
