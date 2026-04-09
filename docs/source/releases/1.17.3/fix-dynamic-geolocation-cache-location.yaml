@@ -1,0 +1,38 @@
+bug fix:
+  - title: "Move dynamic geolocation and ancildat_autogen caches to shortterm location"
+    description: |
+      Originally dynamic geolocation was stored with the longterm cache, which is
+      explicitly forbidden from ever being scrubbed.  Since dynamic geolocation
+      data can be regenerated as needed, it makes more sense to store it in the
+      shortterm cache, which can be scrubbed as needed to free up space.
+
+      Note shortterm cache is still persistent between runs, so dynamic geolocation
+      data will still be reused as needed, just not indefinitely.
+
+      This involved renaming GEOIPS_DATA_CACHE_DIR_LONGTERM_GEOLOCATION_DYNAMIC
+      to GEOIPS_DATA_CACHE_DIR_SHORTTERM_GEOLOCATION_DYNAMIC in
+      base_paths.py, and updating the reference to it in geostationary_geolocation.py
+      util.  Additionally the default path for the shortterm dynamic geolocation cache
+      was updated in base_paths.py to point to the shortterm subdirectory in cache/geoips.
+
+      Additionally ancildat_autogen cache location was moved from the top level
+      cache/geoips/ancildat_autogen directory to cache/geoips/shortterm/ancildat_autogen
+      to better reflect its intended usage.  This involved updating the
+      GEOIPS_ANCILDAT_AUTOGEN path in config_geoips to point to the new location.
+
+      Note the shortterm cache may contain data with vastly different retention periods,
+      so scrubbing must be handled appropriately to avoid deleting data that is still needed.
+    files:
+      deleted:
+        - ""
+      moved:
+        - ""
+      added:
+        - ""
+      modified:
+        - "geoips/filenames/base_paths.py"
+        - "geoips/plugins/modules/readers/utils/geostationary_geolocation.py"
+        - "setup/config_geoips"
+    date:
+      start: 2026-01-26
+      finish: 2026-01-26

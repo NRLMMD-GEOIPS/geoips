@@ -1,3 +1,6 @@
+# # # This source code is subject to the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
+
 """Pydantic PluginModel for GeoIPS Product and Product Default plugins.
 
 Validates Product and product default plugins using pydantic. Intended to be a
@@ -274,8 +277,12 @@ class SingleProductPluginModel(PluginModel):
     def _override_product_defaults(self):
         """Override the contents of product defaults if applicable."""
         if self["product_defaults"]:
+            # Allow spec to be fully defined in the product_defaults
+            spec_dict = self.get("spec")
+            if not spec_dict:
+                spec_dict = {}
             self["spec"] = merge_nested_dicts(
-                self["spec"],
+                spec_dict,
                 self["product_defaults"].spec.dict(),
                 in_place=False,
                 replace=False,
@@ -283,6 +290,12 @@ class SingleProductPluginModel(PluginModel):
             self["family"] = self["product_defaults"].family
             self.pop("product_defaults")
 
+        if "spec" not in self:
+            raise ValueError(
+                f"'spec' not contained in plugin '{self.get('name')}\n"
+                f"located at: '{self.get('abspath')}'"
+                "Please resolve plugin formatting"
+            )
         # Remove all top level null values from the product's spec. I.e:
         # interpolator=null (cannot remove easily via pydantic)
         self["spec"] = {k: v for k, v in self["spec"].items() if v is not None}
