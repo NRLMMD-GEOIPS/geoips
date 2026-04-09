@@ -6,6 +6,7 @@
 # Python Standard Libraries
 import logging
 
+from geoips.plugins.modules.procflows.single_source import remove_unsupported_kwargs
 from geoips.filenames.base_paths import PATHS as gpaths
 
 LOG = logging.getLogger(__name__)
@@ -41,18 +42,24 @@ def call(
         basedir = gpaths["TCWWW"]
     else:
         fname_fmt_plugin = filename_formatters.get_plugin("geoips_fname")
+
+    fname_kwargs = {
+        "coverage": coverage,
+        "output_type": output_type,
+        "output_type_dir": output_type_dir,
+        "product_dir": product_dir,
+        "product_subdir": product_subdir,
+        "source_dir": source_dir,
+        "basedir": basedir,
+        "output_dict": output_dict,
+    }
+    fname_kwargs = remove_unsupported_kwargs(fname_fmt_plugin, fname_kwargs)
+
     geotiff_fname = fname_fmt_plugin(
         area_def,
         xarray_obj,
         product_name,
-        coverage=coverage,
-        output_type=output_type,
-        output_type_dir=output_type_dir,
-        product_dir=product_dir,
-        product_subdir=product_subdir,
-        source_dir=source_dir,
-        basedir=basedir,
-        output_dict=output_dict,
+        **fname_kwargs,
     )
 
     return geotiff_fname

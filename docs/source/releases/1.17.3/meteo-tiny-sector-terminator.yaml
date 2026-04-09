@@ -1,0 +1,57 @@
+testing:
+  - title: "Meteosat 10 & 12 terminator tiny test sectors"
+    description: |
+      Same location for both Meteosat 10 & 12, off the coast of Argentina and 
+      the Falkland Islands.
+
+      * Add meteosat12 and meteosat10 terminator 10km tiny sector, off the coast of
+        Argentina and the Falkland Islands for datasets 20250623T1200Z and 20250624T1200Z respectively 
+      * Minor corrections in sector areas
+    files:
+      added:
+        - 'geoips/plugins/yaml/sectors/integration_tests/geostationary/meteo_sectors/meteosat12_20250623T1200Z/test_meteosat12_eqc_10km_terminator_20250623T1200Z.yaml'
+        - 'geoips/plugins/yaml/sectors/integration_tests/geostationary/meteo_sectors/meteosat10_20250623T1200Z/test_meteosat10_eqc_10km_terminator_20250624T1200Z.yaml'
+        - 'tests/integration_tests/tiny_sectors/outputs/test_meteosat12_eqc_10km_terminator_20250623T1200Z_Test-FCI-B14-Night-Only/20250623.120000.MTG-I1.fci.Test-FCI-B14-Night-Only.test_meteosat12_eqc_10km_terminator_20250623T1200Z.18p33.EUMETSAT.10p0.png'
+        - 'tests/integration_tests/tiny_sectors/outputs/test_meteosat12_eqc_10km_terminator_20250623T1200Z_Test-FCI-B14-Night-Only/20250623.120000.MTG-I1.fci.Test-FCI-B14-Night-Only.test_meteosat12_eqc_10km_terminator_20250623T1200Z.18p33.EUMETSAT.10p0.png' 
+      modified:
+        - 'geoips/plugins/yaml/sectors/integration_tests/geostationary/himawari_sectors/himawari8_20200405T0000Z/test_himawari8_eqc_10km_terminator_20200405T0000Z.yaml'
+        - 'geoips/plugins/yaml/sectors/integration_tests/geostationary/meteo_sectors/test_meteoeu_longlat_50km_fulldisk.yaml'
+        - 'geoips/plugins/yaml/sectors/integration_tests/geostationary/meteo_sectors/test_meteoio_longlat_50km_fulldisk.yaml'
+        - 'geoips/plugins/yaml/sectors/integration_tests/geostationary/meteo_sectors/test_meteoio_longlat_50km_fulldisk.yaml' 
+        - 'tests/integration_tests/test_tiny_sectors_geoips.py'
+    date:
+      start: 2025-12-15
+      finish: 2025-12-29
+  - title: "Update tiny sector test scripts to copy both global dataset images, and tiny sector images to example_test_imagery_output"
+    description: |
+      For easier evaluation, copy all tiny sector outputs to example_test_imagery_output.
+      Also, only copy files if they exist, to avoid IO Errors in the output.
+      Test scripts still do not fail for missing output images (the geoips return
+      should catch it appropriately), but only attempt to copy if they exist.
+    files:
+      modified:
+        - 'tests/example_scripts/global_terminator_satzen.sh'
+        - 'tests/integration_tests/tiny_sectors/tiny_sectors_geostationary.sh'
+    related-issue:
+      internal: geoips#1004
+    date:
+      start: 2025-12-29
+      finish: 2025-12-29
+  - title: "Update tiny sector test script to produce annotated tiny sector image outputs on request"
+    description: |
+      If GEOIPS_CREATE_TINY_SECTOR_TEST_ANNOTATED_OUTPUTS=True, then produce annotated
+      image outputs for both Day-Only and Night-Only test products for reference.
+      By default DO NOT run these annotated outputs, to avoid duplicate processing.
+
+      To ensure unique filenames, updated geoips_fname to allow extra kwarg, so it
+      can be passed in command line to add an orig flag to the original passed in
+      product and opposite for the other product (Day vs Night).
+    files:
+      modified:
+        - "geoips/plugins/modules/filename_formatters/geoips_fname.py"
+        - "tests/integration_tests/tiny_sectors/tiny_sectors_geostationary.sh"
+    related-issue:
+      internal: geoips#1004
+    date:
+      start: 2026-01-07
+      finish: 2026-01-07
