@@ -145,9 +145,11 @@ jobs:
           echo "Downloading test data for tags: ${TAGS}"
           echo "Testdata path: ${TESTDATA_PATH}"
 
+          RUNNER_UID=$(id -u)
+          RUNNER_GID=$(id -g)
+
           docker run --rm \
-            --user $(id -u):$(id -g) \
-            -e HOME=/tmp \
+            --user root \
             -v ${TESTDATA_PATH}:/geoips_testdata \
             -e GEOIPS_TESTDATA_DIR=/geoips_testdata \
             $IMAGE_TAG \
@@ -157,6 +159,7 @@ jobs:
                 --tags ${TAGS} \
                 -e geoips_testdata_dir=/geoips_testdata \
                 -v
+              chown -R ${RUNNER_UID}:${RUNNER_GID} /geoips_testdata
             "
 
       - name: Verify downloaded datasets
