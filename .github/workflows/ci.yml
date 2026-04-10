@@ -25,13 +25,14 @@ jobs:
     env:
       IMAGE_TAG: geoips:dev-${{ github.sha }}
     steps:
-      # Clean up any testdata left inside the workspace from earlier runs
-      # so that actions/checkout can wipe the directory without EACCES errors.
-      - name: Remove stale in-workspace testdata
+      # Docker containers that run as root (lint, unit tests, integration)
+      # create files owned by root inside the workspace (.pytest_cache,
+      # test-reports, etc.).  Fix permissions so actions/checkout can clean
+      # the directory without EACCES errors.
+      - name: Fix workspace permissions
         run: |
-          if [ -d "${{ github.workspace }}/.geoips-testdata" ]; then
-            chmod -R u+w "${{ github.workspace }}/.geoips-testdata" 2>/dev/null || true
-            rm -rf "${{ github.workspace }}/.geoips-testdata"
+          if [ -d "${{ github.workspace }}" ]; then
+            sudo chown -R $(id -u):$(id -g) "${{ github.workspace }}" 2>/dev/null || true
           fi
 
       - uses: actions/checkout@v4
