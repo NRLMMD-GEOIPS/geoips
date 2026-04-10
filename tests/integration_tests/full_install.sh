@@ -42,7 +42,7 @@ fi
 . $check run_command "geoips config install test_data_gpm"
 . $check run_command "geoips config install test_data_modis"
 . $check run_command "geoips config install test_data_multi_scan_times"
-# . $check run_command "geoips config install test_data_nucaps"
+. $check run_command "geoips config install test_data_nucaps"
 . $check run_command "geoips config install test_data_pyrocb"
 . $check run_command "geoips config install test_data_saphir"
 . $check run_command "geoips config install test_data_sar"
