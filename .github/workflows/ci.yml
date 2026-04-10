@@ -10,16 +10,15 @@ defaults:
 
 jobs:
   # ---------------------------------------------------------------------------
-  # Build the Docker image at the requested tier
+  # Build, lint, unit tests, test data download, and integration tests all run
+  # on the same machine so the Docker image is built once and reused throughout.
   # ---------------------------------------------------------------------------
-  build:
+  ci:
     runs-on:
       group: cira-prem
       labels: self-hosted
     env:
       IMAGE_TAG: geoips:dev-${{ github.sha }}
-    outputs:
-      image_tag: ${{ env.IMAGE_TAG }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -38,28 +37,6 @@ jobs:
       - name: Smoke test
         run: |
           docker run --rm $IMAGE_TAG python3 -c "import geoips; print(geoips.__version__)"
-
-  # ---------------------------------------------------------------------------
-  # Lint + unit tests (no test data needed)
-  # ---------------------------------------------------------------------------
-  lint-and-unit:
-    needs: build
-    runs-on: ${{ vars.RUNNER || 'ubuntu-latest' }}
-    env:
-      IMAGE_TAG: geoips:dev-${{ github.sha }}
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      - name: Rebuild from cache (layers already present)
-        run: |
-          DOCKER_BUILDKIT=1 docker build \
-            --target ${{ vars.DOCKER_BUILD_TARGET || 'geoips-full' }} \
-            --tag $IMAGE_TAG \
-            --build-arg EXTRA_PLUGINS="${{ vars.EXTRA_PLUGINS || '' }}" \
-            --progress=plain \
-            .
 
       - name: Lint
         if: ${{ vars.CI_LINT != 'false' }}
@@ -87,49 +64,27 @@ jobs:
               pytest -vv tests/unit_tests
             "
 
-  # ---------------------------------------------------------------------------
-  # Download test data using ansible (runs in parallel with lint-and-unit)
-  #
-  # The ansible test_data playbook runs INSIDE the Docker container with
-  # a host volume mounted at TESTDATA_PATH.  This means:
-  #   - geoips and ansible are already installed (from the build)
-  #   - Downloaded data persists on self-hosted runners between CI runs
-  #   - `geoips config install` is idempotent so cached data is a fast no-op
-  # ---------------------------------------------------------------------------
-  test-data:
-    needs: build
-    runs-on: ${{ vars.RUNNER || 'ubuntu-latest' }}
-    if: ${{ vars.CI_INTEGRATION != 'false' }}
-    env:
-      IMAGE_TAG: geoips:dev-${{ github.sha }}
-      TESTDATA_PATH: ${{ vars.TESTDATA_PATH || '' }}
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
+      # -----------------------------------------------------------------------
+      # Test data + integration (skipped when CI_INTEGRATION == 'false')
+      # -----------------------------------------------------------------------
 
       - name: Set testdata path
+        if: ${{ vars.CI_INTEGRATION != 'false' }}
         run: |
-          # Use the configured path, or fall back to a workspace-relative dir
+          TESTDATA_PATH="${{ vars.TESTDATA_PATH }}"
           if [ -z "${TESTDATA_PATH}" ]; then
             TESTDATA_PATH="${{ github.workspace }}/.geoips-testdata"
           fi
           echo "TESTDATA_PATH=${TESTDATA_PATH}" >> $GITHUB_ENV
 
-      - name: Rebuild from cache
-        run: |
-          DOCKER_BUILDKIT=1 docker build \
-            --target ${{ vars.DOCKER_BUILD_TARGET || 'geoips-full' }} \
-            --tag $IMAGE_TAG \
-            --build-arg EXTRA_PLUGINS="${{ vars.EXTRA_PLUGINS || '' }}" \
-            --progress=plain \
-            .
-
       - name: Ensure testdata directory exists on host
+        if: ${{ vars.CI_INTEGRATION != 'false' }}
         run: |
           mkdir -p ${TESTDATA_PATH} || sudo mkdir -p ${TESTDATA_PATH}
+          chmod a+w ${TESTDATA_PATH}
 
       - name: Download test datasets via ansible
+        if: ${{ vars.CI_INTEGRATION != 'false' }}
         run: |
           # Determine which tier of test data to download based on the
           # Docker build target.  Default to base,full to match geoips-full.
@@ -145,6 +100,7 @@ jobs:
           echo "Testdata path: ${TESTDATA_PATH}"
 
           docker run --rm \
+            --user root \
             -v ${TESTDATA_PATH}:/geoips_testdata \
             -e GEOIPS_TESTDATA_DIR=/geoips_testdata \
             $IMAGE_TAG \
@@ -157,6 +113,7 @@ jobs:
             "
 
       - name: Verify downloaded datasets
+        if: ${{ vars.CI_INTEGRATION != 'false' }}
         run: |
           echo "Test data contents:"
           ls -la ${TESTDATA_PATH}/
@@ -164,42 +121,8 @@ jobs:
           echo "Total size:"
           du -sh ${TESTDATA_PATH}/
 
-  # ---------------------------------------------------------------------------
-  # Integration tests (needs build + test data)
-  # ---------------------------------------------------------------------------
-  integration:
-    needs: [build, test-data]
-    runs-on: ${{ vars.RUNNER || 'ubuntu-latest' }}
-    if: ${{ vars.CI_INTEGRATION != 'false' }}
-    strategy:
-      fail-fast: false
-      matrix:
-        marker: [base, full]
-    env:
-      IMAGE_TAG: geoips:dev-${{ github.sha }}
-      TESTDATA_PATH: ${{ vars.TESTDATA_PATH || '' }}
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      - name: Set testdata path
-        run: |
-          if [ -z "${TESTDATA_PATH}" ]; then
-            TESTDATA_PATH="${{ github.workspace }}/.geoips-testdata"
-          fi
-          echo "TESTDATA_PATH=${TESTDATA_PATH}" >> $GITHUB_ENV
-
-      - name: Rebuild from cache
-        run: |
-          DOCKER_BUILDKIT=1 docker build \
-            --target ${{ vars.DOCKER_BUILD_TARGET || 'geoips-full' }} \
-            --tag $IMAGE_TAG \
-            --build-arg EXTRA_PLUGINS="${{ vars.EXTRA_PLUGINS || '' }}" \
-            --progress=plain \
-            .
-
-      - name: Run ${{ matrix.marker }} integration tests
+      - name: Run base integration tests
+        if: ${{ vars.CI_INTEGRATION != 'false' }}
         run: |
           docker run --rm \
             -v ${TESTDATA_PATH}:/geoips_testdata \
@@ -210,7 +133,23 @@ jobs:
               git config --global --add safe.directory /workspace
               pip install -e .
               create_plugin_registries
-              pytest -vv -m '${{ matrix.marker }} and integration' \
+              pytest -vv -m 'base and integration' \
+                tests/integration_tests/test_integration.py
+            "
+
+      - name: Run full integration tests
+        if: ${{ vars.CI_INTEGRATION != 'false' }}
+        run: |
+          docker run --rm \
+            -v ${TESTDATA_PATH}:/geoips_testdata \
+            -v $(pwd):/workspace -w /workspace \
+            -e GEOIPS_TESTDATA_DIR=/geoips_testdata \
+            $IMAGE_TAG \
+            bash -c "
+              git config --global --add safe.directory /workspace
+              pip install -e .
+              create_plugin_registries
+              pytest -vv -m 'full and integration' \
                 tests/integration_tests/test_integration.py
             "
 
@@ -218,8 +157,10 @@ jobs:
   # Optional: push image to registry
   # ---------------------------------------------------------------------------
   push:
-    needs: [lint-and-unit, integration]
-    runs-on: ${{ vars.RUNNER || 'ubuntu-latest' }}
+    needs: ci
+    runs-on:
+      group: cira-prem
+      labels: self-hosted
     if: ${{ vars.ENABLE_DOCKER_REGISTRY == 'true' }}
     env:
       IMAGE_TAG: geoips:dev-${{ github.sha }}
