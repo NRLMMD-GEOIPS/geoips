@@ -28,7 +28,7 @@ jobs:
       - name: Build image
         run: |
           DOCKER_BUILDKIT=1 docker build \
-            --target ${{ vars.DOCKER_BUILD_TARGET || 'geoips-full' }} \
+            --target ${{ vars.DOCKER_BUILD_TARGET || 'geoips-site' }} \
             --tag $IMAGE_TAG \
             --build-arg EXTRA_PLUGINS="${{ vars.EXTRA_PLUGINS || '' }}" \
             --build-arg GEOIPS_MODIFIED_BRANCH="${GITHUB_HEAD_REF}" \
