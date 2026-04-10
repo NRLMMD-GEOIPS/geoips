@@ -125,7 +125,13 @@ jobs:
       - name: Run base integration tests
         if: ${{ vars.CI_INTEGRATION != 'false' }}
         run: |
+          # CI_DOCKER_USER controls the container user for integration tests.
+          # Set it to "root" to allow pip install / create_plugin_registries to
+          # write into site-packages.  Leave it unset to keep site-packages
+          # read-only (only safe if the image pre-installs the registries).
+          USER_ARG="${{ vars.CI_DOCKER_USER && format('--user {0}', vars.CI_DOCKER_USER) || '--user root' }}"
           docker run --rm \
+            ${USER_ARG} \
             -v ${TESTDATA_PATH}:/geoips_testdata \
             -v $(pwd):/workspace -w /workspace \
             -e GEOIPS_TESTDATA_DIR=/geoips_testdata \
@@ -141,7 +147,9 @@ jobs:
       - name: Run full integration tests
         if: ${{ vars.CI_INTEGRATION != 'false' }}
         run: |
+          USER_ARG="${{ vars.CI_DOCKER_USER && format('--user {0}', vars.CI_DOCKER_USER) || '--user root' }}"
           docker run --rm \
+            ${USER_ARG} \
             -v ${TESTDATA_PATH}:/geoips_testdata \
             -v $(pwd):/workspace -w /workspace \
             -e GEOIPS_TESTDATA_DIR=/geoips_testdata \
