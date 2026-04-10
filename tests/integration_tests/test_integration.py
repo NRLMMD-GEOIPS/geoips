@@ -170,6 +170,7 @@ def set_log_filename(expanded_call):
 # Ansible-based install verification
 # ---------------------------------------------------------------------------
 
+
 def _run_ansible_check(tags, label):
     """Run the ansible install playbook for the given tier tags.
 
@@ -195,9 +196,12 @@ def _run_ansible_check(tags, label):
     cmd = [
         "ansible-playbook",
         _PLAYBOOK,
-        "-i", _INVENTORY,
-        "--tags", tags,
-        "--skip-tags", "registries",
+        "-i",
+        _INVENTORY,
+        "--tags",
+        tags,
+        "--skip-tags",
+        "registries",
         "-v",
     ]
 
