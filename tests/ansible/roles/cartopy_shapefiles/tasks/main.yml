@@ -50,7 +50,7 @@
   args:
     executable: /bin/bash
   register: ln_cultural_sub
-  changed_when: ln_cultural_sub.stdout | length > 0
+  changed_when: ne_clone.changed
   tags: [full, site]
 
 - name: Symlink physical shapefiles (subdirectory contents)
@@ -59,7 +59,7 @@
   args:
     executable: /bin/bash
   register: ln_physical_sub
-  changed_when: ln_physical_sub.stdout | length > 0
+  changed_when: ne_clone.changed
   tags: [full, site]
 
 - name: Symlink cultural shapefiles (top-level files)
@@ -68,7 +68,7 @@
   args:
     executable: /bin/bash
   register: ln_cultural_top
-  changed_when: ln_cultural_top.stdout | length > 0
+  changed_when: ne_clone.changed
   tags: [full, site]
 
 - name: Symlink physical shapefiles (top-level files)
@@ -77,7 +77,7 @@
   args:
     executable: /bin/bash
   register: ln_physical_top
-  changed_when: ln_physical_top.stdout | length > 0
+  changed_when: ne_clone.changed
   tags: [full, site]
 
 - name: Verify cultural shapefiles installed

@@ -4,6 +4,10 @@
 # The command is idempotent — it skips datasets that already exist in
 # $GEOIPS_TESTDATA_DIR.
 #
+# The `creates:` parameter lets Ansible skip the CLI call entirely when the
+# dataset directory already exists.  If a dataset is only partially extracted,
+# delete its directory to force a re-download.
+#
 # This role is deliberately NOT part of the install.yml playbook because
 # test data is never baked into Docker images.  It has its own playbook
 # (test_data.yml) that CI and developers call separately.
@@ -20,10 +24,14 @@
 - name: "Install base test dataset: {{ item }}"
   ansible.builtin.command:
     cmd: "geoips config install {{ item }}"
+    creates: "{{ geoips_testdata_dir }}/{{ item }}"
   environment:
     GEOIPS_TESTDATA_DIR: "{{ geoips_testdata_dir }}"
   register: _result
   changed_when: "'SUCCESS' in _result.stdout"
+  retries: 3
+  delay: 10
+  until: _result.rc == 0
   loop: "{{ base_test_datasets }}"
   tags: [base]
 
@@ -31,10 +39,14 @@
 - name: "Install full test dataset: {{ item }}"
   ansible.builtin.command:
     cmd: "geoips config install {{ item }}"
+    creates: "{{ geoips_testdata_dir }}/{{ item }}"
   environment:
     GEOIPS_TESTDATA_DIR: "{{ geoips_testdata_dir }}"
   register: _result
   changed_when: "'SUCCESS' in _result.stdout"
+  retries: 3
+  delay: 10
+  until: _result.rc == 0
   loop: "{{ full_test_datasets }}"
   tags: [full]
 
@@ -42,10 +54,14 @@
 - name: "Install site test dataset: {{ item }}"
   ansible.builtin.command:
     cmd: "geoips config install {{ item }}"
+    creates: "{{ geoips_testdata_dir }}/{{ item }}"
   environment:
     GEOIPS_TESTDATA_DIR: "{{ geoips_testdata_dir }}"
   register: _result
   changed_when: "'SUCCESS' in _result.stdout"
+  retries: 3
+  delay: 10
+  until: _result.rc == 0
   loop: "{{ site_test_datasets }}"
   tags: [site]
 
@@ -53,10 +69,14 @@
 - name: "Install private test dataset: {{ item }}"
   ansible.builtin.command:
     cmd: "geoips config install {{ item }}"
+    creates: "{{ geoips_testdata_dir }}/{{ item }}"
   environment:
     GEOIPS_TESTDATA_DIR: "{{ geoips_testdata_dir }}"
   register: _result
   changed_when: "'SUCCESS' in _result.stdout"
+  retries: 3
+  delay: 10
+  until: _result.rc == 0
   loop: "{{ private_test_datasets }}"
   when: geoips_use_private_plugins | bool
   tags: [site]

@@ -3,5 +3,5 @@
 - name: Create GeoIPS plugin registries
   ansible.builtin.command:
     cmd: geoips config create-registries
-  changed_when: true
+  changed_when: false
   tags: [base, full, site]

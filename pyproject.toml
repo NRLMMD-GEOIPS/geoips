@@ -139,6 +139,7 @@ pinkrst = { version = "*", optional = true }
 pytest = { version = "*", optional = true }
 pytest-cov = { version = "*", optional = true }
 pytest-mock = { version = ">=3.14.0", optional = true}
+pytest-html = { version = "*", optional = true }
 pytest-xdist = { version = "*", optional = true }
 pixelmatch = { version = "*", optional = true }
 # Debug group
@@ -178,6 +179,7 @@ lint = [
 test = [
     "pytest",          # Required for unit tests
     "pytest-cov",      # Reports on test coverage
+    "pytest-html",     # HTML test reports for CI artifacts
     "pytest-mock",     # Required for unit tests
     "pixelmatch",
     "pytest-xdist",
