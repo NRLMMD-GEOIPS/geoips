@@ -25,6 +25,7 @@ def call(
     clean_fname=None,
     product_name_title=None,
     mpl_colors_info=None,
+    hist_colorbar=False,
     feature_annotator=None,
     gridline_annotator=None,
     product_datatype_title=None,
@@ -61,6 +62,7 @@ def call(
         save_image,
         plot_overlays,
         create_colorbar,
+        hist_cmap,
     )
     from geoips.image_utils.mpl_utils import get_title_string_from_objects, set_title
 
@@ -177,10 +179,15 @@ def call(
     )
     set_title(main_ax, title_string, area_def.height)
 
+    if hist_colorbar:
+        # create both a colorbar and histogram
+        hist_cmap(plot_data, fig, mpl_colors_info)
+        mpl_colors_info["colorbar"] = False
+
     if mpl_colors_info["colorbar"] is True:
         # Create the colorbar to match the mpl_colors
         create_colorbar(fig, mpl_colors_info)
-
+    # specific keywords are changed to modify the fix
     # Plot gridlines and feature overlays
     plot_overlays(
         mapobj,
@@ -189,6 +196,7 @@ def call(
         feature_annotator=feature_annotator,
         gridline_annotator=gridline_annotator,
     )
+
     prod_plugin = None
     try:
         prod_plugin = products.get_plugin(

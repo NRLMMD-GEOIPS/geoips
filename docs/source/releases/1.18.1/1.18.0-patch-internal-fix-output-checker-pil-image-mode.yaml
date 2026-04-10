@@ -1,0 +1,14 @@
+bug fixes:
+- title: Update image output checker so the diff image mode matches the input image modes
+  description: |
+    With 12.1.0 pillow version, RGB raw output image mode will fail when comparing against
+    RGBA input images.  Update hard coded RGB output diff image mode to use the
+    input_image.mode to ensure they are consistent for the pixelmatch call.
+  files:
+    modified:
+    - geoips/plugins/classes/output_checkers/image.py
+  related-issue:
+    internal: geoips#1029 - 1.18.0 updates
+  date:
+    start: 2026-03-09
+    finish: 2026-03-09
