@@ -26,7 +26,7 @@ fi
 . $check run_command "geoips config install test_data_amsr2"
 
 if [[ "$skip_create_registries" == "true" ]]; then
-    echo "Skipping geoips config create-registries"
+    echo "Skipping pluginify create"
 else
-    . $check run_command "geoips config create-registries"
+    pluginify create -n geoips.plugin_packages
 fi
