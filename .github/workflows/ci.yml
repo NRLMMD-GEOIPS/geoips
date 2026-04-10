@@ -143,6 +143,7 @@ jobs:
 
           docker run --rm \
             --user $(id -u):$(id -g) \
+            -e HOME=/tmp \
             -v ${TESTDATA_PATH}:/geoips_testdata \
             -e GEOIPS_TESTDATA_DIR=/geoips_testdata \
             $IMAGE_TAG \
