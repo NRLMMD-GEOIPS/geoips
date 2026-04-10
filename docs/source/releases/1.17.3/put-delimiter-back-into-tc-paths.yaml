@@ -1,0 +1,23 @@
+bug fix:
+  - title: "Put the delimiter back in the TC invest file name paths"
+    description: |
+      When updating the TC file naming conventions to use storm_id rather than
+      manually compiling the path, it resulted in removing the delimiter from the
+      TC invest file paths. This update restores the delimiter to ensure proper
+      formatting of TC invest file names for consistency, clarity, and backwards
+      compatibility.
+    files:
+      deleted:
+        - ""
+      moved:
+        - ""
+      added:
+        - ""
+      modified:
+        - "geoips/plugins/modules/filename_formatters/utils/tc_file_naming.py"
+        - "tests/outputs/aws.tc.TB165.imagery_clean/20250428_114913_WP992025_mwr_aws_TB165_15kts_43p06_1p0-clean.png.yaml"
+        - "tests/outputs/aws.tc.TB180.imagery_clean/20250428_114913_WP992025_mwr_aws_TB180_15kts_43p06_1p0-clean.png.yaml"
+        - "tests/outputs/aws.tc.TB325-1.imagery_clean/20250428_114913_WP992025_mwr_aws_TB325-1_15kts_48p36_1p0-clean.png.yaml"
+    date:
+      start: 2026-01-14
+      finish: 2026-01-14

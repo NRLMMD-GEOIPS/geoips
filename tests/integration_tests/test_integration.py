@@ -13,10 +13,16 @@ import pytest
 from geoips.geoips_utils import call_cmd
 from geoips.filenames.base_paths import PATHS as gpaths
 
-print(
-    "\nOUTPUT_CHECKER_THRESHOLD_IMAGE: "
-    f"{os.environ.get('OUTPUT_CHECKER_THRESHOLD_IMAGE')}\n"
-)
+print("")
+for test_envvarname in [
+    "GEOIPS_TEST_OUTPUT_CHECKER_THRESHOLD_IMAGE",
+    "GEOIPS_TEST_PRINT_TEXT_OUTPUT_CHECKER_TO_CONSOLE",
+    "GEOIPS_TEST_SUPPRESS_PYTEST_FAILED_LOG_CONTENTS",
+    "GEOIPS_TEST_SECTOR_CREATE_ANNOTATED_OUTPUTS",
+    "GEOIPS_TEST_SECTOR_CREATE_GEOTIFF_OUTPUTS",
+    "GEOIPS_TEST_PROMPT_TO_OVERWRITE_COMPARISON_FILE_IF_MISMATCH",
+]:
+    print(f"{test_envvarname:>60s}: {gpaths[test_envvarname]}")
 
 # ---------------------------------------------------------------------------
 # Paths used by the ansible install checks
@@ -35,14 +41,22 @@ base_integ_test_calls = [
 
 # Linting integration tests, ensure code and documentation are correctly formatted.
 lint_integ_test_calls = [
-    "$geoips_repopath/tests/utils/check_code.sh all $geoips_repopath",
-    "$geoips_repopath/docs/build_docs.sh $geoips_repopath $geoips_pkgname html_only",
+    "$geoips_repopath/tests/utils/check_code.sh all $repopath",
+    "$geoips_repopath/docs/build_docs.sh $repopath $pkgname html_only",
+]
+
+# Test scripts validating plugins and interfaces.
+# NOTE --package_name doesn't actually do anything yet for test_interfaces.py
+validation_integ_test_calls = [
+    "python $geoips_repopath/tests/utils/test_interfaces.py --package_name $pkgname --repo_path $repopath",  # noqa: E501
+    "$geoips_repopath/tests/scripts/console_script_list_available_plugins.sh $pkgname $repopath",  # noqa: E501
 ]
 
 # This includes ALL test scripts within the geoips repo itself with available data,
 # excluding the tests under base and lint markers.
 # This test list should NOT require/test anything in any other plugin package.
 full_integ_test_calls = [
+    "$geoips_repopath/tests/scripts/abi.config_based_output_low_memory_resource_usage_logging.sh",  # noqa: E501
     "$geoips_repopath/tests/scripts/abi.static.Infrared.imagery_clean.sh",
     "$geoips_repopath/tests/scripts/abi.static.Infrared.imagery_annotated_enhanced.sh",
     "$geoips_repopath/tests/scripts/console_script_create_sector_image.sh",
@@ -61,6 +75,7 @@ full_integ_test_calls = [
     "$geoips_repopath/tests/scripts/ami.WV-Upper.unprojected_image.sh",
     "$geoips_repopath/tests/scripts/amsr2.global.89H-Physical.cogeotiff.sh",
     "$geoips_repopath/tests/scripts/amsr2.tc.89H-Physical.imagery_annotated.sh",
+    "$geoips_repopath/tests/scripts/amsr2.tc.89H-Physical.imagery_annotated_colorhist.sh",  # noqa: E501
     "$geoips_repopath/tests/scripts/amsr2_rss.tc.windspeed.imagery_clean.sh",
     "$geoips_repopath/tests/scripts/amsr2.config_based_overlay_output.sh",
     "$geoips_repopath/tests/scripts/amsr2.config_based_overlay_output_low_memory.sh",
@@ -68,10 +83,7 @@ full_integ_test_calls = [
     "$geoips_repopath/tests/scripts/ascat_knmi.tc.windbarbs.imagery_windbarbs_clean.sh",
     "$geoips_repopath/tests/scripts/ascat_low_knmi.tc.windbarbs.imagery_windbarbs.sh",
     "$geoips_repopath/tests/scripts/ascat_noaa_25km.tc.windbarbs.imagery_windbarbs.sh",
-    (
-        "$geoips_repopath/tests/scripts/"
-        "ascat_noaa_50km.tc.wind-ambiguities.imagery_windbarbs.sh"
-    ),
+    "$geoips_repopath/tests/scripts/ascat_noaa_50km.tc.wind-ambiguities.imagery_windbarbs.sh",  # noqa: E501
     "$geoips_repopath/tests/scripts/ascat_uhr.tc.wind-ambiguities.imagery_windbarbs.sh",
     "$geoips_repopath/tests/scripts/ascat_uhr.tc.nrcs.imagery_clean.sh",
     "$geoips_repopath/tests/scripts/ascat_uhr.tc.windbarbs.imagery_windbarbs.sh",
@@ -117,14 +129,8 @@ full_integ_test_calls = [
     "$geoips_repopath/tests/scripts/viirsday.global.Night-Vis-IR.cogeotiff_rgba.sh",
     "$geoips_repopath/tests/scripts/viirsday.tc.Night-Vis-IR.imagery_annotated.sh",
     "$geoips_repopath/tests/scripts/viirsmoon.tc.Night-Vis-GeoIPS1.imagery_clean.sh",
-    (
-        "$geoips_repopath/tests/scripts/"
-        "seviri.WV-Upper.no_self_register.unprojected_image.sh"
-    ),
-    (
-        "$geoips_repopath/tests/scripts/"
-        "viirsclearnight.Night-Vis-IR-GeoIPS1.unprojected_image.sh"
-    ),
+    "$geoips_repopath/tests/scripts/seviri.WV-Upper.no_self_register.unprojected_image.sh",  # noqa: E501
+    "$geoips_repopath/tests/scripts/viirsclearnight.Night-Vis-IR-GeoIPS1.unprojected_image.sh",  # noqa: E501
 ]
 
 # Test scripts spanning multiple repositories / geoips plugins.
@@ -376,6 +382,16 @@ def run_script_with_bash(script, fail_on_missing_data, unset_output_path_env_var
     else:
         print("NOT REMOVING ENV VARS!")
 
+    if fail_on_missing_data:
+        print("FAILING ON MISSING DATA!")
+    else:
+        print("NOT FAILING ON MISSING DATA!")
+
+    if not gpaths["GEOIPS_TEST_SUPPRESS_PYTEST_FAILED_LOG_CONTENTS"]:
+        print("DUMPING ALL BAD LOG CONTENTS TO TERMINAL!")
+    else:
+        print("SUPPRESSING BAD LOG CONTENTS TO TERMINAL!")
+
     if ".sh" in script:
         expanded_call = shlex.split("bash " + os.path.expandvars(script))
     else:
@@ -399,9 +415,10 @@ def run_script_with_bash(script, fail_on_missing_data, unset_output_path_env_var
     if retval != 0:
         with open(log_fname, "r") as logfile:
             log_contents = logfile.read()
-            print("\nLOG FILE CONTENTS:\n")
-            print(log_contents)
-            print("-" * 80)
+            if not gpaths["GEOIPS_TEST_SUPPRESS_PYTEST_FAILED_LOG_CONTENTS"]:
+                print("\nLOG FILE CONTENTS:\n")
+                print(log_contents)
+                print("-" * 80)
         print("FAILED COMMAND FOR PREVIOUS TEST")
         print(" ".join(expanded_call))
         print(f"FAILED LOG FILE: {log_fname}")
@@ -444,7 +461,7 @@ def test_integ_base_test_script(
         If the shell command returns a non-zero exit status.
     """
     setup_environment()
-    run_script_with_bash(script, fail_on_missing_data)
+    run_script_with_bash(script, fail_on_missing_data=fail_on_missing_data)
 
 
 @pytest.mark.lint
@@ -464,7 +481,29 @@ def test_integ_lint_test_script(base_setup: None, script: str):
         If the shell command returns a non-zero exit status.
     """
     setup_environment()
-    run_script_with_bash(script, fail_on_missing_data=True)
+    run_script_with_bash(script)
+
+
+@pytest.mark.validation
+@pytest.mark.integration
+@pytest.mark.parametrize("script", validation_integ_test_calls)
+def test_integ_validation_script(base_setup: None, script: str):
+    """
+    Run integration test scripts by executing specified shell commands.
+
+    Parameters
+    ----------
+    script : str
+        Shell command to execute as part of the integration test. The command may
+        contain environment variables which will be expanded before execution.
+
+    Raises
+    ------
+    subprocess.CalledProcessError
+        If the shell command returns a non-zero exit status.
+    """
+    setup_environment()
+    run_script_with_bash(script)
 
 
 @pytest.mark.full
@@ -489,7 +528,7 @@ def test_integ_multi_repo_script(
         If the shell command returns a non-zero exit status.
     """
     setup_environment()
-    run_script_with_bash(script, fail_on_missing_data)
+    run_script_with_bash(script, fail_on_missing_data=fail_on_missing_data)
 
 
 @pytest.mark.full
@@ -511,7 +550,7 @@ def test_integ_full_script(full_setup: None, script: str, fail_on_missing_data: 
         If the shell command returns a non-zero exit status.
     """
     setup_environment()
-    run_script_with_bash(script, fail_on_missing_data)
+    run_script_with_bash(script, fail_on_missing_data=fail_on_missing_data)
 
 
 # These are required to test the full functionality of this repo, but have limited
@@ -538,4 +577,4 @@ def test_integ_limited_data_script(
         If the shell command returns a non-zero exit status.
     """
     setup_environment()
-    run_script_with_bash(script, fail_on_missing_data)
+    run_script_with_bash(script, fail_on_missing_data=fail_on_missing_data)

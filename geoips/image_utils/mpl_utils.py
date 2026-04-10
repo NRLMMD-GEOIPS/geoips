@@ -5,9 +5,14 @@
 
 # Python Standard Libraries
 import logging
+
+# installed libraries
+import numpy as np
 import matplotlib
 import matplotlib.pyplot as plt
+from matplotlib import cm
 
+# geoips libraries
 from geoips.interfaces import title_formatters
 from geoips.image_utils.maps import draw_features, draw_gridlines
 
@@ -34,9 +39,7 @@ def percent_unmasked_rgba(rgba):
     coverage : float
         Coverage in percentage, between 0 and 100.
     """
-    import numpy
-
-    coverage = 100.0 * numpy.count_nonzero(rgba[:, :, 3]) / rgba[:, :, 3].size
+    coverage = 100.0 * np.count_nonzero(rgba[:, :, 3]) / rgba[:, :, 3].size
     return coverage
 
 
@@ -61,14 +64,12 @@ def rgba_from_arrays(red, grn, blu, alp=None):
     rgba : numpy.ndarray
         4 layer dimensional numpy.ndarray
     """
-    import numpy
-
     if alp is None:
         alp = alpha_from_masked_arrays([red, grn, blu])
     red.fill_value = 0
     grn.fill_value = 0
     blu.fill_value = 0
-    rgba = numpy.dstack([red.filled(), grn.filled(), blu.filled(), alp])
+    rgba = np.dstack([red.filled(), grn.filled(), blu.filled(), alp])
     return rgba
 
 
@@ -90,18 +91,16 @@ def alpha_from_masked_arrays(arrays):
         the alpha transparency layer in matplotlib, values between
         0 and 1, where 0 is fully transparent and 1 is fully opaque
     """
-    import numpy
-
-    alp = numpy.zeros(arrays[0].shape, dtype=bool)
+    alp = np.zeros(arrays[0].shape, dtype=bool)
     for img in arrays:
         try:
-            if img.mask is not numpy.False_:
+            if img.mask is not np.False_:
                 alp += img.mask
         except AttributeError:
             pass
     # You will get yelled at by numpy if you removed the "alp.dtype" portion of this.
     #   It thinks you are trying to cast alp to be an integer.
-    alp = numpy.array(alp, dtype=float)
+    alp = np.array(alp, dtype=float)
     alp -= float(1)
     alp *= float(-1)
     return alp
@@ -309,6 +308,160 @@ def get_title_string_from_objects(
     )
 
     return title_string
+
+
+def hist_cmap(data, fig, mpl_colors_info):
+    """Append a colorbar and matching histogram to the figure.
+
+    Parameters
+    ----------
+    data : numpy.ndarray)
+        Numpy array of data to plot
+    fig : matplotlib.figure.Figure
+        Figure object to attach the colorbar - the colorbar will create its own ax
+    mpl_colors_info : dict
+        Specifies matplotlib Colors parameters for use in both plotting and colorbar
+
+    Returns
+    -------
+    None
+    """
+    cbar_kwargs = {}
+    cbar_spacing = "proportional"
+    if mpl_colors_info.get("cbar_spacing") is not None:
+        cbar_spacing = mpl_colors_info["cbar_spacing"]
+
+    if mpl_colors_info.get("colorbar_kwargs") is not None:
+        cbar_kwargs = mpl_colors_info["colorbar_kwargs"].copy()
+    if "extend" not in cbar_kwargs:
+        cbar_kwargs["extend"] = "both"
+    if "spacing" not in cbar_kwargs:
+        cbar_kwargs["spacing"] = cbar_spacing
+    if "orientation" not in cbar_kwargs:
+        cbar_kwargs["orientation"] = "horizontal"
+    cmap_norm = mpl_colors_info["norm"]
+    mpl_cmaps = mpl_colors_info["cmap"]
+
+    # cbar_kwargs['fraction'] =
+    left_margin = rc_params[
+        "figure.subplot.left"
+    ]  # Fractional distance from left edge of figure for subplot
+    right_margin = rc_params[
+        "figure.subplot.right"
+    ]  # Fractional distance from left edge of figure for subplot
+    if mpl_colors_info.get("cbar_ax_left_start_pos") is not None:
+        ax_left_start_pos = mpl_colors_info["cbar_ax_left_start_pos"]
+    else:
+        ax_left_start_pos = 2 * left_margin
+        if mpl_colors_info.get("cbar_full_width") is True:
+            ax_left_start_pos = left_margin  # Full width colorbar
+
+    ax_bottom_start_pos = 0.04
+    if mpl_colors_info.get("cbar_ax_bottom_start_pos") is not None:
+        ax_bottom_start_pos = mpl_colors_info["cbar_ax_bottom_start_pos"]
+
+    if mpl_colors_info.get("cbar_ax_width") is not None:
+        ax_width = mpl_colors_info["cbar_ax_width"]
+    else:
+        ax_width = 1 - 4 * left_margin
+        if mpl_colors_info.get("cbar_full_width") is True:
+            ax_width = right_margin - left_margin  # Full width colorbar
+
+    ax_height = 0.04
+    if mpl_colors_info.get("cbar_ax_height") is not None:
+        ax_height = mpl_colors_info["cbar_ax_height"]
+
+    cbar_ticks = mpl_colors_info["cbar_ticks"]
+    if cbar_ticks is None:
+        cbar_ticks = [cmap_norm.vmin, cmap_norm.vmax]
+    cbar_label = mpl_colors_info["cbar_label"]
+
+    cbar_tick_labels = None
+    if "cbar_tick_labels" in mpl_colors_info:
+        cbar_tick_labels = mpl_colors_info["cbar_tick_labels"]
+    if mpl_colors_info["cbar_tick_labels"] is None:
+        cbar_tick_labels = cbar_ticks
+    # Allow arbitrary kwargs to set_ticks, but ensure our defaults for labels
+    # and font sizes are set
+
+    set_ticks_kwargs = {}
+    if mpl_colors_info.get("set_ticks_kwargs") is not None:
+        set_ticks_kwargs = mpl_colors_info["set_ticks_kwargs"].copy()
+    if "size" not in set_ticks_kwargs:
+        set_ticks_kwargs["size"] = "small"
+    if "labels" not in set_ticks_kwargs or set_ticks_kwargs["labels"] is None:
+        set_ticks_kwargs["labels"] = cbar_tick_labels
+
+    # Allow arbitrary kwargs to set_label
+    set_label_kwargs = {}
+    if mpl_colors_info.get("set_label_kwargs") is not None:
+        set_label_kwargs = mpl_colors_info["set_label_kwargs"].copy()
+    if "size" not in set_label_kwargs:
+        set_label_kwargs["size"] = rc_params["font.size"]
+
+    # create the figure for the hist
+    ax_new = fig.add_axes([ax_left_start_pos, ax_bottom_start_pos, ax_width, ax_height])
+    flat_data = data.ravel()
+
+    vmin, vmax = cmap_norm.vmin, cmap_norm.vmax
+    cbar_ticks = mpl_colors_info["cbar_ticks"]
+    if cbar_ticks is None:
+        cbar_ticks = [cmap_norm.vmin, cmap_norm.vmax]
+    bin_ticks = sorted(cbar_ticks + [np.nanmin(flat_data), np.nanmax(flat_data)])
+    # bins must preserve spacing? match colorbar?
+    interp_bins = np.interp(
+        np.linspace(0, len(cbar_ticks) + 2, 100),
+        np.arange(len(cbar_ticks) + 2),
+        bin_ticks,
+    )
+    # need a simple way to increase bins but preserve edges
+
+    counts, bins, ptc = ax_new.hist(flat_data, bins=interp_bins)
+
+    # set the colormap to histogram values
+    cmap = cm.ScalarMappable(norm=cmap_norm, cmap=mpl_cmaps).get_cmap()
+    bin_centers = (bins[:-1] + bins[1:]) / 2
+    norm = plt.Normalize(vmin=vmin, vmax=vmax)
+    for ptc, bin_center in zip(ptc, bin_centers):
+        ptc.set_facecolor(cmap(norm(bin_center)))
+
+    cmap_boundaries = mpl_colors_info["boundaries"]
+
+    ax_cmap = fig.add_axes([ax_left_start_pos, 0, ax_width, 0.015])
+    cbar = plt.colorbar(
+        cm.ScalarMappable(norm=cmap_norm, cmap=mpl_cmaps),
+        norm=cmap_norm,
+        cax=ax_cmap,
+        boundaries=cmap_boundaries,
+        **cbar_kwargs,
+    )
+    cbar_min, cbar_max = cbar.norm.vmin, cbar.norm.vmax
+    LOG.info("MAKING COLORBAR with values {} {}".format(cbar_min, cbar_max))
+    if cbar_ticks:
+        # matplotlib 3.6.0 sometimes has inconsistent results with including
+        # minor ticks or not.
+        # Unclear why it impacts some colorbars and not others.
+        # We may eventually add support for including minor ticks within
+        # mpl_colors_info, but for now explicitly turn off minor ticks so
+        # outputs will continue to match (use the old default).
+        cbar.minorticks_off()
+        cbar.set_ticks(cbar_ticks, **set_ticks_kwargs)
+
+        ax_new.minorticks_off()
+        ax_new.set_xticks(cbar_ticks, **set_ticks_kwargs)
+    if cbar_label:
+        cbar.set_label(cbar_label, **set_label_kwargs)
+        # ax_new.set_xlabel(cbar_label, **set_label_kwargs)
+
+    # make all the other labels/ticks/spines invis
+    ax_new.set_yticks([])
+    ax_new.set_ylabel("")
+    ax_new.set_title("")
+    ax_new.spines["top"].set_visible(False)
+    ax_new.spines["right"].set_visible(False)
+    ax_new.spines["left"].set_visible(False)
+
+    return
 
 
 def plot_image(main_ax, data, mapobj, mpl_colors_info, zorder=None, bkgrnd_clr=None):
@@ -742,7 +895,7 @@ def create_colorbar(fig, mpl_colors_info):
         if mpl_colors_info.get("cbar_full_width") is True:
             ax_width = right_margin - left_margin  # Full width colorbar
 
-    ax_height = 0.020
+    ax_height = 0.02
     if mpl_colors_info.get("cbar_ax_height") is not None:
         ax_height = mpl_colors_info["cbar_ax_height"]
 
@@ -753,7 +906,7 @@ def create_colorbar(fig, mpl_colors_info):
         [ax_left_start_pos, ax_bottom_start_pos, ax_width, ax_height]
     )
     cbar = plt.colorbar(
-        mappable=matplotlib.cm.ScalarMappable(norm=cmap_norm, cmap=mpl_cmap),
+        mappable=cm.ScalarMappable(norm=cmap_norm, cmap=mpl_cmap),
         cax=cbar_ax,
         norm=cmap_norm,
         boundaries=cmap_boundaries,
