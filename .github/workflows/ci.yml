@@ -28,11 +28,14 @@ jobs:
       # Docker containers that run as root (lint, unit tests, integration)
       # create files owned by root inside the workspace (.pytest_cache,
       # test-reports, etc.).  Fix permissions so actions/checkout can clean
-      # the directory without EACCES errors.
+      # the directory without EACCES errors.  Run a root container to chown
+      # since the runner user cannot sudo.
       - name: Fix workspace permissions
         run: |
           if [ -d "${{ github.workspace }}" ]; then
-            sudo chown -R $(id -u):$(id -g) "${{ github.workspace }}" 2>/dev/null || true
+            docker run --rm \
+              -v "${{ github.workspace }}":/workspace \
+              alpine chown -R $(id -u):$(id -g) /workspace
           fi
 
       - uses: actions/checkout@v4
