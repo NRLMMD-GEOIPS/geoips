@@ -16,4 +16,9 @@ max_outbounds_invalid_input:
   val: True
   cls: CommonAlgorithmArgumentsModel
   err_str: Input should be a valid string
-
+norm_invalid_input:
+  description: "Ensure invalid value for norm is not accepted"
+  key: norm
+  val: 123
+  cls: CommonAlgorithmArgumentsModel
+  err_str: Input should be a valid boolean

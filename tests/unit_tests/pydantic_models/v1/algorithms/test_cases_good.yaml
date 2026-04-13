@@ -28,3 +28,8 @@ max_outbounds_valid_input:
   key: max_outbounds
   val: crop
   cls: CommonAlgorithmArgumentsModel
+norm_valid_input:
+  description: "Ensure valid value for norm is accepted"
+  key: norm
+  val: True
+  cls: CommonAlgorithmArgumentsModel
