@@ -29,7 +29,6 @@ full_test_datasets:
   - test_data_viirs
 
 site_test_datasets:
-  - template_test_data
   - test_data_clavrx
   - test_data_fusion
   - test_data_geocolor
