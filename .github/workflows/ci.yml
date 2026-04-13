@@ -63,12 +63,13 @@ jobs:
 
       - name: Detect package name
         run: |
-          PACKAGE_NAME=$(python3 -c "
-          import tomllib
-          data = tomllib.load(open('pyproject.toml', 'rb'))
-          name = data.get('project', {}).get('name') or data.get('tool', {}).get('poetry', {}).get('name', '')
-          print(name)
-          ")
+          # Extract the package name from pyproject.toml.  Works with both
+          # [project] and [tool.poetry] sections — grabs the first 'name' key.
+          PACKAGE_NAME=$(grep -m1 '^name\s*=' pyproject.toml | sed 's/^name\s*=\s*["'\'']\([^"'\'']*\)["'\''].*/\1/')
+          if [ -z "$PACKAGE_NAME" ]; then
+            echo "::error::Could not detect package name from pyproject.toml"
+            exit 1
+          fi
           echo "PACKAGE_NAME=${PACKAGE_NAME}" >> $GITHUB_ENV
           echo "Detected package: ${PACKAGE_NAME}"
 
