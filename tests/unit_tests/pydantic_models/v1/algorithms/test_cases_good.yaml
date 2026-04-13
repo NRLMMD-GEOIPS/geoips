@@ -23,4 +23,8 @@ min_outbounds_valid_input:
   key: min_outbounds
   val: crop
   cls: CommonAlgorithmArgumentsModel
- 
+max_outbounds_valid_input:
+  description: "Ensure valid value for max_outbounds is accepted"
+  key: max_outbounds
+  val: crop
+  cls: CommonAlgorithmArgumentsModel
