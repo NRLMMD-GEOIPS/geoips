@@ -1,1 +1,7 @@
-{}
+min_outbounds_valid_input:
+  description: "Ensure valid value for min_outbounds is accepted"
+  key: min_outbounds
+  val: True
+  cls: CommonAlgorithmArgumentsModel
+  err_str: Input should be a valid string
+
