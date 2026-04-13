@@ -18,7 +18,9 @@ output_data_range_default_input:
   key: output_data_range
   val: [null, null]
   cls: CommonAlgorithmArgumentsModel
-
-
-
+min_outbounds_valid_input:
+  description: "Ensure valid value for min_outbounds is accepted"
+  key: min_outbounds
+  val: crop
+  cls: CommonAlgorithmArgumentsModel
  
