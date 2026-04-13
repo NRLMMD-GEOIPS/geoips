@@ -37,6 +37,11 @@ The current available kinds of class-based plugins include:
 Deprecated Class-based Kinds
 ----------------------------
 
+.. deprecated:: v2.0.0
+
+    ``Procflow`` plugins are deprecated and will eventually be removed in
+    favor of the Order-Based Procflow (OBP).
+
 - ``Procflows``: These define the flow of data through GeoIPS. Older
   procflows, such as the Single-Source procflow and the Data-Fusion procflow
   are being phased out in favor of the Order-Based procflow (OBP). While the
