@@ -85,7 +85,7 @@ RUN git config --global --add safe.directory '*'
 
 # Install GeoIPS in editable mode
 RUN python -m pip install --no-cache-dir -e "."
-RUN pluginify create
+RUN pluginify create -n geoips.plugin_packages
 
 ###############################################################################
 #                          FULL BUILD STAGE
@@ -98,7 +98,7 @@ RUN --mount=type=bind,from=testdata,target=${GEOIPS_TESTDATA_DIR},rw \
     && python -m pip install --no-cache-dir -e "$GEOIPS_PACKAGES_DIR/geoips/" \
     && bash $GEOIPS_PACKAGES_DIR/geoips/tests/integration_tests/base_install.sh \
     && bash $GEOIPS_PACKAGES_DIR/geoips/tests/integration_tests/full_install.sh \
-    && pluginify create \
+    && pluginify create -n geoips.plugin_packages \
     && chown -R ${USER}:${GROUP_ID} ${GEOIPS_PACKAGES_DIR} ${GEOIPS_OUTDIRS}
 
 USER ${USER}
@@ -115,7 +115,7 @@ RUN --mount=type=bind,from=testdata,target=${GEOIPS_TESTDATA_DIR},rw \
     && bash $GEOIPS_PACKAGES_DIR/geoips/tests/integration_tests/base_install.sh \
     && bash $GEOIPS_PACKAGES_DIR/geoips/tests/integration_tests/full_install.sh \
     && bash $GEOIPS_PACKAGES_DIR/geoips/tests/integration_tests/site_install.sh \
-    && pluginify create \
+    && pluginify create -n geoips.plugin_packages \
     && chown -R ${USER}:${GROUP_ID} ${GEOIPS_PACKAGES_DIR} ${GEOIPS_OUTDIRS}
 USER ${USER}
 
