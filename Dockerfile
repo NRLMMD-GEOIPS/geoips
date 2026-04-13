@@ -113,6 +113,10 @@ RUN cd ${GEOIPS_PACKAGES_DIR}/geoips/tests/ansible \
       -v \
     && chown -R ${USER_ID}:${GROUP_ID} ${GEOIPS_PACKAGES_DIR} /home/${USER}
 
+FROM base-os AS doclinttest
+
+USER root
+
 ###############################################################################
 # Stage 4: geoips-full — shapefiles, settings repos, doc/test extras
 ###############################################################################
