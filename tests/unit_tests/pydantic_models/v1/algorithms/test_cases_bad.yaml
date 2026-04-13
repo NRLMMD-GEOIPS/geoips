@@ -1,11 +1,17 @@
+variables_invalid_input:
+  description: "Ensure invalid value for variables is not accepted"
+  key: variables
+  val: solar_zenith_angle
+  cls: CommonAlgorithmArgumentsModel
+  err_str: Input should be a valid list
 min_outbounds_invalid_input:
-  description: "Ensure valid value for min_outbounds is accepted"
+  description: "Ensure invalid value for min_outbounds is not accepted"
   key: min_outbounds
   val: True
   cls: CommonAlgorithmArgumentsModel
   err_str: Input should be a valid string
 max_outbounds_invalid_input:
-  description: "Ensure valid value for max_outbounds is accepted"
+  description: "Ensure invalid value for max_outbounds is not accepted"
   key: max_outbounds
   val: True
   cls: CommonAlgorithmArgumentsModel
