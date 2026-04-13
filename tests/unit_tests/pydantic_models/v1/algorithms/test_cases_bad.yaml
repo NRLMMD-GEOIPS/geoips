@@ -4,4 +4,10 @@ min_outbounds_valid_input:
   val: True
   cls: CommonAlgorithmArgumentsModel
   err_str: Input should be a valid string
+max_outbounds_valid_input:
+  description: "Ensure valid value for max_outbounds is accepted"
+  key: max_outbounds
+  val: True
+  cls: CommonAlgorithmArgumentsModel
+  err_str: Input should be a valid string
 
