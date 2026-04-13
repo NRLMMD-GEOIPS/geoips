@@ -30,7 +30,7 @@ RUN apt-get update \
     && apt-get install -y --no-install-recommends \
        git wget libopenblas-dev g++ make gfortran\
 # for pygrib
-       libeccodes-dev \ 
+       libeccodes-dev \
     && echo "deb http://deb.debian.org/debian/ unstable main contrib non-free" | tee /etc/apt/sources.list.d/unstable.list \
     && apt-get update \
     && apt install -y -t unstable gdal-bin libgdal-dev \
@@ -152,6 +152,29 @@ RUN cd ${GEOIPS_PACKAGES_DIR}/geoips/tests/ansible \
 #      -e 'pip_extra_args=--no-binary :all:' \
       -v \
     && chown -R ${USER_ID}:${GROUP_ID} ${GEOIPS_PACKAGES_DIR} ${GEOIPS_OUTDIRS} /home/${USER}
+
+USER ${USER}
+
+###############################################################################
+# Stage 5: geoips-dev — site + dev packages (eg. ssh, git, etc.)
+###############################################################################
+FROM geoips-site AS dev
+
+ARG USER=geoips_user
+ARG USER_ID=1000
+ARG GROUP_ID=1000
+ARG GEOIPS_USE_PRIVATE_PLUGINS=false
+ENV GEOIPS_USE_PRIVATE_PLUGINS=${GEOIPS_USE_PRIVATE_PLUGINS}
+
+USER root
+RUN cd ${GEOIPS_PACKAGES_DIR}/geoips/tests/ansible \
+    && ansible-playbook playbooks/install.yml \
+      --tags site \
+      -e pip_editable=false \
+#      -e 'pip_extra_args=--no-binary :all:' \
+      -v \
+    && chown -R ${USER_ID}:${GROUP_ID} ${GEOIPS_PACKAGES_DIR} ${GEOIPS_OUTDIRS} /home/${USER}
+
 
 USER ${USER}
 

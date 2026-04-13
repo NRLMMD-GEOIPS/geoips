@@ -29,12 +29,12 @@
 
 		// SSH keys and shell config for geoips_user
 		"source=${localEnv:HOME}${localEnv:USERPROFILE}/.ssh/,target=/home/geoips_user/.ssh,type=bind",
-		"source=${localEnv:HOME}${localEnv:USERPROFILE}/.bash_vscode,target=/home/geoips_user/.bash_aliases,type=bind,readonly",
-		"source=${localEnv:HOME}${localEnv:USERPROFILE}/.pokemon_vscode,target=/home/geoips_user/.pokemon,type=bind,readonly",
+		//"source=${localEnv:HOME}${localEnv:USERPROFILE}/.bash_vscode,target=/home/geoips_user/.bash_aliases,type=bind,readonly",
+		//"source=${localEnv:HOME}${localEnv:USERPROFILE}/.pokemon_vscode,target=/home/geoips_user/.pokemon,type=bind,readonly",
 
 		// SSH keys and shell config for root (for when sudo is needed)
 		"source=${localEnv:HOME}${localEnv:USERPROFILE}/.ssh/,target=/root/.ssh,type=bind",
-		"source=${localEnv:HOME}${localEnv:USERPROFILE}/.bash_vscode,target=/root/.bash_aliases,type=bind,readonly",
+		//"source=${localEnv:HOME}${localEnv:USERPROFILE}/.bash_vscode,target=/root/.bash_aliases,type=bind,readonly",
 		//"source=${localEnv:HOME}${localEnv:USERPROFILE}/.pokemon_vscode,target=/root/.pokemon,type=bind,readonly"
 	],
 	"workspaceMount": "source=${localWorkspaceFolder},target=/packages/geoips,type=bind",
