@@ -1,1 +1,24 @@
-{}
+variables_valid_input:
+  description: "Ensure valid values for variables is accepted"
+  key: variables
+  val: [solar_zenith_angle', 'DNBRad', 'M16BT']
+  cls: CommonAlgorithmArgumentsModel
+output_data_range_valid_input:
+  description: "Ensure valid value for output_data_range is accepted"
+  key: output_data_range
+  val: [-90.0, 30.0]
+  cls: CommonAlgorithmArgumentsModel
+variables_default_input:
+  description: "Ensure valid values for variables is accepted"
+  key: variables
+  val: [None]
+  cls: CommonAlgorithmArgumentsModel
+output_data_range_default_input:
+  description: "Ensure valid value for output_data_range is accepted"
+  key: output_data_range
+  val: [null, null]
+  cls: CommonAlgorithmArgumentsModel
+
+
+
+ 
