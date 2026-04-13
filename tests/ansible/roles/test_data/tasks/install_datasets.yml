@@ -1,0 +1,22 @@
+# roles/test_data/tasks/install_datasets.yml
+#
+# Shared task file: install a list of test datasets via `geoips config install`.
+# Call via import_tasks with vars: {datasets: <list>}
+#
+# The `creates:` parameter lets Ansible skip the CLI call entirely when the
+# dataset directory already exists.  If a dataset is only partially extracted,
+# delete its directory to force a re-download.
+---
+
+- name: "Install test dataset: {{ item }}"
+  ansible.builtin.command:
+    cmd: "geoips config install {{ item }}"
+    creates: "{{ geoips_testdata_dir }}/{{ item }}"
+  environment:
+    GEOIPS_TESTDATA_DIR: "{{ geoips_testdata_dir }}"
+  register: _result
+  changed_when: "'SUCCESS' in _result.stdout"
+  retries: 3
+  delay: 10
+  until: _result.rc == 0
+  loop: "{{ datasets }}"

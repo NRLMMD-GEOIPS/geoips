@@ -42,6 +42,15 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Restore pytest cache
+        uses: actions/cache@v4
+        with:
+          path: .pytest_cache
+          key: pytest-cache-${{ github.ref }}-${{ github.sha }}
+          restore-keys: |
+            pytest-cache-${{ github.ref }}-
+          save-always: true
+
       - name: Build image
         run: |
           DOCKER_BUILDKIT=1 docker build \
