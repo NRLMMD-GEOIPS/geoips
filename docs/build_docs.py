@@ -682,7 +682,7 @@ def build_release_notes_with_brassy(
     releases_dir : str
         The path to the main directory containing individual release directories.
     license_url : str
-        The URL pointing to the license or distribution statement for the release notes.
+        The URL pointing to the license statement for the release notes.
     log : logging.Logger, optional
         Logger instance used for logging debug and warning messages. By default,
         uses a logger with the module's name.
@@ -692,7 +692,7 @@ def build_release_notes_with_brassy(
     Notes
     -----
     Each subdirectory in `releases_dir` is assumed to correspond to a release version.
-    This function generates a header file containing a distribution statement that
+    This function generates a header file containing license information that
     includes `license_url`. For each release directory, an `.rst` file with the
     release notes is created and processed by `build_release_note_from_dir_with_brassy`.
     The function will ignore directories named "upcoming" and log a warning.

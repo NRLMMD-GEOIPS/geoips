@@ -1,0 +1,32 @@
+interface: product_defaults
+family: interpolator_algorithm_colormapper
+name: Test-Day-Only
+docstring: |
+  The Test-Day-Only product_defaults configuration.
+
+  This is used primarily for diagnostic purposes (e.g., to quickly see where the
+  day/night transition is using a low resolution dataset).
+spec:
+  algorithm:
+    plugin:
+      name: single_channel
+      arguments:
+        output_data_range: [-90.0, 30.0]
+        input_units: Kelvin
+        output_units: celsius
+        min_outbounds: crop
+        max_outbounds: crop
+        mask_night: true
+        max_day_zen: 90
+        norm: false
+        inverse: false
+  mtif_type: ir
+  colormapper:
+    plugin:
+      name: Infrared
+      arguments:
+        data_range: [-90.0, 30.0]
+  interpolator:
+    plugin:
+      name: interp_nearest
+      arguments: {}

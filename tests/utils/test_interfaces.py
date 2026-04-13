@@ -8,6 +8,7 @@ import traceback
 import json
 
 from geoips import interfaces
+from geoips.filenames.base_paths import PATHS as gpaths
 from geoips.interfaces.base import BaseInterface
 from geoips.interfaces.yaml_based import workflows
 from geoips.commandline.log_setup import setup_logging
@@ -34,14 +35,42 @@ def main():
         default=None,
         help="""List of interfaces to include.  If None, include all interfaces.""",
     )
+    # Add "package_name" argument.
+    parser.add_argument(
+        "--package_name",
+        "-p",
+        default=None,
+        help="""Package to run.  If None, include all packages.""",
+    )
+    # Add "repo_path" argument.
+    parser.add_argument(
+        "--repo_path",
+        "-r",
+        default=None,
+        help="""Path to package to run.  If None, use GEOIPS_PACKAGES_DIR/pkgname.""",
+    )
 
     # Get the dictionary of command line args.
     COMMAND_LINE_ARGS = parser.parse_args().__dict__
     # Check included arguments for appropriate formatting / type.
     check_command_line_args(supported_args, COMMAND_LINE_ARGS)
+    package_name = COMMAND_LINE_ARGS["package_name"]
+    repo_path = COMMAND_LINE_ARGS["repo_path"]
+    if package_name:
+        repo_path = f"{gpaths['GEOIPS_PACKAGES_DIR']}/{package_name}"
 
     # Setup logging at the requested logging level.
     LOG = setup_logging(logging_level=COMMAND_LINE_ARGS["logging_level"])
+    if package_name:
+        LOG.interactive(
+            f"PASSED IN UNUSED package_name {package_name} repo_path {repo_path}"
+        )
+    else:
+        LOG.interactive("RUNNING ALL plugin repos")
+    if COMMAND_LINE_ARGS["interfaces"]:
+        LOG.interactive(f"ONLY RUNNING interfaces {COMMAND_LINE_ARGS['interfaces']}")
+    else:
+        LOG.interactive("RUNNING ALL interfaces")
 
     failed_interfaces = []
     failed_plugins = []

@@ -32,7 +32,6 @@ def call(
     metadata_dir="metadata",
     metadata_type="sector_information",
     basedir=gpaths["TCWWW"],
-    output_dict=None,
 ):
     """Generate TC metadata filenames.
 
@@ -60,21 +59,11 @@ def call(
             f"Unknown metadata type {metadata_type}, allowed {allowed_metadata_types}"
         )
 
-    tc_year = int(area_def.sector_info["storm_year"])
-    tc_basin = area_def.sector_info["storm_basin"]
-    tc_stormnum = int(area_def.sector_info["storm_num"])
     metadata_type = "sector_information"
     metadata_datetime = xarray_obj.start_datetime
 
     metadata_yaml_dirname = pathjoin(
-        tc_storm_basedir(
-            basedir,
-            tc_year,
-            tc_basin,
-            tc_stormnum,
-            output_dict=output_dict,
-            sector_info=area_def.sector_info,
-        ),
+        tc_storm_basedir(basedir, sector_info=area_def.sector_info),
         metadata_dir,
         metadata_type,
         metadata_datetime.strftime("%Y%m%d"),
