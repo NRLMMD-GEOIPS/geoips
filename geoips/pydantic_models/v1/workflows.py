@@ -307,6 +307,11 @@ class WorkflowStepDefinitionModel(FrozenModel):
         plugin_name = model.name
         plugin_kind = model.kind
 
+        if plugin_kind == "workflow" and model.spec is not None:
+            # This occurs when we've converted a product or product default step to
+            # an embedded workflow with a spec/steps section. No name is required.
+            return model
+
         valid_plugin_names = get_plugin_names(plugin_kind)
         if plugin_name not in valid_plugin_names:
             raise ValueError(
@@ -537,8 +542,17 @@ class WorkflowSpecModel(FrozenModel):
         expanded_steps = {}
 
         for name, step in steps.items():
-            if step.get("kind") in ["product", "product_default", "workflow"]:
-                expanded_steps = cls.extend_dict(expanded_steps, cls.expand_step(step))
+            if step.get("kind") in ["product", "product_default"]:
+                spec = {"steps": cls.expand_step(step)}
+                new_step = {
+                    "kind": "workflow",
+                    "spec": spec,
+                }
+                expanded_steps = cls.extend_dict(expanded_steps, {name: new_step})
+            # leaving code in 'product_to_steps' though in case we want to
+            # fully expand at another point.
+            # if step.get("kind") in ["product", "product_default", "workflow"]:
+            #     expanded_steps = cls.extend_dict(expanded_steps, cls.expand_step(step))  # NOQA
             else:
                 expanded_steps[name] = step
 
