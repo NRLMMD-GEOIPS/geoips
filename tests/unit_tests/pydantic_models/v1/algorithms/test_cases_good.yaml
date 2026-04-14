@@ -9,7 +9,7 @@ output_data_range_valid_input:
   val: [-90.0, 30.0]
   cls: CommonAlgorithmArgumentsModel
 variables_default_input:
-  description: "Ensure valid values for variables is accepted"
+  description: "Ensure default value for variables field is accepted"
   key: variables
   val: [None]
   cls: CommonAlgorithmArgumentsModel
@@ -42,4 +42,19 @@ pressure_level_range_valid_input:
   description: "Ensure valid value for pressure_level_range is accepted"
   key: pressure_level_range
   val: [0, 1000]
+  cls: CommonAlgorithmArgumentsModel
+pressure_level_range_default_input:
+  description: "Ensure default value for pressure_level_range is accepted"
+  key: pressure_level_range
+  val: [null, null]
+  cls: CommonAlgorithmArgumentsModel
+input_units_valid_input:
+  description: "Ensure valid value for input units is accepted"
+  key: input_units
+  val: Kelvin
+  cls: CommonAlgorithmArgumentsModel
+input_units_default_input:
+  description: "Ensure default value for input units is accepted"
+  key: input_units
+  val: None
   cls: CommonAlgorithmArgumentsModel

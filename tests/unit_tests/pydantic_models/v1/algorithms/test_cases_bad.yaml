@@ -28,3 +28,9 @@ inverse_invalid_input:
   val: 123
   cls: CommonAlgorithmArgumentsModel
   err_str: Input should be a valid boolean
+input_units_invalid_input:
+  description: "Ensure invalid value for input units is not accepted"
+  key: input_units
+  val: 123
+  cls: CommonAlgorithmArgumentsModel
+  err_str: Input should be a valid string
