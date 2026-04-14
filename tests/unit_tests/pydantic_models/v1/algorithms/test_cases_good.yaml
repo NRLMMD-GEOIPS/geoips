@@ -38,4 +38,8 @@ inverse_valid_input:
   key: inverse
   val: True
   cls: CommonAlgorithmArgumentsModel
-  
+pressure_level_range_valid_input:
+  description: "Ensure valid value for pressure_level_range is accepted"
+  key: pressure_level_range
+  val: [0, 1000]
+  cls: CommonAlgorithmArgumentsModel
