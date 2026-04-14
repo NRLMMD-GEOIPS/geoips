@@ -12,13 +12,13 @@ docstring: |
   It is a very small sector that can be used for MeteoIO Processing
   for any MeteoIO dataset.
 
-  The test datasets corresponding to these sectors can be found in the
-  test_data_seviri test data repository.
-
   Note the METEO-IO satellite location refers to the following METEOSAT satellites
 
   * MSG-1 (aka METEOSAT-8, sensor SEVIRI)
   * MSG-2 (aka METEOSAT-9, sensor SEVIRI)
+
+  The test datasets corresponding to these sectors can be found in the
+  test_data_seviri test data repository.
 
   '''
   geoips config install test_data_seviri
@@ -44,13 +44,13 @@ spec:
     It is a very small sector that can be used for MeteoIO Processing
     for any MeteoIO dataset.
 
-    The test datasets corresponding to these sectors can be found in the
-    test_data_seviri test data repository.
-
     Note the METEO-IO satellite location refers to the following METEOSAT satellites
 
     * MSG-1 (aka METEOSAT-8, sensor SEVIRI)
     * MSG-2 (aka METEOSAT-9, sensor SEVIRI)
+
+    The test datasets corresponding to these sectors can be found in the
+    test_data_seviri test data repository.
 
     '''
     geoips config install test_data_seviri
