@@ -33,3 +33,9 @@ norm_valid_input:
   key: norm
   val: True
   cls: CommonAlgorithmArgumentsModel
+inverse_valid_input:
+  description: "Ensure valid value for inverse field is accepted"
+  key: inverse
+  val: True
+  cls: CommonAlgorithmArgumentsModel
+  

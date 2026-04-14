@@ -22,3 +22,9 @@ norm_invalid_input:
   val: 123
   cls: CommonAlgorithmArgumentsModel
   err_str: Input should be a valid boolean
+inverse_invalid_input:
+  description: "Ensure invalid value for inverse field is not accepted"
+  key: inverse
+  val: 123
+  cls: CommonAlgorithmArgumentsModel
+  err_str: Input should be a valid boolean
