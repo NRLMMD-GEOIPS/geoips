@@ -203,7 +203,8 @@ class WorkflowStepDefinitionModel(FrozenModel):
     """Validate step definition : kind, name, and arguments."""
 
     kind: Lexeme = Field(..., description="plugin kind")
-    name: str | tuple[str] = Field(..., description="plugin name", init=False)
+    name: str | tuple[str] = Field(None, description="plugin name", init=False)
+    spec: WorkflowSpecModel = Field(None, description="The workflow specification")
     arguments: Dict[str, Any] = Field(default_factory=dict, description="step args")
 
     @field_validator("kind", mode="before")
@@ -241,6 +242,45 @@ class WorkflowStepDefinitionModel(FrozenModel):
             )
 
         return value
+
+    @model_validator(mode="before")
+    def _ensure_xor_name_spec(cls, values):
+        """Ensure that fields 'spec' and 'name' are mutually exclusive.
+
+        Additionally, ensure that only workflow plugins can define spec in a step. All
+        other plugins must reference a name and provide arguments as is done usually.
+
+        Parameters
+        ----------
+        values: dict
+            Input values to the model.
+
+        Returns
+        -------
+        values: dict
+            Input values to the model.
+
+        Raises
+        ------
+        ValueError
+            If the plugin name is not valid for the specified plugin kind.
+        """
+        if values.get("kind") == "workflow":
+            if (values.get("name") is None) == (values.get("spec") is None):
+                raise ValueError("Exactly one of 'name' or 'spec' must be provided.")
+        else:
+            if values.get("spec"):
+                raise ValueError(
+                    "You cannot implement a 'spec' field for any step other than one "
+                    "which a workflow."
+                )
+            if values.get("name") is None:
+                raise ValueError(
+                    "You must specify a name field for every plugin step that is not a "
+                    "workflow step."
+                )
+
+        return values
 
     @model_validator(mode="after")
     def _validate_plugin_name(
