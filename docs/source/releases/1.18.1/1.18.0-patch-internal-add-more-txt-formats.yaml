@@ -1,0 +1,12 @@
+bug fixes:
+- title: Add additional supported text output checkers formats
+  description: |
+    Add .csv, .geojson, and .json output format extensions for the text output checker.
+  files:
+    modified:
+    - geoips/plugins/classes/output_checkers/text.py
+  related-issue:
+    internal: geoips#1029 - 1.18.0 updates
+  date:
+    start: 2026-03-10
+    finish: 2026-03-10

@@ -9,7 +9,7 @@ metadata:
     area: x
     subarea: x
     state: x
-    city: Rio De Janeiro
+    city: Rio_De_Janeiro
 spec:
   area_id: rio_de_janeiro
   description: Rio De Janeiro City
