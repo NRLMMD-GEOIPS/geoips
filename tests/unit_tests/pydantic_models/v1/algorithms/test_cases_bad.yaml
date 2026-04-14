@@ -34,3 +34,9 @@ input_units_invalid_input:
   val: 123
   cls: CommonAlgorithmArgumentsModel
   err_str: Input should be a valid string
+output_units_invalid_input:
+  description: "Ensure invalid value for output units is not accepted"
+  key: output_units
+  val: 123
+  cls: CommonAlgorithmArgumentsModel
+  err_str: Input should be a valid string

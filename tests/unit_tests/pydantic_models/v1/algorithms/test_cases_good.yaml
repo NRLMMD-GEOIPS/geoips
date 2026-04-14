@@ -58,3 +58,13 @@ input_units_default_input:
   key: input_units
   val: None
   cls: CommonAlgorithmArgumentsModel
+ouptut_units_valid_input:
+  description: "Ensure valid value for output units is accepted"
+  key: output_units
+  val: Kelvin
+  cls: CommonAlgorithmArgumentsModel
+output_units_default_input:
+  description: "Ensure default value for output units is accepted"
+  key: output_units
+  val: None
+  cls: CommonAlgorithmArgumentsModel
