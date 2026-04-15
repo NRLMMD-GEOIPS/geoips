@@ -17,20 +17,19 @@ from geoips.interfaces import workflows
 
 
 class GeoipsExpand(GeoipsExecutableCommand):
-    """Tree Command Class for displaying GeoIPS CLI commands in a tree-like fashion.
+    """Expand command class for fully dumping a workflow plugin to the terminal.
 
-    Can be configured to print in a colored fashion, up to a maximum depth, and whether
-    or not we want the full command string or just the command name at it's depth.
-
-    Where depth denotes the level of the command you'd like to display.
-    I.e. <0> geoips <1> list <2> scripts
+    This should be used to confirm the order of steps applied in a workflow plugin.
+    Since embedded workflows and products can be included in workflow plugins, it's not
+    always easy to see the order of operations that will be applied from a top-level
+    workflow plugin. This is an easy way to mitigate that.
     """
 
     name = "expand"
     command_classes = []
 
     def add_arguments(self):
-        """Add arguments to the tree-subparser for the Tree Command."""
+        """Add arguments to the expand-subparser for the Expand Command."""
         self.parser.add_argument(
             "workflow_name",
             type=str,
@@ -44,7 +43,7 @@ class GeoipsExpand(GeoipsExecutableCommand):
         )
 
     def __call__(self, args):
-        """Run the `geoips tree <opt_args>` command.
+        """Run the `geoips expand <workflow-name>` command.
 
         Parameters
         ----------
@@ -56,7 +55,7 @@ class GeoipsExpand(GeoipsExecutableCommand):
         workflow = workflows.get_plugin(workflow_name, _expand=True)
 
         formatted_wf = yaml.dump(
-            workflow, indent=2, default_flow_style=False, sort_keys=False
+            dict(workflow), indent=2, default_flow_style=False, sort_keys=False
         )
 
         if args.color:

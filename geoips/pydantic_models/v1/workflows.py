@@ -492,7 +492,7 @@ class WorkflowSpecModel(FrozenModel):
         return steps, global_vars
 
     @classmethod
-    def expand_step(cls, step: dict) -> dict[dict]:
+    def expand_step(cls, step: dict, info: ValidationInfo) -> dict[dict]:
         """Expand the definition of this step if it is a select plugin type.
 
         Plugin types this function will expand include
@@ -504,25 +504,31 @@ class WorkflowSpecModel(FrozenModel):
         Parameters
         ----------
         step: dict
-            - A dictionary representation of a workflow step.
+            A dictionary representation of a workflow step.
+        info: ValidationInfo
+            An object representing the context in which this model was instantiated.
 
         Returns
         -------
         steps: dict[dict]
             - An ordered dictionary representing the expanded version of the input step.
         """
+        expand = info.context.get("expand", False)
         kind = step.get("kind")
         interface = getattr(interfaces, Lexeme(kind).plural)
 
         if kind == "product":
             plugin = interface.get_plugin(*step.get("name"))
-        else:
+        elif kind == "product_default":
             plugin = interface.get_plugin(step.get("name"))
+        else:
+            # workflow plugins
+            plugin = interface.get_plugin(step.get("name"), _expand=expand)
 
         if kind in ["product", "product_default"]:
             steps, global_vars = cls.product_to_steps(plugin)  # NOQA
         else:
-            steps = cls.expand_steps(plugin.get("spec"))["steps"]
+            steps = cls.expand_steps(plugin.get("spec"), info)["steps"]
 
         return steps
 
@@ -545,7 +551,7 @@ class WorkflowSpecModel(FrozenModel):
         for name, step in steps.items():
             # Default
             if step.get("kind") in ["product", "product_default"] and not expand:
-                spec = {"steps": cls.expand_step(step)}
+                spec = {"steps": cls.expand_step(step, info)}
                 new_step = {
                     "kind": "workflow",
                     "spec": spec,
@@ -556,7 +562,9 @@ class WorkflowSpecModel(FrozenModel):
                 step.get("kind") in ["product", "product_default", "workflow"]
                 and expand
             ):
-                expanded_steps = cls.extend_dict(expanded_steps, cls.expand_step(step))
+                expanded_steps = cls.extend_dict(
+                    expanded_steps, cls.expand_step(step, info)
+                )
             else:
                 # Not a workflow or product-based plugin, just keep the step as it is
                 expanded_steps[name] = step
