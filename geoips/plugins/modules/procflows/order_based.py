@@ -89,7 +89,10 @@ def call(workflow, fnames, command_line_args=None):
                 step_def["kind"],
             )
 
-    LOG.interactive(f"\nThe workflow '{workflow}' has finished processing.\n")
+    LOG.interactive(
+        f"\nThe workflow '{workflow.get('name', 'embedded')}' has finished "
+        "processing.\n"
+    )
 
 
 if __name__ == "__main__":

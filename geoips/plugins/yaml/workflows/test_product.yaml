@@ -23,11 +23,3 @@ spec:
       kind: product
       name: [abi, Infrared]
       arguments: {}
-    # product:
-    #   kind: workflow
-    #   spec:
-    #     steps:
-    #       interpolator:
-    #         ...
-    #       algorithm:
-    #         ...
