@@ -386,7 +386,7 @@ class PluginRegistry:
 
         return metadata
 
-    def load_plugin(self, data: dict) -> BaseModel:
+    def load_plugin(self, data: dict, _expand: bool = False) -> BaseModel:
         """
         Dynamically load and validate pydantic models based on apiVersion and interface.
 
@@ -401,6 +401,10 @@ class PluginRegistry:
             Dictionary representing a plugin definition. Must include the `interface`
             field. May optionally include `apiVersion`. If not present, "geoips/v1" is
             assumed.
+        _expand : private bool (default=False)
+            If true, fully expand the workflow plugin in place. Otherwise, load as is
+            done usually. This should only be used for the
+            'geoips expand <workflow>' command.
 
         Returns
         -------
@@ -458,9 +462,15 @@ class PluginRegistry:
                 f"Model '{model_name}' not found in '{api_version}'"
             ) from e
 
+        if _expand:
+            # Only applies to workflow plugins
+            return model_class.model_validate(data, context={"expand": True})
+
         return model_class(**data)
 
-    def get_yaml_plugin(self, interface_obj, name, rebuild_registries=None):
+    def get_yaml_plugin(
+        self, interface_obj, name, rebuild_registries=None, _expand=False
+    ):
         """Get a YAML plugin by its name.
 
         Parameters
@@ -478,7 +488,16 @@ class PluginRegistry:
               get_plugin fails, rebuild the plugin registry, call then call
               get_plugin once more with rebuild_registries toggled off, so it only gets
               rebuilt once.
+        _expand: private bool (default=False)
+            - If true, fully expand the workflow plugin in place. Otherwise, load as is
+              done usually. This should only be used for the
+              'geoips expand <workflow>' command.
         """
+        if _expand and interface_obj.name != "workflows":
+            raise AssertionError(
+                "Error: you cannot set argument 'expand' to true unless you are "
+                "requesting a workflow plugin."
+            )
         try:
             registered_yaml_plugins = self.registered_plugins["yaml_based"]
         except KeyError:
@@ -591,7 +610,7 @@ class PluginRegistry:
                     return d
                 return {k: remove_none(v) for k, v in d.items() if v is not None}
 
-            validated = self.load_plugin(plugin).model_dump()
+            validated = self.load_plugin(plugin, _expand).model_dump()
             validated = remove_none(validated)
 
             return interface_obj._plugin_yaml_to_obj(name, validated)

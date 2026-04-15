@@ -23,7 +23,7 @@ from os import environ
 from typing import Any, Dict, List
 
 # Third-Party Libraries
-from pydantic import ConfigDict, Field, field_validator, model_validator
+from pydantic import ConfigDict, Field, field_validator, model_validator, ValidationInfo
 
 # GeoIPS imports
 from geoips import interfaces
@@ -528,7 +528,7 @@ class WorkflowSpecModel(FrozenModel):
 
     @model_validator(mode="before")
     @classmethod
-    def expand_steps(cls, data):
+    def expand_steps(cls, data: dict, info: ValidationInfo):
         """Expand each step of a workflow if it is a select plugin type.
 
         Plugin types this function will expand include
@@ -538,22 +538,27 @@ class WorkflowSpecModel(FrozenModel):
         validation occurs. This way workflows can support nested workflows, of which all
         of the mentioned types produce.
         """
+        expand = info.context.get("expand", False)
         steps = data.pop("steps", {})
         expanded_steps = {}
 
         for name, step in steps.items():
-            if step.get("kind") in ["product", "product_default"]:
+            # Default
+            if step.get("kind") in ["product", "product_default"] and not expand:
                 spec = {"steps": cls.expand_step(step)}
                 new_step = {
                     "kind": "workflow",
                     "spec": spec,
                 }
                 expanded_steps = cls.extend_dict(expanded_steps, {name: new_step})
-            # leaving code in 'product_to_steps' though in case we want to
-            # fully expand at another point.
-            # if step.get("kind") in ["product", "product_default", "workflow"]:
-            #     expanded_steps = cls.extend_dict(expanded_steps, cls.expand_step(step))  # NOQA
+            # Done for CLI calls to fully expand a workflow plugin
+            elif (
+                step.get("kind") in ["product", "product_default", "workflow"]
+                and expand
+            ):
+                expanded_steps = cls.extend_dict(expanded_steps, cls.expand_step(step))
             else:
+                # Not a workflow or product-based plugin, just keep the step as it is
                 expanded_steps[name] = step
 
         data["steps"] = expanded_steps
@@ -581,3 +586,22 @@ class WorkflowPluginModel(PluginModel):
             },
         ],
     )
+
+    @model_validator(mode="before")
+    @classmethod
+    def propagate_context(cls, data: dict, info: ValidationInfo):
+        """Propagate context to the spec model if it exists.
+
+        This should only occur for 'geoips expand <workflow>' calls.
+        """
+        context = info.context or {}
+
+        spec_data = data.get("spec")
+        if spec_data and len(list(context.keys())):
+            # Re-validate spec WITH context
+            data["spec"] = WorkflowSpecModel.model_validate(
+                spec_data,
+                context=context,
+            )
+
+        return data

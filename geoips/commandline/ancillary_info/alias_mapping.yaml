@@ -101,6 +101,8 @@ config:
   - cfg
 describe:
   - desc
+expand:
+  - exp
 list:
   - ls
 validate:

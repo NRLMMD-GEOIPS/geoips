@@ -215,6 +215,13 @@ instructions:
   #     - Package
   #     - Relative Path
   #     - Plugin Specific Info (signature / source_names / available overrides)
+  geoips_expand:
+    help_str: |
+      Fully expands a workflow plugin.
+    usage_str: |
+      To use, type `geoips expand <workflow_name> <--color>`.
+    output_info:
+      - The fully expanded workflow plugin in a readable format.
   geoips_list:
     help_str: |
       List off available GeoIPS artifacts provided further commands. Current artifacts
