@@ -513,7 +513,9 @@ class WorkflowSpecModel(FrozenModel):
         steps: dict[dict]
             - An ordered dictionary representing the expanded version of the input step.
         """
-        expand = info.context.get("expand", False)
+        context = info.context or {}
+        expand = context.get("expand", False)
+
         kind = step.get("kind")
         interface = getattr(interfaces, Lexeme(kind).plural)
 
@@ -544,7 +546,9 @@ class WorkflowSpecModel(FrozenModel):
         validation occurs. This way workflows can support nested workflows, of which all
         of the mentioned types produce.
         """
-        expand = info.context.get("expand", False)
+        context = info.context or {}
+        expand = context.get("expand", False)
+
         steps = data.pop("steps", {})
         expanded_steps = {}
 
@@ -556,7 +560,14 @@ class WorkflowSpecModel(FrozenModel):
                     "kind": "workflow",
                     "spec": spec,
                 }
-                expanded_steps = cls.extend_dict(expanded_steps, {name: new_step})
+                # Generate a step ID based off the current step's plugin name
+                # if it's a product, merge the name tuple into a single name
+                step_id = (
+                    "_".join(step.get("name"))
+                    if step.get("kind") == "product"
+                    else step.get("name")
+                )
+                expanded_steps = cls.extend_dict(expanded_steps, {step_id: new_step})
             # Done for CLI calls to fully expand a workflow plugin
             elif (
                 step.get("kind") in ["product", "product_default", "workflow"]
