@@ -1,0 +1,12 @@
+bug fix:
+- title: 'Fix broken docs imports'
+  description: 'This fixes rich imports.'
+  files:
+    modified:
+    - 'docs/build_docs.py'
+  related-issue:
+    number: null
+    repo_url: ''
+  date:
+    start: null
+    finish: null
