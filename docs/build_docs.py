@@ -18,7 +18,7 @@ import brassy.actions.build_release_notes as brassy_build
 import brassy.utils.CLI  # noqa # because of a brassy bug; will be fixed in next vers
 from rich.logging import RichHandler
 from rich.traceback import install as install_rich_tracebacks
-from rich.logging import Console
+from rich.console import Console
 from rich.progress import Progress
 import rich_argparse
 import pygit2
