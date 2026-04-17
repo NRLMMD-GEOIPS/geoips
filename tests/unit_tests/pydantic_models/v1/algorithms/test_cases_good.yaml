@@ -133,4 +133,13 @@ max_day_zen_default_input:
   key: max_day_zen
   val: null
   cls: VisIRSpecificAlgorithmArgumentsModel
-  
+mask_night_valid_input:
+  description: "Ensure valid value for mask_night is accepted"
+  key: mask_night
+  val: True
+  cls: VisIRSpecificAlgorithmArgumentsModel
+mask_night_default_input:
+  description: "Ensure default value for mask_night is accepted"
+  key: mask_night
+  val: False
+  cls: VisIRSpecificAlgorithmArgumentsModel

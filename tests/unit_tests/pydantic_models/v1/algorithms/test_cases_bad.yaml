@@ -70,5 +70,10 @@ max_day_zen_invalid_input:
   val: invalid_input
   cls: VisIRSpecificAlgorithmArgumentsModel
   err_str: Input should be a valid number
-
-
+mask_night_invalid_input:
+  description: "Ensure invalid value for mask_night is not accepted"
+  key: mask_night
+  val: 123
+  cls: VisIRSpecificAlgorithmArgumentsModel
+  err_str: Input should be a valid boolean
+  
