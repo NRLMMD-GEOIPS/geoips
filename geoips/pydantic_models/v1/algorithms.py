@@ -6,10 +6,10 @@
 # cspell:ignore fcst
 
 # Python Standard Libraries
-from typing import Dict, List
+from typing import Dict, List, Optional
 
 # Third-Party Libraries
-from pydantic import Field, StrictBool
+from pydantic import Field, StrictBool, StrictFloat
 
 # GeoIPS imports
 from geoips.pydantic_models.v1.bases import FrozenModel
@@ -27,15 +27,17 @@ class CommonAlgorithmArgumentsModel(FrozenModel):
     * Processing of values outside the specified data range
     """
 
-    variables: List[str] = Field(
-        None,
+    variables: Optional[List[str]] = Field(
+        [None],
         description="List of input variables used in algorithm processing, selects the "
         "first when provided.",
     )
-    output_data_range: tuple[float, float] | tuple[None, None] = Field(
-        [None, None],
-        description="list of min and max value for wind speeds (kts or m s-1). "
-        "Defaults to None, which results in using data.min and data.max.",
+    output_data_range: Optional[tuple[StrictFloat, StrictFloat] | tuple[None, None]] = (
+        Field(
+            [None, None],
+            description="list of min and max value for wind speeds (kts or m s-1). "
+            "Defaults to None, which results in using data.min and data.max.",
+        )
     )
     min_outbounds: str = Field(
         ...,
@@ -86,21 +88,21 @@ class CommonAlgorithmArgumentsModel(FrozenModel):
 class PressureWindsAlgorithmArgumentsModel(FrozenModel):
     """Arguments specific to Dervied Motion Wind Products."""
 
-    var_map: Dict[str, str] = Field(
-        None, description="Dictionary that maps input variables to names used in xobj"
+    var_map: Optional[Dict[str, str]] = Field(
+        {}, description="Dictionary that maps input variables to names used in xobj"
     )
 
 
 class VisIRSpecificAlgorithmArgumentsModel(FrozenModel):
     """Arguments specific to Visible and Infrared algorithm plugins."""
 
-    gamma_list: List[float] = Field(None)
-    min_night_zen: float = Field(None)
-    max_night_zen: float = Field(90)
-    max_day_zen: float = Field(None)
+    gamma_list: Optional[List[StrictFloat]] = Field([])
+    min_night_zen: StrictFloat = Field(None)
+    max_night_zen: StrictFloat = Field(90)
+    max_day_zen: StrictFloat = Field(None)
     mask_night: bool = Field(False)
     mask_day: bool = Field(False)
-    scale_factor: float = Field(None)
+    scale_factor: StrictFloat = Field(None)
     sun_zen_correction: bool = Field(
         False,
         description="Boolean flag indicating whether to apply solar zenith correction"
