@@ -193,3 +193,8 @@ pressure_key_default_input:
   key: pressure_key
   val: null
   cls: ModelSpecificAlgorithmArgumentsModel
+time_key_valid_input:
+  description: "Ensure valid value for time_key is accepted"
+  key: time_key
+  val: time
+  cls: ModelSpecificAlgorithmArgumentsModel

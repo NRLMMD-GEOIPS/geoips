@@ -106,3 +106,15 @@ pressure_key_invalid_input:
   val: True
   cls: ModelSpecificAlgorithmArgumentsModel
   err_str: Input should be a valid string
+time_key_invalid_input:
+  description: "Ensure invalid value for time_key is not accepted"
+  key: time_key
+  val: True
+  cls: ModelSpecificAlgorithmArgumentsModel
+  err_str: Input should be a valid string
+time_key_invalid_input:
+  description: "Ensure that required time_key field is not missing"
+  key: time_key
+  val: 
+  cls: ModelSpecificAlgorithmArgumentsModel
+  err_str: Input should be a valid string
