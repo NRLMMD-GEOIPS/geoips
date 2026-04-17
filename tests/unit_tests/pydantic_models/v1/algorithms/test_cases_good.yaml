@@ -163,3 +163,13 @@ scale_factor_default_input:
   key: scale_factor
   val: null
   cls: VisIRSpecificAlgorithmArgumentsModel
+sun_zen_correction_valid_input:
+  description: "Ensure valid value for sun_zen_correction is accepted"
+  key: sun_zen_correction
+  val: True
+  cls: VisIRSpecificAlgorithmArgumentsModel
+sun_zen_correction_default_input:
+  description: "Ensure default value for sun_zen_correction is accepted"
+  key: sun_zen_correction
+  val: False
+  cls: VisIRSpecificAlgorithmArgumentsModel

@@ -88,3 +88,9 @@ scale_factor_invalid_input:
   val: invalid_input
   cls: VisIRSpecificAlgorithmArgumentsModel
   err_str: Input should be a valid number
+sun_zen_correction_invalid_input:
+  description: "Ensure invalid value for sun_zen_correction is not accepted"
+  key: sun_zen_correction
+  val: invalid_input
+  cls: VisIRSpecificAlgorithmArgumentsModel
+  err_str: Input should be a valid boolean
