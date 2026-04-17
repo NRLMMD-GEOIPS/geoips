@@ -19,6 +19,7 @@ from __future__ import annotations
 # Python Standard Libraries
 import logging
 from typing import Any, Dict, List
+from datetime import datetime
 
 # Third-Party Libraries
 from pydantic import ConfigDict, Field, field_validator, model_validator
@@ -110,6 +111,93 @@ class WorkflowArgumentsModel(PermissiveFrozenModel):
 
     model_config = ConfigDict(extra="allow")
     pass
+
+
+class GlobalVariablesModel(PermissiveFrozenModel):
+    """Workflow-level global variables shared across all steps.
+
+    Carries fields that apply uniformly to every step of an
+    Order-Based Procflow workflow rather than belonging to a
+    single step's arguments. (e.g. temporal windowing, product
+    identification, product DB output configuration, and the
+    presectoring toggle)
+    """
+
+    window_start_time: datetime = Field(
+        None,
+        description="If specified, sector temporally between window_start_time "
+                    "and window_end_time.",
+    )
+
+    window_end_time: datetime = Field(
+        None,
+        description="If specified, sector temporally between window_start_time "
+                    "and window_end_time.",
+    )
+
+    product_name: str = Field(None)
+
+    reader_defined_area_def: bool = Field(False)
+
+    no_presectoring: bool = Field(
+        True,
+        description="Specify whether to resector the data prior to applying "
+                    "the algorithm",
+    )
+
+    product_db: bool = Field(False)
+
+    product_db_writer: str = Field(None)
+
+    product_db_writer_kwargs: Dict[str, Any] = Field(None)
+
+    @model_validator(mode="after")
+    def _validate_product_db_requires_writer(
+        cls,
+        model: GlobalVariablesModel
+    ) -> GlobalVariablesModel:
+        """Validate that product_db is fully defined.
+
+        If product_db is defined, then a corresponding product
+        """
+        if model.product_db and model.product_db_writer is None:
+            raise ValueError(
+                "product_db is set while product_db_writer is not defined. "
+                "Please specify a valid product_db_writer."
+            )
+        if model.product_db_writer is not None and not model.product_db:
+            raise ValueError(
+                f"product_db_writer is defined as: `{model.product_db_writer}` "
+                "but product_db is False or unspecified.\nPlease explicitly "
+                "invoke 'product_db = True' or drop product_db_writer."
+            )
+
+        return model
+
+    @model_validator(mode="after")
+    def _validate_window_start_requires_end(
+        cls,
+        model: GlobalVariablesModel
+    ) -> GlobalVariablesModel:
+        """Validate the specified time range.
+
+        If window_start_time is defined, then window_end_time must also be
+        defined. The reverse situation is also checked.
+        """
+        if model.window_start_time is not None and model.window_end_time is None:
+            raise ValueError(
+                f"window_start_time is defined as `{model.window_start_time}` "
+                "but there is no defined window_end_time. Please specify a "
+                "windows_end_time."
+            )
+        if model.window_end_time is not None and model.window_start_time is None:
+            raise ValueError(
+                f"window_end_time is defined as `{model.window_end_time}` "
+                "but there is no defined window_start_time. Please specify a "
+                "windows_start_time."
+            )
+
+        return model
 
 
 class ReaderArgumentsModel(PermissiveFrozenModel):
