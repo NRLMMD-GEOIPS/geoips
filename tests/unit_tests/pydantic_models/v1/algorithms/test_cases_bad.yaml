@@ -52,16 +52,23 @@ output_units_invalid_input:
   val: 123
   cls: CommonAlgorithmArgumentsModel
   err_str: Input should be a valid string
-min_night_zen:
+min_night_zen_invalid_input:
   description: "Ensure invalid value for min_night_zen is not accepted"
   key: min_night_zen
   val: invalid_input
   cls: VisIRSpecificAlgorithmArgumentsModel  
   err_str:  Input should be a valid number
-max_night_zen:
+max_night_zen_invalid_input:
   description: "Ensure invalid value for max_night_zen is not accepted"
   key: max_night_zen
   val: invalid_input
   cls: VisIRSpecificAlgorithmArgumentsModel
   err_str: Input should be a valid number
+max_day_zen_invalid_input:
+  description: "Ensure invalid value for max_night_zen is not accepted"
+  key: max_day_zen
+  val: invalid_input
+  cls: VisIRSpecificAlgorithmArgumentsModel
+  err_str: Input should be a valid number
+
 

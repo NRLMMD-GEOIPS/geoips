@@ -119,7 +119,18 @@ min_night_zen_default_input:
   val: null
   cls: VisIRSpecificAlgorithmArgumentsModel  
 max_night_zen_default_input:
-  description: "Ensure valid value for max_night_zen is accepted"
+  description: "Ensure default value for max_night_zen is accepted"
   key: max_night_zen
   val: 90
   cls: VisIRSpecificAlgorithmArgumentsModel  
+max_day_zen_valid_input:
+  description: "Ensure valid value for max_day_zen is accepted"
+  key: max_day_zen
+  val: 90
+  cls: VisIRSpecificAlgorithmArgumentsModel
+max_day_zen_default_input:
+  description: "Ensure default value for max_day_zen is accepted"
+  key: max_day_zen
+  val: null
+  cls: VisIRSpecificAlgorithmArgumentsModel
+  
