@@ -1,6 +1,6 @@
 feature:
 - title: 'Order-Based Procflow : Algorithms'
-  description: ''
+  description: 'Introduce Pydantic model defining and validating OBP-v1 TitleFormatterArgumentsModel'
   files:
     added:
     - 'docs/source/releases/latest/1262-OBP-add-algorithms-pydantic-models.yaml'
