@@ -121,7 +121,7 @@ class VisIRSpecificAlgorithmArgumentsModel(FrozenModel):
 class ModelSpecificAlgorithmArgumentsModel(FrozenModel):
     """Common arguments shared only by model-based algorithms."""
 
-    pressure_key: str = Field(None)
+    pressure_key: str | None = Field(None)
     time_key: str = Field(...)
     time_fcst: int = Field(-1)
     # verify if the type should be string

@@ -183,3 +183,13 @@ satellite_zenith_angle_cutoff_default_input:
   key: satellite_zenith_angle_cutoff
   val: null
   cls: VisIRSpecificAlgorithmArgumentsModel
+pressure_key_valid_input:
+  description: "Ensure valid value for pressure_key is accepted"
+  key: pressure_key
+  val: tba
+  cls: ModelSpecificAlgorithmArgumentsModel
+pressure_key_default_input:
+  description: "Ensure default value for pressure_key is accepted"
+  key: pressure_key
+  val: null
+  cls: ModelSpecificAlgorithmArgumentsModel
