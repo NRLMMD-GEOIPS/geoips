@@ -103,14 +103,23 @@ gamma_list_valid_input:
   key: gamma_list
   val: [0.5, 0.6]
   cls: VisIRSpecificAlgorithmArgumentsModel  
-min_night_zen:
+min_night_zen_valid_input:
   description: "Ensure valid value for min_night_zen is accepted"
   key: min_night_zen
   val: 85
   cls: VisIRSpecificAlgorithmArgumentsModel  
-max_night_zen:
+max_night_zen_valid_input:
   description: "Ensure valid value for max_night_zen is accepted"
   key: max_night_zen
   val: 104
   cls: VisIRSpecificAlgorithmArgumentsModel  
-
+min_night_zen_default_input:
+  description: "Ensure valid value for min_night_zen is accepted"
+  key: min_night_zen
+  val: null
+  cls: VisIRSpecificAlgorithmArgumentsModel  
+max_night_zen_default_input:
+  description: "Ensure valid value for max_night_zen is accepted"
+  key: max_night_zen
+  val: 90
+  cls: VisIRSpecificAlgorithmArgumentsModel  
