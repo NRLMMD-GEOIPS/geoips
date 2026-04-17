@@ -223,3 +223,8 @@ grid_geo_default_input:
   key: grid_geo
   val: False
   cls: ModelSpecificAlgorithmArgumentsModel
+algorithm_arguments_model_additional_field:
+  description: "Ensure AlgorithmArgumentsModel allows additional user inputs"
+  key: test
+  val: test
+  cls: AlgorithmArgumentsModel
