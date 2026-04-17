@@ -143,3 +143,13 @@ mask_night_default_input:
   key: mask_night
   val: False
   cls: VisIRSpecificAlgorithmArgumentsModel
+mask_day_valid_input:
+  description: "Ensure valid value for mask_day is accepted"
+  key: mask_day
+  val: True
+  cls: VisIRSpecificAlgorithmArgumentsModel
+mask_day_default_input:
+  description: "Ensure default value for mask_day is accepted"
+  key: mask_day
+  val: False
+  cls: VisIRSpecificAlgorithmArgumentsModel

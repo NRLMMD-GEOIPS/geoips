@@ -76,4 +76,9 @@ mask_night_invalid_input:
   val: 123
   cls: VisIRSpecificAlgorithmArgumentsModel
   err_str: Input should be a valid boolean
-  
+mask_day_invalid_input:
+  description: "Ensure invalid value for mask_day is not accepted"
+  key: mask_day
+  val: 123
+  cls: VisIRSpecificAlgorithmArgumentsModel
+  err_str: Input should be a valid boolean
