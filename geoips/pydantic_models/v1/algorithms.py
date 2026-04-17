@@ -97,9 +97,9 @@ class VisIRSpecificAlgorithmArgumentsModel(FrozenModel):
     """Arguments specific to Visible and Infrared algorithm plugins."""
 
     gamma_list: Optional[List[StrictFloat]] = Field([])
-    min_night_zen: Optional[float | None] = Field(None)
+    min_night_zen: Optional[float] = Field(None)
     max_night_zen: StrictFloat = Field(90)
-    max_day_zen: StrictFloat = Field(None)
+    max_day_zen: Optional[float] = Field(None)
     mask_night: bool = Field(False)
     mask_day: bool = Field(False)
     scale_factor: StrictFloat = Field(None)
