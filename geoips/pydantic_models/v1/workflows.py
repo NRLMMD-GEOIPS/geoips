@@ -126,13 +126,13 @@ class GlobalVariablesModel(PermissiveFrozenModel):
     window_start_time: datetime = Field(
         None,
         description="If specified, sector temporally between window_start_time "
-                    "and window_end_time.",
+        "and window_end_time.",
     )
 
     window_end_time: datetime = Field(
         None,
         description="If specified, sector temporally between window_start_time "
-                    "and window_end_time.",
+        "and window_end_time.",
     )
 
     product_name: str = Field(None)
@@ -142,7 +142,7 @@ class GlobalVariablesModel(PermissiveFrozenModel):
     no_presectoring: bool = Field(
         True,
         description="Specify whether to resector the data prior to applying "
-                    "the algorithm",
+        "the algorithm",
     )
 
     product_db: bool = Field(False)
@@ -153,12 +153,13 @@ class GlobalVariablesModel(PermissiveFrozenModel):
 
     @model_validator(mode="after")
     def _validate_product_db_requires_writer(
-        cls,
-        model: GlobalVariablesModel
+        cls, model: GlobalVariablesModel
     ) -> GlobalVariablesModel:
         """Validate that product_db is fully defined.
 
-        If product_db is defined, then a corresponding product
+        If product_db is defined, then a corresponding product must be specified
+        as a string in product_db_writer. Also check the opposite case, where
+        product_db_writer is defined, but product_db is false.
         """
         if model.product_db and model.product_db_writer is None:
             raise ValueError(
@@ -176,8 +177,7 @@ class GlobalVariablesModel(PermissiveFrozenModel):
 
     @model_validator(mode="after")
     def _validate_window_start_requires_end(
-        cls,
-        model: GlobalVariablesModel
+        cls, model: GlobalVariablesModel
     ) -> GlobalVariablesModel:
         """Validate the specified time range.
 
@@ -188,13 +188,13 @@ class GlobalVariablesModel(PermissiveFrozenModel):
             raise ValueError(
                 f"window_start_time is defined as `{model.window_start_time}` "
                 "but there is no defined window_end_time. Please specify a "
-                "windows_end_time."
+                "window_end_time."
             )
         if model.window_end_time is not None and model.window_start_time is None:
             raise ValueError(
                 f"window_end_time is defined as `{model.window_end_time}` "
                 "but there is no defined window_start_time. Please specify a "
-                "windows_start_time."
+                "window_start_time."
             )
 
         return model
