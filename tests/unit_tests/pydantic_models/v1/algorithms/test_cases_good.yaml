@@ -198,3 +198,8 @@ time_key_valid_input:
   key: time_key
   val: time
   cls: ModelSpecificAlgorithmArgumentsModel
+time_fcst_valid_input:
+  description: "Ensure valid value for time_fcst is accepted"
+  key: time_fcst
+  val: -1
+  cls: ModelSpecificAlgorithmArgumentsModel

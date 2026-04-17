@@ -118,3 +118,9 @@ time_key_invalid_input:
   val: 
   cls: ModelSpecificAlgorithmArgumentsModel
   err_str: Input should be a valid string
+time_key_invalid_input:
+  description: "Ensure invalid value for time_fcst is not accepted"
+  key: time_fcst
+  val: True
+  cls: ModelSpecificAlgorithmArgumentsModel
+  err_str: Input should be a valid string
