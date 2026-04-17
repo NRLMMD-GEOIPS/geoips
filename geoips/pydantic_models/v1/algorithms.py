@@ -102,7 +102,7 @@ class VisIRSpecificAlgorithmArgumentsModel(FrozenModel):
     max_day_zen: Optional[float] = Field(None)
     mask_night: bool = Field(False)
     mask_day: bool = Field(False)
-    scale_factor: StrictFloat = Field(None)
+    scale_factor: Optional[float] = Field(None)
     sun_zen_correction: bool = Field(
         False,
         description="Boolean flag indicating whether to apply solar zenith correction"

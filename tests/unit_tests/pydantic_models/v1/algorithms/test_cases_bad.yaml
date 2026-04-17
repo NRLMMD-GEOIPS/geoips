@@ -82,3 +82,9 @@ mask_day_invalid_input:
   val: 123
   cls: VisIRSpecificAlgorithmArgumentsModel
   err_str: Input should be a valid boolean
+scale_factor_invalid_input:
+  description: "Ensure invalid value for scale_factor is not accepted"
+  key: scale_factor
+  val: invalid_input
+  cls: VisIRSpecificAlgorithmArgumentsModel
+  err_str: Input should be a valid number

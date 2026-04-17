@@ -153,3 +153,13 @@ mask_day_default_input:
   key: mask_day
   val: False
   cls: VisIRSpecificAlgorithmArgumentsModel
+scale_factor_valid_input:
+  description: "Ensure valid value for scale_factor is accepted"
+  key: scale_factor
+  val: 0.01
+  cls: VisIRSpecificAlgorithmArgumentsModel
+scale_factor_default_input:
+  description: "Ensure default value for scale_factor is accepted"
+  key: scale_factor
+  val: null
+  cls: VisIRSpecificAlgorithmArgumentsModel
