@@ -94,3 +94,9 @@ sun_zen_correction_invalid_input:
   val: invalid_input
   cls: VisIRSpecificAlgorithmArgumentsModel
   err_str: Input should be a valid boolean
+satellite_zenith_angle_cutoff_invalid_input:
+  description: "Ensure invalid value for satellite_zenith_angle_cutoff is not accepted"
+  key: satellite_zenith_angle_cutoff
+  val: invalid_input
+  cls: VisIRSpecificAlgorithmArgumentsModel
+  err_str: Input should be a valid number

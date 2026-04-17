@@ -173,3 +173,13 @@ sun_zen_correction_default_input:
   key: sun_zen_correction
   val: False
   cls: VisIRSpecificAlgorithmArgumentsModel
+satellite_zenith_angle_cutoff_valid_input:
+  description: "Ensure valid value for satellite_zenith_angle is accepted"
+  key: satellite_zenith_angle_cutoff
+  val: 75
+  cls: VisIRSpecificAlgorithmArgumentsModel
+satellite_zenith_angle_cutoff_default_input:
+  description: "Ensure default value for satellite_zenith_angle is accepted"
+  key: satellite_zenith_angle_cutoff
+  val: null
+  cls: VisIRSpecificAlgorithmArgumentsModel

@@ -111,7 +111,7 @@ class VisIRSpecificAlgorithmArgumentsModel(FrozenModel):
         "      (see data_manipulations.corrections.apply_solar_zenith_correction)"
         "  * If False, returned data will not be modified based on solar zenith angle)",
     )
-    satellite_zenith_angle_cutoff: float = Field(
+    satellite_zenith_angle_cutoff: Optional[float] = Field(
         None,
         description="Cutoff for masking data where satellite zenith angle exceeds"
         "threshold. None, no masking",
