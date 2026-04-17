@@ -111,6 +111,9 @@ Output Formatter step in the code block below includes two additional plugins,
     package: geoips
     spec:
       steps:
+        global_variables:
+          window_start_time: input
+          others: ...
         reader_1:
           kind: reader
           name: abi_netcdf
