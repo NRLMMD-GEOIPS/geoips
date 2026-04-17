@@ -3,18 +3,28 @@ variables_valid_input:
   key: variables
   val: [solar_zenith_angle', 'DNBRad', 'M16BT']
   cls: CommonAlgorithmArgumentsModel
-output_data_range_valid_input:
-  description: "Ensure valid value for output_data_range is accepted"
-  key: output_data_range
-  val: [-90.0, 30.0]
-  cls: CommonAlgorithmArgumentsModel
 variables_default_input:
   description: "Ensure default value for variables field is accepted"
   key: variables
   val: [None]
   cls: CommonAlgorithmArgumentsModel
+variables_missing_input:
+  description: "Validate that a missing variables field is accepted when optional"
+  key: variables
+  val: 
+  cls: CommonAlgorithmArgumentsModel
+output_data_range_valid_input:
+  description: "Ensure valid value for output_data_range is accepted"
+  key: output_data_range
+  val: [-90.0, 30.0]
+  cls: CommonAlgorithmArgumentsModel
 output_data_range_default_input:
   description: "Ensure valid value for output_data_range is accepted"
+  key: output_data_range
+  val: [null, null]
+  cls: CommonAlgorithmArgumentsModel
+output_data_range_missing_input:
+  description: "Validate that a missing output_data_range field is accepted when optional"
   key: output_data_range
   val: [null, null]
   cls: CommonAlgorithmArgumentsModel
@@ -68,3 +78,39 @@ output_units_default_input:
   key: output_units
   val: None
   cls: CommonAlgorithmArgumentsModel
+var_map_valid_input:
+  description: "Ensure default value for var_map is accepted"
+  key: var_map
+  val: {hello: world}
+  cls: PressureWindsAlgorithmArgumentsModel
+var_map_default_input:
+  description: "Ensure default value for var_map is accepted"
+  key: var_map
+  val: {}
+  cls: PressureWindsAlgorithmArgumentsModel
+gamma_list_default_input:
+  description: "Ensure default value for gamma is accepted"
+  key: gamma_list
+  val: []
+  cls: VisIRSpecificAlgorithmArgumentsModel
+gamma_list_missing_input:
+  description: "Ensure default value for gamma is accepted"
+  key: gamma_list
+  val: 
+  cls: VisIRSpecificAlgorithmArgumentsModel
+gamma_list_valid_input:
+  description: "Ensure valid value for gamma is accepted"
+  key: gamma_list
+  val: [0.5, 0.6]
+  cls: VisIRSpecificAlgorithmArgumentsModel  
+min_night_zen:
+  description: "Ensure valid value for min_night_zen is accepted"
+  key: min_night_zen
+  val: 85
+  cls: VisIRSpecificAlgorithmArgumentsModel  
+max_night_zen:
+  description: "Ensure valid value for max_night_zen is accepted"
+  key: max_night_zen
+  val: 104
+  cls: VisIRSpecificAlgorithmArgumentsModel  
+

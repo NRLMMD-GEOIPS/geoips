@@ -10,10 +10,22 @@ min_outbounds_invalid_input:
   val: True
   cls: CommonAlgorithmArgumentsModel
   err_str: Input should be a valid string
+min_outbounds_missing_input:
+  description: "Ensure that required min_outbounds field is not missing"
+  key: min_outbounds
+  val: 
+  cls: CommonAlgorithmArgumentsModel
+  err_str: Input should be a valid string
 max_outbounds_invalid_input:
   description: "Ensure invalid value for max_outbounds is not accepted"
   key: max_outbounds
   val: True
+  cls: CommonAlgorithmArgumentsModel
+  err_str: Input should be a valid string
+max_outbounds_missing_input:
+  description: "Ensure that required max_outbounds field is not missing"
+  key: max_outbounds
+  val: 
   cls: CommonAlgorithmArgumentsModel
   err_str: Input should be a valid string
 norm_invalid_input:
@@ -40,3 +52,16 @@ output_units_invalid_input:
   val: 123
   cls: CommonAlgorithmArgumentsModel
   err_str: Input should be a valid string
+min_night_zen:
+  description: "Ensure invalid value for min_night_zen is not accepted"
+  key: min_night_zen
+  val: invalid_input
+  cls: VisIRSpecificAlgorithmArgumentsModel  
+  err_str:  Input should be a valid number
+max_night_zen:
+  description: "Ensure invalid value for max_night_zen is not accepted"
+  key: max_night_zen
+  val: invalid_input
+  cls: VisIRSpecificAlgorithmArgumentsModel
+  err_str: Input should be a valid number
+
