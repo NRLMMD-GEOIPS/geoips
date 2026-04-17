@@ -14,6 +14,8 @@ feature:
     moved:
     - ''
     modified:
+    - 'docs/build_docs.py'
+    - 'docs/dev/order_based_procflow.rst'
     - 'geoips/plugins/modules/procflows/order_based.py'
     - 'geoips/plugins/yaml/product_defaults/Uncorrected-Channel.yaml'
     - 'geoips/plugins/yaml/product_defaults/geostationary_dmw/windbarbs_dmw_high.yaml'
