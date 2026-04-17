@@ -123,19 +123,19 @@ class GlobalVariablesModel(PermissiveFrozenModel):
     presectoring toggle)
     """
 
-    window_start_time: datetime = Field(
+    window_start_time: datetime | None = Field(
         None,
         description="If specified, sector temporally between window_start_time "
         "and window_end_time.",
     )
 
-    window_end_time: datetime = Field(
+    window_end_time: datetime | None = Field(
         None,
         description="If specified, sector temporally between window_start_time "
         "and window_end_time.",
     )
 
-    product_name: str = Field(None)
+    product_name: str | None = Field(None)
 
     reader_defined_area_def: bool = Field(False)
 
@@ -147,9 +147,9 @@ class GlobalVariablesModel(PermissiveFrozenModel):
 
     product_db: bool = Field(False)
 
-    product_db_writer: str = Field(None)
+    product_db_writer: str | None = Field(None)
 
-    product_db_writer_kwargs: Dict[str, Any] = Field(None)
+    product_db_writer_kwargs: Dict[str, Any] | None = Field(None)
 
     @model_validator(mode="after")
     def _validate_product_db_requires_writer(

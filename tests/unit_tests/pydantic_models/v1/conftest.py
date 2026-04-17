@@ -157,13 +157,13 @@ def valid_global_variables_model_data():
     return {
         "window_start_time": datetime(2024, 9, 26, 18, 0, 0),
         "window_end_time": datetime(2024, 9, 27, 3, 0, 0),
-        "product_name": "Infrared-Gray"	,
+        "product_name": "Infrared-Gray",
         "reader_defined_area_def": True,
         "no_presectoring": False,
         "product_db": True,
         "product_db_writer": "postgres_database",
         "product_db_writer_kwargs": {
             "overwrite": True,
-            "schema": "products"
+            "schema": "products",
         },
     }

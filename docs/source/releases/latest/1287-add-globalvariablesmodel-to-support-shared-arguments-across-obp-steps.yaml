@@ -1,0 +1,20 @@
+enhancement:
+- title: ''
+  description: ''
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - 'tests/unit_tests/pydantic_models/v1/workflows/test_global_variables_model.py'
+    - 'docs/source/releases/latest/1287-add-globalvariablesmodel-to-support-shared-arguments-across-obp-steps.yaml'
+    modified:
+    - 'geoips/pydantic_models/v1/workflows.py'
+    - 'tests/unit_tests/pydantic_models/v1/conftest.py'
+  related-issue:
+    number: 1287
+    repo_url: 'https://github.com/NRLMMD-GEOIPS/geoips'
+  date:
+    start: 2026/04/05
+    finish: 2026/04/17
