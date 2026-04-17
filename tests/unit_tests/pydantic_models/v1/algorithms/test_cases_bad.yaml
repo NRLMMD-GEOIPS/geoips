@@ -112,15 +112,45 @@ time_key_invalid_input:
   val: True
   cls: ModelSpecificAlgorithmArgumentsModel
   err_str: Input should be a valid string
-time_key_invalid_input:
+time_key_missing_input:
   description: "Ensure that required time_key field is not missing"
   key: time_key
   val: 
   cls: ModelSpecificAlgorithmArgumentsModel
   err_str: Input should be a valid string
-time_key_invalid_input:
+time_fcst_invalid_input:
   description: "Ensure invalid value for time_fcst is not accepted"
   key: time_fcst
-  val: True
+  val: invalid_input
   cls: ModelSpecificAlgorithmArgumentsModel
-  err_str: Input should be a valid string
+  err_str: Input should be a valid integer
+time_fcst_missing_input:
+  description: "Ensure that required time_fcst field is not missing"
+  key: time_fcst
+  val: invalid_input
+  cls: ModelSpecificAlgorithmArgumentsModel
+  err_str: Input should be a valid integer
+time_dim_invalid_input:
+  description: "Ensure valid value for time_dim is accepted"
+  key: time_dim
+  val: invalid_input
+  cls: ModelSpecificAlgorithmArgumentsModel
+  err_str: Input should be a valid integer
+time_dim_invalid_input_alias:
+  description: "Ensure valid value for time_dim is accepted"
+  key: Time_Dimension
+  val: invalid_input
+  cls: ModelSpecificAlgorithmArgumentsModel
+  err_str: Input should be a valid integer
+grid_geo_invalid_input:
+  description: "Ensure invalid value for grid_geo is accepted"
+  key: grid_geo
+  val: 123
+  cls: ModelSpecificAlgorithmArgumentsModel
+  err_str: Input should be a valid boolean
+grid_geo_missing_input:
+  description: "Ensure that the required grid_geo field is not missing"
+  key: grid_geo
+  val: 
+  cls: ModelSpecificAlgorithmArgumentsModel
+  err_str: Input should be a valid boolean

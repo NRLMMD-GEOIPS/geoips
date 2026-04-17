@@ -203,3 +203,23 @@ time_fcst_valid_input:
   key: time_fcst
   val: -1
   cls: ModelSpecificAlgorithmArgumentsModel
+time_dim_valid_input:
+  description: "Ensure valid value for time_dim is accepted"
+  key: time_dim
+  val: 6
+  cls: ModelSpecificAlgorithmArgumentsModel
+time_dim_valid_input_alias:
+  description: "Ensure valid value for time_dim is accepted"
+  key: Time_Dimension
+  val: 6
+  cls: ModelSpecificAlgorithmArgumentsModel
+grid_geo_valid_input:
+  description: "Ensure valid value for grid_geo is accepted"
+  key: grid_geo
+  val: True
+  cls: ModelSpecificAlgorithmArgumentsModel
+grid_geo_default_input:
+  description: "Ensure default value for grid_geo is accepted"
+  key: grid_geo
+  val: False
+  cls: ModelSpecificAlgorithmArgumentsModel

@@ -9,7 +9,7 @@
 from typing import Dict, List, Optional
 
 # Third-Party Libraries
-from pydantic import Field, StrictBool, StrictFloat
+from pydantic import Field, StrictBool, StrictFloat, StrictInt
 
 # GeoIPS imports
 from geoips.pydantic_models.v1.bases import FrozenModel
@@ -123,10 +123,9 @@ class ModelSpecificAlgorithmArgumentsModel(FrozenModel):
 
     pressure_key: str | None = Field(None)
     time_key: str = Field(...)
-    time_fcst: int = Field(-1)
-    # verify if the type should be string
-    time_dim: str = Field(None)
-    grid_geo: bool = Field(False)
+    time_fcst: StrictInt = Field(-1)
+    time_dim: StrictInt | None = Field(None, alias="Time_Dimension")
+    grid_geo: StrictBool = Field(False)
 
 
 class AlgorithmArgumentsModel(
