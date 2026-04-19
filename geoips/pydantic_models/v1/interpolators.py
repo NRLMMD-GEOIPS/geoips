@@ -32,7 +32,9 @@ class InterpGaussInterpolator(PermissiveFrozenModel):
 class InterpGridInterpolator(PermissiveFrozenModel):
     """Validate InterpGrid Interpolator."""
 
-    method: str = Field("linear", description="Method of interpolation; defaults to linear")
+    method: str = Field(
+        "linear", description="Method of interpolation; defaults to linear"
+    )
 
 
 class InterpolatorArgumentsModel(InterpGaussInterpolator, InterpGridInterpolator):
