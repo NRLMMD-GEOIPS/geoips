@@ -1,18 +1,50 @@
-InterpolatorArguments_nearest:
-  description: "Invalid type for 'title_copyright' (expects string, got int)"
+InterpGaussInterpolatorModel_sigmaval_valid_input:
+  description: "Ensure valid value for sigmaval is accepted"
+  key: sigmaval
+  val: 2000
+  cls: InterpGaussInterpolator
+InterpGaussInterpolatorModel_sigmaval_default_input:
+  description: "Ensure default value for sigmaval is accepted"
+  key: sigmaval
+  val: 1000
+  cls: InterpGaussInterpolator
+InterpGaussInterpolatorModel_drop_nan_valid_input:
+  description: "Ensure valid values for drop_nan is accepted"
+  key: drop_nan
+  val: True
+  cls: InterpGaussInterpolator
+InterpGaussInterpolatorModel_drop_nan_default_input:
+  description: "Ensure default values for drop_nan is accepted"
+  key: drop_nan
+  val: False
+  cls: InterpGaussInterpolator
+InterpGridInterpolatorModel_method_valid_input:
+  description: "Ensure valid values for method is accepted"
+  key: method
+  val: spline
+  cls: InterpGridInterpolator
+InterpGridInterpolatorModel_method_default_input:
+  description: "Ensure default value for method is accepted"
+  key: method
+  val: linear
+  cls: InterpGridInterpolator
+InterpolatorArgumentsModel_area_def_valid_input:
+  description: "Ensure valid value for area_def is accepted"
   key: area_def
-  val: None
+  val: North Pole Region
   cls: InterpolatorArgumentsModel
-  err_str: Input should be a valid string
-InterpolatorArguments_gauss:
-  description: "Invalid type for 'title_copyright' (expects string, got int)"
+InterpolatorArgumentsModel_area_def_default_input:
+  description: "Ensure default value for area_def is accepted"
   key: area_def
-  val: None
+  val: null
   cls: InterpolatorArgumentsModel
-  err_str: Input should be a valid string
-InterpolatorArguments_grid:
-  description: "Invalid type for 'title_copyright' (expects string, got int)"
-  key: area_def
-  val: None
+InterpolatorArgumentsModel_varlist_valid_input:
+  description: "Ensure valid value for varlist is accepted"
+  key: varlist
+  val: ['B09BT', 'B10BT', 'B07BT']
   cls: InterpolatorArgumentsModel
-  err_str: Input should be a valid string
+InterpolatorArgumentsModel_varlist_default_input:
+  description: "Ensure default value for varlist is accepted"
+  key: varlist
+  val: null
+  cls: InterpolatorArgumentsModel
