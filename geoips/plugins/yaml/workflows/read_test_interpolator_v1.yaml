@@ -5,7 +5,7 @@ name: read_test_v1_interpolator
 docstring: |
   tests/scripts/ami.static.mst.absdiff-IR-BD.imagery_clean.sh
 
-  The absolute difference between IR-BD between two Geokomsat AMI scan times.
+  The absolute difference between IR-BD between two Geokompsat AMI scan times.
 description: 11.2 µm Infrared.
 spec:
   steps:
