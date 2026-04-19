@@ -115,10 +115,10 @@ Output Formatter step in the code block below includes two additional plugins,
           kind: reader
           name: abi_netcdf
           arguments:
-          area_def: None
-          metadata_only: False
-          self_register: [None]
-          variables: ['B14BT']
+            area_def: None
+            metadata_only: False
+            self_register: [None]
+            variables: ['B14BT']
         algorithm_1:
           kind: algorithm
           name: single_channel
