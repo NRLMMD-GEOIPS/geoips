@@ -154,8 +154,8 @@ def valid_output_checker_arguments():
 def valid_interpolator_arguments():
     """Fixture providing valid data for InterpolatorArgumentsModel tests."""
     return {
-        "area_def": "alpha",
-        "varlist": ["a", "b"],
+        "area_def": "North Pole Region",
+        "varlist": ['B09BT', 'B10BT', 'B07BT'],
         "sigmaval": 1000,
         "drop_nan": True,
         "method": "linear",
