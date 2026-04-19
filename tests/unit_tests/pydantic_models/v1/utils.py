@@ -194,7 +194,7 @@ def load_geoips_yaml_plugin(interface_name: str, plugin_name: str) -> dict:
         entry = registry[plugin_name]
 
     relpath = entry["relpath"]
-    print("relpath \t", relpath)
+    # print("relpath \t", relpath)
     abspath = str(resources.files("geoips") / relpath)
     package = "geoips"
 
