@@ -124,9 +124,12 @@ Output Formatter step in the code block below includes two additional plugins,
           name: single_channel
           arguments:
           output_data_range: [-90.0, 30.0]
-        interpolator_1:
+        apply_interpolator:
           kind: interpolator
           name: interp_nearest
+          arguments:
+            sigmaval: null
+            drop_nan: False
         output_formatter_1:
           kind: output_formatter
           name: imagery_annotated
