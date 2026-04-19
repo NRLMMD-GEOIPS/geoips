@@ -7,7 +7,7 @@
 from typing import List, TypeAlias, Union
 
 # Third-Party Libraries
-from pydantic import ConfigDict, Field
+from pydantic import ConfigDict, Field, StrictBool
 import xarray as xr
 
 # GeoIPS imports
@@ -24,8 +24,7 @@ class InterpGaussInterpolator(PermissiveFrozenModel):
         description="Used for interp_type 'gauss' - multiplication factor for sigmas"
         " option: * sigmas = [sigmas]*len(list_of_arrays)",
     )
-
-    drop_nan: bool = Field(
+    drop_nan: StrictBool = Field(
         False, description="Whether to drop the nan values (default:False)"
     )
 
@@ -33,7 +32,7 @@ class InterpGaussInterpolator(PermissiveFrozenModel):
 class InterpGridInterpolator(PermissiveFrozenModel):
     """Validate InterpGrid Interpolator."""
 
-    method: str = Field(None, description="Method of interpolation; defaults to linear")
+    method: str = Field("linear", description="Method of interpolation; defaults to linear")
 
 
 class InterpolatorArgumentsModel(InterpGaussInterpolator, InterpGridInterpolator):
@@ -44,7 +43,7 @@ class InterpolatorArgumentsModel(InterpGaussInterpolator, InterpGridInterpolator
     # area_def should be a required field after SSP -> OBP transition
     # It is currently set optional because some SSP workflows compute
     # area_def dynamically at runtime
-    area_def: str = Field(None, description="Area definition identifier.")
-    varlist: List[str] = Field(
+    area_def: str | None = Field(None, description="Area definition identifier.")
+    varlist: List[str] | None = Field(
         None, description="variables required for specific interpolation processing"
     )
