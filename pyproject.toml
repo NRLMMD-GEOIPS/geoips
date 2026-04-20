@@ -158,7 +158,7 @@ doc = [
     "sphinx-design",             # Required for building documentation
     "sphinxcontrib-autoprogram", # Required for adding argparse-based command line options to documentation
     "sphinxcontrib-mermaid",     # Required for UML rendering
-    "sphinxcontrib.typer",       # Required for adding typer-based command line options to documentation
+    "sphinxcontrib-typer",       # Required for adding typer-based command line options to documentation
     "m2r2",                      # Required for rendering markdown into RST-based documentation
     "brassy",                    # Release Note Generation
     "mistune", 	# Required for rendering markdown into RST-based documentation
