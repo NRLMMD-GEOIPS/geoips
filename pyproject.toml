@@ -113,7 +113,7 @@ sphinx = { version = "<7.2", optional = true }
 sphinx-design = { version = "*", optional = true }
 sphinxcontrib-autoprogram = { version = "*", optional = true }
 sphinxcontrib-mermaid = { version = "*", optional = true }
-sphinxcontrib.typer = { version = "*", optional = true }
+sphinxcontrib-typer = { version = "*", optional = true }
 m2r2 = { version = "*", optional = true }
 brassy = { version = ">=0.0.3", optional = true }
 sphinx-argparse = { version = "*", optional = true }
