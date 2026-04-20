@@ -8,6 +8,7 @@ Runs the appropriate script based on the args provided.
 
 from ast import literal_eval
 from colorama import Fore, Style
+from os.path import abspath
 from pathlib import Path
 
 import json
@@ -145,9 +146,162 @@ class GeoipsRunOrderBased(GeoipsExecutableCommand):
         "This warning will be removed once this command is stable.\n"
     )
 
+    def json_or_yaml_path(self, value: str) -> Path:
+        """Ensure the value provided is a valid pathlib.Path json or yaml file.
+
+        Parameters
+        ----------
+        value: str
+            - The input value for the filepath to typecheck against.
+
+        Returns
+        -------
+        path: Path
+            - A json or yaml pathlib.Path object.
+        """
+        path = Path(value)
+
+        if not path.exists():
+            raise self.parser.error(f"Input filepath not found: {value}")
+
+        if path.suffix.lower() not in {".json", ".yaml", ".yml"}:
+            raise self.parser.error(
+                f"File must have extension .json, .yaml, or .yml, not {path.suffix}"
+            )
+        return path
+
+    def global_override_type(self, value: str):
+        """Ensure an override string fits the following format.
+
+        Expected Format
+        ---------------
+        '<global_variable-name>=<some_value>'
+
+        Parameters
+        ----------
+        value: str
+            The full global override string for a geoips run order_based command.
+
+        Returns
+        -------
+        override_dict: dict
+            The validated contents of an override string in a dictionary.
+        """
+        try:
+            lhs, rhs = value.split("=", 1)
+        except ValueError:
+            raise self.parser.ArgumentTypeError(
+                f"Invalid format '{value}'. Expected '<global_variable_name>=<value>'"
+            )
+
+        parts = lhs.split(".")
+
+        if len(parts) != 1:
+            raise self.parser.ArgumentTypeError(
+                f"Invalid key '{lhs}'. Must be in the format of "
+                "'<global_variable_name>=<some_value>'"
+            )
+
+        global_var_name = parts[0]
+
+        return {
+            "global_variable_name": global_var_name,
+            "value": rhs,
+        }
+
+    def kind_override_type(self, value: str):
+        """Ensure an override string fits the following format.
+
+        Expected Format
+        ---------------
+        '<kind>.<argument_name>=<some_value>'
+
+        Parameters
+        ----------
+        value: str
+            The full kind override string for a geoips run order_based command.
+
+        Returns
+        -------
+        override_dict: dict
+            The validated contents of an override string in a dictionary.
+        """
+        try:
+            lhs, rhs = value.split("=", 1)
+        except ValueError:
+            raise self.parser.ArgumentTypeError(
+                f"Invalid format '{value}'. Expected '<kind>.<argument_name>=<value>'"
+            )
+
+        parts = lhs.split(".")
+
+        if len(parts) != 2:
+            raise self.parser.ArgumentTypeError(
+                f"Invalid key '{lhs}'. Must be in the format of "
+                "'<kind>.<argument_name>'"
+            )
+
+        kind = parts[0]
+        argument_name = parts[1]
+
+        return {
+            "kind": kind,
+            "argument_name": argument_name,
+            "value": rhs,
+        }
+
+    def step_override_type(self, value: str):
+        """Ensure an override string fits the following format.
+
+        Expected Format
+        ---------------
+        '<step_id>.<string1>.<optional_string2>.<optional_string3>...=<some_value>'
+
+        Parameters
+        ----------
+        value: str
+            The full step override string for a geoips run order_based command.
+
+        Returns
+        -------
+        override_dict: dict
+            The validated contents of an override string in a dictionary.
+        """
+        try:
+            lhs, rhs = value.split("=", 1)
+        except ValueError:
+            raise self.parser.ArgumentTypeError(
+                f"Invalid format '{value}'. Expected '<step_id>.<...>=<value>'"
+            )
+
+        parts = lhs.split(".")
+
+        if len(parts) < 2:
+            raise self.parser.ArgumentTypeError(
+                f"Invalid key '{lhs}'. Must have at least '<step_id>.<string>'"
+            )
+
+        step_id = parts[0]
+        keys = parts[1:]
+
+        return {
+            "step_id": step_id,
+            "keys": keys,
+            "value": rhs,
+        }
+
     def add_arguments(self):
         """Add arguments to the run-subparser for the 'run order-based' command."""
+        # Required arguments
+        self.parser.add_argument(
+            "filenames",
+            nargs="*",
+            default=None,
+            type=abspath,
+            help="""Fully qualified paths to data files to be processed.""",
+        )
         self.obp_mutex_args = self.parser.add_mutually_exclusive_group(required=True)
+        # Mutex arguments
         self.obp_mutex_args.add_argument(
             "-w",
             "--workflow",
@@ -169,43 +323,57 @@ class GeoipsRunOrderBased(GeoipsExecutableCommand):
                 " Cannot be supplied alongside the --workflow or --filepath argument."
             ),
         )
-
-        def json_or_yaml_path(value: str) -> Path:
-            """Ensure the value provided is a valid pathlib.Path json or yaml file.
-
-            Parameters
-            ----------
-            value: str
-                - The input value for the filepath to typecheck against.
-
-            Returns
-            -------
-            path: Path
-                - A json or yaml pathlib.Path object.
-            """
-            path = Path(value)
-
-            if not path.exists():
-                raise self.parser.error(f"Input filepath not found: {value}")
-
-            if path.suffix.lower() not in {".json", ".yaml", ".yml"}:
-                raise self.parser.error(
-                    f"File must have extension .json, .yaml, or .yml, not {path.suffix}"
-                )
-            return path
-
         self.obp_mutex_args.add_argument(
             "-f",
             "--filepath",
             default=None,
-            type=json_or_yaml_path,
+            type=self.json_or_yaml_path,
             help=(
                 "A absolute path to the workflow file to operate on."
                 " Cannot be supplied alongside the --workflow or --generated argument."
             ),
         )
+        # Override arguments
+        self.parser.add_argument(
+            "-S",
+            "--step-overrides",
+            default=None,
+            nargs="+",
+            type=self.step_override_type,
+            help=(
+                "One or more step override strings to apply to your workflow. An "
+                "override string should take on the following format:\n "
+                "'<step_id>.<string1>.<optional_string2>...=<some_value>'"
+            ),
+        )
+        self.parser.add_argument(
+            "-K",
+            "--kind-overrides",
+            default=None,
+            nargs="+",
+            type=self.kind_override_type,
+            help=(
+                "One or more kind override strings to apply to your workflow. An "
+                "override string should take on the following format:\n "
+                "'<kind>.<argument_name>=<some_value>'"
+            ),
+        )
+        self.parser.add_argument(
+            "-G",
+            "--global-overrides",
+            default=None,
+            nargs="+",
+            type=self.global_override_type,
+            help=(
+                "One or more global override strings to apply to your workflow. An "
+                "override string should take on the following format:\n "
+                "'<global_variable_name>=<some_value>'"
+            ),
+        )
 
-        add_args(parser=self.parser, legacy=self.legacy)
+        # Turning off all additional procflow args for this command. We want this
+        # command to have a limited set of arguments to start.
+        # add_args(parser=self.parser, legacy=self.legacy)
 
     def __call__(self, args):
         """Run the provided GeoIPS command.
