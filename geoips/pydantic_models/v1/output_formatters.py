@@ -7,7 +7,13 @@
 from pydantic import Field
 
 # GeoIPS imports
-from geoips.pydantic_models.v1.bases import PermissiveFrozenModel
+from geoips.pydantic_models.v1.bases import FrozenModel, PermissiveFrozenModel
+
+
+
+class MatplotlibBasedCommonImageryArgumentsModel(FrozenModel):
+    """Arguments common to output imagery generated using Matplotlib."""
+    feature_annotator: str | None = Field(None)
 
 
 class OutputFormatterArgumentsModel(PermissiveFrozenModel):
@@ -17,3 +23,4 @@ class OutputFormatterArgumentsModel(PermissiveFrozenModel):
     """
 
     product_name_title: str = Field(None, description="TBA")
+
