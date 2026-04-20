@@ -1,12 +1,12 @@
 documentation:
 - title: 'Add sphinxcontrib-typer to doc requirements'
   description: |
-    Add sphinxconbrig-typer to doc requirements and sphinx config file to support
+    Add sphinxcontrib-typer to doc requirements and sphinx config file to support
     pluginify.
   files:
     modified:
-    - 'pyprojct.toml'
-    - 'docs/_templates/sphinx_conf.teomplate.py'
+    - 'pyproject.toml'
+    - 'docs/_templates/sphinx_conf.template.py'
   related-issue:
     number: null
     repo_url: ''
