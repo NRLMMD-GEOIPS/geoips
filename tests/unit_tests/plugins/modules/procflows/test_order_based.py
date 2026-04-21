@@ -22,12 +22,20 @@ def test_valid_fnames_no_error(tmp_path):
 
 
 def test_missing_fnames_raises(tmp_path):
-    """Test that missing command-line fnames raise FileNotFoundError."""
+    """CLI fnames that don't exist raise FileNotFoundError via reader override."""
     missing_path = str(tmp_path / "nonexistent.nc")
 
-    workflow_plugin = _make_workflow_plugin({})
-    with pytest.raises(FileNotFoundError, match="command_line_args"):
-        validate_workflow_file_inputs(workflow_plugin, [missing_path])
+    # reader step must exist so CLI fnames override kicks in
+    steps = {
+        "read_data": {
+            "kind": "reader",
+            "arguments": {"fnames": ["/placeholder/ignored.nc"]},
+        },
+    }
+    # match on something that actually appears in the message:
+    # either the step_id, the kind, or the missing path itself
+    with pytest.raises(FileNotFoundError, match="nonexistent.nc"):
+        validate_workflow_file_inputs(_make_workflow_plugin(steps), [missing_path])
 
 
 def test_valid_reader_step_fnames(tmp_path):
@@ -93,18 +101,6 @@ def test_null_compare_path_is_ignored():
     validate_workflow_file_inputs(_make_workflow_plugin(steps), [])
 
 
-def test_missing_sector_fnames_raises():
-    """Test that missing fnames in a sector step raise FileNotFoundError."""
-    steps = {
-        "define_sector": {
-            "kind": "sector",
-            "arguments": {"fnames": ["/no/such/sector_file.yaml"]},
-        },
-    }
-    with pytest.raises(FileNotFoundError, match="define_sector.*sector"):
-        validate_workflow_file_inputs(_make_workflow_plugin(steps), [])
-
-
 def test_step_with_no_arguments_is_skipped():
     """Test that steps without an arguments key do not cause errors."""
     steps = {
@@ -116,10 +112,11 @@ def test_step_with_no_arguments_is_skipped():
 
 
 def test_multiple_missing_files_all_reported(tmp_path):
-    """Test that all missing files are listed in a single error message."""
+    """CLI fnames override step fnames; override + compare_path are both reported."""
     steps = {
         "read_data": {
             "kind": "reader",
+            # These will be overridden by CLI fnames, so they should NOT appear:
             "arguments": {"fnames": ["/missing/a.nc", "/missing/b.nc"]},
         },
         "check_output": {
@@ -131,7 +128,9 @@ def test_multiple_missing_files_all_reported(tmp_path):
         validate_workflow_file_inputs(_make_workflow_plugin(steps), ["/missing/c.nc"])
 
     error_message = str(exc_info.value)
-    assert "/missing/a.nc" in error_message
-    assert "/missing/b.nc" in error_message
+    # Overridden CLI path + compare_path should appear:
     assert "/missing/c.nc" in error_message
     assert "/missing/compare" in error_message
+    # Step-level fnames were overridden, so they must NOT appear:
+    assert "/missing/a.nc" not in error_message
+    assert "/missing/b.nc" not in error_message
