@@ -202,8 +202,9 @@ def call_single_time(
     cache_chunk_size : int
         * Specify chunck size if using zarray to store pre-calculated geolocation data.
         * Not currently used, since geolocation_cache_backend is currently not used.
-    resource_tracker: geoips.utils.memusg.PidLog object
-        * Track resource usage using the PidLog class object from geoips.utils.memusg.
+    resource_tracker: geoips.utils.memusg.memusg_tracker.PidLog object
+        * Track resource usage using the PidLog class object from
+          geoips.utils.memusg.memusg_tracker.
         * The PidLog.track_resource_usage method allows us to snapshot the memory usage
           for the PID associated with the geoips call. The time and stats of the
           snapshot are recorded, and can be accessed using the
