@@ -9,12 +9,20 @@ docstring: |
 description: 11.2 µm Infrared.
 spec:
   steps:
-    reader:
+    read_abi_L1_data:
       kind: reader
       name: abi_netcdf
       arguments:
-        variables: ['B14BT']
-    algorithm:
+        area_def: None
+        fnames: None
+        metadata_only: False
+        resampled_read: False
+        sectored_read: False
+        self_register: None
+        self_register_source: None
+        self_register_dataset: None
+        variables: None
+    apply_single_channel_algorithm:
       kind: algorithm
       name: single_channel
       arguments:
