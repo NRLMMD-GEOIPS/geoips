@@ -1,0 +1,21 @@
+bug fix:
+- title: 'Minor bug fixes to overpass_predictor and tc_tracks_database'
+  description: |
+    * Use area_def.sector_info["storm_id"] instead of area_def.area_id in the overpass
+      predictor, which does not include the storm_start_datetime.
+    * Support parsing database timstamps that include a ".%f" field.
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - 'geoips/sector_utils/overpass_predictor.py'
+    - 'geoips/sector_utils/tc_tracks_database.py'
+  related-issue:
+    number: geoips#1008
+  date:
+    start: 2025-12-15
+    finish: 2025-12-15

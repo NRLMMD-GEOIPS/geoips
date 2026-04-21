@@ -292,7 +292,9 @@ class GeoipsConfigInstallGithub(GeoipsExecutableCommand):
             "test_data_github",
             test_dataset_name,
         ]
-        subprocess.call(call_list)
+        retval = subprocess.call(call_list)
+        if retval != 0:
+            raise IOError(f"FAILED Did not successfully install '{test_dataset_name}'")
 
 
 class GeoipsConfig(GeoipsCommand):
