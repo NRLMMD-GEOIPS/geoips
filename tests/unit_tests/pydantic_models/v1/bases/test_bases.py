@@ -347,8 +347,8 @@ def test_bad_plugin_model_validate_one_line_description_multi_line(valid_plugin_
 
 @pytest.mark.parametrize(
     "api_version",
-    ["geoips/v1", "geoips_driver/v0.3"],
-    ids=["v1", "geoips-driver"],
+    ["geoips/v1", "geoips_driver/v0.3", "something/v1.0"],
+    ids=["v1", "geoips-driver", "non-geoips-version"],
 )
 def test_good_plugin_model_api_version(valid_plugin_data, api_version):
     """Test that valid apiVersion values are accepted."""
@@ -360,8 +360,8 @@ def test_good_plugin_model_api_version(valid_plugin_data, api_version):
 
 @pytest.mark.parametrize(
     "api_version",
-    ["geoips_v1", "geoips/"],
-    ids=["underscore-separator", "missing-version-number"],
+    ["geoips_v1", "geoips/", "something/a"],
+    ids=["underscore-separator", "missing-version-number", "non-geoips-missing-version"],
 )
 def test_bad_plugin_model_api_version(valid_plugin_data, api_version):
     """Test that apiVersion missing '/v' raises ValidationError."""
