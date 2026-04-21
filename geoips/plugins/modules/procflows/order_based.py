@@ -43,21 +43,25 @@ def validate_workflow_file_inputs(workflow_plugin, fnames):
     """
     missing = []
 
+    INPUT_PATH_ARGS_BY_KIND = {
+        "reader": ["fnames"],
+        "output_checker": ["compare_path"],
+    }
+
     for step_id, step_def in workflow_plugin["spec"]["steps"].items():
         kind = step_def["kind"]
-        arguments = step_def.get("arguments", {})
+        arguments = step_def.get("arguments", {}) or {}
+        path_arg_names = INPUT_PATH_ARGS_BY_KIND.get(kind, [])
         missing_files_list = []
 
-        if kind == "reader":
-            paths = fnames if fnames else arguments.get("fnames", [])
-            missing_files_list = [
-                path for path in paths if not path_exists(path)
-            ]
-
-        elif kind == "output_checker":
-            compare_path = arguments.get("compare_path")
-            if compare_path and not path_exists(compare_path):
-                missing_files_list = [compare_path]
+        for arg_name in path_arg_names:
+            raw_value = arguments.get(arg_name)
+            if raw_value is None:
+                continue
+            paths_to_check = raw_value if isinstance(raw_value, list) else [raw_value]
+            if kind == "reader" and arg_name == "fnames" and fnames:
+                paths_to_check = fnames
+            missing_files_list.extend(p for p in paths_to_check if not path_exists(p))
 
         if missing_files_list:
             missing.append((step_id, kind, missing_files_list))
