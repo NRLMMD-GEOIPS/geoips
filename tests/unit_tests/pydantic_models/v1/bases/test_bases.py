@@ -361,7 +361,11 @@ def test_good_plugin_model_api_version(valid_plugin_data, api_version):
 @pytest.mark.parametrize(
     "api_version",
     ["geoips_v1", "geoips/", "something/a"],
-    ids=["underscore-separator", "missing-version-number", "non-geoips-missing-version"],
+    ids=[
+        "underscore-separator",
+        "missing-version-number",
+        "non-geoips-missing-version",
+    ],
 )
 def test_bad_plugin_model_api_version(valid_plugin_data, api_version):
     """Test that apiVersion missing '/v' raises ValidationError."""
