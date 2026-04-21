@@ -18,15 +18,21 @@ from __future__ import annotations
 
 # Python Standard Libraries
 from copy import deepcopy
-
-# from glob import glob
+from glob import glob
 import logging
 from os import environ
 from pathlib import Path
-from typing import Any, Dict, List
+from typing import Any, Annotated, Dict, List
 
 # Third-Party Libraries
-from pydantic import ConfigDict, Field, field_validator, model_validator, ValidationInfo
+from pydantic import (
+    BeforeValidator,
+    ConfigDict,
+    Field,
+    field_validator,
+    model_validator,
+    ValidationInfo,
+)
 
 # GeoIPS imports
 from geoips import interfaces
@@ -621,14 +627,6 @@ class StepOverride(FrozenModel):
             value=rhs,
         )
 
-    @field_validator("*", mode="before")
-    @classmethod
-    def parse_if_string(cls, v):
-        """Parse the override input if it is a string and convert it to this model."""
-        if isinstance(v, str):
-            return cls.from_string(v)
-        return v
-
 
 class KindOverride(FrozenModel):
     """Model for a single kind override."""
@@ -660,14 +658,6 @@ class KindOverride(FrozenModel):
             value=rhs,
         )
 
-    @field_validator("*", mode="before")
-    @classmethod
-    def parse_if_string(cls, v):
-        """Parse the override input if it is a string and convert it to this model."""
-        if isinstance(v, str):
-            return cls.from_string(v)
-        return v
-
 
 class GlobalOverride(FrozenModel):
     """Model for a single global override."""
@@ -687,31 +677,64 @@ class GlobalOverride(FrozenModel):
 
         return cls(argument=key, value=value)
 
-    @field_validator("*", mode="before")
-    @classmethod
-    def parse_if_string(cls, v):
-        """Parse the override input if it is a string and convert it to this model."""
-        if isinstance(v, str):
-            return cls.from_string(v)
+
+def parse_override(v, info: ValidationInfo):
+    """Parse the override input if it is a string and convert it to an override type.
+
+    Parameters
+    ----------
+    v: Any
+        The input value to be converted to an override type.
+    info: ValidationInfo
+        Context from the a given field of the parent model.
+
+    """
+    match info.field_name:
+        case "steps":
+            override_type = StepOverride
+        case "kinds":
+            override_type = KindOverride
+        case "globals":
+            override_type = GlobalOverride
+        case _:
+            raise ValueError(
+                f"Error: got {v} but could not associate it with an override type."
+            )
+
+    if isinstance(v, override_type):
         return v
+    if isinstance(v, str):
+        return override_type.from_string(v)
+    return v
+
+
+StepOverrideType = Annotated[
+    StepOverride, BeforeValidator(parse_override, StepOverride)
+]
+KindOverrideType = Annotated[
+    KindOverride, BeforeValidator(parse_override, KindOverride)
+]
+GlobalOverrideType = Annotated[
+    GlobalOverride, BeforeValidator(parse_override, GlobalOverride)
+]
 
 
 class WorkflowOverrides(FrozenModel):
     """Model depicting how to specify overrides for a workflow plugin."""
 
-    steps: List[StepOverride] = Field(
+    steps: List[StepOverrideType] = Field(
         None,
         description=(
             "A list of step overrides to apply to your workflow. Not required.",
         ),
     )
-    kinds: List[KindOverride] = Field(
+    kinds: List[KindOverrideType] = Field(
         None,
         description=(
             "A list of kind overrides to apply to your workflow. Not required.",
         ),
     )
-    globals: List[GlobalOverride] = Field(
+    globals: List[GlobalOverrideType] = Field(
         None,
         description=(
             "A list of global overrides to apply to your workflow. Not required.",
@@ -751,6 +774,26 @@ class WorkflowTestModel(FrozenModel):
         description="Path to known file used to compare test outputs.",
     )
     overrides: WorkflowOverrides = Field(None)
+
+    @field_validator("fnames", mode="before")
+    @classmethod
+    def generate_filepaths(cls, v):
+        """Convert a single string or list of strings to pathlib.Path objects."""
+        if not isinstance(v, str) and not isinstance(v, list):
+            raise ValueError(
+                f"Error, got {v} but expected a single string or list of strings."
+            )
+
+        filepaths = v if isinstance(v, list) else [v]
+        final_paths = []
+
+        # cspell:ignore ipath, jpath, jpaths
+        for ipath in filepaths:
+            jpaths = sorted(glob(ipath))
+            for jpath in jpaths:
+                final_paths.append(Path(jpath))
+
+        return final_paths
 
 
 class WorkflowPluginModel(PluginModel):
