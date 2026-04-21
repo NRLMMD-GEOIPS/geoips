@@ -2,11 +2,23 @@ apiVersion: geoips/v1
 interface: workflows
 family: order_based
 name: read_test_v1
+package: geoips
+is_registered: True
 docstring: |
   11.2 µm Infrared.
 
   This product utilizes channel 14 (11.2 µm) and highlights areas of deep convection within a Tropical Cyclone.
 description: 11.2 µm Infrared.
+test:
+  fnames: >-
+    !ENV ${GEOIPS_TESTDATA_DIR}/test_data_abi/data/
+    goes16_20200918_1950/*
+  compare_path: >-
+    !ENV ${GEOIPS_TESTDATA_DIR}/geoips/tests/outputs/
+    abi.static.<product>.imagery_clean
+command_line_args:
+  compare_path: !ENV ${GEOIPS_PACKAGES_DIR}/geoips/tests/outputs/abi.static.<product>.imagery_clean
+  logging_level: info
 spec:
   steps:
     reader:
