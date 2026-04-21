@@ -11,7 +11,7 @@ import logging
 from geoips import interfaces
 from geoips.commandline.log_setup import setup_logging
 from geoips.utils.types.partial_lexeme import Lexeme
-from geoips.utils.obp_file_utils import validate_paths
+from geoips.utils.file_utils import path_exists
 
 LOG = logging.getLogger(__name__)
 
@@ -51,12 +51,12 @@ def validate_workflow_file_inputs(workflow_plugin, fnames):
         if kind == "reader":
             paths = fnames if fnames else arguments.get("fnames", [])
             missing_files_list = [
-                path for path in paths if validate_paths(path) is not None
+                path for path in paths if not path_exists(path)
             ]
 
         elif kind == "output_checker":
             compare_path = arguments.get("compare_path")
-            if compare_path and validate_paths(compare_path) is not None:
+            if compare_path and not path_exists(compare_path):
                 missing_files_list = [compare_path]
 
         if missing_files_list:

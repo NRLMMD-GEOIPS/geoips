@@ -1,11 +1,10 @@
-# # # This source code is subject to the license referenced at
-# # # https://github.com/NRLMMD-GEOIPS.
-
-"""pytest test-suite for `geoips.utils.obp_utils`."""
+"""pytest test-suite for Order Based Procflow."""
 
 import pytest
 
-from geoips.utils.obp_utils import validate_workflow_file_inputs
+from geoips.plugins.modules.procflows.order_based import (
+    validate_workflow_file_inputs,
+)
 
 
 def _make_workflow_plugin(steps):
