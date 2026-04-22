@@ -111,7 +111,7 @@ Output Formatter step in the code block below includes two additional plugins,
     package: geoips
     spec:
       steps:
-        reader_1:
+        read_data:
           kind: reader
           name: abi_netcdf
           arguments:
