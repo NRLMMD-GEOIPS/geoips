@@ -10,6 +10,7 @@ feature:
     - 'tests/unit_tests/pydantic_models/v1/interpolators/test_cases_good.yaml'
     - 'tests/unit_tests/pydantic_models/v1/interpolators/test_cases_neutral.yaml'
     modified:
+    - 'docs/dev/order_based_procflow.rst'
     - 'geoips/plugins/modules/procflows/order_based.py'
     - 'geoips/plugins/yaml/workflows/read_test_v1.yaml'
     - 'geoips/pydantic_models/v1/workflows.py'
