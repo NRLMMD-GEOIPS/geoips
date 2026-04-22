@@ -11,8 +11,8 @@ import isodate
 from pathlib import Path
 import pytz
 
-from boxplots import boxplot, checkpoint_boxplot
-from dataframe_utils import create_checkpoint_dataframe, sort_resource_stats
+from .boxplots import boxplot, checkpoint_boxplot
+from .dataframe_utils import create_checkpoint_dataframe, sort_resource_stats
 
 # Geoips libraries
 from geoips.filenames.base_paths import PATHS as gpaths

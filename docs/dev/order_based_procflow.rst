@@ -115,10 +115,10 @@ Output Formatter step in the code block below includes two additional plugins,
           kind: reader
           name: abi_netcdf
           arguments:
-          area_def: None
-          metadata_only: False
-          self_register: [None]
-          variables: ['B14BT']
+            area_def: None
+            metadata_only: False
+            self_register: [None]
+            variables: ['B14BT']
         algorithm_1:
           kind: algorithm
           name: single_channel
@@ -127,23 +127,29 @@ Output Formatter step in the code block below includes two additional plugins,
         apply_interpolator:
           kind: interpolator
           name: interp_nearest
+        output_checker_1:
+          kind: output_checker
+          name: image
           arguments:
-            sigmaval: null
-            drop_nan: False
+            checker_name: image
+            compare_path: "path/to/comparison/file.png"
+            output_products: [
+              "path/to/output/product.png",
+            ]
         output_formatter_1:
           kind: output_formatter
           name: imagery_annotated
           arguments:
-          colormapper_1:
-              kind: colormapper
-              name: Infrared
-              arguments:
-                data_range: [-90.0, 30.0]
-          filename_formatter_1:
-              kind: filename_formatter
-              name: geoips_fname
-              arguments:
-                suffix: ".png"
+            colormapper_1:
+                kind: colormapper
+                name: Infrared
+                arguments:
+                  data_range: [-90.0, 30.0]
+            filename_formatter_1:
+                kind: filename_formatter
+                name: geoips_fname
+                arguments:
+                  suffix: ".png"
 
 The code block above demonstrates a valid example of a product definition for
 an Order-Based Procflow.
