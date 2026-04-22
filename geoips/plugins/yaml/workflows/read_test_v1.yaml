@@ -3,31 +3,28 @@ interface: workflows
 family: order_based
 name: read_test_v1
 docstring: |
-    Use the windbarbs product_defaults for ABI L2 DMWV products.
-description: Use the windbarbs product_defaults for ABI L2 DMWV products.
+  11.2 µm Infrared.
+
+  This product utilizes channel 14 (11.2 µm) and highlights areas of deep convection within a Tropical Cyclone.
+description: 11.2 µm Infrared.
 spec:
   steps:
     reader:
       kind: reader
-      name: abi_l2_netcdf
-      arguments: {}
-    apply_windbarbs_dmv_algorithm:
-      kind: algorithm
-      name: windbarbs_dmw
+      name: abi_netcdf
       arguments:
-        product_name: DMW-High
-        variables: ["just for test"]
-        pressure_level_range: [0, 400]
-        output_data_range: [0, 200]
-        input_units: m s-1
-        output_units: kts
+        variables: ['B14BT']
+    algorithm:
+      kind: algorithm
+      name: single_channel
+      arguments:
+        variables: ['B14BT']
+        output_data_range: [-90.0, 30.0]
+        input_units: Kelvin
+        output_units: celsius
         min_outbounds: crop
         max_outbounds: crop
         norm: null
         inverse: null
-        var_map:
-          speed: wind_speed
-          direction: wind_direction
-          pressure: pressure
-
-
+    # workflow:
+    #     name: read_test
