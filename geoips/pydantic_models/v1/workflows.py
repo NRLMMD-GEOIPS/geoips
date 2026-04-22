@@ -32,6 +32,7 @@ from geoips.pydantic_models.v1.bases import (
     PermissiveFrozenModel,
 )
 from geoips.pydantic_models.v1.coverage_checkers import CoverageCheckerArgumentsModel
+from geoips.pydantic_models.v1.readers import ReaderArgumentsModel
 from geoips.utils.types.partial_lexeme import Lexeme
 
 LOG = logging.getLogger(__name__)
@@ -110,50 +111,6 @@ class WorkflowArgumentsModel(PermissiveFrozenModel):
 
     model_config = ConfigDict(extra="allow")
     pass
-
-
-class ReaderArgumentsModel(PermissiveFrozenModel):
-    """Reader step argument definition.
-
-    Pydantic model defining and validating Reader step arguments.
-    """
-
-    area_def: str = Field(None, description="Area definition identifier.")
-    variables: List[str] = Field(
-        None,
-        description="List of channels to process",
-        alias="chans",
-    )
-    metadata_only: bool = Field(False, description="Read metadata only.")
-    self_register: List[str] = Field(None, description="Enable self-registration.")
-    fnames: List[str] = Field(
-        None, description="full path to the file(s) for static dataset inputs."
-    )
-
-    @model_validator(mode="before")
-    def _handle_deprecated_chans(cls, values):
-        """
-        Check for the deprecated 'chans' field and issue a warning.
-
-        This method detects if `chans` is present in the input values and issues a
-        deprecation warning, recommending the use of 'variable' instead.
-
-        Parameters
-        ----------
-        values : dict
-            Input values to the model.
-
-        Returns
-        -------
-        dict
-            The original input values.
-        """
-        if "chans" in values:
-            LOG.warning(
-                "'chans' is deprecated and will be removed in GeoIPS 2.0. Use"
-                "'variables' instead."
-            )
-        return values
 
 
 class WorkflowStepDefinitionModel(FrozenModel):
