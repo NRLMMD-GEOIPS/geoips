@@ -6,10 +6,13 @@
 from importlib import reload
 
 import pytest
+
 from pluginify import plugin_registry as plugin_registry_module
 
 from geoips.errors import PluginError
 from geoips import interfaces
+
+NAMESPACE = "geoips.plugin_packages"
 
 
 def yield_interface_plugin_tuples():
@@ -30,7 +33,7 @@ def yield_interface_plugin_tuples():
             `test_get_plugin` function to determine which part of the logic to follow
             and how to test the results.
     """
-    registry = plugin_registry_module.plugin_registry.registered_plugins
+    registry = plugin_registry_module.PluginRegistry(NAMESPACE).registered_plugins
     for plugin_type in registry:
         if plugin_type == "text_based":
             # Functionality is not yet set up for this. Once PR #504 gets merged, we can
@@ -64,7 +67,7 @@ def yield_interface_plugin_tuples():
     # Test that retrieving a fake plugin without rebuilding the registry raises a
     # PluginError
     yield ("algorithms", ("another_fake_algorithm_plugin",), "no_rebuild")
-    registry = plugin_registry_module.plugin_registry.registered_plugins
+    registry = plugin_registry_module.PluginRegistry(NAMESPACE).registered_plugins
     single_channel_entry = registry["class_based"]["algorithms"].pop("single_channel")
     registry["class_based"]["algorithms"][
         "out_of_sync_single_channel"
@@ -72,9 +75,9 @@ def yield_interface_plugin_tuples():
     # Test that an out of sync plugin causes 'create_plugin_registries' to be ran so it
     # is synced up again
     yield ("algorithms", ("single_channel",), "out_of_sync")
-    reload(plugin_registry_module)
-    registry = plugin_registry_module.plugin_registry.registered_plugins
-    registry["class_based"]["algorithms"]["single_channel"][
+    reload(interfaces)
+    registry = plugin_registry_module.PluginRegistry(NAMESPACE).registered_plugins
+    registry["class_based"]["algorithms"].get("single_channel", single_channel_entry)[
         "relpath"
     ] = "some/fake/path"
     # Test that pointing a fake path to an existing plugin resets the registry and the
