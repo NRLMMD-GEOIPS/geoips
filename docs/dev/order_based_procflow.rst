@@ -111,6 +111,11 @@ Output Formatter step in the code block below includes two additional plugins,
     name: read_test
     docstring: Read test.
     package: geoips
+    test:
+      fnames: !ENV ${GEOIPS_TESTDATA_DIR}/test_data_abi/data/goes16_20200918_1950/*
+      command_line_args:
+        compare_path: !ENV ${GEOIPS_PACKAGES_DIR}/geoips/tests/outputs/abi.static.<product>.imagery_clean
+      logging_level: info
     spec:
       global-arguments:
         window_start_time: None
