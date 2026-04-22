@@ -18,3 +18,10 @@ output_products_invalid_type:
   val: "/tmp/output.png"
   cls: OutputCheckersArgumentsModel
   err_str: "Input should be a valid list"
+
+defined_name_without_compare_path:
+  description: "if checker_name is defined, then compare_path must be defined as well."
+  key: compare_path
+  val: null
+  cls: OutputCheckersArgumentsModel
+  err_str: "A valid file path must be provided in 'compare_path'when 'checker_name' is specified."
