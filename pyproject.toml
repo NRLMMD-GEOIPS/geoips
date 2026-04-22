@@ -156,9 +156,9 @@ doc = [
     "sphinx",                    # Required for building documentation, v7.2 errors
     "sphinx-argparse",           # Required for building documentation for the CLI, which uses autoprogram
     "sphinx-design",             # Required for building documentation
-    "sphinxcontrib-autoprogram", # Required for adding command line options to documentation
+    "sphinxcontrib-autoprogram", # Required for adding argparse-based command line options to documentation
     "sphinxcontrib-mermaid",     # Required for UML rendering
-    "sphinxcontrib-typer",       # Required for building 'pluginify' CLI docs.
+    "sphinxcontrib-typer",       # Required for adding typer-based command line options to documentation
     "m2r2",                      # Required for rendering markdown into RST-based documentation
     "brassy",                    # Release Note Generation
     "mistune", 	# Required for rendering markdown into RST-based documentation
