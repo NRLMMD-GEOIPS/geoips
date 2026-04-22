@@ -3,7 +3,8 @@
 
 #!/bin/bash
 
-geoips run single_source $GEOIPS_TESTDATA_DIR/test_data_sgli/data/20251018T0233/*DL*.h5 \
+geoips run single_source \
+    $GEOIPS_TESTDATA_DIR/test_data_sgli/data/20251018T0233/*DL*.h5 \
     --logging_level info \
     --compare_path "$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/sgli.static.<product>.imagery_clean" \
     --reader_name sgli_l1b_hdf5 \

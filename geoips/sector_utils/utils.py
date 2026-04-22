@@ -355,6 +355,10 @@ def get_trackfile_area_defs(
                     "FAILED storm_id not defined in sector_info. Ensure storm_id "
                     "defined in trackfile parser."
                 )
+            # Note all storm-based sectorlists must be defined in the appropriate
+            # format for our unique storm ids.  e.g.
+            # sh072026 (numbered storms do not include storm start datetime)
+            # sh9220262025120600 (invests include storm start datetime)
             elif area_def.sector_info["storm_id"] in trackfile_sectorlist:
                 final_area_defs += [area_def]
             else:
@@ -491,6 +495,10 @@ def get_tc_area_defs_for_xarray(
         tc_spec_template=tc_spec_template,
         trackfile_parser=trackfile_parser,
     )
+    # Note all storm-based sectorlists must be defined in the appropriate
+    # format for our unique storm ids.  e.g.
+    # sh072026 (numbered storms do not include storm start datetime)
+    # sh9220262025120600 (invests include storm start datetime)
     if tcdb_sector_list is not None and "all" not in tcdb_sector_list:
         for area_def in curr_area_defs:
             if "storm_id" not in area_def.sector_info:
@@ -629,25 +637,37 @@ def filter_area_defs_actual_time(area_defs, actual_datetime):
     """Filter list of area_defs to only include the passed actual_datetime."""
     ret_area_def_ids = {}
     for area_def in area_defs:
-        storm_id = area_def.sector_info.get("storm_id")
-        if storm_id and storm_id not in ret_area_def_ids:
-            ret_area_def_ids[storm_id] = area_def
+        # This should be a unique identifier for a given storm.  This will
+        # NOT include the storm name, and it WILL include the storm start
+        # datetime for invests. Area_id for TCs includes the synoptic time,
+        # so we need to use storm_id here for TCs, but area_id for non-TCs.
+        # storm_id numbered: sh072026
+        # storm_id invest: sh9220262025120600
+        # area_id numbered: sh072026-2026091200
+        # area_id invest: sh9220262025120600-2026120812
+        # Non-TC sectors will just use area_id.
+        if "storm_id" in area_def.sector_info:
+            area_def_key = area_def.sector_info["storm_id"]
+        else:
+            area_def_key = area_def.area_id
+        if area_def_key not in ret_area_def_ids:
+            ret_area_def_ids[area_def_key] = area_def
         elif is_dynamic_sector(area_def) and actual_datetime is not None:
             if abs(actual_datetime - area_def.sector_start_datetime) < abs(
-                actual_datetime - ret_area_def_ids[storm_id].sector_start_datetime
+                actual_datetime - ret_area_def_ids[area_def_key].sector_start_datetime
             ):
                 LOG.debug(
                     "AREA_DEF LIST REPLACING %s with area_def %s",
-                    ret_area_def_ids[storm_id].area_id,
+                    ret_area_def_ids[area_def_key].area_id,
                     area_def.area_id,
                 )
-                ret_area_def_ids[storm_id] = area_def
+                ret_area_def_ids[area_def_key] = area_def
         else:
             LOG.warning(
                 "AREA_DEF LIST REPLACING Multiple identical sectors - using latest %s",
                 area_def.area_id,
             )
-            ret_area_def_ids[storm_id] = area_def
+            ret_area_def_ids[area_def_key] = area_def
 
     return ret_area_def_ids.values()
 

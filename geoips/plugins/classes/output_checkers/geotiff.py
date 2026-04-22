@@ -1,3 +1,6 @@
+# # # This source code is subject to the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
+
 """Test script for representative product comparisons using GeoTIFF files."""
 
 from __future__ import annotations
