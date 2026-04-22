@@ -386,7 +386,9 @@ class WorkflowStepDefinitionModel(FrozenModel):
 class WorkflowSpecModel(FrozenModel):
     """The specification for a workflow."""
 
-    # list of steps
+    global_arguments: GlobalVariablesModel = Field(
+        ..., description="Arguments shared across workflow steps"
+    )
     steps: Dict[PythonIdentifier, WorkflowStepDefinitionModel] = Field(
         ..., description="Steps to produce the workflow."
     )
