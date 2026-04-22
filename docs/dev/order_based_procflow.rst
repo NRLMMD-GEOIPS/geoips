@@ -123,24 +123,33 @@ Output Formatter step in the code block below includes two additional plugins,
           kind: algorithm
           name: single_channel
           arguments:
-          output_data_range: [-90.0, 30.0]
+            output_data_range: [-90.0, 30.0]
         interpolator_1:
           kind: interpolator
           name: interp_nearest
+        output_checker_1:
+          kind: output_checker
+          name: image
+          arguments:
+            checker_name: image
+            compare_path: "path/to/comparison/file.png"
+            output_products: [
+              "path/to/output/product.png",
+            ]
         output_formatter_1:
           kind: output_formatter
           name: imagery_annotated
           arguments:
-          colormapper_1:
-              kind: colormapper
-              name: Infrared
-              arguments:
-                data_range: [-90.0, 30.0]
-          filename_formatter_1:
-              kind: filename_formatter
-              name: geoips_fname
-              arguments:
-                suffix: ".png"
+            colormapper_1:
+                kind: colormapper
+                name: Infrared
+                arguments:
+                  data_range: [-90.0, 30.0]
+            filename_formatter_1:
+                kind: filename_formatter
+                name: geoips_fname
+                arguments:
+                  suffix: ".png"
 
 The code block above demonstrates a valid example of a product definition for
 an Order-Based Procflow.
