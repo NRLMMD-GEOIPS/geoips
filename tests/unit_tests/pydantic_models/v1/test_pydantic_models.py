@@ -120,9 +120,7 @@ def generate_test_cases(test_type):
     cases = []
     for interface in models_available.keys():
         test_cases = load_test_cases(interface, test_type)
-        print("interface \t", interface)
         for key, value in test_cases.items():
-            # print(interface, key)
             cases.append(pytest.param((interface, key, value), id=f"{interface}_{key}"))
     return cases
 
