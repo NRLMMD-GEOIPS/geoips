@@ -67,6 +67,22 @@ def call(workflow, fnames, command_line_args=None):
                     step_def["arguments"]["chans"] = step_def["arguments"].pop(
                         "variables"
                     )
+
+                # If we need to pull area_defs from the reader, then we need to read in
+                # order to determin what to run
+                # if (not sectored_read and not resampled_read) and (
+                #     reader_defined_area_def or
+                #     (self_register_source and self_register_dataset)
+                # ):
+                #     LOG.interactive(
+                #         "Reading full dataset "
+                #         "for self registered products "
+                #         "with reader '%s'...",
+                #         reader_plugin.name,
+                #     )
+                #     xobjs = reader_plugin(
+                #         fnames, metadata_only=False, chans=variables, **reader_kwargs
+                #     )
                 data = plg(fnames, **step_def["arguments"])
                 print(data)
             else:
