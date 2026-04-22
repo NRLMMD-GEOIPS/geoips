@@ -119,6 +119,10 @@ Output Formatter step in the code block below includes two additional plugins,
             metadata_only: False
             self_register: [None]
             variables: ['B14BT']
+            sectored_read: False
+            resampled_read: False
+            self_register_dataset: None
+            self_register_source: None
         algorithm_1:
           kind: algorithm
           name: single_channel
