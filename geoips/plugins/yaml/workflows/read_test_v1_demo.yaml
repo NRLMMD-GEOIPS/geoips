@@ -1,8 +1,7 @@
 apiVersion: geoips/v1
 interface: workflows
 family: order_based
-test-files:
-
+# test-files:
 # source_names: [abi]
 name: read_test_demo
 docstring: |
