@@ -812,7 +812,7 @@ class WorkflowPluginModel(PluginModel):
                 "compare_path": f"{environ['GEOIPS_PACKAGES_DIR']}/geoips/tests/outputs/abi.static.<product>.imagery_clean",  # NOQA
                 "overrides": {
                     "steps": [
-                        "abi_Infrared.algorithm.output_units=Kelvin",
+                        "abi_Infrared.spec.steps.algorithm.output_units=Kelvin",
                     ],
                     "kinds": [
                         "readers.self_register=False",
