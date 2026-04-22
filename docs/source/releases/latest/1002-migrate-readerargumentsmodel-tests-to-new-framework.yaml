@@ -10,6 +10,7 @@ feature:
     - 'tests/unit_tests/pydantic_models/v1/readers/test_cases_neutral.yaml'
     - 'tests/unit_tests/pydantic_models/v1/readers/test_reader_arguments_model.py'
     modified:
+    - 'docs/dev/order_based_procflow.rst'
     - 'geoips/pydantic_models/v1/workflows.py'
     - 'tests/unit_tests/pydantic_models/v1/conftest.py'
     - 'tests/unit_tests/pydantic_models/v1/test_pydantic_models.py'
