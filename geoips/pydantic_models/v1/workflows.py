@@ -18,14 +18,24 @@ from __future__ import annotations
 
 # Python Standard Libraries
 from copy import deepcopy
+from glob import glob
 import logging
 from os import environ
-from typing import Any, Dict, List
+from pathlib import Path
+from typing import Any, Annotated, Dict, List
 
 # Third-Party Libraries
-from pydantic import ConfigDict, Field, field_validator, model_validator, ValidationInfo
+from pydantic import (
+    BeforeValidator,
+    ConfigDict,
+    Field,
+    field_validator,
+    model_validator,
+    ValidationInfo,
+)
 
 # GeoIPS imports
+from geoips.filenames.base_paths import cast_string_to_bool_or_none
 from geoips import interfaces
 from geoips.pydantic_models.v1.bases import (
     PythonIdentifier,
@@ -168,7 +178,7 @@ class ReaderArgumentsModel(PermissiveFrozenModel):
         alias="chans",
     )
     metadata_only: bool = Field(False, description="Read metadata only.")
-    self_register: List[str] = Field(None, description="Enable self-registration.")
+    self_register: bool = Field(None, description="Enable self-registration.")
     fnames: List[str] = Field(
         None, description="full path to the file(s) for static dataset inputs."
     )
@@ -586,12 +596,215 @@ class WorkflowSpecModel(FrozenModel):
         return data
 
 
+class StepOverride(FrozenModel):
+    """Model for a single step override."""
+
+    step_id: str
+    keys: List[str]
+    argument: str
+    value: Any
+
+    @classmethod
+    def from_string(cls, raw: str):
+        """Convert the input override string to a step override object."""
+        try:
+            lhs, rhs = raw.split("=", 1)
+        except ValueError:
+            raise ValueError(
+                f"Invalid step override '{raw}'. Expected '<step>.<...>=<value>'"
+            )
+
+        parts = lhs.split(".")
+        if len(parts) < 2:
+            raise ValueError(
+                f"Invalid step override '{raw}'. Must include at least one key after "
+                "step_id"
+            )
+
+        return cls(
+            step_id=parts[0],
+            keys=parts[1:-1],
+            argument=parts[-1],
+            value=cast_string_to_bool_or_none(rhs),
+        )
+
+
+class KindOverride(FrozenModel):
+    """Model for a single kind override."""
+
+    kind: str
+    argument: str
+    value: Any
+
+    @classmethod
+    def from_string(cls, raw: str):
+        """Convert the input override string to a kind override object."""
+        try:
+            lhs, rhs = raw.split("=", 1)
+        except ValueError:
+            raise ValueError(
+                f"Invalid kind override '{raw}'. Expected '<kind>.<argument>=value>'"
+            )
+
+        parts = lhs.split(".")
+        if len(parts) != 2:
+            raise ValueError(
+                f"Invalid kind override '{raw}'. Must be formatted "
+                "<kind>.<argument>=<value>"
+            )
+
+        return cls(
+            kind=parts[0],
+            argument=parts[1],
+            value=cast_string_to_bool_or_none(rhs),
+        )
+
+
+class GlobalOverride(FrozenModel):
+    """Model for a single global override."""
+
+    argument: str
+    value: Any
+
+    @classmethod
+    def from_string(cls, raw: str):
+        """Convert the input override string to a global override object."""
+        try:
+            key, value = raw.split("=", 1)
+        except ValueError:
+            raise ValueError(
+                f"Invalid global override '{raw}'. Expected '<key>=<value>'"
+            )
+
+        return cls(argument=key, value=cast_string_to_bool_or_none(value))
+
+
+def parse_override(v, info: ValidationInfo):
+    """Parse the override input if it is a string and convert it to an override type.
+
+    Parameters
+    ----------
+    v: Any
+        The input value to be converted to an override type.
+    info: ValidationInfo
+        Context from the a given field of the parent model.
+
+    """
+    match info.field_name:
+        case "steps":
+            override_type = StepOverride
+        case "kinds":
+            override_type = KindOverride
+        case "globals":
+            override_type = GlobalOverride
+        case _:
+            raise ValueError(
+                f"Error: got {v} but could not associate it with an override type."
+            )
+
+    if isinstance(v, override_type):
+        return v
+    if isinstance(v, str):
+        return override_type.from_string(v)
+    return v
+
+
+StepOverrideType = Annotated[
+    StepOverride, BeforeValidator(parse_override, StepOverride)
+]
+KindOverrideType = Annotated[
+    KindOverride, BeforeValidator(parse_override, KindOverride)
+]
+GlobalOverrideType = Annotated[
+    GlobalOverride, BeforeValidator(parse_override, GlobalOverride)
+]
+
+
+class WorkflowOverrides(FrozenModel):
+    """Model depicting how to specify overrides for a workflow plugin."""
+
+    steps: List[StepOverrideType] = Field(
+        None,
+        description=(
+            "A list of step overrides to apply to your workflow. Not required.",
+        ),
+    )
+    kinds: List[KindOverrideType] = Field(
+        None,
+        description=(
+            "A list of kind overrides to apply to your workflow. Not required.",
+        ),
+    )
+    globals: List[GlobalOverrideType] = Field(
+        None,
+        description=(
+            "A list of global overrides to apply to your workflow. Not required.",
+        ),
+    )
+
+    @model_validator(mode="before")
+    @classmethod
+    def check_at_least_one_present(cls, data):
+        """Assert that at least one of [steps, kinds, globals] are present in the model.
+
+        If they are all missing, raise a value error.
+        """
+        if data is None:
+            return data
+
+        if not any(
+            data.get(field) not in (None, []) for field in ("steps", "kinds", "globals")
+        ):
+            raise ValueError(
+                "At least one of 'steps', 'kinds', or 'globals' must be provided in "
+                "overrides"
+            )
+
+        return data
+
+
+class WorkflowTestModel(FrozenModel):
+    """Model for the test section of GeoIPS workflow plugins."""
+
+    # Not pathlib.Path objects as readers only expect a list of strings
+    fnames: list[str] = Field(
+        ...,
+        description="A list of one or more filepaths to the data used for this test.",
+    )
+    compare_path: Path = Field(
+        None,
+        description="Path to known file used to compare test outputs.",
+    )
+    overrides: WorkflowOverrides = Field(None)
+
+    @field_validator("fnames", mode="before")
+    @classmethod
+    def generate_filepaths(cls, v):
+        """Convert a single string or list of strings to pathlib.Path objects."""
+        if not isinstance(v, str) and not isinstance(v, list):
+            raise ValueError(
+                f"Error, got {v} but expected a single string or list of strings."
+            )
+
+        filepaths = v if isinstance(v, list) else [v]
+        final_paths = []
+
+        # cspell:ignore ipath, jpath, jpaths
+        for ipath in filepaths:
+            jpaths = sorted(glob(ipath))
+            for jpath in jpaths:
+                # Don't do pathlib.Path as readers don't expect that.
+                final_paths.append(jpath)
+
+        return final_paths
+
+
 class WorkflowPluginModel(PluginModel):
     """A plugin that produces a workflow."""
 
     model_config = ConfigDict(extra="allow")
     spec: WorkflowSpecModel = Field(..., description="The workflow specification")
-    test: Dict[str, Any] = Field(
+    test: WorkflowTestModel = Field(
         None,
         description=(
             "An optional dictionary of parameters used to test this workflow.",
@@ -599,9 +812,18 @@ class WorkflowPluginModel(PluginModel):
         examples=[
             {
                 "fnames": f"{environ['GEOIPS_TESTDATA_DIR']}/test_data_abi/data/goes16_20200918_1950/*",  # NOQA
-                "command_line_args": {
-                    "compare_path": f"{environ['GEOIPS_PACKAGES_DIR']}/geoips/tests/outputs/abi.static.<product>.imagery_clean",  # NOQA
-                    "logging_level": "info",
+                "compare_path": f"{environ['GEOIPS_PACKAGES_DIR']}/geoips/tests/outputs/abi.static.<product>.imagery_clean",  # NOQA
+                "overrides": {
+                    "steps": [
+                        "abi_Infrared.spec.steps.algorithm.output_units=Kelvin",
+                    ],
+                    "kinds": [
+                        "readers.self_register=False",
+                    ],
+                    "globals": [
+                        "sector_list=global_cylindrical",
+                        "logging_level=info",
+                    ],
                 },
             },
         ],

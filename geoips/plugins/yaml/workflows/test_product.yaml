@@ -9,9 +9,15 @@ docstring: |
 description: 11.2 µm Infrared.
 test:
   fnames: !ENV ${GEOIPS_TESTDATA_DIR}/test_data_abi/data/goes16_20200918_1950/*
-  command_line_args:
-    compare_path: !ENV ${GEOIPS_PACKAGES_DIR}/geoips/tests/outputs/abi.static.<product>.imagery_clean
-    logging_level: info
+  compare_path: !ENV ${GEOIPS_PACKAGES_DIR}/geoips/tests/outputs/abi.static.<product>.imagery_clean
+  overrides:
+    steps:
+      - abi_Infrared.spec.steps.algorithm.output_units=Kelvin
+    kinds:
+      - readers.self_register=False
+    globals:
+      - sector_list=global_cylindrical
+      - logging_level=info
 spec:
   steps:
     reader:

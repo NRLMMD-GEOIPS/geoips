@@ -8,7 +8,6 @@ Runs the appropriate tests based on the arguments provided.
 
 from glob import glob
 from importlib import resources
-import inspect
 from os import makedirs
 from os.path import basename, exists, join
 import sys
@@ -364,7 +363,6 @@ class GeoipsTestWorkflow(GeoipsExecutableCommand):
             # choices=[plugin.name for plugin in workflows.get_plugins()],
             help="GeoIPS workflow plugin to test.",
         )
-        # add a filepath option for an optional argument -f or --filepath
 
     def __call__(self, args):
         """CLI 'geoips test workflow <workflow_name>' command.
@@ -385,27 +383,14 @@ class GeoipsTestWorkflow(GeoipsExecutableCommand):
             - The list argument namespace to parse through
         """
         workflow_name = args.workflow_name
-        workflow = workflows.get_plugin(workflow_name)
-
-        if not workflow.get("test"):
-            raise self.parser.error(
-                f"Error: cannot test '{workflow_name}' workflow plugin as it is missing"
-                " a ``test`` section. Please create this content before attempting to "
-                "test this plugin again."
-            )
+        workflow = workflows.get_test_plugin(workflow_name)
 
         obp = procflows.get_plugin("order_based")
-        obp_params = set(list(inspect.signature(obp.call).parameters))
-        test_params = set(list(workflow["test"].keys()))
 
-        if not test_params.issubset(obp_params):
-            raise self.parser.error(
-                "Error: ``test`` parameters differ from the set of allowable "
-                "parameters that the Order Based Procflow can operate on.\nOffending "
-                f"parameters include: {test_params.difference(obp_params)}."
-            )
-
-        obp(workflow, **workflow["test"])
+        # TODO: Add additional logic here for other parameters included in a workflow
+        # test section, such as 'compare_path'. 'overrides' section not passed to obp
+        # as the override has already been applied to the workflow plugin.
+        obp(workflow, fnames=workflow["test"].get("fnames", []))
 
 
 class GeoipsTest(GeoipsCommand):
