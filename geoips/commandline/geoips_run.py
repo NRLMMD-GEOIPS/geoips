@@ -343,7 +343,7 @@ class GeoipsRunOrderBased(GeoipsExecutableCommand):
             help=(
                 "One or more step override strings to apply to your workflow. An "
                 "override string should take on the following format:\n "
-                "'<step_id>.<string1>.<optional_string2>...=<some_value>'"
+                "'<step_id>.<string1>.<optional_string2>...<argument>=<some_value>'"
             ),
         )
         self.parser.add_argument(
@@ -387,7 +387,7 @@ class GeoipsRunOrderBased(GeoipsExecutableCommand):
             - The argument namespace to parse through.
         """
         if args.workflow:
-            workflow = workflows.get_plugin(args.workflow)
+            workflow = workflows.get_plugin(args.workflow, _expand=True)
         elif args.generated:
             workflow = args.generated
             if not isinstance(workflow, dict):
@@ -398,7 +398,9 @@ class GeoipsRunOrderBased(GeoipsExecutableCommand):
                 )
             # Validate the generated workflow with is_registered set to false as this
             # plugin has been dynamically generated
-            WorkflowPluginModel(**workflow, is_registered=False)
+            WorkflowPluginModel(
+                **workflow, is_registered=False, context={"expand": True}
+            )
         else:  # This is the filepath option
             if args.filepath.suffix.lower() == ".json":
                 loader = json.load
@@ -409,6 +411,12 @@ class GeoipsRunOrderBased(GeoipsExecutableCommand):
                 workflow = loader(f)
             # This assumes if you pass the filepath option that the plugin itself is not
             # registered. Validate that it's formatted correctly.
+            WorkflowPluginModel(
+                **workflow, is_registered=False, context={"expand": True}
+            )
+
+        if any([args.step_overrides, args.kind_overrides, args.global_overrides]):
+            workflow = workflows._override_workflow(workflow)
             WorkflowPluginModel(**workflow, is_registered=False)
 
         obp = procflows.get_plugin("order_based")

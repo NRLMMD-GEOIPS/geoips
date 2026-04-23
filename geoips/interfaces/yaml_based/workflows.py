@@ -112,6 +112,30 @@ class WorkflowsInterface(BaseYamlInterface):
                 steps[id]["arguments"][override["argument"]] = override["value"]
         return steps
 
+    def _override_workflow(self, workflow):
+        """Override a workflow plugin where applicable.
+
+        Parameters
+        ----------
+        workflow: dict
+            A dictionary representation of a workflow plugin.
+
+        Returns
+        -------
+        overridden: dict
+            The overridden representation of 'workflow'.
+        """
+        steps = workflow["spec"]["steps"]
+
+        for override_type, overrides in workflow["test"].get("overrides", {}).items():
+            type_singular = Lexeme(override_type).singular
+            for override in overrides:
+                steps = getattr(self, f"_override_{type_singular}")(steps, override)
+
+        workflow["spec"]["steps"] = steps
+
+        return workflow
+
     def get_test_plugin(self, name, rebuild_registries=None):
         """Get a workflow plugin by its name.
 
@@ -148,16 +172,7 @@ class WorkflowsInterface(BaseYamlInterface):
                 "missing a top level 'test' section."
             )
 
-        steps = expanded_workflow["spec"]["steps"]
-
-        for override_type, overrides in (
-            expanded_workflow["test"].get("overrides", {}).items()
-        ):
-            type_singular = Lexeme(override_type).singular
-            for override in overrides:
-                steps = getattr(self, f"_override_{type_singular}")(steps, override)
-
-        expanded_workflow["spec"]["steps"] = steps
+        expanded_workflow = self._override_workflow(expanded_workflow)
 
         # Import buried in order to avoid circular import error
         from geoips.pydantic_models.v1.workflows import WorkflowPluginModel
