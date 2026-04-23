@@ -10,8 +10,8 @@ permissions:
   contents: read
 
 jobs:
-  status:
+  status-check:
     runs-on: ubuntu-latest
     steps:
       - name: No-op status check
-        run: echo "OK"
+        run: echo "No-op workflow to enforce up to date branches before merge"
