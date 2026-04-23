@@ -1,4 +1,4 @@
-name: Require branch up-to-date
+name: Require up-to-date branch
 
 on:
   pull_request:
