@@ -14,4 +14,4 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: No-op status check
-        run: echo "No-op workflow to enforce up to date branches before merge"
+        run: echo "No-op Actions workflow to enforce up to date branches before merge"
