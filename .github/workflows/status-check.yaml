@@ -1,0 +1,17 @@
+name: Require branch up-to-date
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  status:
+    runs-on: ubuntu-latest
+    steps:
+      - name: No-op status check
+        run: echo "OK"
