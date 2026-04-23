@@ -104,17 +104,36 @@ Output Formatter step in the code block below includes two additional plugins,
 
 .. code-block:: yaml
 
+    apiVersion: geoips/v1
     interface: products
     family: order_based
+    is_registered: false
     name: read_test
     docstring: Read test.
     package: geoips
+    test:
+      fnames: !ENV ${GEOIPS_TESTDATA_DIR}/test_data_abi/data/goes16_20200918_1950/*
+      compare_path: !ENV ${GEOIPS_PACKAGES_DIR}/geoips/tests/outputs/abi.static.<product>.imagery_clean
+      overrides:
+        steps:
+          - abi_Infrared.spec.steps.algorithm.output_units='Kelvin'
+        kinds:
+          - readers.self_register=False
+        globals:
+          - sector_list='global_cylindrical'
+          - logging_level='info'
     spec:
+      global-arguments:
+        window_start_time: None
+        window_end_time: None
+        product_name: None
+        reader_defined_area_def: False
+        no_presectoring: True
+        product_db: False
+        product_db_writer: None
+        product_db_writer_kwargs: None
       steps:
-        global_variables:
-          window_start_time: input
-          others: ...
-        reader_1:
+        read_data:
           kind: reader
           name: abi_netcdf
           arguments:
