@@ -112,29 +112,6 @@ class WorkflowsInterface(BaseYamlInterface):
                 steps[id]["arguments"][override["argument"]] = override["value"]
         return steps
 
-    # def _replace_contents_with_step(self, steps, override_type, override):
-    #     """Replace a section of 'steps' with override for a given override type.
-
-    #     Parameters
-    #     ----------
-    #     steps: dict[dict]
-    #         An ordered dictionary of steps to apply in a given workflow.
-    #     override_type: str
-    #         The type of override type being applied.
-    #     override: Any
-    #         The value of the override.
-
-    #     Returns
-    #     -------
-    #     steps: dict[dict]
-    #         An overridden representation of 'steps'.
-    #     """
-    #     match override_type:
-    #         case "steps":
-    #             pass
-
-    #     return steps
-
     def get_test_plugin(self, name, rebuild_registries=None):
         """Get a workflow plugin by its name.
 
