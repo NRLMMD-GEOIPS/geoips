@@ -1,0 +1,6 @@
+matplotlibbasedcommonimageryargumentsmdoel_feature_annotator_valid_input:
+  description: "Ensure valid value for feature_annotator is accepted"
+  key: feature_annotator
+  val: tc_visir
+  cls: MatplotlibBasedCommonImageryArgumentsModel
+  
