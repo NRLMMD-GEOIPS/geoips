@@ -5,6 +5,8 @@
 
 import logging
 
+from lexeme_type.lexeme import Lexeme
+
 from geoips.errors import PluginError
 from geoips.interfaces.base import BaseYamlInterface
 from geoips.filenames.base_paths import PATHS as gpaths
@@ -19,7 +21,7 @@ class WorkflowsInterface(BaseYamlInterface):
     use_pydantic = gpaths["GEOIPS_USE_PYDANTIC"]
     # validator = WorkflowPluginModel
 
-    def _set_nested(self, d, keys, argument, value):
+    def _set_nested(self, d, step_id, keys, argument, value):
         """Set a key value pair in a nested dictionary.
 
         Parameters
@@ -39,11 +41,11 @@ class WorkflowsInterface(BaseYamlInterface):
             A nested dictionary.
         """
         current = d
-        for key in keys:
-            current = current.setdefault(key, {})
-        current[argument] = value
+        for key in [step_id] + keys:
+            current = current.get(key, {})
+        current["arguments"][argument] = value
 
-        return current
+        return d
 
     def _override_step(self, steps, override):
         """Override an argument of a given step.
@@ -62,6 +64,7 @@ class WorkflowsInterface(BaseYamlInterface):
         """
         steps = self._set_nested(
             steps,
+            override["step_id"],
             override["keys"],
             override["argument"],
             override["value"],
@@ -83,9 +86,9 @@ class WorkflowsInterface(BaseYamlInterface):
         steps: dict[dict]
             An overridden representation of 'steps'.
         """
-        for step in steps:
-            if step["kind"] == override["kind"]:
-                step["arguments"][override["argument"]] = override["value"]
+        for id, step in steps.items():
+            if Lexeme(step["kind"]).singular == Lexeme(override["kind"]).singular:
+                steps[id]["arguments"][override["argument"]] = override["value"]
 
         return steps
 
@@ -104,33 +107,33 @@ class WorkflowsInterface(BaseYamlInterface):
         steps: dict[dict]
             An overridden representation of 'steps'.
         """
-        for step in steps:
+        for id, step in steps.items():
             if override["argument"] in step["arguments"]:
-                step["arguments"][override["argument"]] = override["value"]
+                steps[id]["arguments"][override["argument"]] = override["value"]
         return steps
 
-    def _replace_contents_with_step(self, steps, override_type, override):
-        """Replace a section of 'steps' with override for a given override type.
+    # def _replace_contents_with_step(self, steps, override_type, override):
+    #     """Replace a section of 'steps' with override for a given override type.
 
-        Parameters
-        ----------
-        steps: dict[dict]
-            An ordered dictionary of steps to apply in a given workflow.
-        override_type: str
-            The type of override type being applied.
-        override: Any
-            The value of the override.
+    #     Parameters
+    #     ----------
+    #     steps: dict[dict]
+    #         An ordered dictionary of steps to apply in a given workflow.
+    #     override_type: str
+    #         The type of override type being applied.
+    #     override: Any
+    #         The value of the override.
 
-        Returns
-        -------
-        steps: dict[dict]
-            An overridden representation of 'steps'.
-        """
-        match override_type:
-            case "steps":
-                pass
+    #     Returns
+    #     -------
+    #     steps: dict[dict]
+    #         An overridden representation of 'steps'.
+    #     """
+    #     match override_type:
+    #         case "steps":
+    #             pass
 
-        return steps
+    #     return steps
 
     def get_test_plugin(self, name, rebuild_registries=None):
         """Get a workflow plugin by its name.
@@ -168,8 +171,35 @@ class WorkflowsInterface(BaseYamlInterface):
                 "missing a top level 'test' section."
             )
 
-        for override_type, override_strs in expanded_workflow["test"]:
-            pass
+        steps = expanded_workflow["spec"]["steps"]
+
+        for override_type, overrides in (
+            expanded_workflow["test"].get("overrides", {}).items()
+        ):
+            type_singular = Lexeme(override_type).singular
+            for override in overrides:
+                steps = getattr(self, f"_override_{type_singular}")(steps, override)
+
+        expanded_workflow["spec"]["steps"] = steps
+
+        # Import buried in order to avoid circular import error
+        from geoips.pydantic_models.v1.workflows import WorkflowPluginModel
+
+        # omit adding 'test' section as that has already been validated. All we care
+        # about is validating the overridden 'steps' section.
+        plugin_subset = {
+            "name": expanded_workflow["name"],
+            "interface": expanded_workflow["interface"],
+            "family": expanded_workflow["family"],
+            "docstring": expanded_workflow["docstring"],
+            "package": expanded_workflow["docstring"],
+            "relpath": expanded_workflow["relpath"],
+            "spec": expanded_workflow["spec"],
+        }
+
+        WorkflowPluginModel(**plugin_subset)
+
+        return expanded_workflow
 
     def get_plugin(self, name, rebuild_registries=None, _expand=False):
         """Get a workflow plugin by its name.

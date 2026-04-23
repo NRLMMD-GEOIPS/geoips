@@ -35,6 +35,7 @@ from pydantic import (
 )
 
 # GeoIPS imports
+from geoips.filenames.base_paths import cast_string_to_bool_or_none
 from geoips import interfaces
 from geoips.pydantic_models.v1.bases import (
     PythonIdentifier,
@@ -177,7 +178,7 @@ class ReaderArgumentsModel(PermissiveFrozenModel):
         alias="chans",
     )
     metadata_only: bool = Field(False, description="Read metadata only.")
-    self_register: List[str] = Field(None, description="Enable self-registration.")
+    self_register: bool = Field(None, description="Enable self-registration.")
     fnames: List[str] = Field(
         None, description="full path to the file(s) for static dataset inputs."
     )
@@ -601,7 +602,7 @@ class StepOverride(FrozenModel):
     step_id: str
     keys: List[str]
     argument: str
-    value: str
+    value: Any
 
     @classmethod
     def from_string(cls, raw: str):
@@ -624,7 +625,7 @@ class StepOverride(FrozenModel):
             step_id=parts[0],
             keys=parts[1:-1],
             argument=parts[-1],
-            value=rhs,
+            value=cast_string_to_bool_or_none(rhs),
         )
 
 
@@ -633,7 +634,7 @@ class KindOverride(FrozenModel):
 
     kind: str
     argument: str
-    value: str
+    value: Any
 
     @classmethod
     def from_string(cls, raw: str):
@@ -655,7 +656,7 @@ class KindOverride(FrozenModel):
         return cls(
             kind=parts[0],
             argument=parts[1],
-            value=rhs,
+            value=cast_string_to_bool_or_none(rhs),
         )
 
 
@@ -663,7 +664,7 @@ class GlobalOverride(FrozenModel):
     """Model for a single global override."""
 
     argument: str
-    value: str
+    value: Any
 
     @classmethod
     def from_string(cls, raw: str):
@@ -675,7 +676,7 @@ class GlobalOverride(FrozenModel):
                 f"Invalid global override '{raw}'. Expected '<key>=<value>'"
             )
 
-        return cls(argument=key, value=value)
+        return cls(argument=key, value=cast_string_to_bool_or_none(value))
 
 
 def parse_override(v, info: ValidationInfo):
@@ -765,7 +766,8 @@ class WorkflowOverrides(FrozenModel):
 class WorkflowTestModel(FrozenModel):
     """Model for the test section of GeoIPS workflow plugins."""
 
-    fnames: list[Path] = Field(
+    # Not pathlib.Path objects as readers only expect a list of strings
+    fnames: list[str] = Field(
         ...,
         description="A list of one or more filepaths to the data used for this test.",
     )
@@ -791,7 +793,8 @@ class WorkflowTestModel(FrozenModel):
         for ipath in filepaths:
             jpaths = sorted(glob(ipath))
             for jpath in jpaths:
-                final_paths.append(Path(jpath))
+                # Don't do pathlib.Path as readers don't expect that.
+                final_paths.append(jpath)
 
         return final_paths
 

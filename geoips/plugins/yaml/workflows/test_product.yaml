@@ -12,12 +12,12 @@ test:
   compare_path: !ENV ${GEOIPS_PACKAGES_DIR}/geoips/tests/outputs/abi.static.<product>.imagery_clean
   overrides:
     steps:
-      - abi_Infrared.spec.steps.algorithm.output_units='Kelvin'
+      - abi_Infrared.spec.steps.algorithm.output_units=Kelvin
     kinds:
       - readers.self_register=False
     globals:
-      - sector_list='global_cylindrical'
-      - logging_level='info'
+      - sector_list=global_cylindrical
+      - logging_level=info
 spec:
   steps:
     reader:
