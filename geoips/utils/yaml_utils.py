@@ -1,19 +1,20 @@
 # # # This source code is subject to the license referenced at
 # # # https://github.com/NRLMMD-GEOIPS.
 
-"""Module for safely loading YAML files with duplicate key detection.
+"""Drop-in replacement for `import yaml` with duplicate key detection.
 
-Standard `yaml.safe_load` silently overwrites earlier values when a YAML mapping
-contains duplicate keys. This module provides drop-in replacements that raise a
-`DuplicateYamlKeyError` instead, so that plugin authors receive immediate feedback
-when a workflow or other plugin YAML file accidentally reuses a key.
+Usage:
+    import geoips.utils.yaml_utils as yaml
+
+`safe_load` and `safe_load_all` raise `DuplicateKeyError` on repeated keys.
+All other yaml symbols (dump, SafeLoader, SafeDumper, ...) pass through unchanged.
 """
 
 import logging
-
 import yaml
+from yaml import *  # noqa: F401, F403  -- intentional re-export
 
-from geoips.errors import DuplicateYamlKeyError
+from geoips.errors import DuplicateKeyError
 
 LOG = logging.getLogger(__name__)
 
@@ -46,14 +47,18 @@ def _construct_mapping_no_duplicates(loader, node):
 
     Raises
     ------
-    DuplicateYamlKeyError
+    DuplicateKeyError
         If a duplicate key is found in the mapping.
     """
+    # flatten "<<: *anchor" merge keys before checking
+    #   a key that appears both explicitly and via merge will falsely raise
+    loader.flatten_mapping(node)
+
     mapping = {}
     for key_node, value_node in node.value:
         key = loader.construct_object(key_node)
         if key in mapping:
-            raise DuplicateYamlKeyError(
+            raise DuplicateKeyError(
                 f"Duplicate key '{key}' found at "
                 f"line {key_node.start_mark.line + 1}, "
                 f"column {key_node.start_mark.column + 1}"
@@ -68,8 +73,8 @@ SafeLoaderNoDuplicates.add_constructor(
 )
 
 
-def yaml_safe_load(stream):
-    """Load a single YAML document, raising on duplicate keys.
+def safe_load(stream, Loader=SafeLoaderNoDuplicates):
+    """Load a single YAML document, raising on duplicate keys by default.
 
     Drop-in replacement for `yaml.safe_load` that uses
     `SafeLoaderNoDuplicates` to reject mappings with repeated keys.
@@ -77,7 +82,11 @@ def yaml_safe_load(stream):
     Parameters
     ----------
     stream : str or file-like
-        The YAML content to parse.
+        YAML content to parse.
+    Loader : yaml.SafeLoader subclass, optional
+        Loader class to use. Defaults to `SafeLoaderNoDuplicates`, which raises
+        `DuplicateKeyError` on repeated keys. Pass `yaml.SafeLoader` to restore
+        standard behaviour without duplicate detection.
 
     Returns
     -------
@@ -86,14 +95,14 @@ def yaml_safe_load(stream):
 
     Raises
     ------
-    DuplicateYamlKeyError
-        If a duplicate key is detected in any mapping within the document.
+    DuplicateKeyError
+        If a duplicate key is detected and the default `Loader` is used.
     """
-    return yaml.load(stream, Loader=SafeLoaderNoDuplicates)
+    return yaml.load(stream, Loader=Loader)
 
 
-def yaml_safe_load_all(stream):
-    """Load all YAML documents from a stream, raising on duplicate keys.
+def safe_load_all(stream, Loader=SafeLoaderNoDuplicates):
+    """Load all YAML documents from a stream, raising on duplicate keys by default.
 
     Drop-in replacement for `yaml.safe_load_all` that uses
     `SafeLoaderNoDuplicates` to reject mappings with repeated keys.
@@ -101,7 +110,11 @@ def yaml_safe_load_all(stream):
     Parameters
     ----------
     stream : str or file-like
-        The YAML content to parse.
+        YAML content to parse.
+    Loader : yaml.SafeLoader subclass, optional
+        Loader class to use. Defaults to `SafeLoaderNoDuplicates`, which raises
+        `DuplicateKeyError` on repeated keys. Pass `yaml.SafeLoader` to restore
+        standard behaviour without duplicate detection.
 
     Yields
     ------
@@ -110,7 +123,7 @@ def yaml_safe_load_all(stream):
 
     Raises
     ------
-    DuplicateYamlKeyError
-        If a duplicate key is detected in any mapping within any document.
+    DuplicateKeyError
+        If a duplicate key is detected and the default `Loader` is used.
     """
-    return yaml.load_all(stream, Loader=SafeLoaderNoDuplicates)
+    return yaml.load_all(stream, Loader=Loader)
