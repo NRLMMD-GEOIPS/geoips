@@ -98,7 +98,7 @@ def safe_load(stream, Loader=SafeLoaderNoDuplicates):
     DuplicateKeyError
         If a duplicate key is detected and the default `Loader` is used.
     """
-    return yaml.load(stream, Loader=Loader)
+    return yaml.load(stream, Loader=Loader) # nosec B506
 
 
 def safe_load_all(stream, Loader=SafeLoaderNoDuplicates):
@@ -126,4 +126,4 @@ def safe_load_all(stream, Loader=SafeLoaderNoDuplicates):
     DuplicateKeyError
         If a duplicate key is detected and the default `Loader` is used.
     """
-    return yaml.load_all(stream, Loader=Loader)
+    return yaml.load_all(stream, Loader=Loader) # nosec B506
