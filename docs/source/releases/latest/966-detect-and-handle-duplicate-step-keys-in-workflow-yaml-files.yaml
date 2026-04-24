@@ -1,16 +1,31 @@
 enhancement:
 - title: 'Add duplicate key detection for plugin YAML loading'
   description: |
+    Adds geoips/utils/yaml_utils as a drop-in replacement for PyYAML across the geoips package.
 
+    The module re-exports all standard PyYAML symbols but overrides safe_load and safe_load_all to raise DuplicateKeyError when a YAML mapping contains a repeated key. This is a bug that PyYAML silently ignores by overwriting the earlier value. All import yaml call sites in geoips have been updated to use the wrapper. In the process, a pre-existing duplicate key in cmd_instructions.yaml was found and corrected. Unit tests cover both the passing and failing cases, including nested mappings.
   files:
-    deleted:
-    - ''
-    moved:
-    - ''
+    deleted: []
+    moved: []
     added:
-    - ''
+    - 'docs/source/releases/latest/966-detect-and-handle-duplicate-step-keys-in-workflow-yaml-files.yaml'
+    - 'geoips/utils/yaml_utils.py'
+    - 'tests/unit_tests/utils/test_yaml_utils.py'
     modified:
-    - ''
+    - 'geoips/commandline/ancillary_info/cmd_instructions.yaml'
+    - 'geoips/commandline/ancillary_info/test_data.py'
+    - 'geoips/commandline/cmd_instructions.py'
+    - 'geoips/commandline/geoips_command.py'
+    - 'geoips/commandline/geoips_describe.py'
+    - 'geoips/commandline/geoips_run.py'
+    - 'geoips/commandline/geoips_validate.py'
+    - 'geoips/interfaces/base.py'
+    - 'geoips/pydantic_models/v1/products.py'
+    - 'geoips/sector_utils/yaml_utils.py'
+    - 'geoips/utils/cache_files.py'
+    - 'geoips/create_plugin_registries.py'
+    - 'geoips/errors.py'
+    - 'geoips/plugin_registry.py'
   related-issue:
     number: 966
     repo_url: 'https://github.com/NRLMMD-GEOIPS/geoips'
