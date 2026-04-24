@@ -1,0 +1,12 @@
+ci:
+- title: 'Add no-op status check for enforcing up to date branches before merge'
+  description: 'Organization rulesets do not allow enforcing up to date branches without creating a status check.  Create a dummy status check to enforce up to date branches via rulesets.'
+  files:
+    added:
+    - '.github/workflows/status-check.yaml'
+  related-issue:
+    number: null
+    repo_url: ''
+  date:
+    start: null
+    finish: null
