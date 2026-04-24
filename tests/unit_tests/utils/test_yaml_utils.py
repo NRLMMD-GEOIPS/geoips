@@ -7,7 +7,6 @@ import pytest
 from geoips.errors import DuplicateKeyError
 from geoips.utils.yaml_utils import safe_load
 
-
 FLAT_UNIQUE = "key1: 1\nkey2: 2"
 
 NESTED_UNIQUE = (
@@ -32,14 +31,17 @@ def test_safe_load_flat_unique_keys():
 def test_safe_load_nested_unique_keys():
     """safe_load succeeds when same subkey names appear under different parent keys."""
     result = safe_load(NESTED_UNIQUE)
-    assert result == {"key1": {"subkey1": 1, "subkey2": 2},
-                      "key2": {"subkey1": 1, "subkey2": 2}}
+    assert result == {
+        "key1": {"subkey1": 1, "subkey2": 2},
+        "key2": {"subkey1": 1, "subkey2": 2},
+    }
 
 
 def test_safe_load_flat_duplicate_key_raises():
     """safe_load raises DuplicateKeyError on a top-level duplicate key."""
     with pytest.raises(DuplicateKeyError):
         safe_load(FLAT_DUPLICATE)
+
 
 def test_safe_load_nested_duplicate_key_raises():
     """safe_load raises DuplicateKeyError on a duplicate key within a nested mapping."""
