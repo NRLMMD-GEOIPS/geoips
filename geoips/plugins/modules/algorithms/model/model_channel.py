@@ -5,6 +5,7 @@
 
 This algorithm expects one model variable/channel for a single channel image.
 """
+
 import logging
 import numpy as np
 import xarray as xr

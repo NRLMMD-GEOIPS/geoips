@@ -51,10 +51,10 @@ changelog:
         - "documentation"
     - title: Changes During Release Process
       labels:
-        - "version release"
+        - "Version Release"
     - title: Developmental Updates
       labels:
-        - "dev update"
+        - "Dev Update"
     - title: Other Changes
       labels:
         - "*"

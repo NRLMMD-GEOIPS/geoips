@@ -84,11 +84,10 @@ import logging
 from os.path import basename
 
 # Third-Party Libraries
-from astropy.time import Time
-from dateutil.relativedelta import relativedelta
 import h5py
 import numpy as np
 import xarray as xr
+from pandas import to_datetime, to_timedelta, Timestamp
 
 LOG = logging.getLogger(__name__)
 
@@ -96,8 +95,6 @@ interface = "readers"
 family = "standard"
 name = "atms_hdf5"
 source_names = ["atms"]
-
-# from IPython import embed as shell
 
 # list of variables selected from input files
 atms_vars = [
@@ -127,6 +124,9 @@ xvarnames = {
 def convert_epoch_to_datetime64(time_array, use_shape=None):
     """Convert time to datetime object.
 
+    Note: This uses a fixed TAI conversion value of 37 seconds for
+    conversion. Last updated: Jan. 2026.
+
     Parameters
     ----------
     time_array : array
@@ -139,12 +139,13 @@ def convert_epoch_to_datetime64(time_array, use_shape=None):
     array
         array of converted datetime objects
     """
-    # Convert TAI to UTC using astropy
-    utc_time = Time(time_array / 1e6, format="unix_tai").utc.datetime
-
+    # Convert TAI to UTC manually
     # ATMS Epoch starts at 1958-01-01, not 1970-01-01
-    utc_time -= relativedelta(years=12)
-
+    og_shape = time_array.shape
+    utc_time = to_datetime(
+        time_array.ravel() / 1e6, origin=Timestamp("1958-01-01"), unit="s"
+    ) - to_timedelta(37, "s")
+    utc_time = utc_time.to_pydatetime()
     # Either convert 1D array to 2D, or return original shape
     if time_array.ndim == 1 and use_shape:
         nscan, npix = use_shape
@@ -152,7 +153,7 @@ def convert_epoch_to_datetime64(time_array, use_shape=None):
         for i in range(nscan):
             converted_time[i, :] = utc_time[i]
     else:
-        converted_time = utc_time
+        converted_time = utc_time.reshape(og_shape)
 
     return converted_time.astype(np.datetime64)
 

@@ -8,6 +8,7 @@ This algorithm expects three visible reflectances for an RGB image:
 * 0.8 um
 * 1.6 um
 """
+
 import logging
 
 LOG = logging.getLogger(__name__)

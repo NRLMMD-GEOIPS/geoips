@@ -1,3 +1,6 @@
+# # # This source code is subject to the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
+
 """Module for handling cached files in GeoIPS.
 
 This modules provides functions to manage cache files in GeoIPS.

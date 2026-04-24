@@ -1,0 +1,56 @@
+interface: sectors
+family: area_definition_static
+name: test_goes17_eqc_10km_edge_day_20210718T0150Z
+docstring: |
+  The test datasets corresponding to these sectors can be found in the test_data_abi test data.
+
+  ```
+  geoips config install test_data_abi
+  ```
+
+  GOES West subsector, centered at -10 latitude, 155 longitude
+  300x300 at 10km resolution.
+  Shows edge of scan during the day time.
+
+  This sector is off the coast of Australia, containing mostly ocean pixels for GOES West.
+  It is a very small sector that can be used for GOES West processing
+  using the abi dataset 20210718T0150Z.
+
+metadata:
+  region:
+    continent: Tests
+    country: x
+    area: Goes_West
+    subarea: x
+    state: x
+    city: x
+spec:
+  area_id: test_goes17_eqc_10km_edge_day_20210718T0150Z
+  description: |
+    The test datasets corresponding to these sectors can be found in the test_data_abi test data.
+
+    ```
+    geoips config install test_data_abi
+    ```
+
+    GOES West subsector, centered at -10 latitude, 155 longitude
+    300x300 at 10km resolution
+    Shows dge of scan during the day time.
+
+    This sector is off the coast of Australia, containing mostly ocean pixels for GOES West.
+    It is a very small sector that can be used for GOES West processing
+    using the abi dataset 20210718T0150Z.
+
+  projection:
+    a: 6371228.0
+    lat_0: -10
+    lon_0: 155 
+    proj: eqc
+    units: m
+  resolution:
+    - 10000
+    - 10000
+  shape:
+    height: 300
+    width: 300
+  center: [0, 0]

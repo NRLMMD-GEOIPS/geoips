@@ -3,12 +3,13 @@ family: area_definition_static
 name: Hawaii
 docstring: Hawaii
 metadata:
-  area: North
-  city: x
-  continent: Pacific
-  country: x
-  state: Hawaii
-  subarea: x
+  region:
+    area: North
+    city: x
+    continent: Pacific
+    country: x
+    state: Hawaii
+    subarea: x
 spec:
   area_id: Hawaii
   description: Hawaii

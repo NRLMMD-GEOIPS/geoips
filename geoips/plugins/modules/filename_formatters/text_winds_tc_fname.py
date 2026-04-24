@@ -29,32 +29,22 @@ def call(xarray_obj, extension=".txt", basedir=gpaths["TCWWW"], output_dict=None
     area_def = xarray_obj.area_definition
     return assemble_windspeeds_text_tc_fname(
         basedir=basedir,
-        tc_area_id=area_def.area_id,
-        tc_year=int(area_def.sector_info["storm_year"]),
-        tc_basin=area_def.sector_info["storm_basin"],
-        tc_stormnum=int(area_def.sector_info["storm_num"]),
         source_name=xarray_obj.source_name,
         platform_name=xarray_obj.platform_name,
         product_datetime=xarray_obj.start_datetime,
         data_provider=xarray_obj.data_provider,
         extension=extension,
-        output_dict=output_dict,
         sector_info=area_def.sector_info,
     )
 
 
 def assemble_windspeeds_text_tc_fname(
     basedir,
-    tc_area_id,
-    tc_year,
-    tc_basin,
-    tc_stormnum,
     source_name,
     platform_name,
     product_datetime,
     data_provider,
     extension=".txt",
-    output_dict=None,
     sector_info=None,
 ):
     """Produce full output product path from product / sensor specifications.
@@ -63,24 +53,16 @@ def assemble_windspeeds_text_tc_fname(
     ----------
     basedir : str
          base directory
-    tc_year : int
-         Full 4 digit storm year
-    tc_basin : str
-         2 character basin designation
-            SH Southern Hemisphere
-            WP West Pacific
-            EP East Pacific
-            CP Central Pacific
-            IO Indian Ocean
-            AL Atlantic
-    tc_stormnum : int
-        2 digit storm number
-            90 through 99 for invests
-            01 through 69 for named storms
+    source_name : str
+        Name of source (sensor)
     platform_name : str
         Name of platform (satellite)
     product_datetime : datetime
         Start time of data used to generate product
+    extension: str
+        Extension of filename (default .txt).
+    sector_info: dict
+        Dictionary of sector_info used in compiling the file path and filename.
 
     Returns
     -------
@@ -107,24 +89,14 @@ def assemble_windspeeds_text_tc_fname(
         tc_storm_basedir,
     )
 
-    path = pathjoin(
-        tc_storm_basedir(
-            basedir,
-            tc_year,
-            tc_basin,
-            tc_stormnum,
-            output_dict=output_dict,
-            sector_info=sector_info,
-        ),
-        "txt",
-    )
+    path = pathjoin(tc_storm_basedir(basedir, sector_info=sector_info), "txt")
     fname = "_".join(
         [
             source_name,
             "surface_winds",
             data_provider,
             platform_name,
-            tc_area_id,
+            sector_info["storm_id"],
             product_datetime.strftime("%Y%m%d%H%M"),
         ]
     )

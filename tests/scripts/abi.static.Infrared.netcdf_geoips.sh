@@ -7,7 +7,7 @@
 
 # This exact test case required for valid comparisons - remove "compare_path" argument if running a different
 # set of arguments.
-run_procflow $GEOIPS_TESTDATA_DIR/test_data_noaa_aws/data/goes16/20200918/1950/* \
+run_procflow $GEOIPS_TESTDATA_DIR/test_data_abi/data/goes16_20200918_1950/* \
              --procflow single_source \
              --reader_name abi_netcdf \
              --product_name Infrared \
@@ -16,7 +16,7 @@ run_procflow $GEOIPS_TESTDATA_DIR/test_data_noaa_aws/data/goes16/20200918/1950/*
              --filename_formatter geoips_netcdf_fname \
              --resampled_read \
              --logging_level info \
-             --sector_list denver
+             --sector_list test_goes16_eqc_10km_edge_night_20200918T1950Z
 retval=$?
 
 exit $retval

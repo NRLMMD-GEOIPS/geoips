@@ -1,4 +1,4 @@
-module_based:
+class_based:
   algorithms:
     Night_Vis:
       docstring: 'Data manipulation steps for "Night_Vis" product, standard Version.

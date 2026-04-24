@@ -16,7 +16,7 @@ from geoips.errors import OutputFormatterDatelineError
 from geoips.errors import OutputFormatterInvalidProjectionError
 from geoips.filenames.duplicate_files import remove_duplicates
 from geoips.geoips_utils import copy_standard_metadata, output_process_times
-from geoips.utils.memusg import PidLog
+from geoips.utils.memusg.memusg_tracker import PidLog
 from geoips.xarray_utils.data import sector_xarrays
 from geoips.sector_utils.utils import filter_area_defs_actual_time, is_dynamic_sector
 from geoips.geoips_utils import replace_geoips_paths
@@ -68,6 +68,13 @@ OUTPUT_FAMILIES_WITH_OUTFNAMES_ARG = [
 OUTPUT_FAMILIES_WITH_NO_OUTFNAMES_ARG = [
     "xrdict_area_product_to_outlist",
     "xrdict_to_outlist",
+]
+
+# output_formatters in this list of output families can receive their data
+#   from data_fusion or from the normal procflow.
+OUTPUT_FAMILIES_COMPATIBLE_WITH_FUSED_XARRAY = [
+    "xrdict_varlist_outfnames_to_outlist",
+    "xrdict_area_product_outfnames_to_outlist",
 ]
 
 FILENAME_FORMATS_WITHOUT_COVG = [
@@ -431,7 +438,7 @@ def use_variable_from_current_dataset(
             return False
     else:
         LOG.info(
-            "        USING %s varname from dataset %s - first availalbe, and "
+            "        USING %s varname from dataset %s - first available, and "
             "not specified in YAML",
             varname,
             key,
@@ -1042,7 +1049,7 @@ def pad_area_definition(
 
     # Always pad TC sectors, and if "force_pad=True" is passed into the function
     if is_sector_type(area_def, "tc") or force_pad:
-        LOG.info("Trying area_def %s, %s", area_def.description, area_def.sector_info)
+        LOG.info("Trying area_def %s, %s", area_def.area_id, area_def.sector_info)
         # Get an extra 50% size for TCs so we can handle recentering and not have
         # missing data. --larger area for possibly moved center for vis/ir backgrounds
         # Default to 1.5x padding
@@ -1241,6 +1248,18 @@ def plot_data(
             cmap_args = prod_plugin["spec"]["colormapper"]["plugin"]["arguments"]
             mpl_colors_info = cmap_plugin(**cmap_args)
 
+        if output_plugin.family in OUTPUT_FAMILIES_COMPATIBLE_WITH_FUSED_XARRAY:
+            # This check allows these output_formatter families to be used
+            #   even without data fusion.
+            if fused_xarray_dict is None:
+                if alg_xarray is None:
+                    raise ValueError(
+                        f"Invalid data passed to output_formatter "
+                        f"of family: {output_plugin.family}"
+                    )
+                else:
+                    fused_xarray_dict = alg_xarray
+
         output_plugin = output_formatters.get_plugin(output_formatter)
         output_kwargs = remove_unsupported_kwargs(output_plugin, output_kwargs)
         display_name = prod_plugin["spec"].get("display_name", prod_plugin.name)
@@ -1306,6 +1325,8 @@ def plot_data(
                 output_plugin.family,
                 output_plugin.name,
             )
+            if "feature_annotator" in output_kwargs:
+                output_kwargs["feature_annotator"] = output_kwargs["feature_annotator"]
             output_products = output_plugin(
                 area_def,
                 xarray_obj=alg_xarray,
@@ -1536,7 +1557,6 @@ def get_area_defs_from_command_line_args(
             tcdb_sector_list=tcdb_sector_list,
             tc_spec_template=tc_spec_template,
             trackfile_parser=trackfile_parser,
-            aid_type="BEST",
         )
     if trackfiles:
         area_defs += get_trackfile_area_defs(
@@ -1544,7 +1564,6 @@ def get_area_defs_from_command_line_args(
             trackfile_parser,
             trackfile_sector_list,
             tc_spec_template,
-            aid_type="BEST",
             start_datetime=xobjs["METADATA"].start_datetime - timedelta(hours=8),
             end_datetime=xobjs["METADATA"].end_datetime + timedelta(hours=3),
         )
@@ -1562,7 +1581,7 @@ def get_area_defs_from_command_line_args(
             area_defs, xobjs["METADATA"].start_datetime
         )
 
-    LOG.info("Allowed area_defs: %s", [ad.description for ad in area_defs])
+    LOG.info("Allowed area_defs: %s", [ad.area_id for ad in area_defs])
     return list(area_defs)
 
 
@@ -1786,8 +1805,8 @@ def verify_area_def(
     # because it may be ambiguous which area definition is actually the "closest".
     elif data_end_datetime - data_start_datetime < timedelta(hours=time_range_hours):
         new_area_defs = filter_area_defs_actual_time(area_defs, data_start_datetime)
-        LOG.info("Allowed area_defs: %s", [ad.description for ad in new_area_defs])
-        if check_area_def.description not in [ad.description for ad in new_area_defs]:
+        LOG.info("Allowed area_defs: %s", [ad.area_id for ad in new_area_defs])
+        if check_area_def.area_id not in [ad.area_id for ad in new_area_defs]:
             retval = False
 
     return retval
@@ -2074,7 +2093,7 @@ def call(fnames, command_line_args=None):
             # now skip IndexErrors.
             except IndexError as resp:
                 LOG.error(
-                    "SKIPPING no coverage for %s, %s", area_def.description, str(resp)
+                    "SKIPPING no coverage for %s, %s", area_def.area_id, str(resp)
                 )
                 continue
 
@@ -2107,7 +2126,7 @@ def call(fnames, command_line_args=None):
         pid_track.print_mem_usg()
         if len(pad_sect_xarrays.keys()) == 0:
             LOG.interactive(
-                "SKIPPING no sectored xarrays returned for %s", area_def.description
+                "SKIPPING no sectored xarrays returned for %s", area_def.area_id
             )
             continue
 
@@ -2125,7 +2144,7 @@ def call(fnames, command_line_args=None):
         ):
             LOG.info(
                 "SKIPPING duplicate area_def, out of time range, for %s",
-                area_def.description,
+                area_def.area_id,
             )
             continue
 
@@ -2358,7 +2377,7 @@ def call(fnames, command_line_args=None):
                     "data products for %s, %s required",
                     covg,
                     fname_covg,
-                    area_def.description,
+                    area_def.area_id,
                     minimum_coverage,
                 )
                 continue
@@ -2427,7 +2446,7 @@ def call(fnames, command_line_args=None):
                 'SKIPPING No coverage or required variables "%s" for %s %s',
                 variables,
                 xobjs["METADATA"].source_name,
-                area_def.description,
+                area_def.area_id,
             )
 
     LOG.interactive(
@@ -2448,16 +2467,18 @@ def call(fnames, command_line_args=None):
 
     retval = 0
     if compare_path:
-        from geoips.interfaces.module_based.output_checkers import output_checkers
+        from geoips.interfaces.class_based.output_checkers import output_checkers
 
+        checker_override = command_line_args["output_checker_name"]
         for output_product in final_products:
-            plugin_name = output_checkers.identify_checker(output_product)
+            plugin_name = output_checkers.identify_checker(
+                output_product, checker_override
+            )
             output_checker = output_checkers.get_plugin(plugin_name)
             kwargs = {}
             if output_checker.name in output_checker_kwargs:
                 kwargs = output_checker_kwargs[output_checker.name]
             retval += output_checker(
-                output_checker,
                 compare_path.replace("<product>", product_name)
                 .replace("<procflow>", "single_source")
                 .replace("<output>", output_formatter),

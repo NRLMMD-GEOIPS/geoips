@@ -5,39 +5,57 @@
 
 echo "GEOIPS_MODIFIED_BRANCH: $GEOIPS_MODIFIED_BRANCH"
 
+# This script ensures we exit non-zero if any of the steps fail.
+check="$GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh"
+
 test_exit=""
 install_script=""
+skip_create_registries="false"
 if [[ "$1" == "exit_on_missing" ]]; then
     test_exit="exit_on_missing"
     install_script="$0"
 fi
-if [[ "$1" == "include_reference_repos" ]]; then
-    include_reference_repos="true"
+if [[ "$2" == "skip_create_registries" ]]; then
+    skip_create_registries="true"
 fi
 
-. $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh geoips_full
+. $check geoips_full
 # Includes test_data_amsr2 and geoips repo
 . $GEOIPS_PACKAGES_DIR/geoips/tests/integration_tests/base_install.sh
-. $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh ancillary_data cartopy_shapefiles $test_exit $install_script
-. $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh settings_repo .vscode $test_exit $install_script
-. $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh test_data test_data_noaa_aws $test_exit $install_script
-. $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh test_data test_data_multi_scan_times $test_exit $install_script
-. $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh test_data test_data_gpm $test_exit $install_script
-. $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh test_data test_data_sar $test_exit $install_script
-. $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh test_data test_data_scat $test_exit $install_script
-. $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh test_data test_data_smap $test_exit $install_script
-. $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh test_data test_data_seviri $test_exit $install_script
-. $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh test_data test_data_viirs $test_exit $install_script
+. $check ancillary_data cartopy_shapefiles $test_exit $install_script
 
-if [[ "$include_reference_repos" == "true" ]]; then
-  . $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh settings_repo .github $test_exit $install_script
-  . $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh settings_repo geoips_ci $test_exit $install_script
-  # These may not currently be on cira nexcloud
-  . $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh test_data_github template_test_data $test_exit $install_script
-  . $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh test_data_github test_data_modis $test_exit $install_script
-  . $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh test_data_github test_data_smos $test_exit $install_script
-  . $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh test_data_github test_data_tpw $test_exit $install_script
+# Reference repos (non geoips plugin-packages)
+. $check settings_repo .vscode $test_exit $install_script
+. $check settings_repo .github $test_exit $install_script
+. $check settings_repo geoips_ci $test_exit $install_script
+
+# Test data repos required to run tests in geoips repo.
+. $check run_command "geoips config install test_data_abi"
+. $check run_command "geoips config install test_data_ahi"
+. $check run_command "geoips config install test_data_ami"
+. $check run_command "geoips config install test_data_amsub"
+. $check run_command "geoips config install test_data_arctic_weather_satellite"
+. $check run_command "geoips config install test_data_atms"
+. $check run_command "geoips config install test_data_cygnss"
+. $check run_command "geoips config install test_data_fci"
+. $check run_command "geoips config install test_data_gfs"
+. $check run_command "geoips config install test_data_gpm"
+. $check run_command "geoips config install test_data_modis"
+. $check run_command "geoips config install test_data_multi_scan_times"
+. $check run_command "geoips config install test_data_nucaps"
+. $check run_command "geoips config install test_data_pyrocb"
+. $check run_command "geoips config install test_data_saphir"
+. $check run_command "geoips config install test_data_sar"
+. $check run_command "geoips config install test_data_scat"
+. $check run_command "geoips config install test_data_sgli"
+. $check run_command "geoips config install test_data_seviri"
+. $check run_command "geoips config install test_data_smap"
+. $check run_command "geoips config install test_data_smos"
+. $check run_command "geoips config install test_data_tpw"
+. $check run_command "geoips config install test_data_viirs"
+
+if [[ "$skip_create_registries" == "true" ]]; then
+    echo "Skipping geoips config create-registries"
+else
+    . $check run_command "geoips config create-registries"
 fi
-
-create_plugin_registries
-

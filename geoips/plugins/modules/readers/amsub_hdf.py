@@ -47,6 +47,7 @@ Basic information on AMSU-B product file::
     ScanTime_Jday
     Time
 """
+
 # Python Standard Libraries
 from datetime import datetime
 import logging

@@ -32,7 +32,7 @@ bug fix:
     - tests/scripts/aws_TB50.imagery_clean.sh
     - tests/scripts/aws_TB89.imagery_clean.sh
   related-issue:
-    internal: GEOIPS#861
+    internal: geoips#861
   date:
     start: 2025-06-04
     finish: 2025-06-08

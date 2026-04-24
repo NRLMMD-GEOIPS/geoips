@@ -12,7 +12,6 @@ import tempfile
 from geoips.utils.cache_files import get_cached_json
 from geoips.commandline.commandline_interface import GeoipsCLI
 
-
 # This points to the instructions directory for the unit tests. These are test
 # instructions that are not used in the actual codebase.
 INSTRUCT_DIR = f"{str(dirname(__file__))}/cmd_instructions"

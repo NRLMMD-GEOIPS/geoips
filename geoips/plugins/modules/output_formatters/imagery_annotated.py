@@ -24,6 +24,7 @@ def call(
     clean_fname=None,
     product_name_title=None,
     mpl_colors_info=None,
+    hist_colorbar=False,
     feature_annotator=None,
     gridline_annotator=None,
     product_datatype_title=None,
@@ -37,10 +38,16 @@ def call(
     title_formatter=None,
     output_dict=None,
     var_name=None,
+    x_size=None,
+    y_size=None,
 ):
     """Plot annotated imagery."""
     if product_name_title is None:
         product_name_title = product_name
+
+    if x_size is None:
+        x_size = area_def.width
+        y_size = area_def.height
 
     success_outputs = []
     if var_name:
@@ -54,6 +61,7 @@ def call(
         save_image,
         plot_overlays,
         create_colorbar,
+        hist_cmap,
     )
     from geoips.image_utils.mpl_utils import get_title_string_from_objects, set_title
 
@@ -81,8 +89,8 @@ def call(
     if clean_fname:
         # Create matplotlib figure and main axis, where the main image will be plotted
         fig, main_ax, mapobj = create_figure_and_main_ax_and_mapobj(
-            area_def.width,
-            area_def.height,
+            x_size,
+            y_size,
             area_def,
             noborder=True,
             frame_clr=frame_clr,
@@ -109,8 +117,8 @@ def call(
 
     # Create matplotlib figure and main axis, where the main image will be plotted
     fig, main_ax, mapobj = create_figure_and_main_ax_and_mapobj(
-        area_def.width,
-        area_def.height,
+        x_size,
+        y_size,
         area_def,
         existing_mapobj=mapobj,
         noborder=False,
@@ -170,10 +178,15 @@ def call(
     )
     set_title(main_ax, title_string, area_def.height)
 
+    if hist_colorbar:
+        # create both a colorbar and histogram
+        hist_cmap(plot_data, fig, mpl_colors_info)
+        mpl_colors_info["colorbar"] = False
+
     if mpl_colors_info["colorbar"] is True:
         # Create the colorbar to match the mpl_colors
         create_colorbar(fig, mpl_colors_info)
-
+    # specific keywords are changed to modify the fix
     # Plot gridlines and feature overlays
     plot_overlays(
         mapobj,
@@ -182,6 +195,7 @@ def call(
         feature_annotator=feature_annotator,
         gridline_annotator=gridline_annotator,
     )
+
     prod_plugin = None
     try:
         prod_plugin = products.get_plugin(
