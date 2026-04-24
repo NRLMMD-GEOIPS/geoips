@@ -96,9 +96,7 @@ class PluginValidationError(PluginError):
         errors = exc.errors()
         field_errors = {}
         for err in errors:
-            field = ".".join(
-                str(loc) for loc in err["loc"] if not isinstance(loc, int)
-            )
+            field = ".".join(str(loc) for loc in err["loc"] if not isinstance(loc, int))
             if field not in field_errors:
                 field_errors[field] = []
             field_errors[field].append(err["msg"])

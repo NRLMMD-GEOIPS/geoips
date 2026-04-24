@@ -5,10 +5,12 @@
 
 from importlib import reload
 import pytest
+from pydantic import ValidationError as PydanticValidationError
 
 from geoips import interfaces
-from geoips.errors import PluginError
+from geoips.errors import PluginError, PluginValidationError
 from geoips import plugin_registry as plugin_registry_module
+from geoips.pydantic_models.v1.sectors import SectorPluginModel
 
 
 def yield_interface_plugin_tuples():
@@ -106,3 +108,118 @@ def test_get_plugin(int_plug_tuple):
     elif test_result == "no_rebuild":
         with pytest.raises(PluginError):
             curr_interface.get_plugin(*plugin_name, rebuild_registries=False)
+
+
+def test_plugin_validation_error_has_useful_message():
+    """Test PluginValidationError summarizes pydantic errors instead of raw output."""
+    bad_data = {
+        "interface": "sectors",
+        "family": "area_definition_static",
+        "name": "Guam",
+        "docstring": "Guam.",
+        "apiVersion": "geoips/v1",
+        "package": "geoips",
+        "abspath": "/fake/path/guam.yaml",
+        "relpath": "geoips/plugins/yaml/sectors/static/guam.yaml",
+        "metadata": {
+            # region contents promoted one level up -- missing the 'region' wrapper
+            "area": "North",
+            "city": "x",
+            "continent": "Pacific",
+            "country": "x",
+            "state": "Guam",
+            "subarea": "x",
+        },
+        "spec": {
+            "area_id": "Guam",
+            "description": "Guam.",
+            "projection": {
+                "a": 6371228.0,
+                "lat_0": 13.4443,
+                "lon_0": 144.7937,
+                "proj": "eqc",
+                "units": "m",
+            },
+            "resolution": [1000.0, 1000.0],
+            "shape": {"height": 1200, "width": 1200},
+            "area_extent": {
+                "lower_left_xy": [-600000.0, -600000.0],
+                "upper_right_xy": [600000.0, 600000.0],
+            },
+        },
+    }
+
+    with pytest.raises(PydanticValidationError) as pydantic_exc:
+        SectorPluginModel(**bad_data)
+
+    err = PluginValidationError(
+        "Guam", "sectors", "geoips", "/fake/path.yaml", pydantic_exc.value
+    )
+    msg = str(err)
+
+    assert "Guam" in msg
+    assert "sectors" in msg
+    assert "error(s) found" in msg
+    assert len(msg.splitlines()) < len(str(pydantic_exc.value).splitlines())
+
+
+def test_get_plugin_raises_plugin_validation_error_on_bad_yaml(tmp_path, monkeypatch):
+    """Test get_plugin raises PluginValidationError on pydantic validation failure."""
+    # Force real registry initialization BEFORE patching resources.files
+    _ = interfaces.sectors.plugin_registry.registered_plugins
+
+    # Force the pydantic path since use_pydantic is env-controlled and off by default
+    monkeypatch.setattr(interfaces.sectors, "use_pydantic", True)
+
+    bad_file = tmp_path / "bad_sector.yaml"
+    bad_file.write_text("""
+interface: sectors
+family: area_definition_static
+name: BadTestSector
+docstring: Deliberately bad sector.
+metadata:
+  area: North  # missing 'region' wrapper
+  city: x
+  continent: Pacific
+  country: x
+  state: Guam
+  subarea: x
+spec:
+  area_id: Guam
+  description: "Guam."
+  projection:
+    a: 6371228.0
+    lat_0: 13.4443
+    lon_0: 144.7937
+    proj: "eqc"
+    units: "m"
+  resolution: [1000.0, 1000.0]
+  shape:
+    height: 1200
+    width: 1200
+  area_extent:
+    lower_left_xy: [-600000.0, -600000.0]
+    upper_right_xy: [600000.0, 600000.0]
+""")
+
+    # resources.files(package) / relpath is how get_yaml_plugin builds abspath;
+    # patch it to resolve to tmp_path so our file is found
+    monkeypatch.setattr(
+        "geoips.plugin_registry.resources.files", lambda pkg: tmp_path
+    )
+
+    registry = interfaces.sectors.plugin_registry.registered_plugins
+    registry.setdefault("yaml_based", {}).setdefault("sectors", {})
+    registry["yaml_based"]["sectors"]["BadTestSector"] = {
+        "package": "geoips",
+        "relpath": "bad_sector.yaml",
+    }
+
+    try:
+        with pytest.raises(PluginValidationError) as exc_info:
+            interfaces.sectors.get_plugin("BadTestSector", rebuild_registries=False)
+        assert "BadTestSector" in str(exc_info.value)
+        assert "sectors" in str(exc_info.value)
+        assert "error(s) found" in str(exc_info.value)
+    finally:
+        del registry["yaml_based"]["sectors"]["BadTestSector"]
