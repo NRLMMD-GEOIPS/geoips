@@ -26,6 +26,8 @@ enhancement:
     - 'geoips/create_plugin_registries.py'
     - 'geoips/errors.py'
     - 'geoips/plugin_registry.py'
+    - 'docs/source/concepts/architecture/plugin-registries.rst'
+    - 'docs/source/contribute/coding-standards.rst'
   related-issue:
     number: 966
     repo_url: 'https://github.com/NRLMMD-GEOIPS/geoips'
