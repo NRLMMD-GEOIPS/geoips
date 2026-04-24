@@ -110,7 +110,7 @@ class ImageOutputCheckerPlugin(BaseOutputCheckerPlugin):
         self,
         output_product,
         compare_product,
-        threshold=gpaths["OUTPUT_CHECKER_THRESHOLD_IMAGE"],
+        threshold=gpaths["GEOIPS_TEST_OUTPUT_CHECKER_THRESHOLD_IMAGE"],
     ):
         """Use PIL and numpy to compare two images.
 
@@ -150,8 +150,8 @@ class ImageOutputCheckerPlugin(BaseOutputCheckerPlugin):
         # Open existing images.
         out_img = Image.open(output_product)
         comp_img = Image.open(compare_product)
-        diff_img = Image.new(mode="RGB", size=comp_img.size)
-        exact_diff_img = Image.new(mode="RGB", size=comp_img.size)
+        diff_img = Image.new(mode=out_img.mode, size=comp_img.size)
+        exact_diff_img = Image.new(mode=out_img.mode, size=comp_img.size)
         # Compute the pixel diff between the two images.
         if np.array(comp_img).shape == np.array(out_img).shape:
             diff_arr = np.abs(np.array(comp_img) - np.array(out_img))
@@ -261,7 +261,7 @@ class ImageOutputCheckerPlugin(BaseOutputCheckerPlugin):
         self,
         compare_path,
         output_products,
-        threshold=gpaths["OUTPUT_CHECKER_THRESHOLD_IMAGE"],
+        threshold=gpaths["GEOIPS_TEST_OUTPUT_CHECKER_THRESHOLD_IMAGE"],
     ):
         """Compare the "correct" imagery found the list of current output_products.
 

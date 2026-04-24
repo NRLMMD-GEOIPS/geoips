@@ -22,7 +22,7 @@ from geoips.filenames.base_paths import PATHS
 USE_RICH = PATHS["GEOIPS_RICH_CONSOLE_OUTPUT"]
 PRINT_TO_CONSOLE = PATHS["GEOIPS_TEST_PRINT_TEXT_OUTPUT_CHECKER_TO_CONSOLE"]
 PROMPT_TO_OVERWRITE_COMPARISON_FILE = PATHS.get(
-    "GEOIPS_PROMPT_TO_OVERWRITE_COMPARISON_FILE_IF_MISMATCH", False
+    "GEOIPS_TEST_PROMPT_TO_OVERWRITE_COMPARISON_FILE_IF_MISMATCH", False
 )
 LOG = logging.getLogger(__name__)
 
@@ -235,7 +235,15 @@ class TextOutputCheckerPlugin(BaseOutputCheckerPlugin):
 
     def correct_file_format(self, fname):
         """Check if file has a supported text format."""
-        supported_extensions = {".txt", ".text", ".yaml", ".log", ""}
+        supported_extensions = {
+            ".txt",
+            ".text",
+            ".yaml",
+            ".log",
+            ".csv",
+            ".json",
+            "",
+        }
         file_path = Path(fname)
 
         if file_path.suffix not in supported_extensions:
@@ -297,12 +305,6 @@ class TextOutputCheckerPlugin(BaseOutputCheckerPlugin):
 
     def outputs_match(self, output_product, compare_product):
         """Compare two text files for exact content match."""
-        if not (
-            self.correct_file_format(output_product)
-            and self.correct_file_format(compare_product)
-        ):
-            raise ValueError("Both files must be valid text files")
-
         result = self.run_diff(output_product, compare_product)
         LOG.debug(result.diff_output)
 

@@ -682,7 +682,7 @@ def call_single_time(
     cache_solar_angles=False,
     geolocation_only=False,
     resource_tracker=None,
-    satellite_zenith_angle_cutoff=75,
+    satellite_zenith_angle_cutoff=None,
 ):
     """
     Read Geo-Kompsat NetCDF data from a list of filenames.
@@ -711,9 +711,10 @@ def call_single_time(
         * Specify to use either memmap or zarray to store pre-calculated geolocation
           data.
     cache_chunk_size : int
-        * Specify chunk size if using zarray to store pre-calculated geolocation data.
-    resource_tracker: geoips.utils.memusg.PidLog object
-        * Track resource usage using the PidLog class object from geoips.utils.memusg.
+        * Specify chunck size if using zarray to store pre-calculated geolocation data.
+    resource_tracker: geoips.utils.memusg.memusg_tracker.PidLog object
+        * Track resource usage using the PidLog class object from
+          geoips.utils.memusg.memusg_tracker.
         * The PidLog.track_resource_usage method allows us to snapshot the memory usage
           for the PID associated with the geoips call. The time and stats of the
           snapshot are recorded, and can be accessed using the
@@ -978,6 +979,8 @@ def call_single_time(
             for varname in gvars[dsname].keys():
                 geo_xarrays[dsname][varname] = xarray.DataArray(gvars[dsname][varname])
         return geo_xarrays
+
+    LOG.info("")
 
     # Read the data
     # Will read all data if sector_definition is None
