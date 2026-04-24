@@ -1,0 +1,24 @@
+bug fix:
+- title: 'Raise PluginValidationError with summarized output when pydantic validation fails'
+  description: |
+    When a YAML plugin fails pydantic validation, the raw pydantic ValidationError
+    exposed one error per union variant, producing dozens of confusing field errors.
+    A new PluginValidationError class now catches this and re-raises a summary
+    grouped by field, identifying the plugin by name, interface, package, and file.
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+      - 'geoips/errors.py'
+      - 'geoips/plugin_registry.py'
+      - 'tests/unit_tests/plugins/test_get_plugin.py'
+  related-issue:
+    number: 1254
+    repo_url: 'https://github.com/NRLMMD-GEOIPS/geoips'
+  date:
+    start: 2026/03/13
+    finish: 2026/04/24
