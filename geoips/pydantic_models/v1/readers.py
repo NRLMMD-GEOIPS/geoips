@@ -31,6 +31,7 @@ class ReaderArgumentsModel(PermissiveFrozenModel):
     Pydantic model defining and validating Reader step arguments.
     """
 
+    area_def: str = Field(None, description="Area definition identifier.")
     variables: List[str] = Field(
         None,
         description="List of channels to process",
@@ -46,7 +47,7 @@ class ReaderArgumentsModel(PermissiveFrozenModel):
         None, description="Source dataset to use for self-registration"
     )
     self_register_dataset: str = Field(
-        None, description="Name of the dataset to register to"
+        None, description="Dataset within the source to use for self-registration"
     )
     resampled_read: bool = Field(
         False,

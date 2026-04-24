@@ -1,3 +1,7 @@
+default_value_area_def:
+  key: area_def
+  val: None
+  cls: ReaderArgumentsModel
 default_value_variables:
   key: variables
   val: ["None"]
