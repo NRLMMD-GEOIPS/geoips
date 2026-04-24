@@ -56,7 +56,7 @@ instructions:
       To use, type `geoips config delete-registries -n <namespace> -p <packages>`.
     output_info:
       - Not Applicable
-geoips_config_install-github:
+  geoips_config_install-github:
     help_str: |
       Install the appropriate test dataset and/or package directly from a github
       repository based on the arguments provided. Will install the github repository
