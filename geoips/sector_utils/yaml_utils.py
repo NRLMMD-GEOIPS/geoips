@@ -4,8 +4,8 @@
 """Utilities for working with YAML sector specifications."""
 
 import logging
-import yaml
 import numpy as np
+import geoips.utils.yaml_utils as yaml
 
 LOG = logging.getLogger(__name__)
 

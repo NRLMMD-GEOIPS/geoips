@@ -18,8 +18,8 @@ from shutil import get_terminal_size
 
 from colorama import Fore, Style
 from tabulate import tabulate
-import yaml
 
+import geoips.utils.yaml_utils as yaml
 from geoips.commandline.cmd_instructions import cmd_instructions, alias_mapping
 from geoips.commandline.log_setup import setup_logging
 from geoips.filenames.base_paths import PATHS

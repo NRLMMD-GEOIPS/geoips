@@ -8,7 +8,7 @@ Used to dynamically load and apply help information to all 'geoips' commands.
 
 import json
 from os.path import dirname, exists, getmtime
-import yaml
+import geoips.utils.yaml_utils as yaml
 
 
 def instructions_modified(ancillary_dirname, fname="cmd_instructions.yaml"):
