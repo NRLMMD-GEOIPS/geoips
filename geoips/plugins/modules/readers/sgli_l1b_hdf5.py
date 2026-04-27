@@ -89,7 +89,21 @@ def rad_to_temp(rad, center_wl):
 
 
 def read_irs(infile, data_chans=ir_chans):
-    """Read the infrared scanner (SWIR & TIR) data."""
+    """Read the infrared scanner (SWIR & TIR) data.
+
+    Parameters
+    ----------
+    infile : filepath
+        * Filepath to file to read
+    data_chans : list
+        * List of native channels to read
+        * Defaults to all infrared channels
+
+    Returns
+    -------
+    xrt : xr.Dataset
+        * Dataset of all channels in data_chans extracted from the file
+    """
     # three possible resolutions
     # HIGH (250m) MED (500m) LOW (1km)
     xrt = xr.Dataset(attrs={"res_types": []})
@@ -179,7 +193,7 @@ def call(
     area_def=None,
     self_register=False,
 ):
-    """Read GFS GRIB data.
+    """Read GCOM-C1 SGLI data.
 
     Parameters
     ----------

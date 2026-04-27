@@ -1,0 +1,37 @@
+bug fix:
+- title: 'Link to persistent_data_dirs ancildat and test_data paths, remove astropy dependency'
+  description: |
+    Make astropy imports optional in atms_hdf5 and scat_noaa_winds_netcdf readers. Readers
+    will not be functional until astropy is replaced, but will allow us to install geoips
+    under a clean build.
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - 'docs/source/getting-started/installing/nrl_install.rst'
+    - 'geoips/plugins/modules/readers/atms_hdf5.py'
+    - 'geoips/plugins/modules/readers/scat_noaa_winds_netcdf.py'
+    - 'pyproject.toml'
+  date:
+    start: 2026-01-15
+    finish: 2026-01-15
+- title: 'Add gdal to nrl_install.rst'
+  description: |
+    * Add gdal to nrl_install.rst.
+    * Note reo-cogeo may be required, but we've had mixed results so far.
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - 'docs/source/getting-started/installing/nrl_install.rst'
+  date:
+    start: 2026-02-03
+    finish: 2026-02-03
