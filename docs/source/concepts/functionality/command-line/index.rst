@@ -475,6 +475,47 @@ For example:
     To list installable test datasets,
     see ``geoips list test-datasets``.
 
+.. _geoips_config_create-registries:
+
+:ref:`geoips config create-registries <geoips_config_create-registries>`
+
+``config create-registries`` creates plugin registry files.
+These files for GeoIPS to locate and use plugins.
+You should never edit these files.
+
+
+This occurs in the ``geoips.plugin_packages`` namespace by default.
+It contains all plugin packages registered under GeoIPS.
+You may specify a different name space.
+
+You can pass ``--packages`` to limit the plugins processed.
+
+JSON files are output by default.
+You may also output yaml files for ease of viewing by passing ``--save-type yaml``.
+
+
+For example:
+
+::
+
+    geoips config create-registries
+    geoips config create-registries --packages geoips geoips_clavrx
+    geoips config create-registries --save-type yaml
+    geoips config create-registries --namespace <different_namespace>
+
+.. _geoips_config_delete-registries:
+
+:ref:`geoips config delete-registries <geoips_config_delete-registries>`
+
+``config delete-registries`` removes the plugin registry files.
+If no registry files are found, nothing occurs. For example:
+
+::
+
+    geoips config delete-registries
+    geoips config delete-registries --packages geoips geoips_clavrx
+    geoips config delete-registries --namespace <different_namespace>
+
 .. _geoips_run:
 
 run
