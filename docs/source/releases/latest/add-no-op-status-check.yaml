@@ -8,5 +8,5 @@ ci:
     number: null
     repo_url: ''
   date:
-    start: null
-    finish: null
+    start: 2026-04-23
+    finish: 2026-04-23
