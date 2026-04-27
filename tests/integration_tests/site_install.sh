@@ -83,7 +83,7 @@ if [[ "$GEOIPS_USE_PRIVATE_PLUGINS" == "true" ]]; then
 fi
 
 if [[ "$skip_create_registries" == "true" ]]; then
-    echo "Skipping pluginify create"
+    echo "Skipping geoips config create-registries"
 else
-    pluginify create -n geoips.plugin_packages
+    . $check run_command "geoips config create-registries"
 fi
