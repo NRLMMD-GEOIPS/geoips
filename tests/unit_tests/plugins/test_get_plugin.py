@@ -204,9 +204,7 @@ spec:
 
     # resources.files(package) / relpath is how get_yaml_plugin builds abspath;
     # patch it to resolve to tmp_path so our file is found
-    monkeypatch.setattr(
-        "geoips.plugin_registry.resources.files", lambda pkg: tmp_path
-    )
+    monkeypatch.setattr("geoips.plugin_registry.resources.files", lambda pkg: tmp_path)
 
     registry = interfaces.sectors.plugin_registry.registered_plugins
     registry.setdefault("yaml_based", {}).setdefault("sectors", {})
