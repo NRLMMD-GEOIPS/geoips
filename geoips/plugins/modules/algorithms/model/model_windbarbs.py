@@ -36,13 +36,12 @@ def call(
         * Dataset holding at minimum wind speed, direction, and pressure data
     variables : list of str
         * list of input variables used in algorithm, selects the first
-    product_name : str
-        * Name used to store output of algorithm to xobj
 
     Returns
     -------
-    xarray.Dataset with new data variable named after product_name
-        numpy.ndarray or numpy.MaskedArray of appropriately scaled data
+    xarray.Dataset
+        Dataset containing a new data variable, ``barb_stack``, which holds
+        appropriately scaled data as a ``numpy.ndarray`` or ``numpy.MaskedArray``.
     """
     # need spd and direction
     # rain flag/pressure optional
