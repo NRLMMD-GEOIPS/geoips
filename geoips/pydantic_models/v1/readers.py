@@ -18,6 +18,7 @@ from typing import List
 
 # Third-Party Libraries
 from pydantic import Field, model_validator
+from pyresample.geometry import AreaDefinition
 
 # GeoIPS imports
 from geoips.pydantic_models.v1.bases import PermissiveFrozenModel
@@ -31,7 +32,7 @@ class ReaderArgumentsModel(PermissiveFrozenModel):
     Pydantic model defining and validating Reader step arguments.
     """
 
-    area_def: str = Field(None, description="Area definition identifier.")
+    area_def: AreaDefinition = Field(None, description="Area definition identifier.")
     variables: List[str] = Field(
         None,
         description="List of channels to process",
