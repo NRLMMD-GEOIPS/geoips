@@ -19,11 +19,13 @@ current:
  # repo (we will wanted to be entirely sure we have the desired required
  # documentation layout before updating all plugin repos).
  - getting-started
+ - functionality
  - tutorials
- - concepts
+ - architecture
  - contribute
  - contact
 legacy:
+- concepts
 - introduction
 - starter
 - userguide

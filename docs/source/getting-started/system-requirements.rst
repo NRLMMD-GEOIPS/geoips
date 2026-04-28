@@ -1,5 +1,7 @@
 :orphan:
 
+.. _system-requirements:
+
 .. dropdown:: Distribution Statement
 
  | # # # This source code is subject to the license referenced at

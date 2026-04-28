@@ -13,7 +13,7 @@ Configuring GeoIPS
 
 Like many other software packages, we offer the ability to precisely configure your
 GeoIPS environment. This is largely done via environment variables. As referenced in our
-:ref:`installation docs<installing-geoips>`, users must set a few environment variables
+:ref:`installation docs<installation>`, users must set a few environment variables
 for GeoIPS to know where to read data from and where to store it (i.e.,
 ``$GEOIPS_TESTDATA_DIR`` and ``$GEOIPS_OUTDIRS``, respectively).
 
@@ -36,7 +36,7 @@ GEOIPS_TESTDATA_DIR
 -------------------
 
 ``GEOIPS_TESTDATA_DIR`` specifies the directory where GeoIPS test data is stored. This
-directory contains data used for testing and validating GeoIPS functionality. 
+directory contains data used for testing and validating GeoIPS functionality.
 The test data is typically organized by sensor type and data format.
 
 This variable must be set when running GeoIPS tests and producing example or
@@ -56,7 +56,8 @@ is the parent directory where all GeoIPS-related packages are installed, includi
 core GeoIPS package and any additional plugin packages you may be using.
 
 GeoIPS uses this variable in many of its helper scripts. If you have
-multiple plugin packages (e.g., ``geoips``, ``data_fusion``, ``recenter_tc``) and 
+multiple plugin packages (e.g., ``geoips``, ``data_fusion``, ``recenter_tc``)
+and
 you would like to make use of our testing scripts, they
 should all be subdirectories of the path specified by ``GEOIPS_PACKAGES_DIR``.
 
@@ -224,7 +225,7 @@ Persistent
 
 Adding ``NO_COLOR`` to your ``GEOIPS`` enviormental variables - as
 described above - will make your settings persistent.
-    
+
     # Reactivate your environment for changes to take effect
     conda deactivate
     conda activate geoips
