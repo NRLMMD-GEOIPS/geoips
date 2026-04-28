@@ -14,7 +14,7 @@ from pyaml_env import parse_config
 
 from geoips.commandline.args import check_command_line_args
 from geoips.filenames.base_paths import PATHS as gpaths
-from geoips.utils.memusg import PidLog
+from geoips.utils.memusg.memusg_tracker import PidLog
 
 from geoips.geoips_utils import output_process_times
 from geoips.dev.product import (
@@ -85,7 +85,7 @@ name = "config_based"
 
 # get geoips version
 try:
-    geoips_version = gpaths["GEOIPS_VERS"]
+    geoips_version = gpaths["GEOIPS_VERSION"]
 except KeyError:
     LOG.warning("No geoips system defined, setting geoips version to 0.0.0")
     geoips_version = "0.0.0"
@@ -833,7 +833,7 @@ def call(fnames, command_line_args=None):
     ss_pid = getpid()
     pid_track = PidLog(ss_pid, logstr="MEMUSG")
 
-    LOG.interactive("GEOIPS_VERS {}".format(geoips_version))
+    LOG.interactive("GEOIPS_VERSION {}".format(geoips_version))
 
     process_datetimes = {}
     process_datetimes["overall_start"] = datetime.utcnow()
@@ -859,6 +859,7 @@ def call(fnames, command_line_args=None):
         "product_db",
         "product_db_writer_override",
         "store_checkpoint_statistics",
+        "write_stats_to_json",
         "output_file_list_fname",
     ]
 
@@ -982,6 +983,7 @@ def call(fnames, command_line_args=None):
     # elif "fuse_self_register_source" in config_dict:
     #     bg_self_register_source = config_dict["fuse_self_register_source"]
 
+    product_db = False
     if command_line_args.get("product_db"):
         product_db = command_line_args["product_db"]
         store_checkpoint_stats = command_line_args["store_checkpoint_statistics"]
@@ -989,8 +991,14 @@ def call(fnames, command_line_args=None):
         product_db = config_dict["product_db"]
         store_checkpoint_stats = config_dict.get("store_checkpoint_statistics", False)
 
-    else:
-        product_db = False
+    write_stats_to_json = False
+    store_checkpoint_stats = False
+    if command_line_args.get("write_stats_to_json"):
+        write_stats_to_json = command_line_args["write_stats_to_json"]
+        store_checkpoint_stats = command_line_args["store_checkpoint_statistics"]
+    elif "write_stats_to_json" in config_dict:
+        write_stats_to_json = config_dict["write_stats_to_json"]
+        store_checkpoint_stats = config_dict.get("store_checkpoint_statistics", False)
 
     if command_line_args.get("product_db_writer_override"):
         for sector, database_writer in command_line_args[
@@ -1776,7 +1784,7 @@ def call(fnames, command_line_args=None):
                         if product_db:
                             for fprod in curr_output_products:
                                 LOG.interactive(
-                                    "GEOIPS_VERS writing to db {}".format(
+                                    "GEOIPS_VERSION writing to db {}".format(
                                         geoips_version
                                     )
                                 )
@@ -2145,7 +2153,7 @@ def call(fnames, command_line_args=None):
     failed_compares = {}
     for cpath in final_products:
         if cpath != "no_comparison":
-            from geoips.interfaces.module_based.output_checkers import output_checkers
+            from geoips.interfaces.class_based.output_checkers import output_checkers
 
             checker_override = command_line_args["output_checker_name"]
             for output_product in final_products[cpath]["files"]:
@@ -2157,7 +2165,6 @@ def call(fnames, command_line_args=None):
                 if output_checker.name in output_checker_kwargs:
                     kwargs = output_checker_kwargs[output_checker.name]
                 curr_retval = output_checker(
-                    output_checker,
                     cpath,
                     [output_product],
                     **kwargs,
@@ -2257,45 +2264,76 @@ def call(fnames, command_line_args=None):
     LOG.interactive("NUM_SUCCESSFUL_COMPARISON_DIRS: %s", successful_comparison_dirs)
     LOG.interactive("NUM_FAILED_COMPARISON_DIRS: %s", failed_comparison_dirs)
     output_process_times(process_datetimes, num_jobs)
-    LOG.interactive("GEOIPS_VERS {}".format(geoips_version))
-    if product_db:
-        all_sectors_use_tcdb = all(
-            [
-                config_dict["available_sectors"][x].get("tcdb")
-                for x in config_dict["available_sectors"].keys()
-            ]
+    LOG.interactive("GEOIPS_VERSION {}".format(geoips_version))
+
+    # Pretty much everything below here is for recording processing statistics
+    procflow_id = pid_track.own_pid
+    sector_uses_trackfile = [
+        config_dict["available_sectors"][x].get("trackfile_parser")
+        for x in config_dict["available_sectors"].keys()
+    ]
+    # Attempt to determine if procflow only processed dynamic TC sectors, static
+    # sectors, or both.
+    if (
+        command_line_args.get("tcdb")
+        or command_line_args.get("trackfiles")
+        or all(sector_uses_trackfile)
+    ):
+        sector_type = "dynamic_tc"
+    elif (
+        command_line_args.get("tcdb")
+        or command_line_args.get("trackfiles")
+        or any(sector_uses_trackfile)
+    ):
+        sector_type = "mixed"
+    else:
+        sector_type = "static"
+    # This procflow_metadata dictionary is passed to the print_mem_usg and
+    # checkpoint_usage_stats and written to a json file is write_to_json is True
+    procflow_metadata = {
+        "procflow": "config_based",
+        "platform": xobjs["METADATA"].platform_name.lower(),
+        "geoips_version": geoips_version,
+        "source": xobjs["METADATA"].source_name,
+        "product": "multi",
+        "sector_type": sector_type,
+        "process_times": process_datetimes,
+        "num_products_created": num_products,
+        "num_products_deleted": len(removed_products),
+        "output_config": command_line_args["output_config"],
+        "procflow_id": procflow_id,
+    }
+    mem_usage_stats = pid_track.print_mem_usg(
+        logstr="MEMUSG",
+        verbose=True,
+        write_to_json=write_stats_to_json,
+        metadata=procflow_metadata,
+    )
+    if store_checkpoint_stats:
+        checkpoint_stats = pid_track.checkpoint_usage_stats(
+            write_to_json=write_stats_to_json, metadata=procflow_metadata
         )
-        if (
-            command_line_args.get("tcdb")
-            or command_line_args.get("trackfiles")
-            or all_sectors_use_tcdb
-        ):
-            sector_type = "dynamic_tc"
-        else:
-            sector_type = "static"
-        procflow_id = pid_track.own_pid
-        if store_checkpoint_stats:
-            checkpoint_stats = pid_track.checkpoint_usage_stats()
-        else:
-            checkpoint_stats = None
+    else:
+        checkpoint_stats = None
+    if product_db:
         try:
             write_stats_to_database(
-                procflow_name="config_based",
-                platform=xobjs["METADATA"].platform_name.lower(),
-                geoips_vers=geoips_version,
-                source=xobjs["METADATA"].source_name,
+                procflow_name=procflow_metadata["procflow"],
+                platform=procflow_metadata["platform"],
+                geoips_vers=procflow_metadata["geoips_version"],
+                source=procflow_metadata["source"],
                 product="multi",
-                sector_type=sector_type,
-                process_times=process_datetimes,
-                num_products_created=num_products,
-                num_products_deleted=len(removed_products),
+                sector_type=procflow_metadata["sector_type"],
+                process_times=procflow_metadata["process_datetimes"],
+                num_products_created=procflow_metadata["num_products_created"],
+                num_products_deleted=procflow_metadata["num_products_deleted"],
                 resource_usage_dict=mem_usage_stats,
-                output_config=command_line_args["output_config"],
-                procflow_id=procflow_id,
+                output_config=procflow_metadata["output_config"],
+                procflow_id=procflow_metadata["procflow_id"],
                 checkpoints_resource_usage_dict=checkpoint_stats,
             )
         except KeyError as e:
             LOG.error("KeyError - could not write stats to database: %s", e)
     else:
-        LOG.interactive("NO PRODDB GEOIPS_VERS {}".format(geoips_version))
+        LOG.interactive("NO PRODDB GEOIPS_VERSION {}".format(geoips_version))
     return retval

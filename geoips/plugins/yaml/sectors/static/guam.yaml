@@ -1,17 +1,18 @@
 interface: sectors
 family: area_definition_static
 name: Guam
-docstring: Guam
+docstring: Guam.
 metadata:
-  area: North
-  city: x
-  continent: Pacific
-  country: x
-  state: Guam
-  subarea: x
+  region:
+    area: North
+    city: x
+    continent: Pacific
+    country: x
+    state: Guam
+    subarea: x
 spec:
   area_id: Guam
-  description: Guam
+  description: Guam.
   projection:
     a: 6371228.0
     lat_0: 13.4443

@@ -5,7 +5,6 @@
 
 # Python Standard Libraries
 from datetime import datetime, timedelta
-import glob
 import logging
 import os
 from pathlib import Path
@@ -683,7 +682,7 @@ def call_single_time(
     cache_solar_angles=False,
     geolocation_only=False,
     resource_tracker=None,
-    satellite_zenith_angle_cutoff=75,
+    satellite_zenith_angle_cutoff=None,
 ):
     """
     Read Geo-Kompsat NetCDF data from a list of filenames.
@@ -712,9 +711,10 @@ def call_single_time(
         * Specify to use either memmap or zarray to store pre-calculated geolocation
           data.
     cache_chunk_size : int
-        * Specify chunk size if using zarray to store pre-calculated geolocation data.
-    resource_tracker: geoips.utils.memusg.PidLog object
-        * Track resource usage using the PidLog class object from geoips.utils.memusg.
+        * Specify chunck size if using zarray to store pre-calculated geolocation data.
+    resource_tracker: geoips.utils.memusg.memusg_tracker.PidLog object
+        * Track resource usage using the PidLog class object from
+          geoips.utils.memusg.memusg_tracker.
         * The PidLog.track_resource_usage method allows us to snapshot the memory usage
           for the PID associated with the geoips call. The time and stats of the
           snapshot are recorded, and can be accessed using the
@@ -980,6 +980,8 @@ def call_single_time(
                 geo_xarrays[dsname][varname] = xarray.DataArray(gvars[dsname][varname])
         return geo_xarrays
 
+    LOG.info("")
+
     # Read the data
     # Will read all data if sector_definition is None
     # Will only read required data if an sector_definition is provided
@@ -1130,25 +1132,3 @@ def call_single_time(
     LOG.info("Done reading GEOKOMPSAT AMI data for %s", adname)
 
     return xarray_objs
-
-
-# Unit test functions
-def get_test_files(test_data_dir):
-    """Generate testing xarray from test data."""
-    filepath = test_data_dir + "/test_data_ami/data/20231208_0300_daytime/*.nc"
-    filelist = glob.glob(filepath)
-    if len(filelist) == 0:
-        raise FileNotFoundError("No files found")
-    for file in filelist:
-        if not os.path.exists(file):
-            raise FileNotFoundError(f"File {file} does not exist")
-    tmp_xr = call(filelist)
-    return tmp_xr
-
-
-def get_test_parameters():
-    """Generate test data key for unit testing."""
-    return [
-        {"data_key": "HIGH", "data_var": "VI006Ref", "mean": 0.14788916},
-        {"data_key": "LOW", "data_var": "IR112BT", "mean": 286.63754873},
-    ]

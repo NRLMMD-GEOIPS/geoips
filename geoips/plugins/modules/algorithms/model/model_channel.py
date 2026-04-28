@@ -46,8 +46,9 @@ def call(
 
     Returns
     -------
-    xarray.Dataset with new data variable named after product_name
-        numpy.ndarray or numpy.MaskedArray of appropriately scaled data
+    xarray.Dataset
+        Dataset containing a new data variable named after ``product_name``. which
+        holds appropriately scaled data as a ``numpy.ndarray`` or ``numpy.MaskedArray``.
     """
     invar = variables[0]
 

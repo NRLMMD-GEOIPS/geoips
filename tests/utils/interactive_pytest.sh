@@ -67,6 +67,14 @@ if [[ ! -d "$repopath" ]]; then
     exit 1
 fi
 
+# If the user did not specifically request suppression or no suppression of failed
+# log outputs, then do not suppress the failed log outputs by default.
+# This ensures all log outputs end up in a single file for easy querying.
+# Set to true for a cleaner interactive log output.
+if [[ "$GEOIPS_TEST_SUPPRESS_PYTEST_FAILED_LOG_CONTENTS" == "" ]]; then
+    export GEOIPS_TEST_SUPPRESS_PYTEST_FAILED_LOG_CONTENTS="False"
+fi
+
 # Set full path to repo, and grab the .
 if [[ "$repopath" != "" ]]; then
     repopath=`realpath $repopath`
@@ -104,63 +112,59 @@ fi
 # output on errors, we can readdress this for unit tests.
 
 if [[ "$interactive_pytest_request" == "short" ]]; then
+    testpath=$repopath
     pytest_marker_option="-m"
-    pytest_marker_args="not disabled and not integration"
-    pytest_keyword_option="-k"
-    pytest_keyword_args="/unit_tests/"
+    pytest_marker_args="not disabled"
     s_arg=""
+    test_dirname="tests/unit_tests/"
 
 elif [[ "$interactive_pytest_request" == "long" ]]; then
+    testpath=$repopath
     pytest_marker_option="-m"
-    pytest_marker_args="not disabled and not integration"
-    pytest_keyword_option="-k"
-    pytest_keyword_args="/unit_tests_long/"
+    pytest_marker_args="not integration and not disabled and not optional"
     s_arg=""
+    test_dirname="tests/unit_tests_long/"
 
 elif [[ "$interactive_pytest_request" == "full-single-repo" ]]; then
     testpath=$repopath
     pytest_marker_option="-m"
     pytest_marker_args="not disabled and full and not spans_multiple_packages"
-    pytest_keyword_option=""
-    pytest_keyword_args=""
     s_arg="--capture=no --tb=short"
+    test_dirname=""
 
 elif [[ "$interactive_pytest_request" == "geoips-site" ]]; then
     testpath=$repopath
     pytest_marker_option="-m"
     pytest_marker_args="not disabled and not system and not scheduler and not realtime and not scrubber and not database and not downloader and not external_preprocessing"
-    pytest_keyword_option=""
-    pytest_keyword_args=""
     s_arg="--capture=no --tb=short"
+    test_dirname=""
 
 elif [[ "$interactive_pytest_request" == "required" ]]; then
     testpath=$repopath
     pytest_marker_option="-m"
     pytest_marker_args="not optional and not disabled"
-    pytest_keyword_option=""
-    pytest_keyword_args=""
     s_arg="--capture=no --tb=short"
+    test_dirname=""
 
 elif [[ "$interactive_pytest_request" == "optional" ]]; then
     testpath=$repopath
     pytest_marker_option="-m"
     pytest_marker_args="optional and not disabled"
-    pytest_keyword_option=""
-    pytest_keyword_args=""
     s_arg="--capture=no --tb=short"
+    test_dirname=""
 
 elif [[ "$interactive_pytest_request" == "all" ]]; then
     testpath=$repopath
-    # Need to pass -m because pytest.ini defaults to not disabled
-    pytest_marker_option="-m"
-    pytest_marker_args="not disabled"
-    pytest_keyword_option=""
-    pytest_keyword_args=""
     s_arg="--capture=no --tb=short"
-
 else
     echo "ERROR: Must pass one of the supported interactive_pytest pre-defined commands"
     echo "$usage_message"
+    exit 1
+fi
+
+if [[ "$interactive_pytest_request" != "all" && "$pytest_marker_args" == "" ]]; then
+    echo "ERROR: Must not implement interactive_pytest function without pytest_marker_args."
+    echo "Set to not disabled or something"
     exit 1
 fi
 
@@ -174,22 +178,10 @@ logfname=$logdir/`date -u +%Y%m%d.%H%M%S`_${reponame}_${interactive_pytest_reque
 currdir=$PWD
 starting_output="""
 `date -u`
-env vars:
-  GEOIPS_REALTIME_TEST_OUTPUT_FILE_ARGS: $GEOIPS_REALTIME_TEST_OUTPUT_FILE_ARGS
-    * Unset to evaluate output file list, write to temporary output file list, and copy output files realtime repo.
-    * export GEOIPS_REALTIME_TEST_OUTPUT_FILE_ARGS=copy_files $GEOIPS_TESTDATA_DIR/realtime_outputs_$GEOIPS_SYSTEM_NAME/outputs
-    * export GEOIPS_REALTIME_TEST_OUTPUT_FILE_ARGS=write_output_file_list NA
-    * export GEOIPS_REALTIME_TEST_OUTPUT_FILE_ARGS=write_output_file_list_and_copy_files $GEOIPS_TESTDATA_DIR/realtime_outputs_$GEOIPS_SYSTEM_NAME/outputs
-    * export GEOIPS_REALTIME_TEST_OUTPUT_FILE_ARGS=run_file_list_comparison NA
-    * export GEOIPS_REALTIME_TEST_OUTPUT_FILE_ARGS=run_file_list_comparison_and_copy_files $GEOIPS_TESTDATA_DIR/realtime_outputs_$GEOIPS_SYSTEM_NAME/outputs
-  OUTPUT_CHECKER_THRESHOLD_IMAGE: $OUTPUT_CHECKER_THRESHOLD_IMAGE
-
-`date -u`
 Calling:
-currdir=$PWD; cd $testpath
-
-pytest $s_arg $pytest_marker_option "$pytest_marker_args" $pytest_keyword_option "$pytest_keyword_args" "$@"
-
+currdir=$PWD
+cd $testpath
+pytest $test_dirname $s_arg $pytest_marker_option "$pytest_marker_args" "$@"
 cd $currdir
 Log output: $logfname
 
@@ -203,9 +195,22 @@ echo "$starting_output" >> $logfname 2>&1
 start_time=`date +%s`
 
 # --rootdir $testpath does not seem to do the same as cd $testpath. Way fewer tests.
-currdir=$PWD; cd $testpath
-pytest $s_arg $pytest_marker_option "$pytest_marker_args" $pytest_keyword_option "$pytest_keyword_args" "$@" 2>&1 | tee -ai $logfname
-retval=${PIPESTATUS[0]}
+# Also note you must be very careful about passing empty strings to pytest, if any of
+# the arguments that get passed in with "" are empty variables, then "" gets passed
+# into pytest as an actual directory argument, resulting in pytest running on ALL
+# files and directories at the top level regardless of what you pass in as test_dirname.
+# So ensure if this script is updated, we never include empty variables in "".
+currdir=$PWD; cd $testpath; pwd
+if [[ "$interactive_pytest_request" == "all" ]]; then
+    pytest $test_dirname $s_arg "$@" 2>&1 | tee -ai $logfname
+    retval=${PIPESTATUS[0]}
+elif [[ "$@" == "" ]]; then
+    pytest $test_dirname $s_arg $pytest_marker_option "$pytest_marker_args" 2>&1 | tee -ai $logfname
+    retval=${PIPESTATUS[0]}
+else
+    pytest $test_dirname $s_arg $pytest_marker_option "$pytest_marker_args" "$@" 2>&1 | tee -ai $logfname
+    retval=${PIPESTATUS[0]}
+fi
 
 cd $currdir
 end_time=`date +%s`
@@ -215,6 +220,8 @@ total_time=$((end_time-start_time))
 # Standard copy/pasteable output for reference
 final_output="""
 Complete
+`grep "PASSED LOG FILE: " $logfname`
+`grep "FAILED LOG FILE: " $logfname`
 $reponame  $interactive_pytest_request
 args       "$@"
 return     $retval

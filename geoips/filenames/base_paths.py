@@ -34,6 +34,52 @@ import platformdirs
 LOG = logging.getLogger(__name__)
 
 
+def cast_string_to_bool_or_none(value):
+    """Cast string environment variables to True, False, or None.
+
+    Cast value to True, False, or None if the case insensitive value is one of
+
+    * true -> True
+    * false -> False
+    * none -> None
+    * null -> None
+
+    For example, if the variable was 'GEOIPS_REBUILD_REGISTRIES' and its value was
+    'True' or 'true', then this variable would be cast as a True boolean.
+
+    If a variable is something other than case insensitive true, false, none, null,
+    then just return the original value.
+
+    Note this implies that GeoIPS environment variables cannot have the following
+    case insensitive explicit strings, as they will be cast to bool or None
+
+    * true
+    * false
+    * none
+    * null
+
+    Parameters
+    ----------
+    value: Any
+        - The value of an environment variable.
+
+    Returns
+    -------
+    value: bool
+        - The boolean casted value of the corresponding environment variable if value
+          is one of case insensitive true, false, none, or null.
+        - The original value if not one of case insensitive true, false, none, or null.
+    """
+    if value.lower() == "false":
+        return False
+    elif value.lower() == "true":
+        return True
+    elif value.lower() in ["none", "null"]:
+        return None
+    else:
+        return value
+
+
 def get_env_var(var_name, default, rstrip_path=True):
     """Retrieve environment variable or provided default, optionally rstrip a '/'.
 
@@ -52,13 +98,14 @@ def get_env_var(var_name, default, rstrip_path=True):
         The value of the environment variable or the default value if not set.
     """
     env_value = os.getenv(var_name)
+    retval = default
     if env_value:
         if rstrip_path:
-            return env_value.rstrip("/")
-        else:
-            return env_value
-    else:
-        return default
+            env_value = env_value.rstrip("/")
+        # ALWAYS cast case insensitive true, false, none, null to True, False, None.
+        env_value = cast_string_to_bool_or_none(env_value)
+        retval = env_value
+    return retval
 
 
 def initialize_paths():
@@ -103,25 +150,7 @@ def initialize_paths():
     paths["GEOIPS_PACKAGES_DIR"] = os.path.abspath(
         os.path.join(paths["BASE_PATH"], os.pardir, os.pardir)
     )
-    paths["GEOIPS_BASEDIR"] = get_env_var(
-        "GEOIPS_BASEDIR",
-        os.path.abspath(os.path.join(paths["GEOIPS_PACKAGES_DIR"], os.pardir)),
-    )
-    paths["GEOIPS_REBUILD_REGISTRIES"] = get_env_var(
-        "GEOIPS_REBUILD_REGISTRIES",
-        True,
-    )
-    paths["GEOIPS_GEOLOCATION_CACHE_BACKEND"] = get_env_var(
-        "GEOIPS_GEOLOCATION_CACHE_BACKEND",
-        "memmap",
-    )
-    paths["GEOIPS_DATA_CACHE_DIR"] = get_env_var(
-        "GEOIPS_DATA_CACHE_DIR",
-        os.path.join(paths["GEOIPS_OUTDIRS"], "cache", "geoips"),
-    )
-    paths["SATPY_DATA_CACHE_DIR"] = get_env_var(
-        "SATPY_DATA_CACHE_DIR", os.path.join(paths["GEOIPS_OUTDIRS"], "cache", "satpy")
-    )
+
     # This list should include all env vars that could end up in output product paths
     # or metadata. This ensures consistent tests and generalized output paths.
     # This GEOIPS_REPLACE_OUTPUT_PATHS is referenced in the following scripts and files:
@@ -134,21 +163,36 @@ def initialize_paths():
         "ANNOTATED_IMAGERY_PATH CLEAN_IMAGERY_PATH ",
     )
     paths["GEOIPS_REPLACE_OUTPUT_PATHS"] = replace_output_paths.split(" ")
-    # Convert the string to a bool
-    if paths["GEOIPS_REBUILD_REGISTRIES"] == "0":
-        paths["GEOIPS_REBUILD_REGISTRIES"] = False
-    if paths["GEOIPS_REBUILD_REGISTRIES"] == "False":
-        paths["GEOIPS_REBUILD_REGISTRIES"] = False
-    if paths["GEOIPS_REBUILD_REGISTRIES"] == "false":
-        paths["GEOIPS_REBUILD_REGISTRIES"] = False
 
     # Identify defaults for global GeoIPS variables.  The actual values for
-    # these variables will be set using get_env_var below.
+    # these variables will be set using get_env_var below, casting strings to bool/None.
+    # Note you can't actually have env vars with the explicit case insensitive strings
+    # "true", "false", "none", "null" as they will automatically be cast to
+    # booleans or None.
     geoips_global_variable_defaults = {
+        "GEOIPS_USE_PYDANTIC": False,
+        # Used as a base path in derivative paths below, must be set explicitly.
+        "GEOIPS_BASEDIR": os.path.abspath(
+            os.path.join(paths["GEOIPS_PACKAGES_DIR"], os.pardir)
+        ),
+        # Used as a base path in derivative paths below, must be set explicitly.
+        "GEOIPS_DATA_CACHE_DIR": os.path.join(
+            paths["GEOIPS_OUTDIRS"], "cache", "geoips"
+        ),
+        # Used as a base path in derivative paths below, must be set explicitly.
+        "SATPY_DATA_CACHE_DIR": os.path.join(paths["GEOIPS_OUTDIRS"], "cache", "satpy"),
+        "GEOIPS_GEOLOCATION_CACHE_BACKEND": "memmap",
+        "GEOIPS_REBUILD_REGISTRIES": True,
+        # NOTE: Environment variable 'NO_COLOR' will disable any colored output from
+        # the terminal, even if it's not produced via GeoIPS. For example, if this is
+        # set to True in your bashrc, even pytest output will be monochrome. We chose
+        # this variable name as it is consistent with the settings that other software
+        # packages use.
+        "NO_COLOR": False,
         # GeoIPS Documentation URL
         "GEOIPS_DOCS_URL": r"https://nrlmmd-geoips.github.io/geoips/",
         # Version
-        "GEOIPS_VERS": "0.0.0",
+        "GEOIPS_VERSION": "0.0.0",
         # Operational User
         "GEOIPS_OPERATIONAL_USER": False,
         # Copyright Information
@@ -163,8 +207,6 @@ def initialize_paths():
         "DEFAULT_QUEUE": None,
         # Computer Identifier
         "BOXNAME": socket.gethostname(),
-        # Threshold for image-based output checks.  This will be cast to float below.
-        "OUTPUT_CHECKER_THRESHOLD_IMAGE": 0.05,
         # Minimal default
         # "GEOIPS_LOG_FMT_STRING": "%(asctime)s: %(message)s"
         # "GEOIPS_LOG_DATEFMT_STRING": "%d_%H%M%S"
@@ -178,7 +220,25 @@ def initialize_paths():
         # See https://docs.python.org/3/library/warnings.html#the-warnings-filter
         # for details on each option.
         "GEOIPS_WARNING_LEVEL": "default",
+        "GEOIPS_RICH_CONSOLE_OUTPUT": False,
+        # Threshold for image-based output checks.  This will be cast to float below.
+        "GEOIPS_TEST_OUTPUT_CHECKER_THRESHOLD_IMAGE": 0.05,
+        "GEOIPS_TEST_PRINT_TEXT_OUTPUT_CHECKER_TO_CONSOLE": True,
+        "GEOIPS_TEST_PROMPT_TO_OVERWRITE_COMPARISON_FILE_IF_MISMATCH": False,
+        # These are not actually used within GeoIPS, only within the integration test
+        # scripts, but including here for a complete reference of all GEOIPS vars.
+        "GEOIPS_TEST_SUPPRESS_PYTEST_FAILED_LOG_CONTENTS": False,
+        "GEOIPS_TEST_SECTOR_CREATE_ANNOTATED_OUTPUTS": False,
+        "GEOIPS_TEST_SECTOR_CREATE_GEOTIFF_OUTPUTS": False,
     }
+
+    # looping through all the directory-based paths and global variables set above
+    # using "get_env_var" function to set the variables to the environment variable
+    # specified option (when defined via the first argument)
+    # else defaulting to the passed-in default (second argument)
+    # Some of these are used in the derivative paths below.
+    for key, value in geoips_global_variable_defaults.items():
+        paths[key] = get_env_var(key, value)
 
     # Long variables names to avoid black and flake8 conflicts.
     # flake8 was flagging for long lines, but black was not correcting them.
@@ -229,8 +289,8 @@ def initialize_paths():
             "GEOIPS_TC_DECKS_TYPE": "bdecks",
         },
         paths["GEOIPS_DATA_CACHE_DIR"]: {
-            "GEOIPS_DATA_CACHE_DIR_LONGTERM_GEOLOCATION_DYNAMIC": (
-                "longterm/geolocation/dynamic"
+            "GEOIPS_DATA_CACHE_DIR_SHORTTERM_GEOLOCATION_DYNAMIC": (
+                "shortterm/geolocation/dynamic"
             ),
             "GEOIPS_DATA_CACHE_DIR_LONGTERM_GEOLOCATION_STATIC": (
                 "longterm/geolocation/static"
@@ -253,28 +313,14 @@ def initialize_paths():
         paths["BASE_PATH"]: {
             "TC_TEMPLATE": "plugins/yaml/sectors/dynamic/tc_web_template.yaml",
         },
-        paths["GEOIPS_REBUILD_REGISTRIES"]: {
-            "GEOIPS_REBUILD_REGISTRIES_TRUE": True,
-            "GEOIPS_REBUILD_REGISTRIES_FALSE": False,
-        },
     }
-
-    # looping through all the directory-based paths and global variables set above
-    # using "get_env_var" function to set the variables to the environment variable
-    # specified option (when defined via the first argument)
-    # else defaulting to the passed-in default (second argument)
-    for key, value in geoips_global_variable_defaults.items():
-        paths[key] = get_env_var(key, value)
 
     for (
         top_directory,
         sub_directories,
     ) in default_derivative_directory_path_defaults.items():
         for key, sub_path in sub_directories.items():
-            if "GEOIPS_REBUILD_REGISTRIES" in key:
-                paths[key] = get_env_var(key, sub_path, rstrip_path=False)
-            else:
-                paths[key] = get_env_var(key, os.path.join(top_directory, sub_path))
+            paths[key] = get_env_var(key, os.path.join(top_directory, sub_path))
 
     # Handling special cases now: home for linux/windows
     if not os.getenv("HOME"):
@@ -289,8 +335,8 @@ def initialize_paths():
         paths[f"{path}_URL"] = get_env_var(f"{path}_URL", paths[path])
 
     # This needs to be a float
-    paths["OUTPUT_CHECKER_THRESHOLD_IMAGE"] = float(
-        paths["OUTPUT_CHECKER_THRESHOLD_IMAGE"]
+    paths["GEOIPS_TEST_OUTPUT_CHECKER_THRESHOLD_IMAGE"] = float(
+        paths["GEOIPS_TEST_OUTPUT_CHECKER_THRESHOLD_IMAGE"]
     )
 
     return paths

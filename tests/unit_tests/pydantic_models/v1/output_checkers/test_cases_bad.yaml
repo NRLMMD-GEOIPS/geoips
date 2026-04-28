@@ -1,0 +1,27 @@
+checker_name_invalid_type:
+  description: "checker_name must be a string; ints should fail."
+  key: checker_name
+  val: 16
+  cls: OutputCheckersArgumentsModel
+  err_str: "Input should be a valid string"
+
+compare_path_invalid_type:
+  description: "compare_path must be a string; booleans should fail."
+  key: compare_path
+  val: true
+  cls: OutputCheckersArgumentsModel
+  err_str: "Input should be a valid string"
+
+output_products_invalid_type:
+  description: "output_products must be a list of strings; a single string should fail."
+  key: output_products
+  val: "/tmp/output.png"
+  cls: OutputCheckersArgumentsModel
+  err_str: "Input should be a valid list"
+
+defined_name_without_compare_path:
+  description: "if checker_name is defined, then compare_path must be defined as well."
+  key: compare_path
+  val: null
+  cls: OutputCheckersArgumentsModel
+  err_str: "A valid file path must be provided in 'compare_path'when 'checker_name' is specified."
