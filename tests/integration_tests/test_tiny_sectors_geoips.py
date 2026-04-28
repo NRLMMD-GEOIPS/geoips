@@ -55,7 +55,7 @@ global_example_integ_test_calls = [
         "$geoips_repopath/tests/example_scripts/global_terminator_satzen.sh "
         "fci_netcdf "
         "Test-FCI-B14 "
-        "$GEOIPS_TESTDATA_DIR/test_data_fci/data/20250623/1200/W_XX-*.nc"
+        "$GEOIPS_TESTDATA_DIR/test_data_fci/data/20250623/1200/W_XX-EUMETSAT*MTI1+FCI*.nc"  # noqa: E501
     ),
     (
         "$geoips_repopath/tests/example_scripts/global_terminator_satzen.sh "
@@ -112,6 +112,8 @@ tiny_sector_overlay_integ_test_calls = [
     "geoips test sector --overlay test_goes17_eqc_3km_night_20210718T0150Z -o $GEOIPS_OUTDIRS/example_test_imagery_outputs ",  # noqa: E501
     "geoips test sector --overlay test_goes17_eqc_3km_terminator_20210718T0150Z -o $GEOIPS_OUTDIRS/example_test_imagery_outputs ",  # noqa: E501
     "geoips test sector --overlay test_himawari8_eqc_10km_terminator_20200405T0000Z -o $GEOIPS_OUTDIRS/example_test_imagery_outputs ",  # noqa: E501
+    "geoips test sector --overlay test_meteosat12_eqc_10km_terminator_20250623T1200Z -o $GEOIPS_OUTDIRS/example_test_imagery_outputs ",  # noqa: E501
+    "geoips test sector --overlay test_meteosat10_eqc_10km_terminator_20250624T1200Z -o $GEOIPS_OUTDIRS/example_test_imagery_outputs ",  # noqa: E501
 ]
 
 tiny_sector_integ_test_calls = [
@@ -226,7 +228,7 @@ tiny_sector_integ_test_calls = [
         "fci_netcdf "
         "Test-FCI-B14-Day-Only "
         "geoips "
-        "$GEOIPS_TESTDATA_DIR/test_data_fci/data/20250623/1200/W_XX-*.nc"
+        "$GEOIPS_TESTDATA_DIR/test_data_fci/data/20250623/1200/W_XX-EUMETSAT*MTI1+FCI*.nc"  # noqa: E501
     ),
     # Tiny sectors for MeteoEU longlat full disk, using SEVIRI MSG3 dataset
     (
@@ -340,6 +342,24 @@ tiny_sector_integ_test_calls = [
         "Test-AHI-B13-Day-Only "
         "geoips "
         "$GEOIPS_TESTDATA_DIR/test_data_ahi/data/20200405_0000/*"
+    ),
+    # Tiny sectors for MeteoEU landocean, using FCI MTG-I1 dataset
+    (
+        "$geoips_repopath/tests/integration_tests/tiny_sectors/tiny_sectors_geostationary.sh "  # noqa: E501
+        "test_meteosat12_eqc_10km_terminator_20250623T1200Z "
+        "fci_netcdf "
+        "Test-FCI-B14-Night-Only "
+        "geoips "
+        "$GEOIPS_TESTDATA_DIR/test_data_fci/data/20250623/1200/W_XX-EUMETSAT*MTI1+FCI*.nc"  # noqa: E501
+    ),
+    # Tiny sectors for MeteoIO landocean, using Seviri dataset
+    (
+        "$geoips_repopath/tests/integration_tests/tiny_sectors/tiny_sectors_geostationary.sh "  # noqa: E501
+        "test_meteosat10_eqc_10km_terminator_20250624T1200Z "
+        "seviri_hrit "
+        "Test-SEVIRI-B9-Day-Only "
+        "geoips "
+        "$GEOIPS_TESTDATA_DIR/test_data_seviri/data/20250624/1200/H-000-MSG3*"
     ),
 ]
 

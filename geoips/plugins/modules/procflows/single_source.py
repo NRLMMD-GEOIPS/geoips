@@ -16,7 +16,7 @@ from geoips.errors import OutputFormatterDatelineError
 from geoips.errors import OutputFormatterInvalidProjectionError
 from geoips.filenames.duplicate_files import remove_duplicates
 from geoips.geoips_utils import copy_standard_metadata, output_process_times
-from geoips.utils.memusg import PidLog
+from geoips.utils.memusg.memusg_tracker import PidLog
 from geoips.xarray_utils.data import sector_xarrays
 from geoips.sector_utils.utils import filter_area_defs_actual_time, is_dynamic_sector
 from geoips.geoips_utils import replace_geoips_paths

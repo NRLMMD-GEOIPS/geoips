@@ -4,6 +4,7 @@
 """Feature Annotator interface module."""
 
 from geoips.interfaces.base import BaseYamlInterface
+from geoips.filenames.base_paths import PATHS as gpaths
 
 
 class FeatureAnnotatorsInterface(BaseYamlInterface):
