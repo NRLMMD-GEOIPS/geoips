@@ -151,6 +151,8 @@ class GlobalVariablesModel(PermissiveFrozenModel):
 
     product_db_writer_kwargs: Dict[str, Any] | None = Field(None)
 
+    sector_list: str | None = Field(None)
+
     @model_validator(mode="after")
     def _validate_product_db_requires_writer(
         cls, model: GlobalVariablesModel
