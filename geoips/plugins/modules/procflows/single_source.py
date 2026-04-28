@@ -16,7 +16,7 @@ from geoips.errors import OutputFormatterDatelineError
 from geoips.errors import OutputFormatterInvalidProjectionError
 from geoips.filenames.duplicate_files import remove_duplicates
 from geoips.geoips_utils import copy_standard_metadata, output_process_times
-from geoips.utils.memusg import PidLog
+from geoips.utils.memusg.memusg_tracker import PidLog
 from geoips.xarray_utils.data import sector_xarrays
 from geoips.sector_utils.utils import filter_area_defs_actual_time, is_dynamic_sector
 from geoips.geoips_utils import replace_geoips_paths
@@ -1326,9 +1326,7 @@ def plot_data(
                 output_plugin.name,
             )
             if "feature_annotator" in output_kwargs:
-                output_kwargs["feature_annotator"] = output_kwargs[
-                    "feature_annotator"
-                ].model_dump()
+                output_kwargs["feature_annotator"] = output_kwargs["feature_annotator"]
             output_products = output_plugin(
                 area_def,
                 xarray_obj=alg_xarray,
@@ -2469,7 +2467,7 @@ def call(fnames, command_line_args=None):
 
     retval = 0
     if compare_path:
-        from geoips.interfaces.module_based.output_checkers import output_checkers
+        from geoips.interfaces.class_based.output_checkers import output_checkers
 
         checker_override = command_line_args["output_checker_name"]
         for output_product in final_products:
@@ -2481,7 +2479,6 @@ def call(fnames, command_line_args=None):
             if output_checker.name in output_checker_kwargs:
                 kwargs = output_checker_kwargs[output_checker.name]
             retval += output_checker(
-                output_checker,
                 compare_path.replace("<product>", product_name)
                 .replace("<procflow>", "single_source")
                 .replace("<output>", output_formatter),
