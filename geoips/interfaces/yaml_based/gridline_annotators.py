@@ -4,14 +4,13 @@
 """Gridline Annotator interface module."""
 
 from geoips.interfaces.base import BaseYamlInterface
-from geoips.filenames.base_paths import PATHS as gpaths
 
 
 class GridlineAnnotatorsInterface(BaseYamlInterface):
     """Interface for gridline annotator plugins."""
 
     name = "gridline_annotators"
-    use_pydantic = gpaths["GEOIPS_USE_PYDANTIC"]
+    use_pydantic = True
 
     # Keyword arguments that can be used to adjust the style of lat/lon labels applied
     # to annotated imagery. See geoips.image_utils.maps:draw_gridlines for how this is
