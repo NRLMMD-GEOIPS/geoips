@@ -1,6 +1,6 @@
 default_value_area_def:
   key: area_def
-  val: None
+  val: null
   cls: ReaderArgumentsModel
 default_value_variables:
   key: variables
@@ -34,10 +34,25 @@ default_value_self_register_dataset:
   key: self_register_dataset
   val: None
   cls: ReaderArgumentsModel
-valid_input_area_def:
-  key: area_def
-  val: "test_meteoeu_eqc_3km_landocean"
-  cls: ReaderArgumentsModel
+# valid_input_area_def:
+#   key: area_def
+#   val:
+#     area_id: denver
+#     description: City of Denver
+#     projection:
+#       a: 6371228.0
+#       lat_0: 39.73264
+#       lon_0: -104.99318
+#       proj: eqc
+#       units: m
+#     resolution:
+#       - 250
+#       - 250
+#     shape:
+#       height: 200
+#       width: 200
+#     center: [0, 0]
+#   cls: ReaderArgumentsModel
 valid_input_variables:
   key: variables
   val: ["wind_speed_kts"]
