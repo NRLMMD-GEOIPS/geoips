@@ -14,7 +14,7 @@ from __future__ import annotations
 
 # Python Standard Libraries
 import logging
-from typing import Dict, List
+from typing import Any, List
 
 # Third-Party Libraries
 from pydantic import Field, field_validator, model_validator
@@ -32,7 +32,9 @@ class ReaderArgumentsModel(PermissiveFrozenModel):
     Pydantic model defining and validating Reader step arguments.
     """
 
-    area_def: AreaDefinition | None = Field(None, description="The domain over which to read data.")
+    area_def: AreaDefinition | None = Field(
+        None, description="The domain over which to read data."
+    )
     variables: List[str] = Field(
         None,
         description="List of channels to process",
@@ -55,6 +57,43 @@ class ReaderArgumentsModel(PermissiveFrozenModel):
         description="Specify whether a resampled read is required, needed for "
         "datatypes that will be read within 'get_alg_xarray'",
     )
+
+    @field_validator("area_def", mode="before")
+    @classmethod
+    def _validate_and_normalize_areadefinition(cls, value: Any) -> AreaDefinition | None:
+        """
+        Validate and normalize the input for 'area_def'.
+
+        This method handles the input for area_def as follows:
+        - 'dict': Converted to an 'AreaDefinition' object using 'create_area_def'
+        - 'AreaDefinition': return 'AreaDefintion'
+        - 'None' = return 'None'
+        -  Other types = Raise a 'ValueError'
+
+        Parameters
+        ----------
+        value: Any
+            Input values for 'area_def'
+
+        Returns
+        -------
+        AreaDefintion | None
+            A valid 'AreaDefintion' instance or 'None'.
+
+        Raises
+        ------
+        ValueError
+            If the input type is other than 'AreaDefinition', 'Dict', and 'None'.
+        """
+        if isinstance(value, dict):
+            from pyresample import create_area_def
+
+            return create_area_def(**value)
+        if value is None:
+            return None
+        if isinstance(value, AreaDefinition):
+            return value
+        raise ValueError("Input should be a valid AreaDefinition")
 
     @model_validator(mode="before")
     def _handle_deprecated_chans(cls, values):
