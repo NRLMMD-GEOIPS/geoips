@@ -1,7 +1,7 @@
 enhancement:
-- title: 'New Module-based Validators Interface'
+- title: 'New Class-based Validators Interface'
   description: |
-    This update creates an entirely new module-based 'validators' interface. Plugins of
+    This update creates an entirely new class-based 'validators' interface. Plugins of
     this type should be responsible for producing statistics via the comparison of a
     produced dataset and a source of truth dataset that can be displayed via a specific
     output formatter. Think of a bar chart, regression analysis, etc.

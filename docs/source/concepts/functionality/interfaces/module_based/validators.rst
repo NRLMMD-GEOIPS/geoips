@@ -9,7 +9,7 @@
 Validators in GeoIPS
 ********************
 
-A validator is a module-based GeoIPS plugin designed to produce 'validation' metrics
+A validator is a class-based GeoIPS plugin designed to produce 'validation' metrics
 between a produced dataset and a dataset from a known source of truth for a given use
 case. These metrics could be as simple as an absolute difference product between the
 output and truth dataset, or it could be more complex such as producing statistics
