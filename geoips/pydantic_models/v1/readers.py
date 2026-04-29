@@ -38,7 +38,7 @@ class ReaderArgumentsModel(PermissiveFrozenModel):
     )
     variables: List[str] = Field(
         None,
-        description="List of channels to process",
+        description="List of variables to read",
         alias="chans",
     )
     metadata_only: bool = Field(False, description="Read metadata only.")
