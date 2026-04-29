@@ -61,7 +61,9 @@ class ReaderArgumentsModel(PermissiveFrozenModel):
 
     @field_validator("area_def", mode="before")
     @classmethod
-    def _validate_and_normalize_areadefinition(cls, value: Any) -> AreaDefinition | None:
+    def _validate_and_normalize_areadefinition(
+        cls, value: Any
+    ) -> AreaDefinition | None:
         """
         Validate and normalize the input for 'area_def'.
 
@@ -115,12 +117,16 @@ class ReaderArgumentsModel(PermissiveFrozenModel):
             The original input values.
         """
         chans_message = (
-                "'chans' is deprecated and will be removed in GeoIPS 2.0. Use" \
-                " 'variables' instead."
+            "'chans' is deprecated and will be removed in GeoIPS 2.0. Use"
+            " 'variables' instead."
         )
         if "chans" in values:
             LOG.warning(chans_message)
-            warnings.warn(chans_message, DeprecationWarning, stacklevel=2,)
+            warnings.warn(
+                chans_message,
+                DeprecationWarning,
+                stacklevel=2,
+            )
         return values
 
     @model_validator(mode="before")
@@ -142,10 +148,14 @@ class ReaderArgumentsModel(PermissiveFrozenModel):
             The original input values.
         """
         area_def_message = (
-                "'area_def' will be deprecated and will be removed in GeoIPS 3.0. Use" \
-                " sector.area_def instead."
+            "'area_def' will be deprecated and will be removed in GeoIPS 3.0. Use"
+            " sector.area_def instead."
         )
         if "area_def" in values:
             LOG.warning(area_def_message)
-            warnings.warn(area_def_message, DeprecationWarning, stacklevel=2,)
+            warnings.warn(
+                area_def_message,
+                DeprecationWarning,
+                stacklevel=2,
+            )
         return values
