@@ -19,6 +19,7 @@ from typing import Any, List
 # Third-Party Libraries
 from pydantic import Field, field_validator, model_validator
 from pyresample.geometry import AreaDefinition
+import warnings
 
 # GeoIPS imports
 from geoips.pydantic_models.v1.bases import PermissiveFrozenModel
@@ -113,9 +114,38 @@ class ReaderArgumentsModel(PermissiveFrozenModel):
         dict
             The original input values.
         """
+        chans_message = (
+                "'chans' is deprecated and will be removed in GeoIPS 2.0. Use" \
+                " 'variables' instead."
+        )
         if "chans" in values:
-            LOG.warning(
-                "'chans' is deprecated and will be removed in GeoIPS 2.0. Use"
-                "'variables' instead."
-            )
+            LOG.warning(chans_message)
+            warnings.warn(chans_message, DeprecationWarning, stacklevel=2,)
+        return values
+
+    @model_validator(mode="before")
+    def _upcoming_behvaior_change_area_def(cls, values):
+        """
+        Check for the 'area_def' field and issue a future warning.
+
+        This method detects if `area_def` is present in the input values and issues a
+        deprecation warning, recommending the use of 'sect.area_def' where sect is a sector instance.
+
+        Parameters
+        ----------
+        values : dict
+            Input values to the model.
+
+        Returns
+        -------
+        dict
+            The original input values.
+        """
+        area_def_message = (
+                "'area_def' will be deprecated and will be removed in GeoIPS 3.0. Use" \
+                " sector.area_def instead."
+        )
+        if "area_def" in values:
+            LOG.warning(area_def_message)
+            warnings.warn(area_def_message, DeprecationWarning, stacklevel=2,)
         return values
