@@ -58,7 +58,6 @@ def test_good_workflow_step_definition_model_valid_step(valid_step_data):
         "metadata_only": False,
         "self_register": "LOW",
     }
-    
     # assert model.arguments == {
     #     "area_def": create_area_def(
     #         area_id="denver",
