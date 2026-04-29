@@ -23,9 +23,10 @@ class DifferenceValidatorPlugin(BaseValidatorPlugin):
     def call(self, xarray_obj, truth_xarray_obj, vars_to_validate=[]):
         """Calculate and validate the difference between output and truth.
 
-        Where output in this case is xarray_obj and truth is truth_xarray_obj. Difference
-        will be calculated for every field that exists and is the same between the two
-        datasets, or, if supplied, the variables contained in vars_to_validate.
+        Where output in this case is xarray_obj and truth is truth_xarray_obj.
+        Difference will be calculated for every field that exists and is the same
+        between the two datasets, or, if supplied, the variables contained in
+        vars_to_validate.
 
         Parameters
         ----------
@@ -34,9 +35,9 @@ class DifferenceValidatorPlugin(BaseValidatorPlugin):
         truth_xarray: xarray.Dataset
             - An xarray.Dataset from a known source of truth.
         vars_to_validate: list, default=[]
-            - A list of variables to validate against. If empty, all variables that exist
-            and are the same between xarray_obj and truth_xarray_obj will be validated
-            instead.
+            - A list of variables to validate against. If empty, all variables that
+              exist and are the same between xarray_obj and truth_xarray_obj will be
+              validated instead.
         """
         output_vars = list(xarray_obj.variables.keys())
         truth_vars = list(truth_xarray_obj.variables.keys())
