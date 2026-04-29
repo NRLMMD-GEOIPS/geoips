@@ -4,14 +4,13 @@
 """Product Defaults interface module."""
 
 from geoips.interfaces.base import BaseYamlInterface
-from geoips.filenames.base_paths import PATHS as gpaths
 
 
 class ProductDefaultsInterface(BaseYamlInterface):
     """Default values that can be applied to products."""
 
     name = "product_defaults"
-    use_pydantic = gpaths["GEOIPS_USE_PYDANTIC"]
+    use_pydantic = True
 
 
 product_defaults = ProductDefaultsInterface()

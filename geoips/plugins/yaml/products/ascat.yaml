@@ -2,13 +2,13 @@ interface: products
 family: list
 name: ascat
 docstring: |
-ASACAT: 
-  The Advanced SCATterometer is real aperture radar (5.255 GHz C-band) and uses vertically polarized antennas. Measures wind speed 
-  and direction over oceans. Also useful for polar ice, tropical vegetation, subsurface climate related features. 
+ASACAT:
+  The Advanced SCATterometer is real aperture radar (5.255 GHz C-band) and uses vertically polarized antennas. Measures wind speed
+  and direction over oceans. Also useful for polar ice, tropical vegetation, subsurface climate related features.
 
   Used on
-  METOP-B/C - Meteorological operational satellite – B and Meteorological operational satellite – C. METOP-B, launched in September, 2012, 
-  has an altitude of 817 km, inclination of 98.7°, and orbital period of 101 minutes, while METOP-C has an altitude of 817 km, 
+  METOP-B/C - Meteorological operational satellite – B and Meteorological operational satellite – C. METOP-B, launched in September, 2012,
+  has an altitude of 817 km, inclination of 98.7°, and orbital period of 101 minutes, while METOP-C has an altitude of 817 km,
   inclination of 98.7°, orbital period of 101 minutes and was launched November, 2018. Sun-synchronous and orbits daily.
 
   The ascat product_inputs configuration, which produces Windspeed products, Windbarbs products, Wind-ambiguity products,
@@ -38,7 +38,7 @@ spec:
               cbar_label: "Wind speed (kts)"
         windbarb_plotter:
           plugin:
-            name: sfc_wind.windbarbs
+            name: imagery_windbarbs
             arguments:
               thinning: 1
               length: 5
@@ -55,8 +55,8 @@ spec:
     - name: wind-ambiguities
       source_names: [ascat]
       docstring: |
-        Scatterometer data that shows and abstract of possible wind 
-        direction. Usually have four cases so the first two shown are most likely. 
+        Scatterometer data that shows and abstract of possible wind
+        direction. Usually have four cases so the first two shown are most likely.
       product_defaults: wind-ambiguities
       spec:
         variables:
