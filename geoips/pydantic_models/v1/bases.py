@@ -474,6 +474,7 @@ class PluginModel(FrozenModel, metaclass=PluginModelMetadata):
         return values
 
     @field_validator("interface", mode="before")
+    @classmethod
     def _validate_interface(cls, value: PythonIdentifier) -> PythonIdentifier:
         """
         Validate the input for the 'interface' field.
@@ -529,6 +530,7 @@ class PluginModel(FrozenModel, metaclass=PluginModelMetadata):
         return values
 
     @field_validator("description", mode="after")
+    @classmethod
     def _validate_one_line_description(cls: type[PluginModel], value: str) -> str:
         """
         Validate that the description adheres to required single line standards.
@@ -599,6 +601,7 @@ class PluginModel(FrozenModel, metaclass=PluginModelMetadata):
         return value
 
     @field_validator("apiVersion", mode="before")
+    @classmethod
     def _validate_apiVersion(cls, value: str) -> str:
         """Validate input for the 'apiVersion' field.
 
