@@ -5,7 +5,7 @@
 
 # Third-Party Libraries
 import pytest
-
+from pyresample import create_area_def
 
 @pytest.fixture
 def valid_step_data():
@@ -14,7 +14,9 @@ def valid_step_data():
         "kind": "reader",
         "name": "abi_netcdf",
         "arguments": {
-            "area_def": "None",
+            "area_def": create_area_def(area_id="denver", description="City of Denver", projection={"a": 6371228.0, "lat_0": 39.73264,
+                                    "lon_0": -104.99318, "proj": "eqc", "units": "m"}, resolution=[250, 250],
+                                    shape=[200, 200], center=[0, 0]),
             "variables": ["None"],
             "metadata_only": False,
             "self_register": "LOW",
@@ -32,7 +34,9 @@ def valid_interfaces(valid_plugin_kinds):
 def valid_reader_arguments_model_data():
     """Fixture to provide sample valid Reader arguments for testing."""
     return {
-        "area_def": "None",
+        "area_def": create_area_def(area_id="denver", description="City of Denver", projection={"a": 6371228.0, "lat_0": 39.73264,
+                                    "lon_0": -104.99318, "proj": "eqc", "units": "m"}, resolution=[250, 250],
+                                    shape=[200, 200], center=[0, 0]),
         "variables": ["None"],
         "metadata_only": True,
         "self_register": "LOW",
