@@ -8,14 +8,13 @@ import copy
 
 # Third-Party Libraries
 from pydantic import ValidationError
+from pyresample import create_area_def
 import pytest
 
 # GeoIPS Libraries
 from geoips.pydantic_models.v1 import workflows
 
 
-# def test_bad_workflow_step_definition_model_
-#
 def test_bad_workflow_step_definition_model_empty_value_kind():
     """Test WorkflowStepDefinitionModel with empty 'kind'."""
     with pytest.raises(ValidationError) as exec_info:
@@ -52,7 +51,20 @@ def test_good_workflow_step_definition_model_valid_step(valid_step_data):
     assert model.kind == "reader"
     assert model.name == "abi_netcdf"
     assert model.arguments == {
-        "area_def": "None",
+        "area_def": create_area_def(
+            area_id="denver",
+            description="City of Denver",
+            projection={
+                "a": 6371228.0,
+                "lat_0": 39.73264,
+                "lon_0": -104.99318,
+                "proj": "eqc",
+                "units": "m",
+            },
+            resolution=[250, 250],
+            shape=[200, 200],
+            center=[0, 0],
+        ),
         "variables": ["None"],
         "metadata_only": False,
         "self_register": "LOW",
