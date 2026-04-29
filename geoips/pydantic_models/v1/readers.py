@@ -14,10 +14,10 @@ from __future__ import annotations
 
 # Python Standard Libraries
 import logging
-from typing import List
+from typing import Dict, List
 
 # Third-Party Libraries
-from pydantic import Field, model_validator
+from pydantic import Field, field_validator, model_validator
 from pyresample.geometry import AreaDefinition
 
 # GeoIPS imports
@@ -32,7 +32,7 @@ class ReaderArgumentsModel(PermissiveFrozenModel):
     Pydantic model defining and validating Reader step arguments.
     """
 
-    area_def: AreaDefinition = Field(None, description="Area definition identifier.")
+    area_def: AreaDefinition | None = Field(None, description="The domain over which to read data.")
     variables: List[str] = Field(
         None,
         description="List of channels to process",
