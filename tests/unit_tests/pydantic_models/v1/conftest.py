@@ -3,6 +3,10 @@
 
 """Fixtures for testing the Order-based procflow pydantic models."""
 
+# cspell:ignore knmi
+# cspell:ignore wfabba
+# cspell:ignore ewsg
+
 # Third-Party Libraries
 import pytest
 
@@ -129,7 +133,7 @@ def pluign_types_and_plugins():
 
 @pytest.fixture
 def valid_title_formatter_arguments():
-    """Fixture providing valid data TitleFormatterArgumentsModel tests."""
+    """Fixture providing valid data for TitleFormatterArgumentsModel."""
     return {
         "area_def": "test_string",
         "product_name_title": "tc_copyright",
@@ -142,9 +146,27 @@ def valid_title_formatter_arguments():
 
 @pytest.fixture
 def valid_output_checker_arguments():
-    """Fixture providing valid data OutputCheckerArgumentsModel tests."""
+    """Fixture providing valid data for OutputCheckerArgumentsModel."""
     return {
         "checker_name": "test_string",
         "compare_path": "/path/to/reference.txt",
         "output_products": ["/path/to/output.png"],
+    }
+
+
+@pytest.fixture
+def valid_algorithm_arguments():
+    """Fixture providing valid data for AlgorithmArgumentsModel."""
+    return {
+        "output_data_range": [-90.0, 30.0],
+        "input_units": "Kelvin",
+        "output_units": "celsius",
+        "min_outbounds": "crop",
+        "max_outbounds": "crop",
+        "norm": False,
+        "inverse": False,
+        "pressure_level_range": [None, None],
+        "time_key": "atime",
+        # "norm": None,
+        # "inverse": None,
     }

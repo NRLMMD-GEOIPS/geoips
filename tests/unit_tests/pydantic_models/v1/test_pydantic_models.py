@@ -10,8 +10,9 @@ from copy import deepcopy
 import pytest
 
 # GeoIPS imports
-from geoips.pydantic_models.v1.title_formatters import TitleFormatterArgumentsModel
+from geoips.pydantic_models.v1.algorithms import AlgorithmArgumentsModel
 from geoips.pydantic_models.v1.output_checkers import OutputCheckersArgumentsModel
+from geoips.pydantic_models.v1.title_formatters import TitleFormatterArgumentsModel
 from tests.unit_tests.pydantic_models.v1.utils import (
     PathDict,
     load_geoips_yaml_plugin,
@@ -56,6 +57,10 @@ models_available = {
     "title_formatters": {
         "good_source": ("fixture", "valid_title_formatter_arguments"),
         "model": TitleFormatterArgumentsModel,
+    },
+    "algorithms": {
+        "good_source": ("fixture", "valid_algorithm_arguments"),
+        "model": AlgorithmArgumentsModel,
     },
 }
 

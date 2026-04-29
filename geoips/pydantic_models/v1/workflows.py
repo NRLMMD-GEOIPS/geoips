@@ -156,6 +156,38 @@ class ReaderArgumentsModel(PermissiveFrozenModel):
         return values
 
 
+class AlgorithmStepValidationModel(PermissiveFrozenModel):
+    """Validate step-level requirements for algorithm plugins."""
+
+    @model_validator(mode="after")
+    def _variables_required_algorithm_plugins(self):
+        """
+        Validate that ``varaibles`` field is present when required.
+
+        Ensures that input for the ``variables`` argument is provided for specific
+         algorithm plugins and is not None.
+
+        Returns
+        -------
+        Self
+            The validated model instance, ensuring ``variables`` field is not empty.
+
+        Raises
+        ------
+        ValueError
+            If the ``variables`` argument is required but nor provided.
+        """
+        if self.name in [
+            "model_channel",
+            "absdiff_mst",
+        ] and not self.arguments.get("variables"):
+            raise ValueError(
+                f"input for 'variables' must be provided and non-empty for {self.name}"
+                " algorithm plugin."
+            )
+        return self
+
+
 class WorkflowStepDefinitionModel(FrozenModel):
     """Validate step definition : kind, name, and arguments."""
 
@@ -289,6 +321,9 @@ class WorkflowStepDefinitionModel(FrozenModel):
                 "lookup failed. Please report this to the GeoIPS development team",
                 plugin_kind,
             )
+
+        if plugin_kind == "algorithm":
+            AlgorithmStepValidationModel(name=model.name, arguments=model.arguments)
 
         plugin_arguments_model(**model.arguments)
 

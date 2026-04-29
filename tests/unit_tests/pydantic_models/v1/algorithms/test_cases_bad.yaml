@@ -1,0 +1,156 @@
+variables_invalid_input:
+  description: "Ensure invalid value for variables is not accepted"
+  key: variables
+  val: solar_zenith_angle
+  cls: CommonAlgorithmArgumentsModel
+  err_str: Input should be a valid list
+min_outbounds_invalid_input:
+  description: "Ensure invalid value for min_outbounds is not accepted"
+  key: min_outbounds
+  val: True
+  cls: CommonAlgorithmArgumentsModel
+  err_str: Input should be a valid string
+min_outbounds_missing_input:
+  description: "Ensure that required min_outbounds field is not missing"
+  key: min_outbounds
+  val: 
+  cls: CommonAlgorithmArgumentsModel
+  err_str: Input should be a valid string
+max_outbounds_invalid_input:
+  description: "Ensure invalid value for max_outbounds is not accepted"
+  key: max_outbounds
+  val: True
+  cls: CommonAlgorithmArgumentsModel
+  err_str: Input should be a valid string
+max_outbounds_missing_input:
+  description: "Ensure that required max_outbounds field is not missing"
+  key: max_outbounds
+  val: 
+  cls: CommonAlgorithmArgumentsModel
+  err_str: Input should be a valid string
+norm_invalid_input:
+  description: "Ensure invalid value for norm is not accepted"
+  key: norm
+  val: 123
+  cls: CommonAlgorithmArgumentsModel
+  err_str: Input should be a valid boolean
+inverse_invalid_input:
+  description: "Ensure invalid value for inverse field is not accepted"
+  key: inverse
+  val: 123
+  cls: CommonAlgorithmArgumentsModel
+  err_str: Input should be a valid boolean
+input_units_invalid_input:
+  description: "Ensure invalid value for input units is not accepted"
+  key: input_units
+  val: 123
+  cls: CommonAlgorithmArgumentsModel
+  err_str: Input should be a valid string
+output_units_invalid_input:
+  description: "Ensure invalid value for output units is not accepted"
+  key: output_units
+  val: 123
+  cls: CommonAlgorithmArgumentsModel
+  err_str: Input should be a valid string
+min_night_zen_invalid_input:
+  description: "Ensure invalid value for min_night_zen is not accepted"
+  key: min_night_zen
+  val: invalid_input
+  cls: VisIRSpecificAlgorithmArgumentsModel  
+  err_str:  Input should be a valid number
+max_night_zen_invalid_input:
+  description: "Ensure invalid value for max_night_zen is not accepted"
+  key: max_night_zen
+  val: invalid_input
+  cls: VisIRSpecificAlgorithmArgumentsModel
+  err_str: Input should be a valid number
+max_day_zen_invalid_input:
+  description: "Ensure invalid value for max_night_zen is not accepted"
+  key: max_day_zen
+  val: invalid_input
+  cls: VisIRSpecificAlgorithmArgumentsModel
+  err_str: Input should be a valid number
+mask_night_invalid_input:
+  description: "Ensure invalid value for mask_night is not accepted"
+  key: mask_night
+  val: 123
+  cls: VisIRSpecificAlgorithmArgumentsModel
+  err_str: Input should be a valid boolean
+mask_day_invalid_input:
+  description: "Ensure invalid value for mask_day is not accepted"
+  key: mask_day
+  val: 123
+  cls: VisIRSpecificAlgorithmArgumentsModel
+  err_str: Input should be a valid boolean
+scale_factor_invalid_input:
+  description: "Ensure invalid value for scale_factor is not accepted"
+  key: scale_factor
+  val: invalid_input
+  cls: VisIRSpecificAlgorithmArgumentsModel
+  err_str: Input should be a valid number
+sun_zen_correction_invalid_input:
+  description: "Ensure invalid value for sun_zen_correction is not accepted"
+  key: sun_zen_correction
+  val: invalid_input
+  cls: VisIRSpecificAlgorithmArgumentsModel
+  err_str: Input should be a valid boolean
+satellite_zenith_angle_cutoff_invalid_input:
+  description: "Ensure invalid value for satellite_zenith_angle_cutoff is not accepted"
+  key: satellite_zenith_angle_cutoff
+  val: invalid_input
+  cls: VisIRSpecificAlgorithmArgumentsModel
+  err_str: Input should be a valid number
+pressure_key_invalid_input:
+  description: "Ensure invalid value for pressure_key is not accepted"
+  key: pressure_key
+  val: True
+  cls: ModelSpecificAlgorithmArgumentsModel
+  err_str: Input should be a valid string
+time_key_invalid_input:
+  description: "Ensure invalid value for time_key is not accepted"
+  key: time_key
+  val: True
+  cls: ModelSpecificAlgorithmArgumentsModel
+  err_str: Input should be a valid string
+time_key_missing_input:
+  description: "Ensure that required time_key field is not missing"
+  key: time_key
+  val: 
+  cls: ModelSpecificAlgorithmArgumentsModel
+  err_str: Input should be a valid string
+time_fcst_invalid_input:
+  description: "Ensure invalid value for time_fcst is not accepted"
+  key: time_fcst
+  val: invalid_input
+  cls: ModelSpecificAlgorithmArgumentsModel
+  err_str: Input should be a valid integer
+time_fcst_missing_input:
+  description: "Ensure that required time_fcst field is not missing"
+  key: time_fcst
+  val: invalid_input
+  cls: ModelSpecificAlgorithmArgumentsModel
+  err_str: Input should be a valid integer
+time_dim_invalid_input:
+  description: "Ensure valid value for time_dim is accepted"
+  key: time_dim
+  val: invalid_input
+  cls: ModelSpecificAlgorithmArgumentsModel
+  err_str: Input should be a valid integer
+time_dim_invalid_input_alias:
+  description: "Ensure valid value for time_dim is accepted"
+  key: Time_Dimension
+  val: invalid_input
+  cls: ModelSpecificAlgorithmArgumentsModel
+  err_str: Input should be a valid integer
+grid_geo_invalid_input:
+  description: "Ensure invalid value for grid_geo is accepted"
+  key: grid_geo
+  val: 123
+  cls: ModelSpecificAlgorithmArgumentsModel
+  err_str: Input should be a valid boolean
+grid_geo_missing_input:
+  description: "Ensure that the required grid_geo field is not missing"
+  key: grid_geo
+  val: 
+  cls: ModelSpecificAlgorithmArgumentsModel
+  err_str: Input should be a valid boolean
