@@ -187,14 +187,19 @@ class BaseCliTest(abc.ABC):
             assert f"{args[2]}: error: argument --package-name/-p: invalid" in error
             return False
 
-        if pkg_name:
-            # Just test if this package is in editable mode
-            editable = is_editable(pkg_name)
-        else:
+        geoips_editable = is_editable("geoips") and "linting" in args
+        if geoips_editable or "scripts" in args:
             # Otherwise, assume we're working on all installed packages
             editable = any(
                 [is_editable(pkg_name) for pkg_name in self.plugin_package_names]
             )
+        else:
+            # cannot run geoips test linting commands without GeoIPS being editable
+            editable = False
+
+        if pkg_name:
+            # Just test if this package is in editable mode if a package was determined
+            editable = is_editable(pkg_name)
 
         if not editable:
             if "-p" in args and "--integration" in args and "geoips" not in args[1:]:
