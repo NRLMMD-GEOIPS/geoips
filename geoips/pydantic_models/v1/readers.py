@@ -135,7 +135,8 @@ class ReaderArgumentsModel(PermissiveFrozenModel):
         Check for the 'area_def' field and issue a future warning.
 
         This method detects if `area_def` is present in the input values and issues a
-        deprecation warning, recommending the use of 'sect.area_def' where sect is a sector instance.
+        deprecation warning, recommending the use of 'sect.area_def' where sect is a
+        sector instance.
 
         Parameters
         ----------
