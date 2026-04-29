@@ -7,28 +7,19 @@
 import pytest
 from pyresample import create_area_def
 
+# GeoIPS Libraries
+from geoips.interfaces import sectors
 
 @pytest.fixture
 def valid_step_data():
     """Fixture to provide sample valid plugin data for testing."""
+    sect = sectors.get_plugin("denver")
+    area_def_to_compare = create_area_def(**sect["spec"])
     return {
         "kind": "reader",
         "name": "abi_netcdf",
         "arguments": {
-            "area_def": create_area_def(
-                area_id="denver",
-                description="City of Denver",
-                projection={
-                    "a": 6371228.0,
-                    "lat_0": 39.73264,
-                    "lon_0": -104.99318,
-                    "proj": "eqc",
-                    "units": "m",
-                },
-                resolution=[250, 250],
-                shape=[200, 200],
-                center=[0, 0],
-            ),
+            "area_def": area_def_to_compare,
             "variables": ["None"],
             "metadata_only": False,
             "self_register": "LOW",
