@@ -2,7 +2,7 @@ invalid_input_area_def:
   key: area_def
   val: 123
   cls: ReaderArgumentsModel
-  err_str: "Input should be a valid string"
+  err_str: "Input should be a valid AreaDef"
 invalid_input_variables:
   key: variables
   val: 123
