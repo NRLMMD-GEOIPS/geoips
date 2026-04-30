@@ -676,6 +676,25 @@ def create_figure_and_main_ax_and_mapobj(
     main_ax.set_axis_off()
     fig.add_axes(main_ax)
 
+    if is_crs(mapobj) and not noborder:
+        import cartopy.crs as ccrs
+        import cartopy.mpl.ticker as cticker
+
+        main_ax.set_axis_on()
+
+        gl = main_ax.gridlines(
+            crs=ccrs.PlateCarree(),
+            draw_labels=True,
+            linewidth=1.0,
+            color="gray",
+            alpha=0.75,
+            linestyle="--",
+        )
+        gl.top_labels = False
+        gl.right_labels = False
+        gl.xformatter = cticker.LongitudeFormatter()
+        gl.yformatter = cticker.LatitudeFormatter()
+
     return fig, main_ax, mapobj
 
 

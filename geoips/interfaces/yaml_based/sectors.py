@@ -75,7 +75,9 @@ class SectorPluginBase(BaseYamlPlugin):
         #     ad = corners_to_area_definition(self)
         return ad
 
-    def create_test_plot(self, fname, return_fig_ax_map=False, overlay=False):
+    def create_test_plot(
+        self, fname, return_fig_ax_map=False, overlay=False, gridlines=False
+    ):
         """Create a test PNG image for this sector.
 
         Parameters
@@ -89,8 +91,10 @@ class SectorPluginBase(BaseYamlPlugin):
             - If true, overlay this sector on the global grid and make it slightly
               transparent. Useful for projecting tiny sectors on the global grid to get
               a sense of where they'll end up and what they'll look like.
-
+        gridlines: bool, default=False
+            - If true, add latitude longitude gridlines to the sector image.
         """
+        noborder = False if gridlines else True
         if overlay:
             global_sector = sectors.get_plugin("global_cylindrical")
             global_area_def = global_sector.area_definition
@@ -98,7 +102,7 @@ class SectorPluginBase(BaseYamlPlugin):
                 global_area_def.shape[1],
                 global_area_def.shape[0],
                 global_area_def,
-                noborder=True,
+                noborder=noborder,
             )
 
             # Create a dummy 2D numpy array of data for self.area_definition
@@ -143,7 +147,7 @@ class SectorPluginBase(BaseYamlPlugin):
                 self.area_definition.shape[1],
                 self.area_definition.shape[0],
                 self.area_definition,
-                noborder=True,
+                noborder=noborder,
             )
         ax.add_feature(cfeature.COASTLINE)
         ax.add_feature(cfeature.BORDERS)

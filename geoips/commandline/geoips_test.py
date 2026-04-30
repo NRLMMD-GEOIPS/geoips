@@ -153,6 +153,13 @@ class GeoipsTestSector(GeoipsExecutableCommand):
                 "a geospatial context."
             ),
         )
+        self.parser.add_argument(
+            "--gridlines",
+            "-g",
+            default=False,
+            action="store_true",
+            help="Add a latitude / longitude gridline overlay to your sector.",
+        )
 
     def __call__(self, args):
         """Create the provided sector image based off the arguments provided.
@@ -170,6 +177,7 @@ class GeoipsTestSector(GeoipsExecutableCommand):
         sector_name = args.sector_name
         outdir = args.outdir
         overlay = args.overlay
+        gridlines = args.gridlines
         # If the path to outdir doesn't already exist, make that path
         if not exists(outdir):
             makedirs(outdir)
@@ -197,7 +205,7 @@ class GeoipsTestSector(GeoipsExecutableCommand):
                 f"named '{sector_name}' and run 'create_plugin_registries'."
             )
         print(f"Creating {fname}.")
-        sect.create_test_plot(fname, overlay=overlay)
+        sect.create_test_plot(fname, overlay=overlay, gridlines=gridlines)
 
 
 class GeoipsTestScript(GeoipsExecutableCommand):
