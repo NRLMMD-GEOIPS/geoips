@@ -52,6 +52,7 @@ refactor:
       - geoips/commandline/geoips_command.py
       - geoips/commandline/geoips_config.py
       - geoips/commandline/geoips_describe.py
+      - geoips/commandline/geoips_list.py
       - geoips/commandline/geoips_test.py
       - geoips/errors.py
       - geoips/geoips_utils.py

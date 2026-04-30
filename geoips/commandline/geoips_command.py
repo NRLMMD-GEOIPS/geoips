@@ -17,6 +17,7 @@ import json
 from shutil import get_terminal_size
 
 from colorama import Fore, Style
+from pluginify.config import REGISTRY_DIRECTORY
 from tabulate import tabulate
 import yaml
 
@@ -575,9 +576,10 @@ class GeoipsExecutableCommand(GeoipsCommand):
             else:
                 interface_registry = None
         else:
-            with open(
-                resources.files(package_name) / "registered_plugins.json", "r"
-            ) as fo:
+            registry_file = REGISTRY_DIRECTORY.joinpath(
+                f"geoips.plugin_packages/{package_name}/registered_plugins.json"
+            )
+            with open(registry_file, "r") as fo:
                 interface_registry = json.load(fo)
             if interface.name in interface_registry[interface.interface_type]:
                 interface_registry = interface_registry[interface.interface_type][
