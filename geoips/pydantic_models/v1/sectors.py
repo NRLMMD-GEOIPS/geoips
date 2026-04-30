@@ -400,6 +400,10 @@ class AreaDefinitionSpec(FrozenModel):
             return v
         raise TypeError("center must be (x, y) as a dict, list, tuple.")
 
+    @field_serializer("center")
+    def _serialize_center(self, value):
+        return (value.x, value.y)
+
 
 class RegionMetadata(FrozenModel):
     """Metadata format for standard static sectors."""
