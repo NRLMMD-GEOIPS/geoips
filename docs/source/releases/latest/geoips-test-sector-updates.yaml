@@ -8,7 +8,7 @@ enhancement:
     Updated documentation and added a unit test to test this functionality.
     Additionally, I updated the sector schema to support two methods of specifying an
     area definitions resolution. Instead of a length two array of integers, a
-    dictionary specifying {'dx': float, 'dy': float, and 'units': str} can be
+    dictionary specifying "dx": float, "dy": float, and "units": str can be
     supplied.
   files:
     modified:
