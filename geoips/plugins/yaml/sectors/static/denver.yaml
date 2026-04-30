@@ -22,7 +22,5 @@ spec:
   resolution:
     - 250
     - 250
-  shape:
-    height: 200
-    width: 200
+  shape: [200, 200]
   center: [0, 0]
