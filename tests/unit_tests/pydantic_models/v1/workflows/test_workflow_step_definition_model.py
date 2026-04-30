@@ -58,26 +58,6 @@ def test_good_workflow_step_definition_model_valid_step(valid_step_data):
         "metadata_only": False,
         "self_register": "LOW",
     }
-    # assert model.arguments == {
-    #     "area_def": create_area_def(
-    #         area_id="denver",
-    #         description="City of Denver",
-    #         projection={
-    #             "a": 6371228.0,
-    #             "lat_0": 39.73264,
-    #             "lon_0": -104.99318,
-    #             "proj": "eqc",
-    #             "units": "m",
-    #         },
-    #         resolution=[250, 250],
-    #         shape=[200, 200],
-    #         center=[0, 0],
-    #     ),
-    #     "variables": ["None"],
-    #     "metadata_only": False,
-    #     "self_register": "LOW",
-    # }
-
 
 def test_bad_workflow_step_definition_model_validator_empty_input():
     """Tests WorkflowStepDefinitionModel with empty input."""
