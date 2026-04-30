@@ -7,12 +7,7 @@ import pytest
 import yaml
 from importlib import resources, metadata
 
-from geoips.interfaces.base import YamlPluginValidator
-from geoips.interfaces.yaml_based.products import ProductsPluginValidator
-from geoips.pydantic_models.v1.workflows import WorkflowPluginModel
-
-validator = YamlPluginValidator()
-product_validator = ProductsPluginValidator()
+from geoips import interfaces
 
 
 def yield_plugins():
@@ -35,10 +30,18 @@ def test_is_plugin_valid(plugin):
     """Test if plugin is valid."""
     with open(plugin, "r") as fo:
         docs = list(yaml.safe_load_all(fo))
+
     for rplugin in docs:
+        interface = getattr(interfaces, rplugin["interface"])
+        # All 'get_plugin' calls perform validation. No need to call the validator
+        # directly
         if rplugin["interface"] == "products":
-            product_validator.validate(rplugin)
-        elif rplugin["interface"] == "workflows":
-            WorkflowPluginModel(**rplugin)
+            # validate product plugins against their source name instead of the top
+            # level product name. That is not always a source, such as the integration
+            # test products we have.
+            for prod_plg in rplugin["spec"]["products"]:
+                for source_name in prod_plg["source_names"]:
+                    interface.get_plugin(source_name, prod_plg["name"])
         else:
-            validator.validate(rplugin)
+            # Otherwise just validate against the top level name.
+            interface.get_plugin(rplugin["name"])
