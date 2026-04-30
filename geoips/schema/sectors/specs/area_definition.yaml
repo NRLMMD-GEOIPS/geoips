@@ -38,8 +38,19 @@ properties:
         items:
           type: integer
   resolution:
-    type: array
-    minItems: 2
-    maxItems: 2
-    items:
-      type: number
+    oneOf:
+      - type: object
+        properties:
+          dx:
+            type: number
+          dy:
+            type: number
+          units:
+            type: string
+        required: ["dx", "dy", "units"]
+
+      - type: array
+        minItems: 2
+        maxItems: 2
+        items:
+          type: integer

@@ -645,6 +645,15 @@ This is useful for small sectors. For example:
 .. image:: canada.png
    :width: 800
 
+Additionally, you can add latitude / longitude gridlines to your sector image if
+desired. This can be applied with the ``--overlay`` flag as well. To add gridlines,
+add the ``--gridlines`` or ``-g`` flag to your command. For example:
+
+.. code-block:: bash
+
+    geoips test sector australia --gridlines
+    geoips test sector australia --gridlines --overlay
+
 test script
 ^^^^^^^^^^^
 
