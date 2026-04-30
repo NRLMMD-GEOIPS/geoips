@@ -1,0 +1,65 @@
+# ---------------------------------------------------------------------------
+# Paths – fall back to env vars (Docker sets them), then sensible defaults.
+# Override any of these with -e on the command line.
+# ---------------------------------------------------------------------------
+geoips_packages_dir: "{{ lookup('env', 'GEOIPS_PACKAGES_DIR') | default('/packages', true) }}"
+geoips_outdirs: "{{ lookup('env', 'GEOIPS_OUTDIRS') | default('/output', true) }}"
+geoips_testdata_dir: "{{ lookup('env', 'GEOIPS_TESTDATA_DIR') | default('/geoips_testdata', true) }}"
+geoips_dependencies_dir: "{{ lookup('env', 'GEOIPS_DEPENDENCIES_DIR') | default('/app/dependencies', true) }}"
+geoips_repo_url: "{{ lookup('env', 'GEOIPS_REPO_URL') | default('https://github.com/NRLMMD-GEOIPS', true) }}"
+
+# Branch to attempt after cloning each repo.  Empty string = stay on default.
+geoips_modified_branch: "{{ lookup('env', 'GEOIPS_MODIFIED_BRANCH') | default('', true) }}"
+
+# Set true to include private/proprietary plugin repos
+geoips_use_private_plugins: "{{ lookup('env', 'GEOIPS_USE_PRIVATE_PLUGINS') | default(false, true) }}"
+
+# Comma-separated list of extra plugin repo names to install (build-arg friendly)
+extra_plugins: "{{ lookup('env', 'EXTRA_PLUGINS') | default('', true) }}"
+
+# true  = pip install -e (editable, for bare-metal dev — source tree IS the package)
+# false = pip install    (build from source — package goes into site-packages, smaller image)
+# The Dockerfile passes -e pip_editable=false.  Bare-metal defaults to true.
+pip_editable: true
+
+# Extra arguments forwarded to every pip install call (requirements, geoips,
+# extras, and plugin repos).  The Dockerfile passes '--no-binary :all:' so
+# every dependency is compiled from source inside the container.  Bare-metal
+# defaults to empty (use wheels when available).
+pip_extra_args: ""
+
+# ---------------------------------------------------------------------------
+# Settings repos (non-plugin repos cloned into GEOIPS_PACKAGES_DIR)
+# ---------------------------------------------------------------------------
+settings_repos:
+  - .vscode
+  - .github
+  - geoips_ci
+
+# ---------------------------------------------------------------------------
+# Plugin source repos – installed with `pip install -e`
+# ---------------------------------------------------------------------------
+plugin_repos:
+  - data_fusion
+  - geoips_clavrx
+  - geoips_plugin_example
+  - recenter_tc
+  - template_basic_plugin
+
+# ORDER MATTERS – each entry is installed sequentially.
+# fortran_utils → rayleigh → ancildat → synth_green must precede geocolor.
+fortran_repos_ordered:
+  - fortran_utils
+  - rayleigh
+  - ancildat
+  - synth_green
+  - geocolor
+
+private_plugin_repos:
+  - ryglickicane
+  - tc_mint
+
+# Must install AFTER the fortran chain above.
+private_fortran_repos:
+  - lunarref
+  - true_color

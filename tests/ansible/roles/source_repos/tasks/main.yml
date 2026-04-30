@@ -1,0 +1,53 @@
+# roles/source_repos/tasks/main.yml
+#
+# Installs plugin source repos via clone + pip install -e.
+# Fortran repos have an explicit ordering constraint.
+#
+---
+# ---- Standard plugin repos (alphabetical order is fine) ----
+- name: Install standard plugin repos
+  ansible.builtin.include_tasks: clone_and_install.yml
+  loop: "{{ plugin_repos }}"
+  loop_control:
+    loop_var: repo_name
+  tags: [site]
+
+# ---- Fortran chain (ORDER MATTERS) ----
+- name: Install fortran repos (ordered)
+  ansible.builtin.include_tasks: clone_and_install.yml
+  loop: "{{ fortran_repos_ordered }}"
+  loop_control:
+    loop_var: repo_name
+  tags: [site]
+
+# ---- Private repos (when enabled) ----
+- name: Install private plugin repos
+  ansible.builtin.include_tasks: clone_and_install.yml
+  loop: "{{ private_plugin_repos }}"
+  loop_control:
+    loop_var: repo_name
+  when: geoips_use_private_plugins | bool
+  tags: [site]
+
+- name: Install private fortran repos
+  ansible.builtin.include_tasks: clone_and_install.yml
+  loop: "{{ private_fortran_repos }}"
+  loop_control:
+    loop_var: repo_name
+  when: geoips_use_private_plugins | bool
+  tags: [site]
+
+# ---- Extra plugins passed via build arg / CLI ----
+- name: Parse extra_plugins into a list
+  ansible.builtin.set_fact:
+    extra_plugins_list: "{{ extra_plugins.split(',') | map('trim') | select | list }}"
+  when: extra_plugins | length > 0
+  tags: [base, full, site]
+
+- name: Install extra plugin repos
+  ansible.builtin.include_tasks: clone_and_install.yml
+  loop: "{{ extra_plugins_list | default([]) }}"
+  loop_control:
+    loop_var: repo_name
+  when: extra_plugins_list is defined and extra_plugins_list | length > 0
+  tags: [base, full, site]

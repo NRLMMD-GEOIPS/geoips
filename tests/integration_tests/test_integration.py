@@ -24,6 +24,14 @@ for test_envvarname in [
 ]:
     print(f"{test_envvarname:>60s}: {gpaths[test_envvarname]}")
 
+# ---------------------------------------------------------------------------
+# Paths used by the ansible install checks
+# ---------------------------------------------------------------------------
+_REPO_ROOT = os.path.realpath(os.path.join(os.path.dirname(__file__), "..", ".."))
+_ANSIBLE_DIR = os.path.join(_REPO_ROOT, "tests", "ansible")
+_PLAYBOOK = os.path.join(_ANSIBLE_DIR, "playbooks", "install.yml")
+_INVENTORY = os.path.join(_ANSIBLE_DIR, "inventory", "local.yml")
+
 # Quick test to ensure basic functionality in geoips installation.
 # This test list should NOT require/test anything in any other plugin package.
 base_integ_test_calls = [
@@ -158,6 +166,110 @@ def set_log_filename(expanded_call):
     return log_fname
 
 
+# ---------------------------------------------------------------------------
+# Ansible-based install verification
+# ---------------------------------------------------------------------------
+
+
+def _run_ansible_check(tags, label):
+    """Run the ansible install playbook for the given tier tags.
+
+    The playbook is idempotent — if everything is already installed the tasks
+    are no-ops.  If something is missing ansible will attempt to install it;
+    if that also fails the non-zero exit code propagates as a RuntimeError.
+
+    Registries are skipped because the tests themselves may need to recreate
+    them after mounting additional plugins.
+
+    Parameters
+    ----------
+    tags : str
+        Comma-separated ansible tags, e.g. ``"base"`` or ``"base,full"``.
+    label : str
+        Human-readable label for log file naming.
+
+    Raises
+    ------
+    RuntimeError
+        If the ansible playbook exits non-zero.
+    """
+    cmd = [
+        "ansible-playbook",
+        _PLAYBOOK,
+        "-i",
+        _INVENTORY,
+        "--tags",
+        tags,
+        "--skip-tags",
+        "registries",
+        "-v",
+    ]
+
+    log_fname = set_log_filename(["ansible-check", label])
+    print(f"Ansible install check ({label}), log: {log_fname}")
+
+    # Point ansible at our config and roles directory.
+    # ANSIBLE_CONFIG finds the config file.
+    # ANSIBLE_ROLES_PATH provides an absolute path to roles/ so they resolve
+    # regardless of the working directory (roles_path in ansible.cfg is
+    # relative to CWD, which varies under pytest).
+    env_override = {
+        "ANSIBLE_CONFIG": os.path.join(_ANSIBLE_DIR, "ansible.cfg"),
+        "ANSIBLE_ROLES_PATH": os.path.join(_ANSIBLE_DIR, "roles"),
+    }
+    orig_vals = {}
+    for key, val in env_override.items():
+        orig_vals[key] = os.environ.get(key)
+        os.environ[key] = val
+
+    try:
+        retval, stdout, stderr = call_cmd(
+            cmd, output_log_fname=log_fname, use_logging=False, use_print=False
+        )
+    finally:
+        # Restore original env
+        for key, orig in orig_vals.items():
+            if orig is None:
+                os.environ.pop(key, None)
+            else:
+                os.environ[key] = orig
+
+    if retval != 0:
+        print(f"\nAnsible install check '{label}' failed, exiting")
+        print(f"Log: {log_fname}")
+        raise RuntimeError(
+            f"Ansible install check '{label}' failed, "
+            f"see error output in log {log_fname}\n"
+        )
+
+
+def check_base_install():
+    """Verify the base GeoIPS installation via ansible.
+
+    Runs the install playbook with ``--tags base`` (registries skipped).
+    Because ansible is idempotent, already-installed components are fast
+    no-ops; anything missing is installed or the check fails.
+    """
+    _run_ansible_check("base", "base_install")
+
+
+def check_full_install():
+    """Verify the full GeoIPS installation via ansible.
+
+    Runs the install playbook with ``--tags base,full`` (registries skipped).
+    """
+    _run_ansible_check("base,full", "full_install")
+
+
+def check_site_install():
+    """Verify the site GeoIPS installation via ansible.
+
+    Runs the install playbook with ``--tags base,full,site``
+    (registries skipped).
+    """
+    _run_ansible_check("base,full,site", "site_install")
+
+
 def check_environment(check_environment_script):
     """Call check environment script to confirm environment is set appropriately."""
     print("Checking environment")
@@ -176,139 +288,23 @@ def check_environment(check_environment_script):
         )
 
 
-def check_base_install():
-    """
-    Run the base installation check script to verify the GeoIPS installation.
-
-    Executes the 'base_install.sh' script located in the GeoIPS tests directory
-    to ensure that all required components are properly installed.
-
-    Raises
-    ------
-    subprocess.CalledProcessError
-        If the installation check script returns a non-zero exit status.
-    """
-    cmd = [
-        "bash",
-        os.path.join(
-            os.getenv("GEOIPS_PACKAGES_DIR"),
-            "geoips/tests/integration_tests/base_install.sh",
-        ),
-        "exit_on_missing",
-        "skip_create_registries",
-    ]
-    # print("Running base install check")
-    script_name = "base_install.sh"
-    log_fname = set_log_filename([script_name])
-    retval, stdout, stderr = call_cmd(
-        cmd, output_log_fname=log_fname, use_logging=False, use_print=False
-    )
-    if retval != 0:
-        print(f"\nCall to '{script_name}' failed, exiting")
-        print("See error output in log:")
-        print(f"Log: {log_fname}")
-        raise RuntimeError(
-            f"{script_name} failed, please see error output in log {log_fname}\n"
-        )
-
-
-def check_full_install():
-    """
-    Run the full installation check script to verify the GeoIPS installation.
-
-    Executes the 'full_install.sh' script located in the GeoIPS tests directory
-    to ensure that all required components are properly installed.
-
-    Raises
-    ------
-    subprocess.CalledProcessError
-        If the installation check script returns a non-zero exit status.
-    """
-    cmd = [
-        "bash",
-        os.path.join(
-            os.getenv("GEOIPS_PACKAGES_DIR"),
-            "geoips/tests/integration_tests/full_install.sh",
-        ),
-        "exit_on_missing",
-        "skip_create_registries",
-    ]
-    # print("Running full install check")
-    script_name = "full_install.sh"
-    log_fname = set_log_filename([script_name])
-    retval, stdout, stderr = call_cmd(
-        cmd, output_log_fname=log_fname, use_logging=False, use_print=False
-    )
-    if retval != 0:
-        print(f"\nCall to '{script_name}' failed, exiting")
-        print("See error output in log:")
-        print(f"Log: {log_fname}")
-        raise RuntimeError(
-            f"{script_name} failed, please see error output in log {log_fname}\n"
-        )
-
-
-def check_site_install():
-    """
-    Run the site installation check script to verify the GeoIPS installation.
-
-    Executes the 'site_install.sh' script located in the GeoIPS tests directory
-    to ensure that all required components are properly installed.
-
-    Raises
-    ------
-    subprocess.CalledProcessError
-        If the installation check script returns a non-zero exit status.
-    """
-    cmd = [
-        "bash",
-        os.path.join(
-            os.getenv("GEOIPS_PACKAGES_DIR"),
-            "geoips/tests/integration_tests/site_install.sh",
-        ),
-        "exit_on_missing",
-        "skip_create_registries",
-    ]
-    # print("Running site install check")
-    script_name = "site_install.sh"
-    log_fname = set_log_filename([script_name])
-    retval, stdout, stderr = call_cmd(
-        cmd, output_log_fname=log_fname, use_logging=False, use_print=False
-    )
-    if retval != 0:
-        print(f"\nCall to '{script_name}' failed, exiting")
-        print("See error output in log:")
-        print(f"Log: {log_fname}")
-        raise RuntimeError(
-            f"{script_name} failed, please see error output in log {log_fname}\n"
-        )
-
-
 def setup_environment():
-    """
-    Set up necessary environment variables for integration tests.
+    """Set up necessary environment variables for integration tests.
 
     Configures paths and package names for the GeoIPS core and its plugins by
-    setting environment variables required for the integration tests. Assumes
-    that 'GEOIPS_PACKAGES_DIR' is already set in the environment.
+    setting environment variables required for the integration tests.  Assumes
+    that ``GEOIPS_PACKAGES_DIR`` is already set in the environment.
 
     Notes
     -----
     The following environment variables are set:
+
     - geoips_repopath
     - geoips_pkgname
     """
-    # Base path
-    os.environ["geoips_repopath"] = os.path.realpath(
-        os.path.join(os.path.dirname(__file__), "..", "..")
-    )
+    os.environ["geoips_repopath"] = _REPO_ROOT
     os.environ["geoips_pkgname"] = "geoips"
 
-    # Setup current repo's environment
-    os.environ["repopath"] = os.environ["geoips_repopath"]
-    os.environ["pkgname"] = os.environ["geoips_pkgname"]
-
-    # Environment variable for GEOIPS_PACKAGES_DIR
     geoips_packages_dir = os.getenv("GEOIPS_PACKAGES_DIR")
     if not geoips_packages_dir:
         raise EnvironmentError("GEOIPS_PACKAGES_DIR environment variable not set.")
@@ -316,40 +312,24 @@ def setup_environment():
 
 @pytest.fixture(scope="session")
 def site_setup():
-    """
-    Set up the site integration tests by checking install and setting env-vars.
-
-    Calls `check_site_install()` to verify the installation and `setup_environment()`
-    to set up the necessary environment variables before running integration tests.
-    """
+    """Set up the site integration tests by checking install and setting env-vars."""
     check_site_install()
 
 
 @pytest.fixture(scope="session")
 def base_setup():
-    """
-    Set up the base integration tests by checking install and setting env-vars.
-
-    Calls `check_base_install()` to verify the installation and `setup_environment()`
-    to set up the necessary environment variables before running integration tests.
-    """
+    """Set up the base integration tests by checking install and setting env-vars."""
     check_base_install()
 
 
 @pytest.fixture(scope="session")
 def full_setup():
-    """
-    Set up the full integration tests by checking install and setting env-vars.
-
-    Calls `check_full_install()` to verify the installation and `setup_environment()`
-    to set up the necessary environment variables before running integration tests.
-    """
+    """Set up the full integration tests by checking install and setting env-vars."""
     check_full_install()
 
 
 def is_likely_oserror_missing_file(log_contents: str) -> bool:
-    """
-    Check if the log contents indicate a likely OSError for a missing file.
+    """Check if the log contents indicate a likely OSError for a missing file.
 
     Searches the last ten lines of the provided log contents for patterns
     that suggest an OSError related to a missing file.
@@ -370,41 +350,31 @@ def is_likely_oserror_missing_file(log_contents: str) -> bool:
     return re.search(pattern, last_ten_lines) is not None
 
 
-def run_script_with_bash(
-    script, fail_on_missing_data=True, unset_output_path_env_vars=True
-):
-    """
-    Run scripts by executing specified shell commands with bash.
+def run_script_with_bash(script, fail_on_missing_data, unset_output_path_env_vars=True):
+    """Run scripts by executing specified shell commands with bash.
 
-    If unset_output_path_env_vars is set, explicit output path env vars are unset to
-    ensure clean consistent paths for test comparisons (these env vars all default
-    to a consistent location if not set, so ensure they are not set so output products
-    are written to a consistent location for tests).
-
+    If unset_output_path_env_vars is set, explicit output path env vars are
+    unset to ensure clean consistent paths for test comparisons (these env
+    vars all default to a consistent location if not set, so ensure they are
+    not set so output products are written to a consistent location for tests).
 
     Parameters
     ----------
     script : str
-        Shell command to executes. The command may
-        contain environment variables which will be expanded before execution.
+        Shell command to execute.  The command may contain environment
+        variables which will be expanded before execution.
+    fail_on_missing_data : bool
+        If True, raise FileNotFoundError when data is missing.
+        If False, xfail the test instead.
+    unset_output_path_env_vars : bool, optional
+        If True, unset output path env vars for test consistency.
 
     Raises
     ------
     subprocess.CalledProcessError
         If the shell command returns a non-zero exit status.
     """
-    # The print statements all appear to print AFTER the script is complete
-    # And appears to not include a newline after printing the script.
     print("")
-    # Unset all supported specific output path env vars to ensure consistent test
-    # output locations.  These are all defaulted to GEOIPS_OUTDIRS locations in
-    # geoips_utils replace paths - we want to ensure they are not set so all paths
-    # are updated with the GEOIPS_OUTDIRS relative paths for test consistency across
-    # installs. GEOIPS_REPLACE_OUTPUT_PATHS is set within geoips/filenames/base_paths.py
-    # to a default set of supported environment variables, overridden to the
-    # specified list if GEOIPS_REPLACE_OUTPUT_PATHS is set within the environment.
-    # See geoips/geoips/filenames/base_paths.py for more information on
-    # GEOIPS_REPLACE_OUTPUT_PATHS
     removed_env_vars = {}
     if unset_output_path_env_vars:
         for env_var in gpaths["GEOIPS_REPLACE_OUTPUT_PATHS"]:
@@ -430,12 +400,8 @@ def run_script_with_bash(
         expanded_call = shlex.split("bash " + os.path.expandvars(script))
     else:
         expanded_call = shlex.split(os.path.expandvars(script))
-    # print("Running: ", script)
-    # print("Expanded call: ", expanded_call)
-    # print(" ".join(expanded_call))
     log_fname = set_log_filename(expanded_call[1:])
 
-    # Note - this never seems to print until after the cmd is complete
     print(f"Log: {log_fname} , latest logs:")
     print(f"ls -lthr {os.path.dirname(log_fname)}/*")
     print(datetime.now(timezone.utc))
@@ -484,14 +450,14 @@ def run_script_with_bash(
 def test_integ_base_test_script(
     base_setup: None, script: str, fail_on_missing_data: bool
 ):
-    """
-    Run integration test scripts by executing specified shell commands.
+    """Run base integration test scripts.
 
     Parameters
     ----------
     script : str
-        Shell command to execute as part of the integration test. The command may
-        contain environment variables which will be expanded before execution.
+        Shell command to execute as part of the integration test.
+    fail_on_missing_data : bool
+        Whether to hard-fail on missing test data.
 
     Raises
     ------
@@ -506,14 +472,12 @@ def test_integ_base_test_script(
 @pytest.mark.integration
 @pytest.mark.parametrize("script", lint_integ_test_calls)
 def test_integ_lint_test_script(base_setup: None, script: str):
-    """
-    Run integration test scripts by executing specified shell commands.
+    """Run lint integration test scripts.
 
     Parameters
     ----------
     script : str
-        Shell command to execute as part of the integration test. The command may
-        contain environment variables which will be expanded before execution.
+        Shell command to execute as part of the integration test.
 
     Raises
     ------
@@ -553,14 +517,14 @@ def test_integ_validation_script(base_setup: None, script: str):
 def test_integ_multi_repo_script(
     site_setup: None, script: str, fail_on_missing_data: bool
 ):
-    """
-    Run integration test scripts by executing specified shell commands.
+    """Run multi-repo integration test scripts.
 
     Parameters
     ----------
     script : str
-        Shell command to execute as part of the integration test. The command may
-        contain environment variables which will be expanded before execution.
+        Shell command to execute as part of the integration test.
+    fail_on_missing_data : bool
+        Whether to hard-fail on missing test data.
 
     Raises
     ------
@@ -575,14 +539,14 @@ def test_integ_multi_repo_script(
 @pytest.mark.integration
 @pytest.mark.parametrize("script", full_integ_test_calls)
 def test_integ_full_script(full_setup: None, script: str, fail_on_missing_data: bool):
-    """
-    Run integration test scripts by executing specified shell commands.
+    """Run full integration test scripts.
 
     Parameters
     ----------
     script : str
-        Shell command to execute as part of the integration test. The command may
-        contain environment variables which will be expanded before execution.
+        Shell command to execute as part of the integration test.
+    fail_on_missing_data : bool
+        Whether to hard-fail on missing test data.
 
     Raises
     ------
@@ -602,14 +566,14 @@ def test_integ_full_script(full_setup: None, script: str, fail_on_missing_data: 
 def test_integ_limited_data_script(
     full_setup: None, script: str, fail_on_missing_data: bool
 ):
-    """
-    Run integration test scripts by executing specified shell commands.
+    """Run limited-data integration test scripts.
 
     Parameters
     ----------
     script : str
-        Shell command to execute as part of the integration test. The command may
-        contain environment variables which will be expanded before execution.
+        Shell command to execute as part of the integration test.
+    fail_on_missing_data : bool
+        Whether to hard-fail on missing test data.
 
     Raises
     ------

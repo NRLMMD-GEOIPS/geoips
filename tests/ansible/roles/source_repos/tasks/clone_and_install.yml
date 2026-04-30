@@ -1,0 +1,25 @@
+# roles/source_repos/tasks/clone_and_install.yml
+#
+# Expects: repo_name (set by the caller's loop_var)
+#
+---
+- name: "Clone {{ repo_name }}"
+  ansible.builtin.git:
+    repo: "{{ geoips_repo_url }}/{{ repo_name }}.git"
+    dest: "{{ geoips_packages_dir }}/{{ repo_name }}"
+    version: "{{ geoips_modified_branch if geoips_modified_branch else omit }}"
+  register: _clone
+  failed_when: false
+
+- name: "Clone {{ repo_name }} on default branch (branch '{{ geoips_modified_branch }}' not found)"
+  ansible.builtin.git:
+    repo: "{{ geoips_repo_url }}/{{ repo_name }}.git"
+    dest: "{{ geoips_packages_dir }}/{{ repo_name }}"
+  when: _clone is failed
+
+- name: "Pip install {{ repo_name }}"
+  ansible.builtin.pip:
+    name: "{{ geoips_packages_dir }}/{{ repo_name }}"
+    editable: "{{ pip_editable | bool }}"
+    extra_args: "{{ pip_extra_args }}"
+    state: present

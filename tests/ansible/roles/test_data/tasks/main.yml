@@ -1,0 +1,50 @@
+# roles/test_data/tasks/main.yml
+#
+# Downloads test datasets using `geoips config install`.
+# The command is idempotent — it skips datasets that already exist in
+# $GEOIPS_TESTDATA_DIR.
+#
+# The `creates:` parameter lets Ansible skip the CLI call entirely when the
+# dataset directory already exists.  If a dataset is only partially extracted,
+# delete its directory to force a re-download.
+#
+# This role is deliberately NOT part of the install.yml playbook because
+# test data is never baked into Docker images.  It has its own playbook
+# (test_data.yml) that CI and developers call separately.
+---
+
+- name: Ensure GEOIPS_TESTDATA_DIR exists
+  ansible.builtin.file:
+    path: "{{ geoips_testdata_dir }}"
+    state: directory
+    mode: "0755"
+  tags: [base, full, site]
+
+# ---- base tier datasets ----
+- name: Install base datasets
+  ansible.builtin.include_tasks: install_datasets.yml
+  vars:
+    datasets: "{{ base_test_datasets }}"
+  tags: [base]
+
+# ---- full tier datasets ----
+- name: Install full datasets
+  ansible.builtin.include_tasks: install_datasets.yml
+  vars:
+    datasets: "{{ full_test_datasets }}"
+  tags: [full]
+
+# ---- site tier datasets ----
+- name: Install site datasets
+  ansible.builtin.include_tasks: install_datasets.yml
+  vars:
+    datasets: "{{ site_test_datasets }}"
+  tags: [site]
+
+# ---- private datasets (only when enabled) ----
+- name: Install private datasets
+  ansible.builtin.include_tasks: install_datasets.yml
+  vars:
+    datasets: "{{ private_test_datasets }}"
+  when: geoips_use_private_plugins | bool
+  tags: [site]

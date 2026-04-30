@@ -1,0 +1,44 @@
+# roles/python_env/tasks/main.yml
+#
+# pip_editable (default true):
+#   true  → pip install -e  (bare-metal dev, source tree is the package)
+#   false → pip install     (Docker, package goes into site-packages)
+#
+# pip_extra_args (default ""):
+#   Forwarded to every pip call.  The Dockerfile sets this to
+#   '--no-binary :all:' so all dependencies are compiled from source.
+#
+# In Docker the deps stage already installed requirements.txt in a cached
+# layer, so the task below is a fast no-op.  On bare metal it does the
+# actual install.
+---
+- name: Install GeoIPS requirements.txt
+  ansible.builtin.pip:
+    requirements: "{{ geoips_packages_dir }}/geoips/environments/requirements.txt"
+    extra_args: "{{ pip_extra_args }}"
+    state: present
+  tags: [base, full, site]
+
+- name: Install GeoIPS core
+  ansible.builtin.pip:
+    name: "{{ geoips_packages_dir }}/geoips"
+    editable: "{{ pip_editable | bool }}"
+    extra_args: "{{ pip_extra_args }}"
+    state: present
+  tags: [base, full, site]
+
+- name: Install doc + test extras
+  ansible.builtin.pip:
+    name: "{{ geoips_packages_dir }}/geoips[doc,test]"
+    editable: "{{ pip_editable | bool }}"
+    extra_args: "{{ pip_extra_args }}"
+    state: present
+  tags: [full, site]
+
+- name: Install lint + debug extras
+  ansible.builtin.pip:
+    name: "{{ geoips_packages_dir }}/geoips[doc,test,lint,debug]"
+    editable: "{{ pip_editable | bool }}"
+    extra_args: "{{ pip_extra_args }}"
+    state: present
+  tags: [site]

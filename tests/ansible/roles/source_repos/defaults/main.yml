@@ -1,0 +1,7 @@
+# roles/source_repos/defaults/main.yml
+# Defaults live in group_vars/all.yml. These exist for standalone role use.
+plugin_repos: []
+fortran_repos_ordered: []
+private_plugin_repos: []
+private_fortran_repos: []
+extra_plugins: ""

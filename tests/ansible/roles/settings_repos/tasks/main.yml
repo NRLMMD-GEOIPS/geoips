@@ -1,0 +1,21 @@
+# roles/settings_repos/tasks/main.yml
+---
+- name: "Clone settings repo {{ item }}"
+  ansible.builtin.git:
+    repo: "{{ geoips_repo_url }}/{{ item }}.git"
+    dest: "{{ geoips_packages_dir }}/{{ item }}"
+    version: "{{ geoips_modified_branch if geoips_modified_branch else omit }}"
+  register: clone_result
+  failed_when: false
+  loop: "{{ settings_repos }}"
+  tags: [full, site]
+
+- name: "Fallback clone settings repos on default branch"
+  ansible.builtin.git:
+    repo: "{{ geoips_repo_url }}/{{ item.item }}.git"
+    dest: "{{ geoips_packages_dir }}/{{ item.item }}"
+  loop: "{{ clone_result.results | default([]) | selectattr('failed', 'defined') | selectattr('failed') | list }}"
+  loop_control:
+    label: "{{ item.item }}"
+  when: clone_result.results is defined
+  tags: [full, site]
