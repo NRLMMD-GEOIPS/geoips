@@ -676,7 +676,9 @@ def create_figure_and_main_ax_and_mapobj(
     main_ax.set_axis_off()
     fig.add_axes(main_ax)
 
+    # if the mapobj is a cartopy crs instance and noborder isn't set, then add gridlines
     if is_crs(mapobj) and not noborder:
+        # buried imports here as that is what's done by default in this function
         import cartopy.crs as ccrs
         import cartopy.mpl.ticker as cticker
 
@@ -692,6 +694,8 @@ def create_figure_and_main_ax_and_mapobj(
         )
         gl.top_labels = False
         gl.right_labels = False
+        # Based on testing these seem to do a good job at auto-spacing the lat/lon ticks
+        # for any sector
         gl.xformatter = cticker.LongitudeFormatter()
         gl.yformatter = cticker.LatitudeFormatter()
 
