@@ -9,7 +9,6 @@ from pyresample import kd_tree
 
 from geoips.interfaces.base import BaseYamlPlugin, BaseYamlInterface
 from geoips.image_utils.mpl_utils import create_figure_and_main_ax_and_mapobj
-from geoips.filenames.base_paths import PATHS as gpaths
 
 # Commenting these out for PR #260
 # Will work on this again after the 2023 workshop

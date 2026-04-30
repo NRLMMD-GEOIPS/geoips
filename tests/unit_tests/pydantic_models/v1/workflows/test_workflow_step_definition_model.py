@@ -59,6 +59,7 @@ def test_good_workflow_step_definition_model_valid_step(valid_step_data):
         "self_register": "LOW",
     }
 
+
 def test_bad_workflow_step_definition_model_validator_empty_input():
     """Tests WorkflowStepDefinitionModel with empty input."""
     with pytest.raises(ValidationError) as exec_info:

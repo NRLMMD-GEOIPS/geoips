@@ -10,6 +10,7 @@ from pyresample import create_area_def
 # GeoIPS Libraries
 from geoips.interfaces import sectors
 
+
 @pytest.fixture
 def valid_step_data():
     """Fixture to provide sample valid plugin data for testing."""
