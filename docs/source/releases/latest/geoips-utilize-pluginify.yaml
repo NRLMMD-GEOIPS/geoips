@@ -61,6 +61,12 @@ refactor:
       - geoips/plugins/modules/procflows/config_based.py
       - geoips/sector_utils/utils.py
       - pyproject.toml
+      - tests/unit_tests/commandline/cli_top_level_tester.py
+      - tests/unit_tests/commandline/test_geoips_test_linting.py
+      - tests/unit_tests/commandline/test_geoips_list_interface.py
+      - tests/unit_tests/commandline/test_geoips_list_plugins.py
+      - tests/unit_tests/commandline/test_geoips_list_source_names.py
+      - tests/unit_tests/commandline/test_geoips_validate.py
       - tests/unit_tests/plugins/test_get_plugin.py
       - tests/unit_tests/plugins/test_get_plugin_metadata.py
       - tests/utils/test_interfaces.py
