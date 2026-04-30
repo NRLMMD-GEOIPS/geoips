@@ -13,8 +13,9 @@ from geoips.interfaces import sectors
 @pytest.fixture
 def valid_step_data():
     """Fixture to provide sample valid plugin data for testing."""
-    sect = sectors.get_plugin("denver")
+    sect = sectors.get_plugin("denver", rebuild_registries=False)
     area_def_to_compare = create_area_def(**sect["spec"])
+
     return {
         "kind": "reader",
         "name": "abi_netcdf",
