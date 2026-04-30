@@ -485,7 +485,7 @@ instructions:
       If '--gridlines' or '-g' is supplied, latitude, longitude gridlines will be
       applied to your sector image.
     usage_str: |
-      To use, type `geoips test sector <sector_name> --overlay --outdir --gridlines
+      To use, type `geoips test sector <sector_name> --overlay --gridlines --outdir
       <output_directory_path>`.
     output_info:
       - A path to the image of the sector you've created.
