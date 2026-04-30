@@ -13,6 +13,7 @@ from datetime import datetime
 from pyaml_env import parse_config
 
 from geoips.commandline.args import check_command_line_args
+from geoips.errors import PluginError
 from geoips.filenames.base_paths import PATHS as gpaths
 from geoips.utils.memusg.memusg_tracker import PidLog
 
@@ -69,7 +70,7 @@ from geoips.plugins.modules.procflows.single_source import (
 )
 
 # Moved to top-level errors module, fixing issue #67
-from geoips.errors import CoverageError, PluginError
+from geoips.errors import CoverageError
 
 PMW_NUM_PIXELS_X = 1400
 PMW_NUM_PIXELS_Y = 1400

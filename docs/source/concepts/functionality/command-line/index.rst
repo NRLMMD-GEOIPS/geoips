@@ -475,7 +475,6 @@ For example:
     To list installable test datasets,
     see ``geoips list test-datasets``.
 
-
 .. _geoips_config_create-registries:
 
 :ref:`geoips config create-registries <geoips_config_create-registries>`

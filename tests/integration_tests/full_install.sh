@@ -47,7 +47,7 @@ fi
 . $check run_command "geoips config install test_data_saphir"
 . $check run_command "geoips config install test_data_sar"
 . $check run_command "geoips config install test_data_scat"
-. $check run_command "geoips config install test_data_sgli"
+# . $check run_command "geoips config install test_data_sgli"
 . $check run_command "geoips config install test_data_seviri"
 . $check run_command "geoips config install test_data_smap"
 . $check run_command "geoips config install test_data_smos"

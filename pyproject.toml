@@ -59,6 +59,7 @@ build-backend = "poetry_dynamic_versioning.backend"                          # o
 # NOTE this setuptools dependency should be removed altogether once meson fortran builds are working
 setuptools = "<70"     # Required for any fortran builds until meson working
 python = ">=3.11.0,<3.13.0"    # mandatory to declare the required python version
+pluginify = "*"        # Required for plugin management and loading
 matplotlib = ">=3.7.0" # Base requirement works, version specific to test outputs
 netcdf4 = ">1.7.0"     # Base requirement >= 1.7.0 works without reader seg faults
 numpy = ">=2.3.0"      # Base requirement, 2.2.6 works, 2.3.0 broke float pyYAML serialization, now resolved.

@@ -20,6 +20,7 @@ test_data_urls:
   test_data_multi_scan_times: "https://io2.cira.colostate.edu/s/J73tEcn22smktMi/download?path=%2F&files=test_data_multi_scan_times.tgz"
   test_data_noaa_aws: "https://io2.cira.colostate.edu/s/J73tEcn22smktMi/download?path=%2F&files=test_data_noaa_aws_1.15.3_github.com.tgz"
   test_data_ngfs: "https://io2.cira.colostate.edu/s/J73tEcn22smktMi/download?path=%2F&files=test_data_ngfs_1.15.3_github.com.tgz"
+  test_data_nucaps: "https://io2.cira.colostate.edu/s/J73tEcn22smktMi/download?path=%2F&files=test_data_nucaps_1.16.3_github.com.tgz"
   test_data_pyrocb: "https://io2.cira.colostate.edu/s/J73tEcn22smktMi/download?path=%2F&files=test_data_pyrocb_1.15.3_github.com.tgz"
   test_data_saphir: "https://io2.cira.colostate.edu/s/J73tEcn22smktMi/download?path=%2F&files=test_data_saphir.tgz"
   test_data_sar: "https://io2.cira.colostate.edu/s/J73tEcn22smktMi/download?path=%2F&files=test_data_sar_1.12.2_github.com.tgz"

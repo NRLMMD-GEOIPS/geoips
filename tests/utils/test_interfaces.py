@@ -3,9 +3,9 @@
 
 """Simple test script to run "test_interface" for each interface."""
 
+import json
 from pprint import pformat
 import traceback
-import json
 
 from geoips import interfaces
 from geoips.filenames.base_paths import PATHS as gpaths
@@ -116,12 +116,10 @@ def main():
         'tests.unit_tests.plugin_registries.test_plugin_registries' for more
         information.
         """
-        from tests.unit_tests.plugin_registries.test_plugin_registries import (
-            PluginRegistryValidator,
-        )
-        from geoips.errors import PluginRegistryError
+        from pluginify.utils.validators import PluginRegistryValidator
+        from pluginify.errors import PluginRegistryError
 
-        plg_reg = PluginRegistryValidator()
+        plg_reg = PluginRegistryValidator(namespace="geoips.plugin_packages")
         try:
             LOG.interactive("Testing all registries...")
             plg_reg.validate_all_registries()
