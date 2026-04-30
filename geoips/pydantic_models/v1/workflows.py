@@ -17,11 +17,13 @@ including top-level callable interfaces (eg. Readers, OutputFormatters, etc.).
 from __future__ import annotations
 
 # Python Standard Libraries
+from copy import deepcopy
 import logging
+from os import environ
 from typing import Any, Dict, List
 
 # Third-Party Libraries
-from pydantic import ConfigDict, Field, field_validator, model_validator
+from pydantic import ConfigDict, Field, field_validator, model_validator, ValidationInfo
 
 # GeoIPS imports
 from geoips import interfaces
@@ -35,6 +37,16 @@ from geoips.pydantic_models.v1.coverage_checkers import CoverageCheckerArguments
 from geoips.utils.types.partial_lexeme import Lexeme
 
 LOG = logging.getLogger(__name__)
+
+
+ORDERED_PRODUCT_FAMILIES = [
+    "algorithm",
+    "algorithm_colormapper",
+    "algorithm_interpolator_colormapper",
+    "interpolator",
+    "interpolator_algorithm",
+    "interpolator_algorithm_colormapper",
+]
 
 
 def get_plugin_names(plugin_kind: str) -> List[str]:
@@ -63,7 +75,20 @@ def get_plugin_names(plugin_kind: str) -> List[str]:
         error_message = f"{plugin_kind} is not a recognized plugin kind."
         LOG.critical(error_message, exc_info=True)
         raise AttributeError(error_message) from e
-    return [plugin.name for plugin in interface.get_plugins() or []]
+
+    interface_entry = interface.plugin_registry.registered_plugins[
+        interface.interface_type
+    ][interface_name]
+
+    if interface_name == "products":
+        plugin_names = []
+        for source_name in interface_entry:
+            for plugin_name in interface_entry[source_name]:
+                plugin_names.append((source_name, plugin_name))
+
+        return plugin_names
+    else:
+        return list(interface_entry.keys())
 
 
 def get_plugin_kinds() -> set[str]:
@@ -99,8 +124,26 @@ class AlgorithmArgumentsModel(PermissiveFrozenModel):
     pass
 
 
+class ColormapperArgumentsModel(PermissiveFrozenModel):
+    """Validate Colormapper arguments."""
+
+    pass
+
+
 class InterpolatorArgumentsModel(PermissiveFrozenModel):
     """Validate Interpolator arguments."""
+
+    pass
+
+
+class ProductDefaultArgumentsModel(PermissiveFrozenModel):
+    """Validate product default arguments."""
+
+    pass
+
+
+class ProductArgumentsModel(PermissiveFrozenModel):
+    """Validate product arguments."""
 
     pass
 
@@ -160,7 +203,8 @@ class WorkflowStepDefinitionModel(FrozenModel):
     """Validate step definition : kind, name, and arguments."""
 
     kind: Lexeme = Field(..., description="plugin kind")
-    name: str = Field(..., description="plugin name", init=False)
+    name: str | tuple[str] = Field(None, description="plugin name", init=False)
+    spec: WorkflowSpecModel = Field(None, description="The workflow specification")
     arguments: Dict[str, Any] = Field(default_factory=dict, description="step args")
 
     @field_validator("kind", mode="before")
@@ -199,6 +243,45 @@ class WorkflowStepDefinitionModel(FrozenModel):
 
         return value
 
+    @model_validator(mode="before")
+    def _ensure_xor_name_spec(cls, values):
+        """Ensure that fields 'spec' and 'name' are mutually exclusive.
+
+        Additionally, ensure that only workflow plugins can define spec in a step. All
+        other plugins must reference a name and provide arguments as is done usually.
+
+        Parameters
+        ----------
+        values: dict
+            Input values to the model.
+
+        Returns
+        -------
+        values: dict
+            Input values to the model.
+
+        Raises
+        ------
+        ValueError
+            If the plugin name is not valid for the specified plugin kind.
+        """
+        if values.get("kind") == "workflow":
+            if (values.get("name") is None) == (values.get("spec") is None):
+                raise ValueError("Exactly one of 'name' or 'spec' must be provided.")
+        else:
+            if values.get("spec"):
+                raise ValueError(
+                    "You cannot implement a 'spec' field for any step other than one "
+                    "which a workflow."
+                )
+            if values.get("name") is None:
+                raise ValueError(
+                    "You must specify a name field for every plugin step that is not a "
+                    "workflow step."
+                )
+
+        return values
+
     @model_validator(mode="after")
     def _validate_plugin_name(
         cls, model: WorkflowStepDefinitionModel
@@ -220,10 +303,14 @@ class WorkflowStepDefinitionModel(FrozenModel):
         ------
         ValueError
             If the plugin name is not valid for the specified plugin kind.
-
         """
         plugin_name = model.name
         plugin_kind = model.kind
+
+        if plugin_kind == "workflow" and model.spec is not None:
+            # This occurs when we've converted a product or product default step to
+            # an embedded workflow with a spec/steps section. No name is required.
+            return model
 
         valid_plugin_names = get_plugin_names(plugin_kind)
         if plugin_name not in valid_plugin_names:
@@ -264,11 +351,14 @@ class WorkflowStepDefinitionModel(FrozenModel):
         # Dictionary listing all plugin arguments models
         plugin_arguments_models = {
             "AlgorithmArgumentsModel": AlgorithmArgumentsModel,
+            "ColormapperArgumentsModel": ColormapperArgumentsModel,
             "CoverageCheckerArgumentsModel": CoverageCheckerArgumentsModel,
             "FilenameFormatterArgumentsModel": FilenameFormatterArgumentsModel,
             "InterpolatorArgumentsModel": InterpolatorArgumentsModel,
             "OutputFormatterArgumentsModel": OutputFormatterArgumentsModel,
             "CoverageCheckerArgumentsModel": CoverageCheckerArgumentsModel,
+            "ProductDefaultArgumentsModel": ProductDefaultArgumentsModel,
+            "ProductArgumentsModel": ProductArgumentsModel,
             "ReaderArgumentsModel": ReaderArgumentsModel,
             "WorkflowArgumentsModel": WorkflowArgumentsModel,
         }
@@ -280,15 +370,15 @@ class WorkflowStepDefinitionModel(FrozenModel):
         except KeyError as e:
             valid_models = ", ".join(plugin_arguments_models)
             raise ValueError(
-                f'The argument class/model "{plugin_arguments_model_name}" for'
-                f'the plugin kind "{plugin_kind}" is not defined. Valid available'
+                f'The argument class/model "{plugin_arguments_model_name}" for '
+                f'the plugin kind "{plugin_kind}" is not defined. Valid available '
                 f"models are {valid_models}."
             ) from e
-            LOG.interactive(
-                "Plugin kind '%s' was already validated, yet PluginArgumentsModel "
-                "lookup failed. Please report this to the GeoIPS development team",
-                plugin_kind,
-            )
+            # LOG.interactive(
+            #     "Plugin kind '%s' was already validated, yet PluginArgumentsModel "
+            #     "lookup failed. Please report this to the GeoIPS development team",
+            #     plugin_kind,
+            # )
 
         plugin_arguments_model(**model.arguments)
 
@@ -302,6 +392,198 @@ class WorkflowSpecModel(FrozenModel):
     steps: Dict[PythonIdentifier, WorkflowStepDefinitionModel] = Field(
         ..., description="Steps to produce the workflow."
     )
+    globals: Dict[str, Any] = Field(
+        None,
+        description=(
+            "Optional dictionary of  variables that can be used for multiple plugins in"
+            " a workflow."
+        ),
+        examples=[
+            {
+                "variables": ["B14BT"],
+                "mtif_type": "vis",
+            },
+        ],
+    )
+
+    @classmethod
+    def extend_dict(cls, base: dict, new: dict) -> dict:
+        """Extend a dictionary with the contents of another dictionary.
+
+        Do this extension while avoiding key collisions by automatically renaming
+        conflicting keys.
+
+        Keys from ``new`` are added to ``base``. If a key from ``new`` already
+        exists in ``base``, a numeric suffix is appended to the key name
+        (e.g., ``key1``, ``key2``, etc.) until a unique key is found. The original
+        dictionaries are not modified.
+
+        Parameters
+        ----------
+        base: dict
+            - The original dictionary whose contents will be preserved. Keys from
+              ``new`` will be added to a copy of this dictionary.
+        new: dict
+            - The dictionary whose key-value pairs will be added to ``base``. If a
+              key already exists in ``base`` (or was added earlier during the merge),
+              it will be renamed with an incrementing numeric suffix to ensure
+              uniqueness.
+
+        Returns
+        -------
+        dict
+            - A new dictionary containing all key-value pairs from ``base`` and
+              ``new``. Any conflicting keys from ``new`` will be renamed with a
+              numeric suffix (``key1``, ``key2``, etc.) so that no keys are overwritten.
+        """
+        result = deepcopy(base)
+
+        for key, value in new.items():
+            if key not in result:
+                result[key] = value
+                continue
+
+            i = 1
+            while f"{key}{i}" in result:
+                i += 1
+
+            result[f"{key}{i}"] = value
+
+        return result
+
+    @classmethod
+    def product_to_steps(cls, plugin: dict) -> tuple[dict[dict], dict]:
+        """Define a product or product default plugin as a series of workflow steps.
+
+        Parameters
+        ----------
+        plugin: dict
+            - A dictionary representation of a product or product default plugin.
+
+        Returns
+        -------
+        steps: dict[dict]
+            - An ordered dictionary representing the expanded version of the input
+              plugin.
+        global_vars: dict
+            - A dictionary of global variables found in this plugin.
+        """
+        steps = {}
+        family = plugin.get("family")
+        spec = plugin.get("spec", {})
+        global_vars = {"variables": spec["variables"]} if spec.get("variables") else {}
+
+        if family in ORDERED_PRODUCT_FAMILIES:
+            for plugin_name in family.split("_"):
+                steps[plugin_name] = spec[plugin_name].get("plugin")
+                steps[plugin_name]["kind"] = plugin_name
+        else:
+            for key, value in spec.items():
+                if key in ["mtif_type", "variables"]:
+                    continue
+                elif key == "windbarb_plotter":
+                    kind = "output_formatter"
+                else:
+                    kind = key
+
+                steps[key] = value.get("plugin")
+                steps[key]["kind"] = kind
+
+        return steps, global_vars
+
+    @classmethod
+    def expand_step(cls, step: dict, info: ValidationInfo) -> dict[dict]:
+        """Expand the definition of this step if it is a select plugin type.
+
+        Plugin types this function will expand include
+        ['products', 'product_defaults', 'workflows'].
+
+        This function will fully expand this step if it is one of the mentioned types
+        before any validation occurs.
+
+        Parameters
+        ----------
+        step: dict
+            A dictionary representation of a workflow step.
+        info: ValidationInfo
+            An object representing the context in which this model was instantiated.
+
+        Returns
+        -------
+        steps: dict[dict]
+            - An ordered dictionary representing the expanded version of the input step.
+        """
+        context = info.context or {}
+        expand = context.get("expand", False)
+
+        kind = step.get("kind")
+        interface = getattr(interfaces, Lexeme(kind).plural)
+
+        if kind == "product":
+            plugin = interface.get_plugin(*step.get("name"))
+        elif kind == "product_default":
+            plugin = interface.get_plugin(step.get("name"))
+        else:
+            # workflow plugins
+            plugin = interface.get_plugin(step.get("name"), _expand=expand)
+
+        if kind in ["product", "product_default"]:
+            steps, global_vars = cls.product_to_steps(plugin)  # NOQA
+        else:
+            steps = cls.expand_steps(plugin.get("spec"), info)["steps"]
+
+        return steps
+
+    @model_validator(mode="before")
+    @classmethod
+    def expand_steps(cls, data: dict, info: ValidationInfo):
+        """Expand each step of a workflow if it is a select plugin type.
+
+        Plugin types this function will expand include
+        ['products', 'product_defaults', 'workflows'].
+
+        This function will fully expand each step of the mentioned types before any
+        validation occurs. This way workflows can support nested workflows, of which all
+        of the mentioned types produce.
+        """
+        context = info.context or {}
+        expand = context.get("expand", False)
+
+        steps = data.pop("steps", {})
+        expanded_steps = {}
+
+        for name, step in steps.items():
+            # Default
+            if step.get("kind") in ["product", "product_default"]:
+                spec = {"steps": cls.expand_step(step, info)}
+                new_step = {
+                    "kind": "workflow",
+                    "spec": spec,
+                }
+                # Generate a step ID based off the current step's plugin name
+                # if it's a product, merge the name tuple into a single name
+                step_id = (
+                    "_".join(step.get("name"))
+                    if step.get("kind") == "product"
+                    else step.get("name")
+                )
+                expanded_steps = cls.extend_dict(expanded_steps, {step_id: new_step})
+            # Done for CLI calls to fully expand a workflow plugin
+            elif (
+                step.get("kind") == "workflow"
+                and expand
+                and (step.get("spec") is None or spec.get("name"))
+            ):
+                expanded_steps = cls.extend_dict(
+                    expanded_steps, cls.expand_step(step, info)
+                )
+            else:
+                # Not a workflow or product-based plugin, just keep the step as it is
+                expanded_steps[name] = step
+
+        data["steps"] = expanded_steps
+
+        return data
 
 
 class WorkflowPluginModel(PluginModel):
@@ -309,3 +591,37 @@ class WorkflowPluginModel(PluginModel):
 
     model_config = ConfigDict(extra="allow")
     spec: WorkflowSpecModel = Field(..., description="The workflow specification")
+    test: Dict[str, Any] = Field(
+        None,
+        description=(
+            "An optional dictionary of parameters used to test this workflow.",
+        ),
+        examples=[
+            {
+                "fnames": f"{environ['GEOIPS_TESTDATA_DIR']}/test_data_abi/data/goes16_20200918_1950/*",  # NOQA
+                "command_line_args": {
+                    "compare_path": f"{environ['GEOIPS_PACKAGES_DIR']}/geoips/tests/outputs/abi.static.<product>.imagery_clean",  # NOQA
+                    "logging_level": "info",
+                },
+            },
+        ],
+    )
+
+    @model_validator(mode="before")
+    @classmethod
+    def propagate_context(cls, data: dict, info: ValidationInfo):
+        """Propagate context to the spec model if it exists.
+
+        This should only occur for 'geoips expand <workflow>' calls.
+        """
+        context = info.context or {}
+
+        spec_data = data.get("spec")
+        if spec_data and len(list(context.keys())):
+            # Re-validate spec WITH context
+            data["spec"] = WorkflowSpecModel.model_validate(
+                spec_data,
+                context=context,
+            )
+
+        return data

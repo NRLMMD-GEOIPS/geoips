@@ -5,6 +5,7 @@
 
 # Python Standard Libraries
 from argparse import ArgumentParser
+from glob import glob
 import logging
 
 # GeoIPS imports
@@ -34,10 +35,13 @@ def call(workflow, fnames, command_line_args=None):
     command_line_args : list of str, None
         Command line arguments to pass to the workflow.
     """
-    LOG.interactive(f"Begin processing '{workflow['name']}' workflow.")
+    if isinstance(fnames, str):
+        fnames = glob(fnames)
+
+    LOG.interactive(f"Begin processing '{workflow.get('name', 'embedded')}' workflow.")
     wf_plugin = workflow
 
-    handled_interfaces = ["readers", "coverage_checkers"]
+    handled_interfaces = ["readers", "coverage_checkers", "workflows"]
     for step_id, step_def in wf_plugin["spec"]["steps"].items():
         interface = str(Lexeme(step_def["kind"]).plural)
 
@@ -49,6 +53,13 @@ def call(workflow, fnames, command_line_args=None):
                 step_def["name"],
             )
             continue
+        elif interface == "workflows":
+            if step_def.get("spec"):
+                print("RECURSIVELY CALLING VIA SPEC DEFINITION")
+                call(step_def, fnames)
+            else:
+                print("RECURSIVELY CALLING VIA GET PLUGIN CALL")
+                call(interfaces.workflows.get_plugin(step_def.get(name), fnames))
         else:
             plg = getattr(interfaces, interface, None).get_plugin(step_def["name"])
 
@@ -78,7 +89,10 @@ def call(workflow, fnames, command_line_args=None):
                 step_def["kind"],
             )
 
-    LOG.interactive(f"\nThe workflow '{workflow}' has finished processing.\n")
+    LOG.interactive(
+        f"\nThe workflow '{workflow.get('name', 'embedded')}' has finished "
+        "processing.\n"
+    )
 
 
 if __name__ == "__main__":

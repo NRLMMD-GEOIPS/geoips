@@ -72,6 +72,8 @@ products:
   - prod
   - prods
   - product
+sector:
+  - sec
 sectors:
   - sec
   - secs
@@ -84,6 +86,8 @@ workflows:
   - wf
   - wfs
   - workflow
+workflow:
+  - wf
 order-based:
   - ob
   - obp
@@ -101,6 +105,8 @@ config:
   - cfg
 describe:
   - desc
+expand:
+  - exp
 list:
   - ls
 validate:

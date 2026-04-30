@@ -1,0 +1,46 @@
+enhancement:
+- title: 'OBP Support Products in Workflow Plugins'
+  description: |
+    Adds support for products, product defaults, and workflow plugins as steps in
+    workflow plugins. If a workflow is found as a step, we will recursively call the
+    order based procflow using the contents of the retrieved workflow plugin. If a
+    workflow is fully specified as a step in a workflow, we'll recursively call the
+    order based procflow using the contents of that step.
+
+    This update adds a few test workflows to ensure those updates work as expected.
+    Additionally, two new commands were added in this update, called
+    `geoips test workflow <workflow_name>` and `geoips expand <workflow_name>`. New
+    fields were added to workflow plugins which support the test command. You can
+    run a full workflow using the contents of the 'test' field in a workflow with no
+    additional arguments. `geoips expand <workflow_name>` generates a fully expanded
+    workflow plugin so a user can view all of the steps in a workflow, even if embedded
+    workflows / products / product defaults are present as steps. This makes it easy
+    to confirm the order of operations that will be applied via the order based
+    procflow.
+
+    Updates to the plugin registry file will need to be transferred over to pluginify
+    once those PRs have been merged and it's been migrated to PyPi.
+  files:
+    added:
+      - geoips/commandline/geoips_expand.py
+      - geoips/plugins/yaml/workflows/test_product.yaml
+      - geoips/plugins/yaml/workflows/test_product_default.yaml
+      - geoips/plugins/yaml/workflows/test_workflow.yaml
+    modified:
+      - .cspell.json
+      - geoips/commandline/ancillary_info/alias_mapping.yaml
+      - geoips/commandline/ancillary_info/cmd_instructions.yaml
+      - geoips/commandline/commandline_interface.py
+      - geoips/commandline/geoips_describe.py
+      - geoips/commandline/geoips_test.py
+      - geoips/interfaces/yaml_based/workflows.py
+      - geoips/plugin_registry.py
+      - geoips/plugins/modules/procflows/order_based.py
+      - geoips/pydantic_models/v1/workflows.py
+      - tests/unit_tests/pydantic_models/v1/workflows/test_workflow_step_definition_model.py
+  related-issue:
+    number: null
+    repo_url: ''
+  date:
+    start: null
+    finish: null

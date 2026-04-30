@@ -87,7 +87,6 @@ class GeoipsDescribeArtifact(GeoipsExecutableCommand):
             choices=getattr(interfaces, self.name.replace("-", "_")).supported_families,
             help="GeoIPS Family to select from the provided interface.",
         )
-        pass
 
     def __call__(self, args):
         """CLI 'geoips describe <interface_name>' command.

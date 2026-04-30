@@ -67,13 +67,18 @@ def test_bad_workflow_step_definition_model_validator_empty_input():
 
     error_info = exec_info.value.errors()
 
-    # Pydantic reports both kind and name as missing fields since they are
-    # required. len(err_info) is set to 2 for this reason.
-    assert len(error_info) == 2
+    # Pydantic reports name as missing as long as the defined step is not a workflow
+    # step. Users can fully define workflows in a workflow without needing a name.
+    # The error which will be raised in this case will be a ValueError saying
+    # 'Value error, You must specify a name field for every plugin step that is not a
+    # workflow step.'
+    assert len(error_info) == 1
     # , after element makes it a tuple otherwise it's a string
-    expected_missing_fields = {("kind",), ("name",)}
-    actual_missing_fields = {tuple(err["loc"]) for err in error_info}
-    assert expected_missing_fields.issubset(actual_missing_fields)
+    assert error_info[0]["type"] == "value_error"
+    assert error_info[0]["msg"] == (
+        "Value error, You must specify a name field for every plugin step that is "
+        "not a workflow step."
+    )
 
 
 def test_bad_workflow_step_definition_model_validator_invalid_plugin_name(
