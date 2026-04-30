@@ -37,7 +37,6 @@ def test_bad_workflow_step_definition_model_empty_value_kind():
 #     """Tests _validate_plugin_arguments() model validator."""
 #     invalid_step_data = copy.deepcopy(valid_step_data)
 #     invalid_step_data["arguments"] = {}
-#     print("invalid step data \t", invalid_step_data)
 #     with pytest.raises(ValidationError) as exec_info:
 #         workflows.WorkflowStepDefinitionModel(**invalid_step_data)
 
@@ -56,7 +55,7 @@ def test_good_workflow_step_definition_model_valid_step(valid_step_data):
         "area_def": "None",
         "variables": ["None"],
         "metadata_only": False,
-        "self_register": ["None"],
+        "self_register": "LOW",
     }
 
 

@@ -17,7 +17,7 @@ def valid_step_data():
             "area_def": "None",
             "variables": ["None"],
             "metadata_only": False,
-            "self_register": ["None"],
+            "self_register": "LOW",
         },
     }
 
@@ -35,7 +35,7 @@ def valid_reader_arguments_model_data():
         "area_def": "None",
         "variables": ["None"],
         "metadata_only": True,
-        "self_register": ["None"],
+        "self_register": "LOW",
         "fnames": ["None"],
     }
 
@@ -145,6 +145,6 @@ def valid_output_checker_arguments():
     """Fixture providing valid data OutputCheckerArgumentsModel tests."""
     return {
         "checker_name": "test_string",
-        "compare_path": "/path/to/reference.txt",
-        "output_products": ["/path/to/output.png"],
+        "compare_path": "test_string",
+        "output_products": ["test_string"],
     }
