@@ -32,6 +32,7 @@ from geoips.pydantic_models.v1.bases import (
     PermissiveFrozenModel,
 )
 from geoips.pydantic_models.v1.coverage_checkers import CoverageCheckerArgumentsModel
+from geoips.pydantic_models.v1.interpolators import InterpolatorArgumentsModel
 from geoips.utils.types.partial_lexeme import Lexeme
 
 LOG = logging.getLogger(__name__)
@@ -99,10 +100,10 @@ class AlgorithmArgumentsModel(PermissiveFrozenModel):
     pass
 
 
-class InterpolatorArgumentsModel(PermissiveFrozenModel):
-    """Validate Interpolator arguments."""
+# class InterpolatorArgumentsModel(PermissiveFrozenModel):
+#     """Interpolator step argument definition."""
 
-    pass
+#     pass
 
 
 class WorkflowArgumentsModel(PermissiveFrozenModel):

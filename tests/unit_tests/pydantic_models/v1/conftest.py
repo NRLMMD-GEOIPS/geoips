@@ -148,3 +148,15 @@ def valid_output_checker_arguments():
         "compare_path": "/path/to/reference.txt",
         "output_products": ["/path/to/output.png"],
     }
+
+
+@pytest.fixture
+def valid_interpolator_arguments():
+    """Fixture providing valid data for InterpolatorArgumentsModel tests."""
+    return {
+        "area_def": "North Pole Region",
+        "varlist": ["B09BT", "B10BT", "B07BT"],
+        "sigmaval": 1000,
+        "drop_nan": True,
+        "method": "linear",
+    }
