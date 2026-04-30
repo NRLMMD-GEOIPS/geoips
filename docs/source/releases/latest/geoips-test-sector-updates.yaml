@@ -1,0 +1,27 @@
+enhancement:
+- title: 'GeoIPS Test Sector Updates'
+  description: |
+    Updated 'geoips test sector' command to support a '--gridlines' flag. This flag will
+    add latitude / longitude gridlines to your sector image. This can be applied
+    alongside the '--overlay' flag as well.
+
+    Updated documentation and added a unit test to test this functionality.
+    Additionally, I updated the sector schema to support two methods of specifying an
+    area definitions resolution. Instead of a length two array of integers, a
+    dictionary specifying {'dx': float, 'dy': float, and 'units': str} can be
+    supplied.
+  files:
+    modified:
+      - docs/source/concepts/functionality/command-line/index.rst
+      - geoips/commandline/ancillary_info/cmd_instructions.yaml
+      - geoips/commandline/geoips_test.py
+      - geoips/image_utils/mpl_utils.py
+      - geoips/interfaces/yaml_based/sectors.py
+      - geoips/schema/sectors/specs/area_definition.yaml
+      - tests/unit_tests/commandline/test_geoips_test_sector.py
+  related-issue:
+    number: null
+    repo_url: ''
+  date:
+    start: null
+    finish: null
