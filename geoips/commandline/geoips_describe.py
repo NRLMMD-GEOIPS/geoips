@@ -8,8 +8,8 @@ Retrieves the appropriate family/interface/package/plugin based on the args prov
 
 from importlib import metadata, resources, import_module
 
-import yaml
 
+import geoips.utils.yaml_utils as yaml
 from geoips.commandline.geoips_command import (
     CommandClassFactory,
     GeoipsCommand,

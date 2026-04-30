@@ -32,8 +32,8 @@ import re
 import warnings
 
 import json
-import yaml
 
+import geoips.utils.yaml_utils as yaml
 from geoips.errors import PluginRegistryError
 import geoips.interfaces
 

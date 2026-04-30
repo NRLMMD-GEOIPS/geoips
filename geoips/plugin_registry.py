@@ -25,8 +25,8 @@ from types import SimpleNamespace
 
 import json
 from pydantic import BaseModel
-import yaml
 
+import geoips.utils.yaml_utils as yaml
 from geoips.create_plugin_registries import create_plugin_registries
 from geoips.errors import PluginError, PluginRegistryError
 from geoips.filenames.base_paths import PATHS

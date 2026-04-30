@@ -70,3 +70,9 @@ class CliError(Exception):
     """Raise exception on command line interface error."""
 
     pass
+
+
+class DuplicateKeyError(Exception):
+    """Raised when a YAML mapping contains duplicate keys."""
+
+    pass

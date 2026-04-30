@@ -6,7 +6,6 @@
 # cspell:ignore refjs
 
 import abc
-import yaml
 import inspect
 import logging
 from os.path import basename
@@ -19,6 +18,7 @@ import referencing
 from referencing import jsonschema as refjs
 from jsonschema.exceptions import ValidationError, SchemaError
 
+import geoips.utils.yaml_utils as yaml
 from geoips.errors import PluginError
 from geoips.filenames.base_paths import PATHS
 

@@ -132,6 +132,11 @@ Another benefit is the easily accessible information stored in the plugin regist
 can search through the registry for every plugin of each package and find a
 quick overview on whether a given plugin is valid and where it exists.
 
+YAML plugin files are loaded using ``geoips.utils.yaml_utils``, a drop-in replacement
+for PyYAML that raises ``DuplicateKeyError`` if a mapping contains repeated keys.
+This ensures malformed plugin files are rejected immediately rather than silently
+producing incorrect behaviour.
+
 We've also created tests, and unit tests, for the new PluginRegistry class. This helps
 with monitoring that registries and the plugins that they contain are performing
 correctly. The tests ensure plugins have specific attributes, and that no duplicate
