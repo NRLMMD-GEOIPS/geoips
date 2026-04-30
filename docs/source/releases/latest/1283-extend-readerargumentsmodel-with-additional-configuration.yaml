@@ -4,14 +4,12 @@ feature:
   files:
     added:
     - 'docs/source/releases/latest/1002-migrate-readerargumentsmodel-tests-to-new-framework.yaml'
-    - 'geoips/pydantic_models/v1/readers.py'
-    - 'tests/unit_tests/pydantic_models/v1/readers/test_cases_bad.yaml'
-    - 'tests/unit_tests/pydantic_models/v1/readers/test_cases_good.yaml'
-    - 'tests/unit_tests/pydantic_models/v1/readers/test_cases_neutral.yaml'
-    - 'tests/unit_tests/pydantic_models/v1/readers/test_reader_arguments_model.py'
     modified:
     - 'docs/dev/order_based_procflow.rst'
+    - 'geoips/interfaces/yaml_based/sectors.py'
+    - 'geoips/plugins/yaml/sectors/static/denver.yaml'
     - 'geoips/pydantic_models/v1/bases.py'
+    - 'geoips/pydantic_models/v1/sectors.py'
     - 'geoips/pydantic_models/v1/workflows.py'
     - 'tests/unit_tests/pydantic_models/v1/conftest.py'
     - 'tests/unit_tests/pydantic_models/v1/test_pydantic_models.py'
@@ -19,7 +17,7 @@ feature:
     deleted:
     - ''
     moved: 
-    - 'tests/unit_tests/pydantic_models/v1/{workflows => readers}/test_reader_arguments_model.py'
+    - ''
   related-issue:
     number: null
     repo_url: ''
