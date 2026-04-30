@@ -11,8 +11,10 @@ from typing_extensions import Annotated
 from pydantic import (
     Field,
     ConfigDict,
+    field_serializer,
     field_validator,
     RootModel,
+    StrictFloat,
 )
 from pydantic.functional_validators import AfterValidator
 
@@ -35,8 +37,8 @@ class EarthConstants(float, Enum):
 class XYCoordinate(FrozenModel):
     """A coordinate in projection units."""
 
-    x: float = Field(..., description="The x coordinate in projection units.")
-    y: float = Field(..., description="The y coordinate in projection units.")
+    x: StrictFloat = Field(..., description="The x coordinate in projection units.")
+    y: StrictFloat = Field(..., description="The y coordinate in projection units.")
 
 
 def validate_lat_lon_coordinate(arg: tuple[float, float]) -> tuple[float, float]:

@@ -106,6 +106,8 @@ class CoreBaseModel(BaseModel):
         # Do not enable this configuration at model level. Restrict your usage to
         # field level if required
         allow_inf_nan=False,
+        # serialize enum fields using their underlying values instead of enum instances
+        use_enum_values=True,
     )
 
     def __str__(self) -> str:
