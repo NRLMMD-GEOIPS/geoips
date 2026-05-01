@@ -11,12 +11,69 @@ import logging
 from geoips import interfaces
 from geoips.commandline.log_setup import setup_logging
 from geoips.utils.types.partial_lexeme import Lexeme
+from geoips.utils.file_utils import path_exists
 
 LOG = logging.getLogger(__name__)
 
 interface = "procflows"
 family = "standard"
 name = "order_based"
+
+
+def validate_workflow_file_inputs(workflow_plugin, fnames):
+    """Validate that all required file inputs exist before processing begins.
+
+    Checks that file paths required by workflow steps are accessible on the
+    filesystem. If any paths are missing the workflow is terminated with an
+    actionable error message.
+
+    Parameters
+    ----------
+    workflow_plugin : dict
+        The raw workflow plugin dictionary whose `spec.steps` will be
+        inspected.
+    fnames : list of str
+        List of input filenames provided.
+
+    Raises
+    ------
+    FileNotFoundError
+        If one or more required file paths do not exist.
+    """
+    missing = []
+
+    INPUT_PATH_ARGS_BY_KIND = {
+        "reader": ["fnames"],
+        "output_checker": ["compare_path"],
+    }
+
+    for step_id, step_def in workflow_plugin["spec"]["steps"].items():
+        kind = step_def["kind"]
+        arguments = step_def.get("arguments", {}) or {}
+        path_arg_names = INPUT_PATH_ARGS_BY_KIND.get(kind, [])
+        missing_files_list = []
+
+        for arg_name in path_arg_names:
+            raw_value = arguments.get(arg_name)
+            if raw_value is None:
+                continue
+            paths_to_check = raw_value if isinstance(raw_value, list) else [raw_value]
+            if kind == "reader" and arg_name == "fnames" and fnames:
+                paths_to_check = fnames
+            missing_files_list.extend(p for p in paths_to_check if not path_exists(p))
+
+        if missing_files_list:
+            missing.append((step_id, kind, missing_files_list))
+
+    if missing:
+        error_lines = [
+            "The workflow cannot proceed because the following required "
+            "file(s) were not found:"
+        ]
+        for step_id, kind, path in missing:
+            error_lines.append(f"  step-ID '{step_id}' (kind: {kind}): {path}")
+
+        raise FileNotFoundError("\n".join(error_lines))
 
 
 def call(workflow, fnames, command_line_args=None):
@@ -27,18 +84,19 @@ def call(workflow, fnames, command_line_args=None):
 
     Parameters
     ----------
-    workflow: str
-        The name of the workflow to process.
+    workflow: dict
+        The workflow plugin dictionary to process.
     fnames : list of str
         List of filenames from which to read data.
     command_line_args : list of str, None
         Command line arguments to pass to the workflow.
     """
     LOG.interactive(f"Begin processing '{workflow['name']}' workflow.")
-    wf_plugin = workflow
 
-    handled_interfaces = ["readers", "coverage_checkers"]
-    for step_id, step_def in wf_plugin["spec"]["steps"].items():
+    validate_workflow_file_inputs(workflow, fnames)
+
+    handled_interfaces = ["readers", "coverage_checkers", "output_checkers"]
+    for step_id, step_def in workflow["spec"]["steps"].items():
         interface = str(Lexeme(step_def["kind"]).plural)
 
         if interface not in handled_interfaces:
@@ -67,10 +125,10 @@ def call(workflow, fnames, command_line_args=None):
                     step_def["arguments"]["chans"] = step_def["arguments"].pop(
                         "variables"
                     )
-                data = plg(fnames, **step_def["arguments"])
+                if fnames and "fnames" in step_def["arguments"]:
+                    step_def["arguments"]["fnames"] = fnames
+                data = plg(**step_def["arguments"])
                 print(data)
-            else:
-                data = plg(data, **step_def["arguments"])
             LOG.interactive(
                 "Completed Step: step_id: '%s', plugin_kind: '%s', plugin_name: '%s'.",
                 step_id,

@@ -32,6 +32,7 @@ from geoips.pydantic_models.v1.bases import (
     PermissiveFrozenModel,
 )
 from geoips.pydantic_models.v1.coverage_checkers import CoverageCheckerArgumentsModel
+from geoips.pydantic_models.v1.output_checkers import OutputCheckerArgumentsModel
 from geoips.utils.types.partial_lexeme import Lexeme
 
 LOG = logging.getLogger(__name__)
@@ -268,6 +269,7 @@ class WorkflowStepDefinitionModel(FrozenModel):
             "FilenameFormatterArgumentsModel": FilenameFormatterArgumentsModel,
             "InterpolatorArgumentsModel": InterpolatorArgumentsModel,
             "OutputFormatterArgumentsModel": OutputFormatterArgumentsModel,
+            "OutputCheckerArgumentsModel": OutputCheckerArgumentsModel,
             "CoverageCheckerArgumentsModel": CoverageCheckerArgumentsModel,
             "ReaderArgumentsModel": ReaderArgumentsModel,
             "WorkflowArgumentsModel": WorkflowArgumentsModel,

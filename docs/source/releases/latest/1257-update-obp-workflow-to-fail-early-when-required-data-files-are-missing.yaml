@@ -1,0 +1,18 @@
+enhancement:
+- title: 'Update order-based procflow to fail early when required data files are missing'
+  description: |
+    Add early validation of file inputs in the order-based procflow. Before processing begins, the workflow now checks that all file paths required by reader and output_checker steps exist on the filesystem. If any paths are missing, the workflow terminates immediately with a FileNotFoundError listing every missing file and the step that requires it, rather than failing partway through processing.
+  files:
+    added:
+    - 'docs/source/releases/latest/1257-update-obp-workflow-to-fail-early-when-required-data-files-are-missing.yaml'
+    - 'geoips/utils/file_utils.py'
+    - 'tests/unit_tests/utils/test_file_utils.py'
+    - 'tests/unit_tests/plugins/modules/procflows/test_order_based.py'
+    modified:
+    - 'geoips/plugins/modules/procflows/order_based.py'
+  related-issue:
+    number: 1257
+    repo_url: 'https://github.com/NRLMMD-GEOIPS/geoips'
+  date:
+    start: 2026-03-10
+    finish: 2026-04-21
