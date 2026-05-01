@@ -24,9 +24,8 @@ def validate_workflow_file_inputs(workflow_plugin, fnames):
     """Validate that all required file inputs exist before processing begins.
 
     Checks that file paths required by workflow steps are accessible on the
-    filesystem. Inspects command-line `fnames`, per-step `fnames` lists,
-    and `compare_path` values. If any paths are missing the workflow is
-    terminated with an actionable error message.
+    filesystem. If any paths are missing the workflow is terminated with an
+    actionable error message.
 
     Parameters
     ----------
@@ -34,7 +33,7 @@ def validate_workflow_file_inputs(workflow_plugin, fnames):
         The raw workflow plugin dictionary whose `spec.steps` will be
         inspected.
     fnames : list of str
-        List of input filenames provided on the command line for reader steps.
+        List of input filenames provided.
 
     Raises
     ------
