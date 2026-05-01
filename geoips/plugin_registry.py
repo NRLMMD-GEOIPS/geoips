@@ -24,11 +24,11 @@ from pathlib import Path
 from types import SimpleNamespace
 
 import json
-from pydantic import BaseModel
+from pydantic import BaseModel, ValidationError as PydanticValidationError
 import yaml
 
 from geoips.create_plugin_registries import create_plugin_registries
-from geoips.errors import PluginError, PluginRegistryError
+from geoips.errors import PluginError, PluginRegistryError, PluginValidationError
 from geoips.filenames.base_paths import PATHS
 from geoips.geoips_utils import merge_nested_dicts
 from geoips.utils.types.partial_lexeme import Lexeme
@@ -563,7 +563,16 @@ class PluginRegistry:
                     return d
                 return {k: remove_none(v) for k, v in d.items() if v is not None}
 
-            validated = self.load_plugin(plugin).model_dump()
+            try:
+                # Pydantic union models emit one error per variant
+                # compile a field-grouped summary to improve complicated error message.
+                validated = self.load_plugin(plugin).model_dump()
+
+            except PydanticValidationError as exc:
+                raise PluginValidationError(
+                    plg_name, interface_obj.name, package, abspath, exc
+                ) from exc
+
             validated = remove_none(validated)
 
             return interface_obj._plugin_yaml_to_obj(name, validated)

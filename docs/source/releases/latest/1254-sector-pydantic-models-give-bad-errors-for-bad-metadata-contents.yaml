@@ -1,0 +1,24 @@
+bug fix:
+- title: 'Improve Pydantic Plugin Error Reporting'
+  description: |
+    When a YAML plugin fails pydantic validation, the raw error message is nearly unreadable. Because GeoIPS uses discriminated union models for types like `StaticSectorPluginMode`l, pydantic checks every union variant and reports one error per field per variant -- a single structural mistake in a sector plugin produces 60+ error lines with no clear indication of what actually went wrong or where.
+
+    This PR introduces 1PluginValidationError1, a new exception class in `errors.py` that wraps the raw `pydantic.ValidationError` and replaces it with a concise summary grouped by field. The error identifies the plugin by name, interface, package, and file path, then lists only the unique error messages per field rather than repeating them across every union variant.
+
+    The catch is wired into plugin_registry.py's `get_yaml_plugin()`, the single point where pydantic-validated YAML plugins are loaded. When `load_plugin()` raises a `pydantic.ValidationError`, it is caught and re-raised as `PluginValidationError` before propagating to the caller.
+
+    Two unit tests were added to `tests/unit_tests/plugins/test_get_plugin.py`: one verifies that `PluginValidationError` produces a shorter, field-grouped message compared to the raw pydantic output; the other exercises the full `get_plugin()` path with a deliberately malformed sector YAML and asserts that `PluginValidationError` is raised with the correct plugin metadata.
+  files:
+    deleted: []
+    moved: []
+    added:
+    - 'docs/source/releases/latest/1254-sector-pydantic-models-give-bad-errors-for-bad-metadata-contents.yaml'
+    modified:
+    - 'geoips/errors.py'
+    - 'geoips/plugin_registry.py'
+  related-issue:
+    number: 1254
+    repo_url: 'https://github.com/NRLMMD-GEOIPS/geoips'
+  date:
+    start: 2026/03/13
+    finish: 2026/04/27
