@@ -7,7 +7,6 @@ feature:
     modified:
     - 'docs/dev/order_based_procflow.rst'
     - 'geoips/interfaces/yaml_based/sectors.py'
-    - 'geoips/plugins/yaml/sectors/static/denver.yaml'
     - 'geoips/pydantic_models/v1/bases.py'
     - 'geoips/pydantic_models/v1/sectors.py'
     - 'geoips/pydantic_models/v1/workflows.py'
