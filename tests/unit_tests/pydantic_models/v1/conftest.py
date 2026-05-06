@@ -13,7 +13,6 @@ from geoips.interfaces import sectors
 @pytest.fixture
 def valid_step_data():
     """Fixture to provide sample valid plugin data for testing."""
-
     return {
         "kind": "reader",
         "name": "abi_netcdf",

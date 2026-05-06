@@ -8,7 +8,6 @@ import copy
 
 # Third-Party Libraries
 from pydantic import ValidationError
-from pyresample import create_area_def
 import pytest
 
 # GeoIPS Libraries
