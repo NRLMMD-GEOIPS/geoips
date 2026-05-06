@@ -48,12 +48,10 @@ def test_good_workflow_step_definition_model_valid_step(valid_step_data):
     """Tests WorkflowStepDefinitionModel with valid data."""
     # creating an instance of PSDModel
     model = workflows.WorkflowStepDefinitionModel(**valid_step_data)
-    sect = sectors.get_plugin("denver")
-    area_def_to_compare = create_area_def(**sect["spec"])
     assert model.kind == "reader"
     assert model.name == "abi_netcdf"
     assert model.arguments == {
-        "area_def": area_def_to_compare,
+        "area_def": sectors.get_plugin("denver").area_definition,
         "variables": ["None"],
         "metadata_only": False,
         "self_register": "LOW",
