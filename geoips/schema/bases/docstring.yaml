@@ -1,3 +1,0 @@
-$id: bases.docstring
-type: string
-description: "A docstring that describes the plugin following numpy docstring style"

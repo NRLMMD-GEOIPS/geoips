@@ -4,17 +4,13 @@
 """Feature Annotator interface module."""
 
 from geoips.interfaces.base import BaseYamlInterface
-from geoips.filenames.base_paths import PATHS as gpaths
-
-# from geoips.pydantic_models.v1.feature_annotators import FeatureAnnotatorPluginModel
 
 
 class FeatureAnnotatorsInterface(BaseYamlInterface):
     """Interface for feature annotator plugins."""
 
     name = "feature_annotators"
-    use_pydantic = gpaths["GEOIPS_USE_PYDANTIC"]
-    # validator = FeatureAnnotatorPluginModel
+    use_pydantic = True
 
 
 feature_annotators = FeatureAnnotatorsInterface()
