@@ -14,9 +14,11 @@ global_variables_product_db_neither_set:
   cls: WorkflowSpecModel
   err_str: ""
 
-# unique_testing_keyname:
-#   description: ""
-#   key: global_arguments/
-#   val:
-#   cls: WorkflowSpecModel
-#   err_str: ""
+global_variables_temporal_windowing_neither_set:
+  description: "Both window_start_time and window_end_time at defaults -> constructs successfully."
+  key: global_arguments
+  val:
+    window_start_time: null
+    window_end_time: null
+  cls: WorkflowSpecModel
+  err_str: ""

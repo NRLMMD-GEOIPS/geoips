@@ -40,23 +40,23 @@ global_variables_window_end_time_invalid_field_type:
   cls: GlobalVariablesModel
   err_str: "Input should be a valid datetime or date"
 
-# unique_testing_keyname:
-#   description: ""
-#   key: global_arguments/
-#   val:
-#   cls: WorkflowSpecModel
-#   err_str: ""
+global_variables_product_name_invalid_field_type:
+  description: "product_name rejects an invalid type."
+  key: global_arguments/product_name
+  val: -999
+  cls: GlobalVariablesModel
+  err_str: "Input should be a valid string"
 
-# unique_testing_keyname:
-#   description: ""
-#   key: global_arguments/
-#   val:
-#   cls: WorkflowSpecModel
-#   err_str: ""
+global_variables_reader_defined_area_def_invalid_field_type:
+  description: "reader_defined_area_def rejects an invalid type."
+  key: global_arguments/reader_defined_area_def
+  val: "invalid"
+  cls: GlobalVariablesModel
+  err_str: "Input should be a valid boolean"
 
-# unique_testing_keyname:
-#   description: ""
-#   key: global_arguments/
-#   val:
-#   cls: WorkflowSpecModel
-#   err_str: ""
+global_variables_no_presectoring_invalid_field_type:
+  description: "no_presectoring rejects an invalid type."
+  key: global_arguments/no_presectoring
+  val: "invalid"
+  cls: GlobalVariablesModel
+  err_str: "Input should be a valid boolean"
