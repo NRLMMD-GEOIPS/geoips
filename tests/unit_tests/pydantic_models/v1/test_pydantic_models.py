@@ -24,8 +24,6 @@ from tests.unit_tests.pydantic_models.v1.utils import (
     validate_good_plugin,
 )
 
-from ipdb import set_trace as shell
-
 # A mapping of interfaces implemented in pydantic and a plugin to validate against.
 models_available = {
     "feature_annotators": {
