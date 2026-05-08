@@ -1,0 +1,62 @@
+global_variables_product_db_true_without_writer:
+  description: "product_db=True with product_db_writer=None raises."
+  key: global_arguments/product_db_writer
+  val: null
+  cls: WorkflowSpecModel
+  err_str: "product_db is set while product_db_writer is not defined"
+
+global_variables_product_db_writer_without_product_db:
+  description: "product_db_writer set with product_db=False raises (reverse direction)."
+  key: global_arguments/product_db
+  val: false
+  cls: WorkflowSpecModel
+  err_str: "product_db_writer is defined as: `postgres_database` but product_db is False or unspecified."
+
+global_variables_window_start_without_end:
+  description: "Start time set but end time unset -> raises."
+  key: global_arguments/window_end_time
+  val: null
+  cls: WorkflowSpecModel
+  err_str: "window_start_time is defined as `2024-09-26 18:00:00` but there is no defined window_end_time."
+
+global_variables_window_end_without_start:
+  description: "End time set but start time unset -> raises (reverse direction)."
+  key: global_arguments/window_start_time
+  val: null
+  cls: WorkflowSpecModel
+  err_str: "window_end_time is defined as `2024-09-27 03:00:00` but there is no defined window_start_time."
+
+global_variables_window_start_time_invalid_field_type:
+  description: "window_start_time rejects an invalid type."
+  key: global_arguments/window_start_time
+  val: "not-a-date"
+  cls: GlobalVariablesModel
+  err_str: "Input should be a valid datetime or date"
+
+global_variables_window_end_time_invalid_field_type:
+  description: "window_end_time rejects an invalid type."
+  key: global_arguments/window_end_time
+  val: "not-a-date"
+  cls: GlobalVariablesModel
+  err_str: "Input should be a valid datetime or date"
+
+# unique_testing_keyname:
+#   description: ""
+#   key: global_arguments/
+#   val:
+#   cls: WorkflowSpecModel
+#   err_str: ""
+
+# unique_testing_keyname:
+#   description: ""
+#   key: global_arguments/
+#   val:
+#   cls: WorkflowSpecModel
+#   err_str: ""
+
+# unique_testing_keyname:
+#   description: ""
+#   key: global_arguments/
+#   val:
+#   cls: WorkflowSpecModel
+#   err_str: ""

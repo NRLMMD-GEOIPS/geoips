@@ -12,6 +12,7 @@ import pytest
 # GeoIPS imports
 from geoips.pydantic_models.v1.title_formatters import TitleFormatterArgumentsModel
 from geoips.pydantic_models.v1.output_checkers import OutputCheckersArgumentsModel
+from geoips.pydantic_models.v1.workflows import WorkflowSpecModel
 from tests.unit_tests.pydantic_models.v1.utils import (
     PathDict,
     load_geoips_yaml_plugin,
@@ -22,6 +23,8 @@ from tests.unit_tests.pydantic_models.v1.utils import (
     validate_neutral_plugin,
     validate_good_plugin,
 )
+
+from ipdb import set_trace as shell
 
 # A mapping of interfaces implemented in pydantic and a plugin to validate against.
 models_available = {
@@ -56,6 +59,10 @@ models_available = {
     "title_formatters": {
         "good_source": ("fixture", "valid_title_formatter_arguments"),
         "model": TitleFormatterArgumentsModel,
+    },
+    "workflows": {
+        "good_source": ("fixture", "valid_workflow_spec_model_data"),
+        "model": WorkflowSpecModel,
     },
 }
 
@@ -212,6 +219,7 @@ def test_good_plugins(test_case, request):
     plugin = PathDict(deepcopy(good_plugin))
     model = get_model(interface, plugin)
 
+    # shell()
     validate_good_plugin(plugin, case_value, model)
 
 
