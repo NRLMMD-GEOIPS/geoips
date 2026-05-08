@@ -14,7 +14,6 @@ from pydantic import (
     field_serializer,
     field_validator,
     RootModel,
-    StrictFloat,
 )
 from pydantic.functional_validators import AfterValidator
 
