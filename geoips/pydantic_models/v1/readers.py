@@ -149,14 +149,14 @@ class ReaderArgumentsModel(PermissiveFrozenModel):
             The original input values.
         """
         area_def_message = (
-            "'area_def' will be deprecated and will be removed in GeoIPS 3.0. Use"
-            " sector.area_def instead."
+            "'area_def' will be deprecated and be removed in future GeoIPS releases."
+            " Use sector.area_def instead."
         )
         if "area_def" in values:
             LOG.warning(area_def_message)
             warnings.warn(
                 area_def_message,
-                DeprecationWarning,
+                FutureWarning,
                 stacklevel=2,
             )
         return values
