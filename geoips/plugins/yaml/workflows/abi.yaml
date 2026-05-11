@@ -9,7 +9,7 @@ spec:
     window_end_time: null
     product_name: None
     reader_defined_area_def: False
-    no_presectoring: True
+    presector: False
     product_db: False
     product_db_writer: null
     product_db_writer_kwargs: null
@@ -32,7 +32,7 @@ spec:
     window_end_time: null
     product_name: None
     reader_defined_area_def: False
-    no_presectoring: True
+    presector: False
     product_db: False
     product_db_writer: null
     product_db_writer_kwargs: null
@@ -55,7 +55,7 @@ spec:
     window_end_time: null
     product_name: None
     reader_defined_area_def: False
-    no_presectoring: True
+    presector: False
     product_db: False
     product_db_writer: null
     product_db_writer_kwargs: null
@@ -78,7 +78,7 @@ spec:
     window_end_time: null
     product_name: None
     reader_defined_area_def: False
-    no_presectoring: True
+    presector: False
     product_db: False
     product_db_writer: null
     product_db_writer_kwargs: null
@@ -101,7 +101,7 @@ spec:
     window_end_time: null
     product_name: None
     reader_defined_area_def: False
-    no_presectoring: True
+    presector: False
     product_db: False
     product_db_writer: null
     product_db_writer_kwargs: null
@@ -124,7 +124,7 @@ spec:
     window_end_time: null
     product_name: None
     reader_defined_area_def: False
-    no_presectoring: True
+    presector: False
     product_db: False
     product_db_writer: null
     product_db_writer_kwargs: null
@@ -147,7 +147,7 @@ spec:
     window_end_time: null
     product_name: None
     reader_defined_area_def: False
-    no_presectoring: True
+    presector: False
     product_db: False
     product_db_writer: null
     product_db_writer_kwargs: null
@@ -170,7 +170,7 @@ spec:
     window_end_time: null
     product_name: None
     reader_defined_area_def: False
-    no_presectoring: True
+    presector: False
     product_db: False
     product_db_writer: null
     product_db_writer_kwargs: null
@@ -193,7 +193,7 @@ spec:
     window_end_time: null
     product_name: None
     reader_defined_area_def: False
-    no_presectoring: True
+    presector: False
     product_db: False
     product_db_writer: null
     product_db_writer_kwargs: null
@@ -216,7 +216,7 @@ spec:
     window_end_time: null
     product_name: None
     reader_defined_area_def: False
-    no_presectoring: True
+    presector: False
     product_db: False
     product_db_writer: null
     product_db_writer_kwargs: null
@@ -239,7 +239,7 @@ spec:
     window_end_time: null
     product_name: None
     reader_defined_area_def: False
-    no_presectoring: True
+    presector: False
     product_db: False
     product_db_writer: null
     product_db_writer_kwargs: null
@@ -262,7 +262,7 @@ spec:
     window_end_time: null
     product_name: None
     reader_defined_area_def: False
-    no_presectoring: True
+    presector: False
     product_db: False
     product_db_writer: null
     product_db_writer_kwargs: null
@@ -285,7 +285,7 @@ spec:
     window_end_time: null
     product_name: None
     reader_defined_area_def: False
-    no_presectoring: True
+    presector: False
     product_db: False
     product_db_writer: null
     product_db_writer_kwargs: null

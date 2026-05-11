@@ -54,9 +54,9 @@ global_variables_reader_defined_area_def_invalid_field_type:
   cls: GlobalVariablesModel
   err_str: "Input should be a valid boolean"
 
-global_variables_no_presectoring_invalid_field_type:
-  description: "no_presectoring rejects an invalid type."
-  key: global_arguments/no_presectoring
+global_variables_presector_invalid_field_type:
+  description: "presector rejects an invalid type."
+  key: global_arguments/presector
   val: "invalid"
   cls: GlobalVariablesModel
   err_str: "Input should be a valid boolean"

@@ -139,8 +139,8 @@ class GlobalVariablesModel(PermissiveFrozenModel):
 
     reader_defined_area_def: bool = Field(False)
 
-    no_presectoring: bool = Field(
-        True,
+    presector: bool = Field(
+        False,
         description="Specify whether to resector the data prior to applying "
         "the algorithm",
     )
