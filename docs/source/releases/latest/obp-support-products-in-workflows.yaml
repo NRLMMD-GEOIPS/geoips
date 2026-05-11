@@ -26,6 +26,7 @@ enhancement:
       - geoips/plugins/yaml/workflows/test_product.yaml
       - geoips/plugins/yaml/workflows/test_product_default.yaml
       - geoips/plugins/yaml/workflows/test_workflow.yaml
+      - tests/unit_tests/commandline/test_geoips_expose.py
     modified:
       - .cspell.json
       - docs/source/concepts/functionality/command-line/index.rst
