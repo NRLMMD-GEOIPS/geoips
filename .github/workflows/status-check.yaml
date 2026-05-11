@@ -1,0 +1,17 @@
+name: Require up-to-date branch
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  status-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: No-op status check
+        run: echo "No-op Actions workflow to enforce up to date branches before merge"
