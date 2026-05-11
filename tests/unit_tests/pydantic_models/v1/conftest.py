@@ -167,7 +167,7 @@ def valid_workflow_spec_model_data():
                 "overwrite": True,
                 "schema": "products",
             },
-            "sector_list": "TC2024",
+            "sector_list": ["TC2024"],
         },
         "steps": {
             "read_data": {
