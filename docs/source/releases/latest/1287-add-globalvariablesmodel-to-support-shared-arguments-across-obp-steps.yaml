@@ -16,6 +16,7 @@ enhancement:
     - 'tests/unit_tests/pydantic_models/v1/workflows/test_cases_good.yaml'
     - 'tests/unit_tests/pydantic_models/v1/workflows/test_cases_neutral.yaml'
     modified:
+    - 'docs/dev/order_based_procflow.rst'
     - 'geoips/plugins/yaml/workflows/abi.yaml'
     - 'geoips/plugins/yaml/workflows/geostationary_dmw/windbarbs_dmw_high.yaml'
     - 'geoips/plugins/yaml/workflows/geostationary_dmw/windbarbs_dmw_low.yaml'
@@ -33,6 +34,7 @@ enhancement:
     - 'geoips/plugins/yaml/workflows/visir/WV.yaml'
     - 'geoips/plugins/yaml/workflows/visir/nasa_dust_rgb.yaml'
     - 'geoips/pydantic_models/v1/workflows.py'
+    - 'tests/unit_tests/commandline/test_geoips_run.py'
     - 'tests/unit_tests/pydantic_models/v1/conftest.py'
     - 'tests/unit_tests/pydantic_models/v1/test_pydantic_models.py'
   related-issue:
