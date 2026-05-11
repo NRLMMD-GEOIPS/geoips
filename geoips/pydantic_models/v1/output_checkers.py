@@ -14,7 +14,7 @@ from __future__ import annotations
 
 from typing import List, Optional
 
-from pydantic import Field, model_validator
+from pydantic import Field, FilePath
 
 from geoips.pydantic_models.v1.bases import FrozenModel
 
@@ -22,40 +22,11 @@ from geoips.pydantic_models.v1.bases import FrozenModel
 class OutputCheckerArgumentsModel(FrozenModel):
     """Output Checker spec (specification) format."""
 
-    checker_name: Optional[str] = Field(
-        strict=True,
-        description="The name of the output checker.",
-    )
-    compare_path: Optional[str] = Field(
+    compare_path: Optional[FilePath] = Field(
         strict=True,
         description="The path to the comparison file.",
     )
-    output_products: Optional[List[str]] = Field(
+    output_products: Optional[List[FilePath]] = Field(
         strict=True,
         description="A list of paths to the output file(s).",
     )
-
-    @model_validator(mode="after")
-    def _if_checker_name_ensure_compare_path(
-        self,
-    ) -> OutputCheckersArgumentsModel:
-        """
-        Ensure compare_path is provided if checker_name is present.
-
-        Returns
-        -------
-        OutputCheckersArgumentsModel
-            The validated instance.
-
-        Raises
-        ------
-        ValueError
-            If checker_name is provided without compare_path.
-        """
-        if self.checker_name is not None and self.compare_path is None:
-            raise ValueError(
-                "A valid file path must be provided in 'compare_path'"
-                "when 'checker_name' is specified."
-            )
-
-        return self

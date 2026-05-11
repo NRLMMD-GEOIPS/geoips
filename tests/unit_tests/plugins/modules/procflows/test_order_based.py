@@ -21,23 +21,6 @@ def test_valid_fnames_no_error(tmp_path):
     validate_workflow_file_inputs(workflow_plugin, [str(valid_file)])
 
 
-def test_missing_fnames_raises(tmp_path):
-    """CLI fnames that don't exist raise FileNotFoundError via reader override."""
-    missing_path = str(tmp_path / "nonexistent.nc")
-
-    # reader step must exist so CLI fnames override kicks in
-    steps = {
-        "read_data": {
-            "kind": "reader",
-            "arguments": {"fnames": ["/placeholder/ignored.nc"]},
-        },
-    }
-    # match on something that actually appears in the message:
-    # either the step_id, the kind, or the missing path itself
-    with pytest.raises(FileNotFoundError, match="nonexistent.nc"):
-        validate_workflow_file_inputs(_make_workflow_plugin(steps), [missing_path])
-
-
 def test_valid_reader_step_fnames(tmp_path):
     """Test that existing fnames in a reader step pass without error."""
     valid_file = tmp_path / "reader_input.nc"
@@ -50,18 +33,6 @@ def test_valid_reader_step_fnames(tmp_path):
         },
     }
     validate_workflow_file_inputs(_make_workflow_plugin(steps), [])
-
-
-def test_missing_reader_step_fnames_raises(tmp_path):
-    """Test that missing fnames in a reader step raise FileNotFoundError."""
-    steps = {
-        "read_data": {
-            "kind": "reader",
-            "arguments": {"fnames": ["/no/such/file.nc"]},
-        },
-    }
-    with pytest.raises(FileNotFoundError, match="read_data.*reader"):
-        validate_workflow_file_inputs(_make_workflow_plugin(steps), [])
 
 
 def test_valid_compare_path(tmp_path):

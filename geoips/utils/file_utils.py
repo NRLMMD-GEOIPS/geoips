@@ -3,20 +3,22 @@
 
 """Filesystem path helpers used across GeoIPS."""
 
+# Python Standard Libraries
 from pathlib import Path
 
 
-def path_exists(file_path: str) -> bool:
-    """Return True if `path` exists on the filesystem.
+def path_exists(path: str | Path) -> bool:
+    """Return True if a filesystem path exists.
 
     Parameters
     ----------
     file_path : str
-        Path to the file to evaluate.
+        File or Directory path to evaluate. This could be a file, directory, or other
+         filesystem object.
 
     Returns
     -------
     bool
-        True if `path` exists, otherwise False.
+        True if `path` exists on the filesystem, otherwise False.
     """
-    return Path(file_path).exists()
+    return Path(path).exists()
