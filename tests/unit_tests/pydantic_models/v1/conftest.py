@@ -7,6 +7,9 @@
 import pytest
 from datetime import datetime
 
+# GeoIPS Libraries
+from geoips.interfaces import sectors
+
 
 @pytest.fixture
 def valid_step_data():
@@ -15,10 +18,10 @@ def valid_step_data():
         "kind": "reader",
         "name": "abi_netcdf",
         "arguments": {
-            "area_def": "None",
+            "area_def": sectors.get_plugin("denver").area_definition,
             "variables": ["None"],
             "metadata_only": False,
-            "self_register": ["None"],
+            "self_register": "LOW",
         },
     }
 
@@ -33,10 +36,10 @@ def valid_interfaces(valid_plugin_kinds):
 def valid_reader_arguments_model_data():
     """Fixture to provide sample valid Reader arguments for testing."""
     return {
-        "area_def": "None",
+        "area_def": sectors.get_plugin("denver").area_definition,
         "variables": ["None"],
         "metadata_only": True,
-        "self_register": ["None"],
+        "self_register": "LOW",
         "fnames": ["None"],
     }
 

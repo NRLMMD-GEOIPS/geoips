@@ -33,6 +33,7 @@ from geoips.pydantic_models.v1.bases import (
     PermissiveFrozenModel,
 )
 from geoips.pydantic_models.v1.coverage_checkers import CoverageCheckerArgumentsModel
+from geoips.pydantic_models.v1.readers import ReaderArgumentsModel
 from geoips.utils.types.partial_lexeme import Lexeme
 
 LOG = logging.getLogger(__name__)
@@ -254,6 +255,7 @@ class WorkflowStepDefinitionModel(FrozenModel):
     arguments: Dict[str, Any] = Field(default_factory=dict, description="step args")
 
     @field_validator("kind", mode="before")
+    @classmethod
     def _validate_plugin_kind(cls, value: str) -> str:
         """
         Validate that 'kind' is a known plugin kind.
