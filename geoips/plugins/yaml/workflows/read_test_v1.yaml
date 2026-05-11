@@ -22,7 +22,7 @@ spec:
     reader:
       kind: reader
       name: abi_netcdf
-      arguments: {}
+      arguments:
         variables: ['B14BT']
     # algorithm:
     #   kind: algorithm

@@ -76,6 +76,17 @@ step:
 .. code-block:: yaml
 
     spec:
+    spec:
+      global-arguments:
+        window_start_time: None
+        window_end_time: None
+        product_name: None
+        reader_defined_area_def: False
+        no_presectoring: True
+        product_db: False
+        product_db_writer: None
+        product_db_writer_kwargs: None
+        sector_list: [None]
       steps:
         reader_1:
           kind: reader
