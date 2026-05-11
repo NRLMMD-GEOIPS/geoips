@@ -94,7 +94,7 @@ class SectorPluginBase(BaseYamlPlugin):
         gridlines: bool, default=False
             - If true, add latitude longitude gridlines to the sector image.
         """
-        noborder = False if gridlines else True
+        noborder = not gridlines
         if overlay:
             global_sector = sectors.get_plugin("global_cylindrical")
             global_area_def = global_sector.area_definition

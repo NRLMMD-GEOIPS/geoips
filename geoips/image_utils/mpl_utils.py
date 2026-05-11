@@ -678,7 +678,6 @@ def create_figure_and_main_ax_and_mapobj(
 
     # if the mapobj is a cartopy crs instance and noborder isn't set, then add gridlines
     if is_crs(mapobj) and not noborder:
-        # buried imports here as that is what's done by default in this function
         import cartopy.crs as ccrs
         import cartopy.mpl.ticker as cticker
 
