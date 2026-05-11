@@ -13,7 +13,7 @@ spec:
     product_db: False
     product_db_writer: null
     product_db_writer_kwargs: null
-    sector_list: ["geokompsat"]
+    sector_list: []
   steps:
     reader:
       kind: reader
@@ -36,7 +36,7 @@ spec:
     product_db: False
     product_db_writer: null
     product_db_writer_kwargs: null
-    sector_list: ["geokompsat"]
+    sector_list: []
   steps:
     reader:
       kind: reader
@@ -59,7 +59,7 @@ spec:
     product_db: False
     product_db_writer: null
     product_db_writer_kwargs: null
-    sector_list: ["geokompsat"]
+    sector_list: []
   steps:
     reader:
       kind: reader
@@ -82,7 +82,7 @@ spec:
     product_db: False
     product_db_writer: null
     product_db_writer_kwargs: null
-    sector_list: ["geokompsat"]
+    sector_list: []
   steps:
     reader:
       kind: reader
@@ -105,7 +105,7 @@ spec:
     product_db: False
     product_db_writer: null
     product_db_writer_kwargs: null
-    sector_list: ["geokompsat"]
+    sector_list: []
   steps:
     reader:
       kind: reader
@@ -128,7 +128,7 @@ spec:
     product_db: False
     product_db_writer: null
     product_db_writer_kwargs: null
-    sector_list: ["geokompsat"]
+    sector_list: []
   steps:
     reader:
       kind: reader
@@ -151,7 +151,7 @@ spec:
     product_db: False
     product_db_writer: null
     product_db_writer_kwargs: null
-    sector_list: ["geokompsat"]
+    sector_list: []
   steps:
     reader:
       kind: reader
@@ -174,7 +174,7 @@ spec:
     product_db: False
     product_db_writer: null
     product_db_writer_kwargs: null
-    sector_list: ["geokompsat"]
+    sector_list: []
   steps:
     reader:
       kind: reader
@@ -197,7 +197,7 @@ spec:
     product_db: False
     product_db_writer: null
     product_db_writer_kwargs: null
-    sector_list: ["geokompsat"]
+    sector_list: []
   steps:
     reader:
       kind: reader
@@ -220,7 +220,7 @@ spec:
     product_db: False
     product_db_writer: null
     product_db_writer_kwargs: null
-    sector_list: ["geokompsat"]
+    sector_list: []
   steps:
     reader:
       kind: reader
@@ -243,7 +243,7 @@ spec:
     product_db: False
     product_db_writer: null
     product_db_writer_kwargs: null
-    sector_list: ["geokompsat"]
+    sector_list: []
   steps:
     reader:
       kind: reader
@@ -266,7 +266,7 @@ spec:
     product_db: False
     product_db_writer: null
     product_db_writer_kwargs: null
-    sector_list: ["geokompsat"]
+    sector_list: []
   steps:
     reader:
       kind: reader
@@ -289,7 +289,7 @@ spec:
     product_db: False
     product_db_writer: null
     product_db_writer_kwargs: null
-    sector_list: ["geokompsat"]
+    sector_list: []
   steps:
     reader:
       kind: reader
