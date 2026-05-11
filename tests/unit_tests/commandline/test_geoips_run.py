@@ -156,11 +156,11 @@ class TestGeoipsRun(BaseCliTest):
                             "name": "abi_netcdf",
                             "arguments": {"variables": ["B14BT"]},
                         },
-                        # "output_formatter": {
-                        #     "kind": "output_formatter",
-                        #     "name": "unprojected_image",
-                        #     "arguments": {"sectors": ["overcast_georing"]},
-                        # },
+                        "output_formatter": {
+                            "kind": "output_formatter",
+                            "name": "unprojected_image",
+                            "arguments": {"sectors": ["overcast_georing"]},
+                        },
                     },
                 },
             }
