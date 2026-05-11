@@ -128,35 +128,3 @@ class ReaderArgumentsModel(PermissiveFrozenModel):
                 stacklevel=2,
             )
         return values
-
-    @model_validator(mode="before")
-    def _upcoming_behvaior_change_area_def(cls, values):
-        """
-        Check for the 'area_def' field and issue a future warning.
-
-        This method detects if `area_def` is present in the input values and issues a
-        deprecation warning, recommending the use of 'sect.area_def' where sect is a
-        sector instance.
-
-        Parameters
-        ----------
-        values : dict
-            Input values to the model.
-
-        Returns
-        -------
-        dict
-            The original input values.
-        """
-        area_def_message = (
-            "'area_def' will be deprecated and be removed in future GeoIPS releases."
-            " Use sector.area_def instead."
-        )
-        if "area_def" in values:
-            LOG.warning(area_def_message)
-            warnings.warn(
-                area_def_message,
-                FutureWarning,
-                stacklevel=2,
-            )
-        return values
