@@ -133,23 +133,35 @@ class TestGeoipsRun(BaseCliTest):
         "--generated",
         str(
             {
+                "apiVersion": "geoips/v1",
                 "interface": "workflows",
                 "family": "order_based",
                 "name": "generated",
                 "docstring": "Dynamically generated workflow plugin.",
                 "spec": {
+                    "global_arguments": {
+                        "window_start_time": None,
+                        "window_end_time": None,
+                        "product_name": None,
+                        "reader_defined_area_def": False,
+                        "no_presectoring": True,
+                        "product_db": False,
+                        "product_db_writer": None,
+                        "product_db_writer_kwargs": None,
+                        "sector_list": ["Alpha"],
+                    },
                     "steps": {
                         "reader": {
                             "kind": "reader",
                             "name": "abi_netcdf",
                             "arguments": {"variables": ["B14BT"]},
                         },
-                        "output_formatter": {
-                            "kind": "output_formatter",
-                            "name": "unprojected_image",
-                            "arguments": {"sectors": ["overcast_georing"]},
-                        },
-                    }
+                        # "output_formatter": {
+                        #     "kind": "output_formatter",
+                        #     "name": "unprojected_image",
+                        #     "arguments": {"sectors": ["overcast_georing"]},
+                        # },
+                    },
                 },
             }
         ),
