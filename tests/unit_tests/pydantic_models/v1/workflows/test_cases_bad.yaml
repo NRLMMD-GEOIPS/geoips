@@ -12,7 +12,7 @@ global_variables_product_db_writer_without_product_db:
   cls: WorkflowSpecModel
   err_str: "product_db_writer is defined as: `postgres_database` but product_db is False or unspecified."
 
-global_variables_window_start_without_end:
+global_variables_window_start_time_without_end_time:
   description: "Start time set but end time unset -> raises."
   key: global_arguments/window_end_time
   val: null
