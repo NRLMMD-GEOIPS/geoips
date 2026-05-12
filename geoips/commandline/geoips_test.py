@@ -160,6 +160,17 @@ class GeoipsTestSector(GeoipsExecutableCommand):
             action="store_true",
             help="Add a latitude / longitude gridline overlay to your sector.",
         )
+        self.parser.add_argument(
+            "--labels",
+            "-l",
+            default=["left", "bottom"],
+            choices=["left", "right", "top", "bottom"],
+            nargs="*",
+            help=(
+                "A list of strings which set where gridline labels will be set on the "
+                "sector. Specify no values to disable labels."
+            ),
+        )
 
     def __call__(self, args):
         """Create the provided sector image based off the arguments provided.
@@ -178,6 +189,9 @@ class GeoipsTestSector(GeoipsExecutableCommand):
         outdir = args.outdir
         overlay = args.overlay
         gridlines = args.gridlines
+        labels = args.labels
+        noborder = False if len(labels) else True
+
         # If the path to outdir doesn't already exist, make that path
         if not exists(outdir):
             makedirs(outdir)
@@ -205,7 +219,13 @@ class GeoipsTestSector(GeoipsExecutableCommand):
                 f"named '{sector_name}' and run 'create_plugin_registries'."
             )
         print(f"Creating {fname}.")
-        sect.create_test_plot(fname, overlay=overlay, gridlines=gridlines)
+        sect.create_test_plot(
+            fname,
+            overlay=overlay,
+            gridlines=gridlines,
+            gridline_labels=labels,
+            noborder=noborder,
+        )
 
 
 class GeoipsTestScript(GeoipsExecutableCommand):

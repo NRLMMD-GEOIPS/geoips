@@ -30,8 +30,19 @@ class TestGeoipsTestSector(BaseCliTest):
             # files.
             self._cmd_list.append(base_args + ["goes_east"])
             self._cmd_list.append(base_args + ["goes_east", "--gridlines"])
+            self._cmd_list.append(base_args + ["goes_east", "--gridlines", "--labels"])
+            self._cmd_list.append(
+                base_args + ["goes_east", "--gridlines", "--labels", "top", "right"]
+            )
             self._cmd_list.append(base_args + ["australia", "--overlay"])
             self._cmd_list.append(base_args + ["australia", "--overlay", "--gridlines"])
+            self._cmd_list.append(
+                base_args + ["australia", "--overlay", "--gridlines", "--labels"]
+            )
+            self._cmd_list.append(
+                base_args
+                + ["australia", "--overlay", "--gridlines", "--labels", "left"]
+            )
             self._cmd_list.append(
                 base_args + ["japan", "--outdir", f"{environ['GEOIPS_OUTDIRS']}"]
             )

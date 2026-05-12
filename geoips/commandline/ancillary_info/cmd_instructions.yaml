@@ -483,10 +483,16 @@ instructions:
       testing the geospatial domain of very small sectors.
 
       If '--gridlines' or '-g' is supplied, latitude, longitude gridlines will be
-      applied to the generated sector image.
+      applied to the generated sector image. By default, latitude, longitude labels
+      will also be applied.
+
+      To disable labels, or change their location, you can supply a '--labels' ('-l')
+      flag. By default, labels are added to the bottom and left sides of the sector.
+      You can add a '--labels' flag with no arguments to disable labels. Otherwise,
+      choose one or more of the following options ['left', 'right', 'top', 'bottom'].
     usage_str: |
-      To use, type `geoips test sector <sector_name> --overlay --gridlines --outdir
-      <output_directory_path>`.
+      To use, type `geoips test sector <sector_name> --overlay --gridlines --labels
+      <labels> --outdir <output_directory_path>`.
     output_info:
       - A path to the image of the sector you've created.
   # geoips_test_unit-test:

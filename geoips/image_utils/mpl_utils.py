@@ -531,6 +531,8 @@ def create_figure_and_main_ax_and_mapobj(
     font_size=None,
     existing_mapobj=None,
     noborder=False,
+    gridlines=False,
+    gridline_labels=[],
 ):
     """
     Create a figure of x pixels horizontally and y pixels vertically.
@@ -559,6 +561,11 @@ def create_figure_and_main_ax_and_mapobj(
     noborder : bool, default=False
         If true, use [0, 0, 1, 1] for axes (allowing for image exact
         shape of sector).
+    gridlines : bool, default=False
+        If true, add latitude longitude gridlines to the axes.
+    gridline_labels : list[constants], default=[]
+        A list of constants (strings) that refer to which gridline labels to turn
+        on.
 
     Returns
     -------
@@ -677,7 +684,7 @@ def create_figure_and_main_ax_and_mapobj(
     fig.add_axes(main_ax)
 
     # if the mapobj is a cartopy crs instance and noborder isn't set, then add gridlines
-    if is_crs(mapobj) and not noborder:
+    if is_crs(mapobj) and gridlines:
         import cartopy.crs as ccrs
         import cartopy.mpl.ticker as cticker
 
@@ -691,8 +698,17 @@ def create_figure_and_main_ax_and_mapobj(
             alpha=0.75,
             linestyle="--",
         )
+
+        gl.bottom_labels = False
+        gl.left_labels = False
         gl.top_labels = False
         gl.right_labels = False
+
+        # If noborder is False, set requested gridline labels
+        if not noborder:
+            for label in gridline_labels:
+                setattr(gl, f"{label}_labels", True)
+
         # Based on testing these seem to do a good job at auto-spacing the lat/lon ticks
         # for any sector
         gl.xformatter = cticker.LongitudeFormatter()
