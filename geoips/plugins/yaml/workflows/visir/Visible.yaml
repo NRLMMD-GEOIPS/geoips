@@ -4,16 +4,6 @@ name: ob_Visible
 docstring: |
   The Visible workflow configuration.
 spec:
-  global_arguments:
-    window_start_time: null
-    window_end_time: null
-    product_name: None
-    reader_defined_area_def: False
-    presector: False
-    product_db: False
-    product_db_writer: null
-    product_db_writer_kwargs: null
-    sector_list: []
   steps:
     interpolator:
       kind: interpolator
