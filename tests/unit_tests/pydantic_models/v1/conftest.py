@@ -5,7 +5,7 @@
 
 # Third-Party Libraries
 import pytest
-from datetime import datetime
+import datetime as dt
 
 # GeoIPS Libraries
 from geoips.interfaces import sectors
@@ -159,8 +159,8 @@ def valid_workflow_spec_model_data():
     """Fixture providing valid data testing WorkflowSpecModel fields."""
     return {
         "global_arguments": {
-            "window_start_time": datetime(2024, 9, 26, 18, 0, 0),
-            "window_end_time": datetime(2024, 9, 27, 3, 0, 0),
+            "window_start_time": dt.datetime(2024, 9, 26, 18, 0, 0),
+            "window_end_time": dt.datetime(2024, 9, 27, 3, 0, 0),
             "product_name": "Infrared-Gray",
             "reader_defined_area_def": True,
             "presector": False,
