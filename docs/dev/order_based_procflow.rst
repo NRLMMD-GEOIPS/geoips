@@ -139,7 +139,7 @@ Output Formatter step in the code block below includes two additional plugins,
         window_end_time: None
         product_name: None
         reader_defined_area_def: False
-        no_presectoring: True
+        presector: False
         product_db: False
         product_db_writer: None
         product_db_writer_kwargs: None
