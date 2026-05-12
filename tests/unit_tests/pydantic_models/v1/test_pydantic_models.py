@@ -221,7 +221,6 @@ def test_good_plugins(test_case, request):
     plugin = PathDict(deepcopy(good_plugin))
     model = get_model(interface, plugin)
 
-    # shell()
     validate_good_plugin(plugin, case_value, model)
 
 
