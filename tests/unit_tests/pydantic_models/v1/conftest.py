@@ -176,12 +176,7 @@ def valid_workflow_spec_model_data():
             "read_data": {
                 "kind": "reader",
                 "name": "abi_netcdf",
-                "arguments": {
-                    "area_def": "None",
-                    "variables": ["None"],
-                    "metadata_only": False,
-                    "self_register": ["None"],
-                },
+                "arguments": {},
             }
         },
     }
