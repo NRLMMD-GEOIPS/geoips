@@ -22,7 +22,7 @@ enhancement:
     - 'geoips/pydantic_models/v1/workflows.py'
     - 'tests/unit_tests/commandline/test_geoips_run.py'
     - 'tests/unit_tests/pydantic_models/v1/conftest.py'
-    - 'tests/unit_tests/pydantic_models/v1/test_pydantic_models.py
+    - 'tests/unit_tests/pydantic_models/v1/test_pydantic_models.py'
   related-issue:
     number: 1287
     repo_url: 'https://github.com/NRLMMD-GEOIPS/geoips'

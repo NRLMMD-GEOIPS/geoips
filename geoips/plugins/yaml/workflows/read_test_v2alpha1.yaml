@@ -10,15 +10,15 @@ docstring: |
 description: 11.2 µm Infrared.
 spec:
   global_arguments:
-    window_start_time: null
-    window_end_time: null
-    product_name: None
-    reader_defined_area_def: False
     presector: False
     product_db: False
-    product_db_writer: null
-    product_db_writer_kwargs: null
+    product_db_writer: None
+    product_db_writer_kwargs: None
+    product_name: None
+    reader_defined_area_def: False
     sector_list: []
+    window_start_time: None
+    window_end_time: None
   steps:
     reader:
       kind: reader
