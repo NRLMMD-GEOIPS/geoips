@@ -1,9 +1,12 @@
 enhancement:
 - title: 'GeoIPS Test Sector Updates'
   description: |
-    Updated 'geoips test sector' command to support a '--gridlines' flag. This flag will
-    add latitude / longitude gridlines to your sector image. This can be applied
-    alongside the '--overlay' flag as well.
+    Updated 'geoips test sector' command to support a '--gridlines' and a '--labels'
+    flag. The '--gridlines' flag will add latitude / longitude gridlines to your sector
+    image. By default labels will be added to the bottom and left side of the sector
+    image when gridlines are added. To disable this, or change the location of labels,
+    provide the '--labels' flag with no arguments or different locations.
+    This can be applied alongside the '--overlay' flag as well.
 
     Updated documentation and added a unit test to test this functionality.
     Additionally, I updated the sector schema to support two methods for specifying an
