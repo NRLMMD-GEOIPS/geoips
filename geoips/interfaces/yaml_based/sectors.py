@@ -9,7 +9,6 @@ from pyresample import kd_tree
 
 from geoips.interfaces.base import BaseYamlPlugin, BaseYamlInterface
 from geoips.image_utils.mpl_utils import create_figure_and_main_ax_and_mapobj
-from geoips.filenames.base_paths import PATHS as gpaths
 
 # Commenting these out for PR #260
 # Will work on this again after the 2023 workshop
@@ -158,8 +157,7 @@ class SectorsInterface(BaseYamlInterface):
 
     name = "sectors"
     plugin_class = SectorPluginBase
-    use_pydantic = gpaths["GEOIPS_USE_PYDANTIC"]
-
+    use_pydantic = True
     # if sectors.get_plugin(<name>) is found to be a dynamic sector. Otherwise, a static
     # sector plugin model (I.e. SectorPluginModel) will be used for all other sector
     # types.
