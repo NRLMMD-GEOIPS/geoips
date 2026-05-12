@@ -17,9 +17,9 @@ including top-level callable interfaces (eg. Readers, OutputFormatters, etc.).
 from __future__ import annotations
 
 # Python Standard Libraries
+import datetime as dt
 import logging
 from typing import Any, Dict, List
-from datetime import datetime
 
 # Third-Party Libraries
 from pydantic import ConfigDict, Field, field_validator, model_validator
@@ -135,12 +135,12 @@ class GlobalVariablesModel(PermissiveFrozenModel):
     product_name: str | None = Field(None)
     reader_defined_area_def: bool = Field(False)
     sector_list: List[str] | None = Field(None)
-    window_start_time: datetime | None = Field(
+    window_start_time: dt.datetime | None = Field(
         None,
         description="If specified, sector temporally between window_start_time "
         "and window_end_time.",
     )
-    window_end_time: datetime | None = Field(
+    window_end_time: dt.datetime | None = Field(
         None,
         description="If specified, sector temporally between window_start_time "
         "and window_end_time.",
