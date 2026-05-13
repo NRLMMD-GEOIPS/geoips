@@ -25,7 +25,6 @@ fi
 # Includes base_install, plus cartopy shapefiles, .vscode repo, and all test data repos required to run tests in geoips repo
 . $GEOIPS_PACKAGES_DIR/geoips/tests/integration_tests/full_install.sh
 
-. $check source_repo akima86 $test_exit $install_script
 . $check source_repo data_fusion $test_exit $install_script
 . $check source_repo geoips_clavrx $test_exit $install_script
 . $check source_repo geoips_plugin_example $test_exit $install_script

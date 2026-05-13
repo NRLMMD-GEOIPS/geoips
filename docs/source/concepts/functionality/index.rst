@@ -12,7 +12,6 @@ Functionality
     :maxdepth: 1
 
     command-line/index
-    plugin-registries
     documentation-building
     examples/index
     interfaces/index

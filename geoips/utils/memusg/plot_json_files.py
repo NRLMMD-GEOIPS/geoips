@@ -12,7 +12,10 @@ from pathlib import Path
 import pytz
 
 from geoips.utils.memusg.boxplots import boxplot, checkpoint_boxplot
-from geoips.utils.memusg.dataframe_utils import create_checkpoint_dataframe, sort_resource_stats
+from geoips.utils.memusg.dataframe_utils import (
+    create_checkpoint_dataframe,
+    sort_resource_stats,
+)
 
 # Geoips libraries
 from geoips.filenames.base_paths import PATHS as gpaths
