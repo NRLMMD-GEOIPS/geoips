@@ -57,7 +57,7 @@ models_available = {
     },
     "output_checkers": {
         "good_source": ("fixture", "valid_output_checker_arguments"),
-        "model": OutputCheckersArgumentsModel,
+        "model": OutputCheckerArgumentsModel,
     },
     "title_formatters": {
         "good_source": ("fixture", "valid_title_formatter_arguments"),

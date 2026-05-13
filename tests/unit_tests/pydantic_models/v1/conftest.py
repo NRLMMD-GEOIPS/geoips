@@ -33,14 +33,25 @@ def valid_interfaces(valid_plugin_kinds):
 
 
 @pytest.fixture
-def valid_reader_arguments_model_data():
+def file_generated_from_pytest_fixture(tmp_path):
+    """Fixture to create a temporary file for testing."""
+    file_generated_from_pytest_fixture = tmp_path / "exits.nc"
+    file_generated_from_pytest_fixture.touch()
+    return file_generated_from_pytest_fixture
+
+
+@pytest.fixture
+# def valid_reader_arguments_model_data(tmp_path):
+def valid_reader_arguments_model_data(file_generated_from_pytest_fixture):
     """Fixture to provide sample valid Reader arguments for testing."""
+    # file_generatied_from_pytest_fixture = tmp_path / "exits.nc"
+    # file_generatied_from_pytest_fixture.touch()
     return {
         "area_def": sectors.get_plugin("denver").area_definition,
         "variables": ["None"],
         "metadata_only": True,
         "self_register": "LOW",
-        "fnames": ["None"],
+        "fnames": [file_generated_from_pytest_fixture],
     }
 
 
@@ -145,12 +156,11 @@ def valid_title_formatter_arguments():
 
 
 @pytest.fixture
-def valid_output_checker_arguments():
+def valid_output_checker_arguments(file_generated_from_pytest_fixture):
     """Fixture providing valid data OutputCheckerArgumentsModel tests."""
     return {
-        "checker_name": "test_string",
-        "compare_path": "/path/to/reference.txt",
-        "output_products": ["/path/to/output.png"],
+        "compare_path": file_generated_from_pytest_fixture,
+        "output_products": [file_generated_from_pytest_fixture],
     }
 
 
