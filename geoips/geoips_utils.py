@@ -17,8 +17,9 @@ import select
 
 from tabulate import tabulate
 import numpy as np
+from pluginify.errors import PluginRegistryError
 
-from geoips.errors import PluginRegistryError, PluginPackageNotFoundError
+from geoips.errors import PluginPackageNotFoundError
 from geoips.filenames.base_paths import PATHS as geoips_paths
 
 LOG = logging.getLogger(__name__)
