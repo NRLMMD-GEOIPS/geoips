@@ -112,6 +112,7 @@ class WorkflowArgumentsModel(PermissiveFrozenModel):
     model_config = ConfigDict(extra="allow")
     pass
 
+
 class AlgorithmStepValidationModel(PermissiveFrozenModel):
     """Validate step-level requirements for algorithm plugins."""
 
@@ -142,6 +143,7 @@ class AlgorithmStepValidationModel(PermissiveFrozenModel):
                 " algorithm plugin."
             )
         return self
+
 
 class WorkflowStepDefinitionModel(FrozenModel):
     """Validate step definition : kind, name, and arguments."""
