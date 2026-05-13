@@ -7,10 +7,6 @@
 from argparse import ArgumentParser
 import logging
 
-# Third-Party Libraries
-import xarray as xr
-from xarray import DataTree
-
 # GeoIPS imports
 from geoips import interfaces
 from geoips.commandline.log_setup import setup_logging
@@ -21,25 +17,6 @@ LOG = logging.getLogger(__name__)
 interface = "procflows"
 family = "standard"
 name = "order_based"
-
-
-def xarray_datatree_to_dataset(data, node="LOW"):
-    """
-    Convert an xarray DataTree to an xarray Dataset.
-
-    Parameters
-    ----------
-    data: DataTree
-        Input DataTree.
-
-    Returns
-    -------
-    DataSet
-        Dataset representation of the DataTree.
-    """
-    if hasattr(data, "__class__") and data.__class__.__name__ == "DataTree":
-        return data[node].ds
-    return data
 
 
 def call(workflow, fnames, command_line_args=None):
@@ -60,7 +37,7 @@ def call(workflow, fnames, command_line_args=None):
     LOG.interactive(f"Begin processing '{workflow['name']}' workflow.")
     wf_plugin = workflow
 
-    handled_interfaces = ["readers", "coverage_checkers", "interpolators"]
+    handled_interfaces = ["readers", "coverage_checkers"]
     for step_id, step_def in wf_plugin["spec"]["steps"].items():
         interface = str(Lexeme(step_def["kind"]).plural)
 
@@ -74,6 +51,7 @@ def call(workflow, fnames, command_line_args=None):
             continue
         else:
             plg = getattr(interfaces, interface, None).get_plugin(step_def["name"])
+
             LOG.interactive(
                 "Beginning Step: '%s', plugin_kind: '%s', plugin_name:'%s'.",
                 step_id,
@@ -90,42 +68,9 @@ def call(workflow, fnames, command_line_args=None):
                         "variables"
                     )
                 data = plg(fnames, **step_def["arguments"])
-                data_xr_dt = DataTree.from_dict(data)
-
-                if step_id not in data_xr_dt:
-                    data_xr_dt[step_id] = DataTree()
-
-                for name in list(data_xr_dt.children.keys()):
-                    if name == "METADATA" or name == step_id:
-                        continue
-
-                    data_xr_dt[f"{step_id}/{name}"] = data_xr_dt[name].ds
-                    del data_xr_dt[name]
-
-                input_xarray = xarray_datatree_to_dataset(
-                    data_xr_dt, node=f"{step_id}/LOW"
-                )
-            elif interface == "interpolators":
-
-                if step_id not in data_xr_dt:
-                    data_xr_dt[step_id] = DataTree()
-
-                data_xr_dt[f"{step_id}/output_interpolated_xr_ds"] = xr.Dataset()
-
-                # area_def = "goes_east_subsector"
-                area_def = input_xarray["IR112Rad"]
-                varlist = input_xarray["IR112Rad"]
-
-                if step_def["name"] == "interp_grid":
-                    step_def["arguments"].pop("sigmaval")
-                data = plg(
-                    area_def=area_def,
-                    input_xarray=input_xarray,
-                    output_xarray=data_xr_dt[f"{step_id}/output_interpolated_xr_ds"].ds,
-                    varlist=varlist,
-                    **step_def["arguments"],
-                )
-                # ['LOW', 'METADATA', 'output_xarray']
+                print(data)
+            else:
+                data = plg(data, **step_def["arguments"])
             LOG.interactive(
                 "Completed Step: step_id: '%s', plugin_kind: '%s', plugin_name: '%s'.",
                 step_id,

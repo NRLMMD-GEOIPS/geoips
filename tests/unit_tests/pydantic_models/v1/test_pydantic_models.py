@@ -11,8 +11,9 @@ import pytest
 
 # GeoIPS imports
 from geoips.pydantic_models.v1.interpolators import InterpolatorArgumentsModel
-from geoips.pydantic_models.v1.title_formatters import TitleFormatterArgumentsModel
 from geoips.pydantic_models.v1.output_checkers import OutputCheckersArgumentsModel
+from geoips.pydantic_models.v1.readers import ReaderArgumentsModel
+from geoips.pydantic_models.v1.title_formatters import TitleFormatterArgumentsModel
 from tests.unit_tests.pydantic_models.v1.utils import (
     PathDict,
     load_geoips_yaml_plugin,
@@ -49,6 +50,10 @@ models_available = {
     "dynamic_sectors": {
         "good_source": ("yaml", "tc_web"),
         "model": None,
+    },
+    "readers": {
+        "good_source": ("fixture", "valid_reader_arguments_model_data"),
+        "model": ReaderArgumentsModel,
     },
     "output_checkers": {
         "good_source": ("fixture", "valid_output_checker_arguments"),
@@ -121,7 +126,6 @@ def generate_test_cases(test_type):
     for interface in models_available.keys():
         test_cases = load_test_cases(interface, test_type)
         for key, value in test_cases.items():
-            # print(interface, key)
             cases.append(pytest.param((interface, key, value), id=f"{interface}_{key}"))
     return cases
 

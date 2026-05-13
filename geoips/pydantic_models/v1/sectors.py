@@ -11,6 +11,7 @@ from typing_extensions import Annotated
 from pydantic import (
     Field,
     ConfigDict,
+    field_serializer,
     field_validator,
     RootModel,
 )
@@ -397,6 +398,10 @@ class AreaDefinitionSpec(FrozenModel):
         elif isinstance(v, XYCoordinate):
             return v
         raise TypeError("center must be (x, y) as a dict, list, tuple.")
+
+    @field_serializer("center")
+    def _serialize_center(self, value):
+        return (value.x, value.y)
 
 
 class RegionMetadata(FrozenModel):
