@@ -12,7 +12,7 @@ release updates:
     start: 2025-06-04
     finish: 2025-06-09
   related-issue:
-      internal: GEOIPS#861
+      internal: geoips#861
 - title: 'Update tagged_version and upcoming_version'
   description: |
     tagged_version 1.16.1 (site-nrlmmd bug fixes)
@@ -25,4 +25,4 @@ release updates:
     start: 2025-06-04
     finish: 2025-06-09
   related-issue:
-      internal: GEOIPS#861
+      internal: geoips#861

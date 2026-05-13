@@ -1,0 +1,38 @@
+enhancement:
+- title: 'Add matplotlib_log_norm colormapper'
+  description: |
+    Add new colormapper that log-normalizes the colormap, similar to the
+    matplotlib_linear_norm colormapper. Add test integration tests and products to test
+    the matplotlib_log_norm colormapper, which currently uses a
+    "Test-Visible-Logarithmic" product for abi. Hopefully we can swap this out with an
+    actual test dataset that would benefit from a log-scaled colormap.
+
+    Move the ABI Infrared-Day/Night test products to products/integration_tests, and
+    rename the products to start with "Test-"
+  files:
+    deleted:
+    - ''
+    moved:
+    - 'geoips/plugins/yaml/product_defaults/visir/Infrared-Day-Night.yaml -> geoips/plugins/yaml/product_defaults/integration_tests/Test-Infrared-Day-Night.yaml'
+    - 'geoips/plugins/yaml/product_defaults/visir/Infrared-Day-Only.yaml -> geoips/plugins/yaml/product_defaults/integration_tests/Test-Infrared-Day-Only.yaml'
+    - 'geoips/plugins/yaml/product_defaults/visir/Infrared-Night-Only.yaml -> geoips/plugins/yaml/product_defaults/integration_tests/Test-Infrared-Night-Only.yaml'
+    added:
+    - 'geoips/plugins/modules/colormappers/matplotlib_log_norm.py'
+    - 'geoips/plugins/yaml/products/integration_tests/Test-Infrared-Day-Night.yaml'
+    - 'geoips/plugins/yaml/products/integration_tests/Test-Infrared-Day-Only.yaml'
+    - 'geoips/plugins/yaml/products/integration_tests/Test-Infrared-Night-Only.yaml'
+    - 'geoips/plugins/yaml/products/integration_tests/Test-Logarithmic-Colormap.yaml'
+    - 'tests/outputs/abi.static.Test-Visible-Logarithmic.imagery_clean/20200918.195020.goes-16.abi.Test-Visible-Logarithmic.test_goes16_eqc_3km_terminator_20200918T1950Z.79p46.noaa.3p0.png'
+    - 'tests/scripts/abi.static.Test-Visible-Logarithmic.imagery_clean.sh'
+    modified:
+    - 'geoips/plugins/yaml/product_defaults/integration_tests/Test-Infrared-Day-Night.yaml'
+    - 'geoips/plugins/yaml/product_defaults/integration_tests/Test-Infrared-Day-Only.yaml'
+    - 'geoips/plugins/yaml/product_defaults/integration_tests/Test-Infrared-Night-Only.yaml'
+    - 'tests/example_scripts/global_terminator_satzen.sh'
+    - 'tests/example_scripts/satzen.yaml'
+    - 'tests/integration_tests/test_integration.py'
+  related-issue:
+    internal: GEOIPS#922
+  date:
+    start: 2025-08-01
+    finish: 2025-08-20

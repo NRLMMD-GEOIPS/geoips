@@ -1,0 +1,22 @@
+spec_missing_sector_spec_generator:
+  key: spec
+  val: {}
+  cls: DynamicSectorPluginModel
+  loc: ['DynamicSectorPluginModel', 'spec', 'sector_spec_generator']
+  err_str: Field required
+sector_spec_generator_missing_name:
+  key: spec/sector_spec_generator
+  val:
+    arguments: {}
+  cls: DynamicSectorPluginModel
+  loc: ['DynamicSectorPluginModel', 'spec', 'sector_spec_generator', 'name']
+  err_str: Field required
+sector_spec_generator_arguments:
+  key: spec/sector_spec_generator
+  val:
+    name: center_coordinates
+  cls: DynamicSectorPluginModel
+  loc: ['DynamicSectorPluginModel', 'spec', 'sector_spec_generator', 'arguments']
+  err_str: Field required
+
+

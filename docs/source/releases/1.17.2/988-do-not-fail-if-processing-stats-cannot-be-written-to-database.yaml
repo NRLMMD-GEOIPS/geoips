@@ -1,0 +1,21 @@
+bug fix:
+  - title: "Do not fail if processing stats cannot be written to database"
+    description: |
+      Sometimes the METADATA key from xobjs is dropped during processing, which causes
+      the procflow to fail at the very end when writing processing statistics to the
+      database. We should properly fix this, but for now catch the error and log as an
+      error rather than failing.
+    files:
+      deleted:
+        - ""
+      moved:
+        - ""
+      added:
+        - ""
+      modified:
+        - "geoips/plugins/modules/procflows/config_based.py"
+    related-issue:
+      internal: geoips#988
+    date:
+      start: 2025-11-17
+      finish: 2025-11-17

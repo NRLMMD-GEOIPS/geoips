@@ -29,6 +29,7 @@ def call(
     source_dir=None,
     basedir=gpaths["ANNOTATED_IMAGERY_PATH"],
     output_dict=None,
+    extra=None,
 ):
     """Create GeoIPS standard filenames, sector-based subdirs.
 
@@ -67,7 +68,11 @@ def call(
     if "city" in sector_info:
         kwargs["city"] = sector_info["city"]
 
-    extra = "{0:0.1f}".format(resolution).replace(".", "p")
+    base_extra = "{0:0.1f}".format(resolution).replace(".", "p")
+    if extra:
+        extra = f"{base_extra}_{extra}"
+    else:
+        extra = base_extra
     web_fname = assemble_geoips_fname(
         basedir=basedir,
         product_name=product_name,

@@ -6,6 +6,9 @@
 # Python Standard Libraries
 import logging
 
+# GeoIPS Libraries
+from geoips.filenames.base_paths import PATHS as gpaths
+
 LOG = logging.getLogger(__name__)
 
 interface = "title_formatters"
@@ -49,6 +52,7 @@ def call(
         product_name_title,
         data_time.strftime("%Y-%m-%d %H:%M:%S"),
     )
+    gcopyright = gpaths["GEOIPS_COPYRIGHT"]
     if bg_xarray is not None:
         # bg_data_time = bg_xarray.start_datetime +
         #                          (bg_xarray.end_datetime - bg_xarray.start_datetime)/2
@@ -58,9 +62,19 @@ def call(
             bg_product_name_title,
             bg_data_time.strftime("%Y-%m-%d %H:%M:%S"),
         )
-        title_string = f"{title_line1}\n{title_line2}\n{title_line3}\n{title_copyright}"
+        title_string = f"{title_line1}, {gcopyright}\n{title_line2}\n{title_line3}"
     else:
-        title_string = f"{title_line1}\n{title_line2}\n{title_copyright}"
+        title_string = f"{title_line1}, {gcopyright}\n{title_line2}"
+
+    if title_copyright:
+        title_string = f"{title_string}\n{title_copyright}"
+
+    if (
+        "data_attribution" in xarray_obj.attrs
+        and "title" in xarray_obj.attrs["data_attribution"]
+    ):
+        for title_line in xarray_obj.attrs["data_attribution"]["title"]:
+            title_string = f"{title_string}\n{title_line}"
 
     LOG.info("title_string: %s", title_string)
 

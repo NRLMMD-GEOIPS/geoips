@@ -4,8 +4,36 @@
 """Utilities for working with YAML sector specifications."""
 
 import logging
+import yaml
+import numpy as np
 
 LOG = logging.getLogger(__name__)
+
+
+# As of NumPy 2.3, NumPy scalar types (e.g., np.float64, np.int64) are no longer
+# automatically treated as native Python types by yaml.safe_dump, since numpy
+# types are no longer subclasses of native Python types as of 2.3. This code
+# explicitly registers custom representers to convert numpy types to standard Python
+# types for YAML serialization.
+def numpy_representer(dumper, data):
+    """Convert NumPy scalar types to native Python types."""
+    if isinstance(data, (np.float32, np.float64)):
+        return dumper.represent_float(float(data))
+    elif isinstance(data, (np.int32, np.int64)):
+        return dumper.represent_int(int(data))
+    elif isinstance(data, (np.bool_,)):
+        return dumper.represent_bool(bool(data))
+    elif isinstance(data, np.ndarray):
+        # Convert arrays to lists (recursive YAML representation)
+        return dumper.represent_list(data.tolist())
+    else:
+        # Fallback for other numpy types
+        return dumper.represent_str(str(data))
+
+
+# Register for SafeDumper (to ensure appropriate types in yaml.safe_dump call)
+yaml.add_multi_representer(np.generic, numpy_representer, Dumper=yaml.SafeDumper)
+yaml.add_representer(np.ndarray, numpy_representer, Dumper=yaml.SafeDumper)
 
 
 def area_def_to_yamldict(area_def):
@@ -71,7 +99,6 @@ def write_yamldict(yamldict, out_fname, force=False, replace_geoips_paths=False)
     from geoips.filenames.base_paths import make_dirs
     from geoips.geoips_utils import replace_geoips_paths_in_dict
     from os.path import dirname, exists
-    import yaml
 
     if replace_geoips_paths:
         dump_yamldict = replace_geoips_paths_in_dict(yamldict)

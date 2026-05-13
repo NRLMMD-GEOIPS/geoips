@@ -22,6 +22,7 @@ import yaml
 
 from geoips.commandline.cmd_instructions import cmd_instructions, alias_mapping
 from geoips.commandline.log_setup import setup_logging
+from geoips.filenames.base_paths import PATHS
 
 
 class PluginPackages:
@@ -276,7 +277,10 @@ class GeoipsCommand(abc.ABC):
                 # command which has epilog text, which in this case, is a warning saying
                 # this procflow is in development and is subject to change at any time
                 if self.name == "order_based":
-                    epilog = self.warning
+                    if PATHS["NO_COLOR"]:
+                        epilog = self.warning_no_color
+                    else:
+                        epilog = self.warning_with_color
                 else:
                     epilog = None
                 # If the command's name exists w/in the alias mapping, then
@@ -513,11 +517,18 @@ class GeoipsExecutableCommand(GeoipsCommand):
                     key = "GeoIPS Package"
                 elif key == "Relpath":
                     key = "Relative Path"
-                formatted_line = Fore.CYAN + key + ":" + Style.RESET_ALL
-                formatted_line += Fore.YELLOW + value + Style.RESET_ALL
+
+                if PATHS["NO_COLOR"]:
+                    formatted_line = f"{key}:{value}"
+                else:
+                    formatted_line = Fore.CYAN + key + ":" + Style.RESET_ALL
+                    formatted_line += Fore.YELLOW + value + Style.RESET_ALL
                 print(formatted_line)
             else:
-                formatted_line = "\t" + Fore.YELLOW + line + Style.RESET_ALL
+                if PATHS["NO_COLOR"]:
+                    formatted_line = f"\t{line}"
+                else:
+                    formatted_line = "\t" + Fore.YELLOW + line + Style.RESET_ALL
                 print(formatted_line)
 
     def _get_registry_by_interface_and_package(self, interface, package_name):

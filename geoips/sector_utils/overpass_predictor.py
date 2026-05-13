@@ -36,9 +36,20 @@ def check_tle_name_to_passed_names(tle_name, satellite_names_list):
     bool
         True if tle_name is in the passed satellite names list
     """
-    satellite_in_list = any(
-        [x.lower() in tle_name.lower() for x in satellite_names_list]
-    )
+    # For every TLE and satellite name, split the string by " (", and remove
+    # the right parenthesis (if present). This allows us to check two satellite names
+    # if provided in the TLE file. For example, take OCEANSAT-3, which has the following
+    # name in the file downloaded from celestrak: "EOS-6 (OCEANSAT-3)". Splitting the
+    # names allows us to check if "EOS-6" OR "OCEANSAT-3" are in the
+    #  satellite_names_list.
+    split_tle_name = tle_name.lower().replace(")", "").split(" (")
+    for sat in satellite_names_list:
+        split_sat_name = sat.lower().replace(")", "").split(" (")
+        if any([x in split_tle_name for x in split_sat_name]):
+            satellite_in_list = True
+            break
+    else:
+        satellite_in_list = False
     return satellite_in_list
 
 
@@ -300,10 +311,14 @@ def predict_satellite_overpass(
     )
     total_observers = len(observers)
     overpasses = {}
+    if hasattr(area_def, "sector_info") and "storm_id" in area_def.sector_info:
+        adef_name = area_def.sector_info["storm_id"]
+    else:
+        adef_name = area_def.area_id
     LOG.info(
         "Running %s overpass predictor for %s. Total observers: %s",
         satellite_name,
-        area_def.area_id,
+        adef_name,
         total_observers,
     )
     for i, observer in enumerate(observers):
@@ -318,7 +333,7 @@ def predict_satellite_overpass(
         opass_key = "_".join(
             [
                 satellite_name,
-                area_def.area_id,
+                adef_name,
                 opass_info["max altitude time"].strftime("%Y%m%dT%H%MZ"),
             ]
         )

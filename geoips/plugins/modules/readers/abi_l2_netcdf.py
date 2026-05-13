@@ -13,6 +13,8 @@ from numpy import isnan
 import satpy
 import xarray as xr
 
+from geoips.filenames.base_paths import PATHS as gpaths
+
 log = logging.getLogger(__name__)
 
 interface = "readers"
@@ -135,7 +137,7 @@ def call(
     metadata_only=False,
     chans=False,
     self_register=False,
-    geolocation_cache_backend="memmap",
+    geolocation_cache_backend=gpaths["GEOIPS_GEOLOCATION_CACHE_BACKEND"],
     cache_chunk_size=None,
     resource_tracker=None,
 ):
@@ -278,10 +280,12 @@ def call(
     # different resolutions
     if len(xarrays) > 1:
         start_times = [x.attrs["start_datetime"] for x in xarrays]
+        end_times = [x.attrs["end_datetime"] for x in xarrays]
         if len(set(start_times)) > 1:
             # multiple scan times were passed in
             xarray_dset = xr.concat(xarrays, dim="time_dim")
             xarray_dset.attrs["start_datetime"] = min(start_times)
+            xarray_dset.attrs["end_datetime"] = max(end_times)
             xarray_dset = xarray_dset.assign_coords({"time_dim": start_times})
         else:
             # Multiple files for a single scan time were passed in (such as multiple

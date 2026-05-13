@@ -638,6 +638,26 @@ def add_args(parser, arglist=None, legacy=False):
                     be passed to the algorithm in full.""",
         )
 
+    if arglist is None or "output_checker_name" in arglist:
+        procflow_group.add_argument(
+            "--output_checker_name",
+            default=None,
+            help="""Output Checker Name Override.
+                    - By default, GeoIPS determines the appropriate
+                      output_checker plugin to use for comparisons based on
+                      the file extension of the output.
+                    - If a particular file extension is not explicitly
+                      supported, but is expected to be able to utilize one of
+                      the existing output checkers (e.g. using the "text"
+                      output checker with a CSV file), this argument allows the
+                      name of the checker to be passed in to override the default.
+                    - I.e., to force the use of the "text" ouput checker with a
+                      product that produces a CSV output output_checker plugin,
+                      you would pass:
+                        --output_checker_name text
+                    """,
+        )
+
     if arglist is None or "output_checker_kwargs" in arglist:
         procflow_group.add_argument(
             "--output_checker_kwargs",
@@ -882,6 +902,12 @@ def add_args(parser, arglist=None, legacy=False):
         )
 
     prod_db_group = parser.add_argument_group(title="Product database specifications")
+    prod_db_group.add_argument(
+        "--write_stats_to_json",
+        action="store_true",
+        help="""Write resource usage statistics gathered in config_based processing to
+                a JSON file.""",
+    )
     if arglist is None or "product_db" in arglist:
         prod_db_group.add_argument(
             "--product_db",

@@ -1,0 +1,19 @@
+installation:
+- title: 'Use GEOIPS_CONDA_ENV_NAME if defined for conda env, else default to geoips_conda'
+  description: |
+    if GEOIPS_CONDA_ENV_NAME is defined, use it.
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - 'setup/config_geoips'
+    - 'setup/geoips_conda_init_setup'
+  related-issue:
+    number: 861
+  date:
+    start: 2025-06-18
+    finish: 2025-07-09

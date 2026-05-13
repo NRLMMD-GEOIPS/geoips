@@ -11,7 +11,7 @@ from importlib import resources
 import warnings
 
 # from os import listdir
-from os import environ, makedirs
+from os import makedirs
 from os.path import basename, exists, join
 import sys
 
@@ -20,9 +20,9 @@ from subprocess import call
 
 from geoips.commandline.geoips_command import GeoipsCommand, GeoipsExecutableCommand
 from geoips.errors import PluginError
+from geoips.filenames.base_paths import PATHS
 from geoips.geoips_utils import is_editable
 from geoips.interfaces import sectors
-
 
 # class GeoipsTestUnitTest(GeoipsExecutableCommand):
 #     """Test Command for running GeoIPS Unit Tests."""
@@ -140,7 +140,7 @@ class GeoipsTestSector(GeoipsExecutableCommand):
             "--outdir",
             "-o",
             type=str,
-            default=f"{environ['GEOIPS_OUTDIRS']}",
+            default=PATHS["GEOIPS_OUTDIRS"],
             help="The output directory to create your sector image in.",
         )
         self.parser.add_argument(
@@ -151,6 +151,24 @@ class GeoipsTestSector(GeoipsExecutableCommand):
                 "Overlay this sector on the global_cylindrical grid. Useful for testing"
                 "small sectors, where their domain might be difficult to interpret in "
                 "a geospatial context."
+            ),
+        )
+        self.parser.add_argument(
+            "--gridlines",
+            "-g",
+            default=False,
+            action="store_true",
+            help="Add a latitude / longitude gridline overlay to your sector.",
+        )
+        self.parser.add_argument(
+            "--labels",
+            "-l",
+            default=["left", "bottom"],
+            choices=["left", "right", "top", "bottom"],
+            nargs="*",
+            help=(
+                "A list of strings which set where gridline labels will be set on the "
+                "sector. Specify no values to disable labels."
             ),
         )
 
@@ -170,6 +188,10 @@ class GeoipsTestSector(GeoipsExecutableCommand):
         sector_name = args.sector_name
         outdir = args.outdir
         overlay = args.overlay
+        gridlines = args.gridlines
+        labels = args.labels
+        noborder = False if len(labels) else True
+
         # If the path to outdir doesn't already exist, make that path
         if not exists(outdir):
             makedirs(outdir)
@@ -197,7 +219,13 @@ class GeoipsTestSector(GeoipsExecutableCommand):
                 f"named '{sector_name}' and run 'create_plugin_registries'."
             )
         print(f"Creating {fname}.")
-        sect.create_test_plot(fname, overlay=overlay)
+        sect.create_test_plot(
+            fname,
+            overlay=overlay,
+            gridlines=gridlines,
+            gridline_labels=labels,
+            noborder=noborder,
+        )
 
 
 class GeoipsTestScript(GeoipsExecutableCommand):

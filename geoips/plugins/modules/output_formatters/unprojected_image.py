@@ -57,6 +57,13 @@ def call(
     image_height = float(y_size) / dpi
 
     fig = plt.figure(facecolor="none")
+    LOG.info(
+        "Unprojected image %s x %s pixels, %s x %s inches",
+        str(x_size),
+        str(y_size),
+        str(image_width),
+        str(image_height),
+    )
     fig.set_size_inches(image_width, image_height)
     main_ax = plt.Axes(fig, [0, 0, 1, 1])
     main_ax.set_axis_off()
@@ -74,7 +81,9 @@ def call(
     else:
         slices = [xarray_obj[product_name].data]
     for slice_idx, slice_data in enumerate(slices):
+        LOG.info("Clearing unprojected_image ax")
         main_ax.clear()
+        LOG.info("Plotting unprojected_image with imshow")
         main_ax.imshow(
             slice_data,
             norm=mpl_colors_info["norm"],
@@ -113,7 +122,7 @@ def call(
                 )
             else:
                 final_fname = fname
-            LOG.info("Plotting %s with plt", fname)
+            LOG.info("Saving %s with plt", fname)
             # This just handles cleaning up the axes, creating directories, etc
             success_outputs += save_image(
                 fig,

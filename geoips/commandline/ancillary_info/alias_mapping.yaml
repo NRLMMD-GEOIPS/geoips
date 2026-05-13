@@ -76,6 +76,10 @@ sectors:
   - sec
   - secs
   - sector
+validators:
+  - val
+  - vals
+  - validator
 workflows:
   - wf
   - wfs

@@ -1,0 +1,26 @@
+testing:
+- title: 'Allow importing validation and lint test lists from geoips repo, and add validation pytest markers'
+  description: |
+    * Add repopath and pkgname to geoips repo setup_environment, rather than just
+      geoips_repopath and geoips_pkgname.  Note these get overwritten in individual
+      plugin repositories after calling geoips setup_environment.
+    * Update lint test list to use repopath and pkgname rather than geoips_repopath
+      and geoips_pkgname, so the same test list can be imported by all the plugin
+      repos.
+    * Add validation test list, using the current repopath and pkgname as arguments
+      to list plugins and test interfaces calls.
+    * Add validation pytest marker to pytest.ini
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - 'pytest.ini'
+    - 'tests/integration_tests/test_reponame.py'
+    - 'tests/utils/test_integration.py'
+  date:
+    start: 2026-02-26
+    finish: 2026-02-26

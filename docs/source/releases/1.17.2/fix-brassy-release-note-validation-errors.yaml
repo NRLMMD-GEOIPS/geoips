@@ -1,0 +1,16 @@
+bug fix:
+- title: "Fix brassy release note validation errors"
+  description: |
+    Corrected date validation where finish date was before start date.
+    Fixed internal field format and removed invalid repo_url fields
+    when internal field is used.
+  files:
+    modified:
+    - docs/source/releases/1.16.0/946-handle-singular-and-plural-forms-of-plugins-cleanly.yaml
+    - docs/source/releases/1.14.5/770-ingest-amsu-a-datasets-from-mirs-files.yaml
+    - docs/source/releases/1.14.5/775-fix-which-version-of-geoips-is-displayed-at-the-command-line.yaml
+    - docs/source/releases/1.14.5/759-update-tc_decks_database-to-support-b-deck-files-1.yaml
+    - docs/source/releases/1.14.5/773-revert-naming-of-mhs-variables-in-mhs-product-config-and-amsua_mhs_mirs-reader.yaml
+  date:
+    start: 2025-11-07
+    finish: 2025-11-07

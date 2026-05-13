@@ -3,7 +3,6 @@
 
 """Test Order-based procflow WorkflowStepDefinition Model."""
 
-
 # Python Standard Libraries
 import copy
 
@@ -12,11 +11,10 @@ from pydantic import ValidationError
 import pytest
 
 # GeoIPS Libraries
+from geoips.interfaces import sectors
 from geoips.pydantic_models.v1 import workflows
 
 
-# def test_bad_workflow_step_definition_model_
-#
 def test_bad_workflow_step_definition_model_empty_value_kind():
     """Test WorkflowStepDefinitionModel with empty 'kind'."""
     with pytest.raises(ValidationError) as exec_info:
@@ -38,7 +36,6 @@ def test_bad_workflow_step_definition_model_empty_value_kind():
 #     """Tests _validate_plugin_arguments() model validator."""
 #     invalid_step_data = copy.deepcopy(valid_step_data)
 #     invalid_step_data["arguments"] = {}
-#     print("invalid step data \t", invalid_step_data)
 #     with pytest.raises(ValidationError) as exec_info:
 #         workflows.WorkflowStepDefinitionModel(**invalid_step_data)
 
@@ -50,14 +47,13 @@ def test_good_workflow_step_definition_model_valid_step(valid_step_data):
     """Tests WorkflowStepDefinitionModel with valid data."""
     # creating an instance of PSDModel
     model = workflows.WorkflowStepDefinitionModel(**valid_step_data)
-
     assert model.kind == "reader"
     assert model.name == "abi_netcdf"
     assert model.arguments == {
-        "area_def": "None",
+        "area_def": sectors.get_plugin("denver").area_definition,
         "variables": ["None"],
         "metadata_only": False,
-        "self_register": ["None"],
+        "self_register": "LOW",
     }
 
 

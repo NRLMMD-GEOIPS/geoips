@@ -148,6 +148,7 @@ instructions:
   geoips_describe_product-defaults: *geoips-describe-artifact
   geoips_describe_products: *geoips-describe-artifact
   geoips_describe_sectors: *geoips-describe-artifact
+  geoips_describe_validators: *geoips-describe-artifact
   geoips_describe_workflows: *geoips-describe-artifact
   # geoips_describe_family:
   #   help_str: |
@@ -277,6 +278,7 @@ instructions:
   geoips_list_product-defaults: *list-single-interface
   geoips_list_products: *list-single-interface
   geoips_list_sectors: *list-single-interface
+  geoips_list_validators: *list-single-interface
   geoips_list_workflows: *list-single-interface
   geoips_list_interfaces:
     help_str: |
@@ -421,10 +423,14 @@ instructions:
     help_str: |
       Run the order_based process workflow (procflow). This procflow executes operations
       in the order they are specified in the provided workflow plugin. Eventually, this
-      will be the only procflow supported by GeoIPS. '--workflow' is a required argument
-      for this command.
+      will be the only procflow supported by GeoIPS. One of --workflow <workflow_name>,
+      --generated <generated_workflow>, or --filepath <absolute_filepath(.yaml/.json)>
+      is required for this command to run.
     usage_str: |
       To use, type `geoips run order_based -w <workflow> **<order_based_args>`.
+      OR, type `geoips run order_based -g <generated_workflow> **<order_based_args>`.
+      OR, type `geoips run order_based -f <absolute_filepath(.yaml/.json)>
+      **<order_based_args>`.
     output_info:
       - Log output of the order based process workflow.
   geoips_run_single_source:
@@ -473,11 +479,20 @@ instructions:
       sector plugin has been added to the plugin registry, this command will work.
 
       If '--overlay' is supplied, your sector will be overlaid on top of the
-      'global_cylindrical' grid in a semi-transparent fashion. Useful for testing the
-      geospatial domain of very small sectors.
+      'global_cylindrical' grid in a semi-transparent fashion. This is useful for
+      testing the geospatial domain of very small sectors.
+
+      If '--gridlines' or '-g' is supplied, latitude, longitude gridlines will be
+      applied to the generated sector image. By default, latitude, longitude labels
+      will also be applied.
+
+      To disable labels, or change their location, you can supply a '--labels' ('-l')
+      flag. By default, labels are added to the bottom and left sides of the sector.
+      You can add a '--labels' flag with no arguments to disable labels. Otherwise,
+      choose one or more of the following options ['left', 'right', 'top', 'bottom'].
     usage_str: |
-      To use, type `geoips test sector <sector_name> --overlay --outdir
-      <output_directory_path>`.
+      To use, type `geoips test sector <sector_name> --overlay --gridlines --labels
+      <labels> --outdir <output_directory_path>`.
     output_info:
       - A path to the image of the sector you've created.
   # geoips_test_unit-test:

@@ -1,0 +1,23 @@
+bug fix:
+- title: 'Fix broken docs imports'
+  description: 'This fixes rich imports.'
+  files:
+    modified:
+    - 'docs/build_docs.py'
+  related-issue:
+    number: null
+    repo_url: ''
+  date:
+    start: null
+    finish: null
+- title: 'Fix broken memusg imports'
+  description: 'Use relative imports to fix broken imports in memusg.'
+  files:
+    modified:
+    - 'geoips/utils/memusg/plot_json_files.py'
+  related-issue:
+    number: null
+    repo_url: ''
+  date:
+    start: null
+    finish: null

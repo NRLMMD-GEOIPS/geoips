@@ -24,8 +24,7 @@ enhancement:
     - 'geoips/plugins/modules/readers/abi_netcdf.py'
     - 'geoips/plugins/modules/readers/utils/geostationary_geolocation.py'
   related-issue:
-    number: 793
-    repo_url: GEOIPS
+    internal: geoips#793
   date:
     start: 2025-03-22
     finish: 2025-04-09

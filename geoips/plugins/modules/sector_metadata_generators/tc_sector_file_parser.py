@@ -11,6 +11,7 @@ Potentially useful for real-time processing.
 92S INVEST 210120 1800 14.9S 120.8E SHEM 30 1002
 93S INVEST 210120 1800 12.6S 98.5E SHEM 30 1003
 """
+
 import logging
 
 LOG = logging.getLogger(__name__)
