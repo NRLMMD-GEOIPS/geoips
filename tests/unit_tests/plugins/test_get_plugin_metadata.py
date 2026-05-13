@@ -4,9 +4,9 @@
 """Unit test for the interface method 'get_plugin_metadata'."""
 
 import pytest
+from pluginify.errors import PluginRegistryError
 
 from geoips import interfaces
-from geoips.errors import PluginRegistryError
 
 
 def generate_id(iname_pname):
