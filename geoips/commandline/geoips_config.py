@@ -14,13 +14,14 @@ import requests
 import tempfile
 
 from numpy import any
+from pluginify.commandline_typer import configure_logging
+from pluginify.plugin_registry import PluginRegistry
 import tarfile
 from tqdm import tqdm
 
 import geoips
 from geoips.commandline.ancillary_info.test_data import test_dataset_dict
 from geoips.commandline.geoips_command import GeoipsCommand, GeoipsExecutableCommand
-from geoips.plugin_registry import PluginRegistry
 
 
 class GeoipsConfigCreateRegistries(GeoipsExecutableCommand):
@@ -55,6 +56,8 @@ class GeoipsConfigCreateRegistries(GeoipsExecutableCommand):
         packages = args.packages
         namespace = args.namespace
         save_type = args.save_type
+        # This is needed to ensure that we capture the logs from pluginify
+        configure_logging()
         plugin_registry = PluginRegistry(namespace)
         plugin_registry.create_registries(packages, save_type)
 
@@ -79,6 +82,8 @@ class GeoipsConfigDeleteRegistries(GeoipsExecutableCommand):
         """
         packages = args.packages
         namespace = args.namespace
+        # This is needed to ensure that we capture the logs from pluginify
+        configure_logging()
         plugin_registry = PluginRegistry(namespace)
         plugin_registry.delete_registries(packages)
 
@@ -302,8 +307,8 @@ class GeoipsConfig(GeoipsCommand):
 
     name = "config"
     command_classes = [
-        GeoipsConfigInstall,
-        GeoipsConfigInstallGithub,
         GeoipsConfigCreateRegistries,
         GeoipsConfigDeleteRegistries,
+        GeoipsConfigInstall,
+        GeoipsConfigInstallGithub,
     ]

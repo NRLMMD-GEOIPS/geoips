@@ -70,17 +70,6 @@ instructions:
       To use, type `geoips config install-github <repository_name>`.
     output_info:
       - Not Applicable
-  geoips_config_install-github:
-    help_str: |
-      Install the appropriate test dataset directly from a github
-      repository based on the arguments provided. Will install the github repository
-      $GEOIPS_REPO_URL/<repository_name>.
-      Repositories named test_data_* or realtime_outputs_* will be
-      cloned into $GEOIPS_TESTDATA_DIR by default.
-    usage_str: |
-      To use, type `geoips config install-github <repository_name>`.
-    output_info:
-      - Not Applicable
   geoips_describe: &geoips-describe-artifact
     help_str: |
       Retrieve information about a GeoIPS artifact. For this command, an artifact is one
@@ -479,11 +468,20 @@ instructions:
       sector plugin has been added to the plugin registry, this command will work.
 
       If '--overlay' is supplied, your sector will be overlaid on top of the
-      'global_cylindrical' grid in a semi-transparent fashion. Useful for testing the
-      geospatial domain of very small sectors.
+      'global_cylindrical' grid in a semi-transparent fashion. This is useful for
+      testing the geospatial domain of very small sectors.
+
+      If '--gridlines' or '-g' is supplied, latitude, longitude gridlines will be
+      applied to the generated sector image. By default, latitude, longitude labels
+      will also be applied.
+
+      To disable labels, or change their location, you can supply a '--labels' ('-l')
+      flag. By default, labels are added to the bottom and left sides of the sector.
+      You can add a '--labels' flag with no arguments to disable labels. Otherwise,
+      choose one or more of the following options ['left', 'right', 'top', 'bottom'].
     usage_str: |
-      To use, type `geoips test sector <sector_name> --overlay --outdir
-      <output_directory_path>`.
+      To use, type `geoips test sector <sector_name> --overlay --gridlines --labels
+      <labels> --outdir <output_directory_path>`.
     output_info:
       - A path to the image of the sector you've created.
   # geoips_test_unit-test:
