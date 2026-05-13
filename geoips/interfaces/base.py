@@ -15,15 +15,7 @@ from referencing import jsonschema as refjs
 from jsonschema.exceptions import ValidationError, SchemaError
 
 from pluginify.interfaces.base import BaseYamlInterface as pluginify_base_yaml
-from pluginify.interfaces.base import (  # NOQA: F401
-    BaseInterface,
-    BaseClassInterface as pluginify_base_class,
-    BaseYamlPlugin,
-)  # imports used elsewhere in GeoIPS
-import yaml
-
-from pluginify.interfaces.base import BaseYamlInterface as pluginify_base_yaml
-from pluginify.interfaces.base import (  # NOQA: F401
+from pluginify.interfaces.base import (  # NOQA: F401, F811
     BaseInterface,
     BaseClassInterface as pluginify_base_class,
     BaseYamlPlugin,
