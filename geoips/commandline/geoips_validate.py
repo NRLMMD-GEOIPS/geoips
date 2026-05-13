@@ -11,8 +11,8 @@ from importlib.util import spec_from_file_location, module_from_spec
 from os.path import exists
 from pathlib import Path
 
-import yaml
 
+import geoips.utils.yaml_utils as yaml
 from geoips.commandline.geoips_command import GeoipsExecutableCommand
 from geoips import interfaces
 
