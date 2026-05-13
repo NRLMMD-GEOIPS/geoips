@@ -28,8 +28,8 @@ def call(workflow, fnames, command_line_args=None):
 
     Parameters
     ----------
-    workflow: str
-        The name of the workflow to process.
+    workflow: dict
+        The workflow plugin dictionary to process.
     fnames : list of str
         List of filenames from which to read data.
     command_line_args : list of str, None

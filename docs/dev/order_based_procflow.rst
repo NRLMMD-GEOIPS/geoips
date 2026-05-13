@@ -132,6 +132,7 @@ Output Formatter step in the code block below includes two additional plugins,
         product_db: False
         product_db_writer: None
         product_db_writer_kwargs: None
+        sector_list: ["windspeed"]
       steps:
         read_data:
           kind: reader
