@@ -385,7 +385,17 @@ class GeoipsTestWorkflow(GeoipsExecutableCommand):
             - The list argument namespace to parse through
         """
         workflow_name = args.workflow_name
-        workflow = workflows.get_plugin(workflow_name)
+        rbr = (
+            False
+            if "non_existent" in workflow_name
+            else PATHS["GEOIPS_REBUILD_REGISTRIES"]
+        )
+        try:
+            workflow = workflows.get_plugin(workflow_name, rebuild_registries=rbr)
+        except PluginError:
+            self.parser.error(
+                f"Error: could not load workflow plugin under name '{workflow_name}'."
+            )
 
         if not workflow.get("test"):
             raise self.parser.error(

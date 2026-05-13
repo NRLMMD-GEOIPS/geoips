@@ -366,7 +366,7 @@ class BaseCliTest(abc.ABC):
                 # Monkeypatch works for the provided arguments!
                 return True
 
-    def test_command_combinations(self, monkeypatch, args=None):
+    def test_command_combinations(self, monkeypatch, caplog=None, args=None):
         """Test all or a stochastic subset of 'geoips <cmd> ...' command combinations.
 
         This test covers a stochastic or complete list of command combinations for all
@@ -404,8 +404,14 @@ class BaseCliTest(abc.ABC):
             output, error = output.decode(), error.decode()
             prc.terminate()
         assert len(output) or len(error)  # assert that some output was created
+        # Extract log statements
         if len(error) and (not len(output) or output == "\n"):
             self.check_error(args, error)
         else:
             print(output)
+            # if caplog was provided and logging statements were caught, add those to
+            # output.
+            if caplog and len(caplog.text):
+                output += caplog.text
+
             self.check_output(args, output)
