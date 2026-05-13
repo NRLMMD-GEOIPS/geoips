@@ -530,7 +530,7 @@ class WorkflowSpecModel(FrozenModel):
             elif (
                 step.get("kind") == "workflow"
                 and expand
-                and (step.get("spec") is None or spec.get("name"))
+                and (step.get("spec") is None or step.get("name"))
             ):
                 expanded_steps = cls.extend_dict(
                     expanded_steps, cls.expand_step(step, info)

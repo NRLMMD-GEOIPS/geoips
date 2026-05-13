@@ -379,7 +379,7 @@ class BaseCliTest(abc.ABC):
                 # Monkeypatch works for the provided arguments!
                 return True
 
-    def test_command_combinations(self, monkeypatch, args, caplog=None):
+    def test_command_combinations(self, monkeypatch, args=None, caplog=None):
         """Test all or a stochastic subset of 'geoips <cmd> ...' command combinations.
 
         This test covers a stochastic or complete list of command combinations for all
@@ -388,7 +388,7 @@ class BaseCliTest(abc.ABC):
 
         Parameters
         ----------
-        args: array of str
+        args: array of str, default=None
             - List of arguments to call the CLI with (ie. ['geoips', '<cmd>'])
         """
         if args is None:
