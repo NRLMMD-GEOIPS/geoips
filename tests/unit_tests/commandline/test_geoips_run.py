@@ -140,13 +140,13 @@ class TestGeoipsRun(BaseCliTest):
                 "docstring": "Dynamically generated workflow plugin.",
                 "spec": {
                     "global_arguments": {
-                        "presector": True,
+                        "presector": False,
                         "product_db": False,
                         "product_db_writer": None,
                         "product_db_writer_kwargs": None,
                         "product_name": None,
                         "reader_defined_area_def": False,
-                        "sector_list": [],
+                        "sector_list": ["Alpha"],
                         "window_start_time": None,
                         "window_end_time": None,
                     },

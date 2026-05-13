@@ -159,10 +159,6 @@ def valid_workflow_spec_model_data():
     """Fixture providing valid data testing WorkflowSpecModel fields."""
     return {
         "global_arguments": {
-            "window_start_time": dt.datetime(2024, 9, 26, 18, 0, 0),
-            "window_end_time": dt.datetime(2024, 9, 27, 3, 0, 0),
-            "product_name": "Infrared-Gray",
-            "reader_defined_area_def": True,
             "presector": False,
             "product_db": True,
             "product_db_writer": "postgres_database",
@@ -170,7 +166,11 @@ def valid_workflow_spec_model_data():
                 "overwrite": True,
                 "schema": "products",
             },
+            "product_name": "Infrared-Gray",
+            "reader_defined_area_def": True,
             "sector_list": ["TC2024"],
+            "window_start_time": dt.datetime(2024, 9, 26, 18, 0, 0),
+            "window_end_time": dt.datetime(2024, 9, 27, 3, 0, 0),
         },
         "steps": {
             "read_data": {

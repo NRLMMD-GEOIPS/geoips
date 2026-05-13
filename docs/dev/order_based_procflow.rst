@@ -144,11 +144,12 @@ Output Formatter step in the code block below includes two additional plugins,
         window_start_time: None
         window_end_time: None
       steps:
-        read_data:
+        read_abi_L1_data:
           kind: reader
           name: abi_netcdf
           arguments:
             area_def: None
+            fnames: !ENV ${GEOIPS_TESTDATA_DIR}/test_data_abi/data/goes16_20200918_1950/*
             metadata_only: False
             self_register: [None]
             variables: ['B14BT']
