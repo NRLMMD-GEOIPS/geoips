@@ -35,7 +35,7 @@ fi
 . $check source_repo recenter_tc $test_exit $install_script
 # DO NOT install geoips_tutorial, as we don't typically want to install jupyter, but
 # clone it for reference.
-. $check settings_repo geoips_tutorial $test_exit $install_script
+# . $check settings_repo geoips_tutorial $test_exit $install_script
 
 # Private repos - only clone if GEOIPS_USE_PRIVATE_PLUGINS is set to "true"
 if [[ "$GEOIPS_USE_PRIVATE_PLUGINS" == "true" ]]; then
@@ -68,7 +68,7 @@ fi
 ###########################################
 
 # Test data repos required for fully supported plugin packages (above)
-. $check run_command "geoips config install template_test_data"
+# . $check run_command "geoips config install template_test_data"
 . $check run_command "geoips config install test_data_clavrx"
 . $check run_command "geoips config install test_data_fusion"
 . $check run_command "geoips config install test_data_geocolor"
