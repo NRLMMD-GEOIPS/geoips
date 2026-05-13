@@ -28,8 +28,8 @@ Dataset information::
                          'tb183_7v': 3}
              }
 """
+
 # Python Standard Libraries
-from glob import glob
 import logging
 from os.path import basename
 
@@ -39,7 +39,6 @@ import matplotlib
 import numpy as np
 import pandas as pd
 import xarray as xr
-
 
 matplotlib.use("agg")
 LOG = logging.getLogger(__name__)
@@ -259,18 +258,3 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
     xarray_gmi.attrs["interpolation_radius_of_influence"] = 12500
 
     return {"GMI": xarray_gmi, "METADATA": xarray_gmi[[]]}
-
-
-def get_test_files(test_data_dir):
-    """Yeilds unit files and test xarray for unit testing."""
-    filepath = test_data_dir + "/test_data_gpm/data/1B*.RT-H5"
-    filelist = glob(filepath)
-    tmp_xr = call(filelist)
-    if len(filelist) == 0:
-        raise NameError("No files found")
-    return tmp_xr
-
-
-def get_test_parameters():
-    """Yeilds data key for unit testing."""
-    return [{"data_key": "GMI", "data_var": "V10"}]

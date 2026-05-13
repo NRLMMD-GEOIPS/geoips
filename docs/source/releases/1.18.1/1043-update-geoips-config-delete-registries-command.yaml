@@ -1,0 +1,17 @@
+enhancement:
+- title: 'Add output to `geoips config delete-registries`'
+  description: |
+    Currently the command 'geoips config delete-registries' prints nothing useful. It
+    just prints None, whether or not the command successfully deleted one or more
+    registry files. I've updated this command to produce some useful output, which
+    determines whether or not a file was deleted, and where it can be found.
+  files:
+    modified:
+      - geoips/commandline/geoips_config.py
+      - geoips/plugin_registry.py
+  related-issue:
+    number: 1043
+    repo_url: 'https://github.com/NRLMMD-GEOIPS/geoips/'
+  date:
+    start: 12/09/2025
+    finish: 12/09/2025

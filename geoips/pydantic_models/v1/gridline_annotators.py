@@ -1,3 +1,6 @@
+# # # This source code is subject to the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
+
 """Pydantic models used to validate GeoIPS gridline annotator plugins."""
 
 from typing import Literal, Union, List, Optional

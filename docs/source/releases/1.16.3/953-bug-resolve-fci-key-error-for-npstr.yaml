@@ -1,0 +1,38 @@
+bug fix:
+- title: 'Resolve KeyError in FCI reader when reading specific channels'
+  description: |
+    Set chans to list of GeoIPS variable names if none for consistency
+    
+    Previous behavior set chans to the list of available FCI variables, not the GeoIPS
+    variable names. This caused inconsistencies when chans was not none, and was a list of
+    GeoIPS variable names (which should always be the case). This inconsistency lead to
+    a KeyError when trying to create the read_geoips_chans list, as we were trying to get
+    the GeoIPS variable name from the CHAN_MAP dictionary. By setting chans to the GeoIPS
+    variable name for each variable found in the FCI files, we do not need to do any
+    mapping when creating read_geoips_chans.
+
+    Note there are still issues with the FCI reader for multi-resolution self-registered
+    reads.  This was discovered when attempting to run the geocolor fci.sh test script,
+    but given it was never added to the integration test list when created in March 2025
+    on github.com https://github.com/NRLMMD-GEOIPS/geocolor/pull/7 there is no indication
+    when it stopped working.  We opened a new issue to address this multi-resolution
+    self-register error in the fci reader, and it will be addressed in a separate Issue/branch/PR.
+    Likely we will add an integration test product that we can use to test various combinations
+    of self-register/sectored/multi-variable-multi-resolution in a simple generalized test
+    product, so we can fully test the readers, allowing simplified tiny sector tests in
+    individual repos such as geocolor (so we are not relying on geocolor tests to test 
+    multi-resolution self-register reads...)
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - 'geoips/plugins/modules/readers/fci_netcdf.py'
+  related-issue:
+    internal: GEOIPS#953
+  date:
+    start: 2025-10-07
+    finish: 2025-10-07

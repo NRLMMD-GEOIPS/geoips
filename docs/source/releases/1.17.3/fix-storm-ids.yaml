@@ -1,0 +1,337 @@
+bug fix:
+  - title: "Add archer_fdeck to metadata_default.py output formatter"
+    description: |
+      * Need basic information in metadata_default, which includes the archer_fdeck output for recenter_tc.
+      * No easy way to specify additional required fields, besides creating a separate metadata_default.py in recenter_tc.
+      * I don't want to do that, so I'm going to just add archer_fdeck to the default fields.
+      * If archer_fdeck doesn't exist, it just doesn't get added, so still works with all other tests.
+      * I have no idea when this broke. I feel like we added the default set of fields a long time ago....
+    files:
+      deleted:
+        - ""
+      moved:
+        - ""
+      added:
+        - ""
+      modified:
+        - "geoips/plugins/modules/output_formatters/metadata_default.py"
+    date:
+      start: 2026-01-08
+      finish: 2026-01-08
+  - title: "Update metadata_tc output formatter to include area_id and area_description fields"
+    description: |
+      * To allow complete testing of the TC storm naming, ensure area_id and area_description
+        fields are included in the metadata_tc output formatter.
+      * Add area_id and area_description to the SAR TC test output.
+      * Update storm_id to NOT include storm name or 'tc' in the SAR metadata TC output.
+      * Add storm_start_datetime_from_filename_of_current_deck_file and storm_start_datetime_from_first_line_of_current_deck_file fields.
+      * Add invest_storm_id
+      * Update storm_start_datetime field to just be id001, since storm_start_datetime and storm_start_datetime_from_first_line_of_current_deck_file
+        are now separate fields, but identical values (storm_start_datetime is just a reference to storm_start_datetime_from_first_line_of_current_deck_file).
+    files:
+      deleted:
+        - ""
+      moved:
+        - ""
+      added:
+        - ""
+      modified:
+        - "tests/outputs/sar.tc.nrcs.imagery_annotated/20181025_203206_WP312018_sar-spd_sentinel-1_nrcs_130kts_58p51_res1p0-cr300.png.yaml"
+        - "tests/scripts/sar.tc.nrcs.imagery_annotated.sh"
+        - "geoips/plugins/modules/output_formatters/metadata_tc.py"
+    date:
+      start: 2026-01-05
+      finish: 2026-01-05
+  - title: "Update AWS TC165/180/325-1, AMSR2 Ocean, and SAR tests to include metadata output for invest and numbered storm ID testing"
+    description: |
+      * Update AWS TC165 test to include metadata default output for invest storm ID output filename testing, add metadata output.
+      * Update AWS TC180 test to include metadata tc output for complete metadata testing for invest processing, add metadata output.
+      * Update AWS TC325-1 test to include metadata TC output using an invest deck file including the storm start datetime in the filename!
+
+        * Add bwp992025.2025042712.dat deck file, which is a copy of bwp992025.dat but with storm start datetime in the filename.
+      * Update AMSR2 Ocean TC test to use numbered storm bdeck file including storm start datetime, and metadata_tc output formatter.
+        update test outputs accordingly.
+
+        * Add bio012020.2020051518.dat deck file, which is a copy of bio012020.dat but with storm start datetime in the filename.
+      * Update SAR TC output for updated metadata_tc output information.
+
+        * AWS are the only test scripts that use an invest (so add both metadata_default and metadata_tc test outputs, as well as
+          invest deck file with no storm datetime in the filename and invest deck file WITH storm start datetime in the filename).
+        * SAR is the only numbered storm test that uses metadata_tc (so update test outputs accordingly).
+        * Added AMSR2 ocean as an additional test using metadata_tc (since we are testing specific metadata fields
+          with different TC configurations now, we need metadata_tc output for multiple tests.)
+    files:
+      deleted:
+        - ""
+      moved:
+        - ""
+      added:
+        - "tests/sectors/tc_bdecks/bio012020.2020051518.dat"
+        - "tests/sectors/tc_bdecks/bwp992025.2025042712.dat"
+        - "tests/outputs/aws.tc.TB165.imagery_clean/20250428_114913_WP992025_mwr_aws_TB165_15kts_43p06_1p0-clean.png.yaml"
+        - "tests/outputs/aws.tc.TB180.imagery_clean/20250428_114913_WP992025_mwr_aws_TB180_15kts_43p06_1p0-clean.png.yaml"
+        - "tests/outputs/aws.tc.TB325-1.imagery_clean/20250428_114913_WP992025_mwr_aws_TB325-1_15kts_48p36_1p0-clean.png.yaml"
+      modified:
+        - "tests/scripts/aws_tc_TB165.imagery_clean.sh"
+        - "tests/scripts/aws_tc_TB180.imagery_clean.sh"
+        - "tests/scripts/aws_tc_TB325-1.imagery_clean.sh"
+        - "tests/scripts/amsr2_ocean.tc.windspeed.imagery_clean.sh"
+        - "tests/outputs/sar.tc.nrcs.imagery_annotated/20181025_203206_WP312018_sar-spd_sentinel-1_nrcs_130kts_58p51_res1p0-cr300.png.yaml"
+        - "tests/outputs/amsr2_ocean.tc.windspeed.imagery_clean/20200518_073601_IO012020_amsr2_gcom-w1_windspeed_140kts_85p45_1p0-clean.png.yaml"
+    date:
+      start: 2026-01-05
+      finish: 2026-01-05
+  - title: "Add invest_storm_id field to bdeck parser, and update invest_storm_id to include storm start datetime"
+    description: |
+      * Rather than just storing invest_number with bdeck parser, also store invest_storm_id
+        to be consistent with other storm id handling.
+      * This allows consistent handling of invest storm ids across different data sources.
+      * invest_storm_id of format bbNNyyyyYYYYMMDDHH, e.g. al9020262026080106,
+        where bb is basin, NN is storm number, yyyyYYYYMMDDHHMM is year and
+        storm start datetime.  Storm start datetime is pulled from the filename
+        if it is defined there, otherwise it pulls from the first entry in the
+        bdeck file.
+      * NOTE previously invest storm id would just be bbNNyyyy. This change adds
+        the storm start datetime to ensure uniqueness across invests with the
+        same basin and number but different start times.
+      * NOTE we do not include delimiter in invest storm id so it is clear that it is
+        a single id when appending the current storm synoptic/fix time to assemble a
+        specific TC area_id.
+    files:
+      deleted:
+        - ""
+      moved:
+        - ""
+      added:
+        - ""
+      modified:
+        - "geoips/plugins/modules/sector_metadata_generators/bdeck_parser.py"
+        - "geoips/sector_utils/tc_tracks.py"
+    date:
+      start: 2026-01-05
+      finish: 2026-01-05
+  - title: "Store storm_start_datetime_from_filename_of_current_deck_file and storm_start_datetime_from_first_line_of_current_deck_file separately, and use storm_start_datetime_from_filename_of_current_deck_file as overall storm_start_datetime if it exists (otherwise fall back to storm_start_datetime_from_first_line_of_current_deck_file)"
+    description: |
+      * If storm start datetime is defined in the filename, use that as the overall storm_start_datetime.
+        This allows consistent storm ids across files even if individual bdeck files have different storm start datetimes.
+      * If storm start datetime is not defined in the filename, fall back to using the storm start datetime
+        from the first bdeck file processed (storm_start_datetime_from_first_line_of_current_deck_file). We must ALWAYS have a storm start datetime defined.
+    files:
+      deleted:
+        - ""
+      moved:
+        - ""
+      added:
+        - ""
+      modified:
+        - "geoips/plugins/modules/sector_metadata_generators/bdeck_parser.py"
+    date:
+      start: 2026-01-05
+      finish: 2026-01-05
+  - title: "Store storm_ids and area_ids lower case internally, display in filenames / titles upper case"
+    description: |
+      * Ensure storm ids are stored lower case internally, but maintain upper case in filenames and titles for consistency with historical data.
+    files:
+      deleted:
+        - ""
+      moved:
+        - ""
+      added:
+        - ""
+      modified:
+        - "geoips/plugins/modules/filename_formatters/utils/tc_file_naming.py"
+    date:
+      start: 2026-01-05
+      finish: 2026-01-05
+  - title: "Update sector_utils tc_tracks.py to inclue TC position time in area id and not include storm name"
+    description: |
+      * No longer include storm name in area id for simplicity and to avoid issues with name changes.
+      * Include TC position time in area id to ensure uniqueness for each storm location.
+      * Note storm_id still does not include storm position time, so we have a single id for the entire storm.
+      * Also note area_id includes both storm start datetime and position time for invests,
+        to ensure uniqueness across multiple invests with same basin/number but different start times,
+        as well as multiple positions for the same invest.
+      * area_ids of format
+
+        * bbNNyyyy-YYYYMMDDHH for numbered storm (no storm start datetime)
+        * bbNNyyyyYYYYMMDDHH-YYY2M2D2H2 for invest (with storm start datetime)
+        * E.g., stormid-YYYYMMDDHH for either invest or numbered storm, where stormid
+          has no delimiters, either for invests or numbered storms
+    files:
+      deleted:
+        - ""
+      moved:
+        - ""
+      added:
+        - ""
+      modified:
+        - "geoips/sector_utils/tc_tracks.py"
+    date:
+      start: 2026-01-05
+      finish: 2026-01-05
+  - title: "Allow output_type_dir for tc_fname.py, to support tc_clean_fname.py and tc_fname.py going to separate directories."
+    description: |
+      * No longer requiring output_type_dir for all filename formatters, but allow passing
+        output_type_dir to tc_fname.py to support tc_clean_fname.py and tc_fname.py going to separate directories.
+      * Since tc_clean_fname.py is a derivative of tc_fname.py, it makes sense to allow
+        output_type_dir to be passed to tc_fname.py to support this use case.
+      * tc_clean_fname.py calls tc_fname.py internally to generate the base filename,
+        and passes in output_type_dir output_type+"_clean" to ensure separate output directories.
+      * Alternatively, we could have created a separate function within tc_file_naming.py and
+        have both tc_fname.py and tc_clean_fname.py call that function rather than
+        having tc_clean_fname.py calling tc_fname directly, but this approach is simpler.
+    files:
+      deleted:
+        - ""
+      moved:
+        - ""
+      added:
+        - ""
+      modified:
+        - "geoips/plugins/modules/filename_formatters/tc_clean_fname.py"
+        - "geoips/plugins/modules/filename_formatters/tc_fname.py"
+    date:
+      start: 2026-01-05
+      finish: 2026-01-05
+  - title: "Standardize storm ids used in filenames vs file paths for tc_fname and tc_clean_fname, etc"
+    description: |
+      * General standard will be to use the full storm_id (including storm start
+        datetime for invests) for TC file paths using the tc_file_naming.py
+        tc_storm_basedir function.
+      * TC file names will typically use a simplified storm ID, not including the
+        storm start datetime.
+      * Typically we will want to use the default storm_id or area_id whenever possible
+        (in file paths or generic geoips_fname outputs, where people are not "used",
+        to anything and we want consistency more than anything),
+        and only use special cases (upper case, remove storm start datetime, etc) for
+        specific purposes (people are used to the filenames just having WP992023, not
+        the inscrutable WP9920232023071900)
+    files:
+      deleted:
+        - ""
+      moved:
+        - ""
+      added:
+        - ""
+      modified:
+        - "geoips/plugins/modules/filename_formatters/tc_clean_fname.py"
+        - "geoips/plugins/modules/filename_formatters/tc_fname.py"
+    date:
+      start: 2026-01-12
+      finish: 2026-01-12
+  - title: "Do not require output_type_dir, product_dir, product_subdir, or source_dir for standard filename formatters"
+    description: |
+      * Do not require allowing overrides for output_type_dir, product_dir, product_subdir, or source_dir in order to create
+        a standard filename formatter.
+      * Generally, if we want to override those fields, we would want to create a new filename formatter instead of trying to
+        shoehorn it into a standard formatter.
+      * Had to remove unsupported kwargs from geotiff_fname.
+    files:
+      deleted:
+        - ""
+      moved:
+        - ""
+      added:
+        - ""
+      modified:
+        - "geoips/interfaces/module_based/filename_formatters.py"
+        - "geoips/plugins/modules/filename_formatters/geotiff_fname.py"
+    date:
+      start: 2026-01-05
+      finish: 2026-01-05
+  - title: "Remove unnecessary product_dir, product_subdir, and source_dir call signature args, retain output_type_dir."
+    description: |
+      * No longer support alternative product_dir, product_subdir, and source_dir args in filename formatter call signatures.
+      * Typically we would want to define a separate filename formatter if we wanted to override these values.
+      * Note we retain output_type_dir, since it is used by tc_clean_fname.
+    files:
+      deleted:
+        - ""
+      moved:
+        - ""
+      added:
+        - ""
+      modified:
+        - "geoips/plugins/modules/filename_formatters/tc_clean_fname.py"
+        - "geoips/plugins/modules/filename_formatters/tc_fname.py"
+    date:
+      start: 2026-01-05
+      finish: 2026-01-08
+  - title: "Remove hard coded tc_year, tc_basin, tc_stormnum, and output_dict from tc_storm_basedir calls"
+    description: |
+      * Use information in the sector_info dictionary to populate the tc_storm_basedir.
+      * No longer explicitly pass tc_year/basin/stormnum.
+      * Note output_dict was previously used within tc_file_naming get_storm_subdir to
+        ONLY get the file_path_modifiations (existing_invest_dirs_allowable_time_diff,
+        and unique_invest_dirs). These are no longer supported)
+      * Also note text_winds_tc_fname uses storm_id in filename, so updated test output.
+    files:
+      deleted:
+        - ""
+      moved:
+        - "tests/outputs/smos.tc.sectored.text_winds/smos-spd_surface_winds_esa_smos_tc2020sh16gabekile_202002161242.txt -> tests/outputs/smos.tc.sectored.text_winds/smos-spd_surface_winds_esa_smos_sh162020_202002161242.txt"
+      added:
+        - ""
+      modified:
+        - "tc_storm_basedir Pass through: geoips/plugins/modules/filename_formatters/metadata_default_fname.py"
+        - "update filename with new storm id! geoips/plugins/modules/filename_formatters/text_winds_tc_fname.py"
+        - "tc_storm_basedir Pass through: geoips/plugins/modules/filename_formatters/tc_fname.py"
+        - "tc_storm_basedir Implementation: geoips/plugins/modules/filename_formatters/utils/tc_file_naming.py"
+    date:
+      start: 2026-01-05
+      finish: 2026-01-05
+  - title: "Remove support for file_path_modifications"
+    description: |
+      * Simplify invest storm id setting, so we now always write to unique invest dirs.
+      * No longer explicitly request file_path_modifications for unique_invest_dirs and allowable_time_diff
+      * Note output_dict was previously used within tc_file_naming get_storm_subdir to
+        ONLY get the file_path_modifiations (existing_invest_dirs_allowable_time_diff,
+        and unique_invest_dirs). These are no longer supported, so remove from both
+        tc_file_naming and the sample procflow configs.
+    files:
+      deleted:
+        - ""
+      moved:
+        - ""
+      added:
+        - ""
+      modified:
+        - "geoips/plugins/modules/filename_formatters/utils/tc_file_naming.py"
+        - "tests/yaml_configs/amsr2_no_compare_full.yaml"
+        - "tests/yaml_configs/updated_format.yaml"
+    date:
+      start: 2026-01-06
+      finish: 2026-01-06
+  - title: "Fix build_docs errors"
+    description: |
+      * Fix poorly formatted release note YAMLs
+    files:
+      deleted:
+        - ""
+      moved:
+        - ""
+      added:
+        - ""
+      modified:
+        - "docs/source/releases/1.16.0/1085-cached-data-check-is-causing-error-in-readers.yaml"
+        - "docs/source/releases/latest/remove-requirements-from-archived-pip-env-filenames.yaml"
+        - "docs/source/releases/latest/1008-minor-bug-fixes-to-overpass_predictor-and-tc_tracks_database.yaml"
+    date:
+      start: 2026-01-06
+      finish: 2026-01-06
+  - title: "Allow 28 field bdeck lines in bdeck_parser."
+    description: |
+      Some of the archived best tracks do NOT include a storm name. Set storm name to
+      unknown if not defined in line
+    files:
+      deleted:
+        - ""
+      moved:
+        - ""
+      added:
+        - ""
+      modified:
+        - "geoips/plugins/modules/sector_metadata_generators/bdeck_parser.py"
+    date:
+      start: 2026-01-07
+      finish: 2026-01-07

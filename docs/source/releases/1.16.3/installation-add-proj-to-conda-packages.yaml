@@ -1,0 +1,16 @@
+installation:
+- title: 'Add proj to conda package dependencies'
+  description: |
+    Required to build wheel for pyproj 3.7.2
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - 'docs/source/getting-started/installing/linux_with_conda.rst'
+  date:
+    start: 2025-08-29
+    finish: 2025-08-29

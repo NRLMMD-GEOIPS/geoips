@@ -14,7 +14,7 @@ bug fix:
     - 'geoips/filenames/base_paths.py'
     - 'geoips/plugins/modules/readers/utils/geostationary_geolocation.py'
   related-issue:
-    internal: GEOIPS#868
+    internal: geoips#868
   date:
     start: 2025-05-28
     finish: 2025-05-28

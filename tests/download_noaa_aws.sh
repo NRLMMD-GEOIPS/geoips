@@ -164,6 +164,33 @@ elif [[ "$satellite" == "noaa-20" || "$satellite" == "noaa-21" || "$satellite" =
             fi
         fi
     done
+elif [[ "$satellite" == "gfs" ]]; then
+    # https://noaa-gfs-bdp-pds.s3.amazonaws.com/gfs.20221019/00/atmos/gfs.t00z.pgrb2.0p25.f000
+    collection=${collection:-"atmos"}
+    resource_name="noaa-gfs-bdp-pds"
+    rclone_path="publicAWS:$resource_name/gfs.${yyyy}${mm}${dd}/$hh/$collection"
+    echo ""
+    echo "************************************************************************************************************"
+    echo "URL listing available files: https://${resource_name}.s3.amazonaws.com/index.html#gfs.${yyyy}${mm}${dd}/$hh/$collection/"
+    echo "************************************************************************************************************"
+    echo ""
+    echo "rclone --config $rclone_conf lsf $rclone_path"
+    files=`rclone --config $rclone_conf lsf $rclone_path`
+    echo "COMPARE: gfs.t${hh}z.pgrb2.0p25"
+    if [[ "$wildcard_list" == "" ]]; then
+        # Only download analysis if wildcard_list is not defined
+        wildcard_list="anl"
+    fi
+    for fname in $files; do
+        if [[ "$fname" =~ "gfs.t${hh}z.pgrb2.0p25" ]]; then
+            for wildcard in "$wildcard_list"; do
+                if [[ "$fname" =~ "$wildcard" ]]; then
+                    echo "rclone --config $rclone_conf copy -P $rclone_path/$fname $testdata_dir/"
+                    rclone --config $rclone_conf copy -P $rclone_path/$fname $testdata_dir/
+                fi
+            done
+        fi
+    done
 else
     collection=${collection:-"ABI-L1b-RadF"}
     rclone_path="publicAWS:noaa-$satellite/$collection/$yyyy/$jday/$hh/"

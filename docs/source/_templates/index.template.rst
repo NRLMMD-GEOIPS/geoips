@@ -66,7 +66,7 @@ GeoIPS |reg| PKGNAME Documentation
         The reference describes how the methods work and which parameters can
         be used. It assumes that you have an understanding of the key concepts.
 
-        .. button-link:: api/index.html
+        .. button-link:: PKGNAME_api/index.html
             :ref-type: ref
             :color: secondary
             :expand:
@@ -105,6 +105,7 @@ GeoIPS |reg| PKGNAME Documentation
     DEVGUIDE_OPTIONAL
     DEPLOYGUIDE_OPTIONAL
     OPGUIDE_OPTIONAL
+    REALTIME_SETUP_OPTIONAL
     CONTRIBUTE_OPTIONAL
     PKGNAME_api/index
     releases/index

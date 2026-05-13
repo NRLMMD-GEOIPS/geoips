@@ -10,25 +10,42 @@ if [[ ! -z $PS1 ]]; then
     # Ok to echo in here, we are interactive.
     text=""
     color_bw="\[\033[0m\]"
+
+    if [[ "$GEOIPS_SYSTEM_CONFIG_FILE" != "" ]]; then
+        config_fname=`basename $GEOIPS_SYSTEM_CONFIG_FILE`
+    else
+        config_fname=`basename $GEOIPS_CONFIG_FILE`
+    fi
+
+    if [[ "$GEOIPS_COPYRIGHT_ABBREVIATED" != "" ]]; then
+        copyright="$GEOIPS_COPYRIGHT_ABBREVIATED"
+    elif [[ "$GEOIPS_SYSTEM_NAME" != "" ]]; then
+        copyright="$GEOIPS_SYSTEM_NAME"
+    else
+        copyright="SITE"
+    fi
+
     if [ -z ${branchorops+x} ]; then
         export branchorops="branch"
     elif [[ "$branchorops" == "pip" ]]; then
         export branchorops="pip"
     fi
-    if [[ "$branchorops" == "admin" || ( "$GEOIPS_ADMIN_SETUP" == "True" && ! -z "$GEOIPS_OPERATIONAL_USER" ) ]]; then
-        # echo "Entering administrative mode for user $USER: $CONFIGDIR, $GEOIPS"
-        export BRANCHOROPS="G2DEV"
-        color_branchorops="\[\033[0;31m\]"
-    elif [[ "$branchorops" == "operations" || ( "$GEOIPS_REALTIME_SETUP" == "True" && ! -z "$GEOIPS_OPERATIONAL_USER" ) ]]; then
+    # Use red font, black background for operational realtime mode.
+    if [[ "$GEOIPS_OPERATIONAL_REALTIME_SETUP" == "True" ]]; then
         # echo "Entering operations mode for user $USER: $CONFIGDIR, $GEOIPS"
         export BRANCHOROPS="G2OPS"
         color_branchorops="\[\033[31;40m\]"
+    # Use red font, no background for demonstration realtime mode or non-realtime operational user
+    elif [[ ( "$GEOIPS_DEMONSTRATION_REALTIME_SETUP" == "True" ) || ( "$GEOIPS_OPERATIONAL_USER" == "$USER" ) ]]; then
+        # echo "Entering administrative mode for user $USER: $CONFIGDIR, $GEOIPS"
+        export BRANCHOROPS="G2DEV"
+        color_branchorops="\[\033[0;31m\]"
     else 
         # echo "Entering branch mode for user $USER: $CONFIGDIR, $GEOIPS"
         export BRANCHOROPS="G2LOCAL"
         color_branchorops="\[\033[0;32m\]"
     fi
-    export prompt="$CONDA_PROMPT_MODIFIER\n\! $color_branchorops${GEOIPS_COPYRIGHT_ABBREVIATED} \u@\h:$BRANCHOROPS ${GEOIPS_SYSTEM_VERSION:-$GEOIPS_VERSION}$color_bw \d \t \w \nbash\$ "
+    export prompt="$CONDA_PROMPT_MODIFIER\n\! $color_branchorops${copyright} ${GEOIPS_BASEDIR} ${config_fname} \u@\h:$BRANCHOROPS ${GEOIPS_SYSTEM_VERSION:-$GEOIPS_VERSION}$color_bw \n\d \t \w \nbash\$ "
     PS1=$prompt
     # NOTE sometimes this clobbers screens titles if PROMPT_COMMAND is set
     # Unsetting it here, so at least if we start screen from a GEOIPS env,

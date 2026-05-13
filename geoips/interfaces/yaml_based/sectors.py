@@ -10,9 +10,6 @@ from pyresample import kd_tree
 from geoips.interfaces.base import BaseYamlPlugin, BaseYamlInterface
 from geoips.image_utils.mpl_utils import create_figure_and_main_ax_and_mapobj
 
-# Uncomment when ready to switch from JsonSchema to Pydantic
-# from geoips.pydantic.sectors import SectorPluginModel
-
 # Commenting these out for PR #260
 # Will work on this again after the 2023 workshop
 #
@@ -77,7 +74,15 @@ class SectorPluginBase(BaseYamlPlugin):
         #     ad = corners_to_area_definition(self)
         return ad
 
-    def create_test_plot(self, fname, return_fig_ax_map=False, overlay=False):
+    def create_test_plot(
+        self,
+        fname,
+        return_fig_ax_map=False,
+        overlay=False,
+        gridlines=False,
+        gridline_labels=[],
+        noborder=True,
+    ):
         """Create a test PNG image for this sector.
 
         Parameters
@@ -91,7 +96,14 @@ class SectorPluginBase(BaseYamlPlugin):
             - If true, overlay this sector on the global grid and make it slightly
               transparent. Useful for projecting tiny sectors on the global grid to get
               a sense of where they'll end up and what they'll look like.
-
+        gridlines: bool, default=False
+            - If true, add latitude longitude gridlines to the sector image.
+        gridline_labels: list[constants], default=[]
+            - A list of constants (strings) that refer to which gridline labels to turn
+              on.
+        noborder: bool, default=True
+            - If true, no border will be added to the axes instance. Otherwise, add
+              a simple border (useful for gridline labels).
         """
         if overlay:
             global_sector = sectors.get_plugin("global_cylindrical")
@@ -100,7 +112,9 @@ class SectorPluginBase(BaseYamlPlugin):
                 global_area_def.shape[1],
                 global_area_def.shape[0],
                 global_area_def,
-                noborder=True,
+                noborder=noborder,
+                gridlines=gridlines,
+                gridline_labels=gridline_labels,
             )
 
             # Create a dummy 2D numpy array of data for self.area_definition
@@ -145,7 +159,9 @@ class SectorPluginBase(BaseYamlPlugin):
                 self.area_definition.shape[1],
                 self.area_definition.shape[0],
                 self.area_definition,
-                noborder=True,
+                noborder=noborder,
+                gridlines=gridlines,
+                gridline_labels=gridline_labels,
             )
         ax.add_feature(cfeature.COASTLINE)
         ax.add_feature(cfeature.BORDERS)
@@ -160,8 +176,10 @@ class SectorsInterface(BaseYamlInterface):
 
     name = "sectors"
     plugin_class = SectorPluginBase
-    # Uncomment when ready to switch from JsonSchema to Pydantic
-    # validator = SectorPluginModel
+    use_pydantic = True
+    # if sectors.get_plugin(<name>) is found to be a dynamic sector. Otherwise, a static
+    # sector plugin model (I.e. SectorPluginModel) will be used for all other sector
+    # types.
 
 
 sectors = SectorsInterface()

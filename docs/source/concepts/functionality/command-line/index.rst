@@ -1,7 +1,7 @@
 .. dropdown:: Distribution Statement
 
- This source code is subject to the license referenced at
- https://github.com/NRLMMD-GEOIPS.
+ | # # # This source code is subject to the license referenced at
+ | # # # https://github.com/NRLMMD-GEOIPS.
 
 .. _command_line:
 
@@ -645,6 +645,30 @@ This is useful for small sectors. For example:
 .. image:: canada.png
    :width: 800
 
+Additionally, you can display latitude / longitude gridlines on the generated sector
+image if desired. To add gridlines, add the ``--gridlines`` or ``-g`` flag to your
+command. This can be applied with the ``--overlay`` flag as well. For example:
+
+.. code-block:: bash
+
+    geoips test sector australia --gridlines
+    geoips test sector australia --gridlines --overlay
+
+By default, latitude / longitude labels are added to the sector if gridlines are
+requested. To disable this, or change the location of where the labels are added, use
+the ``--labels`` or ``-l`` flag. By default, labels are added to the bottom and left
+sides of the sector.
+
+You can add a ``--labels`` flag with no arguments to disable labels. Otherwise,
+choose one or more of the following options ['left', 'right', 'top', 'bottom'].
+For example:
+
+.. code-block:: bash
+
+    geoips test sector australia --gridlines --labels top right
+    geoips test sector australia --gridlines --labels
+    geoips test sector australia --gridlines --overlay --labels bottom
+
 test script
 ^^^^^^^^^^^
 
@@ -760,7 +784,7 @@ For example, running ``geoips tree`` returns:
 
 ``geoips tree`` provides arguments to filter its output.
 
-* ``--color``: highlights output by depth
+* ``--color``: highlights output by depth (Environment variable 'NO_COLOR' must be disabled)
 
 * ``--max-depth``: limits tree levels outputted. Defaults to two levels.
 

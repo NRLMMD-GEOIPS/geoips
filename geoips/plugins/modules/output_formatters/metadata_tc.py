@@ -78,6 +78,21 @@ def update_sector_info_with_data_times(sector_info, xarray_obj):
     return sector_info
 
 
+def update_sector_info_with_area_def_info(sector_info, area_def):
+    """Update sector info with area_def info, for YAML metadata output."""
+    sector_info["area_id"] = area_def.area_id
+    sector_info["area_description"] = area_def.description
+    return sector_info
+
+
+def update_sector_info_with_data_attribution(sector_info, xarray_obj):
+    """Update sector info with data attribution, for YAML metadata output."""
+    for attr_key in ["data_attribution", "data_provider"]:
+        if attr_key in xarray_obj.attrs:
+            sector_info[attr_key] = xarray_obj.attrs[attr_key]
+    return sector_info
+
+
 def update_sector_info_with_coverage(
     sector_info, product_name, xarray_obj, area_def, output_dict
 ):
@@ -211,7 +226,17 @@ def output_tc_metadata_yaml(
         output_dict,
     )
 
+    sector_info = update_sector_info_with_area_def_info(
+        sector_info,
+        area_def,
+    )
+
     sector_info = update_sector_info_with_data_times(
+        sector_info,
+        xarray_obj,
+    )
+
+    sector_info = update_sector_info_with_data_attribution(
         sector_info,
         xarray_obj,
     )

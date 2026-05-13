@@ -1,4 +1,4 @@
-module_based:
+class_based:
   algorithms:
     stitched:
       docstring: Data manipulation steps for "stitched" algorithm.

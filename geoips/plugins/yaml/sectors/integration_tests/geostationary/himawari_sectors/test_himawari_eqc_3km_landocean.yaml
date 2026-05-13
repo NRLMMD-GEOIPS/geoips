@@ -1,0 +1,58 @@
+interface: sectors
+family: area_definition_static
+name: test_himawari_eqc_3km_landocean
+docstring: |
+  Himawari subsector, centered at 15 latitude, 125 longitude
+  300x300 at 3km resolution
+
+  This sector is off the Philippines, containing approximately half ocean
+  and half land pixels for Himawari.
+
+  It is a very small sector that can be used for Himawari Processing
+  for any Himawari dataset.
+
+  The test datasets corresponding to these sectors can be found in the
+  test_data_ahi test data repository.
+
+  ```
+  geoips config install test_data_ahi
+  ```
+metadata:
+  region:
+    continent: Tests
+    country: x
+    area: Himawari
+    subarea: x
+    state: x
+    city: x
+spec:
+  area_id: test_himawari_eqc_3km_landocean
+  description: |
+    Himawari subsector, centered at 15 latitude, 125 longitude
+    300x300 at 3km resolution
+
+    This sector is of the Philippines, containing approximately half ocean
+    and half land pixels for Himawari.
+
+    It is a very small sector that can be used for Himawari Processing
+    for any Himawari dataset.
+
+    The test datasets corresponding to these sectors can be found in the
+    test_data_ahi test data repository.
+
+    ```
+    geoips config install test_data_ahi
+    ```
+  projection:
+    a: 6371228.0
+    lat_0: 15
+    lon_0: 125
+    proj: eqc
+    units: m
+  resolution:
+    - 3000
+    - 3000
+  shape:
+    height: 300
+    width: 300
+  center: [0, 0]

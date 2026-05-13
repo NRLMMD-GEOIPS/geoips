@@ -2,6 +2,7 @@
 # # # https://github.com/NRLMMD-GEOIPS.
 
 """Test YAML schema."""
+
 import pytest
 
 import re
@@ -10,7 +11,6 @@ from jsonschema.exceptions import ValidationError  # noqa
 from pathlib import Path
 
 from geoips.interfaces.base import YamlPluginValidator
-
 
 test_path = Path(__file__).parent
 validator = YamlPluginValidator()

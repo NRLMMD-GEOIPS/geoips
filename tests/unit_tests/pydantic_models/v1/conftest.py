@@ -6,6 +6,9 @@
 # Third-Party Libraries
 import pytest
 
+# GeoIPS Libraries
+from geoips.interfaces import sectors
+
 
 @pytest.fixture
 def valid_step_data():
@@ -14,10 +17,10 @@ def valid_step_data():
         "kind": "reader",
         "name": "abi_netcdf",
         "arguments": {
-            "area_def": "None",
+            "area_def": sectors.get_plugin("denver").area_definition,
             "variables": ["None"],
             "metadata_only": False,
-            "self_register": ["None"],
+            "self_register": "LOW",
         },
     }
 
@@ -32,10 +35,10 @@ def valid_interfaces(valid_plugin_kinds):
 def valid_reader_arguments_model_data():
     """Fixture to provide sample valid Reader arguments for testing."""
     return {
-        "area_def": "None",
+        "area_def": sectors.get_plugin("denver").area_definition,
         "variables": ["None"],
         "metadata_only": True,
-        "self_register": ["None"],
+        "self_register": "LOW",
         "fnames": ["None"],
     }
 
@@ -124,4 +127,27 @@ def pluign_types_and_plugins():
             "clavrx_netcdf4",
             "clavrx_hdf4",
         ],
+    }
+
+
+@pytest.fixture
+def valid_title_formatter_arguments():
+    """Fixture providing valid data TitleFormatterArgumentsModel tests."""
+    return {
+        "area_def": "test_string",
+        "product_name_title": "tc_copyright",
+        "product_datatype_title": "test_string",
+        "bg_product_name_title": "test_string",
+        "bg_datatype_title": "test_string",
+        "title_copyright": "Data copyright 2021 EUMETSAT, Imagery NRL-MRY",
+    }
+
+
+@pytest.fixture
+def valid_output_checker_arguments():
+    """Fixture providing valid data OutputCheckerArgumentsModel tests."""
+    return {
+        "checker_name": "test_string",
+        "compare_path": "/path/to/reference.txt",
+        "output_products": ["/path/to/output.png"],
     }

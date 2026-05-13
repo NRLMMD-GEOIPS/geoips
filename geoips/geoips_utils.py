@@ -12,6 +12,8 @@ import json
 from pathlib import Path
 import logging
 from importlib import metadata, resources, import_module
+import subprocess
+import select
 
 from tabulate import tabulate
 import numpy as np
@@ -20,6 +22,195 @@ from geoips.errors import PluginRegistryError, PluginPackageNotFoundError
 from geoips.filenames.base_paths import PATHS as geoips_paths
 
 LOG = logging.getLogger(__name__)
+
+
+def print_cmd_output(
+    stdout,
+    stderr,
+    output_log_fname=None,
+    stdout_newline_replace_val=None,
+    use_logging=True,
+    use_print=False,
+    prefix=True,
+):
+    """Print the command output from subprocess."""
+    if stdout:
+        if stdout_newline_replace_val is not None:
+            if use_print:
+                print(stdout.replace("\n", "; "))
+            if use_logging:
+                LOG.info(stdout.replace("\n", "; "))
+        else:
+            if use_print:
+                print(stdout)
+            if use_logging:
+                LOG.info(stdout)
+        if output_log_fname is not None:
+            with open(output_log_fname, "a") as fobj:
+                if prefix:
+                    fobj.write("\n\nSTDOUT:\n")
+                fobj.writelines(stdout)
+    if stderr:
+        if use_print:
+            print(stderr)
+        if use_logging:
+            LOG.info(stderr)
+        if output_log_fname is not None:
+            with open(output_log_fname, "a") as fobj:
+                if prefix:
+                    fobj.write("\nSTDERR:\n")
+                fobj.writelines(stderr)
+    return 0
+
+
+def call_cmd(
+    cmd,
+    output_log_fname=None,
+    stdout_newline_replace_val=None,
+    use_logging=True,
+    use_print=False,
+    pipe=False,
+):
+    """Call command using subprocess.run, and log to specified log file if requested."""
+    if output_log_fname and not os.path.exists(os.path.dirname(output_log_fname)):
+        os.makedirs(os.path.dirname(output_log_fname), exist_ok=True)
+    if use_logging:
+        LOG.info("    Calling: '%s'", " ".join(cmd))
+    if use_print:
+        print("    Calling: '%s'", " ".join(cmd))
+    if output_log_fname is not None:
+        if use_logging:
+            LOG.info(f"    Log filename: {output_log_fname}")
+        if use_print:
+            print(f"    Log filename: {output_log_fname}")
+    if not pipe:
+        ret = subprocess.run(cmd, capture_output=True)
+        retval = ret.returncode
+        stdout = log_friendly_subprocess_stdouterr(ret, "stdout")
+        stderr = log_friendly_subprocess_stdouterr(ret, "stderr")
+        print_cmd_output(
+            stdout,
+            stderr,
+            output_log_fname=output_log_fname,
+            stdout_newline_replace_val=stdout_newline_replace_val,
+            use_logging=use_logging,
+            use_print=use_print,
+        )
+    else:
+        retval, stdout, stderr = call_cmd_pipe(
+            cmd,
+            output_log_fname=output_log_fname,
+            stdout_newline_replace_val=stdout_newline_replace_val,
+            use_logging=use_logging,
+            use_print=use_print,
+        )
+    return retval, stdout, stderr
+
+
+def call_cmd_pipe(
+    cmd,
+    output_log_fname=None,
+    stdout_newline_replace_val=None,
+    use_logging=True,
+    use_print=False,
+):
+    """Call command using Popen, and log to specified log file if requested."""
+    p = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+    stdout = []
+    stderr = []
+
+    # Make the file descriptors non-blocking
+    os.set_blocking(p.stdout.fileno(), False)
+    os.set_blocking(p.stderr.fileno(), False)
+
+    while True:
+        reads = [p.stdout.fileno(), p.stderr.fileno()]
+        ret = select.select(reads, [], [], 0.1)
+
+        read_stderr = None
+        read_stdout = None
+        for fd in ret[0]:
+            if fd == p.stdout.fileno():
+                read_stdout = p.stdout.read()
+                # for the return
+                stdout.append(read_stdout)
+            if fd == p.stderr.fileno():
+                read_stderr = p.stderr.read()
+                # for the return
+                stderr.append(read_stderr)
+        print_cmd_output(
+            read_stdout,
+            read_stderr,
+            output_log_fname=output_log_fname,
+            stdout_newline_replace_val=stdout_newline_replace_val,
+            use_logging=use_logging,
+            use_print=use_print,
+            prefix=False,
+        )
+
+        if p.poll() is not None:
+            break
+
+    remaining_stdout = p.stdout.read()
+    remaining_stderr = p.stderr.read()
+    # For the return
+    stdout.append(remaining_stdout)
+    stderr.append(remaining_stderr)
+
+    # LOG.info("Printing remaining output")
+    print_cmd_output(
+        remaining_stdout,
+        remaining_stderr,
+        output_log_fname=output_log_fname,
+        stdout_newline_replace_val=stdout_newline_replace_val,
+        use_logging=use_logging,
+        use_print=use_print,
+        prefix=False,
+    )
+
+    p.stdout.close()
+    p.stderr.close()
+    returncode = p.wait()
+    return returncode, stdout, stderr
+
+
+def remove_empty_lines(lines, std_type):
+    """Remove empty lines from stdout and stderr."""
+    clean_lines = [f"> {x}" for x in lines.split("\n") if x != ""]
+
+    # If std_type was passed in, pre-pend the output with std_type
+    if std_type:
+        ret_str = f"{std_type}:\n" + "\n".join(clean_lines)
+    # If there is no output, return empty string
+    elif not clean_lines:
+        ret_str = ""
+    # Otherwise, just print the output itself
+    else:
+        ret_str = "\n".join(clean_lines)
+    return ret_str
+
+
+def log_friendly_subprocess_stdouterr(subprocess_output, std_type):
+    """Make a log friendly string for either stdout or stderr.
+
+    Parameters
+    ----------
+    subprocess_output : subprocess.run output
+        Output of subprocess.run with check_output=True
+    std_type : str
+        Specify either stdout or stderr
+
+    Returns
+    -------
+    str
+        Log friendly string of stdout/stderr
+    """
+    if std_type == "stdout":
+        std = subprocess_output.stdout
+    else:
+        std = subprocess_output.stderr
+    decoded = std.decode("utf-8")
+    return remove_empty_lines(decoded, std_type)
 
 
 def get_interface_module(namespace):
@@ -130,6 +321,9 @@ def load_all_yaml_plugins():
 def copy_standard_metadata(orig_xarray, dest_xarray, extra_attrs=None, force=True):
     """Copy standard metadata from orig_xarray to dest_xarray.
 
+    The values automatically copied within this method should match the required
+    and optional metadata specified in the GeoIPS xarray_standards documentation.
+
     Parameters
     ----------
     orig_xarray : xarray.Dataset
@@ -147,19 +341,22 @@ def copy_standard_metadata(orig_xarray, dest_xarray, extra_attrs=None, force=Tru
         dest_xarray with standard metadata copied in place from orig_xarray.
     """
     attrs = [
+        "source_name",
+        "platform_name",
+        "data_provider",
         "start_datetime",
         "end_datetime",
-        "platform_name",
-        "source_name",
-        "minimum_coverage",
-        "data_provider",
-        "granule_minutes",
-        "original_source_filenames",
-        "source_file_names",
-        "sample_distance_km",
         "interpolation_radius_of_influence",
+        "data_attribution",
+        "source_file_names",
+        "source_file_attributes",
+        "source_file_datetimes",
         "area_definition",
+        "registered_dataset",
+        "minimum_coverage",
+        "sample_distance_km",
         "longitude_of_projection_origin",
+        "granule_minutes",
     ]
     if extra_attrs is not None:
         attrs += extra_attrs
@@ -281,9 +478,7 @@ def order_paths_from_least_to_most_specific(paths):
     return ordered_paths + order_paths_from_least_to_most_specific(unordered_paths)
 
 
-def replace_geoips_paths_in_list(
-    replace_list, replace_paths=None, base_paths=None, curly_braces=False
-):
+def replace_geoips_paths_in_list(replace_list, curly_braces=False):
     """
     Replace GeoIPS paths with geoips settings in elements of a list.
 
@@ -297,10 +492,6 @@ def replace_geoips_paths_in_list(
     replace_list : list
         A list of elements to process. Elements can be of any type, but only those that
         are Path-like will be processed.
-    replace_paths : dict, optional
-        Passed to replace_geoips_paths
-    base_paths : dict, optional
-        Passed to replace_geoips_paths
     curly_braces : bool, optional
         Passed to replace_geoips_paths
 
@@ -327,8 +518,6 @@ def replace_geoips_paths_in_list(
             new_list.append(
                 replace_geoips_paths(
                     val,
-                    replace_paths=replace_paths,
-                    base_paths=base_paths,
                     curly_braces=curly_braces,
                 )
             )
@@ -339,9 +528,7 @@ def replace_geoips_paths_in_list(
     return new_list
 
 
-def replace_geoips_paths_in_dict(
-    replace_dict, replace_paths=None, base_paths=None, curly_braces=False
-):
+def replace_geoips_paths_in_dict(replace_dict, curly_braces=False):
     """Replace geoips paths in every path-based element within a dictionary."""
     dump_dict = replace_dict.copy()
     for key in replace_dict:
@@ -352,15 +539,13 @@ def replace_geoips_paths_in_dict(
         # applicable.
         if isinstance(replace_dict[key], list):
             dump_dict[key] = replace_geoips_paths_in_list(
-                replace_dict[key], replace_paths, base_paths, curly_braces
+                replace_dict[key], curly_braces
             )
     return dump_dict
 
 
 def replace_geoips_paths(
     path,
-    replace_paths=None,
-    base_paths=None,
     curly_braces=False,
 ):
     """Replace specified sub-paths in path with related environment variable names.
@@ -379,16 +564,6 @@ def replace_geoips_paths(
     ----------
     path : str or pathlib.Path
         The path in which to replace base paths.
-    replace_paths : list of str, optional
-        A list of environment variable names whose corresponding paths should be
-        replaced in `path`.
-        If `None`, defaults to:
-
-        ``['$GEOIPS_OUTDIRS', '$GEOIPS_PACKAGES_DIR', '$GEOIPS_TESTDATA_DIR',
-        '$GEOIPS_DEPENDENCIES_DIR', '$GEOIPS_BASEDIR']``
-    base_paths : dict, optional
-        A dictionary mapping environment variable names to their corresponding base
-        paths.  If `None`, defaults to `geoips.filenames.base_paths.PATH`.
     curly_braces : bool, default=False
         If `True`, includes curly braces in the environment variables
         (e.g., ``'${GEOIPS_BASEDIR}'``),
@@ -408,49 +583,41 @@ def replace_geoips_paths(
     Examples
     --------
     >>> path = '/home/user/geoproc/geoips_packages/module/file.py'
-    >>> base_paths = {
-    ...     'GEOIPS_PACKAGES_DIR': '/home/user/geoproc/geoips_packages',
-    ...     'GEOIPS_BASEDIR': '/home/user/geoproc'
-    ... }
-    >>> replace_geoips_paths(path, base_paths=base_paths)
+    >>> replace_geoips_paths(path)
     '$GEOIPS_PACKAGES_DIR/module/file.py'
     """
     # Allow multiple sets of base_path replacements
 
-    if base_paths is None:
-        base_paths = geoips_paths
-
     # These are the environment variables that are specified in base_paths.py.
     # Eventually we will want to pull these directly from the environment config,
     # for now explicitly list env vars here.
-    if replace_paths is None:
-        replace_env_vars = [
-            "$TCWWW",
-            "$PRIVATEWWW",
-            "$PUBLICWWW",
-            "$GEOTIFF_IMAGERY_PATH",
-            "$ANNOTATED_IMAGERY_PATH",
-            "$CLEAN_IMAGERY_PATH",
-            "$GEOIPS_OUTDIRS",
-            "$GEOIPS_PACKAGES_DIR",
-            "$GEOIPS_TESTDATA_DIR",
-            "$GEOIPS_DEPENDENCIES_DIR",
-            "$GEOIPS_BASEDIR",
-        ]
 
-    paths_to_be_replaced = [Path(os.path.expandvars(p)) for p in replace_env_vars]
+    # Replace all specified output paths to ensure test consistency.  This ensures
+    # any test outputs contain only the GEOIPS_OUTDIRS environment variable and
+    # no custom environment specific env vars.
+    # See geoips/geoips/filenames/base_paths.py for more information on
+    # GEOIPS_REPLACE_OUTPUT_PATHS
+    # Append $ to each env var
+    replace_paths = [
+        f"${gpath}" for gpath in geoips_paths["GEOIPS_REPLACE_OUTPUT_PATHS"]
+    ]
+    # Now replace non-output-path based environment vars.
+    # This must match the ordering in the list in tests/utils/check_output_file_list.sh
+    replace_paths += [
+        "$GEOIPS_OUTDIRS",
+        "$GEOIPS_PACKAGES_DIR",
+        "$GEOIPS_TESTDATA_DIR",
+        "$GEOIPS_DEPENDENCIES_DIR",
+        "$GEOIPS_BASEDIR",
+    ]
+
+    paths_to_be_replaced = [Path(os.path.expandvars(p)) for p in replace_paths]
     ordered_path_envvar_dict = {
-        replace_env_vars[paths_to_be_replaced.index(replace_path)]: replace_path
+        replace_paths[paths_to_be_replaced.index(replace_path)]: replace_path
         for replace_path in order_paths_from_least_to_most_specific(
             paths_to_be_replaced
         )
     }
-
-    # Replace with specified file system -> URL mapping
-    # for paths in base_paths:
-    #    for key in paths.keys():
-    #        if f"{key}_URL" in paths:
-    #            fname = fname.replace(paths[key], paths[f"{key}_URL"])
 
     path = Path(os.path.expandvars(path))
 

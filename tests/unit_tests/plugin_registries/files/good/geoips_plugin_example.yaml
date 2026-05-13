@@ -1,4 +1,4 @@
-module_based:
+class_based:
   algorithms:
     single_channel_test:
       docstring: '

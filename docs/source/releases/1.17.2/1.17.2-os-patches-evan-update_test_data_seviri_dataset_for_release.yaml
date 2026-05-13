@@ -1,0 +1,15 @@
+testing:
+- title: 'Update test_data_seviri for 1.17.2 release'
+  description: |
+    This update adds MSG2 (Meteosat-09) data to the test_data_seviri test dataset. This
+    data includes a terminator and will make use of tiny sectors for applicable plugin
+    packages. This dataset replaces the previous 1.16.1 test_data_seviri dataset.
+  files:
+    modified:
+      - geoips/commandline/ancillary_info/test-data-urls.yaml
+  related-issue:
+    number: null
+    repo_url: ''
+  date:
+    start: 12/12/2025
+    finish: 12/12/2025
