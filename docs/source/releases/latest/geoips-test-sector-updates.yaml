@@ -13,14 +13,23 @@ enhancement:
     area definition's resolution. Instead of a length two array of integers, a
     dictionary specifying "dx": float, "dy": float, and "units": str can be
     supplied.
+
+    Finally, fixed failing integration tests by fixing imports, removing the need to
+    install akima86 via git, commented out packages we don't want to install
+    (geoips_tutorial), and commented out test datasets that aren't available or were
+    failing.
   files:
     modified:
       - docs/source/concepts/functionality/command-line/index.rst
       - geoips/commandline/ancillary_info/cmd_instructions.yaml
+      - geoips/commandline/ancillary_info/test-data-urls.yaml
       - geoips/commandline/geoips_test.py
       - geoips/image_utils/mpl_utils.py
       - geoips/interfaces/yaml_based/sectors.py
       - geoips/schema/sectors/specs/area_definition.yaml
+      - geoips/utils/memusg/plot_json_files.py
+      - tests/integration_tests/full_install.sh
+      - tests/integration_tests/site_install.sh
       - tests/unit_tests/commandline/test_geoips_test_sector.py
   related-issue:
     number: null
