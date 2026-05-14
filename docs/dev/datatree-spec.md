@@ -18,12 +18,12 @@ Pre-OBP procflows have accumulated two kinds of implicit complexity:
 
 ### 1.2 Goals
 
-- **G1: One container.** Every step's input and output is an `xarray.DataTree`.
-- **G2: Each step is a node.** A workflow is a `DataTree` whose children are the per-step DataTrees. You can drop intermediate data and keep only metadata.
-- **G3: Declarative workflows.** Workflows are YAML files, validated by Pydantic, and runnable.
-- **G4: Functional steps.** Steps are pure-ish functions `DataTree → DataTree`, with all configuration supplied explicitly via kwargs.
-- **G5: Tokenizable.** Inputs, outputs, and step invocations are hashable via `dask.base.tokenize`, enabling content-addressable caching and fast regression tests.
-- **G6: Multi-input, multi-output.** Workflows accept multiple input sources and declare multiple outputs; one workflow can produce lots (10+) products.
+- **G1: Declarative workflows.** Workflows are YAML files, validated by Pydantic, and runnable.
+- **G2: Multi-input, multi-output workflows.** Workflows accept multiple input sources and declare multiple outputs; one workflow can produce lots (10+) products.
+- **G3: One container.** Every step's input and output is an `xarray.DataTree`.
+- **G4: Each step is a node.** A workflow is a `DataTree` whose children are the per-step DataTrees. You can drop intermediate data and keep only metadata.
+- **G5: Functional steps.** Steps are pure-ish functions `DataTree → DataTree`, with all configuration supplied explicitly via kwargs.
+- **G6: Tokenizable.** Inputs, outputs, and step invocations are hashable via `dask.base.tokenize`, enabling content-addressable caching and fast regression tests.
 - **G7: Parallel-ready.** `split`/`join` operators and `depends_on` edges define a DAG that a scheduler can (theoretically, in the future) execute in parallel.
 - **G8: Testable first.** Every step should ship with unit tests built on synthetic `DataTree` fixtures and be able to participate in token-based integration tests.
 - **G9: Rich, machine-readable provenance.** Every output `DataTree` carries enough metadata to reproduce itself, even if intermediate data has been GC'd.
