@@ -72,6 +72,7 @@ docstring: ABI ch.14 infrared, both annotated PNG and clean netCDF outputs.
 package: geoips
 retention: keep_referenced       # default; keeps a step's data only while needed
 outputs: [render_png, write_nc]  # always preserved regardless of retention
+# needs discussion
 test:
   fnames: !ENV ${GEOIPS_TESTDATA_DIR}/test_data_abi/data/goes16_20200918_1950/*
   compare_path: !ENV ${GEOIPS_PACKAGES_DIR}/geoips/tests/outputs/abi.static.<product>.imagery_clean
