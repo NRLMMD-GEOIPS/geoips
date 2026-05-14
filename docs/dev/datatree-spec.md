@@ -18,12 +18,12 @@ Pre-OBP procflows have accumulated two kinds of implicit complexity:
 
 ### 1.2 Goals
 
-- **G1: One container.** Every step's input and output is an `xarray.DataTree`.
-- **G2: Each step is a node.** A workflow is a `DataTree` whose children are the per-step DataTrees. You can drop intermediate data and keep only metadata.
-- **G3: Declarative workflows.** Workflows are YAML files, validated by Pydantic, and runnable.
-- **G4: Functional steps.** Steps are pure-ish functions `DataTree → DataTree`, with all configuration supplied explicitly via kwargs.
-- **G5: Tokenizable.** Inputs, outputs, and step invocations are hashable via `dask.base.tokenize`, enabling content-addressable caching and fast regression tests.
-- **G6: Multi-input, multi-output.** Workflows accept multiple input sources and declare multiple outputs; one workflow can produce lots (10+) products.
+- **G1: Declarative workflows.** Workflows are YAML files, validated by Pydantic, and runnable.
+- **G2: Multi-input, multi-output workflows.** Workflows accept multiple input sources and declare multiple outputs; one workflow can produce lots (10+) products.
+- **G3: One container.** Every step's input and output is an `xarray.DataTree`.
+- **G4: Each step is a node.** A workflow is a `DataTree` whose children are the per-step DataTrees. You can drop intermediate data and keep only metadata.
+- **G5: Functional steps.** Steps are pure-ish functions `DataTree → DataTree`, with all configuration supplied explicitly via kwargs.
+- **G6: Tokenizable.** Inputs, outputs, and step invocations are hashable via `dask.base.tokenize`, enabling content-addressable caching and fast regression tests.
 - **G7: Parallel-ready.** `split`/`join` operators and `depends_on` edges define a DAG that a scheduler can (theoretically, in the future) execute in parallel.
 - **G8: Testable first.** Every step should ship with unit tests built on synthetic `DataTree` fixtures and be able to participate in token-based integration tests.
 - **G9: Rich, machine-readable provenance.** Every output `DataTree` carries enough metadata to reproduce itself, even if intermediate data has been GC'd.
@@ -59,44 +59,66 @@ A minimal but complete workflow with two readers, one algorithm, and two outputs
 
 ```yaml
 # workflows/abi_infrared_multi.yaml
-workflow:
-  name: abi_infrared_multi
-  description: ABI ch.14 infrared, both annotated PNG and clean netCDF outputs.
-  spec_version: "1.0.0"
-  workflow_version: "2026.04.21"
-
-  retention: keep_referenced       # default; keeps a step's data only while needed
-  outputs: [render_png, write_nc]  # always preserved regardless of retention
-
-  test:
-    inputs:
-      - name: abi_sample
-        files: ["tests/data/abi/OR_ABI-L1b-RadF-M6C14_G16_*.nc"]
-    expected:
-      output_token: "blake2b:9f2a...c0d1"
-      artifacts:
-        - { path: "out/abi_infrared.png", sha256: "0a1b2c..." }
-        - { path: "out/abi_infrared.nc",  sha256: "f8e7d6..." }
-      reference_datatree: "tests/refs/abi_infrared.zarr"
-      tolerances: { warn: 1.0e-5, accept: 1.0e-7 }
-
-  steps:
-
-    - id: read_abi
+apiVersion: geoips/v1
+interface: products
+family: order_based
+is_registered: false
+name: abi_infrared_multi
+# do we need spec_version and workflow_version
+spec_version: "1.0.0"
+workflow_version: "2026.04.21"
+# should we replace docstring with description
+docstring: ABI ch.14 infrared, both annotated PNG and clean netCDF outputs.
+package: geoips
+retention: keep_referenced       # default; keeps a step's data only while needed
+outputs: [render_png, write_nc]  # always preserved regardless of retention
+# needs discussion
+test:
+  fnames: !ENV ${GEOIPS_TESTDATA_DIR}/test_data_abi/data/goes16_20200918_1950/*
+  compare_path: !ENV ${GEOIPS_PACKAGES_DIR}/geoips/tests/outputs/abi.static.<product>.imagery_clean
+  overrides:
+    steps:
+      - abi_Infrared.spec.steps.algorithm.output_units='Kelvin'
+    kinds:
+      - readers.self_register=False
+    globals:
+      - sector_list='global_cylindrical'
+      - logging_level='info'
+test:
+  inputs:
+    - name: abi_sample
+      files: ["tests/data/abi/OR_ABI-L1b-RadF-M6C14_G16_*.nc"]
+  expected:
+    output_token: "blake2b:9f2a...c0d1"
+    artifacts:
+      - { path: "out/abi_infrared.png", sha256: "0a1b2c..." }
+      - { path: "out/abi_infrared.nc",  sha256: "f8e7d6..." }
+    reference_datatree: "tests/refs/abi_infrared.zarr"
+    tolerances: { warn: 1.0e-5, accept: 1.0e-7 }
+spec:
+  global-arguments:
+    window_start_time: None
+    window_end_time: None
+    product_name: None
+    reader_defined_area_def: False
+    no_presectoring: True
+    product_db: False
+    product_db_writer: None
+    product_db_writer_kwargs: None
+steps:
+  - id: read_abi
       kind: reader
       uses: abi_netcdf
       arguments:
         variables: ["B14BT"]
         chunks: { x: 2048, y: 2048 }
       keep: true                  # always retain reader output for inspection (aka never garbage collect)
-
-    - id: sector
+  - id: sector
       kind: sectorizer
       uses: area_definition       # implicit depends_on: previous step
       arguments:
         area: "global_2km"
-
-    - id: single_channel
+  - id: single_channel
       kind: algorithm
       uses: single_channel
       depends_on: [sector]        # explicit form (equivalent here)
@@ -104,22 +126,19 @@ workflow:
         variable: "B14BT"
         output_data_range: [-90.0, 30.0]
         satellite_zenith_angle_cutoff: 75.0
-
-    - id: colorize
+  - id: colorize
       kind: colormapper           # adds colormap metadata; no new data vars
       uses: Infrared
       arguments:
         cmap: "Greys_r"
-
-    - id: render_png
+  - id: render_png
       kind: output_formatter
       uses: imagery_annotated
       depends_on: [colorize, single_channel]
       arguments:
         output_dir: "out/"
         filename_pattern: "abi_infrared.png"
-
-    - id: write_nc
+  - id: write_nc
       kind: output_formatter
       uses: netcdf_writer
       depends_on: [single_channel]   # bypasses colorize; raw data only
@@ -252,13 +271,13 @@ Parallel branches are introduced by a `split` operator and closed by a `join` op
 
 ```yaml
 - id: split_by_cloud_mask
-  kind: split
-  depends_on: [sector]
-  arguments:
-    on: "/sector/cloud_mask"
-    branches:
-      cloudy: "cloud_mask == 1"
-      clear:  "cloud_mask == 0"
+    kind: split
+    depends_on: [sector]
+    arguments:
+      on: "/sector/cloud_mask"
+      branches:
+        cloudy: "cloud_mask == 1"
+        clear:  "cloud_mask == 0"
 - scope: cloudy
 	- id: algo_cloudy
 	  kind: algorithm
@@ -272,12 +291,12 @@ Parallel branches are introduced by a `split` operator and closed by a `join` op
 	  depends_on: [split_by_cloud_mask] # output node: /split_by_cloud_mask/clear/algo_clear
 
 - id: recombine
-  kind: join
-  depends_on: [algo_cloudy, algo_clear]
-  arguments:
-    strategy: "merge_by_mask"
-    conflict: "error"           # error | last_wins | first_wins | explicit_map
-                                # output node: /recombine (exits the split scope)
+    kind: join
+    depends_on: [algo_cloudy, algo_clear]
+    arguments:
+      strategy: "merge_by_mask"
+      conflict: "error"           # error | last_wins | first_wins | explicit_map
+                                  # output node: /recombine (exits the split scope)
 ```
 
 Resulting tree:
@@ -309,10 +328,10 @@ A step with `kind: workflow` invokes another workflow file as a single step.
 
 ```yaml
 - id: preprocessing
-  kind: workflow
-  uses: preprocess_l1b # this child has outputs: [calibrated, masked]
-  arguments:
-    target_area: "global_2km"
+    kind: workflow
+    uses: preprocess_l1b # this child has outputs: [calibrated, masked]
+    arguments:
+      target_area: "global_2km"
 ```
 
 The nested workflow's `test` block is **not** executed during the parent run (even when the parent is being tested).
@@ -670,9 +689,9 @@ Explicit dependency edges:
 
 ```yaml
 - id: colorize
-  kind: colormapper
-  uses: Infrared
-  depends_on: [single_channel]
+    kind: colormapper
+    uses: Infrared
+    depends_on: [single_channel]
 ```
 
 If omitted, `depends_on` defaults to the immediately preceding step in the YAML list. The first step's default is "no dependencies."
@@ -737,9 +756,9 @@ steps:
   - { id: read_abi,  kind: reader, uses: abi_netcdf,  arguments: {...} }
   - { id: read_atms, kind: reader, uses: atms_netcdf, arguments: {...} }
   - id: colocate
-    kind: algorithm
-    uses: nearest_colocate
-    depends_on: [read_abi, read_atms]
+      kind: algorithm
+      uses: nearest_colocate
+      depends_on: [read_abi, read_atms]
 ```
 
 **Imagery + ancillary data:**
@@ -750,9 +769,9 @@ steps:
   - { id: read_dem,    kind: reader,   uses: dem_geotiff, arguments: {...} }
   - { id: read_landmask, kind: reader, uses: land_mask, arguments: {...} }
   - id: terrain_correct
-    kind: algorithm
-    uses: terrain_correction
-    depends_on: [read_abi, read_dem, read_landmask]
+      kind: algorithm
+      uses: terrain_correction
+      depends_on: [read_abi, read_dem, read_landmask]
 ```
 
 ### 9.4 Workflows-as-Steps with Multi-Output
@@ -761,21 +780,21 @@ When a workflow with multiple outputs is invoked as a `kind: workflow` step, the
 
 ```yaml
 - id: preproc
-  kind: workflow
-  uses: preprocess_l1b           # this child has outputs: [calibrated, masked]
+    kind: workflow
+    uses: preprocess_l1b           # this child has outputs: [calibrated, masked]
 
 - id: use_calibrated
-  kind: algorithm
-  uses: foo
-  depends_on: [preproc]
-  consumes: ["/preproc/calibrated"]   # a declared output — guaranteed to have data
+    kind: algorithm
+    uses: foo
+    depends_on: [preproc]
+    consumes: ["/preproc/calibrated"]   # a declared output — guaranteed to have data
 
 - id: inspect_intermediate
-  kind: algorithm
-  uses: bar
-  depends_on: [preproc]
-  consumes: ["/preproc/sector"]       # an intermediate — may be metadata-only
-                                      # depending on the child's retention
+    kind: algorithm
+    uses: bar
+    depends_on: [preproc]
+    consumes: ["/preproc/sector"]       # an intermediate — may be metadata-only
+                                        # depending on the child's retention
 ```
 
 Consuming a declared output is the safe path: outputs are guaranteed to retain data. Consuming an intermediate is allowed but the parent step **MUST** handle the case where the node has been GC'd to metadata-only (e.g., raise a clear error, or fall back to a different path).
@@ -845,10 +864,10 @@ For `keep_outputs_only` (effective), the runner drops a step's data the moment i
 
 ```yaml
 - id: read_abi
-  kind: reader
-  uses: abi_netcdf
-  arguments: {...}
-  keep: true              # this reader's full data survives any policy
+    kind: reader
+    uses: abi_netcdf
+    arguments: {...}
+    keep: true              # this reader's full data survives any policy
 ```
 
 Use cases:
