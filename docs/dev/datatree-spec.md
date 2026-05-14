@@ -83,49 +83,49 @@ workflow:
   steps:
 
     - id: read_abi
-      kind: reader
-      uses: abi_netcdf
-      arguments:
-        variables: ["B14BT"]
-        chunks: { x: 2048, y: 2048 }
-      keep: true                  # always retain reader output for inspection (aka never garbage collect)
+        kind: reader
+        uses: abi_netcdf
+        arguments:
+          variables: ["B14BT"]
+          chunks: { x: 2048, y: 2048 }
+        keep: true                  # always retain reader output for inspection (aka never garbage collect)
 
     - id: sector
-      kind: sectorizer
-      uses: area_definition       # implicit depends_on: previous step
-      arguments:
-        area: "global_2km"
+        kind: sectorizer
+        uses: area_definition       # implicit depends_on: previous step
+        arguments:
+          area: "global_2km"
 
     - id: single_channel
-      kind: algorithm
-      uses: single_channel
-      depends_on: [sector]        # explicit form (equivalent here)
-      arguments:
-        variable: "B14BT"
-        output_data_range: [-90.0, 30.0]
-        satellite_zenith_angle_cutoff: 75.0
+        kind: algorithm
+        uses: single_channel
+        depends_on: [sector]        # explicit form (equivalent here)
+        arguments:
+          variable: "B14BT"
+          output_data_range: [-90.0, 30.0]
+          satellite_zenith_angle_cutoff: 75.0
 
     - id: colorize
-      kind: colormapper           # adds colormap metadata; no new data vars
-      uses: Infrared
-      arguments:
-        cmap: "Greys_r"
+        kind: colormapper           # adds colormap metadata; no new data vars
+        uses: Infrared
+        arguments:
+          cmap: "Greys_r"
 
     - id: render_png
-      kind: output_formatter
-      uses: imagery_annotated
-      depends_on: [colorize, single_channel]
-      arguments:
-        output_dir: "out/"
-        filename_pattern: "abi_infrared.png"
+        kind: output_formatter
+        uses: imagery_annotated
+        depends_on: [colorize, single_channel]
+        arguments:
+          output_dir: "out/"
+          filename_pattern: "abi_infrared.png"
 
     - id: write_nc
-      kind: output_formatter
-      uses: netcdf_writer
-      depends_on: [single_channel]   # bypasses colorize; raw data only
-      arguments:
-        output_dir: "out/"
-        filename_pattern: "abi_infrared.nc"
+        kind: output_formatter
+        uses: netcdf_writer
+        depends_on: [single_channel]   # bypasses colorize; raw data only
+        arguments:
+          output_dir: "out/"
+          filename_pattern: "abi_infrared.nc"
 ```
 
 **Resulting workflow DataTree (schematic, with `retention: keep_referenced`):**
@@ -252,13 +252,13 @@ Parallel branches are introduced by a `split` operator and closed by a `join` op
 
 ```yaml
 - id: split_by_cloud_mask
-  kind: split
-  depends_on: [sector]
-  arguments:
-    on: "/sector/cloud_mask"
-    branches:
-      cloudy: "cloud_mask == 1"
-      clear:  "cloud_mask == 0"
+    kind: split
+    depends_on: [sector]
+    arguments:
+      on: "/sector/cloud_mask"
+      branches:
+        cloudy: "cloud_mask == 1"
+        clear:  "cloud_mask == 0"
 - scope: cloudy
 	- id: algo_cloudy
 	  kind: algorithm
@@ -272,12 +272,12 @@ Parallel branches are introduced by a `split` operator and closed by a `join` op
 	  depends_on: [split_by_cloud_mask] # output node: /split_by_cloud_mask/clear/algo_clear
 
 - id: recombine
-  kind: join
-  depends_on: [algo_cloudy, algo_clear]
-  arguments:
-    strategy: "merge_by_mask"
-    conflict: "error"           # error | last_wins | first_wins | explicit_map
-                                # output node: /recombine (exits the split scope)
+    kind: join
+    depends_on: [algo_cloudy, algo_clear]
+    arguments:
+      strategy: "merge_by_mask"
+      conflict: "error"           # error | last_wins | first_wins | explicit_map
+                                  # output node: /recombine (exits the split scope)
 ```
 
 Resulting tree:
@@ -309,10 +309,10 @@ A step with `kind: workflow` invokes another workflow file as a single step.
 
 ```yaml
 - id: preprocessing
-  kind: workflow
-  uses: preprocess_l1b # this child has outputs: [calibrated, masked]
-  arguments:
-    target_area: "global_2km"
+    kind: workflow
+    uses: preprocess_l1b # this child has outputs: [calibrated, masked]
+    arguments:
+      target_area: "global_2km"
 ```
 
 The nested workflow's `test` block is **not** executed during the parent run (even when the parent is being tested).
@@ -670,9 +670,9 @@ Explicit dependency edges:
 
 ```yaml
 - id: colorize
-  kind: colormapper
-  uses: Infrared
-  depends_on: [single_channel]
+    kind: colormapper
+    uses: Infrared
+    depends_on: [single_channel]
 ```
 
 If omitted, `depends_on` defaults to the immediately preceding step in the YAML list. The first step's default is "no dependencies."
@@ -737,9 +737,9 @@ steps:
   - { id: read_abi,  kind: reader, uses: abi_netcdf,  arguments: {...} }
   - { id: read_atms, kind: reader, uses: atms_netcdf, arguments: {...} }
   - id: colocate
-    kind: algorithm
-    uses: nearest_colocate
-    depends_on: [read_abi, read_atms]
+      kind: algorithm
+      uses: nearest_colocate
+      depends_on: [read_abi, read_atms]
 ```
 
 **Imagery + ancillary data:**
@@ -750,9 +750,9 @@ steps:
   - { id: read_dem,    kind: reader,   uses: dem_geotiff, arguments: {...} }
   - { id: read_landmask, kind: reader, uses: land_mask, arguments: {...} }
   - id: terrain_correct
-    kind: algorithm
-    uses: terrain_correction
-    depends_on: [read_abi, read_dem, read_landmask]
+      kind: algorithm
+      uses: terrain_correction
+      depends_on: [read_abi, read_dem, read_landmask]
 ```
 
 ### 9.4 Workflows-as-Steps with Multi-Output
@@ -761,21 +761,21 @@ When a workflow with multiple outputs is invoked as a `kind: workflow` step, the
 
 ```yaml
 - id: preproc
-  kind: workflow
-  uses: preprocess_l1b           # this child has outputs: [calibrated, masked]
+    kind: workflow
+    uses: preprocess_l1b           # this child has outputs: [calibrated, masked]
 
 - id: use_calibrated
-  kind: algorithm
-  uses: foo
-  depends_on: [preproc]
-  consumes: ["/preproc/calibrated"]   # a declared output — guaranteed to have data
+    kind: algorithm
+    uses: foo
+    depends_on: [preproc]
+    consumes: ["/preproc/calibrated"]   # a declared output — guaranteed to have data
 
 - id: inspect_intermediate
-  kind: algorithm
-  uses: bar
-  depends_on: [preproc]
-  consumes: ["/preproc/sector"]       # an intermediate — may be metadata-only
-                                      # depending on the child's retention
+    kind: algorithm
+    uses: bar
+    depends_on: [preproc]
+    consumes: ["/preproc/sector"]       # an intermediate — may be metadata-only
+                                        # depending on the child's retention
 ```
 
 Consuming a declared output is the safe path: outputs are guaranteed to retain data. Consuming an intermediate is allowed but the parent step **MUST** handle the case where the node has been GC'd to metadata-only (e.g., raise a clear error, or fall back to a different path).
@@ -845,10 +845,10 @@ For `keep_outputs_only` (effective), the runner drops a step's data the moment i
 
 ```yaml
 - id: read_abi
-  kind: reader
-  uses: abi_netcdf
-  arguments: {...}
-  keep: true              # this reader's full data survives any policy
+    kind: reader
+    uses: abi_netcdf
+    arguments: {...}
+    keep: true              # this reader's full data survives any policy
 ```
 
 Use cases:
