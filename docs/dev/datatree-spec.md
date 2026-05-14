@@ -59,73 +59,91 @@ A minimal but complete workflow with two readers, one algorithm, and two outputs
 
 ```yaml
 # workflows/abi_infrared_multi.yaml
-workflow:
-  name: abi_infrared_multi
-  description: ABI ch.14 infrared, both annotated PNG and clean netCDF outputs.
-  spec_version: "1.0.0"
-  workflow_version: "2026.04.21"
-
-  retention: keep_referenced       # default; keeps a step's data only while needed
-  outputs: [render_png, write_nc]  # always preserved regardless of retention
-
-  test:
-    inputs:
-      - name: abi_sample
-        files: ["tests/data/abi/OR_ABI-L1b-RadF-M6C14_G16_*.nc"]
-    expected:
-      output_token: "blake2b:9f2a...c0d1"
-      artifacts:
-        - { path: "out/abi_infrared.png", sha256: "0a1b2c..." }
-        - { path: "out/abi_infrared.nc",  sha256: "f8e7d6..." }
-      reference_datatree: "tests/refs/abi_infrared.zarr"
-      tolerances: { warn: 1.0e-5, accept: 1.0e-7 }
-
-  steps:
-
-    - id: read_abi
-        kind: reader
-        uses: abi_netcdf
-        arguments:
-          variables: ["B14BT"]
-          chunks: { x: 2048, y: 2048 }
-        keep: true                  # always retain reader output for inspection (aka never garbage collect)
-
-    - id: sector
-        kind: sectorizer
-        uses: area_definition       # implicit depends_on: previous step
-        arguments:
-          area: "global_2km"
-
-    - id: single_channel
-        kind: algorithm
-        uses: single_channel
-        depends_on: [sector]        # explicit form (equivalent here)
-        arguments:
-          variable: "B14BT"
-          output_data_range: [-90.0, 30.0]
-          satellite_zenith_angle_cutoff: 75.0
-
-    - id: colorize
-        kind: colormapper           # adds colormap metadata; no new data vars
-        uses: Infrared
-        arguments:
-          cmap: "Greys_r"
-
-    - id: render_png
-        kind: output_formatter
-        uses: imagery_annotated
-        depends_on: [colorize, single_channel]
-        arguments:
-          output_dir: "out/"
-          filename_pattern: "abi_infrared.png"
-
-    - id: write_nc
-        kind: output_formatter
-        uses: netcdf_writer
-        depends_on: [single_channel]   # bypasses colorize; raw data only
-        arguments:
-          output_dir: "out/"
-          filename_pattern: "abi_infrared.nc"
+apiVersion: geoips/v1
+interface: products
+family: order_based
+is_registered: false
+name: abi_infrared_multi
+# do we need spec_version and workflow_version
+spec_version: "1.0.0"
+workflow_version: "2026.04.21"
+# should we replace docstring with description
+docstring: ABI ch.14 infrared, both annotated PNG and clean netCDF outputs.
+package: geoips
+retention: keep_referenced       # default; keeps a step's data only while needed
+outputs: [render_png, write_nc]  # always preserved regardless of retention
+test:
+  fnames: !ENV ${GEOIPS_TESTDATA_DIR}/test_data_abi/data/goes16_20200918_1950/*
+  compare_path: !ENV ${GEOIPS_PACKAGES_DIR}/geoips/tests/outputs/abi.static.<product>.imagery_clean
+  overrides:
+    steps:
+      - abi_Infrared.spec.steps.algorithm.output_units='Kelvin'
+    kinds:
+      - readers.self_register=False
+    globals:
+      - sector_list='global_cylindrical'
+      - logging_level='info'
+test:
+  inputs:
+    - name: abi_sample
+      files: ["tests/data/abi/OR_ABI-L1b-RadF-M6C14_G16_*.nc"]
+  expected:
+    output_token: "blake2b:9f2a...c0d1"
+    artifacts:
+      - { path: "out/abi_infrared.png", sha256: "0a1b2c..." }
+      - { path: "out/abi_infrared.nc",  sha256: "f8e7d6..." }
+    reference_datatree: "tests/refs/abi_infrared.zarr"
+    tolerances: { warn: 1.0e-5, accept: 1.0e-7 }
+spec:
+  global-arguments:
+    window_start_time: None
+    window_end_time: None
+    product_name: None
+    reader_defined_area_def: False
+    no_presectoring: True
+    product_db: False
+    product_db_writer: None
+    product_db_writer_kwargs: None
+steps:
+  - id: read_abi
+      kind: reader
+      uses: abi_netcdf
+      arguments:
+        variables: ["B14BT"]
+        chunks: { x: 2048, y: 2048 }
+      keep: true                  # always retain reader output for inspection (aka never garbage collect)
+  - id: sector
+      kind: sectorizer
+      uses: area_definition       # implicit depends_on: previous step
+      arguments:
+        area: "global_2km"
+  - id: single_channel
+      kind: algorithm
+      uses: single_channel
+      depends_on: [sector]        # explicit form (equivalent here)
+      arguments:
+        variable: "B14BT"
+        output_data_range: [-90.0, 30.0]
+        satellite_zenith_angle_cutoff: 75.0
+  - id: colorize
+      kind: colormapper           # adds colormap metadata; no new data vars
+      uses: Infrared
+      arguments:
+        cmap: "Greys_r"
+  - id: render_png
+      kind: output_formatter
+      uses: imagery_annotated
+      depends_on: [colorize, single_channel]
+      arguments:
+        output_dir: "out/"
+        filename_pattern: "abi_infrared.png"
+  - id: write_nc
+      kind: output_formatter
+      uses: netcdf_writer
+      depends_on: [single_channel]   # bypasses colorize; raw data only
+      arguments:
+        output_dir: "out/"
+        filename_pattern: "abi_infrared.nc"
 ```
 
 **Resulting workflow DataTree (schematic, with `retention: keep_referenced`):**
