@@ -19,7 +19,7 @@ def call(
     xarray_obj,
     area_def,
     product_name,
-    output_type=".png",
+    output_type="png",
     basedir=pathjoin(gpaths["ANNOTATED_IMAGERY_PATH"]),
     extra_field=None,
 ):
