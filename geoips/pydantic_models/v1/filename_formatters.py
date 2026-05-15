@@ -4,7 +4,7 @@
 """Pydantic models used to validate GeoIPS OBP v1 filename-formatter plugins."""
 
 # Third-Party Libraries
-from pydantic import DirectoryPath, Field
+from pydantic import Field
 
 # GeoIPS imports
 from geoips.pydantic_models.v1.bases import PermissiveFrozenModel
@@ -20,11 +20,10 @@ class FilenameFormatterArgumentsModel(PermissiveFrozenModel):
         None, description="Image coverage, float between 0.0 and 100.0"
     )
     output_type: str = Field(
-        None, description=" Requested output format, ie png, jpg, tif, etc, defaults to None"
+        None,
+        description=" Requested output format, ie png, jpg, tif, etc, defaults to None",
     )
-    output_type_dir: str = Field(
-        None, description="If None, default to output_type."
-    )
+    output_type_dir: str = Field(None, description="If None, default to output_type.")
     product_dir: str = Field(None)
     product_subdir: str = Field(None)
     source_dir: str = Field(None)
