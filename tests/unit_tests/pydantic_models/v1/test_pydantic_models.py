@@ -12,7 +12,7 @@ import pytest
 # GeoIPS imports
 from geoips.pydantic_models.v1.readers import ReaderArgumentsModel
 from geoips.pydantic_models.v1.title_formatters import TitleFormatterArgumentsModel
-from geoips.pydantic_models.v1.output_checkers import OutputCheckersArgumentsModel
+from geoips.pydantic_models.v1.output_checkers import OutputCheckerArgumentsModel
 from geoips.pydantic_models.v1.workflows import WorkflowSpecModel
 from tests.unit_tests.pydantic_models.v1.utils import (
     PathDict,
