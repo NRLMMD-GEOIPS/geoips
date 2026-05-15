@@ -29,3 +29,4 @@ class FilenameFormatterArgumentsModel(PermissiveFrozenModel):
     source_dir: str = Field(None)
     basedir: str = Field(None, description="Base directory for output file.")
     output_dict: str = Field(None)
+    extension: str = Field(None)
