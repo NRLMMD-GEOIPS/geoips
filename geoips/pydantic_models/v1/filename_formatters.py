@@ -20,13 +20,13 @@ class FilenameFormatterArgumentsModel(PermissiveFrozenModel):
         None, description="Image coverage, float between 0.0 and 100.0"
     )
     output_type: str = Field(
-        None,
+        None, description=" Requested output format, ie png, jpg, tif, etc, defaults to None"
     )
-    output_type_dir: DirectoryPath = Field(
+    output_type_dir: str = Field(
         None, description="If None, default to output_type."
     )
-    product_dir: DirectoryPath = Field(None)
-    product_subdir: DirectoryPath = Field(None)
-    source_dir: DirectoryPath = Field(None)
-    basedir: DirectoryPath = Field(None, description="Base directory for output file.")
-    output_dict: DirectoryPath = Field(None)
+    product_dir: str = Field(None)
+    product_subdir: str = Field(None)
+    source_dir: str = Field(None)
+    basedir: str = Field(None, description="Base directory for output file.")
+    output_dict: str = Field(None)

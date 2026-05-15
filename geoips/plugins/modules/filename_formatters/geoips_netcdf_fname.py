@@ -32,7 +32,7 @@ def call(
 
     This uses the "assemble_geoips_netcdf_fname" function to appropriately
     assemble the filename from a base directory, product name, source
-    name, platform nae, sector name, and product time, to allow reuse
+    name, platform name, sector name, and product time, to allow reuse
     of this basic filename format from multiple filename formatter
     plugins.
     """
