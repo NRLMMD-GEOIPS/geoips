@@ -1,0 +1,18 @@
+feature:
+- title: 'Order-Based Procflow: Add Filename Formatter Pydantic models'
+  description: 'Introduce Pydantic model defining and validating OBP-v1 FilenameFormatterArgumentsModel'
+  files:
+    added:
+    - 'geoips/pydantic_models/v1/filename_formatters.py'
+    modified:
+    - 'geoips/plugins/modules/filename_formatters/geoips_netcdf_fname.py'
+    deleted:
+    - ''
+    moved:
+    - ''
+  related-issue:
+    number: null
+    repo_url: ''
+  date:
+    start: null
+    finish: null
