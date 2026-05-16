@@ -5,9 +5,10 @@
 
 # Python Standard Libraries
 import logging
+from os.path import join as pathjoin
 
 from geoips.filenames.base_paths import PATHS as gpaths
-from os.path import join as pathjoin
+from geoips.utils.file_utils import path_exists
 
 LOG = logging.getLogger(__name__)
 
@@ -120,4 +121,8 @@ def assemble_geoips_netcdf_fname(
         path_parts.extend([sector_name])
     fname = ".".join(path_parts + ["nc"])
 
-    return pathjoin(path, fname)
+    file_path = pathjoin(path, fname)
+    if path_exists(file_path):
+        return file_path
+    else:
+        raise FileNotFoundError(f"file does not exist: {file_path}")

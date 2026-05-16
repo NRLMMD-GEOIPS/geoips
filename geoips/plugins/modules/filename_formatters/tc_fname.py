@@ -17,6 +17,7 @@ from os import unlink as osunlink
 
 from geoips.filenames.base_paths import PATHS as gpaths
 from geoips.data_manipulations.merge import minrange
+from geoips.utils.file_utils import path_exists
 
 LOG = logging.getLogger(__name__)
 
@@ -407,5 +408,9 @@ def assemble_tc_fname(
             str(extra),
         ]
     )
-    fname = "{0}.{1}".format(fname, output_type)
-    return pathjoin(path, fname)
+    fname = f"{fname}.{output_type}"
+    file_path = pathjoin(path, fname)
+    if path_exists(file_path):
+        return file_path
+    else:
+        raise FileNotFoundError(f"file does not exist: {file_path}")
