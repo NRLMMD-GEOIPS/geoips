@@ -17,7 +17,7 @@ import logging
 from typing import Any, List
 
 # Third-Party Libraries
-from pydantic import Field, field_validator, model_validator
+from pydantic import Field, FilePath, field_validator, model_validator
 from pyresample.geometry import AreaDefinition
 import warnings
 
@@ -43,7 +43,7 @@ class ReaderArgumentsModel(PermissiveFrozenModel):
     )
     metadata_only: bool = Field(False, description="Read metadata only.")
     self_register: str = Field(None, description="Enable self-registration.")
-    fnames: List[str] = Field(
+    fnames: List[FilePath] = Field(
         None, description="full path to the file(s) for static dataset inputs."
     )
     sectored_read: bool = Field(False)
