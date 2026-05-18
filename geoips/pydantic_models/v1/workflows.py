@@ -22,11 +22,10 @@ from glob import glob
 import logging
 from os import environ
 from pathlib import Path
-from typing import Any, Annotated, Dict, List
+from typing import Any, Dict, List, Optional, Union
 
 # Third-Party Libraries
 from pydantic import (
-    BeforeValidator,
     ConfigDict,
     Field,
     field_validator,
@@ -35,7 +34,6 @@ from pydantic import (
 )
 
 # GeoIPS imports
-from geoips.filenames.base_paths import cast_string_to_bool_or_none
 from geoips import interfaces
 from geoips.pydantic_models.v1.bases import (
     PythonIdentifier,
@@ -164,50 +162,6 @@ class WorkflowArgumentsModel(PermissiveFrozenModel):
 
     model_config = ConfigDict(extra="allow")
     pass
-
-
-class ReaderArgumentsModel(PermissiveFrozenModel):
-    """Reader step argument definition.
-
-    Pydantic model defining and validating Reader step arguments.
-    """
-
-    area_def: str = Field(None, description="Area definition identifier.")
-    variables: List[str] = Field(
-        None,
-        description="List of channels to process",
-        alias="chans",
-    )
-    metadata_only: bool = Field(False, description="Read metadata only.")
-    self_register: List[str] = Field(None, description="Enable self-registration.")
-    fnames: List[str] = Field(
-        None, description="full path to the file(s) for static dataset inputs."
-    )
-
-    @model_validator(mode="before")
-    def _handle_deprecated_chans(cls, values):
-        """
-        Check for the deprecated 'chans' field and issue a warning.
-
-        This method detects if `chans` is present in the input values and issues a
-        deprecation warning, recommending the use of 'variable' instead.
-
-        Parameters
-        ----------
-        values : dict
-            Input values to the model.
-
-        Returns
-        -------
-        dict
-            The original input values.
-        """
-        if "chans" in values:
-            LOG.warning(
-                "'chans' is deprecated and will be removed in GeoIPS 2.0. Use"
-                "'variables' instead."
-            )
-        return values
 
 
 class WorkflowStepDefinitionModel(FrozenModel):
@@ -575,7 +529,7 @@ class WorkflowSpecModel(FrozenModel):
                 # Generate a step ID based off the current step's plugin name
                 # if it's a product, merge the name tuple into a single name
                 step_id = (
-                    "_".join(step.get("name"))
+                    ".".join(step.get("name"))
                     if step.get("kind") == "product"
                     else step.get("name")
                 )
@@ -598,171 +552,79 @@ class WorkflowSpecModel(FrozenModel):
         return data
 
 
-class StepOverride(FrozenModel):
-    """Model for a single step override."""
+class OutputCheckerOverride(FrozenModel):
+    """Model for generic output checker overrides in a workflow test section.
 
-    step_id: str
-    keys: List[str]
-    argument: str
-    value: Any
+    Takes the form of:
 
-    @classmethod
-    def from_string(cls, raw: str):
-        """Convert the input override string to a step override object."""
-        try:
-            lhs, rhs = raw.split("=", 1)
-        except ValueError:
-            raise ValueError(
-                f"Invalid step override '{raw}'. Expected '<step>.<...>=<value>'"
-            )
-
-        parts = lhs.split(".")
-        if len(parts) < 2:
-            raise ValueError(
-                f"Invalid step override '{raw}'. Must include at least one key after "
-                "step_id"
-            )
-
-        return cls(
-            step_id=parts[0],
-            keys=parts[1:-1],
-            argument=parts[-1],
-            value=cast_string_to_bool_or_none(rhs),
-        )
-
-
-class KindOverride(FrozenModel):
-    """Model for a single kind override."""
-
-    kind: str
-    argument: str
-    value: Any
-
-    @classmethod
-    def from_string(cls, raw: str):
-        """Convert the input override string to a kind override object."""
-        try:
-            lhs, rhs = raw.split("=", 1)
-        except ValueError:
-            raise ValueError(
-                f"Invalid kind override '{raw}'. Expected '<kind>.<argument>=value>'"
-            )
-
-        parts = lhs.split(".")
-        if len(parts) != 2:
-            raise ValueError(
-                f"Invalid kind override '{raw}'. Must be formatted "
-                "<kind>.<argument>=<value>"
-            )
-
-        return cls(
-            kind=parts[0],
-            argument=parts[1],
-            value=cast_string_to_bool_or_none(rhs),
-        )
-
-
-class GlobalOverride(FrozenModel):
-    """Model for a single global override."""
-
-    argument: str
-    value: Any
-
-    @classmethod
-    def from_string(cls, raw: str):
-        """Convert the input override string to a global override object."""
-        try:
-            key, value = raw.split("=", 1)
-        except ValueError:
-            raise ValueError(
-                f"Invalid global override '{raw}'. Expected '<key>=<value>'"
-            )
-
-        return cls(argument=key, value=cast_string_to_bool_or_none(value))
-
-
-def parse_override(v, info: ValidationInfo):
-    """Parse the override input if it is a string and convert it to an override type.
-
-    Parameters
-    ----------
-    v: Any
-        The input value to be converted to an override type.
-    info: ValidationInfo
-        Context from the a given field of the parent model.
-
+    output_checker:
+        name: my_oc
+        arguments:
+        ...
     """
-    match info.field_name:
-        case "steps":
-            override_type = StepOverride
-        case "kinds":
-            override_type = KindOverride
-        case "globals":
-            override_type = GlobalOverride
-        case _:
-            raise ValueError(
-                f"Error: got {v} but could not associate it with an override type."
-            )
 
-    if isinstance(v, override_type):
-        return v
-    if isinstance(v, str):
-        return override_type.from_string(v)
-    return v
+    name: str
+    arguments: Dict[str, Any] = Field(default_factory=dict)
 
 
-StepOverrideType = Annotated[
-    StepOverride, BeforeValidator(parse_override, StepOverride)
-]
-KindOverrideType = Annotated[
-    KindOverride, BeforeValidator(parse_override, KindOverride)
-]
-GlobalOverrideType = Annotated[
-    GlobalOverride, BeforeValidator(parse_override, GlobalOverride)
-]
+class StepOutputOverride(FrozenModel):
+    """Model for overriding the output checker arguments for a single step.
+
+    Takes the form of:
+
+    step_id:
+        compare_path: path
+        token: token_value
+        argument_x: value
+        ...
+    """
+
+    compare_path: Optional[str] = None
+    token: Optional[str] = None
 
 
-class WorkflowOverrides(FrozenModel):
-    """Model depicting how to specify overrides for a workflow plugin."""
+class OutputsConfig(FrozenModel):
+    """Model used to cast an unknown instance of 'outputs' into a single model."""
 
-    steps: List[StepOverrideType] = Field(
-        None,
-        description=(
-            "A list of step overrides to apply to your workflow. Not required.",
-        ),
-    )
-    kinds: List[KindOverrideType] = Field(
-        None,
-        description=(
-            "A list of kind overrides to apply to your workflow. Not required.",
-        ),
-    )
-    globals: List[GlobalOverrideType] = Field(
-        None,
-        description=(
-            "A list of global overrides to apply to your workflow. Not required.",
-        ),
-    )
+    model_config = ConfigDict(extra="forbid")
 
-    @model_validator(mode="before")
-    @classmethod
-    def check_at_least_one_present(cls, data):
-        """Assert that at least one of [steps, kinds, globals] are present in the model.
+    #
+    # Arbitrary output names (step ids) mapped to one of:
+    #
+    # - OutputCheckerConfig
+    # - OutputWriterConfig
+    #
+    root: Dict[
+        str,
+        Union[
+            OutputCheckerOverride,
+            StepOutputOverride,
+        ],
+    ] = Field(default_factory=dict)
 
-        If they are all missing, raise a value error.
-        """
-        if data is None:
-            return data
 
-        if not any(
-            data.get(field) not in (None, []) for field in ("steps", "kinds", "globals")
-        ):
-            raise ValueError(
-                "At least one of 'steps', 'kinds', or 'globals' must be provided in "
-                "overrides"
-            )
+class NestedSpecOverride(FrozenModel):
+    """Spec definition allowing for recursive overrides."""
 
-        return data
+    steps: Dict[str, StepOverride] = Field(default_factory=dict)
+
+
+class StepOverride(FrozenModel):
+    """
+    A workflow step override.
+
+    Either:
+    - arbitrary arguments
+    OR
+    - a nested spec containing additional steps
+    """
+
+    spec: Optional[NestedSpecOverride] = None
+
+
+# Required for recursive references
+NestedSpecOverride.model_rebuild()
+StepOverride.model_rebuild()
 
 
 class WorkflowTestModel(FrozenModel):
@@ -777,7 +639,69 @@ class WorkflowTestModel(FrozenModel):
         None,
         description="Path to known file used to compare test outputs.",
     )
-    overrides: WorkflowOverrides = Field(None)
+    #
+    # globals:
+    #   argument: value
+    #
+    globals: Dict[str, Any] = Field(
+        default_factory=dict,
+        description="Override dictionary for global arguments.",
+    )
+
+    #
+    # kinds:
+    #     readers:
+    #         argument: value
+    #
+    # Keys must match interfaces.__all__
+    #
+    kinds: Dict[str, Dict[str, Any]] = Field(
+        default_factory=dict,
+        description="Override dictionary for plugins matching a certain 'kind'.",
+    )
+
+    #
+    # steps:
+    #     step_id:
+    #         argument: value
+    #
+    # or recursive nested specs
+    #
+    steps: Dict[str, StepOverride] = Field(
+        default_factory=dict,
+        description="Override dictionary for individual steps.",
+    )
+
+    #
+    # outputs:
+    #     output_checker:  # If not provided use default for the specific file type
+    #         name: my_oc
+    #         arguments:
+    #             compare_path: ...
+    #             token: ...
+    #    ahi_data_writer: {compare_path: ..., token: ...}
+
+    outputs: OutputsConfig = Field(
+        default_factory=dict,
+        description=(
+            "Override dictionary for output checker steps or every instance of"
+            " an output checker."
+        ),
+    )
+
+    @model_validator(mode="after")
+    def validate_kind_keys(self) -> WorkflowTestModel:
+        """Ensure kinds keys are valid GeoIPS interfaces."""
+        # Make sure any element of kinds are a valid interface
+        invalid = set(self.kinds) - set(interfaces.__all__)
+
+        if invalid:
+            raise ValueError(
+                f"Invalid kinds keys: {sorted(invalid)}. "
+                f"Valid interfaces are: {sorted(interfaces.__all__)}"
+            )
+
+        return self
 
     @field_validator("fnames", mode="before")
     @classmethod
@@ -799,6 +723,12 @@ class WorkflowTestModel(FrozenModel):
                 final_paths.append(jpath)
 
         return final_paths
+
+    @field_validator("outputs", mode="before")
+    @classmethod
+    def coerce_outputs(cls, v):
+        """Coerce an instance of 'outputs' into a single model."""
+        return OutputsConfig(root=v)
 
 
 class WorkflowPluginModel(PluginModel):
