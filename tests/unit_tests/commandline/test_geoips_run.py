@@ -133,11 +133,23 @@ class TestGeoipsRun(BaseCliTest):
         "--generated",
         str(
             {
+                "apiVersion": "geoips/v1",
                 "interface": "workflows",
                 "family": "order_based",
                 "name": "generated",
                 "docstring": "Dynamically generated workflow plugin.",
                 "spec": {
+                    "global_arguments": {
+                        "presector": False,
+                        "product_db": False,
+                        "product_db_writer": None,
+                        "product_db_writer_kwargs": None,
+                        "product_name": None,
+                        "reader_defined_area_def": False,
+                        "sector_list": ["Alpha"],
+                        "window_start_time": None,
+                        "window_end_time": None,
+                    },
                     "steps": {
                         "reader": {
                             "kind": "reader",
@@ -149,7 +161,7 @@ class TestGeoipsRun(BaseCliTest):
                             "name": "unprojected_image",
                             "arguments": {"sectors": ["overcast_georing"]},
                         },
-                    }
+                    },
                 },
             }
         ),
