@@ -1,0 +1,39 @@
+enhancement:
+- title: 'GeoIPS Test Sector Updates'
+  description: |
+    Updated 'geoips test sector' command to support a '--gridlines' and a '--labels'
+    flag. The '--gridlines' flag will add latitude / longitude gridlines to your sector
+    image. By default labels will be added to the bottom and left side of the sector
+    image when gridlines are added. To disable this, or change the location of labels,
+    provide the '--labels' flag with no arguments or different locations.
+    This can be applied alongside the '--overlay' flag as well.
+
+    Updated documentation and added a unit test to test this functionality.
+    Additionally, I updated the sector schema to support two methods for specifying an
+    area definition's resolution. Instead of a length two array of integers, a
+    dictionary specifying "dx": float, "dy": float, and "units": str can be
+    supplied.
+
+    Finally, fixed failing integration tests by fixing imports, removing the need to
+    install akima86 via git, commented out packages we don't want to install
+    (geoips_tutorial), and commented out test datasets that aren't available or were
+    failing.
+  files:
+    modified:
+      - docs/source/concepts/functionality/command-line/index.rst
+      - geoips/commandline/ancillary_info/cmd_instructions.yaml
+      - geoips/commandline/ancillary_info/test-data-urls.yaml
+      - geoips/commandline/geoips_test.py
+      - geoips/image_utils/mpl_utils.py
+      - geoips/interfaces/yaml_based/sectors.py
+      - geoips/schema/sectors/specs/area_definition.yaml
+      - geoips/utils/memusg/plot_json_files.py
+      - tests/integration_tests/full_install.sh
+      - tests/integration_tests/site_install.sh
+      - tests/unit_tests/commandline/test_geoips_test_sector.py
+  related-issue:
+    number: null
+    repo_url: ''
+  date:
+    start: null
+    finish: null

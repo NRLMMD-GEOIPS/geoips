@@ -154,6 +154,24 @@ class GeoipsTestSector(GeoipsExecutableCommand):
                 "a geospatial context."
             ),
         )
+        self.parser.add_argument(
+            "--gridlines",
+            "-g",
+            default=False,
+            action="store_true",
+            help="Add a latitude / longitude gridline overlay to your sector.",
+        )
+        self.parser.add_argument(
+            "--labels",
+            "-l",
+            default=["left", "bottom"],
+            choices=["left", "right", "top", "bottom"],
+            nargs="*",
+            help=(
+                "A list of strings which set where gridline labels will be set on the "
+                "sector. Specify no values to disable labels."
+            ),
+        )
 
     def __call__(self, args):
         """Create the provided sector image based off the arguments provided.
@@ -171,6 +189,10 @@ class GeoipsTestSector(GeoipsExecutableCommand):
         sector_name = args.sector_name
         outdir = args.outdir
         overlay = args.overlay
+        gridlines = args.gridlines
+        labels = args.labels
+        noborder = False if len(labels) else True
+
         # If the path to outdir doesn't already exist, make that path
         if not exists(outdir):
             makedirs(outdir)
@@ -195,10 +217,16 @@ class GeoipsTestSector(GeoipsExecutableCommand):
             raise self.parser.error(
                 f"Sector '{sector_name}' is not a valid plugin.\nPlease use a plugin "
                 "found under 'geoips list interface sectors' or create a new plugin "
-                f"named '{sector_name}' and run 'create_plugin_registries'."
+                f"named '{sector_name}' and run 'pluginify create'."
             )
         print(f"Creating {fname}.")
-        sect.create_test_plot(fname, overlay=overlay)
+        sect.create_test_plot(
+            fname,
+            overlay=overlay,
+            gridlines=gridlines,
+            gridline_labels=labels,
+            noborder=noborder,
+        )
 
 
 class GeoipsTestScript(GeoipsExecutableCommand):
@@ -383,7 +411,24 @@ class GeoipsTestWorkflow(GeoipsExecutableCommand):
             - The list argument namespace to parse through
         """
         workflow_name = args.workflow_name
-        workflow = workflows.get_test_plugin(workflow_name)
+        rbr = (
+            False
+            if "non_existent" in workflow_name
+            else PATHS["GEOIPS_REBUILD_REGISTRIES"]
+        )
+        try:
+            workflow = workflows.get_test_plugin(workflow_name, rebuild_registries=rbr)
+        except PluginError:
+            self.parser.error(
+                f"Error: could not load workflow plugin under name '{workflow_name}'."
+            )
+
+        if not workflow.get("test"):
+            raise self.parser.error(
+                f"Error: cannot test '{workflow_name}' workflow plugin as it is missing"
+                " a ``test`` section. Please create this content before attempting to "
+                "test this plugin again."
+            )
 
         obp = procflows.get_plugin("order_based")
 

@@ -44,6 +44,7 @@ from geoips.pydantic_models.v1.bases import (
     PermissiveFrozenModel,
 )
 from geoips.pydantic_models.v1.coverage_checkers import CoverageCheckerArgumentsModel
+from geoips.pydantic_models.v1.readers import ReaderArgumentsModel
 from geoips.utils.types.partial_lexeme import Lexeme
 
 LOG = logging.getLogger(__name__)
@@ -178,7 +179,7 @@ class ReaderArgumentsModel(PermissiveFrozenModel):
         alias="chans",
     )
     metadata_only: bool = Field(False, description="Read metadata only.")
-    self_register: bool = Field(None, description="Enable self-registration.")
+    self_register: List[str] = Field(None, description="Enable self-registration.")
     fnames: List[str] = Field(
         None, description="full path to the file(s) for static dataset inputs."
     )
@@ -218,6 +219,7 @@ class WorkflowStepDefinitionModel(FrozenModel):
     arguments: Dict[str, Any] = Field(default_factory=dict, description="step args")
 
     @field_validator("kind", mode="before")
+    @classmethod
     def _validate_plugin_kind(cls, value: str) -> str:
         """
         Validate that 'kind' is a known plugin kind.
@@ -582,7 +584,7 @@ class WorkflowSpecModel(FrozenModel):
             elif (
                 step.get("kind") == "workflow"
                 and expand
-                and (step.get("spec") is None or spec.get("name"))
+                and (step.get("spec") is None or step.get("name"))
             ):
                 expanded_steps = cls.extend_dict(
                     expanded_steps, cls.expand_step(step, info)

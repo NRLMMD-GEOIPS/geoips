@@ -509,7 +509,6 @@ For example:
     To list installable test datasets,
     see ``geoips list test-datasets``.
 
-
 .. _geoips_config_create-registries:
 
 :ref:`geoips config create-registries <geoips_config_create-registries>`
@@ -678,6 +677,30 @@ This is useful for small sectors. For example:
 
 .. image:: canada.png
    :width: 800
+
+Additionally, you can display latitude / longitude gridlines on the generated sector
+image if desired. To add gridlines, add the ``--gridlines`` or ``-g`` flag to your
+command. This can be applied with the ``--overlay`` flag as well. For example:
+
+.. code-block:: bash
+
+    geoips test sector australia --gridlines
+    geoips test sector australia --gridlines --overlay
+
+By default, latitude / longitude labels are added to the sector if gridlines are
+requested. To disable this, or change the location of where the labels are added, use
+the ``--labels`` or ``-l`` flag. By default, labels are added to the bottom and left
+sides of the sector.
+
+You can add a ``--labels`` flag with no arguments to disable labels. Otherwise,
+choose one or more of the following options ['left', 'right', 'top', 'bottom'].
+For example:
+
+.. code-block:: bash
+
+    geoips test sector australia --gridlines --labels top right
+    geoips test sector australia --gridlines --labels
+    geoips test sector australia --gridlines --overlay --labels bottom
 
 test script
 ^^^^^^^^^^^

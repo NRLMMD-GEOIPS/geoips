@@ -20,12 +20,17 @@ enhancement:
 
     Updates to the plugin registry file will need to be transferred over to pluginify
     once those PRs have been merged and it's been migrated to PyPi.
+
+    Finally, added unit tests for new commands.
   files:
     added:
       - geoips/commandline/geoips_expand.py
-      - geoips/plugins/yaml/workflows/test_product.yaml
-      - geoips/plugins/yaml/workflows/test_product_default.yaml
-      - geoips/plugins/yaml/workflows/test_workflow.yaml
+      - geoips/plugins/yaml/workflows/unit_tests/test_bad_product_section.yaml
+      - geoips/plugins/yaml/workflows/unit_tests/test_product.yaml
+      - geoips/plugins/yaml/workflows/unit_tests/test_product_default.yaml
+      - geoips/plugins/yaml/workflows/unit_tests/test_workflow.yaml
+      - tests/unit_tests/commandline/test_geoips_exand.py
+      - tests/unit_tests/commandline/test_geoips_test_workflow.py
     modified:
       - .cspell.json
       - docs/source/concepts/functionality/command-line/index.rst
@@ -38,6 +43,7 @@ enhancement:
       - geoips/plugin_registry.py
       - geoips/plugins/modules/procflows/order_based.py
       - geoips/pydantic_models/v1/workflows.py
+      - tests/unit_tests/commandline/cli_top_level_tester.py
       - tests/unit_tests/pydantic_models/v1/workflows/test_workflow_step_definition_model.py
   related-issue:
     number: null

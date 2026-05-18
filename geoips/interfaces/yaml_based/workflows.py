@@ -9,7 +9,6 @@ from lexeme_type.lexeme import Lexeme
 
 from geoips.errors import PluginError
 from geoips.interfaces.base import BaseYamlInterface
-from geoips.filenames.base_paths import PATHS as gpaths
 
 LOG = logging.getLogger(__name__)
 
@@ -18,8 +17,7 @@ class WorkflowsInterface(BaseYamlInterface):
     """Interface for workflow plugins."""
 
     name = "workflows"
-    use_pydantic = gpaths["GEOIPS_USE_PYDANTIC"]
-    # validator = WorkflowPluginModel
+    use_pydantic = True  # Always use pydantic for workflows.
 
     def _set_nested(self, d, step_id, keys, argument, value):
         """Set a key value pair in a nested dictionary.

@@ -28,8 +28,8 @@ def call(workflow, fnames, command_line_args=None):
 
     Parameters
     ----------
-    workflow: str
-        The name of the workflow to process.
+    workflow: dict
+        The workflow plugin dictionary to process.
     fnames : list of str
         List of filenames from which to read data.
     command_line_args : list of str, None
@@ -39,10 +39,9 @@ def call(workflow, fnames, command_line_args=None):
         fnames = glob(fnames)
 
     LOG.interactive(f"Begin processing '{workflow.get('name', 'embedded')}' workflow.")
-    wf_plugin = workflow
 
     handled_interfaces = ["readers", "coverage_checkers", "workflows"]
-    for step_id, step_def in wf_plugin["spec"]["steps"].items():
+    for step_id, step_def in workflow["spec"]["steps"].items():
         interface = str(Lexeme(step_def["kind"]).plural)
 
         if interface not in handled_interfaces:

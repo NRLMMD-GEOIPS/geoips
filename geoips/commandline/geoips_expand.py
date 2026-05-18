@@ -7,12 +7,16 @@ Single 'geoips expand <workflow_name>' command which will fully expand a workflo
 case it has embedded workflows or products included in its steps.
 """
 
+# cspell:ignore gpaths
+
 from pygments import highlight
 from pygments.lexers import get_lexer_by_name
 from pygments.formatters import TerminalFormatter
 import yaml
 
 from geoips.commandline.geoips_command import GeoipsExecutableCommand
+from geoips.errors import PluginError
+from geoips.filenames.base_paths import PATHS as gpaths
 from geoips.interfaces import workflows
 
 
@@ -52,7 +56,21 @@ class GeoipsExpand(GeoipsExecutableCommand):
         """
         print()
         workflow_name = args.workflow_name
-        workflow = workflows.get_plugin(workflow_name, _expand=True)
+        # Set rebuild registries to false if we are dealing with a command from a unit
+        # test
+        rbr = (
+            False
+            if "non_existent" in workflow_name
+            else gpaths["GEOIPS_REBUILD_REGISTRIES"]
+        )
+        try:
+            workflow = workflows.get_plugin(
+                workflow_name, _expand=True, rebuild_registries=rbr
+            )
+        except PluginError:
+            self.parser.error(
+                f"Error: could not load workflow plugin under name '{workflow_name}'."
+            )
 
         formatted_wf = yaml.dump(
             dict(workflow), indent=2, default_flow_style=False, sort_keys=False

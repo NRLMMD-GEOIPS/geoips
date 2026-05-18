@@ -3,6 +3,8 @@
 
 """GeoIPS error module."""
 
+from pluginify.errors import PluginError  # NOQA ; used in various imports
+
 
 class FileFormatError(Exception):
     """Exception to be raised when a file is badly formatted and cannot be used."""
@@ -42,18 +44,6 @@ class OutputFormatterInvalidProjectionError(Exception):
     pass
 
 
-class PluginError(Exception):
-    """Exception to be raised when there is an error in a GeoIPS plugin."""
-
-    pass
-
-
-class PluginRegistryError(Exception):
-    """Exception to be raised when there is an error in a plugin registry."""
-
-    pass
-
-
 class CoverageError(Exception):
     """Raise exception on data coverage error."""
 
@@ -68,5 +58,11 @@ class PluginPackageNotFoundError(Exception):
 
 class CliError(Exception):
     """Raise exception on command line interface error."""
+
+    pass
+
+
+class DuplicateKeyError(Exception):
+    """Raised when a YAML mapping contains duplicate keys."""
 
     pass
