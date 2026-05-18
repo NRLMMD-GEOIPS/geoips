@@ -5,6 +5,7 @@
 
 # Third-Party Libraries
 import pytest
+import datetime as dt
 
 # GeoIPS Libraries
 from geoips.interfaces import sectors
@@ -160,4 +161,32 @@ def valid_output_checker_arguments(file_generated_from_pytest_fixture):
     return {
         "compare_path": file_generated_from_pytest_fixture,
         "output_products": [file_generated_from_pytest_fixture],
+    }
+
+
+@pytest.fixture
+def valid_workflow_spec_model_data():
+    """Fixture providing valid data testing WorkflowSpecModel fields."""
+    return {
+        "global_arguments": {
+            "presector": False,
+            "product_db": True,
+            "product_db_writer": "postgres_database",
+            "product_db_writer_kwargs": {
+                "overwrite": True,
+                "schema": "products",
+            },
+            "product_name": "Infrared-Gray",
+            "reader_defined_area_def": True,
+            "sector_list": ["TC2024"],
+            "window_start_time": dt.datetime(2024, 9, 26, 18, 0, 0),
+            "window_end_time": dt.datetime(2024, 9, 27, 3, 0, 0),
+        },
+        "steps": {
+            "read_data": {
+                "kind": "reader",
+                "name": "abi_netcdf",
+                "arguments": {},
+            }
+        },
     }
