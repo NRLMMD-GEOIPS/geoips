@@ -125,7 +125,15 @@ class ReaderArgumentsModel(PermissiveFrozenModel):
         ValueError
             If the input type is other than a list of pathlib.Path objects.
         """
-        fnames = [Path(fname) for fname in glob(str(value))]
+        fnames = []
+        if isinstance(value, str):
+            fnames = [Path(fname) for fname in glob(str(value))]
+        elif isinstance(value, list):
+            for item in value:
+                if not isinstance(item, Path):
+                    fnames.extend([Path(fname) for fname in glob(str(value))])
+                else:
+                    fnames.append(item)
 
         if not len(fnames):
             raise ValueError(
