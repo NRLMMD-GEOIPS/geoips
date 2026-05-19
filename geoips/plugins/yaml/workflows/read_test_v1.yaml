@@ -8,6 +8,16 @@ docstring: |
   This product utilizes channel 14 (11.2 µm) and highlights areas of deep convection within a Tropical Cyclone.
 description: 11.2 µm Infrared.
 spec:
+  global_arguments:
+    presector: False
+    product_db: False
+    product_db_writer: null
+    product_db_writer_kwargs: null
+    product_name: null
+    reader_defined_area_def: False
+    sector_list: []
+    window_start_time: null
+    window_end_time: null
   steps:
     reader:
       kind: reader
@@ -26,5 +36,3 @@ spec:
         max_outbounds: crop
         norm: null
         inverse: null
-    # workflow:
-    #     name: read_test
