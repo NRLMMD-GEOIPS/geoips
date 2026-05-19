@@ -10,6 +10,7 @@ from copy import deepcopy
 import pytest
 
 # GeoIPS imports
+from geoips.pydantic_models.v1.interpolators import InterpolatorArgumentsModel
 from geoips.pydantic_models.v1.readers import ReaderArgumentsModel
 from geoips.pydantic_models.v1.title_formatters import TitleFormatterArgumentsModel
 from geoips.pydantic_models.v1.output_checkers import OutputCheckerArgumentsModel
@@ -62,6 +63,10 @@ models_available = {
     "title_formatters": {
         "good_source": ("fixture", "valid_title_formatter_arguments"),
         "model": TitleFormatterArgumentsModel,
+    },
+    "interpolators": {
+        "good_source": ("fixture", "valid_interpolator_arguments"),
+        "model": InterpolatorArgumentsModel,
     },
     "workflows": {
         "good_source": ("fixture", "valid_workflow_spec_model_data"),

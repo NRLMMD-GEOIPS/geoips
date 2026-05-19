@@ -190,3 +190,15 @@ def valid_workflow_spec_model_data():
             }
         },
     }
+
+
+@pytest.fixture
+def valid_interpolator_arguments():
+    """Fixture providing valid data for InterpolatorArgumentsModel tests."""
+    return {
+        "area_def": "North Pole Region",
+        "varlist": ["B09BT", "B10BT", "B07BT"],
+        "sigmaval": 1000,
+        "drop_nan": True,
+        "method": "linear",
+    }
