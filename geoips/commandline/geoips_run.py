@@ -11,8 +11,8 @@ from colorama import Fore, Style
 from pathlib import Path
 
 import json
-import yaml
 
+import geoips.utils.yaml_utils as yaml
 from geoips.commandline.args import add_args
 from geoips.commandline.run_procflow import main
 from geoips.commandline.geoips_command import GeoipsCommand, GeoipsExecutableCommand
