@@ -18,6 +18,7 @@ class WorkflowsInterface(BaseYamlInterface):
 
     name = "workflows"
     use_pydantic = True  # Always use pydantic for workflows.
+    _override_types = ["globals", "kinds", "steps"]
 
     def _set_nested(self, d, step_id, keys, argument, value):
         """Set a key value pair in a nested dictionary.
@@ -69,13 +70,15 @@ class WorkflowsInterface(BaseYamlInterface):
         )
         return steps
 
-    def _override_kind(self, steps, override):
+    def _override_kind(self, steps, override_key, override):
         """Override an argument of a given kind.
 
         Parameters
         ----------
         steps: dict[dict]
             An ordered dictionary of steps to apply in a given workflow.
+        override_key: str
+            The name of the argument to override.
         override: Any
             The value of the override.
 
@@ -90,13 +93,15 @@ class WorkflowsInterface(BaseYamlInterface):
 
         return steps
 
-    def _override_global(self, steps, override):
+    def _override_global(self, steps, override_key, override):
         """Override an argument of a given global.
 
         Parameters
         ----------
         steps: dict[dict]
             An ordered dictionary of steps to apply in a given workflow.
+        override_key: str
+            The name of the argument to override.
         override: Any
             The value of the override.
 
@@ -106,8 +111,8 @@ class WorkflowsInterface(BaseYamlInterface):
             An overridden representation of 'steps'.
         """
         for id, step in steps.items():
-            if override["argument"] in step["arguments"]:
-                steps[id]["arguments"][override["argument"]] = override["value"]
+            if override_key in step["arguments"]:
+                steps[id]["arguments"][override_key] = override
         return steps
 
     def _override_workflow(self, workflow):
@@ -125,10 +130,14 @@ class WorkflowsInterface(BaseYamlInterface):
         """
         steps = workflow["spec"]["steps"]
 
-        for override_type, overrides in workflow["test"].get("overrides", {}).items():
+        for override_type in self._override_types:
             type_singular = Lexeme(override_type).singular
-            for override in overrides:
-                steps = getattr(self, f"_override_{type_singular}")(steps, override)
+            for override_key, override in (
+                workflow.get("test", {}).get(override_type).items()
+            ):
+                steps = getattr(self, f"_override_{type_singular}")(
+                    steps, override_key, override
+                )
 
         workflow["spec"]["steps"] = steps
 
