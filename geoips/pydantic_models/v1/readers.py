@@ -13,11 +13,13 @@
 from __future__ import annotations
 
 # Python Standard Libraries
+from glob import glob
 import logging
+from pathlib import Path
 from typing import Any, List
 
 # Third-Party Libraries
-from pydantic import Field, FilePath, field_validator, model_validator
+from pydantic import Field, field_validator, model_validator
 from pyresample.geometry import AreaDefinition
 import warnings
 
@@ -43,7 +45,7 @@ class ReaderArgumentsModel(PermissiveFrozenModel):
     )
     metadata_only: bool = Field(False, description="Read metadata only.")
     self_register: str = Field(None, description="Enable self-registration.")
-    fnames: List[FilePath] = Field(
+    fnames: List[Path] = Field(
         None, description="full path to the file(s) for static dataset inputs."
     )
     sectored_read: bool = Field(False)
@@ -97,6 +99,42 @@ class ReaderArgumentsModel(PermissiveFrozenModel):
         if isinstance(value, AreaDefinition):
             return value
         raise ValueError("Input should be a valid AreaDefinition")
+
+    @field_validator("fnames", mode="before")
+    @classmethod
+    def _validate_and_normalize_fnames(cls, value: Any) -> List[Path] | None:
+        """
+        Validate and normalize the input for 'fnames'.
+
+        This method handles the input for fnames as follows:
+        - asserts that fnames is one or more valid, existing filepaths
+        - converts them to pathlib.Path objects
+
+        Parameters
+        ----------
+        value: Any
+            Input values for 'fnames'
+
+        Returns
+        -------
+        list[PosixPath]
+            A valid list of pathlib.Path objects.
+
+        Raises
+        ------
+        ValueError
+            If the input type is other than a list of pathlib.Path objects.
+        """
+        fnames = [Path(fname) for fname in glob(str(value))]
+
+        if not len(fnames):
+            raise ValueError(
+                f"Error: input argument for {fnames} could not be associated with one "
+                "or more existing file paths. Please ensure this data exists before "
+                "continuing."
+            )
+
+        return fnames
 
     @model_validator(mode="before")
     def _handle_deprecated_chans(cls, values):
