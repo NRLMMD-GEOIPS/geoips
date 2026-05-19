@@ -131,7 +131,7 @@ class ReaderArgumentsModel(PermissiveFrozenModel):
         elif isinstance(value, list):
             for item in value:
                 if not isinstance(item, Path):
-                    fnames.extend([Path(fname) for fname in glob(str(value))])
+                    fnames.extend([Path(fname) for fname in glob(str(item))])
                 else:
                     fnames.append(item)
 
