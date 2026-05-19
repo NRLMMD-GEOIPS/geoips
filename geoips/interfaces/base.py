@@ -20,8 +20,8 @@ from pluginify.interfaces.base import (  # NOQA: F401
     BaseClassInterface as pluginify_base_class,
     BaseYamlPlugin,
 )  # imports used elsewhere in GeoIPS
-import yaml
 
+import geoips.utils.yaml_utils as yaml
 from geoips.errors import PluginError
 
 LOG = logging.getLogger(__name__)

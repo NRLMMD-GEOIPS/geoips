@@ -11,9 +11,10 @@ import pytest
 
 # GeoIPS imports
 from geoips.pydantic_models.v1.interpolators import InterpolatorArgumentsModel
-from geoips.pydantic_models.v1.output_checkers import OutputCheckersArgumentsModel
 from geoips.pydantic_models.v1.readers import ReaderArgumentsModel
 from geoips.pydantic_models.v1.title_formatters import TitleFormatterArgumentsModel
+from geoips.pydantic_models.v1.output_checkers import OutputCheckerArgumentsModel
+from geoips.pydantic_models.v1.workflows import WorkflowSpecModel
 from tests.unit_tests.pydantic_models.v1.utils import (
     PathDict,
     load_geoips_yaml_plugin,
@@ -57,7 +58,7 @@ models_available = {
     },
     "output_checkers": {
         "good_source": ("fixture", "valid_output_checker_arguments"),
-        "model": OutputCheckersArgumentsModel,
+        "model": OutputCheckerArgumentsModel,
     },
     "title_formatters": {
         "good_source": ("fixture", "valid_title_formatter_arguments"),
@@ -66,6 +67,9 @@ models_available = {
     "interpolators": {
         "good_source": ("fixture", "valid_interpolator_arguments"),
         "model": InterpolatorArgumentsModel,
+    "workflows": {
+        "good_source": ("fixture", "valid_workflow_spec_model_data"),
+        "model": WorkflowSpecModel,
     },
 }
 
