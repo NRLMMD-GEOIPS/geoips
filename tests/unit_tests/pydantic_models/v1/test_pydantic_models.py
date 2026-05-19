@@ -67,6 +67,7 @@ models_available = {
     "interpolators": {
         "good_source": ("fixture", "valid_interpolator_arguments"),
         "model": InterpolatorArgumentsModel,
+    },
     "workflows": {
         "good_source": ("fixture", "valid_workflow_spec_model_data"),
         "model": WorkflowSpecModel,
