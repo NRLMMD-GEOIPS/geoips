@@ -169,7 +169,7 @@ class GlobalVariablesModel(PermissiveFrozenModel):
 
     presector: bool = Field(
         False,
-        description="Specify whether to resector the data prior to applying "
+        description="Specify whether to presector the data prior to applying "
         "the algorithm",
     )
     product_db: bool = Field(False)
