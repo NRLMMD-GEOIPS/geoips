@@ -26,8 +26,9 @@ class AlgorithmArgumentsModel(PermissiveFrozenModel):
         description="List of input variables used in algorithm processing",
     )
     output_data_range: tuple[StrictFloat, StrictFloat] = Field(
-        description="list of min and max value for wind speeds (kts or m s-1). "
-        "Defaults to None, which results in using data.min and data.max.",
+        description="list of min and max value for output data product."
+        " This is applied LAST after all other corrections/adjustments."
+        " If None, use data.min() and data.max()",
     )
     min_outbounds: str = Field(
         description="Method to use when applying minimum value of"
