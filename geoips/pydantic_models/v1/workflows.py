@@ -145,6 +145,8 @@ class AlgorithmStepValidationModel(PermissiveFrozenModel):
                 " algorithm plugin."
             )
         return self
+
+
 class GlobalVariablesModel(PermissiveFrozenModel):
     """Workflow-level global variables shared across all steps.
 

@@ -10,10 +10,11 @@ from copy import deepcopy
 import pytest
 
 # GeoIPS imports
+from geoips.pydantic_models.v1.algorithms import AlgorithmArgumentsModel
 from geoips.pydantic_models.v1.interpolators import InterpolatorArgumentsModel
+from geoips.pydantic_models.v1.output_checkers import OutputCheckerArgumentsModel
 from geoips.pydantic_models.v1.readers import ReaderArgumentsModel
 from geoips.pydantic_models.v1.title_formatters import TitleFormatterArgumentsModel
-from geoips.pydantic_models.v1.output_checkers import OutputCheckerArgumentsModel
 from geoips.pydantic_models.v1.workflows import WorkflowSpecModel
 from tests.unit_tests.pydantic_models.v1.utils import (
     PathDict,
@@ -67,6 +68,7 @@ models_available = {
     "algorithms": {
         "good_source": ("fixture", "valid_algorithm_arguments"),
         "model": AlgorithmArgumentsModel,
+    },
     "interpolators": {
         "good_source": ("fixture", "valid_interpolator_arguments"),
         "model": InterpolatorArgumentsModel,
