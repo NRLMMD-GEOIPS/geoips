@@ -3,6 +3,8 @@
 
 """Workflow interface module."""
 
+from collections.abc import Mapping
+from copy import deepcopy
 import logging
 
 from lexeme_type.lexeme import Lexeme
@@ -46,41 +48,142 @@ class WorkflowsInterface(BaseYamlInterface):
 
         return d
 
-    def _override_step(self, steps, override):
-        """Override an argument of a given step.
+    def _is_leaf_step(self, node):
+        """Determine if the input data is a leaf step.
+
+        A leaf step is something like:
+            algorithm:
+              output_units: Kelvin
+
+        Where none of the values map to {'spec': {'steps': {}}}
 
         Parameters
         ----------
-        steps: dict[dict]
-            An ordered dictionary of steps to apply in a given workflow.
-        override: Any
-            The value of the override.
-
-        Returns
-        -------
-        steps: dict[dict]
-            An overridden representation of 'steps'.
+        node: dict[str, Any] or dict[dict]
+            The current node of the nested steps dictionary.
         """
-        steps = self._set_nested(
-            steps,
-            override["step_id"],
-            override["keys"],
-            override["argument"],
-            override["value"],
+        if not isinstance(node, Mapping):
+            return False
+
+        return not (
+            "spec" in node
+            and isinstance(node["spec"], Mapping)
+            and "steps" in node["spec"]
         )
+
+    def _collect_step_overrides(self, steps):
+        """Recursively collect all step overrides into the following format.
+
+        {step_id: {argument: value, ...}, ...}
+
+        Parameters
+        ----------
+        steps: dict[str, Any] or dict[dict]
+            A potential nested dictionary of steps to override.
+        """
+        steps = {}
+
+        def walk(node):
+            """Walk the potential nested dictionary of steps and override leaf steps.
+
+            Parameters
+            ----------
+            node: dict[str, Any] or dict[dict]
+                The current node of the nested steps dictionary.
+            """
+            if not isinstance(node, Mapping):
+                return
+
+            for key, value in node.items():
+                # If not a dictionary, continue
+                if not isinstance(value, Mapping):
+                    continue
+                # Nested step dictionary:
+                # step_id:
+                #   spec:
+                #     steps:
+                if (
+                    "spec" in value
+                    and isinstance(value["spec"], Mapping)
+                    and "steps" in value["spec"]
+                ):
+                    walk(value["spec"]["steps"])
+                # Actual override
+                elif self._is_leaf_step(value):
+                    steps[key] = dict(value)
+                    walk(value)
+                else:
+                    walk(value)
+
+        walk(steps)
         return steps
 
-    def _override_kind(self, steps, override_key, override):
-        """Override an argument of a given kind.
+    def _recursively_override(
+        self,
+        steps,
+        id,
+        argument_name,
+        value,
+        interface,
+    ):
+        """Override an argument for a step, kind, or global.
 
         Parameters
         ----------
         steps: dict[dict]
             An ordered dictionary of steps to apply in a given workflow.
-        override_key: str
+        id: str
+            The step identification name.
+        argument_name: str
             The name of the argument to override.
-        override: Any
+        value: Any
             The value of the override.
+        interface: str or None
+            The name of an interface whose arguments to override.
+
+        Returns
+        -------
+        steps: dict[dict]
+            An overridden representation of 'steps'.
+        """
+        if steps[id].get("arguments") and argument_name in steps[id].get("arguments"):
+            steps[id]["arguments"][argument_name] = value
+        # If their are no arguments because a spec: steps is specified, then
+        # recursively call
+        elif not steps[id].get("arguments") and steps[id].get("spec", {}).get("steps"):
+            for step_id in steps[id]["spec"]["steps"]:
+                steps[id]["spec"]["steps"] = self._recursively_override(
+                    steps[id]["spec"]["steps"],
+                    step_id,
+                    argument_name,
+                    value,
+                    interface,
+                )
+
+        return steps
+
+    def _apply_override(
+        self,
+        override_type,
+        steps,
+        argument_name,
+        value,
+        interface=None,
+    ):
+        """Override an argument for a step, kind, or global.
+
+        Parameters
+        ----------
+        override_type: str
+            The type of override being applied. One of ['globals', 'kinds', 'steps']
+        steps: dict[dict]
+            An ordered dictionary of steps to apply in a given workflow.
+        argument_name: str
+            The name of the argument to override.
+        value: Any
+            The value of the override.
+        interface: str or None
+            The name of an interface whose arguments to override.
 
         Returns
         -------
@@ -88,31 +191,23 @@ class WorkflowsInterface(BaseYamlInterface):
             An overridden representation of 'steps'.
         """
         for id, step in steps.items():
-            if Lexeme(step["kind"]).singular == Lexeme(override["kind"]).singular:
-                steps[id]["arguments"][override["argument"]] = override["value"]
-
-        return steps
-
-    def _override_global(self, steps, override_key, override):
-        """Override an argument of a given global.
-
-        Parameters
-        ----------
-        steps: dict[dict]
-            An ordered dictionary of steps to apply in a given workflow.
-        override_key: str
-            The name of the argument to override.
-        override: Any
-            The value of the override.
-
-        Returns
-        -------
-        steps: dict[dict]
-            An overridden representation of 'steps'.
-        """
-        for id, step in steps.items():
-            if override_key in step["arguments"]:
-                steps[id]["arguments"][override_key] = override
+            if override_type == "globals":
+                self._recursively_override(
+                    steps,
+                    id,
+                    argument_name,
+                    value,
+                    interface,
+                )
+            elif override_type == "kinds":
+                if Lexeme(step["kind"]).singular == Lexeme(interface).singular:
+                    self._recursively_override(
+                        steps,
+                        id,
+                        argument_name,
+                        value,
+                        interface,
+                    )
         return steps
 
     def _override_workflow(self, workflow):
@@ -128,17 +223,25 @@ class WorkflowsInterface(BaseYamlInterface):
         overridden: dict
             The overridden representation of 'workflow'.
         """
-        steps = workflow["spec"]["steps"]
+        steps = deepcopy(workflow["spec"]["steps"])
 
-        for override_type in self._override_types:
-            type_singular = Lexeme(override_type).singular
-            for override_key, override in (
-                workflow.get("test", {}).get(override_type).items()
-            ):
-                steps = getattr(self, f"_override_{type_singular}")(
-                    steps, override_key, override
+        # override globals
+        for argument_name, value in workflow.get("test", {}).get("globals").items():
+            steps = self._apply_override("globals", steps, argument_name, value)
+
+        # override kinds
+        for interface, overrides in workflow.get("test", {}).get("kinds").items():
+            for argument_name, value in overrides.items():
+                steps = self._apply_override(
+                    "kinds", steps, argument_name, value, interface
                 )
 
+        step_arg_override_pairs = self._collect_step_overrides(
+            workflow.get("test", {}).get("steps").items()
+        )
+        for step_id, overrides in step_arg_override_pairs:
+            for argument_name, value in overrides:
+                steps = self._recursively_override(steps, step_id, argument_name, value)
         workflow["spec"]["steps"] = steps
 
         return workflow

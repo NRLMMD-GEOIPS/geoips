@@ -160,12 +160,20 @@ class BaseClassPlugin(ABC):
         #     "sector_spec_generators",
         #     # "sector_metadata_generators",
         # ]:
+        provided_args = set(args).union(set(kwargs))
+        accepted_args = set(list(inspect.signature(self.call).parameters.keys()))
+        unaccepted_args = provided_args - accepted_args
+        for arg in unaccepted_args:
+            provided_args.remove(arg)
+
+        new_kwargs = {kwarg: kwargs[kwarg] for kwarg in provided_args}
+
         if data is None:
-            data = self.call(*args, **kwargs)
+            data = self.call(*args, **new_kwargs)
         else:
-            data = self._pre_call(data, *args, **kwargs)
-            data = self.call(data, *args, **kwargs)
-            data = self._post_call(data, *args, **kwargs)
+            data = self._pre_call(data, *args, **new_kwargs)
+            data = self.call(data, *args, **new_kwargs)
+            data = self._post_call(data, *args, **new_kwargs)
         return data
 
     def __init__(self, module=None):
