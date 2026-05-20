@@ -23,7 +23,7 @@ test:
             output_units: Kelvin
   kinds:
     readers:
-      self_register: False
+      satellite_zenith_angle_cutoff: 80
   globals:
     sector_list: global_cylindrical
     logging_level: info

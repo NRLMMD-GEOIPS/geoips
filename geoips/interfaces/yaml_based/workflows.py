@@ -48,74 +48,43 @@ class WorkflowsInterface(BaseYamlInterface):
 
         return d
 
-    def _is_leaf_step(self, node):
-        """Determine if the input data is a leaf step.
-
-        A leaf step is something like:
-            algorithm:
-              output_units: Kelvin
-
-        Where none of the values map to {'spec': {'steps': {}}}
+    def _apply_step_override(self, steps, override):
+        """Recursively apply step overrides.
 
         Parameters
         ----------
-        node: dict[str, Any] or dict[dict]
-            The current node of the nested steps dictionary.
+        steps: dict[dict]
+            An ordered dictionary of steps to apply in a given workflow.
+        override: dict[str, Any] or dict[dict]
+            A dictionary of overrides that is either key: value or a dictionary that
+            may contain one or more key: value pairs.
+
+        Returns
+        -------
+        steps: dict[dict]
+            An overridden representation of 'steps'.
         """
-        if not isinstance(node, Mapping):
-            return False
+        # if the current override node is not a dictionary, just return
+        if not isinstance(override, Mapping):
+            return
 
-        return not (
-            "spec" in node
-            and isinstance(node["spec"], Mapping)
-            and "steps" in node["spec"]
-        )
+        for key, value in override.items():
+            # if an override key is missing from the given workflow, raise a KeyError
+            if isinstance(value, Mapping):
+                try:
+                    step = steps[key]
+                except KeyError:
+                    raise KeyError(
+                        "Error: the requested override cannot access a given key, value"
+                        f" pair because it does not exist. Missing key = '{key}'."
+                    )
 
-    def _collect_step_overrides(self, steps):
-        """Recursively collect all step overrides into the following format.
+                if isinstance(step, Mapping) and isinstance(value, Mapping):
+                    self._apply_step_override(step, value)
+            # Leaf value -> override directly
+            else:
+                steps["arguments"][key] = value
 
-        {step_id: {argument: value, ...}, ...}
-
-        Parameters
-        ----------
-        steps: dict[str, Any] or dict[dict]
-            A potential nested dictionary of steps to override.
-        """
-        steps = {}
-
-        def walk(node):
-            """Walk the potential nested dictionary of steps and override leaf steps.
-
-            Parameters
-            ----------
-            node: dict[str, Any] or dict[dict]
-                The current node of the nested steps dictionary.
-            """
-            if not isinstance(node, Mapping):
-                return
-
-            for key, value in node.items():
-                # If not a dictionary, continue
-                if not isinstance(value, Mapping):
-                    continue
-                # Nested step dictionary:
-                # step_id:
-                #   spec:
-                #     steps:
-                if (
-                    "spec" in value
-                    and isinstance(value["spec"], Mapping)
-                    and "steps" in value["spec"]
-                ):
-                    walk(value["spec"]["steps"])
-                # Actual override
-                elif self._is_leaf_step(value):
-                    steps[key] = dict(value)
-                    walk(value)
-                else:
-                    walk(value)
-
-        walk(steps)
         return steps
 
     def _recursively_override(
@@ -146,19 +115,22 @@ class WorkflowsInterface(BaseYamlInterface):
         steps: dict[dict]
             An overridden representation of 'steps'.
         """
-        if steps[id].get("arguments") and argument_name in steps[id].get("arguments"):
-            steps[id]["arguments"][argument_name] = value
         # If their are no arguments because a spec: steps is specified, then
         # recursively call
-        elif not steps[id].get("arguments") and steps[id].get("spec", {}).get("steps"):
+        if steps[id].get("spec", {}).get("steps"):
             for step_id in steps[id]["spec"]["steps"]:
                 steps[id]["spec"]["steps"] = self._recursively_override(
-                    steps[id]["spec"]["steps"],
+                    deepcopy(steps[id]["spec"]["steps"]),
                     step_id,
                     argument_name,
                     value,
                     interface,
                 )
+        # Add the argument regardless of whether or not the plugin accepts it. It will
+        # be removed during the _invoke method if it's not accepted.
+        elif steps[id].get("arguments") is not None:
+            # accepts an empty dictionary
+            steps[id]["arguments"][argument_name] = value
 
         return steps
 
@@ -191,7 +163,7 @@ class WorkflowsInterface(BaseYamlInterface):
             An overridden representation of 'steps'.
         """
         for id, step in steps.items():
-            if override_type == "globals":
+            if override_type in ["globals", "steps"]:
                 self._recursively_override(
                     steps,
                     id,
@@ -235,13 +207,10 @@ class WorkflowsInterface(BaseYamlInterface):
                 steps = self._apply_override(
                     "kinds", steps, argument_name, value, interface
                 )
+        # override steps
+        for step_id, override in workflow.get("test", {}).get("steps").items():
+            steps = self._apply_step_override(steps, {step_id: override})
 
-        step_arg_override_pairs = self._collect_step_overrides(
-            workflow.get("test", {}).get("steps").items()
-        )
-        for step_id, overrides in step_arg_override_pairs:
-            for argument_name, value in overrides:
-                steps = self._recursively_override(steps, step_id, argument_name, value)
         workflow["spec"]["steps"] = steps
 
         return workflow
@@ -298,6 +267,10 @@ class WorkflowsInterface(BaseYamlInterface):
             "relpath": expanded_workflow["relpath"],
             "spec": expanded_workflow["spec"],
         }
+
+        from IPython import embed as shell
+
+        shell()
 
         WorkflowPluginModel(**plugin_subset)
 
