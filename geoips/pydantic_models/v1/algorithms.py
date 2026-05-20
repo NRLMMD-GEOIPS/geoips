@@ -12,19 +12,13 @@ from typing import Dict, List, Optional
 from pydantic import ConfigDict, Field, StrictBool, StrictFloat, StrictInt
 
 # GeoIPS imports
-from geoips.pydantic_models.v1.bases import FrozenModel
+from geoips.pydantic_models.v1.bases import PermissiveFrozenModel
 
 
-class CommonAlgorithmArgumentsModel(FrozenModel):
-    """Common arguments shared by multiple algorithm plugins.
+class AlgorithmArgumentsModel(PermissiveFrozenModel):
+    """Algorithm step argument definition.
 
-    A Pydantic model defining and validating parameters shared across model-based
-    algorithm plugins such as ``model_channel`` and ``model_windbarbs``. These
-    parameters control:
-
-    * Selection of data along time or other dimensions
-    * Optional scaling of output data variables
-    * Processing of values outside the specified data range
+    Pydantic model defining and validating Algorithm step arguments.
     """
 
     variables: Optional[List[str]] = Field(
@@ -83,19 +77,7 @@ class CommonAlgorithmArgumentsModel(FrozenModel):
         description="Units of input data, for applying "
         "necessary conversions. Defaults to None, resulting in no unit conversions.",
     )
-
-
-class PressureWindsAlgorithmArgumentsModel(FrozenModel):
-    """Arguments specific to Dervied Motion Wind Products."""
-
-    var_map: Optional[Dict[str, str]] = Field(
-        {}, description="Dictionary that maps input variables to names used in xobj"
-    )
-
-
-class VisIRSpecificAlgorithmArgumentsModel(FrozenModel):
-    """Arguments specific to Visible and Infrared algorithm plugins."""
-
+    model_config = ConfigDict(extra="allow")
     gamma_list: Optional[List[StrictFloat]] = Field([])
     min_night_zen: Optional[float] = Field(None)
     max_night_zen: StrictFloat = Field(90)
@@ -111,34 +93,16 @@ class VisIRSpecificAlgorithmArgumentsModel(FrozenModel):
         "      (see data_manipulations.corrections.apply_solar_zenith_correction)"
         "  * If False, returned data will not be modified based on solar zenith angle)",
     )
-
-
-class ModelSpecificAlgorithmArgumentsModel(FrozenModel):
-    """Common arguments shared only by model-based algorithms."""
-
-    pressure_key: str | None = Field(None)
-    time_key: str = Field(...)
-    time_fcst: StrictInt = Field(-1)
-    time_dim: StrictInt | None = Field(None, alias="Time_Dimension")
-    grid_geo: StrictBool = Field(False)
-
-
-class AlgorithmArgumentsModel(
-    CommonAlgorithmArgumentsModel,
-    ModelSpecificAlgorithmArgumentsModel,
-    VisIRSpecificAlgorithmArgumentsModel,
-    PressureWindsAlgorithmArgumentsModel,
-):
-    """Algorithm step argument definition.
-
-    Pydantic model defining and validating Algorithm step arguments.
-    """
-
-    model_config = ConfigDict(extra="allow")
     satellite_zenith_angle_cutoff: Optional[float] = Field(
         None,
         description="Cutoff for masking data where satellite zenith angle exceeds"
         "threshold. None, no masking",
     )
-
-    pass
+    pressure_key: str | None = Field(None)
+    time_key: str = Field(...)
+    time_fcst: StrictInt = Field(-1)
+    time_dim: StrictInt | None = Field(None, alias="Time_Dimension")
+    grid_geo: StrictBool = Field(False)
+    var_map: Optional[Dict[str, str]] = Field(
+        {}, description="Dictionary that maps input variables to names used in xobj"
+    )

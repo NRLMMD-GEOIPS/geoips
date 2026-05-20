@@ -2,82 +2,82 @@ variables_valid_input:
   description: "Ensure valid values for variables is accepted"
   key: variables
   val: [solar_zenith_angle', 'DNBRad', 'M16BT']
-  cls: CommonAlgorithmArgumentsModel
+  cls: AlgorithmArgumentsModel
 variables_default_input:
   description: "Ensure default value for variables field is accepted"
   key: variables
   val: [None]
-  cls: CommonAlgorithmArgumentsModel
+  cls: AlgorithmArgumentsModel
 variables_missing_input:
   description: "Validate that a missing variables field is accepted when optional"
   key: variables
   val: 
-  cls: CommonAlgorithmArgumentsModel
+  cls: AlgorithmArgumentsModel
 output_data_range_valid_input:
   description: "Ensure valid value for output_data_range is accepted"
   key: output_data_range
   val: [-90.0, 30.0]
-  cls: CommonAlgorithmArgumentsModel
+  cls: AlgorithmArgumentsModel
 output_data_range_default_input:
   description: "Ensure valid value for output_data_range is accepted"
   key: output_data_range
   val: [null, null]
-  cls: CommonAlgorithmArgumentsModel
+  cls: AlgorithmArgumentsModel
 output_data_range_missing_input:
   description: "Validate that a missing output_data_range field is accepted when optional"
   key: output_data_range
   val: [null, null]
-  cls: CommonAlgorithmArgumentsModel
+  cls: AlgorithmArgumentsModel
 min_outbounds_valid_input:
   description: "Ensure valid value for min_outbounds is accepted"
   key: min_outbounds
   val: crop
-  cls: CommonAlgorithmArgumentsModel
+  cls: AlgorithmArgumentsModel
 max_outbounds_valid_input:
   description: "Ensure valid value for max_outbounds is accepted"
   key: max_outbounds
   val: crop
-  cls: CommonAlgorithmArgumentsModel
+  cls: AlgorithmArgumentsModel
 norm_valid_input:
   description: "Ensure valid value for norm is accepted"
   key: norm
   val: True
-  cls: CommonAlgorithmArgumentsModel
+  cls: AlgorithmArgumentsModel
 inverse_valid_input:
   description: "Ensure valid value for inverse field is accepted"
   key: inverse
   val: True
-  cls: CommonAlgorithmArgumentsModel
+  cls: AlgorithmArgumentsModel
 pressure_level_range_valid_input:
   description: "Ensure valid value for pressure_level_range is accepted"
   key: pressure_level_range
   val: [0, 1000]
-  cls: CommonAlgorithmArgumentsModel
+  cls: AlgorithmArgumentsModel
 pressure_level_range_default_input:
   description: "Ensure default value for pressure_level_range is accepted"
   key: pressure_level_range
   val: [null, null]
-  cls: CommonAlgorithmArgumentsModel
+  cls: AlgorithmArgumentsModel
 input_units_valid_input:
   description: "Ensure valid value for input units is accepted"
   key: input_units
   val: Kelvin
-  cls: CommonAlgorithmArgumentsModel
+  cls: AlgorithmArgumentsModel
 input_units_default_input:
   description: "Ensure default value for input units is accepted"
   key: input_units
   val: None
-  cls: CommonAlgorithmArgumentsModel
+  cls: AlgorithmArgumentsModel
 ouptut_units_valid_input:
   description: "Ensure valid value for output units is accepted"
   key: output_units
   val: Kelvin
-  cls: CommonAlgorithmArgumentsModel
+  cls: AlgorithmArgumentsModel
 output_units_default_input:
   description: "Ensure default value for output units is accepted"
   key: output_units
   val: None
-  cls: CommonAlgorithmArgumentsModel
+  cls: AlgorithmArgumentsModel
 var_map_valid_input:
   description: "Ensure default value for var_map is accepted"
   key: var_map
