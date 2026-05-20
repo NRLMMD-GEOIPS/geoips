@@ -43,6 +43,7 @@ enhancement:
       - geoips/plugin_registry.py
       - geoips/plugins/modules/procflows/order_based.py
       - geoips/pydantic_models/v1/workflows.py
+      - pyproject.toml
       - tests/unit_tests/commandline/cli_top_level_tester.py
       - tests/unit_tests/pydantic_models/v1/workflows/test_workflow_step_definition_model.py
   related-issue:

@@ -42,6 +42,12 @@ class TestGeoipsTestWorkflow(BaseCliTest):
         error: str
             - Multiline str representing the error output of the CLI call
         """
+        # This can occur for the 'test_product' unit test if the data is missing on your
+        # device
+        if "could not be associated with one or more existing file paths." in error:
+            assert "1 validation error for ReaderArgumentsModel" in error
+            return
+
         assert "To use, type `geoips test workflow <workflow_name>" in error
 
         if "non_existent" in args[-1]:

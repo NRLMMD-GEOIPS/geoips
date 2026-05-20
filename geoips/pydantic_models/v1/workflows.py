@@ -18,6 +18,7 @@ from __future__ import annotations
 
 # Python Standard Libraries
 from copy import deepcopy
+import datetime as dt
 from glob import glob
 import logging
 from os import environ
@@ -43,6 +44,7 @@ from geoips.pydantic_models.v1.bases import (
     PermissiveFrozenModel,
 )
 from geoips.pydantic_models.v1.coverage_checkers import CoverageCheckerArgumentsModel
+from geoips.pydantic_models.v1.interpolators import InterpolatorArgumentsModel
 from geoips.pydantic_models.v1.readers import ReaderArgumentsModel
 from geoips.utils.types.partial_lexeme import Lexeme
 
@@ -116,6 +118,11 @@ def get_plugin_kinds() -> set[str]:
     }
 
 
+# NOTE: We need to move all of the argument models to their own module once implemented
+# and supported by the OBP. geoips.plugins.modules.procflows.order_based:validate_arguments  # NOQA
+# will not work otherwise
+
+
 class OutputFormatterArgumentsModel(PermissiveFrozenModel):
     """Validate Output Formatter arguments."""
 
@@ -140,12 +147,6 @@ class ColormapperArgumentsModel(PermissiveFrozenModel):
     pass
 
 
-class InterpolatorArgumentsModel(PermissiveFrozenModel):
-    """Validate Interpolator arguments."""
-
-    pass
-
-
 class ProductDefaultArgumentsModel(PermissiveFrozenModel):
     """Validate product default arguments."""
 
@@ -163,6 +164,87 @@ class WorkflowArgumentsModel(PermissiveFrozenModel):
 
     model_config = ConfigDict(extra="allow")
     pass
+
+
+class GlobalVariablesModel(PermissiveFrozenModel):
+    """Workflow-level global variables shared across all steps.
+
+    Carries fields that apply uniformly to every step of an
+    Order-Based Procflow workflow rather than belonging to a
+    single step's arguments. (e.g. temporal windowing, product
+    identification, product DB output configuration, and the
+    presectoring toggle)
+    """
+
+    presector: bool = Field(
+        False,
+        description="Specify whether to presector the data prior to applying "
+        "the algorithm",
+    )
+    product_db: bool = Field(False)
+    product_db_writer: str | None = Field(None)
+    product_db_writer_kwargs: Dict[str, Any] | None = Field(None)
+    product_name: str | None = Field(None)
+    reader_defined_area_def: bool = Field(False)
+    sector_list: List[str] | None = Field(None)
+    window_start_time: dt.datetime | None = Field(
+        None,
+        description="If specified, sector temporally between window_start_time "
+        "and window_end_time.",
+    )
+    window_end_time: dt.datetime | None = Field(
+        None,
+        description="If specified, sector temporally between window_start_time "
+        "and window_end_time.",
+    )
+
+    @model_validator(mode="after")
+    def _validate_product_db_requires_writer(
+        cls, model: GlobalVariablesModel
+    ) -> GlobalVariablesModel:
+        """Validate that product_db is fully defined.
+
+        If product_db is defined, then a corresponding product must be specified
+        as a string in product_db_writer. Also check the opposite case, where
+        product_db_writer is defined, but product_db is false.
+        """
+        if model.product_db and model.product_db_writer is None:
+            raise ValueError(
+                "product_db is set while product_db_writer is not defined. "
+                "Please specify a valid product_db_writer."
+            )
+        if model.product_db_writer is not None and not model.product_db:
+            raise ValueError(
+                f"product_db_writer is defined as: `{model.product_db_writer}` "
+                "but product_db is False or unspecified.\nPlease explicitly "
+                "invoke 'product_db = True' or drop product_db_writer."
+            )
+
+        return model
+
+    @model_validator(mode="after")
+    def _validate_window_start_requires_end(
+        cls, model: GlobalVariablesModel
+    ) -> GlobalVariablesModel:
+        """Validate the specified time range.
+
+        If window_start_time is defined, then window_end_time must also be
+        defined. The reverse situation is also checked.
+        """
+        if model.window_start_time is not None and model.window_end_time is None:
+            raise ValueError(
+                f"window_start_time is defined as `{model.window_start_time}` "
+                "but there is no defined window_end_time. Please specify a "
+                "window_end_time."
+            )
+        if model.window_end_time is not None and model.window_start_time is None:
+            raise ValueError(
+                f"window_end_time is defined as `{model.window_end_time}` "
+                "but there is no defined window_start_time. Please specify a "
+                "window_start_time."
+            )
+
+        return model
 
 
 class WorkflowStepDefinitionModel(FrozenModel):
@@ -356,6 +438,9 @@ class WorkflowSpecModel(FrozenModel):
     """The specification for a workflow."""
 
     # list of steps
+    global_arguments: GlobalVariablesModel | None = Field(
+        None, description="Arguments shared across workflow steps"
+    )
     steps: Dict[str, WorkflowStepDefinitionModel] = Field(
         ..., description="Steps to produce the workflow."
     )
