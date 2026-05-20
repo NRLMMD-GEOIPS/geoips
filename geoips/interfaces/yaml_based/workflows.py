@@ -20,33 +20,6 @@ class WorkflowsInterface(BaseYamlInterface):
 
     name = "workflows"
     use_pydantic = True  # Always use pydantic for workflows.
-    _override_types = ["globals", "kinds", "steps"]
-
-    def _set_nested(self, d, step_id, keys, argument, value):
-        """Set a key value pair in a nested dictionary.
-
-        Parameters
-        ----------
-        d: dict[dict]
-            The nested dictionary to set a key, value pair in.
-        keys: list[str]
-            A list of keys to access the nested dictionaries.
-        argument: str
-            The final key to set value to.
-        value: Any
-            The value to assign to a key that's in a nested dictionary.
-
-        Returns
-        -------
-        d: dict[dict]
-            A nested dictionary.
-        """
-        current = d
-        for key in [step_id] + keys:
-            current = current.get(key, {})
-        current["arguments"][argument] = value
-
-        return d
 
     def _apply_step_override(self, steps, override):
         """Recursively apply step overrides.
