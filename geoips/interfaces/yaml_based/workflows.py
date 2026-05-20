@@ -268,10 +268,6 @@ class WorkflowsInterface(BaseYamlInterface):
             "spec": expanded_workflow["spec"],
         }
 
-        from IPython import embed as shell
-
-        shell()
-
         WorkflowPluginModel(**plugin_subset)
 
         return expanded_workflow

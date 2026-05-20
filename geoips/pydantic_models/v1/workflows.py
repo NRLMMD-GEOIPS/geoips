@@ -250,7 +250,9 @@ class WorkflowStepDefinitionModel(FrozenModel):
     kind: Lexeme = Field(..., description="plugin kind")
     name: str | tuple[str] = Field(None, description="plugin name", init=False)
     spec: WorkflowSpecModel = Field(None, description="The workflow specification")
-    arguments: Dict[str, Any] = Field(default_factory=dict, description="step args")
+    arguments: Dict[str, Any] | None = Field(
+        default_factory=dict, description="step args"
+    )
 
     @field_validator("kind", mode="before")
     @classmethod
@@ -314,6 +316,7 @@ class WorkflowStepDefinitionModel(FrozenModel):
         if values.get("kind") == "workflow":
             if (values.get("name") is None) == (values.get("spec") is None):
                 raise ValueError("Exactly one of 'name' or 'spec' must be provided.")
+            values["arguments"] = None
         else:
             if values.get("spec"):
                 raise ValueError(
@@ -388,6 +391,10 @@ class WorkflowStepDefinitionModel(FrozenModel):
         WorkflowStepDefinitionModel
             The validated instance of WorkflowStepDefinitionModel
         """
+        if model.arguments is None:
+            # model.arguments is set to None when a workflow has been specified in place
+            # I.e. an expanded product or a workflow with a spec section (no name)
+            return model
         # Delegate arguments validation to each plugin kind argument class
         plugin_kind = model.kind
         plugin_kind_pascal_case = "".join(
