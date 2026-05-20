@@ -35,7 +35,7 @@ class AlgorithmArgumentsModel(PermissiveFrozenModel):
     )
     min_outbounds: str = Field(
         ...,
-        description="Method to use when applying bounds."
+        description="Method to use when applying minimum value of output_data_range, if specified."
         "  Valid values are: "
         " * retain: keep all pixels as is"
         " * mask: mask all pixels that are out of range"
@@ -43,7 +43,7 @@ class AlgorithmArgumentsModel(PermissiveFrozenModel):
     )
     max_outbounds: str = Field(
         ...,
-        description="Method to use when applying bounds."
+        description="Method to use when maximum value of 'output_data_range', if specified."
         "  Valid values are: "
         " * retain: keep all pixels as is"
         " * mask: mask all pixels that are out of range"
