@@ -26,15 +26,13 @@ class AlgorithmArgumentsModel(PermissiveFrozenModel):
         description="List of input variables used in algorithm processing, selects the "
         "first when provided.",
     )
-    output_data_range: Optional[tuple[StrictFloat, StrictFloat] | tuple[None, None]] = (
+    output_data_range: tuple[StrictFloat, StrictFloat] = (
         Field(
-            [None, None],
             description="list of min and max value for wind speeds (kts or m s-1). "
             "Defaults to None, which results in using data.min and data.max.",
         )
     )
     min_outbounds: str = Field(
-        ...,
         description="Method to use when applying minimum value of"
         "'output_data_range', if specified."
         "  Valid values are: "
@@ -43,7 +41,6 @@ class AlgorithmArgumentsModel(PermissiveFrozenModel):
         " * crop: set out of range values to the nearest bound (min_val or max_val)",
     )
     max_outbounds: str = Field(
-        ...,
         description="Method to use when applying maximum value of"
         "'output_data_range', if specified."
         "  Valid values are: "
@@ -52,13 +49,11 @@ class AlgorithmArgumentsModel(PermissiveFrozenModel):
         " * crop: set out of range values to the nearest bound (min_val or max_val)",
     )
     norm: StrictBool = Field(
-        False,
         description="Boolean flag indicating whether to normalize (True) or not (False)"
         "* * If True, returned data will be in the range from 0 to 1:"
         "  * If False, returned data will be in the range from min_val to max_val",
     )
     inverse: StrictBool = Field(
-        False,
         description="* Boolean flag indicating whether to inverse (True) or not (False)"
         " * If True, returned data will be inverted"
         " * If False, returned data will not be inverted",
