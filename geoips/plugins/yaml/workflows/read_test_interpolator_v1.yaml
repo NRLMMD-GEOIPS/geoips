@@ -1,0 +1,34 @@
+apiVersion: geoips/v1
+interface: workflows
+family: order_based
+name: read_test_v1_interpolator
+docstring: |
+  tests/scripts/ami.static.mst.absdiff-IR-BD.imagery_clean.sh
+
+  The absolute difference between IR-BD between two Geokompsat AMI scan times.
+description: 11.2 µm Infrared.
+spec:
+  steps:
+    read_abi_L1_data:
+      kind: reader
+      name: ami_netcdf
+      arguments: { }
+    interpolate_using_gaussian:
+      kind: interpolator
+      # name: interp_gauss
+      name: interp_nearest
+      # name: interp_grid
+      arguments: {}
+    algorithm:
+      kind: algorithm
+      name: absdiff_mst
+      arguments: {
+        output_data_range: [0.0, 35.0],
+        input_units: Kelvin,
+        output_units: celsius,
+        min_outbounds: crop,
+        max_outbounds: crop,
+        norm: null,
+        inverse: null,
+      }
+      
