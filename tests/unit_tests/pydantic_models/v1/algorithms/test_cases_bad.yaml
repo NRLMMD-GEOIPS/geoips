@@ -98,7 +98,7 @@ satellite_zenith_angle_cutoff_invalid_input:
   description: "Ensure invalid value for satellite_zenith_angle_cutoff is not accepted"
   key: satellite_zenith_angle_cutoff
   val: invalid_input
-  cls: VisIRSpecificAlgorithmArgumentsModel
+  cls: AlgorithmArgumentsModel
   err_str: Input should be a valid number
 pressure_key_invalid_input:
   description: "Ensure invalid value for pressure_key is not accepted"
