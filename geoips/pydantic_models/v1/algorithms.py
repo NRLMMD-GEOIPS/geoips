@@ -23,14 +23,11 @@ class AlgorithmArgumentsModel(PermissiveFrozenModel):
 
     variables: Optional[List[str]] = Field(
         [None],
-        description="List of input variables used in algorithm processing, selects the "
-        "first when provided.",
+        description="List of input variables used in algorithm processing",
     )
-    output_data_range: tuple[StrictFloat, StrictFloat] = (
-        Field(
-            description="list of min and max value for wind speeds (kts or m s-1). "
-            "Defaults to None, which results in using data.min and data.max.",
-        )
+    output_data_range: tuple[StrictFloat, StrictFloat] = Field(
+        description="list of min and max value for wind speeds (kts or m s-1). "
+        "Defaults to None, which results in using data.min and data.max.",
     )
     min_outbounds: str = Field(
         description="Method to use when applying minimum value of"
