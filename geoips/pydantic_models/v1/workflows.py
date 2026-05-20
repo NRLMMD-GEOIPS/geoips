@@ -32,6 +32,7 @@ from geoips.pydantic_models.v1.bases import (
     FrozenModel,
     PermissiveFrozenModel,
 )
+from geoips.pydantic_models.v1.algorithms import AlgorithmArgumentsModel
 from geoips.pydantic_models.v1.coverage_checkers import CoverageCheckerArgumentsModel
 from geoips.pydantic_models.v1.interpolators import InterpolatorArgumentsModel
 from geoips.pydantic_models.v1.readers import ReaderArgumentsModel
@@ -94,18 +95,6 @@ class FilenameFormatterArgumentsModel(PermissiveFrozenModel):
     """Validate FilenameFormatter arguments."""
 
     pass
-
-
-class AlgorithmArgumentsModel(PermissiveFrozenModel):
-    """Validate Algorithm arguments."""
-
-    pass
-
-
-# class InterpolatorArgumentsModel(PermissiveFrozenModel):
-#     """Interpolator step argument definition."""
-
-#     pass
 
 
 class WorkflowArgumentsModel(PermissiveFrozenModel):
