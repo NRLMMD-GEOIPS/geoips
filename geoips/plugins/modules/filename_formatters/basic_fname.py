@@ -8,6 +8,7 @@ from os.path import join as pathjoin
 
 from geoips.filenames.base_paths import PATHS as gpaths
 from geoips.utils.file_utils import path_exists
+
 LOG = logging.getLogger(__name__)
 
 interface = "filename_formatters"
