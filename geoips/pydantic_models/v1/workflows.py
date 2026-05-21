@@ -141,25 +141,9 @@ class AlgorithmStepValidationModel(PermissiveFrozenModel):
     def _variables_required_algorithm_plugins(self):
         """
         Validate that ``varaibles`` field is present when required.
-class ColormapperArgumentsModel(PermissiveFrozenModel):
-    """Validate Colormapper arguments."""
-
-    pass
-
-
-class ProductDefaultArgumentsModel(PermissiveFrozenModel):
-    """Validate product default arguments."""
-
-    pass
-
-
-class ProductArgumentsModel(PermissiveFrozenModel):
-    """Validate product arguments."""
-
-    pass
 
         Ensures that input for the ``variables`` argument is provided for specific
-         algorithm plugins and is not None.
+        algorithm plugins and is not None.
 
         Returns
         -------
@@ -180,6 +164,23 @@ class ProductArgumentsModel(PermissiveFrozenModel):
                 " algorithm plugin."
             )
         return self
+
+class ColormapperArgumentsModel(PermissiveFrozenModel):
+    """Validate Colormapper arguments."""
+
+    pass
+
+
+class ProductDefaultArgumentsModel(PermissiveFrozenModel):
+    """Validate product default arguments."""
+
+    pass
+
+
+class ProductArgumentsModel(PermissiveFrozenModel):
+    """Validate product arguments."""
+
+    pass
 
 
 class GlobalVariablesModel(PermissiveFrozenModel):
