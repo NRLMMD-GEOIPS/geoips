@@ -145,7 +145,7 @@ class ReaderArgumentsModel(PermissiveFrozenModel):
             else:
                 fnames.append(path)
 
-        if fnames:
+        if not fnames:
             raise ValueError(
                 f"Error: input argument for {fnames} could not be associated with one "
                 "or more existing file paths. Please ensure this data exists before "
