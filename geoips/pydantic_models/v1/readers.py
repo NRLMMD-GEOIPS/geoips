@@ -15,6 +15,7 @@ from __future__ import annotations
 # Python Standard Libraries
 from glob import glob
 import logging
+import os
 from pathlib import Path
 from typing import Any, List
 
@@ -112,8 +113,10 @@ class ReaderArgumentsModel(PermissiveFrozenModel):
 
         Parameters
         ----------
-        value: Any
-            Input values for 'fnames'
+        value: Any[PathLike]
+            Input values for 'fnames'. Should be either a list of one or more strings /
+            valid instances of pathlib.Path objects. Strings may contain wildcard
+            characters that can be used with glob to generate a list of file paths.
 
         Returns
         -------
@@ -125,17 +128,29 @@ class ReaderArgumentsModel(PermissiveFrozenModel):
         ValueError
             If the input type is other than a list of pathlib.Path objects.
         """
-        fnames = []
-        if isinstance(value, str):
-            fnames = [Path(fname) for fname in glob(str(value))]
-        elif isinstance(value, list):
-            for item in value:
-                if not isinstance(item, Path):
-                    fnames.extend([Path(fname) for fname in glob(str(item))])
-                else:
-                    fnames.append(item)
+        try:
+            os.fspath(value)
+            items = [value]
+        except TypeError:
+            items = value
 
-        if not len(fnames):
+        fnames = []
+        uniterable_or_bad_type = False
+        try:
+            for item in items:
+                path = Path(item)
+
+                matches = glob(str(path))
+                if matches:
+                    fnames.extend([Path(fname) for fname in matches])
+                else:
+                    fnames.append(path)
+        except TypeError:
+            # occurs when items is not iterable or an item can't be cast as a path,
+            # raise a value error now
+            uniterable_or_bad_type = True
+
+        if not fnames or uniterable_or_bad_type:
             raise ValueError(
                 f"Error: input argument for {fnames} could not be associated with one "
                 "or more existing file paths. Please ensure this data exists before "
