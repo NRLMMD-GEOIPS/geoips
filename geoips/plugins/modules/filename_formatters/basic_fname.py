@@ -7,7 +7,6 @@ import logging
 from os.path import join as pathjoin
 
 from geoips.filenames.base_paths import PATHS as gpaths
-from geoips.utils.file_utils import path_exists
 
 LOG = logging.getLogger(__name__)
 
@@ -46,9 +45,5 @@ def call(
             xarray_obj.attrs["data_provider"],
         ]
     )
-    fname = f"{fname}.{output_type}"
-    file_path = pathjoin(path, fname)
-    if path_exists(file_path):
-        return file_path
-    else:
-        raise FileNotFoundError(f"file does not exist: {file_path}")
+    fname = "{0}.{1}".format(fname, output_type)
+    return pathjoin(path, fname)
