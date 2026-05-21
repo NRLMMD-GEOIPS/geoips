@@ -3,6 +3,8 @@
 
 """Workflow interface module."""
 
+# cspell: ignore koverrides soverrides
+
 from collections.abc import Mapping
 from copy import deepcopy
 import logging
@@ -155,13 +157,21 @@ class WorkflowsInterface(BaseYamlInterface):
                     )
         return steps
 
-    def _override_workflow(self, workflow):
+    def _override_workflow(
+        self, workflow, goverrides=None, koverrides=None, soverrides=None
+    ):
         """Override a workflow plugin where applicable.
 
         Parameters
         ----------
         workflow: dict
             A dictionary representation of a workflow plugin.
+        goverrides: dict, optional
+            A dictionary of global overrides.
+        koverrides: dict, optional
+            A dictionary of kind overrides.
+        soverrides: dict, optional
+            A dictionary for step overrides.
 
         Returns
         -------
@@ -169,21 +179,53 @@ class WorkflowsInterface(BaseYamlInterface):
             The overridden representation of 'workflow'.
         """
         steps = deepcopy(workflow["spec"]["steps"])
+        # Determine if a subset of overrides is to be applied.
+        # This occurs when 'geoips run obp' is supplied with override flags
+        overrides_to_apply = [
+            override_type if override else None
+            for override_type, override in {
+                "globals": goverrides,
+                "kinds": koverrides,
+                "steps": soverrides,
+            }.items()
+        ]
+        # If no flags have been provided, this command should only be ran via
+        # 'geoips test workflow <workflow_name>'. Apply all overrides present
+        if not any(overrides_to_apply):
+            overrides_to_apply = ["globals", "kinds", "steps"]
 
-        # override globals
-        for argument_name, value in workflow.get("test", {}).get("globals").items():
-            steps = self._apply_override("globals", steps, argument_name, value)
+        if goverrides:
+            global_overrides = goverrides
+        else:
+            global_overrides = workflow.get("test", {}).get("globals")
 
-        # override kinds
-        for interface, overrides in workflow.get("test", {}).get("kinds").items():
-            for argument_name, value in overrides.items():
-                steps = self._apply_override(
-                    "kinds", steps, argument_name, value, interface
-                )
+        if koverrides:
+            kind_overrides = koverrides
+        else:
+            kind_overrides = workflow.get("test", {}).get("kinds")
 
-        # override steps
-        for step_id, override in workflow.get("test", {}).get("steps").items():
-            steps = self._apply_step_override(steps, {step_id: override})
+        if soverrides:
+            step_overrides = soverrides
+        else:
+            step_overrides = workflow.get("test", {}).get("steps")
+
+        if "globals" in overrides_to_apply:
+            # override globals
+            for argument_name, value in global_overrides.items():
+                steps = self._apply_override("globals", steps, argument_name, value)
+
+        if "kinds" in overrides_to_apply:
+            # override kinds
+            for interface, overrides in kind_overrides.items():
+                for argument_name, value in overrides.items():
+                    steps = self._apply_override(
+                        "kinds", steps, argument_name, value, interface
+                    )
+
+        if "steps" in overrides_to_apply:
+            # override steps
+            for step_id, override in step_overrides.items():
+                steps = self._apply_step_override(steps, {step_id: override})
 
         # TODO: override outputs
 

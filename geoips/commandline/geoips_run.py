@@ -8,11 +8,11 @@ Runs the appropriate script based on the args provided.
 
 from ast import literal_eval
 from colorama import Fore, Style
+import json
 from os import environ
 from os.path import abspath
 from pathlib import Path
-
-import json
+from typing import Dict, Any
 
 import geoips.utils.yaml_utils as yaml
 from geoips.commandline.args import add_args
@@ -20,7 +20,7 @@ from geoips.commandline.run_procflow import main
 from geoips.commandline.geoips_command import GeoipsCommand, GeoipsExecutableCommand
 from geoips.filenames.base_paths import PATHS
 from geoips.interfaces import procflows, workflows
-from geoips.pydantic_models.v1.workflows import WorkflowPluginModel
+from geoips.pydantic_models.v1.workflows import WorkflowPluginModel, StepOverrideType
 from geoips.utils.context_managers import import_optional_dependencies
 
 data_fusion_installed = False
@@ -173,125 +173,125 @@ class GeoipsRunOrderBased(GeoipsExecutableCommand):
             )
         return path
 
-    def global_override_type(self, value: str):
-        """Ensure an override string fits the following format.
+    # def global_override_type(self, value: str):
+    #     """Ensure an override string fits the following format.
 
-        Expected Format
-        ---------------
-        '<global_variable-name>=<some_value>'
+    #     Expected Format
+    #     ---------------
+    #     '<global_variable-name>=<some_value>'
 
-        Parameters
-        ----------
-        value: str
-            The full global override string for a geoips run order_based command.
+    #     Parameters
+    #     ----------
+    #     value: str
+    #         The full global override string for a geoips run order_based command.
 
-        Returns
-        -------
-        override_dict: dict
-            The validated contents of an override string in a dictionary.
-        """
-        try:
-            lhs, rhs = value.split("=", 1)
-        except ValueError:
-            raise self.parser.ArgumentTypeError(
-                f"Invalid format '{value}'. Expected '<global_variable_name>=<value>'"
-            )
+    #     Returns
+    #     -------
+    #     override_dict: dict
+    #         The validated contents of an override string in a dictionary.
+    #     """
+    #     try:
+    #         lhs, rhs = value.split("=", 1)
+    #     except ValueError:
+    #         raise self.parser.ArgumentTypeError(
+    #             f"Invalid format '{value}'. Expected '<global_variable_name>=<value>'"
+    #         )
 
-        parts = lhs.split(".")
+    #     parts = lhs.split(".")
 
-        if len(parts) != 1:
-            raise self.parser.ArgumentTypeError(
-                f"Invalid key '{lhs}'. Must be in the format of "
-                "'<global_variable_name>=<some_value>'"
-            )
+    #     if len(parts) != 1:
+    #         raise self.parser.ArgumentTypeError(
+    #             f"Invalid key '{lhs}'. Must be in the format of "
+    #             "'<global_variable_name>=<some_value>'"
+    #         )
 
-        global_var_name = parts[0]
+    #     global_var_name = parts[0]
 
-        return {
-            "global_variable_name": global_var_name,
-            "value": rhs,
-        }
+    #     return {
+    #         "global_variable_name": global_var_name,
+    #         "value": rhs,
+    #     }
 
-    def kind_override_type(self, value: str):
-        """Ensure an override string fits the following format.
+    # def kind_override_type(self, value: str):
+    #     """Ensure an override string fits the following format.
 
-        Expected Format
-        ---------------
-        '<kind>.<argument_name>=<some_value>'
+    #     Expected Format
+    #     ---------------
+    #     '<kind>.<argument_name>=<some_value>'
 
-        Parameters
-        ----------
-        value: str
-            The full kind override string for a geoips run order_based command.
+    #     Parameters
+    #     ----------
+    #     value: str
+    #         The full kind override string for a geoips run order_based command.
 
-        Returns
-        -------
-        override_dict: dict
-            The validated contents of an override string in a dictionary.
-        """
-        try:
-            lhs, rhs = value.split("=", 1)
-        except ValueError:
-            raise self.parser.ArgumentTypeError(
-                f"Invalid format '{value}'. Expected '<kind>.<argument_name>=<value>'"
-            )
+    #     Returns
+    #     -------
+    #     override_dict: dict
+    #         The validated contents of an override string in a dictionary.
+    #     """
+    #     try:
+    #         lhs, rhs = value.split("=", 1)
+    #     except ValueError:
+    #         raise self.parser.ArgumentTypeError(
+    #             f"Invalid format '{value}'. Expected '<kind>.<argument_name>=<value>'"
+    #         )
 
-        parts = lhs.split(".")
+    #     parts = lhs.split(".")
 
-        if len(parts) != 2:
-            raise self.parser.ArgumentTypeError(
-                f"Invalid key '{lhs}'. Must be in the format of "
-                "'<kind>.<argument_name>'"
-            )
+    #     if len(parts) != 2:
+    #         raise self.parser.ArgumentTypeError(
+    #             f"Invalid key '{lhs}'. Must be in the format of "
+    #             "'<kind>.<argument_name>'"
+    #         )
 
-        kind = parts[0]
-        argument_name = parts[1]
+    #     kind = parts[0]
+    #     argument_name = parts[1]
 
-        return {
-            "kind": kind,
-            "argument_name": argument_name,
-            "value": rhs,
-        }
+    #     return {
+    #         "kind": kind,
+    #         "argument_name": argument_name,
+    #         "value": rhs,
+    #     }
 
-    def step_override_type(self, value: str):
-        """Ensure an override string fits the following format.
+    # def step_override_type(self, value: str):
+    #     """Ensure an override string fits the following format.
 
-        Expected Format
-        ---------------
-        '<step_id>.<string1>.<optional_string2>.<optional_string3>...=<some_value>'
+    #     Expected Format
+    #     ---------------
+    #     '<step_id>.<string1>.<optional_string2>.<optional_string3>...=<some_value>'
 
-        Parameters
-        ----------
-        value: str
-            The full step override string for a geoips run order_based command.
+    #     Parameters
+    #     ----------
+    #     value: str
+    #         The full step override string for a geoips run order_based command.
 
-        Returns
-        -------
-        override_dict: dict
-            The validated contents of an override string in a dictionary.
-        """
-        try:
-            lhs, rhs = value.split("=", 1)
-        except ValueError:
-            raise self.parser.ArgumentTypeError(
-                f"Invalid format '{value}'. Expected '<step_id>.<...>=<value>'"
-            )
+    #     Returns
+    #     -------
+    #     override_dict: dict
+    #         The validated contents of an override string in a dictionary.
+    #     """
+    #     try:
+    #         lhs, rhs = value.split("=", 1)
+    #     except ValueError:
+    #         raise self.parser.ArgumentTypeError(
+    #             f"Invalid format '{value}'. Expected '<step_id>.<...>=<value>'"
+    #         )
 
-        parts = lhs.split(".")
+    #     parts = lhs.split(".")
 
-        if len(parts) < 2:
-            raise self.parser.ArgumentTypeError(
-                f"Invalid key '{lhs}'. Must have at least '<step_id>.<string>'"
-            )
+    #     if len(parts) < 2:
+    #         raise self.parser.ArgumentTypeError(
+    #             f"Invalid key '{lhs}'. Must have at least '<step_id>.<string>'"
+    #         )
 
-        step_id = parts[0]
-        keys = parts[1:]
+    #     step_id = parts[0]
+    #     keys = parts[1:]
 
-        return {
-            "step_id": step_id,
-            "keys": keys,
-            "value": rhs,
-        }
+    #     return {
+    #         "step_id": step_id,
+    #         "keys": keys,
+    #         "value": rhs,
+    #     }
 
     def add_arguments(self):
         """Add arguments to the run-subparser for the 'run order-based' command."""
@@ -342,7 +342,7 @@ class GeoipsRunOrderBased(GeoipsExecutableCommand):
             "--step-overrides",
             default=None,
             nargs="+",
-            type=self.step_override_type,
+            type=StepOverrideType,
             help=(
                 "One or more step override strings to apply to your workflow. An "
                 "override string should take on the following format:\n "
@@ -354,7 +354,7 @@ class GeoipsRunOrderBased(GeoipsExecutableCommand):
             "--kind-overrides",
             default=None,
             nargs="+",
-            type=self.kind_override_type,
+            type=Dict[str, Dict[str, Any]],
             help=(
                 "One or more kind override strings to apply to your workflow. An "
                 "override string should take on the following format:\n "
@@ -366,7 +366,7 @@ class GeoipsRunOrderBased(GeoipsExecutableCommand):
             "--global-overrides",
             default=None,
             nargs="+",
-            type=self.global_override_type,
+            type=Dict[str, Any],
             help=(
                 "One or more global override strings to apply to your workflow. An "
                 "override string should take on the following format:\n "
@@ -420,7 +420,12 @@ class GeoipsRunOrderBased(GeoipsExecutableCommand):
             )
 
         if any([args.step_overrides, args.kind_overrides, args.global_overrides]):
-            workflow = workflows._override_workflow(workflow)
+            workflow = workflows._override_workflow(
+                workflow,
+                goverrides=args.global_overrides,
+                koverrides=args.kind_overrides,
+                soverrides=args.step_overrides,
+            )
             WorkflowPluginModel(**workflow, is_registered=False)
 
         obp = procflows.get_plugin("order_based")
