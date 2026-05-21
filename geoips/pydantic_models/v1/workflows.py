@@ -127,13 +127,6 @@ class FilenameFormatterArgumentsModel(PermissiveFrozenModel):
     pass
 
 
-class WorkflowArgumentsModel(PermissiveFrozenModel):
-    """Validate Workflow arguments."""
-
-    model_config = ConfigDict(extra="allow")
-    pass
-
-
 class AlgorithmStepValidationModel(PermissiveFrozenModel):
     """Validate step-level requirements for algorithm plugins."""
 
@@ -180,6 +173,31 @@ class ProductDefaultArgumentsModel(PermissiveFrozenModel):
 class ProductArgumentsModel(PermissiveFrozenModel):
     """Validate product arguments."""
 
+    pass
+
+
+class ColormapperArgumentsModel(PermissiveFrozenModel):
+    """Validate Colormapper arguments."""
+
+    pass
+
+
+class ProductDefaultArgumentsModel(PermissiveFrozenModel):
+    """Validate product default arguments."""
+
+    pass
+
+
+class ProductArgumentsModel(PermissiveFrozenModel):
+    """Validate product arguments."""
+
+    pass
+
+
+class WorkflowArgumentsModel(PermissiveFrozenModel):
+    """Validate Workflow arguments."""
+
+    model_config = ConfigDict(extra="allow")
     pass
 
 
@@ -445,9 +463,6 @@ class WorkflowStepDefinitionModel(FrozenModel):
             #     "lookup failed. Please report this to the GeoIPS development team",
             #     plugin_kind,
             # )
-
-        if plugin_kind == "algorithm":
-            AlgorithmStepValidationModel(name=model.name, arguments=model.arguments)
 
         plugin_arguments_model(**model.arguments)
 
