@@ -215,12 +215,8 @@ def assemble_geoips_fname(
             str(extra),
         ]
     )
-    fname = f"{fname}.{output_type}"
-    file_path = pathjoin(path, fname)
-    if path_exists(file_path):
-        return file_path
-    else:
-        raise FileNotFoundError(f"file does not exist: {file_path}")
+    fname = "{0}.{1}".format(fname, output_type)
+    return pathjoin(path, fname)
 
 
 def geoips_fname_remove_duplicates(fname, mins_to_remove=10, remove_files=False):
