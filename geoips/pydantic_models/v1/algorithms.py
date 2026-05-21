@@ -25,12 +25,13 @@ class AlgorithmArgumentsModel(PermissiveFrozenModel):
         [None],
         description="List of input variables used in algorithm processing",
     )
-    output_data_range: tuple[StrictFloat, StrictFloat] = Field(
+    output_data_range: tuple[StrictFloat, StrictFloat] | tuple[None, None] = Field(
+        [None, None],
         description="list of min and max value for output data product."
         " This is applied LAST after all other corrections/adjustments."
         " If None, use data.min() and data.max()",
     )
-    min_outbounds: str = Field(
+    min_outbounds: str | None= Field(None,
         description="Method to use when applying minimum value of"
         "'output_data_range', if specified."
         "  Valid values are: "
@@ -38,7 +39,7 @@ class AlgorithmArgumentsModel(PermissiveFrozenModel):
         " * mask: mask all pixels that are out of range"
         " * crop: set out of range values to the nearest bound (min_val or max_val)",
     )
-    max_outbounds: str = Field(
+    max_outbounds: str | None = Field(None,
         description="Method to use when applying maximum value of"
         "'output_data_range', if specified."
         "  Valid values are: "
@@ -46,18 +47,19 @@ class AlgorithmArgumentsModel(PermissiveFrozenModel):
         " * mask: mask all pixels that are out of range"
         " * crop: set out of range values to the nearest bound (min_val or max_val)",
     )
-    norm: StrictBool = Field(
+    norm: StrictBool | None = Field(None,
         description="Boolean flag indicating whether to normalize (True) or not (False)"
         "* * If True, returned data will be in the range from 0 to 1:"
         "  * If False, returned data will be in the range from min_val to max_val",
     )
-    inverse: StrictBool = Field(
+    inverse: StrictBool | None  = Field(None,
         description="* Boolean flag indicating whether to inverse (True) or not (False)"
         " * If True, returned data will be inverted"
         " * If False, returned data will not be inverted",
     )
     # This should default to (?, 1000) or (1000, ?) or (None, None)
-    pressure_level_range: tuple[int, int] | tuple[None, None] = Field(
+    # The upper bound in 'windbarbs_dmw_low.yaml' is of type float
+    pressure_level_range: tuple[float, float] | tuple[None, None] = Field(
         [None, None],
         description="list of min and max pressure levels to filter derived motion wind"
         " retrievals. Defaults to None, which results in using all wind retrievals.",
@@ -94,7 +96,7 @@ class AlgorithmArgumentsModel(PermissiveFrozenModel):
         "threshold. None, no masking",
     )
     pressure_key: str | None = Field(None)
-    time_key: str = Field(...)
+    time_key: str = Field(None)
     time_fcst: StrictInt = Field(-1)
     time_dim: StrictInt | None = Field(None, alias="Time_Dimension")
     grid_geo: StrictBool = Field(False)
