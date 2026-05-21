@@ -188,12 +188,6 @@ class ProductDefaultArgumentsModel(PermissiveFrozenModel):
     pass
 
 
-class ProductArgumentsModel(PermissiveFrozenModel):
-    """Validate product arguments."""
-
-    pass
-
-
 class WorkflowArgumentsModel(PermissiveFrozenModel):
     """Validate Workflow arguments."""
 
