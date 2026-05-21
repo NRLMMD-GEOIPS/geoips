@@ -135,17 +135,22 @@ class ReaderArgumentsModel(PermissiveFrozenModel):
             items = value
 
         fnames = []
+        uniterable_or_bad_type = False
+        try:
+            for item in items:
+                path = Path(item)
 
-        for item in items:
-            path = Path(item)
+                matches = glob(str(path))
+                if matches:
+                    fnames.extend([Path(fname) for fname in matches])
+                else:
+                    fnames.append(path)
+        except TypeError:
+            # occurs when items is not iterable or an item can't be cast as a path,
+            # raise a value error now
+            uniterable_or_bad_type = True
 
-            matches = glob(str(path))
-            if matches:
-                fnames.extend([Path(fname) for fname in matches])
-            else:
-                fnames.append(path)
-
-        if not fnames:
+        if not fnames or uniterable_or_bad_type:
             raise ValueError(
                 f"Error: input argument for {fnames} could not be associated with one "
                 "or more existing file paths. Please ensure this data exists before "
