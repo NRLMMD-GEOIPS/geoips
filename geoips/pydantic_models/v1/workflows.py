@@ -158,6 +158,7 @@ class AlgorithmStepValidationModel(PermissiveFrozenModel):
             )
         return self
 
+
 class ColormapperArgumentsModel(PermissiveFrozenModel):
     """Validate Colormapper arguments."""
 
@@ -172,18 +173,6 @@ class ProductDefaultArgumentsModel(PermissiveFrozenModel):
 
 class ProductArgumentsModel(PermissiveFrozenModel):
     """Validate product arguments."""
-
-    pass
-
-
-class ColormapperArgumentsModel(PermissiveFrozenModel):
-    """Validate Colormapper arguments."""
-
-    pass
-
-
-class ProductDefaultArgumentsModel(PermissiveFrozenModel):
-    """Validate product default arguments."""
 
     pass
 
