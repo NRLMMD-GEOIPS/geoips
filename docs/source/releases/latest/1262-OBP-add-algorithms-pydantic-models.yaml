@@ -15,6 +15,7 @@ feature:
     modified:
     - 'docs/build_docs.py'
     - 'docs/dev/order_based_procflow.rst'
+    - 'tests/outputs/seviri.WV-Upper.no_self_register.unprojected_image/20250624.120000.msg-3.seviri.WV-Upper-No-SR.unk.nesdisstar.png'
     - 'geoips/plugins/modules/procflows/order_based.py'
     - 'geoips/plugins/yaml/product_defaults/Uncorrected-Channel.yaml'
     - 'geoips/plugins/yaml/product_defaults/geostationary_dmw/windbarbs_dmw_high.yaml'
