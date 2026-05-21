@@ -113,7 +113,7 @@ class ReaderArgumentsModel(PermissiveFrozenModel):
 
         Parameters
         ----------
-        value: Any, path-like
+        value: Any[PathLike]
             Input values for 'fnames'. Should be either a list of one or more strings /
             valid instances of pathlib.Path objects. Strings may contain wildcard
             characters that can be used with glob to generate a list of file paths.
@@ -132,7 +132,7 @@ class ReaderArgumentsModel(PermissiveFrozenModel):
             os.fspath(value)
             items = [value]
         except TypeError:
-            items = [value]
+            items = value
 
         fnames = []
 
