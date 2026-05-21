@@ -17,8 +17,3 @@ geoips run single_source $GEOIPS_TESTDATA_DIR/test_data_seviri/data/20250624/120
 retval=$?
 
 exit $retval
-
-    # extension = output_type.lstrip(".")
-    # fname = f"{fname}.{extension}"
-    # full_fname = pathjoin(path, fname)
-    # return full_fname
