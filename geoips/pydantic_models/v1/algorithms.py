@@ -31,7 +31,8 @@ class AlgorithmArgumentsModel(PermissiveFrozenModel):
         " This is applied LAST after all other corrections/adjustments."
         " If None, use data.min() and data.max()",
     )
-    min_outbounds: str | None= Field(None,
+    min_outbounds: str | None = Field(
+        None,
         description="Method to use when applying minimum value of"
         "'output_data_range', if specified."
         "  Valid values are: "
@@ -39,7 +40,8 @@ class AlgorithmArgumentsModel(PermissiveFrozenModel):
         " * mask: mask all pixels that are out of range"
         " * crop: set out of range values to the nearest bound (min_val or max_val)",
     )
-    max_outbounds: str | None = Field(None,
+    max_outbounds: str | None = Field(
+        None,
         description="Method to use when applying maximum value of"
         "'output_data_range', if specified."
         "  Valid values are: "
@@ -47,12 +49,14 @@ class AlgorithmArgumentsModel(PermissiveFrozenModel):
         " * mask: mask all pixels that are out of range"
         " * crop: set out of range values to the nearest bound (min_val or max_val)",
     )
-    norm: StrictBool | None = Field(None,
+    norm: StrictBool | None = Field(
+        None,
         description="Boolean flag indicating whether to normalize (True) or not (False)"
         "* * If True, returned data will be in the range from 0 to 1:"
         "  * If False, returned data will be in the range from min_val to max_val",
     )
-    inverse: StrictBool | None  = Field(None,
+    inverse: StrictBool | None = Field(
+        None,
         description="* Boolean flag indicating whether to inverse (True) or not (False)"
         " * If True, returned data will be inverted"
         " * If False, returned data will not be inverted",
