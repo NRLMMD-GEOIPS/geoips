@@ -127,13 +127,6 @@ class FilenameFormatterArgumentsModel(PermissiveFrozenModel):
     pass
 
 
-class WorkflowArgumentsModel(PermissiveFrozenModel):
-    """Validate Workflow arguments."""
-
-    model_config = ConfigDict(extra="allow")
-    pass
-
-
 class AlgorithmStepValidationModel(PermissiveFrozenModel):
     """Validate step-level requirements for algorithm plugins."""
 
@@ -141,22 +134,6 @@ class AlgorithmStepValidationModel(PermissiveFrozenModel):
     def _variables_required_algorithm_plugins(self):
         """
         Validate that ``varaibles`` field is present when required.
-class ColormapperArgumentsModel(PermissiveFrozenModel):
-    """Validate Colormapper arguments."""
-
-    pass
-
-
-class ProductDefaultArgumentsModel(PermissiveFrozenModel):
-    """Validate product default arguments."""
-
-    pass
-
-
-class ProductArgumentsModel(PermissiveFrozenModel):
-    """Validate product arguments."""
-
-    pass
 
         Ensures that input for the ``variables`` argument is provided for specific
          algorithm plugins and is not None.
@@ -180,6 +157,31 @@ class ProductArgumentsModel(PermissiveFrozenModel):
                 " algorithm plugin."
             )
         return self
+
+
+class ColormapperArgumentsModel(PermissiveFrozenModel):
+    """Validate Colormapper arguments."""
+
+    pass
+
+
+class ProductDefaultArgumentsModel(PermissiveFrozenModel):
+    """Validate product default arguments."""
+
+    pass
+
+
+class ProductArgumentsModel(PermissiveFrozenModel):
+    """Validate product arguments."""
+
+    pass
+
+
+class WorkflowArgumentsModel(PermissiveFrozenModel):
+    """Validate Workflow arguments."""
+
+    model_config = ConfigDict(extra="allow")
+    pass
 
 
 class GlobalVariablesModel(PermissiveFrozenModel):
@@ -444,9 +446,6 @@ class WorkflowStepDefinitionModel(FrozenModel):
             #     "lookup failed. Please report this to the GeoIPS development team",
             #     plugin_kind,
             # )
-
-        if plugin_kind == "algorithm":
-            AlgorithmStepValidationModel(name=model.name, arguments=model.arguments)
 
         plugin_arguments_model(**model.arguments)
 
