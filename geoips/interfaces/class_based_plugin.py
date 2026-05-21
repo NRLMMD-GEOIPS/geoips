@@ -30,6 +30,7 @@ from __future__ import annotations
 from abc import ABC, abstractmethod
 import functools
 import inspect
+from os import environ
 
 from geoips import interfaces
 
@@ -160,13 +161,22 @@ class BaseClassPlugin(ABC):
         #     "sector_spec_generators",
         #     # "sector_metadata_generators",
         # ]:
-        provided_args = set(args).union(set(kwargs))
-        accepted_args = set(list(inspect.signature(self.call).parameters.keys()))
-        unaccepted_args = provided_args - accepted_args
-        for arg in unaccepted_args:
-            provided_args.remove(arg)
 
-        new_kwargs = {kwarg: kwargs[kwarg] for kwarg in provided_args}
+        if environ["ORDER_BASED_CALLED"] == "True":
+            if isinstance(args, dict):
+                argset = set(list(args.keys()))
+            elif isinstance(args, tuple) or isinstance(args, list):
+                argset = set(args)
+
+            provided_args = argset.union(set(kwargs))
+            accepted_args = set(list(inspect.signature(self.call).parameters.keys()))
+            unaccepted_args = provided_args - accepted_args
+            for arg in unaccepted_args:
+                provided_args.remove(arg)
+
+            new_kwargs = {kwarg: kwargs[kwarg] for kwarg in provided_args}
+        else:
+            new_kwargs = kwargs
 
         if data is None:
             data = self.call(*args, **new_kwargs)

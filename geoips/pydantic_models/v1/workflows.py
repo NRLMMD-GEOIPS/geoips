@@ -42,6 +42,7 @@ from geoips.pydantic_models.v1.bases import (
 )
 from geoips.pydantic_models.v1.coverage_checkers import CoverageCheckerArgumentsModel
 from geoips.pydantic_models.v1.interpolators import InterpolatorArgumentsModel
+from geoips.pydantic_models.v1.output_checkers import OutputCheckerArgumentsModel
 from geoips.pydantic_models.v1.readers import ReaderArgumentsModel
 from geoips.utils.types.partial_lexeme import Lexeme
 
@@ -408,6 +409,7 @@ class WorkflowStepDefinitionModel(FrozenModel):
             "CoverageCheckerArgumentsModel": CoverageCheckerArgumentsModel,
             "FilenameFormatterArgumentsModel": FilenameFormatterArgumentsModel,
             "InterpolatorArgumentsModel": InterpolatorArgumentsModel,
+            "OutputCheckerArgumentsModel": OutputCheckerArgumentsModel,
             "OutputFormatterArgumentsModel": OutputFormatterArgumentsModel,
             "CoverageCheckerArgumentsModel": CoverageCheckerArgumentsModel,
             "ProductDefaultArgumentsModel": ProductDefaultArgumentsModel,

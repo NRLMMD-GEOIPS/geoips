@@ -180,9 +180,12 @@ class WorkflowsInterface(BaseYamlInterface):
                 steps = self._apply_override(
                     "kinds", steps, argument_name, value, interface
                 )
+
         # override steps
         for step_id, override in workflow.get("test", {}).get("steps").items():
             steps = self._apply_step_override(steps, {step_id: override})
+
+        # TODO: override outputs
 
         workflow["spec"]["steps"] = steps
 

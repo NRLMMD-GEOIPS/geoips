@@ -8,7 +8,7 @@ Runs the appropriate tests based on the arguments provided.
 
 from glob import glob
 from importlib import resources
-from os import makedirs
+from os import environ, makedirs
 from os.path import basename, exists, join
 import sys
 import warnings
@@ -410,6 +410,7 @@ class GeoipsTestWorkflow(GeoipsExecutableCommand):
         args: Argparse Namespace()
             - The list argument namespace to parse through
         """
+        environ["ORDER_BASED_CALLED"] = "True"
         workflow_name = args.workflow_name
         rbr = (
             False
