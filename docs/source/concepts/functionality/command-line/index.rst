@@ -434,6 +434,40 @@ For example:
 
     geoips describe alg single_channel
 
+expand
+------
+
+Expand commands are currently beta and in development. They are targeted towards
+workflow plugins and are intended to visualize the order of steps applied for a workflow
+plugin via the order based procflow (OBP).
+
+expand workflow
+---------------
+
+This command expands a workflow plugin to its full YAML representation. Since workflows
+can specify products and/or workflows as steps, it is not easy to see the exact order
+of steps that will be applied via the OBP at runtime. For example, a product may
+reference an ``algorithm``, ``interpolator``, and ``colormapper`` as its series of
+plugin steps, but these are not present in the original workflow file. Same goes for
+an embedded workflow as a step.
+
+This command loads the steps of all of the embedded plugins in place and prints them
+out in the order that the OBP would receive them. This way a user or developer knows
+the exact order of steps that will be applied by running a given workflow.
+
+By default, this command doesn't highlight its output. To see highlighted YAML output,
+add the ``--color`` flag. The default format to run this command is as follows:
+
+``geoips expand <workflow_name>``
+
+The following code snippet presents some command examples which currently work in
+GeoIPS.
+
+.. code-block:: bash
+
+    geoips expand test_product
+    geoips expand test_product --color
+
 Action Commands
 ===============
 
@@ -708,6 +742,23 @@ plugin package with ``-p`` or ``--package_name``. For example:
 
     geoips test script --package_name <package_name> <script_name>
     geoips test script -p <package_name> <script_name>
+
+test workflow
+^^^^^^^^^^^^^
+
+This command runs the series of steps in the order specified by a workflow plugin. It
+will only work if the referenced workflow plugin has a ``test`` section containing
+parameters needed to execute that workflow. No additional arguments can be supplied for
+this command.
+
+For example:
+
+.. code-block:: bash
+
+    geoips test workflow <workflow_name>
+
+This command should be used only for testing workflow plugins in a simple, reproducible
+manner.
 
 tree
 ----
