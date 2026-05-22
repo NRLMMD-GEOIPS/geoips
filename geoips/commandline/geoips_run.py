@@ -209,7 +209,7 @@ class GeoipsRunOrderBased(GeoipsExecutableCommand):
             workflow = literal_eval(value)
         except (ValueError, SyntaxError):
             # Ignore these errors, could still be valid input
-            pass
+            workflow = None
 
         if isinstance(workflow, Mapping):
             # Validate the generated workflow with is_registered set to false as this
@@ -384,7 +384,7 @@ class GeoipsRunOrderBased(GeoipsExecutableCommand):
         # Required arguments
         self.parser.add_argument(
             "workflow",
-            type=str,
+            type=self.workflow_type,
             help=(
                 "The name of the workflow plugin to execute. Cannot be supplied "
                 "alongside the --generated or --filepath argument."

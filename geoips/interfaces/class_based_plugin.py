@@ -163,12 +163,7 @@ class BaseClassPlugin(ABC):
         # ]:
 
         if environ["ORDER_BASED_CALLED"] == "True":
-            if isinstance(args, dict):
-                argset = set(list(args.keys()))
-            elif isinstance(args, tuple) or isinstance(args, list):
-                argset = set(args)
-
-            provided_args = argset.union(set(kwargs))
+            provided_args = set(kwargs)
             accepted_args = set(list(inspect.signature(self.call).parameters.keys()))
             unaccepted_args = provided_args - accepted_args
             for arg in unaccepted_args:

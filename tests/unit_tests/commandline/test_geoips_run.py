@@ -121,16 +121,13 @@ class TestGeoipsRun(BaseCliTest):
         "geoips",
         "run",
         "order_based",
-        "$GEOIPS_TESTDATA_DIR/test_data_noaa_aws/data/goes16/20200918/1950/*",
-        "--workflow",
         "read_test_v1",
+        "$GEOIPS_TESTDATA_DIR/test_data_noaa_aws/data/goes16/20200918/1950/*",
     ]
     obp_args_generated_workflow = [
         "geoips",
         "run",
         "order_based",
-        "$GEOIPS_TESTDATA_DIR/test_data_noaa_aws/data/goes16/20200918/1950/*",
-        "--generated",
         str(
             {
                 "apiVersion": "geoips/v1",
@@ -165,14 +162,14 @@ class TestGeoipsRun(BaseCliTest):
                 },
             }
         ),
+        "$GEOIPS_TESTDATA_DIR/test_data_noaa_aws/data/goes16/20200918/1950/*",
     ]
     obp_args_workflow_path = [
         "geoips",
         "run",
         "order_based",
-        "$GEOIPS_TESTDATA_DIR/test_data_noaa_aws/data/goes16/20200918/1950/*",
-        "--filepath",
         f"{files('geoips') / 'plugins/yaml/workflows/read_test_v1.yaml'}",
+        "$GEOIPS_TESTDATA_DIR/test_data_noaa_aws/data/goes16/20200918/1950/*",
     ]
 
     @property
