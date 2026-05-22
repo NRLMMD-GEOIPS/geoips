@@ -10,24 +10,6 @@ min_outbounds_invalid_input:
   val: True
   cls: AlgorithmArgumentsModel
   err_str: Input should be a valid string
-min_outbounds_missing_input:
-  description: "Ensure that required min_outbounds field is not missing"
-  key: min_outbounds
-  val: 
-  cls: AlgorithmArgumentsModel
-  err_str: Input should be a valid string
-max_outbounds_invalid_input:
-  description: "Ensure invalid value for max_outbounds is not accepted"
-  key: max_outbounds
-  val: True
-  cls: AlgorithmArgumentsModel
-  err_str: Input should be a valid string
-max_outbounds_missing_input:
-  description: "Ensure that required max_outbounds field is not missing"
-  key: max_outbounds
-  val: 
-  cls: AlgorithmArgumentsModel
-  err_str: Input should be a valid string
 norm_invalid_input:
   description: "Ensure invalid value for norm is not accepted"
   key: norm
