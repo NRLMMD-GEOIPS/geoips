@@ -419,17 +419,18 @@ class GeoipsTestWorkflow(GeoipsExecutableCommand):
         )
         try:
             workflow = workflows.get_test_plugin(workflow_name, rebuild_registries=rbr)
-        except PluginError:
-            self.parser.error(
-                f"Error: could not load workflow plugin under name '{workflow_name}'."
-            )
-
-        if not workflow.get("test"):
-            raise self.parser.error(
-                f"Error: cannot test '{workflow_name}' workflow plugin as it is missing"
-                " a ``test`` section. Please create this content before attempting to "
-                "test this plugin again."
-            )
+        except (PluginError, KeyError) as e:
+            if isinstance(e, PluginError):
+                self.parser.error(
+                    "Error: could not load workflow plugin under name "
+                    f"'{workflow_name}'."
+                )
+            else:
+                raise self.parser.error(
+                    f"Error: cannot test '{workflow_name}' workflow plugin as it is "
+                    "missing a ``test`` section. Please create this content before "
+                    "attempting to test this plugin again."
+                )
 
         obp = procflows.get_plugin("order_based")
 

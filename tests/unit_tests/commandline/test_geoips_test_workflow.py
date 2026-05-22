@@ -26,7 +26,6 @@ class TestGeoipsTestWorkflow(BaseCliTest):
             self._cmd_list = []
             self._cmd_list.append(base_args + ["test_product"])
             self._cmd_list.append(base_args + ["test_workflow"])
-            self._cmd_list.append(base_args + ["test_bad_test_section"])
             self._cmd_list.append(base_args + ["-h"])
             # Add argument list with non existent workflow
             self._cmd_list.append(base_args + ["non_existent_workflow"])

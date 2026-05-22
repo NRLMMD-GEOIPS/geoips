@@ -11,7 +11,6 @@ import logging
 
 from lexeme_type.lexeme import Lexeme
 
-from geoips.errors import PluginError
 from geoips.interfaces.base import BaseYamlInterface
 
 LOG = logging.getLogger(__name__)
@@ -264,7 +263,7 @@ class WorkflowsInterface(BaseYamlInterface):
             _expand=True,
         )
         if not expanded_workflow.get("test"):
-            raise PluginError(
+            raise KeyError(
                 f"Error: attemping to test workflow plugin {name} but the plugin is "
                 "missing a top level 'test' section."
             )
