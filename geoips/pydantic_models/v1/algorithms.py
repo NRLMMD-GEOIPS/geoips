@@ -78,7 +78,6 @@ class AlgorithmArgumentsModel(PermissiveFrozenModel):
         description="Units of input data, for applying "
         "necessary conversions. Defaults to None, resulting in no unit conversions.",
     )
-    model_config = ConfigDict(extra="allow")
     gamma_list: Optional[List[StrictFloat]] = Field([])
     min_night_zen: Optional[float] = Field(None)
     max_night_zen: StrictFloat = Field(90)
