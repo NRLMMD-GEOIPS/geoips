@@ -85,8 +85,8 @@ class AlgorithmArgumentsModel(PermissiveFrozenModel):
     mask_night: bool = Field(None)
     mask_day: bool = Field(None)
     scale_factor: Optional[float] = Field(None)
-    sun_zen_correction: StrictBool = Field(
-        False,
+    sun_zen_correction: StrictBool | None = Field(
+        None,
         description="Boolean flag indicating whether to apply solar zenith correction"
         "(True) or not (False)"
         "  * If True, returned data will have solar zenith correction applied"
@@ -102,7 +102,7 @@ class AlgorithmArgumentsModel(PermissiveFrozenModel):
     time_key: str = Field(None)
     time_fcst: StrictInt = Field(-1)
     time_dim: StrictInt | None = Field(None, alias="Time_Dimension")
-    grid_geo: StrictBool = Field(False)
+    grid_geo: StrictBool | None= Field(None)
     var_map: Optional[Dict[str, str]] = Field(
         {}, description="Dictionary that maps input variables to names used in xobj"
     )
