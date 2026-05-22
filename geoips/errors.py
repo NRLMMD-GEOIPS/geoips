@@ -6,6 +6,15 @@
 from pluginify.errors import PluginError  # NOQA ; used in various imports
 
 
+class GeoipsError(Exception):
+    """Base class for all GeoIPS-specific exceptions.
+
+    Catch this to handle any GeoIPS-originated error in a single except clause.
+    """
+
+    pass
+
+
 class FileFormatError(Exception):
     """Exception to be raised when a file is badly formatted and cannot be used."""
 
