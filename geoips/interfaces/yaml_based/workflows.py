@@ -95,7 +95,8 @@ class WorkflowsInterface(BaseYamlInterface):
         """
         for id, step in steps.items():
             if Lexeme(step["kind"]).singular == Lexeme(override["kind"]).singular:
-                steps[id]["arguments"][override["argument"]] = override["value"]
+                if step.get("arguments"):
+                    steps[id]["arguments"][override["argument"]] = override["value"]
 
         return steps
 
@@ -115,7 +116,7 @@ class WorkflowsInterface(BaseYamlInterface):
             An overridden representation of 'steps'.
         """
         for id, step in steps.items():
-            if override["argument"] in step["arguments"]:
+            if step.get("arguments") and override["argument"] in step["arguments"]:
                 steps[id]["arguments"][override["argument"]] = override["value"]
         return steps
 

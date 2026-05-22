@@ -264,7 +264,7 @@ class GeoipsRunOrderBased(GeoipsExecutableCommand):
 
         Expected Format
         ---------------
-        '<global_variable-name>=<some_value>'
+        '<global_variable_name>=<some_value>'
 
         Parameters
         ----------
@@ -279,23 +279,14 @@ class GeoipsRunOrderBased(GeoipsExecutableCommand):
         try:
             lhs, rhs = value.split("=", 1)
         except ValueError:
-            raise self.parser.ArgumentTypeError(
+            raise self.parser.error(
                 f"Invalid format '{value}'. Expected '<global_variable_name>=<value>'"
             )
 
-        parts = lhs.split(".")
-
-        if len(parts) != 1:
-            raise self.parser.ArgumentTypeError(
-                f"Invalid key '{lhs}'. Must be in the format of "
-                "'<global_variable_name>=<some_value>'"
-            )
-
-        global_var_name = parts[0]
-
         return {
-            "global_variable_name": global_var_name,
-            "value": rhs,
+            "argument": lhs,
+            # doing a yaml.safe_load attempts to cast the value into its correct type
+            "value": yaml.safe_load(rhs),
         }
 
     def kind_override_type(self, value: str):
@@ -303,7 +294,7 @@ class GeoipsRunOrderBased(GeoipsExecutableCommand):
 
         Expected Format
         ---------------
-        '<kind>.<argument_name>=<some_value>'
+        '<kind>:<argument_name>=<some_value>'
 
         Parameters
         ----------
@@ -318,25 +309,26 @@ class GeoipsRunOrderBased(GeoipsExecutableCommand):
         try:
             lhs, rhs = value.split("=", 1)
         except ValueError:
-            raise self.parser.ArgumentTypeError(
-                f"Invalid format '{value}'. Expected '<kind>.<argument_name>=<value>'"
+            raise self.parser.error(
+                f"Invalid format '{value}'. Expected '<kind>:<argument_name>=<value>'"
             )
 
-        parts = lhs.split(".")
+        parts = lhs.split(":")
 
         if len(parts) != 2:
-            raise self.parser.ArgumentTypeError(
+            raise self.parser.error(
                 f"Invalid key '{lhs}'. Must be in the format of "
-                "'<kind>.<argument_name>'"
+                "'<kind>:<argument_name>'"
             )
 
         kind = parts[0]
-        argument_name = parts[1]
+        argument = parts[1]
 
         return {
             "kind": kind,
-            "argument_name": argument_name,
-            "value": rhs,
+            "argument": argument,
+            # doing a yaml.safe_load attempts to cast the value into its correct type
+            "value": yaml.safe_load(rhs),
         }
 
     def step_override_type(self, value: str):
@@ -344,7 +336,7 @@ class GeoipsRunOrderBased(GeoipsExecutableCommand):
 
         Expected Format
         ---------------
-        '<step_id>.<string1>.<optional_string2>.<optional_string3>...=<some_value>'
+        '<step_id>:<string1>:<optional_string2>:<optional_string3>:...=<some_value>'
 
         Parameters
         ----------
@@ -359,24 +351,27 @@ class GeoipsRunOrderBased(GeoipsExecutableCommand):
         try:
             lhs, rhs = value.split("=", 1)
         except ValueError:
-            raise self.parser.ArgumentTypeError(
-                f"Invalid format '{value}'. Expected '<step_id>.<...>=<value>'"
+            raise self.parser.error(
+                f"Invalid format '{value}'. Expected '<step_id>:<...>=<value>'"
             )
 
-        parts = lhs.split(".")
+        parts = lhs.split(":")
 
         if len(parts) < 2:
-            raise self.parser.ArgumentTypeError(
+            raise self.parser.error(
                 f"Invalid key '{lhs}'. Must have at least '<step_id>.<string>'"
             )
 
         step_id = parts[0]
-        keys = parts[1:]
+        keys = parts[1:-1]
+        argument = parts[-1]
 
         return {
             "step_id": step_id,
             "keys": keys,
-            "value": rhs,
+            "argument": argument,
+            # doing a yaml.safe_load attempts to cast the value into its correct type
+            "value": yaml.safe_load(rhs),
         }
 
     def add_arguments(self):
@@ -400,7 +395,7 @@ class GeoipsRunOrderBased(GeoipsExecutableCommand):
         self.parser.add_argument(
             "-S",
             "--step-override-dict",
-            default=None,
+            default={},
             type=StepOverrideType,
             help=(
                 "One or more step overrides to apply to your workflow. In a dictionary "
@@ -411,7 +406,7 @@ class GeoipsRunOrderBased(GeoipsExecutableCommand):
         self.parser.add_argument(
             "-K",
             "--kind-override-dict",
-            default=None,
+            default={},
             type=Dict[str, Dict[str, Any]],
             help=(
                 "One or more kind overrides to apply to your workflow. In a dictionary "
@@ -422,7 +417,7 @@ class GeoipsRunOrderBased(GeoipsExecutableCommand):
         self.parser.add_argument(
             "-G",
             "--global-override-dict",
-            default=None,
+            default={},
             type=Dict[str, Any],
             help=(
                 "One or more global overrides to apply to your workflow. In a "
@@ -434,31 +429,33 @@ class GeoipsRunOrderBased(GeoipsExecutableCommand):
         self.parser.add_argument(
             "-s",
             "--step-override-strings",
-            default=None,
+            default=[],
             type=self.step_override_type,
             nargs="+",
             help=(
                 "One or more step override strings to apply to your workflow. An "
                 "override string should take on the following format:\n "
-                "'<step_id>.<string1>.<optional_string2>...<argument>=<some_value>'"
+                "'<step_id>:<string1>:<optional_string2>:...<argument>=<some_value>'"
             ),
         )
         self.parser.add_argument(
             "-k",
             "--kind-override-strings",
-            default=None,
+            default=[],
             type=self.kind_override_type,
+            nargs="+",
             help=(
                 "One or more kind override strings to apply to your workflow. An "
                 "override string should take on the following format:\n "
-                "'<kind>.<argument_name>=<some_value>'"
+                "'<kind>:<argument_name>=<some_value>'"
             ),
         )
         self.parser.add_argument(
             "-g",
-            "--global-overrides-strings",
-            default=None,
+            "--global-override-strings",
+            default=[],
             type=self.global_override_type,
+            nargs="+",
             help=(
                 "One or more global override strings to apply to your workflow. An "
                 "override string should take on the following format:\n "
@@ -493,6 +490,7 @@ class GeoipsRunOrderBased(GeoipsExecutableCommand):
         k_override_strings = args.kind_override_strings
         g_override_strings = args.global_override_strings
 
+        # apply dict-based overrides
         if any(
             [
                 s_override_dict,
@@ -508,6 +506,7 @@ class GeoipsRunOrderBased(GeoipsExecutableCommand):
             )
             WorkflowPluginModel(**workflow, is_registered=False)
 
+        # apply string-based overrides
         if any(
             [
                 s_override_strings,
