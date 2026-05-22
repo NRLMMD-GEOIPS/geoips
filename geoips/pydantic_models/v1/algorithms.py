@@ -21,12 +21,12 @@ class AlgorithmArgumentsModel(PermissiveFrozenModel):
     Pydantic model defining and validating Algorithm step arguments.
     """
 
-    variables: Optional[List[str]] = Field(
-        [None],
+    variables: Optional[List[str]] | None = Field(
+        None,
         description="List of input variables used in algorithm processing",
     )
-    output_data_range: tuple[StrictFloat, StrictFloat] | tuple[None, None] = Field(
-        [None, None],
+    output_data_range: tuple[StrictFloat, StrictFloat] | None = Field(
+        None,
         description="list of min and max value for output data product."
         " This is applied LAST after all other corrections/adjustments."
         " If None, use data.min() and data.max()",
@@ -63,8 +63,8 @@ class AlgorithmArgumentsModel(PermissiveFrozenModel):
     )
     # This should default to (?, 1000) or (1000, ?) or (None, None)
     # The upper bound in 'windbarbs_dmw_low.yaml' is of type float
-    pressure_level_range: tuple[float, float] | tuple[None, None] = Field(
-        [None, None],
+    pressure_level_range: tuple[float, float] | None = Field(
+        None,
         description="list of min and max pressure levels to filter derived motion wind"
         " retrievals. Defaults to None, which results in using all wind retrievals.",
     )
@@ -78,7 +78,7 @@ class AlgorithmArgumentsModel(PermissiveFrozenModel):
         description="Units of input data, for applying "
         "necessary conversions. Defaults to None, resulting in no unit conversions.",
     )
-    gamma_list: Optional[List[StrictFloat]] = Field([])
+    gamma_list: Optional[List[StrictFloat]] = Field(None)
     min_night_zen: Optional[float] = Field(None)
     max_night_zen: StrictFloat = Field(90)
     max_day_zen: Optional[float] = Field(None)
