@@ -50,13 +50,13 @@ class AlgorithmArgumentsModel(PermissiveFrozenModel):
         " * crop: set out of range values to the nearest bound (min_val or max_val)",
     )
     norm: StrictBool = Field(
-        False,
+        None,
         description="Boolean flag indicating whether to normalize (True) or not (False)"
         "* * If True, returned data will be in the range from 0 to 1:"
         "  * If False, returned data will be in the range from min_val to max_val",
     )
     inverse: StrictBool = Field(
-        False,
+        None,
         description="* Boolean flag indicating whether to inverse (True) or not (False)"
         " * If True, returned data will be inverted"
         " * If False, returned data will not be inverted",
@@ -80,7 +80,7 @@ class AlgorithmArgumentsModel(PermissiveFrozenModel):
     )
     gamma_list: Optional[List[StrictFloat]] = Field(None)
     min_night_zen: Optional[float] = Field(None)
-    max_night_zen: StrictFloat = Field(90)
+    max_night_zen: float | None = Field(None)
     max_day_zen: Optional[float] = Field(None)
     mask_night: bool = Field(None)
     mask_day: bool = Field(None)
@@ -100,7 +100,7 @@ class AlgorithmArgumentsModel(PermissiveFrozenModel):
     )
     pressure_key: str | None = Field(None)
     time_key: str = Field(None)
-    time_fcst: StrictInt = Field(-1)
+    time_fcst: StrictInt | None = Field(None)
     time_dim: StrictInt | None = Field(None, alias="Time_Dimension")
     grid_geo: StrictBool | None = Field(None)
     var_map: Optional[Dict[str, str]] = Field(
