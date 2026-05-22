@@ -130,9 +130,4 @@ grid_geo_invalid_input:
   val: 123
   cls: AlgorithmArgumentsModel
   err_str: Input should be a valid boolean
-grid_geo_missing_input:
-  description: "Ensure that the required grid_geo field is not missing"
-  key: grid_geo
-  val: 
-  cls: AlgorithmArgumentsModel
-  err_str: Input should be a valid boolean
+

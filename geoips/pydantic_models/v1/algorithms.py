@@ -21,7 +21,7 @@ class AlgorithmArgumentsModel(PermissiveFrozenModel):
     Pydantic model defining and validating Algorithm step arguments.
     """
 
-    variables: Optional[List[str]] | None = Field(
+    variables: List[str] | None = Field(
         None,
         description="List of input variables used in algorithm processing",
     )

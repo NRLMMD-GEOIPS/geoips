@@ -48,7 +48,7 @@ pressure_level_range_valid_input:
 pressure_level_range_default_input:
   description: "Ensure default value for pressure_level_range is accepted"
   key: pressure_level_range
-  val: [null, null]
+  val: null
   cls: AlgorithmArgumentsModel
 input_units_valid_input:
   description: "Ensure valid value for input units is accepted"

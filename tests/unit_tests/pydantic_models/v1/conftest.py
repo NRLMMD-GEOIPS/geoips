@@ -219,7 +219,7 @@ def valid_algorithm_arguments():
         "max_outbounds": "crop",
         "norm": False,
         "inverse": False,
-        "pressure_level_range": [None, None],
+        "pressure_level_range": [100, 200],
         "time_key": "atime",
         # "norm": None,
         # "inverse": None,
