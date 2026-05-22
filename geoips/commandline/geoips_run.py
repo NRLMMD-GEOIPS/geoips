@@ -7,12 +7,14 @@ Runs the appropriate script based on the args provided.
 """
 
 from ast import literal_eval
-from colorama import Fore, Style
+from collections.abc import Mapping
 import json
 from os import environ
 from os.path import abspath
 from pathlib import Path
-from typing import Dict, Any
+from typing import Any, Dict, List, Union
+
+from colorama import Fore, Style
 
 import geoips.utils.yaml_utils as yaml
 from geoips.commandline.args import add_args
@@ -149,13 +151,17 @@ class GeoipsRunOrderBased(GeoipsExecutableCommand):
         "This warning will be removed once this command is stable.\n"
     )
 
-    def json_or_yaml_path(self, value: str) -> Path:
+    def json_or_yaml_path(self, value: str, no_raise=False) -> Path:
         """Ensure the value provided is a valid pathlib.Path json or yaml file.
 
         Parameters
         ----------
         value: str
             - The input value for the filepath to typecheck against.
+        no_raise: bool, optional
+            - Whether or not to raise errors if the input value does not match the
+              accepted format. Defaults to False. When True, return False or Path if
+              the input value matches the expected format.
 
         Returns
         -------
@@ -164,14 +170,94 @@ class GeoipsRunOrderBased(GeoipsExecutableCommand):
         """
         path = Path(value)
 
-        if not path.exists():
-            raise self.parser.error(f"Input filepath not found: {value}")
-
         if path.suffix.lower() not in {".json", ".yaml", ".yml"}:
+            if no_raise:
+                return False
             raise self.parser.error(
                 f"File must have extension .json, .yaml, or .yml, not {path.suffix}"
             )
+
+        if not path.exists():
+            if no_raise:
+                return False
+            raise self.parser.error(f"Input filepath not found: {value}")
+
         return path
+
+    def workflow_type(self, value: Union[str, List[Path], dict]):
+        """Cast input value to a workflow type.
+
+        If value cannot be cast to an accepted workflow type, argparse will raise an
+        error denoting that your argument value could not be associated with an
+        accepted type.
+
+        Parameters
+        ----------
+        value: Union[str, List[Path], dict]
+            - The input value of a potential workflow.
+
+        Returns
+        -------
+        workflow: WorkflowPlugin-like
+            - The same input value as long as it could be cast to any of the accepted
+              workflow types. Workflow has been automatically expanded in the case that
+              we need to apply overrides to it. Doesn't change the functionality of the
+              OBP if overrides don't occur.
+        """
+        # unregistered generated workflow
+        try:
+            workflow = literal_eval(value)
+        except (ValueError, SyntaxError):
+            # Ignore these errors, could still be valid input
+            pass
+
+        if isinstance(workflow, Mapping):
+            # Validate the generated workflow with is_registered set to false as this
+            # plugin has been dynamically generated
+            workflow = WorkflowPluginModel(
+                **workflow,
+                is_registered=False,
+                # Adding context in pydantic is akin to passing in values that are
+                # usually None to an Objects __init__ function. It will construct
+                # differently if those parameters are provided. In this case, we are
+                # telling pydantic to expand the workflow, rather than validate just
+                # what's in the data provided
+                context={"expand": True},
+            ).model_dump()
+        # unregistered workflow @ filepath
+        elif self.json_or_yaml_path(value, no_raise=True):
+            # since the filepath was valid and exists, load the data and validate it
+            filepath = self.json_or_yaml_path(value)
+            if filepath.suffix.lower() == ".json":
+                loader = json.load
+            else:
+                loader = yaml.safe_load
+
+            with open(filepath, "r") as f:
+                workflow = loader(f)
+            # This assumes if you pass the filepath option that the plugin itself is not
+            # registered. Validate that it's formatted correctly.
+            workflow = WorkflowPluginModel(
+                **workflow,
+                is_registered=False,
+                # Adding context in pydantic is akin to passing in values that are
+                # usually None to an Objects __init__ function. It will construct
+                # differently if those parameters are provided. In this case, we are
+                # telling pydantic to expand the workflow, rather than validate just
+                # what's in the data provided
+                context={"expand": True},
+            ).model_dump()
+        # registered named workflow
+        elif isinstance(value, str):
+            workflow = workflows.get_plugin(value, _expand=True)
+        else:
+            self.parser.error(
+                "Error: positional argument 'workflow' could not be associated with an"
+                f" accepted type. Input = {value} ; accepted types = "
+                "[str, List[Path], dict]"
+            )
+
+        return workflow
 
     # def global_override_type(self, value: str):
     #     """Ensure an override string fits the following format.
@@ -297,51 +383,24 @@ class GeoipsRunOrderBased(GeoipsExecutableCommand):
         """Add arguments to the run-subparser for the 'run order-based' command."""
         # Required arguments
         self.parser.add_argument(
-            "filenames",
-            nargs="*",
-            default=None,
-            type=abspath,
-            help="""Fully qualified paths to data files to be processed.""",
-        )
-        self.obp_mutex_args = self.parser.add_mutually_exclusive_group(required=True)
-        # Mutex arguments
-        self.obp_mutex_args.add_argument(
-            "-w",
-            "--workflow",
-            default=None,
+            "workflow",
             type=str,
             help=(
                 "The name of the workflow plugin to execute. Cannot be supplied "
                 "alongside the --generated or --filepath argument."
             ),
         )
-        self.obp_mutex_args.add_argument(
-            "-g",
-            "--generated",
-            default=None,
-            type=literal_eval,
-            help=(
-                "A literal evaluation of a string formatted python dictionary "
-                "representing a 'generated' (at runtime) workflow plugin to operate on."
-                " Cannot be supplied alongside the --workflow or --filepath argument."
-            ),
-        )
-        self.obp_mutex_args.add_argument(
-            "-f",
-            "--filepath",
-            default=None,
-            type=self.json_or_yaml_path,
-            help=(
-                "A absolute path to the workflow file to operate on."
-                " Cannot be supplied alongside the --workflow or --generated argument."
-            ),
+        self.parser.add_argument(
+            "filenames",
+            nargs="*",
+            type=abspath,
+            help="""Fully qualified paths to data files to be processed.""",
         )
         # Override arguments
         self.parser.add_argument(
             "-S",
             "--step-overrides",
             default=None,
-            nargs="+",
             type=StepOverrideType,
             help=(
                 "One or more step override strings to apply to your workflow. An "
@@ -353,7 +412,6 @@ class GeoipsRunOrderBased(GeoipsExecutableCommand):
             "-K",
             "--kind-overrides",
             default=None,
-            nargs="+",
             type=Dict[str, Dict[str, Any]],
             help=(
                 "One or more kind override strings to apply to your workflow. An "
@@ -365,7 +423,6 @@ class GeoipsRunOrderBased(GeoipsExecutableCommand):
             "-G",
             "--global-overrides",
             default=None,
-            nargs="+",
             type=Dict[str, Any],
             help=(
                 "One or more global override strings to apply to your workflow. An "
@@ -390,34 +447,7 @@ class GeoipsRunOrderBased(GeoipsExecutableCommand):
             - The argument namespace to parse through.
         """
         environ["ORDER_BASED_CALLED"] = "True"
-        if args.workflow:
-            workflow = workflows.get_plugin(args.workflow, _expand=True)
-        elif args.generated:
-            workflow = args.generated
-            if not isinstance(workflow, dict):
-                raise ValueError(
-                    "Error: Argument '--generated' was supplied but the format of the "
-                    "generated workflow could not be literally evaluated as a python "
-                    "dictionary."
-                )
-            # Validate the generated workflow with is_registered set to false as this
-            # plugin has been dynamically generated
-            WorkflowPluginModel(
-                **workflow, is_registered=False, context={"expand": True}
-            )
-        else:  # This is the filepath option
-            if args.filepath.suffix.lower() == ".json":
-                loader = json.load
-            else:
-                loader = yaml.safe_load
-
-            with open(args.filepath, "r") as f:
-                workflow = loader(f)
-            # This assumes if you pass the filepath option that the plugin itself is not
-            # registered. Validate that it's formatted correctly.
-            WorkflowPluginModel(
-                **workflow, is_registered=False, context={"expand": True}
-            )
+        workflow = args.workflow
 
         if any([args.step_overrides, args.kind_overrides, args.global_overrides]):
             workflow = workflows._override_workflow(
