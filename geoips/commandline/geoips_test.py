@@ -418,7 +418,10 @@ class GeoipsTestWorkflow(GeoipsExecutableCommand):
             else PATHS["GEOIPS_REBUILD_REGISTRIES"]
         )
         try:
-            workflow = workflows.get_test_plugin(workflow_name, rebuild_registries=rbr)
+            workflow = workflows._get_overridden_expanded_plugin(
+                workflow_name,
+                rebuild_registries=rbr,
+            )
         except (PluginError, KeyError) as e:
             if isinstance(e, PluginError):
                 self.parser.error(
