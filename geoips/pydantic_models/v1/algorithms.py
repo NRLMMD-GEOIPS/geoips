@@ -9,7 +9,7 @@
 from typing import Dict, List, Optional
 
 # Third-Party Libraries
-from pydantic import ConfigDict, Field, StrictBool, StrictFloat, StrictInt
+from pydantic import Field, StrictBool, StrictFloat, StrictInt
 
 # GeoIPS imports
 from geoips.pydantic_models.v1.bases import PermissiveFrozenModel
