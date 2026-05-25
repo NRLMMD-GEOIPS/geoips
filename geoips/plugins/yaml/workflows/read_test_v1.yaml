@@ -3,7 +3,6 @@ interface: workflows
 family: order_based
 name: read_test_v1
 package: geoips
-is_registered: True
 docstring: |
   11.2 µm Infrared.
 
