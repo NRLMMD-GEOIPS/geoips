@@ -14,8 +14,8 @@ spec:
         output_units: kts
         min_outbounds: crop
         max_outbounds: crop
-        norm: null
-        inverse: null
+        norm: False
+        inverse: False
     coverage_checker:
       kind: coverage_checker
       name: windbarbs
