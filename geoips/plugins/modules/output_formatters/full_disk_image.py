@@ -17,7 +17,6 @@ def call(
     xarray_obj,
     product_name,
     output_fnames,
-    clean_fname=None,
     product_name_title=None,
     mpl_colors_info=None,
     feature_annotator=None,
