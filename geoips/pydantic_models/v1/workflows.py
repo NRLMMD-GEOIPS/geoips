@@ -34,6 +34,7 @@ from geoips.pydantic_models.v1.bases import (
     FrozenModel,
     PermissiveFrozenModel,
 )
+from geoips.pydantic_models.v1.algorithms import AlgorithmArgumentsModel
 from geoips.pydantic_models.v1.coverage_checkers import CoverageCheckerArgumentsModel
 from geoips.pydantic_models.v1.interpolators import InterpolatorArgumentsModel
 from geoips.pydantic_models.v1.readers import ReaderArgumentsModel
@@ -126,10 +127,36 @@ class FilenameFormatterArgumentsModel(PermissiveFrozenModel):
     pass
 
 
-class AlgorithmArgumentsModel(PermissiveFrozenModel):
-    """Validate Algorithm arguments."""
+class AlgorithmStepValidationModel(PermissiveFrozenModel):
+    """Validate step-level requirements for algorithm plugins."""
 
-    pass
+    @model_validator(mode="after")
+    def _variables_required_algorithm_plugins(self):
+        """
+        Validate that ``varaibles`` field is present when required.
+
+        Ensures that input for the ``variables`` argument is provided for specific
+        algorithm plugins and is not None.
+
+        Returns
+        -------
+        Self
+            The validated model instance, ensuring ``variables`` field is not empty.
+
+        Raises
+        ------
+        ValueError
+            If the ``variables`` argument is required but nor provided.
+        """
+        if self.name in [
+            "model_channel",
+            "absdiff_mst",
+        ] and not self.arguments.get("variables"):
+            raise ValueError(
+                f"input for 'variables' must be provided and non-empty for {self.name}"
+                " algorithm plugin."
+            )
+        return self
 
 
 class ColormapperArgumentsModel(PermissiveFrozenModel):

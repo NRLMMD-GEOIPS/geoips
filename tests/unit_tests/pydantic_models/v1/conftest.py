@@ -3,6 +3,10 @@
 
 """Fixtures for testing the Order-based procflow pydantic models."""
 
+# cspell:ignore knmi
+# cspell:ignore wfabba
+# cspell:ignore ewsg
+
 # Third-Party Libraries
 import pytest
 import datetime as dt
@@ -144,7 +148,7 @@ def pluign_types_and_plugins():
 
 @pytest.fixture
 def valid_title_formatter_arguments():
-    """Fixture providing valid data TitleFormatterArgumentsModel tests."""
+    """Fixture providing valid data for TitleFormatterArgumentsModel."""
     return {
         "area_def": "test_string",
         "product_name_title": "tc_copyright",
@@ -201,4 +205,22 @@ def valid_interpolator_arguments():
         "sigmaval": 1000,
         "drop_nan": True,
         "method": "linear",
+    }
+
+
+@pytest.fixture
+def valid_algorithm_arguments():
+    """Fixture providing valid data for AlgorithmArgumentsModel."""
+    return {
+        "output_data_range": [-90.0, 30.0],
+        "input_units": "Kelvin",
+        "output_units": "celsius",
+        "min_outbounds": "crop",
+        "max_outbounds": "crop",
+        "norm": False,
+        "inverse": False,
+        "pressure_level_range": [100, 200],
+        "time_key": "atime",
+        # "norm": None,
+        # "inverse": None,
     }

@@ -18,7 +18,7 @@ spec:
         gamma_list: []
         scale_factor: 1.0 # This scale_factor is applied BEFORE output_data_range...
         norm: True # Normalize so we know what the data range is for cmap.
-        inverse: null
+        inverse: false
   mtif_type: vis
   colormapper:
     plugin:
