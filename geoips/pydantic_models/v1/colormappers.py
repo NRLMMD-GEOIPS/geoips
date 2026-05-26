@@ -26,6 +26,14 @@ class ColormapperArgumentsModel(PermissiveFrozenModel):
             " If specified, use cbar_label string as colorbar label."
         ),
     )
+    cbar_ticks: tuple[float] = Field(
+        None,
+        description = (
+            "Positional parameter passed to cbar.set_ticks"
+            " Specify explicit list of ticks to include for colorbar."
+            "None indicates ticks at int(min) and int(max) values"
+        ),
+    )
     cmap_name: str = Field(
         "Greys",
         description=(
