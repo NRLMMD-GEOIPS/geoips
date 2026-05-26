@@ -5,15 +5,10 @@
 
 # Third-Party Libraries
 from pydantic import Field
+from pyresample.geometry import AreaDefinition
 
 # GeoIPS imports
 from geoips.pydantic_models.v1.bases import FrozenModel, PermissiveFrozenModel
-
-
-class MatplotlibBasedCommonImageryArgumentsModel(FrozenModel):
-    """Arguments common to output imagery generated using Matplotlib."""
-
-    feature_annotator: str | None = Field(None)
 
 
 class OutputFormatterArgumentsModel(PermissiveFrozenModel):
@@ -22,4 +17,61 @@ class OutputFormatterArgumentsModel(PermissiveFrozenModel):
     Pydantic model defining and validating Output Formatter step arguments.
     """
 
-    product_name_title: str = Field(None, description="TBA")
+    append: bool = Field(False)
+    area_def: AreaDefinition = Field(
+        description="pyresample AreaDefinition object specifying the area covered by the current plot"
+    )
+    basedir: str = Field(plugin_provided)
+    bg_data = Field(None)
+    bg_mpl_colors_info = Field(None)
+    bg_xarray = Field(None)
+    bg_datatype_title: str | None = Field(None, description="background data type")
+    bg_product_name_title: str | None = Field(
+        None, description="background product title"
+    )
+    clean_fname = Field(None)
+    clobber = Field(False)
+    cog: bool = Field(True)
+    #  TBD
+    # compression_kwargs=None
+    existing_image: str = Field(None)
+    fig = Field(None)
+    hist_colorbar: bool = Field(False)
+    is_3d: bool = Field(False)
+    main_ax = Field(None)
+    mapobj = Field(None)
+    metadata_dir: str = Field(
+        "metadata",
+        description="Subdirectory name for metadata; using non-default allows for non-operational outputs",
+    )
+    metadata_fname_dict = Field(None)
+    mpl_colors_info: str = Field(None)
+    output_dict = Field(
+        None,
+    )
+    output_fname_dict = Field(None)
+    overwrite: bool = Field(True)
+    pressure_range_dict = Field(None)
+    product_name_title: str = Field(None)
+    product_datatype_title: str = Field(None)
+    remove_duplicate_minrange = Field(None)
+    # of: unprojected_image
+    # savefig_kwargs: Dict = Field(None)
+    # of: test_winds
+    # source_names
+
+    title_copyright: str | None = Field(None, description="string for copyright")
+    title_formatter: str | None = Field(None, description="format for title")
+    use_compression: bool = Field(False)
+    var_name = Field(
+        None,
+    )
+    # of: test_winds
+    # varlist
+    working_directory: str = Field(plugin_provided)
+    x_size = Field(
+        None,
+    )
+    y_size = Field(
+        None,
+    )
