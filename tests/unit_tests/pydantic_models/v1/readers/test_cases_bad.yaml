@@ -17,7 +17,7 @@ invalid_input_fnames:
   key: fnames
   val: True
   cls: ReaderArgumentsModel
-  err_str: "Input should be a valid list"
+  err_str: "Value error, Error: input argument for [] could not be associated with one or more existing file paths. Please ensure this data exists before continuing."
 invalid_input_metadata_only:
   key: metadata_only
   val: non-boolean
