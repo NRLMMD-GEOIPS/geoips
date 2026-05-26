@@ -670,7 +670,13 @@ class OutputCheckerOverride(PermissiveFrozenModel):
         ...
     """
 
-    name: str
+    name: Optional[str] = Field(
+        None,
+        description=(
+            "The name of the output checker plugin to use. If None, use a default "
+            "output checker plugin associated with the produced file type(s)."
+        ),
+    )
     arguments: OutputCheckerArgumentsModel = Field(
         default_factory=dict,
         description=(
@@ -693,13 +699,6 @@ class StepOutputOverride(FrozenModel):
 
     model_config = ConfigDict(extra="allow")
 
-    checker_name: Optional[str] = Field(
-        None,
-        description=(
-            "The name of the output checker plugin to use. If None, use a default "
-            "output checker plugin associated with the produced file type(s)."
-        ),
-    )
     compare_path: FilePath = Field(
         ...,
         description="The path to the comparison file.",
