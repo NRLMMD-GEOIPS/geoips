@@ -28,7 +28,7 @@ class ColormapperArgumentsModel(PermissiveFrozenModel):
     )
     cbar_ticks: tuple[float] = Field(
         None,
-        description = (
+        description=(
             "Positional parameter passed to cbar.set_ticks"
             " Specify explicit list of ticks to include for colorbar."
             "None indicates ticks at int(min) and int(max) values"
@@ -43,4 +43,8 @@ class ColormapperArgumentsModel(PermissiveFrozenModel):
     )
     create_colorbar: bool = Field(
         True, description="Specify whether the image should contain a colorbar or not."
+    )
+    pressure_range_legend: List[str] = Field(
+        None,
+        description="List of strings that are used for setting the cbar tick labels",
     )
