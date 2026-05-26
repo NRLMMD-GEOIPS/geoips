@@ -26,6 +26,7 @@ from typing import Any, Dict, List, Optional, Union
 # Third-Party Libraries
 from pydantic import (
     ConfigDict,
+    FilePath,
     Field,
     field_validator,
     model_validator,
@@ -140,7 +141,7 @@ class AlgorithmStepValidationModel(PermissiveFrozenModel):
     @model_validator(mode="after")
     def _variables_required_algorithm_plugins(self):
         """
-        Validate that ``varaibles`` field is present when required.
+        Validate that ``variables`` field is present when required.
 
         Ensures that input for the ``variables`` argument is provided for specific
         algorithm plugins and is not None.
@@ -670,7 +671,12 @@ class OutputCheckerOverride(PermissiveFrozenModel):
     """
 
     name: str
-    arguments: Dict[str, Any] = Field(default_factory=dict)
+    arguments: OutputCheckerArgumentsModel = Field(
+        default_factory=dict,
+        description=(
+            "A dictionary of arguments to be supplied to an output_checker plugin."
+        ),
+    )
 
 
 class StepOutputOverride(FrozenModel):
@@ -685,8 +691,30 @@ class StepOutputOverride(FrozenModel):
         ...
     """
 
-    compare_path: Optional[str] = None
-    token: Optional[str] = None
+    model_config = ConfigDict(extra="allow")
+
+    checker_name: Optional[str] = Field(
+        None,
+        description=(
+            "The name of the output checker plugin to use. If None, use a default "
+            "output checker plugin associated with the produced file type(s)."
+        ),
+    )
+    compare_path: FilePath = Field(
+        ...,
+        description="The path to the comparison file.",
+    )
+    output_products: Optional[List[FilePath]] = Field(
+        None,
+        description="A list of paths to the output file(s).",
+    )
+    token: Optional[str] = Field(
+        None,
+        description=(
+            "A token representing the current state of the xarray.Datatree after "
+            "running the referenced step. Not yet implemented."
+        ),
+    )
 
 
 class OutputsConfig(
