@@ -21,7 +21,9 @@ class OutputFormatterArgumentsModel(PermissiveFrozenModel):
     area_def: AreaDefinition = Field(
         description="pyresample AreaDefinition object specifying the area covered by the current plot"
     )
+
     basedir: str = Field(plugin_provided)
+    # not single source, possibly config-based
     bg_data = Field(None)
     bg_mpl_colors_info = Field(None)
     bg_xarray = Field(None)
@@ -30,12 +32,14 @@ class OutputFormatterArgumentsModel(PermissiveFrozenModel):
         None, description="background product title"
     )
     clean_fname = Field(None)
-    clobber = Field(False)
+    # --output_formatter_kwargs
+    clobber: bool = Field(False)
     cog: bool = Field(True)
     #  TBD
     # compression_kwargs=None
     existing_image: str = Field(None)
     fig = Field(None)
+    # --output_formatter_kwargs 
     hist_colorbar: bool = Field(False)
     is_3d: bool = Field(False)
     main_ax = Field(None)
@@ -69,9 +73,7 @@ class OutputFormatterArgumentsModel(PermissiveFrozenModel):
     # of: test_winds
     # varlist
     working_directory: str = Field(plugin_provided)
-    x_size = Field(
-        None,
-    )
-    y_size = Field(
-        None,
-    )
+    # --output_formatter_kwargs
+    x_size = Field(None)
+    # --output_formatter_kwargs
+    y_size = Field(None)
