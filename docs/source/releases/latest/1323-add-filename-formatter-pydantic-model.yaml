@@ -3,9 +3,17 @@ feature:
   description: 'Introduce Pydantic model defining and validating OBP-v1 FilenameFormatterArgumentsModel'
   files:
     added:
-    - 'geoips/pydantic_models/v1/filename_formatters.py'
+    - 'docs/source/releases/latest/1323-add-filename-formatter-pydantic-model.yaml'
+    - 'tests/unit_tests/pydantic_models/v1/filename_formatters/test_cases_bad.yaml'
+    - 'tests/unit_tests/pydantic_models/v1/filename_formatters/test_cases_good.yaml'
+    - 'tests/unit_tests/pydantic_models/v1/filename_formatters/test_cases_neutral.yaml'
     modified:
+    - 'docs/dev/order_based_procflow.rst'
     - 'geoips/plugins/modules/filename_formatters/geoips_netcdf_fname.py'
+    - 'geoips/pydantic_models/v1/filename_formatters.py'
+    - 'geoips/pydantic_models/v1/workflows.py'
+    - 'tests/unit_tests/pydantic_models/v1/conftest.py'
+    - 'tests/unit_tests/pydantic_models/v1/test_pydantic_models.py'
     deleted:
     - ''
     moved:
