@@ -21,7 +21,6 @@ def call(
     product_name,
     output_type="png",
     basedir=pathjoin(gpaths["ANNOTATED_IMAGERY_PATH"]),
-    extra_field=None,
 ):
     """Create basic filename, in a specific directory (with no subdirectories).
 

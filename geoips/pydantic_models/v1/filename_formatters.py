@@ -9,6 +9,7 @@ from pydantic import Field
 # GeoIPS imports
 from geoips.pydantic_models.v1.bases import PermissiveFrozenModel
 
+PLUGIN_PROVIDED = "plugin_provided"
 
 class FilenameFormatterArgumentsModel(PermissiveFrozenModel):
     """Filename-Formatter step argument definition.
@@ -16,9 +17,12 @@ class FilenameFormatterArgumentsModel(PermissiveFrozenModel):
     Pydantic model defining and validating Filename Formatter step arguments.
     """
 
+    area_def:
+    basedir: str = Field(PLUGIN_PROVIDED, description="Base directory for output file.")
     coverage: float = Field(
         None, description="Image coverage, float between 0.0 and 100.0"
     )
+    extra_field: 
     output_type: str = Field(
         None,
         description=" Requested output format, ie png, jpg, tif, etc, defaults to None",
@@ -27,6 +31,5 @@ class FilenameFormatterArgumentsModel(PermissiveFrozenModel):
     product_dir: str = Field(None)
     product_subdir: str = Field(None)
     source_dir: str = Field(None)
-    basedir: str = Field(None, description="Base directory for output file.")
     output_dict: str = Field(None)
     extension: str = Field(None)
