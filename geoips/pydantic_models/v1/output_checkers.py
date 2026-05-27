@@ -24,11 +24,11 @@ class OutputCheckerArgumentsModel(FrozenModel):
 
     model_config = ConfigDict(extra="allow")
 
-    compare_path: FilePath = Field(
+    compare_path: FilePath | str = Field(
         ...,
         description="The path to the comparison file.",
     )
-    output_products: List[FilePath] = Field(
+    output_products: List[FilePath] | List[str] = Field(
         ...,
         description="A list of paths to the output file(s).",
     )

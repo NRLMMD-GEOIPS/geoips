@@ -699,11 +699,14 @@ class StepOutputOverride(FrozenModel):
 
     model_config = ConfigDict(extra="allow")
 
-    compare_path: FilePath = Field(
+    # Supporting either FilePath types or str types as yaml.Constructor cannot construct
+    # environment variable flags against an instance of a FilePath object. Only strings
+    # work in that case.
+    compare_path: FilePath | str = Field(
         ...,
         description="The path to the comparison file.",
     )
-    output_products: Optional[List[FilePath]] = Field(
+    output_products: Optional[List[FilePath] | List[str]] = Field(
         None,
         description="A list of paths to the output file(s).",
     )
