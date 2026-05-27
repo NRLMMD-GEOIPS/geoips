@@ -7,7 +7,7 @@ feature:
     moved:
     - ''
     added:
-    - ''
+    - 'docs/source/releases/latest/1336-add-colomapper-pydantic-model.yaml'
     modified:
     - 'geoips/pydantic_models/v1/colormappers.py'
   related-issue:

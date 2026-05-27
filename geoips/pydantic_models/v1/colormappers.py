@@ -19,6 +19,9 @@ class ColormapperArgumentsModel(PermissiveFrozenModel):
     Pydantic model defining and validating Colormapper step arguments.
     """
 
+    cbar_full_width: bool = Field(
+        True, description='"Extend the colorbar across the full width of the image"'
+    )
     cbar_label: str = Field(
         None,
         description=(
@@ -26,12 +29,26 @@ class ColormapperArgumentsModel(PermissiveFrozenModel):
             " If specified, use cbar_label string as colorbar label."
         ),
     )
-    cbar_ticks: tuple[float] = Field(
+    cbar_spacing: str = Field(
+        "proportional",
+        description=(
+            '"spacing" argument to pass to fig.colorbar;'
+            ' can also specify directly within "colorbar_kwargs"'
+        ),
+    )
+    cbar_ticks: tuple[float] | None = Field(
         None,
         description=(
             "Positional parameter passed to cbar.set_ticks"
             " Specify explicit list of ticks to include for colorbar."
             "None indicates ticks at int(min) and int(max) values"
+        ),
+    )
+    cbar_tick_labels: list[str] | None = Field(
+        None,
+        description=(
+            "'labels' argument to pass to cbar.set_ticks."
+            " can also specify directly within 'set_ticks_kwarg'"
         ),
     )
     cmap_name: str = Field(
@@ -41,10 +58,30 @@ class ColormapperArgumentsModel(PermissiveFrozenModel):
             " specified, will use builtin matplotlib colormap of name cmap_name."
         ),
     )
-    create_colorbar: bool = Field(
+    cmap_path: str | None = Field(None)
+    cmap_source: str = Field("matplotlib")
+    colorbar_kwargs: dict | None = Field(
+        None, description="keyword arguments to pass through directly to 'fig.colorbar'"
+    )
+    create_colorbar: bool | None = Field(
         True, description="Specify whether the image should contain a colorbar or not."
     )
-    pressure_range_legend: List[str] = Field(
+    data_range: tuple[float, float] | None = Field(
+        None,
+        description=(
+            "Min and max value for colormap"
+            "matplotlib.colors.Normalize(vmin=min_val, vmax=max_val)"
+        ),
+    )
+    pressure_range_legend: List[str] | None = Field(
         None,
         description="List of strings that are used for setting the cbar tick labels",
+    )
+    set_ticks_kwargs: dict | None = Field(
+        None,
+        description='keyword arguments to pass through directly to "cbar.set_ticks"',
+    )
+    set_label_kwarg: dict | None = Field(
+        None,
+        description='keyword arguments to pass through directly to "cbar.set_label"',
     )
