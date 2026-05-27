@@ -81,7 +81,7 @@ models_available = {
     "colormappers": {
         "good_source": ("fixture", "valid_colormapper_plugin_data"),
         "model": ColormapperArgumentsModel,
-    }
+    },
 }
 
 

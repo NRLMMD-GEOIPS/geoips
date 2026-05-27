@@ -1,3 +1,4 @@
+# cspell:ignore cbar
 cbar_full_width_valid_input:
   description: "Ensure valid value for 'cbar_full-width_valid_input' is accepted"
   key: cbar_full_width
