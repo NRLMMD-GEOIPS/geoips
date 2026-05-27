@@ -8,6 +8,8 @@ docstring: |
   This product utilizes channel 14 (11.2 µm) and highlights areas of deep convection within a Tropical Cyclone.
 description: 11.2 µm Infrared.
 spec:
+  retention: keep_referenced
+  outputs: [read_abi_L1_data]
   global_arguments:
     presector: False
     product_db: False
@@ -22,6 +24,7 @@ spec:
     read_abi_L1_data:
       kind: reader
       name: abi_netcdf
+      keep: true
       arguments:
         variables: ['B14BT']
     # interpolate_using_gaussian:
