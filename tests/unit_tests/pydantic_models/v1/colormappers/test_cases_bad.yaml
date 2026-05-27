@@ -1,0 +1,7 @@
+# cspell:ignore cbar
+cbar_full_width_invalid_input:
+  description: "Ensure invalid value for 'cbar_full-width_valid_input' is not accepted"
+  key: cbar_full_width
+  val: 123
+  cls: ColormapperArgumentsModel
+  err_str: "Input should be a valid boolean"
