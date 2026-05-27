@@ -121,12 +121,6 @@ class OutputFormatterArgumentsModel(PermissiveFrozenModel):
     pass
 
 
-class FilenameFormatterArgumentsModel(PermissiveFrozenModel):
-    """Validate FilenameFormatter arguments."""
-
-    pass
-
-
 class AlgorithmStepValidationModel(PermissiveFrozenModel):
     """Validate step-level requirements for algorithm plugins."""
 
