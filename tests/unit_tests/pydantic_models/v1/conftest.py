@@ -150,21 +150,22 @@ def pluign_types_and_plugins():
 def valid_colormapper_plugin_data():
     """Fixture providing valid data for ColormapperArgumentsModel."""
     return {
-        "cbar_full_width":False,
-        "cbar_label":" ",
-        "cbar_spacing":"proportional",
-        "cbar_ticks":None,
-        "cbar_tick_labels":None,
-        "cmap_name":"Greys",
-        "cmap_path":None,
-        "colorbar_kwargs":None,
-        "set_ticks_kwargs":None,
-        "create_colorbar":True,
-        "data_range":None,
-        "pressure_range_legend":None,
-        "set_ticks_args":None,
-        "set_label_args": None
+        "cbar_full_width": False,
+        "cbar_label": "hello",
+        "cbar_spacing": "proportional",
+        "cbar_ticks": None,
+        "cbar_tick_labels": None,
+        "cmap_name": "Greys",
+        "cmap_path": None,
+        "colorbar_kwargs": None,
+        "set_ticks_kwargs": None,
+        "create_colorbar": True,
+        "data_range": None,
+        "pressure_range_legend": None,
+        "set_ticks_args": None,
+        "set_label_args": None,
     }
+
 
 @pytest.fixture
 def valid_title_formatter_arguments():
