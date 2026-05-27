@@ -18,7 +18,6 @@ from geoips.errors import DependencyCycleError
 from geoips.interfaces.class_based.coverage_checkers import BaseCoverageCheckerPlugin
 from geoips.interfaces.class_based.readers import BaseReaderPlugin
 from geoips.interfaces.class_based.workflow import Workflow
-from geoips.plugins.modules.procflows.order_based import OrderBased
 from geoips.pydantic_models.v1.workflows import WorkflowSpecModel
 from geoips.utils.types.datatree_ditto import DataTreeDitto
 
@@ -114,7 +113,7 @@ def _run_one_reader_workflow(spec: WorkflowSpecModel) -> xr.DataTree:
         step = spec.steps[sid]
 
         if step.kind in ("split", "join"):
-            raise NotImplementedError(f"split/join not implemented")
+            raise NotImplementedError("split/join not implemented")
 
         arg_hash = compute_arguments_hash(step.arguments or {})
         now = datetime.now(timezone.utc).isoformat()
@@ -127,7 +126,10 @@ def _run_one_reader_workflow(spec: WorkflowSpecModel) -> xr.DataTree:
             deps = step.depends_on or []
             if deps and len(deps) == 1:
                 dep_node = tree.get(deps[0])
-                upstream = dep_node if dep_node is not None else xr.DataTree(name="empty")
+                upstream = (
+                    dep_node if dep_node is not None
+                    else xr.DataTree(name="empty")
+                )
             elif deps and len(deps) > 1:
                 upstream = xr.DataTree(name="multi_input")
                 for dep_id in deps:

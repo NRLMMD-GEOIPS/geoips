@@ -1,5 +1,36 @@
 ## Abstract
 
+> **Implementation Status (May 2026)**
+>
+> The DataTree runtime described in this specification has been partially
+> implemented in the `obp-meets-datatree` branch.  The following sections
+> are **implemented and verified**:
+>
+> - §2  DataTree container — `DataTreeDitto` with pluggable converters
+> - §3  Workflow specification — pydantic models with `depends_on`,
+>   `outputs`, `retention`, `keep`
+> - §4  Runtime execution — `Workflow` composite class, topological sort,
+>   provenance recording
+> - §5  Process flow — class-based `OrderBased` procflow
+> - §7  Tokenization — per-step `output_token` using `dask.base.tokenize`
+>   with `dask:` prefix
+>
+> The following are **deferred to follow-up work**:
+>
+> - §4.5 `split` / `join` execution (scaffolding only)
+> - §4.5 `when:` expression evaluation (ignored with warning)
+> - §5.3 `processing_history` table
+> - §5.4 `inputs` / `products` manifests
+> - §7.5 workflow-level output token
+> - §8  v2alpha1 pydantic models
+> - §9  CLI override system from `geoips-obp-cli-updates`
+>
+> **Converter registration uses a 3-argument API** (not a decorator):
+> ```python
+> DataTreeDitto.register_converter(dict, _dict_to_dataset, _dataset_to_dict)
+> DataTreeDitto.register_converter(xr.DataArray, _da_to_ds, _ds_to_da)
+> ```
+
 Every step in a workflow takes a `DataTree` and returns a `DataTree`. The workflow itself is a `DataTree` whose children are the per-step DataTrees. Provenance (processing history, tokens, quality flags, input manifests, product artifacts) is stored as native xarray attributes (`attrs`) on the DataTree and its step nodes. Workflows are themselves callable as steps — the `Workflow` class IS a `Plugin`, implementing the Composite pattern. Steps are required to be deterministic, (ideally) side-effect-free with respect to global state, declaratively composed via YAML, validated by Pydantic schemas, and hashable via `dask.base.tokenize`. Tokenization enables content-addressable caching, fast regression tests, and a straightforward path to auto-parallel execution via `split`/`join` operators and declared `depends_on` edges. In other words..... DataTrees, DataTrees, DataTrees!! All the way down!!!
 
 ---
