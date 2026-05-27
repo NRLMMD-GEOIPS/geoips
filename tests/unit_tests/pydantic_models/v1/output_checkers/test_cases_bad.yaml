@@ -3,7 +3,9 @@ compare_path_invalid_type:
   key: compare_path
   val: true
   cls: OutputCheckersArgumentsModel
-  err_str: "Input is not a valid path"
+  err_str:
+    - "Input is not a valid path"
+    - "Input should be a valid string"
 
 output_products_invalid_type:
   description: "output_products must be a list of filepaths."
