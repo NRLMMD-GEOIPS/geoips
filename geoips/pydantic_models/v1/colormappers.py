@@ -60,6 +60,7 @@ class ColormapperArgumentsModel(PermissiveFrozenModel):
         ),
     )
     cmap_path: str | None = Field(None)
+    cmap_source: str | None = Field(None)
     # cmap_source: str = Field(pluginprovided)
     colorbar_kwargs: dict | None = Field(
         None, description="keyword arguments to pass through directly to 'fig.colorbar'"
@@ -67,8 +68,9 @@ class ColormapperArgumentsModel(PermissiveFrozenModel):
     create_colorbar: bool | None = Field(
         True, description="Specify whether the image should contain a colorbar or not."
     )
-    data_range: tuple[float, float] = Field(
+    data_range: tuple[float, float] | None= Field(
         # pluginprovided,
+        None,
         description=(
             "Min and max value for colormap"
             "matplotlib.colors.Normalize(vmin=min_val, vmax=max_val)"
