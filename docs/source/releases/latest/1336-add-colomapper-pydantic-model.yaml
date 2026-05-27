@@ -10,7 +10,7 @@ feature:
     - 'docs/source/releases/latest/1336-add-colomapper-pydantic-model.yaml'
     - 'tests/unit_tests/pydantic_models/v1/colormappers/test_cases_bad.yaml'
     - 'tests/unit_tests/pydantic_models/v1/colormappers/test_cases_good.yaml'
-    - 'tests/unit_tests/pydantic_models/v1/colormappers/test_cases_neutral.yaml
+    - 'tests/unit_tests/pydantic_models/v1/colormappers/test_cases_neutral.yaml'
     modified:
     - 'docs/dev/order_based_procflow.rst'
     - 'geoips/pydantic_models/v1/colormappers.py'

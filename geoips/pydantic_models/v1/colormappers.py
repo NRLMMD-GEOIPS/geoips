@@ -70,7 +70,7 @@ class ColormapperArgumentsModel(PermissiveFrozenModel):
     create_colorbar: bool | None = Field(
         True, description="Specify whether the image should contain a colorbar or not."
     )
-    data_range: tuple[float, float] = Field(
+    data_range: tuple[float, float] | str = Field(
         default=PLUGIN_PROVIDED,
         description=(
             "Min and max value for colormap"

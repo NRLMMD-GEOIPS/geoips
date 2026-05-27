@@ -160,7 +160,7 @@ def valid_colormapper_plugin_data():
         "colorbar_kwargs": None,
         "set_ticks_kwargs": None,
         "create_colorbar": True,
-        "data_range": None,
+        "data_range": (20, 30),
         "pressure_range_legend": None,
         "set_ticks_args": None,
         "set_label_args": None,
