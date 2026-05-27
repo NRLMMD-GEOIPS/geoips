@@ -66,7 +66,10 @@ class DataTreeDitto(DataTree):
 
         if dataset is not None:
             if isinstance(dataset, xr.DataArray):
-                dataset = dataset.to_dataset()
+                if xr.DataArray in DataTreeDitto._converters:
+                    dataset = self._convert_to_dataset(dataset)
+                else:
+                    dataset = dataset.to_dataset()
             if not isinstance(
                 dataset,
                 (
@@ -162,9 +165,9 @@ class DataTreeDitto(DataTree):
         ...     return DataTreeDitto._dataset_to_numpy(ds, **kwargs).tolist()
         >>> DataTreeDitto.register_converter(list, list_to_dataset, dataset_to_list)
         """
-        # if not hasattr(DataTreeDitto, "_converters"):
-        #    DataTreeDitto._converters = {}
-        #    DataTreeDitto._register_builtin_converters()
+        if not hasattr(DataTreeDitto, "_converters"):
+            DataTreeDitto._converters = {}
+            DataTreeDitto._register_builtin_converters()
         cls._converters[obj_type] = {
             "to_dataset": to_dataset_func,
             "from_dataset": from_dataset_func,
