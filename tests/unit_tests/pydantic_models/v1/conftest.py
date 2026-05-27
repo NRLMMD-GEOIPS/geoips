@@ -229,7 +229,7 @@ def valid_algorithm_arguments():
 @pytest.fixture
 def valid_filename_formatter_arguments():
     """Fixture providing valid data for FilenameFormatterArgumentsModel."""
-    return  {
+    return {
         "area_def": None,
         "base_dir": "gpaths['TCWWW']",
         "extra": "test_input",

@@ -11,7 +11,9 @@ import pytest
 
 # GeoIPS imports
 from geoips.pydantic_models.v1.algorithms import AlgorithmArgumentsModel
-from geoips.pydantic_models.v1.filename_formatters import FilenameFormatterArgumentsModel
+from geoips.pydantic_models.v1.filename_formatters import (
+    FilenameFormatterArgumentsModel,
+)
 from geoips.pydantic_models.v1.interpolators import InterpolatorArgumentsModel
 from geoips.pydantic_models.v1.output_checkers import OutputCheckerArgumentsModel
 from geoips.pydantic_models.v1.readers import ReaderArgumentsModel
@@ -35,7 +37,7 @@ models_available = {
         "model": None,
     },
     "filename_formatters": {
-        "good_source": ("fixture","valid_filename_formatter_arguments"),
+        "good_source": ("fixture", "valid_filename_formatter_arguments"),
         "model": FilenameFormatterArgumentsModel,
     },
     "gridline_annotators": {
