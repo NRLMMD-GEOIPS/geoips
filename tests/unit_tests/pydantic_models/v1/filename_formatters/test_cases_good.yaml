@@ -1,0 +1,60 @@
+basedir_valid_input:
+  description: "Ensure valid value for basedir is accepted"
+  key: basedir
+  val: gpaths["TCWWW"]
+  cls: FilenameFormatterArgumentsModel
+coverage_valid_input:
+  description: "Ensure valid value for coverage field is accepted"
+  key: coverage
+  val: 25.5
+  cls: FilenameFormatterArgumentsModel
+extension_valid_input:
+  description: "Ensure valid value for extension field is accepted"
+  key: extension
+  val: "jpg"
+  cls: FilenameFormatterArgumentsModel
+extra_valid_input:
+  description: "Ensure valid value for extra_valid_input is accepted"
+  key: extra
+  val: test_input
+  cls: FilenameFormatterArgumentsModel
+metadata_dir_valid_input:
+  description: "Ensure valid value for metadata_dir field is accepted"
+  key: metadata_dir
+  val: "metadata"
+  cls: FilenameFormatterArgumentsModel
+metadata_type_valid_input:
+  description: "Ensure valid value for metadata_type field is accepted"
+  key: metadata_type  
+  val: "sector_information"
+  cls: FilenameFormatterArgumentsModel
+output_dict_valid_input:
+  description: "Ensure valid value for output_dict field is accepted"
+  key: output_dict
+  val: {"key": "value"}
+  cls: FilenameFormatterArgumentsModel
+output_type_valid_input:
+  description: "Ensure valid value for output_type field is accepted"
+  key: output_type
+  val: "filename_formatter"
+  cls: FilenameFormatterArgumentsModel
+product_filename_valid_input:
+  description: "Ensure valid value for product_filename field is accepted"
+  key: product_filename
+  val: "test_product_filename"
+  cls: FilenameFormatterArgumentsModel
+product_dir_valid_input:
+  description: "Ensure valid value for product_dir field is accepted"
+  key: product_dir
+  val: "test_product_dir"
+  cls: FilenameFormatterArgumentsModel
+product_subdir_valid_input:
+  description: "Ensure valid value for product_subdir field is accepted"
+  key: product_subdir
+  val: "test_product_subdir"
+  cls: FilenameFormatterArgumentsModel
+source_dir_valid_input:
+  description: "Ensure valid value for source_dir field is accepted"
+  key: source_dir
+  val: "test_source_dir"
+  cls: FilenameFormatterArgumentsModel
