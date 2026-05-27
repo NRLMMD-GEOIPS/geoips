@@ -31,6 +31,8 @@ from abc import ABC, abstractmethod
 import functools
 import inspect
 
+import xarray as xr
+
 from geoips import interfaces
 
 # P = ParamSpec("P")
@@ -151,22 +153,77 @@ class BaseClassPlugin(ABC):
         """
         return data
 
+    def _unwrap(self, data):
+        """Unwrap a DataTree-like container to the original type.
+
+        If the input is a ``DataTreeDitto``, call ``get_original()``
+        to recover the native object (numpy array, Dataset, dict, …)
+        that was originally passed to the constructor.  If the input
+        is a plain ``xr.DataTree`` that contains a ``DataTreeDitto``
+        dataset, extract and unwrap it.  Otherwise pass through
+        unchanged.
+
+        Parameters
+        ----------
+        data : Any
+            The container passed to the plugin callable.
+
+        Returns
+        -------
+        Any
+            The unwrapped native object.
+        """
+        from geoips.utils.types.datatree_ditto import DataTreeDitto
+
+        if isinstance(data, DataTreeDitto):
+            return data.get_original()
+        if isinstance(data, xr.DataTree):
+            try:
+                return DataTreeDitto(data.ds).get_original()
+            except Exception:
+                pass
+        return data
+
+    def _wrap(self, result):
+        """Wrap a non-DataTree result back into a DataTreeDitto.
+
+        If *result* is already a ``DataTreeDitto`` it is returned as-is.
+        Any other non-None value is wrapped into a ``DataTreeDitto``
+        (with an automatic name derived from the plugin).
+
+        Parameters
+        ----------
+        result : Any
+            The return value of ``_post_call``.
+
+        Returns
+        -------
+        DataTreeDitto or the original result.
+        """
+        from geoips.utils.types.datatree_ditto import DataTreeDitto
+
+        if result is None:
+            return result
+        if isinstance(result, DataTreeDitto):
+            return result
+        if isinstance(result, xr.DataTree):
+            return DataTreeDitto._convert_datatree_to_ditto(result)
+        return DataTreeDitto(result, name=getattr(self, "name", "result"))
+
     # def _invoke(self, data: R, *args: P.args, **kwargs: P.kwargs) -> R:
     def _invoke(self, data=None, *args, **kwargs):
-        # In the long run every plugin will accept a data tree
-        # (I.e. colormapper modifies metadata)
-        # if self.interface in [
-        #     "colormappers",
-        #     "sector_spec_generators",
-        #     # "sector_metadata_generators",
-        # ]:
         if data is None:
-            data = self.call(*args, **kwargs)
+            result = self.call(*args, **kwargs)
         else:
+            if not self.data_tree:
+                data = self._unwrap(data)
             data = self._pre_call(data, *args, **kwargs)
             data = self.call(data, *args, **kwargs)
             data = self._post_call(data, *args, **kwargs)
-        return data
+            result = data
+        if not self.data_tree and result is not None:
+            result = self._wrap(result)
+        return result
 
     def __init__(self, module=None):
         """

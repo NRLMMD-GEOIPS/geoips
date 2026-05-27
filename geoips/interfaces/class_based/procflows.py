@@ -10,6 +10,8 @@ from geoips.interfaces.base import BaseClassInterface
 class BaseProcflowPlugin(BaseClassPlugin, abstract=True):
     """Base class for GeoIPS procflow plugins."""
 
+    data_tree = True
+
     pass
 
 

@@ -10,6 +10,8 @@ from geoips.interfaces.base import BaseClassInterface
 class BaseAlgorithmPlugin(BaseClassPlugin, abstract=True):
     """Base class for GeoIPS algorithm plugins."""
 
+    data_tree = False
+
     pass
 
 

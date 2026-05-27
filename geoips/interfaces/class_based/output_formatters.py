@@ -10,6 +10,8 @@ from geoips.interfaces.base import BaseClassInterface
 class BaseOutputFormatterPlugin(BaseClassPlugin, abstract=True):
     """Base class for GeoIPS output_formatter plugins."""
 
+    data_tree = False
+
     pass
 
 

@@ -10,6 +10,8 @@ from geoips.interfaces.base import BaseClassInterface
 class BaseCoverageCheckerPlugin(BaseClassPlugin, abstract=True):
     """Base class for GeoIPS coverage_checker plugins."""
 
+    data_tree = False
+
     pass
 
 
