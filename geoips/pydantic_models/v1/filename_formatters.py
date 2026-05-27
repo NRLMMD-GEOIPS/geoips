@@ -25,12 +25,6 @@ class FilenameFormatterArgumentsModel(PermissiveFrozenModel):
     basedir: str = Field(
         PLUGIN_PROVIDED, description="Full path to base directory of final product"
     )
-    extra: str | None = Field(
-        None,
-        description=(
-            "String to include in filename 'extra' field" " If None, use fillval of 'x'"
-        ),
-    )
     coverage: float | None = Field(
         None,
         ge=0.0,
@@ -38,6 +32,12 @@ class FilenameFormatterArgumentsModel(PermissiveFrozenModel):
         description="Image coverage, float between 0.0 and 100.0",
     )
     extension: str = Field(None, description="Extension of filename")
+    extra: str | None = Field(
+        None,
+        description=(
+            "String to include in filename 'extra' field" " If None, use fillval of 'x'"
+        ),
+    )
     metadata_dir: str = Field("metadata")
     metadata_type: str = Field("sector_information")
     output_dict: dict | None = Field(None)
