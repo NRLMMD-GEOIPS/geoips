@@ -3,6 +3,9 @@
 
 """Pydantic models used to validate GeoIPS OBP v1 filename-formatter plugins."""
 
+# Python Standard Libraries
+from typing import Any
+
 # Third-Party Libraries
 from pydantic import Field
 from pyresample.geometry import AreaDefinition
@@ -40,7 +43,7 @@ class FilenameFormatterArgumentsModel(PermissiveFrozenModel):
     )
     metadata_dir: str = Field("metadata")
     metadata_type: str = Field("sector_information")
-    output_dict: dict | None = Field(None)
+    output_dict: dict[str, Any] | None = Field(None)
     output_type: str = Field(
         PLUGIN_PROVIDED,
         description=" Requested output format, ie png, jpg, tif, etc, defaults to None",

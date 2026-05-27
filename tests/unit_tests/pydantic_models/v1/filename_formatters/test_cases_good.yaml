@@ -36,7 +36,7 @@ output_dict_valid_input:
 output_type_valid_input:
   description: "Ensure valid value for output_type field is accepted"
   key: output_type
-  val: "filename_formatter"
+  val: "png"
   cls: FilenameFormatterArgumentsModel
 product_filename_valid_input:
   description: "Ensure valid value for product_filename field is accepted"
