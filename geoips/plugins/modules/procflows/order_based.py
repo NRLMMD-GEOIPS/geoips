@@ -1,18 +1,25 @@
 # # # This source code is subject to the license referenced at
 # # # https://github.com/NRLMMD-GEOIPS.
 
-"""Processing workflow for order based data source processing."""
+"""Processing workflow for order-based data source processing.
 
-# Python Standard Libraries
-from argparse import ArgumentParser
-from glob import glob
+The ``OrderBased`` class replaces the legacy module-level ``call()``
+function.  External callers should resolve through the procflows registry:
+``interfaces.procflows.get_plugin("order_based")(workflow_spec, fnames=fnames)``.
+"""
+
+from __future__ import annotations
+
 import logging
-from importlib import import_module
+from glob import glob
+from typing import Any
 
-# GeoIPS imports
-from geoips import interfaces
-from geoips.commandline.log_setup import setup_logging
-from geoips.utils.types.partial_lexeme import Lexeme
+from geoips.interfaces.class_based.procflows import BaseProcflowPlugin
+from geoips.interfaces.class_based.workflow import Workflow
+from geoips.pydantic_models.v1.workflows import (
+    WorkflowPluginModel,
+    WorkflowSpecModel,
+)
 
 LOG = logging.getLogger(__name__)
 
@@ -21,142 +28,79 @@ family = "standard"
 name = "order_based"
 
 
-def validate_arguments(apiVersion, interface, arguments):
-    """Load the correct pydantic argument model and validate arguments.
+class OrderBased(BaseProcflowPlugin):
+    """Execute an order-based process workflow (OBP).
 
-    Where the 'correct' argument model is based on apiVersion and interface.
-
-    Parameters
-    ----------
-    apiVersion : str
-        The apiVersion of the workflow model that contained these arguments.
-    interface : str
-        The name of the interface we'll provide arguments to.
-    arguments : dict[str, Any]
-        A dictionary of arguments to validate against a certain model.
-
-    Returns
-    -------
-    validated_arguments : dict[str, Any]
-        A validated representation of the input arguments.
+    Loads a validated workflow specification, builds a ``Workflow``
+    composite instance, and walks through steps in topological order,
+    collecting output into an ``xr.DataTree``.
     """
-    package, version = apiVersion.split("/")
-    try:
-        module = import_module(f"{package}.pydantic_models.{version}.{interface}")
-    except ImportError as e:
-        raise ImportError(f"Could not import models from '{version}': {e}") from e
 
-    interface_base = str(Lexeme(interface).singular)
-    model_name = f"{interface_base.title().replace('_', '')}ArgumentsModel"
+    interface = "procflows"
+    family = "standard"
+    name = "order_based"
+    data_tree = True
 
-    try:
-        model_class = getattr(module, model_name)
-    except AttributeError as e:
-        raise ValueError(f"Model '{model_name}' not found in '{apiVersion}'") from e
+    def call(
+        self,
+        workflow_spec: WorkflowPluginModel | WorkflowSpecModel | dict,
+        fnames: Any = None,
+        command_line_args: Any = None,
+        **kwargs: Any,
+    ):
+        """Run the order-based procflow.
 
-    return model_class(**arguments).model_dump()
+        Parameters
+        ----------
+        workflow_spec : WorkflowPluginModel | WorkflowSpecModel | dict
+            The workflow specification to execute.  May be a pre-validated
+            model, a raw dictionary that will be validated on entry, or a
+            ``WorkflowSpecModel`` that wraps a ``@spec:`` field.
+        fnames : list[str] or str or None
+            Input filename glob or list of filenames for reader steps.
+        command_line_args : Any or None
+            Parsed CLI arguments forwarded to plugins.
+        kwargs : dict
+            Additional keyword arguments forwarded to the ``Workflow``.
 
-
-def call(workflow, fnames, command_line_args=None):
-    """Run the order based procflow (OBP).
-
-    Process the specified input data files using the OBP in the order of steps
-    listed in the workflow definition file.
-
-    Parameters
-    ----------
-    workflow: dict
-        The workflow plugin dictionary to process.
-    fnames : list of str
-        List of filenames from which to read data.
-    command_line_args : list of str, None
-        Command line arguments to pass to the workflow.
-    """
-    if isinstance(fnames, str):
-        fnames = glob(fnames)
-        # fnames = [Path(fname) for fname in glob(fnames)]
-
-    LOG.interactive(f"Begin processing '{workflow.get('name', 'embedded')}' workflow.")
-
-    apiVersion = workflow.get("apiVersion", "geoips/v1")
-    handled_interfaces = ["readers", "coverage_checkers", "workflows"]
-    for step_id, step_def in workflow["spec"]["steps"].items():
-        interface = str(Lexeme(step_def["kind"]).plural)
-
-        if interface not in handled_interfaces:
-            LOG.interactive(
-                "⚠️ Skipping unhandled interface '%s'. Would have called the '%s'"
-                "plugin.",
-                interface,
-                step_def["name"],
-            )
-            continue
-        elif interface == "workflows":
-            if step_def.get("spec"):
-                print("RECURSIVELY CALLING VIA SPEC DEFINITION")
-                call(step_def, fnames)
-            else:
-                print("RECURSIVELY CALLING VIA GET PLUGIN CALL")
-                call(interfaces.workflows.get_plugin(step_def.get(name), fnames))
+        Returns
+        -------
+        xr.DataTree
+            The fully-populated workflow DataTree.
+        """
+        # -- normalize input to WorkflowSpecModel ---------------------------
+        if isinstance(workflow_spec, WorkflowSpecModel):
+            wf_name = "embedded"
+            spec = workflow_spec
         else:
-            plg = getattr(interfaces, interface, None).get_plugin(step_def["name"])
-
-            LOG.interactive(
-                "Beginning Step: '%s', plugin_kind: '%s', plugin_name:'%s'.",
-                step_id,
-                step_def["kind"],
-                step_def["name"],
-            )
-            LOG.info("Arguments: '%s'", step_def["arguments"])
-
-            if interface == "readers":
-                # TEMPORARY FIX: Remove when all readers are updated to accept
-                # "variables"
-                if "variables" in step_def["arguments"]:
-                    step_def["arguments"]["chans"] = step_def["arguments"].pop(
-                        "variables"
-                    )
-                step_def["arguments"]["fnames"] = fnames
-                # Temporary re-validation step. Seems arguments can sometimes leak
-                # through without being validated. For example, we use the 'add_args'
-                # function which validates args differently than our pydantic models
-                # do
-                validate_arguments(apiVersion, interface, step_def["arguments"])
-                # pass in the original arguments as not all readers implement the same
-                # arg / kwarg set.
-                data = plg(**step_def["arguments"])
-                print(data)
+            if isinstance(workflow_spec, dict):
+                wf_spec = WorkflowPluginModel.model_validate(workflow_spec)
+            elif isinstance(workflow_spec, WorkflowPluginModel):
+                wf_spec = workflow_spec
             else:
-                # Temporary re-validate here as well. Just ensures that we catch any
-                # weird bugs.
-                data = plg(
-                    data,
-                    **validate_arguments(apiVersion, interface, step_def["arguments"]),
+                raise TypeError(
+                    f"Expected WorkflowPluginModel, WorkflowSpecModel, or "
+                    f"dict, got {type(workflow_spec).__name__}"
                 )
-            LOG.interactive(
-                "Completed Step: step_id: '%s', plugin_kind: '%s', plugin_name: '%s'.",
-                step_id,
-                step_def["name"],
-                step_def["kind"],
-            )
+            wf_name = wf_spec.name
+            spec = wf_spec.spec
 
-    LOG.interactive(
-        f"\nThe workflow '{workflow.get('name', 'embedded')}' has finished "
-        "processing.\n"
-    )
+        # -- resolve fnames -------------------------------------------------
+        if isinstance(fnames, str):
+            fnames = glob(fnames)
+
+        LOG.interactive("Begin processing '%s' workflow.", wf_name)
+
+        workflow = Workflow(spec, name=wf_name)
+        result = workflow.call(fnames=fnames, **kwargs)
+
+        LOG.interactive("The workflow '%s' has finished processing.", wf_name)
+        return result
 
 
-if __name__ == "__main__":
+# -- legacy module-level call kept as a thin class wrapper --------------------
+# The CLI (geoips_run.py) calls ``get_plugin("order_based")(workflow, fnames)``
+# directly.  This callable is kept for backward compatibility with any
+# remaining callers that import order_based.call().
 
-    parser = ArgumentParser(description="order-based procflow processing")
-    parser.add_argument("workflow", help="The workflow name to process.")
-    parser.add_argument("fnames", nargs="+", help="The filenames to process.")
-    parser.add_argument(
-        "-l",
-        "--loglevel",
-        choices=["debug", "info", "interactive", "warning", "error"],
-        default="interactive",
-    )
-    args = parser.parse_args()
-    LOG = setup_logging(logging_level=args.loglevel)
-    call(interface.workflows.get_plugin(args.workflow), args.fnames)
+_call = OrderBased().call
