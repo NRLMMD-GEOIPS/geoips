@@ -20,10 +20,10 @@ class ColormapperArgumentsModel(PermissiveFrozenModel):
     """
 
     cbar_full_width: bool = Field(
-        True, description='"Extend the colorbar across the full width of the image"'
+        # pluginprovided, description='"Extend the colorbar across the full width of the image"'
     )
     cbar_label: str = Field(
-        None,
+        # pluginprovided,
         description=(
             "Positional parameter passed to cbar.set_label"
             " If specified, use cbar_label string as colorbar label."
@@ -59,15 +59,15 @@ class ColormapperArgumentsModel(PermissiveFrozenModel):
         ),
     )
     cmap_path: str | None = Field(None)
-    cmap_source: str = Field("matplotlib")
+    # cmap_source: str = Field(pluginprovided)
     colorbar_kwargs: dict | None = Field(
         None, description="keyword arguments to pass through directly to 'fig.colorbar'"
     )
     create_colorbar: bool | None = Field(
         True, description="Specify whether the image should contain a colorbar or not."
     )
-    data_range: tuple[float, float] | None = Field(
-        None,
+    data_range: tuple[float, float] = Field(
+        # pluginprovided,
         description=(
             "Min and max value for colormap"
             "matplotlib.colors.Normalize(vmin=min_val, vmax=max_val)"
