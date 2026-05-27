@@ -1,6 +1,6 @@
 ## Abstract
 
-Every step in a workflow takes a `DataTree` and returns a `DataTree`. The workflow itself is a `DataTree` whose children are the per-step DataTrees plus a standardized `/metadata` subtree. Workflows are themselves callable as steps — the `Workflow` class IS a `Plugin`, implementing the Composite pattern. Steps are required to be deterministic, (ideally) side-effect-free with respect to global state, declaratively composed via YAML, validated by Pydantic schemas, and hashable via `dask.base.tokenize`. Tokenization enables content-addressable caching, fast regression tests, and a straightforward path to auto-parallel execution via `split`/`join` operators and declared `depends_on` edges. In other words..... DataTrees, DataTrees, DataTrees!! All the way down!!!
+Every step in a workflow takes a `DataTree` and returns a `DataTree`. The workflow itself is a `DataTree` whose children are the per-step DataTrees. Provenance (processing history, tokens, quality flags, input manifests, product artifacts) is stored as native xarray attributes (`attrs`) on the DataTree and its step nodes. Workflows are themselves callable as steps — the `Workflow` class IS a `Plugin`, implementing the Composite pattern. Steps are required to be deterministic, (ideally) side-effect-free with respect to global state, declaratively composed via YAML, validated by Pydantic schemas, and hashable via `dask.base.tokenize`. Tokenization enables content-addressable caching, fast regression tests, and a straightforward path to auto-parallel execution via `split`/`join` operators and declared `depends_on` edges. In other words..... DataTrees, DataTrees, DataTrees!! All the way down!!!
 
 ---
 
@@ -48,11 +48,11 @@ The words **MUST**, **MUST NOT**, **SHOULD**, **SHOULD NOT**, **MAY**, and **REQ
 | **Operator**                      | A special step kind (`split`, `join`) that changes the _shape_ of the DAG rather than transforming data.                                                          |
 | **Branch**                        | A named child `DataTree` inside a `split` step's node.                                                                                                            |
 | **Output**                        | A step id named in the workflow's top-level `outputs:` list; survives GC unconditionally. **Default:** the last step id in `spec.steps` (Python 3.7+ dict insertion order). |
-| **Token**                         | The output of `dask.base.tokenize(obj)` — a deterministic tokenization (hash-like output) of an object's content. Tokens enable content-addressable caching (skip recomputation when inputs haven't changed) and fast regression tests (compare output token instead of pixel-by-pixel diffing). Tokens are stored in each step node's `/metadata` attrs, not at the workflow root. |
+| **Token**                         | The output of `dask.base.tokenize(obj)` — a deterministic tokenization (hash-like output) of an object's content. Tokens enable content-addressable caching (skip recomputation when inputs haven't changed) and fast regression tests (compare output token instead of pixel-by-pixel diffing). Tokens are stored in each step node's `attrs`. |
 | **Provenance**                    | The structured record of what software, steps, arguments, and inputs produced a `DataTree`.                                                                       |
 | **Boundary step**                 | A step at the workflow's I/O edge (reader, output_formatter) that is explicitly permitted controlled side effects.                                                |
 | **Retention**                     | The policy that decides whether step data variables are kept after downstream steps consume them. Applies to data variables only; metadata (including tokens) always survives. |
-| **Garbage Collected (GC'd) node** | A step node whose data variables have been dropped; its `/metadata` and token are preserved.                                                                      |
+| **Garbage Collected (GC'd) node** | A step node whose data variables have been dropped; its `attrs` (including its token) are preserved.                                                                      |
 | **Step invocation**               | The fully resolved calling arguments for a step — the input DataTree plus the plugin's configuration kwargs from the workflow YAML.                                |
 | **OrderBased**                    | A subclass of `BaseProcflowPlugin` that loads a `WorkflowPluginModel`, constructs a `Workflow`, and invokes it with input filenames. Replaces the legacy module-level `call()` function. |
 
@@ -72,7 +72,7 @@ The path from a YAML file on disk to an executing workflow:
 
 6. **Retention** — After each step, the runner applies retention policy to upstream step nodes. Steps marked `keep: true` or listed in `outputs` are exempt from garbage collection.
 
-7. **Return** — The final `DataTree` is the workflow output, with child nodes at `/<step_id>` for every step and a `/metadata` provenance subtree.
+7. **Return** — The final `DataTree` is the workflow output, with child nodes at `/<step_id>` for every step. Provenance is carried in native xarray attrs at each step node.
 
 ---
 
@@ -159,42 +159,38 @@ spec:
 ├── attrs: { workflow_name: "abi_infrared_multi",
 │            outputs: ["render_png", "write_nc"],
 │            retention_policy: "keep_referenced",
-│            ... }
+│            workflow_spec_yaml: <str>,
+│            geoips_version: "1.19.0",
+│            api_version: "geoips/v1" }
 ├── /read_abi              (kept: keep=true)
 │     ├── B14BT(xr.Dataset)
 │     │   └── B14BT (data_var)
 │     ├── coords: latitude, longitude, time
-│     └── attrs: { source_name: "abi", platform_name: "goes-16", wavelength: 11.2, ... }
-│     └── /metadata
-│           └── attrs: { output_token: "blake2b:1a2b...", ... }
-├── /sector                (GC'd: data dropped, metadata kept)
-│     └── /metadata
-│           └── attrs: { gc_status: "data_dropped", output_token: "blake2b:3c4d..." }
+│     └── attrs: { source_name: "abi", platform_name: "goes-16",
+│                  wavelength: 11.2, output_token: "blake2b:1a2b...",
+│                  start_time: <datetime>, end_time: <datetime>,
+│                  plugin_name: "abi_netcdf", plugin_version: "1.0.0" }
+├── /sector                (GC'd: data dropped, attrs kept)
+│     └── attrs: { gc_status: "data_dropped",
+│                  output_token: "blake2b:3c4d..." }
 ├── /single_channel        (kept: write_nc still consumes it)
 │     ├── B14BT_clipped (data_var)
-│     └── attrs: { ... }
-│     └── /metadata
-│           └── attrs: { output_token: "blake2b:5e6f..." }
+│     └── attrs: { output_token: "blake2b:5e6f...",
+│                  arguments_hash: "..." }
 ├── /colorize              (GC'd)
-│     └── /metadata
-│           └── attrs: { gc_status: "data_dropped", output_token: "blake2b:7a8b..." }
+│     └── attrs: { gc_status: "data_dropped",
+│                  output_token: "blake2b:7a8b..." }
 ├── /render_png            (kept: declared output)
-│     └── attrs: { artifacts: ["out/abi_infrared.png"], sha256: "..." }
-├── /write_nc              (kept: declared output)
-│     └── attrs: { artifacts: ["out/abi_infrared.nc"], sha256: "..." }
-└── /metadata
-      ├── /workflow_spec      (xr.Dataset attrs: yaml, json, sha256 of spec)
-      ├── /processing_history (xr.Dataset; one row per step)
-      ├── /quality            (xr.Dataset; coverage, flags)
-      ├── /inputs             (xr.Dataset; reader file manifest)
-      └── /products           (chunked dask.Dataset; output formatter file manifest)
+│     └── attrs: { artifacts: ["out/abi_infrared.png"],
+│                  sha256: "0a1b2c..." }
+└── /write_nc              (kept: declared output)
+      └── attrs: { artifacts: ["out/abi_infrared.nc"],
+                   sha256: "f8e7d6..." }
 ```
 
-Note: GC'd nodes still carry their tokens created from their non-GC'd version. The workflow's overall token is unchanged whether intermediates were GC'd or kept. Tokens are stored in per-step `/metadata` attrs, not at the root level.
+Note: GC'd nodes still carry their tokens (computed before GC). The workflow's overall token is unchanged whether intermediates were GC'd or kept. Tokens are stored in each step node's `attrs`, not at the workflow root.
 
-> **Model Note:** `depends_on` and `keep` are proposed fields. They will be added to `WorkflowStepDefinitionModel` in the implementation phase. Until then, the workflow runner uses positional ordering (dict iteration order). `keep` defaults to `false` for all step kinds.
-
-> **Annotation Note:** `source_name`, `platform_name`, and `data_provider` are per-step attributes populated by reader plugins, not root-level attributes. They live in the reader step node's attrs, enabling multi-source workflows.
+> **Annotation Note:** `source_name`, `platform_name`, and `data_provider` are per-step attributes populated by reader plugins. They live in the reader step node's `attrs`. Processed intermediates (algorithms, colormappers) also carry tokens, hashes, and timing in their step-node `attrs`.
 
 ---
 
@@ -342,7 +338,7 @@ Resulting tree:
 │           └── /algo_clear
 │                 └── (sst output)
 ├── /recombine                  # join exits the split, lands at root
-└── /metadata
+└── root.attrs: { processing_history: [...], ... }
 ```
 
 A `depends_on` reference still uses step ids, not paths — the runner translates ids to paths internally. So `depends_on: [algo_cloudy]` is correct even though the node lives at `/split_by_cloud_mask/cloudy/algo_cloudy`.
@@ -374,18 +370,13 @@ For a child workflow `preprocess_l1b` with steps `read_l1b`, `sector`, `calibrat
 ├── /read_l1b                          # child's reader step
 ├── /sector                            # child's sector step
 ├── /calibrate                         # also reachable as the "calibrated" output
-├── /mask                              # also reachable as the "masked" output
-└── /metadata                          # full child workflow metadata
-      ├── /processing_history
-      ├── /inputs
-      ├── /quality
-      └── /products
+└── /mask                              # also reachable as the "masked" output
 ```
 
 The child's `outputs:` declaration is a _product manifest_, not a visibility boundary:
 
 - It guarantees those step nodes survive the child's GC regardless of retention policy.
-- It drives what's recorded in the child's `/metadata/products`.
+- It drives what's recorded in the child's root `attrs["products"]`.
 - It documents the workflow's user-facing results.
 
 It does **not** restrict what a parent can address. A parent step may reference `"/preprocessing/sector"` even though `sector` isn't a declared output — it just inherits whatever retention left there (which may be metadata only).
@@ -426,7 +417,7 @@ BaseClassPlugin(ABC)                # geoips/interfaces/class_based_plugin.py
     ├── data_tree = True
     ├── steps: Dict[str, Plugin]    # resolved child plugin instances
     ├── call(workflow_tree: DataTree) → DataTree
-    └── DataTree output: /<step_id> per step + /metadata
+    └── DataTree output: /<step_id> per step with provenance in attrs
 ```
 
 **Rationale:** `Workflow` IS-A `Plugin` (can be nested) and HAS-A collection of `Plugin` instances (children). This is the Composite pattern. The `data_tree` flag discriminates which path `_invoke()` takes: DataTree-native plugins skip conversion; legacy plugins convert to/from DataTree via `_pre_call`/`_post_call` and `DataTreeDitto`.
@@ -495,32 +486,21 @@ A workflow's output is a single `DataTree` shaped as:
 ├── /<step_id_1>                 # one node per step in the workflow
 │     ├── data.                  # this step's output data as datasets
 │     ├── coords                 # step's coordinates
-│     └── attrs                  # dataset-level metadata
-│     └── /metadata              # per-step provenance
-│           └── attrs:
-│                 output_token   (str)
-│                 ...
+│     └── attrs                  # per-step provenance: token, timing, source info (§5.4)
 ├── /<step_id_2>
 │     └── ...
 ├── ...
-├── /<step_id_N>
-└── /metadata                    # workflow-level provenance subtree (§5.3)
-      ├── /processing_history
-      ├── /quality
-      ├── /inputs
-      └── /products
+└── /<step_id_N>
 ```
 
 Key invariants:
 
 - The root `DataTree` is named after the workflow.
 - Every step **MUST** produce a child node at `/<step_id>` — even boundary steps.
-- A step node **MUST** carry its own per-step `/metadata` (output token, execution timing, etc.).
-- The `/metadata` subtree at the root aggregates per-step provenance into queryable tables. Per-step metadata (at `/<step_id>/metadata`) allows a step node to be inspected in isolation. Workflow-level metadata (`/metadata`) provides the aggregate view.
+- A step node **MUST** carry its own per-step provenance in `attrs` (output token, execution timing, source info, arguments hash, gc_status).
+- Workflow-level provenance (inputs manifest, product artifacts, quality flags) is stored in `root.attrs` as simple scalars and lists. Tabular aggregate data (processing history) is stored as a dict-of-dicts in `root.attrs["processing_history"]`.
 
-**Rationale for `/metadata` as a subtree rather than root attrs:** Processing history, input manifests, and product manifests are naturally tabular. As `xr.Dataset`s they get dask chunking for free. Attrs are for scalars; large structured objects in attrs break netCDF and JSON serialization. As a subtree, `/metadata` participates in `dask.tokenize`, so provenance is part of the workflow's output token.
-
-**Purpose of `/metadata`:** The `/metadata` subtree serves as a **self-contained provenance record**. Opening any workflow `DataTree` on disk gives you the complete processing history, input manifests, quality flags, product artifacts, and the workflow spec that produced it — enabling reproducibility and debugging without external log files or databases. The workflow-level `/metadata` aggregates per-step records into queryable tables, subsuming the per-step provenance.
+**Rationale for attrs-based provenance:** xarray `attrs` serialize cleanly to netCDF, Zarr, and JSON. Scalar provenance (tokens, hashes, timestamps) fits naturally in attrs. For tabular provenance (the processing history row-per-step), a list-of-dicts in `root.attrs["processing_history"]` is serializable and queryable without requiring a separate child subtree. This keeps the DataTree structure clean: step nodes for data, attrs for provenance.
 
 Step nodes are named by step id (the dict key), not by `kind` or `name`. Ids are guaranteed unique within a workflow (Pydantic validates this); `kind`/`name` are not (you may run two readers). And ids are the same names used in `depends_on`.
 
@@ -547,80 +527,44 @@ Step nodes are named by step id (the dict key), not by `kind` or `name`. Ids are
 
 `area_definition` is stored as a pydantic model reference string, resolved at runtime.
 
-### 5.3 Workflow-Level `/metadata` Subtree
+### 5.3 Workflow-Level Provenance (`root.attrs`)
 
-The `/metadata` subtree at the root **MUST** exist and aggregates per-step provenance into queryable tables, plus an embedded copy of the workflow spec itself.
+Workflow-level provenance is stored in `root.attrs` as scalars, lists, and dicts. The runner populates these automatically.
 
-```
-/metadata
-├── attrs                        # top-level provenance summary
-├── /workflow_spec               # Embedded workflow YAML
-│     └── attrs:
-│           yaml                 (str)   # full original YAML text
-│           json                 (str)   # canonical JSON form (for tokenization)
-│           sha256               (str)   # hash of canonical form
-│           source_path          (str)   # original file path on disk, if known
-├── /processing_history          # xr.Dataset: (step_index,) → structured cols
-│     └── data_vars:
-│           step_id              (str)
-│           plugin_name          (str)
-│           plugin_version       (str)
-│           kind                 (str)
-│           start_time           (datetime64[ns])
-│           end_time             (datetime64[ns])
-│           input_tokens_json    (str)   # {dep_id: token}
-│           output_token         (str)
-│           arguments_json       (str)   # canonicalized JSON of kwargs
-│           gc_status            (str)   # "kept" | "data_dropped" | "never_existed"
-├── /quality                     # xr.Dataset: per-output quality flags
-│     └── data_vars:
-│           output_id            (str)
-│           percent_unmasked     (float)
-│           coverage_passed      (bool)
-│           checker_plugin       (str)
-├── /inputs                      # xr.Dataset: source-file manifest (from readers)
-│     └── data_vars:
-│           reader_step_id       (str)
-│           path                 (str)
-│           sha256               (str)
-│           size_bytes           (int64)
-│           mtime                (datetime64[ns])
-└── /products                    # CHUNKED dask-backed Dataset (from output_formatters)
-      └── data_vars:
-            formatter_step_id    (str)
-            path                 (str)
-            sha256               (str)
-            size_bytes           (int64)
-            mime_type            (str)
-```
+| Attr | Type | Notes |
+|------|------|-------|
+| `workflow_spec_yaml` | str | Full original YAML text |
+| `workflow_spec_sha256` | str | Hash of canonical JSON form |
+| `processing_history` | list[dict] | One entry per step: `{step_id, plugin_name, plugin_version, kind, start_time, end_time, input_tokens_json, output_token, arguments_json, gc_status}` |
+| `quality` | list[dict] | Per-output quality: `{output_id, percent_unmasked, coverage_passed, checker_plugin}` |
+| `inputs` | list[dict] | Source-file manifest from readers: `{reader_step_id, path, sha256, size_bytes, mtime}` |
+| `products` | list[dict] | Output formatter artifacts: `{formatter_step_id, path, sha256, size_bytes, mime_type}` |
 
-`/metadata/workflow_spec` holds the full workflow definition that produced this DataTree. The `yaml` attribute is the original file text verbatim; the `json` attribute is a canonical normalization for tokenization.
+`root.attrs["workflow_spec_yaml"]` holds the full workflow definition that produced this DataTree. The `workflow_spec_sha256` is a canonical hash for tokenization.
 
-`/metadata/products` is dask-backed. Output formatters that produce many artifacts can use chunking to keep memory and serialization bounded.
+`root.attrs["processing_history"]` is a list-of-dicts, one entry per executed step. This can be converted to a pandas DataFrame for querying: `pd.DataFrame(root.attrs["processing_history"])`.
 
-### 5.4 Per-Step `/<step_id>/metadata` Subtree
+### 5.4 Per-Step Provenance (`/<step_id>.attrs`)
 
-Each step's node **SHOULD** carry a small `/metadata` subtree describing its own execution. The runner populates this automatically; plugins should not need to write to it.
+Each step node **SHOULD** carry provenance in its `attrs`. The runner populates this automatically; plugins should not need to write to it.
 
 ```
-/<step_id>
-├── (data_vars, coords, attrs from the step)
-└── /metadata
-      └── attrs:
-            step_id           (str)
-            plugin_name       (str)
-            plugin_version    (str)
-            source_name       (str)   # populated by reader steps via get_source_names()
-            platform_name     (str)   # populated by reader steps
-            data_provider     (str)   # populated by reader steps
-            input_tokens      ({dep_id: token})
-            output_token      (str)
-            arguments_hash    (str)
-            start_time, end_time
-            gc_status         (str)
+/<step_id>.attrs:
+      step_id           (str)
+      plugin_name       (str)
+      plugin_version    (str)
+      source_name       (str)   # populated by reader steps via get_source_names()
+      platform_name     (str)   # populated by reader steps
+      data_provider     (str)   # populated by reader steps
+      input_tokens      (dict)  # {dep_id: token}
+      output_token      (str)
+      arguments_hash    (str)
+      start_time        (str)   # ISO-8601
+      end_time          (str)   # ISO-8601
+      gc_status         (str)   # "kept" | "data_dropped"
 ```
 
-This lets a step's node be inspected in isolation without needing the full workflow context. `source_name`, `platform_name`, and `data_provider` are populated by reader steps only; non-reader steps leave them as `None`.
+This lets a step's node be inspected in isolation — just read `tree["/<step_id>"].attrs`. `source_name`, `platform_name`, and `data_provider` are populated by reader steps only; non-reader steps leave them as `None`.
 
 ### 5.5 Variable-Level Metadata
 
@@ -665,7 +609,6 @@ A `split` step's node contains **named child branches**, each itself a valid `Da
 ```
 /split_by_cloud_mask
 ├── attrs: { operator: "split", split_on: "/sector/cloud_mask" }
-├── /metadata
 ├── /cloudy                            # branch 1 — a DataTree
 │     ├── (subset where cloud_mask == 1: data_vars, coords)
 │     └── /algo_cloudy                  # step with scope: cloudy nests here
@@ -738,14 +681,14 @@ A non-boundary step **SHOULD**:
 
 Boundary steps (`kind: reader`, `kind: output_formatter`) are explicitly permitted to perform file I/O. They **MUST** capture the I/O into the `DataTree`:
 
-- Readers record input files (path, sha256, size, mtime) into the workflow-level `/metadata/inputs` table. The runner appends rows; the reader returns the data.
-- Output formatters record written-artifact paths and checksums into the workflow-level `/metadata/products` table.
+- Readers record input files (path, sha256, size, mtime) into `root.attrs["inputs"]`. The runner appends entries; the reader returns the data.
+- Output formatters record written-artifact paths and checksums into `root.attrs["products"]`.
 
 Boundary steps **SHOULD** be deterministic given their arguments (same file contents + arguments → same output `DataTree`).
 
 ### 6.5 Output Formatter Step Nodes
 
-An `output_formatter` step's node **SHOULD NOT** duplicate the data it wrote. Its node typically contains only `attrs` describing what was written (paths, checksums, dimensions). The actual file artifacts are tracked in `/metadata/products`.
+An `output_formatter` step's node **SHOULD NOT** duplicate the data it wrote. Its node typically contains only `attrs` describing what was written (paths, checksums, dimensions). The actual file artifacts are tracked in `root.attrs["products"]`.
 
 ```
 /render_png
@@ -768,7 +711,7 @@ An `output_formatter` step's node **SHOULD NOT** duplicate the data it wrote. It
 
 ### 7.1 Why Tokenize
 
-Given `token = dask.base.tokenize(obj)`, two objects with the same token are interchangeable. OBP uses tokens to compare a workflow's output against a golden value (instead of pixel-by-pixel diffing) and to verify reproducibility in `/metadata/processing_history`.
+Given `token = dask.base.tokenize(obj)`, two objects with the same token are interchangeable. OBP uses tokens to compare a workflow's output against a golden value (instead of pixel-by-pixel diffing) and to verify reproducibility in `root.attrs["processing_history"]`.
 
 ### 7.2 What Must Be Tokenizable
 
@@ -797,7 +740,7 @@ A step's token **MUST NOT** change when only:
 
 ### 7.4 Tokens Survive Garbage Collection
 
-**GC'd step nodes still carry their output token** in `/<step_id>/metadata.attrs.output_token`. This means:
+**GC'd step nodes still carry their output token** in `/<step_id>.attrs["output_token"]`. This means:
 
 - The workflow-level token is stable regardless of retention policy.
 - A workflow run with `keep_outputs_only` produces the same workflow-level token as a run with `keep_all`, given the same inputs and code.
@@ -983,7 +926,7 @@ Per-step `keep` and declared `outputs` are not overridable.
 When a step node is GC'd:
 
 - **Dropped:** all `data_vars` and non-coordinate variables.
-- **Survives:** the node itself, the step's `/metadata` subtree, the step's `attrs`, and dimension coordinates.
+- **Survives:** the node itself, the step's `attrs`, and dimension coordinates.
 - **Recorded:** `attrs["gc_status"] = "data_dropped"` on the GC'd node.
 
 A GC'd node is _transparent_:
@@ -1020,7 +963,8 @@ Use cases: inspecting raw reader output for QA, retaining small-but-valuable int
 ### 10.7 GC Visibility in Provenance
 
 ```python
-hist = root["/metadata/processing_history"].to_dataframe()
+import pandas as pd
+hist = pd.DataFrame(root.attrs["processing_history"])
 print(hist[["step_id", "gc_status", "output_token"]])
 #       step_id        gc_status     output_token
 # 0   read_abi              kept     blake2b:1a2b...
@@ -1134,7 +1078,7 @@ flowchart TD
     E --> H[Invoke step plugin]
     H --> I[Validate output schema]
     I --> J[Place at /step_id in workflow tree]
-    J --> K[Update workflow /metadata]
+    J --> K[Update root.attrs provenance]
     K --> L[Apply retention to upstream nodes]
     L --> M{More steps?}
     M -- yes --> E
@@ -1145,24 +1089,19 @@ flowchart TD
 
 ```mermaid
 graph TD
-    R[root: workflow_name] --> A[attrs: workflow_name, outputs, retention,...]
+    R[root: workflow_name] --> A[attrs: workflow_name, outputs, retention, inputs, products,...]
     R --> S1["/read_abi (kept)"]
     R --> S2["/sector (gc'd)"]
     R --> S3["/single_channel (kept)"]
     R --> S4["/render_png (output)"]
     R --> S5["/write_nc (output)"]
-    R --> M["/metadata"]
     S1 --> S1d[datasets + coords]
-    S1 --> S1m["/metadata: token, args, source_name, timing"]
-    S2 --> S2m["/metadata only"]
+    S1 --> S1a[attrs: token, source_name, timing]
+    S2 --> S2a[attrs: gc_status, token]
     S3 --> S3d[datasets + coords]
-    S3 --> S3m["/metadata"]
+    S3 --> S3a[attrs: token, args_hash]
     S4 --> S4a[attrs: artifacts, sha256]
     S5 --> S5a[attrs: artifacts, sha256]
-    M --> Mh[/processing_history/]
-    M --> Mq[/quality/]
-    M --> Mi[/inputs/]
-    M --> Mp[/products/]
 ```
 
 ### 14.3 Split / Join Flow
