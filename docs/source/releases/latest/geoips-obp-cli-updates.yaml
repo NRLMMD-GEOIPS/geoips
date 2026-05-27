@@ -9,8 +9,13 @@ enhancement:
     In order to apply overrides, GeoIPS will fully expand a workflow plugin, replace
     relevant portions of the workflow with the contents specified as an override, then
     revalidate the modified workflow.
+
+    Added documentation and fixed failing unit tests as well. New unit tests to come for
+    new functionality added.
   files:
     modified:
+      - docs/dev/running_order_based_procflow.rst
+      - docs/source/concepts/functionality/command-line/index.rst
       - geoips/commandline/ancillary_info/cmd_instructions.yaml
       - geoips/commandline/geoips_run.py
       - geoips/commandline/geoips_test.py
@@ -23,6 +28,8 @@ enhancement:
       - geoips/pydantic_models/v1/workflows.py
       - tests/unit_tests/commandline/test_geoips_run.py
       - tests/unit_tests/commandline/test_geoips_test_workflow.py
+      - tests/unit_tests/pydantic_models/v1/output_checkers/test_cases_bad.yaml
+      - tests/unit_tests/pydantic_models/v1/utils.py
   related-issue:
     number: null
     repo_url: ''
