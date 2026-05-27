@@ -132,8 +132,10 @@ class TestTreeCreation:
         tree: DataTree = DataTree(dataset=ds)
         assert_identical(tree.to_dataset(), ds)
 
-        with pytest.raises(TypeError):
-            DataTree(dataset=xr.DataArray(42, name="foo"))  # type: ignore[arg-type]
+        # DataTreeDitto intentionally accepts DataArray and converts
+        # it to a Dataset. Native DataTree raises TypeError here.
+        tree_da = DataTree(dataset=xr.DataArray(42, name="foo"))
+        assert isinstance(tree_da, DataTree)
 
     def test_child_data_not_copied(self) -> None:
         # regression test for https://github.com/pydata/xarray/issues/9683
@@ -708,14 +710,12 @@ class TestCoords:
         #     coords[0]
 
         # repr
-        expected = dedent(
-            """\
+        expected = dedent("""\
         Coordinates:
           * x        (x) int64 16B -1 -2
-          * y        (y) int64 24B 0 1 2
             a        (x) int64 16B 4 5
-            b        int64 8B -10"""
-        )
+          * y        (y) int64 24B 0 1 2
+            b        int64 8B -10""")
         actual = repr(coords)
         assert expected == actual
 
@@ -1268,8 +1268,7 @@ class TestRepr:
         )
 
         result = repr(dt)
-        expected = dedent(
-            """
+        expected = dedent("""
             <xarray.DataTree>
             Group: /
             │   Dimensions:  (x: 2)
@@ -1287,13 +1286,11 @@ class TestRepr:
                         Dimensions:  ()
                         Data variables:
                             g        float64 8B 4.0
-            """
-        ).strip()
+            """).strip()
         assert result == expected
 
         result = repr(dt.b)
-        expected = dedent(
-            """
+        expected = dedent("""
             <xarray.DataTree 'b'>
             Group: /b
             │   Dimensions:  (x: 2, y: 1)
@@ -1307,13 +1304,11 @@ class TestRepr:
                     Dimensions:  ()
                     Data variables:
                         g        float64 8B 4.0
-            """
-        ).strip()
+            """).strip()
         assert result == expected
 
         result = repr(dt.b.d)
-        expected = dedent(
-            """
+        expected = dedent("""
             <xarray.DataTree 'd'>
             Group: /b/d
                 Dimensions:  (x: 2, y: 1)
@@ -1322,8 +1317,7 @@ class TestRepr:
                 Dimensions without coordinates: y
                 Data variables:
                     g        float64 8B 4.0
-            """
-        ).strip()
+            """).strip()
         assert result == expected
 
     def test_repr_two_children(self) -> None:
@@ -1336,8 +1330,7 @@ class TestRepr:
         )
 
         result = repr(tree)
-        expected = dedent(
-            """
+        expected = dedent("""
             <xarray.DataTree>
             Group: /
             │   Dimensions:  (x: 1)
@@ -1350,25 +1343,21 @@ class TestRepr:
                         z        float64 8B 1.0
                     Data variables:
                         foo      (x) float64 8B 0.0
-            """
-        ).strip()
+            """).strip()
         assert result == expected
 
         result = repr(tree["first_child"])
-        expected = dedent(
-            """
+        expected = dedent("""
             <xarray.DataTree 'first_child'>
             Group: /first_child
                 Dimensions:  (x: 1)
                 Inherited coordinates:
                   * x        (x) float64 8B 1.0
-            """
-        ).strip()
+            """).strip()
         assert result == expected
 
         result = repr(tree["second_child"])
-        expected = dedent(
-            """
+        expected = dedent("""
             <xarray.DataTree 'second_child'>
             Group: /second_child
                 Dimensions:  (x: 1)
@@ -1378,8 +1367,7 @@ class TestRepr:
                   * x        (x) float64 8B 1.0
                 Data variables:
                     foo      (x) float64 8B 0.0
-            """
-        ).strip()
+            """).strip()
         assert result == expected
 
     def test_repr_truncates_nodes(self) -> None:
@@ -1395,8 +1383,7 @@ class TestRepr:
         with xr.set_options(display_max_children=3):
             result = repr(tree)
 
-        expected = dedent(
-            """
+        expected = dedent("""
             <xarray.DataTree>
             Group: /
             ├── Group: /file_0
@@ -1442,8 +1429,7 @@ class TestRepr:
                         Dimensions:  ()
                         Data variables:
                             g        int64 8B 36
-            """
-        ).strip()
+            """).strip()
         assert expected == result
 
         with xr.set_options(display_max_children=10):
@@ -1461,8 +1447,7 @@ class TestRepr:
         )
 
         result = repr(tree)
-        expected = dedent(
-            """
+        expected = dedent("""
             <xarray.DataTree>
             Group: /
             │   Dimensions:  (x: 1)
@@ -1474,21 +1459,18 @@ class TestRepr:
                     Dimensions without coordinates: y
                     Data variables:
                         bar      (y) float64 8B 2.0
-            """
-        ).strip()
+            """).strip()
         assert result == expected
 
         result = repr(tree["child"])
-        expected = dedent(
-            """
+        expected = dedent("""
             <xarray.DataTree 'child'>
             Group: /child
                 Dimensions:  (x: 1, y: 1)
                 Dimensions without coordinates: x, y
                 Data variables:
                     bar      (y) float64 8B 2.0
-            """
-        ).strip()
+            """).strip()
         assert result == expected
 
     @pytest.mark.skipif(
@@ -1540,8 +1522,7 @@ class TestRepr:
         )
 
         result = repr(tree)
-        expected = dedent(
-            """
+        expected = dedent("""
             <xarray.DataTree>
             Group: /
             │   Dimensions:  (time: 2)
@@ -1567,13 +1548,11 @@ class TestRepr:
                     Data variables:
                         infrared    (time, lon, lat) float64 144B 6.0 6.0 6.0 6.0 ... 6.0 6.0 6.0
                         true_color  (time, lon, lat) float64 144B 7.0 7.0 7.0 7.0 ... 7.0 7.0 7.0
-            """
-        ).strip()
+            """).strip()
         assert result == expected
 
         result = repr(tree["weather"])
-        expected = dedent(
-            """
+        expected = dedent("""
             <xarray.DataTree 'weather'>
             Group: /weather
             │   Dimensions:     (time: 2, station: 6)
@@ -1589,8 +1568,7 @@ class TestRepr:
                     Data variables:
                         air_temperature  (time, station) float64 96B 4.0 4.0 4.0 4.0 ... 4.0 4.0 4.0
                         dewpoint         (time, station) float64 96B 5.0 5.0 5.0 5.0 ... 5.0 5.0 5.0
-            """
-        ).strip()
+            """).strip()
         assert result == expected
 
 
@@ -1675,8 +1653,7 @@ class TestInheritance:
         assert_identical(child_dataset, expected)
 
     def test_inconsistent_dims(self) -> None:
-        expected_msg = _exact_match(
-            """
+        expected_msg = _exact_match("""
             group '/b' is not aligned with its parents:
             Group:
                 Dimensions:  (x: 1)
@@ -1686,8 +1663,7 @@ class TestInheritance:
             From parents:
                 Dimensions:  (x: 2)
                 Dimensions without coordinates: x
-            """
-        )
+            """)
 
         with pytest.raises(ValueError, match=expected_msg):
             DataTree.from_dict(
@@ -1710,8 +1686,7 @@ class TestInheritance:
             )
 
     def test_inconsistent_child_indexes(self) -> None:
-        expected_msg = _exact_match(
-            """
+        expected_msg = _exact_match("""
             group '/b' is not aligned with its parents:
             Group:
                 Dimensions:  (x: 1)
@@ -1723,8 +1698,7 @@ class TestInheritance:
                 Dimensions:  (x: 1)
                 Coordinates:
                   * x        (x) float64 8B 1.0
-            """
-        )
+            """)
 
         with pytest.raises(ValueError, match=expected_msg):
             DataTree.from_dict(
@@ -1745,8 +1719,7 @@ class TestInheritance:
             DataTree(dataset=xr.Dataset(coords={"x": [1.0]}), children={"b": b})
 
     def test_inconsistent_grandchild_indexes(self) -> None:
-        expected_msg = _exact_match(
-            """
+        expected_msg = _exact_match("""
             group '/b/c' is not aligned with its parents:
             Group:
                 Dimensions:  (x: 1)
@@ -1758,8 +1731,7 @@ class TestInheritance:
                 Dimensions:  (x: 1)
                 Coordinates:
                   * x        (x) float64 8B 1.0
-            """
-        )
+            """)
 
         with pytest.raises(ValueError, match=expected_msg):
             DataTree.from_dict(
@@ -1781,8 +1753,7 @@ class TestInheritance:
             DataTree(dataset=xr.Dataset(coords={"x": [1.0]}), children={"b": b})
 
     def test_inconsistent_grandchild_dims(self) -> None:
-        expected_msg = _exact_match(
-            """
+        expected_msg = _exact_match("""
             group '/b/c' is not aligned with its parents:
             Group:
                 Dimensions:  (x: 1)
@@ -1792,8 +1763,7 @@ class TestInheritance:
             From parents:
                 Dimensions:  (x: 2)
                 Dimensions without coordinates: x
-            """
-        )
+            """)
 
         with pytest.raises(ValueError, match=expected_msg):
             DataTree.from_dict(
@@ -2299,13 +2269,13 @@ class TestIndexing:
 
         with pytest.raises(
             KeyError,
-            match="Raised whilst mapping function over node with path 'second'",
+            match=r"Raised whilst mapping function over node\(s\) with path 'second'",
         ):
             tree.sel(x=1)
 
         with pytest.raises(
             IndexError,
-            match="Raised whilst mapping function over node with path 'first'",
+            match=r"Raised whilst mapping function over node\(s\) with path 'first'",
         ):
             tree.isel(x=4)
 

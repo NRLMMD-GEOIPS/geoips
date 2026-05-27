@@ -1,6 +1,5 @@
-from collections.abc import Callable
 from functools import wraps
-from typing import Any, Union
+from typing import Any
 
 import numpy as np
 import xarray as xr
@@ -43,11 +42,9 @@ class DataTreeDitto(DataTree):
 
         Parameters
         ----------
-        data : array-like, xarray.Dataset, xarray.DataArray, or None, optional
+        dataset : array-like, xarray.Dataset, xarray.DataArray, or None, optional
             Data to store in this node. Non-xarray objects are automatically
             converted to xarray.Dataset using registered converters.
-        parent : DataTreeDitto, optional
-            Parent node in the tree structure.
         children : dict, optional
             Dictionary of child nodes.
         name : str, optional
@@ -67,33 +64,65 @@ class DataTreeDitto(DataTree):
             DataTreeDitto._converters = {}
             DataTreeDitto._register_builtin_converters()
 
-        # Convert data if the data is not an xarray DataSet
         if dataset is not None:
-            # if isinstance(dataset, xr.DataArray):
-            #    # Convert DataArray to Dataset
-            #    dataset = dataset.to_dataset()
+            if isinstance(dataset, xr.DataArray):
+                dataset = dataset.to_dataset()
             if not isinstance(
                 dataset,
                 (
                     xr.Dataset,
-                    xr.DataArray,
                     xr.core.coordinates.DataTreeCoordinates,
                     xr.DataTree,
                 ),
             ):
-                # Convert non-xarray object
                 dataset = self._convert_to_dataset(dataset)
 
         super().__init__(dataset=dataset, children=children, name=name)
 
-    def _convert_output_to_DataTreeDitto(f):
-        def f_that_returns_datatree_ditto(*args, **kwargs):
-            result = f(*args, **kwargs)
-            if isinstance(result, DataTree) and not isinstance(result, DataTreeDitto):
-                return DataTreeDitto._convert_datatree_to_ditto(result)
-            return result
+    def _enforce_ditto_output(f):
+        """Wrap a method to ensure its return value is a DataTreeDitto.
 
-        return f_that_returns_datatree_ditto
+        If the wrapped function returns a ``DataTreeDitto``, it is returned
+        as-is. If it returns a plain ``DataTree``, it is recursively converted
+        to ``DataTreeDitto`` via ``_convert_datatree_to_ditto``. Tuples of
+        ``DataTree`` are converted element-wise (used by
+        ``map_over_datasets``). Any other return type raises ``TypeError``.
+
+        Returns
+        -------
+        callable
+            Wrapped function that guarantees a ``DataTreeDitto`` return value.
+
+        Raises
+        ------
+        TypeError
+            If the wrapped function returns a type that cannot be converted
+            to ``DataTreeDitto``.
+        """
+
+        @wraps(f)
+        def wrapper(*args, **kwargs):
+            result = f(*args, **kwargs)
+            if isinstance(result, DataTreeDitto):
+                return result
+            elif isinstance(result, DataTree):
+                return DataTreeDitto._convert_datatree_to_ditto(result)
+            elif isinstance(result, tuple):
+                return tuple(
+                    (
+                        DataTreeDitto._convert_datatree_to_ditto(r)
+                        if isinstance(r, DataTree) and not isinstance(r, DataTreeDitto)
+                        else r
+                    )
+                    for r in result
+                )
+            else:
+                raise TypeError(
+                    f"Expected {f.__name__} to return DataTree or DataTreeDitto, "
+                    f"got {type(result).__name__}"
+                )
+
+        return wrapper
 
     @classmethod
     def _register_builtin_converters(cls):
@@ -145,7 +174,7 @@ class DataTreeDitto(DataTree):
     def _numpy_to_dataset(
         obj: np.ndarray,
         name: str = "data",
-        dims: list | None = None,
+        dims: list[str] | None = None,
         **kwargs,
     ) -> xr.Dataset:
         """Convert numpy array to xarray Dataset.
@@ -157,7 +186,9 @@ class DataTreeDitto(DataTree):
         name : str, default "data"
             Name for the data variable in the resulting dataset.
         dims : list of str, optional
-            Dimension names. If None, generates names like "dim_0", "dim_1", etc.
+            Dimension names for the DataArray. If None, auto-generates names
+            like "dim_0", "dim_1", etc. These are stored in ``_ditto_dims``
+            metadata for round-trip recovery.
         **kwargs
             Additional keyword arguments (currently unused).
 
@@ -220,13 +251,21 @@ class DataTreeDitto(DataTree):
         """
         var_name = dataset.attrs.get("_ditto_var_name", "data")
         if var_name not in dataset.data_vars:
-            # Fallback: use first data variable
+            if not dataset.data_vars:
+                raise ValueError(
+                    "Dataset has no data variables; cannot convert back to "
+                    "numpy array"
+                )
             var_name = next(iter(dataset.data_vars.keys()))
 
         return dataset[var_name].values
 
     def _convert_to_dataset(self, obj: Any, **kwargs) -> xr.Dataset:
         """Convert an object to xarray Dataset using registered converters.
+
+        Performs priority-based matching: first checks for an exact type
+        match, then falls back to ``isinstance``-based matching, preferring
+        the most specific (deepest in the MRO) registered type.
 
         Parameters
         ----------
@@ -243,7 +282,8 @@ class DataTreeDitto(DataTree):
         Raises
         ------
         TypeError
-            If no converter is registered for the object's type.
+            If no converter is registered for the object's type or any of
+            its base classes.
 
         Examples
         --------
@@ -255,17 +295,37 @@ class DataTreeDitto(DataTree):
         """
         obj_type = type(obj)
 
-        if obj_type not in self._converters:
-            raise TypeError(
-                f"No converter registered for type {obj_type}. "
-                f"Available converters: {list(self._converters.keys())}",
-            )
+        if obj_type in self._converters:
+            converter = self._converters[obj_type]["to_dataset"]
+            return converter(obj, **kwargs)
 
-        converter = self._converters[obj_type]["to_dataset"]
-        return converter(obj, **kwargs)
+        matching_types = [t for t in self._converters if isinstance(obj, t)]
+        if matching_types:
+            mro = obj_type.__mro__
+            matching_types.sort(key=lambda t: mro.index(t) if t in mro else len(mro))
+            converter = self._converters[matching_types[0]]["to_dataset"]
+            return converter(obj, **kwargs)
+
+        raise TypeError(
+            f"No converter registered for type {obj_type}. "
+            f"Available converters: {list(self._converters.keys())}",
+        )
 
     def _convert_from_dataset(self, dataset: xr.Dataset) -> Any:
         """Convert a dataset back to its original type if metadata exists.
+
+        Checks for ``_ditto_original_type`` in the dataset's attributes. If
+        found, looks up the matching registered converter by comparing the
+        stored type string (``module.ClassName``) against all registered
+        converter types, then calls the ``from_dataset`` converter to
+        reconstruct the original object. Returns the dataset unchanged if
+        no metadata is found or no matching converter is registered.
+
+        The ``_ditto_original_type`` string is compared against
+        ``f"{type.__module__}.{type.__name__}"`` of each registered
+        converter's type key. Custom converters that store a non-standard
+        ``_ditto_original_type`` value will not be matched on round-trip
+        and will silently return the original dataset.
 
         Parameters
         ----------
@@ -301,7 +361,16 @@ class DataTreeDitto(DataTree):
         return dataset
 
     def _intercept_assignment(func):
-        """Decorator to intercept and convert assignments.
+        """Decorator to intercept and convert assignments to DataTreeDitto.
+
+        Handles three cases for the assigned value:
+        1. Already an xarray type (DataTreeDitto, Dataset, DataArray,
+           Variable, DataTreeCoordinates) — passed through unchanged.
+        2. A plain ``DataTree`` — recursively converted to a ``DataTreeDitto``
+           with all children also converted.
+        3. A non-xarray object — dispatched to a registered converter to
+           produce a ``Dataset``, then wrapped in a ``DataTreeDitto``.
+           Raises ``TypeError`` if no converter is registered for the type.
 
         Parameters
         ----------
@@ -369,9 +438,12 @@ class DataTreeDitto(DataTree):
         """
         super().__setitem__(key, value)
 
-    @_convert_output_to_DataTreeDitto
-    def __getitem__(self, key: str) -> Union["DataTreeDitto", Any]:
+    def __getitem__(self, key: str) -> "DataTreeDitto":
         """Override getitem to return DataTreeDitto instances.
+
+        xarray's ``__getitem__`` returns ``DataArray`` when a child node has a
+        single data variable. We intercept that and walk to the actual child
+        node instead, ensuring a ``DataTreeDitto`` is always returned.
 
         Parameters
         ----------
@@ -381,7 +453,12 @@ class DataTreeDitto(DataTree):
         Returns
         -------
         DataTreeDitto
-            The child node, converted to DataTreeDitto if necessary.
+            The child node, guaranteed to be a DataTreeDitto.
+
+        Raises
+        ------
+        TypeError
+            If ``__getitem__`` returns an unexpected type.
 
         Examples
         --------
@@ -391,17 +468,27 @@ class DataTreeDitto(DataTree):
         >>> isinstance(child, DataTreeDitto)
         True
         """
-        return super().__getitem__(key)
+        result = super().__getitem__(key)
+        if isinstance(result, DataTreeDitto):
+            return result
+        elif isinstance(result, DataTree):
+            return DataTreeDitto._convert_datatree_to_ditto(result)
+        elif isinstance(result, xr.DataArray):
+            # DataTree shortcut: child with single variable returns DataArray.
+            # Walk to the actual DataTreeDitto child node instead.
+            node = self
+            for part in str(key).split("/"):
+                node = node.children.get(part)
+                if node is None:
+                    return result
+            if isinstance(node, DataTree) and not isinstance(node, DataTreeDitto):
+                node = DataTreeDitto._convert_datatree_to_ditto(node)
+            return node
+        raise TypeError(
+            f"__getitem__ returned unexpected type: {type(result).__name__}"
+        )
 
-    # @classmethod
-    # def from_dict(cls, data=None, name=None):
-    #    # Pass keyword arguments directly, without the '*'
-    #    result = super().from_dict(data, name=name)
-    #    if isinstance(result, DataTree) and not isinstance(result, DataTreeDitto):
-    #        return cls._convert_datatree_to_ditto(result)
-    #    return result
-
-    @_convert_output_to_DataTreeDitto
+    @_enforce_ditto_output
     def map_over_datasets(
         self,
         func: Callable[..., Any],
@@ -410,23 +497,23 @@ class DataTreeDitto(DataTree):
     ) -> DataTree | tuple[DataTree, ...]:
         return super().map_over_datasets(func, *args, kwargs=kwargs)
 
-    @_convert_output_to_DataTreeDitto
+    @_enforce_ditto_output
     def _unary_op(self, f, *args, **kwargs) -> DataTree:
         return super()._unary_op(f, *args, **kwargs)
 
-    @_convert_output_to_DataTreeDitto
+    @_enforce_ditto_output
     def _binary_op(self, other, f, reflexive=False, join=None) -> DataTree:
         return super()._binary_op(other, f, reflexive, join)
 
-    @_convert_output_to_DataTreeDitto
+    @_enforce_ditto_output
     def filter(self: DataTree, filterfunc: Callable[[DataTree], bool]) -> DataTree:
         return super().filter(filterfunc)
 
-    @_convert_output_to_DataTreeDitto
+    @_enforce_ditto_output
     def match(self, pattern: str) -> DataTree:
         return super().match(pattern)
 
-    @_convert_output_to_DataTreeDitto
+    @_enforce_ditto_output
     def mean(
         self,
         dim=None,
@@ -443,7 +530,7 @@ class DataTreeDitto(DataTree):
 
         Parameters
         ----------
-        tt : DataTree
+        dt : DataTree
             DataTree instance to convert.
 
         Returns
@@ -470,6 +557,14 @@ class DataTreeDitto(DataTree):
         Any
             Original object if conversion metadata exists, otherwise the dataset.
             Returns None if the node contains no data.
+
+        Notes
+        -----
+        Performance and memory behavior depend on the registered converter:
+        some converters duplicate data while others reuse the underlying array
+        via views. The returned object shares shallow-copy semantics with the
+        stored data — modifying mutable elements of the returned object may
+        affect the data inside the tree.
 
         Examples
         --------

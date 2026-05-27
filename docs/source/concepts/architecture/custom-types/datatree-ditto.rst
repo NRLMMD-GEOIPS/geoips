@@ -16,19 +16,65 @@ with added functionality for type handling.
 Usage Example::
 
     >>> import numpy as np
-    >>> from your_module import DataTreeDitto
+    >>> from geoips.utils.types.datatree_ditto import DataTreeDitto
     >>> arr = np.array([[1, 2], [3, 4]])
     >>> dt = DataTreeDitto(arr)
     >>> dt.ds.data.values.tolist()
     [[1, 2], [3, 4]]
     >>> dt.get_original().tolist()
-    [1, 2, 3]
+    [[1, 2], [3, 4]]
 
-DataTreeDitto internally relies on xarray's DataTrees and metadata used for round-trip conversion of non-xobjects is
-stored in dataset attributes prefixed with ``_ditto_``.
+DataTreeDitto internally relies on xarray's DataTrees. Metadata required for
+round-trip conversion to/from non-xarray objects is stored in dataset attributes
+prefixed with ``_ditto_``.
 
 Custom converters can be registered using ``.register_converter()`` for full extensibility and some basic converters
 (e.g., for numpy nd-arrays) are provided.
+
+Supported Data Types
+====================
+
+Built-in converters are registered for the following types:
+
+* ``numpy.ndarray`` — stored as a single-variable ``xarray.Dataset`` with auto-generated dimension names
+
+Additional types can be supported by registering custom converters via
+``DataTreeDitto.register_converter(type, to_dataset_func, from_dataset_func)``.
+
+Type Resolution Priority
+------------------------
+
+When converting an object, ``DataTreeDitto`` first checks for an exact type
+match. If none is found, it falls back to ``isinstance``-based matching,
+selecting the most specific registered type (deepest in the object's MRO).
+For example, if only ``numpy.ndarray`` is registered, a ``numpy.masked_array``
+will match the ``numpy.ndarray`` converter since ``masked_array`` is a
+subclass of ``ndarray``.
+
+Operations on Converted Data
+============================
+
+DataTreeDitto preserves its type across tree operations. Methods that would
+normally return a plain ``DataTree`` return ``DataTreeDitto`` instead:
+
+.. code-block:: python
+
+    >>> dt = DataTreeDitto(np.array([[1, 2], [3, 4]]), name="root")
+    >>> sliced = dt.isel(dim_0=slice(0, 1))
+    >>> isinstance(sliced, DataTreeDitto)
+    True
+
+    >>> filtered = dt.filter(lambda n: n.name == "root")
+    >>> isinstance(filtered, DataTreeDitto)
+    True
+
+    >>> averaged = dt.mean()
+    >>> isinstance(averaged, DataTreeDitto)
+    True
+
+Note that accessing a child node via ``__getitem__`` (``dt["child"]``) always
+returns a ``DataTreeDitto``, even when the child contains a single data variable
+(as opposed to native ``DataTree`` which may return a ``DataArray`` in that case).
 
 Using DataTreeDitto
 ===================
@@ -38,6 +84,7 @@ you can use DataTreeDitto to do anything you can do with an :class:`xarray.DataT
 
 .. code-block:: python
 
+    >>> import xarray
     >>> dtd = DataTreeDitto()
     >>> dt = xarray.DataTree()
     >>> isinstance(dt, xarray.DataTree) # A DataTree is a DataTree
@@ -54,6 +101,7 @@ Automatic Conversion of Children
 
 .. code-block:: python
 
+   tree = DataTreeDitto()
    tree["child_1"] = np.array([10, 20])
    tree["child_2"] = {"a": "b"}  # Will raise TypeError unless converter is registered
 
@@ -128,6 +176,7 @@ If needed for downstream compatibility (e.g., saving or visualization), convert 
 
 .. code-block:: python
 
+   import xarray as xr
    standard_tree = dt.to_datatree()
    assert isinstance(standard_tree, xr.DataTree)
 
@@ -145,6 +194,6 @@ If you try to assign an unsupported type without registering a converter::
 
 To debug representation info at any time::
 
-    print(repr(tree))
+    >>> print(repr(tree))  # assuming 'tree' is a DataTreeDitto instance
 
 This will include paths and original types of all converted nodes.

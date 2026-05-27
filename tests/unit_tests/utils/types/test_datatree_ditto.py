@@ -549,3 +549,129 @@ class TestWithFixtures:
         retrieved = dt.get_original("string_data")
         assert retrieved == test_string
         assert isinstance(retrieved, str)
+
+
+class TestDataArrayInitialization:
+    """Test that DataTreeDitto accepts DataArray as a direct constructor argument."""
+
+    def test_dataarray_converted_to_dataset(self):
+        """Test DataArray is automatically converted to a Dataset node."""
+        da = xr.DataArray([1, 2, 3], dims="x", name="values")
+        dt = DataTreeDitto(dataset=da)
+
+        assert isinstance(dt, DataTreeDitto)
+        assert "values" in dt.ds.data_vars
+        np.testing.assert_array_equal(dt.ds["values"].values, [1, 2, 3])
+
+    def test_dataarray_with_coords(self):
+        """Test DataArray with coordinates is handled correctly."""
+        da = xr.DataArray(
+            [10, 20, 30],
+            dims="x",
+            coords={"x": [0, 1, 2]},
+            name="signal",
+        )
+        dt = DataTreeDitto(dataset=da)
+
+        assert isinstance(dt, DataTreeDitto)
+        assert "signal" in dt.ds.data_vars
+        assert "x" in dt.ds.coords
+        np.testing.assert_array_equal(dt.ds["x"].values, [0, 1, 2])
+
+    def test_multi_dim_dataarray(self):
+        """Test multi-dimensional DataArray conversion."""
+        da = xr.DataArray(
+            np.arange(12).reshape(3, 4),
+            dims=("y", "x"),
+            name="grid",
+        )
+        dt = DataTreeDitto(dataset=da)
+
+        assert isinstance(dt, DataTreeDitto)
+        assert "grid" in dt.ds.data_vars
+        assert dt.ds["grid"].shape == (3, 4)
+
+
+class TestSubclassConverterMatching:
+    """Test priority-based type matching for subclasses."""
+
+    def test_subclass_matches_base_converter(self):
+        """Test masked_array matches ndarray converter when no specific one."""
+        arr = np.ma.array([1, 2, 3, 4])
+        dt = DataTreeDitto(dataset=arr)
+
+        assert isinstance(dt, DataTreeDitto)
+        assert isinstance(dt.ds, xr.Dataset)
+        actual_ds = dt.ds._dataset if hasattr(dt.ds, "_dataset") else dt.ds
+        assert "_ditto_original_type" in actual_ds.attrs
+        assert actual_ds.attrs["_ditto_original_type"] == "numpy.ndarray"
+        np.testing.assert_array_equal(dt.get_original("."), arr)
+
+    def test_specific_converter_wins_over_base(self):
+        """Test that a more specific converter is preferred."""
+        saved_converters = dict(DataTreeDitto._converters)
+
+        def masked_to_ds(obj, name="data", dims=None, **kwargs):
+            ds = DataTreeDitto._numpy_to_dataset(obj, name=name, dims=dims)
+            ds.attrs["_ditto_original_type"] = "numpy.ma.MaskedArray"
+            return ds
+
+        def masked_from_ds(ds, **kwargs):
+            return np.ma.array(DataTreeDitto._dataset_to_numpy(ds))
+
+        DataTreeDitto.register_converter(
+            np.ma.MaskedArray, masked_to_ds, masked_from_ds
+        )
+
+        masked = np.ma.array([10, 20, 30], mask=[0, 1, 0])
+        dt = DataTreeDitto(dataset=masked)
+
+        actual_ds = dt.ds._dataset if hasattr(dt.ds, "_dataset") else dt.ds
+        assert actual_ds.attrs["_ditto_original_type"] == "numpy.ma.MaskedArray"
+
+        DataTreeDitto._converters = saved_converters
+
+    def test_no_converter_for_type_raises_error(self):
+        """Test that types without converter still raise TypeError."""
+        dt = DataTreeDitto()
+        with pytest.raises(TypeError, match="No converter registered"):
+            dt["unsupported"] = {1, 2, 3}
+
+
+class TestEnforceDittoOutput:
+    """Test the _enforce_ditto_output decorator behavior."""
+
+    def test_filter_returns_datatree_ditto(self):
+        """Test that filter() returns DataTreeDitto."""
+        dt = DataTreeDitto()
+        dt["keep"] = np.array([1, 2, 3])
+        dt["drop"] = np.array([4, 5, 6])
+
+        filtered = dt.filter(lambda n: n.name == "keep")
+        assert isinstance(filtered, DataTreeDitto)
+
+    def test_mean_returns_datatree_ditto(self):
+        """Test that mean() returns DataTreeDitto."""
+        arr = np.array([[1.0, 2.0], [3.0, 4.0]])
+        dt = DataTreeDitto(dataset=arr)
+
+        result = dt.mean(dim="dim_0")
+        assert isinstance(result, DataTreeDitto)
+
+    def test_match_returns_datatree_ditto(self):
+        """Test that match() returns DataTreeDitto."""
+        dt = DataTreeDitto()
+        dt["foo"] = np.array([1, 2, 3])
+        dt["bar"] = np.array([4, 5, 6])
+
+        result = dt.match("f*")
+        assert isinstance(result, DataTreeDitto)
+
+    def test_method_raising_typeerror_on_unexpected_type(self):
+        """Test TypeError when a wrapped method returns unexpected type."""
+        dt = DataTreeDitto()
+        dt["child"] = np.array([1, 2, 3])
+
+        wrapper = DataTreeDitto._enforce_ditto_output(lambda *a, **kw: 42)
+        with pytest.raises(TypeError, match="to return DataTree or DataTreeDitto"):
+            wrapper(dt)
