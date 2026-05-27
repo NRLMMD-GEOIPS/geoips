@@ -5,9 +5,9 @@
 
 import sys
 import os
-import geoips
+import PKGNAME
 
-VERSION = str(geoips.__version__)
+VERSION = str(PKGNAME.__version__)
 
 source_path = os.path.dirname(os.path.abspath(__file__))
 
@@ -41,6 +41,7 @@ extensions = [
     "sphinxcontrib.autoprogram",
     "m2r2",
     "sphinxcontrib.mermaid",
+    "sphinxcontrib.typer",
 ]
 
 # Add any paths that contain templates here, relative to this directory.

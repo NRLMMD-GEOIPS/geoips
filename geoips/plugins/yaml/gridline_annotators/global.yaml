@@ -1,0 +1,20 @@
+interface: gridline_annotators
+family: cartopy
+name: global
+docstring: |
+  Gridline_annotators plugin tuned for global sector display.
+  Top and left gridline labels, latitude and longitude lines colored
+  black, 5 degree spacing, 1px linewidth, and [4, 2] linestyle
+spec:
+  labels:
+    top: true
+    bottom: false
+    left: true
+    right: false
+  lines:
+    color: black
+    linestyle: [4, 2]
+    linewidth: 1
+  spacing:
+    latitude: 5
+    longitude: 5

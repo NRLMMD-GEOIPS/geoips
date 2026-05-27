@@ -1,3 +1,6 @@
+# # # This source code is subject to the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
+
 """Module for handling cached files in GeoIPS.
 
 This modules provides functions to manage cache files in GeoIPS.
@@ -7,9 +10,9 @@ which defaults to `platformdirs.user_cache_dir("geoips")` if not set.
 """
 
 import os
-import yaml
 import json
 from logging import getLogger
+import geoips.utils.yaml_utils as yaml
 from geoips.filenames.base_paths import PATHS
 
 LOG = getLogger(__name__)

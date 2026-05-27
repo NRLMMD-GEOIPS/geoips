@@ -44,18 +44,6 @@ screen -t outp 6
 stuff "source config_geoips; cd \$GEOIPS; top"
 screen -t fname 7
 stuff "source config_geoips; cd \$GEOIPS; top"
-screen -t rdr 8
-stuff "source config_geoips; cd \$GEOIPS; top"
-screen -t drvr 9
-stuff "source config_geoips; cd \$GEOIPS; top"
-screen -t run 10
-stuff "source config_geoips; cd \$GEOIPS; top"
-screen -t trepo 11
-stuff "source config_geoips; cd \$GEOIPS; top"
-screen -t logs 12
-stuff "source config_geoips; cd \$GEOIPS; top"
-screen -t out 13
-stuff "source config_geoips; cd \$GEOIPS; top"
 
 hardstatus alwayslastline
 

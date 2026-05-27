@@ -2,6 +2,7 @@
 # # # https://github.com/NRLMMD-GEOIPS.
 
 """Routines for writing SMAP or SMOS windspeed data in AWIPS2 compatible format."""
+
 import logging
 from pathlib import Path
 from datetime import datetime, timedelta

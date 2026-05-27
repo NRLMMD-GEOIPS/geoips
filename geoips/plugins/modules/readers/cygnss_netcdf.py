@@ -4,7 +4,6 @@
 """Read derived surface winds from CYGNSS netcdf data."""
 
 # Python Standard Libraries
-import glob
 import logging
 
 # Third-Party Libraries
@@ -98,38 +97,3 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
     out_dict["CYGNSS"] = wind_xarray
 
     return out_dict
-
-
-# Unit test functions
-def get_test_files(test_data_dir):
-    """
-    Generate a testing xarray dataset from NetCDF files in the test data directory.
-
-    Parameters
-    ----------
-    test_data_dir : str
-        Path to the directory containing test data.
-
-    Returns
-    -------
-    xarray.Dataset
-        The dataset created from the NetCDF test files.
-
-    Raises
-    ------
-    FileNotFoundError
-        If no NetCDF files are found in the specified directory.
-    """
-    filepath = test_data_dir + "/test_data_cygnss/data/*.nc"
-    filelist = glob.glob(filepath)
-    if not filelist:
-        raise FileNotFoundError("No files found")
-    tmp_xr = call(filelist)
-    return tmp_xr
-
-
-def get_test_parameters():
-    """Generate test data key for unit testing."""
-    return [
-        {"data_key": "CYGNSS", "data_var": "wind_speed", "mean": 7.0251474},
-    ]

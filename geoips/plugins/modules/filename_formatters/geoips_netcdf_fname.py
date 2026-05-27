@@ -38,12 +38,16 @@ def call(
     """
     if basedir is None:
         basedir = gpaths["PRECALCULATED_DATA_PATH"]
+    if xarray_obj.area_definition:
+        area_id = xarray_obj.area_definition.area_id
+    else:
+        area_id = "x"
     ncdf_fname = assemble_geoips_netcdf_fname(
         basedir=basedir,
         product_name="_".join(product_names),
         source_name=xarray_obj.source_name,
         platform_name=xarray_obj.platform_name,
-        sector_name=xarray_obj.area_definition.area_id,
+        sector_name=area_id,
         product_datetime=xarray_obj.start_datetime,
     )
 

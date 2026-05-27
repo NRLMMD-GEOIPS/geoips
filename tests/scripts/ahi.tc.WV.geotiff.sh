@@ -7,7 +7,7 @@
 
 # This exact test case required for valid comparisons - remove "compare_path" argument if running a different
 # set of arguments.
-geoips run single_source $GEOIPS_TESTDATA_DIR/test_data_noaa_aws/data/himawari8/20200405/0000/* \
+geoips run single_source $GEOIPS_TESTDATA_DIR/test_data_ahi/data/20200405_0000/HS_H08* \
           --reader_name ahi_hsd \
           --product_name WV \
           --filename_formatter geotiff_fname \

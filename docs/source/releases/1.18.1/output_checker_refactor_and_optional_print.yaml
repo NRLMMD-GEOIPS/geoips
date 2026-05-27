@@ -1,0 +1,13 @@
+enhancement:
+- title: 'Rewrite of text output checker'
+  description: 'This is a rewrite of the text output checker. It adds QOL updates such as optional inline diff printing, optional rich output and optional updating of comparisons (with manual confirmation that is yes compatible). It adds options to GeoIPS for setting user preferences on whether to enable these new features.'
+  files:
+    modified:
+    - 'geoips/filenames/base_paths.py'
+    - 'geoips/plugins/modules/output_checkers/text.py'
+  related-issue:
+    number: null
+    repo_url: ''
+  date:
+    start: null
+    finish: null

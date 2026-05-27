@@ -17,11 +17,13 @@ import json
 from shutil import get_terminal_size
 
 from colorama import Fore, Style
+from pluginify.config import REGISTRY_DIRECTORY
 from tabulate import tabulate
-import yaml
 
-from geoips.commandline.cmd_instructions import cmd_instructions, alias_mapping
+import geoips.utils.yaml_utils as yaml
+from geoips.commandline.ancillary_info import cmd_instructions, alias_mapping
 from geoips.commandline.log_setup import setup_logging
+from geoips.filenames.base_paths import PATHS
 
 
 class PluginPackages:
@@ -276,7 +278,10 @@ class GeoipsCommand(abc.ABC):
                 # command which has epilog text, which in this case, is a warning saying
                 # this procflow is in development and is subject to change at any time
                 if self.name == "order_based":
-                    epilog = self.warning
+                    if PATHS["NO_COLOR"]:
+                        epilog = self.warning_no_color
+                    else:
+                        epilog = self.warning_with_color
                 else:
                     epilog = None
                 # If the command's name exists w/in the alias mapping, then
@@ -513,11 +518,18 @@ class GeoipsExecutableCommand(GeoipsCommand):
                     key = "GeoIPS Package"
                 elif key == "Relpath":
                     key = "Relative Path"
-                formatted_line = Fore.CYAN + key + ":" + Style.RESET_ALL
-                formatted_line += Fore.YELLOW + value + Style.RESET_ALL
+
+                if PATHS["NO_COLOR"]:
+                    formatted_line = f"{key}:{value}"
+                else:
+                    formatted_line = Fore.CYAN + key + ":" + Style.RESET_ALL
+                    formatted_line += Fore.YELLOW + value + Style.RESET_ALL
                 print(formatted_line)
             else:
-                formatted_line = "\t" + Fore.YELLOW + line + Style.RESET_ALL
+                if PATHS["NO_COLOR"]:
+                    formatted_line = f"\t{line}"
+                else:
+                    formatted_line = "\t" + Fore.YELLOW + line + Style.RESET_ALL
                 print(formatted_line)
 
     def _get_registry_by_interface_and_package(self, interface, package_name):
@@ -564,9 +576,10 @@ class GeoipsExecutableCommand(GeoipsCommand):
             else:
                 interface_registry = None
         else:
-            with open(
-                resources.files(package_name) / "registered_plugins.json", "r"
-            ) as fo:
+            registry_file = REGISTRY_DIRECTORY.joinpath(
+                f"geoips.plugin_packages/{package_name}/registered_plugins.json"
+            )
+            with open(registry_file, "r") as fo:
                 interface_registry = json.load(fo)
             if interface.name in interface_registry[interface.interface_type]:
                 interface_registry = interface_registry[interface.interface_type][

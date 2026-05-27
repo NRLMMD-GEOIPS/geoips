@@ -4,10 +4,13 @@
 """Products interface module."""
 
 import logging
+
+from jsonschema.exceptions import ValidationError
+
 from geoips.geoips_utils import merge_nested_dicts
 from geoips.interfaces.base import YamlPluginValidator, BaseYamlInterface
 from geoips.interfaces.yaml_based.product_defaults import product_defaults
-from jsonschema.exceptions import ValidationError
+from geoips.filenames.base_paths import PATHS as gpaths
 
 LOG = logging.getLogger(__name__)
 
@@ -84,6 +87,7 @@ class ProductsInterface(BaseYamlInterface):
     """GeoIPS interface for Products plugins."""
 
     name = "products"
+    use_pydantic = gpaths["GEOIPS_USE_PYDANTIC"]
     validator = ProductsPluginValidator()
 
     def _create_registered_plugin_names(self, yaml_plugin):

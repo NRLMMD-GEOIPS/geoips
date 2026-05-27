@@ -1,0 +1,21 @@
+installation:
+- title: 'Update mamba packages in geoips base installation'
+  description: |
+    * Remove openblas, because it periodically causes seg faults
+    * Add libspatialindex for alphashape missing library error (interp_scipy)
+    * Added cmake and gfortran for builds.
+    * Added make for cmake builds
+    * Added zlib for c/fortran builds
+    * Added clang for pypublicdecompwt build
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - 'docs/source/getting-started/installing/linux_with_conda.rst'
+  date:
+    start: 2025-08-13
+    finish: 2025-09-25

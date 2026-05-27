@@ -1,7 +1,23 @@
+# NOTE - each of these sections MUST be referenced in the index.rst template,
+# located at source/_templates/index.template.rst. Each optional section is
+# created during build_docs.py
+#    get_section_replace_string call within the
+#    update_content_for_section call, within
+#    generate_top_level_index_file call (which is where index.template.rst is referenced), within
+#    stage_docs_files_for_building (which is where this docs-sections.yaml file is referenced)
+# So - if you have additional optional sections to include, you must
+# add them both here, and within the index.template.rst.
 required:
  - releases
  - PKGNAME_api
 current:
+ # NOTE getting-started actually is required, because there is a hard coded link to it
+ # in index.template.rst, but if we move it to the required section now we will need
+ # to add getting-started/index.rst to all repos in order for build_docs to complete.
+ # So going to leave it here for now even though it results in a broken link in the
+ # documentation when it is not included, until we are ready to update every plugin
+ # repo (we will wanted to be entirely sure we have the desired required
+ # documentation layout before updating all plugin repos).
  - getting-started
  - tutorials
  - concepts
@@ -13,5 +29,6 @@ legacy:
 - userguide
 - devguide
 - deployguide
+- realtime_setup
 - opguide
 - contact

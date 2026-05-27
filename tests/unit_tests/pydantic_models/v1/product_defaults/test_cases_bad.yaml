@@ -1,0 +1,76 @@
+product_default_missing_plugin_from_family:
+  key: spec
+  val:
+    algorithm:
+      plugin:
+        name: windbarbs
+        arguments:
+          output_data_range: [0, 200]
+          input_units: kts
+          output_units: kts
+          min_outbounds: crop
+          max_outbounds: crop
+          norm: null
+          inverse: null
+    mtif_type: image
+    coverage_checker:
+      plugin:
+        name: windbarbs
+        arguments: {}
+  cls: ProductDefaultPluginModel
+  err_str: "Error: Your product or product default is missing required 'colormapper' plugin based on the family provided."
+product_default_using_plugin_outside_of_family_scope:
+  key: spec
+  val:
+    algorithm:
+      plugin:
+        name: windbarbs
+        arguments:
+          output_data_range: [0, 200]
+          input_units: kts
+          output_units: kts
+          min_outbounds: crop
+          max_outbounds: crop
+          norm: null
+          inverse: null
+    mtif_type: image
+    colormapper:
+      plugin:
+        name: wind_radii_transitions
+        arguments:
+          data_range: [0, 200]
+    coverage_checker:
+      plugin:
+        name: windbarbs
+        arguments: {}
+    interpolator:
+      plugin:
+        name: interp_nearest
+        arguments: {}
+  cls: ProductDefaultPluginModel
+  err_str: "Error: 'interpolator' plugin supplied but that does not adhere to the family supplied or the family of the product default supplied."
+plugin_missing_arguments_field:
+  key: spec
+  val:
+    algorithm:
+      plugin:
+        name: windbarbs
+        arguments:
+          output_data_range: [0, 200]
+          input_units: kts
+          output_units: kts
+          min_outbounds: crop
+          max_outbounds: crop
+          norm: null
+          inverse: null
+    mtif_type: image
+    colormapper:
+      plugin:
+        name: wind_radii_transitions
+        arguments:
+          data_range: [0, 200]
+    coverage_checker:
+      plugin:
+        name: windbarbs
+  cls: ModulePluginArgumentsModel
+  err_str: Field required

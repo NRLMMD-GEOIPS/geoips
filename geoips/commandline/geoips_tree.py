@@ -7,6 +7,8 @@ Single 'geoips tree' command which will display GeoIPS CLI commands up to a --ma
 value.
 """
 
+# :cspell: ignore gpaths
+
 from colorama import Fore, Style
 
 from geoips.commandline.geoips_command import GeoipsExecutableCommand
@@ -192,7 +194,7 @@ class GeoipsTree(GeoipsExecutableCommand):
         # hyperlink = self.link(url, cmd_txt)
         hyperlink = cmd_txt
 
-        if color:
+        if color and not gpaths["NO_COLOR"]:
             # print the command tree in a colored fashion
             color = self.level_to_color.get(level, Fore.WHITE)
             print(f"{indent}{color}{hyperlink}{Style.RESET_ALL}")

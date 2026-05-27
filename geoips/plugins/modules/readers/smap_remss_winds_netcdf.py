@@ -4,7 +4,6 @@
 """Read derived surface winds from REMSS SMAP netcdf data."""
 
 # Python Standard Libraries
-from glob import glob
 import logging
 from os.path import basename
 
@@ -116,18 +115,3 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
     wind_xarrays["METADATA"] = wind_xarray[[]]
 
     return wind_xarrays
-
-
-def get_test_files(test_data_dir):
-    """Generate test xarray from test files for unit testing."""
-    filepath = test_data_dir + "/test_data_smap/data/*.nc"
-    filelist = glob(filepath)
-    tmp_xr = call(filelist)
-    if len(filelist) == 0:
-        raise NameError("No files found")
-    return tmp_xr
-
-
-def get_test_parameters():
-    """Generate test data key for unit testing."""
-    return [{"data_key": "WINDSPEED_1", "data_var": "wind_speed_kts"}]

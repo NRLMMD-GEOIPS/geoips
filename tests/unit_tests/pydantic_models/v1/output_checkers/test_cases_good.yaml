@@ -1,0 +1,5 @@
+output_products_allows_empty_list:
+  description: "output_products is a strict List[str]; an empty list should still be a valid list value."
+  key: output_products
+  val: []
+  cls: OutputCheckersArgumentsModel

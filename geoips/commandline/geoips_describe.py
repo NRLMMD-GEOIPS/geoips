@@ -8,14 +8,14 @@ Retrieves the appropriate family/interface/package/plugin based on the args prov
 
 from importlib import metadata, resources, import_module
 
-import yaml
+from pluginify.create_plugin_registries import format_docstring
 
+import geoips.utils.yaml_utils as yaml
 from geoips.commandline.geoips_command import (
     CommandClassFactory,
     GeoipsCommand,
     GeoipsExecutableCommand,
 )
-from geoips.create_plugin_registries import format_docstring
 from geoips import interfaces
 
 
@@ -87,13 +87,12 @@ class GeoipsDescribeArtifact(GeoipsExecutableCommand):
             choices=getattr(interfaces, self.name.replace("-", "_")).supported_families,
             help="GeoIPS Family to select from the provided interface.",
         )
-        pass
 
     def __call__(self, args):
         """CLI 'geoips describe <interface_name>' command.
 
         This occurs when a user has requested a interface in the manner shown above.
-        Outputs to the teriminal the following data in a dictionary format if available.
+        Outputs to the terminal the following data in a dictionary format if available.
 
         Printed to Terminal
         -------------------
@@ -131,7 +130,7 @@ class GeoipsDescribeArtifact(GeoipsExecutableCommand):
         """CLI 'geoips describe <interface_name> <plugin_name>' command.
 
         This occurs when a user has requested a plugin in the manner shown above.
-        Outputs to the teriminal the following data in a dictionary format if available.
+        Outputs to the terminal the following data in a dictionary format if available.
 
         Printed to Terminal
         -------------------
@@ -176,7 +175,7 @@ class GeoipsDescribeArtifact(GeoipsExecutableCommand):
         """CLI 'geoips describe <interface_name> family <family_name>' command.
 
         This occurs when a user has requested a family in the manner shown above.
-        Outputs to the teriminal the following data in a dictionary format if available.
+        Outputs to the terminal the following data in a dictionary format if available.
 
         Printed to Terminal
         -------------------
@@ -209,7 +208,7 @@ class GeoipsDescribeArtifact(GeoipsExecutableCommand):
             err_str = f"Error: Family: `{family_name}` is not within Interface: "
             err_str += f"`{interface_name}` supported families: `{supported_families}`"
             self.parser.error(err_str)
-        if interface_type == "module_based":
+        if interface_type == "class_based":
             docstring = "Not Implemented."
             family_path = str(
                 resources.files("geoips")
@@ -244,7 +243,7 @@ class GeoipsDescribeArtifact(GeoipsExecutableCommand):
         """CLI 'geoips describe <interface_name>' command.
 
         This occurs when a user has requested a interface in the manner shown above.
-        Outputs to the teriminal the following data in a dictionary format if available.
+        Outputs to the terminal the following data in a dictionary format if available.
 
         Printed to Terminal
         -------------------
@@ -334,7 +333,7 @@ class GeoipsDescribePackage(GeoipsExecutableCommand):
         """CLI 'geoips describe package <package_name>' command.
 
         This occurs when a user has requested a package in the manner shown above.
-        Outputs to the teriminal the following data in a dictionary format if available.
+        Outputs to the terminal the following data in a dictionary format if available.
 
         Printed to Terminal
         -------------------
