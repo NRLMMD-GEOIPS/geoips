@@ -5,11 +5,13 @@
 
 # Third-Party Libraries
 from pydantic import Field
+from pyresample.geometry import AreaDefinition
 
 # GeoIPS imports
 from geoips.pydantic_models.v1.bases import PermissiveFrozenModel
 
 PLUGIN_PROVIDED = "plugin_provided"
+
 
 class FilenameFormatterArgumentsModel(PermissiveFrozenModel):
     """Filename-Formatter step argument definition.
@@ -17,13 +19,16 @@ class FilenameFormatterArgumentsModel(PermissiveFrozenModel):
     Pydantic model defining and validating Filename Formatter step arguments.
     """
 
-    area_def:
-    basedir: str = Field(PLUGIN_PROVIDED, description="Full path to base directory of final product")
+    area_def: AreaDefinition | None = Field(
+        None, description="Spatial domain to process."
+    )
+    basedir: str = Field(
+        PLUGIN_PROVIDED, description="Full path to base directory of final product"
+    )
     extra: str | None = Field(
         None,
         description=(
-            "String to include in filename 'extra' field"
-            " If None, use fillval of 'x'" 
+            "String to include in filename 'extra' field" " If None, use fillval of 'x'"
         ),
     )
     coverage: float | None = Field(
