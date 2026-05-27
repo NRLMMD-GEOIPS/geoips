@@ -20,6 +20,7 @@ def call(
     area_def,
     xarray_obj,
     product_names,
+    # Should this be product_name
     coverage=None,
     output_type="nc",
     output_type_dir=None,
