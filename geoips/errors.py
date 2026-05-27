@@ -5,6 +5,8 @@
 
 from pluginify.errors import PluginError  # NOQA ; used in various imports
 
+from yaml.constructor import ConstructorError
+
 
 class GeoipsError(Exception):
     """Base class for all GeoIPS-specific exceptions.
@@ -15,13 +17,13 @@ class GeoipsError(Exception):
     pass
 
 
-class FileFormatError(Exception):
+class FileFormatError(ValueError, GeoipsError):
     """Exception to be raised when a file is badly formatted and cannot be used."""
 
     pass
 
 
-class MissingRequiredXarrayMetadata(Exception):
+class MissingRequiredXarrayMetadata(KeyError, GeoipsError):
     """Exception to be raised when required metadata missing from a geoips xarray.
 
     Can be used from reader plugins if required metadata is missing, or from the
@@ -32,7 +34,7 @@ class MissingRequiredXarrayMetadata(Exception):
     pass
 
 
-class NoValidFilesError(Exception):
+class NoValidFilesError(OSError, GeoipsError):
     """Exception to be raised when there are no valid files found.
 
     Can be used from reader plugins if no valid files were passed to the reader.
@@ -41,25 +43,25 @@ class NoValidFilesError(Exception):
     pass
 
 
-class OutputFormatterDatelineError(Exception):
+class OutputFormatterDatelineError(ValueError, GeoipsError):
     """Exception to be raised when there is a dateline error in an output formatter."""
 
     pass
 
 
-class OutputFormatterInvalidProjectionError(Exception):
+class OutputFormatterInvalidProjectionError(ValueError, GeoipsError):
     """Exception to be raised when there is a projection error in an OutputFormatter."""
 
     pass
 
 
-class CoverageError(Exception):
+class CoverageError(GeoipsError):
     """Raise exception on data coverage error."""
 
     pass
 
 
-class PluginPackageNotFoundError(Exception):
+class PluginPackageNotFoundError(ModuleNotFoundError, GeoipsError):
     """Raise exception stating a certain plugin package was not found."""
 
     pass
@@ -71,7 +73,7 @@ class CliError(Exception):
     pass
 
 
-class DuplicateKeyError(Exception):
+class DuplicateKeyError(ConstructorError, GeoipsError):
     """Raised when a YAML mapping contains duplicate keys."""
 
     pass
