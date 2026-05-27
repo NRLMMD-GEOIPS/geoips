@@ -68,7 +68,7 @@ class ColormapperArgumentsModel(PermissiveFrozenModel):
     create_colorbar: bool | None = Field(
         True, description="Specify whether the image should contain a colorbar or not."
     )
-    data_range: tuple[float, float] | None= Field(
+    data_range: tuple[float, float] | None = Field(
         # pluginprovided,
         None,
         description=(

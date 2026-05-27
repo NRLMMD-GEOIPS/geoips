@@ -84,6 +84,7 @@ models_available = {
     }
 }
 
+
 def load_good_plugins(models_available):
     """Generate a dictionary of valid GeoIPS plugins.
 
