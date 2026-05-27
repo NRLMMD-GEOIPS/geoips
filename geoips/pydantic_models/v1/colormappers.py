@@ -12,6 +12,8 @@ from pydantic import Field
 # GeoIPS imports
 from geoips.pydantic_models.v1.bases import PermissiveFrozenModel
 
+PLUGIN_PROVIDED = "plugin_provided"
+
 
 class ColormapperArgumentsModel(PermissiveFrozenModel):
     """Colormapper step argument definition.
@@ -20,11 +22,11 @@ class ColormapperArgumentsModel(PermissiveFrozenModel):
     """
 
     cbar_full_width: bool = Field(
-        # pluginprovided,
-        # description='"Extend the colorbar across the full width of the image"'
+        default=PLUGIN_PROVIDED,
+        description='"Extend the colorbar across the full width of the image"',
     )
     cbar_label: str = Field(
-        # pluginprovided,
+        default=PLUGIN_PROVIDED,
         description=(
             "Positional parameter passed to cbar.set_label"
             " If specified, use cbar_label string as colorbar label."
@@ -37,7 +39,7 @@ class ColormapperArgumentsModel(PermissiveFrozenModel):
             ' can also specify directly within "colorbar_kwargs"'
         ),
     )
-    cbar_ticks: tuple[float] | None = Field(
+    cbar_ticks: list[float] | None = Field(
         None,
         description=(
             "Positional parameter passed to cbar.set_ticks"
@@ -53,24 +55,23 @@ class ColormapperArgumentsModel(PermissiveFrozenModel):
         ),
     )
     cmap_name: str = Field(
-        "Greys",
+        default=PLUGIN_PROVIDED,
         description=(
             "Specify the name of the resulting matplotlib colormap. If no ascii_path"
             " specified, will use builtin matplotlib colormap of name cmap_name."
         ),
     )
     cmap_path: str | None = Field(None)
-    cmap_source: str | None = Field(None)
-    # cmap_source: str = Field(pluginprovided)
+    cmap_source: str = Field(default=PLUGIN_PROVIDED)
+
     colorbar_kwargs: dict | None = Field(
         None, description="keyword arguments to pass through directly to 'fig.colorbar'"
     )
     create_colorbar: bool | None = Field(
         True, description="Specify whether the image should contain a colorbar or not."
     )
-    data_range: tuple[float, float] | None = Field(
-        # pluginprovided,
-        None,
+    data_range: tuple[float, float] = Field(
+        default=PLUGIN_PROVIDED,
         description=(
             "Min and max value for colormap"
             "matplotlib.colors.Normalize(vmin=min_val, vmax=max_val)"

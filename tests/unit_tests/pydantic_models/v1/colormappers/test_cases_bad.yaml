@@ -1,7 +1,43 @@
 # cspell:ignore cbar
 cbar_full_width_invalid_input:
-  description: "Ensure invalid value for 'cbar_full-width_valid_input' is not accepted"
+  description: "Ensure invalid value for 'cbar_full_width' is not accepted"
   key: cbar_full_width
   val: 123
   cls: ColormapperArgumentsModel
   err_str: "Input should be a valid boolean"
+cbar_label_width_invalid_input:
+  description: "Ensure invalid value for 'cbar_label' is not accepted"
+  key: cbar_label
+  val: 123
+  cls: ColormapperArgumentsModel
+  err_str: "Input should be a valid string"
+cbar_spacing_width_invalid_input:
+  description: "Ensure invalid value for 'cbar_spacing' is not accepted"
+  key: cbar_spacing
+  val: 123
+  cls: ColormapperArgumentsModel
+  err_str: "Input should be a valid string"
+cbar_ticks_width_invalid_input:
+  description: "Ensure invalid value for 'cbar_ticks' is not accepted"
+  key: cbar_ticks
+  val: 123
+  cls: ColormapperArgumentsModel
+  err_str: "Input should be a valid list"
+cmap_name_invalid_input:
+  description: "Ensure invalid value for 'cmap_name' is not accepted"
+  key: cmap_name
+  val: True
+  cls: ColormapperArgumentsModel
+  err_str: "Input should be a valid string"
+create_colorbar_invalid_input:
+  description: "Ensure invalid value for 'create_colorbar' is not accepted"
+  key: create_colorbar
+  val: 123
+  cls: ColormapperArgumentsModel
+  err_str: "Input should be a valid boolean"
+pressure_range_legend_valid_input:
+  description: "Ensure valid value for 'pressure_range_legend' is accepted"
+  key: pressure_range_legend
+  val: invalid_input
+  cls: ColormapperArgumentsModel
+  err_str: "Input should be a valid list"

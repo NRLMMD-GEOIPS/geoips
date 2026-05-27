@@ -1,6 +1,41 @@
 # cspell:ignore cbar
 cbar_full_width_valid_input:
-  description: "Ensure valid value for 'cbar_full-width_valid_input' is accepted"
+  description: "Ensure valid value for 'cbar_full-width' is accepted"
   key: cbar_full_width
   val: False
+  cls: ColormapperArgumentsModel
+cbar_label_valid_input:
+  description: "Ensure valid value for 'cbar_label' is accepted"
+  key: cbar_label
+  val: "TB (K)"
+  cls: ColormapperArgumentsModel
+cbar_spacing_valid_input:
+  description: "Ensure valid value for 'cbar_label' is accepted"
+  key: cbar_spacing
+  val: "proportional"
+  cls: ColormapperArgumentsModel
+cbar_ticks_valid_input:
+  description: "Ensure valid value for 'cbar_ticks' is accepted"
+  key: cbar_ticks
+  val: [20, 30]
+  cls: ColormapperArgumentsModel
+cbar_ticks_labels_valid_input:
+  description: "Ensure valid value for 'cbar_ticks' is accepted"
+  key: cbar_ticks_labels
+  val: mpl_tick_labels
+  cls: ColormapperArgumentsModel
+cmap_name_valid_input:
+  description: "Ensure valid value for 'cmap_name' is accepted"
+  key: cmap_name
+  val: viridis
+  cls: ColormapperArgumentsModel
+create_colorbar_valid_input:
+  description: "Ensure valid value for 'create_colorbar' is accepted"
+  key: create_colorbar
+  val: True
+  cls: ColormapperArgumentsModel
+pressure_range_legend_valid_input:
+  description: "Ensure valid value for 'pressure_range_legend' is accepted"
+  key: pressure_range_legend
+  val: ["Unassigned", "Low", "Mid", "High"]
   cls: ColormapperArgumentsModel
