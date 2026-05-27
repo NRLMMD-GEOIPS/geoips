@@ -169,6 +169,16 @@ def valid_output_checker_arguments(file_generated_from_pytest_fixture):
 
 
 @pytest.fixture
+def valid_output_formatter_arguments():
+    """Fixture providing valid data OutputFormatterArgumentsModel tests."""
+    return {
+        "append": False,
+
+    }
+
+
+
+@pytest.fixture
 def valid_workflow_spec_model_data():
     """Fixture providing valid data testing WorkflowSpecModel fields."""
     return {
