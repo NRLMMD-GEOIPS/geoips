@@ -19,6 +19,7 @@ from dask.base import tokenize as dask_tokenize
 LOG = logging.getLogger(__name__)
 
 _TOKEN_PREFIX = "dask:"
+_UNTOKENIZABLE_PREFIX = "untokenizable:"
 
 
 def compute_token(*objs: Any) -> str:
@@ -68,8 +69,13 @@ def compute_arguments_hash(arguments: dict[str, Any]) -> str:
         A ``"dask:"``-prefixed token string.
     """
     # Sort items so two dicts with the same content hash identically
-    sorted_items = tuple(sorted(arguments.items(), key=lambda kv: kv[0]))
-    return compute_token(sorted_items)
+    try:
+        return compute_token(arguments)
+    except Exception as exc:
+        LOG.warning(
+            "Could not tokenize arguments: %s", exc
+        )
+        return f"{_UNTOKENIZABLE_PREFIX}{type(exc).__name__}"
 
 
 def compute_step_output_token(
@@ -114,11 +120,11 @@ def compute_step_output_token(
             tuple(sorted((upstream_tokens or {}).items())),
             step_output,
         )
-    except Exception as exc:
+    except (TypeError, ValueError) as exc:
         LOG.warning(
             "Could not tokenize output from %s/%s: %s",
             plugin_kind,
             plugin_name,
             exc,
         )
-        return f"untokenizable:{type(exc).__name__}"
+        return f"{_UNTOKENIZABLE_PREFIX}{type(exc).__name__}"

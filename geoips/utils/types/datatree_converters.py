@@ -40,6 +40,12 @@ def _dict_to_dataset(d: dict, **kwargs) -> xr.Dataset:
         elif isinstance(value, (int, float, str, bool)) or value is None:
             ds.attrs[f"_ditto_attr_{key}"] = value
         else:
+            LOG.warning(
+                "Stringifying non-scalar value for key %r (type %s) — "
+                "round-trip will NOT preserve the original object",
+                key,
+                type(value).__name__,
+            )
             ds.attrs[f"_ditto_attr_{key}"] = str(value)
     return ds
 
@@ -83,7 +89,15 @@ def _da_to_ds(da: xr.DataArray, **kwargs) -> xr.Dataset:
 
 def _ds_to_da(ds: xr.Dataset, **kwargs) -> xr.DataArray:
     """Convert a DataArray-origin ``xr.Dataset`` back to an ``xr.DataArray``."""
-    name = ds.attrs.get("_ditto_da_name") or next(iter(ds.data_vars))
+    name = ds.attrs.get("_ditto_da_name")
+    if name is None:
+        if len(ds.data_vars) != 1:
+            raise ValueError(
+                f"Cannot convert Dataset to DataArray: "
+                f"'_ditto_da_name' attr is missing and the Dataset has "
+                f"{len(ds.data_vars)} data_vars (need exactly 1)."
+            )
+        name = next(iter(ds.data_vars))
     return ds[name]
 
 

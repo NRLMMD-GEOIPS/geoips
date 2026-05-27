@@ -57,13 +57,16 @@ class TestWorkflowStepDefinitionModel:
         )
         assert step.scope is None
 
-    def test_scope_field_accepts_string(self):
-        """Accept a string value for the scope field."""
-        step = WorkflowStepDefinitionModel.model_validate(
-            {"kind": "algorithm", "name": "single_channel", "scope": "cloudy"},
-            context=CTX,
-        )
-        assert step.scope == "cloudy"
+    def test_scope_field_rejected(self):
+        """Providing a non-None scope raises a validation error."""
+        import pytest
+        from pydantic import ValidationError
+
+        with pytest.raises(ValidationError, match="scope is not yet implemented"):
+            WorkflowStepDefinitionModel.model_validate(
+                {"kind": "algorithm", "name": "single_channel", "scope": "cloudy"},
+                context=CTX,
+            )
 
     def test_when_field_defaults_none(self):
         """Default when to None when not supplied."""

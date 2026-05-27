@@ -68,6 +68,9 @@ class TestInvokeWrapping:
         plugin = _FakeLegacyPlugin()
         result = plugin._invoke(data=dt)
         assert isinstance(result, xr.DataTree)
+        assert result.ds is not None
+        assert "var" in result.ds
+        assert (result.ds["var"].values == [1, 2, 3]).all()
 
     def test_legacy_rewraps_output(self):
         """Verify ``data_tree=False`` rewraps non-DataTree output."""
@@ -79,10 +82,9 @@ class TestInvokeWrapping:
         plugin = _ProducesDataset()
         result = plugin._invoke(data=xr.DataTree())
         assert isinstance(result, xr.DataTree)
-        # Root node should contain the dataset with "out" variable
-        if isinstance(result, xr.DataTree):
-            result_ds = result.ds if result.ds is not None else xr.Dataset()
-        assert "out" in result_ds
+        assert result.ds is not None
+        assert "out" in result.ds
+        assert (result.ds["out"].values == [10, 20]).all()
 
     def test_datatree_native_skips_conversion(self):
         """Verify ``data_tree=True`` DataTree passes through unchanged."""
@@ -94,6 +96,9 @@ class TestInvokeWrapping:
         plugin = _FakeNativePlugin()
         result = plugin._invoke(data=dt)
         assert isinstance(result, xr.DataTree)
+        assert result.ds is not None
+        assert "var" in result.ds
+        assert (result.ds["var"].values == [1, 2]).all()
 
     def test_datatree_ditto_roundtrip(self):
         """Verify DataTreeDitto round-trips numpy through legacy plugin."""
@@ -110,3 +115,5 @@ class TestInvokeWrapping:
         plugin = _NumpyAlgPlugin()
         result = plugin._invoke(data=dt)
         assert isinstance(result, xr.DataTree)
+        assert result.ds is not None
+        assert (result.ds["data"].values == np.array([[2.0, 4.0], [6.0, 8.0]])).all()

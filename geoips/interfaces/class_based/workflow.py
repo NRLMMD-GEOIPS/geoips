@@ -18,13 +18,18 @@ from __future__ import annotations
 import logging
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
+import dataclasses
+from collections import deque
 from datetime import datetime, timezone
 from typing import Any
 
 import xarray as xr
 
-from geoips.interfaces.class_based_plugin import BaseClassPlugin
-from geoips.pydantic_models.v1.workflows import WorkflowSpecModel
+from geoips.pydantic_models.v1.workflows import (
+    DEFAULT_RETENTION,
+    SCAFFOLD_KINDS,
+    WorkflowSpecModel,
+)
 from geoips.utils.types.datatree_ditto import DataTreeDitto
 from geoips.utils.types.tokenization import (
     compute_arguments_hash,
@@ -116,32 +121,29 @@ _POLICIES: dict[str, type[RetentionPolicy]] = {
     "keep_outputs_only": KeepOutputsOnlyPolicy,
 }
 
-
 # -- Workflow composite class --
 
-
-class Workflow(BaseClassPlugin, abstract=True):
+class Workflow:
     """Non-registered runtime executor for a validated workflow spec.
+
+    This is an *orchestrator* that co-ordinates registered plugins — it does
+    not inherit from ``BaseClassPlugin`` and is not itself registerable.
+    Plugins are resolved via ``geoips.interfaces`` at runtime.
 
     Parameters
     ----------
     spec : WorkflowSpecModel
         A pydantic-validated workflow specification.
-    name : str
+    workflow_name : str
         The workflow name (used as the root DataTree node name).
     """
 
-    interface = "workflows"
-    family = "order_based"
-    name = "__workflow_runtime__"
-    data_tree = True
-
-    def __init__(self, spec: WorkflowSpecModel, name: str) -> None:
+    def __init__(self, spec: WorkflowSpecModel, workflow_name: str) -> None:
         self._spec = spec
-        self._wf_name = name
+        self._wf_name = workflow_name
         self._order: list[str] = self._topological_order()
         self._retention: RetentionPolicy = _POLICIES[
-            self._spec.retention or "keep_referenced"
+            self._spec.retention or DEFAULT_RETENTION
         ](self._spec)
 
     # -- topology --
@@ -149,26 +151,16 @@ class Workflow(BaseClassPlugin, abstract=True):
     def _topological_order(self) -> list[str]:
         """Return step ids in a valid execution order.
 
-        Uses Kahn's algorithm.  Re-raises pydantic-cycle errors (should
-        already be caught at validation time).
-
-        Raises
-        ------
-        DependencyCycleError
-            If a cycle was somehow not caught at validation time.
+        Uses Kahn's algorithm.  Cyclicity is enforced at pydantic validation
+        time by ``_validate_dependencies``; this function assumes a DAG.
         """
-        from geoips.errors import DependencyCycleError
-
         step_ids = list(self._spec.steps.keys())
-        indegree: dict[str, int] = {sid: 0 for sid in step_ids}
-        for sid, step in self._spec.steps.items():
-            for dep in step.depends_on or ():
-                indegree[sid] = indegree.get(sid, 0) + 1
+        indegree = {sid: len(step.depends_on or ()) for sid, step in self._spec.steps.items()}
 
-        queue = [sid for sid in step_ids if indegree[sid] == 0]
+        queue = deque(sid for sid in step_ids if indegree[sid] == 0)
         order: list[str] = []
         while queue:
-            sid = queue.pop(0)
+            sid = queue.popleft()
             order.append(sid)
             for other_sid, other_step in self._spec.steps.items():
                 if sid in (other_step.depends_on or ()):
@@ -176,10 +168,6 @@ class Workflow(BaseClassPlugin, abstract=True):
                     if indegree[other_sid] == 0:
                         queue.append(other_sid)
 
-        if len(order) != len(step_ids):
-            raise DependencyCycleError(
-                "Cycle detected at runtime (missed at validation time)"
-            )
         return order
 
     # -- data collection --
@@ -198,24 +186,12 @@ class Workflow(BaseClassPlugin, abstract=True):
         if not depends_on:
             return xr.DataTree(name="empty")
 
-        if len(depends_on) == 1:
-            dep_id = depends_on[0]
-            dep_node = tree.get(dep_id)
-            if dep_node is not None and dep_node.children:
-                result = xr.DataTree(name=dep_id)
-                for child_name, child in dep_node.children.items():
-                    result[child_name] = child
-                if dep_node.ds is not None:
-                    result.ds = dep_node.ds
-                return result
-            return xr.DataTree(name="empty")
-
-        multi = xr.DataTree(name="multi_input")
+        result = xr.DataTree(name="multi_input")
         for dep_id in depends_on:
             dep_node = tree.get(dep_id)
             if dep_node is not None:
-                multi[dep_id] = dep_node
-        return multi
+                result[dep_id] = dep_node
+        return result
 
     # -- step attachment & provenance --
 
@@ -249,27 +225,36 @@ class Workflow(BaseClassPlugin, abstract=True):
             Provenance bundle to record.
         """
         if node.ds is not None:
-            node.ds.attrs["plugin_name"] = prov.plugin_name
-            node.ds.attrs["plugin_kind"] = prov.plugin_kind
-            node.ds.attrs["start_time"] = prov.start_time
-            node.ds.attrs["end_time"] = prov.end_time
-            node.ds.attrs["arguments_hash"] = prov.arguments_hash
-            node.ds.attrs["output_token"] = prov.output_token
-            node.ds.attrs["gc_status"] = prov.gc_status
+            node.ds.attrs.update(dataclasses.asdict(prov))
 
     # -- garbage collection --
 
     def _gc_step_data(self, tree: xr.DataTree, step_id: str) -> None:
-        """Drop ``data_vars`` from a step node while preserving ``attrs``.
+        """Drop ``data_vars`` from a step node and re-stamp provenance.
 
-        Does not delete the node; keeps coordinate / attr metadata intact.
+        Reads the existing provenance from attrs, creates a fresh
+        ``StepProvenance`` with ``gc_status="data_dropped"``, then
+        drops data variables and re-writes provenance attrs.
         """
         node = tree.get(step_id)
         if node is None or node.ds is None:
             return
+
+        # Drop data_vars from the underlying dataset
         for var_name in list(node.ds.data_vars):
             del node.ds[var_name]
-        node.ds.attrs["gc_status"] = "data_dropped"
+
+        # Reconstruct provenance from existing attrs; mark as GC'd
+        prov = StepProvenance(
+            plugin_name=node.ds.attrs.get("plugin_name", "unknown"),
+            plugin_kind=node.ds.attrs.get("plugin_kind", "unknown"),
+            start_time=node.ds.attrs.get("start_time", ""),
+            end_time=node.ds.attrs.get("end_time", ""),
+            arguments_hash=node.ds.attrs.get("arguments_hash", ""),
+            output_token=node.ds.attrs.get("output_token", ""),
+            gc_status="data_dropped",
+        )
+        self._record_provenance(node, prov)
 
     def _apply_retention(self, tree: xr.DataTree, executed: set[str]) -> None:
         """Run garbage collection over the completed step set.
@@ -306,7 +291,6 @@ class Workflow(BaseClassPlugin, abstract=True):
         workflow_tree=None,
         *,
         fnames=None,
-        command_line_args=None,
         **kwargs,
     ):
         """Execute the workflow steps in topological order.
@@ -317,8 +301,6 @@ class Workflow(BaseClassPlugin, abstract=True):
             A DataTree to execute into. If None, a new root is created.
         fnames : list[str] or None
             Input filenames for reader steps.
-        command_line_args : Any or None
-            Command-line arguments forwarded to plugins.
         ``**kwargs``
             Additional keyword arguments forwarded to plugins.
 
@@ -339,7 +321,7 @@ class Workflow(BaseClassPlugin, abstract=True):
             step_def = self._spec.steps[sid]
 
             # --- scaffolding: split / join ---
-            if step_def.kind in ("split", "join"):
+            if step_def.kind in SCAFFOLD_KINDS:
                 raise NotImplementedError(
                     f"split/join execution is not yet implemented "
                     f"(encountered at step '{sid}')"
@@ -347,24 +329,13 @@ class Workflow(BaseClassPlugin, abstract=True):
 
             # --- when: expression ---
             if step_def.when is not None:
-                LOG.warning("step '%s' has when expression; ignored in v1", sid)
+                LOG.info("step '%s' has when expression; not yet implemented", sid)
 
             arg_hash = compute_arguments_hash(step_def.arguments or {})
             start_iso = datetime.now(timezone.utc).isoformat()
 
             # --- resolve plugin ---
-            try:
-                plugin_name = step_def.name
-                if step_def.kind in ("split", "join"):
-                    raise PluginResolutionError(
-                        f"split/join execution not implemented for step '{sid}'"
-                    )
-                plg = self._resolve_plugin(step_def.kind, step_def.name)
-            except Exception as exc:
-                raise PluginResolutionError(
-                    f"Cannot resolve plugin for step '{sid}' "
-                    f"({step_def.kind}/{step_def.name}): {exc}"
-                ) from exc
+            plg = self._resolve_plugin(step_def.kind, step_def.name)
 
             # --- reader path ---
             if not (step_def.depends_on or []):
@@ -387,14 +358,14 @@ class Workflow(BaseClassPlugin, abstract=True):
             # --- provenance ---
             output_token = compute_step_output_token(
                 step_result,
-                plugin_name=plugin_name,
+                plugin_name=step_def.name,
                 plugin_kind=step_def.kind,
                 arguments=step_def.arguments or {},
                 upstream_tokens=upstream_tokens or None,
             )
 
             prov = StepProvenance(
-                plugin_name=plugin_name,
+                plugin_name=step_def.name,
                 plugin_kind=step_def.kind,
                 start_time=start_iso,
                 end_time=end_iso,
@@ -423,20 +394,27 @@ class Workflow(BaseClassPlugin, abstract=True):
         Returns
         -------
         BaseClassPlugin
-            An instantiated plugin, or raises ``PluginResolutionError``.
+            An instantiated plugin.
+
+        Raises
+        ------
+        PluginResolutionError
+            If the interface or plugin cannot be resolved.
         """
         from geoips import interfaces
+        from geoips.errors import PluginResolutionError
         from geoips.utils.types.partial_lexeme import Lexeme
 
         interface_name = str(Lexeme(kind).plural)
+        iface = getattr(interfaces, interface_name, None)
+        if iface is None:
+            raise PluginResolutionError(
+                f"Kind '{kind}' -> interface '{interface_name}': "
+                f"no such interface found"
+            )
         try:
-            iface = getattr(interfaces, interface_name, None)
-            if iface is None:
-                raise AttributeError(f"No interface '{interface_name}'")
             return iface.get_plugin(name)
         except Exception as exc:
-            from geoips.errors import PluginResolutionError
-
             raise PluginResolutionError(
                 f"Kind '{kind}' -> interface '{interface_name}': "
                 f"cannot resolve plugin '{name}': {exc}"

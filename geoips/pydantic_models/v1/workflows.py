@@ -42,6 +42,16 @@ from geoips.utils.types.partial_lexeme import Lexeme
 
 LOG = logging.getLogger(__name__)
 
+SCAFFOLD_KINDS = frozenset({"split", "join"})
+"""Kinds reserved as scaffolding markers.
+
+Steps with these kinds are accepted by schema validation but raise
+``NotImplementedError`` at runtime.
+"""
+
+DEFAULT_RETENTION = "keep_referenced"
+"""Default retention policy when ``retention`` is not specified in the YAML."""
+
 
 ORDERED_PRODUCT_FAMILIES = [
     "algorithm",
@@ -182,6 +192,20 @@ class WorkflowArgumentsModel(PermissiveFrozenModel):
 
     model_config = ConfigDict(extra="allow")
     pass
+
+
+_PLUGIN_ARGUMENTS_MODELS: dict[str, type] = {
+    "AlgorithmArgumentsModel": AlgorithmArgumentsModel,
+    "ColormapperArgumentsModel": ColormapperArgumentsModel,
+    "CoverageCheckerArgumentsModel": CoverageCheckerArgumentsModel,
+    "FilenameFormatterArgumentsModel": FilenameFormatterArgumentsModel,
+    "InterpolatorArgumentsModel": InterpolatorArgumentsModel,
+    "OutputFormatterArgumentsModel": OutputFormatterArgumentsModel,
+    "ProductDefaultArgumentsModel": ProductDefaultArgumentsModel,
+    "ProductArgumentsModel": ProductArgumentsModel,
+    "ReaderArgumentsModel": ReaderArgumentsModel,
+    "WorkflowArgumentsModel": WorkflowArgumentsModel,
+}
 
 
 class GlobalVariablesModel(PermissiveFrozenModel):
@@ -342,7 +366,7 @@ class WorkflowStepDefinitionModel(FrozenModel):
         valid_kinds = get_plugin_kinds()
 
         # Allow split/join as scaffolding (runtime raises NotImplementedError)
-        valid_kinds = valid_kinds | {"split", "join"}
+        valid_kinds = valid_kinds | SCAFFOLD_KINDS
 
         # raise error if the plugin kind is not valid
         if value not in valid_kinds:
@@ -350,6 +374,26 @@ class WorkflowStepDefinitionModel(FrozenModel):
                 f"[!] Invalid plugin kind: '{value}'. Must be one of {valid_kinds}\n\n"
             )
 
+        return value
+
+    @field_validator("scope", mode="before")
+    @classmethod
+    def _reject_scope(cls, value: str | None) -> None:
+        """Reject non-None ``scope`` — split/join is not yet implemented."""
+        if value is not None:
+            raise ValueError(
+                "scope is not yet implemented — remove this field from the YAML"
+            )
+        return value
+
+    @field_validator("when", mode="before")
+    @classmethod
+    def _reject_when(cls, value: str | None) -> None:
+        """Reject non-None ``when`` — conditional execution is not yet implemented."""
+        if value is not None:
+            raise ValueError(
+                "when is not yet implemented — remove this field from the YAML"
+            )
         return value
 
     @model_validator(mode="before")
@@ -425,7 +469,7 @@ class WorkflowStepDefinitionModel(FrozenModel):
             # an embedded workflow with a spec/steps section. No name is required.
             return model
 
-        if plugin_kind in ("split", "join"):
+        if plugin_kind in SCAFFOLD_KINDS:
             return model
 
         context = info.context or {}
@@ -465,34 +509,20 @@ class WorkflowStepDefinitionModel(FrozenModel):
         # Delegate arguments validation to each plugin kind argument class
         plugin_kind = model.kind
 
-        if plugin_kind in ("split", "join", "workflow"):
+        if plugin_kind in (SCAFFOLD_KINDS | {"workflow"}):
             return model
 
         plugin_kind_pascal_case = "".join(
             [word.capitalize() for word in plugin_kind.split("_")]
         )
         plugin_arguments_model_name = f"{plugin_kind_pascal_case}ArgumentsModel"
-        # Dictionary listing all plugin arguments models
-        plugin_arguments_models = {
-            "AlgorithmArgumentsModel": AlgorithmArgumentsModel,
-            "ColormapperArgumentsModel": ColormapperArgumentsModel,
-            "CoverageCheckerArgumentsModel": CoverageCheckerArgumentsModel,
-            "FilenameFormatterArgumentsModel": FilenameFormatterArgumentsModel,
-            "InterpolatorArgumentsModel": InterpolatorArgumentsModel,
-            "OutputFormatterArgumentsModel": OutputFormatterArgumentsModel,
-            "CoverageCheckerArgumentsModel": CoverageCheckerArgumentsModel,
-            "ProductDefaultArgumentsModel": ProductDefaultArgumentsModel,
-            "ProductArgumentsModel": ProductArgumentsModel,
-            "ReaderArgumentsModel": ReaderArgumentsModel,
-            "WorkflowArgumentsModel": WorkflowArgumentsModel,
-        }
 
         try:
-            plugin_arguments_model = plugin_arguments_models[
+            plugin_arguments_model = _PLUGIN_ARGUMENTS_MODELS[
                 plugin_arguments_model_name
             ]
         except KeyError as e:
-            valid_models = ", ".join(plugin_arguments_models)
+            valid_models = ", ".join(_PLUGIN_ARGUMENTS_MODELS)
             raise ValueError(
                 f'The argument class/model "{plugin_arguments_model_name}" for '
                 f'the plugin kind "{plugin_kind}" is not defined. Valid available '
@@ -537,7 +567,7 @@ class WorkflowSpecModel(FrozenModel):
     )
     retention: Literal["keep_all", "keep_referenced", "keep_outputs_only"] | None = (
         Field(
-            "keep_referenced",
+            DEFAULT_RETENTION,
             description=(
                 "Workflow-level data retention policy. "
                 "- keep_all: never GC any step data. "
@@ -744,14 +774,37 @@ class WorkflowSpecModel(FrozenModel):
 
         return data
 
-    @model_validator(mode="after")
-    def _resolve_defaults(self):
-        """Resolve implicit defaults for ``outputs`` and ``depends_on``.
+    @model_validator(mode="before")
+    @classmethod
+    def _inject_defaults(cls, data: dict, info: ValidationInfo) -> dict:
+        """Inject implicit defaults for ``outputs`` and ``depends_on``.
 
-        Validates:
-        - all ``outputs`` entries reference valid step IDs
-        - all ``depends_on`` entries reference valid step IDs
-        - no dependency cycles exist
+        Runs after ``expand_steps`` so the step dict is fully resolved.
+        All defaults are baked into the raw dict *before* freezing, so no
+        ``object.__setattr__`` is needed.
+        """
+        steps = data.get("steps", {})
+        step_ids = list(steps.keys())
+
+        if not step_ids:
+            return data
+
+        if data.get("outputs") is None:
+            data["outputs"] = [step_ids[-1]]
+
+        for i, sid in enumerate(step_ids):
+            step = steps[sid]
+            if step.get("depends_on") is None:
+                step["depends_on"] = [] if i == 0 else [step_ids[i - 1]]
+
+        return data
+
+    @model_validator(mode="after")
+    def _validate_dependencies(self):
+        """Validate ``outputs`` refs, ``depends_on`` refs, and detect cycles.
+
+        This is a read-only validator — all defaults have already been
+        injected by ``_inject_defaults`` at mode="before".
 
         Raises
         ------
@@ -773,52 +826,46 @@ class WorkflowSpecModel(FrozenModel):
         if not step_ids:
             return self
 
-        # --- resolve outputs default ---
-        if self.outputs is None:
-            object.__setattr__(self, "outputs", [step_ids[-1]])
-
         # --- validate outputs reference valid steps ---
-        unknown_outputs = set(self.outputs) - set(step_ids)
+        unknown_outputs = set(self.outputs or []) - set(step_ids)
         if unknown_outputs:
             raise DanglingOutputError(
                 f"outputs {sorted(unknown_outputs)} are not defined step ids; "
                 f"valid ids: {sorted(step_ids)}"
             )
 
-        # --- resolve depends_on defaults ---
-        for i, sid in enumerate(step_ids):
-            step = self.steps[sid]
-            if step.depends_on is None:
-                if i == 0:
-                    object.__setattr__(step, "depends_on", [])
-                else:
-                    object.__setattr__(step, "depends_on", [step_ids[i - 1]])
-
         # --- validate depends_on references & detect cycles ---
-        # Three-color DFS: WHITE = unvisited, GRAY = on the current DFS path,
-        # BLACK = fully explored. A back-edge to a GRAY node is a cycle.
+        # Iterative three-color DFS (no recursion — safe for large workflows).
         WHITE, GRAY, BLACK = 0, 1, 2
         color: dict[str, int] = {sid: WHITE for sid in self.steps}
 
-        def _visit(sid: str) -> None:
-            color[sid] = GRAY
-            for dep in self.steps[sid].depends_on:
-                if dep not in self.steps:
-                    raise PluginResolutionError(
-                        f"step '{sid}' depends_on '{dep}', "
-                        f"which is not a defined step id"
-                    )
-                if color[dep] == GRAY:
-                    raise DependencyCycleError(
-                        f"dependency cycle detected involving " f"'{sid}' -> '{dep}'"
-                    )
-                if color[dep] == WHITE:
-                    _visit(dep)
-            color[sid] = BLACK
-
         for sid in self.steps:
-            if color[sid] == WHITE:
-                _visit(sid)
+            if color[sid] != WHITE:
+                continue
+            color[sid] = GRAY
+            stack: list[tuple[str, int]] = [(sid, 0)]
+            while stack:
+                cur, idx = stack[-1]
+                deps = self.steps[cur].depends_on or []
+                if idx < len(deps):
+                    stack[-1] = (cur, idx + 1)
+                    dep = deps[idx]
+                    if dep not in self.steps:
+                        raise PluginResolutionError(
+                            f"step '{cur}' depends_on '{dep}', "
+                            f"which is not a defined step id"
+                        )
+                    if color.get(dep) == GRAY:
+                        raise DependencyCycleError(
+                            f"dependency cycle detected involving "
+                            f"'{cur}' -> '{dep}'"
+                        )
+                    if color.get(dep) == WHITE:
+                        color[dep] = GRAY
+                        stack.append((dep, 0))
+                else:
+                    color[cur] = BLACK
+                    stack.pop()
 
         return self
 

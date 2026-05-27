@@ -46,7 +46,7 @@ class TestWorkflowConstruction:
                 },
             }
         )
-        wf = Workflow(spec, name="test")
+        wf = Workflow(spec, workflow_name="test")
         assert len(wf._order) == 2
         assert wf._order == ["read", "algo"]
 
@@ -74,7 +74,7 @@ class TestWorkflowConstruction:
                 },
             }
         )
-        wf = Workflow(spec, name="test")
+        wf = Workflow(spec, workflow_name="test")
         idx_a = wf._order.index("a")
         idx_b = wf._order.index("b")
         idx_c = wf._order.index("c")
@@ -232,6 +232,6 @@ class TestSplitJoinScaffolding:
                 },
             }
         )
-        wf = Workflow(spec, name="split_test")
+        wf = Workflow(spec, workflow_name="split_test")
         with pytest.raises(NotImplementedError):
             wf.call()

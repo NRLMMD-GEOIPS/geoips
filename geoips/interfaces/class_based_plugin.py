@@ -30,10 +30,13 @@ from __future__ import annotations
 from abc import ABC, abstractmethod
 import functools
 import inspect
+import logging
 
 import xarray as xr
 
 from geoips import interfaces
+
+LOG = logging.getLogger(__name__)
 
 # P = ParamSpec("P")
 # R = TypeVar("R")
@@ -180,8 +183,8 @@ class BaseClassPlugin(ABC):
         if isinstance(data, xr.DataTree):
             try:
                 return DataTreeDitto(data.ds).get_original()
-            except Exception:
-                pass
+            except (TypeError, ValueError, RuntimeError) as exc:
+                LOG.debug("Could not unwrap DataTree to original: %s", exc)
         return data
 
     def _wrap(self, result):
@@ -207,7 +210,7 @@ class BaseClassPlugin(ABC):
         if isinstance(result, DataTreeDitto):
             return result
         if isinstance(result, xr.DataTree):
-            return DataTreeDitto._convert_datatree_to_ditto(result)
+            return DataTreeDitto.from_datatree(result)
         return DataTreeDitto(result, name=getattr(self, "name", "result"))
 
     # def _invoke(self, data: R, *args: P.args, **kwargs: P.kwargs) -> R:

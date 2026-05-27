@@ -87,7 +87,7 @@ class DataTreeDitto(DataTree):
 
         If the wrapped function returns a ``DataTreeDitto``, it is returned
         as-is. If it returns a plain ``DataTree``, it is recursively converted
-        to ``DataTreeDitto`` via ``_convert_datatree_to_ditto``. Tuples of
+        to ``DataTreeDitto`` via ``from_datatree``. Tuples of
         ``DataTree`` are converted element-wise (used by
         ``map_over_datasets``). Any other return type raises ``TypeError``.
 
@@ -109,11 +109,11 @@ class DataTreeDitto(DataTree):
             if isinstance(result, DataTreeDitto):
                 return result
             elif isinstance(result, DataTree):
-                return DataTreeDitto._convert_datatree_to_ditto(result)
+                return DataTreeDitto.from_datatree(result)
             elif isinstance(result, tuple):
                 return tuple(
                     (
-                        DataTreeDitto._convert_datatree_to_ditto(r)
+                        DataTreeDitto.from_datatree(r)
                         if isinstance(r, DataTree) and not isinstance(r, DataTreeDitto)
                         else r
                     )
@@ -475,7 +475,7 @@ class DataTreeDitto(DataTree):
         if isinstance(result, DataTreeDitto):
             return result
         elif isinstance(result, DataTree):
-            return DataTreeDitto._convert_datatree_to_ditto(result)
+            return DataTreeDitto.from_datatree(result)
         elif isinstance(result, xr.DataArray):
             # DataTree shortcut: child with single variable returns DataArray.
             # Walk to the actual DataTreeDitto child node instead.
@@ -485,7 +485,7 @@ class DataTreeDitto(DataTree):
                 if node is None:
                     return result
             if isinstance(node, DataTree) and not isinstance(node, DataTreeDitto):
-                node = DataTreeDitto._convert_datatree_to_ditto(node)
+                node = DataTreeDitto.from_datatree(node)
             return node
         raise TypeError(
             f"__getitem__ returned unexpected type: {type(result).__name__}"
@@ -527,9 +527,12 @@ class DataTreeDitto(DataTree):
     ):
         return super().mean(dim, skipna=skipna, keep_attrs=keep_attrs, **kwargs)
 
-    @staticmethod
-    def _convert_datatree_to_ditto(dt: DataTree) -> "DataTreeDitto":
-        """Convert a DataTree to DataTreeDitto recursively.
+    @classmethod
+    def from_datatree(cls, dt: DataTree) -> "DataTreeDitto":
+        """Convert a plain DataTree to DataTreeDitto recursively.
+
+        Public API for converting standard ``DataTree`` instances returned by
+        xarray operations back to ``DataTreeDitto``.
 
         Parameters
         ----------
@@ -541,10 +544,19 @@ class DataTreeDitto(DataTree):
         DataTreeDitto
             Converted DataTreeDitto with all children also converted.
         """
-        new_ditto = DataTreeDitto(dataset=dt.ds, name=dt.name)
+        new_ditto = cls(dataset=dt.ds, name=dt.name)
         for child_name, child in dt.children.items():
-            new_ditto[child_name] = DataTreeDitto._convert_datatree_to_ditto(child)
+            new_ditto[child_name] = cls.from_datatree(child)
         return new_ditto
+
+    @staticmethod
+    def _convert_datatree_to_ditto(dt: DataTree) -> "DataTreeDitto":
+        """Convert a DataTree to DataTreeDitto recursively.
+
+        Deprecated internal method.  Use ``DataTreeDitto.from_datatree()``
+        instead.  Kept for backward compatibility.
+        """
+        return DataTreeDitto.from_datatree(dt)
 
     def get_original(self, path: str = ".") -> Any:
         """Get the original object (before conversion) at the specified path.

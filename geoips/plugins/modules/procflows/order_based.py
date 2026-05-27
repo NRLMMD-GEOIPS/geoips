@@ -45,7 +45,6 @@ class OrderBased(BaseProcflowPlugin):
         self,
         workflow_spec: WorkflowPluginModel | WorkflowSpecModel | dict,
         fnames: Any = None,
-        command_line_args: Any = None,
         **kwargs: Any,
     ):
         """Run the order-based procflow.
@@ -58,8 +57,6 @@ class OrderBased(BaseProcflowPlugin):
             ``WorkflowSpecModel`` that wraps a ``@spec:`` field.
         fnames : list[str] or str or None
             Input filename glob or list of filenames for reader steps.
-        command_line_args : Any or None
-            Parsed CLI arguments forwarded to plugins.
         kwargs : dict
             Additional keyword arguments forwarded to the ``Workflow``.
 
@@ -72,18 +69,19 @@ class OrderBased(BaseProcflowPlugin):
         if isinstance(workflow_spec, WorkflowSpecModel):
             wf_name = "embedded"
             spec = workflow_spec
-        else:
-            if isinstance(workflow_spec, dict):
-                wf_spec = WorkflowPluginModel.model_validate(workflow_spec)
-            elif isinstance(workflow_spec, WorkflowPluginModel):
-                wf_spec = workflow_spec
-            else:
-                raise TypeError(
-                    f"Expected WorkflowPluginModel, WorkflowSpecModel, or "
-                    f"dict, got {type(workflow_spec).__name__}"
-                )
+        elif isinstance(workflow_spec, WorkflowPluginModel):
+            wf_spec = workflow_spec
             wf_name = wf_spec.name
             spec = wf_spec.spec
+        elif isinstance(workflow_spec, dict):
+            wf_spec = WorkflowPluginModel.model_validate(workflow_spec)
+            wf_name = wf_spec.name
+            spec = wf_spec.spec
+        else:
+            raise TypeError(
+                f"Expected WorkflowPluginModel, WorkflowSpecModel, or "
+                f"dict, got {type(workflow_spec).__name__}"
+            )
 
         # -- resolve fnames -------------------------------------------------
         if isinstance(fnames, str):
@@ -97,10 +95,3 @@ class OrderBased(BaseProcflowPlugin):
         LOG.interactive("The workflow '%s' has finished processing.", wf_name)
         return result
 
-
-# -- legacy module-level call kept as a thin class wrapper --------------------
-# The CLI (geoips_run.py) calls ``get_plugin("order_based")(workflow, fnames)``
-# directly.  This callable is kept for backward compatibility with any
-# remaining callers that import order_based.call().
-
-_call = OrderBased().call
