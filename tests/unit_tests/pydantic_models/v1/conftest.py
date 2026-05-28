@@ -173,9 +173,7 @@ def valid_output_formatter_arguments():
     """Fixture providing valid data OutputFormatterArgumentsModel tests."""
     return {
         "append": False,
-
     }
-
 
 
 @pytest.fixture
