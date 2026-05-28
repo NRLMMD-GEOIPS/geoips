@@ -134,9 +134,9 @@ Below we demonstrate how to specify dictionary-based overrides at the command li
 .. code-block:: bash
 
   geoips run order_based test_product $GEOIPS_TESTDATA_DIR/test_data_abi/data/goes16_20200918_1950/* \
-    -S "{reader: {self_register: \"LOW\"}, abi.Infrared: {spec: {steps: {algorithm: {output_units: \"kelvin"\}}}}}" \
-    -K "{readers: {satellite_zenith_angle_cutoff: \"80"\}} \
-    -G "{sector_list: \"global_cylindrical"\, logging_level: \"info"\}"
+      -S '{"reader": {"self_register": "LOW"}, "abi.Infrared": {"spec": {"steps": {"algorithm": {"output_units": "kelvin"}}}}}' \
+      -K '{"readers": {"satellite_zenith_angle_cutoff": 80}}' \
+      -G '{"sector_list": "global_cylindrical", "logging_level": "info"}'
 
 As you can see, these are not nearly as easy to specify at the command line, but we
 support them nonetheless, especially in the instance your scripts are being generated
