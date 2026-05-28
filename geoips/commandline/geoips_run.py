@@ -12,7 +12,7 @@ import json
 from os import environ
 from os.path import abspath
 from pathlib import Path
-from typing import Any, Dict, List, Union
+from typing import List, Union
 
 from colorama import Fore, Style
 
@@ -22,7 +22,7 @@ from geoips.commandline.run_procflow import main
 from geoips.commandline.geoips_command import GeoipsCommand, GeoipsExecutableCommand
 from geoips.filenames.base_paths import PATHS
 from geoips.interfaces import procflows, workflows
-from geoips.pydantic_models.v1.workflows import WorkflowPluginModel, StepOverrideType
+from geoips.pydantic_models.v1.workflows import WorkflowPluginModel
 from geoips.utils.context_managers import import_optional_dependencies
 
 data_fusion_installed = False
@@ -259,6 +259,19 @@ class GeoipsRunOrderBased(GeoipsExecutableCommand):
 
         return workflow
 
+    def dict_type(self, value):
+        """Ensure an dictionary-based override can be cast as a dictionary.
+
+        Parameters
+        ----------
+        value: str
+            The full global override string for a geoips run order_based command.
+        """
+        try:
+            return yaml.safe_load(value)
+        except Exception as e:
+            raise self.parser.error(f"Invalid dictionary input: {value}") from e
+
     def global_override_type(self, value: str):
         """Ensure an override string fits the following format.
 
@@ -396,7 +409,7 @@ class GeoipsRunOrderBased(GeoipsExecutableCommand):
             "-S",
             "--step-override-dict",
             default={},
-            type=StepOverrideType,
+            type=self.dict_type,
             help=(
                 "One or more step overrides to apply to your workflow. In a dictionary "
                 "format. See geoips.pydantic_models.v1.workflows for more info on the "
@@ -407,7 +420,7 @@ class GeoipsRunOrderBased(GeoipsExecutableCommand):
             "-K",
             "--kind-override-dict",
             default={},
-            type=Dict[str, Dict[str, Any]],
+            type=self.dict_type,
             help=(
                 "One or more kind overrides to apply to your workflow. In a dictionary "
                 "format. See geoips.pydantic_models.v1.workflows for more info on the "
@@ -418,7 +431,7 @@ class GeoipsRunOrderBased(GeoipsExecutableCommand):
             "-G",
             "--global-override-dict",
             default={},
-            type=Dict[str, Any],
+            type=self.dict_type,
             help=(
                 "One or more global overrides to apply to your workflow. In a "
                 "dictionary format. See geoips.pydantic_models.v1.workflows for more "
