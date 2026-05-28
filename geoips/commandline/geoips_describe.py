@@ -8,14 +8,14 @@ Retrieves the appropriate family/interface/package/plugin based on the args prov
 
 from importlib import metadata, resources, import_module
 
-import yaml
+from pluginify.create_plugin_registries import format_docstring
 
+import geoips.utils.yaml_utils as yaml
 from geoips.commandline.geoips_command import (
     CommandClassFactory,
     GeoipsCommand,
     GeoipsExecutableCommand,
 )
-from geoips.create_plugin_registries import format_docstring
 from geoips import interfaces
 
 
@@ -87,7 +87,6 @@ class GeoipsDescribeArtifact(GeoipsExecutableCommand):
             choices=getattr(interfaces, self.name.replace("-", "_")).supported_families,
             help="GeoIPS Family to select from the provided interface.",
         )
-        pass
 
     def __call__(self, args):
         """CLI 'geoips describe <interface_name>' command.

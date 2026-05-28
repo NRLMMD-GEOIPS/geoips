@@ -1,0 +1,26 @@
+enhancement:
+- title: 'Update order-based procflow to fail early when required data files are missing'
+  description: |
+    Add early validation of file inputs in the order-based procflow. Before processing begins, the workflow now checks that all file paths required by reader and output_checker steps exist on the filesystem. If any paths are missing, the workflow terminates immediately with a FileNotFoundError listing every missing file and the step that requires it, rather than failing partway through processing.
+  files:
+    added:
+    - 'docs/source/releases/latest/1257-update-obp-workflow-to-fail-early-when-required-data-files-are-missing.yaml'
+    - 'geoips/pydantic_models/v1/readers.py'
+    - 'geoips/utils/file_utils.py'
+    - 'tests/unit_tests/utils/test_file_utils.py'
+    modified:
+    - 'docs/dev/order_based_procflow.rst'
+    - 'geoips/plugins/modules/procflows/order_based.py'
+    - 'geoips/pydantic_models/v1/output_checkers.py'
+    - 'geoips/pydantic_models/v1/readers.py'
+    - 'tests/unit_tests/pydantic_models/v1/conftest.py'
+    - 'tests/unit_tests/pydantic_models/v1/output_checkers/test_cases_bad.yaml'
+    - 'tests/unit_tests/pydantic_models/v1/output_checkers/test_cases_good.yaml'
+    - 'tests/unit_tests/pydantic_models/v1/readers/test_cases_good.yaml'
+    - 'tests/unit_tests/pydantic_models/v1/test_pydantic_models.py'
+  related-issue:
+    number: 1257
+    repo_url: 'https://github.com/NRLMMD-GEOIPS/geoips'
+  date:
+    start: 2026-03-10
+    finish: 2026-04-21

@@ -70,17 +70,6 @@ instructions:
       To use, type `geoips config install-github <repository_name>`.
     output_info:
       - Not Applicable
-  geoips_config_install-github:
-    help_str: |
-      Install the appropriate test dataset directly from a github
-      repository based on the arguments provided. Will install the github repository
-      $GEOIPS_REPO_URL/<repository_name>.
-      Repositories named test_data_* or realtime_outputs_* will be
-      cloned into $GEOIPS_TESTDATA_DIR by default.
-    usage_str: |
-      To use, type `geoips config install-github <repository_name>`.
-    output_info:
-      - Not Applicable
   geoips_describe: &geoips-describe-artifact
     help_str: |
       Retrieve information about a GeoIPS artifact. For this command, an artifact is one
@@ -216,6 +205,13 @@ instructions:
   #     - Package
   #     - Relative Path
   #     - Plugin Specific Info (signature / source_names / available overrides)
+  geoips_expand:
+    help_str: |
+      Fully expands a workflow plugin.
+    usage_str: |
+      To use, type `geoips expand <workflow_name> <--color>`.
+    output_info:
+      - The fully expanded workflow plugin in a readable format.
   geoips_list:
     help_str: |
       List off available GeoIPS artifacts provided further commands. Current artifacts
@@ -495,6 +491,16 @@ instructions:
       <labels> --outdir <output_directory_path>`.
     output_info:
       - A path to the image of the sector you've created.
+  geoips_test_workflow:
+    help_str: |
+      Test the output of a workflow plugin. The ``test`` section in the specified
+      workflow plugin should include all parameters needed to produce a replicable
+      output which can be created by executing all the steps listed in the given
+      workflow.
+    usage_str: |
+      To use, type `geoips test workflow <workflow_name>`.
+    output_info:
+      - All captured print and log output of executing the given workflow.
   # geoips_test_unit-test:
   #   help_str: |
   #     Run tests unit-test[s] implemented in a certain GeoIPS package. This command

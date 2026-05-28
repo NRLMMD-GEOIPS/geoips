@@ -76,6 +76,16 @@ step:
 .. code-block:: yaml
 
     spec:
+      global-arguments:
+        presector: False
+        product_db: False
+        product_db_writer: None
+        product_db_writer_kwargs: None
+        product_name: None
+        reader_defined_area_def: False
+        sector_list: []
+        window_start_time: None
+        window_end_time: None
       steps:
         reader_1:
           kind: reader
@@ -124,20 +134,22 @@ Output Formatter step in the code block below includes two additional plugins,
           - logging_level='info'
     spec:
       global-arguments:
-        window_start_time: None
-        window_end_time: None
-        product_name: None
-        reader_defined_area_def: False
-        no_presectoring: True
+        presector: False
         product_db: False
         product_db_writer: None
         product_db_writer_kwargs: None
+        product_name: None
+        reader_defined_area_def: False
+        window_start_time: None
+        window_end_time: None
+        sector_list: ["windspeed"]
       steps:
-        read_data:
+        read_abi_L1_data:
           kind: reader
           name: abi_netcdf
           arguments:
             area_def: None
+            fnames: !ENV ${GEOIPS_TESTDATA_DIR}/test_data_abi/data/goes16_20200918_1950/*
             metadata_only: False
             self_register: [None]
             variables: ['B14BT']
@@ -145,12 +157,12 @@ Output Formatter step in the code block below includes two additional plugins,
             resampled_read: False
             self_register_dataset: None
             self_register_source: None
-        algorithm_1:
+        apply_single_channel_algorithm:
           kind: algorithm
           name: single_channel
           arguments:
-            output_data_range: [-90.0, 30.0]
-        interpolator_1:
+          output_data_range: [-90.0, 30.0]
+        apply_interpolator:
           kind: interpolator
           name: interp_nearest
         output_checker_1:
