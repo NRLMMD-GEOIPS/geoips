@@ -1,0 +1,62 @@
+feature:
+- title: 'Add layered YAML-based configuration system replacing base_paths.py'
+  description: |
+    Introduces a new ``geoips.config`` module providing a layered YAML-based
+    configuration system with pydantic-validated settings. Configuration is
+    resolved with priority: environment variables > project-level .geoips.yaml
+    > code defaults.
+
+    The new system replaces the imperative ``PATHS`` dictionary in
+    ``geoips/filenames/base_paths.py``, which is now a compatibility shim
+    with deprecation warnings. All existing imports and dict-style access
+    continue to work unchanged.
+
+    Key additions:
+
+    * ``geoips/config/schema.py`` — Frozen pydantic v2 models defining all
+      70+ configuration fields with types and defaults. Includes nested
+      models for output paths, cache, features, logging, and test settings.
+
+    * ``geoips/config/config.py`` — ``GeoIPSConfig`` singleton with layered
+      loading (defaults < project YAML < env vars), auto-resolution of
+      derived paths, dot-attribute access (``config.features.no_color``),
+      backward-compatible ``__getitem__`` dict access, and
+      ``to_legacy_dict()`` for the old ``PATHS`` format.
+
+    * ``geoips/config/yaml_loader.py`` — Project config search across
+      multiple locations: ``$GEOIPS_RCFILE``, ``./.geoips.yaml``,
+      ``~/.config/geoips/config.yaml``.
+
+    * Project-level ``.geoips.yaml`` configuration files with nested
+      structure (``geoips.features.no_color: true``, etc.). Environment
+      variables with ``GEOIPS_`` prefix (plus unprefixed ``NO_COLOR``,
+      ``BOXNAME``, ``DEFAULT_QUEUE``) override YAML values.
+
+    * ``make_dirs()`` relocated from ``base_paths`` to ``geoips.config``.
+
+    Updated existing docs with complete settings reference tables and
+    migration guidance.
+  files:
+    added:
+    - 'docs/source/releases/latest/add-layered-yaml-config-system.yaml'
+    - 'geoips/config/__init__.py'
+    - 'geoips/config/config.py'
+    - 'geoips/config/schema.py'
+    - 'geoips/config/yaml_loader.py'
+    - 'tests/unit_tests/config/__init__.py'
+    - 'tests/unit_tests/config/test_config.py'
+    - 'tests/unit_tests/config/test_schema.py'
+    - 'tests/unit_tests/config/test_yaml_loader.py'
+    deleted:
+    - ''
+    moved:
+    - ''
+    modified:
+    - 'geoips/filenames/base_paths.py'
+    - 'docs/source/concepts/configuration/index.rst'
+  related-issue:
+    number: null
+    repo_url: ''
+  date:
+    start: null
+    finish: null

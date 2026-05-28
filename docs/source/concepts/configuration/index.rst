@@ -11,81 +11,365 @@
 Configuring GeoIPS
 ******************
 
-Like many other software packages, we offer the ability to precisely configure your
-GeoIPS environment. This is largely done via environment variables. As referenced in our
-:ref:`installation docs<installing-geoips>`, users must set a few environment variables
-for GeoIPS to know where to read data from and where to store it (i.e.,
-``$GEOIPS_TESTDATA_DIR`` and ``$GEOIPS_OUTDIRS``, respectively).
+GeoIPS supports configuring your environment through two complementary mechanisms:
 
-There are other types of environment variables as well that aren't specifically tied to
-GeoIPS. For example, on a Linux machine you can set an ``$EDITOR`` environment variable
-that specifies which text editor to use when opening a file. You'll notice that this
-variable is a system-wide configuration rather than being tied to a specific software
-package.
+1. **Configuration file** (``.geoips.yaml``) — A project-level YAML file that
+   defines all settings in one place. This is the recommended approach.
+2. **Environment variables** — Individual ``GEOIPS_*`` variables that override
+   specific settings. Ideal for CI/CD, containers, or temporary overrides.
 
-In the following sections, we'll detail GeoIPS-specific environment variables and
-system-wide environment variables that GeoIPS recognizes.
+When both are used, environment variables always take precedence over the
+configuration file.
 
-GeoIPS Environment Variables
-============================
+Configuration File
+==================
 
-The following environment variables are specific to GeoIPS and can be configured to control
-how GeoIPS operates.
+GeoIPS ships with sensible defaults for every setting. You can override any
+of these defaults by creating a project-level ``.geoips.yaml`` file.
 
-GEOIPS_TESTDATA_DIR
--------------------
+File format
+-----------
 
-``GEOIPS_TESTDATA_DIR`` specifies the directory where GeoIPS test data is stored. This
-directory contains data used for testing and validating GeoIPS functionality. 
-The test data is typically organized by sensor type and data format.
+The configuration file uses a nested YAML structure under the top-level
+``geoips:`` key:
 
-This variable must be set when running GeoIPS tests and producing example or
-tutorial imagery.
+.. code-block:: yaml
 
-**Example:**
+    # .geoips.yaml
+    geoips:
+      outdirs: /data/geoips_output
+      features:
+        no_color: true
+        rebuild_registries: false
+      cache:
+        geolocation_cache_backend: zarr
+      logging:
+        level: debug
+      test:
+        output_checker_threshold_image: 0.10
 
-.. code-block:: bash
+All keys are optional — only specify the ones you want to override.
 
-    export GEOIPS_TESTDATA_DIR=$HOME/geoips_testdata
+Search locations
+----------------
 
-GEOIPS_PACKAGES_DIR
--------------------
+GeoIPS searches for a project configuration file in the following order,
+using the first file found:
 
-``GEOIPS_PACKAGES_DIR`` specifies the directory that contains GeoIPS plugin packages. This
-is the parent directory where all GeoIPS-related packages are installed, including the
-core GeoIPS package and any additional plugin packages you may be using.
+1. ``$GEOIPS_RCFILE`` — Path set by the environment variable (if defined
+   and the file exists).
+2. ``./.geoips.yaml`` — In the current working directory.
+3. ``~/.config/geoips/config.yaml`` — In the user's XDG-compliant
+   configuration directory.
 
-GeoIPS uses this variable in many of its helper scripts. If you have
-multiple plugin packages (e.g., ``geoips``, ``data_fusion``, ``recenter_tc``) and 
-you would like to make use of our testing scripts, they
-should all be subdirectories of the path specified by ``GEOIPS_PACKAGES_DIR``.
+Configuration priority
+----------------------
 
-**Example:**
+Settings are resolved with this priority (highest wins):
 
-.. code-block:: bash
+1. **Environment variables** — ``GEOIPS_*`` and unprefixed aliases
+   (``NO_COLOR``, ``BOXNAME``, ``DEFAULT_QUEUE``).
+2. **Project ``.geoips.yaml`` file** — Found via the search locations above.
+3. **Built-in defaults** — Sensible values shipped with the code.
 
-    export GEOIPS_PACKAGES_DIR=$HOME/geoips_packages
+For example, setting ``GEOIPS_LOGGING_LEVEL=debug`` in your environment
+will override whatever is set in your ``.geoips.yaml`` file.
+
+Accessing configuration in Python
+---------------------------------
+
+The configuration is available as a singleton via ``geoips.config``:
+
+.. code-block:: python
+
+    from geoips.config import config
+
+    # Dot-attribute access (recommended)
+    print(config.outdirs)
+    print(config.features.no_color)
+    print(config.cache.geolocation_cache_backend)
+
+    # Dict-style access (backward compatible, deprecated)
+    print(config["GEOIPS_OUTDIRS"])
+    print(config["NO_COLOR"])
+
+.. note::
+
+   The legacy ``geoips.filenames.base_paths.PATHS`` dictionary is
+   deprecated but still functional. It forwards to the new configuration
+   system and emits a ``DeprecationWarning`` on import. Update existing
+   code to use ``from geoips.config import config`` instead.
+
+Settings reference
+------------------
+
+The table below lists all configurable settings, their YAML paths, and
+their corresponding environment variable names.
+
+.. list-table:: Configuration Settings Reference
+   :header-rows: 1
+   :widths: 30 35 20 15
+
+   * - Setting
+     - YAML Path
+     - Env Variable
+     - Default
+   * - Output directory
+     - ``geoips.outdirs``
+     - ``GEOIPS_OUTDIRS``
+     - ``$HOME/geoips_outdirs``
+   * - Packages directory
+     - ``geoips.packages_dir``
+     - ``GEOIPS_PACKAGES_DIR``
+     - auto (source tree)
+   * - Base directory
+     - ``geoips.basedir``
+     - ``GEOIPS_BASEDIR``
+     - auto (source tree)
+   * - Test data directory
+     - ``geoips.testdata_dir``
+     - ``GEOIPS_TESTDATA_DIR``
+     - ``$basedir/test_data``
+   * - Dependencies directory
+     - ``geoips.dependencies_dir``
+     - ``GEOIPS_DEPENDENCIES_DIR``
+     - ``$basedir/geoips_dependencies``
+   * - Cache directory
+     - ``geoips.cache.cache_dir``
+     - ``GEOIPS_CACHE_DIR``
+     - platform dirs
+   * - Data cache directory
+     - ``geoips.cache.data_cache_dir``
+     - ``GEOIPS_DATA_CACHE_DIR``
+     - ``$outdirs/cache/geoips``
+   * - Satpy cache directory
+     - ``geoips.cache.satpy_data_cache_dir``
+     - ``SATPY_DATA_CACHE_DIR``
+     - ``$outdirs/cache/satpy``
+   * - Cache backend
+     - ``geoips.cache.geolocation_cache_backend``
+     - ``GEOIPS_GEOLOCATION_CACHE_BACKEND``
+     - ``memmap``
+   * - Disable color output
+     - ``geoips.features.no_color``
+     - ``NO_COLOR``
+     - ``false``
+   * - Use pydantic validation
+     - ``geoips.features.use_pydantic``
+     - ``GEOIPS_USE_PYDANTIC``
+     - ``false``
+   * - Rebuild registries
+     - ``geoips.features.rebuild_registries``
+     - ``GEOIPS_REBUILD_REGISTRIES``
+     - ``true``
+   * - Operational user mode
+     - ``geoips.features.operational_user``
+     - ``GEOIPS_OPERATIONAL_USER``
+     - ``false``
+   * - Rich console output
+     - ``geoips.features.rich_console_output``
+     - ``GEOIPS_RICH_CONSOLE_OUTPUT``
+     - ``false``
+   * - Logging level
+     - ``geoips.logging.level``
+     - ``GEOIPS_LOGGING_LEVEL``
+     - ``interactive``
+   * - Logging format
+     - ``geoips.logging.fmt_string``
+     - ``GEOIPS_LOGGING_FMT_STRING``
+     - ``%(asctime)s ...``
+   * - Logging date format
+     - ``geoips.logging.datefmt_string``
+     - ``GEOIPS_LOGGING_DATEFMT_STRING``
+     - ``%d_%H%M%S``
+   * - Warning level
+     - ``geoips.warning_level``
+     - ``GEOIPS_WARNING_LEVEL``
+     - ``default``
+   * - Image threshold
+     - ``geoips.test.output_checker_threshold_image``
+     - ``GEOIPS_TEST_OUTPUT_CHECKER_THRESHOLD_IMAGE``
+     - ``0.05``
+   * - Print text checker output
+     - ``geoips.test.print_text_output_checker_to_console``
+     - ``GEOIPS_TEST_PRINT_TEXT_OUTPUT_CHECKER_TO_CONSOLE``
+     - ``true``
+   * - Prompt on mismatch
+     - ``geoips.test.prompt_to_overwrite_comparison_file_if_mismatch``
+     - ``GEOIPS_TEST_PROMPT_TO_OVERWRITE_COMPARISON_FILE_IF_MISMATCH``
+     - ``false``
+   * - Version
+     - ``geoips.version``
+     - ``GEOIPS_VERSION``
+     - ``0.0.0``
+   * - Documentation URL
+     - ``geoips.docs_url``
+     - ``GEOIPS_DOCS_URL``
+     - GeoIPS docs URL
+   * - Copyright
+     - ``geoips.copyright``
+     - ``GEOIPS_COPYRIGHT``
+     - ``NRL-Monterey``
+   * - Abbreviated copyright
+     - ``geoips.copyright_abbreviated``
+     - ``GEOIPS_COPYRIGHT_ABBREVIATED``
+     - ``NRLMRY``
+   * - Hostname
+     - ``geoips.boxname``
+     - ``BOXNAME``
+     - auto (hostname)
+
+Output path settings
+--------------------
+
+The following settings define sub-paths under ``geoips.outdirs``. Each
+defaults to a relative path that is resolved against the output directory
+at startup. You can override any of them with an absolute path.
+
+.. list-table:: Output Path Settings
+   :header-rows: 1
+   :widths: 30 35 20
+
+   * - Setting
+     - YAML Path
+     - Env Variable
+   * - Presectored data
+     - ``geoips.output_paths.presectored_data``
+     - ``PRESECTORED_DATA_PATH``
+   * - Preread data
+     - ``geoips.output_paths.preread_data``
+     - ``PREREAD_DATA_PATH``
+   * - Preregistered data
+     - ``geoips.output_paths.preregistered_data``
+     - ``PREREGISTERED_DATA_PATH``
+   * - Precalculated data
+     - ``geoips.output_paths.precalculated_data``
+     - ``PRECALCULATED_DATA_PATH``
+   * - Clean imagery
+     - ``geoips.output_paths.clean_imagery``
+     - ``CLEAN_IMAGERY_PATH``
+   * - Annotated imagery
+     - ``geoips.output_paths.annotated_imagery``
+     - ``ANNOTATED_IMAGERY_PATH``
+   * - GeoTIFF imagery
+     - ``geoips.output_paths.geotiff_imagery``
+     - ``GEOTIFF_IMAGERY_PATH``
+   * - Final data
+     - ``geoips.output_paths.final_data``
+     - ``FINAL_DATA_PATH``
+   * - Pregenerated geolocation
+     - ``geoips.output_paths.pregenerated_geolocation``
+     - ``PREGENERATED_GEOLOCATION_PATH``
+   * - Scratch
+     - ``geoips.output_paths.scratch``
+     - ``SCRATCH``
+   * - Local scratch
+     - ``geoips.output_paths.localscratch``
+     - ``LOCALSCRATCH``
+   * - Shared scratch
+     - ``geoips.output_paths.sharedscratch``
+     - ``SHAREDSCRATCH``
+   * - Log directory
+     - ``geoips.output_paths.logdir``
+     - ``LOGDIR``
+   * - GeoIPS data
+     - ``geoips.output_paths.geoipsdata``
+     - ``GEOIPSDATA``
+   * - Ancillary data autogen
+     - ``geoips.output_paths.ancildat_autogen``
+     - ``GEOIPS_ANCILDAT_AUTOGEN``
+   * - Ancillary data
+     - ``geoips.output_paths.ancildat``
+     - ``GEOIPS_ANCILDAT``
+   * - TC WWW
+     - ``geoips.output_paths.tcwww``
+     - ``TCWWW``
+   * - TC Private WWW
+     - ``geoips.output_paths.tcprivatewww``
+     - ``TCPRIVATEWWW``
+   * - Public WWW
+     - ``geoips.output_paths.publicwww``
+     - ``PUBLICWWW``
+   * - Private WWW
+     - ``geoips.output_paths.privatewww``
+     - ``PRIVATEWWW``
+   * - TC decks DB
+     - ``geoips.output_paths.tc_decks_db``
+     - ``GEOIPS_TC_DECKS_DB``
+   * - TC decks directory
+     - ``geoips.output_paths.tc_decks_dir``
+     - ``GEOIPS_TC_DECKS_DIR``
+   * - TC decks type
+     - ``geoips.tc_decks_type``
+     - ``GEOIPS_TC_DECKS_TYPE``
+   * - TC template
+     - ``geoips.tc_template``
+     - ``TC_TEMPLATE``
+
+Environment Variable Overrides
+==============================
+
+While the ``.geoips.yaml`` file is the recommended way to configure GeoIPS,
+environment variables remain fully supported and take the highest priority.
+Setting an environment variable will override any corresponding YAML value or
+default.
+
+Core environment variables
+--------------------------
+
+The following environment variables cover the most commonly customized paths:
 
 GEOIPS_OUTDIRS
---------------
+^^^^^^^^^^^^^^
 
-``GEOIPS_OUTDIRS`` specifies the base directory where GeoIPS will write output files.
-This includes processed imagery, data products, and any other output generated by GeoIPS
-processing workflows. The directory structure within ``GEOIPS_OUTDIRS`` is typically
-organized by product type, date, and sensor.
+``GEOIPS_OUTDIRS`` specifies the base directory where GeoIPS will write
+output files. This includes processed imagery, data products, and any
+other output generated by GeoIPS processing workflows. The directory
+structure within ``GEOIPS_OUTDIRS`` is typically organized by product
+type, date, and sensor.
 
 If not set, this variable defaults to ``$HOME/GEOIPS_OUTDIRS``.
-
-**Example:**
 
 .. code-block:: bash
 
     export GEOIPS_OUTDIRS=$HOME/geoips_outdirs
 
-Setting GeoIPS Environment Variables
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+GEOIPS_PACKAGES_DIR
+^^^^^^^^^^^^^^^^^^^
 
-Below are examples of how to set these required GeoIPS environment variables for
+``GEOIPS_PACKAGES_DIR`` specifies the directory that contains GeoIPS
+plugin packages. This is the parent directory where all GeoIPS-related
+packages are installed, including the core GeoIPS package and any
+additional plugin packages.
+
+If you have multiple plugin packages (e.g., ``geoips``, ``data_fusion``,
+``recenter_tc``) and you would like to make use of our testing scripts,
+they should all be subdirectories of the path specified by
+``GEOIPS_PACKAGES_DIR``.
+
+.. code-block:: bash
+
+    export GEOIPS_PACKAGES_DIR=$HOME/geoips_packages
+
+GEOIPS_TESTDATA_DIR
+^^^^^^^^^^^^^^^^^^^
+
+``GEOIPS_TESTDATA_DIR`` specifies the directory where GeoIPS test data
+is stored. This directory contains data used for testing and validating
+GeoIPS functionality. The test data is typically organized by sensor
+type and data format.
+
+This variable must be set when running GeoIPS tests and producing example
+or tutorial imagery.
+
+.. code-block:: bash
+
+    export GEOIPS_TESTDATA_DIR=$HOME/geoips_testdata
+
+Setting up environment variables
+--------------------------------
+
+Below are examples of how to set these GeoIPS environment variables for
 different shells and environments.
 
 **Bash:**
@@ -140,9 +424,9 @@ different shells and environments.
 
 **Conda:**
 
-For Conda environments, it's recommended to use conda config vars to set environment
-variables when you activate your environment. This means the variables are only set
-when the GeoIPS environment is active.
+For Conda environments, it's recommended to use conda config vars to set
+environment variables when you activate your environment. This means the
+variables are only set when the GeoIPS environment is active.
 
 .. code-block:: bash
 
@@ -158,38 +442,39 @@ when the GeoIPS environment is active.
 System-Wide Environment Variables
 =================================
 
-GeoIPS recognizes a subset of system-wide environment variables. We'll detail what each
-variable accomplishes below.
+GeoIPS recognizes a subset of system-wide environment variables.
 
 NO_COLOR
 --------
 
-``NO_COLOR`` disables any colored output from your operating terminal. Many software
-packages, including GeoIPS, may have commands that color certain portions of their
-terminal output. Some users may not prefer this, and in that case, you can set this
-variable to True in your ``.bashrc`` or comparable settings file.
+``NO_COLOR`` disables any colored output from your operating terminal.
+Many software packages, including GeoIPS, may have commands that color
+certain portions of their terminal output. Some users may not prefer
+this, and in that case, you can set this variable to ``True`` in your
+``.bashrc`` or comparable settings file.
 
 .. note::
 
-   Environment variable ``NO_COLOR`` will disable any colored output from the
-   terminal, even if it's not produced via GeoIPS. For example, if this is set to
-   True in your shell configuration, even pytest output will be monochrome. We chose
-   this variable name as it is consistent with the settings that other software
-   packages use.
+   Environment variable ``NO_COLOR`` will disable any colored output
+   from the terminal, even if it's not produced via GeoIPS. For
+   example, if this is set to ``True`` in your shell configuration,
+   even pytest output will be monochrome. We chose this variable name
+   as it is consistent with the settings that other software packages
+   use.
 
-Enabling this to True will prevent the GeoIPS command-line interface (CLI) from coloring
-any of its terminal output (such as the beta warning after each GeoIPS command).
+Enabling this to ``True`` will prevent the GeoIPS command-line interface
+(CLI) from coloring any of its terminal output.
 
-By default, if not set in your shell configuration, GeoIPS will not color any of its
-terminal output.
+By default, if not set in your shell configuration, GeoIPS will not
+color any of its terminal output.
 
 To set this environment variable, there are two options:
 
 Temporary
 ^^^^^^^^^
 
-Running the appropriate command below will disable colored terminal output for a single
-session.
+Running the appropriate command below will disable colored terminal
+output for a single session.
 
 **Bash/Zsh:**
 
@@ -222,9 +507,13 @@ session.
 Persistent
 ^^^^^^^^^^
 
-Adding ``NO_COLOR`` to your ``GEOIPS`` enviormental variables - as
-described above - will make your settings persistent.
-    
-    # Reactivate your environment for changes to take effect
-    conda deactivate
-    conda activate geoips
+Add ``NO_COLOR`` to your ``.geoips.yaml`` file or use the environment
+variable as described above to make the setting persistent.
+
+To persist via configuration file:
+
+.. code-block:: yaml
+
+    geoips:
+      features:
+        no_color: true
