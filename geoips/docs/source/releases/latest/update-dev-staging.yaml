@@ -1,6 +1,6 @@
-chore:
-- title: 'Sync dev-staging to the latest main branch changes'
-  description: 'PR to udpate the dev-staging branch to the latest changes from the main branch'
+documentation:
+- title: 'Sync dev-staging with Pre-Release 1.19.0a0'
+  description: 'Update the dev-staging branch with the latest changes from the main branch, reflecting changes as of 1.19.0a0'
   files:
     deleted:
     - 'docs/source/concepts/architecture/plugin-registries.rst'
