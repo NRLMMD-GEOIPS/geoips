@@ -6,3 +6,20 @@ docs/_build/
 docs/build/
 geoips_test_data
 geoips_test_data/
+
+# Git database — large, unnecessary for builds, breaks worktree COPY.
+# The devcontainer gets .git via workspace bind-mount instead.
+.git
+
+# Build artifacts and caches
+**/__pycache__
+**/.pytest_cache
+.pytest_cache
+*.pyc
+*.egg-info
+test-reports/
+
+# Local virtual environment
+.venv
+venv/
+env/
