@@ -17,7 +17,7 @@
     requirements: "{{ geoips_packages_dir }}/geoips/environments/requirements.txt"
     extra_args: "{{ pip_extra_args }}"
     state: present
-  tags: [base, full, site]
+  tags: [base, full, site, python_env]
 
 - name: Install GeoIPS core
   ansible.builtin.pip:
@@ -25,7 +25,7 @@
     editable: "{{ pip_editable | bool }}"
     extra_args: "{{ pip_extra_args }}"
     state: present
-  tags: [base, full, site]
+  tags: [base, full, site, python_env]
 
 - name: Install doc + test extras
   ansible.builtin.pip:
@@ -33,7 +33,7 @@
     editable: "{{ pip_editable | bool }}"
     extra_args: "{{ pip_extra_args }}"
     state: present
-  tags: [full, site]
+  tags: [full, site, python_env]
 
 - name: Install lint + debug extras
   ansible.builtin.pip:
@@ -41,4 +41,4 @@
     editable: "{{ pip_editable | bool }}"
     extra_args: "{{ pip_extra_args }}"
     state: present
-  tags: [site]
+  tags: [site, python_env]

@@ -9,76 +9,81 @@
 #   ln -sfv $clone_dir/*_cultural/* $link_dir/cultural
 #   ln -sfv $clone_dir/*_physical/* $link_dir/physical
 #
+# In Docker builds the shapefiles are pre-populated by the Dockerfile's deps
+# stage.  The block below is skipped when they already exist, keeping the
+# role usable for bare-metal installs.
 ---
+- name: Check if shapefiles already exist (pre-populated by Dockerfile)
+  ansible.builtin.stat:
+    path: "{{ lookup('env', 'CARTOPY_DATA_DIR') | default(geoips_packages_dir, true) }}/shapefiles/natural_earth/cultural"
+  register: _shapefiles_exist
+  changed_when: false
+  tags: [full, site]
+
 - name: Set cartopy paths
   ansible.builtin.set_fact:
     cartopy_data_dir: "{{ lookup('env', 'CARTOPY_DATA_DIR') | default(geoips_packages_dir, true) }}"
-  tags: [full, site]
+  tags: [full, site, cartopy_shapefiles]
 
 - name: Set clone and link directories
   ansible.builtin.set_fact:
     clone_dir: "{{ cartopy_data_dir }}/shapefiles_clone/natural-earth-vector"
     link_dir: "{{ cartopy_data_dir }}/shapefiles/natural_earth"
-  tags: [full, site]
+  tags: [full, site, cartopy_shapefiles]
 
-- name: Create shapefile directories
-  ansible.builtin.file:
-    path: "{{ item }}"
-    state: directory
-    mode: "0755"
-  loop:
-    - "{{ cartopy_data_dir }}/shapefiles_clone"
-    - "{{ link_dir }}/cultural"
-    - "{{ link_dir }}/physical"
-  tags: [full, site]
+- name: Setup cartopy shapefiles (bare-metal only — Docker pre-populates)
+  block:
+    - name: Create shapefile directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+        mode: "0755"
+      loop:
+        - "{{ cartopy_data_dir }}/shapefiles_clone"
+        - "{{ link_dir }}/cultural"
+        - "{{ link_dir }}/physical"
 
-- name: Clone natural-earth-vector
-  ansible.builtin.git:
-    repo: https://github.com/nvkelso/natural-earth-vector
-    dest: "{{ clone_dir }}"
-    depth: 1
-  register: ne_clone
-  tags: [full, site]
+    - name: Clone natural-earth-vector
+      ansible.builtin.git:
+        repo: https://github.com/nvkelso/natural-earth-vector
+        dest: "{{ clone_dir }}"
+        depth: 1
+      register: ne_clone
 
-# Replicate the exact four ln commands from check_system_requirements.sh.
-# Pass 1: subdirectory contents (*_cultural/*/* and *_physical/*/*)
-# Pass 2: top-level files (*_cultural/* and *_physical/*)
+    - name: Symlink cultural shapefiles (subdirectory contents)
+      ansible.builtin.shell: |
+        ln -sfv {{ clone_dir }}/*_cultural/*/* {{ link_dir }}/cultural/
+      args:
+        executable: /bin/bash
+      register: ln_cultural_sub
+      changed_when: ne_clone.changed
 
-- name: Symlink cultural shapefiles (subdirectory contents)
-  ansible.builtin.shell: |
-    ln -sfv {{ clone_dir }}/*_cultural/*/* {{ link_dir }}/cultural/
-  args:
-    executable: /bin/bash
-  register: ln_cultural_sub
-  changed_when: ne_clone.changed
-  tags: [full, site]
+    - name: Symlink physical shapefiles (subdirectory contents)
+      ansible.builtin.shell: |
+        ln -sfv {{ clone_dir }}/*_physical/*/* {{ link_dir }}/physical/
+      args:
+        executable: /bin/bash
+      register: ln_physical_sub
+      changed_when: ne_clone.changed
 
-- name: Symlink physical shapefiles (subdirectory contents)
-  ansible.builtin.shell: |
-    ln -sfv {{ clone_dir }}/*_physical/*/* {{ link_dir }}/physical/
-  args:
-    executable: /bin/bash
-  register: ln_physical_sub
-  changed_when: ne_clone.changed
-  tags: [full, site]
+    - name: Symlink cultural shapefiles (top-level files)
+      ansible.builtin.shell: |
+        ln -sfv {{ clone_dir }}/*_cultural/* {{ link_dir }}/cultural/
+      args:
+        executable: /bin/bash
+      register: ln_cultural_top
+      changed_when: ne_clone.changed
 
-- name: Symlink cultural shapefiles (top-level files)
-  ansible.builtin.shell: |
-    ln -sfv {{ clone_dir }}/*_cultural/* {{ link_dir }}/cultural/
-  args:
-    executable: /bin/bash
-  register: ln_cultural_top
-  changed_when: ne_clone.changed
-  tags: [full, site]
+    - name: Symlink physical shapefiles (top-level files)
+      ansible.builtin.shell: |
+        ln -sfv {{ clone_dir }}/*_physical/* {{ link_dir }}/physical/
+      args:
+        executable: /bin/bash
+      register: ln_physical_top
+      changed_when: ne_clone.changed
 
-- name: Symlink physical shapefiles (top-level files)
-  ansible.builtin.shell: |
-    ln -sfv {{ clone_dir }}/*_physical/* {{ link_dir }}/physical/
-  args:
-    executable: /bin/bash
-  register: ln_physical_top
-  changed_when: ne_clone.changed
-  tags: [full, site]
+  when: not _shapefiles_exist.stat.exists
+  tags: [full, site, cartopy_shapefiles]
 
 - name: Verify cultural shapefiles installed
   ansible.builtin.shell: |
@@ -88,7 +93,7 @@
   register: cultural_shp
   changed_when: false
   failed_when: cultural_shp.rc != 0
-  tags: [full, site]
+  tags: [full, site, cartopy_shapefiles]
 
 - name: Verify physical shapefiles installed
   ansible.builtin.shell: |
@@ -98,4 +103,4 @@
   register: physical_shp
   changed_when: false
   failed_when: physical_shp.rc != 0
-  tags: [full, site]
+  tags: [full, site, cartopy_shapefiles]

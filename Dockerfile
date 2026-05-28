@@ -9,6 +9,14 @@
 #    docker build --target dev-quick .       # base + editable install + dev tools (fast build)
 #    docker build --target production  .     # slim runtime image (no source, no ansible)
 #
+#  Cache-optimised CI usage:
+#    # 1. Pull/push deps cache across runs (deps stage changes rarely)
+#    docker build --target deps --tag geoips:cache .
+#    docker push ghcr.io/org/repo:build-cache
+#
+#    # 2. Build full target using cached deps layers
+#    docker build --cache-from geoips:cache --target geoips-site --tag $IMAGE_TAG .
+#
 #  Extra plugins (any target):
 #    docker build --target geoips-site --build-arg EXTRA_PLUGINS=my_plugin .
 #
@@ -20,28 +28,29 @@
 # =============================================================================
 
 ###############################################################################
-# Stage 1: base-os — system packages only, no Python libs
+# Stage 1: base-os — system packages + uv (no Python libs yet)
 ###############################################################################
 FROM python:3.11-slim-trixie AS base-os
 
 ARG DEBIAN_FRONTEND=noninteractive
 ENV CFLAGS="-Wno-incompatible-pointer-types"
-RUN apt-get update \
+
+# Single apt pass: add unstable source first, then one update + install.
+RUN echo "deb http://deb.debian.org/debian/ unstable main contrib non-free" \
+      > /etc/apt/sources.list.d/unstable.list \
+    && apt-get update \
     && apt-get upgrade -y \
     && apt-get install -y --no-install-recommends \
-       git wget libopenblas-dev g++ make gfortran \
-       libeccodes-dev \
-    && echo "deb http://deb.debian.org/debian/ unstable main contrib non-free" | tee /etc/apt/sources.list.d/unstable.list \
-    && apt-get update \
-    && apt install -y -t unstable gdal-bin libgdal-dev \
+         git wget libopenblas-dev g++ make gfortran libeccodes-dev \
+         -t unstable gdal-bin libgdal-dev \
     && rm -rf /var/lib/apt/lists/* \
-    && pip install --no-cache-dir --upgrade pip
+    && pip install --no-cache-dir uv
 
 ###############################################################################
-# Stage 2: deps — Python requirements cached separately from source changes
+# Stage 2: deps — Python requirements + cartopy shapefiles (cached layer)
 #
-# This layer only rebuilds when requirements.txt changes, so day-to-day
-# source edits skip the slow dependency download entirely.
+# Everything below the ---- line only rebuilds when requirements.txt or the
+# shapefiles setup changes.  Day-to-day source edits skip this entire stage.
 ###############################################################################
 FROM base-os AS deps
 
@@ -69,12 +78,27 @@ RUN groupadd -g ${GROUP_ID} ${USER} \
        ${GEOIPS_TESTDATA_DIR} \
        ${GEOIPS_PACKAGES_DIR}
 
-# ---- cached layer: only rebuilds when requirements.txt changes ----
-# ansible-core is a build-time tool only (stripped in production) so it
-# keeps its wheel for speed.
+# ---- cached layer: Python packages (changes only when requirements.txt does) ----
 COPY --chown=${USER}:${GROUP_ID} environments/requirements.txt /tmp/requirements.txt
-RUN pip install --no-cache-dir -r /tmp/requirements.txt \
-    && pip install --no-cache-dir ansible-core
+RUN uv pip install --system --no-cache -r /tmp/requirements.txt \
+    && uv pip install --system --no-cache ansible-core
+
+# ---- cached layer: cartopy shapefiles (no source dependency) ----
+# Pre-populated here so the ansible role in later stages detects them and skips.
+# This clone is 300MB+ and only reruns when the Dockerfile line changes.
+RUN git clone --depth 1 https://github.com/nvkelso/natural-earth-vector \
+      /packages/shapefiles_clone/natural-earth-vector \
+    && mkdir -p /packages/shapefiles/natural_earth/cultural \
+               /packages/shapefiles/natural_earth/physical \
+    && ln -sfv /packages/shapefiles_clone/natural-earth-vector/*_cultural/*/* \
+               /packages/shapefiles/natural_earth/cultural/ \
+    && ln -sfv /packages/shapefiles_clone/natural-earth-vector/*_physical/*/* \
+               /packages/shapefiles/natural_earth/physical/ \
+    && ln -sfv /packages/shapefiles_clone/natural-earth-vector/*_cultural/* \
+               /packages/shapefiles/natural_earth/cultural/ \
+    && ln -sfv /packages/shapefiles_clone/natural-earth-vector/*_physical/* \
+               /packages/shapefiles/natural_earth/physical/ \
+    && chown -R ${USER}:${GROUP_ID} /packages/shapefiles*
 
 ###############################################################################
 # Stage 3: geoips-base — core GeoIPS built from source (non-editable)
@@ -106,15 +130,22 @@ RUN if [ -f ${GEOIPS_PACKAGES_DIR}/geoips/.git ]; then \
 
 RUN git config --global --add safe.directory '*'
 
-RUN cd ${GEOIPS_PACKAGES_DIR}/geoips/tests/ansible \
+# Install geoips core with uv.  python_env role is skipped because uv already
+# installed the package; ansible only runs system_deps verification + registries.
+RUN uv pip install --system --no-cache ${GEOIPS_PACKAGES_DIR}/geoips \
+    && cd ${GEOIPS_PACKAGES_DIR}/geoips/tests/ansible \
     && ansible-playbook playbooks/install.yml \
-      --tags base \
-      -e pip_editable=false \
-      -v \
+       --tags base \
+       --skip-tags python_env \
+       -e pip_editable=false \
+       -v \
     && chown -R ${USER_ID}:${GROUP_ID} ${GEOIPS_PACKAGES_DIR} /home/${USER}
 
 ###############################################################################
-# Stage 4: geoips-full — shapefiles, settings repos, doc/test extras
+# Stage 4: geoips-full — settings repos, doc/test extras
+#
+# Cartopy shapefiles were pre-populated in the deps stage, so the ansible
+# cartopy_shapefiles role is skipped.  Doc/test extras are installed with uv.
 ###############################################################################
 FROM geoips-base AS geoips-full
 
@@ -123,11 +154,13 @@ ARG USER_ID=1000
 ARG GROUP_ID=1000
 
 USER root
-RUN cd ${GEOIPS_PACKAGES_DIR}/geoips/tests/ansible \
+RUN uv pip install --system --no-cache ${GEOIPS_PACKAGES_DIR}/geoips[doc,test] \
+    && cd ${GEOIPS_PACKAGES_DIR}/geoips/tests/ansible \
     && ansible-playbook playbooks/install.yml \
-      --tags full \
-      -e pip_editable=false \
-      -v \
+       --tags full \
+       --skip-tags python_env,cartopy_shapefiles \
+       -e pip_editable=false \
+       -v \
     && chown -R ${USER_ID}:${GROUP_ID} ${GEOIPS_PACKAGES_DIR} /home/${USER}
 
 USER ${USER}
@@ -144,11 +177,13 @@ ARG GEOIPS_USE_PRIVATE_PLUGINS=false
 ENV GEOIPS_USE_PRIVATE_PLUGINS=${GEOIPS_USE_PRIVATE_PLUGINS}
 
 USER root
-RUN cd ${GEOIPS_PACKAGES_DIR}/geoips/tests/ansible \
+RUN uv pip install --system --no-cache ${GEOIPS_PACKAGES_DIR}/geoips[doc,test,lint,debug] \
+    && cd ${GEOIPS_PACKAGES_DIR}/geoips/tests/ansible \
     && ansible-playbook playbooks/install.yml \
-      --tags site \
-      -e pip_editable=false \
-      -v \
+       --tags site \
+       --skip-tags python_env,cartopy_shapefiles \
+       -e pip_editable=false \
+       -v \
     && chown -R ${USER_ID}:${GROUP_ID} ${GEOIPS_PACKAGES_DIR} ${GEOIPS_OUTDIRS} /home/${USER}
 
 USER ${USER}
@@ -183,18 +218,13 @@ RUN apt-get update \
 # Convert to editable install.  Non-editable packages are already in
 # site-packages from the earlier stages; editable overlays them so
 # Python loads from /packages/geoips (→ workspace bind mount → host).
-RUN cd ${GEOIPS_PACKAGES_DIR}/geoips \
-    && pip install --no-cache-dir -e '.[doc,test,lint,debug]'
-
-# Re-run ansible install for all plugin repos in editable mode so
-# their source trees (mounted or COPY'd) are also editable.
-# Skip registries — devs regenerate them as needed.
-RUN cd ${GEOIPS_PACKAGES_DIR}/geoips/tests/ansible \
+RUN uv pip install --system --no-cache -e ${GEOIPS_PACKAGES_DIR}/geoips[doc,test,lint,debug] \
+    && cd ${GEOIPS_PACKAGES_DIR}/geoips/tests/ansible \
     && ansible-playbook playbooks/install.yml \
-      --tags site \
-      -e pip_editable=true \
-      --skip-tags registries \
-      -v \
+       --tags site \
+       --skip-tags registries,python_env,cartopy_shapefiles \
+       -e pip_editable=true \
+       -v \
     && chown -R ${USER_ID}:${GROUP_ID} ${GEOIPS_PACKAGES_DIR} /home/${USER}
 
 # Prepare SSH for remote dev connections
@@ -226,8 +256,7 @@ RUN apt-get update \
        bash-completion \
     && rm -rf /var/lib/apt/lists/*
 
-RUN cd ${GEOIPS_PACKAGES_DIR}/geoips \
-    && pip install --no-cache-dir -e '.[doc,test,lint,debug]'
+RUN uv pip install --system --no-cache -e ${GEOIPS_PACKAGES_DIR}/geoips[doc,test,lint,debug]
 
 RUN mkdir -p /var/run/sshd \
     && echo "PermitRootLogin yes" >> /etc/ssh/sshd_config
