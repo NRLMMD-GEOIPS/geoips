@@ -1,19 +1,6 @@
-// For format details, see https://aka.ms/devcontainer.json. For config options, see the
-// README at: https://github.com/devcontainers/templates/tree/main/src/docker-existing-dockerfile
-//
-// Git worktree support: the workspace is mounted at /packages/geoips and the
-// grandparent of the workspace is mounted at /workspaces-root so the main
-// repo's .git directory is reachable.  The postCreateCommand script rewrites
-// the worktree .git file to use container paths.
-//
-// Test data: mounted from the host at /geoips_testdata via GEOIPS_TESTDATA_DIR.
-// Never baked into the image.  Set GEOIPS_TESTDATA_DIR to a shared location
-// (e.g., ~/.geoips/testdata) so all worktrees share one copy.
-//
 {
 	"name": "GeoIPS Dev Container",
 	"build": {
-		// Sets the run context to one level up instead of the .devcontainer folder.
 		"context": "..",
 		"dockerfile": "../Dockerfile",
 		"target": "dev",
@@ -22,15 +9,9 @@
 			"GROUP_ID": "${localEnv:GID:1000}"
 		}
 	},
-	// Host-side pre-build setup — create required directories
 	"initializeCommand": "mkdir -p ${localEnv:GEOIPS_TESTDATA_DIR:${env:HOME}${env:USERPROFILE}/.geoips/testdata} ${localEnv:GEOIPS_OUTDIRS:${env:HOME}${env:USERPROFILE}/.geoips/output} ${localEnv:CARTOPY_SHAPEFILES:${env:HOME}${env:USERPROFILE}/.geoips/cartopy}",
-	// Run after the container is created — sets up git worktree, editable install, registries
 	"postCreateCommand": "/packages/geoips/tests/ansible/scripts/devcontainer-setup.sh",
 	"mounts": [
-		// Main repo's .git for worktree support (grandparent of workspace)
-		// The workspace is e.g. .../Project/geoips-worktree/geoips
-		// Its grandparent (.../Project/) contains the main repo's .git.
-		// Skipped silently if the path does not exist.
 		"source=${localWorkspaceFolder}/../..,target=/workspaces-root,type=bind,consistency=cached",
 
 		// Cartopy shapefiles (shared across worktrees)
@@ -46,7 +27,6 @@
 		// SSH keys for geoips_user
 		"source=${localEnv:HOME}${localEnv:USERPROFILE}/.ssh/,target=/home/geoips_user/.ssh,type=bind",
 
-		// SSH keys for root (for when sudo is needed)
 		"source=${localEnv:HOME}${localEnv:USERPROFILE}/.ssh/,target=/root/.ssh,type=bind"
 	],
 	"workspaceMount": "source=${localWorkspaceFolder},target=/packages/geoips,type=bind",
@@ -54,8 +34,6 @@
 
 	// Run as the geoips_user by default
 	"remoteUser": "geoips_user",
-
-	// Set environment variables
 	"containerEnv": {
 		"GEOIPS_TESTDATA_DIR": "/geoips_testdata",
 		"GEOIPS_OUTDIRS": "/output",
