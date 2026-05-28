@@ -93,28 +93,32 @@ class TestGeoSettings:
         with pytest.raises(ValidationError):
             GeoSettings()
 
+    @pytest.fixture(autouse=True)
+    def _set_outdirs(self, tmp_path):
+        self._outdirs = str(tmp_path / "out")
+
     def test_creates_nested_models_by_default(self):
         """Verify nested models are created with defaults."""
-        model = GeoSettings(outdirs="/tmp/out")
+        model = GeoSettings(outdirs=self._outdirs)
         assert model.features.no_color is False
         assert model.output_paths.presectored_data == "preprocessed/sectored"
         assert model.cache.geolocation_cache_backend == "memmap"
 
     def test_frozen(self):
         """Verify root model is frozen."""
-        model = GeoSettings(outdirs="/tmp/out")
+        model = GeoSettings(outdirs=self._outdirs)
         with pytest.raises(ValidationError):
             model.outdirs = "/changed"
 
     def test_nested_frozen(self):
         """Verify nested models are also frozen."""
-        model = GeoSettings(outdirs="/tmp/out")
+        model = GeoSettings(outdirs=self._outdirs)
         with pytest.raises(ValidationError):
             model.features.no_color = True
 
     def test_metadata_defaults(self):
         """Verify default metadata values."""
-        model = GeoSettings(outdirs="/tmp/out")
+        model = GeoSettings(outdirs=self._outdirs)
         assert model.version == "0.0.0"
         assert model.copyright == "NRL-Monterey"
         assert model.docs_url.startswith("https://")
