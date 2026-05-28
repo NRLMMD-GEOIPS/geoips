@@ -239,9 +239,10 @@ GEOIPS_ENV_MAP: dict[str, str] = {
     "PRIVATEWWW_URL": "privatewww_url",
     "TC_TEMPLATE": "tc_template",
 }
-"""Mapping of environment variable names to dotted pydantic field paths.
+"""Mapping from environment variable names to dotted model field paths.
 
-Used by the config loader to apply env var overrides onto the GeoSettings model.
-Keys are env var names (with or without GEOIPS_ prefix), values are dot-separated
-paths into the GeoSettings model tree (e.g. ``features.no_color``).
+Used by the config loader to apply env var overrides on top of the
+settings model. Keys are environment variable names (with or without a
+``GEOIPS_`` prefix), and values are dot-separated field paths into the
+configuration model tree (e.g. ``features.no_color``).
 """
