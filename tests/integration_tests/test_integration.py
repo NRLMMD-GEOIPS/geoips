@@ -301,9 +301,14 @@ def setup_environment():
 
     - geoips_repopath
     - geoips_pkgname
+    - repopath (alias for geoips_repopath — used by lint scripts)
+    - pkgname (alias for geoips_pkgname — used by lint scripts)
     """
     os.environ["geoips_repopath"] = _REPO_ROOT
     os.environ["geoips_pkgname"] = "geoips"
+
+    os.environ["repopath"] = os.environ["geoips_repopath"]
+    os.environ["pkgname"] = os.environ["geoips_pkgname"]
 
     geoips_packages_dir = os.getenv("GEOIPS_PACKAGES_DIR")
     if not geoips_packages_dir:
@@ -471,13 +476,17 @@ def test_integ_base_test_script(
 @pytest.mark.lint
 @pytest.mark.integration
 @pytest.mark.parametrize("script", lint_integ_test_calls)
-def test_integ_lint_test_script(base_setup: None, script: str):
+def test_integ_lint_test_script(
+    base_setup: None, script: str, fail_on_missing_data: bool
+):
     """Run lint integration test scripts.
 
     Parameters
     ----------
     script : str
         Shell command to execute as part of the integration test.
+    fail_on_missing_data : bool
+        Whether to hard-fail on missing test data.
 
     Raises
     ------
@@ -485,21 +494,23 @@ def test_integ_lint_test_script(base_setup: None, script: str):
         If the shell command returns a non-zero exit status.
     """
     setup_environment()
-    run_script_with_bash(script)
+    run_script_with_bash(script, fail_on_missing_data=fail_on_missing_data)
 
 
 @pytest.mark.validation
 @pytest.mark.integration
 @pytest.mark.parametrize("script", validation_integ_test_calls)
-def test_integ_validation_script(base_setup: None, script: str):
-    """
-    Run integration test scripts by executing specified shell commands.
+def test_integ_validation_script(
+    base_setup: None, script: str, fail_on_missing_data: bool
+):
+    """Run validation integration test scripts.
 
     Parameters
     ----------
     script : str
-        Shell command to execute as part of the integration test. The command may
-        contain environment variables which will be expanded before execution.
+        Shell command to execute as part of the integration test.
+    fail_on_missing_data : bool
+        Whether to hard-fail on missing test data.
 
     Raises
     ------
@@ -507,7 +518,7 @@ def test_integ_validation_script(base_setup: None, script: str):
         If the shell command returns a non-zero exit status.
     """
     setup_environment()
-    run_script_with_bash(script)
+    run_script_with_bash(script, fail_on_missing_data=fail_on_missing_data)
 
 
 @pytest.mark.full
