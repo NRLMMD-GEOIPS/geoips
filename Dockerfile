@@ -5,6 +5,8 @@
 #    docker build --target geoips-base .     # core GeoIPS only
 #    docker build --target geoips-full .     # + shapefiles, settings repos, doc/test extras
 #    docker build --target geoips-site .     # + all open-source plugin packages
+#    docker build --target dev .             # site + editable install + dev tools (ssh,vim,…)
+#    docker build --target dev-quick .       # base + editable install + dev tools (fast build)
 #    docker build --target production  .     # slim runtime image (no source, no ansible)
 #
 #  Extra plugins (any target):
@@ -23,13 +25,11 @@
 FROM python:3.11-slim-trixie AS base-os
 
 ARG DEBIAN_FRONTEND=noninteractive
-# Set compiler flags to work around pyhdf's outdated C wrapper
 ENV CFLAGS="-Wno-incompatible-pointer-types"
 RUN apt-get update \
     && apt-get upgrade -y \
     && apt-get install -y --no-install-recommends \
-       git wget libopenblas-dev g++ make gfortran\
-# for pygrib
+       git wget libopenblas-dev g++ make gfortran \
        libeccodes-dev \
     && echo "deb http://deb.debian.org/debian/ unstable main contrib non-free" | tee /etc/apt/sources.list.d/unstable.list \
     && apt-get update \
@@ -70,10 +70,8 @@ RUN groupadd -g ${GROUP_ID} ${USER} \
        ${GEOIPS_PACKAGES_DIR}
 
 # ---- cached layer: only rebuilds when requirements.txt changes ----
-# --no-binary :all: compiles every dependency from source so the resulting
-# binaries are optimised for the container's architecture and the image
-# carries no pre-built wheel bloat.  ansible-core is a build-time tool
-# only (stripped in production) so it keeps its wheel for speed.
+# ansible-core is a build-time tool only (stripped in production) so it
+# keeps its wheel for speed.
 COPY --chown=${USER}:${GROUP_ID} environments/requirements.txt /tmp/requirements.txt
 RUN pip install --no-cache-dir -r /tmp/requirements.txt \
     && pip install --no-cache-dir ansible-core
@@ -93,29 +91,17 @@ ENV EXTRA_PLUGINS=${EXTRA_PLUGINS} \
     GEOIPS_MODIFIED_BRANCH=${GEOIPS_MODIFIED_BRANCH}
 
 # ---- this layer rebuilds on any source change, but deps above are cached ----
+# .git is excluded via .dockerignore — the image is smaller and worktree-safe.
 COPY --chown=${USER}:${GROUP_ID} . ${GEOIPS_PACKAGES_DIR}/geoips/
 
 RUN git config --global --add safe.directory '*'
 
-# Build from source (non-editable).  The package lands in site-packages,
-# which keeps the image smaller than an editable install that symlinks
-# the entire source tree.  --no-binary :all: ensures every dependency is
-# compiled from source (requirements.txt deps were already built in the
-# deps stage, so this is a fast no-op for those).
-#
-# cd into the ansible directory so ansible.cfg is found automatically and
-# roles_path=roles resolves to tests/ansible/roles/.
 RUN cd ${GEOIPS_PACKAGES_DIR}/geoips/tests/ansible \
     && ansible-playbook playbooks/install.yml \
       --tags base \
       -e pip_editable=false \
-#      -e 'pip_extra_args=--no-binary :all:' \
       -v \
     && chown -R ${USER_ID}:${GROUP_ID} ${GEOIPS_PACKAGES_DIR} /home/${USER}
-
-FROM base-os AS doclinttest
-
-USER root
 
 ###############################################################################
 # Stage 4: geoips-full — shapefiles, settings repos, doc/test extras
@@ -131,7 +117,6 @@ RUN cd ${GEOIPS_PACKAGES_DIR}/geoips/tests/ansible \
     && ansible-playbook playbooks/install.yml \
       --tags full \
       -e pip_editable=false \
-#      -e 'pip_extra_args=--no-binary :all:' \
       -v \
     && chown -R ${USER_ID}:${GROUP_ID} ${GEOIPS_PACKAGES_DIR} /home/${USER}
 
@@ -153,37 +138,94 @@ RUN cd ${GEOIPS_PACKAGES_DIR}/geoips/tests/ansible \
     && ansible-playbook playbooks/install.yml \
       --tags site \
       -e pip_editable=false \
-#      -e 'pip_extra_args=--no-binary :all:' \
       -v \
     && chown -R ${USER_ID}:${GROUP_ID} ${GEOIPS_PACKAGES_DIR} ${GEOIPS_OUTDIRS} /home/${USER}
 
 USER ${USER}
 
 ###############################################################################
-# Stage 5: geoips-dev — site + dev packages (eg. ssh, git, etc.)
+# Stage 6: dev — full site + editable install + developer tools
+#
+# Inherits geoips-site (all plugins installed non-editable) then converts
+# to editable mode so the devcontainer's workspace bind-mount at
+# /packages/geoips makes host source changes live immediately.
+#
+# .git is provided by the workspace mount (not baked into the image).
 ###############################################################################
 FROM geoips-site AS dev
 
 ARG USER=geoips_user
 ARG USER_ID=1000
 ARG GROUP_ID=1000
-ARG GEOIPS_USE_PRIVATE_PLUGINS=false
-ENV GEOIPS_USE_PRIVATE_PLUGINS=${GEOIPS_USE_PRIVATE_PLUGINS}
 
 USER root
+
+# Developer tools — ssh server for remote connections, editors, shell niceties
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends \
+       openssh-server \
+       vim \
+       htop \
+       curl \
+       bash-completion \
+    && rm -rf /var/lib/apt/lists/*
+
+# Convert to editable install.  Non-editable packages are already in
+# site-packages from the earlier stages; editable overlays them so
+# Python loads from /packages/geoips (→ workspace bind mount → host).
+RUN cd ${GEOIPS_PACKAGES_DIR}/geoips \
+    && pip install --no-cache-dir -e '.[doc,test,lint,debug]'
+
+# Re-run ansible install for all plugin repos in editable mode so
+# their source trees (mounted or COPY'd) are also editable.
+# Skip registries — devs regenerate them as needed.
 RUN cd ${GEOIPS_PACKAGES_DIR}/geoips/tests/ansible \
     && ansible-playbook playbooks/install.yml \
       --tags site \
-      -e pip_editable=false \
-#      -e 'pip_extra_args=--no-binary :all:' \
+      -e pip_editable=true \
+      --skip-tags registries \
       -v \
-    && chown -R ${USER_ID}:${GROUP_ID} ${GEOIPS_PACKAGES_DIR} ${GEOIPS_OUTDIRS} /home/${USER}
+    && chown -R ${USER_ID}:${GROUP_ID} ${GEOIPS_PACKAGES_DIR} /home/${USER}
 
+# Prepare SSH for remote dev connections
+RUN mkdir -p /var/run/sshd \
+    && echo "PermitRootLogin yes" >> /etc/ssh/sshd_config
 
 USER ${USER}
 
 ###############################################################################
-# Stage 6: production — minimal runtime, no source tree, no ansible, no git
+# Stage 7: dev-quick — base + editable install + dev tools (fast builds)
+#
+# Lightweight development target for quick iteration.  Skips all plugins,
+# shapefiles, and settings repos.  Use when you only need core GeoIPS.
+###############################################################################
+FROM geoips-base AS dev-quick
+
+ARG USER=geoips_user
+ARG USER_ID=1000
+ARG GROUP_ID=1000
+
+USER root
+
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends \
+       openssh-server \
+       vim \
+       htop \
+       curl \
+       bash-completion \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN cd ${GEOIPS_PACKAGES_DIR}/geoips \
+    && pip install --no-cache-dir -e '.[doc,test,lint,debug]'
+
+RUN mkdir -p /var/run/sshd \
+    && echo "PermitRootLogin yes" >> /etc/ssh/sshd_config
+
+USER ${USER}
+
+###############################################################################
+# Stage 8: production — minimal runtime, no source tree, no ansible, no git
 #
 # Because we built from source (non-editable), the entire geoips package and
 # its plugins live in site-packages.  We copy only that plus the bin stubs,
