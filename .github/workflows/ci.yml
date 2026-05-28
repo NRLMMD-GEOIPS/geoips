@@ -12,6 +12,9 @@ defaults:
   run:
     shell: bash
 
+permissions:
+  contents: read
+
 jobs:
   ci:
     uses: NRLMMD-GEOIPS/geoips_ci/.github/workflows/reusable-ci.yaml@add-integration-testing
