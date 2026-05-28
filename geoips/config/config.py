@@ -74,9 +74,9 @@ def _cast_env_value(value: str, target_field: str) -> Any:
 def _get_env_overrides() -> dict[str, Any]:
     """Read environment variables and build a nested override dictionary.
 
-    Iterates over :data:`geoips.config.schema.GEOIPS_ENV_MAP`, checks each
-    environment variable with :func:`os.getenv`, and if set, casts the
-    value using :func:`_cast_env_value` and inserts it at the correct
+    Iterates over ``geoips.config.schema.GEOIPS_ENV_MAP``, checks each
+    environment variable with ``os.getenv``, and if set, casts the
+    value using ``_cast_env_value`` and inserts it at the correct
     nested path.
 
     Returns
@@ -148,9 +148,7 @@ def _compute_auto_settings(base_settings: GeoSettings) -> dict[str, Any]:
     """
     updates: dict[str, Any] = {}
 
-    base_path = os.path.abspath(
-        os.path.join(os.path.dirname(__file__), os.pardir)
-    )
+    base_path = os.path.abspath(os.path.join(os.path.dirname(__file__), os.pardir))
     updates["base_path"] = base_path
 
     packages_dir = base_settings.packages_dir
@@ -190,9 +188,7 @@ def _compute_auto_settings(base_settings: GeoSettings) -> dict[str, Any]:
 
     if not base_settings.home:
         if not os.getenv("HOME"):
-            updates["home"] = (
-                os.getenv("HOMEDRIVE", "") + os.getenv("HOMEPATH", "")
-            )
+            updates["home"] = os.getenv("HOMEDRIVE", "") + os.getenv("HOMEPATH", "")
         else:
             updates["home"] = os.getenv("HOME", "").rstrip("/")
 
@@ -212,20 +208,18 @@ def _compute_auto_settings(base_settings: GeoSettings) -> dict[str, Any]:
     if base_settings.cache.data_cache_dir is None:
         cache_updates["data_cache_dir"] = os.path.join(outdirs, "cache", "geoips")
     if base_settings.cache.satpy_data_cache_dir is None:
-        cache_updates["satpy_data_cache_dir"] = os.path.join(
-            outdirs, "cache", "satpy"
-        )
+        cache_updates["satpy_data_cache_dir"] = os.path.join(outdirs, "cache", "satpy")
 
     dc = cache_updates.get("data_cache_dir", base_settings.cache.data_cache_dir)
     sc = cache_updates.get(
         "satpy_data_cache_dir", base_settings.cache.satpy_data_cache_dir
     )
 
-    _resolve = lambda root, field: (
-        os.path.join(root, str(getattr(base_settings.cache, field)))
-        if not os.path.isabs(str(getattr(base_settings.cache, field)))
-        else str(getattr(base_settings.cache, field))
-    )
+    def _resolve(root, field):
+        val = str(getattr(base_settings.cache, field))
+        if not os.path.isabs(val):
+            return os.path.join(root, val)
+        return val
 
     cache_updates["data_cache_shortterm_geolocation_dynamic"] = _resolve(
         dc, "data_cache_shortterm_geolocation_dynamic"
@@ -253,11 +247,13 @@ def _compute_auto_settings(base_settings: GeoSettings) -> dict[str, Any]:
         }
 
     output_updates: dict[str, Any] = {}
-    _resolve_output = lambda field: (
-        os.path.join(outdirs, str(getattr(base_settings.output_paths, field)))
-        if not os.path.isabs(str(getattr(base_settings.output_paths, field)))
-        else str(getattr(base_settings.output_paths, field))
-    )
+
+    def _resolve_output(field):
+        val = str(getattr(base_settings.output_paths, field))
+        if not os.path.isabs(val):
+            return os.path.join(outdirs, val)
+        return val
+
     for field_name in (
         "presectored_data",
         "preread_data",
@@ -377,16 +373,48 @@ class GeoIPSConfig:
         self._legacy_dict = self._build_legacy_dict()
 
     def __getattr__(self, name: str) -> Any:
+        """Delegate attribute access to the inner settings model.
+
+        Parameters
+        ----------
+        name : str
+            Attribute name.
+
+        Returns
+        -------
+        Any
+            The corresponding configuration value.
+
+        Raises
+        ------
+        AttributeError
+            If the attribute does not exist on the settings model.
+        """
         if name.startswith("_"):
             raise AttributeError(name)
         try:
             return getattr(self._settings, name)
         except AttributeError:
-            raise AttributeError(
-                f"GeoIPSConfig has no attribute {name!r}"
-            ) from None
+            raise AttributeError(f"GeoIPSConfig has no attribute {name!r}") from None
 
     def __getitem__(self, key: str) -> Any:
+        """Dict-style access for backward compatibility.
+
+        Parameters
+        ----------
+        key : str
+            Legacy uppercase key (e.g. ``GEOIPS_OUTDIRS``).
+
+        Returns
+        -------
+        Any
+            The configuration value from the legacy dictionary.
+
+        Raises
+        ------
+        KeyError
+            If *key* is not a recognized legacy config key.
+        """
         return self._legacy_dict[key]
 
     def get(self, key: str, default: Any = None) -> Any:
@@ -410,7 +438,7 @@ class GeoIPSConfig:
         """Return the full configuration as a flat uppercase dictionary.
 
         This mirrors the shape of the old ``PATHS`` dict from
-        :mod:`geoips.filenames.base_paths` for backward compatibility.
+        ``geoips.filenames.base_paths`` for backward compatibility.
 
         Returns
         -------
@@ -524,8 +552,7 @@ class GeoIPSConfig:
             "HOME": s.home
             or (
                 os.getenv("HOME", "").rstrip("/")
-                or os.getenv("HOMEDRIVE", "")
-                + os.getenv("HOMEPATH", "")
+                or os.getenv("HOMEDRIVE", "") + os.getenv("HOMEPATH", "")
             ),
             "TCWWW_URL": s.tcwww_url or op.tcwww,
             "TCPRIVATEWWW_URL": s.tcprivatewww_url or op.tcprivatewww,

@@ -53,24 +53,12 @@ class CacheSettings(BaseModel):
     data_cache_dir: str | None = None
     satpy_data_cache_dir: str | None = None
     geolocation_cache_backend: str = "memmap"
-    data_cache_shortterm_geolocation_dynamic: str = (
-        "shortterm/geolocation/dynamic"
-    )
-    data_cache_longterm_geolocation_static: str = (
-        "longterm/geolocation/static"
-    )
-    data_cache_shortterm_geolocation_solar_angles: str = (
-        "shortterm/geolocation/solar"
-    )
-    data_cache_shortterm_calibrated_data: str = (
-        "shortterm/calibrated_data"
-    )
-    satpy_cache_shortterm_calibrated_data: str = (
-        "shortterm/calibrated_data"
-    )
-    satpy_cache_shortterm_geolocation_solar_angles: str = (
-        "shortterm/geolocation/solar"
-    )
+    data_cache_shortterm_geolocation_dynamic: str = "shortterm/geolocation/dynamic"
+    data_cache_longterm_geolocation_static: str = "longterm/geolocation/static"
+    data_cache_shortterm_geolocation_solar_angles: str = "shortterm/geolocation/solar"
+    data_cache_shortterm_calibrated_data: str = "shortterm/calibrated_data"
+    satpy_cache_shortterm_calibrated_data: str = "shortterm/calibrated_data"
+    satpy_cache_shortterm_geolocation_solar_angles: str = "shortterm/geolocation/solar"
 
 
 class FeatureSettings(BaseModel):
@@ -211,9 +199,7 @@ GEOIPS_ENV_MAP: dict[str, str] = {
     "GEOIPS_TEST_SECTOR_CREATE_ANNOTATED_OUTPUTS": (
         "test.sector_create_annotated_outputs"
     ),
-    "GEOIPS_TEST_SECTOR_CREATE_GEOTIFF_OUTPUTS": (
-        "test.sector_create_geotiff_outputs"
-    ),
+    "GEOIPS_TEST_SECTOR_CREATE_GEOTIFF_OUTPUTS": ("test.sector_create_geotiff_outputs"),
     "GEOIPS_VERSION": "version",
     "GEOIPS_COPYRIGHT": "copyright",
     "GEOIPS_COPYRIGHT_ABBREVIATED": "copyright_abbreviated",
@@ -223,9 +209,7 @@ GEOIPS_ENV_MAP: dict[str, str] = {
     "BOXNAME": "boxname",
     "GEOIPS_REPLACE_OUTPUT_PATHS": "replace_output_paths",
     "GEOIPS_PREGENERATED_STATIC_GEOLOCATION": "pregenerated_static_geolocation",
-    "GEOIPS_PREGENERATED_DYNAMIC_GEOLOCATION": (
-        "pregenerated_dynamic_geolocation"
-    ),
+    "GEOIPS_PREGENERATED_DYNAMIC_GEOLOCATION": ("pregenerated_dynamic_geolocation"),
     "GEOIPS_TC_DECKS_TYPE": "tc_decks_type",
     "GEOIPS_TC_DECKS_DB": "output_paths.tc_decks_db",
     "GEOIPS_TC_DECKS_DIR": "output_paths.tc_decks_dir",

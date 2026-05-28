@@ -9,7 +9,6 @@ locations, following a priority order.
 
 import logging
 import os
-from pathlib import Path
 
 import yaml
 

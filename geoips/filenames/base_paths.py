@@ -1,11 +1,11 @@
 # # # This source code is subject to the license referenced at
 # # # https://github.com/NRLMMD-GEOIPS.
 
-"""Deprecated — use :mod:`geoips.config` instead.
+"""Deprecated -- use ``geoips.config`` instead.
 
 This module exists for backward compatibility and will be removed in
 a future release. The ``PATHS`` dictionary is now populated from the
-new :class:`geoips.config.GeoIPSConfig` singleton.
+new ``geoips.config.GeoIPSConfig`` singleton.
 """
 
 import logging
@@ -22,15 +22,13 @@ warn(
     stacklevel=2,
 )
 
-
 PATHS = config.to_legacy_dict()
 
 
 def make_dirs(path):
     """Make directories, catching exceptions if directory already exists.
 
-    .. deprecated::
-        Use :func:`geoips.config.make_dirs` instead.
+    Deprecated: Use ``geoips.config.make_dirs`` instead.
     """
     return _make_dirs(path)
 
@@ -38,8 +36,7 @@ def make_dirs(path):
 def cast_string_to_bool_or_none(value):
     """Cast string environment variables to True, False, or None.
 
-    .. deprecated::
-        Handled automatically by :class:`geoips.config.GeoIPSConfig`.
+    Deprecated: Handled automatically by ``geoips.config.GeoIPSConfig``.
     """
     if value.lower() == "false":
         return False
@@ -54,8 +51,7 @@ def cast_string_to_bool_or_none(value):
 def get_env_var(var_name, default, rstrip_path=True):
     """Retrieve environment variable or provided default.
 
-    .. deprecated::
-        Use :class:`geoips.config.GeoIPSConfig` instead.
+    Deprecated: Use ``geoips.config.GeoIPSConfig`` instead.
     """
     env_value = os.getenv(var_name)
     retval = default
@@ -70,7 +66,6 @@ def get_env_var(var_name, default, rstrip_path=True):
 def initialize_paths():
     """Initialize and return a dictionary of paths used throughout GeoIPS.
 
-    .. deprecated::
-        Use :func:`geoips.config.GeoIPSConfig.to_legacy_dict` instead.
+    Deprecated: Use ``geoips.config.GeoIPSConfig.to_legacy_dict`` instead.
     """
     return config.to_legacy_dict()
