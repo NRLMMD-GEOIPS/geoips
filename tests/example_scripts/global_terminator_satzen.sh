@@ -59,17 +59,36 @@ geoips run config_based \
   --output_config $GEOIPS_PACKAGES_DIR/geoips/tests/example_scripts/satzen.yaml
 retval=$?
 
+
+######################################################################################
+# Copy to example_test_imagery_outputs for reference.
+# This is not part of the tests, and will not cause the script to fail if nothing is found.
 mkdir -p $GEOIPS_OUTDIRS/example_test_imagery_outputs
+found_one=False
+# Check all geostationary sensors for outputs.
+for curr_sensor in "abi" "ahi" "ami" "seviri" "fci"; do
+    # Note global dataset overlays in Global- and not Tests- directories
+    fname_glob=$GEOIPS_OUTDIRS/preprocessed/annotated_imagery/Global-x-x/x-x-x/${GLOBAL_SATZEN_PRODUCT_BASE}-*-*/${curr_sensor}/*${GLOBAL_SATZEN_PRODUCT_BASE}*.png
+    # Check if there are any files matching the glob, if so copy them over.
+    ls -l $fname_glob >& /dev/null
+    if [[ $? == 0 ]]; then
+        echo ""
+        echo "Found product $product_name for sensor $curr_sensor!"
+        found_one=True
+        cp -pv $fname_glob $GEOIPS_OUTDIRS/example_test_imagery_outputs
+    fi
+done
 
-ls -l $GEOIPS_OUTDIRS/preprocessed/annotated_imagery/Global-x-x/x-x-x/${GLOBAL_SATZEN_PRODUCT_BASE}-*-*/abi/*
-ls -l $GEOIPS_OUTDIRS/preprocessed/annotated_imagery/Global-x-x/x-x-x/${GLOBAL_SATZEN_PRODUCT_BASE}-*-*/ahi/*
-ls -l $GEOIPS_OUTDIRS/preprocessed/annotated_imagery/Global-x-x/x-x-x/${GLOBAL_SATZEN_PRODUCT_BASE}-*-*/ami/*
-ls -l $GEOIPS_OUTDIRS/preprocessed/annotated_imagery/Global-x-x/x-x-x/${GLOBAL_SATZEN_PRODUCT_BASE}-*-*/seviri/*
-ls -l $GEOIPS_OUTDIRS/preprocessed/annotated_imagery/Global-x-x/x-x-x/${GLOBAL_SATZEN_PRODUCT_BASE}-*-*/fci/*
+echo ""
+if [[ "$found_one" == "True" ]]; then
+    echo "Copied output files to $GEOIPS_OUTDIRS/example_test_imagery_outputs"
+fi
+if [[ "$found_one" == "False" ]]; then
+    echo "No output files found!  Not copied to $GEOIPS_OUTDIRS/example_test_imagery_outputs!"
+fi
+echo ""
+echo "To review all example test imagery outputs:"
+echo "  ls -lthr $GEOIPS_OUTDIRS/example_test_imagery_outputs/*"
+######################################################################################
 
-cp -pv $GEOIPS_OUTDIRS/preprocessed/annotated_imagery/Global-x-x/x-x-x/${GLOBAL_SATZEN_PRODUCT_BASE}-*-*/abi/* $GEOIPS_OUTDIRS/example_test_imagery_outputs
-cp -pv $GEOIPS_OUTDIRS/preprocessed/annotated_imagery/Global-x-x/x-x-x/${GLOBAL_SATZEN_PRODUCT_BASE}-*-*/ahi/* $GEOIPS_OUTDIRS/example_test_imagery_outputs
-cp -pv $GEOIPS_OUTDIRS/preprocessed/annotated_imagery/Global-x-x/x-x-x/${GLOBAL_SATZEN_PRODUCT_BASE}-*-*/ami/* $GEOIPS_OUTDIRS/example_test_imagery_outputs
-cp -pv $GEOIPS_OUTDIRS/preprocessed/annotated_imagery/Global-x-x/x-x-x/${GLOBAL_SATZEN_PRODUCT_BASE}-*-*/seviri/* $GEOIPS_OUTDIRS/example_test_imagery_outputs
-cp -pv $GEOIPS_OUTDIRS/preprocessed/annotated_imagery/Global-x-x/x-x-x/${GLOBAL_SATZEN_PRODUCT_BASE}-*-*/fci/* $GEOIPS_OUTDIRS/example_test_imagery_outputs
 exit $retval

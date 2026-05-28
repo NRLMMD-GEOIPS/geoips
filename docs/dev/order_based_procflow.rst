@@ -76,6 +76,16 @@ step:
 .. code-block:: yaml
 
     spec:
+      global-arguments:
+        presector: False
+        product_db: False
+        product_db_writer: None
+        product_db_writer_kwargs: None
+        product_name: None
+        reader_defined_area_def: False
+        sector_list: []
+        window_start_time: None
+        window_end_time: None
       steps:
         reader_1:
           kind: reader
@@ -104,43 +114,80 @@ Output Formatter step in the code block below includes two additional plugins,
 
 .. code-block:: yaml
 
+    apiVersion: geoips/v1
     interface: products
     family: order_based
+    is_registered: false
     name: read_test
     docstring: Read test.
     package: geoips
+    test:
+      fnames: !ENV ${GEOIPS_TESTDATA_DIR}/test_data_abi/data/goes16_20200918_1950/*
+      compare_path: !ENV ${GEOIPS_PACKAGES_DIR}/geoips/tests/outputs/abi.static.<product>.imagery_clean
+      overrides:
+        steps:
+          - abi_Infrared.spec.steps.algorithm.output_units='Kelvin'
+        kinds:
+          - readers.self_register=False
+        globals:
+          - sector_list='global_cylindrical'
+          - logging_level='info'
     spec:
+      global-arguments:
+        presector: False
+        product_db: False
+        product_db_writer: None
+        product_db_writer_kwargs: None
+        product_name: None
+        reader_defined_area_def: False
+        window_start_time: None
+        window_end_time: None
+        sector_list: ["windspeed"]
       steps:
-        reader_1:
+        read_abi_L1_data:
           kind: reader
           name: abi_netcdf
           arguments:
-          area_def: None
-          metadata_only: False
-          self_register: [None]
-          variables: ['B14BT']
-        algorithm_1:
+            area_def: None
+            fnames: !ENV ${GEOIPS_TESTDATA_DIR}/test_data_abi/data/goes16_20200918_1950/*
+            metadata_only: False
+            self_register: [None]
+            variables: ['B14BT']
+            sectored_read: False
+            resampled_read: False
+            self_register_dataset: None
+            self_register_source: None
+        apply_single_channel_algorithm:
           kind: algorithm
           name: single_channel
           arguments:
           output_data_range: [-90.0, 30.0]
-        interpolator_1:
+        apply_interpolator:
           kind: interpolator
           name: interp_nearest
+        output_checker_1:
+          kind: output_checker
+          name: image
+          arguments:
+            checker_name: image
+            compare_path: "path/to/comparison/file.png"
+            output_products: [
+              "path/to/output/product.png",
+            ]
         output_formatter_1:
           kind: output_formatter
           name: imagery_annotated
           arguments:
-          colormapper_1:
-              kind: colormapper
-              name: Infrared
-              arguments:
-                data_range: [-90.0, 30.0]
-          filename_formatter_1:
-              kind: filename_formatter
-              name: geoips_fname
-              arguments:
-                suffix: ".png"
+            colormapper_1:
+                kind: colormapper
+                name: Infrared
+                arguments:
+                  data_range: [-90.0, 30.0]
+            filename_formatter_1:
+                kind: filename_formatter
+                name: geoips_fname
+                arguments:
+                  suffix: ".png"
 
 The code block above demonstrates a valid example of a product definition for
 an Order-Based Procflow.

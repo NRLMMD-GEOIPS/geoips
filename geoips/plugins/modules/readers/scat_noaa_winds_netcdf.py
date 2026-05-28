@@ -11,6 +11,7 @@ from os.path import basename
 # Third-Party Libraries
 import numpy
 import xarray
+from pandas import to_datetime, to_timedelta, Timestamp
 
 # GeoIPS imports
 from geoips.xarray_utils.time import (
@@ -32,10 +33,20 @@ source_names = ["ascat"]
 def read_noaa_data(wind_xarray):
     """Reformat ascat xarray object appropriately.
 
-    * variables: latitude, longitude, time,
-      wind_speed_kts, wind_dir_deg_met
-    * attributes: source_name, platform_name, data_provider,
-      interpolation_radius_of_influence
+    Note: This uses a fixed TAI conversion value of 37 seconds for
+    conversion. Last updated: Jan. 2026.
+
+    Parameters
+    ----------
+    wind_xarray : xr.Dataset
+        Dataset of unformatted NOAA wind data
+
+    Returns
+    -------
+    wind_xarray : xr.Dataset
+        xarray dataset with wind variables
+    geoips_metadata: dict
+        dictionary of GeoIPS required metadata
     """
     geoips_metadata = {}
     geoips_metadata["data_provider"] = "noaa"
@@ -45,13 +56,15 @@ def read_noaa_data(wind_xarray):
     geoips_metadata["source_name"] = "ascat"
     geoips_metadata["platform_name"] = wind_xarray.platform.lower()
 
+    # Convert TAI to UTC manually
     # Manually construct the time array, since xarray cannot auto decode these data
-    from astropy.time import Time
-    from dateutil.relativedelta import relativedelta
-
-    utc_time = Time(wind_xarray.time_seconds, format="unix_tai").utc.datetime
     # Seconds since time is w.r.t. 1990-01-01, need to offset 20 years
-    utc_time += relativedelta(years=20)
+    time_array = wind_xarray.time_seconds.data
+    og_shape = time_array.shape
+    utc_time = to_datetime(
+        time_array.ravel(), origin=Timestamp("1990-01-01"), unit="s"
+    ) - to_timedelta(37, "s")
+    utc_time = utc_time.to_pydatetime().reshape(og_shape)
 
     wind_xarray["time"].data = utc_time
     wind_xarray["time"].attrs["units"] = "Time in UTC"

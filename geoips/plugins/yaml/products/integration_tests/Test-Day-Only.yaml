@@ -11,7 +11,7 @@ spec:
       docstring: |
         11.2 µm Infrared product with night-time data masked,
         for diagnostic purposes.
-      product_defaults: Test-Infrared-Day-Only
+      product_defaults: Test-Day-Only
       spec:
         variables: ["B14BT", "MED:solar_zenith_angle", "MED:satellite_zenith_angle"]
 
@@ -24,7 +24,7 @@ spec:
 
         This product is for use with datasets that do not contain the B14 11.2um
         channel.
-      product_defaults: Test-Infrared-Day-Only
+      product_defaults: Test-Day-Only
       spec:
         variables: ["B13BT", "MED:solar_zenith_angle", "MED:satellite_zenith_angle"]
 
@@ -33,7 +33,7 @@ spec:
       docstring: |
         11.2 µm Infrared product with night-time data masked
         for diagnostic purposes.
-      product_defaults: Test-Infrared-Day-Only
+      product_defaults: Test-Day-Only
       spec:
         variables: ["B13BT", "MED:solar_zenith_angle", "MED:satellite_zenith_angle"]
 
@@ -42,7 +42,7 @@ spec:
       docstring: |
         11.2 µm Infrared product with night-time data masked
         for diagnostic purposes.
-      product_defaults: Test-Infrared-Day-Only
+      product_defaults: Test-Day-Only
       spec:
         variables: ["IR112BT", "MED:solar_zenith_angle", "MED:satellite_zenith_angle"]
 
@@ -51,7 +51,7 @@ spec:
       docstring: |
         11.2 µm Infrared product with night-time data masked,
         for diagnostic purposes.
-      product_defaults: Test-Infrared-Day-Only
+      product_defaults: Test-Day-Only
       spec:
         variables: ["B14BT", "MED:solar_zenith_angle", "MED:satellite_zenith_angle"]
 
@@ -60,6 +60,6 @@ spec:
       docstring: |
         11.2 µm Infrared product with night-time data masked,
         for diagnostic purposes.
-      product_defaults: Test-Infrared-Day-Only
+      product_defaults: Test-Day-Only
       spec:
         variables: ["B09BT", "MED:solar_zenith_angle", "MED:satellite_zenith_angle"]

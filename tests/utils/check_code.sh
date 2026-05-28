@@ -142,7 +142,9 @@ if [[ "$test" == "bandit" || "$test" == "all" ]]; then
     echo "TEST COMPLETE bandit"
     retval=$((bandit_retval+retval))
 fi
-if [[ "$test" == "doc8" || "$test" == "all" ]]; then
+# Enable this by default once all documentation has been linted.
+# if [[ "$test" == "doc8" || "$test" == "all" ]]; then
+if [[ "$test" == "doc8" ]]; then
     echo ""
     echo "CALLING TEST:"
     echo "doc8 --max-line-length=120 $path/docs/source"

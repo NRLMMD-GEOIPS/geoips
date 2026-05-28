@@ -5,19 +5,19 @@ docstring: |
   Himawari subsector, centered at 15 latitude, 98 longitude
   300x300 at 10km resolution
 
+  This sector is off the coast of Myanmar, containing approximately half ocean
+  and half land pixels.
+
   This is a very small sector that will contain both day-time and night-time
   data when used with the Himawari-8 dataset at 20240920T1500Z.
 
-  This dataset contains mostly day-time data with a small amount of night-time
+  This *dataset* contains mostly day-time data with a small amount of night-time
   data along the western edge of scan.
 
-  This sector is off the coast of Myanmar, containing approximately half ocean
-  and half land pixels for Himawari.
-
-  This sector was designed to contain approximately one quarter night-time data
+  This *sector* was designed to contain approximately one quarter night-time data
   along the western edge of the sector, and three quarters day-time data.
 
-  The test datasets corresponding to these sectors can be found in the
+  The test datasets corresponding to this sector can be found in the
   test_data_ahi test data repository.
 
   ```
@@ -37,16 +37,16 @@ spec:
     Himawari subsector, centered at 15 latitude, 98 longitude
     300x300 at 10km resolution
 
+    This sector is off the coast of Myanmar, containing approximately half ocean
+    and half land pixels.
+
     This is a very small sector that will contain both day-time and night-time
     data when used with the Himawari-8 dataset at 20240920T1500Z.
 
-    This dataset contains mostly day-time data with a small amount of night-time
+    This *dataset* contains mostly day-time data with a small amount of night-time
     data along the western edge of scan.
 
-    This sector is off the coast of Myanmar, containing approximately half ocean
-    and half land pixels for Himawari.
-
-    This sector was designed to contain approximately one quarter night-time data
+    This *sector* was designed to contain approximately one quarter night-time data
     along the western edge of the sector, and three quarters day-time data.
 
     The test datasets corresponding to these sectors can be found in the

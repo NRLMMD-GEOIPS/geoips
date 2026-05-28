@@ -400,6 +400,11 @@ docstrings, and before module globals and constants.
 
 `PEP8 Imports Standards <https://pep8.org/#imports>`__
 
+Within the geoips package, use ``import geoips.utils.yaml_utils as yaml`` instead of
+``import yaml`` directly. This wrapper is a drop-in replacement that raises
+``DuplicateKeyError`` when a YAML mapping contains repeated keys, catching a class of
+silent bug that PyYAML ignores by default.
+
 Internal Style Standards
 ------------------------
 

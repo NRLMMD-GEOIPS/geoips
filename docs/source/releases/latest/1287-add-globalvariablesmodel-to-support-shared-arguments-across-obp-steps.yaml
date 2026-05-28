@@ -1,0 +1,31 @@
+enhancement:
+- title: 'Add GlobalVariablesModel for shared OBP workflow arguments'
+  description: |
+    Adds a new GlobalVariablesModel to the pydantic models. It groups together
+    the handful of settings that apply to a whole Order-Based Procflow workflow
+    rather than to a single step, with a bit of validation to catch fields that
+    need to be set together.
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - 'docs/source/releases/latest/1287-add-globalvariablesmodel-to-support-shared-arguments-across-obp-steps.yaml'
+    - 'tests/unit_tests/pydantic_models/v1/workflows/test_cases_bad.yaml'
+    - 'tests/unit_tests/pydantic_models/v1/workflows/test_cases_good.yaml'
+    - 'tests/unit_tests/pydantic_models/v1/workflows/test_cases_neutral.yaml'
+    modified:
+    - 'docs/dev/order_based_procflow.rst'
+    - 'geoips/plugins/yaml/workflows/read_test_v1.yaml'
+    - 'geoips/plugins/yaml/workflows/read_test_v2alpha1.yaml'
+    - 'geoips/pydantic_models/v1/workflows.py'
+    - 'tests/unit_tests/commandline/test_geoips_run.py'
+    - 'tests/unit_tests/pydantic_models/v1/conftest.py'
+    - 'tests/unit_tests/pydantic_models/v1/test_pydantic_models.py'
+  related-issue:
+    number: 1287
+    repo_url: 'https://github.com/NRLMMD-GEOIPS/geoips'
+  date:
+    start: 2026/04/05
+    finish: 2026/04/17

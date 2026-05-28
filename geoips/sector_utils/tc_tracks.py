@@ -105,25 +105,25 @@ def create_tc_sector_info_dict(
     return fields
 
 
-def get_tc_area_id(fields, finalstormname, tcyear):
+def get_tc_area_id(fields, tcyear):
     """Get TC area_id from fields, to be used as pyresample AreaDefinition area_id.
 
     Will be of form:
-    * tcYYYYBBNNname (ie, tc2016io01one)
+
+    * NUMBERED bbNNYYYY-YYYYMMDDHH (ie, io012016-2016082206)
+    * INVEST   bbNNYYYYYYYYMMDDHH-YYYYMMDDHH
+      (ie, io9120162016082006-2016082206)
+
+    Numbered storms do NOT include the storm start datetime, while invests do. Both
+    include the current storm position time.
+
+    Note we use `-` as a delimiter since by convention we reserve `.` and `_`
+    throughout GeoIPS for filename delimiters.
     """
-    if not finalstormname:
-        finalstormname = fields["storm_name"]
-    newname = "{0}{1:02d}{2}{3}".format(
-        fields["storm_basin"].lower(),
-        int(fields["storm_num"]),
-        finalstormname.lower(),
-        datetime.strftime(fields["synoptic_time"], "%Y%m%dT%H%M"),
+    area_id = "{0}-{1}".format(
+        fields["storm_id"].lower(),
+        datetime.strftime(fields["synoptic_time"], "%Y%m%d%H"),
     )
-
-    newname = newname.replace("_", "").replace(".", "").replace("-", "")
-
-    # This ends up being tc2016io01one20220113T1200
-    area_id = "tc" + str(tcyear) + newname
     return area_id
 
 
@@ -134,12 +134,12 @@ def get_tc_long_description(area_id, fields):
     pyresample AreaDefinition.
     """
     if "interpolated_time" in fields:
-        long_description = "{0} interpolated_time {1}".format(
-            area_id, str(fields["interpolated_time"])
+        long_description = "{0} {1} interpolated_time {2}".format(
+            area_id, fields["final_storm_name"], str(fields["interpolated_time"])
         )
     else:
-        long_description = "{0} synoptic_time {1}".format(
-            area_id, str(fields["synoptic_time"])
+        long_description = "{0} {1} synoptic_time {2}".format(
+            area_id, fields["final_storm_name"], str(fields["synoptic_time"])
         )
     return long_description
 
@@ -238,7 +238,7 @@ def set_tc_area_def(
     if clon is None:
         clon = fields["clon"]
 
-    area_id = get_tc_area_id(fields, finalstormname, tcyear)
+    area_id = get_tc_area_id(fields, tcyear)
     long_description = get_tc_long_description(area_id, fields)
 
     # These are things like 'center_coordinates'

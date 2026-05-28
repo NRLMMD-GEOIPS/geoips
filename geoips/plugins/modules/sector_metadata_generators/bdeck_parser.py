@@ -145,13 +145,21 @@ def call(trackfile_name, allowed_aid_types=None):
 
     flatsf_lines = open(trackfile_name).readlines()
     # This just pulls the time of the first entry in the deck file
-    entry_storm_start_datetime = get_storm_start_datetime_from_bdeck_entry(flatsf_lines)
+    # Note this can change from one deck file to the next during the life of a
+    # storm (e.g., storm locations can be added or removed during the life of a
+    # storm), so we need to keep track of the original storm start time from the
+    # first deck file the storm appeared in.
+    storm_start_datetime_from_first_line_of_current_deck_file = (
+        get_storm_start_datetime_from_bdeck_entry(flatsf_lines)
+    )
 
     # Check if this storm is from an "archived" deck file.
     # If this is an archived deck file, we do not want to fail catastrophically for
     # poorly formatted old deck files. If it is a new deck file, we would want to
     # fail in order to avoid masking issues with new deck files.
-    storm_age_seconds = (datetime.now() - entry_storm_start_datetime).total_seconds()
+    storm_age_seconds = (
+        datetime.now() - storm_start_datetime_from_first_line_of_current_deck_file
+    ).total_seconds()
     archived_threshold = (
         datetime.now() - (datetime.now() - relativedelta(years=2))
     ).total_seconds()
@@ -168,24 +176,39 @@ def call(trackfile_name, allowed_aid_types=None):
     invest_number = get_invest_number_bdeck(flatsf_lines, is_archived)
 
     # Note storms are often started with 3 locations, and the first 2 locations
-    # are removed in later deck files, so initial storm start time often does
-    # not match the final storm start time.
-    # Keep track of the start datetime referenced in the filename
-    filename_storm_start_datetime = get_storm_start_datetime_from_bdeck_filename(
-        trackfile_name
+    # are removed in later deck files, so the first entry in the original
+    # deck file often does not match the first entry in later deck files.
+    # Keep track of the start datetime referenced in the deck filename, this is the
+    # OFFICIAL storm start datetime used for unique storm IDs within geoips,
+    # because we can't control whether the first entry in every bdeck file is
+    # consistently the same throughout the life of the storm.
+    # The first invest deck file is created with the
+    # original storm start time, and that is what we want to use as the
+    # official storm start datetime for all subsequent deck files (to ensure
+    # we have a consistent unique storm id for invests, since invest numbers
+    # repeat throughout the year).
+    storm_start_datetime_from_filename_of_current_deck_file = (
+        get_storm_start_datetime_from_bdeck_filename(trackfile_name)
     )
 
     LOG.info("  USING final_storm_name from bdeck %s", final_storm_name)
-    LOG.info("  USING storm_start_datetime from bdeck %s", entry_storm_start_datetime)
     LOG.info(
-        "  USING original_storm_start_datetime from bdeck %s",
-        filename_storm_start_datetime,
+        "  USING storm_start_datetime_from_first_line_of_current_deck_file"
+        " from first entry in current bdeck %s",
+        storm_start_datetime_from_first_line_of_current_deck_file,
+    )
+    LOG.info(
+        "  USING storm_start_datetime_from_filename_of_current_deck_file "
+        "from bdeck filename %s",
+        storm_start_datetime_from_filename_of_current_deck_file,
     )
 
     # flatsf_lines go from OLDEST to NEWEST (so firsttime is the OLDEST
     # storm location)
     all_fields = []
 
+    fldf = storm_start_datetime_from_first_line_of_current_deck_file
+    fndf = storm_start_datetime_from_filename_of_current_deck_file
     for line in flatsf_lines:
         try:
             curr_fields = parse_bdeck_line(
@@ -194,8 +217,8 @@ def call(trackfile_name, allowed_aid_types=None):
                 storm_year=tc_year,
                 final_storm_name=final_storm_name,
                 invest_number=invest_number,
-                storm_start_datetime=entry_storm_start_datetime,
-                original_storm_start_datetime=filename_storm_start_datetime,
+                storm_start_datetime_from_filename_of_current_deck_file=fndf,
+                storm_start_datetime_from_first_line_of_current_deck_file=fldf,
                 parser_name="bdeck_parser",
             )
         except ValueError as e:
@@ -235,8 +258,8 @@ def parse_bdeck_line(
     storm_year=None,
     final_storm_name=None,
     invest_number=None,
-    storm_start_datetime=None,
-    original_storm_start_datetime=None,
+    storm_start_datetime_from_filename_of_current_deck_file=None,
+    storm_start_datetime_from_first_line_of_current_deck_file=None,
     parser_name="bdeck_parser",
 ):
     """Retrieve the storm information from the current line from the deck file.
@@ -270,12 +293,11 @@ def parse_bdeck_line(
     :ref:`api`
         Valid fields can be found in geoips.sector_utils.utils.SECTOR_INFO_ATTRS
     """
-    # This works with G (GeoIPS) Deck files.
-    # Need separate parser for B decks (best tracks)
-    # parts = line.split(',', 40)
     parts = [part.strip() for part in line.split(",")]
+    # 28 fields
     if (
         len(parts) != 38
+        and len(parts) != 28
         and len(parts) != 30
         and len(parts) != 40
         and len(parts) != 42
@@ -285,27 +307,75 @@ def parse_bdeck_line(
         LOG.interactive(line)
         raise ValueError(
             "Incorrectly formatted deck file - "
-            "must have either 30 or 38 or 42 fields, "
+            "must have either 28, 30, 38, 40, 42, 44 fields, "
             f"had {len(parts)}",
         )
     fields = {}
     storm_num_str = parts[1]
+    storm_number = int(storm_num_str)
     storm_basin = parts[0]
     storm_name = parts[27]
+    # If the storm_name field is empty, set to "unknown"
+    if not storm_name:
+        storm_name = "unknown"
     fields["deck_line"] = line.strip()
     fields["storm_basin"] = storm_basin
-    fields["storm_num"] = int(storm_num_str)
+    fields["storm_num"] = storm_number
     fields["synoptic_time"] = datetime.strptime(parts[2], "%Y%m%d%H")
 
-    if isinstance(storm_start_datetime, datetime):
-        fields["storm_start_datetime"] = storm_start_datetime
-    if isinstance(original_storm_start_datetime, datetime):
-        fields["original_storm_start_datetime"] = original_storm_start_datetime
+    ###########################################################################
+    # Storm start datetime is the first time a position was ever identified for
+    # a given storm.  Note the current deck file may have a different initial
+    # entry than when the storm was first identified, but we need to maintain
+    # the original storm start datetime to ensure a consistent storm ID
+    # throughout the life of a storm when possible. We want to maintain both
+    # the storm start datetime stored in the filename when it exists, as well as
+    # the storm start datetime from the first entry in the current deck file
+    # (which will ALWAYS exist) for reference, and set the actual storm_start_datetime
+    # field based on those two values below (if filename storm start datetime exists,
+    # use that, otherwise use the current deck file storm start datetime).
+    ###########################################################################
 
-    fields["aid_type"] = parts[
-        4
-    ]  # BEST, MBAM, OFCL, JTWC, etc - BEST202101220600 when updated
+    # Some processing systems will set the original storm start datetime
+    # when the very first position is received, then maintain that same value
+    # in the deck filenames throughout the life of the storm (invest and numbered).
+    # If the storm start datetime is included in the filename, set the
+    # filename storm start datetime field here.  This field is only used for
+    # reference, the actual storm_start_datetime field is set below.
+    fields["storm_start_datetime_from_filename_of_current_deck_file"] = (
+        storm_start_datetime_from_filename_of_current_deck_file
+    )
+
+    # Always set the storm_start_datetime_from_first_line_of_current_deck_file
+    # field based on the first entry in the current deck file. This field is
+    # only used for reference, the actual storm_start_datetime field is set
+    # below.
+    fields["storm_start_datetime_from_first_line_of_current_deck_file"] = (
+        storm_start_datetime_from_first_line_of_current_deck_file
+    )
+
+    ###########################################################################
+    # Set the overall storm_start_datetime - this is the field that will
+    # actually be used, while filename_storm_startdatetime and
+    # storm_start_datetime_from_first_line_of_current_deck_file are just
+    # stored for reference.
+    ###########################################################################
+
+    # Use storm_start_datetime_from_filename_of_current_deck_file if it exists
+    # to allow for a consistent value throughout the life of the storm.
+    storm_start_datetime = storm_start_datetime_from_filename_of_current_deck_file
+    # If there is no available filename storm start datetime, use the first
+    # line of the current deck file to ensure storm start datetime is always
+    # defined to the best of our ability. Note this will change from one
+    # deck file to the next during the life of a storm, but at least it
+    # provides a sensible defined value.
+    if not storm_start_datetime:
+        storm_start_datetime = storm_start_datetime_from_first_line_of_current_deck_file
+    fields["storm_start_datetime"] = storm_start_datetime
+
+    # BEST, MBAM, OFCL, JTWC, etc - BEST202101220600 when updated
     # CARQ - not best track, real time, A-deck (Aids), F (Fix), E (Error), B (Best)
+    fields["aid_type"] = parts[4]
     fields["clat"] = float(lat_to_dec(parts[6]))
     fields["clon"] = float(lon_to_dec(parts[7]))
     fields["vmax"] = parts[8]
@@ -325,20 +395,28 @@ def parse_bdeck_line(
         fields["final_storm_name"] = fields["storm_name"]
     if storm_year:
         fields["storm_year"] = storm_year
+
+    fields["invest_storm_id"] = None
+    # Invest linked to a current numbered storm is identified in the line
+    # containing TRANSITIONED within a numbered storm's deck file. Pull the
+    # information from that line to assemble the invest storm ID which
+    # transitioned to the current numbered storm.
     if parts[-3] == "TRANSITIONED":
         # shB02021
         invest_id = parts[-2].split(" ")[0]
-        invest_year = invest_id[4:]
-        invest_basin = invest_id[0:2]
         invest_num = "9" + invest_id[3]
-        # tc2021sh90invest
-        fields["invest_storm_id"] = (
-            "tc" + invest_year + invest_basin + invest_num + "invest"
-        )
-    fields["invest_number"] = None
+        fields["invest_number"] = int(invest_num)
 
+    # If the invest_number/letter was pre-defined and passed in, use those values.
     if invest_number:
         fields["invest_number"] = invest_number
+    # Add invest_storm_id if storm_start_datetime and invest_number both are defined.
+    # Include storm start datetime in invest storm id since invest numbers repeat.
+    # e.g. sh902021.2020083106, sh902021.2020120718, sh902021.2021011112, etc.
+    if storm_start_datetime and invest_number:
+        fields["invest_storm_id"] = assemble_invest_storm_id(
+            storm_basin, invest_number, storm_year, storm_start_datetime
+        )
 
     if source_filename:
         from geoips.geoips_utils import replace_geoips_paths
@@ -347,16 +425,78 @@ def parse_bdeck_line(
             fields["source_filename"] = replace_geoips_paths(source_filename)
         else:
             fields["source_filename"] = source_filename
+
     fields["parser_name"] = parser_name
-    if "storm_year" in fields:
-        fields["storm_id"] = (
-            "tc"
-            + str(fields["storm_year"])
-            + storm_basin.lower()
-            + storm_num_str
-            + storm_name.lower()
-        )
+
+    # If storm_year is defined, assemble storm_id for the current storm, whether
+    # numbered or invest. storm_year must be defined, since it is required for
+    # storm_id construction.
+    if storm_year:
+        # storm_id is of format BBNNYYYY for numbered storms (less than 90)
+        # and BBNNYYYY.YYYYMMDDHH for invests (greater than 89). Do not attempt
+        # to construct storm_id if storm_start_datetime is not defined, since
+        # it is required for invest storm ids.
+        if storm_number > 89 and storm_start_datetime:
+            fields["storm_id"] = assemble_invest_storm_id(
+                storm_basin,
+                storm_number,
+                storm_year,
+                storm_start_datetime,
+            )
+        # Numbered storm IDs do not require storm_start_datetime.
+        else:
+            fields["storm_id"] = assemble_numbered_storm_id(
+                storm_basin, storm_number, storm_year
+            )
     return fields
+
+
+def assemble_numbered_storm_id(storm_basin, storm_number, storm_year):
+    """Assemble numbered storm ID from storm basin, number, and year.
+
+    Of format bbNNyyyy, where
+
+    * bb is the storm basin (lower case)
+    * NN is the 2-digit invest number (9x)
+    * yyyy is the storm year.
+
+    Note Invest storm ids include the storm start datetime, but numbered storm
+    ids do not.
+
+    * numbered storm bbNNyyyy
+    * invest storm bbNNyyyyYYYYMMDDHH (ugly, but consistent with no delimiters)
+    """
+    return "%s%02d%04d" % (
+        storm_basin.lower(),
+        int(storm_number),
+        int(storm_year),
+    )
+
+
+def assemble_invest_storm_id(
+    storm_basin, invest_number, storm_year, storm_start_datetime
+):
+    """Assemble invest storm ID from basin, invest number, year, and start datetime.
+
+    Of format bbNNyyyyYYYYMMDD, where
+
+    * bb is the storm basin (lower case)
+    * NN is the 2-digit invest number (9x)
+    * yyyy is the storm year
+    * YYYYMMDDHH is the storm start datetime.
+
+    Note Invest storm ids include the storm start datetime, but numbered storm
+    ids do not.
+
+    * numbered storm bbNNyyyy
+    * invest storm bbNNyyyyYYYYMMDDHH (ugly, but consistent with no delimiters)
+    """
+    return "%s%02d%04d%s" % (
+        storm_basin.lower(),
+        int(invest_number),
+        int(storm_year),
+        storm_start_datetime.strftime("%Y%m%d%H"),
+    )
 
 
 def get_invest_number_bdeck(deck_lines, is_archived):
@@ -372,13 +512,27 @@ def get_invest_number_bdeck(deck_lines, is_archived):
                 continue
         if fields["storm_name"] == "INVEST" and fields["storm_num"] > 89:
             invest_number = fields["storm_num"]
-        if "invest_storm_id" in fields:
-            invest_number = int(fields["invest_storm_id"][8:10])
+        if fields.get("invest_number"):
+            invest_number = int(fields["invest_number"])
     return invest_number
 
 
 def get_storm_start_datetime_from_bdeck_entry(deck_lines):
-    """Get storm start datetime from full bdeck file."""
+    """Get storm start datetime from full bdeck file.
+
+    Assumes deck_lines are ordered from oldest to newest, so first line
+    is the storm start time within the current deck file.
+
+    Note this can change from one deck file to the next during the life of a
+    storm (e.g., storm locations can be added or removed during the life of a
+    storm), so this value may NOT be consistent throughout the life of a storm
+    as additional bdeck file are obtained.
+
+    Since we want to always have a storm start datetime defined, whether we have
+    additional metadata available containing the absolute storm start datetime or not,
+    we always return the storm start datetime from the first entry in the current
+    deck file here.
+    """
     # Return the synoptic time of the first bdeck entry
     fields = parse_bdeck_line(deck_lines[0])
     LOG.info("  GETTING storm start time from bdeck entry %s", fields["synoptic_time"])
@@ -386,10 +540,61 @@ def get_storm_start_datetime_from_bdeck_entry(deck_lines):
 
 
 def get_storm_start_datetime_from_bdeck_filename(bdeck_filename):
-    """Get storm start datetime from bdeck file name."""
-    # Return the synoptic time found in the actual filename, if it exists!
-    # This will ONLY be the case for INVESTS, which can use the start
-    # Gwp912022.2022101400.dat
+    """Return the storm start time found in the actual filename, if it exists.
+
+    The absolute storm start datetime is the first time a position was ever identified
+    for a given storm.  Note the current deck file may have a different initial
+    entry than when the invest was first identified, but we would like to maintain
+    the original storm start datetime to ensure a consistent storm ID
+    throughout the life of a storm when possible.
+
+    Standard ATCF bdeck file names do NOT include the storm start datetime.
+
+    Standard bdeck filenames
+
+    * bsh912026.dat
+    * bsh122026.dat
+
+    Some processing systems will set the original storm start datetime
+    when the very first position is received, then maintain that same value
+    in the deck filenames throughout the life of the storm (invest and numbered).
+
+    Enhanced filenames, including storm start datetime
+
+    * bsh912026.2026010212.dat
+    * bsh122026.2026010212.dat
+
+    If the storm start datetime is included in the filename, retrieve the
+    filename storm start datetime field here.  We know if this value exists,
+    it is the absolute original storm start datetime, and we can be sure it
+    will remain consistent throughout the life of the storm.
+
+    Example deck file sequences for an invest that becomes a numbered storm:
+
+    bsh912026.2026010212.dat
+
+    * 20260102T1623Z first invest file created
+
+      * 2026010212 First line in first invest deck file
+    * 20260102T1646Z second invest file created (23 min after first)
+
+      * 2026010118 First line in all subsequent invest deck files
+    * 20260104T1833Z final invest file created
+
+      * 2026010418 Final storm position time in final invest deck file
+
+    bsh122026.2026010212.dat
+
+    * 2026010118 First line in all numbered storm deck files
+    * 20260104T1854Z First numbered storm file created (21 min after final invest)
+
+      * 2026010418 Final storm position time in first numbered storm deck file
+        (same as final invest)
+    * 20260106T1857Z final file created
+
+      * 2026010618 Final line in final numbered storm deck file
+
+    """
     bdeck_parts = os.path.basename(bdeck_filename).split(".")
     storm_start_datetime = None
     if len(bdeck_parts) > 2:
@@ -414,8 +619,8 @@ def get_stormyear_from_bdeck_filename(bdeck_filename):
     ----------
     bdeck_filename : str
         * Path to deck file to search for storm year
-        * Must be of format: xxxxxYYYY.dat - pulls YYYY from filename based on
-          location
+        * Must be of format: `xxxxxYYYY.*.dat` - pulls YYYY from filename based
+          on location
 
     Returns
     -------

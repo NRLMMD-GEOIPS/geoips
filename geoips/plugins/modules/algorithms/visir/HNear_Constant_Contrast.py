@@ -3,7 +3,14 @@
 
 """Data algorithm for High Near constant contrast imagery product.
 
-Algorithm is based upon work by Zinke (2017) for improved NCC VIIRS DNB imagery.
+Algorithm performs better for different lunar illumination conditions and
+solar zenith angles when compared to ERF scaled and NCC imagery.
+
+Paper:
+Zinke, Stephan. 2017. “A Simplified High and Near-Constant Contrast
+Approach for the Display of VIIRS Day/Night Band Imagery.”
+International Journal of Remote Sensing 38 (19): 5374–87.
+doi:10.1080/01431161.2017.1338838.
 """
 
 # python libs
@@ -100,7 +107,7 @@ def call(
     hncc_arr = apply_data_range(
         norm_rad,
         min_val=0.0,
-        max_val=0.2,
+        max_val=0.15,
         min_outbounds="mask",
         max_outbounds="mask",
         norm=True,

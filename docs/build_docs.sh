@@ -2,6 +2,10 @@
 # # # https://github.com/NRLMMD-GEOIPS.
 
 #!/bin/sh
+if [[ "$1" == "" ]]; then
+    echo "Usage: $0 repopath pkgname"
+    exit 1
+fi
 # pkgname should nearly always be the same as reponame.  template_basic_plugin repo
 # whose pkgname is my_package is the notable exception.
 pkgname=$2

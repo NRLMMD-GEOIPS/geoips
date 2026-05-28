@@ -44,7 +44,7 @@ if [[ "$1" != "check_environment_variable" && \
       "$1" != "mamba_install" && \
       "$1" != "set_gitconfig" ]]; then
     # Only print install_log if it is new.
-    if [[ ! -e "$install_log" ]]; then
+    if [[ ! -e "$install_log" && "$3" != "no_logfile_redirect" ]]; then
         echo ""
         echo "Install log: $install_log"
     fi
@@ -102,13 +102,21 @@ if [[ "$1" == "create_environment_files" ]]; then
     copy_to_final="$3"
 
     GEOIPS_VERSION=`cat $GEOIPS/.github/versions/tagged_version`
-    mkdir -p $GEOIPS_PACKAGES_DIR/geoips/environments
-    pip_file=$GEOIPS_PACKAGES_DIR/geoips/environments/${GEOIPS_VERSION}_${env_tag}_pip_requirements_`date -u +%Y%m%d`.txt
-    mamba_file=$GEOIPS_PACKAGES_DIR/geoips/environments/${GEOIPS_VERSION}_${env_tag}_mamba_package_list_`date -u +%Y%m%d`.yml
+    mkdir -p $GEOIPS_PACKAGES_DIR/geoips/environments/${GEOIPS_VERSION}
+    pip_file=$GEOIPS_PACKAGES_DIR/geoips/environments/${GEOIPS_VERSION}/${GEOIPS_VERSION}_${env_tag}_pip_envfile_`date -u +%Y%m%d`.txt
+    mamba_file=$GEOIPS_PACKAGES_DIR/geoips/environments/${GEOIPS_VERSION}/${GEOIPS_VERSION}_${env_tag}_mamba_envfile_`date -u +%Y%m%d`.yml
 
     $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh dump_pip_environment $pip_file
     $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh dump_mamba_environment $mamba_file
 
+    # Copy to requirements_${env_tag}.txt and environment_${env_tag}.yml for use.
+    # Track the latest baseinstall and siteinstall requirements files, etc.
+    cp -pv $pip_file $GEOIPS_PACKAGES_DIR/geoips/environments/requirements_${env_tag}.txt
+    cp -pv $mamba_file $GEOIPS_PACKAGES_DIR/geoips/environments/environment_${env_tag}.yml
+
+    # If copy_to_final is explicitly requested, then copy it to the overall
+    # requirements.txt and environment.yml.  These should likely be baseinstall versions,
+    # since baseinstall refers to the geoips repository only.
     if [[ "$copy_to_final" == "copy_to_final" ]]; then
       cp -pv $pip_file $GEOIPS_PACKAGES_DIR/geoips/environments/requirements.txt
       cp -pv $mamba_file $GEOIPS_PACKAGES_DIR/geoips/environments/environment.yml
