@@ -91,8 +91,18 @@ ENV EXTRA_PLUGINS=${EXTRA_PLUGINS} \
     GEOIPS_MODIFIED_BRANCH=${GEOIPS_MODIFIED_BRANCH}
 
 # ---- this layer rebuilds on any source change, but deps above are cached ----
-# .git is excluded via .dockerignore — the image is smaller and worktree-safe.
 COPY --chown=${USER}:${GROUP_ID} . ${GEOIPS_PACKAGES_DIR}/geoips/
+
+# Git worktrees store .git as a FILE pointing to the main repo on the host.
+# That path is invalid inside the container, which breaks poetry-dynamic-versioning
+# (dunamai needs a real .git dir to resolve the version).  Create a minimal shim
+# so pip install succeeds.
+RUN if [ -f ${GEOIPS_PACKAGES_DIR}/geoips/.git ]; then \
+      rm ${GEOIPS_PACKAGES_DIR}/geoips/.git ; \
+      cd ${GEOIPS_PACKAGES_DIR}/geoips ; \
+      git init -q ; \
+      git commit --allow-empty -q -m "docker-build" ; \
+    fi
 
 RUN git config --global --add safe.directory '*'
 
