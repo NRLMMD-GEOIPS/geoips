@@ -39,9 +39,6 @@ from geoips.utils.types.tokenization import (
 LOG = logging.getLogger(__name__)
 
 
-# -- StepProvenance dataclass --
-
-
 @dataclass(frozen=True, slots=True)
 class StepProvenance:
     """Per-step provenance bundle stamped into a step node's ``attrs``."""
@@ -53,9 +50,6 @@ class StepProvenance:
     arguments_hash: str
     output_token: str
     gc_status: str = "kept"
-
-
-# -- RetentionPolicy Strategy --
 
 
 class RetentionPolicy(ABC):
@@ -121,7 +115,6 @@ _POLICIES: dict[str, type[RetentionPolicy]] = {
     "keep_outputs_only": KeepOutputsOnlyPolicy,
 }
 
-# -- Workflow composite class --
 
 class Workflow:
     """Non-registered runtime executor for a validated workflow spec.
@@ -146,8 +139,6 @@ class Workflow:
             self._spec.retention or DEFAULT_RETENTION
         ](self._spec)
 
-    # -- topology --
-
     def _topological_order(self) -> list[str]:
         """Return step ids in a valid execution order.
 
@@ -170,8 +161,6 @@ class Workflow:
 
         return order
 
-    # -- data collection --
-
     def _collect_upstream_data(
         self,
         tree: xr.DataTree,
@@ -192,8 +181,6 @@ class Workflow:
             if dep_node is not None:
                 result[dep_id] = dep_node
         return result
-
-    # -- step attachment & provenance --
 
     def _attach_step_node(
         self, tree: xr.DataTree, step_id: str, step_data: Any
@@ -226,8 +213,6 @@ class Workflow:
         """
         if node.ds is not None:
             node.ds.attrs.update(dataclasses.asdict(prov))
-
-    # -- garbage collection --
 
     def _gc_step_data(self, tree: xr.DataTree, step_id: str) -> None:
         """Drop ``data_vars`` from a step node and re-stamp provenance.
@@ -266,8 +251,6 @@ class Workflow:
             if self._retention.can_gc(sid, executed=executed):
                 self._gc_step_data(tree, sid)
 
-    # -- root attrs --
-
     def _set_root_attrs(self, tree: xr.DataTree) -> None:
         """Stamp minimum-viable root provenance on the workflow DataTree.
 
@@ -283,8 +266,6 @@ class Workflow:
         tree.attrs["retention_policy"] = self._spec.retention or "keep_referenced"
         tree.attrs["geoips_version"] = getattr(geoips, "__version__", "unknown")
         tree.attrs["api_version"] = "geoips/v1"
-
-    # -- execution --
 
     def call(
         self,
@@ -320,24 +301,20 @@ class Workflow:
         for sid in self._order:
             step_def = self._spec.steps[sid]
 
-            # --- scaffolding: split / join ---
             if step_def.kind in SCAFFOLD_KINDS:
                 raise NotImplementedError(
                     f"split/join execution is not yet implemented "
                     f"(encountered at step '{sid}')"
                 )
 
-            # --- when: expression ---
             if step_def.when is not None:
                 LOG.info("step '%s' has when expression; not yet implemented", sid)
 
             arg_hash = compute_arguments_hash(step_def.arguments or {})
             start_iso = datetime.now(timezone.utc).isoformat()
 
-            # --- resolve plugin ---
             plg = self._resolve_plugin(step_def.kind, step_def.name)
 
-            # --- reader path ---
             if not (step_def.depends_on or []):
                 step_result = plg(fnames=fnames, **(step_def.arguments or {}))
             else:
@@ -346,7 +323,6 @@ class Workflow:
 
             end_iso = datetime.now(timezone.utc).isoformat()
 
-            # --- upstream tokens ---
             upstream_tokens: dict[str, str] = {}
             for dep in step_def.depends_on or ():
                 dep_node = tree.get(dep)
@@ -355,7 +331,6 @@ class Workflow:
                     if token:
                         upstream_tokens[dep] = token
 
-            # --- provenance ---
             output_token = compute_step_output_token(
                 step_result,
                 plugin_name=step_def.name,
