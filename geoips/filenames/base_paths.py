@@ -19,7 +19,7 @@ LOG = logging.getLogger(__name__)
 warn(
     "geoips.filenames.base_paths is deprecated; use geoips.config instead.",
     DeprecationWarning,
-    stacklevel=2,
+    stacklevel=4, # don't pop up by default
 )
 
 PATHS = config.to_legacy_dict()
