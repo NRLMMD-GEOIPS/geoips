@@ -7,11 +7,6 @@ from geoips.interfaces.class_based.output_formatters import BaseOutputFormatterP
 
 import logging
 
-from geoips.plugins.classes.output_formatters.imagery_windbarbs import (
-    output_clean_windbarbs,
-    format_windbarb_data,
-)
-
 LOG = logging.getLogger(__name__)
 
 
@@ -37,9 +32,9 @@ class ImageryWindbarbsCleanOutputFormatterPlugin(BaseOutputFormatterPlugin):
         mapobj=None,
     ):
         """Plot clean windbarb imagery on matplotlib figure."""
-        formatted_data_dict = format_windbarb_data(xarray_obj, product_name)
+        formatted_data_dict = self.format_windbarb_data(xarray_obj, product_name)
 
-        success_outputs = output_clean_windbarbs(
+        success_outputs = self.output_clean_windbarbs(
             area_def,
             output_fnames,
             mpl_colors_info,

@@ -7,8 +7,6 @@ from geoips.interfaces.class_based.output_formatters import BaseOutputFormatterP
 
 import logging
 
-import numpy
-
 from geoips.image_utils.mpl_utils import (
     create_figure_and_main_ax_and_mapobj,
     save_image,
@@ -16,11 +14,6 @@ from geoips.image_utils.mpl_utils import (
 from geoips.image_utils.colormap_utils import set_matplotlib_colors_standard
 from geoips.image_utils.mpl_utils import plot_image, plot_overlays, create_colorbar
 from geoips.image_utils.mpl_utils import get_title_string_from_objects, set_title
-from geoips.plugins.classes.output_formatters.imagery_windbarbs import (
-    format_windbarb_data,
-    output_clean_windbarbs,
-    plot_barbs,
-)
 
 LOG = logging.getLogger(__name__)
 
@@ -31,45 +24,6 @@ class ImageryWindbarbsMultiLevelOutputFormatterPlugin(BaseOutputFormatterPlugin)
     interface = "output_formatters"
     family = "image_overlay"
     name = "imagery_windbarbs_multi_level"
-
-    def assign_height_levels(self, windbarb_data_dict, pressure_range_dict):
-        """Assing derived motion winds to specified height levels.
-
-        Using the pressure associated with each retrieved wind observation, assign to
-        a specified level (e.g. Low/Mid/High) based on predefined pressure ranges. Each
-        pressure level is assigned an integer, and any unassigned are set to 0
-
-        Parameters
-        ----------
-        formatted_data_dict : dict
-            Dictionary holding DMW data - must include a pressure key
-        pressure_range_dict : dict
-            Dictionary specifying pressure range for each defined level.
-            e.g. {"Low": [701, 1013.25], "Mid": [401, 700], "High": [0, 400]}
-
-        Returns
-        -------
-        tuple
-            Array of assigned level numbers, and list of associated labels that can be
-            used to set the ticks on a colorbar
-        """
-        pressure = windbarb_data_dict["pressure"]
-        n_valid = numpy.count_nonzero(pressure)
-        height_num = numpy.zeros(pressure.shape)
-        level_labels = ["Unassigned"]
-        for i, (level, pressure_range) in enumerate(pressure_range_dict.items()):
-            max_pres = max(pressure_range)
-            min_pres = min(pressure_range)
-            pressure_mask = (pressure.data >= min_pres) & (pressure.data <= max_pres)
-            height_num[pressure_mask] = i + 1
-            level_labels.append(f"{level}\n({max_pres} - {min_pres} hPa)")
-            LOG.info(
-                "Number of wind retrievals for %s: %s",
-                level,
-                numpy.count_nonzero(pressure_mask),
-            )
-        LOG.info("Assigned %s/%s retrievals", numpy.count_nonzero(height_num), n_valid)
-        return height_num, level_labels
 
     def call(
         self,
@@ -103,7 +57,7 @@ class ImageryWindbarbsMultiLevelOutputFormatterPlugin(BaseOutputFormatterPlugin)
 
         # Plot windbarbs
 
-        formatted_data_dict = format_windbarb_data(xarray_obj, product_name)
+        formatted_data_dict = self.format_windbarb_data(xarray_obj, product_name)
 
         if not pressure_range_dict:
             pressure_range_dict = {
@@ -117,7 +71,7 @@ class ImageryWindbarbsMultiLevelOutputFormatterPlugin(BaseOutputFormatterPlugin)
         formatted_data_dict["height_numbers"] = height_numbers
 
         if clean_fname is not None:
-            success_outputs += output_clean_windbarbs(
+            success_outputs += self.output_clean_windbarbs(
                 area_def,
                 [clean_fname],
                 mpl_colors_info,
@@ -150,7 +104,7 @@ class ImageryWindbarbsMultiLevelOutputFormatterPlugin(BaseOutputFormatterPlugin)
                 # Plot the background data on a map
                 plot_image(main_ax, bg_data, mapobj, mpl_colors_info=bg_mpl_colors_info)
 
-            plot_barbs(
+            self.plot_barbs(
                 main_ax,
                 mapobj,
                 mpl_colors_info,

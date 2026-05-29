@@ -7,16 +7,6 @@ from geoips.interfaces.class_based.output_formatters import BaseOutputFormatterP
 
 import logging
 
-
-from geoips.plugins.classes.output_formatters.imagery_windbarbs import (
-    format_windbarb_data,
-    output_clean_windbarbs,
-)
-
-from geoips.plugins.classes.output_formatters.imagery_windbarbs_multi_level import (
-    assign_height_levels,
-)
-
 LOG = logging.getLogger(__name__)
 
 
@@ -43,7 +33,7 @@ class ImageryWindbarbsMultiLevelCleanOutputFormatterPlugin(BaseOutputFormatterPl
         pressure_range_dict=None,
     ):
         """Plot clean windbarb imagery on matplotlib figure."""
-        formatted_data_dict = format_windbarb_data(xarray_obj, product_name)
+        formatted_data_dict = self.format_windbarb_data(xarray_obj, product_name)
 
         if not pressure_range_dict:
             pressure_range_dict = {
@@ -51,12 +41,12 @@ class ImageryWindbarbsMultiLevelCleanOutputFormatterPlugin(BaseOutputFormatterPl
                 "Mid": [401, 700],
                 "High": [0, 400],
             }
-        height_numbers, level_labels = assign_height_levels(
+        height_numbers, level_labels = self.assign_height_levels(
             formatted_data_dict, pressure_range_dict
         )
         formatted_data_dict["height_numbers"] = height_numbers
 
-        success_outputs = output_clean_windbarbs(
+        success_outputs = self.output_clean_windbarbs(
             area_def,
             output_fnames,
             mpl_colors_info,

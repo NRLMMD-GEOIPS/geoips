@@ -12,9 +12,6 @@ import logging
 from os.path import join as pathjoin
 
 from geoips.filenames.base_paths import PATHS as gpaths
-from geoips.plugins.classes.filename_formatters.text_winds_full_fname import (
-    assemble_windspeeds_text_full_fname,
-)
 
 LOG = logging.getLogger(__name__)
 
@@ -43,7 +40,7 @@ class TextWindsDayFnameFilenameFormatterPlugin(BaseFilenameFormatterPlugin):
             assemble_text_windspeeds_text_full_fname
             Shared utility for generating similarly formatted windspeed filenames.
         """
-        return assemble_windspeeds_text_full_fname(
+        return self.assemble_windspeeds_text_full_fname(
             basedir=basedir,
             source_name=xarray_obj.source_name,
             platform_name=xarray_obj.platform_name,
