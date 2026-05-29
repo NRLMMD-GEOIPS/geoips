@@ -39,7 +39,7 @@
       tags: [base, full, site]
 
     # ---- base tier datasets ----
-    - name: "Install base dataset: {{ item }}"
+    - name: Install base test datasets
       ansible.builtin.command:
         cmd: "geoips config install {{ item }}"
         creates: "{{ geoips_testdata_dir }}/{{ item }}"
@@ -51,7 +51,7 @@
       tags: [base]
 
     # ---- full tier datasets ----
-    - name: "Install full dataset: {{ item }}"
+    - name: Install full test datasets
       ansible.builtin.command:
         cmd: "geoips config install {{ item }}"
         creates: "{{ geoips_testdata_dir }}/{{ item }}"
@@ -63,7 +63,7 @@
       tags: [full]
 
     # ---- site tier datasets ----
-    - name: "Install site dataset: {{ item }}"
+    - name: Install site test datasets
       ansible.builtin.command:
         cmd: "geoips config install {{ item }}"
         creates: "{{ geoips_testdata_dir }}/{{ item }}"
@@ -75,7 +75,7 @@
       tags: [site]
 
     # ---- private datasets (only when enabled) ----
-    - name: "Install private dataset: {{ item }}"
+    - name: Install private test datasets
       ansible.builtin.command:
         cmd: "geoips config install {{ item }}"
         creates: "{{ geoips_testdata_dir }}/{{ item }}"
