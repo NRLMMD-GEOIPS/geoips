@@ -15,10 +15,7 @@ import os
 import socket
 from typing import Any
 
-try:
-    import platformdirs
-except ImportError:
-    platformdirs = None  # type: ignore[assignment]
+import platformdirs
 
 from geoips.config.schema import GEOIPS_ENV_MAP, GeoSettings
 from geoips.config.yaml_loader import load_project_config
@@ -199,12 +196,7 @@ def _compute_auto_settings(base_settings: GeoSettings) -> dict[str, Any]:
 
     cache_updates: dict[str, Any] = {}
     if base_settings.cache.cache_dir is None:
-        if platformdirs is not None:
-            cache_updates["cache_dir"] = platformdirs.user_cache_dir("geoips")
-        else:
-            cache_updates["cache_dir"] = os.path.join(
-                os.path.expanduser("~"), ".cache", "geoips"
-            )
+        cache_updates["cache_dir"] = platformdirs.user_cache_dir("geoips")
     if base_settings.cache.data_cache_dir is None:
         cache_updates["data_cache_dir"] = os.path.join(outdirs, "cache", "geoips")
     if base_settings.cache.satpy_data_cache_dir is None:
