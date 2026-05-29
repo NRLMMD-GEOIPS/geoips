@@ -1,0 +1,30 @@
+enhancement:
+- title: 'Add parallel test-data download pipeline with chunk-hash verification'
+  description: |
+    Replaces the single-threaded ``bash``-based test-data download script with a
+    pure-Python parallel pipeline in ``geoips config install``.
+
+    * Chunk-hash verification: downloads the first 5 MB of each archive to compare
+      a SHA-256 hash against a stored value before re-downloading the full dataset.
+    * ``-j N`` / ``GEOIPS_DOWNLOAD_WORKERS`` controls parallel download concurrency
+      (default 6).
+    * ``--no-rich`` disables the rich live-progress display for CI logs or
+      redirected stdout.
+    * ``--temp-dir`` lets users specify a scratch directory for in-progress
+      downloads.
+    * ``RichProgressDisplay`` and ``PlainProgressDisplay`` provide a duck-typed
+      protocol so both interactive and automated environments get appropriate output.
+  files:
+    added:
+    - 'geoips/commandline/install_progress.py'
+    modified:
+    - 'geoips/commandline/geoips_config.py'
+    - 'pyproject.toml'
+    deleted: []
+    moved: []
+  related-issue:
+    number: null
+    repo_url: 'https://github.com/NRLMMD-GEOIPS/geoips'
+  date:
+    start: null
+    finish: null
