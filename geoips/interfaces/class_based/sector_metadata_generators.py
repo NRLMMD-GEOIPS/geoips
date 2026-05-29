@@ -7,8 +7,8 @@ from geoips.interfaces.class_based_plugin import BaseClassPlugin
 from geoips.interfaces.base import BaseClassInterface
 
 
-class BaseSectorMetadataAdjusterPlugin(BaseClassPlugin, abstract=True):
-    """Base class for GeoIPS sector_metadata_adjuster plugins."""
+class BaseSectorMetadataGeneratorPlugin(BaseClassPlugin, abstract=True):
+    """Base class for GeoIPS sector_metadata_generator plugins."""
 
     pass
 
@@ -22,7 +22,7 @@ class SectorMetadataGeneratorsInterface(BaseClassInterface):
     """
 
     name = "sector_metadata_generators"
-    plugin_class = BaseSectorMetadataAdjusterPlugin
+    plugin_class = BaseSectorMetadataGeneratorPlugin
 
     required_args = {"tc": ["trackfile_name"], "volc": ["trackfile_name"]}
     required_kwargs = {"tc": [], "volc": []}
