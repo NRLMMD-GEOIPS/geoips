@@ -6,12 +6,16 @@
 Various configuration-based commands for setting up your geoips environment.
 """
 
+import os
 import pathlib
 from os import listdir, remove
 from os.path import join
 import subprocess
+
 import requests
 import tempfile
+import yaml
+from pydantic import ValidationError
 
 from numpy import any
 from pluginify.commandline_typer import configure_logging
@@ -22,6 +26,196 @@ from tqdm import tqdm
 import geoips
 from geoips.commandline.ancillary_info.test_data import test_dataset_dict
 from geoips.commandline.geoips_command import GeoipsCommand, GeoipsExecutableCommand
+
+
+def _collect_env_overrides() -> dict[str, str]:
+    """Collect GeoIPS configuration values from environment variables.
+
+    Iterates ``GEOIPS_ENV_MAP`` and returns a mapping of dot-path field
+    names to values for every environment variable that is set.
+
+    Returns
+    -------
+    dict[str, str]
+        Mapping of ``"field.path"`` to raw string environment values.
+    """
+    from geoips.config.schema import GEOIPS_ENV_MAP
+
+    overrides: dict[str, str] = {}
+    for env_var in GEOIPS_ENV_MAP:
+        raw = os.environ.get(env_var)
+        if raw is not None:
+            overrides[env_var] = raw
+    return overrides
+
+
+def _prompt_for_missing(
+    overrides: dict[str, str], keys_to_prompt: list[str]
+) -> dict[str, str]:
+    """Interactively prompt the user for missing configuration values.
+
+    Parameters
+    ----------
+    overrides : dict[str, str]
+        Existing overrides keyed by environment variable name.
+    keys_to_prompt : list[str]
+        Environment variable names to prompt for if absent from *overrides*.
+
+    Returns
+    -------
+    dict[str, str]
+        New overrides from user input, keyed by environment variable name.
+    """
+    prompted: dict[str, str] = {}
+    defaults = {
+        "GEOIPS_OUTDIRS": os.path.join(
+            os.environ.get("HOME", os.path.expanduser("~")), "geoips_outdirs"
+        ),
+        "GEOIPS_TESTDATA_DIR": os.path.join(
+            os.environ.get("HOME", os.path.expanduser("~")), "geoips_testdata"
+        ),
+        "GEOIPS_PACKAGES_DIR": os.path.join(
+            os.environ.get("HOME", os.path.expanduser("~")), "geoips_packages"
+        ),
+    }
+
+    for key in keys_to_prompt:
+        env_val = os.environ.get(key)
+        if env_val is not None:
+            continue
+
+        default = defaults.get(key, "")
+        value = input(f"\n  {key} [default: {default}]: ").strip()
+        prompted[key] = value if value else default
+
+    return prompted
+
+
+def _build_nested_config(overrides: dict[str, str]) -> dict:
+    """Convert flat env-var overrides into a nested YAML-ready dictionary.
+
+    Uses ``GEOIPS_ENV_MAP`` to translate environment variable names into
+    dot-separated field paths, then nests them.
+
+    Parameters
+    ----------
+    overrides : dict[str, str]
+        Mapping of environment variable names to raw string values.
+
+    Returns
+    -------
+    dict
+        Nested dictionary suitable for ``yaml.dump``.
+    """
+    from geoips.config.schema import GEOIPS_ENV_MAP
+    from geoips.config.config import _cast_env_value
+
+    result: dict = {}
+    for env_var, raw_value in overrides.items():
+        field_path = GEOIPS_ENV_MAP.get(env_var, "")
+        if not field_path:
+            continue
+        cast = _cast_env_value(raw_value, field_path)
+        parts = field_path.split(".")
+        node = result
+        for part in parts[:-1]:
+            node = node.setdefault(part, {})
+        node[parts[-1]] = cast
+    return result
+
+
+def _deep_merge(base: dict, override: dict) -> None:
+    """Recursively merge *override* into *base* in-place.
+
+    Nested dictionaries are merged; scalar values are replaced.
+
+    Parameters
+    ----------
+    base : dict
+        Target dictionary updated in-place.
+    override : dict
+        Source dictionary whose values take precedence.
+    """
+    for key, value in override.items():
+        if key in base and isinstance(base[key], dict) and isinstance(value, dict):
+            _deep_merge(base[key], value)
+        else:
+            base[key] = value
+
+
+def _resolve_config_path(file_arg: pathlib.Path | None) -> pathlib.Path | None:
+    """Resolve the config file path from an optional argument.
+
+    If *file_arg* is provided, returns it. Otherwise searches standard
+    locations via ``geoips.config.yaml_loader.find_project_config``.
+
+    Parameters
+    ----------
+    file_arg : pathlib.Path or None
+        User-supplied file path, or ``None`` to auto-search.
+
+    Returns
+    -------
+    pathlib.Path or None
+        Resolved path, or ``None`` if no config file was found.
+    """
+    if file_arg is not None:
+        return file_arg
+
+    from geoips.config.yaml_loader import find_project_config
+
+    found = find_project_config()
+    return pathlib.Path(found) if found else None
+
+
+def _validate_config_file(file_path: pathlib.Path) -> list[str]:
+    """Validate a GeoIPS YAML configuration file.
+
+    Checks YAML syntax and validates all settings against the GeoIPS
+    configuration model.
+
+    Parameters
+    ----------
+    file_path : pathlib.Path
+        Path to the ``.geoips.yaml`` file to validate.
+
+    Returns
+    -------
+    list[str]
+        Human-readable error messages. An empty list means the file
+        is valid.
+    """
+    from geoips.config.schema import GeoSettings
+
+    errors: list[str] = []
+
+    try:
+        with open(file_path, "r") as fh:
+            data = yaml.safe_load(fh)
+    except yaml.YAMLError as exc:
+        return [f"YAML syntax error: {exc}"]
+    except OSError as exc:
+        return [f"Cannot read file: {exc}"]
+
+    if not isinstance(data, dict):
+        return ["File must contain a YAML mapping (dictionary)."]
+
+    geoips_data = data.get("geoips")
+    if geoips_data is None:
+        return ["Missing top-level 'geoips' key."]
+
+    if not isinstance(geoips_data, dict):
+        return ["The 'geoips' key must contain a mapping (dictionary)."]
+
+    try:
+        GeoSettings.model_validate(geoips_data)
+    except ValidationError as exc:
+        for err in exc.errors():
+            loc = ".".join(str(p) for p in err["loc"])
+            msg = err["msg"]
+            errors.append(f"geoips.{loc}: {msg}")
+
+    return errors
 
 
 class GeoipsConfigCreateRegistries(GeoipsExecutableCommand):
@@ -302,13 +496,181 @@ class GeoipsConfigInstallGithub(GeoipsExecutableCommand):
             raise IOError(f"FAILED Did not successfully install '{test_dataset_name}'")
 
 
+class GeoipsConfigCreate(GeoipsExecutableCommand):
+    """Generate a .geoips.yaml config file from environment variables.
+
+    Scans ``GEOIPS_*`` and unprefixed environment variables and writes
+    them as a structured YAML configuration file. Interactively prompts
+    for key variables (GEOIPS_OUTDIRS, GEOIPS_TESTDATA_DIR,
+    GEOIPS_PACKAGES_DIR) that are not set in the environment.
+    """
+
+    name = "create"
+    command_classes = []
+
+    _KEYS_TO_PROMPT: list[str] = [
+        "GEOIPS_OUTDIRS",
+        "GEOIPS_TESTDATA_DIR",
+        "GEOIPS_PACKAGES_DIR",
+    ]
+
+    def add_arguments(self):
+        """Add arguments to the config-subparser for the create command."""
+        self.parser.add_argument(
+            "-o",
+            "--output",
+            type=pathlib.Path,
+            default=pathlib.Path(".geoips.yaml"),
+            help="Output path for the generated config file.",
+        )
+        self.parser.add_argument(
+            "-f",
+            "--force",
+            action="store_true",
+            default=False,
+            help="Overwrite the output file if it already exists.",
+        )
+        self.parser.add_argument(
+            "-a",
+            "--all",
+            action="store_true",
+            default=False,
+            help="Include all default settings, not just env overrides.",
+        )
+        self.parser.add_argument(
+            "--no-prompt",
+            action="store_true",
+            default=False,
+            help="Skip interactive prompts; generate only from environment variables.",
+        )
+
+    def __call__(self, args):
+        """Run ``geoips config create``.
+
+        Parameters
+        ----------
+        args : Namespace
+            Parsed command-line arguments.
+        """
+        overrides = _collect_env_overrides()
+
+        if not args.no_prompt:
+            prompted = _prompt_for_missing(overrides, self._KEYS_TO_PROMPT)
+            overrides.update(prompted)
+
+        if not overrides and not args.all:
+            print(
+                "No GEOIPS environment variables found. "
+                "Use --all to generate a complete config file with defaults, "
+                "or remove --no-prompt for interactive setup."
+            )
+            return
+
+        nested = _build_nested_config(overrides)
+
+        if args.all:
+            from geoips.config.schema import GeoSettings
+
+            defaults = GeoSettings(
+                outdirs=os.environ.get("GEOIPS_OUTDIRS", "")
+            ).model_dump()
+            _deep_merge(defaults, nested)
+            nested = {"geoips": defaults}
+        else:
+            nested = {"geoips": nested}
+
+        output_path = args.output.resolve()
+        if output_path.exists() and not args.force:
+            self.parser.error(
+                f"File '{output_path}' already exists. Use --force to overwrite."
+            )
+
+        output_path.parent.mkdir(parents=True, exist_ok=True)
+
+        with open(output_path, "w") as fh:
+            yaml.dump(nested, fh, default_flow_style=False, sort_keys=False)
+
+        num_env = len([k for k in overrides if os.environ.get(k)])
+        num_prompted = len(overrides) - num_env
+
+        parts = []
+        if num_env:
+            parts.append(f"{num_env} environment variable{'s' if num_env != 1 else ''}")
+        if num_prompted:
+            parts.append(
+                f"{num_prompted} prompted value{'s' if num_prompted != 1 else ''}"
+            )
+        source = " and ".join(parts) if parts else "default settings"
+
+        print(f"Generated {output_path} from {source}.")
+
+
+class GeoipsConfigValidate(GeoipsExecutableCommand):
+    """Validate a GeoIPS .geoips.yaml configuration file.
+
+    Checks YAML syntax, verifies the structure against the GeoIPS
+    configuration schema, and reports all errors found.
+    """
+
+    name = "validate"
+    command_classes = []
+
+    def add_arguments(self):
+        """Add arguments to the config-subparser for the validate command."""
+        self.parser.add_argument(
+            "-f",
+            "--file",
+            type=pathlib.Path,
+            default=None,
+            help="Path to the config file to validate. If not given, "
+            "searches standard locations.",
+        )
+        self.parser.add_argument(
+            "-q",
+            "--quiet",
+            action="store_true",
+            default=False,
+            help="Only set the exit code; produce no output.",
+        )
+
+    def __call__(self, args):
+        """Run ``geoips config validate``.
+
+        Parameters
+        ----------
+        args : Namespace
+            Parsed command-line arguments.
+        """
+        file_path = _resolve_config_path(args.file)
+
+        if file_path is None:
+            self.parser.error(
+                "No config file found. Specify --file or place a .geoips.yaml "
+                "in the current directory."
+            )
+
+        errors = _validate_config_file(file_path)
+
+        if errors:
+            if not args.quiet:
+                print(f"Config file '{file_path}' is invalid:\n")
+                for err in errors:
+                    print(f"  {err}")
+            self.parser.error("Validation failed.")
+        else:
+            if not args.quiet:
+                print(f"Config file '{file_path}' is valid.")
+
+
 class GeoipsConfig(GeoipsCommand):
     """Config top-level command for configuring your GeoIPS environment."""
 
     name = "config"
     command_classes = [
+        GeoipsConfigCreate,
         GeoipsConfigCreateRegistries,
         GeoipsConfigDeleteRegistries,
         GeoipsConfigInstall,
         GeoipsConfigInstallGithub,
+        GeoipsConfigValidate,
     ]
