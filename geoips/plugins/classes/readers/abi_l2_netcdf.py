@@ -3,7 +3,7 @@
 
 """ABI Level 2 NetCDF reader."""
 
-from geoips.interfaces.class_based.readers import BaseReaderPlugin
+from geoips.interfaces.class_based.readers import BaseAbiReaderPlugin
 
 # Python Standard Libraries
 from datetime import datetime
@@ -16,12 +16,15 @@ import satpy
 import xarray as xr
 
 from geoips.filenames.base_paths import PATHS as gpaths
+from geoips.plugins.classes.readers.utils.geostationary_geolocation import (
+    get_geolocation,
+)
 
 log = logging.getLogger(__name__)
 source_names = ["abi"]
 
 
-class AbiL2NetcdfReaderPlugin(BaseReaderPlugin):
+class AbiL2NetcdfReaderPlugin(BaseAbiReaderPlugin):
     """ABI L2 Netcdf reader plugin class."""
 
     interface = "readers"
@@ -30,12 +33,8 @@ class AbiL2NetcdfReaderPlugin(BaseReaderPlugin):
 
     def get_metadata(self, fname):
         """Get metadata."""
-        from geoips.plugins.classes.readers.abi_netcdf import (
-            _get_metadata as get_metadata,
-        )
-
         with ncdf.Dataset(fname, "r") as df:
-            metadata = get_metadata(df, fname)
+            metadata = self._get_metadata(df, fname)
         return metadata
 
     def calculate_abi_geolocation(
@@ -47,26 +46,24 @@ class AbiL2NetcdfReaderPlugin(BaseReaderPlugin):
         resource_tracker=None,
     ):
         """Calculate ABI geolocation."""
-        from geoips.plugins.classes.readers import abi_netcdf
-
-        geometa = abi_netcdf._get_geolocation_metadata(metadata)
+        geometa = self._get_geolocation_metadata(metadata)
         sdt = datetime.strptime(
             metadata["file_info"]["time_coverage_start"], "%Y-%m-%dT%H:%M:%S.%fZ"
         )
-        fldk_lats, fldk_lons = abi_netcdf.get_latitude_longitude(
+        fldk_lats, fldk_lons = self.get_latitude_longitude(
             geometa,
-            abi_netcdf.BADVALS,
+            self.BADVALS,
             area_def,
             geolocation_cache_backend=geolocation_cache_backend,
             chunk_size=cache_chunk_size,
             resource_tracker=resource_tracker,
         )
-        geo = abi_netcdf.get_geolocation(
+        geo = get_geolocation(
             sdt,
             geometa,
             fldk_lats,
             fldk_lons,
-            abi_netcdf.BADVALS,
+            self.BADVALS,
             area_def,
             geolocation_cache_backend=geolocation_cache_backend,
             chunk_size=cache_chunk_size,

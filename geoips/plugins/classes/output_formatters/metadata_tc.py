@@ -217,11 +217,7 @@ class MetadataTcOutputFormatterPlugin(BaseOutputFormatterPlugin):
         str
             Path to metadata filename if successfully produced.
         """
-        from geoips.plugins.classes.output_formatters.metadata_default import (
-            update_sector_info_with_default_metadata,
-        )
-
-        sector_info = update_sector_info_with_default_metadata(
+        sector_info = self.update_sector_info_with_default_metadata(
             area_def, xarray_obj, product_filename=product_filename
         )
 

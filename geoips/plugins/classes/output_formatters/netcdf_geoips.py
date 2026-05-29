@@ -37,12 +37,8 @@ class NetcdfGeoipOutputFormatterPlugin(BaseOutputFormatterPlugin):
         for product_name in product_names:
             prod_xarray[product_name] = xarray_obj[product_name]
 
-        from geoips.plugins.classes.output_formatters.netcdf_xarray import (
-            write_xarray_netcdf,
-        )
-
         for ncdf_fname in output_fnames:
-            write_xarray_netcdf(
+            self.write_xarray_netcdf(
                 prod_xarray,
                 ncdf_fname,
                 clobber=clobber,

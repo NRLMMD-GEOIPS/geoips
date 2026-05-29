@@ -10,6 +10,7 @@ import cartopy.crs as crs
 import numpy
 
 from geoips.filenames.base_paths import make_dirs
+from geoips.geoips_utils import replace_geoips_paths
 from geoips.interfaces.class_based_plugin import BaseClassPlugin
 from geoips.interfaces.base import BaseClassInterface
 from geoips.image_utils.mpl_utils import (
@@ -403,6 +404,61 @@ class BaseOutputFormatterPlugin(BaseClassPlugin, abstract=True):
             norm=mpl_colors_info["norm"],
             zorder=1,
         )
+
+    def update_sector_info_with_default_metadata(
+        self, area_def, xarray_obj, product_filename=None, metadata_filename=None
+    ):
+        """Update sector info found in "area_def" with standard metadata output.
+
+        This function is used by metadata_tc output formatter as well for updating the
+        sector_info with these additional default metadata fields. We should not filter
+        out non-default metadata here, since metadata_tc uses this function.
+
+        Parameters
+        ----------
+        area_def : AreaDefinition
+            Pyresample AreaDefinition of sector information
+        xarray_obj : xarray.Dataset
+            xarray Dataset object that was used to produce product
+        product_filename : str
+            Full path to full product filename that this YAML file refers to
+
+        Returns
+        -------
+        dict
+            sector_info dict with standard metadata added
+             * bounding box
+             * product filename with wildcards
+             * basename of original source filenames
+        """
+        sector_info = area_def.sector_info.copy()
+
+        if hasattr(area_def, "sector_type") and "sector_type" not in sector_info:
+            sector_info["sector_type"] = area_def.sector_type
+
+        sector_info["bounding_box"] = {}
+        sector_info["bounding_box"]["minlat"] = area_def.area_extent_ll[1]
+        sector_info["bounding_box"]["maxlat"] = area_def.area_extent_ll[3]
+        sector_info["bounding_box"]["minlon"] = area_def.area_extent_ll[0]
+        sector_info["bounding_box"]["maxlon"] = area_def.area_extent_ll[2]
+        sector_info["bounding_box"]["pixel_width_m"] = area_def.pixel_size_x
+        sector_info["bounding_box"]["pixel_height_m"] = area_def.pixel_size_y
+        sector_info["bounding_box"]["image_width"] = area_def.width
+        sector_info["bounding_box"]["image_height"] = area_def.height
+        sector_info["bounding_box"]["proj4_string"] = area_def.proj_str
+
+        if product_filename:
+            sector_info["product_filename"] = replace_geoips_paths(product_filename)
+        if metadata_filename:
+            sector_info["metadata_filename"] = replace_geoips_paths(metadata_filename)
+
+        if "source_file_names" in xarray_obj.attrs.keys():
+            sector_info["source_file_names"] = xarray_obj.source_file_names
+        # Backwards compatibility, so the default metadata doesn't change.
+        if "source_file_names" in xarray_obj.attrs.keys():
+            sector_info["source_file_names"] = xarray_obj.source_file_names
+
+        return sector_info
 
 
 class OutputFormattersInterface(BaseClassInterface):
