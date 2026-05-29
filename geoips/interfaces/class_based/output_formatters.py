@@ -13,10 +13,6 @@ from geoips.filenames.base_paths import make_dirs
 from geoips.geoips_utils import replace_geoips_paths
 from geoips.interfaces.class_based_plugin import BaseClassPlugin
 from geoips.interfaces.base import BaseClassInterface
-from geoips.image_utils.mpl_utils import (
-    create_figure_and_main_ax_and_mapobj,
-    save_image,
-)
 
 LOG = logging.getLogger(__name__)
 
@@ -147,6 +143,11 @@ class BaseOutputFormatterPlugin(BaseClassPlugin, abstract=True):
         list of str
             Full paths to all resulting output files.
         """
+        from geoips.image_utils.mpl_utils import (
+            create_figure_and_main_ax_and_mapobj,
+            save_image,
+        )
+
         LOG.info("Starting clean_fname")
         if fig is None and main_ax is None and mapobj is None:
             # Create matplotlib figure and main axis, where the main image will be
