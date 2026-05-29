@@ -17,9 +17,6 @@ import xarray as xr
 LOG = logging.getLogger(__name__)
 
 
-# -- synthetic plugins (fully concrete, NOT abstract) -------------------------
-
-
 class _TestReader:
     """A test-only reader that returns a deterministic xr.Dataset."""
 
@@ -81,9 +78,6 @@ class _Passthrough:
         return xr.DataTree(name="empty")
 
 
-# -- helper for mock resolution -----------------------------------------------
-
-
 def _mock_resolve_plugin(kind, name):
     """Mock ``Workflow._resolve_plugin`` returning a callable test double."""
     _ = name  # unused
@@ -92,9 +86,6 @@ def _mock_resolve_plugin(kind, name):
     if kind == "coverage_checker":
         return _TestCoverageChecker()
     return _Passthrough()
-
-
-# -- autouse fixture ----------------------------------------------------------
 
 
 @pytest.fixture(autouse=True)
