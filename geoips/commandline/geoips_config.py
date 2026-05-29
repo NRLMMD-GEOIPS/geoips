@@ -30,7 +30,6 @@ from geoips.commandline.install_progress import create_progress_display
 from pluginify.commandline_typer import configure_logging
 from pluginify.plugin_registry import PluginRegistry
 
-
 # ======================================================================
 # Module-level NamedTuples used by the parallel pipeline
 # ======================================================================
@@ -38,6 +37,7 @@ from pluginify.plugin_registry import PluginRegistry
 
 class ChunkCheckRecord(NamedTuple):
     """Immutable record passed through the chunk-check pipeline."""
+
     name: str
     url: str
     version_file: str
@@ -46,13 +46,15 @@ class ChunkCheckRecord(NamedTuple):
 
 class ChunkCheckOutcome(NamedTuple):
     """Result of a chunk-hash check for one dataset."""
+
     record: ChunkCheckRecord
-    disposition: str   # "cached" | "needs_download" | "stale"
+    disposition: str  # "cached" | "needs_download" | "stale"
     reason: str
 
 
 class DownloadResult(NamedTuple):
     """Result of a full dataset download."""
+
     name: str
     full_hash: str
     chunk_hash: str
@@ -65,8 +67,9 @@ class DownloadResult(NamedTuple):
 # ======================================================================
 
 
-def _chunk_check_parallel(verify_version, fetch_chunk, read_stored,
-                          infos, max_workers, chunk_size):
+def _chunk_check_parallel(
+    verify_version, fetch_chunk, read_stored, infos, max_workers, chunk_size
+):
     """Run chunk-hash verification for *infos* in parallel.
 
     Parameters
@@ -78,8 +81,11 @@ def _chunk_check_parallel(verify_version, fetch_chunk, read_stored,
     read_stored : callable
         ``(version_file) -> str | None``
     infos : list of ChunkCheckRecord
+        Dataset records to verify.
     max_workers : int
+        Thread pool size.
     chunk_size : int
+        Bytes to capture for the chunk hash.
 
     Returns
     -------
@@ -92,19 +98,17 @@ def _chunk_check_parallel(verify_version, fetch_chunk, read_stored,
             return ChunkCheckOutcome(info, "needs_download", "not installed")
 
         if not verify_version(info.version_file, info.name, info.url):
-            return ChunkCheckOutcome(info, "stale",
-                                     "version file invalid or incomplete")
+            return ChunkCheckOutcome(
+                info, "stale", "version file invalid or incomplete"
+            )
 
         live_hash = fetch_chunk(info.url, chunk_size)
         if live_hash is None:
             stored = read_stored(info.version_file)
             if stored is not None:
-                return ChunkCheckOutcome(
-                    info, "cached", "trusted (server unreachable)"
-                )
+                return ChunkCheckOutcome(info, "cached", "trusted (server unreachable)")
             return ChunkCheckOutcome(
-                info, "stale",
-                "no chunk hash + server unreachable"
+                info, "stale", "no chunk hash + server unreachable"
             )
 
         stored = read_stored(info.version_file)
@@ -119,8 +123,9 @@ def _chunk_check_parallel(verify_version, fetch_chunk, read_stored,
         return list(pool.map(check_one, infos))
 
 
-def _download_parallel(download_to_temp, first_chunk_size,
-                       targets, outdir, temp_dir, max_workers, display):
+def _download_parallel(
+    download_to_temp, first_chunk_size, targets, outdir, temp_dir, max_workers, display
+):
     """Download *targets* in parallel, extract sequentially on main thread.
 
     Parameters
@@ -128,19 +133,24 @@ def _download_parallel(download_to_temp, first_chunk_size,
     download_to_temp : callable
         ``(url, temp_dir, chunk_size) -> DownloadResult``
     first_chunk_size : int
+        Bytes to capture for the chunk hash.
     targets : list of ChunkCheckOutcome
+        Datasets that need to be downloaded.
     outdir : pathlib.Path
+        Destination directory for extracted datasets.
     temp_dir : str or None
+        Scratch directory for in-progress downloads.
     max_workers : int
+        Thread pool size.
     display : RichProgressDisplay or PlainProgressDisplay
+        Active progress reporter.
     """
+
     def run_one(target, chunk_size):
         name = target.record.name
         display.add_download(name, 0)
         try:
-            result = download_to_temp(
-                target.record.url, temp_dir, chunk_size
-            )
+            result = download_to_temp(target.record.url, temp_dir, chunk_size)
             display.mark_download_done(name)
             return result._replace(name=name)
         except Exception as exc:
@@ -148,17 +158,12 @@ def _download_parallel(download_to_temp, first_chunk_size,
             return None
 
     with ThreadPoolExecutor(max_workers=max_workers) as pool:
-        futures = {
-            pool.submit(run_one, t, first_chunk_size): t
-            for t in targets
-        }
+        futures = {pool.submit(run_one, t, first_chunk_size): t for t in targets}
         for future in as_completed(futures):
             result = future.result()
             if result is None:
                 continue
-            _extract_and_finalize(
-                result, outdir, display, first_chunk_size
-            )
+            _extract_and_finalize(result, outdir, display, first_chunk_size)
 
 
 def _extract_and_finalize(result, outdir, display, chunk_size):  # noqa: ARG001
@@ -212,14 +217,13 @@ def _extract_from_temp(temp_path, outdir):
         for m in tar:
             member_path = (outdir / m.name).resolve()
             if not str(member_path).startswith(str(outdir.resolve())):
-                raise SystemExit(
-                    "Found unsafe filepath in tar, exiting now."
-                )
+                raise SystemExit("Found unsafe filepath in tar, exiting now.")
             tar.extract(m, path=outdir, filter="tar")
 
 
-def _write_version_file(version_file, dataset_name, url, sha256_hash,
-                        chunk_sha256=None):
+def _write_version_file(
+    version_file, dataset_name, url, sha256_hash, chunk_sha256=None
+):
     """Write a ``.geoips_testdata_version`` file recording the download."""
     data = {
         "dataset": dataset_name,
@@ -335,7 +339,8 @@ class GeoipsConfigInstall(GeoipsExecutableCommand):
             ),
         )
         self.parser.add_argument(
-            "-j", "--parallel",
+            "-j",
+            "--parallel",
             type=int,
             default=int(os.getenv("GEOIPS_DOWNLOAD_WORKERS", "6")),
             metavar="N",
@@ -356,9 +361,7 @@ class GeoipsConfigInstall(GeoipsExecutableCommand):
             "--temp-dir",
             type=pathlib.Path,
             default=None,
-            help=(
-                "Directory for temporary download files (default: system /tmp)."
-            ),
+            help=("Directory for temporary download files (default: system /tmp)."),
         )
 
     def __call__(self, args):
@@ -398,7 +401,9 @@ class GeoipsConfigInstall(GeoipsExecutableCommand):
             self._verify_version_file,
             self._fetch_first_chunk_hash,
             self._read_stored_chunk_hash,
-            infos, args.parallel, self._FIRST_CHUNK_SIZE,
+            infos,
+            args.parallel,
+            self._FIRST_CHUNK_SIZE,
         )
 
         for r in results:
@@ -406,8 +411,7 @@ class GeoipsConfigInstall(GeoipsExecutableCommand):
                 display.add_cached(r.record.name)
             elif r.disposition == "stale":
                 display.log_stale(r.record.name, r.reason)
-                self._cleanup_dataset_dir(r.record.existing_dir,
-                                          r.record.version_file)
+                self._cleanup_dataset_dir(r.record.existing_dir, r.record.version_file)
 
         targets = [r for r in results if r.disposition != "cached"]
         if not targets:
@@ -415,8 +419,13 @@ class GeoipsConfigInstall(GeoipsExecutableCommand):
 
         temp_dir = str(args.temp_dir) if args.temp_dir else None
         _download_parallel(
-            self._download_to_temp, self._FIRST_CHUNK_SIZE,
-            targets, outdir, temp_dir, args.parallel, display,
+            self._download_to_temp,
+            self._FIRST_CHUNK_SIZE,
+            targets,
+            outdir,
+            temp_dir,
+            args.parallel,
+            display,
         )
 
     @staticmethod
@@ -433,10 +442,14 @@ class GeoipsConfigInstall(GeoipsExecutableCommand):
             url = test_dataset_dict[name]
             version_file = join(outdir, f".{name}_version")
             existing_dir = self._find_existing_dataset_dir(outdir, name)
-            infos.append(ChunkCheckRecord(
-                name=name, url=url, version_file=version_file,
-                existing_dir=existing_dir
-            ))
+            infos.append(
+                ChunkCheckRecord(
+                    name=name,
+                    url=url,
+                    version_file=version_file,
+                    existing_dir=existing_dir,
+                )
+            )
         return infos
 
     @staticmethod
@@ -556,7 +569,9 @@ class GeoipsConfigInstall(GeoipsExecutableCommand):
         Parameters
         ----------
         url : str
+            URL of the dataset archive to download.
         temp_dir : str or None
+            Directory for the temporary file (None for system default).
         chunk_size : int
             Bytes to capture for the chunk hash.
 
@@ -579,15 +594,13 @@ class GeoipsConfigInstall(GeoipsExecutableCommand):
         resp.raise_for_status()
         total_size = int(resp.headers.get("Content-Length", 0))
 
-        with tempfile.NamedTemporaryFile(
-            dir=temp_dir, delete=False
-        ) as tmp:
+        with tempfile.NamedTemporaryFile(dir=temp_dir, delete=False) as tmp:
             for data in resp.iter_content(chunk_size=1024 * 1024):
                 if data:
                     tmp.write(data)
                     sha256.update(data)
                     if accumulated < chunk_size:
-                        to_add = data[:chunk_size - accumulated]
+                        to_add = data[: chunk_size - accumulated]
                         chunk_hash.update(to_add)
                         accumulated += len(to_add)
             temp_path = tmp.name

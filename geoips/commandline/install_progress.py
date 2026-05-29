@@ -40,40 +40,53 @@ class PlainProgressDisplay:
 
     def stop(self) -> None:
         """End the display."""
-        print(f"[GeoIPS] Done: {self.completed} installed, "
-              f"{self.failed} failed ({self.total} total)")
+        print(
+            f"[GeoIPS] Done: {self.completed} installed, "
+            f"{self.failed} failed ({self.total} total)"
+        )
 
     def add_cached(self, name: str) -> None:
+        """Log a dataset as already cached and up to date."""
         self.completed += 1
         print(f"[GeoIPS] {name}: \u2713 cached (chunk verified)")
 
     def log_stale(self, name: str, reason: str) -> None:
+        """Log a stale dataset that needs to be re-downloaded."""
         print(f"[GeoIPS] {name}: stale \u2014 {reason}")
 
     def add_download(self, name: str, total_bytes: int) -> None:
+        """Begin tracking a download (byte progress via update_download)."""
         pass  # downloads tracked via update_download
 
     def update_download(self, name: str, bytes_done: int, total: int) -> None:
+        """Update download progress for a dataset being fetched."""
         pct = bytes_done * 100 // total if total else 0
         if pct % 10 == 0 or bytes_done == total:
-            print(f"[GeoIPS] {name}: Downloading... "
-                  f"{pct}% ({_fmt_bytes(bytes_done)}/{_fmt_bytes(total)})")
+            print(
+                f"[GeoIPS] {name}: Downloading... "
+                f"{pct}% ({_fmt_bytes(bytes_done)}/{_fmt_bytes(total)})"
+            )
 
     def mark_download_done(self, name: str) -> None:
+        """Mark a download as finished (no-op in plain mode)."""
         pass
 
     def add_extract(self, name: str, total_files: int) -> None:
+        """Begin tracking an archive extraction."""
         print(f"[GeoIPS] {name}: Extracting... 0/{total_files} files")
 
     def update_extract(self, name: str, files_done: int, total: int) -> None:
+        """Update extraction progress for a dataset archive."""
         if files_done % 50 == 0 or files_done == total:
             print(f"[GeoIPS] {name}: Extracting... {files_done}/{total} files")
 
     def mark_complete(self, name: str) -> None:
+        """Mark a dataset as fully downloaded and extracted."""
         self.completed += 1
         print(f"[GeoIPS] {name}: \u2713 installed")
 
     def mark_failed(self, name: str, reason: str) -> None:
+        """Mark a dataset as failed."""
         self.failed += 1
         print(f"[GeoIPS] {name}: \u2717 {reason}")
 
@@ -115,6 +128,7 @@ class RichProgressDisplay:
         self._header_task = None
 
     def start(self) -> None:
+        """Start the live progress display."""
         self.live.start()
         self._header_task = self.progress.add_task(
             self._header_text(),
@@ -125,6 +139,7 @@ class RichProgressDisplay:
         )
 
     def stop(self) -> None:
+        """Stop the live display and print final summary."""
         self.live.stop()
         self.console.print(
             f"[GeoIPS] Done: {self.completed} installed, "
@@ -169,13 +184,17 @@ class RichProgressDisplay:
     # ------------------------------------------------------------------
 
     def add_cached(self, name: str) -> None:
+        """Log a dataset as already cached and up to date."""
         self.completed += 1
         self._refresh_header()
         self.progress.console.log(
-            Text.assemble(("\u2713 ", "green"), (f"{name}  cached (chunk verified)", ""))
+            Text.assemble(
+                ("\u2713 ", "green"), (f"{name}  cached (chunk verified)", "")
+            )
         )
 
     def log_stale(self, name: str, reason: str) -> None:
+        """Log a stale dataset that needs to be re-downloaded."""
         self.progress.console.log(
             Text.assemble(
                 ("\u27f3 ", "yellow"),
@@ -184,6 +203,7 @@ class RichProgressDisplay:
         )
 
     def add_download(self, name: str, total_bytes: int) -> None:
+        """Begin tracking a download with a progress bar."""
         self.downloading += 1
         self._refresh_header()
         tid = self.progress.add_task(
@@ -197,6 +217,7 @@ class RichProgressDisplay:
         self.progress.start_task(tid)
 
     def update_download(self, name: str, bytes_done: int, total: int) -> None:
+        """Update the download progress bar for a dataset."""
         tid = self._tasks.get(name)
         if tid is not None:
             self.progress.update(
@@ -206,11 +227,13 @@ class RichProgressDisplay:
             )
 
     def mark_download_done(self, name: str) -> None:
+        """Mark a download as finished; remove the progress bar."""
         self.downloading -= 1
         self._refresh_header()
         self._remove_task(name)
 
     def add_extract(self, name: str, total_files: int) -> None:
+        """Begin tracking an extraction with a progress bar."""
         self.extracting += 1
         self._refresh_header()
         tid = self.progress.add_task(
@@ -224,6 +247,7 @@ class RichProgressDisplay:
         self.progress.start_task(tid)
 
     def update_extract(self, name: str, files_done: int, total: int) -> None:
+        """Update the extraction progress bar for a dataset."""
         tid = self._tasks.get(name)
         if tid is not None:
             self.progress.update(
@@ -233,6 +257,7 @@ class RichProgressDisplay:
             )
 
     def mark_complete(self, name: str) -> None:
+        """Mark a dataset as fully downloaded and extracted."""
         self.extracting -= 1
         self.completed += 1
         self._refresh_header()
@@ -242,6 +267,7 @@ class RichProgressDisplay:
         )
 
     def mark_failed(self, name: str, reason: str) -> None:
+        """Mark a dataset as failed; clean up any active progress bars."""
         tid = self._tasks.get(name)
         if tid is not None:
             phase = self.progress.tasks[tid].fields.get("phase", "")
