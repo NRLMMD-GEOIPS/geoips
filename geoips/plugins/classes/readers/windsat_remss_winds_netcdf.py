@@ -13,13 +13,8 @@ from os.path import basename
 import xarray
 
 # GeoIPS Libraries
-from geoips.plugins.classes.readers.utils.remss_reader import (
-    read_remss_data,
-)
-from geoips.xarray_utils.time import (
-    get_min_from_xarray_time,
-    get_max_from_xarray_time,
-)
+from geoips.plugins.classes.readers.utils.remss_reader import read_remss_data
+from geoips.xarray_utils.time import get_min_from_xarray_time, get_max_from_xarray_time
 
 LOG = logging.getLogger(__name__)
 
