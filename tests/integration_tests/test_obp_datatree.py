@@ -21,9 +21,6 @@ CTX = {"skip_plugin_name_validation": True}
 LOG = logging.getLogger(__name__)
 
 
-# -- helpers ------------------------------------------------------------------
-
-
 def _build_linear_spec(**overrides):
     """Build a linear workflow spec with synthetic reader and algorithm steps."""
     return WorkflowSpecModel.model_validate(
@@ -54,9 +51,6 @@ def _build_linear_spec(**overrides):
         },
         context=CTX,
     )
-
-
-# -- No-deps workflow (exercises the real Workflow.call) ----------------------
 
 
 class TestDatatreeNoDepsWorkflow:
@@ -127,9 +121,6 @@ class TestDatatreeNoDepsWorkflow:
         assert "gc_status" in sub.attrs
 
 
-# -- output_token stability ---------------------------------------------------
-
-
 class TestOutputTokenStability:
     """Output tokens are stable across identical runs."""
 
@@ -184,9 +175,6 @@ class TestOutputTokenStability:
         assert token_a != token_b, "Tokens should differ when arguments differ"
 
 
-# -- retention ----------------------------------------------------------------
-
-
 class TestRetention:
     """Retention policies affect GC behavior."""
 
@@ -207,9 +195,6 @@ class TestRetention:
         assert read_node.attrs.get("gc_status") == "data_dropped", (
             "Non-output step should be GC'd by keep_outputs_only policy"
         )
-
-
-# -- error paths --------------------------------------------------------------
 
 
 class TestErrorPaths:
