@@ -183,7 +183,7 @@ Output Formatter step in the code block below includes two additional plugins,
                 name: Infrared
                 arguments:
                   data_range: [-90.0, 30.0]
-            filename_formatter_1:
+            apply_geoips_fname_filename_formatter:
                 kind: filename_formatter
                 name: geoips_fname
                 arguments:
