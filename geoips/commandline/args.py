@@ -902,6 +902,12 @@ def add_args(parser, arglist=None, legacy=False):
         )
 
     prod_db_group = parser.add_argument_group(title="Product database specifications")
+    prod_db_group.add_argument(
+        "--write_stats_to_json",
+        action="store_true",
+        help="""Write resource usage statistics gathered in config_based processing to
+                a JSON file.""",
+    )
     if arglist is None or "product_db" in arglist:
         prod_db_group.add_argument(
             "--product_db",

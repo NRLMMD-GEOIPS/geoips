@@ -1090,7 +1090,8 @@ class OutputCheckersInterface(BaseClassInterface):
             or not hasattr(plugin, "call")
         ):
             raise ValidationError(
-                "The plugin returned is missing one or more of the following functions."
+                f"The plugin '{plugin.module_name}' is missing one or more of the "
+                "following functions."
                 "\n[outputs_match, correct_file_format, call]. Please create those "
                 "before using this plugin."
             )

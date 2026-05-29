@@ -8,8 +8,6 @@ else
 fi
 
 export GEOIPS_VERSION=`cat $GEOIPS_CONFIG_PATH/../.github/versions/tagged_version`
-# Backwards compatibility.
-export GEOIPS_VERS=$GEOIPS_VERSION
 
 # Allow upstream overrides for
 # * GEOIPS_BASEDIR
@@ -25,7 +23,6 @@ export GEOIPS_VERS=$GEOIPS_VERSION
 # to ensure relative paths are set correctly within this config.
 # These MUST be unset or exported prior to sourcing this config, or the environment
 # will not be fully defined appropriately.
-
 
 if [[ -z "$GEOIPS_CONDA_ENV_NAME" ]]; then
     export GEOIPS_CONDA_ENV_NAME=geoips_conda
@@ -95,7 +92,7 @@ export CARTOPY_DATA_DIR=$GEOIPS_ANCILDAT/cartopy_data_dir
 export GEOIPS_GEOLOCATION_CACHE_BACKEND=zarr
 export GEOIPS_CACHE_DIR=$GEOIPS_SYSTEM_CACHE_DIR/geoips
 export GEOIPS_DATA_CACHE_DIR=$GEOIPS_SYSTEM_CACHE_DIR/geoips
-export GEOIPS_ANCILDAT_AUTOGEN=$GEOIPS_DATA_CACHE_DIR/ancildat_autogen
+export GEOIPS_ANCILDAT_AUTOGEN=$GEOIPS_DATA_CACHE_DIR/shortterm/ancildat_autogen
 export SATPY_DATA_CACHE_DIR=$GEOIPS_SYSTEM_CACHE_DIR/satpy
 export SATPY_CACHE_DIR=$SATPY_DATA_CACHE_DIR/longterm/geolocation
 export SATPY_TMP_DIR=$SATPY_DATA_CACHE_DIR/shortterm/tmp
@@ -179,6 +176,7 @@ echo '\\pytest to run pytest directly.'
 echo 'ARE YOU SURE YOU WANT TO RUN PYTEST DIRECTLY AND NOT WITH'
 echo '$GEOIPS/tests/utils/interactive_pytest.sh ?'
 echo 'Can also do'
+echo 'mkdir -p $GEOIPS_OUTDIRS/logs/pytests_manual/'
 echo '\\pytest | tee -ai $GEOIPS_OUTDIRS/logs/pytests_manual/`date -u +%Y%m%d.%H%M%S`.pytest.log'
 """
 alias interactive_pytest=$GEOIPS/tests/utils/interactive_pytest.sh

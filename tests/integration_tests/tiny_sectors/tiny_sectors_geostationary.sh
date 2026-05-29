@@ -25,8 +25,9 @@ if [[ "$1" == "" && "$2" == "" && "$3" == "" && "$4" == "" ]]; then
       * e.g. test_goeswest_eqc_3km_nadir
     * reader_name
     * product_name
-      * usually Test-*-Day-Only, -Night-Only, or -Day-Night for
-        efficiency reasons and consistency, but could be any product.
+      * usually Test-*-Day-Only, or -Night-Only for
+        efficiency reasons and consistency and optimum evaluation of the contents
+        of the data/sector, but could be any product.
     * repo_name
     * data_files
     """
@@ -58,13 +59,58 @@ files=$@
 # imagery_clean output), but keep it in the same script with the tiny sector
 # imagery_clean comparison tests to ensure the exact same output is produced as
 # geotiff if desired for reference purposes.
-if [[ "$GEOIPS_CREATE_TINY_SECTOR_TEST_GEOTIFF_OUTPUTS" == "True" ]]; then
+if [[ "$GEOIPS_TEST_SECTOR_CREATE_GEOTIFF_OUTPUTS" == "True" ]]; then
     geoips run single_source $files \
                  --reader_name $reader_name \
                  --reader_kwargs '{"satellite_zenith_angle_cutoff": None}' \
                  --product_name $product_name \
                  --output_formatter cogeotiff \
                  --filename_formatter geotiff_fname \
+                 --logging_level info \
+                 --minimum_coverage 0 \
+                 --resampled_read \
+                 --sector_list $test_sector_name
+fi
+
+# Optional imagery_annotated output, for reference.
+# This is really only used for evaluation / reference purposes, so just allow turning
+# it on manually with an environment variable.  Typically will NOT be used (to avoid
+# duplicating tiny sector test time, by unnecessarily running both imagery_annotated and
+# imagery_clean output), but keep it in the same script with the tiny sector
+# imagery_clean comparison tests to ensure the exact same output is produced as
+# imagery_annotated if desired for reference purposes. Produce BOTH Day-Only and
+# Night-Only versions of the tiny sector (assumed that one of Day-Only or Night-Only
+# was requested - should always use Day-Only or Night-Only products for tiny sectors
+# for clarity).
+if [[ "$GEOIPS_TEST_SECTOR_CREATE_ANNOTATED_OUTPUTS" == "True" ]]; then
+    # Run both day and night annotated tiny sectors, better evaluation of
+    # what's in there.
+    orig_product_name=$product_name
+    if [[ "$product_name" == *"Night"* ]]; then
+        opposite_product_name="${product_name/Night/Day}"
+    elif [[ "$product_name" == *"Day"* ]]; then
+        opposite_product_name="${product_name/Day/Night}"
+    fi
+    geoips run single_source $files \
+                 --reader_name $reader_name \
+                 --reader_kwargs '{"satellite_zenith_angle_cutoff": None}' \
+                 --product_name $orig_product_name \
+                 --output_formatter imagery_annotated \
+                 --output_formatter_kwargs '{"title_copyright": "Tiny Sector Test Product"}' \
+                 --filename_formatter geoips_fname \
+                 --filename_formatter_kwargs '{"extra": "orig_annotated"}' \
+                 --logging_level info \
+                 --minimum_coverage 0 \
+                 --resampled_read \
+                 --sector_list $test_sector_name
+    geoips run single_source $files \
+                 --reader_name $reader_name \
+                 --reader_kwargs '{"satellite_zenith_angle_cutoff": None}' \
+                 --product_name $opposite_product_name \
+                 --output_formatter imagery_annotated \
+                 --output_formatter_kwargs '{"title_copyright": "Opposite Product"}' \
+                 --filename_formatter geoips_fname \
+                 --filename_formatter_kwargs '{"extra": "opposite_annotated"}' \
                  --logging_level info \
                  --minimum_coverage 0 \
                  --resampled_read \
@@ -82,5 +128,47 @@ geoips run single_source $files \
              --resampled_read \
              --sector_list $test_sector_name
 retval=$?
+
+######################################################################################
+# Copy to example_test_imagery_outputs for reference.
+# This is not part of the tests, and will not cause the script to fail if nothing is found.
+mkdir -p $GEOIPS_OUTDIRS/example_test_imagery_outputs
+found_one=False
+# Check all geostationary sensors for outputs.
+for curr_sensor in "abi" "ahi" "ami" "seviri" "fci"; do
+    for curr_product_name in "$orig_product_name" "$opposite_product_name"; do
+        # Note tiny sectors go in Tests- and not Global- directories
+        fname_glob=$GEOIPS_OUTDIRS/preprocessed/annotated_imagery/Tests-*/x-x-x/${curr_product_name}/${curr_sensor}/*${curr_product_name}*.png
+        # Check if there are any files matching the glob, if so copy them over.
+        ls -l $fname_glob >& /dev/null
+        if [[ $? == 0 ]]; then
+            echo ""
+            echo "***********"
+            echo "***Found product $curr_product_name for sensor $curr_sensor!"
+            echo "***********"
+            echo ""
+            found_one=True
+            cp -pv $fname_glob $GEOIPS_OUTDIRS/example_test_imagery_outputs
+        fi
+    done
+done
+
+echo ""
+if [[ "$found_one" == "True" ]]; then
+    echo "***********"
+    echo "Copied output files to $GEOIPS_OUTDIRS/example_test_imagery_outputs"
+    echo "***********"
+fi
+if [[ "$found_one" == "False" ]]; then
+    echo "***********"
+    echo "No output files found!  Not copied to $GEOIPS_OUTDIRS/example_test_imagery_outputs!"
+    echo "***********"
+fi
+echo ""
+echo "***********"
+echo "To review all example test imagery outputs:"
+echo "  ls -lthr $GEOIPS_OUTDIRS/example_test_imagery_outputs/*"
+echo "***********"
+######################################################################################
 
 exit $retval

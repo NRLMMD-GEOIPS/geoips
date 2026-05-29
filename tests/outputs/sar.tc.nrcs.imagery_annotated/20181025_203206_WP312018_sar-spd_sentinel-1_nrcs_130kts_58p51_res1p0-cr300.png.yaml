@@ -1,4 +1,6 @@
 aid_type: BEST
+area_description: wp312018-2018102518 YUTU synoptic_time 2018-10-25 18:00:00
+area_id: wp312018-2018102518
 bounding_box:
   image_height: 1400
   image_width: 1400
@@ -40,6 +42,7 @@ deck_line: WP, 31, 2018102518,   , BEST,   0, 166N, 1414E, 130,  926, ST,  34, N
   1004,  210,  10,   0,   0,   W,   0,    ,   0,   0,       YUTU, D,
 final_storm_name: YUTU
 invest_number: 97
+invest_storm_id: wp9720182018101806
 parser_name: bdeck_parser
 pressure: 926.0
 product_filename: $GEOIPS_OUTDIRS/preprocessed/tcwww/tc2018/WP/WP312018/png/nrcs/sentinel-1/20181025_203206_WP312018_sar-spd_sentinel-1_nrcs_130kts_58p51_res1p0-cr300.png
@@ -47,10 +50,12 @@ sector_type: tc
 source_filename: $GEOIPS_PACKAGES_DIR/geoips/tests/sectors/tc_bdecks/bwp312018.dat
 source_sector_file: $GEOIPS_PACKAGES_DIR/geoips/tests/sectors/tc_bdecks/bwp312018.dat
 storm_basin: WP
-storm_id: tc2018wp31yutu
+storm_id: wp312018
 storm_name: YUTU
 storm_num: 31
-storm_start_datetime: 2018-10-18 06:00:00
+storm_start_datetime: &id001 2018-10-18 06:00:00
+storm_start_datetime_from_filename_of_current_deck_file: null
+storm_start_datetime_from_first_line_of_current_deck_file: *id001
 storm_year: 2018
 synoptic_time: 2018-10-25 18:00:00
 vmax: 130.0

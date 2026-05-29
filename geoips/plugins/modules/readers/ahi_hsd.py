@@ -23,7 +23,7 @@ from scipy.ndimage import zoom
 # GeoIPS Libraries
 from geoips.interfaces import readers
 from geoips.filenames.base_paths import PATHS as gpaths
-from geoips.utils.memusg import print_mem_usage
+from geoips.utils.memusg.memusg_tracker import print_mem_usage
 from geoips.utils.context_managers import import_optional_dependencies
 from geoips.plugins.modules.readers.utils.geostationary_geolocation import (
     check_geolocation_cache_backend,
@@ -799,7 +799,7 @@ def _get_metadata_block_08(df, block_info):
         )[0]
         block_data["scan_shift_amount"][info_ind] = np.frombuffer(
             data[start + 2 : start + 6], dtype="float32"
-        )
+        )[0]
         block_data["line_shift_amount"][info_ind] = np.frombuffer(
             data[start + 6 : start + 10], dtype="float32"
         )[0]
@@ -836,7 +836,7 @@ def _get_metadata_block_09(df, block_info):
     for info_ind in range(0, block_data["num_ob_times"]):
         block_data["ob_time_line_number"][info_ind] = np.frombuffer(
             data[start : start + 2], dtype="uint16"
-        )
+        )[0]
         block_data["ob_time"][info_ind] = np.frombuffer(
             data[start + 2 : start + 10], dtype="float64"
         )[0]
@@ -1118,8 +1118,9 @@ def call_single_time(
           data.
     cache_chunk_size : int
         * Specify chunck size if using zarray to store pre-calculated geolocation data.
-    resource_tracker: geoips.utils.memusg.PidLog object
-        * Track resource usage using the PidLog class object from geoips.utils.memusg.
+    resource_tracker: geoips.utils.memusg.memusg_tracker.PidLog object
+        * Track resource usage using the PidLog class object from
+          geoips.utils.memusg.memusg_tracker.
         * The PidLog.track_resource_usage method allows us to snapshot the memory usage
           for the PID associated with the geoips call. The time and stats of the
           snapshot are recorded, and can be accessed using the

@@ -129,13 +129,15 @@ def update_fields(tc_trackfilename, cc, conn, process=False):
     # if not, just return and don't do anything.
     if data:
         try:
-            database_timestamp = datetime.strptime(
-                cc.execute(
-                    "SELECT last_updated from tc_trackfiles WHERE filename = ?",
-                    (tc_trackfilename,),
-                ).fetchone()[0],
-                "%Y-%m-%d %H:%M:%S.%f",
-            )
+            last_updated_tstamp = cc.execute(
+                "SELECT last_updated from tc_trackfiles WHERE filename = ?",
+                (tc_trackfilename,),
+            ).fetchone()[0]
+            if "." in last_updated_tstamp:
+                tstamp_fmt = "%Y-%m-%d %H:%M:%S.%f"
+            else:
+                tstamp_fmt = "%Y-%m-%d %H:%M:%S"
+            database_timestamp = datetime.strptime(last_updated_tstamp, tstamp_fmt)
         except ValueError as resp:
             LOG.exception(f"Failed on {tc_trackfilename}")
             raise (ValueError(f"FAILED ON {tc_trackfilename}: {resp}"))

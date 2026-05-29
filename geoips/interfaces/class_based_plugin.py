@@ -1,3 +1,6 @@
+# # # This source code is subject to the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
+
 """Implements a base class for class-based plugins.
 
 The base class implemented here would expose the call signature of the child plugin

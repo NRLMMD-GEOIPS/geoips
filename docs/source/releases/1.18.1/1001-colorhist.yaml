@@ -1,0 +1,43 @@
+plotting:
+- title: 'Histogram colorbar and static sector conformity.'
+  description: 'Created a histogram colorbar that helps visulize distribution of 
+  values for annotated imagery. Fixed static sectors that had non-standard formatting,
+  this includes not having the region sub-key, or having spacing in the metadata which 
+  would lead to spacing in the output filepath. Added a north american static sector.'
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - 'tests/scripts/amsr2.tc.89H-Physical.imagery_annotated_colorhist.sh'
+    - 'geoips/plugins/yaml/sectors/static/north_america.yaml'
+    modified:
+    - 'geoips/image_utils/mpl_utils.py'
+    - 'geoips/plugins/modules/output_formatters/imagery_annotated.py'
+    - 'geoips/plugins/yaml/sectors/static/e_pacific.yaml'
+    - 'geoips/plugins/yaml/sectors/static/guam.yaml'
+    - 'geoips/plugins/yaml/sectors/static/hawaii.yaml'
+    - 'geoips/plugins/yaml/sectors/static/rio_de_janeiro.yaml'
+    - 'geoips/plugins/yaml/sectors/static/w_atlantic.yaml'
+  date:
+    start: 2026-02-18
+    finish: 2026-02-18
+documentation:
+- title: 'Fixed docstrings on SGLI reader and on HNCC algorithm.'
+  description: 'Added better description of source on High Near Constant Contrast
+  algorithm, attributing paper the algorithm was derived from. Fixed several copy paste
+  bugs within the SGLI reader.'
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - 'geoips/plugins/modules/readers/sgli_l1b_hdf5.py'
+    - 'geoips/plugins/modules/algorithms/visir/HNear_Constant_Contrast.py'
+  date:
+    start: 2026-02-18
+    finish: 2026-02-18

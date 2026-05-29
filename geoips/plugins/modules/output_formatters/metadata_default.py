@@ -22,6 +22,7 @@ name = "metadata_default"
 default_fields = [
     "adjustment_id",
     "aid_type",
+    "archer_fdeck",  # This is from recenter_tc plugins which run ARCHER.
     "bounding_box",
     "clat",
     "clon",
@@ -32,7 +33,7 @@ default_fields = [
     "parser_name",
     "pressure",
     "product_filename",
-    "recenter_type",
+    "recenter_type",  # This is from the recenter_tc plugin package
     "sector_type",
     "source_file_names",
     "source_filename",

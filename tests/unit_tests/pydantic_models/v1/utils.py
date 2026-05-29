@@ -136,6 +136,8 @@ def load_test_cases(interface_name: str, test_type: str) -> dict:
 
     with fpath.open("r") as fo:
         raw_test_cases = yaml.safe_load(fo)
+        if raw_test_cases is None:
+            raw_test_cases = {}
 
     validated_test_cases = {}
     for test_case_id, raw_test_case in raw_test_cases.items():
@@ -192,7 +194,7 @@ def load_geoips_yaml_plugin(interface_name: str, plugin_name: str) -> dict:
         entry = registry[plugin_name]
 
     relpath = entry["relpath"]
-    print("relpath \t", relpath)
+    # print("relpath \t", relpath)
     abspath = str(resources.files("geoips") / relpath)
     package = "geoips"
 

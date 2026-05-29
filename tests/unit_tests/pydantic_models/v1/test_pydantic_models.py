@@ -10,8 +10,12 @@ from copy import deepcopy
 import pytest
 
 # GeoIPS imports
+from geoips.pydantic_models.v1.algorithms import AlgorithmArgumentsModel
+from geoips.pydantic_models.v1.interpolators import InterpolatorArgumentsModel
+from geoips.pydantic_models.v1.output_checkers import OutputCheckerArgumentsModel
+from geoips.pydantic_models.v1.readers import ReaderArgumentsModel
 from geoips.pydantic_models.v1.title_formatters import TitleFormatterArgumentsModel
-from geoips.pydantic_models.v1.output_checkers import OutputCheckersArgumentsModel
+from geoips.pydantic_models.v1.workflows import WorkflowSpecModel
 from tests.unit_tests.pydantic_models.v1.utils import (
     PathDict,
     load_geoips_yaml_plugin,
@@ -49,13 +53,29 @@ models_available = {
         "good_source": ("yaml", "tc_web"),
         "model": None,
     },
+    "readers": {
+        "good_source": ("fixture", "valid_reader_arguments_model_data"),
+        "model": ReaderArgumentsModel,
+    },
     "output_checkers": {
         "good_source": ("fixture", "valid_output_checker_arguments"),
-        "model": OutputCheckersArgumentsModel,
+        "model": OutputCheckerArgumentsModel,
     },
     "title_formatters": {
         "good_source": ("fixture", "valid_title_formatter_arguments"),
         "model": TitleFormatterArgumentsModel,
+    },
+    "algorithms": {
+        "good_source": ("fixture", "valid_algorithm_arguments"),
+        "model": AlgorithmArgumentsModel,
+    },
+    "interpolators": {
+        "good_source": ("fixture", "valid_interpolator_arguments"),
+        "model": InterpolatorArgumentsModel,
+    },
+    "workflows": {
+        "good_source": ("fixture", "valid_workflow_spec_model_data"),
+        "model": WorkflowSpecModel,
     },
 }
 
@@ -116,7 +136,6 @@ def generate_test_cases(test_type):
     for interface in models_available.keys():
         test_cases = load_test_cases(interface, test_type)
         for key, value in test_cases.items():
-            print(interface, key)
             cases.append(pytest.param((interface, key, value), id=f"{interface}_{key}"))
     return cases
 

@@ -1,3 +1,6 @@
+# # # This source code is subject to the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
+
 """Pytest configuration for test data validation.
 
 Provides command-line options and fixtures to control test behavior
@@ -20,12 +23,16 @@ def pytest_addoption(parser):
     Adds --no-fail-on-missing-data flag to skip tests instead of
     failing when test data is unavailable.
     """
-    parser.addoption(
-        "--no-fail-on-missing-data",
-        action="store_true",
-        default=False,
-        help="Fail tests if test data is missing",
-    )
+    try:
+        parser.addoption(
+            "--no-fail-on-missing-data",
+            action="store_true",
+            default=False,
+            help="Fail tests if test data is missing",
+        )
+    except ValueError as resp:
+        if "option names {'--no-fail-on-missing-data'} already added" in str(resp):
+            pass
 
 
 @pytest.fixture
