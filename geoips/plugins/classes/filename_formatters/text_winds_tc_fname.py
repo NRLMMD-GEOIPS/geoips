@@ -94,7 +94,7 @@ class TextWindsTcFnameFilenameFormatterPlugin(BaseFilenameFormatterPlugin):
         ...     'remss')
         '/outdir/tc2020/SH/SH162020/txt/
         """
-        from geoips.plugins.modules.filename_formatters.utils.tc_file_naming import (
+        from geoips.plugins.classes.filename_formatters.utils.tc_file_naming import (
             tc_storm_basedir,
         )
 

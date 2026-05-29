@@ -27,7 +27,7 @@ class NetcdfFullOutputFormatterPlugin(BaseOutputFormatterPlugin):
         compression_kwargs=None,
     ):
         """Write GeoIPS style NetCDF to disk."""
-        from geoips.plugins.modules.output_formatters.netcdf_xarray import (
+        from geoips.plugins.classes.output_formatters.netcdf_xarray import (
             write_xarray_netcdf,
         )
 

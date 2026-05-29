@@ -17,7 +17,7 @@ from geoips.xarray_utils.time import (
     get_min_from_xarray_time,
     get_max_from_xarray_time,
 )
-from geoips.plugins.modules.readers.utils.remss_reader import read_remss_data
+from geoips.plugins.classes.readers.utils.remss_reader import read_remss_data
 
 LOG = logging.getLogger(__name__)
 

@@ -8,12 +8,12 @@ from geoips.interfaces.class_based.output_formatters import BaseOutputFormatterP
 import logging
 
 
-from geoips.plugins.modules.output_formatters.imagery_windbarbs import (
+from geoips.plugins.classes.output_formatters.imagery_windbarbs import (
     format_windbarb_data,
     output_clean_windbarbs,
 )
 
-from geoips.plugins.modules.output_formatters.imagery_windbarbs_multi_level import (
+from geoips.plugins.classes.output_formatters.imagery_windbarbs_multi_level import (
     assign_height_levels,
 )
 

@@ -16,7 +16,7 @@ from geoips.image_utils.mpl_utils import (
 from geoips.image_utils.colormap_utils import set_matplotlib_colors_standard
 from geoips.image_utils.mpl_utils import plot_image, plot_overlays, create_colorbar
 from geoips.image_utils.mpl_utils import get_title_string_from_objects, set_title
-from geoips.plugins.modules.output_formatters.imagery_windbarbs import (
+from geoips.plugins.classes.output_formatters.imagery_windbarbs import (
     format_windbarb_data,
     output_clean_windbarbs,
     plot_barbs,

@@ -22,7 +22,7 @@ import xarray
 from geoips.interfaces import readers
 from geoips.filenames.base_paths import PATHS as gpaths
 from geoips.utils.context_managers import import_optional_dependencies
-from geoips.plugins.modules.readers.utils.geostationary_geolocation import (
+from geoips.plugins.classes.readers.utils.geostationary_geolocation import (
     check_for_partial_cache,
     check_geolocation_cache_backend,
     create_empty_partial_cache,

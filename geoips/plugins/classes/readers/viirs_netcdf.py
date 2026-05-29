@@ -61,7 +61,7 @@ import pandas as pd
 import xarray as xr
 
 # GeoIPS imports
-from geoips.plugins.modules.readers.utils.geostationary_geolocation import get_indexes
+from geoips.plugins.classes.readers.utils.geostationary_geolocation import get_indexes
 from geoips.utils.context_managers import import_optional_dependencies
 from geoips.errors import MissingRequiredXarrayMetadata
 

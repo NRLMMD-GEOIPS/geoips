@@ -28,7 +28,7 @@ import xarray as xr
 
 # GeoIPS Libraries
 from geoips.filenames.base_paths import PATHS as gpaths
-from geoips.plugins.modules.readers.utils.geostationary_geolocation import get_indexes
+from geoips.plugins.classes.readers.utils.geostationary_geolocation import get_indexes
 from geoips.utils.context_managers import import_optional_dependencies
 
 # If this reader is not installed on the system, don't fail altogether, just skip this

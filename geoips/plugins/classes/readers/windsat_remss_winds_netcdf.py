@@ -13,7 +13,7 @@ from os.path import basename
 import xarray
 
 # GeoIPS Libraries
-from geoips.plugins.modules.readers.utils.remss_reader import (
+from geoips.plugins.classes.readers.utils.remss_reader import (
     read_remss_data,
 )
 from geoips.xarray_utils.time import (

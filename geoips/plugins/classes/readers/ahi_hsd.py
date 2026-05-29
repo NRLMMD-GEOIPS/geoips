@@ -27,7 +27,7 @@ from geoips.interfaces import readers
 from geoips.filenames.base_paths import PATHS as gpaths
 from geoips.utils.memusg.memusg_tracker import print_mem_usage
 from geoips.utils.context_managers import import_optional_dependencies
-from geoips.plugins.modules.readers.utils.geostationary_geolocation import (
+from geoips.plugins.classes.readers.utils.geostationary_geolocation import (
     check_geolocation_cache_backend,
     get_geolocation_cache_filename,
     get_geolocation,

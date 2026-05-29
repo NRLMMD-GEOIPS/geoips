@@ -12,7 +12,7 @@ import logging
 from os.path import join as pathjoin
 
 from geoips.filenames.base_paths import PATHS as gpaths
-from geoips.plugins.modules.filename_formatters.text_winds_full_fname import (
+from geoips.plugins.classes.filename_formatters.text_winds_full_fname import (
     assemble_windspeeds_text_full_fname,
 )
 

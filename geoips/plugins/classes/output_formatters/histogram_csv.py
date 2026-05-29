@@ -65,7 +65,7 @@ class HistogramCsvOutputFormatterPlugin(BaseOutputFormatterPlugin):
                     fobj.write(",".join([str(val) for val in list(prod)]))
                     LOG.interactive(f"Writing {ncdf_fname}")
 
-        # from geoips.plugins.modules.output_formatters.netcdf_xarray import (
+        # from geoips.plugins.classes.output_formatters.netcdf_xarray import (
         #     write_xarray_netcdf,
         # )
 

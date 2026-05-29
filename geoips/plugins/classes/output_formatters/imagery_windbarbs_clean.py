@@ -7,7 +7,7 @@ from geoips.interfaces.class_based.output_formatters import BaseOutputFormatterP
 
 import logging
 
-from geoips.plugins.modules.output_formatters.imagery_windbarbs import (
+from geoips.plugins.classes.output_formatters.imagery_windbarbs import (
     output_clean_windbarbs,
     format_windbarb_data,
 )

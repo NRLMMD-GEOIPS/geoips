@@ -83,7 +83,7 @@ class TcFnameFilenameFormatterPlugin(BaseFilenameFormatterPlugin):
             # use "unknown" for intensity
             intensity = "unknown"
 
-        from geoips.plugins.modules.filename_formatters.utils.tc_file_naming import (
+        from geoips.plugins.classes.filename_formatters.utils.tc_file_naming import (
             update_extra_field,
         )
 
@@ -385,7 +385,7 @@ class TcFnameFilenameFormatterPlugin(BaseFilenameFormatterPlugin):
         if not output_type_dir:
             output_type_dir = output_type
 
-        from geoips.plugins.modules.filename_formatters.utils.tc_file_naming import (
+        from geoips.plugins.classes.filename_formatters.utils.tc_file_naming import (
             tc_storm_basedir,
         )
 

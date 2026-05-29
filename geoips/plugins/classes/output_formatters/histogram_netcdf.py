@@ -57,7 +57,7 @@ class HistogramJsonOutputFormatterPlugin(BaseOutputFormatterPlugin):
             )
             prod_xarray["bins"] = xarray.DataArray(hist[1], dims=("dim_3"))
 
-        from geoips.plugins.modules.output_formatters.netcdf_xarray import (
+        from geoips.plugins.classes.output_formatters.netcdf_xarray import (
             write_xarray_netcdf,
         )
 

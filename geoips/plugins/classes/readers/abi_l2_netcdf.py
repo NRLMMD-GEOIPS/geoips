@@ -30,7 +30,7 @@ class AbiL2NetcdfReaderPlugin(BaseReaderPlugin):
 
     def get_metadata(self, fname):
         """Get metadata."""
-        from geoips.plugins.modules.readers.abi_netcdf import (
+        from geoips.plugins.classes.readers.abi_netcdf import (
             _get_metadata as get_metadata,
         )
 
@@ -47,7 +47,7 @@ class AbiL2NetcdfReaderPlugin(BaseReaderPlugin):
         resource_tracker=None,
     ):
         """Calculate ABI geolocation."""
-        from geoips.plugins.modules.readers import abi_netcdf
+        from geoips.plugins.classes.readers import abi_netcdf
 
         geometa = abi_netcdf._get_geolocation_metadata(metadata)
         sdt = datetime.strptime(

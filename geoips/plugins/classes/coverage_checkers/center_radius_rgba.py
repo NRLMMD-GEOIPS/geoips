@@ -12,7 +12,7 @@ import logging
 import numpy
 
 # GeoIPS imports
-from geoips.plugins.modules.coverage_checkers.center_radius import create_radius
+from geoips.plugins.classes.coverage_checkers.center_radius import create_radius
 
 LOG = logging.getLogger(__name__)
 
