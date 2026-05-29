@@ -90,7 +90,7 @@ class TpwPwatColormapperPlugin(BaseColormapperPlugin):
         from geoips.geoips_utils import find_ascii_palette
 
         bounds = values + [values[-1] + 1]
-        mpl_cmap = from_ascii(find_ascii_palette(name))
+        mpl_cmap = from_ascii(find_ascii_palette(self.name))
 
         mpl_colors_info = {
             "cmap": mpl_cmap,

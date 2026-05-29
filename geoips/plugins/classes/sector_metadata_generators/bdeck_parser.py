@@ -384,8 +384,8 @@ class BdeckParserSectorMetadataGeneratorPlugin(BaseSectorMetadataGeneratorPlugin
         # BEST, MBAM, OFCL, JTWC, etc - BEST202101220600 when updated
         # CARQ - not best track, real time, A-deck (Aids), F (Fix), E (Error), B (Best)
         fields["aid_type"] = parts[4]
-        fields["clat"] = float(lat_to_dec(parts[6]))
-        fields["clon"] = float(lon_to_dec(parts[7]))
+        fields["clat"] = float(self.lat_to_dec(parts[6]))
+        fields["clon"] = float(self.lon_to_dec(parts[7]))
         fields["vmax"] = parts[8]
         if fields["vmax"]:
             fields["vmax"] = float(fields["vmax"])

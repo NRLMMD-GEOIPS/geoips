@@ -33,7 +33,6 @@ class BaseOutputFormatterPlugin(BaseClassPlugin, abstract=True):
         compression_kwargs=None,
     ):
         """Write out xarray_obj to netcdf file named ncdf_fname."""
-
         make_dirs(dirname(ncdf_fname))
 
         orig_attrs = xarray_obj.attrs.copy()

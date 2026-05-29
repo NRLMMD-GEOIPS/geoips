@@ -49,7 +49,8 @@ class InterpNearestInterpolatorPlugin(BaseInterpolatorPlugin):
     ):
         """Pyresample interp_kd_tree nearest neighbor GeoIPS plugin."""
         LOG.info(
-            "Interpolating nearest using standard scifile register method: kd_tree nearest"
+            "Interpolating nearest using standard scifile register method: kd_tree "
+            "nearest"
         )
 
         roi = self.get_final_roi(input_xarray, area_def)

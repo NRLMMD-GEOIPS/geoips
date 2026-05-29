@@ -84,8 +84,8 @@ class HighNearConstantContrastAlgorithmPlugin(BaseAlgorithmPlugin):
 
         data, sza, lza, moon_ill_frac = arrays
 
-        gain_solar = gain_func(sza)
-        gain_lza = gain_func(lza)
+        gain_solar = self.gain_func(sza)
+        gain_lza = self.gain_func(lza)
         LOG.info(
             "Producing HNCC imagery with moon illumination of {0:.2f}".format(
                 np.nanmean(moon_ill_frac)

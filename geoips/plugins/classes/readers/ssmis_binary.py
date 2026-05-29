@@ -147,9 +147,9 @@ class SsmisBinaryReaderPlugin(BaseReaderPlugin):
         f1 = open(fname, "rb")
 
         # READ HEARDER
-        sw_rev = np.frombuffer(f1.read(2), dtype=np.dtype("short")).byteswap()[
+        sw_rev = np.frombuffer(f1.read(2), dtype=np.dtype("short")).byteswap()[  # NOQA
             0
-        ]  # NOQA
+        ]
         endian, fileid = np.frombuffer(
             f1.read(2), dtype=np.dtype("int8")
         ).byteswap()  # NOQA
@@ -205,9 +205,9 @@ class SsmisBinaryReaderPlugin(BaseReaderPlugin):
             nbytes = 0
 
             # SCAN HEADER
-            syncword = np.frombuffer(
+            syncword = np.frombuffer(  # NOQA
                 f1.read(4), dtype=np.dtype("int32")
-            ).byteswap()  # NOQA
+            ).byteswap()
             scan_year = np.frombuffer(f1.read(4), dtype=np.dtype("int32")).byteswap()
             scan_jday = np.frombuffer(f1.read(2), dtype=np.dtype("short")).byteswap()
             scan_hour, scan_minu = np.frombuffer(
@@ -241,9 +241,9 @@ class SsmisBinaryReaderPlugin(BaseReaderPlugin):
             scenecounts_uas = np.frombuffer(
                 f1.read(4), dtype=np.dtype("uint8")
             ).byteswap()
-            spare = np.frombuffer(
+            spare = np.frombuffer(  # NOQA
                 f1.read(20), dtype=np.dtype("int32")
-            ).byteswap()  # NOQA
+            ).byteswap()
             nbytes += 360  # total bytes of the scan header
             # nscan0 = scan - 1  # number of scans
 

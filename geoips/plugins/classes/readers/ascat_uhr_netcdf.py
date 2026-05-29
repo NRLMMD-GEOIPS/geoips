@@ -116,7 +116,7 @@ class AscatUhrNetcdfReaderPlugin(BaseReaderPlugin):
             # New filenames as of 20230906, only YYYYMMDD, orbit num,
             # and A or D for ascending or descending. Example file name:
             # LEE_20230912_25146_C_A-cmod5h-scaled_v2.nc
-            # Store the storm names lower case - only reference to it is in the filename.
+            # Store the storm names lower case - only reference to it is in the filename
             storm_name = (
                 os.path.basename(wind_xarray.source_file_names[0]).split("_")[0].lower()
             )

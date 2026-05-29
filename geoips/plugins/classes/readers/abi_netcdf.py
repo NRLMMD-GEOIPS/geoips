@@ -516,7 +516,7 @@ class AbiNetcdfReaderPlugin(BaseAbiReaderPlugin):
 
         # Gather geolocation data
         # Assume datetime the same for all resolutions.  Not true, but close enough.
-        # This save us from having very slightly different solar angles for each channel.
+        # This save us from having very slightly different solar angles for each channel
         # Loop over resolutions and get metadata as needed
         if self_register:
             LOG.info("")
@@ -925,7 +925,7 @@ class AbiNetcdfReaderPlugin(BaseAbiReaderPlugin):
                 rad_data = rad_data[line_inds, sample_inds]
                 qf = qf[line_inds, sample_inds]
                 LOG.info("GETDATACACHE to %s", cache_sector_partial)
-                # zarr does NOT have a close method, so you can NOT use the with context.
+                # zarr does NOT have a close method, so you can NOT use the with context
                 zf = zarr.open(cache_sector_partial, mode="w")
                 # Assume both arrays have the same shape and dtype
                 kwargs = {
@@ -1428,7 +1428,8 @@ class AbiNetcdfReaderPlugin(BaseAbiReaderPlugin):
         bad_data_mask = data["Rad"].mask
 
         # If reflectance is requested
-        # Note, weird memory manipulations to save memory when radiances are not requested
+        # Note, weird memory manipulations to save memory when radiances are not
+        # requested
         if ref:
             if band_num not in range(1, 7):
                 raise ValueError(

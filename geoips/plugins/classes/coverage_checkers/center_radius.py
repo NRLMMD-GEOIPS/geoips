@@ -8,7 +8,6 @@ from geoips.interfaces.class_based.coverage_checkers import BaseCoverageCheckerP
 import logging
 
 import numpy
-from skimage.draw import disk
 
 LOG = logging.getLogger(__name__)
 

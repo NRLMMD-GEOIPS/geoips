@@ -107,8 +107,8 @@ class InterpGaussInterpolatorPlugin(BaseInterpolatorPlugin):
             vars_to_interp,
             area_def,
             data_box_definition,
-            # Cast to float, in case the reader returns np.float64, etc (which pyresample
-            # does not like).  Pyresample requires a "number":
+            # Cast to float, in case the reader returns np.float64, etc (which
+            # pyresample does not like).  Pyresample requires a "number":
             # TypeError: radius_of_influence must be number
             float(input_xarray.interpolation_radius_of_influence),
             interp_type="gauss",

@@ -4,6 +4,7 @@
 """Interpolators interface class."""
 
 import numpy
+from skimage.draw import disk
 
 from geoips.interfaces.class_based_plugin import BaseClassPlugin
 from geoips.interfaces.base import BaseClassInterface

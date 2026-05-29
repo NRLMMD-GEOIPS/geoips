@@ -250,9 +250,9 @@ class AmsubHdfReaderPlugin(BaseReaderPlugin):
 
         #          ------  setup xarray variables   ------
 
-        # namelist_amsub  = ['latitude', 'longitude', 'Chan1_AT', 'Chan2_AT', 'Chan3_AT',
-        #                    'Chan4_AT','Chan5_AT', 'RR','Snow','IWP','SWE','SFR',
-        #                    'Sfc_type','time']
+        # namelist_amsub  = ['latitude', 'longitude', 'Chan1_AT', 'Chan2_AT',
+        #                    'Chan3_AT', 'Chan4_AT','Chan5_AT', 'RR','Snow','IWP',
+        #                    'SWE','SFR', 'Sfc_type','time']
 
         # setup amsub xarray
         xarray_amsub = xr.Dataset()

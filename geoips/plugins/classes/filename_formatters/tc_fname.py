@@ -147,7 +147,8 @@ class TcFnameFilenameFormatterPlugin(BaseFilenameFormatterPlugin):
         parts = basename.split("_")
         if len(parts) != 9:
             LOG.info(
-                "NOT REMOVING DUPLICATES. Not tc_web filename, does not contain 9 fields."
+                "NOT REMOVING DUPLICATES. Not tc_web filename, does not contain 9 "
+                "fields."
             )
             return [], []
 
