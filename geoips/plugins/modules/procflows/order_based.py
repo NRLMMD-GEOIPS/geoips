@@ -65,7 +65,6 @@ class OrderBased(BaseProcflowPlugin):
         xr.DataTree
             The fully-populated workflow DataTree.
         """
-        # -- normalize input to WorkflowSpecModel ---------------------------
         if isinstance(workflow_spec, WorkflowSpecModel):
             wf_name = "embedded"
             spec = workflow_spec
@@ -83,7 +82,6 @@ class OrderBased(BaseProcflowPlugin):
                 f"dict, got {type(workflow_spec).__name__}"
             )
 
-        # -- resolve fnames -------------------------------------------------
         if isinstance(fnames, str):
             fnames = glob(fnames)
 
