@@ -1688,12 +1688,12 @@ class AhiHsdReaderPlugin(BaseReaderPlugin):
                 # Set the actual wavelength property on the variable itself
                 if (
                     "calibration_information" in band_metadata[bandname].keys()
-                    and "cent_wavelenth"
+                    and "cent_wavelength"
                     in band_metadata[bandname]["calibration_information"].keys()
                 ):
                     xobj_attrs[dsname][varname]["wavelength"] = band_metadata[bandname][
                         "calibration_information"
-                    ]["cent_wavelenth"]
+                    ]["cent_wavelength"]
 
     def get_band_metadata(self, all_metadata):
         """
@@ -1907,7 +1907,7 @@ class AhiHsdReaderPlugin(BaseReaderPlugin):
 
             h = calib["planck_const"]
             k = calib["boltz_const"]
-            wl = calib["cent_wavelenth"] / 1000000.0  # Initially in microns
+            wl = calib["cent_wavelength"] / 1000000.0  # Initially in microns
             c = calib["speed_of_light"]
             c0 = calib["c0"]  # NOQA
             c1 = calib["c1"]  # NOQA
