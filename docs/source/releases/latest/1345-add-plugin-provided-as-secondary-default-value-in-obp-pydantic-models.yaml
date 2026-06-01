@@ -11,6 +11,7 @@ feature:
     - 'tests/unit_tests/plugins/modules/procflows/test_obp_utils.py'
     - 'geoips/docs/source/releases/latest/update-dev-staging.yaml'
     - 'geoips/plugins/modules/procflows/obp_utils.py'
+    - 'geoips/constants.py'
     modified:
     - 'geoips/plugins/modules/procflows/order_based.py'
   related-issue:
