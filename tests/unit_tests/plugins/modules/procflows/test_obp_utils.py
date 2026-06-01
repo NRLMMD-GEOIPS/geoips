@@ -3,12 +3,11 @@
 
 """Unit tests for Order-Based Procflow specific utility functions."""
 
-# Python Standard Libraries
-from typing import Any
-
 # GeoIPS imports
-from geoips.constants import PLUGIN_PROVIDED
-from geoips.plugins.modules.procflows.obp_utils import remove_keys_with_default_value_plugin_provided
+from geoips.plugins.modules.procflows.obp_utils import (
+    remove_keys_with_default_value_plugin_provided,
+)
+
 
 def test_remove_plugin_provided_root_level_key(workflow_with_plugin_provided):
     """Ensure keys wtih value PLUGIN_PROVIDED are removed."""
