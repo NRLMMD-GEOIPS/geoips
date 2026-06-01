@@ -19,7 +19,6 @@ from __future__ import annotations
 # Python Standard Libraries
 from copy import deepcopy
 import datetime as dt
-from glob import glob
 import logging
 from typing import Any, Dict, List, Optional, Union
 
@@ -37,6 +36,7 @@ from pydantic import (
 # GeoIPS imports
 from geoips import interfaces
 from geoips.pydantic_models.v1.bases import (
+    _generate_filenames_from_value,
     PluginModel,
     FrozenModel,
     PermissiveFrozenModel,
@@ -847,24 +847,33 @@ class WorkflowTestModel(FrozenModel):
 
     @field_validator("fnames", mode="before")
     @classmethod
-    def generate_filepaths(cls, v):
-        """Convert a single string or list of strings to pathlib.Path objects."""
-        if not isinstance(v, str) and not isinstance(v, list):
-            raise ValueError(
-                f"Error, got {v} but expected a single string or list of strings."
-            )
+    def _validate_and_normalize_fnames(cls, value):
+        """
+        Validate and normalize the input for 'fnames'.
 
-        filepaths = v if isinstance(v, list) else [v]
-        final_paths = []
+        This method handles the input for fnames as follows:
+        - asserts that fnames is one or more valid, existing filepaths
+        - converts them to pathlib.Path objects
 
-        # cspell:ignore ipath, jpath, jpaths
-        for ipath in filepaths:
-            jpaths = sorted(glob(ipath))
-            for jpath in jpaths:
-                # Don't do pathlib.Path as readers don't expect that.
-                final_paths.append(jpath)
+        Parameters
+        ----------
+        value: Any[PathLike]
+            Input values for 'fnames'. Should be either a list of one or more strings /
+            valid instances of pathlib.Path objects. Strings may contain wildcard
+            characters that can be used with glob to generate a list of file paths.
 
-        return final_paths
+        Returns
+        -------
+        list[PosixPath]
+            A valid list of pathlib.Path objects.
+
+        Raises
+        ------
+        ValueError
+            If the input type is other than a list of pathlib.Path objects.
+        """
+        fnames = _generate_filenames_from_value(value)
+        return fnames
 
     @field_validator("outputs", mode="before")
     @classmethod
