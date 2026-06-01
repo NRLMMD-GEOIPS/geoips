@@ -22,7 +22,7 @@ class ColormapperArgumentsModel(PermissiveFrozenModel):
     """
 
     cbar_full_width: bool = Field(
-        default=PLUGIN_PROVIDED,
+        default=False,
         description='"Extend the colorbar across the full width of the image"',
     )
     cbar_label: str = Field(
