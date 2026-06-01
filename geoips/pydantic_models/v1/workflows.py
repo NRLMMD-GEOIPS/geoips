@@ -777,7 +777,7 @@ class WorkflowTestModel(FrozenModel):
     """Model for the test section of GeoIPS workflow plugins."""
 
     # Not pathlib.Path objects as readers only expect a list of strings
-    fnames: list[str] = Field(
+    fnames: List[str] = Field(
         ...,
         description="A list of one or more filepaths to the data used for this test.",
     )
@@ -864,8 +864,8 @@ class WorkflowTestModel(FrozenModel):
 
         Returns
         -------
-        list[PosixPath]
-            A valid list of pathlib.Path objects.
+        list[str]
+            A list of strings representing valid filepaths.
 
         Raises
         ------
@@ -873,7 +873,8 @@ class WorkflowTestModel(FrozenModel):
             If the input type is other than a list of pathlib.Path objects.
         """
         fnames = _generate_filenames_from_value(value)
-        return fnames
+        final_fnames = [str(fpath) for fpath in fnames]
+        return final_fnames
 
     @field_validator("outputs", mode="before")
     @classmethod
