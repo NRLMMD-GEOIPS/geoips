@@ -9,7 +9,6 @@ Runs the appropriate script based on the args provided.
 from ast import literal_eval
 from collections.abc import Mapping
 import json
-from os import environ
 from os.path import abspath
 from pathlib import Path
 from typing import List, Union
@@ -68,7 +67,6 @@ class GeoipsRunConfigBased(GeoipsExecutableCommand):
         args: Namespace()
             - The argument namespace to parse through
         """
-        environ["ORDER_BASED_CALLED"] = "False"
         if args.procflow is None and self.legacy:
             err_str = (
                 "Deprecated, Legacy 'run_procflow' call was used and --procflow "
@@ -104,7 +102,6 @@ class GeoipsRunDataFusion(GeoipsExecutableCommand):
         args: Namespace()
             - The argument namespace to parse through
         """
-        environ["ORDER_BASED_CALLED"] = "False"
         if data_fusion_installed:
             if args.procflow is None and self.legacy:
                 err_str = (
@@ -548,7 +545,6 @@ class GeoipsRunOrderBased(GeoipsExecutableCommand):
         args: Namespace()
             - The argument namespace to parse through.
         """
-        environ["ORDER_BASED_CALLED"] = "True"
         workflow = args.workflow
 
         workflow = self._apply_overrides(workflow, args)
@@ -580,7 +576,6 @@ class GeoipsRunSingleSource(GeoipsExecutableCommand):
         args: Namespace()
             - The argument namespace to parse through
         """
-        environ["ORDER_BASED_CALLED"] = "False"
         if args.procflow is None and self.legacy:
             err_str = (
                 "Deprecated, Legacy 'run_procflow' call was used and --procflow "

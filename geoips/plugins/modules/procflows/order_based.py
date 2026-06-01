@@ -124,13 +124,14 @@ def call(workflow, fnames, command_line_args=None):
                 validate_arguments(apiVersion, interface, step_def["arguments"])
                 # pass in the original arguments as not all readers implement the same
                 # arg / kwarg set.
-                data = plg(**step_def["arguments"])
+                data = plg(**step_def["arguments"], _obp_initiated=True)
                 print(data)
             else:
                 # Temporary re-validate here as well. Just ensures that we catch any
                 # weird bugs.
                 data = plg(
-                    data,
+                    data=data,
+                    _obp_initiated=True,
                     **validate_arguments(apiVersion, interface, step_def["arguments"]),
                 )
             LOG.interactive(

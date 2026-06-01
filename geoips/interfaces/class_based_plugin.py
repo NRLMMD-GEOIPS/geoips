@@ -30,7 +30,6 @@ from __future__ import annotations
 from abc import ABC, abstractmethod
 import functools
 import inspect
-from os import environ
 
 from geoips import interfaces
 
@@ -118,18 +117,29 @@ class BaseClassPlugin(ABC):
 
     @abstractmethod
     # def call(self, *args: P.args, **kwargs: P.kwargs) -> R:
-    def call(self, *args, **kwargs):
-        """Callable method to be implemented by the plugin class."""
+    def call(self, _obp_initiated=False, *args, **kwargs):
+        """Callable method to be implemented by the plugin class.
+
+        Parameters
+        ----------
+        _obp_initiated : bool, optional
+            Whether or not this plugin is being called via the order based procflow.
+            Defaults to False.
+        """
         pass
 
     # hooks are intentionally loose; document their accepted kwargs
     # def _pre_call(self, data: R, *args, **kwargs) -> R:
-    def _pre_call(self, data=None, *args, **kwargs):
+    def _pre_call(self, data=None, _obp_initiated=False, *args, **kwargs):
         """Preprocess the data before calling the main plugin method.
 
         Parameters
         ----------
-        data : The input data for the plugin.
+        data : R, optional
+            The input data for the plugin.
+        _obp_initiated : bool, optional
+            Whether or not this plugin is being called via the order based procflow.
+            Defaults to False.
 
         Returns
         -------
@@ -138,13 +148,16 @@ class BaseClassPlugin(ABC):
         return data
 
     # def _post_call(self, data: R, *args, **kwargs) -> R:
-    def _post_call(self, data=None, *args, **kwargs):
+    def _post_call(self, data=None, _obp_initiated=False, *args, **kwargs):
         """Post-process the data after calling the main plugin method.
 
         Parameters
         ----------
-        data : R
+        data : R, optional
             The output data from the plugin.
+        _obp_initiated : bool, optional
+            Whether or not this plugin is being called via the order based procflow.
+            Defaults to False.
 
         Returns
         -------
@@ -153,7 +166,23 @@ class BaseClassPlugin(ABC):
         return data
 
     # def _invoke(self, data: R, *args: P.args, **kwargs: P.kwargs) -> R:
-    def _invoke(self, data=None, *args, **kwargs):
+    def _invoke(self, data=None, _obp_initiated=False, *args, **kwargs):
+        """Call the main plugin method.
+
+        Additionally, filter out unaccepted arguments if initiated via the OBP.
+
+        Parameters
+        ----------
+        data : R, optional
+            The output data from the plugin.
+        _obp_initiated : bool, optional
+            Whether or not this plugin is being called via the order based procflow.
+            Defaults to False.
+
+        Returns
+        -------
+            The processed data.
+        """
         # In the long run every plugin will accept a data tree
         # (I.e. colormapper modifies metadata)
         # if self.interface in [
@@ -161,8 +190,7 @@ class BaseClassPlugin(ABC):
         #     "sector_spec_generators",
         #     # "sector_metadata_generators",
         # ]:
-
-        if environ["ORDER_BASED_CALLED"] == "True":
+        if _obp_initiated:
             provided_args = set(kwargs)
             accepted_args = set(list(inspect.signature(self.call).parameters.keys()))
             unaccepted_args = provided_args - accepted_args
