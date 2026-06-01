@@ -69,7 +69,6 @@ def remove_keys_with_default_value_plugin_provided(workflow_dict: dict) -> dict:
         workflow dictionary with all keys containing the value 'plugin_provided'
          removed.
     """
-    
     if isinstance(workflow_dict, dict):
         return {
             key: remove_keys_with_default_value_plugin_provided(val)

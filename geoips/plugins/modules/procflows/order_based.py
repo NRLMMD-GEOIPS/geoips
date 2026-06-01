@@ -11,7 +11,6 @@ import logging
 # GeoIPS imports
 from geoips import interfaces
 from geoips.commandline.log_setup import setup_logging
-from geoips.constants import PLUGIN_PROVIDED
 from geoips.utils.types.partial_lexeme import Lexeme
 from geoips.plugins.modules.procflows import obp_utils
 
@@ -87,7 +86,9 @@ def call(workflow, fnames, command_line_args=None):
                 # through without being validated. For example, we use the 'add_args'
                 # function which validates args differently than our pydantic models
                 # do
-                obp_utils.validate_arguments(apiVersion, interface, step_def["arguments"])
+                obp_utils.validate_arguments(
+                    apiVersion, interface, step_def["arguments"]
+                )
                 # pass in the original arguments as not all readers implement the same
                 # arg / kwarg set.
                 data = plg(**step_def["arguments"])
@@ -97,7 +98,9 @@ def call(workflow, fnames, command_line_args=None):
                 # weird bugs.
                 data = plg(
                     data,
-                    **validate_arguments(apiVersion, interface, step_def["arguments"]),
+                    **obp_utils.validate_arguments(
+                        apiVersion, interface, step_def["arguments"]
+                    ),
                 )
             LOG.interactive(
                 "Completed Step: step_id: '%s', plugin_kind: '%s', plugin_name: '%s'.",
