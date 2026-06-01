@@ -37,7 +37,7 @@ from pydantic import (
 # GeoIPS imports
 from geoips import interfaces
 from geoips.pydantic_models.v1.bases import (
-    _generate_filenames_from_value,
+    # _generate_filenames_from_value,
     PluginModel,
     FrozenModel,
     PermissiveFrozenModel,
@@ -859,9 +859,9 @@ class WorkflowTestModel(FrozenModel):
         #     Parameters
         #     ----------
         #     value: Any[PathLike]
-        #         Input values for 'fnames'. Should be either a list of one or more strings /
+        #         Input values for 'fnames'. Should be either a list of one or more strings /  # NOQA
         #         valid instances of pathlib.Path objects. Strings may contain wildcard
-        #         characters that can be used with glob to generate a list of file paths.
+        #         characters that can be used with glob to generate a list of file paths.  # NOQA
 
         #     Returns
         #     -------
