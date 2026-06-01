@@ -333,6 +333,7 @@ Refactor:
     - geoips/interfaces/class_based/output_formatters.py
     - geoips/interfaces/class_based/readers.py
     - geoips/interfaces/class_based/sector_metadata_generators.py
+    - pyproject.toml
   related-issue:
     number: null
     repo_url: ''
