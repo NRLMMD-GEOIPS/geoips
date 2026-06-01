@@ -1,0 +1,21 @@
+feature:
+- title: 'Add PLUGIN_PROIVDED as an additional default value in OBP Pydantic models'
+  description: 'This PR introduces a new default value called PLUGIN_PROVIDED that would help us to sanitize the workflow: drop the fields/arguments with the value = "PLUGIN_PROVIDED". This will make these fields omitted letting the call signature fill in the required default value.'
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - 'tests/unit_tests/plugins/modules/procflows/conftest.py'
+    - 'tests/unit_tests/plugins/modules/procflows/test_obp_utils.py'
+    - 'geoips/docs/source/releases/latest/update-dev-staging.yaml'
+    - 'geoips/plugins/modules/procflows/obp_utils.py'
+    modified:
+    - 'geoips/plugins/modules/procflows/order_based.py'
+  related-issue:
+    number: null
+    repo_url: ''
+  date:
+    start: null
+    finish: null
