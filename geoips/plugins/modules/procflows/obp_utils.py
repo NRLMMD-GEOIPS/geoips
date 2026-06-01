@@ -12,6 +12,7 @@ from geoips.constants import PLUGIN_PROVIDED
 
 interface = None
 
+
 def validate_arguments(apiVersion, interface, arguments):
     """Load the correct pydantic argument model and validate arguments.
 
