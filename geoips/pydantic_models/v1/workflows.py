@@ -19,6 +19,7 @@ from __future__ import annotations
 # Python Standard Libraries
 from copy import deepcopy
 import datetime as dt
+from glob import glob
 import logging
 from typing import Any, Dict, List, Optional, Union
 
@@ -845,36 +846,61 @@ class WorkflowTestModel(FrozenModel):
 
         return self
 
+        # @field_validator("fnames", mode="before")
+        # @classmethod
+        # def _validate_and_normalize_fnames(cls, value):
+        #     """
+        #     Validate and normalize the input for 'fnames'.
+
+        #     This method handles the input for fnames as follows:
+        #     - asserts that fnames is one or more valid, existing filepaths
+        #     - converts them to pathlib.Path objects
+
+        #     Parameters
+        #     ----------
+        #     value: Any[PathLike]
+        #         Input values for 'fnames'. Should be either a list of one or more strings /
+        #         valid instances of pathlib.Path objects. Strings may contain wildcard
+        #         characters that can be used with glob to generate a list of file paths.
+
+        #     Returns
+        #     -------
+        #     list[str]
+        #         A list of strings representing valid filepaths.
+
+        #     Raises
+        #     ------
+        #     ValueError
+        #         If the input type is other than a list of pathlib.Path objects.
+        #     """
+        #     fnames = _generate_filenames_from_value(value)
+        #     final_fnames = [str(fpath) for fpath in fnames]
+        #     return final_fnames
+
     @field_validator("fnames", mode="before")
     @classmethod
-    def _validate_and_normalize_fnames(cls, value):
-        """
-        Validate and normalize the input for 'fnames'.
+    def generate_filepaths(cls, v):
+        """Convert a single string or list of strings to pathlib.Path objects."""
+        if (
+            not isinstance(v, str)
+            and not isinstance(v, list)
+            and not isinstance(v, tuple)
+        ):
+            raise ValueError(
+                f"Error, got {v} but expected a single string or list of strings."
+            )
 
-        This method handles the input for fnames as follows:
-        - asserts that fnames is one or more valid, existing filepaths
-        - converts them to pathlib.Path objects
+        filepaths = v if isinstance(v, list) else [v]
+        final_paths = []
 
-        Parameters
-        ----------
-        value: Any[PathLike]
-            Input values for 'fnames'. Should be either a list of one or more strings /
-            valid instances of pathlib.Path objects. Strings may contain wildcard
-            characters that can be used with glob to generate a list of file paths.
+        # cspell:ignore ipath, jpath, jpaths
+        for ipath in filepaths:
+            jpaths = sorted(glob(ipath))
+            for jpath in jpaths:
+                # Don't do pathlib.Path as readers don't expect that.
+                final_paths.append(jpath)
 
-        Returns
-        -------
-        list[str]
-            A list of strings representing valid filepaths.
-
-        Raises
-        ------
-        ValueError
-            If the input type is other than a list of pathlib.Path objects.
-        """
-        fnames = _generate_filenames_from_value(value)
-        final_fnames = [str(fpath) for fpath in fnames]
-        return final_fnames
+        return final_paths
 
     @field_validator("outputs", mode="before")
     @classmethod
