@@ -79,7 +79,10 @@ class GeoipsNetcdfReaderPlugin(BaseReaderPlugin):
 
         return xarray_objs
 
-    def read_xarray_netcdf(self, ncdf_fname):
+    # This is a static method as geoips.xarray_utils.data:get_vis_ir_bg references this
+    # fu
+    @staticmethod
+    def read_xarray_netcdf(ncdf_fname):
         """Read NetCDF file written out using the xarray python package."""
         try:
             xarray_obj = xarray.open_dataset(ncdf_fname)

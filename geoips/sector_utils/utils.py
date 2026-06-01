@@ -9,7 +9,7 @@ from pyresample import load_area
 
 from geoips.errors import PluginError
 from geoips.sector_utils.tc_tracks import set_tc_area_def
-from geoips.interfaces import sectors
+from geoips.interfaces import sectors, sector_spec_generators
 
 LOG = logging.getLogger(__name__)
 
@@ -183,9 +183,9 @@ def set_tc_coverage_check_area_def(area_def, width_degrees=8, height_degrees=8):
     height_km = DEG_TO_KM * height_degrees
     LOG.info("  Changing area definition for checking TC coverage")
 
-    from geoips.plugins.modules.sector_spec_generators import center_coordinates
+    center_coords = sector_spec_generators.get_plugin("center_coordinates")
 
-    covg_area_def = center_coordinates.call(
+    covg_area_def = center_coords(
         area_id=area_def.area_id,
         long_description=area_def.description,
         clat=area_def.sector_info["clat"],

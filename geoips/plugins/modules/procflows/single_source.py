@@ -50,6 +50,7 @@ from geoips.interfaces import (
     products,
     readers,
     sector_adjusters,
+    sector_spec_generators,
 )
 
 # These output families require an input filename list, AND require the returned
@@ -1071,11 +1072,9 @@ def pad_area_definition(
             clat = area_def.proj_dict["lat_0"]
             clon = area_def.proj_dict["lon_0"]
 
-        from geoips.plugins.modules.sector_spec_generators.center_coordinates import (
-            call,
-        )
+        center_coords = sector_spec_generators.get_plugin("center_coordinates")
 
-        pad_area_def = call(
+        pad_area_def = center_coords(
             area_id=area_def.area_id,
             long_description=area_def.description,
             clat=clat,
