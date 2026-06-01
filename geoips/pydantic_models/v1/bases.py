@@ -92,12 +92,17 @@ def _generate_filenames_from_value(value: Any) -> List[Path] | None:  # NOQA
         # raise a value error now
         uniterable_or_bad_type = True
 
+    error_str = (
+        f"Error: input argument for {fnames} could not be associated with one "
+        "or more existing file paths. Please ensure this data exists before "
+        "continuing."
+    )
+
     if not fnames or uniterable_or_bad_type:
-        raise ValueError(
-            f"Error: input argument for {fnames} could not be associated with one "
-            "or more existing file paths. Please ensure this data exists before "
-            "continuing."
-        )
+        raise ValueError(error_str)
+
+    if not any([fname.exists() for fname in fnames]):
+        raise ValueError(error_str)
 
     return fnames
 
