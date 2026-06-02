@@ -157,7 +157,7 @@ Output Formatter step in the code block below includes two additional plugins,
             resampled_read: False
             self_register_dataset: None
             self_register_source: None
-        algorithm_1:
+        apply_single_channel_algorithm:
           kind: algorithm
           name: single_channel
           arguments:
