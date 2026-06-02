@@ -37,7 +37,6 @@ from pydantic import (
 # GeoIPS imports
 from geoips import interfaces
 from geoips.pydantic_models.v1.bases import (
-    # _generate_filenames_from_value,
     PluginModel,
     FrozenModel,
     PermissiveFrozenModel,
@@ -845,37 +844,6 @@ class WorkflowTestModel(FrozenModel):
             )
 
         return self
-
-        # @field_validator("fnames", mode="before")
-        # @classmethod
-        # def _validate_and_normalize_fnames(cls, value):
-        #     """
-        #     Validate and normalize the input for 'fnames'.
-
-        #     This method handles the input for fnames as follows:
-        #     - asserts that fnames is one or more valid, existing filepaths
-        #     - converts them to pathlib.Path objects
-
-        #     Parameters
-        #     ----------
-        #     value: Any[PathLike]
-        #         Input values for 'fnames'. Should be either a list of one or more strings /  # NOQA
-        #         valid instances of pathlib.Path objects. Strings may contain wildcard
-        #         characters that can be used with glob to generate a list of file paths.  # NOQA
-
-        #     Returns
-        #     -------
-        #     list[str]
-        #         A list of strings representing valid filepaths.
-
-        #     Raises
-        #     ------
-        #     ValueError
-        #         If the input type is other than a list of pathlib.Path objects.
-        #     """
-        #     fnames = _generate_filenames_from_value(value)
-        #     final_fnames = [str(fpath) for fpath in fnames]
-        #     return final_fnames
 
     @field_validator("fnames", mode="before")
     @classmethod
