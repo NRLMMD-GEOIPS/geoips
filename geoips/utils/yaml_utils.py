@@ -8,26 +8,26 @@ Usage:
 
 `safe_load` and `safe_load_all` raise `DuplicateKeyError` on repeated keys.
 All other yaml symbols (dump, SafeLoader, SafeDumper, ...) pass through unchanged.
+Adds logic from `pyaml-env` to create `parse_config` which performs environment
+variable substitution on '!ENV' tags in yaml files.
 """
 
+import os
+import re
 import logging
 import yaml
 from yaml import *  # noqa: F401, F403  -- intentional re-export
 
-from geoips.errors import DuplicateKeyError
+from geoips.errors import DuplicateKeyError, MissingEnvironmentVariableError
 
 LOG = logging.getLogger(__name__)
 
+ENV_VAR_PATTERN = re.compile(r".*?\$\{([^}{:]+)(:[^}]+)?\}.*?")
+DEFAULT_SEP = ":"
 
-class SafeLoaderNoDuplicates(yaml.SafeLoader):
-    """A YAML SafeLoader that raises an error on duplicate mapping keys.
-
-    Inherits all behaviour from `yaml.SafeLoader` but overrides the default
-    mapping constructor to track keys that have already been seen within each
-    mapping node.
-    """
-
-    pass
+# ---------------
+# Constructors
+# ---------------
 
 
 def _construct_mapping_no_duplicates(loader, node):
@@ -67,10 +67,123 @@ def _construct_mapping_no_duplicates(loader, node):
     return mapping
 
 
+def _construct_env_var(loader, node):
+    """Resolve a YAML !ENV node by substituting environment variables.
+
+    Adapted from pyaml_env.parse_config.constructor_env_variables.
+    Supports `${VAR}` and `${VAR:default}` forms, with multiple variables
+    in a single scalar (e.g. `http://${HOST}:${PORT}`).
+
+    Parameters
+    ----------
+    loader : yaml.Loader
+        The YAML loader instance processing the current document.
+    node : yaml.ScalarNode
+        The scalar node tagged with `!ENV`.
+
+    Returns
+    -------
+    str
+        The scalar value with every `${VAR}` and `${VAR:default}` resolved.
+
+    Raises
+    ------
+    MissingEnvironmentVariableError
+        If a referenced variable is not set and no default was provided.
+    """
+    value = loader.construct_scalar(node)
+    matches = ENV_VAR_PATTERN.findall(value)
+    if not matches:
+        return value
+
+    full_value = value
+    for group in matches:
+        # `group` is a 2-tuple: (var_name, ':default' or '')
+        env_var_name = group[0]
+        env_var_name_with_default = "".join(group)
+
+        default = None
+        for segment in group:
+            if DEFAULT_SEP in segment:
+                _, default = segment.split(DEFAULT_SEP, 1)
+                break
+
+        env_value = os.environ.get(env_var_name)
+        if env_value is not None:
+            substituted = env_value
+        elif default is not None:
+            substituted = default
+        else:
+            raise MissingEnvironmentVariableError(
+                f"Environment variable '{env_var_name}' is not set "
+                f"and no default value was provided in the YAML !ENV tag"
+            )
+
+        full_value = full_value.replace(
+            f"${{{env_var_name_with_default}}}",
+            substituted,
+        )
+    return full_value
+
+
+# ---------------
+# YAML Loaders
+# ---------------
+
+
+class SafeLoaderNoDuplicates(yaml.SafeLoader):
+    """A YAML SafeLoader that raises an error on duplicate mapping keys.
+
+    Inherits all behaviour from `yaml.SafeLoader` but overrides the default
+    mapping constructor to track keys that have already been seen within each
+    mapping node.
+    """
+
+    pass
+
+
 SafeLoaderNoDuplicates.add_constructor(
     yaml.resolver.BaseResolver.DEFAULT_MAPPING_TAG,
     _construct_mapping_no_duplicates,
 )
+
+
+class EnvVarLoader(yaml.SafeLoader):
+    """A YAML SafeLoader that resolves `!ENV` tags into environment variable values.
+
+    Inherits all behaviour from `yaml.SafeLoader` but adds a new constructor so that
+    `EnvVarLoader` enforces `!ENV` tag resolution to the corresponding environment
+    variable.
+    """
+
+    pass
+
+
+EnvVarLoader.add_constructor("!ENV", _construct_env_var)
+
+
+class EnvVarLoaderNoDuplicates(yaml.SafeLoader):
+    """A YAML SafeLoader that combines both SafeLoaderNoDuplicates and EnvVarLoader.
+
+    Inherits all behaviour from `yaml.SafeLoader` but overrides the default mapping
+    constructor to track keys that have already been seen within each mapping node.
+    Also adds a new constructor so that `EnvVarLoader` enforces `!ENV` tag resolution
+    to the corresponding environment variable.
+    """
+
+    pass
+
+
+EnvVarLoaderNoDuplicates.add_constructor("!ENV", _construct_env_var)
+EnvVarLoaderNoDuplicates.add_constructor(
+    yaml.resolver.BaseResolver.DEFAULT_MAPPING_TAG,
+    _construct_mapping_no_duplicates,
+)
+
+
+# -------------------
+# Callable Functions
+# -------------------
 
 
 def safe_load(stream, Loader=SafeLoaderNoDuplicates):
@@ -127,3 +240,36 @@ def safe_load_all(stream, Loader=SafeLoaderNoDuplicates):
         If a duplicate key is detected and the default `Loader` is used.
     """
     return yaml.load_all(stream, Loader=Loader)  # nosec B506
+
+
+def parse_config(path, detect_duplicates=True):
+    """Load a YAML file and resolve any `!ENV` tags.
+
+    Drop-in replacement for `pyaml_env.parse_config(path)` adapted for GeoIPS.
+    Can use either `EnvVarLoader` or `EnvVarLoaderNoDuplicates`, to (optionally)
+    perform duplicate-key detection.
+
+    Parameters
+    ----------
+    path : str
+        Path to a YAML file. File-like objects are not supported in this
+        release.
+    detect_duplicates : bool
+        Flag to control whether or not `parse_config` detects and raises an
+        error to reject mappings with repeated keys. Defaults to `True`.
+
+    Returns
+    -------
+    dict
+        The parsed YAML document with `!ENV` tags resolved.
+
+    Raises
+    ------
+    MissingEnvironmentVariableError
+        If a `!ENV` tag references an unset variable with no default.
+    DuplicateKeyError
+        If `detect_duplicates=True` AND any mapping contains duplicate keys.
+    """
+    loader = EnvVarLoaderNoDuplicates if detect_duplicates else EnvVarLoader
+    with open(path, encoding="utf-8") as conf_data:
+        return yaml.load(conf_data, Loader=loader)  # nosec B506

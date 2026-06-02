@@ -1,0 +1,19 @@
+enhancement:
+- title: 'Absorb pyaml-env into yaml_utils.py'
+  description: |
+    Absorb the logic, contained in the third-party library pyaml-env ([found here](https://github.com/mkaranasou/pyaml_env)), into yaml_utils.py to eliminate this dependency.
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - 'docs/source/releases/latest/1328-absorb-pyaml-env-into-yaml_utils.yaml'
+    modified:
+    - 'geoips/errors.py'
+  related-issue:
+    number: 1328
+    repo_url: 'https://github.com/NRLMMD-GEOIPS/geoips'
+  date:
+    start: 2026/05/19
+    finish: null
