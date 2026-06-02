@@ -1,6 +1,15 @@
 feature:
 - title: 'Add PLUGIN_PROIVDED as an additional default value in OBP Pydantic models'
-  description: 'This PR introduces a new default value called PLUGIN_PROVIDED that would help us to sanitize the workflow: drop the fields/arguments with the value = "PLUGIN_PROVIDED". This will make these fields omitted letting the call signature fill in the required default value.'
+  description: | 
+    'This PR introduces a new default value called PLUGIN_PROVIDED that would help us to
+     sanitize the workflow: drop the fields/arguments with the value = "PLUGIN_PROVIDED".
+      This will make these fields omitted letting the call signature fill in the required
+       default value.'
+
+    Note-1: This is a breaking change.
+    Note-2: If we do not specify the default value as "PLUGIN_PROVIDED" and set it to
+      `None`, Pydantic-Python behavior will not allow the plugin-defined defaults to
+      actually take effect.
   files:
     deleted:
     - ''
