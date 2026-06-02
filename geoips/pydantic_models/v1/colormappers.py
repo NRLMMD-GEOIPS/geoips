@@ -11,8 +11,7 @@ from pydantic import Field
 
 # GeoIPS imports
 from geoips.pydantic_models.v1.bases import PermissiveFrozenModel
-
-PLUGIN_PROVIDED = "plugin_provided"
+from geoips.constants import PLUGIN_PROVIDED
 
 
 class ColormapperArgumentsModel(PermissiveFrozenModel):
