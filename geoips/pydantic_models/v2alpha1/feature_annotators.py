@@ -1,3 +1,6 @@
+# # # This source code is subject to the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
+
 """Pydantic models used to validate GeoIPS feature annotator plugins."""
 
 from pydantic import Field

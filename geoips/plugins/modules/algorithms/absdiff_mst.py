@@ -6,13 +6,14 @@
 Generalized algorithm to calculate the difference between 1 or 2 variables taken from
 multiple scan times over the same sector.
 """
+
 import logging
 
 import numpy as np
 import xarray as xr
 
-from geoips.data_manipulations.corrections import apply_data_range
 from geoips.errors import PluginError
+from geoips.data_manipulations.corrections import apply_data_range
 
 LOG = logging.getLogger(__name__)
 

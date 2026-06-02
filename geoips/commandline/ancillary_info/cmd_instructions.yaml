@@ -70,17 +70,6 @@ instructions:
       To use, type `geoips config install-github <repository_name>`.
     output_info:
       - Not Applicable
-  geoips_config_install-github:
-    help_str: |
-      Install the appropriate test dataset directly from a github
-      repository based on the arguments provided. Will install the github repository
-      $GEOIPS_REPO_URL/<repository_name>.
-      Repositories named test_data_* or realtime_outputs_* will be
-      cloned into $GEOIPS_TESTDATA_DIR by default.
-    usage_str: |
-      To use, type `geoips config install-github <repository_name>`.
-    output_info:
-      - Not Applicable
   geoips_describe: &geoips-describe-artifact
     help_str: |
       Retrieve information about a GeoIPS artifact. For this command, an artifact is one
@@ -148,6 +137,7 @@ instructions:
   geoips_describe_product-defaults: *geoips-describe-artifact
   geoips_describe_products: *geoips-describe-artifact
   geoips_describe_sectors: *geoips-describe-artifact
+  geoips_describe_validators: *geoips-describe-artifact
   geoips_describe_workflows: *geoips-describe-artifact
   # geoips_describe_family:
   #   help_str: |
@@ -215,6 +205,13 @@ instructions:
   #     - Package
   #     - Relative Path
   #     - Plugin Specific Info (signature / source_names / available overrides)
+  geoips_expand:
+    help_str: |
+      Fully expands a workflow plugin.
+    usage_str: |
+      To use, type `geoips expand <workflow_name> <--color>`.
+    output_info:
+      - The fully expanded workflow plugin in a readable format.
   geoips_list:
     help_str: |
       List off available GeoIPS artifacts provided further commands. Current artifacts
@@ -277,6 +274,7 @@ instructions:
   geoips_list_product-defaults: *list-single-interface
   geoips_list_products: *list-single-interface
   geoips_list_sectors: *list-single-interface
+  geoips_list_validators: *list-single-interface
   geoips_list_workflows: *list-single-interface
   geoips_list_interfaces:
     help_str: |
@@ -421,10 +419,14 @@ instructions:
     help_str: |
       Run the order_based process workflow (procflow). This procflow executes operations
       in the order they are specified in the provided workflow plugin. Eventually, this
-      will be the only procflow supported by GeoIPS. '--workflow' is a required argument
-      for this command.
+      will be the only procflow supported by GeoIPS. One of --workflow <workflow_name>,
+      --generated <generated_workflow>, or --filepath <absolute_filepath(.yaml/.json)>
+      is required for this command to run.
     usage_str: |
       To use, type `geoips run order_based -w <workflow> **<order_based_args>`.
+      OR, type `geoips run order_based -g <generated_workflow> **<order_based_args>`.
+      OR, type `geoips run order_based -f <absolute_filepath(.yaml/.json)>
+      **<order_based_args>`.
     output_info:
       - Log output of the order based process workflow.
   geoips_run_single_source:
@@ -473,13 +475,32 @@ instructions:
       sector plugin has been added to the plugin registry, this command will work.
 
       If '--overlay' is supplied, your sector will be overlaid on top of the
-      'global_cylindrical' grid in a semi-transparent fashion. Useful for testing the
-      geospatial domain of very small sectors.
+      'global_cylindrical' grid in a semi-transparent fashion. This is useful for
+      testing the geospatial domain of very small sectors.
+
+      If '--gridlines' or '-g' is supplied, latitude, longitude gridlines will be
+      applied to the generated sector image. By default, latitude, longitude labels
+      will also be applied.
+
+      To disable labels, or change their location, you can supply a '--labels' ('-l')
+      flag. By default, labels are added to the bottom and left sides of the sector.
+      You can add a '--labels' flag with no arguments to disable labels. Otherwise,
+      choose one or more of the following options ['left', 'right', 'top', 'bottom'].
     usage_str: |
-      To use, type `geoips test sector <sector_name> --overlay --outdir
-      <output_directory_path>`.
+      To use, type `geoips test sector <sector_name> --overlay --gridlines --labels
+      <labels> --outdir <output_directory_path>`.
     output_info:
       - A path to the image of the sector you've created.
+  geoips_test_workflow:
+    help_str: |
+      Test the output of a workflow plugin. The ``test`` section in the specified
+      workflow plugin should include all parameters needed to produce a replicable
+      output which can be created by executing all the steps listed in the given
+      workflow.
+    usage_str: |
+      To use, type `geoips test workflow <workflow_name>`.
+    output_info:
+      - All captured print and log output of executing the given workflow.
   # geoips_test_unit-test:
   #   help_str: |
   #     Run tests unit-test[s] implemented in a certain GeoIPS package. This command

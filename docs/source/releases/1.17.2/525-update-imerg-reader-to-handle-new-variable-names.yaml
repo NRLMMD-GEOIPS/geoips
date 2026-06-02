@@ -1,0 +1,31 @@
+bug fix:
+  - title: Updating imerg version changes
+    description: |
+      There are some variable changes between V06B and V07B in IMERG data. This includes:
+      V06B                     V07B
+      Grid/precipitationCal -> Grid/precipitation
+      Grid/HQprecipitation -> Grid/Intermediate/MWprecipitation
+      Grid/HQprecipSource -> Grid/Intermediate/MWprecipSource
+      Grid/HQobservationTime -> Grid/Intermediate/MWobservationTime
+      Grid/IRprecipitation -> Grid/Intermediate/IRprecipitation
+      Grid/IRkalmanFilterWeight -> Grid/Intermediate/IRinfluence
+      Grid/precipitationUncal -> Grid/Intermediate/precipitationUncal
+
+      The epoch time has also changed from 1970-01-01 to 1980-01-06.
+    files:
+      deleted:
+        - ""
+      moved:
+        - ""
+      added:
+        - tests/outputs/imerg.tc.Rain.imagery_clean/20251028_193000_AL132025_imerg_GPM_Rain_145kts_60p11_1p0.png
+        - tests/sectors/tc_bdecks/bal132025.dat
+      modified:
+        - geoips/plugins/modules/readers/abi_netcdf.py
+        - geoips/plugins/modules/readers/imerg_hdf5.py
+        - tests/scripts/imerg.tc.Rain.imagery_clean.sh
+    related-issue:
+      internal: geoips#525
+    date:
+      start: 2025-05-29
+      finish: 2025-11-21

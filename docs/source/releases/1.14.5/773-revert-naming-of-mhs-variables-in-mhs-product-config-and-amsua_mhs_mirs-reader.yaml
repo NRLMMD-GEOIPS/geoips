@@ -10,8 +10,7 @@ bug fix:
     - 'geoips/plugins/modules/readers/amsua_mhs_mirs.py'
     - 'geoips/plugins/yaml/products/mhs.yaml'
   related-issue:
-    internal: "GEOIPS#773 - Revert naming of MHS variables"
-    number: 773
+    internal: "geoips#773 - Revert naming of MHS variables"
   date:
     start: 2025-03-10
     finish: 2025-03-10

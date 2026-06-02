@@ -13,7 +13,6 @@ import pytest
 # GeoIPS Libraries
 from geoips.pydantic_models.v1 import workflows
 
-
 # The following tests would be added in the later stage of OBP
 # Dependent on further steps development
 

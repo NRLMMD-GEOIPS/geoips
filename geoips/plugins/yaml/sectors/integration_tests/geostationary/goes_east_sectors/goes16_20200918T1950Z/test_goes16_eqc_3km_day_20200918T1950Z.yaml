@@ -1,0 +1,51 @@
+interface: sectors
+family: area_definition_static
+name: test_goes16_eqc_3km_day_20200918T1950Z
+docstring: |
+  The test datasets corresponding to these sectors can be found in the test_data_abi test data.
+ 
+  ```
+  geoips config install test_data_abi
+  ```
+  GOES East subsector, centered at 28 latitude, -94 longitude
+  300x300 at 3km resolution
+  This sector is off the coast of Texas, containing approximately half land and
+  half ocean pixels for GOES East.
+  It is a very small sector that can be used for GOES East processing
+  using the ABI dataset 20200918T950Z.
+metadata:
+  region:
+    continent: Tests
+    country: x
+    area: Goes_East
+    subarea: x
+    state: x
+    city: x
+spec:
+  area_id: test_goes16_eqc_3km_day_20200918T1950Z
+  description: |
+    The test datasets corresponding to these sectors can be found in the test_data_abi test data.
+    ```
+    geoips config install test_data_abi
+    ```  
+  
+    GOES East subsector, centered at 28 latitude, -94 longitude
+    300x300 at 3km resolution
+    This sector is off the coast of Texas, containing approximately half land and
+    half ocean pixels for GOES East.
+    It is a very small sector that can be used for GOES East processing
+    using the ABI dataset 20200918T950Z.
+  
+  projection:
+    a: 6371228.0
+    lat_0: 28
+    lon_0: -94
+    proj: eqc
+    units: m
+  resolution:
+    - 3000
+    - 3000
+  shape:
+    height: 300
+    width: 300
+  center: [0, 0]

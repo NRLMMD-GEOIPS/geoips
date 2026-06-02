@@ -16,12 +16,14 @@ from geoips.commandline import ancillary_info
 from geoips.commandline.geoips_command import GeoipsCommand
 from geoips.commandline.geoips_config import GeoipsConfig
 from geoips.commandline.geoips_describe import GeoipsDescribe
+from geoips.commandline.geoips_expand import GeoipsExpand
 from geoips.commandline.geoips_list import GeoipsList
 from geoips.commandline.geoips_run import GeoipsRun
 from geoips.commandline.geoips_test import GeoipsTest
 from geoips.commandline.geoips_tree import GeoipsTree
 from geoips.commandline.geoips_validate import GeoipsValidate
 from geoips.commandline.log_setup import setup_logging
+from geoips.filenames.base_paths import PATHS
 
 
 class GeoipsCLI(GeoipsCommand):
@@ -36,6 +38,7 @@ class GeoipsCLI(GeoipsCommand):
     command_classes = [
         GeoipsConfig,
         GeoipsDescribe,
+        GeoipsExpand,
         GeoipsList,
         GeoipsRun,
         GeoipsTest,
@@ -222,7 +225,7 @@ def support_legacy_procflows():
 
 def print_beta_warning():
     """Notify the user that the CLI is still in Beta development stage."""
-    print(
+    warning_with_color = (
         Fore.RED
         + "\nWARNING: "
         + Fore.YELLOW
@@ -234,6 +237,18 @@ def print_beta_warning():
         + "https://github.com/NRLMMD-GEOIPS/geoips/issues/new/choose\n"
         + Style.RESET_ALL
     )
+    warning_no_color = (
+        "\nWARNING: The GeoIPS CLI is currently under development and is subject "
+        "to change.\nUntil this warning is removed, do not rely on the CLI to be "
+        "static.\nPlease feel free to test the CLI and report any bugs or comments as "
+        "an issue here:\n"
+        "https://github.com/NRLMMD-GEOIPS/geoips/issues/new/choose\n"
+    )
+
+    if PATHS["NO_COLOR"]:
+        print(warning_no_color)
+    else:
+        print(warning_with_color)
 
 
 def main(suppress_args=True):

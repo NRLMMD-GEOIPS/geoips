@@ -32,9 +32,6 @@ def call(
     coverage=None,
     output_type="png",
     output_type_dir=None,
-    product_dir=None,
-    product_subdir=None,
-    source_dir=None,
     basedir=gpaths["TCWWW"],
     extra_field=None,
     output_dict=None,
@@ -53,9 +50,10 @@ def call(
         LOG.warning("NOT a TC sector, skipping TC output")
         return None
 
-    if not product_dir:
-        product_dir = product_name
-
+    # Allow output_type_dir to be explicitly set within call signature, allows
+    # derivative filename formatters to set alternative output_type_dir values.
+    # This is currently used by tc_clean_fname.py to write to e.g. png_clean
+    # vs png directories.
     if not output_type_dir:
         output_type_dir = output_type
 
@@ -95,13 +93,8 @@ def call(
 
     web_fname = assemble_tc_fname(
         basedir=basedir,
-        tc_year=int(area_def.sector_info["storm_year"]),
-        tc_basin=area_def.sector_info["storm_basin"],
-        tc_stormnum=int(area_def.sector_info["storm_num"]),
         output_type=output_type,
         product_name=product_name,
-        product_dir=product_dir,
-        product_subdir=product_subdir,
         source_name=xarray_obj.source_name,
         platform_name=xarray_obj.platform_name,
         coverage=coverage,
@@ -109,7 +102,6 @@ def call(
         intensity=intensity,
         extra=extra,
         output_type_dir=output_type_dir,
-        output_dict=output_dict,
         sector_info=area_def.sector_info,
     )
 
@@ -319,16 +311,12 @@ def tc_fname_remove_duplicates(fname, mins_to_remove=3, remove_files=False):
                 )
             saved_fnames += [matching_fname]
             gotone = True
-        # from IPython import embed as shell; shell()
 
     return removed_fnames, saved_fnames
 
 
 def assemble_tc_fname(
     basedir,
-    tc_year,
-    tc_basin,
-    tc_stormnum,
     output_type,
     product_name,
     source_name,
@@ -338,39 +326,26 @@ def assemble_tc_fname(
     intensity=None,
     extra=None,
     output_type_dir=None,
-    product_dir=None,
-    product_subdir=None,
-    output_dict=None,
     sector_info=None,
 ):
     """Produce full output product path from product / sensor specifications.
 
     tc web paths are of the format:
-        <basedir>/tc<tc_year>/<tc_basin>/<tc_basin><tc_stormnum><tc_year>/
+        <basedir>/tc<tc_year>/<tc_basin>/<storm_id>/
           <output_type>/<product_name>/<platform_name>/
     tc web filenames are of the format:
         <date{%Y%m%d%H%M>_<tc_basin><tc_stormnum><tc_year>_<source_name>_
           <platform_name>_<product_name>_<intensity>_<coverage>_
           <extra>.<output_type>
 
+    Note paths use full storm id (e.g., include storm start datetime
+    for invests), but filenames use simplified BBNNYYYY without storm
+    start datetime.
+
     Parameters
     ----------
     basedir : str
         Base directory for output file.
-    tc_year : int
-        Full 4 digit storm year
-    tc_basin : str
-        2 character basin designation
-          SH Southern Hemisphere
-          WP West Pacific
-          EP East Pacific
-          CP Central Pacific
-          IO Indian Ocean
-          AL Atlantic
-    tc_stormnum : int
-        2 digit storm number
-          90 through 99 for invests
-          01 through 69 for named storms
     output_type : str
         file extension type
     product_name : str
@@ -383,10 +358,14 @@ def assemble_tc_fname(
         Image coverage, float between 0.0 and 100.0
     product_datetime : datetime.datetime
         Datetime object - start time of data used to generate product
-    output_type_dir : str
-        Default output_type, dir name
-    product_dir : str
-        Default product_name, dir name
+    output_type_dir : str, default None
+        If None, default to output_type. Sub-Directory name for output file type.
+        Allow output_type_dir to be explicitly set within call signature, allows
+        derivative filename formatters to set alternative output_type_dir values.
+        This is currently used by tc_clean_fname.py to write to e.g. png_clean
+        vs png directories. Remove support for explicitly setting product_dir,
+        product_subdir, or source_dir - if alternative filename composition is
+        required, create an alternative filename formatter plugin.
 
     Returns
     -------
@@ -395,33 +374,31 @@ def assemble_tc_fname(
     """
     if not output_type_dir:
         output_type_dir = output_type
-    if not product_dir:
-        product_dir = product_name
-    if not product_subdir:
-        product_subdir = platform_name
 
     from geoips.plugins.modules.filename_formatters.utils.tc_file_naming import (
         tc_storm_basedir,
     )
 
+    # Note we no longer support alternative output_type_dir, product_dir, or
+    # product_subdir - if alternative filename composition is required, create
+    # an alternative filename formatter plugin.
     path = pathjoin(
-        tc_storm_basedir(
-            basedir,
-            tc_year,
-            tc_basin,
-            tc_stormnum,
-            output_dict=output_dict,
-            sector_info=sector_info,
-        ),
+        tc_storm_basedir(basedir, sector_info),
         output_type_dir,
-        product_dir,
-        product_subdir,
+        product_name,
+        platform_name,
     )
+    # Internal storm_ids: al202020 -> AL202020, sh9820212021062400 -> SH982021
+    # * storm_ids are stored internally as lower case, upper case for filenames.
+    # * Do NOT include storm_start_datetime for invests in filenames (though we
+    #   use the full storm_id, include storm start datetime, in the file path
+    #   subdirectories)
+    bbnnyyyy = sector_info["storm_id"][0:8].upper()
     fname = "_".join(
         [
             product_datetime.strftime("%Y%m%d"),
             product_datetime.strftime("%H%M%S"),
-            "{0}{1:02d}{2:04d}".format(tc_basin, tc_stormnum, tc_year),
+            bbnnyyyy,
             source_name,
             platform_name,
             product_name,

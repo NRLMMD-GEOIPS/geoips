@@ -1,0 +1,50 @@
+bug fix:
+- title: 'Return correct value from check output file list'
+  description: |
+    Previously did NOT return exit code from check_output_file_list, but relied on
+    exit_state being set.  exit_state did not seem to actually be set even when
+    sourcing this script, so just exit appropriately
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - 'tests/utils/check_output_file_list.sh'
+  date:
+    start: 2025-08-20
+    finish: 2025-08-21
+- title: 'Print return codes from each test script in global_terminator_satzen.sh example script'
+  description: |
+    This is not actually run regularly, but to make it more useful, just print out
+    all the return codes at the end so we can see what failed. Also copy all outputs
+    to example_test_script_outputs
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - 'tests/utils/check_output_file_list.sh'
+  date:
+    start: 2025-08-20
+    finish: 2025-08-21
+- title: 'Add newline after each error in pytest integration test output'
+  description: |
+    Better display for log output.
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - 'tests/integration_tests/test_integration.py'
+  date:
+    start: 2025-08-22
+    finish: 2025-08-22

@@ -1,0 +1,51 @@
+documentation:
+- title: Allow specifying GEOIPS_REPLACE_OUTPUT_PATHS in the environment
+  description: |
+    To allow specifying different environment variables for output path replacement,
+    allow an environment variable override in geoips/filenames/base_paths.py allowing
+    passing in other than the default TCWWW, PUBLICWWW, TCPRIVATEWWW, PRIVATEWWW env
+    vars.
+
+    * Add GEOIPS_REPLACE_OUTPUT_PATHS to filenames/base_paths.py. It should be a space
+      delimited list of env vars WITHOUT \$ in env var, with the \$ added in the split
+      list in geoips.
+    * Loop through GEOIPS_REPLACE_OUTPUT_PATHS in geoips_utils for replacing variables,
+      rather than explicit list of env vars. Note we still must loop through the
+      standard non-output-path env vars explicitly (GEOIPS_OUTDIRS, GEOIPS_PACKAGES_DIR,
+      etc), since these are env vars that are needed/used for other thigns, not
+      just the output paths.
+    * Do NOT setup_environment from the full_setup, etc fixtures, call setup environment
+      from each individual test script function with markers.  This allows individual
+      groups of tests to request NOT unsetting the env vars found in GEOIPS_REPLACE_OUTPUT_PATHS,
+      by passing in the requested argument.
+    * Add unset_output_path_env_var argument to test_integration.py, unsetting the
+      output path env vars for consistency by default, but allowing maintaining them
+      if we need to test the output env vars themselves.
+    * Loop through GEOIPS_REPLCE_OUTPUT_PATHS in check_output_file_list rather than
+      hard coded list.
+    * Don't include all REALTIME_OUTPUT_ARGS options in interactive_pytest.sh (since
+      we include them in the realtime tests), just note that it defaults to writing
+      output file list to temp location, comparing output, and copying output files.
+    * Also remove apparently unsupported arguments to geoips_utils... This would have
+      provided unexpected results (ie, asking for specific variables to replace,
+      then not actually replacing them), so removing to make sure it breaks catastrophically
+      if it was attempted to be used somewhere, so we can re-add and fix so it works.
+      But perhaps it is not needed (just use the GEOIPS_REPLACE_OUTPUT_PATHS)
+    * Also, remove create registries call from calls to full_install, etc from the
+      integration tests (takes MUCH longer to start up the pytests with the create
+      registries).
+  files:
+    modified:
+    - "geoips/filenames/base_paths.py"
+    - "geoips/geoips_utils.py"
+    - "tests/integration_tests/test_integration.py"
+    - "tests/utils/check_output_file_list.sh"
+    - "tests/utils/interactive_pytest.sh"
+    - "tests/integration_tests/base_install.sh"
+    - "tests/integration_tests/full_install.sh"
+    - "tests/integration_tests/site_install.sh"
+  date:
+    start: 2025-11-05
+    finish: 2025-11-05
+  related-issue:
+    internal: geoips#959 - 1.17.2 updates

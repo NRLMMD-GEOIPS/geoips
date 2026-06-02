@@ -1,0 +1,33 @@
+installation:
+- title: 'Add call cmd function to geoips_utils.py, call from pytest-based integration tests'
+  description: |
+    This is useful for shell-script based installation commands, as well as pytest-
+    based integration testing.  Produces log friendly subprocess command output,
+    with options to redirect to a log with a non-blocking pipe (to allow writing
+    to the log file before an entire process is complete), or just printing to stdout/
+    stderr.
+
+    Updated pytest-based integration test to use call_cmd, and redirect to logs that
+    live in $GEOIPS_OUTDIRS/logs/pytests/integration.
+
+    Also added option to pipe to tee or not redirect to a file at all in
+    check_system_requirements.sh run_command.
+
+    Also default to not including prefixes (stdout/stderr/> ) for pipe, since pipe
+    returns clean output.
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - 'geoips/geoips_utils.py'
+    - 'tests/integration_tests/test_integration.py'
+    - 'setup/check_system_requirements.sh'
+  related-issue:
+    number: 861
+  date:
+    start: 2025-06-18
+    finish: 2025-07-14

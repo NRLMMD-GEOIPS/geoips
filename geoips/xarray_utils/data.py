@@ -775,7 +775,10 @@ def sector_xarrays(
         # (of the same shape as data), and if it exists the appropriately shaped time
         # array.
         # Use data_vars here - since coordinates (lat/lon/time) get added below
-        vars_to_interp = list(set(varlist) & set(xobj.data_vars))
+        if len(varlist) > 0:
+            vars_to_interp = list(set(varlist) & set(xobj.data_vars))
+        else:
+            vars_to_interp = list(set(xobj.data_vars))
         if not vars_to_interp:
             LOG.info("  SKIPPING no required variables in dataset %s", key)
             continue
@@ -929,7 +932,15 @@ def get_sectored_xarrays(
     return sect_xarrays
 
 
-def combine_preproc_xarrays_with_alg_xarray(dict_of_xarrays, alg_xarray, rgb_var=None):
+def combine_preproc_xarrays_with_alg_xarray(
+    dict_of_xarrays,
+    alg_xarray,
+    rgb_var=None,
+    covg_plugin=None,
+    covg_varname=None,
+    area_def=None,
+    covg_args=None,
+):
     """Combine preprocessed xarrays with an xarray output from an algorithm.
 
     The dimensions of the preprocessed xarrays must match the algorithm xarray.
@@ -970,6 +981,32 @@ def combine_preproc_xarrays_with_alg_xarray(dict_of_xarrays, alg_xarray, rgb_var
         # # Replace NaNs in new dataset with composited xarray
         # merged = new_dset.combine_first(merged)
         merged = merged.combine_first(preproc)
+        LOG.info("Processed %s", key)
+        if covg_plugin is not None:
+            curr_covg = 0
+            if covg_varname in preproc.keys():
+                curr_covg = covg_plugin(preproc, covg_varname, area_def, **covg_args)
+            LOG.info(
+                "  Current %-7.3f %s %s %s %s %s Vars: %s",
+                curr_covg,
+                preproc.start_datetime,
+                preproc.end_datetime,
+                preproc.source_name,
+                preproc.platform_name,
+                preproc.data_provider,
+                list(preproc.data_vars.keys()),
+            )
+            comp_covg = covg_plugin(merged, covg_varname, area_def, **covg_args)
+            LOG.info(
+                "Merged %-7.3f    %s %s %s %s %s Vars: %s",
+                comp_covg,
+                merged.start_datetime,
+                merged.end_datetime,
+                merged.source_name,
+                merged.platform_name,
+                merged.data_provider,
+                list(merged.data_vars.keys()),
+            )
     if rgb_var:
         merged[rgb_var] = merged[rgb_var].fillna(0)
     return merged

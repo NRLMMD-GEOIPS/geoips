@@ -1,0 +1,18 @@
+bug fix:
+- title: 'Allow user to override output checker name'
+  description: |
+    Add a command-line argument that gets passed to the output checker call
+    that allows the user to manually request use of the certain output checker
+    (overriding its automatic determination by file extension).
+  files:
+    modified:
+    - 'geoips/commandline/args.py'
+    - 'geoips/interfaces/module_based/output_checkers.py'
+    - 'geoips/plugins/modules/procflows/config_based.py'
+    - 'geoips/plugins/modules/procflows/single_source.py'
+  related-issue:
+    internal: GEOIPS#845 - override outputchecker name
+  date:
+    start: 2025-06-27
+    finish: 2025-06-27
+

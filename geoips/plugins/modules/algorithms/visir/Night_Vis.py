@@ -5,6 +5,7 @@
 
 This algorithm expects one VIIRS channel (DNBRad) for a single channel image.
 """
+
 import logging
 
 LOG = logging.getLogger(__name__)

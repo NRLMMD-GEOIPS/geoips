@@ -20,6 +20,7 @@ def call(
     area_def,
     xarray_obj,
     product_names,
+    # Should this be product_name
     coverage=None,
     output_type="nc",
     output_type_dir=None,
@@ -32,18 +33,22 @@ def call(
 
     This uses the "assemble_geoips_netcdf_fname" function to appropriately
     assemble the filename from a base directory, product name, source
-    name, platform nae, sector name, and product time, to allow reuse
+    name, platform name, sector name, and product time, to allow reuse
     of this basic filename format from multiple filename formatter
     plugins.
     """
     if basedir is None:
         basedir = gpaths["PRECALCULATED_DATA_PATH"]
+    if xarray_obj.area_definition:
+        area_id = xarray_obj.area_definition.area_id
+    else:
+        area_id = "x"
     ncdf_fname = assemble_geoips_netcdf_fname(
         basedir=basedir,
         product_name="_".join(product_names),
         source_name=xarray_obj.source_name,
         platform_name=xarray_obj.platform_name,
-        sector_name=xarray_obj.area_definition.area_id,
+        sector_name=area_id,
         product_datetime=xarray_obj.start_datetime,
     )
 

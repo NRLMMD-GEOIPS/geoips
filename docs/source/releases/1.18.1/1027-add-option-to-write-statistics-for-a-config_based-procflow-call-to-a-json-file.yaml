@@ -1,0 +1,114 @@
+setup:
+- title: 'Remove GEOIPS_VERS'
+  description: |
+    Only support GEOIPS_VERSION, remove GEOIPS_VERS support. This is mostly unused,
+    but ensure the supported version variable is GEOIPS_VERSION.
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - 'setup/config_geoips'
+    - 'geoips/filenames/base_paths.py'
+    - 'geoips/plugins/modules/procflows/config_based.py'
+    modified:
+    - ''
+  related-issue:
+    internal: geoips#1027
+  date:
+    start: 2026-02-24
+    finish: 2026-02-26
+resource usage statistics:
+- title: 'Add option to write statistics for a config_based procflow write to a json file'
+  description: |
+    Update the print_mem_usg and checkpoint_usage_stats methods in the PidLog class to
+    write statistics to a JSON file if write_to_json is True.
+
+    Add new --write_stats_to_json commandline argument, which is used in config_based,
+    and passed to print_mem_usg and checkpoint_usage_stats at the end of the procflow.
+
+    Also improve logic when attempting to determine which type of sectors were processed.
+    Should now be capable of determining if procflow processed dynamic TC sectors, static
+    sectors, or a mix of both.
+
+    Add new test script for writing overall resource usage statistics JSON file, and the
+    checkpoint resource usage statistics JSON file. Due to the dynamic nature of these
+    files, we do not attempt to compare to an expected output. This script only makes
+    sure the procflow does not catastrophically fail if these outputs are enabled.
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - 'tests/scripts/abi.config_based_output_low_memory_resource_usage_logging.sh'
+    - 'tests/yaml_configs/abi_test_low_memory_resource_usage_logging.yaml'
+    modified:
+    - 'geoips/commandline/args.py'
+    - 'geoips/plugins/modules/procflows/config_based.py'
+    - 'geoips/utils/memusg/memusg_tracker.py'
+  related-issue:
+    internal: geoips#1027
+  date:
+    start: 2026-01-30
+    finish: 2026-02-02
+- title: 'Move all memusg utilities to utils/memusg'
+  description: |
+    Since we now have internal trackers, external process trackers, json outputs,
+    and diagnostic plotting utilities, place them all in a separate utils/memusg
+    package.
+
+    Update all imports accordingly for PidLog (readers are updates in the comments
+    only, they do not import directly). Note ahi_hsd reader also imports print_mem_usage
+    directly, so that includes an import update.
+  files:
+    deleted:
+    - ''
+    moved:
+    - 'geoips/utils/memusg/memtrack.sh'
+    - 'geoips/utils/memusg/memusg_tracker.py'
+    added:
+    - ''
+    modified:
+    - 'geoips/plugins/modules/procflows/config_based.py'
+    - 'geoips/plugins/modules/procflows/single_source.py'
+    - 'docstring only geoips/plugins/modules/readers/abi_netcdf.py'
+    - 'import print_mem_usage geoips/plugins/modules/readers/ahi_hsd.py'
+    - 'docstring only geoips/plugins/modules/readers/ami_netcdf.py'
+    - 'docstring only geoips/plugins/modules/readers/ewsg_netcdf.py'
+    - 'docstring only geoips/plugins/modules/readers/seviri_hrit.py'
+  related-issue:
+    internal: geoips#1027
+  date:
+    start: 2026-02-24
+    finish: 2026-02-26
+- title: 'Add json based resource usage plotting capabilities'
+  description: |
+    Allow plotting resource usage statistics, as enabled through procflow config
+    files. 
+
+    This relies on json resource usage output files being enabled through the procflow
+    config, then a separate call to plot_json_files to plot the results.
+
+    Note this plotting capability was initially set up for only static sector
+    processing.  The test script includes both TC and static, which completes
+    successfully, except the resulting checkpoint usage plot includes only the TC
+    but not the static sector.  This will be fixed in a future PR to properly track
+    all sector types.
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - 'geoips/utils/memusg/boxplots.py'
+    - 'geoips/utils/memusg/dataframe_utils.py'
+    - 'geoips/utils/memusg/plot_json_files.py'
+    modified:
+    - ''
+  related-issue:
+    internal: geoips#1027
+  date:
+    start: 2026-02-24
+    finish: 2026-02-26

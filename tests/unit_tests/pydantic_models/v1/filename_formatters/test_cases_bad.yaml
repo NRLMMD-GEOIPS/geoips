@@ -1,0 +1,72 @@
+basedir_invalid_input:
+  description: "Ensure invalid value for basedir is not accepted"
+  key: basedir
+  val: True
+  cls: FilenameFormatterArgumentsModel
+  err_str: Input should be a valid string
+coverage_invalid_input:
+  description: "Ensure invalid value for coverage field is not accepted"
+  key: coverage
+  val: test_input
+  cls: FilenameFormatterArgumentsModel
+  err_str: Input should be a valid number, unable to parse string as a number
+extension_invalid_input:
+  description: "Ensure invalid value for extension field is not accepted"
+  key: extension
+  val: True
+  cls: FilenameFormatterArgumentsModel
+  err_str: Input should be a valid string
+extra_invalid_input:
+  description: "Ensure invalid value for extra_valid_input is not accepted"
+  key: extra
+  val: True
+  cls: FilenameFormatterArgumentsModel
+  err_str: Input should be a valid string
+metadata_dir_invalid_input:
+  description: "Ensure invalid value for metadata_dir field is not accepted"
+  key: metadata_dir
+  val: True
+  cls: FilenameFormatterArgumentsModel
+  err_str: Input should be a valid string
+metadata_type_invalid_input:
+  description: "Ensure invalid value for metadata_type field is not accepted"
+  key: metadata_type  
+  val: True
+  cls: FilenameFormatterArgumentsModel
+  err_str: Input should be a valid string
+output_dict_invalid_input:
+  description: "Ensure invalid value for output_dict field is not accepted"
+  key: output_dict
+  val: test_input
+  cls: FilenameFormatterArgumentsModel
+  err_str: Input should be a valid dict
+output_type_invalid_input:
+  description: "Ensure invalid value for output_type field is not accepted"
+  key: output_type
+  val: True
+  cls: FilenameFormatterArgumentsModel
+  err_str: Input should be a valid string
+product_filename_invalid_input:
+  description: "Ensure invalid value for product_filename field is not accepted"
+  key: product_filename
+  val: True
+  cls: FilenameFormatterArgumentsModel
+  err_str: Input should be a valid string
+product_dir_invalid_input:
+  description: "Ensure invalid value for product_dir field is not accepted"
+  key: product_dir
+  val: True
+  cls: FilenameFormatterArgumentsModel
+  err_str: Input should be a valid string
+product_subdir_invalid_input:
+  description: "Ensure invalid value for product_subdir field is not accepted"
+  key: product_subdir
+  val: True
+  cls: FilenameFormatterArgumentsModel
+  err_str: Input should be a valid string
+source_dir_invalid_input:
+  description: "Ensure invalid value for source_dir field is not accepted"
+  key: source_dir
+  val: True
+  cls: FilenameFormatterArgumentsModel
+  err_str: Input should be a valid string 

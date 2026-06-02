@@ -1,0 +1,28 @@
+interface: sectors
+family: area_definition_static
+name: north_america
+docstring: "North America."
+metadata:
+  region:
+    continent: NorthAmerica
+    country: NorthAmericaCountries
+    area: Continental
+    subarea: x
+    state: x
+    city: x
+spec:
+  area_id: north_america
+  description: North America Continent.
+  projection:
+    a: 6371228.0
+    lat_0: 45
+    lon_0: -100.0
+    proj: stere 
+    units: km
+  resolution:
+    - 4
+    - 4
+  shape:
+    height: 2100
+    width: 2000
+  center: [0,0]

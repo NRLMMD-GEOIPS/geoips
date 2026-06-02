@@ -1,0 +1,33 @@
+testing:
+  - title: "Allow passing arbitrary arguments to interactive_pytest.sh"
+    description: |
+      interactive_pytest.sh started out only allowing specific commands that mapped
+      to specific sets of pytest arguments.  Allow a few specific commands, but also
+      a command that allows passing arbitrary arguments to pytest, but retaining
+      the individual logfile redirection for integration tests, and the base
+      integration test arguments.
+
+      Supported interactive pytest commands as follows
+
+      * args - pass arbitrary pytest arguments in after the repopath
+      * geoips-site - test all installed plugins, minus the system implementation-based tests
+      * geoips-system - run everything possible (unit tests and integration tests, site and system implementations)
+      * all - alias for geoips-system
+      * full-single-repo - exclude 'spans_multiple_packages' to ensure the same test will not fail in multiple repositories
+      * short - 'short' unit tests only
+      * long - 'long' running unit tests only
+
+      To run specific integration test markers, just call with 'args' and pass in the
+      desired arguments to pytest.
+    files:
+      deleted:
+        - ""
+      moved:
+        - ""
+      added:
+        - ""
+      modified:
+        - "tests/utils/interactive_pytest.sh"
+    date:
+      start: 2025-08-26
+      finish: 2025-08-26

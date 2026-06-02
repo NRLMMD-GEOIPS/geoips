@@ -3,9 +3,13 @@
 
 """Coverage check routine for RGBA center radius coverage checks."""
 
+# Python Standard Libraries
 import logging
 
+# Third-Party Libraries
 import numpy
+
+# GeoIPS imports
 from geoips.plugins.modules.coverage_checkers.center_radius import create_radius
 
 LOG = logging.getLogger(__name__)
@@ -31,7 +35,8 @@ def call(
         xarray object containing variable "variable_name"
     variable_name : str
         variable name to check percent unmasked
-        radius_km (float) : Radius of center disk to check for coverage
+    radius_km : float, optional
+        Radius of center disk to check for coverage. Defaults to 300 km.
 
     Returns
     -------
@@ -42,7 +47,6 @@ def call(
         raise KeyError(
             f"Variable {variable_name} did not exist. Can not calculate coverage."
         )
-
     temp_arr = xarray_obj[variable_name][:, :, 3]
 
     res_km = (
@@ -50,9 +54,9 @@ def call(
             xarray_obj.area_definition.pixel_size_x,
             xarray_obj.area_definition.pixel_size_y,
         )
-        / 1000.0
+        / 1000
     )
-    radius_pixels = 1.0 * radius_km / res_km
+    radius_pixels = radius_km / res_km
     LOG.info(
         "Using %s km radius, %s pixels radius, %s km resolution, area_def %s",
         radius_km,
@@ -72,4 +76,4 @@ def call(
         numpy.logical_and(numpy.where(dumby_arr, 1, 0), numpy.where(temp_arr, 1, 0))
     )
     num_total_in_radius = numpy.count_nonzero(dumby_arr)
-    return (float(num_valid_in_radius) / num_total_in_radius) * 100.0
+    return (float(num_valid_in_radius) / num_total_in_radius) * 100

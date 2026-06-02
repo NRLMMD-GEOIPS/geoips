@@ -1,0 +1,19 @@
+enhancement:
+- title: 'Add support to gfs_grib reader for reading atmosphere group variables'
+  description: |
+    Variables in the "atmosphere" group are 2D, such as "total_cloud_cover".
+
+    Also update the download_noaa_aws.sh script to support pulling GFS from AWS.
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - 'geoips/plugins/modules/readers/gfs_grib.py'
+    - 'tests/download_noaa_aws.sh'
+  date:
+    start: 2025-09-24
+    finish: 2025-09-24

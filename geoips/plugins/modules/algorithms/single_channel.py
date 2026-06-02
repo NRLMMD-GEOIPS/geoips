@@ -6,6 +6,7 @@
 Generalized algorithm to apply data manipulation steps in a standard order
 to apply corrections to a single channel output product.
 """
+
 import logging
 
 LOG = logging.getLogger(__name__)

@@ -6,6 +6,9 @@
 # Python Standard Libraries
 import logging
 
+# GeoIPS Libraries
+from geoips.filenames.base_paths import PATHS as gpaths
+
 LOG = logging.getLogger(__name__)
 
 interface = "title_formatters"
@@ -24,6 +27,8 @@ def call(
     title_copyright=None,
 ):
     """Generate standard GeoIPS formatted title."""
+    if title_copyright is None:
+        title_copyright = gpaths["GEOIPS_COPYRIGHT"]
     title_line1 = "{0} {1}".format(product_datatype_title, product_name_title)
     title_line2 = "{0}".format(xarray_obj.start_datetime.strftime("%Y/%m/%d %H:%M:%SZ"))
     if bg_xarray is not None:

@@ -106,6 +106,8 @@ class CoreBaseModel(BaseModel):
         # Do not enable this configuration at model level. Restrict your usage to
         # field level if required
         allow_inf_nan=False,
+        # serialize enum fields using their underlying values instead of enum instances
+        use_enum_values=True,
     )
 
     def __str__(self) -> str:
@@ -340,6 +342,7 @@ class PluginModelMetadata(ModelMetaclass):
         if not hasattr(cls, "apiVersion") or cls.apiVersion is None:
             cls.apiVersion = "geoips/v1"
         cls._namespace = f"{cls.apiVersion.split('/')[0]}.plugin_packages"
+
         return cls
 
 
@@ -355,18 +358,25 @@ class PluginModel(FrozenModel, metaclass=PluginModelMetadata):
     for more information about how this is used.
     """
 
+    # apiVersion: ClassVar[str | None] = None
     apiVersion: str = Field("geoips/v1", description="apiVersion")
     _namespace: ClassVar[str | None] = None
+    # Exclude the variable below from model serialization as it is only used for logic
+    # used in before validators. I.e. this will not be included in
+    # PluginModel.model_dump()
+    is_registered: bool = Field(
+        True, exclude=True, description="Whether or not this plugin is registered."
+    )
 
     interface: PythonIdentifier = Field(
         ...,
         description=(
             "Name of the plugin's interface. "
-            " Run geoips list interfaces to see available options."
+            "Run geoips list interfaces to see available options."
         ),
     )
     family: PythonIdentifier = Field(..., description="Family of the plugin.")
-    name: PythonIdentifier = Field(..., description="Plugin name.")
+    name: str = Field(..., description="Plugin name.")
     docstring: str = Field(..., description="Docstring for the plugin in numpy format.")
     description: str = Field(
         None,
@@ -406,9 +416,48 @@ class PluginModel(FrozenModel, metaclass=PluginModelMetadata):
         else:
             ints = get_interface_module(cls._namespace)
         try:
-            metadata = getattr(ints, interface_name).get_plugin_metadata(
-                values.get("name")
-            )
+            if (
+                interface_name == "products"
+                or interface_name is None
+                or "source_names" in values
+            ):
+                # need different logic for products as they use get_plugin_metadata via
+                # 'source_name', 'plugin_name'
+                if values.get("family") == "list":
+                    # product list
+                    if not isinstance(
+                        values.get("spec", {}), dict
+                    ) or "products" not in values.get("spec", {}):
+                        # Missing 'products' field, raise appropriate error.
+                        raise ValueError(
+                            "Error: Product list plugin is missing the 'products' field"
+                            " in its 'spec' entry."
+                        )
+
+                    first_product_name = values.get("spec", {}).get("products")[0][
+                        "name"
+                    ]
+                    metadata = getattr(ints, interface_name).get_plugin_metadata(
+                        values.get("name"), first_product_name
+                    )
+                else:
+                    # singular product
+                    source_names = values.get("source_names")
+                    if source_names is None:
+                        raise ValueError(
+                            "Error: product plugin is missing the 'source_names' field."
+                        )
+                    metadata = getattr(ints, "products").get_plugin_metadata(
+                        source_names[0], values.get("name")
+                    )
+            else:
+                is_registered = values.get("is_registered", True)
+                if is_registered:
+                    metadata = getattr(ints, interface_name).get_plugin_metadata(
+                        values.get("name")
+                    )
+                else:
+                    metadata = {"package": "unregistered"}
         except AttributeError as e:
             raise ValueError(
                 f"Invalid interface: '{interface_name}'."
@@ -427,6 +476,7 @@ class PluginModel(FrozenModel, metaclass=PluginModelMetadata):
         return values
 
     @field_validator("interface", mode="before")
+    @classmethod
     def _validate_interface(cls, value: PythonIdentifier) -> PythonIdentifier:
         """
         Validate the input for the 'interface' field.
@@ -482,6 +532,7 @@ class PluginModel(FrozenModel, metaclass=PluginModelMetadata):
         return values
 
     @field_validator("description", mode="after")
+    @classmethod
     def _validate_one_line_description(cls: type[PluginModel], value: str) -> str:
         """
         Validate that the description adheres to required single line standards.
@@ -549,4 +600,33 @@ class PluginModel(FrozenModel, metaclass=PluginModelMetadata):
                 stacklevel=2,
             )
 
+        return value
+
+    @field_validator("apiVersion", mode="before")
+    @classmethod
+    def _validate_apiVersion(cls, value: str) -> str:
+        """Validate input for the 'apiVersion' field.
+
+        Ensure GeoIPS-prefixed API versions contain a '/' separator between
+        the package name and version (e.g. 'geoips/v1').
+
+        Parameters
+        ----------
+        value : str
+            The input string representing the API version.
+
+        Returns
+        -------
+        str
+            The validated API version string.
+
+        Raises
+        ------
+        ValueError
+            If the value does not contain '/v' to indicate a version.
+        """
+        if "/v" not in value:
+            raise ValueError(
+                f"'{value}' must contain package name, separator /, and version name"
+            )
         return value

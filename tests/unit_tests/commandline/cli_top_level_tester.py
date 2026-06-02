@@ -13,10 +13,10 @@ import subprocess
 import sys
 
 from geoips.commandline.ancillary_info import alias_mapping
+from geoips.commandline.ancillary_info.test_data import test_dataset_dict
 from geoips.commandline.commandline_interface import GeoipsCLI
 from geoips.commandline.commandline_interface import main as cli_main
 from geoips.geoips_utils import is_editable
-
 
 gcli = GeoipsCLI()
 
@@ -90,17 +90,7 @@ class BaseCliTest(abc.ABC):
     def test_datasets(self):
         """List of every available GeoIPS test dataset name."""
         if not hasattr(self, "_test_datasets"):
-            self._test_datasets = [
-                "test_data_amsr2",
-                "test_data_clavrx",
-                "test_data_fusion",
-                "test_data_gpm",
-                "test_data_noaa_aws",
-                "test_data_sar",
-                "test_data_scat",
-                "test_data_smap",
-                "test_data_viirs",
-            ]
+            self._test_datasets = list(test_dataset_dict.keys())
         return self._test_datasets
 
     def retrieve_selected_columns(self, args):
@@ -197,14 +187,27 @@ class BaseCliTest(abc.ABC):
             assert f"{args[2]}: error: argument --package-name/-p: invalid" in error
             return False
 
-        if pkg_name:
-            # Just test if this package is in editable mode
-            editable = is_editable(pkg_name)
-        else:
+        # There are a few commands that require GeoIPS to be installed in editable mode
+        # regardless of other packages being installed in editable mode. For example,
+        # the test linting command makes use of GeoIPS' check_code.sh bash script which
+        # is only accessible in editable mode. Other commands, such as
+        # 'geoips test script' default to the GeoIPS package and are only accessible in
+        # editable mode.
+        geoips_editable = is_editable("geoips") and (
+            "linting" in args or "script" in args
+        )
+        if geoips_editable or "scripts" in args:
             # Otherwise, assume we're working on all installed packages
             editable = any(
                 [is_editable(pkg_name) for pkg_name in self.plugin_package_names]
             )
+        else:
+            # cannot run geoips test linting commands without GeoIPS being editable
+            editable = False
+
+        if pkg_name:
+            # Just test if this package is in editable mode if a package was determined
+            editable = is_editable(pkg_name)
 
         if not editable:
             if "-p" in args and "--integration" in args and "geoips" not in args[1:]:
@@ -376,7 +379,7 @@ class BaseCliTest(abc.ABC):
                 # Monkeypatch works for the provided arguments!
                 return True
 
-    def test_command_combinations(self, monkeypatch, args=None):
+    def test_command_combinations(self, monkeypatch, args=None, caplog=None):
         """Test all or a stochastic subset of 'geoips <cmd> ...' command combinations.
 
         This test covers a stochastic or complete list of command combinations for all
@@ -385,7 +388,7 @@ class BaseCliTest(abc.ABC):
 
         Parameters
         ----------
-        args: array of str
+        args: array of str, default=None
             - List of arguments to call the CLI with (ie. ['geoips', '<cmd>'])
         """
         if args is None:
@@ -414,8 +417,14 @@ class BaseCliTest(abc.ABC):
             output, error = output.decode(), error.decode()
             prc.terminate()
         assert len(output) or len(error)  # assert that some output was created
+        # Extract log statements
         if len(error) and (not len(output) or output == "\n"):
             self.check_error(args, error)
         else:
             print(output)
+            # if caplog was provided and logging statements were caught, add those to
+            # output.
+            if caplog and len(caplog.text):
+                output += caplog.text
+
             self.check_output(args, output)

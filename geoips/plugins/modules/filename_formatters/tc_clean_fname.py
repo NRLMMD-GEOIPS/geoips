@@ -17,9 +17,6 @@ def call(
     coverage=None,
     output_type="png",
     output_type_dir=None,
-    product_dir=None,
-    product_subdir=None,
-    source_dir=None,
     basedir=gpaths["TCWWW"],
     output_dict=None,
 ):
@@ -44,12 +41,6 @@ def call(
     output_type_dir : str, optional
         Directory name for given output type (ie png_clean, png, etc), defaults
         to None.
-    product_dir : str, optional
-        Directory name for given product, defaults to None.
-    product_subdir : str, optional
-        Subdir name for given product, if any, defaults to None.
-    source_dir : str, optional
-        Directory name for given source, defaults to None.
     basedir : str, optional
         Base directory, defaults to $TCWWW.
 
@@ -68,9 +59,6 @@ def call(
         coverage,
         output_type=output_type,
         output_type_dir=output_type + "_clean",
-        product_dir=product_dir,
-        product_subdir=product_subdir,
-        source_dir=source_dir,
         basedir=basedir,
         extra_field="clean",
         output_dict=output_dict,

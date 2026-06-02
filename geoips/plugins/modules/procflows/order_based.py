@@ -5,7 +5,9 @@
 
 # Python Standard Libraries
 from argparse import ArgumentParser
+from glob import glob
 import logging
+from importlib import import_module
 
 # GeoIPS imports
 from geoips import interfaces
@@ -19,6 +21,42 @@ family = "standard"
 name = "order_based"
 
 
+def validate_arguments(apiVersion, interface, arguments):
+    """Load the correct pydantic argument model and validate arguments.
+
+    Where the 'correct' argument model is based on apiVersion and interface.
+
+    Parameters
+    ----------
+    apiVersion : str
+        The apiVersion of the workflow model that contained these arguments.
+    interface : str
+        The name of the interface we'll provide arguments to.
+    arguments : dict[str, Any]
+        A dictionary of arguments to validate against a certain model.
+
+    Returns
+    -------
+    validated_arguments : dict[str, Any]
+        A validated representation of the input arguments.
+    """
+    package, version = apiVersion.split("/")
+    try:
+        module = import_module(f"{package}.pydantic_models.{version}.{interface}")
+    except ImportError as e:
+        raise ImportError(f"Could not import models from '{version}': {e}") from e
+
+    interface_base = str(Lexeme(interface).singular)
+    model_name = f"{interface_base.title().replace('_', '')}ArgumentsModel"
+
+    try:
+        model_class = getattr(module, model_name)
+    except AttributeError as e:
+        raise ValueError(f"Model '{model_name}' not found in '{apiVersion}'") from e
+
+    return model_class(**arguments).model_dump()
+
+
 def call(workflow, fnames, command_line_args=None):
     """Run the order based procflow (OBP).
 
@@ -27,56 +65,85 @@ def call(workflow, fnames, command_line_args=None):
 
     Parameters
     ----------
-    workflow: str
-        The name of the workflow to process.
+    workflow: dict
+        The workflow plugin dictionary to process.
     fnames : list of str
         List of filenames from which to read data.
     command_line_args : list of str, None
         Command line arguments to pass to the workflow.
     """
-    LOG.interactive(f"Begin processing '{workflow}' workflow.")
-    wf_plugin = interfaces.workflows.get_plugin(workflow)
+    if isinstance(fnames, str):
+        fnames = glob(fnames)
+        # fnames = [Path(fname) for fname in glob(fnames)]
 
-    handled_interfaces = ["readers"]
-    for step_id, step_def in wf_plugin.spec.steps.items():
-        interface = str(Lexeme(step_def.kind).plural)
+    LOG.interactive(f"Begin processing '{workflow.get('name', 'embedded')}' workflow.")
+
+    apiVersion = workflow.get("apiVersion", "geoips/v1")
+    handled_interfaces = ["readers", "coverage_checkers", "workflows"]
+    for step_id, step_def in workflow["spec"]["steps"].items():
+        interface = str(Lexeme(step_def["kind"]).plural)
 
         if interface not in handled_interfaces:
             LOG.interactive(
                 "⚠️ Skipping unhandled interface '%s'. Would have called the '%s'"
                 "plugin.",
                 interface,
-                step_def.name,
+                step_def["name"],
             )
             continue
+        elif interface == "workflows":
+            if step_def.get("spec"):
+                print("RECURSIVELY CALLING VIA SPEC DEFINITION")
+                call(step_def, fnames)
+            else:
+                print("RECURSIVELY CALLING VIA GET PLUGIN CALL")
+                call(interfaces.workflows.get_plugin(step_def.get(name), fnames))
         else:
-            plg = getattr(interfaces, interface, None).get_plugin(step_def.name)
+            plg = getattr(interfaces, interface, None).get_plugin(step_def["name"])
 
             LOG.interactive(
                 "Beginning Step: '%s', plugin_kind: '%s', plugin_name:'%s'.",
                 step_id,
-                step_def.kind,
-                step_def.name,
+                step_def["kind"],
+                step_def["name"],
             )
-            LOG.info("Arguments: '%s'", step_def.arguments)
+            LOG.info("Arguments: '%s'", step_def["arguments"])
 
             if interface == "readers":
                 # TEMPORARY FIX: Remove when all readers are updated to accept
                 # "variables"
-                if "variables" in step_def.arguments:
-                    step_def.arguments["chans"] = step_def.arguments.pop("variables")
-                data = plg(fnames, **step_def.arguments)
+                if "variables" in step_def["arguments"]:
+                    step_def["arguments"]["chans"] = step_def["arguments"].pop(
+                        "variables"
+                    )
+                step_def["arguments"]["fnames"] = fnames
+                # Temporary re-validation step. Seems arguments can sometimes leak
+                # through without being validated. For example, we use the 'add_args'
+                # function which validates args differently than our pydantic models
+                # do
+                validate_arguments(apiVersion, interface, step_def["arguments"])
+                # pass in the original arguments as not all readers implement the same
+                # arg / kwarg set.
+                data = plg(**step_def["arguments"])
                 print(data)
             else:
-                data = plg(data, **step_def.arguments)
+                # Temporary re-validate here as well. Just ensures that we catch any
+                # weird bugs.
+                data = plg(
+                    data,
+                    **validate_arguments(apiVersion, interface, step_def["arguments"]),
+                )
             LOG.interactive(
                 "Completed Step: step_id: '%s', plugin_kind: '%s', plugin_name: '%s'.",
                 step_id,
-                step_def.name,
-                step_def.kind,
+                step_def["name"],
+                step_def["kind"],
             )
 
-    LOG.interactive(f"\nThe workflow '{workflow}' has finished processing.\n")
+    LOG.interactive(
+        f"\nThe workflow '{workflow.get('name', 'embedded')}' has finished "
+        "processing.\n"
+    )
 
 
 if __name__ == "__main__":
@@ -92,4 +159,4 @@ if __name__ == "__main__":
     )
     args = parser.parse_args()
     LOG = setup_logging(logging_level=args.loglevel)
-    call(args.workflow, args.fnames)
+    call(interface.workflows.get_plugin(args.workflow), args.fnames)
