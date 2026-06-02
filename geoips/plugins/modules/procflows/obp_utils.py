@@ -57,8 +57,8 @@ def remove_keys_with_default_value_plugin_provided(workflow_dict: dict) -> dict:
     values.
 
     This function recursively removes workflow arguments whose value is
-     'PLUGIN_PROVIDED'. The plugin call signature would process these arguemnts as
-     ommited and populates the default value accordingly.
+    'PLUGIN_PROVIDED'. The plugin call signature would process these arguments as
+    omitted and populates the default value accordingly.
 
     Parameters
     ----------
@@ -69,7 +69,7 @@ def remove_keys_with_default_value_plugin_provided(workflow_dict: dict) -> dict:
     -------
     dict
         workflow dictionary with all keys containing the value 'plugin_provided'
-         removed.
+        removed.
     """
     if isinstance(workflow_dict, dict):
         return {
