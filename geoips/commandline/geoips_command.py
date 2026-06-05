@@ -783,12 +783,10 @@ class GeoipsWorkflowCommand(GeoipsExecutableCommand):
         path = Path(value)
 
         if path.suffix.lower() not in {".json", ".yaml", ".yml"}:
-            raise self.parser.error(
-                f"File must have extension .json, .yaml, or .yml, not {path.suffix}"
-            )
+            return False
 
         if not path.exists():
-            raise self.parser.error(f"Input filepath not found: {value}")
+            return False
 
         return path
 
@@ -872,7 +870,8 @@ class GeoipsWorkflowCommand(GeoipsExecutableCommand):
             self.parser.error(
                 "Error: positional argument 'workflow' could not be associated with an"
                 f" accepted type. Input = {value} ; accepted types = "
-                "[str, Path, dict]"
+                "[str, Path, dict]. If you provided a Path, make sure it's either a "
+                ".json or .yaml file and that the file exists."
             )
 
         return workflow

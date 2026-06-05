@@ -335,9 +335,9 @@ class GeoipsRunOrderBased(GeoipsWorkflowCommand):
             "--step-override-strings",
             default=[],
             type=self.step_override_type,
-            nargs="+",
+            action="extend",
             help=(
-                "One or more step override strings to apply to your workflow. An "
+                "Step override string to apply to your workflow. An "
                 "override string should take on the following format:\n "
                 "'<step_id>.<string1>.<optional_string2>...<argument>=<some_value>'"
             ),
@@ -347,9 +347,9 @@ class GeoipsRunOrderBased(GeoipsWorkflowCommand):
             "--kind-override-strings",
             default=[],
             type=self.kind_override_type,
-            nargs="+",
+            action="extend",
             help=(
-                "One or more kind override strings to apply to your workflow. An "
+                "Kind override string to apply to your workflow. An "
                 "override string should take on the following format:\n "
                 "'<kind>.<argument_name>=<some_value>'"
             ),
@@ -359,9 +359,9 @@ class GeoipsRunOrderBased(GeoipsWorkflowCommand):
             "--global-override-strings",
             default=[],
             type=self.global_override_type,
-            nargs="+",
+            action="append",
             help=(
-                "One or more global override strings to apply to your workflow. An "
+                "Global override string to apply to your workflow. An "
                 "override string should take on the following format:\n "
                 "'<global_variable_name>=<some_value>'"
             ),
