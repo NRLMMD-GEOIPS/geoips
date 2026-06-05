@@ -1,6 +1,8 @@
-# # # status = ongoing
 # # # This source code is subject to the license referenced at
 # # # https://github.com/NRLMMD-GEOIPS.
+
+# script migration = done
+# product testing = ongoing
 
 # Default values - if you do not have this exact test case available, call with available data files / sectors.
 # This exact test case required for valid comparisons - remove "compare_path" argument if running a different
