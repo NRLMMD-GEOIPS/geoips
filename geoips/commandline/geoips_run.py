@@ -335,7 +335,7 @@ class GeoipsRunOrderBased(GeoipsWorkflowCommand):
             "--step-override-strings",
             default=[],
             type=self.step_override_type,
-            action="extend",
+            action="append",
             help=(
                 "Step override string to apply to your workflow. An "
                 "override string should take on the following format:\n "
@@ -347,7 +347,7 @@ class GeoipsRunOrderBased(GeoipsWorkflowCommand):
             "--kind-override-strings",
             default=[],
             type=self.kind_override_type,
-            action="extend",
+            action="append",
             help=(
                 "Kind override string to apply to your workflow. An "
                 "override string should take on the following format:\n "
