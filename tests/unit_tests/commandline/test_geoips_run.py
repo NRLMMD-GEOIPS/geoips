@@ -206,7 +206,7 @@ class TestGeoipsRun(BaseCliTest):
         "test_product",
         "$GEOIPS_TESTDATA_DIR/test_data_noaa_aws/data/goes16/20200918/1950/*",
         "-S",
-        r'{"abi.Infrared": {"spec": {"steps": {"algorithm": {"output_units": "kelvin"}}}}}',  # NOQA
+        r'{"abi:Infrared": {"spec": {"steps": {"algorithm": {"output_units": "kelvin"}}}}}',  # NOQA
     ]
     obp_args_dict_kind_override = [
         "geoips",

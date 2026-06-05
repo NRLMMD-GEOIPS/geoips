@@ -61,14 +61,14 @@ Below we'll demonstrate how to use overrides via the GeoIPS CLI.
 .. code-block:: bash
 
   geoips run order_based test_product $GEOIPS_TESTDATA_DIR/test_data_abi/data/goes16_20200918_1950/* \
-    -s abi.Infrared:spec:steps:algorithm:output_units=Kelvin reader:area_def=null \
-    -k readers:satellite_zenith_angle_cutoff=80 \
+    -s abi:Infrared.spec.steps.algorithm.output_units=Kelvin reader.area_def=null \
+    -k readers.satellite_zenith_angle_cutoff=80 \
     -g sector_list=global_cylindrical logging_level=info
 
 The format of string-based overrides goes as follows:
 
-Step override: ``<step_id>:<optional_string1>:<optional_string2>:...<argument>=<some_value>``
-Kind override: ``<kind>:<argument_name>=<some_value>``
+Step override: ``<step_id>.<optional_string1>.<optional_string2>...<argument>=<some_value>``
+Kind override: ``<kind>.<argument_name>=<some_value>``
 Global override: ``<global_variable_name>=<some_value>``
 
 .. note::
@@ -85,7 +85,7 @@ Global override: ``<global_variable_name>=<some_value>``
         arguments:
           variables:
           - B14BT
-      abi.Infrared:
+      abi:Infrared:
         kind: workflow
         spec:
           steps:
@@ -117,7 +117,7 @@ Global override: ``<global_variable_name>=<some_value>``
   Then, to override the ``output_units`` argument of the ``algorithm`` step, your
   override string would need to look like this:
 
-  ``-s abi.Infrared:spec:steps:algorithm:output_units=Kelvin``
+  ``-s abi:Infrared.spec.steps.algorithm.output_units=Kelvin``
 
 Dictionary-based Overrides
 --------------------------
@@ -134,7 +134,7 @@ Below we demonstrate how to specify dictionary-based overrides at the command li
 .. code-block:: bash
 
   geoips run order_based test_product $GEOIPS_TESTDATA_DIR/test_data_abi/data/goes16_20200918_1950/* \
-      -S '{"reader": {"self_register": "LOW"}, "abi.Infrared": {"spec": {"steps": {"algorithm": {"output_units": "kelvin"}}}}}' \
+      -S '{"reader": {"self_register": "LOW"}, "abi:Infrared": {"spec": {"steps": {"algorithm": {"output_units": "kelvin"}}}}}' \
       -K '{"readers": {"satellite_zenith_angle_cutoff": 80}}' \
       -G '{"sector_list": "global_cylindrical", "logging_level": "info"}'
 

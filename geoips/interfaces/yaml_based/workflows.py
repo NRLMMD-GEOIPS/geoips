@@ -411,8 +411,8 @@ class WorkflowsInterface(BaseYamlInterface):
 
         return overrides_to_apply
 
-    def _get_overridden_expanded_plugin(self, name, rebuild_registries=None):
-        """Get a workflow plugin by its name.
+    def _override_expanded_workflow(self, expanded_workflow):
+        """Override the contents of an expanded workflow.
 
         During this process, if the plugin is found to have a test section, replace all
         relevant portions of the workflow plugin with the contents of the test section,
@@ -424,27 +424,15 @@ class WorkflowsInterface(BaseYamlInterface):
 
         Parameters
         ----------
-        name: str
-            The name of the workflow plugin.
-        rebuild_registries: bool (default=None)
-            Whether or not to rebuild the registries if get_plugin fails. If set to
-            None, default to what we have set in geoips.filenames.base_paths, which
-            defaults to True. If specified, use the input value of rebuild_registries,
-            which should be a boolean value. If rebuild registries is true and
-            get_plugin fails, rebuild the plugin registry, call then call
-            get_plugin once more with rebuild_registries toggled off, so it only gets
-            rebuilt once.
+        expanded_workflow: WorkflowPlugin type
+            A dictionary representation of an expanded workflow plugin. Expanding means
+            nested workflows and/or products have been fully generated and everything
+            has been specified in a single workflow plugin.
         """
-        expanded_workflow = self.plugin_registry.get_yaml_plugin(
-            self,
-            name,
-            rebuild_registries=rebuild_registries,
-            _expand=True,
-        )
         if not expanded_workflow.get("test"):
             raise KeyError(
-                f"Error: attemping to test workflow plugin {name} but the plugin is "
-                "missing a top level 'test' section."
+                f"Error: attemping to test workflow plugin {expanded_workflow['name']} "
+                "but the plugin is missing a top level 'test' section."
             )
 
         expanded_workflow = self._override_workflow_dict_format(expanded_workflow)

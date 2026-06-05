@@ -6,23 +6,22 @@
 Runs the appropriate script based on the args provided.
 """
 
-from ast import literal_eval
-from collections.abc import Mapping
-import json
 from os.path import abspath
-from pathlib import Path
-from typing import List, Union
 
 from colorama import Fore, Style
 
-import geoips.utils.yaml_utils as yaml
 from geoips.commandline.args import add_args
 from geoips.commandline.run_procflow import main
-from geoips.commandline.geoips_command import GeoipsCommand, GeoipsExecutableCommand
+from geoips.commandline.geoips_command import (
+    GeoipsCommand,
+    GeoipsExecutableCommand,
+    GeoipsWorkflowCommand,
+)
 from geoips.filenames.base_paths import PATHS
 from geoips.interfaces import procflows, workflows
 from geoips.pydantic_models.v1.workflows import WorkflowPluginModel
 from geoips.utils.context_managers import import_optional_dependencies
+import geoips.utils.yaml_utils as yaml
 
 data_fusion_installed = False
 
@@ -125,7 +124,7 @@ class GeoipsRunDataFusion(GeoipsExecutableCommand):
             )
 
 
-class GeoipsRunOrderBased(GeoipsExecutableCommand):
+class GeoipsRunOrderBased(GeoipsWorkflowCommand):
     """Run command for executing an order based process-workflow (procflow).
 
     Makes use of workflow plugins and additional commandline arguments that single
@@ -147,106 +146,6 @@ class GeoipsRunOrderBased(GeoipsExecutableCommand):
         "\nWARNING: `geoips run order_based` is experimental and is subject to change. "
         "This warning will be removed once this command is stable.\n"
     )
-
-    def ensure_valid_json_or_yaml_path(self, value: str) -> Path:
-        """Ensure 'value' is a valid path to a json/yaml file and convert to a Path object.  # NOQA
-
-        Parameters
-        ----------
-        value: str
-            - The input value for the filepath to typecheck against.
-
-        Returns
-        -------
-        path: Path
-            - A json or yaml pathlib.Path object.
-        """
-        path = Path(value)
-
-        if path.suffix.lower() not in {".json", ".yaml", ".yml"}:
-            raise self.parser.error(
-                f"File must have extension .json, .yaml, or .yml, not {path.suffix}"
-            )
-
-        if not path.exists():
-            raise self.parser.error(f"Input filepath not found: {value}")
-
-        return path
-
-    def workflow_type(self, value: Union[str, List[Path], dict]):
-        """Cast input value to a workflow type.
-
-        If value cannot be cast to an accepted workflow type, argparse will raise an
-        error denoting that your argument value could not be associated with an
-        accepted type.
-
-        Parameters
-        ----------
-        value: Union[str, List[Path], dict]
-            - The input value of a potential workflow.
-
-        Returns
-        -------
-        workflow: WorkflowPlugin-like
-            - The same input value as long as it could be cast to any of the accepted
-              workflow types. Workflow has been automatically expanded in the case that
-              we need to apply overrides to it. Doesn't change the functionality of the
-              OBP if overrides don't occur.
-        """
-        # unregistered generated workflow
-        try:
-            workflow = literal_eval(value)
-        except (ValueError, SyntaxError):
-            # Ignore these errors, could still be valid input
-            workflow = None
-
-        if isinstance(workflow, Mapping):
-            # Validate the generated workflow with is_registered set to false as this
-            # plugin has been dynamically generated
-            workflow = WorkflowPluginModel(
-                **workflow,
-                is_registered=False,
-                # Adding context in pydantic is akin to passing in values that are
-                # usually None to an Objects __init__ function. It will construct
-                # differently if those parameters are provided. In this case, we are
-                # telling pydantic to expand the workflow, rather than validate just
-                # what's in the data provided
-                context={"expand": True},
-            ).model_dump()
-        # registered named workflow
-        elif isinstance(value, str):
-            workflow = workflows.get_plugin(value, _expand=True)
-        # unregistered workflow @ filepath
-        elif self.ensure_valid_json_or_yaml_path(value):
-            # since the filepath was valid and exists, load the data and validate it
-            filepath = self.ensure_valid_json_or_yaml_path(value)
-            if filepath.suffix.lower() == ".json":
-                loader = json.load
-            else:
-                loader = yaml.safe_load
-
-            with open(filepath, "r") as f:
-                workflow = loader(f)
-            # This assumes if you pass the filepath option that the plugin itself is not
-            # registered. Validate that it's formatted correctly.
-            workflow = WorkflowPluginModel(
-                **workflow,
-                is_registered=False,
-                # Adding context in pydantic is akin to passing in values that are
-                # usually None to an Objects __init__ function. It will construct
-                # differently if those parameters are provided. In this case, we are
-                # telling pydantic to expand the workflow, rather than validate just
-                # what's in the data provided
-                context={"expand": True},
-            ).model_dump()
-        else:
-            self.parser.error(
-                "Error: positional argument 'workflow' could not be associated with an"
-                f" accepted type. Input = {value} ; accepted types = "
-                "[str, Path, dict]"
-            )
-
-        return workflow
 
     def dict_type(self, value):
         """Ensure an dictionary-based override can be cast as a dictionary.

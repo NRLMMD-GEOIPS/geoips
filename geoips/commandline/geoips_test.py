@@ -8,7 +8,7 @@ Runs the appropriate tests based on the arguments provided.
 
 from glob import glob
 from importlib import resources
-from os import environ, makedirs
+from os import makedirs
 from os.path import basename, exists, join
 import sys
 import warnings
@@ -19,6 +19,7 @@ from subprocess import call
 from geoips.commandline.geoips_command import (
     GeoipsCommand,
     GeoipsExecutableCommand,
+    GeoipsWorkflowCommand,
 )
 from geoips.errors import PluginError
 from geoips.filenames.base_paths import PATHS
@@ -371,7 +372,7 @@ class GeoipsTestLinting(GeoipsExecutableCommand):
             call(["bash", lint_path, linter, package_path], shell=False)
 
 
-class GeoipsTestWorkflow(GeoipsExecutableCommand):
+class GeoipsTestWorkflow(GeoipsWorkflowCommand):
     """Command class for testing a workflow plugin.
 
     If a workflow plugin has a ``test`` section at the same level as ``spec``, then this
@@ -386,14 +387,17 @@ class GeoipsTestWorkflow(GeoipsExecutableCommand):
     def add_arguments(self):
         """Add arguments to the describe-subparser for the describe Interface cmd."""
         self.parser.add_argument(
-            "workflow_name",
-            type=str,
-            # choices=[plugin.name for plugin in workflows.get_plugins()],
-            help="GeoIPS workflow plugin to test.",
+            "workflow",
+            type=self.workflow_type,
+            help=(
+                "Workflow instance. Can be the name of a registered workflow plugin, "
+                "a .json or .yaml path to an unregistered workflow plugin, or a "
+                "dictionary that will be literally evaluated as a workflow."
+            ),
         )
 
     def __call__(self, args):
-        """CLI 'geoips test workflow <workflow_name>' command.
+        """CLI 'geoips test workflow <workflow_type>' command.
 
         This occurs when a user attempts to test the output of a select workflow plugin.
 
@@ -410,30 +414,15 @@ class GeoipsTestWorkflow(GeoipsExecutableCommand):
         args: Argparse Namespace()
             - The list argument namespace to parse through
         """
-        environ["ORDER_BASED_CALLED"] = "True"
-        workflow_name = args.workflow_name
-        rbr = (
-            False
-            if "non_existent" in workflow_name
-            else PATHS["GEOIPS_REBUILD_REGISTRIES"]
-        )
+        workflow = args.workflow
         try:
-            workflow = workflows._get_overridden_expanded_plugin(
-                workflow_name,
-                rebuild_registries=rbr,
+            workflow = workflows._override_expanded_workflow(workflow)
+        except KeyError:
+            raise self.parser.error(
+                f"Error: cannot test '{workflow['name']}' workflow plugin as it is "
+                "missing a ``test`` section. Please create this content before "
+                "attempting to test this plugin again."
             )
-        except (PluginError, KeyError) as e:
-            if isinstance(e, PluginError):
-                self.parser.error(
-                    "Error: could not load workflow plugin under name "
-                    f"'{workflow_name}'."
-                )
-            else:
-                raise self.parser.error(
-                    f"Error: cannot test '{workflow_name}' workflow plugin as it is "
-                    "missing a ``test`` section. Please create this content before "
-                    "attempting to test this plugin again."
-                )
 
         obp = procflows.get_plugin("order_based")
 
