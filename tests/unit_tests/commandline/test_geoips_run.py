@@ -179,6 +179,7 @@ class TestGeoipsRun(BaseCliTest):
         "$GEOIPS_TESTDATA_DIR/test_data_noaa_aws/data/goes16/20200918/1950/*",
         "-s",
         "abi:Infrared.spec.steps.algorithm.output_units=Kelvin",
+        "-s",
         "reader.area_def=null",
     ]
     obp_args_string_kind_override = [

@@ -61,9 +61,11 @@ Below we'll demonstrate how to use overrides via the GeoIPS CLI.
 .. code-block:: bash
 
   geoips run order_based test_product $GEOIPS_TESTDATA_DIR/test_data_abi/data/goes16_20200918_1950/* \
-    -s abi:Infrared.spec.steps.algorithm.output_units=Kelvin reader.area_def=null \
+    -s abi:Infrared.spec.steps.algorithm.output_units=Kelvin \
+    -s reader.area_def=null \
     -k readers.satellite_zenith_angle_cutoff=80 \
-    -g sector_list=global_cylindrical logging_level=info
+    -g sector_list=global_cylindrical \
+    -g logging_level=info
 
 The format of string-based overrides goes as follows:
 
