@@ -13,11 +13,9 @@ docstring: The windbarbs_dmw_high product workflow.
 package: geoips
 test:
   fnames: !ENV ${GEOIPS_TESTDATA_DIR}/test_data_abi/data/goes16_20210929_0000/OR_ABI-L2-DMWVF*.nc
-  command_line_args:
-    compare_path: 
-    logging_level: info
+  logging_level: info
 spec:
-  global-arguments:
+  globals:
     presector: False
     product_db: False
     product_db_writer: None
