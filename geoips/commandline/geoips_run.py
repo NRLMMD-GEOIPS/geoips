@@ -291,7 +291,7 @@ class GeoipsRunOrderBased(GeoipsWorkflowCommand):
         )
         self.parser.add_argument(
             "filenames",
-            nargs="*",
+            nargs="+",
             type=abspath,
             help="""Fully qualified paths to data files to be processed.""",
         )
