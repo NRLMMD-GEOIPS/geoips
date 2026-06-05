@@ -1,3 +1,4 @@
+# cspell:ignore ETCVO
 .. dropdown:: Distribution Statement
 
  | # # # This source code is subject to the license referenced at
@@ -178,7 +179,7 @@ Output Formatter step in the code block below includes two additional plugins,
           kind: output_formatter
           name: imagery_annotated
           arguments:
-            colormapper_1:
+            apply_colormapper:
                 kind: colormapper
                 name: Infrared
                 arguments:
