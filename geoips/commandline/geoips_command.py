@@ -833,7 +833,7 @@ class GeoipsWorkflowCommand(GeoipsExecutableCommand):
                 context={"expand": True},
             ).model_dump()
         # registered named workflow
-        elif isinstance(value, str):
+        elif isinstance(value, str) and not value.startswith("/"):
             rbr = (
                 False if "non_existent" in value else PATHS["GEOIPS_REBUILD_REGISTRIES"]
             )
