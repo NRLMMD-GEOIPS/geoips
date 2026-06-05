@@ -232,3 +232,24 @@ def valid_algorithm_arguments():
         # "norm": None,
         # "inverse": None,
     }
+
+
+@pytest.fixture
+def valid_filename_formatter_arguments():
+    """Fixture providing valid data for FilenameFormatterArgumentsModel."""
+    return {
+        "area_def": None,
+        "base_dir": "gpaths['TCWWW']",
+        "extra": "test_input",
+        "coverage": 95.5,
+        "extension": ".png",
+        "metdata_dir": "test_input",
+        "metadata_type": "sector_information",
+        "output_dict": {},
+        "output_type": "png",
+        "output_type_dir": "test_input",
+        "product_filename": "test_input",
+        "product_dir": "test_input",
+        "product_subdir": "test_input",
+        "source_dir": "test_input",
+    }
