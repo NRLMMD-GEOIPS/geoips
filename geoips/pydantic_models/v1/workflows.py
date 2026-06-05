@@ -636,7 +636,7 @@ class WorkflowSpecModel(FrozenModel):
                 # Generate a step ID based off the current step's plugin name
                 # if it's a product, merge the name tuple into a single name
                 step_id = (
-                    ".".join(step.get("name"))
+                    ":".join(step.get("name"))
                     if step.get("kind") == "product"
                     else step.get("name")
                 )

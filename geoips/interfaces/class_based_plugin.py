@@ -117,15 +117,8 @@ class BaseClassPlugin(ABC):
 
     @abstractmethod
     # def call(self, *args: P.args, **kwargs: P.kwargs) -> R:
-    def call(self, _obp_initiated=False, *args, **kwargs):
-        """Callable method to be implemented by the plugin class.
-
-        Parameters
-        ----------
-        _obp_initiated : bool, optional
-            Whether or not this plugin is being called via the order based procflow.
-            Defaults to False.
-        """
+    def call(self, *args, **kwargs):
+        """Callable method to be implemented by the plugin class."""
         pass
 
     # hooks are intentionally loose; document their accepted kwargs

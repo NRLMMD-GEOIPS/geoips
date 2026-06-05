@@ -148,17 +148,13 @@ class GeoipsRunOrderBased(GeoipsExecutableCommand):
         "This warning will be removed once this command is stable.\n"
     )
 
-    def json_or_yaml_path(self, value: str, no_raise=False) -> Path:
-        """Ensure the value provided is a valid pathlib.Path json or yaml file.
+    def ensure_valid_json_or_yaml_path(self, value: str) -> Path:
+        """Ensure 'value' is a valid path to a json/yaml file and convert to a Path object.  # NOQA
 
         Parameters
         ----------
         value: str
             - The input value for the filepath to typecheck against.
-        no_raise: bool, optional
-            - Whether or not to raise errors if the input value does not match the
-              accepted format. Defaults to False. When True, return False or Path if
-              the input value matches the expected format.
 
         Returns
         -------
@@ -168,15 +164,11 @@ class GeoipsRunOrderBased(GeoipsExecutableCommand):
         path = Path(value)
 
         if path.suffix.lower() not in {".json", ".yaml", ".yml"}:
-            if no_raise:
-                return False
             raise self.parser.error(
                 f"File must have extension .json, .yaml, or .yml, not {path.suffix}"
             )
 
         if not path.exists():
-            if no_raise:
-                return False
             raise self.parser.error(f"Input filepath not found: {value}")
 
         return path
@@ -221,10 +213,13 @@ class GeoipsRunOrderBased(GeoipsExecutableCommand):
                 # what's in the data provided
                 context={"expand": True},
             ).model_dump()
+        # registered named workflow
+        elif isinstance(value, str):
+            workflow = workflows.get_plugin(value, _expand=True)
         # unregistered workflow @ filepath
-        elif self.json_or_yaml_path(value, no_raise=True):
+        elif self.ensure_valid_json_or_yaml_path(value):
             # since the filepath was valid and exists, load the data and validate it
-            filepath = self.json_or_yaml_path(value)
+            filepath = self.ensure_valid_json_or_yaml_path(value)
             if filepath.suffix.lower() == ".json":
                 loader = json.load
             else:
@@ -244,20 +239,19 @@ class GeoipsRunOrderBased(GeoipsExecutableCommand):
                 # what's in the data provided
                 context={"expand": True},
             ).model_dump()
-        # registered named workflow
-        elif isinstance(value, str):
-            workflow = workflows.get_plugin(value, _expand=True)
         else:
             self.parser.error(
                 "Error: positional argument 'workflow' could not be associated with an"
                 f" accepted type. Input = {value} ; accepted types = "
-                "[str, List[Path], dict]"
+                "[str, Path, dict]"
             )
 
         return workflow
 
     def dict_type(self, value):
         """Ensure an dictionary-based override can be cast as a dictionary.
+
+        This is used to validate the input of -S, -K, and -G flags.
 
         Parameters
         ----------
@@ -304,7 +298,7 @@ class GeoipsRunOrderBased(GeoipsExecutableCommand):
 
         Expected Format
         ---------------
-        '<kind>:<argument_name>=<some_value>'
+        '<kind>.<argument_name>=<some_value>'
 
         Parameters
         ----------
@@ -320,15 +314,15 @@ class GeoipsRunOrderBased(GeoipsExecutableCommand):
             lhs, rhs = value.split("=", 1)
         except ValueError:
             raise self.parser.error(
-                f"Invalid format '{value}'. Expected '<kind>:<argument_name>=<value>'"
+                f"Invalid format '{value}'. Expected '<kind>.<argument_name>=<value>'"
             )
 
-        parts = lhs.split(":")
+        parts = lhs.split(".")
 
         if len(parts) != 2:
             raise self.parser.error(
                 f"Invalid key '{lhs}'. Must be in the format of "
-                "'<kind>:<argument_name>'"
+                "'<kind>.<argument_name>'"
             )
 
         kind = parts[0]
@@ -346,7 +340,7 @@ class GeoipsRunOrderBased(GeoipsExecutableCommand):
 
         Expected Format
         ---------------
-        '<step_id>:<string1>:<optional_string2>:<optional_string3>:...=<some_value>'
+        '<step_id>.<string1>.<optional_string2>.<optional_string3>...=<some_value>'
 
         Parameters
         ----------
@@ -362,10 +356,10 @@ class GeoipsRunOrderBased(GeoipsExecutableCommand):
             lhs, rhs = value.split("=", 1)
         except ValueError:
             raise self.parser.error(
-                f"Invalid format '{value}'. Expected '<step_id>:<...>=<value>'"
+                f"Invalid format '{value}'. Expected '<step_id>.<...>=<value>'"
             )
 
-        parts = lhs.split(":")
+        parts = lhs.split(".")
 
         if len(parts) < 2:
             raise self.parser.error(
@@ -391,8 +385,9 @@ class GeoipsRunOrderBased(GeoipsExecutableCommand):
             "workflow",
             type=self.workflow_type,
             help=(
-                "The name of the workflow plugin to execute. Cannot be supplied "
-                "alongside the --generated or --filepath argument."
+                "Workflow instance. Can be the name of a registered workflow plugin, "
+                "a .json or .yaml path to an unregistered workflow plugin, or a "
+                "dictionary that will be literally evaluated as a workflow."
             ),
         )
         self.parser.add_argument(
@@ -445,7 +440,7 @@ class GeoipsRunOrderBased(GeoipsExecutableCommand):
             help=(
                 "One or more step override strings to apply to your workflow. An "
                 "override string should take on the following format:\n "
-                "'<step_id>:<string1>:<optional_string2>:...<argument>=<some_value>'"
+                "'<step_id>.<string1>.<optional_string2>...<argument>=<some_value>'"
             ),
         )
         self.parser.add_argument(
@@ -457,7 +452,7 @@ class GeoipsRunOrderBased(GeoipsExecutableCommand):
             help=(
                 "One or more kind override strings to apply to your workflow. An "
                 "override string should take on the following format:\n "
-                "'<kind>:<argument_name>=<some_value>'"
+                "'<kind>.<argument_name>=<some_value>'"
             ),
         )
         self.parser.add_argument(
