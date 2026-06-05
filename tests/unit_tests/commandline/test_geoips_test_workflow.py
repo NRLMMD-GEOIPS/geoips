@@ -47,7 +47,7 @@ class TestGeoipsTestWorkflow(BaseCliTest):
             assert "1 validation error for" in error
             return
 
-        assert "To use, type `geoips test workflow <workflow_name>" in error
+        assert "To use, type `geoips test workflow <workflow_type>" in error
 
         if "non_existent" in args[-1]:
             assert "Error: could not load workflow plugin under name" in error
@@ -78,7 +78,7 @@ class TestGeoipsTestWorkflow(BaseCliTest):
         """
         # The args provided are valid, so test that the output is actually correct
         if "-h" in args:
-            assert "To use, type `geoips test workflow <workflow_name>" in output
+            assert "To use, type `geoips test workflow <workflow_type>" in output
         else:
             assert "has finished processing." in output
 

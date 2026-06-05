@@ -17,6 +17,7 @@ enhancement:
       - docs/dev/running_order_based_procflow.rst
       - docs/source/concepts/functionality/command-line/index.rst
       - geoips/commandline/ancillary_info/cmd_instructions.yaml
+      - geoips/commandline/geoips_command.py
       - geoips/commandline/geoips_run.py
       - geoips/commandline/geoips_test.py
       - geoips/interfaces/class_based_plugin.py

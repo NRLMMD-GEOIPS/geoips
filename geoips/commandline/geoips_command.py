@@ -26,6 +26,7 @@ from tabulate import tabulate
 
 from geoips.commandline.ancillary_info import cmd_instructions, alias_mapping
 from geoips.commandline.log_setup import setup_logging
+from geoips.errors import PluginError
 from geoips.filenames.base_paths import PATHS
 from geoips.interfaces import workflows
 from geoips.pydantic_models.v1.workflows import WorkflowPluginModel
@@ -833,7 +834,17 @@ class GeoipsWorkflowCommand(GeoipsExecutableCommand):
             ).model_dump()
         # registered named workflow
         elif isinstance(value, str):
-            workflow = workflows.get_plugin(value, _expand=True)
+            rbr = (
+                False if "non_existent" in value else PATHS["GEOIPS_REBUILD_REGISTRIES"]
+            )
+            try:
+                workflow = workflows.get_plugin(
+                    value, _expand=True, rebuild_registries=rbr
+                )
+            except PluginError:
+                self.parser.error(
+                    f"Error: could not load workflow plugin under name '{value}'."
+                )
         # unregistered workflow @ filepath
         elif self.ensure_valid_json_or_yaml_path(value):
             # since the filepath was valid and exists, load the data and validate it
