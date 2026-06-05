@@ -9,7 +9,7 @@ apiVersion: geoips/v1
 interface: products
 family: order_based
 name: windbarbs_dmw_high
-docstring: The windbarbs product_defaults configuration.
+docstring: The windbarbs_dmw_high product workflow.
 package: geoips
 test:
   fnames: !ENV ${GEOIPS_TESTDATA_DIR}/test_data_abi/data/goes16_20210929_0000/OR_ABI-L2-DMWVF*.nc
