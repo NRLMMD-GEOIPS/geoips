@@ -11,6 +11,7 @@ import pytest
 
 # GeoIPS imports
 from geoips.pydantic_models.v1.algorithms import AlgorithmArgumentsModel
+from geoips.pydantic_models.v1.colormappers import ColormapperArgumentsModel
 from geoips.pydantic_models.v1.filename_formatters import (
     FilenameFormatterArgumentsModel,
 )
@@ -88,6 +89,10 @@ models_available = {
     "workflows": {
         "good_source": ("fixture", "valid_workflow_spec_model_data"),
         "model": WorkflowSpecModel,
+    },
+    "colormappers": {
+        "good_source": ("fixture", "valid_colormapper_plugin_data"),
+        "model": ColormapperArgumentsModel,
     },
 }
 

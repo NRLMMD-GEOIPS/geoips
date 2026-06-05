@@ -59,9 +59,10 @@ def _construct_mapping_no_duplicates(loader, node):
         key = loader.construct_object(key_node)
         if key in mapping:
             raise DuplicateKeyError(
-                f"Duplicate key '{key}' found at "
-                f"line {key_node.start_mark.line + 1}, "
-                f"column {key_node.start_mark.column + 1}"
+                "while constructing a mapping",
+                node.start_mark,
+                f"found duplicate key ({key})",
+                key_node.start_mark,
             )
         mapping[key] = loader.construct_object(value_node)
     return mapping
