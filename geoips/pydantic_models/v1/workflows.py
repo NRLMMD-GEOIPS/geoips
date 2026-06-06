@@ -199,11 +199,6 @@ class GlobalVariablesModel(PermissiveFrozenModel):
     presectoring toggle)
     """
 
-    presector: bool = Field(
-        False,
-        description="Specify whether to presector the data prior to applying "
-        "the algorithm",
-    )
     product_db: bool = Field(False)
     product_db_writer: str | None = Field(None)
     product_db_writer_kwargs: Dict[str, Any] | None = Field(None)

@@ -43,3 +43,9 @@ invalid_value_self_register_dataset:
   val: True
   cls: ReaderArgumentsModel
   err_str: "Input should be a valid string"
+invalid_value_presector:
+  description: "Ensure invalid value for presector is not accepted"
+  key: presector
+  val: not-a-boolean
+  cls: ReaderArgumentsModel
+  err_str: "Input should be a valid boolean"
