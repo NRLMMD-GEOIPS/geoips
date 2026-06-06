@@ -24,10 +24,8 @@ spec:
     reader:
       kind: reader
       name: abi_l2_netcdf
-    arguments: {
+    arguments:
       resampled_read: True,
-      presector: False,
-    }
     algorithm:
       kind: algorithm
       name: windbarbs_dmw
