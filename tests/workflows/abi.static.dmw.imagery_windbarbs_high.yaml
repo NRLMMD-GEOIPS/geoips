@@ -19,7 +19,6 @@ test:
 spec:
   global-arguments:
     product_name: DMW-High
-    reader_defined_area_def: False
     sector_list: ["goes_east"]
     minimum_coverage: 0 
   steps:
