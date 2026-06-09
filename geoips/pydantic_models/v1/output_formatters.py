@@ -26,6 +26,13 @@ class OutputFormatterArgumentsModel(PermissiveFrozenModel):
         default=False,
         description="whether to overwrite the output file even if it exists",
     )
+    is_3d: bool = Field(
+        False,
+        description=(
+            "When True, interpret the product data as a 3D array; otherwise,"
+            "interpret it as a 2D array"
+        ),
+    )
     title_copyright: str | None = Field(None, description="copyright string")
     x_size: int = Field(
         None,
@@ -67,7 +74,7 @@ class OutputFormatterArgumentsModel(PermissiveFrozenModel):
     # fig = Field(None)
     # # --output_formatter_kwargs
     # hist_colorbar: bool = Field(False)
-    # is_3d: bool = Field(False)
+
     # main_ax = Field(None)
     # mapobj = Field(None)
     # metadata_dir: str = Field(
