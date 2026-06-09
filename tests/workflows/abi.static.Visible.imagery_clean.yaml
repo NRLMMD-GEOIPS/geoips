@@ -11,8 +11,9 @@
 apiVersion: geoips/v1
 interface: products
 family: order_based
-name: read_test
-docstring: Read test.
+name: Visible
+docstring: |
+    0.51 µm Visible. This daytime only product utilizes channel 2 (0.51 µm) and can be used for tracking the motion and cloud patterns.
 package: geoips
 test:
   fnames: !ENV ${GEOIPS_TESTDATA_DIR}/test_data_abi/data/goes16_20200918_1950/*
