@@ -11,7 +11,7 @@
 apiVersion: geoips/v1
 interface: products
 family: order_based
-name: Visible
+name: ami-Visible
 docstring: The Visible product_defaults for Geokompsat AMI product.
 package: geoips
 test:

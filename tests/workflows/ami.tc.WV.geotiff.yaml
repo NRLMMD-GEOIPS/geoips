@@ -11,7 +11,7 @@
 apiVersion: geoips/v1
 interface: products
 family: order_based
-name: WV
+name: ami-WV
 docstring: The WV product_defaults configuration for Geokompsat AMI product.
 package: geoips
 test:

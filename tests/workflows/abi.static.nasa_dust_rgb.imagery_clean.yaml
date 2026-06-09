@@ -11,8 +11,8 @@
 apiVersion: geoips/v1
 interface: products
 family: order_based
-name: rnasa_dust_rgb
-docstring: The nasa_dust_rgb workflow.
+name: nasa_dust_rgb
+docstring: The nasa_dust_rgb product_defaults configuration.
 package: geoips
 test:
   fnames: !ENV ${GEOIPS_TESTDATA_DIR}/test_data_abi/data/goes16_20200918_1950/*

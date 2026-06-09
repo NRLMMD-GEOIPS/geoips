@@ -11,7 +11,7 @@
 apiVersion: geoips/v1
 interface: products
 family: order_based
-name: absdiff-IR-BD
+name: ami-absdiff-IR-BD
 docstring: |
   The absolute difference between IR-BD between two Geokomsat AMI scan times.
 package: geoips

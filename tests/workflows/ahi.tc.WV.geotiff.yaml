@@ -11,7 +11,7 @@
 apiVersion: geoips/v1
 interface: products
 family: order_based
-name: WV
+name: ahi-WV
 docstring: |
   6.9 µm Mid-Level Water Vapor. In this product, the effective layer lies in the uppermost region of appreciable water vapor. This product
   utilizes channel 9 (6.9 µm) and is a mid-level product that can view as low as 500mb level. Warm colors illustrate cold (higher) effective

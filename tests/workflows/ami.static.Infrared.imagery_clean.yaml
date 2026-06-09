@@ -11,7 +11,7 @@
 apiVersion: geoips/v1
 interface: products
 family: order_based
-name: Infrared
+name: ami-Infrared
 docstring: The Infrared product_defaults configuration for the Geokompsat AMI product.
 package: geoips
 test:
