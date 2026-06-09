@@ -22,6 +22,9 @@ class OutputFormatterArgumentsModel(PermissiveFrozenModel):
 
     append: bool = Field(False)
     basedir: str = Field(PLUGIN_PROVIDED)
+    bg_product_name_title: str | None = Field(
+        None, description="Title of background product"
+    )
     clobber: bool = Field(
         default=False,
         description="whether to overwrite the output file even if it exists",
@@ -61,9 +64,7 @@ class OutputFormatterArgumentsModel(PermissiveFrozenModel):
     # bg_mpl_colors_info = Field(None)
     # bg_xarray = Field(None)
     # bg_datatype_title: str | None = Field(None, description="background data type")
-    # bg_product_name_title: str | None = Field(
-    #     None, description="background product title"
-    # )
+
     # clean_fname = Field(None)
     # # --output_formatter_kwargs
 
