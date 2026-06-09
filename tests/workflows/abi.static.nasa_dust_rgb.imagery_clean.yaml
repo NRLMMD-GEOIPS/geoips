@@ -1,7 +1,7 @@
 # # # This source code is subject to the license referenced at
 # # # https://github.com/NRLMMD-GEOIPS.
 
-# script migration = done 
+# script migration = done
 # product testing = ongoing
 
 # Default values - if you do not have this exact test case available, call with available data files / sectors.
@@ -11,8 +11,8 @@
 apiVersion: geoips/v1
 interface: products
 family: order_based
-name: read_test
-docstring: Read test.
+name: rnasa_dust_rgb
+docstring: The nasa_dust_rgb workflow.
 package: geoips
 test:
   fnames: !ENV ${GEOIPS_TESTDATA_DIR}/test_data_abi/data/goes16_20200918_1950/*

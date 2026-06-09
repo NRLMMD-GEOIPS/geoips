@@ -1,38 +1,35 @@
-# # # status = Workflow to be updated
 # # # This source code is subject to the license referenced at
 # # # https://github.com/NRLMMD-GEOIPS.
+
+# script migration = done 
+# product testing = ongoing
 
 # Default values - if you do not have this exact test case available, call with available data files / sectors.
 # This exact test case required for valid comparisons - remove "compare_path" argument if running a different
 # set of arguments.
+
 apiVersion: geoips/v1
 interface: products
 family: order_based
-name: read_test
-docstring: Read test.
+name: WV
+docstring: |
+  6.9 µm Mid-Level Water Vapor. In this product, the effective layer lies in the uppermost region of appreciable water vapor. This product
+  utilizes channel 9 (6.9 µm) and is a mid-level product that can view as low as 500mb level. Warm colors illustrate cold (higher) effective
+  layers and cool colors illustrate warm (lower) effective layers. This can show forecasters how much potential a storm has to develop and the
+  locations of dry slots.
 package: geoips
 test:
   fnames: !ENV ${GEOIPS_TESTDATA_DIR}/test_data_ahi/data/20200405_0000/HS_H08*
-  command_line_args:
-    compare_path: !ENV ${GEOIPS_PACKAGES_DIR}/geoips/tests/outputs/ahi.tc.<product>.geotiff
-    logging_level: debug
 spec:
   global-arguments:
-    presector: False
-    product_db: False
-    product_db_writer: None
-    product_db_writer_kwargs: None
     product_name: WV
-    reader_defined_area_def: False
-    window_start_time: None
-    window_end_time: None
     sector_list: None
   steps:
     reader:
       kind: reader
       name: ahi_hsd
       arguments: {
-        resampled_read: True
+        resampled_read: True,
       }
     product:
       kind: product
@@ -42,7 +39,19 @@ spec:
       kind: output_formatter
       name: geotiff_standard
       arguments: {}
+    sector_metadata_generators:
+      kind: sector_metadata_generators
+      name: bdeck_parser
+      arguments: {
+        trackfiles: !ENV $GEOIPS_PACKAGES_DIR/geoips/tests/sectors/tc_bdecks/bsh252020.dat
+      }
     filename_formatter:
       kind: filename_formatter
       name: geotiff_fname
       arguments: {}
+    output_checker:
+      kind: output_checker
+      name: PLUGIN_PROVIDED
+      arguments: {
+        compare_path: !ENV $GEOIPS_PACKAGES_DIR/geoips/tests/outputs/ahi.tc.<product>.geotiff
+      }

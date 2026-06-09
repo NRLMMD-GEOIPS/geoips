@@ -1,37 +1,33 @@
-# # # status = ongoing
 # # # This source code is subject to the license referenced at
 # # # https://github.com/NRLMMD-GEOIPS.
+
+# script migration = done 
+# product testing = ongoing
 
 # Default values - if you do not have this exact test case available, call with available data files / sectors.
 # This exact test case required for valid comparisons - remove "compare_path" argument if running a different
 # set of arguments.
+
 apiVersion: geoips/v1
 interface: products
 family: order_based
-name: read_test
-docstring: Read test.
+name: Test-Visible-Logarithmic
+docstring: |
+  0.51 µm Visible with log-scaled colorbar. For integration test purposes only
+  until we have a valid product that relies on a log-scaled colorbar.
 package: geoips
 test:
   fnames: !ENV ${GEOIPS_TESTDATA_DIR}/test_data_abi/data/goes16_20200918_1950/*
-  command_line_args:
-    compare_path: !ENV ${GEOIPS_PACKAGES_DIR}/geoips/tests/outputs/abi.static.<product>.imagery_clean
 spec:
   global-arguments:
-    presector: False
-    product_db: False
-    product_db_writer: None
-    product_db_writer_kwargs: None
     product_name: Test-Visible-Logarithmic
-    reader_defined_area_def: False
-    window_start_time: None
-    window_end_time: None
     sector_list: ["test_goes16_eqc_3km_terminator_20200918T1950Z"]
   steps:
     reader:
       kind: reader
       name: abi_netcdf
       arguments: {
-        resampled_read: True
+        resampled_read: True,
       }
     product:
       kind: product
@@ -45,3 +41,9 @@ spec:
       kind: filename_formatter
       name: geoips_fname
       arguments: {}
+    output_checker:
+      kind: output_checker
+      name: PLUGIN_PROVIDED
+      arguments: {
+        compare_path: !ENV $GEOIPS_PACKAGES_DIR/geoips/tests/outputs/abi.static.<product>.imagery_clean
+      }
