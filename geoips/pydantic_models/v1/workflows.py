@@ -36,6 +36,9 @@ from geoips.pydantic_models.v1.bases import (
 )
 from geoips.pydantic_models.v1.algorithms import AlgorithmArgumentsModel
 from geoips.pydantic_models.v1.coverage_checkers import CoverageCheckerArgumentsModel
+from geoips.pydantic_models.v1.filename_formatters import (
+    FilenameFormatterArgumentsModel,
+)
 from geoips.pydantic_models.v1.interpolators import InterpolatorArgumentsModel
 from geoips.pydantic_models.v1.readers import ReaderArgumentsModel
 from geoips.utils.types.partial_lexeme import Lexeme
@@ -117,12 +120,6 @@ def get_plugin_kinds() -> set[str]:
 
 class OutputFormatterArgumentsModel(PermissiveFrozenModel):
     """Validate Output Formatter arguments."""
-
-    pass
-
-
-class FilenameFormatterArgumentsModel(PermissiveFrozenModel):
-    """Validate FilenameFormatter arguments."""
 
     pass
 
