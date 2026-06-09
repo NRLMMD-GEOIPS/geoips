@@ -11,8 +11,7 @@ from pydantic import Field
 
 # GeoIPS imports
 from geoips.pydantic_models.v1.bases import PermissiveFrozenModel
-
-PLUGIN_PROVIDED = "plugin_provided"
+from geoips.constants import PLUGIN_PROVIDED
 
 
 class ColormapperArgumentsModel(PermissiveFrozenModel):
@@ -22,7 +21,7 @@ class ColormapperArgumentsModel(PermissiveFrozenModel):
     """
 
     cbar_full_width: bool = Field(
-        default=PLUGIN_PROVIDED,
+        default=False,
         description='"Extend the colorbar across the full width of the image"',
     )
     cbar_label: str = Field(

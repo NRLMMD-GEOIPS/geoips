@@ -7,54 +7,18 @@
 from argparse import ArgumentParser
 from glob import glob
 import logging
-from importlib import import_module
 
 # GeoIPS imports
 from geoips import interfaces
 from geoips.commandline.log_setup import setup_logging
 from geoips.utils.types.partial_lexeme import Lexeme
+from geoips.plugins.modules.procflows import obp_utils
 
 LOG = logging.getLogger(__name__)
 
 interface = "procflows"
 family = "standard"
 name = "order_based"
-
-
-def validate_arguments(apiVersion, interface, arguments):
-    """Load the correct pydantic argument model and validate arguments.
-
-    Where the 'correct' argument model is based on apiVersion and interface.
-
-    Parameters
-    ----------
-    apiVersion : str
-        The apiVersion of the workflow model that contained these arguments.
-    interface : str
-        The name of the interface we'll provide arguments to.
-    arguments : dict[str, Any]
-        A dictionary of arguments to validate against a certain model.
-
-    Returns
-    -------
-    validated_arguments : dict[str, Any]
-        A validated representation of the input arguments.
-    """
-    package, version = apiVersion.split("/")
-    try:
-        module = import_module(f"{package}.pydantic_models.{version}.{interface}")
-    except ImportError as e:
-        raise ImportError(f"Could not import models from '{version}': {e}") from e
-
-    interface_base = str(Lexeme(interface).singular)
-    model_name = f"{interface_base.title().replace('_', '')}ArgumentsModel"
-
-    try:
-        model_class = getattr(module, model_name)
-    except AttributeError as e:
-        raise ValueError(f"Model '{model_name}' not found in '{apiVersion}'") from e
-
-    return model_class(**arguments).model_dump()
 
 
 def call(workflow, fnames, command_line_args=None):
@@ -78,6 +42,7 @@ def call(workflow, fnames, command_line_args=None):
 
     LOG.interactive(f"Begin processing '{workflow.get('name', 'embedded')}' workflow.")
 
+    workflow = obp_utils.remove_keys_with_default_value_plugin_provided(workflow)
     apiVersion = workflow.get("apiVersion", "geoips/v1")
     handled_interfaces = ["readers", "coverage_checkers", "workflows"]
     for step_id, step_def in workflow["spec"]["steps"].items():
@@ -121,7 +86,9 @@ def call(workflow, fnames, command_line_args=None):
                 # through without being validated. For example, we use the 'add_args'
                 # function which validates args differently than our pydantic models
                 # do
-                validate_arguments(apiVersion, interface, step_def["arguments"])
+                obp_utils.validate_arguments(
+                    apiVersion, interface, step_def["arguments"]
+                )
                 # pass in the original arguments as not all readers implement the same
                 # arg / kwarg set.
                 data = plg(**step_def["arguments"])
@@ -131,7 +98,9 @@ def call(workflow, fnames, command_line_args=None):
                 # weird bugs.
                 data = plg(
                     data,
-                    **validate_arguments(apiVersion, interface, step_def["arguments"]),
+                    **obp_utils.validate_arguments(
+                        apiVersion, interface, step_def["arguments"]
+                    ),
                 )
             LOG.interactive(
                 "Completed Step: step_id: '%s', plugin_kind: '%s', plugin_name: '%s'.",
