@@ -3,8 +3,7 @@
 > **Implementation Status (May 2026)**
 >
 > The DataTree runtime described in this specification has been partially
-> implemented in the `obp-meets-datatree` branch.  The following sections
-> are **implemented and verified**:
+> implemented.  The following sections are **implemented**:
 >
 > - §2  DataTree container — `DataTreeDitto` with pluggable converters
 > - §3  Workflow specification — pydantic models with `depends_on`,
