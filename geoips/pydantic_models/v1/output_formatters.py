@@ -19,6 +19,17 @@ class OutputFormatterArgumentsModel(PermissiveFrozenModel):
 
     append: bool = Field(False)
     basedir: str = Field(PLUGIN_PROVIDED)
+    clobber: bool = Field(
+        default = False,
+        description = "whether to overwrite the output file even if it exists"
+                          )
+    title_copyright: str | None = Field(None, description="copyright string")
+    x_size: int = Field(None, description="Number of pixels in the x direction of the projected area definition")
+    y_size: int = Field(None, description="Number of pixels in the y direction of the projected area definition")
+
+    
+    
+    # title_formatter: str | None = Field(None, description="format for title")
 
     # area_def: AreaDefinition = Field(
     #     description="pyresample AreaDefinition object specifying the area covered by the current plot"
@@ -35,7 +46,7 @@ class OutputFormatterArgumentsModel(PermissiveFrozenModel):
     # )
     # clean_fname = Field(None)
     # # --output_formatter_kwargs
-    # clobber: bool = Field(False)
+
     # cog: bool = Field(True)
     # #  TBD
     # # compression_kwargs=None
@@ -66,8 +77,7 @@ class OutputFormatterArgumentsModel(PermissiveFrozenModel):
     # # of: test_winds
     # # source_names
 
-    # title_copyright: str | None = Field(None, description="string for copyright")
-    # title_formatter: str | None = Field(None, description="format for title")
+
     # use_compression: bool = Field(False)
     # var_name = Field(
     #     None,
@@ -76,6 +86,4 @@ class OutputFormatterArgumentsModel(PermissiveFrozenModel):
     # # varlist
     # working_directory: str = Field(PLUGIN_PROVIDED)
     # # --output_formatter_kwargs
-    # x_size = Field(None)
     # # --output_formatter_kwargs
-    # y_size = Field(None)
