@@ -17,7 +17,7 @@ package: geoips
 test:
   fnames: !ENV ${GEOIPS_TESTDATA_DIR}/test_data_abi/data/goes16_20210929_0000/OR_ABI-L2-DMWVF*.nc
 spec:
-  global-arguments:
+  globals:
     product_name: DMW-High
     sector_list: ["goes_east"]
     minimum_coverage: 0 

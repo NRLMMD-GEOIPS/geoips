@@ -17,7 +17,7 @@ package: geoips
 test:
   fnames: !ENV ${GEOIPS_TESTDATA_DIR}/test_data_ami/data/20231208_0300_daytime/gk2a_ami_le1b_*.nc
 spec:
-  global-arguments:
+  globals:
     product_name: Infrared
     sector_list: ["geokompsat"]
   steps:

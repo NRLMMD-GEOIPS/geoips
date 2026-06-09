@@ -21,7 +21,7 @@ package: geoips
 test:
   fnames: !ENV ${GEOIPS_TESTDATA_DIR}/test_data_ahi/data/20200405_0000/HS_H08*
 spec:
-  global-arguments:
+  globals:
     product_name: WV
     sector_list: None
   steps:

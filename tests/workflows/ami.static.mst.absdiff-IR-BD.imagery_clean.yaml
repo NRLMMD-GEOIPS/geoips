@@ -18,7 +18,7 @@ package: geoips
 test:
   fnames: !ENV ${GEOIPS_TESTDATA_DIR}/test_data_multi_scan_times/data/geokompsat-ami/LA/*ir112*.nc
 spec:
-  global-arguments:
+  globals:
     product_name: absdiff-IR-BD
     sector_list: ["geokompsat"]
     minimum_coverage: 0 

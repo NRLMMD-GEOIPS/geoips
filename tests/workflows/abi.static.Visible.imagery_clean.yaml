@@ -18,7 +18,7 @@ package: geoips
 test:
   fnames: !ENV ${GEOIPS_TESTDATA_DIR}/test_data_abi/data/goes16_20200918_1950/*
 spec:
-  global-arguments:
+  globals:
     product_name: Visible
     sector_list: ["test_goeseast_eqc_3km_landocean"]
   steps:
