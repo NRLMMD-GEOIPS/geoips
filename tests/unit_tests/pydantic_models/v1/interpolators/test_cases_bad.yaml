@@ -1,0 +1,48 @@
+InterpGaussInterpolatorModel_sigmaval_invalid_input:
+  description: "Ensure invalid value for sigmaval is not accepted"
+  key: sigmaval
+  val: invalid_input
+  cls: InterpolatorArgumentsModel
+  err_str: Input should be a valid integer
+InterpGaussInterpolatorModel_sigmaval_missing_input:
+  description: "Ensure that required sigmaval field is not missing"
+  key: sigmaval
+  val: 
+  cls: InterpolatorArgumentsModel
+  err_str: Input should be a valid integer
+InterpGaussInterpolatorModel_drop_nan_invalid_input:
+  description: "Ensure invalid value for drop_nan is not accepted"
+  key: drop_nan
+  val: invalid_input
+  cls: InterpGaussInterpolator
+  err_str: Input should be a valid boolean
+InterpGaussInterpolatorModel_drop_nan_missing_input:
+  description: "Ensure that required drop_nan field is not missing"
+  key: drop_nan
+  val: 
+  cls: InterpGaussInterpolator
+  err_str: Input should be a valid boolean
+InterpGridInterpolatorModel_method_invalid_input:
+  description: "Ensure invalid value for method is not accepted"
+  key: method
+  val: 123
+  cls: InterpGridInterpolator
+  err_str: Input should be a valid string
+InterpGridInterpolatorModel_method_missing_input:
+  description: "Ensure invalid value for method is not accepted"
+  key: method
+  val: 
+  cls: InterpGridInterpolator
+  err_str: Input should be a valid string
+InterpolatorArgumentsModel_area_def_invalid_input:
+  description: "Ensure invalid value for area_def is not accepted"
+  key: area_def
+  val: 123
+  cls: InterpolatorArgumentsModel
+  err_str: Input should be a valid str
+InterpolatorArgumentsModel_varlist_invalid_input:
+  description: "Ensure invalid value for varlist is not accepted"
+  key: varlist
+  val: True
+  cls: InterpolatorArgumentsModel
+  err_str: Input should be a valid list

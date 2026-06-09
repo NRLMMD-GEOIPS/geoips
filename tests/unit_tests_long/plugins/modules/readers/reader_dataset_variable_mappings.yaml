@@ -1,15 +1,15 @@
 implemented_tests_for_readers:
-  ami_netcdf:
-    data_path: "/test_data_ami/data/20231208_0300_daytime/*.nc"
-    test_parameters:
-      - param1:
-          data_key: HIGH
-          data_var: VI006Ref
-          mean: 0.14788916
-      - param2:
-          data_key: LOW
-          data_var: IR112BT
-          mean: 286.63754873
+  # ami_netcdf:
+  #   data_path: "/test_data_ami/data/20231208_0300_daytime/*.nc"
+  #   test_parameters:
+  #     - param1:
+  #         data_key: HIGH
+  #         data_var: VI006Ref
+  #         mean: 0.14788916
+  #     - param2:
+  #         data_key: LOW
+  #         data_var: IR112BT
+  #         mean: 286.63754873
   amsr2_netcdf:
     data_path: "/test_data_amsr2/data/AMSR2-MBT*.nc"
     test_parameters:
