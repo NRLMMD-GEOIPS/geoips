@@ -1,7 +1,7 @@
 # # # This source code is subject to the license referenced at
 # # # https://github.com/NRLMMD-GEOIPS.
 
-# script migration = done except (--tc_spec_template volc_tonga)
+# script migration = done 
 # product testing = ongoing
 
 # Default values - if you do not have this exact test case available, call with available data files / sectors.
@@ -11,23 +11,25 @@
 apiVersion: geoips/v1
 interface: products
 family: order_based
-name: read_test
-docstring: Read test.
+name: Visible
+docstring: The Visible product_defaults for Geokompsat AMI product.
 package: geoips
 test:
-  fname: !ENV ${GEOIPS_TESTDATA_DIR}/test_data_ahi/data/tonga_20220115T0430/*
+  fnames: !ENV ${GEOIPS_TESTDATA_DIR}/test_data_ami/data/20231208_0300_daytime/*.nc
 spec:
   global-arguments:
-    product_name: Infrared
-    sector_list: None
+    product_name: Visible
+    sector_list: ["geokompsat"]
   steps:
     reader:
       kind: reader
-      name: ahi_hsd
-    arguments: {}
+      name: ami_netcdf
+      arguments: {
+        resampled_read: True
+      }
     product:
       kind: product
-      name: Infrared
+      name: Visible
       arguments: {}
     output_formatter:
       kind: output_formatter
@@ -41,11 +43,5 @@ spec:
       kind: output_checker
       name: PLUGIN_PROVIDED
       arguments: {
-        compare_path: !ENV $GEOIPS_PACKAGES_DIR/geoips/tests/outputs/ahi.tonga.volcano
-      }
-    sector_metadata_generators:
-      kind: sector_metadata_generators
-      name: volc_parser
-      arguments: {
-        trackfiles: !ENV $GEOIPS/tests/sectors/volc_csv/tonga_trackfile.csv
+        compare_path: !ENV $GEOIPS_PACKAGES_DIR/geoips/tests/outputs/ami.static.<product>.imagery_clean
       }
