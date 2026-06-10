@@ -28,17 +28,36 @@ spec:
       arguments: {
         resampled_read: True,
       }
-    product:
-      kind: product
-      name: Infrared
+    interpolator:
+      kind: interpolator
+      name: interp_nearest
       arguments: {}
-    output_formatter:
-      kind: output_formatter
-      name: imagery_clean
-      arguments: {}
+    algorithm:
+      kind: algorithm
+      name: single_channel
+      arguments: {
+        output_data_range: [-90.0, 30.0],
+        input_units: Kelvin,
+        output_units: celsius,
+        min_outbounds: crop,
+        max_outbounds: crop,
+        norm: false,
+        inverse: false,
+      }
+    # coverage_checker is used in this product but not specified in the SSP as well
+    # during the testing should be added just before the filename_formatter
     filename_formatter:
       kind: filename_formatter
       name: geoips_fname
+      arguments: {}
+    colormapper:
+      kind: colormapper
+      name: Infrared
+      arguments:
+        data_range: [-90.0, 30.0]
+    output_formatter:
+      kind: output_formatter
+      name: imagery_clean
       arguments: {}
     output_checker:
       kind: output_checker
