@@ -9,12 +9,6 @@ bug fix:
     Also add error handling if either a b-deck or g-deck file cannot be parsed and added
     to the decks database.
   files:
-    deleted:
-    - ''
-    moved:
-    - ''
-    added:
-    - ''
     modified:
     - 'geoips/sector_utils/tc_tracks_database.py'
   related-issue:

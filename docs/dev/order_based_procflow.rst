@@ -118,7 +118,6 @@ Output Formatter step in the code block below includes two additional plugins,
     apiVersion: geoips/v1
     interface: products
     family: order_based
-    is_registered: false
     name: read_test
     docstring: Read test.
     package: geoips
