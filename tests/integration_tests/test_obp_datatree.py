@@ -128,12 +128,16 @@ class TestOutputTokenStability:
         """Same spec + same data -> identical output_token."""
         spec = _build_linear_spec()
         t1 = (
-            Workflow(spec, workflow_name="e1").call(fnames=[])
-            .get("read").attrs["output_token"]
+            Workflow(spec, workflow_name="e1")
+            .call(fnames=[])
+            .get("read")
+            .attrs["output_token"]
         )
         t2 = (
-            Workflow(spec, workflow_name="e2").call(fnames=[])
-            .get("read").attrs["output_token"]
+            Workflow(spec, workflow_name="e2")
+            .call(fnames=[])
+            .get("read")
+            .attrs["output_token"]
         )
         assert t1 == t2
 
@@ -192,9 +196,9 @@ class TestRetention:
         assert algo_node.ds is not None
 
         assert read_node is not None
-        assert read_node.attrs.get("gc_status") == "data_dropped", (
-            "Non-output step should be GC'd by keep_outputs_only policy"
-        )
+        assert (
+            read_node.attrs.get("gc_status") == "data_dropped"
+        ), "Non-output step should be GC'd by keep_outputs_only policy"
 
 
 class TestErrorPaths:

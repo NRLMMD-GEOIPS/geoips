@@ -92,4 +92,3 @@ class OrderBased(BaseProcflowPlugin):
 
         LOG.interactive("The workflow '%s' has finished processing.", wf_name)
         return result
-

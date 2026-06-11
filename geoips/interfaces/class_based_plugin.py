@@ -257,10 +257,10 @@ class BaseClassPlugin(ABC):
             data = self.call(data, *args, **new_kwargs)
             data = self._post_call(data, *args, **new_kwargs)
             result = data
-            
+
         if not self.data_tree and result is not None:
             result = self._wrap(result)
-            
+
         return result
 
     def __init__(self, module=None):

@@ -146,7 +146,9 @@ class Workflow:
         time by ``_validate_dependencies``; this function assumes a DAG.
         """
         step_ids = list(self._spec.steps.keys())
-        indegree = {sid: len(step.depends_on or ()) for sid, step in self._spec.steps.items()}
+        indegree = {
+            sid: len(step.depends_on or ()) for sid, step in self._spec.steps.items()
+        }
 
         queue = deque(sid for sid in step_ids if indegree[sid] == 0)
         order: list[str] = []
@@ -290,7 +292,7 @@ class Workflow:
         xr.DataTree
             The fully-populated workflow DataTree.
         """
-        from geoips.errors import PluginResolutionError
+        # from geoips.errors import PluginResolutionError
 
         tree = (
             xr.DataTree(name=self._wf_name) if workflow_tree is None else workflow_tree

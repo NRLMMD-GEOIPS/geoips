@@ -29,7 +29,7 @@ class WorkflowsInterface(BaseYamlInterface):
     #                                        #
     ##########################################
 
-    def _set_nested(self, d, step_id, keys, argument, value, oc_override=False):
+    def _set_nested(self, d, step_id, keys, argument, value):
         """Set a key value pair in a nested dictionary.
 
         Parameters
@@ -42,10 +42,6 @@ class WorkflowsInterface(BaseYamlInterface):
             The final key to set value to.
         value: Any
             The value to assign to a key that's in a nested dictionary.
-        oc_override: bool, optional
-            Whether or not the override being applied is an output checker override.
-            If so, use different logic to create an output_checker step if it doesn't
-            already exist and modify the arguments as expected.
 
         Returns
         -------
@@ -53,56 +49,11 @@ class WorkflowsInterface(BaseYamlInterface):
             A nested dictionary.
         """
         current = d
-        all_keys = [step_id] + keys
-        for idx, key in enumerate(all_keys):
-            if idx == len(all_keys) - 1 and oc_override:
-                # If step output checker override was requested, attempt to override
-                # The next step in the ordered dictionary if it is an output
-                # checker step. Otherwise, add a new step that is a token output checker
-                # step
-                try:
-                    potential_oc_key = list(current)[list(current).index(key) + 1]
-                    current = current.get(potential_oc_key, {})
-                    if current.get("kind") != "output_checker":
-                        current = {
-                            f"token_output_checker_{idx + 1}": self._token_oc_format,
-                        }
-                except IndexError:
-                    current = {
-                        f"token_output_checker_{idx + 1}": self._token_oc_format,
-                    }
-                break
-            else:
-                current = current.get(key, {})
+        for key in [step_id] + keys:
+            current = current.get(key, {})
         current["arguments"][argument] = value
 
         return d
-
-    def _override_output(self, steps, override):
-        """Override an argument for an output_checker plugin for a given step.
-
-        Parameters
-        ----------
-        steps: dict[dict]
-            An ordered dictionary of steps to apply in a given workflow.
-        override: Any
-            The value of the override.
-
-        Returns
-        -------
-        steps: dict[dict]
-            An overridden representation of 'steps'.
-        """
-        steps = self._set_nested(
-            steps,
-            override["step_id"],
-            override["keys"],
-            override["argument"],
-            override["value"],
-            oc_override=True,
-        )
-
-        return steps
 
     def _override_step(self, steps, override):
         """Override an argument of a given step.
@@ -176,7 +127,6 @@ class WorkflowsInterface(BaseYamlInterface):
         goverrides=[],
         koverrides=[],
         soverrides=[],
-        oc_overrides=[],
     ):
         """Override a workflow plugin where applicable.
 
@@ -190,8 +140,6 @@ class WorkflowsInterface(BaseYamlInterface):
             A list of string kind overrides.
         soverrides: list[str], optional
             A list of string step overrides.
-        oc_overrides: list[str], optional
-            A list of string single step output_checker overrides.
 
         Returns
         -------
@@ -200,12 +148,7 @@ class WorkflowsInterface(BaseYamlInterface):
         """
         steps = workflow["spec"]["steps"]
 
-        wf_overrides = {
-            "globals": goverrides,
-            "kinds": koverrides,
-            "steps": soverrides,
-            "outputs": oc_overrides,
-        }
+        wf_overrides = {"globals": goverrides, "kinds": koverrides, "steps": soverrides}
 
         for override_type, overrides in wf_overrides.items():
             type_singular = Lexeme(override_type).singular
