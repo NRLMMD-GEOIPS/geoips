@@ -50,7 +50,7 @@ def call(workflow, fnames, command_line_args=None):
 
         if interface not in handled_interfaces:
             LOG.interactive(
-                "⚠️ Skipping unhandled interface '%s'. Would have called the '%s'"
+                "⚠️ Skipping unhandled interface '%s'. Would have called the '%s' "
                 "plugin.",
                 interface,
                 step_def["name"],
@@ -91,7 +91,7 @@ def call(workflow, fnames, command_line_args=None):
                 )
                 # pass in the original arguments as not all readers implement the same
                 # arg / kwarg set.
-                data = plg(**step_def["arguments"])
+                data = plg(**step_def["arguments"], _obp_initiated=True)
                 print(data)
             else:
                 # Temporary re-validate here as well. Just ensures that we catch any

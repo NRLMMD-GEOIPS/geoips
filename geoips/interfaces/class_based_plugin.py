@@ -123,12 +123,16 @@ class BaseClassPlugin(ABC):
 
     # hooks are intentionally loose; document their accepted kwargs
     # def _pre_call(self, data: R, *args, **kwargs) -> R:
-    def _pre_call(self, data=None, *args, **kwargs):
+    def _pre_call(self, data=None, _obp_initiated=False, *args, **kwargs):
         """Preprocess the data before calling the main plugin method.
 
         Parameters
         ----------
-        data : The input data for the plugin.
+        data : R, optional
+            The input data for the plugin.
+        _obp_initiated : bool, optional
+            Whether or not this plugin is being called via the order based procflow.
+            Defaults to False.
 
         Returns
         -------
@@ -137,13 +141,16 @@ class BaseClassPlugin(ABC):
         return data
 
     # def _post_call(self, data: R, *args, **kwargs) -> R:
-    def _post_call(self, data=None, *args, **kwargs):
+    def _post_call(self, data=None, _obp_initiated=False, *args, **kwargs):
         """Post-process the data after calling the main plugin method.
 
         Parameters
         ----------
-        data : R
+        data : R, optional
             The output data from the plugin.
+        _obp_initiated : bool, optional
+            Whether or not this plugin is being called via the order based procflow.
+            Defaults to False.
 
         Returns
         -------
@@ -152,7 +159,23 @@ class BaseClassPlugin(ABC):
         return data
 
     # def _invoke(self, data: R, *args: P.args, **kwargs: P.kwargs) -> R:
-    def _invoke(self, data=None, *args, **kwargs):
+    def _invoke(self, data=None, _obp_initiated=False, *args, **kwargs):
+        """Call the main plugin method.
+
+        Additionally, filter out unaccepted arguments if initiated via the OBP.
+
+        Parameters
+        ----------
+        data : R, optional
+            The output data from the plugin.
+        _obp_initiated : bool, optional
+            Whether or not this plugin is being called via the order based procflow.
+            Defaults to False.
+
+        Returns
+        -------
+            The processed data.
+        """
         # In the long run every plugin will accept a data tree
         # (I.e. colormapper modifies metadata)
         # if self.interface in [
@@ -160,12 +183,23 @@ class BaseClassPlugin(ABC):
         #     "sector_spec_generators",
         #     # "sector_metadata_generators",
         # ]:
-        if data is None:
-            data = self.call(*args, **kwargs)
+        if _obp_initiated:
+            provided_args = set(kwargs)
+            accepted_args = set(list(inspect.signature(self.call).parameters.keys()))
+            unaccepted_args = provided_args - accepted_args
+            for arg in unaccepted_args:
+                provided_args.remove(arg)
+
+            new_kwargs = {kwarg: kwargs[kwarg] for kwarg in provided_args}
         else:
-            data = self._pre_call(data, *args, **kwargs)
-            data = self.call(data, *args, **kwargs)
-            data = self._post_call(data, *args, **kwargs)
+            new_kwargs = kwargs
+
+        if data is None:
+            data = self.call(*args, **new_kwargs)
+        else:
+            data = self._pre_call(data, *args, **new_kwargs)
+            data = self.call(data, *args, **new_kwargs)
+            data = self._post_call(data, *args, **new_kwargs)
         return data
 
     def __init__(self, module=None):
