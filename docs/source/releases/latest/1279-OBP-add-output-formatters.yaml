@@ -8,9 +8,15 @@ feature:
     - ''
     added:
     - 'docs/source/releases/latest/1279-OBP-add-output-formatters.yaml'
-    - 'geoips/pydantic_models/v1/output_formatters.py'
+    - 'tests/unit_tests/pydantic_models/v1/output_formatters/test_cases_bad.yaml'
+    - 'tests/unit_tests/pydantic_models/v1/output_formatters/test_cases_good.yaml'
+    - 'tests/unit_tests/pydantic_models/v1/output_formatters/test_cases_neutral.yaml'
     modified:
-    - ''
+    - 'docs/dev/order_based_procflow.rst'
+    - 'geoips/pydantic_models/v1/output_formatters.py'
+    - 'tests/unit_tests/pydantic_models/v1/conftest.py'
+    - 'tests/unit_tests/pydantic_models/v1/test_pydantic_models.py'
+    - 'geoips/plugins/yaml/workflows/read_test_v1.yaml'
   related-issue:
     number: null
     repo_url: ''
