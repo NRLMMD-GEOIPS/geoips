@@ -3,12 +3,6 @@ bug fix:
   description: |
     Filter out the deploy tags so the latest tagged version of GeoIPS is shown.
   files:
-    deleted:
-    - ''
-    moved:
-    - ''
-    added:
-    - ''
     modified:
     - 'setup/config_geoips'
   related-issue:

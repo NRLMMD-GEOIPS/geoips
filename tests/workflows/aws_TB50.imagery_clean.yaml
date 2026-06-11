@@ -1,0 +1,46 @@
+# # # This source code is subject to the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
+
+# script migration = done
+# product testing = ongoing
+
+# Default values - if you do not have this exact test case available, call with available data files / sectors.
+# This exact test case required for valid comparisons - remove "compare_path" argument if running a different
+# set of arguments.
+
+apiVersion: geoips/v1
+interface: products
+family: order_based
+name: read_test
+docstring: Read test.
+package: geoips
+test:
+  fnames: !ENV ${GEOIPS_TESTDATA_DIR}/test_data_arctic_weather_satellite/data/20250416/W_NO-KSAT-Tromso%2CSAT%2CAWS1-MWR-1B-RAD_C_OHB__20250416161751_G_O_20250416142833_20250416160447*.nc
+spec:
+  globals:
+    product_name: TB50
+    reader_defined_area_def: False
+    sector_list: ["global_cylindrical"]
+  steps:
+    reader:
+      kind: reader
+      name: aws_netcdf
+    arguments: {}
+    product:
+      kind: product
+      name: TB50
+      arguments: {}
+    output_formatter:
+      kind: output_formatter
+      name: imagery_clean
+      arguments: {}
+    filename_formatter:
+      kind: filename_formatter
+      name: geoips_fname
+      arguments: {}
+    output_checker:
+      kind: output_checker
+      name: PLUGIN_PROVIDED
+      arguments: {
+        compare_path: !ENV $GEOIPS_PACKAGES_DIR/geoips/tests/outputs/aws.orbital.imagery_clean
+      }

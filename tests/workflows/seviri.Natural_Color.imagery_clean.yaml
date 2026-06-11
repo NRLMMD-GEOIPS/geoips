@@ -1,0 +1,46 @@
+# # # This source code is subject to the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
+
+# script migration = done
+# product testing = ongoing
+
+# Default values - if you do not have this exact test case available, call with available data files / sectors.
+# This exact test case required for valid comparisons - remove "compare_path" argument if running a different
+# set of arguments.
+
+apiVersion: geoips/v1
+interface: products
+family: order_based
+name: read_test
+docstring: Read test.
+package: geoips
+test:
+  fnames: !ENV ${GEOIPS_TESTDATA_DIR}/test_data_seviri/data/20250624/1200/H-000-MSG3*
+spec:
+  globals:
+    product_name: Natural_Color
+    reader_defined_area_def: False
+    sector_list: ["test_meteoeu_eqc_3km_landocean"]
+  steps:
+    reader:
+      kind: reader
+      name: seviri_hrit
+    arguments: {}
+    product:
+      kind: product
+      name: Natural_Color
+      arguments: {}
+    output_formatter:
+      kind: output_formatter
+      name: imagery_clean
+      arguments: {}
+    filename_formatter:
+      kind: filename_formatter
+      name: geoips_fname
+      arguments: {}
+    output_checker:
+      kind: output_checker
+      name: PLUGIN_PROVIDED
+      arguments: {
+        compare_path: !ENV $GEOIPS_PACKAGES_DIR/geoips/tests/outputs/seviri.Natural_Color.imagery_clean
+      }

@@ -1,0 +1,47 @@
+# # # This source code is subject to the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
+
+# script migration = done
+# product testing = ongoing
+
+# Default values - if you do not have this exact test case available, call with available data files / sectors.
+# This exact test case required for valid comparisons - remove "compare_path" argument if running a different
+# set of arguments.
+
+apiVersion: geoips/v1
+interface: products
+family: order_based
+name: nasa_dust_rgb
+docstring: The nasa_dust_rgb product_defaults configuration.
+package: geoips
+test:
+  fnames: !ENV ${GEOIPS_TESTDATA_DIR}/test_data_abi/data/goes16_20200918_1950/*
+spec:
+  globals:
+    product_name: nasa_dust_rgb
+    sector_list: ["test_goes16_eqc_10km_edge_day_20200918T1950Z"]
+  steps:
+    reader:
+      kind: reader
+      name: abi_netcdf
+      arguments: {
+        resampled_read: True,
+      }
+    product:
+      kind: product
+      name: nasa_dust_rgb
+      arguments: {}
+    output_checker:
+      kind: output_checker
+      name: PLUGIN_PROVIDED
+      arguments: {
+        compare_path: !ENV $GEOIPS_PACKAGES_DIR/geoips/tests/outputs/abi.static.<product>.imagery_clean
+      }
+    output_formatter:
+      kind: output_formatter
+      name: imagery_clean
+      arguments: {}
+    filename_formatter:
+      kind: filename_formatter
+      name: geoips_fname
+      arguments: {}

@@ -1,0 +1,53 @@
+# # # This source code is subject to the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
+
+# script migration = done 
+# product testing = ongoing
+
+# Default values - if you do not have this exact test case available, call with available data files / sectors.
+# This exact test case required for valid comparisons - remove "compare_path" argument if running a different
+# set of arguments.
+
+apiVersion: geoips/v1
+interface: products
+family: order_based
+name: ami-WV
+docstring: The WV product_defaults configuration for Geokompsat AMI product.
+package: geoips
+test:
+  fnames: !ENV ${GEOIPS_TESTDATA_DIR}/test_data_ami/data/20231208_0300_daytime/*.nc
+spec:
+  globals:
+    product_name: WV
+    sector_list: None
+  steps:
+    reader:
+      kind: reader
+      name: ami_netcdf
+      arguments: {
+        resampled_read: True
+      }
+    product:
+      kind: product
+      name: WV
+      arguments: {}
+    output_formatter:
+      kind: output_formatter
+      name: geotiff_standard
+      arguments: {}
+    filename_formatter:
+      kind: filename_formatter
+      name: geotiff_fname
+      arguments: {}
+    sector_metadata_generators:
+      kind: sector_metadata_generators
+      name: bdeck_parser
+      arguments: {
+        trackfiles: !ENV $GEOIPS_PACKAGES_DIR/geoips/tests/sectors/tc_bdecks/bsh032024.dat
+      }
+    output_checker:
+      kind: output_checker
+      name: PLUGIN_PROVIDED
+      arguments: {
+        compare_path: !ENV $GEOIPS_PACKAGES_DIR/geoips/tests/outputs/ami.tc.<product>.geotiff
+      }

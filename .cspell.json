@@ -6,9 +6,10 @@
     "words": [
         // Project Specific / Acronyms / People / Orgs
         "libopenblas",
-        "ryglickicane",
-        "amsua",
-        "AWIPS",
+		"ryglickicane",
+		"amsua",
+	    "AWIPS",
+        "cfnoc",
         "CIMSS",
         "CIRA",
         "CIRA's",
@@ -390,6 +391,7 @@
         "Sentinel",
         "SkyMed",
         "Suomi",
+        "tdrmi",
         "TRMM",
         "TROPOMI",
         "TerraSAR",

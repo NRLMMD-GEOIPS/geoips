@@ -11,7 +11,7 @@ geoips run single_source $GEOIPS_TESTDATA_DIR/test_data_abi/data/goes16_20200918
              --reader_name abi_netcdf \
              --product_name nasa_dust_rgb \
              --compare_path "$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/abi.static.<product>.imagery_clean" \
-             --output_formatter imagery_clean\
+             --output_formatter imagery_clean \
              --filename_formatter geoips_fname \
              --resampled_read \
              --sector_list test_goes16_eqc_10km_edge_day_20200918T1950Z
