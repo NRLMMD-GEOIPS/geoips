@@ -277,6 +277,36 @@ class GeoipsRunOrderBased(GeoipsWorkflowCommand):
             "value": yaml.safe_load(rhs),
         }
 
+    def step_output_checker_override_type(self, value: str):
+        """Ensure an override string fits the following format.
+
+        Expected Format
+        ---------------
+        '<step_id>.<string1>.<optional_string2>.<optional_string3>...=<some_value>'
+
+        Parameters
+        ----------
+        value: str
+            The full step override string for a geoips run order_based command.
+
+        Returns
+        -------
+        override_dict: dict
+            The validated contents of an override string in a dictionary.
+        """
+        override_dict = self.step_override_type(value)
+        accepted_argument_overrides = ["compare_path", "output_products", "token"]
+
+        if override_dict["argument"] not in accepted_argument_overrides:
+            self.parser.error(
+                f"Error: input override string '{value}' detected but the argument "
+                "trying to be overridden is not an accepted output checker override "
+                "argument. Please select one of the following:\n"
+                f"{accepted_argument_overrides}"
+            )
+
+        return override_dict
+
     def add_arguments(self):
         """Add arguments to the run-subparser for the 'run order-based' command."""
         # Required arguments
@@ -366,6 +396,18 @@ class GeoipsRunOrderBased(GeoipsWorkflowCommand):
                 "'<global_variable_name>=<some_value>'"
             ),
         )
+        self.parser.add_argument(
+            "-o",
+            "--output-override-strings",
+            default=[],
+            type=self.step_output_checker_override_type,
+            action="append",
+            help=(
+                "Output override string to apply to your workflow. An "
+                "override string should take on the following format:\n "
+                "'<step_id>.<string1>.<optional_string2>...<argument>=<some_value>'"
+            ),
+        )
 
         # Turning off all additional procflow args for this command. We want this
         # command to have a limited set of arguments to start.
@@ -393,6 +435,7 @@ class GeoipsRunOrderBased(GeoipsWorkflowCommand):
         s_override_strings = args.step_override_strings
         k_override_strings = args.kind_override_strings
         g_override_strings = args.global_override_strings
+        o_override_strings = args.output_override_strings
 
         # apply dict-based overrides
         if any(
@@ -423,6 +466,7 @@ class GeoipsRunOrderBased(GeoipsWorkflowCommand):
                 goverrides=g_override_strings,
                 koverrides=k_override_strings,
                 soverrides=s_override_strings,
+                oc_overrides=o_override_strings,
             )
             WorkflowPluginModel(**workflow, is_registered=False)
 
