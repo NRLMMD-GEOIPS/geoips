@@ -4,10 +4,12 @@ name: ob_windbarbs_dmw_high
 docstring: |
   The windbarbs workflow configuration.
 spec:
+  outputs: [output_formatter]
   steps:
     algorithm:
       kind: algorithm
       name: windbarbs_dmw
+      depends_on: []
       arguments:
         pressure_level_range: [0, 400]
         output_data_range: [0, 200]
@@ -20,10 +22,12 @@ spec:
     coverage_checker:
       kind: coverage_checker
       name: windbarbs
+      depends_on: [algorithm]
       arguments: {}
     output_formatter:
       kind: output_formatter
       name: imagery_windbarbs
+      depends_on: [coverage_checker]
       arguments:
         colormapper:
           kind: colormapper

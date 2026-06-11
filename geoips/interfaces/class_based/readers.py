@@ -19,6 +19,8 @@ from geoips.plugins.modules.readers.utils.hrit_reader import HritError
 class BaseReaderPlugin(BaseClassPlugin, abstract=True):
     """Base class for GeoIPS reader plugins."""
 
+    data_tree = False
+
     pass
 
 
