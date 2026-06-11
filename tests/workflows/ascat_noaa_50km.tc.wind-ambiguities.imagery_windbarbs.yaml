@@ -1,0 +1,45 @@
+# # # This source code is subject to the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
+
+# script migration = done
+# product testing = ongoing
+
+# Default values - if you do not have this exact test case available, call with available data files / sectors.
+# This exact test case required for valid comparisons - remove "compare_path" argument if running a different
+# set of arguments.
+
+apiVersion: geoips/v1
+interface: products
+family: order_based
+name: read_test
+docstring: Read test.
+package: geoips
+test:
+  fnames: !ENV ${GEOIPS_TESTDATA_DIR}/test_data_scat/data/20230524_metopc_noaa_class_tc2023wp02mawar/L2OVW50kmASCAT_v1r1_m03_*.nc
+spec:
+  globals:
+    product_name: wind-ambiguities
+    reader_defined_area_def: False
+  steps:
+    reader:
+      kind: reader
+      name: scat_noaa_winds_netcdf
+    arguments: {}
+    product:
+      kind: product
+      name: wind-ambiguities
+      arguments: {}
+    output_formatter:
+      kind: output_formatter
+      name: imagery_windbarbs
+      arguments: {}
+    filename_formatter:
+      kind: filename_formatter
+      name: tc_fname
+      arguments: {}
+    output_checker:
+      kind: output_checker
+      name: PLUGIN_PROVIDED
+      arguments: {
+        compare_path: !ENV $GEOIPS_PACKAGES_DIR/geoips/tests/outputs/ascat_noaa_50km.tc.wind-ambiguities.imagery_windbarbs
+      }
