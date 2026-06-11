@@ -3,6 +3,9 @@
 
 """Pydantic models used to validate GeoIPS OBP v1 output-formatter plugins."""
 
+# cspell:ignore TCWW
+# cspel
+
 # Python Standard Library
 from typing import Any
 
@@ -26,7 +29,7 @@ class OutputFormatterArgumentsModel(PermissiveFrozenModel):
         False,
         description=(
             "When True, open the output file in append mode ('a') instead of write mode"
-            "('w'). Automcatically forced to True for every dataset beyond the first"
+            "('w'). Automatically forced to True for every dataset beyond the first"
             "when multiple datasets are written to the same output file."
         ),
     )
@@ -61,7 +64,7 @@ class OutputFormatterArgumentsModel(PermissiveFrozenModel):
     cog: bool = Field(
         True,
         description=(
-            "Whether to produce a Cloud-Otpimized GeoTIFF with internal overview"
+            "Whether to produce a Cloud-Optimized GeoTIFF with internal overview"
             " levels. Currently this has no effect as overview generation is handled"
             " automatically by cog_translate() call."
         ),
