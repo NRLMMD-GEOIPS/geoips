@@ -6,6 +6,9 @@
 # cspell:ignore knmi
 # cspell:ignore wfabba
 # cspell:ignore ewsg
+# cspell:ignore cbar
+# cspell:ignore gpaths
+# cspell:ignore TCWW
 
 # Third-Party Libraries
 import pytest
@@ -186,6 +189,14 @@ def valid_output_checker_arguments(file_generated_from_pytest_fixture):
     return {
         "compare_path": file_generated_from_pytest_fixture,
         "output_products": [file_generated_from_pytest_fixture],
+    }
+
+
+@pytest.fixture
+def valid_output_formatter_arguments():
+    """Fixture providing valid data OutputFormatterArgumentsModel tests."""
+    return {
+        "append": False,
     }
 
 
