@@ -171,6 +171,96 @@ class WorkflowsInterface(BaseYamlInterface):
     #                                      #
     ########################################
 
+    def _insert_after_key(self, steps, target_key, new_key, new_value):
+        """Insert a new key/value pair immediately after target_key.
+
+        Parameters
+        ----------
+        steps : dict
+            Workflow steps dictionary.
+        target_key : str
+            The key of the target step_id to insert an output checker step after.
+        new_key : str
+            The step_id out the output checker step to be added.
+        new_value : dict
+            A dictionary of output_checker overrides to add to 'new_key' step.
+
+        Returns
+        -------
+        new_steps : dict
+            Overridden steps dictionary with a new output_checker step.
+        """
+        new_steps = {}
+        inserted = False
+
+        for key, value in steps.items():
+            new_steps[key] = value
+
+            if key == target_key:
+                new_steps[new_key] = new_value
+                inserted = True
+
+        if not inserted:
+            raise KeyError(f"Could not find key '{target_key}' for insertion.")
+
+        return new_steps
+
+    def _apply_output_checker_override(self, steps, override):
+        """Recursively apply output checker overrides.
+
+        Parameters
+        ----------
+        steps : dict
+            Workflow steps dictionary.
+        override : dict
+            Override structure that mirrors the workflow hierarchy.
+
+        Returns
+        -------
+        dict
+            Updated workflow steps.
+        """
+        if not isinstance(override, Mapping):
+            return steps
+
+        for key, value in override.items():
+            # Detected leaf output checker override. Overriding
+            if isinstance(value, Mapping) and "output_checker_arguments" in value:
+                # Generate a unique step id based on how many output checker step ids
+                # were encountered previously
+                count = sum(
+                    step_name.startswith("output_checker") for step_name in steps
+                )
+                oc_step_name = f"output_checker{count + 1}"
+
+                return self._insert_after_key(
+                    steps,
+                    target_key=key,
+                    new_key=oc_step_name,
+                    new_value=value,
+                )
+
+            if isinstance(value, Mapping):
+                try:
+                    step = steps[key]
+                except KeyError:
+                    raise KeyError(
+                        "Error: the requested override cannot access a given key, value"
+                        f" pair because it does not exist. Missing key = '{key}'."
+                    )
+
+                if isinstance(step, Mapping):
+                    updated = self._apply_output_checker_override(
+                        step,
+                        value,
+                    )
+                    # Child recursion may have rebuilt an ordered mapping
+                    # (specifically when inserting an output checker).
+                    if updated is not step:
+                        steps[key] = updated
+
+        return steps
+
     def _apply_step_override(self, steps, override):
         """Recursively apply step overrides.
 
@@ -203,6 +293,8 @@ class WorkflowsInterface(BaseYamlInterface):
                     )
 
                 if isinstance(step, Mapping) and isinstance(value, Mapping):
+                    # Step override being applied. Both override value and current step
+                    # are both dictionaries, so apply this recursively
                     self._apply_step_override(step, value)
             # Leaf value -> override directly
             else:
@@ -306,7 +398,12 @@ class WorkflowsInterface(BaseYamlInterface):
         return steps
 
     def _override_workflow_dict_format(
-        self, workflow, goverrides=None, koverrides=None, soverrides=None
+        self,
+        workflow,
+        goverrides=None,
+        koverrides=None,
+        soverrides=None,
+        oc_overrides=None,
     ):
         """Override a workflow plugin where applicable.
 
@@ -320,6 +417,8 @@ class WorkflowsInterface(BaseYamlInterface):
             A dictionary of kind overrides.
         soverrides: dict, optional
             A dictionary for step overrides.
+        oc_overrides: dict, optional
+            A dictionary for output_checker overrides.
 
         Returns
         -------
@@ -330,12 +429,15 @@ class WorkflowsInterface(BaseYamlInterface):
         # Determine if a subset of overrides is to be applied.
         # This occurs when 'geoips run obp' is supplied with override flags
         overrides_to_apply = self._determine_overrides_to_apply(
-            goverrides, koverrides, soverrides
+            goverrides,
+            koverrides,
+            soverrides,
+            oc_overrides,
         )
         # If no flags have been provided, this command should only be ran via
         # 'geoips test workflow <workflow_name>'. Apply all overrides present
         if not any(overrides_to_apply):
-            overrides_to_apply = ["globals", "kinds", "steps"]
+            overrides_to_apply = ["globals", "kinds", "steps", "outputs"]
 
         if goverrides:
             global_overrides = goverrides
@@ -351,6 +453,11 @@ class WorkflowsInterface(BaseYamlInterface):
             step_overrides = soverrides
         else:
             step_overrides = workflow.get("test", {}).get("steps")
+
+        if oc_overrides:
+            output_overrides = oc_overrides
+        else:
+            output_overrides = workflow.get("test", {}).get("outputs")
 
         if "globals" in overrides_to_apply:
             # override globals
@@ -370,7 +477,10 @@ class WorkflowsInterface(BaseYamlInterface):
             for step_id, override in step_overrides.items():
                 steps = self._apply_step_override(steps, {step_id: override})
 
-        # TODO: override outputs
+        if "outputs" in overrides_to_apply:
+            # override with output_checker steps
+            for step_id, override in output_overrides.items():
+                steps = self._apply_output_checker_override(steps, {step_id: override})
 
         workflow["spec"]["steps"] = steps
 
@@ -383,7 +493,7 @@ class WorkflowsInterface(BaseYamlInterface):
     ######################################
 
     def _determine_overrides_to_apply(
-        self, goverrides=None, koverrides=None, soverrides=None
+        self, goverrides=None, koverrides=None, soverrides=None, oc_overrides=None
     ):
         """Determine the types of overrides to apply to a workflow plugin.
 
@@ -395,6 +505,8 @@ class WorkflowsInterface(BaseYamlInterface):
             A dictionary of kind overrides.
         soverrides: dict, optional
             A dictionary for step overrides.
+        oc_overrides: dict, optional
+            A dictionary for output_checker overrides.
 
         Returns
         -------
@@ -407,6 +519,7 @@ class WorkflowsInterface(BaseYamlInterface):
                 "globals": goverrides,
                 "kinds": koverrides,
                 "steps": soverrides,
+                "outputs": oc_overrides,
             }.items()
         ]
 

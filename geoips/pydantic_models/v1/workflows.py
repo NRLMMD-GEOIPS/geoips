@@ -21,7 +21,7 @@ from copy import deepcopy
 import datetime as dt
 from glob import glob
 import logging
-from typing import Any, Dict, List, Literal, Optional, Union
+from typing import Any, Dict, List, Literal, Optional
 
 # Third-Party Libraries
 from pydantic import (
@@ -30,7 +30,6 @@ from pydantic import (
     Field,
     field_validator,
     model_validator,
-    RootModel,
     ValidationInfo,
 )
 
@@ -888,10 +887,18 @@ class OutputCheckerOverride(PermissiveFrozenModel):
             "output checker plugin associated with the produced file type(s)."
         ),
     )
-    arguments: OutputCheckerArgumentsModel = Field(
-        default_factory=dict,
+    output_checker_arguments: OutputCheckerArgumentsModel = Field(
+        ...,
         description=(
             "A dictionary of arguments to be supplied to an output_checker plugin."
+        ),
+    )
+    policy: Literal["on_failure", "always"] = Field(
+        "on_failure",
+        description=(
+            "Whether or not to run the output checker based on the result of "
+            "the token comparison. Defaults to only running the specified (or detected)"
+            " output checker on failed token comparison."
         ),
     )
 
@@ -928,32 +935,6 @@ class StepOutputOverride(FrozenModel):
             "running the referenced step. Not yet implemented."
         ),
     )
-
-
-class OutputsConfig(
-    RootModel[
-        Dict[
-            str,
-            Union[
-                OutputCheckerOverride,
-                StepOutputOverride,
-            ],
-        ]
-    ]
-):
-    """Model used to cast an unknown instance of 'outputs' into a single model.
-
-    Arbitrary output names (step ids) mapped to one of:
-        - OutputCheckerConfig
-        - OutputWriterConfig
-    """
-
-    # Arbitrary output names (step ids) mapped to one of:
-    #
-    # - OutputCheckerConfig
-    # - OutputWriterConfig
-    #
-    pass
 
 
 class NestedSpecOverride(PermissiveFrozenModel):
@@ -1027,14 +1008,15 @@ class WorkflowTestModel(FrozenModel):
 
     #
     # outputs:
-    #     output_checker:  # If not provided use default for the specific file type
-    #         name: my_oc
-    #         arguments:
-    #             compare_path: ...
-    #             token: ...
-    #    ahi_data_writer: {compare_path: ..., token: ...}
+    #     step_id:
+    #         # name: optional, default=None, derived from 'compare_path' if not provided  # NOQA
+    #         # policy: optional, default="on_failure"
+    #         output_checker_arguments:
+    #             compare_path: <path_to_compare_file>
+    #             optional_arg1: <x>
+    #             optional_arg2: <z>
 
-    outputs: OutputsConfig = Field(
+    outputs: Dict[str, OutputCheckerOverride] = Field(
         default_factory=dict,
         description=(
             "Override dictionary for output checker steps or every instance of"
@@ -1080,12 +1062,6 @@ class WorkflowTestModel(FrozenModel):
                 final_paths.append(jpath)
 
         return final_paths
-
-    @field_validator("outputs", mode="before")
-    @classmethod
-    def coerce_outputs(cls, v):
-        """Coerce an instance of 'outputs' into a single model."""
-        return OutputsConfig(root=v).root
 
 
 class WorkflowPluginModel(PluginModel):
