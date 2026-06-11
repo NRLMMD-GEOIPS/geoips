@@ -41,6 +41,7 @@ from geoips.pydantic_models.v1.bases import (
     PluginModel,
     FrozenModel,
     PermissiveFrozenModel,
+    PythonIdentifier,
 )
 from geoips.pydantic_models.v1.algorithms import AlgorithmArgumentsModel
 from geoips.pydantic_models.v1.coverage_checkers import CoverageCheckerArgumentsModel
@@ -200,17 +201,38 @@ class WorkflowArgumentsModel(PermissiveFrozenModel):
     pass
 
 
+class GridlineAnnotatorArgumentsModel(PermissiveFrozenModel):
+    """Validate Gridline Annotator arguments (YAML plugin)."""
+
+    pass
+
+
+class FeatureAnnotatorArgumentsModel(PermissiveFrozenModel):
+    """Validate Feature Annotator arguments (YAML plugin)."""
+
+    pass
+
+
+class SectorArgumentsModel(PermissiveFrozenModel):
+    """Validate Sector arguments (YAML plugin)."""
+
+    pass
+
+
 _PLUGIN_ARGUMENTS_MODELS: dict[str, type] = {
     "AlgorithmArgumentsModel": AlgorithmArgumentsModel,
     "ColormapperArgumentsModel": ColormapperArgumentsModel,
     "CoverageCheckerArgumentsModel": CoverageCheckerArgumentsModel,
+    "FeatureAnnotatorArgumentsModel": FeatureAnnotatorArgumentsModel,
     "FilenameFormatterArgumentsModel": FilenameFormatterArgumentsModel,
+    "GridlineAnnotatorArgumentsModel": GridlineAnnotatorArgumentsModel,
     "InterpolatorArgumentsModel": InterpolatorArgumentsModel,
     "OutputCheckerArgumentsModel": OutputCheckerArgumentsModel,
     "OutputFormatterArgumentsModel": OutputFormatterArgumentsModel,
     "ProductDefaultArgumentsModel": ProductDefaultArgumentsModel,
     "ProductArgumentsModel": ProductArgumentsModel,
     "ReaderArgumentsModel": ReaderArgumentsModel,
+    "SectorArgumentsModel": SectorArgumentsModel,
     "WorkflowArgumentsModel": WorkflowArgumentsModel,
 }
 
@@ -1118,3 +1140,6 @@ class WorkflowPluginModel(PluginModel):
             )
 
         return data
+
+
+WorkflowSpecModel.model_rebuild()

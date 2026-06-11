@@ -59,6 +59,43 @@ class SectorPluginBase(BaseYamlPlugin):
     `geoips.interfaces.sectors`.
     """
 
+    data_tree = True
+
+    def call(self, data=None, **kwargs):
+        """Return a DataTree with the sector's area-definition metadata.
+
+        Parameters
+        ----------
+        data : xr.DataTree or None
+            Upstream DataTree (unused for sectors).
+        **kwargs
+            Step arguments (unused).
+
+        Returns
+        -------
+        xr.DataTree
+            A ``DataTreeDitto`` whose ``ds.attrs`` carry ``area_id``,
+            ``area_extent``, ``shape``, and ``projection`` for downstream
+            consumers (e.g. interpolator, filename formatter).
+        """
+        import xarray as xr
+        from geoips.utils.types.datatree_ditto import DataTreeDitto
+
+        ad = self.area_definition
+        ds = xr.Dataset(attrs={
+            "area_id": getattr(ad, "area_id", self.name),
+            "area_extent": getattr(ad, "area_extent", None),
+            "shape": getattr(ad, "shape", None),
+            "projection": str(getattr(ad, "proj_dict", {})),
+            "plugin_kind": "sector",
+            "output_key": "sector_info",
+        })
+        return DataTreeDitto(ds, name=self.name)
+
+    def __call__(self, data=None, **kwargs):
+        """See :meth:`call`."""
+        return self.call(data=data, **kwargs)
+
     @property
     def area_definition(self):
         """Return the pyresample AreaDefinition for the sector."""

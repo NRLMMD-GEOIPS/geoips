@@ -89,7 +89,19 @@ def call(
         source_dir=source_dir,
         **kwargs,
     )
-    return web_fname
+
+    from geoips.utils.types.datatree_ditto import DataTreeDitto
+
+    ds = xr.Dataset(
+        {"output_path": (["path"], [web_fname])},
+        attrs={
+            "output_fnames": [web_fname],
+            "plugin_kind": "filename_formatter",
+            "output_key": "output_fnames",
+        },
+    )
+    dt = DataTreeDitto(ds, name="filename_output")
+    return dt
 
 
 def assemble_geoips_fname(

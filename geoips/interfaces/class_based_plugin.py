@@ -131,36 +131,83 @@ class BaseClassPlugin(ABC):
     def _pre_call(self, data=None, _obp_initiated=False, *args, **kwargs):
         """Preprocess the data before calling the main plugin method.
 
+        For ``data_tree=False`` plugins this hook:
+
+        1. Unwraps a ``DataTreeDitto`` (or plain ``DataTree``) input
+           to recover the native object via ``_unwrap()``.
+        2. Applies a family-specific input conversion if the plugin's
+           class defines a ``_family_conversion_map``.
+
+        For ``data_tree=True`` plugins the data passes through unchanged.
+
         Parameters
         ----------
         data : R, optional
             The input data for the plugin.
         _obp_initiated : bool, optional
-            Whether or not this plugin is being called via the order based procflow.
-            Defaults to False.
+            Whether or not this plugin is being called via the order
+            based procflow.  Defaults to False.
 
         Returns
         -------
         The processed data.
         """
+        if data is None or self.data_tree:
+            return data
+
+        # Step 1: Unwrap DataTree → native type
+        data = self._unwrap(data)
+
+        # Step 2: Apply family-specific input conversion
+        conversion_map = getattr(self, "_family_conversion_map", None)
+        if conversion_map is not None:
+            spec = conversion_map.get(self.family)
+            if spec is not None and spec.input_converter is not None:
+                if spec.input_type is None or not isinstance(data, spec.input_type):
+                    data = spec.input_converter(data)
+
         return data
 
     # def _post_call(self, data: R, *args, **kwargs) -> R:
     def _post_call(self, data=None, _obp_initiated=False, *args, **kwargs):
         """Post-process the data after calling the main plugin method.
 
+        For ``data_tree=False`` plugins this hook:
+
+        1. Applies a family-specific output (reverse) conversion if the
+           plugin's class defines a ``_family_conversion_map``.
+        2. Wraps a non-DataTree result back into a ``DataTreeDitto``
+           via ``_wrap()``.
+
+        For ``data_tree=True`` plugins the data passes through unchanged.
+
         Parameters
         ----------
         data : R, optional
             The output data from the plugin.
         _obp_initiated : bool, optional
-            Whether or not this plugin is being called via the order based procflow.
-            Defaults to False.
+            Whether or not this plugin is being called via the order
+            based procflow.  Defaults to False.
 
         Returns
         -------
             The processed data.
         """
+        if data is None or self.data_tree:
+            return data
+
+        # Step 1: Apply family-specific reverse conversion
+        conversion_map = getattr(self, "_family_conversion_map", None)
+        if conversion_map is not None:
+            spec = conversion_map.get(self.family)
+            if spec is not None and spec.output_converter is not None:
+                if spec.output_type is None or not isinstance(data, spec.output_type):
+                    data = spec.output_converter(data)
+
+        # Step 2: Wrap into DataTreeDitto if not already
+        if not isinstance(data, xr.DataTree):
+            data = self._wrap(data)
+
         return data
 
     def _unwrap(self, data):
@@ -170,8 +217,15 @@ class BaseClassPlugin(ABC):
         to recover the native object (numpy array, Dataset, dict, …)
         that was originally passed to the constructor.  If the input
         is a plain ``xr.DataTree`` that contains a ``DataTreeDitto``
-        dataset, extract and unwrap it.  Otherwise pass through
-        unchanged.
+        dataset, extract and unwrap it.
+
+        For multi-input DataTrees (collected by
+        ``Workflow._collect_upstream_data``) the root dataset carries
+        no ``_ditto_original_type``.  In that case:
+
+        * A single child is unwrapped directly.
+        * Multiple children pass through unchanged (the caller's
+          ``_extract_child_kwargs`` handles extraction).
 
         Parameters
         ----------
@@ -187,7 +241,16 @@ class BaseClassPlugin(ABC):
 
         if isinstance(data, DataTreeDitto):
             return data.get_original()
+
         if isinstance(data, xr.DataTree):
+            children = dict(data.children)
+            if children and not data.ds.attrs.get("_ditto_original_type"):
+                if len(children) == 1:
+                    child = next(iter(children.values()))
+                    if isinstance(child, DataTreeDitto):
+                        return child.get_original()
+                    return child
+                return data
             try:
                 return DataTreeDitto(data.ds).get_original()
             except (TypeError, ValueError, RuntimeError) as exc:
@@ -220,10 +283,76 @@ class BaseClassPlugin(ABC):
             return DataTreeDitto.from_datatree(result)
         return DataTreeDitto(result, name=getattr(self, "name", "result"))
 
+    @staticmethod
+    def _extract_child_kwargs(data, kwargs):
+        from geoips.utils.types.yaml_plugin_callable import _KIND_TO_KWARG
+
+        if not isinstance(data, xr.DataTree):
+            return kwargs
+
+        children = dict(data.children)
+        if not children:
+            return kwargs
+
+        def _wrap_spec(spec):
+            return {"spec": spec} if spec is not None else None
+
+        _EXTRACTORS = {
+            "colormapper": lambda c: c.ds.attrs.get("_mpl_colors_info"),
+            "filename_formatter": lambda c: c.ds.attrs.get("output_fnames"),
+            "gridline_annotator": lambda c: _wrap_spec(c.ds.attrs.get("spec")),
+            "feature_annotator": lambda c: _wrap_spec(c.ds.attrs.get("spec")),
+        }
+
+        for _child_name, child in children.items():
+            pkind = str(child.ds.attrs.get("plugin_kind", "")) if child.ds else ""
+            kwarg_name = _KIND_TO_KWARG.get(pkind)
+            if not kwarg_name or kwarg_name in kwargs:
+                continue
+
+            extract = _EXTRACTORS.get(pkind)
+            if extract is not None:
+                val = extract(child)
+                if val is not None:
+                    kwargs[kwarg_name] = val
+            elif pkind in ("product", "product_default"):
+                kwargs[kwarg_name] = dict(child.ds.attrs)
+
+        return kwargs
+
+        children = dict(data.children)
+        if not children:
+            return kwargs
+
+        _EXTRACTORS = {
+            "colormapper": lambda c: c.ds.attrs.get("_mpl_colors_info"),
+            "filename_formatter": lambda c: c.ds.attrs.get("output_fnames"),
+            "gridline_annotator": lambda c: _wrap_spec(c.ds.attrs.get("spec")),
+            "feature_annotator": lambda c: _wrap_spec(c.ds.attrs.get("spec")),
+        }
+
+        for _child_name, child in children.items():
+            pkind = str(child.ds.attrs.get("plugin_kind", "")) if child.ds else ""
+            kwarg_name = _KIND_TO_KWARG.get(pkind)
+            if not kwarg_name or kwarg_name in kwargs:
+                continue
+
+            extract = _EXTRACTORS.get(pkind)
+            if extract is not None:
+                val = extract(child)
+                if val is not None:
+                    kwargs[kwarg_name] = val
+            elif pkind in ("product", "product_default"):
+                kwargs[kwarg_name] = dict(child.ds.attrs)
+
+        return kwargs
+
     def _invoke(self, data=None, _obp_initiated=False, *args, **kwargs):
         """Call the main plugin method.
 
         Additionally, filter out unaccepted arguments if initiated via the OBP.
+        Unwrap / wrap and family-specific type conversions are handled by
+        ``_pre_call()`` and ``_post_call()``.
 
         Parameters
         ----------
@@ -251,16 +380,12 @@ class BaseClassPlugin(ABC):
         if data is None:
             result = self.call(*args, **new_kwargs)
         else:
-            if not self.data_tree:
-                data = self._unwrap(data)
+            new_kwargs = self._extract_child_kwargs(data, new_kwargs)
             data = self._pre_call(data, *args, **new_kwargs)
             data = self.call(data, *args, **new_kwargs)
             data = self._post_call(data, *args, **new_kwargs)
             result = data
-            
-        if not self.data_tree and result is not None:
-            result = self._wrap(result)
-            
+
         return result
 
     def __init__(self, module=None):
