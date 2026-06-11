@@ -1,3 +1,6 @@
+# # # This source code is subject to the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
+
 """Simple validation of the difference between two xarray objects."""
 
 import logging

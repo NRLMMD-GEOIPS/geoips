@@ -1,0 +1,15 @@
+bug fixes:
+- title: Updating dataframe resource usage parsing to check if the sector value is a string before taking a substring
+  description: |
+    Previously only checked "if x", now check if isinstance(x, str) to ensure it is a
+    string rather than a float.  Sometimes dataframe values can be nan, which are not
+    caught by if x.
+  files:
+    modified:
+    - geoips/utils/memusg/dataframe_utils.py
+  related-issue:
+    internal: geoips#1029 - 1.18.0 updates
+  date:
+    start: 2026-03-09
+    finish: 2026-03-09
+

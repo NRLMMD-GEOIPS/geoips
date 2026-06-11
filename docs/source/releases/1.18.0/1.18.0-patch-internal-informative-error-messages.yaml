@@ -1,0 +1,12 @@
+bug fixes:
+- title: More informative error output for improperly formatted plugins
+  description: |
+    Ensure it is obvious which plugin is failing when validating interfaces/plugins.
+  files:
+    modified:
+    - geoips/interfaces/class_based/output_checkers.py
+  related-issue:
+    internal: geoips#1029 - 1.18.0 updates
+  date:
+    start: 2026-03-07
+    finish: 2026-03-07

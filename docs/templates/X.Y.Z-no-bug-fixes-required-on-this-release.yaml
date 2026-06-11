@@ -1,0 +1,17 @@
+Release Process:
+- title: No bug fixes required on this release
+  description: |
+    It's your lucky day! This release required no bug fixes that will need to be
+    tracked and merged back into the next release.  If no bug fixes are required on
+    a release branch, this file MUST be created for the release branch CI to pass.
+    If there are bug fixes, you must create patch release notes named explicitly
+
+    * docs/source/releases/X.Y.Z/X.Y.Z-patch-internal-name-description.yaml
+    * OR
+    * docs/source/releases/X.Y.Z/X.Y.Z-patch-os-name-description.yaml
+
+    If neither the patch release note nor the bug-free release note exist on a release
+    branch, the CI will fail, forcing you to decide if there were bugs or not.
+  files:
+    added:
+    - docs/source/releases/X.Y.Z/X.Y.Z-no-bug-fixes-required-on-this-release.yaml
