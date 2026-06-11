@@ -11,7 +11,7 @@
 apiVersion: geoips/v1
 interface: products
 family: order_based
-name: Infrared
+name: abi-infrared
 docstring: |
   11.2 µm Infrared.  This product utilizes channel 14 (11.2 µm) and highlights areas of deep convection within a Tropical Cyclone.
 package: geoips
