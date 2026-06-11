@@ -12,6 +12,7 @@ import logging
 from lexeme_type.lexeme import Lexeme
 
 from geoips.interfaces.base import BaseYamlInterface
+from geoips.interfaces import output_checkers
 
 LOG = logging.getLogger(__name__)
 
@@ -197,7 +198,13 @@ class WorkflowsInterface(BaseYamlInterface):
             new_steps[key] = value
 
             if key == target_key:
+                arguments = new_value.pop("output_checker_arguments")
                 new_steps[new_key] = new_value
+                new_steps[new_key]["arguments"] = arguments
+                new_steps[new_key]["name"] = output_checkers.identify_checker(
+                    arguments["compare_path"]
+                )
+                new_steps[new_key]["kind"] = "output_checker"
                 inserted = True
 
         if not inserted:

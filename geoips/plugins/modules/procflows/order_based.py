@@ -37,14 +37,14 @@ class OrderBased(BaseProcflowPlugin):
     """
 
     interface = "procflows"
-    family = "standard"
+    family = "order_based"
     name = "order_based"
     data_tree = True
 
     def call(
         self,
         workflow_spec: WorkflowPluginModel | WorkflowSpecModel | dict,
-        fnames: Any = None,
+        fnames: Any,
         **kwargs: Any,
     ):
         """Run the order-based procflow.
@@ -92,3 +92,6 @@ class OrderBased(BaseProcflowPlugin):
 
         LOG.interactive("The workflow '%s' has finished processing.", wf_name)
         return result
+
+
+PLUGIN_CLASS = OrderBased

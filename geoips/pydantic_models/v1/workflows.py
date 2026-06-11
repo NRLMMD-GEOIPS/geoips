@@ -307,8 +307,18 @@ class WorkflowStepDefinitionModel(FrozenModel):
         ),
     )
     spec: WorkflowSpecModel = Field(None, description="The workflow specification")
-    arguments: Dict[str, Any] = Field(default_factory=dict, description="step args")
-    depends_on: List[PythonIdentifier] | None = Field(
+    policy: Literal["on_failure", "always"] = Field(
+        "on_failure",
+        description=(
+            "Whether or not to run the output checker based on the result of "
+            "the token comparison. Defaults to only running the specified (or detected)"
+            " output checker on failed token comparison."
+        ),
+    )
+    arguments: Dict[str, Any] | None = Field(
+        default_factory=dict, description="step args"
+    )
+    depends_on: List[str] | None = Field(
         None,
         description=(
             "Step IDs this step depends on. If None, defaults to "
@@ -556,7 +566,7 @@ class WorkflowSpecModel(FrozenModel):
         ..., description="Steps to produce the workflow."
     )
 
-    outputs: List[PythonIdentifier] | None = Field(
+    outputs: List[str] | None = Field(
         None,
         description=(
             "Step IDs that constitute workflow outputs. These step nodes "
@@ -892,6 +902,7 @@ class OutputCheckerOverride(PermissiveFrozenModel):
         description=(
             "A dictionary of arguments to be supplied to an output_checker plugin."
         ),
+        alias="arguments",
     )
     policy: Literal["on_failure", "always"] = Field(
         "on_failure",
