@@ -81,14 +81,18 @@ class OutputFormatterArgumentsModel(PermissiveFrozenModel):
         default=False,
         description="whether to overwrite the output file even if it exists",
     )
-    # dead argument all output_formatters where used
-    # TASK: validate this to drop after the 2026 GeoIPS workshop 
+    # dead argument across all output_formatters where used
+    # TASK: validate this to drop after the 2026 GeoIPS workshop
     existing_image: str | None = Field(
         None,
         description=(
             "File path to a pre-rendered image onto which new data would be composited"
         ),
     )
+
+    # GeoIPS Developer Notes: main_ax, map_obj, and fig are runtime generated states
+    # These are not provided through Pydantic and must be populated during pre_call
+    # to ensure the plugin call signature expecatations are met.
     is_3d: bool = Field(
         False,
         description=(
@@ -111,10 +115,9 @@ class OutputFormatterArgumentsModel(PermissiveFrozenModel):
     )
     title_formatter: str | None = Field(None, description="format for title")
 
-    fig: Any | None = Field(None)
+        
     hist_colorbar: bool = Field(False)
-    main_ax: Any | None = Field(None)
-    mapobj: Any | None = Field(None)
+
     metadata_dir: str = Field(
         "metadata",
         description=(
