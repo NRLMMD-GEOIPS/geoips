@@ -6,6 +6,9 @@
 # cspell:ignore knmi
 # cspell:ignore wfabba
 # cspell:ignore ewsg
+# cspell:ignore cbar
+# cspell:ignore gpaths
+# cspell:ignore TCWW
 
 # Third-Party Libraries
 import pytest
