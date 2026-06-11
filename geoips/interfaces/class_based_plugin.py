@@ -220,7 +220,6 @@ class BaseClassPlugin(ABC):
             return DataTreeDitto.from_datatree(result)
         return DataTreeDitto(result, name=getattr(self, "name", "result"))
 
-    # def _invoke(self, data: R, *args: P.args, **kwargs: P.kwargs) -> R:
     def _invoke(self, data=None, _obp_initiated=False, *args, **kwargs):
         """Call the main plugin method.
 
@@ -258,24 +257,10 @@ class BaseClassPlugin(ABC):
             data = self.call(data, *args, **new_kwargs)
             data = self._post_call(data, *args, **new_kwargs)
             result = data
-
+            
         if not self.data_tree and result is not None:
             result = self._wrap(result)
-
-        return data
-      
-    def _invoke(self, data=None, *args, **kwargs):
-        if data is None:
-            result = self.call(*args, **kwargs)
-        else:
-            if not self.data_tree:
-                data = self._unwrap(data)
-            data = self._pre_call(data, *args, **kwargs)
-            data = self.call(data, *args, **kwargs)
-            data = self._post_call(data, *args, **kwargs)
-            result = data
-        if not self.data_tree and result is not None:
-            result = self._wrap(result)
+            
         return result
 
     def __init__(self, module=None):
