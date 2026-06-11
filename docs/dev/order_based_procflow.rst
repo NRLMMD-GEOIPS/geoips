@@ -124,15 +124,24 @@ Output Formatter step in the code block below includes two additional plugins,
     package: geoips
     test:
       fnames: !ENV ${GEOIPS_TESTDATA_DIR}/test_data_abi/data/goes16_20200918_1950/*
-      compare_path: !ENV ${GEOIPS_PACKAGES_DIR}/geoips/tests/outputs/abi.static.<product>.imagery_clean
-      overrides:
-        steps:
-          - abi_Infrared.spec.steps.algorithm.output_units='Kelvin'
-        kinds:
-          - readers.self_register=False
-        globals:
-          - sector_list='global_cylindrical'
-          - logging_level='info'
+      outputs:
+        abi:Infrared:
+          compare_path: !ENV ${GEOIPS_PACKAGES_DIR}/geoips/tests/outputs/abi.static.Infrared.imagery_clean/20200918.195020.goes-16.abi.Infrared.test_goes16_eqc_3km_day_20200918T1950Z.100p00.noaa.3p0.png
+          token: FAKE_TOKEN
+      steps:
+        reader:
+          area_def: null
+        abi:Infrared:
+          spec:
+            steps:
+              algorithm:
+                output_units: Kelvin
+      kinds:
+        readers:
+          satellite_zenith_angle_cutoff: 80
+      globals:
+        sector_list: global_cylindrical
+        logging_level: info
     spec:
       global-arguments:
         presector: False
@@ -183,8 +192,8 @@ Output Formatter step in the code block below includes two additional plugins,
                 kind: colormapper
                 name: Infrared
                 arguments:
-                  data_range: [-90.0, 30.0]
-            filename_formatter_1:
+                  data_range: PLUGIN_PROVIDED
+            apply_geoips_fname_filename_formatter:
                 kind: filename_formatter
                 name: geoips_fname
                 arguments:
