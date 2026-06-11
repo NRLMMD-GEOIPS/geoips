@@ -147,8 +147,51 @@ class OutputFormatterArgumentsModel(PermissiveFrozenModel):
             " specification used for coverage checking"
         ),
     )
+    output_fname_dict: dict | None = Field(None)
+    overwrite: bool = Field(
+        True,
+        description=("When False, skip writing the output file if it already exists."),
+    )
+    pressure_range_dict: dict | None = Field(None)
+    product_datatype_title: str | None = Field(
+        None,
+        description="Display name for the data type in figure title.",
+    )
+    product_name_title: str | None = Field(
+        None,
+        description=(
+            "Display name for the product shown in figure titles. When None,"
+            " falls back to the product_name value"
+        ),
+    )
+    # passed to save_image() which calls remove_duplicates() but the function is not
+    # implemented (pass). This can be dropped during SSP -> OBP testing.
+    remove_duplicate_minrange: Any | None = Field(None)
+    # Used by only one 'unprojected_image.py', evaluate.
+    savefig_kwargs: dict | None = Field(
+        None,
+        description=(
+            "Extra keyword arguments to be used by matplotlib's savefif(). When None,"
+            " defaults to an empty dict."
+        ),
+    )
     title_copyright: str | None = Field(None, description="copyright string")
     title_formatter: str | None = Field(None, description="format for title")
+    use_compression: bool = Field(
+        False,
+        description=(
+            "When True, apply zlib compression (level 5) to all variables when writing"
+            " netCDF ouput."
+        ),
+    )
+    var_name: str | None = Field(
+        None,
+        description=(
+            "Variable name to extract from the xarray Dataset for plotting."
+            "When None, falls back to product_name. Useful when the variable to plot"
+            " differs from the product name."
+        ),
+    )
     x_size: int = Field(
         None,
         description=(
@@ -161,14 +204,11 @@ class OutputFormatterArgumentsModel(PermissiveFrozenModel):
             "Number of pixels in the y direction of the projected area definition"
         ),
     )
-
-    output_fname_dict: dict | None = Field(None)
-    overwrite: bool = Field(True)
-    pressure_range_dict: dict | None = Field(None)
-    product_name_title: str | None = Field(None)
-    product_datatype_title: str | None = Field(None)
-    remove_duplicate_minrange: Any | None = Field(None)
-    savefig_kwargs: dict | None = Field(None)
-    use_compression: bool = Field(False)
-    var_name: str | None = Field(None)
-    working_directory: str = Field(PLUGIN_PROVIDED)
+    # check with Jeremy and Mindy to see if windspeed_awips2_formatter.py
+    # can be just defaulted to GEOIPS_OUTDIRS
+    working_directory: str = Field(
+        PLUGIN_PROVIDED,
+        description=(
+            "Base output directory for generated files, Defaults to GEOIPS_OUTDIRS"
+        ),
+    )
