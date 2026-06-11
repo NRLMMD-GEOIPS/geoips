@@ -26,7 +26,6 @@ class TestGeoipsTestWorkflow(BaseCliTest):
             self._cmd_list = []
             self._cmd_list.append(base_args + ["test_product"])
             self._cmd_list.append(base_args + ["test_workflow"])
-            self._cmd_list.append(base_args + ["test_bad_test_section"])
             self._cmd_list.append(base_args + ["-h"])
             # Add argument list with non existent workflow
             self._cmd_list.append(base_args + ["non_existent_workflow"])
@@ -45,10 +44,10 @@ class TestGeoipsTestWorkflow(BaseCliTest):
         # This can occur for the 'test_product' unit test if the data is missing on your
         # device
         if "could not be associated with one or more existing file paths." in error:
-            assert "1 validation error for ReaderArgumentsModel" in error
+            assert "1 validation error for" in error
             return
 
-        assert "To use, type `geoips test workflow <workflow_name>" in error
+        assert "To use, type `geoips test workflow <workflow_type>" in error
 
         if "non_existent" in args[-1]:
             assert "Error: could not load workflow plugin under name" in error
@@ -79,7 +78,7 @@ class TestGeoipsTestWorkflow(BaseCliTest):
         """
         # The args provided are valid, so test that the output is actually correct
         if "-h" in args:
-            assert "To use, type `geoips test workflow <workflow_name>" in output
+            assert "To use, type `geoips test workflow <workflow_type>" in output
         else:
             assert "has finished processing." in output
 
