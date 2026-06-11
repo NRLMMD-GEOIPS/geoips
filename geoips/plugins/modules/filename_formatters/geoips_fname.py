@@ -6,6 +6,7 @@
 # Python Standard Libraries
 import logging
 
+import xarray as xr
 from os.path import join as pathjoin
 
 from geoips.filenames.base_paths import PATHS as gpaths

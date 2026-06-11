@@ -272,7 +272,10 @@ def list_numpy_to_dataset(
     if names is None:
         names = [f"var_{i}" for i in range(len(arrays))]
     if dims is None:
-        dims = [[f"dim_{i}_{j}" for j in range(arr.ndim)] for i, arr in enumerate(arrays)]
+        dims = [
+            [f"dim_{i}_{j}" for j in range(arr.ndim)]
+            for i, arr in enumerate(arrays)
+        ]
 
     data_vars = {}
     for arr, name, d in zip(arrays, names, dims):
@@ -289,7 +292,9 @@ def list_numpy_to_dataset(
 # ---------------------------------------------------------------------------
 
 
-def dataset_to_dataset_dict(dataset: xr.Dataset, **kwargs: Any) -> dict[str, xr.Dataset]:
+def dataset_to_dataset_dict(
+    dataset: xr.Dataset, **kwargs: Any
+) -> dict[str, xr.Dataset]:
     """Split a multi-variable ``Dataset`` into a dict of single-variable datasets.
 
     Keys are the data-variable names; each value is a ``Dataset``

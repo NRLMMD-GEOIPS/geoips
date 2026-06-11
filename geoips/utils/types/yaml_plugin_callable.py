@@ -1,7 +1,8 @@
 # # # This source code is subject to the license referenced at
 # # # https://github.com/NRLMMD-GEOIPS.
 
-"""Universal adapter that wraps any YAML plugin dict into a callable DataTree participant.
+"""Universal adapter that wraps any YAML plugin dict into a callable DataTree
+participant.
 
 Every YAML-defined plugin (feature_annotator, gridline_annotator, product,
 product_default, sector, …) becomes a first-class DAG step that adds its
@@ -86,7 +87,8 @@ class YamlPluginCallable:
             ``spec`` dictionary and the standard routing metadata.
         """
         spec = dict(self._yaml.get("spec", {}))
-        kind = self.interface.rstrip("s")  # e.g. "gridline_annotators" → "gridline_annotator"
+        # e.g. "gridline_annotators" → "gridline_annotator"
+        kind = self.interface.rstrip("s")
 
         ds = xr.Dataset(attrs={
             "spec": spec,

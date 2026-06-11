@@ -23,7 +23,6 @@ from geoips.utils.types.converters import (
     dataset_to_dataset_dict,
     dataset_dict_to_dataset,
     dataset_vars_to_list,
-    list_numpy_to_dataset,
     numpy_to_dataset,
 )
 

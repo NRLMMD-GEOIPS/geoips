@@ -225,8 +225,10 @@ def _build_spec(steps_dict, **overrides):
 class TestMultiInputUnwrap:
     def test_single_child_unwrap(self, patch_for_family_conversions):
         spec = _build_spec({
-            "read": {"kind": "reader", "name": "synthetic_reader", "arguments": {},
-                      "depends_on": []},
+            "read": {
+                "kind": "reader", "name": "synthetic_reader", "arguments": {},
+                "depends_on": [],
+            },
         })
         result = Workflow(spec, workflow_name="t").call(fnames=[])
         child = result.get("read")
@@ -437,7 +439,9 @@ class TestFullPipeline:
 
 
 class TestBackwardCompat:
-    def test_inline_colormapper_still_present_in_args(self, patch_for_family_conversions):
+    def test_inline_colormapper_still_present(
+        self, patch_for_family_conversions,
+    ):
         spec = _build_spec({
             "read": {
                 "kind": "reader", "name": "synthetic_reader", "arguments": {},

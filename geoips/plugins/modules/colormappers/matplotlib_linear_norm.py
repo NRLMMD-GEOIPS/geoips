@@ -5,6 +5,7 @@
 
 import logging
 
+import xarray as xr
 from matplotlib.colors import Normalize
 from matplotlib import pyplot as plt
 
