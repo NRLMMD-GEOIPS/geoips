@@ -4,14 +4,18 @@ name: ob_Infrared
 docstring: |
   The Infrared Workflow configuration.
 spec:
+  outputs: [output_formatter]
   steps:
     interpolator:
       kind: interpolator
       name: interp_nearest
+      depends_on: []
+      keep: false
       arguments: {}
     algorithm:
       kind: algorithm
       name: single_channel
+      depends_on: [interpolator]
       arguments:
         output_data_range: [-90.0, 30.0]
         input_units: Kelvin
@@ -23,6 +27,7 @@ spec:
     output_formatter:
       kind: output_formatter
       name: imagery_annotated
+      depends_on: [algorithm]
       arguments:
         colormapper:
           kind: colormapper

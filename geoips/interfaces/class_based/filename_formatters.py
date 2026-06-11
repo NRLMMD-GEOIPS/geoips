@@ -10,6 +10,8 @@ from geoips.interfaces.base import BaseClassInterface
 class BaseFilenameFormatterPlugin(BaseClassPlugin, abstract=True):
     """Base class for GeoIPS filename_formatter plugins."""
 
+    data_tree = False
+
     pass
 
 

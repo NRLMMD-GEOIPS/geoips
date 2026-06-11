@@ -10,6 +10,8 @@ from geoips.interfaces.base import BaseClassInterface
 class BaseColormapperPlugin(BaseClassPlugin, abstract=True):
     """Base class for GeoIPS colormapper plugins."""
 
+    data_tree = True
+
     pass
 
 

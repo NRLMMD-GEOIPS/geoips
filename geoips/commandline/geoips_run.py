@@ -488,7 +488,7 @@ class GeoipsRunOrderBased(GeoipsWorkflowCommand):
         workflow = self._apply_overrides(workflow, args)
 
         obp = procflows.get_plugin("order_based")
-        obp(workflow, args.filenames, args)
+        obp(workflow, fnames=args.filenames)
 
         if PATHS["NO_COLOR"]:
             print(self.warning_no_color)
