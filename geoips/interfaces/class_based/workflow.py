@@ -115,6 +115,8 @@ _POLICIES: dict[str, type[RetentionPolicy]] = {
     "keep_outputs_only": KeepOutputsOnlyPolicy,
 }
 
+GENERATED_WORKFLOW = "GENERATED_WORKFLOW"
+
 
 class Workflow:
     """Non-registered runtime executor for a validated workflow spec.
@@ -317,11 +319,20 @@ class Workflow:
 
             plg = self._resolve_plugin(step_def.kind, step_def.name)
 
-            if not (step_def.depends_on or []):
-                step_result = plg(fnames=fnames, **(step_def.arguments or {}))
+            if plg == GENERATED_WORKFLOW:
+                wf_spec = WorkflowSpecModel.model_validate(step_def.spec)
+                wf_name = sid
+                workflow = Workflow(wf_spec, workflow_name=wf_name)
+                step_result = workflow.call(fnames=fnames, **kwargs)
+            elif not (step_def.depends_on or []):
+                step_result = plg(
+                    fnames=fnames, _obp_initiated=True, **(step_def.arguments or {})
+                )
             else:
                 upstream = self._collect_upstream_data(tree, step_def.depends_on or [])
-                step_result = plg(data=upstream, **(step_def.arguments or {}))
+                step_result = plg(
+                    data=upstream, _obp_initiated=True, **(step_def.arguments or {})
+                )
 
             end_iso = datetime.now(timezone.utc).isoformat()
 
@@ -392,7 +403,12 @@ class Workflow:
         try:
             return iface.get_plugin(name)
         except Exception as exc:
-            raise PluginResolutionError(
-                f"Kind '{kind}' -> interface '{interface_name}': "
-                f"cannot resolve plugin '{name}': {exc}"
-            ) from exc
+            if interface_name == "workflows" and name is None:
+                # occurs for workflow 'plugins' generated at runtimes for product /
+                # product default plugins.
+                return GENERATED_WORKFLOW
+            else:
+                raise PluginResolutionError(
+                    f"Kind '{kind}' -> interface '{interface_name}': "
+                    f"cannot resolve plugin '{name}': {exc}"
+                ) from exc

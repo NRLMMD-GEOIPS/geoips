@@ -249,9 +249,6 @@ class BaseClassPlugin(ABC):
             new_kwargs = kwargs
 
         if data is None:
-            from IPython import embed as shell
-
-            shell()
             result = self.call(*args, **new_kwargs)
         else:
             if not self.data_tree:

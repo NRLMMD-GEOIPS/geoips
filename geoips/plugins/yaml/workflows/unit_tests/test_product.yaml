@@ -34,7 +34,7 @@ spec:
       kind: reader
       name: abi_netcdf
       arguments:
-        variables: ['B14BT']
+        chans: ['B14BT']
     abi:Infrared:
       kind: product
       name: [abi, Infrared]
