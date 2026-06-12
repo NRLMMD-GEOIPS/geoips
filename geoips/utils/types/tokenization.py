@@ -118,7 +118,7 @@ def compute_step_output_token(
             tuple(sorted((upstream_tokens or {}).items())),
             step_output,
         )
-    except (TypeError, ValueError) as exc:
+    except Exception as exc:
         LOG.warning(
             "Could not tokenize output from %s/%s: %s",
             plugin_kind,
