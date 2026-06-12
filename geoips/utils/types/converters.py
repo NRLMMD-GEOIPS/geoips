@@ -288,6 +288,53 @@ def list_numpy_to_dataset(
 
 
 # ---------------------------------------------------------------------------
+# list  →  xr.Dataset
+# ---------------------------------------------------------------------------
+
+
+def list_to_dataset(
+    obj: list,
+    **kwargs: Any,
+) -> xr.Dataset:
+    """Store a plain list as attrs in a Dataset.
+
+    Parameters
+    ----------
+    obj : list
+        List of any JSON-serializable values (e.g. filenames).
+    **kwargs
+        Ignored.
+
+    Returns
+    -------
+    xr.Dataset
+        Dataset with ``_ditto_list_value`` in attrs.
+    """
+    ds = xr.Dataset(attrs={
+        "_ditto_original_type": _type_key(list),
+        "_ditto_list_value": obj,
+    })
+    return ds
+
+
+def dataset_to_list(dataset: xr.Dataset, **kwargs: Any) -> list:
+    """Recover a list from attrs.
+
+    Parameters
+    ----------
+    dataset : xr.Dataset
+    **kwargs
+        Ignored.
+
+    Returns
+    -------
+    list
+        The stored list value.
+    """
+    return dataset.attrs.get("_ditto_list_value", [])
+
+
+# ---------------------------------------------------------------------------
 # Dataset  ⇄  dict[str, Dataset]
 # ---------------------------------------------------------------------------
 

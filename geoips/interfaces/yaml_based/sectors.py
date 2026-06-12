@@ -83,12 +83,15 @@ class SectorPluginBase(BaseYamlPlugin):
 
         ad = self.area_definition
         ds = xr.Dataset(attrs={
+            "area_definition": ad,
             "area_id": getattr(ad, "area_id", self.name),
             "area_extent": getattr(ad, "area_extent", None),
             "shape": getattr(ad, "shape", None),
-            "projection": str(getattr(ad, "proj_dict", {})),
+            "width": getattr(ad, "width", None),
+            "height": getattr(ad, "height", None),
+            "proj_dict": str(getattr(ad, "proj_dict", {})),
             "plugin_kind": "sector",
-            "output_key": "sector_info",
+            "output_key": "area_def",
         })
         return DataTreeDitto(ds, name=self.name)
 

@@ -329,7 +329,9 @@ class WorkflowStepDefinitionModel(FrozenModel):
             "``kind: workflow`` that supply an inline ``spec``."
         ),
     )
-    spec: WorkflowSpecModel = Field(None, description="The workflow specification")
+    spec: WorkflowSpecModel | None = Field(
+        None, description="The workflow specification"
+    )
     arguments: Dict[str, Any] = Field(default_factory=dict, description="step args")
     depends_on: List[PythonIdentifier] | None = Field(
         None,
@@ -757,6 +759,9 @@ class WorkflowSpecModel(FrozenModel):
         validation occurs. This way workflows can support nested workflows, of which all
         of the mentioned types produce.
         """
+        if data is None:
+            return data
+
         context = info.context or {}
         expand = context.get("expand", False)
 
@@ -805,6 +810,8 @@ class WorkflowSpecModel(FrozenModel):
         All defaults are baked into the raw dict *before* freezing, so no
         ``object.__setattr__`` is needed.
         """
+        if data is None:
+            return data
         steps = data.get("steps", {})
         step_ids = list(steps.keys())
 
@@ -1140,6 +1147,3 @@ class WorkflowPluginModel(PluginModel):
             )
 
         return data
-
-
-WorkflowSpecModel.model_rebuild()
