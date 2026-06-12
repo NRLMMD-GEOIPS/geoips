@@ -1,0 +1,13 @@
+append_invalid_input:
+  description: "Ensure invalid value for append is not accepted" 
+  key: append
+  val: [123]
+  cls: OutputFormatterArgumentsModel
+  err_str: Input should be a valid boolean
+basedir_valid_input:
+  description: "Ensure invalid value for basedir is not accepted"
+  key: basedir
+  val: True
+  cls: OutputFormatterArgumentsModel
+  err_str: Input should be a valid string
+
