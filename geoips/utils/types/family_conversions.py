@@ -34,7 +34,7 @@ ALGORITHM_FAMILY_CONVERSIONS: dict[str, FamilyConversionSpec] = {
     # -- families that receive a Dataset directly ------------------------------
     "xarray_to_numpy": FamilyConversionSpec(
         input_type=xr.Dataset,
-        input_converter=None,          # Dataset is what _unwrap gives
+        input_converter=None,  # Dataset is what _unwrap gives
         output_type=np.ndarray,
         output_converter=numpy_to_dataset,
     ),
@@ -42,7 +42,7 @@ ALGORITHM_FAMILY_CONVERSIONS: dict[str, FamilyConversionSpec] = {
         input_type=xr.Dataset,
         input_converter=None,
         output_type=xr.Dataset,
-        output_converter=None,         # already a Dataset
+        output_converter=None,  # already a Dataset
     ),
     # -- families that receive a list[np.ndarray] ------------------------------
     "list_numpy_to_numpy": FamilyConversionSpec(

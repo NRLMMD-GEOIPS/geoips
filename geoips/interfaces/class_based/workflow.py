@@ -187,7 +187,11 @@ class Workflow:
         return result
 
     def _attach_step_node(
-        self, tree: xr.DataTree, step_id: str, step_data: Any
+        self,
+        tree: xr.DataTree,
+        step_id: str,
+        step_data: Any,
+        step_kind: str = "",
     ) -> None:
         """Attach a step's output as a child node in the DataTree.
 
@@ -199,9 +203,34 @@ class Workflow:
             Step identifier used as the child node name.
         step_data : Any
             The return value of ``plugin._invoke(...)``.
+        step_kind : str
+            The step kind, used to specialise handling (e.g. readers).
         """
         if isinstance(step_data, xr.DataTree):
             tree[step_id] = step_data
+        elif isinstance(step_data, dict) and step_kind == "reader":
+            primary_ds = None
+            extra_attrs = {}
+            for key, value in step_data.items():
+                if isinstance(value, xr.Dataset):
+                    if key == "METADATA":
+                        extra_attrs.update(value.attrs)
+                    elif primary_ds is None:
+                        primary_ds = value
+                        extra_attrs["_reader_dataset_key"] = key
+                    else:
+                        # Merge additional datasets into the primary
+                        try:
+                            primary_ds = xr.merge([primary_ds, value])
+                        except Exception as exc:
+                            LOG.warning(
+                                "Could not merge reader dataset %r into primary: %s",
+                                key,
+                                exc,
+                            )
+                            extra_attrs[f"_reader_extra_{key}"] = str(key)
+            ds = (primary_ds or xr.Dataset()).assign_attrs(**extra_attrs)
+            tree[step_id] = DataTreeDitto(ds, name=step_id)
         else:
             tree[step_id] = DataTreeDitto(step_data, name=step_id)
 
@@ -324,10 +353,13 @@ class Workflow:
                 wf_name = sid
                 workflow = Workflow(wf_spec, workflow_name=wf_name)
                 step_result = workflow.call(fnames=fnames, **kwargs)
-            elif not (step_def.depends_on or []):
-                step_result = plg(
-                    fnames=fnames, _obp_initiated=True, **(step_def.arguments or {})
-                )
+            if not (step_def.depends_on or []):
+                if step_def.kind == "reader":
+                    step_result = plg(
+                        fnames=fnames, _obp_initiated=True, **(step_def.arguments or {})
+                    )
+                else:
+                    step_result = plg(_obp_initiated=True, **(step_def.arguments or {}))
             else:
                 upstream = self._collect_upstream_data(tree, step_def.depends_on or [])
                 step_result = plg(
@@ -361,7 +393,7 @@ class Workflow:
                 output_token=output_token,
             )
 
-            self._attach_step_node(tree, sid, step_result)
+            self._attach_step_node(tree, sid, step_result, step_kind=step_def.kind)
             self._record_provenance(tree[sid], prov)
             executed.add(sid)
             self._apply_retention(tree, executed)
@@ -413,7 +445,7 @@ class Workflow:
                     f"cannot resolve plugin '{name}': {exc}"
                 ) from exc
 
-        if isinstance(result, dict):
+        if isinstance(result, dict) and not callable(getattr(result, "call", None)):
             from geoips.utils.types.yaml_plugin_callable import YamlPluginCallable
 
             return YamlPluginCallable(result)

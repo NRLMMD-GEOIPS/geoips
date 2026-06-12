@@ -22,8 +22,10 @@ import xarray as xr
 
 from geoips.utils.types.converter_registry import converter_registry
 from geoips.utils.types.converters import (
+    dataset_to_list,
     dataset_to_masked_array,
     dataset_to_numpy,
+    list_to_dataset,
     masked_array_to_dataset,
     numpy_to_dataset,
 )
@@ -129,14 +131,20 @@ converter_registry.register(xr.Dataset, dict, _dataset_to_dict)
 converter_registry.register(xr.DataArray, xr.Dataset, _da_to_ds)
 converter_registry.register(xr.Dataset, xr.DataArray, _ds_to_da)
 
+converter_registry.register(list, xr.Dataset, list_to_dataset)
+converter_registry.register(xr.Dataset, list, dataset_to_list)
+
 # --- DataTreeDitto._converters (backward-compat surface) ---------------------
 
 DataTreeDitto.register_converter(np.ndarray, numpy_to_dataset, dataset_to_numpy)
 DataTreeDitto.register_converter(
-    np.ma.MaskedArray, masked_array_to_dataset, dataset_to_masked_array,
+    np.ma.MaskedArray,
+    masked_array_to_dataset,
+    dataset_to_masked_array,
 )
 DataTreeDitto.register_converter(dict, _dict_to_dataset, _dataset_to_dict)
 DataTreeDitto.register_converter(xr.DataArray, _da_to_ds, _ds_to_da)
+DataTreeDitto.register_converter(list, list_to_dataset, dataset_to_list)
 
 # Note: xr.Dataset is intentionally NOT registered. DataTreeDitto.__init__
 # short-circuits when the input is already a Dataset (it does not call the

@@ -378,7 +378,13 @@ def compute_lon_auto_spacing(area_def):
     minlon = pyresample.utils.wrap_longitudes(area_def.area_extent_ll[0])
     maxlon = pyresample.utils.wrap_longitudes(area_def.area_extent_ll[2])
 
-    if minlon > maxlon and maxlon < 0:
+    if maxlon < minlon:
+        maxlon = maxlon + 360
+    elif (
+        maxlon == minlon
+        and area_def.area_extent_ll[3] - area_def.area_extent_ll[1] >= 170
+    ):
+        # global dataset: both longitudes wrap to the same point
         maxlon = maxlon + 360
     lon_extent = maxlon - minlon
 

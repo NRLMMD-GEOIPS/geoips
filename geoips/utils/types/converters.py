@@ -221,9 +221,7 @@ def dataset_to_masked_array(dataset: xr.Dataset, **kwargs: Any) -> np.ma.MaskedA
 # ---------------------------------------------------------------------------
 
 
-def dataset_vars_to_list(
-    dataset: xr.Dataset, **kwargs: Any
-) -> list[np.ndarray]:
+def dataset_vars_to_list(dataset: xr.Dataset, **kwargs: Any) -> list[np.ndarray]:
     """Extract every data variable as a list of arrays.
 
     Arrays are returned in insertion order (the order they appear when
@@ -273,8 +271,7 @@ def list_numpy_to_dataset(
         names = [f"var_{i}" for i in range(len(arrays))]
     if dims is None:
         dims = [
-            [f"dim_{i}_{j}" for j in range(arr.ndim)]
-            for i, arr in enumerate(arrays)
+            [f"dim_{i}_{j}" for j in range(arr.ndim)] for i, arr in enumerate(arrays)
         ]
 
     data_vars = {}
@@ -285,6 +282,55 @@ def list_numpy_to_dataset(
     ds.attrs["_conv_var_names"] = names
     ds.attrs["_conv_var_order"] = names
     return ds
+
+
+# ---------------------------------------------------------------------------
+# list  →  xr.Dataset
+# ---------------------------------------------------------------------------
+
+
+def list_to_dataset(
+    obj: list,
+    **kwargs: Any,
+) -> xr.Dataset:
+    """Store a plain list as attrs in a Dataset.
+
+    Parameters
+    ----------
+    obj : list
+        List of any JSON-serializable values (e.g. filenames).
+    **kwargs
+        Ignored.
+
+    Returns
+    -------
+    xr.Dataset
+        Dataset with ``_ditto_list_value`` in attrs.
+    """
+    ds = xr.Dataset(
+        attrs={
+            "_ditto_original_type": _type_key(list),
+            "_ditto_list_value": obj,
+        }
+    )
+    return ds
+
+
+def dataset_to_list(dataset: xr.Dataset, **kwargs: Any) -> list:
+    """Recover a list from attrs.
+
+    Parameters
+    ----------
+    dataset : xr.Dataset
+    **kwargs
+        Ignored.
+
+    Returns
+    -------
+    list
+        The stored list value.
+    """
+    return dataset.attrs.get("_ditto_list_value", [])
 
 
 # ---------------------------------------------------------------------------
@@ -316,9 +362,7 @@ def dataset_to_dataset_dict(
     return result
 
 
-def dataset_dict_to_dataset(
-    dct: dict[str, xr.Dataset], **kwargs: Any
-) -> xr.Dataset:
+def dataset_dict_to_dataset(dct: dict[str, xr.Dataset], **kwargs: Any) -> xr.Dataset:
     """Merge a dict of datasets into a single ``xr.Dataset``.
 
     Uses ``xarray.merge`` for alignment.  The dict insertion order is

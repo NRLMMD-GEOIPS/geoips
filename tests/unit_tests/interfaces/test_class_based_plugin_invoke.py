@@ -54,7 +54,7 @@ class TestInvokeWrapping:
         dt = xr.DataTree.from_dict({"/": ds})
 
         plugin = _FakeLegacyPlugin()
-        result = plugin._invoke(data=dt)
+        result = plugin._invoke(data=dt, _obp_initiated=True)
         assert isinstance(result, xr.DataTree)
         assert result.ds is not None
         assert "var" in result.ds
@@ -68,7 +68,7 @@ class TestInvokeWrapping:
                 return xr.Dataset({"out": ("x", [10, 20])})
 
         plugin = _ProducesDataset()
-        result = plugin._invoke(data=xr.DataTree())
+        result = plugin._invoke(data=xr.DataTree(), _obp_initiated=True)
         assert isinstance(result, xr.DataTree)
         assert result.ds is not None
         assert "out" in result.ds
@@ -101,7 +101,7 @@ class TestInvokeWrapping:
                 return data * 2
 
         plugin = _NumpyAlgPlugin()
-        result = plugin._invoke(data=dt)
+        result = plugin._invoke(data=dt, _obp_initiated=True)
         assert isinstance(result, xr.DataTree)
         assert result.ds is not None
         assert (result.ds["data"].values == np.array([[2.0, 4.0], [6.0, 8.0]])).all()

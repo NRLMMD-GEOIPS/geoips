@@ -128,7 +128,7 @@ class BaseClassPlugin(ABC):
 
     # hooks are intentionally loose; document their accepted kwargs
     # def _pre_call(self, data: R, *args, **kwargs) -> R:
-    def _pre_call(self, data=None, _obp_initiated=False, *args, **kwargs):
+    def _pre_call(self, data=None, *args, _obp_initiated=False, **kwargs):
         """Preprocess the data before calling the main plugin method.
 
         For ``data_tree=False`` plugins this hook:
@@ -158,18 +158,27 @@ class BaseClassPlugin(ABC):
         # Step 1: Unwrap DataTree → native type
         data = self._unwrap(data)
 
-        # Step 2: Apply family-specific input conversion
-        conversion_map = getattr(self, "_family_conversion_map", None)
-        if conversion_map is not None:
-            spec = conversion_map.get(self.family)
-            if spec is not None and spec.input_converter is not None:
-                if spec.input_type is None or not isinstance(data, spec.input_type):
-                    data = spec.input_converter(data)
+        # Stash attrs from Dataset input for restoration in _post_call (OBP only)
+        if _obp_initiated and hasattr(data, "attrs"):
+            self._stashed_input_attrs = dict(data.attrs)
+
+        # Step 2: Apply family-specific input conversion (OBP only)
+        if _obp_initiated:
+            conversion_map = getattr(self, "_family_conversion_map", None)
+            if conversion_map is not None:
+                spec = conversion_map.get(self.family)
+                if spec is not None and spec.input_converter is not None:
+                    if spec.input_type is not None and not isinstance(
+                        data, spec.input_type
+                    ):
+                        data = spec.input_converter(data)
+                    elif spec.input_type is None:
+                        data = spec.input_converter(data)
 
         return data
 
     # def _post_call(self, data: R, *args, **kwargs) -> R:
-    def _post_call(self, data=None, _obp_initiated=False, *args, **kwargs):
+    def _post_call(self, data=None, *args, _obp_initiated=False, **kwargs):
         """Post-process the data after calling the main plugin method.
 
         For ``data_tree=False`` plugins this hook:
@@ -196,16 +205,26 @@ class BaseClassPlugin(ABC):
         if data is None or self.data_tree:
             return data
 
-        # Step 1: Apply family-specific reverse conversion
-        conversion_map = getattr(self, "_family_conversion_map", None)
-        if conversion_map is not None:
-            spec = conversion_map.get(self.family)
-            if spec is not None and spec.output_converter is not None:
-                if spec.output_type is None or not isinstance(data, spec.output_type):
+        # Step 1: Apply family-specific reverse conversion (OBP only)
+        if _obp_initiated:
+            conversion_map = getattr(self, "_family_conversion_map", None)
+            if conversion_map is not None:
+                spec = conversion_map.get(self.family)
+                if spec is not None and spec.output_converter is not None:
                     data = spec.output_converter(data)
 
-        # Step 2: Wrap into DataTreeDitto if not already
-        if not isinstance(data, xr.DataTree):
+        # Step 1.5: Restore stashed metadata from input (OBP only)
+        stashed = getattr(self, "_stashed_input_attrs", None)
+        if _obp_initiated and stashed:
+            if hasattr(data, "attrs"):
+                for k, v in stashed.items():
+                    if k not in getattr(data, "attrs", {}):
+                        data.attrs[k] = v
+                LOG.debug("Restored %d stashed attrs to output", len(stashed))
+            self._stashed_input_attrs = None
+
+        # Step 2: Wrap into DataTreeDitto if not already (OBP only)
+        if _obp_initiated and not isinstance(data, xr.DataTree):
             data = self._wrap(data)
 
         return data
@@ -281,6 +300,9 @@ class BaseClassPlugin(ABC):
             return result
         if isinstance(result, xr.DataTree):
             return DataTreeDitto.from_datatree(result)
+        if isinstance(result, (str, int, float, bool)):
+            ds = xr.Dataset(attrs={"value": result})
+            return DataTreeDitto(ds, name=getattr(self, "name", "result"))
         return DataTreeDitto(result, name=getattr(self, "name", "result"))
 
     @staticmethod
@@ -297,15 +319,38 @@ class BaseClassPlugin(ABC):
         def _wrap_spec(spec):
             return {"spec": spec} if spec is not None else None
 
+        def _unwrap_ditto(child):
+            from geoips.utils.types.datatree_ditto import DataTreeDitto
+
+            if isinstance(child, DataTreeDitto):
+                return child.get_original()
+            return child.ds
+
+        def _unwrap_ds(child):
+            from geoips.utils.types.datatree_ditto import DataTreeDitto
+
+            if isinstance(child, DataTreeDitto):
+                return child.ds
+            if isinstance(child, xr.DataTree):
+                return child.ds
+            return child
+
         _EXTRACTORS = {
+            "algorithm": _unwrap_ds,
             "colormapper": lambda c: c.ds.attrs.get("_mpl_colors_info"),
+            "feature_annotator": lambda c: _wrap_spec(c.ds.attrs.get("spec")),
             "filename_formatter": lambda c: c.ds.attrs.get("output_fnames"),
             "gridline_annotator": lambda c: _wrap_spec(c.ds.attrs.get("spec")),
-            "feature_annotator": lambda c: _wrap_spec(c.ds.attrs.get("spec")),
+            "product": lambda c: str(c.name) if c.name else None,
+            "sector": lambda c: c.ds.attrs.get("area_definition"),
         }
 
         for _child_name, child in children.items():
-            pkind = str(child.ds.attrs.get("plugin_kind", "")) if child.ds else ""
+            pkind = (
+                str(child.ds.attrs.get("plugin_kind", ""))
+                if child.ds is not None
+                else ""
+            )
             kwarg_name = _KIND_TO_KWARG.get(pkind)
             if not kwarg_name or kwarg_name in kwargs:
                 continue
@@ -318,36 +363,21 @@ class BaseClassPlugin(ABC):
             elif pkind in ("product", "product_default"):
                 kwargs[kwarg_name] = dict(child.ds.attrs)
 
-        return kwargs
-
-        children = dict(data.children)
-        if not children:
-            return kwargs
-
-        _EXTRACTORS = {
-            "colormapper": lambda c: c.ds.attrs.get("_mpl_colors_info"),
-            "filename_formatter": lambda c: c.ds.attrs.get("output_fnames"),
-            "gridline_annotator": lambda c: _wrap_spec(c.ds.attrs.get("spec")),
-            "feature_annotator": lambda c: _wrap_spec(c.ds.attrs.get("spec")),
-        }
-
-        for _child_name, child in children.items():
-            pkind = str(child.ds.attrs.get("plugin_kind", "")) if child.ds else ""
-            kwarg_name = _KIND_TO_KWARG.get(pkind)
-            if not kwarg_name or kwarg_name in kwargs:
-                continue
-
-            extract = _EXTRACTORS.get(pkind)
-            if extract is not None:
-                val = extract(child)
-                if val is not None:
-                    kwargs[kwarg_name] = val
-            elif pkind in ("product", "product_default"):
-                kwargs[kwarg_name] = dict(child.ds.attrs)
+        if "xarray_obj" in kwargs and "product_name" in kwargs:
+            xo = kwargs["xarray_obj"]
+            if (
+                hasattr(xo, "data_vars")
+                and xo.data_vars
+                and "product_name" not in xo.data_vars
+            ):
+                pn = kwargs["product_name"]
+                if isinstance(pn, str) and pn not in xo.data_vars:
+                    xo = xo.rename({list(xo.data_vars)[0]: pn})
+                    kwargs["xarray_obj"] = xo
 
         return kwargs
 
-    def _invoke(self, data=None, _obp_initiated=False, *args, **kwargs):
+    def _invoke(self, data=None, *args, _obp_initiated=False, **kwargs):
         """Call the main plugin method.
 
         Additionally, filter out unaccepted arguments if initiated via the OBP.
@@ -380,11 +410,29 @@ class BaseClassPlugin(ABC):
         if data is None:
             result = self.call(*args, **new_kwargs)
         else:
-            new_kwargs = self._extract_child_kwargs(data, new_kwargs)
-            data = self._pre_call(data, *args, **new_kwargs)
-            data = self.call(data, *args, **new_kwargs)
-            data = self._post_call(data, *args, **new_kwargs)
-            result = data
+            if _obp_initiated:
+                new_kwargs = self._extract_child_kwargs(data, new_kwargs)
+            data = self._pre_call(
+                data, *args, _obp_initiated=_obp_initiated, **new_kwargs
+            )
+            if (
+                _obp_initiated
+                and isinstance(data, xr.DataTree)
+                and len(dict(data.children)) > 1
+                and not data.ds.attrs.get("_ditto_original_type")
+            ):
+                new_args = _kwarg_to_positional(new_kwargs, self.call)
+                result = self.call(*new_args, **new_kwargs)
+                data = self._post_call(
+                    result, *args, _obp_initiated=_obp_initiated, **new_kwargs
+                )
+                result = data
+            else:
+                data = self.call(data, *args, **new_kwargs)
+                data = self._post_call(
+                    data, *args, _obp_initiated=_obp_initiated, **new_kwargs
+                )
+                result = data
 
         return result
 
@@ -465,3 +513,55 @@ class BaseClassPlugin(ABC):
         _call.__signature__ = inspect.signature(call_method)  # mirror only call()
         _call.__annotations__ = getattr(call_method, "__annotations__", {})
         cls.__call__ = _call
+
+
+def _kwarg_to_positional(kwargs, call_func):
+    """Convert kwargs to positional args matching ``call_func`` signature.
+
+    For multi-child multi_input DataTrees, ``_invoke`` cannot pass the
+    DataTree as the first positional arg (signature mismatch).  This
+    helper inspects ``call_func``'s parameter names and promotes
+    matching kwargs to positional arguments.
+
+    Parameters
+    ----------
+    kwargs : dict
+        Keyword arguments (mutated in-place — matching keys are popped).
+    call_func : callable
+        The plugin's ``call`` method (used for signature inspection).
+
+    Returns
+    -------
+    tuple
+        Positional arguments for ``call_func``.
+    """
+    import inspect as _inspect_mod
+
+    sig = _inspect_mod.signature(call_func)
+    positional = []
+    consumed = set()
+    for pname, param in sig.parameters.items():
+        if pname == "self":
+            continue
+        if param.kind not in (
+            _inspect_mod.Parameter.POSITIONAL_ONLY,
+            _inspect_mod.Parameter.POSITIONAL_OR_KEYWORD,
+        ):
+            break
+        if pname in kwargs:
+            val = kwargs.pop(pname)
+            positional.append(val)
+            consumed.add(pname)
+        elif param.default is not _inspect_mod.Parameter.empty:
+            positional.append(param.default)
+        elif pname == "data" and "xarray_obj" in kwargs:
+            val = kwargs.pop("xarray_obj")
+            positional.append(val)
+            consumed.add("xarray_obj")
+        else:
+            raise TypeError(
+                f"_kwarg_to_positional: required parameter {pname!r} "
+                f"is missing from kwargs and cannot be filled automatically. "
+                f"Available kwargs: {list(kwargs)}"
+            )
+    return tuple(positional)
