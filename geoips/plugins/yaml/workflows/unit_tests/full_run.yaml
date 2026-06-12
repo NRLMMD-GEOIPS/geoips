@@ -14,20 +14,20 @@ test:
   #     policy: on_failure # always
   #     output_checker_arguments:
   #       compare_path: !ENV ${GEOIPS_PACKAGES_DIR}/geoips/tests/outputs/abi.static.Infrared.imagery_clean/20200918.195020.goes-16.abi.Infrared.test_goes16_eqc_3km_day_20200918T1950Z.100p00.noaa.3p0.png
-  steps:
-    reader:
-      area_def: null
-    # abi:Infrared:
-    #   spec:
-    #     steps:
-    #       algorithm:
-    #         output_units: Kelvin
-  kinds:
-    readers:
-      satellite_zenith_angle_cutoff: 80
-  globals:
-    sector_list: global_cylindrical
-    logging_level: info
+  # steps:
+  #   reader:
+  #     area_def: null
+  #   abi:Infrared:
+  #     spec:
+  #       steps:
+  #         algorithm:
+  #           output_units: Kelvin
+  # kinds:
+  #   readers:
+  #     satellite_zenith_angle_cutoff: 80
+  # globals:
+  #   sector_list: global_cylindrical
+  #   logging_level: info
 spec:
   steps:
     reader:
@@ -38,6 +38,7 @@ spec:
     algorithm:
       kind: algorithm
       name: single_channel
+      depends_on: [reader]
       arguments:
         output_data_range: [-90.0, 30.0]
         input_units: Kelvin
@@ -49,24 +50,28 @@ spec:
     colormapper:
       kind: colormapper
       name: Infrared
+      depends_on: []
       arguments:
         data_range: [-90.0, 30.0]
-    # gridlines:
-    #   kind: gridline_annotator
-    #   name: default
-    #   arguments: {}
-    # features:
-    #   kind: feature_annotator
-    #   name: default
-    #   arguments: {}
-    # sector:
-    #   kind: sector
-    #   kind: goes_east
-    #   arguments: {}
+    gridlines:
+      kind: gridline_annotator
+      name: default
+      depends_on: []
+      arguments: {}
+    features:
+      kind: feature_annotator
+      name: default
+      depends_on: []
+      arguments: {}
+    sector:
+      kind: sector
+      name: goes_east
+      depends_on: []
+      arguments: {}
     output_formatter:
       kind: output_formatter
       name: imagery_annotated
-      depends_on: [algorithm, colormapper]  # , gridlines, features, sector]
+      depends_on: [algorithm, colormapper, gridlines, features, sector]
       arguments:
         product_name: Infrared
         product_name_title: G16 Infrared @ 11.2 um
