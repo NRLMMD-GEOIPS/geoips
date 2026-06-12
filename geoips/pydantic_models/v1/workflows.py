@@ -934,6 +934,14 @@ class OutputCheckerStepDefinition(PermissiveFrozenModel):
             " output checker on failed token comparison."
         ),
     )
+    depends_on: List[str] | None = Field(
+        None,
+        description=(
+            "Step IDs this step depends on. If None, defaults to "
+            "[previous_step_id] for non-first steps, [] for the first step. "
+            "The runner validates all references exist and no cycles exist."
+        ),
+    )
 
 
 class NestedSpecOverride(PermissiveFrozenModel):
