@@ -820,18 +820,6 @@ class GeoipsWorkflowCommand(GeoipsExecutableCommand):
         if isinstance(workflow, Mapping):
             # Validate the generated workflow with is_registered set to false as this
             # plugin has been dynamically generated
-<<<<<<< geoips-obp-output-checker-overrides
-            workflow = WorkflowPluginModel(
-                **workflow,
-                is_registered=False,
-                # Adding context in pydantic is akin to passing in values that are
-                # usually None to an Objects __init__ function. It will construct
-                # differently if those parameters are provided. In this case, we are
-                # telling pydantic to expand the workflow, rather than validate just
-                # what's in the data provided
-                context={"expand": True},
-            ).model_dump()
-=======
             try:
                 workflow = WorkflowPluginModel(
                     **workflow,
@@ -839,30 +827,7 @@ class GeoipsWorkflowCommand(GeoipsExecutableCommand):
                     context={"expand": True},
                 ).model_dump()
             except Exception as e:
-                self.parser.error(
-                    f"Could not parse workflow dict: {e}"
-                )
-        # unregistered workflow @ filepath (any path that exists on disk)
-        elif self.ensure_valid_json_or_yaml_path(value):
-            filepath = self.ensure_valid_json_or_yaml_path(value)
-            if filepath.suffix.lower() == ".json":
-                loader = json.load
-            else:
-                loader = yaml.safe_load
-
-            with open(filepath, "r") as f:
-                workflow = loader(f)
-            try:
-                workflow = WorkflowPluginModel(
-                    **workflow,
-                    is_registered=False,
-                    context={"expand": True},
-                ).model_dump()
-            except Exception as e:
-                self.parser.error(
-                    f"Could not parse workflow file '{value}': {e}"
-                )
->>>>>>> obp-meets-callable-yaml
+                self.parser.error(f"Could not parse workflow dict: {e}")
         # registered named workflow
         elif isinstance(value, str):
             rbr = (
@@ -876,7 +841,6 @@ class GeoipsWorkflowCommand(GeoipsExecutableCommand):
                 self.parser.error(
                     f"Error: could not load workflow plugin under name '{value}'."
                 )
-<<<<<<< geoips-obp-output-checker-overrides
         # unregistered workflow @ filepath (any path that exists on disk)
         elif self.ensure_valid_json_or_yaml_path(value):
             # since the filepath was valid and exists, load the data and validate it
@@ -900,8 +864,6 @@ class GeoipsWorkflowCommand(GeoipsExecutableCommand):
                 # what's in the data provided
                 context={"expand": True},
             ).model_dump()
-=======
->>>>>>> obp-meets-callable-yaml
         else:
             self.parser.error(
                 "Error: positional argument 'workflow' could not be associated with an"
