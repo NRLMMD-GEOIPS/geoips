@@ -198,17 +198,38 @@ class WorkflowArgumentsModel(PermissiveFrozenModel):
     pass
 
 
+class GridlineAnnotatorArgumentsModel(PermissiveFrozenModel):
+    """Validate Gridline Annotator arguments (YAML plugin)."""
+
+    pass
+
+
+class FeatureAnnotatorArgumentsModel(PermissiveFrozenModel):
+    """Validate Feature Annotator arguments (YAML plugin)."""
+
+    pass
+
+
+class SectorArgumentsModel(PermissiveFrozenModel):
+    """Validate Sector arguments (YAML plugin)."""
+
+    pass
+
+
 _PLUGIN_ARGUMENTS_MODELS: dict[str, type] = {
     "AlgorithmArgumentsModel": AlgorithmArgumentsModel,
     "ColormapperArgumentsModel": ColormapperArgumentsModel,
     "CoverageCheckerArgumentsModel": CoverageCheckerArgumentsModel,
+    "FeatureAnnotatorArgumentsModel": FeatureAnnotatorArgumentsModel,
     "FilenameFormatterArgumentsModel": FilenameFormatterArgumentsModel,
+    "GridlineAnnotatorArgumentsModel": GridlineAnnotatorArgumentsModel,
     "InterpolatorArgumentsModel": InterpolatorArgumentsModel,
     "OutputCheckerArgumentsModel": OutputCheckerArgumentsModel,
     "OutputFormatterArgumentsModel": OutputFormatterArgumentsModel,
     "ProductDefaultArgumentsModel": ProductDefaultArgumentsModel,
     "ProductArgumentsModel": ProductArgumentsModel,
     "ReaderArgumentsModel": ReaderArgumentsModel,
+    "SectorArgumentsModel": SectorArgumentsModel,
     "WorkflowArgumentsModel": WorkflowArgumentsModel,
 }
 
@@ -1061,3 +1082,6 @@ class WorkflowPluginModel(PluginModel):
             )
 
         return data
+
+
+WorkflowSpecModel.model_rebuild()

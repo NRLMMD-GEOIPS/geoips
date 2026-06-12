@@ -5,14 +5,19 @@
 
 from geoips.interfaces.class_based_plugin import BaseClassPlugin
 from geoips.interfaces.base import BaseClassInterface
+from geoips.utils.types.family_conversions import ALGORITHM_FAMILY_CONVERSIONS
 
 
 class BaseAlgorithmPlugin(BaseClassPlugin, abstract=True):
-    """Base class for GeoIPS algorithm plugins."""
+    """Base class for GeoIPS algorithm plugins.
+
+    Plugins with ``data_tree=False`` have their inputs / outputs
+    automatically converted according to the family-specific rules
+    defined in ``ALGORITHM_FAMILY_CONVERSIONS``.
+    """
 
     data_tree = False
-
-    pass
+    _family_conversion_map = ALGORITHM_FAMILY_CONVERSIONS
 
 
 class AlgorithmsInterface(BaseClassInterface):

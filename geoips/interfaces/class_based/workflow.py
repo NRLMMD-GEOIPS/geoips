@@ -401,7 +401,7 @@ class Workflow:
                 f"no such interface found"
             )
         try:
-            return iface.get_plugin(name)
+            result = iface.get_plugin(name)
         except Exception as exc:
             if interface_name == "workflows" and name is None:
                 # occurs for workflow 'plugins' generated at runtimes for product /
@@ -412,3 +412,9 @@ class Workflow:
                     f"Kind '{kind}' -> interface '{interface_name}': "
                     f"cannot resolve plugin '{name}': {exc}"
                 ) from exc
+
+        if isinstance(result, dict):
+            from geoips.utils.types.yaml_plugin_callable import YamlPluginCallable
+
+            return YamlPluginCallable(result)
+        return result

@@ -20,12 +20,6 @@ class _FakeLegacyPlugin(BaseClassPlugin):
     def call(self, data=None, **kwargs):
         return data
 
-    def _pre_call(self, data, *args, **kwargs):
-        return data
-
-    def _post_call(self, data, *args, **kwargs):
-        return data
-
     def _invoke(self, data=None, *args, **kwargs):
         return BaseClassPlugin._invoke(self, data=data, *args, **kwargs)
 
@@ -39,12 +33,6 @@ class _FakeNativePlugin(BaseClassPlugin):
     data_tree = True
 
     def call(self, data=None, **kwargs):
-        return data
-
-    def _pre_call(self, data, *args, **kwargs):
-        return data
-
-    def _post_call(self, data, *args, **kwargs):
         return data
 
     def _invoke(self, data=None, *args, **kwargs):

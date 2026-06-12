@@ -1,0 +1,72 @@
+apiVersion: geoips/v1
+interface: workflows
+family: order_based
+name: test_datatree_conversions
+package: geoips
+docstring: |
+  End-to-end test of the DataTree-based order-based procflow with all
+  auxiliary plugins (colormapper, filename formatter, gridline annotator,
+  feature annotator, sector) participating as first-class DAG steps.
+
+  Usage (requires $GEOIPS_TESTDATA_DIR):
+      geoips run order_based test_datatree_conversions \
+          tests/outputs/abi.static.Infrared.netcdf_geoips/*.nc
+
+  The pipeline exercises:
+    - Reader (dict[str,Dataset] → DataTree)
+    - Algorithm (family=list_numpy_to_numpy: dataset_vars_to_list input,
+      numpy_to_dataset output)
+    - Colormapper (first-class step → DataTree with mpl_colors_info config)
+    - Filename formatter (depends_on algorithm → DataTree with file paths)
+    - Gridline annotator (YAML → YamlPluginCallable → DataTree)
+    - Feature annotator (YAML → YamlPluginCallable → DataTree)
+    - Output formatter receives all above via depends_on,
+      _extract_child_kwargs maps children to kwargs
+spec:
+  retention: keep_outputs_only
+  outputs: [output_formatter]
+  steps:
+    read:
+      kind: reader
+      name: geoips_netcdf
+      arguments: {}
+
+    algorithm:
+      kind: algorithm
+      name: single_channel
+      depends_on: [read]
+      arguments:
+        output_data_range: [-90.0, 30.0]
+        input_units: Kelvin
+        output_units: celsius
+        min_outbounds: crop
+        max_outbounds: crop
+        norm: false
+        inverse: false
+
+    colormap:
+      kind: colormapper
+      name: Infrared
+      arguments:
+        data_range: [-90.0, 30.0]
+
+    filename:
+      kind: filename_formatter
+      name: geoips_fname
+      depends_on: [algorithm]
+      arguments:
+        suffix: ".png"
+
+    gridlines:
+      kind: gridline_annotator
+      name: default
+      depends_on: [algorithm]
+
+    features:
+      kind: feature_annotator
+      name: default
+
+    output_formatter:
+      kind: output_formatter
+      name: imagery_clean
+      depends_on: [algorithm, colormap, filename, gridlines, features]
