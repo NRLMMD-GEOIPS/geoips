@@ -184,7 +184,7 @@ Output Formatter step in the code block below includes two additional plugins,
             output_products: [
               "path/to/output/product.png",
             ]
-        output_formatter_1:
+        apply_imagery_annotated_output_formatter:
           kind: output_formatter
           name: imagery_annotated
           arguments:
