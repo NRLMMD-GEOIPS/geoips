@@ -972,6 +972,14 @@ class StepOutputOverride(FrozenModel):
             "running the referenced step. Not yet implemented."
         ),
     )
+    depends_on: List[str] | None = Field(
+        None,
+        description=(
+            "Step IDs this step depends on. If None, defaults to "
+            "[previous_step_id] for non-first steps, [] for the first step. "
+            "The runner validates all references exist and no cycles exist."
+        ),
+    )
 
 
 class OutputsConfig(
