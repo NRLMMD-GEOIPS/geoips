@@ -368,16 +368,16 @@ class GeoipsRunOrderBased(GeoipsWorkflowCommand):
                 "'<global_variable_name>=<some_value>'"
             ),
         )
-        self.parser.add_arguments(
-            "-wt",
-            "--write-tokens",
-            default=False,
-            action="store_true",
-            help=(
-                "Write tokens for the output of every step in a workflow. Used for "
-                "quick comparison against known token outputs."
-            ),
-        )
+        # self.parser.add_argument(
+        #     "-wt",
+        #     "--write-tokens",
+        #     default=False,
+        #     action="store_true",
+        #     help=(
+        #         "Write tokens for the output of every step in a workflow. Used for "
+        #         "quick comparison against known token outputs."
+        #     ),
+        # )
 
         # Turning off all additional procflow args for this command. We want this
         # command to have a limited set of arguments to start.
