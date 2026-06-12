@@ -11,6 +11,7 @@ import logging
 
 from lexeme_type.lexeme import Lexeme
 
+from geoips.errors import PluginError
 from geoips.interfaces.base import BaseYamlInterface
 from geoips.interfaces import output_checkers
 
@@ -198,7 +199,16 @@ class WorkflowsInterface(BaseYamlInterface):
             new_steps[key] = value
 
             if key == target_key:
-                arguments = new_value.pop("output_checker_arguments")
+                try:
+                    arguments = new_value.pop("output_checker_arguments")
+                except KeyError:
+                    arguments = new_value.pop("arguments", None)
+                    if arguments is None:
+                        raise PluginError(
+                            "Error: input workflow plugin is improperly formatted "
+                            "either in it's workflow test section."
+                            f"Offending input value == {new_value}"
+                        )
                 new_steps[new_key] = new_value
                 new_steps[new_key]["arguments"] = arguments
                 new_steps[new_key]["name"] = output_checkers.identify_checker(
@@ -231,8 +241,9 @@ class WorkflowsInterface(BaseYamlInterface):
             return steps
 
         for key, value in override.items():
-            # Detected leaf output checker override. Overriding
-            if isinstance(value, Mapping) and "output_checker_arguments" in value:
+            # Detected leaf output checker override. Overriding. 'policy' is a field
+            # that is unique to output checker overrides and step definitions
+            if isinstance(value, Mapping) and "policy" in value:
                 # Generate a unique step id based on how many output checker step ids
                 # were encountered previously
                 count = sum(

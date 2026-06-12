@@ -21,12 +21,11 @@ from copy import deepcopy
 import datetime as dt
 from glob import glob
 import logging
-from typing import Any, Dict, List, Literal, Optional
+from typing import Any, Dict, List, Literal, Optional, Union
 
 # Third-Party Libraries
 from pydantic import (
     ConfigDict,
-    FilePath,
     Field,
     field_validator,
     model_validator,
@@ -298,6 +297,8 @@ class GlobalVariablesModel(PermissiveFrozenModel):
 class WorkflowStepDefinitionModel(FrozenModel):
     """Validate step definition : kind, name, and arguments."""
 
+    model_config = ConfigDict()
+
     kind: Lexeme = Field(..., description="plugin kind")
     name: str | tuple[str] | None = Field(
         None,
@@ -307,14 +308,6 @@ class WorkflowStepDefinitionModel(FrozenModel):
         ),
     )
     spec: WorkflowSpecModel = Field(None, description="The workflow specification")
-    policy: Literal["on_failure", "always"] = Field(
-        "on_failure",
-        description=(
-            "Whether or not to run the output checker based on the result of "
-            "the token comparison. Defaults to only running the specified (or detected)"
-            " output checker on failed token comparison."
-        ),
-    )
     arguments: Dict[str, Any] | None = Field(
         default_factory=dict, description="step args"
     )
@@ -562,9 +555,9 @@ class WorkflowSpecModel(FrozenModel):
     global_arguments: GlobalVariablesModel | None = Field(
         None, description="Arguments shared across workflow steps"
     )
-    steps: Dict[str, WorkflowStepDefinitionModel] = Field(
-        ..., description="Steps to produce the workflow."
-    )
+    steps: Dict[
+        str, Union[WorkflowStepDefinitionModel, OutputCheckerStepDefinition]
+    ] = Field(..., description="Steps to produce the workflow.")
 
     outputs: List[str] | None = Field(
         None,
@@ -879,13 +872,14 @@ class WorkflowSpecModel(FrozenModel):
         return self
 
 
-class OutputCheckerOverride(PermissiveFrozenModel):
-    """Model for generic output checker overrides in a workflow test section.
+class OutputCheckerStepDefinition(PermissiveFrozenModel):
+    """Model for output checker step definitions / overrides in a workflow test / steps section.  # NOQA
 
     Takes the form of:
 
     output_checker:
         name: my_oc
+        policy: "on_failure" | "always"
         arguments:
         ...
     """
@@ -897,12 +891,12 @@ class OutputCheckerOverride(PermissiveFrozenModel):
             "output checker plugin associated with the produced file type(s)."
         ),
     )
-    output_checker_arguments: OutputCheckerArgumentsModel = Field(
+    arguments: OutputCheckerArgumentsModel = Field(
         ...,
         description=(
             "A dictionary of arguments to be supplied to an output_checker plugin."
         ),
-        alias="arguments",
+        alias="output_checker_arguments",
     )
     policy: Literal["on_failure", "always"] = Field(
         "on_failure",
@@ -910,40 +904,6 @@ class OutputCheckerOverride(PermissiveFrozenModel):
             "Whether or not to run the output checker based on the result of "
             "the token comparison. Defaults to only running the specified (or detected)"
             " output checker on failed token comparison."
-        ),
-    )
-
-
-class StepOutputOverride(FrozenModel):
-    """Model for overriding the output checker arguments for a single step.
-
-    Takes the form of:
-
-    step_id:
-        compare_path: path
-        token: token_value
-        argument_x: value
-        ...
-    """
-
-    model_config = ConfigDict(extra="allow")
-
-    # Supporting either FilePath types or str types as yaml.Constructor cannot construct
-    # environment variable flags against an instance of a FilePath object. Only strings
-    # work in that case.
-    compare_path: FilePath | str = Field(
-        ...,
-        description="The path to the comparison file.",
-    )
-    output_products: Optional[List[FilePath] | List[str]] = Field(
-        None,
-        description="A list of paths to the output file(s).",
-    )
-    token: Optional[str] = Field(
-        None,
-        description=(
-            "A token representing the current state of the xarray.Datatree after "
-            "running the referenced step. Not yet implemented."
         ),
     )
 
@@ -965,10 +925,6 @@ class StepOverrideType(PermissiveFrozenModel):
     """
 
     spec: Optional[NestedSpecOverride] = None
-
-
-# class ArgumentOverride(FrozenModel):
-#     """Generic class for argument overrides."""
 
 
 # Required for recursive references
@@ -1027,7 +983,7 @@ class WorkflowTestModel(FrozenModel):
     #             optional_arg1: <x>
     #             optional_arg2: <z>
 
-    outputs: Dict[str, OutputCheckerOverride] = Field(
+    outputs: Dict[str, OutputCheckerStepDefinition] = Field(
         default_factory=dict,
         description=(
             "Override dictionary for output checker steps or every instance of"
