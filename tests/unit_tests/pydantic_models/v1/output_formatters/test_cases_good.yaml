@@ -1,0 +1,17 @@
+# matplotlibbasedcommonimageryargumentsmdoel_feature_annotator_valid_input:
+  # description: "Ensure valid value for feature_annotator is accepted"
+  # key: feature_annotator
+  # val: tc_visir
+  # cls: MatplotlibBasedCommonImageryArgumentsModel
+ # create issue to check that the key belongs to the particular interface
+append_valid_input:
+  description: "Ensure valid value for append is accepted" 
+  key: append
+  val: False
+  cls: OutputFormatterArgumentsModel
+# create an issue to check of the model exists or not in the first place
+basedir_valid_input:
+  description: "Ensure valid value for basedir is accepted"
+  key: basedir
+  val: gpaths["TCWWW"]
+  cls: OutputFormatterArgumentsModel
