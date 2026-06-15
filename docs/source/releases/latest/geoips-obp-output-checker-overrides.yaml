@@ -96,7 +96,7 @@ enhancement:
     description: 11.2 µm Infrared.
     spec:
       steps:
-        reader':
+        reader:
           kind: reader
           name: abi_netcdf
           depends_on: []

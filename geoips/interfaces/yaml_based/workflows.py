@@ -210,9 +210,10 @@ class WorkflowsInterface(BaseYamlInterface):
                         )
                 new_steps[new_key] = new_value
                 new_steps[new_key]["arguments"] = arguments
-                new_steps[new_key]["name"] = output_checkers.identify_checker(
-                    arguments["compare_path"]
-                )
+                if "name" not in new_value:
+                    new_steps[new_key]["name"] = output_checkers.identify_checker(
+                        arguments["compare_path"]
+                    )
                 new_steps[new_key]["kind"] = "output_checker"
                 inserted = True
 
