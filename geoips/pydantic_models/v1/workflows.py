@@ -579,7 +579,7 @@ class WorkflowSpecModel(FrozenModel):
         None, description="Arguments shared across workflow steps"
     )
     steps: Dict[
-        str, Union[WorkflowStepDefinitionModel, OutputCheckerStepDefinition]
+        str, Union[WorkflowStepDefinitionModel, OutputCheckerStepDefinitionModel]
     ] = Field(..., description="Steps to produce the workflow.")
 
     outputs: List[str] | None = Field(
@@ -900,7 +900,7 @@ class WorkflowSpecModel(FrozenModel):
         return self
 
 
-class OutputCheckerStepDefinition(PermissiveFrozenModel):
+class OutputCheckerStepDefinitionModel(PermissiveFrozenModel):
     """Model for output checker step definitions / overrides in a workflow test / steps section.  # NOQA
 
     Takes the form of:
@@ -1019,7 +1019,7 @@ class WorkflowTestModel(FrozenModel):
     #             optional_arg1: <x>
     #             optional_arg2: <z>
 
-    outputs: Dict[str, OutputCheckerStepDefinition] = Field(
+    outputs: Dict[str, OutputCheckerStepDefinitionModel] = Field(
         default_factory=dict,
         description=(
             "Override dictionary for output checker steps or every instance of"

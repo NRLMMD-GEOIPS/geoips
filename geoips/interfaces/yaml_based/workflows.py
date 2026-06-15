@@ -23,7 +23,6 @@ class WorkflowsInterface(BaseYamlInterface):
 
     name = "workflows"
     use_pydantic = True  # Always use pydantic for workflows.
-    _token_oc_format = {"name": "token", "arguments": {}}
 
     ##########################################
     #                                        #
