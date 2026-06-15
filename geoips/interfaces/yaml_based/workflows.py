@@ -415,6 +415,77 @@ class WorkflowsInterface(BaseYamlInterface):
                     )
         return steps
 
+    def _convert_override_dict_to_string_format(self, workflow):
+        """
+        Convert a workflow's test section overrides to string-based overrides.
+
+        Parameters
+        ----------
+        workflow: dict
+            A dictionary representation of a workflow plugin.
+
+        Returns
+        -------
+        goverrides: list[str]
+            A list of global override strings.
+        koverrides: list[str]
+            A list of kind override strings.
+        soverrides: list[str]
+            A list of step override strings.
+        """
+
+        def _iterate_over_nested(current):
+            """Iterate over the keys of a nested dictionary.
+
+            Expected format of the nested dictionary is a single key, value pair in
+            each nested dictionary.
+
+            Parameters
+            ----------
+            current: dict
+                The current instance of a dictionary in a nested dictionary.
+
+            Returns
+            -------
+            key: str
+                The key of the leaf nested dictionary. One the final iteration is hit,
+                balloon back up and return the name of the key in each parent
+                dictionary.
+            value: Any
+                The override value being applied.
+            """
+            key = list(current.keys())[0]
+            if not isinstance(current[key], Mapping):
+                return f"{key}={current[key]}"
+            else:
+                return f"{key}.{_iterate_over_nested(current[key])}"
+
+        override_types = ["globals", "kinds", "steps"]
+        goverrides = []
+        koverrides = []
+        soverrides = []
+        for override_type in override_types:
+            overrides = workflow.get("test", {}).get(override_type)
+            if overrides:
+                for override_key, override in overrides.items():
+                    if isinstance(override, Mapping) and not override.keys():
+                        continue
+                    elif isinstance(override, Mapping):
+                        str_override = (
+                            f"{override_key}.{_iterate_over_nested(override)}"
+                        )
+                    else:
+                        str_override = f"{override_key}={override}"
+
+                    if override_type == "globals":
+                        goverrides.append(str_override)
+                    elif override_type == "kinds":
+                        koverrides.append(str_override)
+                    else:
+                        soverrides.append(str_override)
+
+        return goverrides, koverrides, soverrides
+
     def _override_workflow_dict_format(
         self,
         workflow,
@@ -444,6 +515,11 @@ class WorkflowsInterface(BaseYamlInterface):
             The overridden representation of 'workflow'.
         """
         steps = deepcopy(workflow["spec"]["steps"])
+
+        # TODO: Replace dictionary override logic with string logic now that we have
+        # access to string-based overrides
+        # g, k, s = self._convert_override_dict_to_string_format(workflow)
+
         # Determine if a subset of overrides is to be applied.
         # This occurs when 'geoips run obp' is supplied with override flags
         overrides_to_apply = self._determine_overrides_to_apply(
