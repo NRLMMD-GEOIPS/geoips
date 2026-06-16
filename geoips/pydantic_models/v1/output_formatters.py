@@ -84,8 +84,6 @@ class OutputFormatterArgumentsModel(PermissiveFrozenModel):
         default=False,
         description="whether to overwrite the output file even if it exists",
     )
-    # dead argument across all output_formatters where used
-    # TASK: validate this to drop
     existing_image: str | None = Field(
         None,
         description=(
