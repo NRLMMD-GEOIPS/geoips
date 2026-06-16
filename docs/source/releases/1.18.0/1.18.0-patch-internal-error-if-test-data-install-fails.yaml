@@ -1,0 +1,18 @@
+bug fixes:
+- title: Ensure we error appropriately if any steps in the base, full, or site install fail.
+  description: |
+    * Wrap all installation commands with the check_system_requirements script (which ensures
+      we exit non-zero if a command fails, and do not continue with the install)
+    * Update geoips config install-github to exit non-zero if the command fails.
+  files:
+    modified:
+    - tests/integration_tests/base_install.sh
+    - tests/integration_tests/full_install.sh
+    - tests/integration_tests/site_install.sh
+    - geoips/commandline/geoips_config.py
+  related-issue:
+    internal: geoips#1029 - 1.18.0 updates
+  date:
+    start: 2026-03-09
+    finish: 2026-03-09
+

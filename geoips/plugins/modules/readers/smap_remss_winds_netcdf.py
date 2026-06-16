@@ -70,7 +70,7 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
     """
     # Only SAR reads multiple files
     fname = fnames[0]
-    wind_xarray = xarray.open_dataset(str(fname))
+    wind_xarray = xarray.open_dataset(str(fname), decode_times=False)
     wind_xarray.attrs["source_name"] = "smap-spd"
     wind_xarray.attrs["platform_name"] = "smap"
     wind_xarray.attrs["data_provider"] = "rss"

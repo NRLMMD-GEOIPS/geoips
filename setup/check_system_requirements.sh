@@ -30,7 +30,11 @@ if [[ -z "$GEOIPS_OUTDIRS" || \
     exit 1
 fi
 
-install_log=$GEOIPS_OUTDIRS/logs/install/`date -u +%Y%m%d.%H%M`_install.log
+if [[ "$GEOIPS_INSTALL_LOG_BASEDIR" != "" ]]; then
+    install_log=$GEOIPS_INSTALL_LOG_BASEDIR/`date -u +%Y%m%d.%H%M`_install.log
+else
+    install_log=$GEOIPS_OUTDIRS/logs/install/`date -u +%Y%m%d.%H%M`_install.log
+fi
 mkdir -p `dirname $install_log`
 # These do not use install log, don't print it out.
 if [[ "$1" != "check_environment_variable" && \
@@ -75,19 +79,37 @@ fi
 
 if [[ "$1" == "run_command" ]]; then
     if [[ "$3" == "tee" ]]; then
-        echo "RUNNING '$2' with tee" | tee -ai $install_log
-        $2 2>&1 | tee -ai $install_log
-        retval=${PIPESTATUS[0]}
+        if [[ "$2" == *"|"* ]]; then
+            echo "RUNNING '$2' with tee, with pipe" | tee -ai $install_log
+            bash -c """set -o pipefail; $2""" 2>&1 | tee -ai $install_log
+            retval=$?
+        else
+            echo "RUNNING '$2' with tee, with no pipe" | tee -ai $install_log
+            $2 2>&1 | tee -ai $install_log
+            retval=${PIPESTATUS[0]}
+        fi
     elif [[ "$3" == "no_logfile_redirect" ]]; then
-        echo "RUNNING: '$2' with no logfile redirect"
-        $2
-        retval=$?
+        if [[ "$2" == *"|"* ]]; then
+            echo "RUNNING: '$2' with no logfile redirect, with pipe"
+            bash -c """set -o pipefail; $2"""
+            retval=$?
+        else
+            echo "RUNNING: '$2' with no logfile redirect, with no pipe"
+            $2
+            retval=$?
+        fi
     else
         echo "TIME:    `date -u`"
         echo "LOGFILE: $install_log"
-        echo "RUNNING: '$2' with logfile"
-        $2 >> $install_log 2>&1
-        retval=$?
+        if [[ "$2" == *"|"* ]]; then
+            echo "RUNNING: '$2' with logfile, with pipe"
+            bash -c """set -o pipefail; $2""" >> $install_log 2>&1
+            retval=$?
+        else
+            echo "RUNNING: '$2' with logfile, with no pipe"
+            $2 >> $install_log 2>&1
+            retval=$?
+        fi
     fi
     if [[ "$retval" != "0" ]]; then
         echo "'$2' failed. Quitting"
