@@ -134,9 +134,15 @@ class Workflow:
         The workflow name (used as the root DataTree node name).
     """
 
-    def __init__(self, spec: WorkflowSpecModel, workflow_name: str) -> None:
+    def __init__(
+        self,
+        spec: WorkflowSpecModel,
+        workflow_name: str,
+        write_tokens: bool = False,
+    ) -> None:
         self._spec = spec
         self._wf_name = workflow_name
+        self._write_tokens = write_tokens
         self._order: list[str] = self._topological_order()
         self._retention: RetentionPolicy = _POLICIES[
             self._spec.retention or DEFAULT_RETENTION
