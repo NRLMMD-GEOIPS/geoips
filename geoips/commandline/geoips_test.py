@@ -425,10 +425,6 @@ class GeoipsTestWorkflow(GeoipsWorkflowCommand):
                 "attempting to test this plugin again."
             )
 
-        from IPython import embed as shell
-
-        shell()
-
         obp = procflows.get_plugin("order_based")
 
         # TODO: Add additional logic here for other parameters included in a workflow
