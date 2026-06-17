@@ -429,7 +429,7 @@ class GeoipsTestWorkflow(GeoipsWorkflowCommand):
         # TODO: Add additional logic here for other parameters included in a workflow
         # test section, such as 'compare_path'. 'overrides' section not passed to obp
         # as the override has already been applied to the workflow plugin.
-        obp(workflow, fnames=workflow["test"].get("fnames", []))
+        obp(workflow=workflow, fnames=workflow["test"].get("fnames", []))
 
 
 class GeoipsTest(GeoipsCommand):
