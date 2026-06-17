@@ -182,17 +182,12 @@ class GeoipsRunOrderBased(GeoipsWorkflowCommand):
             The validated contents of an override string in a dictionary.
         """
         try:
-            lhs, rhs = value.split("=", 1)
-        except ValueError:
+            override = workflows.global_override_type(value)
+        except Exception:
             raise self.parser.error(
                 f"Invalid format '{value}'. Expected '<global_variable_name>=<value>'"
             )
-
-        return {
-            "argument": lhs,
-            # doing a yaml.safe_load attempts to cast the value into its correct type
-            "value": yaml.safe_load(rhs),
-        }
+        return override
 
     def kind_override_type(self, value: str):
         """Ensure an override string fits the following format.
@@ -212,29 +207,12 @@ class GeoipsRunOrderBased(GeoipsWorkflowCommand):
             The validated contents of an override string in a dictionary.
         """
         try:
-            lhs, rhs = value.split("=", 1)
-        except ValueError:
+            override = workflows.kind_override_type(value)
+        except Exception:
             raise self.parser.error(
                 f"Invalid format '{value}'. Expected '<kind>.<argument_name>=<value>'"
             )
-
-        parts = lhs.split(".")
-
-        if len(parts) != 2:
-            raise self.parser.error(
-                f"Invalid key '{lhs}'. Must be in the format of "
-                "'<kind>.<argument_name>'"
-            )
-
-        kind = parts[0]
-        argument = parts[1]
-
-        return {
-            "kind": kind,
-            "argument": argument,
-            # doing a yaml.safe_load attempts to cast the value into its correct type
-            "value": yaml.safe_load(rhs),
-        }
+        return override
 
     def step_override_type(self, value: str):
         """Ensure an override string fits the following format.
@@ -254,30 +232,12 @@ class GeoipsRunOrderBased(GeoipsWorkflowCommand):
             The validated contents of an override string in a dictionary.
         """
         try:
-            lhs, rhs = value.split("=", 1)
-        except ValueError:
+            override = workflows.step_override_type(value)
+        except Exception:
             raise self.parser.error(
                 f"Invalid format '{value}'. Expected '<step_id>.<...>=<value>'"
             )
-
-        parts = lhs.split(".")
-
-        if len(parts) < 2:
-            raise self.parser.error(
-                f"Invalid key '{lhs}'. Must have at least '<step_id>.<string>'"
-            )
-
-        step_id = parts[0]
-        keys = parts[1:-1]
-        argument = parts[-1]
-
-        return {
-            "step_id": step_id,
-            "keys": keys,
-            "argument": argument,
-            # doing a yaml.safe_load attempts to cast the value into its correct type
-            "value": yaml.safe_load(rhs),
-        }
+        return override
 
     def add_arguments(self):
         """Add arguments to the run-subparser for the 'run order-based' command."""
@@ -452,6 +412,7 @@ class GeoipsRunOrderBased(GeoipsWorkflowCommand):
             - The argument namespace to parse through.
         """
         workflow = args.workflow
+        write_tokens = args.write_tokens
 
         workflow = self._apply_overrides(workflow, args)
 
