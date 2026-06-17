@@ -128,7 +128,7 @@ class BaseClassPlugin(ABC):
 
     # hooks are intentionally loose; document their accepted kwargs
     # def _pre_call(self, data: R, *args, **kwargs) -> R:
-    def _pre_call(self, data=None, _obp_initiated=False, *args, **kwargs):
+    def _pre_call(self, data=None, *args, _obp_initiated=False, **kwargs):
         """Preprocess the data before calling the main plugin method.
 
         Parameters
@@ -146,7 +146,7 @@ class BaseClassPlugin(ABC):
         return data
 
     # def _post_call(self, data: R, *args, **kwargs) -> R:
-    def _post_call(self, data=None, _obp_initiated=False, *args, **kwargs):
+    def _post_call(self, data=None, *args, _obp_initiated=False, **kwargs):
         """Post-process the data after calling the main plugin method.
 
         Parameters
@@ -220,7 +220,7 @@ class BaseClassPlugin(ABC):
             return DataTreeDitto.from_datatree(result)
         return DataTreeDitto(result, name=getattr(self, "name", "result"))
 
-    def _invoke(self, data=None, _obp_initiated=False, *args, **kwargs):
+    def _invoke(self, data=None, *args, _obp_initiated=False, **kwargs):
         """Call the main plugin method.
 
         Additionally, filter out unaccepted arguments if initiated via the OBP.

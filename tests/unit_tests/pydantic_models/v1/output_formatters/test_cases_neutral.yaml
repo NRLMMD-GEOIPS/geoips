@@ -1,0 +1,60 @@
+cog_deprecated_input:
+  description: "cog is dead code — cog_translate() always runs; should eventually warn"
+  key: cog
+  val: False
+  cls: OutputFormatterArgumentsModel
+  err_str: ""
+existing_image_deprecated_input:
+  description: "existing_image is declared but never used in any output formatter body"
+  key: existing_image
+  val: "/path/to/existing.png"
+  cls: OutputFormatterArgumentsModel
+  err_str: ""
+metadata_dir_deprecated_input:
+  description: "metadata_dir appears in call signatures but is never forwarded downstream"
+  key: metadata_dir
+  val: "custom_metadata"
+  cls: OutputFormatterArgumentsModel
+  err_str: ""
+remove_duplicate_minrange_deprecated_input:
+  description: "remove_duplicates() body is 'pass' — this argument has no effect"
+  key: remove_duplicate_minrange
+  val: 0.5
+  cls: OutputFormatterArgumentsModel
+  err_str: ""
+output_fname_dict_deprecated_input:
+  description: "output_fname_dict keys are never accessed in any output formatter"
+  key: output_fname_dict
+  val: {product_name: "Infrared"}
+  cls: OutputFormatterArgumentsModel
+  err_str: ""
+basedir_deprecated_input:
+  description: "basedir is superseded by replace_geoips_paths(); no longer used"
+  key: basedir
+  val: "/data/tcwww"
+  cls: OutputFormatterArgumentsModel
+  err_str: ""
+append_int_coerced_to_bool:
+  description: "Integer 1 is silently coerced to True for append under strict=False"
+  key: append
+  val: 1
+  cls: OutputFormatterArgumentsModel
+  err_str: ""
+hist_colorbar_int_coerced_to_bool:
+  description: "Integer 0 is silently coerced to False for hist_colorbar under strict=False"
+  key: hist_colorbar
+  val: 0
+  cls: OutputFormatterArgumentsModel
+  err_str: ""
+x_size_float_coerced_to_int:
+  description: "Float 1000.0 is coerced to int 1000 for x_size under strict=False"
+  key: x_size
+  val: 1000.0
+  cls: OutputFormatterArgumentsModel
+  err_str: ""
+y_size_float_coerced_to_int:
+  description: "Float 800.0 is coerced to int 800 for y_size under strict=False"
+  key: y_size
+  val: 800.0
+  cls: OutputFormatterArgumentsModel
+  err_str: ""
