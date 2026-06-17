@@ -1,0 +1,144 @@
+append_invalid_input:
+  description: "Ensure invalid value for append is not accepted" 
+  key: append
+  val: [123]
+  cls: OutputFormatterArgumentsModel
+  err_str: Input should be a valid boolean
+basedir_valid_input:
+  description: "Ensure invalid value for basedir is not accepted"
+  key: basedir
+  val: True
+  cls: OutputFormatterArgumentsModel
+  err_str: Input should be a valid string
+cog_invalid_input:
+  description: "Ensure non-boolean value for cog is rejected"
+  key: cog
+  val: [invalid_input]
+  cls: OutputFormatterArgumentsModel
+  err_str: Input should be a valid boolean
+clobber_invalid_input:
+  description: "Ensure non-boolean value for clobber is rejected"
+  key: clobber
+  val: [invalid_input]
+  cls: OutputFormatterArgumentsModel
+  err_str: Input should be a valid boolean
+hist_colorbar_invalid_input:
+  description: "Ensure non-boolean string for hist_colorbar is rejected"
+  key: hist_colorbar
+  val: "plugin_provided"
+  cls: OutputFormatterArgumentsModel
+  err_str: Input should be a valid boolean
+is_3d_invalid_input:
+  description: "Ensure non-boolean value for is_3d is rejected"
+  key: is_3d
+  val: [1, 2]
+  cls: OutputFormatterArgumentsModel
+  err_str: Input should be a valid boolean
+overwrite_invalid_input:
+  description: "Ensure non-boolean value for overwrite is rejected"
+  key: overwrite
+  val: [true]
+  cls: OutputFormatterArgumentsModel
+  err_str: Input should be a valid boolean
+use_compression_invalid_input:
+  description: "Ensure non-boolean value for use_compression is rejected"
+  key: use_compression
+  val: [invalid_input]
+  cls: OutputFormatterArgumentsModel
+  err_str: Input should be a valid boolean
+clean_fname_invalid_input:
+  description: "Ensure non-string value for clean_fname is rejected"
+  key: clean_fname
+  val: 100
+  cls: OutputFormatterArgumentsModel
+  err_str: Input should be a valid string
+existing_image_invalid_input:
+  description: "Ensure non-string value for existing_image is rejected"
+  key: existing_image
+  val: true
+  cls: OutputFormatterArgumentsModel
+  err_str: Input should be a valid string
+metadata_dir_invalid_input:
+  description: "Ensure non-string value for metadata_dir is rejected"
+  key: metadata_dir
+  val: true
+  cls: OutputFormatterArgumentsModel
+  err_str: Input should be a valid string
+product_name_title_invalid_input:
+  description: "Ensure non-string value for product_name_title is rejected"
+  key: product_name_title
+  val: 100
+  cls: OutputFormatterArgumentsModel
+  err_str: Input should be a valid string
+product_datatype_title_invalid_input:
+  description: "Ensure non-string value for product_datatype_title is rejected"
+  key: product_datatype_title
+  val: 100
+  cls: OutputFormatterArgumentsModel
+  err_str: Input should be a valid string
+title_copyright_invalid_input:
+  description: "Ensure non-string value for title_copyright is rejected"
+  key: title_copyright
+  val: 100
+  cls: OutputFormatterArgumentsModel
+  err_str: Input should be a valid string
+var_name_invalid_input:
+  description: "Ensure non-string value for var_name is rejected"
+  key: var_name
+  val: 100
+  cls: OutputFormatterArgumentsModel
+  err_str: Input should be a valid string
+working_directory_invalid_input:
+  description: "Ensure non-string value for working_directory is rejected"
+  key: working_directory
+  val: 100
+  cls: OutputFormatterArgumentsModel
+  err_str: Input should be a valid string
+x_size_invalid_input:
+  description: "Ensure non-integer value for x_size is rejected"
+  key: x_size
+  val: "not_an_int"
+  cls: OutputFormatterArgumentsModel
+  err_str: Input should be a valid integer
+y_size_invalid_input:
+  description: "Ensure non-integer value for y_size is rejected"
+  key: y_size
+  val: "not_an_int"
+  cls: OutputFormatterArgumentsModel
+  err_str: Input should be a valid integer
+bg_mpl_colors_info_invalid_input:
+  description: "Ensure non-dict value for bg_mpl_colors_info is rejected"
+  key: bg_mpl_colors_info
+  val: "not_a_dict"
+  cls: OutputFormatterArgumentsModel
+  err_str: Input should be a valid dictionary
+metadata_fname_dict_invalid_input:
+  description: "Ensure non-dict value for metadata_fname_dict is rejected"
+  key: metadata_fname_dict
+  val: "not_a_dict"
+  cls: OutputFormatterArgumentsModel
+  err_str: Input should be a valid dictionary
+mpl_colors_info_invalid_input:
+  description: "Ensure non-dict value for mpl_colors_info is rejected"
+  key: mpl_colors_info
+  val: "not_a_dict"
+  cls: OutputFormatterArgumentsModel
+  err_str: Input should be a valid dictionary
+output_dict_invalid_input:
+  description: "Ensure non-dict value for output_dict is rejected"
+  key: output_dict
+  val: "not_a_dict"
+  cls: OutputFormatterArgumentsModel
+  err_str: Input should be a valid dictionary
+pressure_range_dict_invalid_input:
+  description: "Ensure non-dict value for pressure_range_dict is rejected"
+  key: pressure_range_dict
+  val: "not_a_dict"
+  cls: OutputFormatterArgumentsModel
+  err_str: Input should be a valid dictionary
+savefig_kwargs_invalid_input:
+  description: "Ensure non-dict value for savefig_kwargs is rejected"
+  key: savefig_kwargs
+  val: "not_a_dict"
+  cls: OutputFormatterArgumentsModel
+  err_str: Input should be a valid dictionary
