@@ -157,6 +157,8 @@ enhancement:
     ```
   files:
     modified:
+      - docs/dev/order_based_procflow.rst
+      - docs/dev/running_order_based_procflow.rst
       - geoips/commandline/geoips_command.py
       - geoips/commandline/geoips_run.py
       - geoips/commandline/geoips_test.py
