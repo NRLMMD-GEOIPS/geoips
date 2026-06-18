@@ -2,9 +2,12 @@
 
 # cspell: ignore koverrides, soverrides
 
-import pytest
+from collections import OrderedDict
 from copy import deepcopy
 
+import pytest
+
+from geoips.errors import PluginError
 from geoips.interfaces.yaml_based.workflows import workflows
 
 
@@ -63,6 +66,105 @@ def sample_workflow():
             },
         },
     }
+
+
+##########################################
+#
+# OVERRIDE TYPE PARSING TESTS
+#
+##########################################
+
+
+def test_global_override_type_string_value():
+    """Test parsing a global override containing a string value."""
+    result = workflows.global_override_type("logging_level=INFO")
+
+    assert result == {
+        "argument": "logging_level",
+        "value": "INFO",
+    }
+
+
+def test_global_override_type_yaml_casting():
+    """Test automatic YAML type conversion for global overrides.
+
+    Ensures yaml.safe_load is applied to the value portion of the
+    override string so numeric values are converted to their
+    corresponding Python types.
+    """
+    result = workflows.global_override_type("satellite_zenith_angle_cutoff=85")
+
+    assert result == {
+        "argument": "satellite_zenith_angle_cutoff",
+        "value": 85,
+    }
+
+
+def test_kind_override_type():
+    """Test parsing a valid kind override string.
+
+    Ensures the kind name, argument name, and value are extracted
+    correctly from a valid override specification.
+    """
+    result = workflows.kind_override_type("algorithm.output_units=kelvin")
+
+    assert result == {
+        "kind": "algorithm",
+        "argument": "output_units",
+        "value": "kelvin",
+    }
+
+
+def test_kind_override_type_invalid_key_format():
+    """Test failure when a kind override key is improperly formatted.
+
+    A valid kind override must contain exactly one period separating
+    the kind name and argument name.
+    """
+    with pytest.raises(ValueError, match="Must be in the format"):
+        workflows.kind_override_type("algorithm.output.units=kelvin")
+
+
+def test_step_override_type():
+    """Test parsing a step override containing nested keys.
+
+    Verifies that the step identifier, intermediate keys, argument,
+    and value are extracted correctly from a nested override path.
+    """
+    result = workflows.step_override_type("reader.spec.arguments.self_register=LOW")
+
+    assert result == {
+        "step_id": "reader",
+        "keys": ["spec", "arguments"],
+        "argument": "self_register",
+        "value": "LOW",
+    }
+
+
+def test_step_override_type_no_nested_keys():
+    """Test parsing a step override that targets a top-level argument.
+
+    Verifies that an empty keys list is returned when no intermediate
+    path components exist between the step id and argument name.
+    """
+    result = workflows.step_override_type("reader.self_register=LOW")
+
+    assert result == {
+        "step_id": "reader",
+        "keys": [],
+        "argument": "self_register",
+        "value": "LOW",
+    }
+
+
+def test_step_override_type_invalid_key():
+    """Test failure when a step override contains no argument path.
+
+    A valid step override must contain at least a step identifier
+    and argument name separated by a period.
+    """
+    with pytest.raises(ValueError, match="Must have at least"):
+        workflows.step_override_type("reader=LOW")
 
 
 ##########################################
@@ -156,8 +258,8 @@ def test_override_global(sample_workflow):
     assert result["reader"]["arguments"]["satellite_zenith_angle_cutoff"] == 80
 
 
-def test_override_workflow_string_format(sample_workflow):
-    """Test applying all string-based overrides.
+def test_override_workflow_string_format_from_dict(sample_workflow):
+    """Test applying all string-based overrides from a dictionary representation.
 
     Parameters
     ----------
@@ -204,122 +306,41 @@ def test_override_workflow_string_format(sample_workflow):
     assert steps["algorithm"]["arguments"]["output_units"] == "kelvin"
 
 
+def test_override_workflow_string_format_from_string(sample_workflow):
+    """Test applying all string-based overrides from string-based representation.
+
+    Parameters
+    ----------
+    sample_workflow: pytest.fixture[dict]
+        A dummy workflow to perform unit tests on.
+    """
+    workflow = deepcopy(sample_workflow)
+
+    goverrides = ["satellite_zenith_angle_cutoff=85"]
+
+    koverrides = ["algorithms.output_units=kelvin"]
+
+    soverrides = ["reader.self_register=LOW"]
+
+    result = workflows._override_workflow_string_format(
+        workflow,
+        goverrides=goverrides,
+        koverrides=koverrides,
+        soverrides=soverrides,
+    )
+
+    steps = result["spec"]["steps"]
+
+    assert steps["reader"]["arguments"]["self_register"] == "LOW"
+    assert steps["reader"]["arguments"]["satellite_zenith_angle_cutoff"] == 85
+    assert steps["algorithm"]["arguments"]["output_units"] == "kelvin"
+
+
 ##########################################
 #
 # DICT-BASED OVERRIDE TESTS
 #
 ##########################################
-
-
-def test_apply_step_override(sample_workflow):
-    """Test recursive step overrides.
-
-    Parameters
-    ----------
-    sample_workflow: pytest.fixture[dict]
-        A dummy workflow to perform unit tests on.
-    """
-    steps = deepcopy(sample_workflow["spec"]["steps"])
-
-    override = {
-        "reader": {
-            "self_register": "LOW",
-        }
-    }
-
-    result = workflows._apply_step_override(
-        steps,
-        override,
-    )
-
-    assert result["reader"]["arguments"]["self_register"] == "LOW"
-
-
-def test_apply_step_override_missing_key(sample_workflow):
-    """Test invalid override raises KeyError.
-
-    Parameters
-    ----------
-    sample_workflow: pytest.fixture[dict]
-        A dummy workflow to perform unit tests on.
-    """
-    steps = deepcopy(sample_workflow["spec"]["steps"])
-
-    override = {
-        "missing_step": {
-            "some_argument": "value",
-        }
-    }
-
-    with pytest.raises(KeyError, match="Missing key"):
-        workflows._apply_step_override(
-            steps,
-            override,
-        )
-
-
-def test_recursively_override(sample_workflow):
-    """Test recursive overrides propagate into nested workflows.
-
-    Parameters
-    ----------
-    sample_workflow: pytest.fixture[dict]
-        A dummy workflow to perform unit tests on.
-    """
-    steps = deepcopy(sample_workflow["spec"]["steps"])
-
-    result = workflows._recursively_override(
-        steps,
-        "nested_workflow",
-        "output_units",
-        "kelvin",
-        "algorithms",
-    )
-
-    nested = result["nested_workflow"]["spec"]["steps"]["nested_algorithm"]
-
-    assert nested["arguments"]["output_units"] == "kelvin"
-
-
-@pytest.mark.parametrize(
-    "override_type,interface,expected",
-    [
-        ("globals", None, "kelvin"),
-        ("kinds", "algorithms", "kelvin"),
-        ("steps", None, "kelvin"),
-    ],
-)
-def test_apply_override(
-    sample_workflow,
-    override_type,
-    interface,
-    expected,
-):
-    """Test all override application modes.
-
-    Parameters
-    ----------
-    sample_workflow: pytest.fixture[dict]
-        A dummy workflow to perform unit tests on.
-    override_type: str
-        The type of override being applied. One of ["globals", "kinds", "steps"].
-    interface: str or None
-        The name of an interface whose arguments to override.
-    expected: Any
-        The expected value of the override to be applied.
-
-    """
-    steps = deepcopy(sample_workflow["spec"]["steps"])
-
-    result = workflows._apply_override(
-        override_type,
-        steps,
-        "output_units",
-        expected,
-        interface,
-    )
-
-    assert result["algorithm"]["arguments"]["output_units"] == expected
 
 
 def test_override_workflow_dict_format(sample_workflow):
@@ -366,43 +387,238 @@ def test_override_workflow_dict_format(sample_workflow):
 
 ##########################################
 #
-# DETERMINE OVERRIDES TESTS
+# OUTPUT CHECKER OVERRIDE TESTS
 #
 ##########################################
 
 
-@pytest.mark.parametrize(
-    "goverrides,koverrides,soverrides,expected",
-    [
-        ({}, {}, {}, [None, None, None]),
-        ({"a": 1}, {}, {}, ["globals", None, None]),
-        ({}, {"a": 1}, {}, [None, "kinds", None]),
-        ({}, {}, {"a": 1}, [None, None, "steps"]),
-    ],
-)
-def test_determine_overrides_to_apply(
-    goverrides,
-    koverrides,
-    soverrides,
-    expected,
-):
-    """Test override selection logic.
+def test_insert_after_key():
+    """Test inserting a new output checker step after a target step.
 
-    Parameters
-    ----------
-    goverrides: dict
-        A dictionary of global overrides.
-    koverrides: dict
-        A dictionary of kind overrides.
-    soverrides: dict
-        A dictionary for step overrides.
-    expected: Any
-        The expected value of the override to be applied.
+    Ensures the new step is inserted immediately after the target
+    step and that required output checker metadata is populated.
     """
-    result = workflows._determine_overrides_to_apply(
-        goverrides,
-        koverrides,
-        soverrides,
+    steps = OrderedDict(
+        {
+            "reader": {
+                "kind": "reader",
+                "arguments": {},
+            },
+            "algorithm": {
+                "kind": "algorithm",
+                "arguments": {},
+            },
+        }
     )
 
-    assert result == expected
+    new_value = {
+        "policy": "always",
+        "arguments": {
+            "compare_path": "/tmp/output.png",
+        },
+        "name": "image",
+    }
+
+    result = workflows._insert_after_key(
+        steps,
+        target_key="reader",
+        new_key="output_checker1",
+        new_value=deepcopy(new_value),
+    )
+
+    keys = list(result.keys())
+
+    assert keys == [
+        "reader",
+        "output_checker1",
+        "algorithm",
+    ]
+
+    assert result["output_checker1"]["kind"] == "output_checker"
+
+
+def test_insert_after_key_missing_target():
+    """Test failure when attempting to insert after a missing key.
+
+    Verifies that a KeyError is raised when the requested insertion
+    point does not exist within the workflow steps mapping.
+    """
+    with pytest.raises(KeyError, match="Could not find key"):
+        workflows._insert_after_key(
+            {"reader": {}},
+            target_key="algorithm",
+            new_key="output_checker1",
+            new_value={
+                "policy": "always",
+                "arguments": {
+                    "compare_path": "/tmp/test.png",
+                },
+            },
+        )
+
+
+def test_insert_after_key_invalid_override_format():
+    """Test failure when an output checker override lacks arguments.
+
+    Verifies that improperly formatted workflow test overrides raise
+    a PluginError when neither 'arguments' nor
+    'output_checker_arguments' are present.
+    """
+    with pytest.raises(PluginError, match="improperly formatted"):
+        workflows._insert_after_key(
+            {"reader": {}},
+            target_key="reader",
+            new_key="output_checker1",
+            new_value={
+                "policy": "always",
+            },
+        )
+
+
+def test_apply_output_checker_override():
+    """Test applying an output checker override to workflow steps.
+
+    Ensures that a new output checker step is inserted after the
+    specified workflow step when a leaf override containing a
+    policy field is encountered.
+    """
+    steps = OrderedDict(
+        {
+            "reader": {
+                "kind": "reader",
+                "arguments": {},
+            },
+            "algorithm": {
+                "kind": "algorithm",
+                "arguments": {},
+            },
+        }
+    )
+
+    override = {
+        "reader": {
+            "policy": "always",
+            "arguments": {
+                "compare_path": "/tmp/output.png",
+            },
+            "name": "image",
+        }
+    }
+
+    result = workflows._apply_output_checker_override(
+        deepcopy(steps),
+        override,
+    )
+
+    assert "output_checker1" in result
+
+    keys = list(result.keys())
+    assert keys.index("output_checker1") == (keys.index("reader") + 1)
+
+
+def test_apply_output_checker_override_missing_nested_key():
+    """Test failure when a nested override references a missing key.
+
+    Verifies that a KeyError is raised when recursion attempts to
+    traverse a workflow hierarchy that does not exist.
+    """
+    steps = {
+        "reader": {
+            "arguments": {},
+        }
+    }
+
+    override = {
+        "missing_step": {
+            "policy": "always",
+            "arguments": {
+                "compare_path": "/tmp/output.png",
+            },
+        }
+    }
+
+    with pytest.raises(KeyError, match="Could not find key"):
+        workflows._apply_output_checker_override(
+            steps,
+            override,
+        )
+
+
+##########################################
+#
+# CONVERT OVERRIDES TO STRING FORMAT TESTS
+#
+##########################################
+
+
+def test_convert_override_dict_to_string_format(sample_workflow):
+    """Test conversion of workflow test section overrides to CLI format (string-based).
+
+    Ensures that global, kind, and step overrides are converted into
+    the string representation accepted by the CLI.
+    """
+    goverrides, koverrides, soverrides = (
+        workflows._convert_override_dict_to_string_format(sample_workflow)
+    )
+
+    assert goverrides == [
+        "logging_level=INFO",
+    ]
+
+    assert koverrides == [
+        "algorithms.output_units=kelvin",
+    ]
+
+    assert soverrides == [
+        "reader.self_register=LOW",
+    ]
+
+
+def test_convert_override_dict_to_string_format_nested():
+    """Test conversion of nested override dictionaries.
+
+    Verifies that deeply nested override structures are flattened
+    into the expected dot-delimited string representation.
+    """
+    workflow = {
+        "test": {
+            "steps": {
+                "abi:Infrared": {
+                    "spec": {
+                        "steps": {
+                            "algorithm": {
+                                "output_units": "kelvin",
+                            },
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    _, _, soverrides = workflows._convert_override_dict_to_string_format(workflow)
+
+    assert soverrides == ["abi:Infrared.spec.steps.algorithm.output_units=kelvin"]
+
+
+def test_convert_override_dict_to_string_format_empty_mapping():
+    """Test that empty override mappings are ignored.
+
+    Verifies that empty dictionaries within the workflow test section
+    do not generate override strings.
+    """
+    workflow = {
+        "test": {
+            "globals": {
+                "logging_level": {},
+            }
+        }
+    }
+
+    goverrides, koverrides, soverrides = (
+        workflows._convert_override_dict_to_string_format(workflow)
+    )
+
+    assert goverrides == []
+    assert koverrides == []
+    assert soverrides == []

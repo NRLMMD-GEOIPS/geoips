@@ -270,10 +270,13 @@ class WorkflowsInterface(BaseYamlInterface):
         for override_type, overrides in wf_overrides.items():
             type_singular = Lexeme(override_type).singular
             for override in overrides:
-                steps = getattr(self, f"_override_{type_singular}")(
-                    steps,
-                    getattr(self, f"{type_singular}_override_type")(override),
-                )
+                if isinstance(override, str):
+                    steps = getattr(self, f"_override_{type_singular}")(
+                        steps,
+                        getattr(self, f"{type_singular}_override_type")(override),
+                    )
+                else:
+                    steps = getattr(self, f"_override_{type_singular}")(steps, override)
 
         workflow["spec"]["steps"] = steps
 
