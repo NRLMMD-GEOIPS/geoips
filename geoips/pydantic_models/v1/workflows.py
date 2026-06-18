@@ -42,7 +42,6 @@ from geoips.pydantic_models.v1.bases import (
     FrozenModel,
     PermissiveFrozenModel,
     PythonIdentifier,
-    PythonIdentifier,
 )
 from geoips.pydantic_models.v1.algorithms import AlgorithmArgumentsModel
 from geoips.pydantic_models.v1.coverage_checkers import CoverageCheckerArgumentsModel
@@ -333,7 +332,7 @@ class WorkflowStepDefinitionModel(FrozenModel):
     spec: WorkflowSpecModel | None = Field(
         None, description="The workflow specification"
     )
-    arguments: Dict[str, Any] = Field(default_factory=dict, description="step args")
+    arguments: Dict[str, Any] | None = Field(default_factory=dict, description="step args")
     depends_on: List[PythonIdentifier] | None = Field(
         None,
         description=(
