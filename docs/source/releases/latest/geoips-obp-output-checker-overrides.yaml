@@ -185,6 +185,7 @@ enhancement:
       - tests/integration_tests/conftest.py
       - tests/integration_tests/test_obp_datatree.py
       - tests/integration_tests/test_obp_family_conversions.py
+      - tests/unit_tests/plugins/yaml/workflows/test_workflow_overrides.py
   related-issue:
     number: null
     repo_url: ''
