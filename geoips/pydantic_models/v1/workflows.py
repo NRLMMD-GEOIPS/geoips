@@ -873,10 +873,14 @@ class WorkflowSpecModel(FrozenModel):
                     "kind": "workflow",
                     "spec": spec,
                 }
-                # Generate a step ID based off the current step's plugin name
-                # if it's a product, merge the name tuple into a single name
+                # Generate a step ID based off the current step's plugin name.
+                # For products, join the name tuple with "_" and replace any
+                # remaining non-identifier characters so the result is always
+                # a valid PythonIdentifier (required by depends_on validation).
+                import re
+
                 step_id = (
-                    ":".join(step.get("name"))
+                    re.sub(r"[^a-zA-Z0-9_]", "_", "_".join(step.get("name")))
                     if step.get("kind") == "product"
                     else step.get("name")
                 )
