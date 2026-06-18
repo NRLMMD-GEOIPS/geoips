@@ -41,6 +41,7 @@ from geoips.pydantic_models.v1.bases import (
     PluginModel,
     FrozenModel,
     PermissiveFrozenModel,
+    PythonIdentifier,
 )
 from geoips.pydantic_models.v1.algorithms import AlgorithmArgumentsModel
 from geoips.pydantic_models.v1.coverage_checkers import CoverageCheckerArgumentsModel
