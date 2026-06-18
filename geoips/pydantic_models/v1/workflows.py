@@ -42,6 +42,7 @@ from geoips.pydantic_models.v1.bases import (
     FrozenModel,
     PermissiveFrozenModel,
     PythonIdentifier,
+    PythonIdentifier,
 )
 from geoips.pydantic_models.v1.algorithms import AlgorithmArgumentsModel
 from geoips.pydantic_models.v1.coverage_checkers import CoverageCheckerArgumentsModel
@@ -201,17 +202,38 @@ class WorkflowArgumentsModel(PermissiveFrozenModel):
     pass
 
 
+class GridlineAnnotatorArgumentsModel(PermissiveFrozenModel):
+    """Validate Gridline Annotator arguments (YAML plugin)."""
+
+    pass
+
+
+class FeatureAnnotatorArgumentsModel(PermissiveFrozenModel):
+    """Validate Feature Annotator arguments (YAML plugin)."""
+
+    pass
+
+
+class SectorArgumentsModel(PermissiveFrozenModel):
+    """Validate Sector arguments (YAML plugin)."""
+
+    pass
+
+
 _PLUGIN_ARGUMENTS_MODELS: dict[str, type] = {
     "AlgorithmArgumentsModel": AlgorithmArgumentsModel,
     "ColormapperArgumentsModel": ColormapperArgumentsModel,
     "CoverageCheckerArgumentsModel": CoverageCheckerArgumentsModel,
+    "FeatureAnnotatorArgumentsModel": FeatureAnnotatorArgumentsModel,
     "FilenameFormatterArgumentsModel": FilenameFormatterArgumentsModel,
+    "GridlineAnnotatorArgumentsModel": GridlineAnnotatorArgumentsModel,
     "InterpolatorArgumentsModel": InterpolatorArgumentsModel,
     "OutputCheckerArgumentsModel": OutputCheckerArgumentsModel,
     "OutputFormatterArgumentsModel": OutputFormatterArgumentsModel,
     "ProductDefaultArgumentsModel": ProductDefaultArgumentsModel,
     "ProductArgumentsModel": ProductArgumentsModel,
     "ReaderArgumentsModel": ReaderArgumentsModel,
+    "SectorArgumentsModel": SectorArgumentsModel,
     "WorkflowArgumentsModel": WorkflowArgumentsModel,
 }
 
@@ -308,8 +330,10 @@ class WorkflowStepDefinitionModel(FrozenModel):
             "``kind: workflow`` that supply an inline ``spec``."
         ),
     )
-    spec: WorkflowSpecModel = Field(None, description="The workflow specification")
-    arguments: Dict[str, Any] | None = Field(default_factory=dict, description="step args")
+    spec: WorkflowSpecModel | None = Field(
+        None, description="The workflow specification"
+    )
+    arguments: Dict[str, Any] = Field(default_factory=dict, description="step args")
     depends_on: List[PythonIdentifier] | None = Field(
         None,
         description=(
@@ -736,6 +760,9 @@ class WorkflowSpecModel(FrozenModel):
         validation occurs. This way workflows can support nested workflows, of which all
         of the mentioned types produce.
         """
+        if data is None:
+            return data
+
         context = info.context or {}
         expand = context.get("expand", False)
 
@@ -784,6 +811,8 @@ class WorkflowSpecModel(FrozenModel):
         All defaults are baked into the raw dict *before* freezing, so no
         ``object.__setattr__`` is needed.
         """
+        if data is None:
+            return data
         steps = data.get("steps", {})
         step_ids = list(steps.keys())
 

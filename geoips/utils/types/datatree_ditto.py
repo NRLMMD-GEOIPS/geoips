@@ -132,7 +132,9 @@ class DataTreeDitto(DataTree):
         """Register built-in converters for common types.
 
         Registers converters for numpy arrays automatically when the class
-        is first instantiated.
+        is first instantiated.  Delegates to the shared
+        ``TypeConverterRegistry`` and also populates the ``_converters``
+        compat dict.
         """
         cls.register_converter(np.ndarray, cls._numpy_to_dataset, cls._dataset_to_numpy)
 
@@ -144,6 +146,10 @@ class DataTreeDitto(DataTree):
         from_dataset_func: Callable,
     ) -> None:
         """Register a converter for a specific object type.
+
+        Updates the class-level ``_converters`` dict for backward
+        compatibility AND registers the bidirectional pair on the shared
+        ``TypeConverterRegistry`` singleton.
 
         Parameters
         ----------
@@ -172,6 +178,12 @@ class DataTreeDitto(DataTree):
             "to_dataset": to_dataset_func,
             "from_dataset": from_dataset_func,
         }
+        # Also register on the shared registry
+        from geoips.utils.types.converter_registry import converter_registry
+
+        converter_registry.register_bidirectional(
+            obj_type, xr.Dataset, to_dataset_func, from_dataset_func
+        )
 
     @staticmethod
     def _numpy_to_dataset(
@@ -182,6 +194,9 @@ class DataTreeDitto(DataTree):
     ) -> xr.Dataset:
         """Convert numpy array to xarray Dataset.
 
+        Thin wrapper around ``geoips.utils.types.converters.numpy_to_dataset``
+        for backward compatibility.
+
         Parameters
         ----------
         obj : numpy.ndarray
@@ -189,86 +204,46 @@ class DataTreeDitto(DataTree):
         name : str, default "data"
             Name for the data variable in the resulting dataset.
         dims : list of str, optional
-            Dimension names for the DataArray. If None, auto-generates names
-            like "dim_0", "dim_1", etc. These are stored in ``_ditto_dims``
-            metadata for round-trip recovery.
+            Dimension names for the DataArray.
         **kwargs
-            Additional keyword arguments (currently unused).
+            Additional keyword arguments.
 
         Returns
         -------
         xarray.Dataset
-            Dataset containing the array data with metadata for round-trip conversion.
-
-        Examples
-        --------
-        >>> arr = np.array([[1, 2], [3, 4]])
-        >>> ds = DataTreeDitto._numpy_to_dataset(arr)
-        >>> ds.data.values.tolist()
-        [[1, 2], [3, 4]]
-        >>> ds.attrs['_ditto_original_type']
-        'numpy.ndarray'
         """
-        if dims is None:
-            dims = [f"dim_{i}" for i in range(obj.ndim)]
+        from geoips.utils.types.converters import numpy_to_dataset
 
-        data_array = xr.DataArray(obj, dims=dims, name=name)
-        dataset = data_array.to_dataset()
-
-        # Store metadata for round-trip conversion
-        dataset.attrs.update(
-            {
-                "_ditto_original_type": "numpy.ndarray",
-                "_ditto_original_shape": obj.shape,
-                "_ditto_original_dtype": str(obj.dtype),
-                "_ditto_var_name": name,
-                "_ditto_dims": dims,
-            },
-        )
-
-        return dataset
+        return numpy_to_dataset(obj, name=name, dims=dims, **kwargs)
 
     @staticmethod
     def _dataset_to_numpy(dataset: xr.Dataset, **kwargs) -> np.ndarray:
         """Convert xarray Dataset back to numpy array.
+
+        Thin wrapper around ``geoips.utils.types.converters.dataset_to_numpy``
+        for backward compatibility.
 
         Parameters
         ----------
         dataset : xarray.Dataset
             Dataset to convert back to numpy array.
         **kwargs
-            Additional keyword arguments (currently unused).
+            Additional keyword arguments.
 
         Returns
         -------
         numpy.ndarray
-            The numpy array extracted from the dataset.
-
-        Examples
-        --------
-        >>> arr = np.array([1, 2, 3])
-        >>> ds = DataTreeDitto._numpy_to_dataset(arr)
-        >>> recovered = DataTreeDitto._dataset_to_numpy(ds)
-        >>> recovered.tolist()
-        [1, 2, 3]
         """
-        var_name = dataset.attrs.get("_ditto_var_name", "data")
-        if var_name not in dataset.data_vars:
-            if not dataset.data_vars:
-                raise ValueError(
-                    "Dataset has no data variables; cannot convert back to "
-                    "numpy array"
-                )
-            var_name = next(iter(dataset.data_vars.keys()))
+        from geoips.utils.types.converters import dataset_to_numpy
 
-        return dataset[var_name].values
+        return dataset_to_numpy(dataset, **kwargs)
 
     def _convert_to_dataset(self, obj: Any, **kwargs) -> xr.Dataset:
-        """Convert an object to xarray Dataset using registered converters.
+        """Convert an object to xarray Dataset using the shared registry.
 
-        Performs priority-based matching: first checks for an exact type
-        match, then falls back to ``isinstance``-based matching, preferring
-        the most specific (deepest in the MRO) registered type.
+        Delegates to ``TypeConverterRegistry.convert(obj, xr.Dataset)``
+        which provides priority-based matching (exact type, then
+        ``isinstance`` MRO-ordered).
 
         Parameters
         ----------
@@ -285,50 +260,21 @@ class DataTreeDitto(DataTree):
         Raises
         ------
         TypeError
-            If no converter is registered for the object's type or any of
-            its base classes.
-
-        Examples
-        --------
-        >>> dt = DataTreeDitto()
-        >>> arr = np.array([1, 2, 3])
-        >>> ds = dt._convert_to_dataset(arr)
-        >>> ds.data.values.tolist()
-        [1, 2, 3]
+            If no converter is registered for the object's type.
         """
-        obj_type = type(obj)
+        from geoips.utils.types.converter_registry import converter_registry
 
-        if obj_type in self._converters:
-            converter = self._converters[obj_type]["to_dataset"]
-            return converter(obj, **kwargs)
-
-        matching_types = [t for t in self._converters if isinstance(obj, t)]
-        if matching_types:
-            mro = obj_type.__mro__
-            matching_types.sort(key=lambda t: mro.index(t) if t in mro else len(mro))
-            converter = self._converters[matching_types[0]]["to_dataset"]
-            return converter(obj, **kwargs)
-
-        raise TypeError(
-            f"No converter registered for type {obj_type}. "
-            f"Available converters: {list(self._converters.keys())}",
-        )
+        return converter_registry.convert(obj, xr.Dataset, **kwargs)
 
     def _convert_from_dataset(self, dataset: xr.Dataset) -> Any:
         """Convert a dataset back to its original type if metadata exists.
 
-        Checks for ``_ditto_original_type`` in the dataset's attributes. If
-        found, looks up the matching registered converter by comparing the
-        stored type string (``module.ClassName``) against all registered
-        converter types, then calls the ``from_dataset`` converter to
-        reconstruct the original object. Returns the dataset unchanged if
-        no metadata is found or no matching converter is registered.
+        Looks up ``_ditto_original_type`` in the dataset's attributes,
+        resolves the matching type, and calls the registered converter
+        on the shared ``TypeConverterRegistry``.
 
-        The ``_ditto_original_type`` string is compared against
-        ``f"{type.__module__}.{type.__name__}"`` of each registered
-        converter's type key. Custom converters that store a non-standard
-        ``_ditto_original_type`` value will not be matched on round-trip
-        and will silently return the original dataset.
+        Returns the dataset unchanged if no ``_ditto_original_type``
+        metadata is present or no matching converter is registered.
 
         Parameters
         ----------
@@ -340,22 +286,20 @@ class DataTreeDitto(DataTree):
         Any
             Original object type if conversion metadata exists, otherwise
             returns the dataset unchanged.
-
-        Examples
-        --------
-        >>> arr = np.array([1, 2, 3])
-        >>> ds = DataTreeDitto._numpy_to_dataset(arr)
-        >>> dt = DataTreeDitto()
-        >>> recovered = dt._convert_from_dataset(ds)
-        >>> recovered.tolist()
-        [1, 2, 3]
         """
         original_type = dataset.attrs.get("_ditto_original_type")
 
         if original_type is None:
             return dataset
 
-        # Find converter by original type string
+        # Try shared registry first (faster dispatch)
+        try:
+            from geoips.utils.types.converter_registry import converter_registry
+        except ImportError:
+            converter_registry = None
+
+        # Find converter by original type string — preserve the existing
+        # string-matching behaviour for backward compatibility.
         for obj_type, converter_dict in self._converters.items():
             if f"{obj_type.__module__}.{obj_type.__name__}" == original_type:
                 return converter_dict["from_dataset"](dataset)

@@ -331,7 +331,10 @@ def set_lonlat_spacing(gridline_annotator, area_def):
         maxlat = area_def.area_extent_ll[3]
         minlon = utils.wrap_longitudes(area_def.area_extent_ll[0])
         maxlon = utils.wrap_longitudes(area_def.area_extent_ll[2])
-        if minlon > maxlon and maxlon < 0:
+        if maxlon < minlon:
+            maxlon = maxlon + 360
+        elif maxlon == minlon and area_def.area_extent_ll[3] - area_def.area_extent_ll[1] >= 170:
+            # global dataset: both longitudes wrap to the same point
             maxlon = maxlon + 360
         lon_extent = maxlon - minlon
         lat_extent = maxlat - minlat
@@ -353,6 +356,14 @@ def set_lonlat_spacing(gridline_annotator, area_def):
         LOG.info("lon_extent: %s, lon_spacing: %s", lon_extent, lon_spacing)
         gridline_annotator["grid_lat_spacing"] = lat_spacing
         gridline_annotator["grid_lon_spacing"] = lon_spacing
+        # Update YAML-format spacing dict wherever it lives:
+        #   - inner spec dict: {"spacing": ...} at top level
+        #   - full plugin dict: {"spec": {"spacing": ...}} nested
+        spacing_source = gridline_annotator.get("spec", gridline_annotator)
+        spacing = spacing_source.get("spacing") if "spacing" in spacing_source else {}
+        if isinstance(spacing, dict):
+            spacing["latitude"] = lat_spacing
+            spacing["longitude"] = lon_spacing
 
     return gridline_annotator
 

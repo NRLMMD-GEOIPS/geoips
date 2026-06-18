@@ -1,0 +1,62 @@
+apiVersion: geoips/v1
+interface: workflows
+family: order_based
+name: the-most-exciting-workflow
+package: geoips
+docstring: |
+  The Most Exciting Workflow! SOOO exiciting PLS WORK!!!
+spec:
+  retention: keep_all
+  outputs: [output_formatter]
+  steps:
+    read:
+      kind: reader
+      name: geoips_netcdf
+      arguments: {}
+
+    algorithm:
+      kind: algorithm
+      name: single_channel
+      depends_on: [read]
+      arguments:
+        output_data_range: [-90.0, 30.0]
+        input_units: Kelvin
+        output_units: celsius
+        min_outbounds: crop
+        max_outbounds: crop
+        norm: false
+        inverse: false
+
+    colormap:
+      kind: colormapper
+      name: Infrared
+      depends_on: []
+      arguments:
+        data_range: [-90.0, 30.0]
+
+    gridlines:
+      kind: gridline_annotator
+      name: default
+      depends_on: [sector]
+      arguments: {}
+
+    features:
+      kind: feature_annotator
+      name: default
+      depends_on: []
+      arguments: {}
+
+    sector:
+      kind: sector
+      name: global_20km_longlat
+      depends_on: []
+      arguments: {}
+
+    output_formatter:
+      kind: output_formatter
+      name: imagery_annotated
+      depends_on: [algorithm, colormap, gridlines, features, sector]
+      arguments:
+        product_name: Infrared
+        product_name_title: 'O M GGGGGG!!!! :D'
+        output_fnames: [/tmp/exciting_output.png]

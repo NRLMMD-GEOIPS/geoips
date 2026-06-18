@@ -3,10 +3,21 @@
 
 """Types subpackage init file.
 
-The ``datatree_converters`` import below triggers registration of dict and
-DataArray round-trip converters with DataTreeDitto at import time.  In a
-future version this should be replaced with an explicit ``register_converters()``
-call from the framework initialisation entry point.
+The imports below trigger registration of the shared
+``TypeConverterRegistry`` and all built-in / extended converters
+at import time so that both ``DataTreeDitto`` and the
+plugin-lifecycle hooks can discover them.
+
+.. note::
+
+    In a future version the import-time side-effects should be
+    replaced with explicit ``register_converters()`` calls from the
+    framework bootstrap entry point.
 """
 
-from geoips.utils.types import datatree_converters  # noqa: F401  # see docstring
+from geoips.utils.types.converter_registry import (  # noqa: F401
+    TypeConverterRegistry,
+    converter_registry,
+)
+from geoips.utils.types.converters import FamilyConversionSpec  # noqa: F401
+from geoips.utils.types import datatree_converters  # noqa: F401, E402

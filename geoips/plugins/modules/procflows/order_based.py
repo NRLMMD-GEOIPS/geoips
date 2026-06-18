@@ -73,9 +73,18 @@ class OrderBased(BaseProcflowPlugin):
             wf_name = wf_spec.name
             spec = wf_spec.spec
         elif isinstance(workflow_spec, dict):
-            wf_spec = WorkflowPluginModel.model_validate(workflow_spec)
-            wf_name = wf_spec.name
-            spec = wf_spec.spec
+            ctx = {"skip_plugin_name_validation": True}
+            if "spec" in workflow_spec and isinstance(workflow_spec["spec"], dict):
+                wf_name = workflow_spec.get("name", "embedded")
+                spec = WorkflowSpecModel.model_validate(
+                    workflow_spec["spec"], context=ctx,
+                )
+            else:
+                wf_spec = WorkflowPluginModel.model_validate(
+                    workflow_spec, context=ctx,
+                )
+                wf_name = wf_spec.name
+                spec = wf_spec.spec
         else:
             raise TypeError(
                 f"Expected WorkflowPluginModel, WorkflowSpecModel, or "
@@ -87,9 +96,21 @@ class OrderBased(BaseProcflowPlugin):
 
         LOG.interactive("Begin processing '%s' workflow.", wf_name)
 
-        workflow = Workflow(spec, name=wf_name)
+        workflow = Workflow(spec, workflow_name=wf_name)
         result = workflow.call(fnames=fnames, **kwargs)
 
         LOG.interactive("The workflow '%s' has finished processing.", wf_name)
         return result
 
+
+def call(workflow_spec, fnames, command_line_args=None, **kwargs):
+    """Module-level entry point for pluginify discovery.
+
+    Delegates to :class:`OrderBased.call`.
+    """
+    return OrderBased().call(
+        workflow_spec,
+        fnames=fnames,
+        command_line_args=command_line_args,
+        **kwargs,
+    )

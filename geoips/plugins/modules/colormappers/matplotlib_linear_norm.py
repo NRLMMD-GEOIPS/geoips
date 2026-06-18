@@ -5,6 +5,7 @@
 
 import logging
 
+import xarray as xr
 from matplotlib.colors import Normalize
 from matplotlib import pyplot as plt
 
@@ -100,8 +101,11 @@ def call(
             raise ValueError(f"Colormap {cmap_name} not found in source {cmap_source}")
     elif cmap_source == "geoips":
         cmap_plugin = colormappers.get_plugin(cmap_name)
-        # Just get the cmap out of mpl_colors_info to use here.
-        mpl_cmap = cmap_plugin()["cmap"]
+        result = cmap_plugin()
+        if hasattr(result, "ds"):
+            mpl_cmap = result.ds.attrs["_mpl_colors_info"]["cmap"]
+        else:
+            mpl_cmap = result["cmap"]
     elif cmap_source == "ascii":
         if cmap_path is not None:
             mpl_cmap = from_ascii(cmap_path, cmap_name=cmap_name)
@@ -150,4 +154,19 @@ def call(
         "set_label_kwargs": set_label_kwargs,
     }
 
-    return mpl_colors_info
+    from geoips.utils.types.datatree_ditto import DataTreeDitto
+
+    ds = xr.Dataset(attrs={
+        "_mpl_colors_info": mpl_colors_info,
+        "data_range": data_range,
+        "cmap_name": cmap_name,
+        "cbar_label": cbar_label,
+        "cbar_ticks": mpl_ticks,
+        "cbar_tick_labels": mpl_tick_labels,
+        "cbar_spacing": cbar_spacing,
+        "cbar_full_width": cbar_full_width,
+        "plugin_kind": "colormapper",
+        "output_key": "mpl_colors_info",
+    })
+    dt = DataTreeDitto(ds, name="colormapper_output")
+    return dt

@@ -596,7 +596,7 @@ class TestSubclassConverterMatching:
     """Test priority-based type matching for subclasses."""
 
     def test_subclass_matches_base_converter(self):
-        """Test masked_array matches ndarray converter when no specific one."""
+        """Test MaskedArray round-trips preserving mask via its own converter."""
         arr = np.ma.array([1, 2, 3, 4])
         dt = DataTreeDitto(dataset=arr)
 
@@ -604,8 +604,13 @@ class TestSubclassConverterMatching:
         assert isinstance(dt.ds, xr.Dataset)
         actual_ds = dt.ds._dataset if hasattr(dt.ds, "_dataset") else dt.ds
         assert "_ditto_original_type" in actual_ds.attrs
-        assert actual_ds.attrs["_ditto_original_type"] == "numpy.ndarray"
-        np.testing.assert_array_equal(dt.get_original("."), arr)
+        assert actual_ds.attrs["_ditto_original_type"] in (
+            "numpy.ma.MaskedArray",
+            "numpy.ma.core.MaskedArray",
+        )
+        original = dt.get_original(".")
+        np.testing.assert_array_equal(original, arr)
+        assert isinstance(original, np.ma.MaskedArray)
 
     def test_specific_converter_wins_over_base(self):
         """Test that a more specific converter is preferred."""
