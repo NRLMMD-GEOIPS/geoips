@@ -749,60 +749,6 @@ class WorkflowSpecModel(FrozenModel):
 
     @model_validator(mode="before")
     @classmethod
-    def expand_steps(cls, data: dict, info: ValidationInfo):
-        """Expand each step of a workflow if it is a select plugin type.
-
-        Plugin types this function will expand include
-        ['products', 'product_defaults', 'workflows'].
-
-        This function will fully expand each step of the mentioned types before any
-        validation occurs. This way workflows can support nested workflows, of which all
-        of the mentioned types produce.
-        """
-        if data is None:
-            return data
-
-        context = info.context or {}
-        expand = context.get("expand", False)
-
-        steps = data.pop("steps", {})
-        expanded_steps = {}
-
-        for name, step in steps.items():
-            # Default
-            if step.get("kind") in ["product", "product_default"]:
-                spec = {"steps": cls.expand_step(step, info)}
-                new_step = {
-                    "kind": "workflow",
-                    "spec": spec,
-                }
-                # Generate a step ID based off the current step's plugin name
-                # if it's a product, merge the name tuple into a single name
-                step_id = (
-                    ":".join(step.get("name"))
-                    if step.get("kind") == "product"
-                    else step.get("name")
-                )
-                expanded_steps = cls.extend_dict(expanded_steps, {step_id: new_step})
-            # Done for CLI calls to fully expand a workflow plugin
-            elif (
-                step.get("kind") == "workflow"
-                and expand
-                and (step.get("spec") is None or step.get("name"))
-            ):
-                expanded_steps = cls.extend_dict(
-                    expanded_steps, cls.expand_step(step, info)
-                )
-            else:
-                # Not a workflow or product-based plugin, just keep the step as it is
-                expanded_steps[name] = step
-
-        data["steps"] = expanded_steps
-
-        return data
-
-    @model_validator(mode="before")
-    @classmethod
     def _inject_defaults(cls, data: dict, info: ValidationInfo) -> dict:
         """Inject implicit defaults for ``outputs`` and ``depends_on``.
 
@@ -897,6 +843,60 @@ class WorkflowSpecModel(FrozenModel):
                     stack.pop()
 
         return self
+
+    @model_validator(mode="before")
+    @classmethod
+    def expand_steps(cls, data: dict, info: ValidationInfo):
+        """Expand each step of a workflow if it is a select plugin type.
+
+        Plugin types this function will expand include
+        ['products', 'product_defaults', 'workflows'].
+
+        This function will fully expand each step of the mentioned types before any
+        validation occurs. This way workflows can support nested workflows, of which all
+        of the mentioned types produce.
+        """
+        if data is None:
+            return data
+
+        context = info.context or {}
+        expand = context.get("expand", False)
+
+        steps = data.pop("steps", {})
+        expanded_steps = {}
+
+        for name, step in steps.items():
+            # Default
+            if step.get("kind") in ["product", "product_default"]:
+                spec = {"steps": cls.expand_step(step, info)}
+                new_step = {
+                    "kind": "workflow",
+                    "spec": spec,
+                }
+                # Generate a step ID based off the current step's plugin name
+                # if it's a product, merge the name tuple into a single name
+                step_id = (
+                    ":".join(step.get("name"))
+                    if step.get("kind") == "product"
+                    else step.get("name")
+                )
+                expanded_steps = cls.extend_dict(expanded_steps, {step_id: new_step})
+            # Done for CLI calls to fully expand a workflow plugin
+            elif (
+                step.get("kind") == "workflow"
+                and expand
+                and (step.get("spec") is None or step.get("name"))
+            ):
+                expanded_steps = cls.extend_dict(
+                    expanded_steps, cls.expand_step(step, info)
+                )
+            else:
+                # Not a workflow or product-based plugin, just keep the step as it is
+                expanded_steps[name] = step
+
+        data["steps"] = expanded_steps
+
+        return data
 
 
 class OutputCheckerOverride(PermissiveFrozenModel):
