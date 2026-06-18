@@ -309,7 +309,7 @@ class WorkflowStepDefinitionModel(FrozenModel):
         ),
     )
     spec: WorkflowSpecModel = Field(None, description="The workflow specification")
-    arguments: Dict[str, Any] = Field(default_factory=dict, description="step args")
+    arguments: Dict[str, Any] | None = Field(default_factory=dict, description="step args")
     depends_on: List[PythonIdentifier] | None = Field(
         None,
         description=(
