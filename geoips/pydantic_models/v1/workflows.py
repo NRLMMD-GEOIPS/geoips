@@ -37,6 +37,7 @@ from pydantic import (
 
 # GeoIPS imports
 from geoips import interfaces
+from geoips.constants import PLUGIN_PROVIDED
 from geoips.pydantic_models.v1.bases import (
     PluginModel,
     FrozenModel,
@@ -246,7 +247,7 @@ class GlobalVariablesModel(PermissiveFrozenModel):
     identification, product DB output configuration, and the
     presectoring toggle)
     """
-
+    minimum_coverage: float | str = Field(default=PLUGIN_PROVIDED)
     presector: bool = Field(
         False,
         description="Specify whether to presector the data prior to applying "
@@ -509,7 +510,9 @@ class WorkflowStepDefinitionModel(FrozenModel):
             return model
 
         valid_plugin_names = get_plugin_names(plugin_kind)
-        if plugin_name not in valid_plugin_names:
+        # output checker has default plugin in some cases
+        # the workflow YAML would use plugin_provided as plugin name
+        if plugin_name != PLUGIN_PROVIDED and plugin_name not in valid_plugin_names:
             raise ValueError(
                 f"Invalid plugin name '{plugin_name}'."
                 f"Must be one of {sorted(valid_plugin_names)}"
@@ -574,7 +577,7 @@ class WorkflowSpecModel(FrozenModel):
     """The specification for a workflow."""
 
     # list of steps
-    global_arguments: GlobalVariablesModel | None = Field(
+    globals: GlobalVariablesModel | None = Field(
         None, description="Arguments shared across workflow steps"
     )
     steps: Dict[str, WorkflowStepDefinitionModel] = Field(
@@ -1076,7 +1079,7 @@ class WorkflowTestModel(FrozenModel):
     #    ahi_data_writer: {compare_path: ..., token: ...}
 
     outputs: OutputsConfig = Field(
-        default_factory=dict,
+        default_factory=lambda: OutputsConfig({}),
         description=(
             "Override dictionary for output checker steps or every instance of"
             " an output checker."
