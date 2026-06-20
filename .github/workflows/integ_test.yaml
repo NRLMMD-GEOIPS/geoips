@@ -1,11 +1,11 @@
-name: CI
+name: Integration Tests
 
 on:
   pull_request:
   workflow_dispatch:
 
 concurrency:
-  group: ci-${{ github.ref }}
+  group: integ-test-${{ github.ref }}
   cancel-in-progress: true
 
 defaults:
@@ -17,7 +17,7 @@ permissions:
   packages: write
 
 jobs:
-  ci:
+  integ-test:
     uses: NRLMMD-GEOIPS/geoips_ci/.github/workflows/reusable-ci.yaml@main
     secrets:
       token: ${{ secrets.GITHUB_TOKEN }}
