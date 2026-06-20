@@ -31,7 +31,7 @@ ansible-playbook tests/ansible/playbooks/install.yml --tags base,full,site
 | `pip_editable`                | `true`  | `true` = editable dev install; `false` = build from source (smaller image) |
 | `pip_extra_args`              | `""`    | Extra args for pip (Dockerfile uses `--no-binary :all:`) |
 | `geoips_use_private_plugins`  | `false` | Include proprietary repos (ryglickicane, …)  |
-| `extra_plugins`               | `""`    | Comma-separated list of additional repo names |
+| `extra_plugin_packages`       | `""`    | Comma-separated list of additional repo names |
 | `geoips_modified_branch`      | `""`    | Branch to checkout after cloning each repo    |
 
 Pass with `-e`:
@@ -39,7 +39,7 @@ Pass with `-e`:
 ```bash
 ansible-playbook tests/ansible/playbooks/install.yml --tags base,full,site \
   -e geoips_use_private_plugins=true \
-  -e extra_plugins=my_plugin,other_plugin
+  -e extra_plugin_packages=my_plugin,other_plugin
 ```
 
 ## Docker builds

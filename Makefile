@@ -178,7 +178,7 @@ ansible-full:
 ansible-site:
 	cd tests/ansible && ansible-playbook playbooks/install.yml --tags base,full,site \
 		-e pip_editable=true \
-		-e "extra_plugins=$(EXTRA_PLUGINS)" \
+		-e "extra_plugin_packages=$(EXTRA_PLUGINS)" \
 		-e "geoips_use_private_plugins=$(GEOIPS_USE_PRIVATE_PLUGINS)" -v
 
 # Bare-metal test data download (requires geoips already installed)

@@ -5,7 +5,7 @@
 #   ansible-playbook playbooks/install.yml --tags base,full
 #   ansible-playbook playbooks/install.yml --tags base,full,site
 #   ansible-playbook playbooks/install.yml --tags base,full,site -e geoips_use_private_plugins=true
-#   ansible-playbook playbooks/install.yml --tags base,full,site -e extra_plugins=my_plugin,other_plugin
+#   ansible-playbook playbooks/install.yml --tags base,full,site -e extra_plugin_packages=my_plugin,other_plugin
 #
 # From a Dockerfile:
 #   RUN ansible-playbook /ansible/playbooks/install.yml --tags base,full,site

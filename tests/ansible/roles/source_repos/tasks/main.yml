@@ -38,10 +38,10 @@
   tags: [site]
 
 # ---- Extra plugins passed via build arg / CLI ----
-- name: Parse extra_plugins into a list
+- name: Parse extra_plugin_packages into a list
   ansible.builtin.set_fact:
-    extra_plugins_list: "{{ extra_plugins.split(',') | map('trim') | select | list }}"
-  when: extra_plugins | length > 0
+    extra_plugins_list: "{{ extra_plugin_packages.split(',') | map('trim') | select | list }}"
+  when: extra_plugin_packages | length > 0
   tags: [base, full, site]
 
 - name: Install extra plugin repos

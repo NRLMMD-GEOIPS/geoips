@@ -15,7 +15,7 @@ geoips_modified_branch: "{{ lookup('env', 'GEOIPS_MODIFIED_BRANCH') | default(''
 geoips_use_private_plugins: "{{ lookup('env', 'GEOIPS_USE_PRIVATE_PLUGINS') | default(false, true) }}"
 
 # Comma-separated list of extra plugin repo names to install (build-arg friendly)
-extra_plugins: "{{ lookup('env', 'EXTRA_PLUGINS') | default('', true) }}"
+extra_plugin_packages: "{{ lookup('env', 'EXTRA_PLUGINS') | default('', true) }}"
 
 # true  = pip install -e (editable, for bare-metal dev — source tree IS the package)
 # false = pip install    (build from source — package goes into site-packages, smaller image)

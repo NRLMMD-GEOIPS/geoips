@@ -4,4 +4,4 @@ plugin_repos: []
 fortran_repos_ordered: []
 private_plugin_repos: []
 private_fortran_repos: []
-extra_plugins: ""
+extra_plugin_packages: ""
