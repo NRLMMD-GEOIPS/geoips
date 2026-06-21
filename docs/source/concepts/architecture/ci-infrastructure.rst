@@ -9,7 +9,7 @@ CI and Installation Infrastructure
 ===================================
 
 GeoIPS uses `Ansible <https://docs.ansible.com/>`_ playbooks to manage installation of the
-software, its plugins, and test datasets.  The same playbooks run on bare-metal developer
+software, its plugins, and test datasets for CI purposes.  The same playbooks run on bare-metal developer
 machines and inside Docker containers, replacing the legacy hand-written shell scripts
 (``base_install.sh``, ``full_install.sh``, ``site_install.sh``,
 ``check_system_requirements.sh``).
@@ -47,6 +47,10 @@ The playbooks live in ``tests/ansible/`` alongside a standard role layout::
 
 Only ``ansible.builtin`` modules are used — no external Ansible collections are required.
 
+The ``Makefile`` provides convenience wrappers for every command shown below;
+see `Make targets`_ for shortcuts you can use instead of typing Ansible commands
+directly.
+
 
 Prerequisites
 -------------
@@ -56,6 +60,10 @@ Install ``ansible-core`` into the same Python environment used for GeoIPS:
 .. code-block:: bash
 
    pip install ansible-core
+
+CI runners pre-install ``ansible-core``; this step is only needed for local
+development.  If you are running tests through the Docker-based CI (``make test-*``),
+the container already includes it.
 
 Set the standard GeoIPS environment variables before running any playbook.  The
 ``group_vars/all.yml`` file reads these with ``lookup('env', ...)`` and falls back to
