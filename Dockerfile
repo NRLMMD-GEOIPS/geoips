@@ -286,6 +286,8 @@ RUN groupadd -g ${GROUP_ID} ${USER} \
     && mkdir -p ${GEOIPS_OUTDIRS} ${GEOIPS_TESTDATA_DIR}
 
 # Only site-packages and console-script stubs — no source tree at all.
+# Copies from geoips-base: includes core GeoIPS but NO plugin packages.
+# Plugin packages are not needed for a production runtime image.
 COPY --from=geoips-base /usr/local/lib/python3.11/site-packages \
                         /usr/local/lib/python3.11/site-packages
 COPY --from=geoips-base /usr/local/bin /usr/local/bin
