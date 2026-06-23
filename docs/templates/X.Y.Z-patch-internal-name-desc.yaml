@@ -8,7 +8,7 @@ bug fixes:
     * Update related-issue and start/finish time from the general release note added to this repo
   files:
     added:
-    - docs/source/releases/X.Y.Z/X.Y.Z-patch-os-name-desc.yaml
+    - docs/source/releases/X.Y.Z/X.Y.Z-patch-internal-name-desc.yaml
     modified:
     - 'Add files you actually modified / added / deleted /etc'
     deleted:
