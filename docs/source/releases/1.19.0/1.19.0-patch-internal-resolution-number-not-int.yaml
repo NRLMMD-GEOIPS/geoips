@@ -1,0 +1,13 @@
+bug fixes:
+- title: Fix broken jsonschema resolution specification to allow number not just int.
+  description: |
+    * This was fixed once before, but backed out when adding additional methods of
+      specifying resolution.
+  files:
+    modified:
+    - geoips/schema/sectors/specs/area_definition.yaml
+  related-issue:
+    internal: geoips#1067 - 1.19.0 updates*
+  date:
+    start: 2026-05-26
+    finish: 2026-05-26
