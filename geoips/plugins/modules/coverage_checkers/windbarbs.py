@@ -3,6 +3,8 @@
 
 """Coverage check routine for windbarb xarrays."""
 
+from geoips.interfaces.class_based.coverage_checkers import BaseCoverageCheckerPlugin
+
 # Python Standard Libraries
 import logging
 
@@ -12,37 +14,44 @@ from geoips.interfaces import interpolators
 
 LOG = logging.getLogger(__name__)
 
-interface = "coverage_checkers"
-family = "standard"
-name = "windbarbs"
 
+class WindbarbCoverageCheckerPlugin(BaseCoverageCheckerPlugin):
+    """Windbarb Coverage checker plugin class."""
 
-def call(
-    xarray_obj,
-    variable_name,
-    area_def=None,
-):
-    """Coverage check routine for wind barb xarray object.
+    interface = "coverage_checkers"
+    family = "standard"
+    name = "windbarbs"
 
-    Parameters
-    ----------
-    xarray_obj : xarray.Dataset
-        xarray object containing variable "variable_name"
-    variable_name : str
-        variable name to check percent unmasked.
+    def call(
+        self,
+        xarray_obj,
+        variable_name,
+        area_def=None,
+    ):
+        """Coverage check routine for wind barb xarray object.
 
-    Returns
-    -------
-    float
-        Percent coverage of variable_name over area_def
-    """
-    if variable_name not in xarray_obj:
-        raise KeyError(
-            f"Variable {variable_name} did not exist. Can not calculate coverage."
+        Parameters
+        ----------
+        xarray_obj : xarray.Dataset
+            xarray object containing variable "variable_name"
+        variable_name : str
+            variable name to check percent unmasked.
+
+        Returns
+        -------
+        float
+            Percent coverage of variable_name over area_def
+        """
+        if variable_name not in xarray_obj:
+            raise KeyError(
+                f"Variable {variable_name} did not exist. Can not calculate coverage."
+            )
+        interp_plugin = interpolators.get_plugin("interp_nearest")
+        output_xarray = interp_plugin(
+            area_def, xarray_obj, None, [variable_name], array_num=0
         )
-    interp_plugin = interpolators.get_plugin("interp_nearest")
-    output_xarray = interp_plugin(
-        area_def, xarray_obj, None, [variable_name], array_num=0
-    )
 
-    return percent_unmasked(output_xarray[variable_name].to_masked_array())
+        return percent_unmasked(output_xarray[variable_name].to_masked_array())
+
+
+PLUGIN_CLASS = WindbarbCoverageCheckerPlugin
