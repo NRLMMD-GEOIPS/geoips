@@ -19,8 +19,6 @@ permissions:
 jobs:
   ci:
     uses: NRLMMD-GEOIPS/geoips_ci/.github/workflows/reusable-ci.yaml@main
-    with:
-      TESTDATA_PATH: /data/geoips_outdirs
     secrets:
       token: ${{ secrets.GITHUB_TOKEN }}
       docker_token: ${{ secrets.DOCKER_TOKEN }}
