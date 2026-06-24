@@ -161,12 +161,12 @@ def call(trackfile_name, allowed_aid_types=None):
         datetime.now() - storm_start_datetime_from_first_line_of_current_deck_file
     ).total_seconds()
     archived_threshold = (
-        datetime.now() - (datetime.now() - relativedelta(years=2))
+        datetime.now() - (datetime.now() - relativedelta(months=6))
     ).total_seconds()
     is_archived = storm_age_seconds > archived_threshold
     if is_archived:
         LOG.info(
-            "Storm age greater than 2 years - treating as an archived deck file"
+            "Storm age greater than 6 months - treating as an archived deck file"
             "(will automatically skip any bad/poorly formatted lines)"
         )
 
@@ -227,6 +227,12 @@ def call(trackfile_name, allowed_aid_types=None):
                 continue
             else:
                 raise ValueError(e)
+        except IndexError as e:
+            if is_archived:
+                LOG.warning("Skipping bad/poorly formatted line")
+                continue
+            else:
+                raise IndexError(e)
         # Was previously RE-SETTING finalstormname here.
         # That is why we were getting incorrect final_storm_name fields
         all_fields += [curr_fields]
@@ -510,6 +516,11 @@ def get_invest_number_bdeck(deck_lines, is_archived):
                 LOG.warning("Skipping bad/poorly formatted line")
             else:
                 continue
+        except IndexError:
+            if is_archived:
+                LOG.warning("Skipping bad/poorly formatted line")
+            else:
+                continue
         if fields["storm_name"] == "INVEST" and fields["storm_num"] > 89:
             invest_number = fields["storm_num"]
         if fields.get("invest_number"):
@@ -653,4 +664,9 @@ def get_final_storm_name_bdeck(
                 LOG.warning("Skipping bad/poorly formatted line")
             else:
                 raise ValueError(e)
+        except IndexError as e:
+            if is_archived:
+                LOG.warning("Skipping bad/poorly formatted line")
+            else:
+                raise IndexError(e)
     return final_storm_name

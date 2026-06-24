@@ -5,6 +5,9 @@
 
 import logging
 
+import numpy as np
+import pandas as pd
+
 LOG = logging.getLogger(__name__)
 
 MS_TO_KTS = 1.94384
@@ -87,8 +90,6 @@ def read_remss_data(wind_xarray, data_type):
     wind_xarray_1 = wind_xarray_1.set_coords(["latitude", "longitude"])
     wind_xarray_2 = wind_xarray_2.set_coords(["latitude", "longitude"])
 
-    from numpy import datetime64
-
     # Set time appropriately
     year = wind_xarray.year_of_observation
     month = wind_xarray.month_of_observation
@@ -98,12 +99,30 @@ def read_remss_data(wind_xarray, data_type):
     )
     # minarr = wind_xarray.minute
     minarr = numpy.flipud(wind_xarray[minute_varname])
-    # NOTE there is a version of numpy 2.x that will break for masked datetime64
-    # arrays.  The latest stable version of numpy 2.2.4 works without modification,
-    # but beware that some versions were broken.
-    timearr = datetime64(basedt) + minarr
-    wind_xarray_1["time"] = xarray.DataArray(timearr[:, :, 0])
-    wind_xarray_2["time"] = xarray.DataArray(timearr[:, :, 1])
+
+    # NOTE this is now assuming we are NOT decoding the time in xarray.open_dataset.
+
+    # 1. Define your base datetime
+    base_np = np.datetime64(basedt)
+
+    # 2. Extract and flatten the slices
+    slice_0_flat = minarr[:, :, 0].ravel()
+    slice_1_flat = minarr[:, :, 1].ravel()
+
+    # 3. Convert to timedelta via Pandas (handles NaNs and floats perfectly)
+    timedelta_0_flat = pd.to_timedelta(slice_0_flat, unit="m").to_numpy()
+    timedelta_1_flat = pd.to_timedelta(slice_1_flat, unit="m").to_numpy()
+
+    # 4. Reshape back to the original 2D spatial grid (720, 1440)
+    timedelta_0 = timedelta_0_flat.reshape(720, 1440)
+    timedelta_1 = timedelta_1_flat.reshape(720, 1440)
+
+    # 5. Add to the base datetime to get 2D datetime arrays
+    decoded_time_0 = base_np + timedelta_0
+    decoded_time_1 = base_np + timedelta_1
+
+    wind_xarray_1["time"] = xarray.DataArray(decoded_time_0)
+    wind_xarray_2["time"] = xarray.DataArray(decoded_time_1)
     wind_xarray_1 = wind_xarray_1.set_coords(["time"])
     wind_xarray_2 = wind_xarray_2.set_coords(["time"])
     return {"WINDSPEED_1": wind_xarray_1, "WINDSPEED_2": wind_xarray_2}

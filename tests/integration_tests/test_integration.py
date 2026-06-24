@@ -389,17 +389,17 @@ def run_script_with_bash(script, fail_on_missing_data, unset_output_path_env_var
         if removed_env_vars:
             print(f"REMOVED ENV VARS {removed_env_vars.keys()}")
     else:
-        print("NOT REMOVING ENV VARS!")
+        print("WILL NOT REMOVE ENV VARS!")
 
     if fail_on_missing_data:
-        print("FAILING ON MISSING DATA!")
+        print("WILL FAIL ON MISSING DATA!")
     else:
-        print("NOT FAILING ON MISSING DATA!")
+        print("WILL NOT FAIL ON MISSING DATA!")
 
     if not gpaths["GEOIPS_TEST_SUPPRESS_PYTEST_FAILED_LOG_CONTENTS"]:
-        print("DUMPING ALL BAD LOG CONTENTS TO TERMINAL!")
+        print("WILL DUMP ALL BAD LOG CONTENTS TO TERMINAL!")
     else:
-        print("SUPPRESSING BAD LOG CONTENTS TO TERMINAL!")
+        print("WILL SUPPRESS BAD LOG CONTENTS TO TERMINAL!")
 
     if ".sh" in script:
         expanded_call = shlex.split("bash " + os.path.expandvars(script))
@@ -526,7 +526,7 @@ def test_integ_validation_script(
 @pytest.mark.integration
 @pytest.mark.parametrize("script", multi_repo_integ_test_calls)
 def test_integ_multi_repo_script(
-    site_setup: None, script: str, fail_on_missing_data: bool
+    base_setup: None, script: str, fail_on_missing_data: bool
 ):
     """Run multi-repo integration test scripts.
 
@@ -575,7 +575,7 @@ def test_integ_full_script(full_setup: None, script: str, fail_on_missing_data: 
 @pytest.mark.integration
 @pytest.mark.parametrize("script", limited_data_integ_test_calls)
 def test_integ_limited_data_script(
-    full_setup: None, script: str, fail_on_missing_data: bool
+    base_setup: None, script: str, fail_on_missing_data: bool
 ):
     """Run limited-data integration test scripts.
 

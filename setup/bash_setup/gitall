@@ -1,8 +1,97 @@
+function setup_gitall_log {
+    # Put all logs in $GEOIPS_OUTDIRS/logs/gitall
+    logf=$GEOIPS_OUTDIRS/logs/gitall/`date -u +%Y%m%d.%H%M`_gitall.log
+    mkdir -p $GEOIPS_OUTDIRS/logs/gitall
+    date -u | tee -ai $logf
+}
+##############################################################################
+### Convenience function that ensures all repos are fully up to date on either
+### passed in branch if it exists, or the default branch if it does not.
+##############################################################################
+function gitall_update_all_to_branch {
+    if [[ "$1" == "" ]]; then
+        echo "Must pass branch"
+        return 1
+    fi
+    setup_gitall_log
+    echo "" 2>&1 | tee -ai $logf
+    echo "**************************************************************************" 2>&1 | tee -ai $logf
+    echo "**************************************************************************" 2>&1 | tee -ai $logf
+    echo "Review initial status of all repos" 2>&1 | tee -ai $logf
+    echo "**************************************************************************" 2>&1 | tee -ai $logf
+    echo "**************************************************************************" 2>&1 | tee -ai $logf
+    echo "" 2>&1 | tee -ai $logf
+    gitall status 2>&1 | tee -ai $logf
+
+    . $GEOIPS_PACKAGES_DIR/geoips/setup/bash_setup/check_continue
+    check_continue "Continue with brute force update of ALL repos to '$1' if it exists, or latest on 'dev' branch if '$1' does not exist? You probably only want to do this if you are not currently working on any branches besides '$1'."
+    if [[ "skip_next" == "yes" ]]; then
+        echo "Skipping update"
+        exit 1
+    fi
+    echo "" 2>&1 | tee -ai $logf
+    echo "**************************************************************************" 2>&1 | tee -ai $logf
+    echo "**************************************************************************" 2>&1 | tee -ai $logf
+    echo "Checkout out default branch on all repos" 2>&1 | tee -ai $logf
+    echo "**************************************************************************" 2>&1 | tee -ai $logf
+    echo "**************************************************************************" 2>&1 | tee -ai $logf
+    echo "" 2>&1 | tee -ai $logf
+    gitall checkout main 2>&1 | tee -ai $logf
+    echo "" 2>&1 | tee -ai $logf
+    echo "**************************************************************************" 2>&1 | tee -ai $logf
+    echo "**************************************************************************" 2>&1 | tee -ai $logf
+    echo "Prune and pull all repos" 2>&1 | tee -ai $logf
+    echo "**************************************************************************" 2>&1 | tee -ai $logf
+    echo "**************************************************************************" 2>&1 | tee -ai $logf
+    echo "" 2>&1 | tee -ai $logf
+    gitall pull -p 2>&1 | tee -ai $logf
+    echo "" 2>&1 | tee -ai $logf
+    echo "**************************************************************************" 2>&1 | tee -ai $logf
+    echo "**************************************************************************" 2>&1 | tee -ai $logf
+    echo "Delete any local '$1' branches that are fully up to date with remote" 2>&1 | tee -ai $logf
+    echo "**************************************************************************" 2>&1 | tee -ai $logf
+    echo "**************************************************************************" 2>&1 | tee -ai $logf
+    echo "" 2>&1 | tee -ai $logf
+    gitall branch -d $1 2>&1 | tee -ai $logf
+    echo "" 2>&1 | tee -ai $logf
+    echo "**************************************************************************" 2>&1 | tee -ai $logf
+    echo "**************************************************************************" 2>&1 | tee -ai $logf
+    echo "Checkout '$1' branch if it exists in the remote" 2>&1 | tee -ai $logf
+    echo "**************************************************************************" 2>&1 | tee -ai $logf
+    echo "**************************************************************************" 2>&1 | tee -ai $logf
+    echo "" 2>&1 | tee -ai $logf
+    gitall checkout -t $1 2>&1 | tee -ai $logf
+    echo "" 2>&1 | tee -ai $logf
+    echo "**************************************************************************" 2>&1 | tee -ai $logf
+    echo "**************************************************************************" 2>&1 | tee -ai $logf
+    echo "Checkout '$1' branch if it exists locally" 2>&1 | tee -ai $logf
+    echo "**************************************************************************" 2>&1 | tee -ai $logf
+    echo "**************************************************************************" 2>&1 | tee -ai $logf
+    echo "" 2>&1 | tee -ai $logf
+    gitall checkout $1 2>&1 | tee -ai $logf
+    echo "" 2>&1 | tee -ai $logf
+    echo "**************************************************************************" 2>&1 | tee -ai $logf
+    echo "**************************************************************************" 2>&1 | tee -ai $logf
+    echo "Prune and pull all repos. This should have NO errors. If the pull fails, please commit or revert local changes and try again" 2>&1 | tee -ai $logf
+    echo "**************************************************************************" 2>&1 | tee -ai $logf
+    echo "**************************************************************************" 2>&1 | tee -ai $logf
+    echo "" 2>&1 | tee -ai $logf
+    gitall pull -p 2>&1 | tee -ai $logf
+    echo "" 2>&1 | tee -ai $logf
+    echo "**************************************************************************" 2>&1 | tee -ai $logf
+    echo "The above section should have had no errors.  If there were any errors, please attempt to resolve on the specific repo that had errors (likely commit or revert local changes)" 2>&1 | tee -ai $logf
+    echo "To further review the current status on all repos run" 2>&1 | tee -ai $logf
+    echo "gitall status" 2>&1 | tee -ai $logf
+    echo "**************************************************************************" 2>&1 | tee -ai $logf
+
+}
+
 ##############################################################################
 ### Convenience function that runs git in all available test data repos
 ##############################################################################
 function gitalltestdata {
   if [[ ! -z $PS1 ]]; then
+    setup_gitall_log
 
     # Save current directory so they don't end up someplace new.
     cwd=$PWD
@@ -14,9 +103,7 @@ function gitalltestdata {
             # Print directory
             echo -e "\033[1;35m$GEOIPS_TESTDATA_DIR/$mod:\n\t$@:\033[0m"
             # Run the git command on passed arguments
-            mkdir -p $GEOIPS_OUTDIRS/gitlog
-            logf=$GEOIPS_OUTDIRS/gitlog/`date +%Y%m%d%H%M`.log
-            git -C $GEOIPS_TESTDATA_DIR/$mod $@ | tee -a $logf
+            git -C $GEOIPS_TESTDATA_DIR/$mod $@ 2>&1 | tee -ai $logf
         done
     fi
 
@@ -30,6 +117,7 @@ function gitalltestdata {
 ##############################################################################
 function gitall {
   if [[ ! -z $PS1 ]]; then
+    setup_gitall_log
 
     # Save current directory so they don't end up someplace new.
     cwd=$PWD
@@ -43,9 +131,7 @@ function gitall {
                 # Print directory
                 echo -e "\033[1;35m$package_dir/$mod:\n\t$@:\033[0m"
                 # Run the git command on passed arguments
-                mkdir -p $GEOIPS_OUTDIRS/gitlog
-                logf=$GEOIPS_OUTDIRS/gitlog/`date +%Y%m%d%H%M`.log
-                git -C $package_dir/$mod $@ | tee -a $logf
+                git -C $package_dir/$mod $@ 2>&1 | tee -ai $logf
             done
         done
     elif [[ -e $GEOIPS_PACKAGES_DIR ]]; then
@@ -55,9 +141,7 @@ function gitall {
             # Print directory
             echo -e "\033[1;35m$GEOIPS_PACKAGES_DIR/$mod:\n\t$@:\033[0m"
             # Run the git command on passed arguments
-            mkdir -p $GEOIPS_OUTDIRS/gitlog
-            logf=$GEOIPS_OUTDIRS/gitlog/`date +%Y%m%d%H%M`.log
-            git -C $GEOIPS_PACKAGES_DIR/$mod $@ | tee -a $logf
+            git -C $GEOIPS_PACKAGES_DIR/$mod $@ 2>&1 | tee -ai $logf
             cd ..
         done
     fi
@@ -72,6 +156,7 @@ function gitall {
 ##############################################################################
 function lsall {
   if [[ ! -z $PS1 ]]; then
+    setup_gitall_log
 
     # Save current directory so they don't end up someplace new.
     cwd=$PWD
@@ -84,7 +169,7 @@ function lsall {
             # Print directory
             echo -e "\033[1;35m$GEOIPS_PACKAGES_DIR/$mod:\n\t$@:\033[0m"
             # Run the ls command on passed arguments
-            ls $@
+            ls $@ 2>&1 | tee -ai $logf
             cd ..
         done
     fi
@@ -99,6 +184,7 @@ function lsall {
 ##############################################################################
 function pipall {
   if [[ ! -z $PS1 ]]; then
+    setup_gitall_log
 
     # Save current directory so they don't end up someplace new.
     cwd=$PWD
@@ -111,7 +197,7 @@ function pipall {
             # Print directory
             echo -e "\033[1;35m$GEOIPS_PACKAGES_DIR/$mod:\n\t$@:\033[0m"
             # Run the ls command on passed arguments
-            pip $@
+            pip $@ 2>&1 | tee -ai $logf
             cd ..
         done
     fi
@@ -126,6 +212,7 @@ function pipall {
 ##############################################################################
 function grepall {
   if [[ ! -z $PS1 ]]; then
+    setup_gitall_log
 
     # Save current directory so they don't end up someplace new.
     cwd=$PWD
@@ -138,7 +225,7 @@ function grepall {
             # Print directory
             echo -e "\033[1;35m$GEOIPS_PACKAGES_DIR/$mod:\n\t$@:\033[0m"
             # Run the grep command on passed arguments
-            grep $@/*
+            grep $@/* 2>&1 | tee -ai $logf
             cd ..
         done
     fi
