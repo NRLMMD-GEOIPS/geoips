@@ -139,3 +139,15 @@ indicating that the script ran successfully.
     11_191109    log_setup.py:162  INTERACTIVE: Completed geoips PROCFLOW single_source processing, done!
     11_191109    log_setup.py:162  INTERACTIVE: Total time: 0:00:24.911853
     11_191109    log_setup.py:162  INTERACTIVE: Return value: 0
+
+
+4a. Run a development test script
+---------------------------------
+
+If installed in development mode, run a test script to confirm expected outputs are produced.
+
+.. code:: bash
+
+   cd $GEOIPS_PACKAGES_DIR/geoips
+   pytest -k abi.static.Infrared.imagery_clean.sh
+
