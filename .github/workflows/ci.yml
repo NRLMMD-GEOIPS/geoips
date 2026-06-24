@@ -18,7 +18,7 @@ permissions:
 
 jobs:
   ci:
-    uses: NRLMMD-GEOIPS/geoips_ci/.github/workflows/reusable-ci.yaml@add-integration-testing
+    uses: NRLMMD-GEOIPS/geoips_ci/.github/workflows/reusable-ci.yaml
     secrets:
       token: ${{ secrets.GITHUB_TOKEN }}
       docker_token: ${{ secrets.DOCKER_TOKEN }}
