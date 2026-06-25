@@ -410,7 +410,7 @@ def run_script_with_bash(script, fail_on_missing_data, unset_output_path_env_var
     print(f"Log: {log_fname} , latest logs:")
     print(f"ls -lthr {os.path.dirname(log_fname)}/*")
     print(datetime.now(timezone.utc))
-    retval, stdout, stderr = call_cmd(
+    retval, stdout_list, stderr_list = call_cmd(
         expanded_call,
         output_log_fname=log_fname,
         use_logging=False,
@@ -422,26 +422,40 @@ def run_script_with_bash(script, fail_on_missing_data, unset_output_path_env_var
         for env_var in removed_env_vars:
             os.environ[env_var] = removed_env_vars[env_var]
     if retval != 0:
-        with open(log_fname, "r") as logfile:
-            log_contents = logfile.read()
-            if not gpaths["GEOIPS_TEST_SUPPRESS_PYTEST_FAILED_LOG_CONTENTS"]:
-                print("\nLOG FILE CONTENTS:\n")
-                print(log_contents)
-                print("-" * 80)
+        stdout_str = "".join(stdout_list)
+        stderr_str = "".join(stderr_list)
+        combined = (stdout_str + stderr_str).strip()
+        summary_lines = combined.splitlines()[-25:]
+        summary = "\n".join(summary_lines)
+
+        if not gpaths["GEOIPS_TEST_SUPPRESS_PYTEST_FAILED_LOG_CONTENTS"]:
+            print("\nLOG FILE CONTENTS:\n")
+            print(combined)
+            print("-" * 80)
         print("FAILED COMMAND FOR PREVIOUS TEST")
         print(" ".join(expanded_call))
         print(f"FAILED LOG FILE: {log_fname}")
         print("FAILED")
 
-        if is_likely_oserror_missing_file(log_contents):
+        is_missing = is_likely_oserror_missing_file(combined)
+        cmd_str = " ".join(expanded_call)
+        err_msg = (
+            f"\n{'='*60}\n"
+            f"Exit code: {retval}\n"
+            f"Command: {cmd_str}\n"
+            f"Log file: {log_fname}\n"
+            f"Missing data: {is_missing}\n"
+            f"{'='*60}\n"
+            f"Last 25 output lines:\n{summary}\n"
+            f"{'='*60}\n"
+        )
+        if is_missing:
             if fail_on_missing_data:
-                raise FileNotFoundError(
-                    f"FileNotFoundError, see output in log {log_fname}\n"
-                )
+                raise FileNotFoundError(err_msg)
             else:
-                pytest.xfail(f"FileNotFoundError, see output in log {log_fname}\n")
+                pytest.xfail(err_msg)
         else:
-            raise RuntimeError(f"CalledProcessError, see output in log {log_fname}\n")
+            raise RuntimeError(err_msg)
     else:
         print("PASSED COMMAND FOR PREVIOUS TEST")
         print(" ".join(expanded_call))
