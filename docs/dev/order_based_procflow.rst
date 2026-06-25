@@ -27,7 +27,7 @@ OBP offers the following key advantages over other procflows:
 * **Comprehensive Error Control:** Uses Pydantic validation for robust error
   and input checking.
 * **Scalable Architecture:** Accommodates additional steps and enables more
-  complex product processing workflows.
+  complex product processing workflows .
 
 The OBP is a sequence of user-defined plugin operations. The top-level plugins
 required as steps in the OBP are readers, algorithms, interpolators, and
