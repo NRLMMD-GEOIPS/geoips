@@ -19,7 +19,7 @@ feature:
     - 'geoips/modules/interpolators/pyresample_wrappers/interp_nearest.py'
     - 'geoips/utils/types/yaml_plugin_callable.py'
   related-issue:
-    number: null
+    number: 1358, 1360
     repo_url: ''
   date:
     start: null
