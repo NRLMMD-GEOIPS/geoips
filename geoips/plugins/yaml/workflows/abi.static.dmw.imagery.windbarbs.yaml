@@ -19,10 +19,13 @@ test:
 spec:
   globals:
     product_name: DMW-High
-    sector_list: ["goes_east"]
+    # sector_list: ["goes_east"]
     minimum_coverage: 0
     variables: ["wind_speed", "wind_direction", "pressure"]
   steps:
+    sector:
+      kind: sector
+      name: goes_east
     reader:
       kind: reader
       name: abi_l2_netcdf
@@ -48,6 +51,7 @@ spec:
     coverage_checker:
       kind: coverage_checker
       name: windbarbs
+      depends_on: [algorithm, sector]
       arguments: {}
     colormapper:
       kind: colormapper
@@ -61,11 +65,12 @@ spec:
     filename_formatter:
       kind: filename_formatter
       name: geoips_fname
-      depends_on: [algorithm]
+      depends_on: [algorithm, coverage_checker, sector]
       arguments: {}
     output_formatter:
       kind: output_formatter
       name: imagery_windbarbs
+      depends_on: [algorithm, colormapper, filename_formatter, sector]
       arguments: {}
     # output_checker:
     #   kind: output_checker
