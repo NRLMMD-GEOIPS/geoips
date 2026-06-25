@@ -394,7 +394,7 @@ def setup_environment():
 @pytest.mark.tiny_sector_evaluation
 @pytest.mark.tiny_sector_global_example
 @pytest.mark.parametrize("script", global_example_integ_test_calls)
-def test_integ_global_example_script(base_setup: None, script: str):  # noqa: F811
+def test_integ_global_example_script(base_setup: None, script: str, fail_on_missing_data: bool):  # noqa: F811
     """
     Run integration test scripts by executing specified shell commands.
 
@@ -403,6 +403,8 @@ def test_integ_global_example_script(base_setup: None, script: str):  # noqa: F8
     script : str
         Shell command to execute as part of the integration test. The command may
         contain environment variables which will be expanded before execution.
+    fail_on_missing_data : bool
+        Whether to hard-fail on missing test data.
 
     Raises
     ------
@@ -410,7 +412,7 @@ def test_integ_global_example_script(base_setup: None, script: str):  # noqa: F8
         If the shell command returns a non-zero exit status.
     """
     setup_environment()
-    run_script_with_bash(script)
+    run_script_with_bash(script, fail_on_missing_data=fail_on_missing_data)
 
 
 @pytest.mark.optional
@@ -418,7 +420,7 @@ def test_integ_global_example_script(base_setup: None, script: str):  # noqa: F8
 @pytest.mark.tiny_sector_evaluation
 @pytest.mark.tiny_sector_overlay
 @pytest.mark.parametrize("script", tiny_sector_overlay_integ_test_calls)
-def test_integ_tiny_sector_overlay_script(base_setup: None, script: str):  # noqa: F811
+def test_integ_tiny_sector_overlay_script(base_setup: None, script: str, fail_on_missing_data: bool):  # noqa: F811
     """
     Run integration test scripts by executing specified shell commands.
 
@@ -427,6 +429,8 @@ def test_integ_tiny_sector_overlay_script(base_setup: None, script: str):  # noq
     script : str
         Shell command to execute as part of the integration test. The command may
         contain environment variables which will be expanded before execution.
+    fail_on_missing_data : bool
+        Whether to hard-fail on missing test data.
 
     Raises
     ------
@@ -434,7 +438,7 @@ def test_integ_tiny_sector_overlay_script(base_setup: None, script: str):  # noq
         If the shell command returns a non-zero exit status.
     """
     setup_environment()
-    run_script_with_bash(script)
+    run_script_with_bash(script, fail_on_missing_data=fail_on_missing_data)
 
 
 @pytest.mark.optional
@@ -443,7 +447,7 @@ def test_integ_tiny_sector_overlay_script(base_setup: None, script: str):  # noq
 @pytest.mark.tiny_sector_evaluation
 @pytest.mark.tiny_sector
 @pytest.mark.parametrize("script", tiny_sector_integ_test_calls)
-def test_integ_tiny_sector_script(base_setup: None, script: str):  # noqa: F811
+def test_integ_tiny_sector_script(base_setup: None, script: str, fail_on_missing_data: bool):  # noqa: F811
     """
     Run integration test scripts by executing specified shell commands.
 
@@ -452,6 +456,8 @@ def test_integ_tiny_sector_script(base_setup: None, script: str):  # noqa: F811
     script : str
         Shell command to execute as part of the integration test. The command may
         contain environment variables which will be expanded before execution.
+    fail_on_missing_data : bool
+        Whether to hard-fail on missing test data.
 
     Raises
     ------
@@ -459,4 +465,4 @@ def test_integ_tiny_sector_script(base_setup: None, script: str):  # noqa: F811
         If the shell command returns a non-zero exit status.
     """
     setup_environment()
-    run_script_with_bash(script)
+    run_script_with_bash(script, fail_on_missing_data=fail_on_missing_data)
