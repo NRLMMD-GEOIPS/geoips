@@ -1,8 +1,8 @@
     # # # This source code is subject to the license referenced at
     # # # https://github.com/NRLMMD-GEOIPS.
 
-GeoIPS Base Package
-====================
+GeoIPS Core Package
+===================
 
 The GeoIPS Base Package provides a Python 3 based architecture supporting a wide variety of
 satellite and weather data processing. The modular nature of the GeoIPS base infrastructure also allows
