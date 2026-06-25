@@ -337,6 +337,9 @@ the source tree may not be present at runtime.  Building with ``pip_editable=fal
 installs the package into ``site-packages`` like a normal wheel, and the ``production``
 stage then copies only that directory, producing a minimal image.
 
+The ``dev`` and ``dev-quick`` Docker targets use ``pip_editable=true`` to enable
+live source editing through the workspace bind-mount.
+
 **Why ``--no-binary :all:``?**  Pre-built wheels are compiled for a generic architecture.
 Compiling from source inside the container produces binaries optimized for the target CPU
 and avoids wheel-cache bloat.  The ``deps`` stage also applies this flag, and because
