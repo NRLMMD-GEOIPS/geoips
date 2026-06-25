@@ -43,9 +43,7 @@ class WindbarbsDmwAlgorithmPlugin(BaseAlgorithmPlugin):
             dir_name = var_map.get("direction", "wind_direction")
             pres_name = var_map.get("pressure", "pressure")
             LOG.interactive(
-                "windbarbs_dmw upstream variables: %s  (looking for speed=%r "
-                "direction=%r pressure=%r)",
-                # sorted(data.data_vars),
+                "Checking for speed=%r, direction=%r, and pressure=%r)",
                 spd_name,
                 dir_name,
                 pres_name,

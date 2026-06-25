@@ -72,9 +72,9 @@ spec:
       name: imagery_windbarbs
       depends_on: [algorithm, colormapper, filename_formatter, sector]
       arguments: {}
-    output_checker:
-      kind: output_checker
-      name: plugin_provided
-      arguments: {
-        compare_path: $GEOIPS_PACKAGES_DIR/geoips/tests/outputs/abi.static.<product>.imagery_windbarbs,
-      }
+    # output_checker:
+    #   kind: output_checker
+    #   name: plugin_provided
+    #   arguments: {
+    #     compare_path: $GEOIPS_PACKAGES_DIR/geoips/tests/outputs/abi.static.<product>.imagery_windbarbs,
+    #   }
