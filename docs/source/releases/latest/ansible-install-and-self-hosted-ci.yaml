@@ -19,7 +19,7 @@ installation:
   related-issue:
     number: 1261
   date:
-    start: 2026-06-20
+    start: 2025-09
     finish: 2026-06-25
 continuous integration:
 - title: Add self-hosted runner integration test workflow
@@ -37,7 +37,7 @@ continuous integration:
   related-issue:
     number: 1261
   date:
-    start: 2026-06-20
+    start: 2025-09
     finish: 2026-06-25
 enhancement:
 - title: Rename extra_plugins to extra_plugin_packages
@@ -56,7 +56,7 @@ enhancement:
   related-issue:
     number: 1261
   date:
-    start: 2026-06-20
+    start: 2025-09
     finish: 2026-06-25
 documentation:
 - title: Update CI infrastructure documentation
@@ -71,5 +71,5 @@ documentation:
   related-issue:
     number: 1261
   date:
-    start: 2026-06-21
+    start: 2025-09
     finish: 2026-06-25
