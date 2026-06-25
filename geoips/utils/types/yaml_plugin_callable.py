@@ -31,6 +31,7 @@ LOG = logging.getLogger(__name__)
 _KIND_TO_KWARG: dict[str, str] = {
     "algorithm": "xarray_obj",
     "colormapper": "mpl_colors_info",
+    "coverage_checker": "coverage",
     "feature_annotator": "feature_annotator",
     "filename_formatter": "output_fnames",
     "gridline_annotator": "gridline_annotator",
