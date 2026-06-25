@@ -143,8 +143,8 @@ Site install with private repos
    ansible-playbook playbooks/install.yml --tags base,full,site \
      -e geoips_use_private_plugins=true
 
-Installing specific extra plugins
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Installing specific extra plugin packages
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Pass a comma-separated list of repository names:
 
@@ -152,7 +152,7 @@ Pass a comma-separated list of repository names:
 
    cd tests/ansible
    ansible-playbook playbooks/install.yml --tags base \
-     -e extra_plugins=my_plugin,other_plugin
+     -e extra_plugin_packages=my_plugin,other_plugin
 
 
 Configuration variables
@@ -182,7 +182,7 @@ then hardcoded defaults.
      - ``false``
      - Set to ``true`` to include proprietary plugin repos (``ryglickicane``, ``tc_mint``,
        ``lunarref``, ``true_color``).
-   * - ``extra_plugins``
+   * - ``extra_plugin_packages``
      - ``""``
      - Comma-separated list of additional plugin repository names to clone and install.
        Corresponds to the ``EXTRA_PLUGINS`` Docker build argument.
@@ -301,7 +301,7 @@ The roles live in ``tests/ansible/roles/`` and each handles one concern.
       → ``synth_green`` → ``geocolor``
    3. **Private plugins** (when enabled): ``ryglickicane``, ``tc_mint``
    4. **Private fortran repos** (when enabled, order critical): ``lunarref``, ``true_color``
-   5. **Extra plugins**: any repos passed via ``extra_plugins``
+   5. **Extra plugins**: any repos passed via ``extra_plugin_packages``
 
    The fortran ordering constraint exists because each package depends on compiled
    artifacts produced by the previous one.  Extra plugins are available at all tiers
