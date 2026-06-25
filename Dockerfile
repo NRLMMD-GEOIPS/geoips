@@ -142,6 +142,17 @@ RUN uv pip install --system --no-cache ${GEOIPS_PACKAGES_DIR}/geoips \
     && chown -R ${USER_ID}:${GROUP_ID} ${GEOIPS_PACKAGES_DIR} /home/${USER}
 
 ###############################################################################
+# Stage 3.5: doclinttest - a fake stage for compat with the other CI
+###############################################################################
+FROM geoips-base AS doclinttest
+
+ARG USER=geoips_user
+ARG USER_ID=1000
+ARG GROUP_ID=1000
+
+RUN echo "Echoing..."
+
+###############################################################################
 # Stage 4: geoips-full — settings repos, doc/test extras
 #
 # Cartopy shapefiles were pre-populated in the deps stage, so the ansible
