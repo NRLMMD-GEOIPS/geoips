@@ -9,7 +9,15 @@ feature:
     added:
     - 'geoips/plugins/yaml/workflows/abi.static.dmw.imagery.windbarbs.yaml'
     modified:
-    - ''
+    - 'geoips/interfaces/class_based/algorithms.py'
+    - 'geoips/interfaces/class_based/coverage_checkers.py'
+    - 'geoips/interfaces/class_based/filename_formatters.py'
+    - 'geoips/interfaces/class_based/readers.py'
+    - 'geoips/interfaces/class_based/workflow.py'
+    - 'geoips/interfaces/yaml_based/sectors.py'
+    - 'geoips/interfaces/class_based_plugin.py'
+    - 'geoips/modules/interpolators/pyresample_wrappers/interp_nearest.py'
+    - 'geoips/utils/types/yaml_plugin_callable.py'
   related-issue:
     number: null
     repo_url: ''
