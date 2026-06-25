@@ -18,6 +18,7 @@ feature:
     - 'geoips/interfaces/class_based_plugin.py'
     - 'geoips/modules/interpolators/pyresample_wrappers/interp_nearest.py'
     - 'geoips/utils/types/yaml_plugin_callable.py'
+    - 'docs/dev/order_based_procflow.rst'
   related-issue:
     number: 1358, 1360
     repo_url: ''
