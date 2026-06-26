@@ -93,6 +93,10 @@ Build arguments
    * - ``GEOIPS_MODIFIED_BRANCH``
      - ``""``
      - After cloning each repo, attempt to check out this branch.
+       If a particular repo does not have this branch, it silently stays
+       on ``main``.  If multiple repos carry the branch, it is checked out
+       in all of them.  Intended for CI to test a set of coordinated changes
+       against the default branch of all other repos.
    * - ``GEOIPS_USE_PRIVATE_PLUGINS``
      - ``false``
      - Set to ``true`` at the ``geoips-site`` target to include private repos.
