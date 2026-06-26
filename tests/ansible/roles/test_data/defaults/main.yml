@@ -17,7 +17,6 @@ full_test_datasets:
   - test_data_arctic_weather_satellite
   - test_data_atms
   - test_data_cygnss
-  - test_data_ewsg
   - test_data_fci
   - test_data_gfs
   - test_data_gpm
@@ -27,11 +26,8 @@ full_test_datasets:
   - test_data_sar
   - test_data_scat
   - test_data_seviri
-  - test_data_sgli
   - test_data_smap
   - test_data_smos
-  - test_data_ssmi
-  - test_data_ssmis
   - test_data_tpw
   - test_data_viirs
 
