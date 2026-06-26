@@ -41,8 +41,22 @@ base_integ_test_calls = [
 
 # Linting integration tests, ensure code and documentation are correctly formatted.
 lint_integ_test_calls = [
-    "$geoips_repopath/tests/utils/check_code.sh all $repopath",
-    "$geoips_repopath/docs/build_docs.sh $repopath $pkgname html_only",
+    (
+        "pytest -q --tb=short"
+        " -m 'lint and not doc8'"
+        " $geoips_repopath/tests/lint/"
+        " --lint-path $repopath"
+    ),
+    (
+        "python3 $GEOIPS_PACKAGES_DIR/geoips/docs/build_docs.py"
+        " --license-url $GEOIPS_REPO_URL"
+        " --geoips-docs-path $GEOIPS_PACKAGES_DIR/geoips/docs/"
+        " --output-dir $repopath/docs/build/sphinx/html"
+        " --save-temp-dir $GEOIPS_OUTDIRS/scratch/docs/$pkgname"
+        " --force"
+        " --repo-path $repopath"
+        " $pkgname"
+    ),
 ]
 
 # Test scripts validating plugins and interfaces.
