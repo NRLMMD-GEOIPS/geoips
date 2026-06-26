@@ -1,3 +1,5 @@
+"""Flake8 code style check via subprocess."""
+
 import subprocess
 import os
 import pytest
@@ -6,6 +8,16 @@ import pytest
 @pytest.mark.lint
 @pytest.mark.flake8
 def test_flake8(lint_path, request):
+    """Check code style with flake8.
+
+    Parameters
+    ----------
+    lint_path : str
+        Path to the source tree to lint.  Changes to this directory so
+        .flake8 is picked up from cwd.
+    request : _pytest.fixtures.FixtureRequest
+        Pytest request fixture, used to read --flake8-docstring-only option.
+    """
     flake8_args = ["flake8"]
     if request.config.getoption("--flake8-docstring-only"):
         flake8_args += ["--select=RST,D"]
