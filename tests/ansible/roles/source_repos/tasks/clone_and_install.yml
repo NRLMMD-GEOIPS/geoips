@@ -9,7 +9,7 @@
     dest: "{{ geoips_packages_dir }}/{{ repo_name }}"
     version: "{{ geoips_modified_branch if geoips_modified_branch else omit }}"
   register: _clone
-  failed_when: false
+  ignore_errors: yes
 
 - name: "Clone {{ repo_name }} on default branch (branch '{{ geoips_modified_branch }}' not found)"
   ansible.builtin.git:
