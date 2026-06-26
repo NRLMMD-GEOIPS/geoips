@@ -10,7 +10,7 @@ test_data_urls:
   test_data_clavrx: "https://io2.cira.colostate.edu/s/J73tEcn22smktMi/download?path=%2F&files=test_data_clavrx_1.14.2_github.com.tgz"
   test_data_cygnss: "https://io2.cira.colostate.edu/s/J73tEcn22smktMi/download?path=%2F&files=test_data_cygnss.tgz"
   test_data_fci: "https://io2.cira.colostate.edu/s/J73tEcn22smktMi/download?path=%2F&files=test_data_fci_1.16.1_github.com.tgz"
-  # test_data_ewsg: "https://io2.cira.colostate.edu/s/J73tEcn22smktMi/download?path=%2F&files=
+  test_data_ewsg: "https://io2.cira.colostate.edu/s/J73tEcn22smktMi/download?path=%2F&files=test_data_ewsg.tgz"
   test_data_fusion: "https://io2.cira.colostate.edu/s/J73tEcn22smktMi/download?path=%2F&files=test_data_fusion.tgz"
   test_data_geocolor: "https://io2.cira.colostate.edu/s/J73tEcn22smktMi/download?path=%2F&files=test_data_geocolor.tgz"
   test_data_gfs: "https://io2.cira.colostate.edu/s/J73tEcn22smktMi/download?path=%2F&files=test_data_gfs_1.15.3_github.com.tgz"
@@ -26,10 +26,11 @@ test_data_urls:
   test_data_sar: "https://io2.cira.colostate.edu/s/J73tEcn22smktMi/download?path=%2F&files=test_data_sar_1.12.2_github.com.tgz"
   test_data_scat: "https://io2.cira.colostate.edu/s/J73tEcn22smktMi/download?path=%2F&files=test_data_scat_1.11.3_github.com.tgz"
   test_data_seviri: "https://io2.cira.colostate.edu/s/J73tEcn22smktMi/download?path=%2F&files=test_data_seviri_1.17.2_github.com.tgz"
+  test_data_sgli: "https://io2.cira.colostate.edu/s/J73tEcn22smktMi/download?path=%2F&files=test_data_sgli.tgz"
   test_data_smap: "https://io2.cira.colostate.edu/s/J73tEcn22smktMi/download?path=%2F&files=test_data_smap_1.6.0_github.com.tgz"
   test_data_smos: "https://io2.cira.colostate.edu/s/J73tEcn22smktMi/download?path=%2F&files=test_data_smos_1.15.3_github.com.tgz"
-  # test_data_ssmi: "https://io2.cira.colostate.edu/s/J73tEcn22smktMi/download?path=%2F&files=
-  # test_data_ssmis: "https://io2.cira.colostate.edu/s/J73tEcn22smktMi/download?path=%2F&files=
+  test_data_ssmi: "https://io2.cira.colostate.edu/s/J73tEcn22smktMi/download?path=%2F&files=test_data_ssmi.tgz"
+  test_data_ssmis: "https://io2.cira.colostate.edu/s/J73tEcn22smktMi/download?path=%2F&files=test_data_ssmis.tgz"
   test_data_tpw: "https://io2.cira.colostate.edu/s/J73tEcn22smktMi/download?path=%2F&files=test_data_tpw_1.15.3_github.com.tgz"
   test_data_viirs: "https://io2.cira.colostate.edu/s/J73tEcn22smktMi/download?path=%2F&files=test_data_viirs_1.14.4_github.com.tgz"
   # Ancillary Datasets
