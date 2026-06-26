@@ -193,7 +193,7 @@ RUN uv pip install --system --no-cache ${GEOIPS_PACKAGES_DIR}/geoips[doc,test,li
     && ansible-playbook playbooks/install.yml \
        --tags site \
        --skip-tags python_env,cartopy_shapefiles \
-       -e pip_editable=false \
+       -e pip_editable=true \
        -v \
     && chown -R ${USER_ID}:${GROUP_ID} ${GEOIPS_PACKAGES_DIR} ${GEOIPS_OUTDIRS} /home/${USER}
 
