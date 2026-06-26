@@ -185,15 +185,18 @@ ARG USER=geoips_user
 ARG USER_ID=1000
 ARG GROUP_ID=1000
 ARG GEOIPS_USE_PRIVATE_PLUGINS=false
+ARG PIP_EDITABLE=true
 ENV GEOIPS_USE_PRIVATE_PLUGINS=${GEOIPS_USE_PRIVATE_PLUGINS}
 
 USER root
-RUN uv pip install --system --no-cache -e ${GEOIPS_PACKAGES_DIR}/geoips[doc,test,lint,debug] \
+RUN uv pip install --system --no-cache \
+    $([ "$PIP_EDITABLE" = "true" ] && echo "-e") \
+    ${GEOIPS_PACKAGES_DIR}/geoips[doc,test,lint,debug] \
     && cd ${GEOIPS_PACKAGES_DIR}/geoips/tests/ansible \
     && ansible-playbook playbooks/install.yml \
        --tags site \
        --skip-tags python_env,cartopy_shapefiles \
-       -e pip_editable=true \
+       -e pip_editable=$PIP_EDITABLE \
        -v \
     && chown -R ${USER_ID}:${GROUP_ID} ${GEOIPS_PACKAGES_DIR} ${GEOIPS_OUTDIRS} /home/${USER}
 

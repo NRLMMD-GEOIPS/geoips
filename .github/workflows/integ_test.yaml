@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
 
 concurrency:
-  group: integ-test-${{ github.ref }}
+  group: integ-test-${{ github.ref }}-${{ matrix.pip_editable }}
   cancel-in-progress: true
 
 defaults:
@@ -20,7 +20,13 @@ permissions:
 jobs:
   integ-test:
     if: github.event_name == 'workflow_dispatch' || github.event.pull_request.draft == false
+    strategy:
+      matrix:
+        pip_editable: [true, false]
+    name: integ-test (editable=${{ matrix.pip_editable }})
     uses: NRLMMD-GEOIPS/geoips_ci/.github/workflows/reusable-ci.yaml@bsl5_ci_fix
+    with:
+      pip_editable: ${{ matrix.pip_editable }}
     secrets:
       token: ${{ secrets.GITHUB_TOKEN }}
       docker_token: ${{ secrets.DOCKER_TOKEN }}
