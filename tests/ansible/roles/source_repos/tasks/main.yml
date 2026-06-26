@@ -24,7 +24,7 @@
   ansible.builtin.git:
     repo: "{{ geoips_repo_url }}/{{ repo_name }}.git"
     dest: "{{ geoips_packages_dir }}/{{ repo_name }}"
-  loop: "{{ _std_clone.results | rejectattr('rc', 'equalto', 0) | map(attribute='item') | list }}"
+  loop: "{{ plugin_repos }}"
   loop_control:
     loop_var: repo_name
   when: geoips_modified_branch | default('') | length > 0
@@ -58,7 +58,7 @@
   ansible.builtin.git:
     repo: "{{ geoips_repo_url }}/{{ repo_name }}.git"
     dest: "{{ geoips_packages_dir }}/{{ repo_name }}"
-  loop: "{{ _fort_clone.results | rejectattr('rc', 'equalto', 0) | map(attribute='item') | list }}"
+  loop: "{{ fortran_repos_ordered }}"
   loop_control:
     loop_var: repo_name
   when: geoips_modified_branch | default('') | length > 0
@@ -93,7 +93,7 @@
   ansible.builtin.git:
     repo: "{{ geoips_repo_url }}/{{ repo_name }}.git"
     dest: "{{ geoips_packages_dir }}/{{ repo_name }}"
-  loop: "{{ _priv_clone.results | rejectattr('rc', 'equalto', 0) | map(attribute='item') | list }}"
+  loop: "{{ private_plugin_repos }}"
   loop_control:
     loop_var: repo_name
   when:
@@ -131,7 +131,7 @@
   ansible.builtin.git:
     repo: "{{ geoips_repo_url }}/{{ repo_name }}.git"
     dest: "{{ geoips_packages_dir }}/{{ repo_name }}"
-  loop: "{{ _privfort_clone.results | rejectattr('rc', 'equalto', 0) | map(attribute='item') | list }}"
+  loop: "{{ private_fortran_repos }}"
   loop_control:
     loop_var: repo_name
   when:
@@ -175,7 +175,7 @@
   ansible.builtin.git:
     repo: "{{ geoips_repo_url }}/{{ repo_name }}.git"
     dest: "{{ geoips_packages_dir }}/{{ repo_name }}"
-  loop: "{{ _extra_clone.results | rejectattr('rc', 'equalto', 0) | map(attribute='item') | list }}"
+  loop: "{{ extra_plugins_list | default([]) }}"
   loop_control:
     loop_var: repo_name
   when:
