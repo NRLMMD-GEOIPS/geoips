@@ -3,19 +3,24 @@
 # Expects: repo_name (set by the caller's loop_var)
 #
 ---
+- block:
+    - name: "Clone {{ repo_name }} on branch {{ geoips_modified_branch }}"
+      ansible.builtin.git:
+        repo: "{{ geoips_repo_url }}/{{ repo_name }}.git"
+        dest: "{{ geoips_packages_dir }}/{{ repo_name }}"
+        version: "{{ geoips_modified_branch }}"
+  rescue:
+    - name: "Clone {{ repo_name }} on default branch (branch '{{ geoips_modified_branch }}' not found)"
+      ansible.builtin.git:
+        repo: "{{ geoips_repo_url }}/{{ repo_name }}.git"
+        dest: "{{ geoips_packages_dir }}/{{ repo_name }}"
+  when: geoips_modified_branch | default('') | length > 0
+
 - name: "Clone {{ repo_name }}"
   ansible.builtin.git:
     repo: "{{ geoips_repo_url }}/{{ repo_name }}.git"
     dest: "{{ geoips_packages_dir }}/{{ repo_name }}"
-    version: "{{ geoips_modified_branch if geoips_modified_branch else omit }}"
-  register: _clone
-  failed_when: false
-
-- name: "Clone {{ repo_name }} on default branch (branch '{{ geoips_modified_branch }}' not found)"
-  ansible.builtin.git:
-    repo: "{{ geoips_repo_url }}/{{ repo_name }}.git"
-    dest: "{{ geoips_packages_dir }}/{{ repo_name }}"
-  when: _clone.rc != 0
+  when: geoips_modified_branch | default('') | length == 0
 
 - name: "Pip install {{ repo_name }}"
   ansible.builtin.pip:
