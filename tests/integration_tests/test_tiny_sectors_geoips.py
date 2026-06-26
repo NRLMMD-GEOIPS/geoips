@@ -395,7 +395,7 @@ def setup_environment():
 @pytest.mark.tiny_sector_global_example
 @pytest.mark.parametrize("script", global_example_integ_test_calls)
 def test_integ_global_example_script(
-    base_setup: None, script: str, fail_on_missing_data: bool
+    base_setup: None, script: str, fail_on_missing_data: bool  # noqa: F811
 ):  # noqa: F811
     """
     Run integration test scripts by executing specified shell commands.
@@ -423,7 +423,7 @@ def test_integ_global_example_script(
 @pytest.mark.tiny_sector_overlay
 @pytest.mark.parametrize("script", tiny_sector_overlay_integ_test_calls)
 def test_integ_tiny_sector_overlay_script(
-    base_setup: None, script: str, fail_on_missing_data: bool
+    base_setup: None, script: str, fail_on_missing_data: bool  # noqa: F811
 ):  # noqa: F811
     """
     Run integration test scripts by executing specified shell commands.
@@ -452,7 +452,7 @@ def test_integ_tiny_sector_overlay_script(
 @pytest.mark.tiny_sector
 @pytest.mark.parametrize("script", tiny_sector_integ_test_calls)
 def test_integ_tiny_sector_script(
-    base_setup: None, script: str, fail_on_missing_data: bool
+    base_setup: None, script: str, fail_on_missing_data: bool  # noqa: F811
 ):  # noqa: F811
     """
     Run integration test scripts by executing specified shell commands.
