@@ -193,8 +193,9 @@ then hardcoded defaults.  Copy the inventory file to create a custom setup
        Corresponds to the ``EXTRA_PLUGINS`` Docker build argument.
    * - ``geoips_modified_branch``
      - ``""``
-     - After cloning each repo, attempt to check out this branch.  Falls back silently to
-       the default branch if it does not exist.
+      - After cloning each repo, attempt to check out this branch.  Falls back silently to
+        the default branch if it does not exist.  See `Branch fallback strategy`_
+        for details on how this is handled across repos.
    * - ``geoips_packages_dir``
      - ``/packages``
      - Root directory where repos are cloned.  Reads ``GEOIPS_PACKAGES_DIR`` env var.
@@ -341,7 +342,7 @@ The Makefile provides convenience wrappers:
    make ansible-testdata-site
 
    # Docker test data download (downloads to host via mounted volume)
-   make testdata-full TESTDATA=/data/geoips-testdata
+   make testdata-full TESTDATA=/path/on/host/geoips-testdata
 
 
 Docker integration
@@ -376,10 +377,10 @@ and avoids wheel-cache bloat.  The ``deps`` stage also applies this flag, and be
 .. code-block:: bash
 
    # Download data to the host via the ansible playbook inside the container
-   make testdata-full TESTDATA=/data/geoips-testdata
+   make testdata-full TESTDATA=/path/on/host/geoips-testdata
 
    # Run tests with that data mounted at the expected path
-   docker run --rm -v /data/geoips-testdata:/geoips_testdata geoips:full \
+   docker run --rm -v /path/on/host/geoips-testdata:/geoips_testdata geoips:full \
      pytest -m "base and integration"
 
 Test data is always a runtime mount, never a build-time layer.
@@ -421,11 +422,15 @@ The playbooks are designed to be re-run safely at any point:
 - ``geoips config create-registries`` is idempotent by design.
 
 If a run fails partway through, fix the underlying issue and re-run the same command.
-Completed tasks will execute as fast no-ops.
+Completed tasks will execute as fast no-ops.  Multiple runs will not hurt anything.
 
 
 Adding new repositories
 ------------------------
+
+Repositories and which install group they belong to are managed by
+``tests/ansible/inventory/local.yml``.  To add a new repo or move a repo to a
+different install group, edit ``tests/ansible/inventory/local.yml`` as follows:
 
 **Standard plugin repos** (no ordering constraint):
    Add the repo name to ``plugin_repos`` in ``tests/ansible/inventory/local.yml``.

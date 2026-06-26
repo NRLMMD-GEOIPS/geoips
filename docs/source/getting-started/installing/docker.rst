@@ -15,17 +15,22 @@ can be targeted independently.
 Quick start
 -----------
 
+The commands below build a Docker image with a ``full`` GeoIPS installation
+(core plus cartopy shapefiles, settings repos, and ``doc``/``test`` extras),
+download the required test datasets to a host directory, and run the
+base integration tests with the data mounted into the container.
+
 .. code-block:: bash
 
    # Build the full image (most common for development and CI)
    docker build --target geoips-full -t geoips:full .
 
    # Download test data to a host directory
-   make testdata-full TESTDATA=/data/geoips-testdata
+   make testdata-full TESTDATA=/path/on/host/geoips-testdata
 
    # Run integration tests with test data mounted
    docker run --rm \
-     -v /data/geoips-testdata:/geoips_testdata \
+     -v /path/on/host/geoips-testdata:/geoips_testdata \
      geoips:full \
      pytest -vv -m "base and integration"
 
@@ -44,8 +49,8 @@ above it, so ``geoips-site`` includes everything from ``geoips-full`` and
    * - Target
      - Description
    * - ``base-os``
-     - System packages only (``git``, ``g++``, ``gfortran``, etc.).  Not
-       intended for direct use.
+     - System packages only (``git``, ``g++``, ``gfortran``, ``ansible-core``,
+       etc.).  Not intended for direct use.
    * - ``deps``
      - ``base-os`` plus all Python requirements from ``requirements.txt``,
        compiled from source with ``--no-binary :all:``.  This layer is cached
@@ -143,7 +148,8 @@ pre-built wheels.  This is controlled by two mechanisms:
   when installing ``requirements.txt``.
 
 - Each Ansible playbook invocation passes ``-e 'pip_extra_args=--no-binary
-  :all:'`` so that GeoIPS itself, its extras, and any plugin packages are
+  :all:'`` (the ``-e`` is an Ansible extra variable, *not* an editable pip
+  install) so that GeoIPS itself, its extras, and any plugin packages are
   also compiled from source.
 
 This ensures binaries are optimised for the container's architecture and
@@ -166,10 +172,10 @@ volume:
 
 .. code-block:: bash
 
-   mkdir -p /data/geoips-testdata
+   mkdir -p /path/on/host/geoips-testdata
 
    docker run --rm \
-     -v /data/geoips-testdata:/geoips_testdata \
+     -v /path/on/host/geoips-testdata:/geoips_testdata \
      -e ANSIBLE_CONFIG=/packages/geoips/tests/ansible/ansible.cfg \
      geoips:full \
      ansible-playbook \
@@ -183,7 +189,7 @@ Or use the Makefile wrapper:
 
 .. code-block:: bash
 
-   make testdata-full TESTDATA=/data/geoips-testdata
+   make testdata-full TESTDATA=/path/on/host/geoips-testdata
 
 The downloaded data persists on the host.  Subsequent runs are fast because
 ``geoips config install`` is idempotent.
@@ -194,7 +200,7 @@ Run tests with mounted data
 .. code-block:: bash
 
    docker run --rm \
-     -v /data/geoips-testdata:/geoips_testdata \
+     -v /path/on/host/geoips-testdata:/geoips_testdata \
      -e GEOIPS_TESTDATA_DIR=/geoips_testdata \
      geoips:full \
      pytest -vv -m "base and integration"
@@ -219,7 +225,7 @@ removed via ``apt-get remove`` to further reduce image size.
 Make targets
 ------------
 
-The Makefile provides convenience wrappers:
+The ``Makefile`` at the root of the GeoIPS repository provides convenience wrappers:
 
 .. code-block:: bash
 
@@ -230,13 +236,13 @@ The Makefile provides convenience wrappers:
    make build-production
 
    # Download test data (to host, via Docker)
-   make testdata-base TESTDATA=/data/geoips-testdata
-   make testdata-full TESTDATA=/data/geoips-testdata
-   make testdata-site TESTDATA=/data/geoips-testdata
+   make testdata-base TESTDATA=/path/on/host/geoips-testdata
+   make testdata-full TESTDATA=/path/on/host/geoips-testdata
+   make testdata-site TESTDATA=/path/on/host/geoips-testdata
 
    # Run tests
-   make test-base  TESTDATA=/data/geoips-testdata
-   make test-full  TESTDATA=/data/geoips-testdata
+   make test-base  TESTDATA=/path/on/host/geoips-testdata
+   make test-full  TESTDATA=/path/on/host/geoips-testdata
    make test-unit
 
 
@@ -270,7 +276,7 @@ Configure the workflow using GitHub repository variables:
    * - ``DOCKER_BUILD_TARGET``
      - Which Dockerfile stage to build (default: ``geoips-full``).
    * - ``TESTDATA_PATH``
-     - Host path for test data (default: ``/data/geoips-testdata``).
+     - Host path for test data (default: ``/path/on/host/geoips-testdata``).
    * - ``EXTRA_PLUGINS``
      - Comma-separated list of extra plugin repos.
    * - ``CI_LINT``
