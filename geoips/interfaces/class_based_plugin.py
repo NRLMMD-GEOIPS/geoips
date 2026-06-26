@@ -334,6 +334,7 @@ class BaseClassPlugin(ABC):
         _EXTRACTORS = {
             "algorithm": _unwrap_ds,
             "colormapper": lambda c: c.ds.attrs.get("_mpl_colors_info"),
+            "coverage_checker": lambda c: c.ds.attrs.get("coverage"),
             "feature_annotator": lambda c: _wrap_spec(c.ds.attrs.get("spec")),
             "filename_formatter": lambda c: c.ds.attrs.get("output_fnames"),
             "gridline_annotator": lambda c: _wrap_spec(c.ds.attrs.get("spec")),

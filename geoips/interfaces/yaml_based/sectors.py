@@ -105,7 +105,6 @@ class SectorPluginBase(BaseYamlPlugin):
         # if self.family.startswith(("area_definition", "generated")):
         from pyresample import load_area
         from importlib.resources import files
-
         if self.family.startswith("area_definition"):
             abspath = str(files(self.package) / self.relpath)
             ad = load_area(abspath, "spec")
@@ -113,6 +112,14 @@ class SectorPluginBase(BaseYamlPlugin):
         #     ad = center_to_area_definition(self)
         # elif self.family.startswith("corners"):
         #     ad = corners_to_area_definition(self)
+
+        # Attach sector_info from plugin metadata so downstream plugins
+        # (e.g. geoips_fname) can access region, continent, area, etc.
+        if not hasattr(ad, "sector_info"):
+            meta = self.get("metadata") or {} if isinstance(self, dict) else {}
+            region = meta.get("region", {})
+            ad.sector_info = dict(region) if region else {}
+
         return ad
 
     def create_test_plot(
