@@ -9,13 +9,13 @@
     dest: "{{ geoips_packages_dir }}/{{ repo_name }}"
     version: "{{ geoips_modified_branch if geoips_modified_branch else omit }}"
   register: _clone
-  ignore_errors: yes
+  failed_when: false
 
 - name: "Clone {{ repo_name }} on default branch (branch '{{ geoips_modified_branch }}' not found)"
   ansible.builtin.git:
     repo: "{{ geoips_repo_url }}/{{ repo_name }}.git"
     dest: "{{ geoips_packages_dir }}/{{ repo_name }}"
-  when: _clone is failed
+  when: _clone.rc != 0
 
 - name: "Pip install {{ repo_name }}"
   ansible.builtin.pip:
