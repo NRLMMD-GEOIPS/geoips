@@ -35,7 +35,6 @@ spec:
     algorithm:
       kind: algorithm
       name: windbarbs_dmw
-      depends_on: [reader]
       arguments: {
         product_name: DMW-High,
         variables: ["wind_speed", "wind_direction", "pressure"],
@@ -52,7 +51,6 @@ spec:
       kind: coverage_checker
       name: windbarbs
       depends_on: [algorithm, sector]
-      arguments: {}
     colormapper:
       kind: colormapper
       name: matplotlib_linear_norm
@@ -66,12 +64,10 @@ spec:
       kind: filename_formatter
       name: geoips_fname
       depends_on: [algorithm, coverage_checker, sector]
-      arguments: {}
     output_formatter:
       kind: output_formatter
       name: imagery_windbarbs
       depends_on: [algorithm, colormapper, filename_formatter, sector]
-      arguments: {}
     # output_checker:
     #   kind: output_checker
     #   name: plugin_provided
