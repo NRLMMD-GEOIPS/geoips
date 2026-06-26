@@ -369,7 +369,7 @@ def is_likely_oserror_missing_file(log_contents: str) -> bool:
     return re.search(pattern, last_ten_lines) is not None
 
 
-def run_script_with_bash(script, fail_on_missing_data, unset_output_path_env_vars=True):
+def run_script_with_bash(script, fail_on_missing_data=True, unset_output_path_env_vars=True):
     """Run scripts by executing specified shell commands with bash.
 
     If unset_output_path_env_vars is set, explicit output path env vars are
