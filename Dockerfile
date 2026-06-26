@@ -188,7 +188,7 @@ ARG GEOIPS_USE_PRIVATE_PLUGINS=false
 ENV GEOIPS_USE_PRIVATE_PLUGINS=${GEOIPS_USE_PRIVATE_PLUGINS}
 
 USER root
-RUN uv pip install --system --no-cache ${GEOIPS_PACKAGES_DIR}/geoips[doc,test,lint,debug] \
+RUN uv pip install --system --no-cache -e ${GEOIPS_PACKAGES_DIR}/geoips[doc,test,lint,debug] \
     && cd ${GEOIPS_PACKAGES_DIR}/geoips/tests/ansible \
     && ansible-playbook playbooks/install.yml \
        --tags site \
