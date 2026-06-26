@@ -46,7 +46,7 @@ enhancement:
     that it installs plugin packages rather than individual plugins.
   files:
     modified:
-    - tests/ansible/group_vars/all.yml
+    - tests/ansible/inventory/local.yml
     - tests/ansible/playbooks/install.yml
     - tests/ansible/roles/source_repos/defaults/main.yml
     - tests/ansible/roles/source_repos/tasks/main.yml

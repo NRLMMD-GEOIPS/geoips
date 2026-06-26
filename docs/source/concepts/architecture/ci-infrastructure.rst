@@ -29,10 +29,8 @@ The playbooks live in ``tests/ansible/`` alongside a standard role layout::
 
     tests/ansible/
     ├── ansible.cfg               # inventory path, roles path, no host-key checking
-    ├── group_vars/
-    │   └── all.yml               # all variables with env-var fallbacks
     ├── inventory/
-    │   └── local.yml             # localhost, local connection
+    │   └── local.yml             # localhost, local connection, all variables live here
     ├── playbooks/
     │   ├── install.yml           # software installation
     │   └── test_data.yml         # test dataset downloads
@@ -65,8 +63,14 @@ CI runners pre-install ``ansible-core``; this step is only needed for local
 development.  If you are running tests through the Docker-based CI (``make test-*``),
 the container already includes it.
 
+.. note::
+
+   If you installed GeoIPS with ``pip install geoips[test]``, Ansible-core is
+   already included and the standalone ``pip install ansible-core`` above can be
+   skipped.
+
 Set the standard GeoIPS environment variables before running any playbook.  The
-``group_vars/all.yml`` file reads these with ``lookup('env', ...)`` and falls back to
+``inventory/local.yml`` file reads these with ``lookup('env', ...)`` and falls back to
 reasonable defaults:
 
 .. code-block:: bash
@@ -159,8 +163,9 @@ Configuration variables
 ------------------------
 
 Override any variable with ``-e`` on the command line.  Defaults live in
-``tests/ansible/group_vars/all.yml`` and are resolved (in order) from environment variables,
-then hardcoded defaults.
+``tests/ansible/inventory/local.yml`` and are resolved (in order) from environment variables,
+then hardcoded defaults.  Copy the inventory file to create a custom setup
+(e.g. ``inventory/my-setup.yml``) and run playbooks with ``-i inventory/my-setup.yml``.
 
 .. list-table::
    :header-rows: 1
@@ -318,6 +323,27 @@ The roles live in ``tests/ansible/roles/`` and each handles one concern.
    ``test_data.yml`` — it is not part of the install playbook.
 
 
+Make targets
+^^^^^^^^^^^^^
+
+The Makefile provides convenience wrappers:
+
+.. code-block:: bash
+
+   # Bare-metal install
+   make ansible-base
+   make ansible-full
+   make ansible-site
+
+   # Bare-metal test data download
+   make ansible-testdata-base
+   make ansible-testdata-full
+   make ansible-testdata-site
+
+   # Docker test data download (downloads to host via mounted volume)
+   make testdata-full TESTDATA=/data/geoips-testdata
+
+
 Docker integration
 -------------------
 
@@ -402,16 +428,16 @@ Adding new repositories
 ------------------------
 
 **Standard plugin repos** (no ordering constraint):
-   Add the repo name to ``plugin_repos`` in ``tests/ansible/group_vars/all.yml``.
+   Add the repo name to ``plugin_repos`` in ``tests/ansible/inventory/local.yml``.
 
 **Fortran plugin repos** (ordering constraint applies):
-   Add the repo name to ``fortran_repos_ordered`` in ``group_vars/all.yml`` in the
+   Add the repo name to ``fortran_repos_ordered`` in ``inventory/local.yml`` in the
    correct position in the dependency chain.  The comment in that file documents the
    required order.
 
 **Private repos**:
    Add to ``private_plugin_repos`` or ``private_fortran_repos`` (for the fortran chain)
-   in ``group_vars/all.yml``.
+   in ``inventory/local.yml``.
 
 **Test datasets**:
    Add the dataset name to the appropriate tier list in
@@ -445,23 +471,3 @@ Re-running after a failure
 
 Ansible is idempotent.  Fix the underlying issue and re-run the same command.  Completed
 tasks will be fast no-ops.
-
-Make targets
-^^^^^^^^^^^^^
-
-The Makefile provides convenience wrappers:
-
-.. code-block:: bash
-
-   # Bare-metal install
-   make ansible-base
-   make ansible-full
-   make ansible-site
-
-   # Bare-metal test data download
-   make ansible-testdata-base
-   make ansible-testdata-full
-   make ansible-testdata-site
-
-   # Docker test data download (downloads to host via mounted volume)
-   make testdata-full TESTDATA=/data/geoips-testdata

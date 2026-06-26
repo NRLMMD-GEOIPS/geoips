@@ -3,7 +3,7 @@
 # Test datasets required at each installation tier.
 # Each entry is a name recognised by `geoips config install <name>`.
 #
-# These are intentionally in the role defaults (not group_vars) so the
+# These are kept in the role defaults (mirrored in inventory/local.yml) so the
 # test_data role is self-contained and can be used standalone.
 
 base_test_datasets:
