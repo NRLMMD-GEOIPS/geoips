@@ -10,7 +10,7 @@
   loop: "{{ plugin_repos }}"
   loop_control:
     loop_var: repo_name
-  tags: [site]
+  tags: [base, full, site]
 
 # ---- Fortran chain (ORDER MATTERS) ----
 - name: Install fortran repos (ordered)
@@ -18,7 +18,7 @@
   loop: "{{ fortran_repos_ordered }}"
   loop_control:
     loop_var: repo_name
-  tags: [site]
+  tags: [base, full, site]
 
 # ---- Private repos (when enabled) ----
 - name: Install private plugin repos
@@ -27,7 +27,7 @@
   loop_control:
     loop_var: repo_name
   when: geoips_use_private_plugins | bool
-  tags: [site]
+  tags: [base, full, site]
 
 - name: Install private fortran repos
   ansible.builtin.include_tasks: clone_and_install.yml
@@ -35,7 +35,7 @@
   loop_control:
     loop_var: repo_name
   when: geoips_use_private_plugins | bool
-  tags: [site]
+  tags: [base, full, site]
 
 # ---- Extra plugins passed via build arg / CLI ----
 - name: Parse extra_plugin_packages into a list
