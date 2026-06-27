@@ -12,7 +12,18 @@ class BaseColormapperPlugin(BaseClassPlugin, abstract=True):
 
     data_tree = True
 
-    pass
+    def _post_call(self, data=None, *args, _obp_initiated=False, **kwargs):
+        """Return a plain ``dict`` for legacy SSP.
+
+        Colormapper plugins returns ``DataTreeDitto`` wrapper so OBP can attach them to
+        the workflow ``DataTree`` and preserve provenance. SSP expects a plain ``dict``
+        , so this hook unwraps the payload when ``_obp_initiated=False``.
+        """
+        from geoips.utils.types.datatree_ditto import DataTreeDitto
+
+        if not _obp_initiated and isinstance(data, DataTreeDitto):
+            return data.ds.attrs.get("_mpl_colors_info")
+        return data
 
 
 class ColormappersInterface(BaseClassInterface):
