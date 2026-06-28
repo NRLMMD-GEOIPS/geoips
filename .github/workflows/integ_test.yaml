@@ -24,7 +24,7 @@ jobs:
       matrix:
         pip_editable: [true, false]
     name: integ-test (editable=${{ matrix.pip_editable }})
-    uses: NRLMMD-GEOIPS/geoips_ci/.github/workflows/reusable-ci.yaml@bsl5_ci_fix
+    uses: NRLMMD-GEOIPS/geoips_ci/.github/workflows/reusable-ci.yaml@main
     with:
       pip_editable: ${{ matrix.pip_editable }}
     secrets:
