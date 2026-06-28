@@ -1,6 +1,6 @@
 # roles/settings_repos/tasks/main.yml
 ---
-- name: "Clone settings repo {{ item }}"
+- name: "Clone settings repo"
   ansible.builtin.git:
     repo: "{{ geoips_repo_url }}/{{ item }}.git"
     dest: "{{ geoips_packages_dir }}/{{ item }}"
