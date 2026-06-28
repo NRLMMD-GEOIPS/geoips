@@ -41,6 +41,7 @@
       pip_extra_args = {{ pip_extra_args | default('<undefined>') | to_json }}
       pip_extra_args (type) = {{ (pip_extra_args | default(None)) | type_debug }}
       ************************************************************
+  tags: [site]
 
 - name: "Pip install standard plugin repos"
   ansible.builtin.pip:
