@@ -276,6 +276,37 @@ class Workflow:
             if self._retention.can_gc(sid, executed=executed):
                 self._gc_step_data(tree, sid)
 
+    def _resolve_area_defs(self) -> list:
+        """Resolve ``globals.sector_list`` sector names to AreaDefinition objects.
+
+        Returns
+        -------
+        list of pyresample.AreaDefinition
+            Empty list if ``sector_list`` is absent or resolution fails.
+        """
+        from geoips.sector_utils.utils import get_sectors_from_yamls
+
+        _globals = self._spec.globals
+        if _globals is None:
+            sector_list = []
+        elif hasattr(_globals, "sector_list"):
+            sector_list = list(getattr(_globals, "sector_list") or [])
+        elif hasattr(_globals, "get"):  # plain dict fallback
+            sector_list = list(_globals.get("sector_list") or [])
+        else:
+            sector_list = []
+        if not sector_list:
+            return []
+        try:
+            area_defs = get_sectors_from_yamls(sector_list)
+            LOG.interactive(
+                "Resolved %d area_def(s) from sector_list %s", len(area_defs), sector_list
+            )
+            return area_defs
+        except Exception as exc:
+            LOG.warning("Could not resolve sector_list %s: %s", sector_list, exc)
+            return []
+
     def _set_root_attrs(self, tree: xr.DataTree) -> None:
         """Stamp minimum-viable root provenance on the workflow DataTree.
 
