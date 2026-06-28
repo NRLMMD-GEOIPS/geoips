@@ -404,7 +404,7 @@ class Workflow:
             elif not (step_def.depends_on or []):
                 step_result = plg(_obp_initiated=True, **_step_kwargs)
             else:
-                upstream = self._collect_upstream_data(tree, step_def.depends_on or [])
+                upstream = self._collect_upstream_data(tree, list(executed))
                 step_result = plg(data=upstream, _obp_initiated=True, **_step_kwargs)
 
             end_iso = datetime.now(timezone.utc).isoformat()
