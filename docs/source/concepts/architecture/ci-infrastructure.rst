@@ -193,9 +193,9 @@ then hardcoded defaults.  Copy the inventory file to create a custom setup
        Corresponds to the ``EXTRA_PLUGINS`` Docker build argument.
    * - ``geoips_modified_branch``
      - ``""``
-      - After cloning each repo, attempt to check out this branch.  Falls back silently to
-        the default branch if it does not exist.  See `Branch fallback strategy`_
-        for details on how this is handled across repos.
+     - After cloning each repo, attempt to check out this branch.  Falls back silently to
+       the default branch if it does not exist.  See `Branch fallback strategy`_
+       for details on how this is handled across repos.
    * - ``geoips_packages_dir``
      - ``/packages``
      - Root directory where repos are cloned.  Reads ``GEOIPS_PACKAGES_DIR`` env var.
