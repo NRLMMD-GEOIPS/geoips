@@ -21,7 +21,19 @@ class BaseReaderPlugin(BaseClassPlugin, abstract=True):
 
     data_tree = False
 
-    pass
+    def _post_call(self, data=None, *args, _obp_initiated=False, **kwargs):
+        """Return reader dict output as-is when OBP-initiated.
+
+        Readers return {key: xr.Dataset}. The base _post_call wraps this
+        in DataTreeDitto which stringifies the Dataset values. Return the
+        raw dict so Workflow._attach_step_node can extract the primary
+        Dataset and attach it to the tree correctly.
+        """
+        if _obp_initiated and isinstance(data, dict):
+            return data
+        return super()._post_call(
+            data, *args, _obp_initiated=_obp_initiated, **kwargs
+        )
 
 
 class ReadersInterface(BaseClassInterface):
