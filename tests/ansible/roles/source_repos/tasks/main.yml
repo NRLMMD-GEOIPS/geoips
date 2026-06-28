@@ -42,17 +42,27 @@
       pip_extra_args (type) = {{ (pip_extra_args | default(None)) | type_debug }}
       ************************************************************
   tags: [site]
-
 - name: "Pip install standard plugin repos"
-  ansible.builtin.pip:
-    name: "{{ geoips_packages_dir }}/{{ repo_name }}"
-    editable: "{{ pip_editable | bool }}"
-    extra_args: "{{ pip_extra_args }}"
-    state: present
+  ansible.builtin.command:
+    cmd: >
+      /usr/local/bin/python -m pip install
+      {{ '-e' if pip_editable | bool else '' }}
+      {{ geoips_packages_dir }}/{{ repo_name }}
   loop: "{{ plugin_repos }}"
   loop_control:
     loop_var: repo_name
   tags: [site]
+  
+# - name: "Pip install standard plugin repos"
+#   ansible.builtin.pip:
+#     name: "{{ geoips_packages_dir }}/{{ repo_name }}"
+#     editable: "{{ pip_editable | bool }}"
+#     extra_args: "{{ pip_extra_args }}"
+#     state: present
+#   loop: "{{ plugin_repos }}"
+#   loop_control:
+#     loop_var: repo_name
+#   tags: [site]
 
 # ---- Fortran chain (ORDER MATTERS) ----
 - name: "Clone fortran repos"
