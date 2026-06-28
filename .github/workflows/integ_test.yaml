@@ -5,10 +5,6 @@ on:
     types: [opened, synchronize, reopened, ready_for_review]
   workflow_dispatch:
 
-concurrency:
-  group: integ-test-${{ github.ref }}-${{ matrix.pip_editable }}
-  cancel-in-progress: true
-
 defaults:
   run:
     shell: bash
@@ -23,6 +19,9 @@ jobs:
     strategy:
       matrix:
         pip_editable: [true, false]
+    concurrency:
+      group: integ-test-${{ github.ref }}-${{ matrix.pip_editable }}
+      cancel-in-progress: true
     name: integ-test (editable=${{ matrix.pip_editable }})
     uses: NRLMMD-GEOIPS/geoips_ci/.github/workflows/reusable-ci.yaml@main
     with:
