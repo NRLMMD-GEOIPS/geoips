@@ -42,6 +42,19 @@
       pip_extra_args (type) = {{ (pip_extra_args | default(None)) | type_debug }}
       ************************************************************
   tags: [site]
+
+- name: DEBUG pip environment
+  ansible.builtin.command: env
+  register: env_output
+  tags: [site]
+
+- name: SHOW pip environment
+  ansible.builtin.debug:
+    msg: |
+      ************************************************************
+      {{ env_output.stdout_lines | select('match', '^PIP_') | list }}
+      ************************************************************
+  tags: [site]
   
 - name: "Pip install standard plugin repos"
   ansible.builtin.command:
