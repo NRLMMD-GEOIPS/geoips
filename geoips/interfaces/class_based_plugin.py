@@ -301,18 +301,24 @@ class BaseClassPlugin(ABC):
         if isinstance(result, (str, int, float, bool)):
             ds = xr.Dataset(attrs={"value": result})
             return DataTreeDitto(ds, name=getattr(self, "name", "result"))
+        import pdb; pdb.set_trace()
         return DataTreeDitto(result, name=getattr(self, "name", "result"))
 
-    @staticmethod
-    def _extract_child_kwargs(data, kwargs):
+    def _extract_child_kwargs(self, data, kwargs):
         from geoips.utils.types.yaml_plugin_callable import _KIND_TO_KWARG
 
         if not isinstance(data, xr.DataTree):
             return kwargs
 
+        # import pdb; pdb.set_trace()
         children = dict(data.children)
         if not children:
             return kwargs
+
+        # Determine the first positional parameter of call() so we can skip
+        # adding a child kwarg that would conflict with data passed positionally.
+        _call_params = list(inspect.signature(self.call).parameters)
+        _first_call_param = _call_params[0] if _call_params else None
 
         def _wrap_spec(spec):
             return {"spec": spec} if spec is not None else None
@@ -345,6 +351,15 @@ class BaseClassPlugin(ABC):
         for _child_name, child in children.items():
             pkind = str(child.ds.attrs.get("plugin_kind", "")) if child.ds is not None else ""
             kwarg_name = _KIND_TO_KWARG.get(pkind)
+            # The continue guard would skip the elif part when xarray_obj matches the
+            # first positional paramter.
+            if pkind == "algorithm" and "variable_name" not in kwargs and child.ds is not None:
+                attr_product_name = child.ds.attrs.get("product_name")
+                if attr_product_name:
+                    kwargs["variable_name"] = attr_product_name
+            # Skip if already provided, or if the kwarg matches the first positional
+            # parameter of call() — in that case data fills it directly and adding
+            # it again as a keyword would cause "multiple values for argument" errors.
             if not kwarg_name or kwarg_name in kwargs:
                 continue
 
@@ -360,8 +375,15 @@ class BaseClassPlugin(ABC):
             xo = kwargs["xarray_obj"]
             if hasattr(xo, "data_vars") and xo.data_vars and "product_name" not in xo.data_vars:
                 pn = kwargs["product_name"]
-                if isinstance(pn, str) and pn not in xo.data_vars:
-                    xo = xo.rename({list(xo.data_vars)[0]: pn})
+                first_var = list(xo.data_vars)[0]
+                if (
+                    isinstance(pn, str)
+                    and pn not in xo.data_vars
+                    and pn not in xo.coords
+                    and pn not in xo.dims
+                    and first_var != pn
+                ):
+                    xo = xo.rename({first_var: pn})
                     kwargs["xarray_obj"] = xo
 
         return kwargs
@@ -398,9 +420,15 @@ class BaseClassPlugin(ABC):
 
         if data is None:
             result = self.call(*args, **new_kwargs)
+            result = self._post_call(result, *args, _obp_initiated=_obp_initiated, **new_kwargs)
         else:
             if _obp_initiated:
                 new_kwargs = self._extract_child_kwargs(data, new_kwargs)
+                # Re-filter after _extract_child_kwargs may have added extra keys
+                # (e.g. variable_name) that call() doesn't accept.
+                new_kwargs = {
+                    k: v for k, v in new_kwargs.items() if k in accepted_args
+                }
             data = self._pre_call(data, *args, _obp_initiated=_obp_initiated, **new_kwargs)
             if (
                 _obp_initiated
@@ -413,7 +441,26 @@ class BaseClassPlugin(ABC):
                 data = self._post_call(result, *args, _obp_initiated=_obp_initiated, **new_kwargs)
                 result = data
             else:
-                data = self.call(data, *args, **new_kwargs)
+                _call_params = list(inspect.signature(self.call).parameters)
+                _first_param = _call_params[0] if _call_params else None
+                if (
+                    _obp_initiated
+                    and _first_param
+                    and _first_param in new_kwargs
+                    and not isinstance(new_kwargs[_first_param], (xr.Dataset, xr.DataTree))
+                ):
+                    # First param holds a non-dataset resource (e.g. area_def).
+                    # data (upstream) is NOT the right value for it — call via
+                    # kwargs only so each arg is bound by name, not position.
+                    data = self.call(**new_kwargs)
+                else:
+                    # Standard: data fills the first positional parameter.
+                    # Remove it from new_kwargs if OBP globals also injected it
+                    # there to prevent "multiple values for argument X".
+                    if _first_param and _first_param in new_kwargs:
+                        new_kwargs = dict(new_kwargs)
+                        del new_kwargs[_first_param]
+                    data = self.call(data, *args, **new_kwargs)
                 data = self._post_call(data, *args, _obp_initiated=_obp_initiated, **new_kwargs)
                 result = data
 
