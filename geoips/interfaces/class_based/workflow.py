@@ -354,6 +354,20 @@ class Workflow:
         self._set_root_attrs(tree)
         executed: set[str] = set()
 
+        # Resolve sectors and inject common globals into every step invocation.
+        # _invoke's OBP arg-filtering drops kwargs silently for steps that don't
+        # declare the corresponding parameter.
+        area_defs = self._resolve_area_defs()
+        _globals_kwargs = {"area_def": area_defs[0]} if area_defs else {}
+
+        _globals = self._spec.globals
+        if _globals is not None:
+            pn = getattr(_globals, "product_name", None)
+            if pn is None and hasattr(_globals, "get"):
+                pn = _globals.get("product_name")
+            if pn:
+                _globals_kwargs["product_name"] = pn
+
         for sid in self._order:
             step_def = self._spec.steps[sid]
 
@@ -370,15 +384,28 @@ class Workflow:
             start_iso = datetime.now(timezone.utc).isoformat()
 
             plg = self._resolve_plugin(step_def.kind, step_def.name)
+            LOG.interactive("Step '%s' (%s: %s) starting ...", sid, step_def.kind, step_def.name)
 
-            if not (step_def.depends_on or []):
-                if step_def.kind == "reader":
-                    step_result = plg(fnames=fnames, _obp_initiated=True, **(step_def.arguments or {}))
+            # Step explicit arguments take priority over globals-derived kwargs.
+            _step_kwargs = {**_globals_kwargs, **(step_def.arguments or {})}
+
+            if step_def.kind == "reader":
+                # Readers always need fnames. When they depend on upstream steps
+                # (e.g. a sector step that provides area_def), collect upstream
+                # so _extract_child_kwargs can inject area_def, but also pass
+                # fnames so the reader can open files.
+                if step_def.depends_on:
+                    upstream = self._collect_upstream_data(tree, step_def.depends_on)
+                    step_result = plg(
+                        data=upstream, fnames=fnames, _obp_initiated=True, **_step_kwargs
+                    )
                 else:
-                    step_result = plg(_obp_initiated=True, **(step_def.arguments or {}))
+                    step_result = plg(fnames=fnames, _obp_initiated=True, **_step_kwargs)
+            elif not (step_def.depends_on or []):
+                step_result = plg(_obp_initiated=True, **_step_kwargs)
             else:
                 upstream = self._collect_upstream_data(tree, step_def.depends_on or [])
-                step_result = plg(data=upstream, _obp_initiated=True, **(step_def.arguments or {}))
+                step_result = plg(data=upstream, _obp_initiated=True, **_step_kwargs)
 
             end_iso = datetime.now(timezone.utc).isoformat()
 
@@ -411,8 +438,62 @@ class Workflow:
             self._record_provenance(tree[sid], prov)
             executed.add(sid)
             self._apply_retention(tree, executed)
+            self._log_step_result(tree, sid, step_def)
 
+
+        LOG.interactive("Full DataTree after workflow run:\n%s", tree)
         return tree
+
+    def _log_step_result(self, tree: xr.DataTree, sid: str, step_def) -> None:
+        """Log node state and output files after a step completes."""
+        node = tree.get(sid)
+        if node is not None:
+            ds = node.ds
+            attr_types = (
+                {k: type(v).__name__ for k, v in ds.attrs.items()}
+                if ds is not None
+                else {}
+            )
+            attr_values = (
+                {k: repr(v) for k, v in ds.attrs.items()}
+                if ds is not None
+                else {}
+            )
+            data_var_types = (
+                {k: type(v.values).__name__ for k, v in ds.data_vars.items()}
+                if ds is not None
+                else {}
+            )
+            LOG.interactive(
+                "DataTree node after step '%s':\n"
+                "  node type      : %s\n"
+                "  ds type        : %s\n\n"
+                "  attr types     : %s\n\n"
+                "  attr values    : %s\n\n"
+                "  data_var types : %s",
+                sid,
+                type(node).__name__,
+                type(ds).__name__ if ds is not None else "None",
+                attr_types,
+                attr_values,
+                data_var_types,
+            )
+
+            if node.ds is not None:
+                output_files = (
+                    node.ds.attrs.get("output_fnames")
+                    or node.ds.attrs.get("_ditto_list_value")
+                )
+                if output_files and isinstance(output_files, (list, tuple)):
+                    for fpath in output_files:
+                        LOG.interactive("Output file: %s", fpath)
+
+        LOG.interactive(
+            "Completed step '%s' - Kind: %s with plugin_name: %s.",
+            sid,
+            step_def.kind,
+            step_def.name,
+        )
 
     @staticmethod
     def _resolve_plugin(kind: str, name: str):
