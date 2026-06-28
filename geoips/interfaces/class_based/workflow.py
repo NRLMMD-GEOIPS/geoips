@@ -438,62 +438,11 @@ class Workflow:
             self._record_provenance(tree[sid], prov)
             executed.add(sid)
             self._apply_retention(tree, executed)
-            self._log_step_result(tree, sid, step_def)
 
 
         LOG.interactive("Full DataTree after workflow run:\n%s", tree)
         return tree
 
-    def _log_step_result(self, tree: xr.DataTree, sid: str, step_def) -> None:
-        """Log node state and output files after a step completes."""
-        node = tree.get(sid)
-        if node is not None:
-            ds = node.ds
-            attr_types = (
-                {k: type(v).__name__ for k, v in ds.attrs.items()}
-                if ds is not None
-                else {}
-            )
-            attr_values = (
-                {k: repr(v) for k, v in ds.attrs.items()}
-                if ds is not None
-                else {}
-            )
-            data_var_types = (
-                {k: type(v.values).__name__ for k, v in ds.data_vars.items()}
-                if ds is not None
-                else {}
-            )
-            LOG.interactive(
-                "DataTree node after step '%s':\n"
-                "  node type      : %s\n"
-                "  ds type        : %s\n\n"
-                "  attr types     : %s\n\n"
-                "  attr values    : %s\n\n"
-                "  data_var types : %s",
-                sid,
-                type(node).__name__,
-                type(ds).__name__ if ds is not None else "None",
-                attr_types,
-                attr_values,
-                data_var_types,
-            )
-
-            if node.ds is not None:
-                output_files = (
-                    node.ds.attrs.get("output_fnames")
-                    or node.ds.attrs.get("_ditto_list_value")
-                )
-                if output_files and isinstance(output_files, (list, tuple)):
-                    for fpath in output_files:
-                        LOG.interactive("Output file: %s", fpath)
-
-        LOG.interactive(
-            "Completed step '%s' - Kind: %s with plugin_name: %s.",
-            sid,
-            step_def.kind,
-            step_def.name,
-        )
 
     @staticmethod
     def _resolve_plugin(kind: str, name: str):

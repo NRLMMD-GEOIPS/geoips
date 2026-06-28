@@ -301,7 +301,6 @@ class BaseClassPlugin(ABC):
         if isinstance(result, (str, int, float, bool)):
             ds = xr.Dataset(attrs={"value": result})
             return DataTreeDitto(ds, name=getattr(self, "name", "result"))
-        import pdb; pdb.set_trace()
         return DataTreeDitto(result, name=getattr(self, "name", "result"))
 
     def _extract_child_kwargs(self, data, kwargs):
