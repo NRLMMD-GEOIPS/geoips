@@ -23,7 +23,7 @@ class WindbarbsDmwAlgorithmPlugin(BaseAlgorithmPlugin):
     family = "xarray_to_xarray"
     name = "windbarbs_dmw"
 
-    def _pre_call(self, data=None, _obp_initiated=False, *args, **kwargs):
+    def _pre_call(self, data=None, *args, _obp_initiated=False, **kwargs):
         """Extract a mutable Dataset and log the available variables.
 
         Delegates DataTree -> mutable Dataset conversion to the parent
@@ -35,7 +35,7 @@ class WindbarbsDmwAlgorithmPlugin(BaseAlgorithmPlugin):
         ``_invoke`` never reaches this hook in that path.
         """
         data = super()._pre_call(
-            data=data, _obp_initiated=_obp_initiated, *args, **kwargs
+            data, *args, _obp_initiated=_obp_initiated, **kwargs
         )
         if _obp_initiated and isinstance(data, xr.Dataset):
             var_map = kwargs.get("var_map") or {}
