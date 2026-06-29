@@ -510,7 +510,8 @@ class WorkflowStepDefinitionModel(FrozenModel):
             return model
 
         valid_plugin_names = get_plugin_names(plugin_kind)
-        # In SSP, output checker plugin resolves the required plugin on its own.
+        # In SSP, single_source.py resovles the required plugin through
+        # identify_checker(output_product, checker_override).
         # This shuold be made explicit in OBP.
         if plugin_name not in valid_plugin_names:
             raise ValueError(
