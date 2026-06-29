@@ -28,7 +28,7 @@ ansible-playbook tests/ansible/playbooks/install.yml --tags base,full,site
 
 | Variable                       | Default | Description                                  |
 |-------------------------------|---------|----------------------------------------------|
-| `pip_editable`                | `true`  | `true` = editable dev install; `false` = build from source (smaller image) |
+| `editable_pip_install`        | `true`  | `true` = editable dev install; `false` = build from source (smaller image) |
 | `pip_extra_args`              | `""`    | Extra args for pip (Dockerfile uses `--no-binary :all:`) |
 | `geoips_use_private_plugins`  | `false` | Include proprietary repos (ryglickicane, …)  |
 | `extra_plugin_packages`       | `""`    | Comma-separated list of additional repo names |
@@ -48,7 +48,7 @@ The Dockerfile uses a `deps` stage that installs `requirements.txt` in its
 own layer.  Day-to-day source changes skip the slow dependency download
 entirely because Docker caches that layer.
 
-All Docker stages pass `-e pip_editable=false` so packages are built from
+All Docker stages pass `-e editable_pip_install=false` so packages are built from
 source into `site-packages`.  They also pass `-e 'pip_extra_args=--no-binary
 :all:'` so every Python dependency is compiled from source inside the
 container rather than using pre-built wheels.  This produces binaries

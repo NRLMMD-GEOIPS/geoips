@@ -64,7 +64,7 @@ documentation:
     Clarify that ansible playbooks manage software, plugins, and test datasets
     for CI purposes.  Document that ansible-core is pre-installed on CI runners.
     Add early cross-reference to Makefile convenience targets.  Document
-    pip_editable=true behavior in dev Docker targets.
+    editable_pip_install=true behavior in dev Docker targets.
   files:
     modified:
     - docs/source/concepts/architecture/ci-infrastructure.rst

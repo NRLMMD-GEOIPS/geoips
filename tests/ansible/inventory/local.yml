@@ -22,8 +22,8 @@ all:
 
     # true  = pip install -e (editable, for bare-metal dev — source tree IS the package)
     # false = pip install    (build from source — package goes into site-packages, smaller image)
-    # The Dockerfile passes -e pip_editable=false.  Bare-metal defaults to true.
-    pip_editable: true
+    # The Dockerfile passes -e editable_pip_install=false.  Bare-metal defaults to true.
+    editable_pip_install: true
 
     # Extra arguments forwarded to every pip install call (requirements, geoips,
     # extras, and plugin repos).  The Dockerfile passes '--no-binary :all:' so

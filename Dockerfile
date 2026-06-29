@@ -137,7 +137,7 @@ RUN uv pip install --system --no-cache ${GEOIPS_PACKAGES_DIR}/geoips \
     && ansible-playbook playbooks/install.yml \
        --tags base \
        --skip-tags python_env \
-       -e pip_editable=false \
+       -e editable_pip_install=false \
        -v \
     && chown -R ${USER_ID}:${GROUP_ID} ${GEOIPS_PACKAGES_DIR} /home/${USER}
 
@@ -170,7 +170,7 @@ RUN uv pip install --system --no-cache ${GEOIPS_PACKAGES_DIR}/geoips[doc,test] \
     && ansible-playbook playbooks/install.yml \
        --tags full \
        --skip-tags python_env,cartopy_shapefiles \
-       -e pip_editable=false \
+       -e editable_pip_install=false \
        -v \
     && chown -R ${USER_ID}:${GROUP_ID} ${GEOIPS_PACKAGES_DIR} /home/${USER}
 
@@ -185,18 +185,18 @@ ARG USER=geoips_user
 ARG USER_ID=1000
 ARG GROUP_ID=1000
 ARG GEOIPS_USE_PRIVATE_PLUGINS=false
-ARG PIP_EDITABLE=true
+ARG EDITABLE_PIP_INSTALL=true
 ENV GEOIPS_USE_PRIVATE_PLUGINS=${GEOIPS_USE_PRIVATE_PLUGINS}
 
 USER root
 RUN uv pip install --system --no-cache \
-    $([ "$PIP_EDITABLE" = "true" ] && echo "-e") \
+    $([ "$EDITABLE_PIP_INSTALL" = "true" ] && echo "-e") \
     ${GEOIPS_PACKAGES_DIR}/geoips[doc,test,lint,debug] \
     && cd ${GEOIPS_PACKAGES_DIR}/geoips/tests/ansible \
     && ansible-playbook playbooks/install.yml \
        --tags site \
        --skip-tags python_env,cartopy_shapefiles \
-       -e pip_editable=$PIP_EDITABLE \
+       -e editable_pip_install=$EDITABLE_PIP_INSTALL \
        -v \
     && chown -R ${USER_ID}:${GROUP_ID} ${GEOIPS_PACKAGES_DIR} ${GEOIPS_OUTDIRS} /home/${USER}
 
@@ -237,7 +237,7 @@ RUN uv pip install --system --no-cache -e ${GEOIPS_PACKAGES_DIR}/geoips[doc,test
     && ansible-playbook playbooks/install.yml \
        --tags site \
        --skip-tags registries,python_env,cartopy_shapefiles \
-       -e pip_editable=true \
+       -e editable_pip_install=true \
        -v \
     && chown -R ${USER_ID}:${GROUP_ID} ${GEOIPS_PACKAGES_DIR} /home/${USER}
 

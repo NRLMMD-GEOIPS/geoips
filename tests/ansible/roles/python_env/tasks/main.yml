@@ -1,6 +1,6 @@
 # roles/python_env/tasks/main.yml
 #
-# pip_editable (default true):
+# editable_pip_install (default true):
 #   true  → pip install -e  (bare-metal dev, source tree is the package)
 #   false → pip install     (Docker, package goes into site-packages)
 #
@@ -22,7 +22,7 @@
 - name: Install GeoIPS core
   ansible.builtin.pip:
     name: "{{ geoips_packages_dir }}/geoips"
-    editable: "{{ pip_editable | bool }}"
+    editable: "{{ editable_pip_install | bool }}"
     extra_args: "{{ pip_extra_args }}"
     state: present
   tags: [base, full, site, python_env]
@@ -30,7 +30,7 @@
 - name: Install doc + test extras
   ansible.builtin.pip:
     name: "{{ geoips_packages_dir }}/geoips[doc,test]"
-    editable: "{{ pip_editable | bool }}"
+    editable: "{{ editable_pip_install | bool }}"
     extra_args: "{{ pip_extra_args }}"
     state: present
   tags: [full, site, python_env]
@@ -38,7 +38,7 @@
 - name: Install lint + debug extras
   ansible.builtin.pip:
     name: "{{ geoips_packages_dir }}/geoips[doc,test,lint,debug]"
-    editable: "{{ pip_editable | bool }}"
+    editable: "{{ editable_pip_install | bool }}"
     extra_args: "{{ pip_extra_args }}"
     state: present
   tags: [site, python_env]

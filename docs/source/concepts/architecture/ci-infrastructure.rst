@@ -174,7 +174,7 @@ then hardcoded defaults.  Copy the inventory file to create a custom setup
    * - Variable
      - Default
      - Description
-   * - ``pip_editable``
+   * - ``editable_pip_install``
      - ``true``
      - ``true`` uses ``pip install -e`` (editable — the source tree *is* the package).
        ``false`` builds from source into ``site-packages``, which produces a smaller Docker
@@ -284,7 +284,7 @@ The roles live in ``tests/ansible/roles/`` and each handles one concern.
    - ``full``: adds ``geoips[doc,test]``
    - ``site``: adds ``geoips[lint,debug]``
 
-   Controlled by ``pip_editable`` and ``pip_extra_args``.
+   Controlled by ``editable_pip_install`` and ``pip_extra_args``.
 
 ``cartopy_shapefiles``
    Clones the `natural-earth-vector <https://github.com/nvkelso/natural-earth-vector>`_
@@ -358,13 +358,13 @@ The Dockerfile uses a multi-stage build that maps directly to the Ansible tiers:
    geoips-site – ansible-playbook ... --tags base,full,site
    production  – copy site-packages only, no source, no ansible, no git
 
-**Why ``pip_editable=false`` in Docker?**  The editable install mode makes the source
+**Why ``editable_pip_install=false`` in Docker?**  The editable install mode makes the source
 directory itself the package.  In a container built for deployment this is undesirable —
-the source tree may not be present at runtime.  Building with ``pip_editable=false``
+the source tree may not be present at runtime.  Building with ``editable_pip_install=false``
 installs the package into ``site-packages`` like a normal wheel, and the ``production``
 stage then copies only that directory, producing a minimal image.
 
-The ``dev`` and ``dev-quick`` Docker targets use ``pip_editable=true`` to enable
+The ``dev`` and ``dev-quick`` Docker targets use ``editable_pip_install=true`` to enable
 live source editing through the workspace bind-mount.
 
 **Why ``--no-binary :all:``?**  Pre-built wheels are compiled for a generic architecture.

@@ -169,15 +169,15 @@ testdata-verify:
 
 ansible-base:
 	cd tests/ansible && ansible-playbook playbooks/install.yml --tags base \
-		-e pip_editable=true -v
+		-e editable_pip_install=true -v
 
 ansible-full:
 	cd tests/ansible && ansible-playbook playbooks/install.yml --tags base,full \
-		-e pip_editable=true -v
+		-e editable_pip_install=true -v
 
 ansible-site:
 	cd tests/ansible && ansible-playbook playbooks/install.yml --tags base,full,site \
-		-e pip_editable=true \
+		-e editable_pip_install=true \
 		-e "extra_plugin_packages=$(EXTRA_PLUGINS)" \
 		-e "geoips_use_private_plugins=$(GEOIPS_USE_PRIVATE_PLUGINS)" -v
 
