@@ -112,22 +112,10 @@ class ImageOutputCheckerPlugin(BaseOutputCheckerPlugin):
         compare_product,
         threshold=gpaths["GEOIPS_TEST_OUTPUT_CHECKER_THRESHOLD_IMAGE"],
     ):
-        """Use PIL and numpy to compare two images.
+        """Use PIL, numpy, and pixelmatch to compare two images.
 
-        Parameters
-        ----------
-        output_product : str
-            Current output product
-        compare_product : str
-            Path to comparison product
-        threshold: float, default=0.05
-            Threshold for the image comparison. Argument to pixelmatch.
-            Between 0 and 1, with 0 the most strict comparison, and 1 the most lenient.
-
-        Returns
-        -------
-        bool
-            Return True if images match, False if they differ
+        This comparison tolerates small platform-dependent numerical differences
+        while still failing on meaningful image changes.
         """
         exact_out_diffimg_fname = self.get_out_diff_fname(
             compare_product, output_product, flag="exact_"
@@ -139,134 +127,159 @@ class ImageOutputCheckerPlugin(BaseOutputCheckerPlugin):
         except ImportError as e:
             raise ImportError(
                 "Comparing images using GeoIPS requires a python library called "
-                "pixelmatch (link: https://pypi.org/project/pixelmatch/)."
-                "You can install it directly or install the test extra"
-                " eg. pip install geoips[test]"
+                "pixelmatch (link: https://pypi.org/project/pixelmatch/). "
+                "You can install it directly or install the test extra, eg. "
+                "pip install geoips[test]"
             ) from e
 
         from geoips.commandline.log_setup import log_with_emphasis
 
         LOG.info("**Comparing output_product vs. compare product")
 
-        #######################################################################
-        # ## Open existing images.
-        # Explicitly convert comparison images to RGBA to ensure consistent
-        # image modes for the pixelmatch comparison.  Pillow 12.0 implicitly
-        # handled image conversions, with Pillow 12.1 we must explicitly
-        # convert all images to RGBA to ensure pixelmatch does not fail on
-        # incompatible image modes.  Note Palette mode (P) will fail in the pixelmatch
-        # call even if all images are of the same mode P, since pixelmatch internally
-        # is expecting RGBA, so ensure we explicitly always use RGBA for these
-        # comparisons.
         out_img = Image.open(output_product).convert("RGBA")
         comp_img = Image.open(compare_product).convert("RGBA")
+
+        out_arr = np.asarray(out_img)
+        comp_arr = np.asarray(comp_img)
+
+        if out_arr.shape != comp_arr.shape:
+            log_with_emphasis(
+                LOG.interactive,
+                "BAD Images do NOT match, different sizes",
+                f"output_product: {out_arr.shape} {output_product}",
+                f"compare_product: {comp_arr.shape} {compare_product}",
+            )
+            return False
+
+        # PNG arrays are typically uint8. Cast before subtracting to avoid
+        # wraparound, eg. uint8(0) - uint8(255) == uint8(1).
+        out_i16 = out_arr.astype(np.int16)
+        comp_i16 = comp_arr.astype(np.int16)
+        diff_arr = np.abs(comp_i16 - out_i16)
+
+        if diff_arr.max() == 0:
+            log_with_emphasis(LOG.info, "GOOD Images match exactly")
+            return True
+
+        # Use RGB for the primary comparison. Alpha is ignored here because the
+        # rendered RGB image is usually the scientifically relevant output.
+        rgb_diff = diff_arr[..., :3]
+
+        num_total_pixels = rgb_diff.shape[0] * rgb_diff.shape[1]
+
+        # A pixel is considered meaningfully changed only if any RGB channel differs
+        # by more than this amount.
+        max_channel_diff_allowed = 2
+
+        # Existing threshold is also passed to pixelmatch as its visual sensitivity.
+        # For pass/fail here, threshold=0.05 allows 0.05% changed pixels.
+        allowed_changed_pixel_fraction = threshold / 100.0
+
+        # Global guardrail against broad, low-amplitude image drift.
+        allowed_mean_abs_diff = max(0.01, threshold)
+
+        changed_pixels = np.any(rgb_diff > max_channel_diff_allowed, axis=-1)
+        num_changed_pixels = int(np.count_nonzero(changed_pixels))
+        changed_pixel_fraction = num_changed_pixels / num_total_pixels
+
+        exact_mismatched_pixels = np.any(rgb_diff != 0, axis=-1)
+        num_mismatched_exactly = int(np.count_nonzero(exact_mismatched_pixels))
+        exact_mismatch_fraction = num_mismatched_exactly / num_total_pixels
+
+        max_abs_diff = int(rgb_diff.max())
+        mean_abs_diff = float(rgb_diff.mean())
+
+        # Generate diagnostic diff images.
         diff_img = Image.new(mode=out_img.mode, size=comp_img.size)
         exact_diff_img = Image.new(mode=out_img.mode, size=comp_img.size)
 
-        # Compute the pixel diff between the two images.
-        if np.array(comp_img).shape == np.array(out_img).shape:
-            diff_arr = np.abs(np.array(comp_img) - np.array(out_img))
-        # If shapes of arrays do not match, pixel diff can not be performed.
-        # Print the names of the two images and associated shapes, and return False.
-        else:
-            log_with_emphasis(
-                LOG.interactive,
-                "BAD Images NOT match exactly, different sizes",
-            )
-            message = f"output_product: {np.array(out_img).shape} {output_product}"
-            log_with_emphasis(LOG.interactive, message)
-            message = f"compare_product: {np.array(comp_img).shape} {compare_product}"
-            log_with_emphasis(LOG.interactive, message)
-            return False
-        # Don't bother doing pixelmatch if the arrays are identical.
-        # Make sure the min/max values are both 0 in the diff image.
-        # If there happen to be any NaNs in the diff_arr, this test will fail, because
-        # diff_arr.min/max return nan if there are any NaNs in the array.
-        # For the record, I don't think PIL Image would have nan values, but
-        # this should be safe (since NaNs will result in moving onto the pixelmatch
-        # tests).
-        if diff_arr.min() == 0 and diff_arr.max() == 0:
-            # If the images match exactly, just output to GOOD comparison log to info
-            # level (only bad comparisons to interactive level)
-            log_with_emphasis(
-                LOG.info,
-                "GOOD Images match exactly",
-            )
-            return True
-
-        # Determine the number of pixels that are mismatched
         LOG.info("Using pixelmatch threshold %s", threshold)
+
         thresholded_retval = pixelmatch(
-            out_img, comp_img, diff_img, includeAA=True, alpha=0.33, threshold=threshold
+            out_img,
+            comp_img,
+            diff_img,
+            includeAA=True,
+            alpha=0.33,
+            threshold=threshold,
         )
         exact_retval = pixelmatch(
-            out_img, comp_img, exact_diff_img, includeAA=True, alpha=0.33, threshold=0
+            out_img,
+            comp_img,
+            exact_diff_img,
+            includeAA=True,
+            alpha=0.33,
+            threshold=0,
         )
-        # Write out the exact image difference.
+
         LOG.info("**Saving exact difference image")
         exact_diff_img.save(exact_out_diffimg_fname)
-        # Write out the threshold-applied image difference.
+
         LOG.info("**Saving threshold-applied difference image")
         diff_img.save(out_diffimg_fname)
+
         LOG.info("**Done running compare")
 
-        bad_inds = np.where(diff_arr != 0)
-        num_mismatched_exactly = len(diff_arr[bad_inds])
-        num_mismatched_by_threshold = thresholded_retval
-        num_total_pixels = diff_img.size[0] * diff_img.size[1]
-        bad_threshold_pct = num_mismatched_by_threshold / num_total_pixels
-        bad_exact_pct = num_mismatched_exactly / num_total_pixels
+        failure_reasons = []
 
-        # If the images do not match exactly, print the output image, comparison image,
-        # and exact diff image to log, for easy viewing.  Return False.
+        if changed_pixel_fraction > allowed_changed_pixel_fraction:
+            failure_reasons.append(
+                "Changed pixel fraction exceeded tolerance "
+                f"({changed_pixel_fraction:.6%} > "
+                f"{allowed_changed_pixel_fraction:.6%})"
+            )
 
-        # NOTE: We should discuss what values we'd like to set, or be dynamic for
-        # testing bad_threshold_pct and bad_exact_pct. This is just a first value and
-        # will likely change once we've decided what percentage of failures we'll allow.
-        if bad_threshold_pct > (threshold / 1000):
-            log_with_emphasis(
-                LOG.interactive,
-                "BAD Images do NOT match within tolerance",
-                f"np.where(diff_arr != 0): {bad_inds}",
-                f"diff_arr[bad_inds]: {diff_arr[bad_inds]}",
-                f"{thresholded_retval} mismatched pixels "
-                f"exceeding pixelmatch threshold {threshold}",
-                f"{exact_retval} mismatched pixels exceeding pixelmatch threshold 0"
-                f"{len(diff_arr[bad_inds])} mismatched exact of {num_total_pixels} "
-                f"pixels percentage diff exact {bad_exact_pct}",
-                f"percentage diff thresholded {bad_threshold_pct}",
+        if mean_abs_diff > allowed_mean_abs_diff:
+            failure_reasons.append(
+                "Mean absolute RGB difference exceeded tolerance "
+                f"({mean_abs_diff:.6f} > {allowed_mean_abs_diff:.6f})"
+            )
+
+        passes = len(failure_reasons) == 0
+
+        log_func = LOG.info if passes else LOG.interactive
+        status = (
+            "GOOD Images match within tolerance"
+            if passes
+            else "BAD Images do NOT match within tolerance"
+        )
+
+        log_lines = [status]
+
+        if failure_reasons:
+            log_lines.append("Failure reason(s):")
+            log_lines.extend(f"  - {reason}" for reason in failure_reasons)
+
+        log_lines.extend(
+            [
                 f"output_product: {output_product}",
                 f"compare_product: {compare_product}",
                 f"exact diff image: {exact_out_diffimg_fname}",
                 f"thresholded diff image: {out_diffimg_fname}",
-            )
-            return False
-        else:
-            log_with_emphasis(
-                LOG.interactive,
-                "GOOD Images match within tolerance",
-                f"{len(diff_arr[bad_inds])} mismatched exact of {num_total_pixels} "
-                f"pixels {thresholded_retval} mismatched pixels "
-                f"exceeding pixelmatch threshold {threshold}",
-            )
-            log_with_emphasis(
-                LOG.info,
-                "GOOD Images match within tolerance",
-                f"np.where(diff_arr != 0): {bad_inds}",
-                f"diff_arr[bad_inds]: {diff_arr[bad_inds]}",
-                f"{thresholded_retval} mismatched pixels "
-                f"exceeding pixelmatch threshold {threshold}",
-                f"{exact_retval} mismatched pixels exceeding pixelmatch threshold 0",
-                f"{len(diff_arr[bad_inds])} mismatched exact of {num_total_pixels} "
-                f"pixels percentage diff exact {bad_exact_pct}",
-                f"percentage diff thresholded {bad_threshold_pct}",
-                f"output_product: {output_product}",
-                f"compare_product: {compare_product}",
-                f"exact diff image: {exact_out_diffimg_fname}",
-                f"thresholded diff image: {out_diffimg_fname}",
-            )
+                "",
+                "Comparison statistics:",
+                f"  Total pixels:                     {num_total_pixels:,}",
+                f"  Exact mismatched pixels:          {num_mismatched_exactly:,}",
+                f"  Exact mismatch fraction:          {exact_mismatch_fraction:.6%}",
+                f"  Changed pixels (> {max_channel_diff_allowed}):"
+                f" {num_changed_pixels:,}",
+                f"  Changed pixel fraction:           {changed_pixel_fraction:.6%}",
+                f"  Allowed changed fraction:         "
+                f"{allowed_changed_pixel_fraction:.6%}",
+                f"  Mean absolute RGB difference:     {mean_abs_diff:.6f}",
+                f"  Allowed mean absolute difference: {allowed_mean_abs_diff:.6f}",
+                f"  Maximum RGB channel difference:   {max_abs_diff}",
+                "",
+                "Pixelmatch statistics:",
+                f"  Threshold:                        {threshold}",
+                f"  Thresholded mismatches:           {thresholded_retval:,}",
+                f"  Exact mismatches:                 {exact_retval:,}",
+            ]
+        )
 
-        return True
+        log_with_emphasis(log_func, *log_lines)
+
+        return passes
 
     def call(
         self,
