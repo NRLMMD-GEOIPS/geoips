@@ -51,35 +51,33 @@ def call(area_def, input_xarray, output_xarray, varlist, array_num=None, **kwarg
     vars_to_interp = []
     if array_num is not None:
         if len(input_xarray[varlist[0]].shape) == 2:
+            for varname in varlist:
+                vars_to_interp += [
+                    input_xarray[varname].to_masked_array()[:, array_num]
+                ]
             if len(input_xarray["latitude"].shape) == 2:
                 lons = input_xarray["longitude"].to_masked_array()[:, array_num]
                 lats = input_xarray["latitude"].to_masked_array()[:, array_num]
             else:
                 lons = input_xarray["longitude"].to_masked_array()
                 lats = input_xarray["latitude"].to_masked_array()
+        else:
             for varname in varlist:
                 vars_to_interp += [
-                    input_xarray[varname].to_masked_array()[:, array_num]
+                    input_xarray[varname].to_masked_array()[:, :, array_num]
                 ]
-        else:
             if len(input_xarray["latitude"].shape) == 2:
                 lons = input_xarray["longitude"].to_masked_array()
                 lats = input_xarray["latitude"].to_masked_array()
             else:
                 lons = input_xarray["longitude"].to_masked_array()[:, :, array_num]
                 lats = input_xarray["latitude"].to_masked_array()[:, :, array_num]
-            for varname in varlist:
-                vars_to_interp += [
-                    input_xarray[varname].to_masked_array()[:, :, array_num]
-                ]
-    else:
-        from IPython import embed as shell
 
-        shell()
-        lons = input_xarray["longitude"].to_masked_array()
-        lats = input_xarray["latitude"].to_masked_array()
+    else:
         for varname in varlist:
             vars_to_interp += [input_xarray[varname].to_masked_array()]
+        lons = input_xarray["longitude"].to_masked_array()
+        lats = input_xarray["latitude"].to_masked_array()
 
     # Use standard scifile / pyresample registration
     data_box_definition = get_data_box_definition(input_xarray.source_name, lons, lats)
@@ -102,15 +100,17 @@ def call(area_def, input_xarray, output_xarray, varlist, array_num=None, **kwarg
 
     if output_xarray is None:
         output_xarray = xarray.Dataset()
-    if "latitude" not in output_xarray.variables.keys():
-        interp_lons, interp_lats = area_def.get_lonlats()
-        output_xarray["latitude"] = xarray.DataArray(interp_lats)
-        output_xarray["longitude"] = xarray.DataArray(interp_lons)
+
     copy_standard_metadata(input_xarray, output_xarray, force=False)
     output_xarray.attrs["registered_dataset"] = True
     output_xarray.attrs["area_definition"] = area_def
 
     for ind in range(len(varlist)):
         output_xarray[varlist[ind]] = xarray.DataArray(interp_data[ind])
+
+    if "latitude" not in output_xarray.variables.keys():
+        interp_lons, interp_lats = area_def.get_lonlats()
+        output_xarray["latitude"] = xarray.DataArray(interp_lats)
+        output_xarray["longitude"] = xarray.DataArray(interp_lons)
 
     return output_xarray

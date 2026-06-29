@@ -25,6 +25,7 @@ from typing import Any
 
 import xarray as xr
 
+from geoips.commandline.log_setup import setup_logging
 from geoips.pydantic_models.v1.workflows import (
     DEFAULT_RETENTION,
     SCAFFOLD_KINDS,
@@ -36,7 +37,9 @@ from geoips.utils.types.tokenization import (
     compute_step_output_token,
 )
 
-LOG = logging.getLogger(__name__)
+# LOG = logging.getLogger(__name__)
+
+LOG = setup_logging(logging_level="info")
 
 
 @dataclass(frozen=True, slots=True)

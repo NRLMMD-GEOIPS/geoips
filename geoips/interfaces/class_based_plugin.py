@@ -377,6 +377,62 @@ class BaseClassPlugin(ABC):
 
         return kwargs
 
+    # def _call_algorithm(self, data, kwargs):
+    #     """Call the main interpolator plugin method.
+
+    #     Parameters
+    #     ----------
+    #     data : R, optional
+    #         The output data from the plugin.
+
+    #     Returns
+    #     -------
+    #         The processed data.
+    #     """
+    #     if self.family in [
+    #         "single_channel",
+    #         "channel_combination",
+    #         "list_numpy_to_numpy",
+    #         "rgb",
+    #     ]:
+    #         relevant_data = list(
+    #             set(list(data.variables.keys())).difference(
+    #                 set(["latitude", "longitude"])
+    #             )
+    #         )
+    #         data = self.call()
+    #     else:
+    #         data = self.call(**_collect_interp_kwargs(data))
+
+    #     return data
+
+    def _call_interpolator(self, data, kwargs):
+        """Call the main interpolator plugin method.
+
+        Parameters
+        ----------
+        data : R, optional
+            The output data from the plugin.
+
+        Returns
+        -------
+            The processed data.
+        """
+        if "varlist" in kwargs:
+            # Make sure we add latitude and longitude after the variables
+            # specified. This can mess up the single channel algorithm
+            # if not done properly.
+            min_vars = kwargs["varlist"].copy()
+            min_vars.extend(x for x in ["latitude", "longitude"] if x not in min_vars)
+            data = self.call(
+                varlist=min_vars,
+                **_collect_interp_kwargs(data, collect_varlist=False),
+            )
+        else:
+            data = self.call(**_collect_interp_kwargs(data))
+
+        return data
+
     def _invoke(self, data=None, *args, _obp_initiated=False, **kwargs):
         """Call the main plugin method.
 
@@ -431,13 +487,9 @@ class BaseClassPlugin(ABC):
                 result = data
             else:
                 if self.interface == "interpolators":
-                    if "varlist" in kwargs:
-                        data = self.call(
-                            varlist=kwargs["varlist"],
-                            **_collect_interp_kwargs(data, collect_varlist=False),
-                        )
-                    else:
-                        data = self.call(**_collect_interp_kwargs(data))
+                    data = self._call_interpolator(data, kwargs)
+                # elif self.interface == "algorithms":
+                #     data = self._call_algorithm(data, kwargs)
                 else:
                     data = self.call(data, *args, **new_kwargs)
                 data = self._post_call(
@@ -609,21 +661,5 @@ def _collect_interp_kwargs(data, collect_varlist=True):
         # if the user defined this in the interpolator step arguments, then remove this
         # key, value pair
         interp_kwargs.pop("varlist")
-    else:
-        # otherwise, if auto collection of variables has been set, we default to
-        # removing geolocated variables unless specifically set in the varlist
-        # argument of an interpolator step.
-        interp_kwargs["varlist"] = set(interp_kwargs["varlist"]).difference(
-            set(
-                [
-                    "latitude",
-                    "longitude",
-                    "satellite_zenith_angle",
-                    "solar_zenith_angle",
-                    "satellite_azimuth_angle",
-                    "solar_azimuth_angle",
-                ],
-            ),
-        )
 
     return interp_kwargs
