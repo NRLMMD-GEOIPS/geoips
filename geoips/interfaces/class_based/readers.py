@@ -159,6 +159,12 @@ class ReadersInterface(BaseClassInterface):
         # channels.
         self.unique_stimes = list(set(self.start_times).difference(set([None])))
         self.unique_etimes = list(set(self.end_times).difference(set([None])))
+        if not self.unique_stimes:
+            raise NoValidFilesError(
+                f"No valid files found out of {len(fnames)} provided. "
+                f"Requested channels: {chans}. "
+                "Ensure files and channels match the reader's expectations."
+            )
         # Set these values to this class so they can be used downstream for reading
         # data from the correct time steps
         metadata_by_scan_time = []

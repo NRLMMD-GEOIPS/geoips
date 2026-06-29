@@ -5,14 +5,19 @@
 
 from geoips.interfaces.class_based_plugin import BaseClassPlugin
 from geoips.interfaces.base import BaseClassInterface
+from geoips.utils.types.family_conversions import OUTPUT_FORMATTER_FAMILY_CONVERSIONS
 
 
 class BaseOutputFormatterPlugin(BaseClassPlugin, abstract=True):
-    """Base class for GeoIPS output_formatter plugins."""
+    """Base class for GeoIPS output_formatter plugins.
+
+    Plugins with ``data_tree=False`` have their inputs / outputs
+    automatically converted according to the family-specific rules
+    defined in ``OUTPUT_FORMATTER_FAMILY_CONVERSIONS``.
+    """
 
     data_tree = False
-
-    pass
+    _family_conversion_map = OUTPUT_FORMATTER_FAMILY_CONVERSIONS
 
 
 class OutputFormattersInterface(BaseClassInterface):
