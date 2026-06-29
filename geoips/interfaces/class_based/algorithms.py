@@ -54,7 +54,6 @@ class BaseAlgorithmPlugin(BaseClassPlugin, abstract=True):
         """
         if _obp_initiated and isinstance(data, xr.DataTree):
             children = list(data.children.values())
-            # import pdb; pdb.set_trace()
             if len(children) == 1:
                 data = children[0].to_dataset()
             elif len(children) > 1:

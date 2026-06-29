@@ -309,7 +309,6 @@ class BaseClassPlugin(ABC):
         if not isinstance(data, xr.DataTree):
             return kwargs
 
-        # import pdb; pdb.set_trace()
         children = dict(data.children)
         if not children:
             return kwargs
