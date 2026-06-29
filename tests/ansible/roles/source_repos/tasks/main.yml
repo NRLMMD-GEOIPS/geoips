@@ -30,32 +30,6 @@
   when: geoips_modified_branch | default('') | length > 0
   tags: [site]
 
-- name: DEBUG pip variables
-  ansible.builtin.debug:
-    msg: |
-      ************************************************************
-      ******************* PIP DEBUG *******************************
-      ************************************************************
-      pip_editable = {{ pip_editable | to_json }}
-      pip_editable (type) = {{ pip_editable | type_debug }}
-      pip_extra_args = {{ pip_extra_args | default('<undefined>') | to_json }}
-      pip_extra_args (type) = {{ (pip_extra_args | default(None)) | type_debug }}
-      ************************************************************
-  tags: [site]
-
-- name: DEBUG pip environment
-  ansible.builtin.command: env
-  register: env_output
-  tags: [site]
-
-- name: SHOW pip environment
-  ansible.builtin.debug:
-    msg: |
-      ************************************************************
-      {{ env_output.stdout_lines | select('match', '^PIP_') | list }}
-      ************************************************************
-  tags: [site]
-
 - name: "Pip install standard plugin repos"
   ansible.builtin.pip:
     name: "{{ geoips_packages_dir }}/{{ repo_name }}"
