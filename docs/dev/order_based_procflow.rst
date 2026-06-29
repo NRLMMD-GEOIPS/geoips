@@ -27,7 +27,7 @@ OBP offers the following key advantages over other procflows:
 * **Comprehensive Error Control:** Uses Pydantic validation for robust error
   and input checking.
 * **Scalable Architecture:** Accommodates additional steps and enables more
-  complex product processing workflows .
+  complex product processing workflows.
 
 The OBP is a sequence of user-defined plugin operations. The top-level plugins
 required as steps in the OBP are readers, algorithms, interpolators, and
@@ -174,15 +174,6 @@ Output Formatter step in the code block below includes two additional plugins,
         apply_interpolator:
           kind: interpolator
           name: interp_nearest
-        output_checker_1:
-          kind: output_checker
-          name: image
-          arguments:
-            checker_name: image
-            compare_path: "path/to/comparison/file.png"
-            output_products: [
-              "path/to/output/product.png",
-            ]
         apply_imagery_annotated_output_formatter:
           kind: output_formatter
           name: imagery_annotated
@@ -197,6 +188,15 @@ Output Formatter step in the code block below includes two additional plugins,
                 name: geoips_fname
                 arguments:
                   suffix: ".png"
+        output_checker_1:
+          kind: output_checker
+          name: image
+          arguments:
+            checker_name: image
+            compare_path: "path/to/comparison/file.png"
+            output_products: [
+              "path/to/output/product.png",
+            ]
 
 The code block above demonstrates a valid example of a product definition for
 an Order-Based Procflow.
