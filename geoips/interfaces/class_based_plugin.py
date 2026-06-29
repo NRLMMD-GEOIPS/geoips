@@ -377,35 +377,6 @@ class BaseClassPlugin(ABC):
 
         return kwargs
 
-    # def _call_algorithm(self, data, kwargs):
-    #     """Call the main interpolator plugin method.
-
-    #     Parameters
-    #     ----------
-    #     data : R, optional
-    #         The output data from the plugin.
-
-    #     Returns
-    #     -------
-    #         The processed data.
-    #     """
-    #     if self.family in [
-    #         "single_channel",
-    #         "channel_combination",
-    #         "list_numpy_to_numpy",
-    #         "rgb",
-    #     ]:
-    #         relevant_data = list(
-    #             set(list(data.variables.keys())).difference(
-    #                 set(["latitude", "longitude"])
-    #             )
-    #         )
-    #         data = self.call()
-    #     else:
-    #         data = self.call(**_collect_interp_kwargs(data))
-
-    #     return data
-
     def _call_interpolator(self, data, kwargs):
         """Call the main interpolator plugin method.
 
@@ -488,8 +459,6 @@ class BaseClassPlugin(ABC):
             else:
                 if self.interface == "interpolators":
                     data = self._call_interpolator(data, kwargs)
-                # elif self.interface == "algorithms":
-                #     data = self._call_algorithm(data, kwargs)
                 else:
                     data = self.call(data, *args, **new_kwargs)
                 data = self._post_call(

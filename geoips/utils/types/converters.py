@@ -241,7 +241,12 @@ def dataset_vars_to_list(dataset: xr.Dataset, **kwargs: Any) -> list[np.ndarray]
     list[np.ndarray]
         One array per data variable, in insertion order.
     """
-    return [dataset[var].values for var in dataset.data_vars]
+    list_arrays = []
+    for var in dataset.data_vars:
+        if var not in ["latitude", "longitude"]:
+            list_arrays.append(dataset[var].values)
+
+    return list_arrays
 
 
 def list_numpy_to_dataset(
