@@ -114,8 +114,9 @@ class ImageOutputCheckerPlugin(BaseOutputCheckerPlugin):
     ):
         """Use PIL, numpy, and pixelmatch to compare two images.
 
-        The pass/fail decision is based primarily on pixelmatch, with improved
-        diagnostics and a corrected numpy diff calculation for logging.
+        Exact matches pass immediately. Non-exact matches always log comparison
+        statistics, but only fail if the pixelmatch thresholded mismatch fraction
+        exceeds the configured tolerance.
         """
         exact_out_diffimg_fname = self.get_out_diff_fname(
             compare_product, output_product, flag="exact_"
@@ -230,7 +231,7 @@ class ImageOutputCheckerPlugin(BaseOutputCheckerPlugin):
 
         log_func = LOG.info if passes else LOG.interactive
         status = (
-            "GOOD Images match within tolerance"
+            "GOOD Images differ but are within tolerance"
             if passes
             else "BAD Images do NOT match within tolerance"
         )
