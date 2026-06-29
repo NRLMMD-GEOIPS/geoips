@@ -1,7 +1,7 @@
 apiVersion: geoips/v1
 interface: workflows
 family: order_based
-name: full_run
+name: Infrared
 docstring: |
   11.2 µm Infrared.
 
@@ -35,10 +35,15 @@ spec:
       name: abi_netcdf
       arguments:
         chans: ['B14BT']
+    sector:
+      kind: sector
+      name: goes_east
+      depends_on: []
+      arguments: {}
     interpolator:
       kind: interpolator
       name: interp_nearest
-      depends_on: [reader]
+      depends_on: [reader, sector]
       arguments:
         varlist: ['B14BT']
     algorithm:
@@ -67,11 +72,6 @@ spec:
     features:
       kind: feature_annotator
       name: default
-      depends_on: []
-      arguments: {}
-    sector:
-      kind: sector
-      name: goes_east
       depends_on: []
       arguments: {}
     output_formatter:

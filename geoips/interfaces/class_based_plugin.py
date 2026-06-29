@@ -450,15 +450,26 @@ class BaseClassPlugin(ABC):
                 and len(dict(data.children)) > 1
                 and not data.ds.attrs.get("_ditto_original_type")
             ):
-                new_args = _kwarg_to_positional(new_kwargs, self.call)
-                result = self.call(*new_args, **new_kwargs)
+                # Hacky, but works
+                if self.interface == "interpolators":
+                    interp_kwargs = _collect_interp_kwargs(
+                        data[data.groups[1]].to_dataset()
+                    )
+                    if new_kwargs.get("area_def"):
+                        interp_kwargs["area_def"] = new_kwargs["area_def"]
+                    if new_kwargs.get("varlist"):
+                        interp_kwargs["varlist"] = new_kwargs["varlist"]
+                    result = self.call(**interp_kwargs)
+                else:
+                    new_args = _kwarg_to_positional(new_kwargs, self.call)
+                    result = self.call(*new_args, **new_kwargs)
                 data = self._post_call(
                     result, *args, _obp_initiated=_obp_initiated, **new_kwargs
                 )
                 result = data
             else:
                 if self.interface == "interpolators":
-                    data = self._call_interpolator(data, kwargs)
+                    data = self._call_interpolator(data, new_kwargs)
                 else:
                     data = self.call(data, *args, **new_kwargs)
                 data = self._post_call(
@@ -621,8 +632,6 @@ def _collect_interp_kwargs(data, collect_varlist=True):
         "area_def": interfaces.sectors.get_plugin("goes_east").area_definition,
         "input_xarray": data,
         "output_xarray": xr.Dataset(),
-        # don't need to interpolate lats and lons, those are provided by the area
-        # definition
         "varlist": list(data.variables.keys()),
     }
 
