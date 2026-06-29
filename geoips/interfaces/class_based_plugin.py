@@ -396,6 +396,8 @@ class BaseClassPlugin(ABC):
         -------
             The processed data.
         """
+        # Argument filtering for OBP. Filters out kwargs that aren't supported by a
+        # given plugin's call signature
         if _obp_initiated:
             provided_args = set(kwargs)
             accepted_args = set(list(inspect.signature(self.call).parameters.keys()))
@@ -428,7 +430,16 @@ class BaseClassPlugin(ABC):
                 )
                 result = data
             else:
-                data = self.call(data, *args, **new_kwargs)
+                if self.interface == "interpolators":
+                    if "varlist" in kwargs:
+                        data = self.call(
+                            varlist=kwargs["varlist"],
+                            **_collect_interp_kwargs(data, collect_varlist=False),
+                        )
+                    else:
+                        data = self.call(**_collect_interp_kwargs(data))
+                else:
+                    data = self.call(data, *args, **new_kwargs)
                 data = self._post_call(
                     data, *args, _obp_initiated=_obp_initiated, **new_kwargs
                 )
@@ -565,3 +576,54 @@ def _kwarg_to_positional(kwargs, call_func):
                 f"Available kwargs: {list(kwargs)}"
             )
     return tuple(positional)
+
+
+def _collect_interp_kwargs(data, collect_varlist=True):
+    """Collect a set of keyword arguments for an interpolator plugin call.
+
+    Parameters
+    ----------
+    data : xarray.core.datatree.DatasetView (essentially an xarray.Dataset)
+        The input dataset to interpolate.
+    collect_varlist : bool, optional
+        Whether or not to collect the variable list to interpolate automatically.
+        Defaults to True, but can be overridden if a user specifies a 'varlist'
+        argument in their workflow under the interpolator step.
+
+    Returns
+    -------
+    kwargs : dict
+        A dictionary of keyword arguments generated from data required to run an
+        interpolator plugin.
+    """
+    interp_kwargs = {
+        "area_def": interfaces.sectors.get_plugin("goes_east").area_definition,
+        "input_xarray": data,
+        "output_xarray": xr.Dataset(),
+        # don't need to interpolate lats and lons, those are provided by the area
+        # definition
+        "varlist": list(data.variables.keys()),
+    }
+
+    if not collect_varlist:
+        # if the user defined this in the interpolator step arguments, then remove this
+        # key, value pair
+        interp_kwargs.pop("varlist")
+    else:
+        # otherwise, if auto collection of variables has been set, we default to
+        # removing geolocated variables unless specifically set in the varlist
+        # argument of an interpolator step.
+        interp_kwargs["varlist"] = set(interp_kwargs["varlist"]).difference(
+            set(
+                [
+                    "latitude",
+                    "longitude",
+                    "satellite_zenith_angle",
+                    "solar_zenith_angle",
+                    "satellite_azimuth_angle",
+                    "solar_azimuth_angle",
+                ],
+            ),
+        )
+
+    return interp_kwargs

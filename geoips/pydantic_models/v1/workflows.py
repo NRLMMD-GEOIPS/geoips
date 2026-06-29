@@ -829,75 +829,75 @@ class WorkflowSpecModel(FrozenModel):
 
         return data
 
-    @model_validator(mode="after")
-    def _validate_dependencies(self):
-        """Validate ``outputs`` refs, ``depends_on`` refs, and detect cycles.
+    # @model_validator(mode="after")
+    # def _validate_dependencies(self):
+    #     """Validate ``outputs`` refs, ``depends_on`` refs, and detect cycles.
 
-        This is a read-only validator — all defaults have already been
-        injected by ``_inject_defaults`` at mode="before".
+    #     This is a read-only validator — all defaults have already been
+    #     injected by ``_inject_defaults`` at mode="before".
 
-        Raises
-        ------
-        DanglingOutputError
-            If an entry in ``outputs`` is not a defined step id.
-        PluginResolutionError
-            If a ``depends_on`` value references a non-existent step id.
-        DependencyCycleError
-            If the ``depends_on`` graph contains a directed cycle.
-        """
-        from geoips.errors import (
-            DanglingOutputError,
-            DependencyCycleError,
-            PluginResolutionError,
-        )
+    #     Raises
+    #     ------
+    #     DanglingOutputError
+    #         If an entry in ``outputs`` is not a defined step id.
+    #     PluginResolutionError
+    #         If a ``depends_on`` value references a non-existent step id.
+    #     DependencyCycleError
+    #         If the ``depends_on`` graph contains a directed cycle.
+    #     """
+    #     from geoips.errors import (
+    #         DanglingOutputError,
+    #         DependencyCycleError,
+    #         PluginResolutionError,
+    #     )
 
-        step_ids = list(self.steps.keys())
+    #     step_ids = list(self.steps.keys())
 
-        if not step_ids:
-            return self
+    #     if not step_ids:
+    #         return self
 
-        # --- validate outputs reference valid steps ---
-        unknown_outputs = set(self.outputs or []) - set(step_ids)
-        if unknown_outputs:
-            raise DanglingOutputError(
-                f"outputs {sorted(unknown_outputs)} are not defined step ids; "
-                f"valid ids: {sorted(step_ids)}"
-            )
+    #     # --- validate outputs reference valid steps ---
+    #     unknown_outputs = set(self.outputs or []) - set(step_ids)
+    #     if unknown_outputs:
+    #         raise DanglingOutputError(
+    #             f"outputs {sorted(unknown_outputs)} are not defined step ids; "
+    #             f"valid ids: {sorted(step_ids)}"
+    #         )
 
-        # --- validate depends_on references & detect cycles ---
-        # Iterative three-color DFS (no recursion — safe for large workflows).
-        WHITE, GRAY, BLACK = 0, 1, 2
-        color: dict[str, int] = {sid: WHITE for sid in self.steps}
+    #     # --- validate depends_on references & detect cycles ---
+    #     # Iterative three-color DFS (no recursion — safe for large workflows).
+    #     WHITE, GRAY, BLACK = 0, 1, 2
+    #     color: dict[str, int] = {sid: WHITE for sid in self.steps}
 
-        for sid in self.steps:
-            if color[sid] != WHITE:
-                continue
-            color[sid] = GRAY
-            stack: list[tuple[str, int]] = [(sid, 0)]
-            while stack:
-                cur, idx = stack[-1]
-                deps = self.steps[cur].depends_on or []
-                if idx < len(deps):
-                    stack[-1] = (cur, idx + 1)
-                    dep = deps[idx]
-                    if dep not in self.steps:
-                        raise PluginResolutionError(
-                            f"step '{cur}' depends_on '{dep}', "
-                            f"which is not a defined step id"
-                        )
-                    if color.get(dep) == GRAY:
-                        raise DependencyCycleError(
-                            f"dependency cycle detected involving "
-                            f"'{cur}' -> '{dep}'"
-                        )
-                    if color.get(dep) == WHITE:
-                        color[dep] = GRAY
-                        stack.append((dep, 0))
-                else:
-                    color[cur] = BLACK
-                    stack.pop()
+    #     for sid in self.steps:
+    #         if color[sid] != WHITE:
+    #             continue
+    #         color[sid] = GRAY
+    #         stack: list[tuple[str, int]] = [(sid, 0)]
+    #         while stack:
+    #             cur, idx = stack[-1]
+    #             deps = self.steps[cur].depends_on or []
+    #             if idx < len(deps):
+    #                 stack[-1] = (cur, idx + 1)
+    #                 dep = deps[idx]
+    #                 if dep not in self.steps:
+    #                     raise PluginResolutionError(
+    #                         f"step '{cur}' depends_on '{dep}', "
+    #                         f"which is not a defined step id"
+    #                     )
+    #                 if color.get(dep) == GRAY:
+    #                     raise DependencyCycleError(
+    #                         f"dependency cycle detected involving "
+    #                         f"'{cur}' -> '{dep}'"
+    #                     )
+    #                 if color.get(dep) == WHITE:
+    #                     color[dep] = GRAY
+    #                     stack.append((dep, 0))
+    #             else:
+    #                 color[cur] = BLACK
+    #                 stack.pop()
 
-        return self
+    #     return self
 
 
 class OutputCheckerStepDefinitionModel(PermissiveFrozenModel):

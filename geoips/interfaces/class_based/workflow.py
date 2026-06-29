@@ -160,14 +160,21 @@ class Workflow:
 
         queue = deque(sid for sid in step_ids if indegree[sid] == 0)
         order: list[str] = []
-        while queue:
-            sid = queue.popleft()
-            order.append(sid)
-            for other_sid, other_step in self._spec.steps.items():
-                if sid in (other_step.depends_on or ()):
-                    indegree[other_sid] -= 1
-                    if indegree[other_sid] == 0:
-                        queue.append(other_sid)
+
+        if not queue:
+            # If every step has a dependency, just go in the order of the specified
+            # keys. This can occur for 'generated' / 'embedded' workflows which
+            # reference a step outside the scope of the provided workflow spec
+            order = step_ids
+        else:
+            while queue:
+                sid = queue.popleft()
+                order.append(sid)
+                for other_sid, other_step in self._spec.steps.items():
+                    if sid in (other_step.depends_on or ()):
+                        indegree[other_sid] -= 1
+                        if indegree[other_sid] == 0:
+                            queue.append(other_sid)
 
         return order
 
@@ -354,12 +361,31 @@ class Workflow:
 
             plg = self._resolve_plugin(step_def.kind, step_def.name)
 
+            print(f"RUNNING {step_def.name}...")
+
             if plg == GENERATED_WORKFLOW:
                 wf_spec = WorkflowSpecModel.model_validate(step_def.spec)
                 wf_name = sid
+
+                if step_def.depends_on:
+                    wf_spec = wf_spec.model_dump()
+                    first_key = list(wf_spec["steps"].keys())[0]
+                    wf_spec["steps"][first_key]["depends_on"] = step_def.depends_on
+                    wf_spec = WorkflowSpecModel(**wf_spec)
+
                 workflow = Workflow(wf_spec, workflow_name=wf_name)
-                step_result = workflow.call(fnames=fnames, **kwargs)
-            if not (step_def.depends_on or []):
+
+                if step_def.depends_on:
+                    upstream = self._collect_upstream_data(
+                        tree, step_def.depends_on or []
+                    )
+                else:
+                    upstream = None
+
+                step_result = workflow.call(
+                    workflow_tree=upstream, fnames=fnames, **kwargs
+                )
+            elif not (step_def.depends_on or []):
                 if step_def.kind == "reader":
                     step_result = plg(
                         fnames=fnames, _obp_initiated=True, **(step_def.arguments or {})

@@ -35,10 +35,16 @@ spec:
       name: abi_netcdf
       arguments:
         chans: ['B14BT']
+    interpolator:
+      kind: interpolator
+      name: interp_nearest
+      depends_on: [reader]
+      arguments:
+        varlist: ['B14BT']
     algorithm:
       kind: algorithm
       name: single_channel
-      depends_on: [reader]
+      depends_on: [interpolator]
       arguments:
         output_data_range: [-90.0, 30.0]
         input_units: Kelvin

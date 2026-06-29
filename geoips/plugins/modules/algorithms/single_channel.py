@@ -9,6 +9,8 @@ to apply corrections to a single channel output product.
 
 import logging
 
+import numpy as np
+
 LOG = logging.getLogger(__name__)
 
 KtoC_conversion = -273.15
@@ -126,6 +128,12 @@ def call(
         in units "output_units".
     """
     data = arrays[0]
+    from IPython import embed as shell
+
+    print("FIRST")
+
+    shell()
+
     if output_data_range is None:
         output_data_range = [data.min(), data.max()]
 
@@ -141,6 +149,8 @@ def call(
         data = mask_night(data, sun_zenith, max_day_zen)
         LOG.info("Percent unmasked day only %s", percent_unmasked(data))
 
+    print(2)
+    shell()
     # Mask everything less than min_night_zen
     # day zenith angles are less than 90
     # night zenith angles are greater than 90
@@ -152,6 +162,9 @@ def call(
         LOG.info("Percent unmasked day/night %s", percent_unmasked(data))
         data = mask_day(data, sun_zenith, min_night_zen)
         LOG.info("Percent unmasked night only %s", percent_unmasked(data))
+
+    print(3)
+    shell()
 
     if satellite_zenith_angle_cutoff is not None and len(arrays) >= 2:
         from geoips.data_manipulations.info import percent_unmasked
@@ -165,11 +178,17 @@ def call(
             "Percent unmasked after zenith angle cutoff %s", percent_unmasked(data)
         )
 
+    print(4)
+    shell()
+
     if sun_zen_correction and len(arrays) >= 2:
         sun_zenith = arrays[1]
         from geoips.data_manipulations.corrections import apply_solar_zenith_correction
 
         data = apply_solar_zenith_correction(data, sun_zenith)
+
+    print(5)
+    shell()
 
     if gamma_list is not None:
         from geoips.data_manipulations.corrections import apply_gamma
@@ -177,14 +196,23 @@ def call(
         for gamma in gamma_list:
             data = apply_gamma(data, gamma)
 
+    print(6)
+    shell()
+
     if scale_factor is not None:
         from geoips.data_manipulations.corrections import apply_scale_factor
 
         data = apply_scale_factor(data, scale_factor)
 
+    print(7)
+    shell()
+
     from geoips.data_manipulations.conversions import unit_conversion
 
     data = unit_conversion(data, input_units, output_units)
+
+    print(8)
+    shell()
 
     from geoips.data_manipulations.corrections import apply_data_range
 
@@ -197,5 +225,8 @@ def call(
         norm=norm,
         inverse=inverse,
     )
+
+    print("LAST")
+    shell()
 
     return data

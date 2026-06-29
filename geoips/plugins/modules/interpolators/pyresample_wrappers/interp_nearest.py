@@ -73,6 +73,9 @@ def call(area_def, input_xarray, output_xarray, varlist, array_num=None, **kwarg
                     input_xarray[varname].to_masked_array()[:, :, array_num]
                 ]
     else:
+        from IPython import embed as shell
+
+        shell()
         lons = input_xarray["longitude"].to_masked_array()
         lats = input_xarray["latitude"].to_masked_array()
         for varname in varlist:
