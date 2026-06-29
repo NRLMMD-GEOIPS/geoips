@@ -510,9 +510,9 @@ class WorkflowStepDefinitionModel(FrozenModel):
             return model
 
         valid_plugin_names = get_plugin_names(plugin_kind)
-        # output checker has default plugin in some cases
-        # the workflow YAML would use plugin_provided as plugin name
-        if plugin_name != PLUGIN_PROVIDED and plugin_name not in valid_plugin_names:
+        # In SSP, output checker plugin resolves the required plugin on its own.
+        # This shuold be made explicit in OBP.
+        if plugin_name not in valid_plugin_names:
             raise ValueError(
                 f"Invalid plugin name '{plugin_name}'."
                 f"Must be one of {sorted(valid_plugin_names)}"
