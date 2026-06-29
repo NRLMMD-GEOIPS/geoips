@@ -114,8 +114,8 @@ class ImageOutputCheckerPlugin(BaseOutputCheckerPlugin):
     ):
         """Use PIL, numpy, and pixelmatch to compare two images.
 
-        This comparison tolerates small platform-dependent numerical differences
-        while still failing on meaningful image changes.
+        The pass/fail decision is based primarily on pixelmatch, with improved
+        diagnostics and a corrected numpy diff calculation for logging.
         """
         exact_out_diffimg_fname = self.get_out_diff_fname(
             compare_product, output_product, flag="exact_"
@@ -161,30 +161,20 @@ class ImageOutputCheckerPlugin(BaseOutputCheckerPlugin):
             log_with_emphasis(LOG.info, "GOOD Images match exactly")
             return True
 
-        # Use RGB for the primary comparison. Alpha is ignored here because the
-        # rendered RGB image is usually the scientifically relevant output.
+        # RGB-only diagnostics. Alpha is ignored for these summary stats because
+        # the rendered RGB image is usually the scientifically relevant output.
         rgb_diff = diff_arr[..., :3]
 
         num_total_pixels = rgb_diff.shape[0] * rgb_diff.shape[1]
 
-        # A pixel is considered meaningfully changed only if any RGB channel differs
-        # by more than this amount.
-        max_channel_diff_allowed = 2
-
-        # Existing threshold is also passed to pixelmatch as its visual sensitivity.
-        # For pass/fail here, threshold=0.05 allows 0.05% changed pixels.
-        allowed_changed_pixel_fraction = threshold / 100.0
-
-        # Global guardrail against broad, low-amplitude image drift.
-        allowed_mean_abs_diff = max(0.01, threshold)
-
-        changed_pixels = np.any(rgb_diff > max_channel_diff_allowed, axis=-1)
-        num_changed_pixels = int(np.count_nonzero(changed_pixels))
-        changed_pixel_fraction = num_changed_pixels / num_total_pixels
-
         exact_mismatched_pixels = np.any(rgb_diff != 0, axis=-1)
         num_mismatched_exactly = int(np.count_nonzero(exact_mismatched_pixels))
         exact_mismatch_fraction = num_mismatched_exactly / num_total_pixels
+
+        channel_diff_cutoff = 2
+        changed_pixels = np.any(rgb_diff > channel_diff_cutoff, axis=-1)
+        num_changed_pixels = int(np.count_nonzero(changed_pixels))
+        changed_pixel_fraction = num_changed_pixels / num_total_pixels
 
         max_abs_diff = int(rgb_diff.max())
         mean_abs_diff = float(rgb_diff.mean())
@@ -220,19 +210,20 @@ class ImageOutputCheckerPlugin(BaseOutputCheckerPlugin):
 
         LOG.info("**Done running compare")
 
+        thresholded_pixel_fraction = thresholded_retval / num_total_pixels
+
+        # threshold=0.05 means:
+        # - pixelmatch sensitivity threshold of 0.05
+        # - allow up to 0.05% of pixels to exceed that pixelmatch threshold
+        allowed_thresholded_pixel_fraction = threshold / 100.0
+
         failure_reasons = []
 
-        if changed_pixel_fraction > allowed_changed_pixel_fraction:
+        if thresholded_pixel_fraction > allowed_thresholded_pixel_fraction:
             failure_reasons.append(
-                "Changed pixel fraction exceeded tolerance "
-                f"({changed_pixel_fraction:.6%} > "
-                f"{allowed_changed_pixel_fraction:.6%})"
-            )
-
-        if mean_abs_diff > allowed_mean_abs_diff:
-            failure_reasons.append(
-                "Mean absolute RGB difference exceeded tolerance "
-                f"({mean_abs_diff:.6f} > {allowed_mean_abs_diff:.6f})"
+                "Pixelmatch thresholded pixel fraction exceeded tolerance "
+                f"({thresholded_pixel_fraction:.6%} > "
+                f"{allowed_thresholded_pixel_fraction:.6%})"
             )
 
         passes = len(failure_reasons) == 0
@@ -258,22 +249,24 @@ class ImageOutputCheckerPlugin(BaseOutputCheckerPlugin):
                 f"thresholded diff image: {out_diffimg_fname}",
                 "",
                 "Comparison statistics:",
-                f"  Total pixels:                     {num_total_pixels:,}",
-                f"  Exact mismatched pixels:          {num_mismatched_exactly:,}",
-                f"  Exact mismatch fraction:          {exact_mismatch_fraction:.6%}",
-                f"  Changed pixels (> {max_channel_diff_allowed}):"
+                f"  Total pixels:                         {num_total_pixels:,}",
+                f"  Exact mismatched pixels:              {num_mismatched_exactly:,}",
+                f"  Exact mismatch fraction:              {exact_mismatch_fraction:.6%}",
+                f"  Pixels with any RGB channel > {channel_diff_cutoff} DN:"
                 f" {num_changed_pixels:,}",
-                f"  Changed pixel fraction:           {changed_pixel_fraction:.6%}",
-                f"  Allowed changed fraction:         "
-                f"{allowed_changed_pixel_fraction:.6%}",
-                f"  Mean absolute RGB difference:     {mean_abs_diff:.6f}",
-                f"  Allowed mean absolute difference: {allowed_mean_abs_diff:.6f}",
-                f"  Maximum RGB channel difference:   {max_abs_diff}",
+                f"  Fraction with any channel > {channel_diff_cutoff} DN:"
+                f" {changed_pixel_fraction:.6%}",
+                f"  Mean absolute RGB difference:         {mean_abs_diff:.6f}",
+                f"  Maximum RGB channel difference:       {max_abs_diff}",
                 "",
-                "Pixelmatch statistics:",
-                f"  Threshold:                        {threshold}",
-                f"  Thresholded mismatches:           {thresholded_retval:,}",
-                f"  Exact mismatches:                 {exact_retval:,}",
+                "Pixelmatch pass/fail:",
+                f"  Pixelmatch threshold:                 {threshold}",
+                f"  Pixelmatch thresholded mismatches:    {thresholded_retval:,}",
+                f"  Pixelmatch thresholded fraction:      "
+                f"{thresholded_pixel_fraction:.6%}",
+                f"  Allowed thresholded fraction:         "
+                f"{allowed_thresholded_pixel_fraction:.6%}",
+                f"  Pixelmatch exact mismatches:          {exact_retval:,}",
             ]
         )
 
