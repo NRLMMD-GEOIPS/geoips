@@ -28,17 +28,11 @@ LOG = logging.getLogger(__name__)
 # kind → downstream kwarg name mapping
 # ---------------------------------------------------------------------------
 
-_KIND_TO_KWARG: dict[str, str] = {
-    "algorithm": "xarray_obj",
-    "colormapper": "mpl_colors_info",
-    "feature_annotator": "feature_annotator",
-    "filename_formatter": "output_fnames",
-    "gridline_annotator": "gridline_annotator",
-    "product": "product_name",
-    "product_default": "product_default_info",
-    "reader": "xarray_obj",
-    "sector": "area_def",
-}
+
+def _kind_to_kwarg():
+    """Return {plugin_kind: kwarg_name} from the shared OBP conduits registry."""
+    from geoips.interfaces.class_based_plugin import _OBP_CONDUITS
+    return {k: v["kwarg"] for k, v in _OBP_CONDUITS.items()}
 
 
 class YamlPluginCallable:
@@ -68,6 +62,11 @@ class YamlPluginCallable:
         self.family: str = yaml_plugin.get("family", "")
         self.name: str = yaml_plugin.get("name", "yaml_callable")
         self.data_tree: bool = True
+
+    @property
+    def spec(self) -> dict[str, Any]:
+        """The ``spec`` section of the wrapped YAML plugin dict."""
+        return dict(self._yaml.get("spec", {}))
 
     # ------------------------------------------------------------------
     # callable protocol
@@ -117,7 +116,7 @@ class YamlPluginCallable:
         ds = xr.Dataset(attrs={
             "spec": spec,
             "plugin_kind": kind,
-            "output_key": _KIND_TO_KWARG.get(kind, kind),
+            "output_key": _kind_to_kwarg().get(kind, kind),
         })
         dt = DataTreeDitto(ds, name=self.name)
         return dt
