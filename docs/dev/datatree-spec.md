@@ -44,7 +44,7 @@ The words **MUST**, **MUST NOT**, **SHOULD**, **SHOULD NOT**, **MAY**, and **REQ
 | **Workflow (spec)**               | A YAML document defining steps in dependency order. Validated by `WorkflowPluginModel`. Registered under the `workflows` interface.                              |
 | **Workflow (runtime)**            | An instance of the `Workflow(Plugin)` class — a Composite-pattern Plugin that IS a Step and HAS child Plugin instances. Callable as `DataTree → DataTree`.       |
 | **Plugin**                        | An instance of a class-based plugin (e.g., reader, algorithm, colormapper). Every Plugin may be a step in a workflow. The `data_tree` flag discriminates whether the plugin natively consumes/produces DataTree. |
-| **Step node**                     | The `DataTree` child at `/<step_id>` containing one step's output.                                                                                                |
+| **Step node**                     | The child `DataTree` containing one step's output located at `/<step_id>` within a parent Workflow DataTree.                                                     |
 | **Operator**                      | A special step kind (`split`, `join`) that changes the _shape_ of the DAG rather than transforming data.                                                          |
 | **Branch**                        | A named child `DataTree` inside a `split` step's node.                                                                                                            |
 | **Output**                        | A step id named in the workflow's top-level `outputs:` list; survives GC unconditionally. **Default:** the last step id in `spec.steps` (Python 3.7+ dict insertion order). |
@@ -78,7 +78,7 @@ The path from a YAML file on disk to an executing workflow:
 
 ## 3. Quick Example: End-to-End Workflow
 
-A complete workflow with one reader, two algorithms, a colormapper, and two output formatters.
+A complete workflow with a reader, an algorithm, a colormapper, and two output formatters.
 
 ### 3.1 Workflow YAML
 
@@ -91,16 +91,24 @@ docstring: ABI ch.14 infrared, both annotated PNG and clean netCDF outputs.
 package: geoips
 test:
   fnames: !ENV ${GEOIPS_TESTDATA_DIR}/test_data_abi/data/goes16_20200918_1950/*
-  command_line_args:
-    compare_path: !ENV ${GEOIPS_PACKAGES_DIR}/geoips/tests/outputs/abi.static.<product>.imagery_clean
-    logging_level: "info"
-  overrides:
-    steps:
-      - abi_Infrared.spec.steps.algorithm.output_units='Kelvin'
-    kinds:
-      - readers.self_register=False
-    globals:
-      - sector_list='global_cylindrical'
+  outputs:
+    abi:Infrared:
+      policy: on_failure  # can also be "always"
+      compare_path: !ENV ${GEOIPS_PACKAGES_DIR}/geoips/tests/outputs/abi.static.Infrared.imagery_clean/20200918.195020.goes-16.abi.Infrared.test_goes16_eqc_3km_day_20200918T1950Z.100p00.noaa.3p0.png
+  steps:
+    reader:
+      area_def: null
+    abi:Infrared:
+      spec:
+        steps:
+          algorithm:
+            output_units: Kelvin
+  kinds:
+    readers:
+      satellite_zenith_angle_cutoff: 80
+  globals:
+    sector_list: global_cylindrical
+    logging_level: debug
 spec:
   global_arguments:
     window_start_time: null
