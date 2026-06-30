@@ -35,6 +35,7 @@ import logging
 import xarray as xr
 
 from geoips import interfaces
+from geoips.interfaces.obp_adaptation import OBP_CONDUITS
 
 LOG = logging.getLogger(__name__)
 
@@ -59,62 +60,9 @@ def valid_str_attr(cls, attr_name: str):
         raise ValueError(f"{cls.__name__}.{attr_name} cannot be empty")
 
 
-def _extract_annotator_spec(child):
-    spec = child.ds.attrs.get("spec") if child.ds is not None else None
-    return {"spec": spec} if spec is not None else None
-
-
-def _extract_attr(child, attr_name):
-    return child.ds.attrs.get(attr_name) if child.ds is not None else None
-
-
-def _extract_ds(child):
-    from geoips.utils.types.datatree_ditto import DataTreeDitto
-
-    if isinstance(child, DataTreeDitto):
-        return child.ds
-    if isinstance(child, xr.DataTree):
-        return child.ds
-    return child
-
-
-def _extract_product_name(child):
-    return str(child.name) if child.name else None
-
-
-def _extract_attrs_dict(child):
-    return dict(child.ds.attrs) if child.ds is not None else {}
-
-
-_OBP_CONDUITS: dict[str, dict] = {
-    "algorithm": {"kwarg": "xarray_obj", "extract": _extract_ds},
-    "colormapper": {
-        "kwarg": "mpl_colors_info",
-        "extract": lambda c: _extract_attr(c, "_mpl_colors_info"),
-    },
-    "feature_annotator": {
-        "kwarg": "feature_annotator",
-        "extract": _extract_annotator_spec,
-    },
-    "filename_formatter": {
-        "kwarg": "output_fnames",
-        "extract": lambda c: _extract_attr(c, "output_fnames"),
-    },
-    "gridline_annotator": {
-        "kwarg": "gridline_annotator",
-        "extract": _extract_annotator_spec,
-    },
-    "product": {"kwarg": "product_name", "extract": _extract_product_name},
-    "product_default": {
-        "kwarg": "product_default_info",
-        "extract": _extract_attrs_dict,
-    },
-    "reader": {"kwarg": "xarray_obj", "extract": _extract_ds},
-    "sector": {
-        "kwarg": "area_def",
-        "extract": lambda c: _extract_attr(c, "area_definition"),
-    },
-}
+# The OBP conduit binding registry and its extractor helpers now live in
+# ``geoips.interfaces.obp_adaptation`` (imported above as ``OBP_CONDUITS``) so
+# that there is a single home for per-kind input wiring.
 
 
 # class BaseClassPlugin(Generic[P, R], ABC):
@@ -384,7 +332,7 @@ class BaseClassPlugin(ABC):
                 if child.ds is not None
                 else ""
             )
-            conduit = _OBP_CONDUITS.get(pkind)
+            conduit = OBP_CONDUITS.get(pkind)
             if conduit is None:
                 continue
             kwarg_name = conduit["kwarg"]
@@ -431,7 +379,15 @@ class BaseClassPlugin(ABC):
         new_kwargs = self._obp_filter_kwargs(kwargs) if _obp_initiated else kwargs
 
         if data is None:
-            return self.call(*args, **new_kwargs)
+            # No upstream data (e.g. reader steps, or any first step). We still
+            # run ``_post_call`` so interface-level normalization happens — most
+            # importantly the reader ``dict -> DataTree`` merge in
+            # ``BaseReaderPlugin._post_call`` and the ``_wrap`` into a
+            # ``DataTreeDitto``.  ``_pre_call`` is a no-op for ``data is None``.
+            result = self.call(*args, **new_kwargs)
+            return self._post_call(
+                result, *args, _obp_initiated=_obp_initiated, **new_kwargs
+            )
 
         if _obp_initiated:
             new_kwargs = self._extract_child_kwargs(data, new_kwargs)
