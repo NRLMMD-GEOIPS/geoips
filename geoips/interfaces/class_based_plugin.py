@@ -34,6 +34,7 @@ import logging
 
 import xarray as xr
 
+from geoips.errors import PluginError
 from geoips import interfaces
 
 LOG = logging.getLogger(__name__)
@@ -389,20 +390,37 @@ class BaseClassPlugin(ABC):
         -------
             The processed data.
         """
-        if "varlist" in kwargs:
-            # Make sure we add latitude and longitude after the variables
-            # specified. This can mess up the single channel algorithm
-            # if not done properly.
-            min_vars = kwargs["varlist"].copy()
-            min_vars.extend(x for x in ["latitude", "longitude"] if x not in min_vars)
-            data = self.call(
-                varlist=min_vars,
-                **_collect_interp_kwargs(data, collect_varlist=False),
-            )
-        else:
-            data = self.call(**_collect_interp_kwargs(data))
+        input_xarray = None
+        sector_found = False
+        for group in data.groups:
+            ds = data[group]
+            # This is the data dependency
+            if hasattr(ds, "attrs") and ds.attrs.get("plugin_kind"):
+                if ds.attrs["plugin_kind"] != "sector":
+                    input_xarray = ds.to_dataset()
+                else:
+                    sector_found = True
 
-        return data
+        if input_xarray is None:
+            raise RuntimeError(
+                "Error: Could not find an input dataset to interpolate for "
+                f"interpolator plugin '{self.name}'."
+            )
+
+        if not sector_found:
+            raise RuntimeError(
+                "Error: Could not find an appropriate sector step to interpolate to for"
+                f" interpolator plugin '{self.name}'."
+            )
+
+        interp_kwargs = _collect_interp_kwargs(input_xarray)
+        if kwargs.get("area_def"):
+            interp_kwargs["area_def"] = kwargs["area_def"]
+        if kwargs.get("varlist"):
+            interp_kwargs["varlist"] = kwargs["varlist"]
+        result = self.call(**interp_kwargs)
+
+        return result
 
     def _invoke(self, data=None, *args, _obp_initiated=False, **kwargs):
         """Call the main plugin method.
@@ -450,16 +468,8 @@ class BaseClassPlugin(ABC):
                 and len(dict(data.children)) > 1
                 and not data.ds.attrs.get("_ditto_original_type")
             ):
-                # Hacky, but works
                 if self.interface == "interpolators":
-                    interp_kwargs = _collect_interp_kwargs(
-                        data[data.groups[1]].to_dataset()
-                    )
-                    if new_kwargs.get("area_def"):
-                        interp_kwargs["area_def"] = new_kwargs["area_def"]
-                    if new_kwargs.get("varlist"):
-                        interp_kwargs["varlist"] = new_kwargs["varlist"]
-                    result = self.call(**interp_kwargs)
+                    result = self._call_interpolator(data, new_kwargs)
                 else:
                     new_args = _kwarg_to_positional(new_kwargs, self.call)
                     result = self.call(*new_args, **new_kwargs)
@@ -468,10 +478,9 @@ class BaseClassPlugin(ABC):
                 )
                 result = data
             else:
-                if self.interface == "interpolators":
-                    data = self._call_interpolator(data, new_kwargs)
-                else:
-                    data = self.call(data, *args, **new_kwargs)
+                # NOTE: Interpolators will never hit here. They must have two
+                # dependencies, one of which must be a sector.
+                data = self.call(data, *args, **new_kwargs)
                 data = self._post_call(
                     data, *args, _obp_initiated=_obp_initiated, **new_kwargs
                 )
