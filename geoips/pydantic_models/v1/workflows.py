@@ -33,6 +33,7 @@ from pydantic import (
 )
 
 # GeoIPS imports
+from geoips.constants import PLUGIN_PROVIDED
 from geoips import interfaces
 from geoips.pydantic_models.v1.bases import (
     PluginModel,
@@ -243,6 +244,7 @@ class GlobalVariablesModel(PermissiveFrozenModel):
     presectoring toggle)
     """
 
+    minimum_coverage: float | str = Field(default=PLUGIN_PROVIDED)
     presector: bool = Field(
         False,
         description="Specify whether to presector the data prior to applying "
@@ -612,7 +614,7 @@ class WorkflowSpecModel(FrozenModel):
     """The specification for a workflow."""
 
     # list of steps
-    global_arguments: GlobalVariablesModel | None = Field(
+    globals: GlobalVariablesModel | None = Field(
         None, description="Arguments shared across workflow steps"
     )
     steps: Dict[
