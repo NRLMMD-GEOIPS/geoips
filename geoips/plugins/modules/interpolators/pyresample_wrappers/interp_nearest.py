@@ -51,33 +51,32 @@ def call(area_def, input_xarray, output_xarray, varlist, array_num=None, **kwarg
     vars_to_interp = []
     if array_num is not None:
         if len(input_xarray[varlist[0]].shape) == 2:
-            for varname in varlist:
-                vars_to_interp += [
-                    input_xarray[varname].to_masked_array()[:, array_num]
-                ]
             if len(input_xarray["latitude"].shape) == 2:
                 lons = input_xarray["longitude"].to_masked_array()[:, array_num]
                 lats = input_xarray["latitude"].to_masked_array()[:, array_num]
             else:
                 lons = input_xarray["longitude"].to_masked_array()
                 lats = input_xarray["latitude"].to_masked_array()
-        else:
             for varname in varlist:
                 vars_to_interp += [
-                    input_xarray[varname].to_masked_array()[:, :, array_num]
+                    input_xarray[varname].to_masked_array()[:, array_num]
                 ]
+        else:
             if len(input_xarray["latitude"].shape) == 2:
                 lons = input_xarray["longitude"].to_masked_array()
                 lats = input_xarray["latitude"].to_masked_array()
             else:
                 lons = input_xarray["longitude"].to_masked_array()[:, :, array_num]
                 lats = input_xarray["latitude"].to_masked_array()[:, :, array_num]
-
+            for varname in varlist:
+                vars_to_interp += [
+                    input_xarray[varname].to_masked_array()[:, :, array_num]
+                ]
     else:
-        for varname in varlist:
-            vars_to_interp += [input_xarray[varname].to_masked_array()]
         lons = input_xarray["longitude"].to_masked_array()
         lats = input_xarray["latitude"].to_masked_array()
+        for varname in varlist:
+            vars_to_interp += [input_xarray[varname].to_masked_array()]
 
     # Use standard scifile / pyresample registration
     data_box_definition = get_data_box_definition(input_xarray.source_name, lons, lats)
