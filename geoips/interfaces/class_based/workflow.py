@@ -29,8 +29,11 @@ from geoips.pydantic_models.v1.workflows import (
     DEFAULT_RETENTION,
     SCAFFOLD_KINDS,
     WorkflowSpecModel,
+    WorkflowStepDefinitionModel,
 )
+from geoips.errors import PluginResolutionError
 from geoips.utils.types.datatree_ditto import DataTreeDitto
+from geoips.utils.types.yaml_plugin_callable import YamlPluginCallable
 from geoips.utils.types.tokenization import (
     compute_arguments_hash,
     compute_step_output_token,
@@ -169,10 +172,14 @@ class Workflow:
         """Collect upstream step outputs into a single DataTree.
 
         Returns an ``xr.DataTree`` named ``multi_input`` with each
-        upstream node as a child under its step id.  Readers (empty
-        ``depends_on``) receive an empty DataTree.
+        upstream node as a child under its step id.  When *depends_on*
+        is empty but *tree* already has children (a sub-workflow
+        receiving data from its parent), the tree itself is returned
+        so the first step can access the pre-loaded upstream data.
         """
         if not depends_on:
+            if dict(tree.children):
+                return tree
             return xr.DataTree(name="empty")
 
         result = xr.DataTree(name="multi_input")
@@ -315,7 +322,6 @@ class Workflow:
         xr.DataTree
             The fully-populated workflow DataTree.
         """
-        from geoips.errors import PluginResolutionError
 
         tree = (
             xr.DataTree(name=self._wf_name) if workflow_tree is None else workflow_tree
@@ -333,21 +339,44 @@ class Workflow:
                 )
 
             if step_def.when is not None:
-                LOG.info("step '%s' has when expression; not yet implemented", sid)
+                raise NotImplementedError(
+                    f"conditional execution ('when') is not yet implemented "
+                    f"(encountered at step '{sid}')"
+                )
 
             arg_hash = compute_arguments_hash(step_def.arguments or {})
             start_iso = datetime.now(timezone.utc).isoformat()
 
-            plg = self._resolve_plugin(step_def.kind, step_def.name)
+            upstream = self._collect_upstream_data(
+                tree, step_def.depends_on or []
+            )
 
-            if not (step_def.depends_on or []):
+            if step_def.kind == "workflow":
+                sub_spec = self._resolve_workflow_spec(step_def)
+                sub_wf = Workflow(sub_spec, workflow_name=sid)
+                step_result = sub_wf.call(
+                    workflow_tree=upstream, fnames=fnames
+                )
+            elif not (step_def.depends_on or []):
+                plg = self._resolve_plugin(step_def.kind, step_def.name)
                 if step_def.kind == "reader":
-                    step_result = plg(fnames=fnames, _obp_initiated=True, **(step_def.arguments or {}))
+                    step_result = plg(
+                        fnames=fnames,
+                        _obp_initiated=True,
+                        **(step_def.arguments or {}),
+                    )
                 else:
-                    step_result = plg(_obp_initiated=True, **(step_def.arguments or {}))
+                    step_result = plg(
+                        _obp_initiated=True,
+                        **(step_def.arguments or {}),
+                    )
             else:
-                upstream = self._collect_upstream_data(tree, step_def.depends_on or [])
-                step_result = plg(data=upstream, _obp_initiated=True, **(step_def.arguments or {}))
+                plg = self._resolve_plugin(step_def.kind, step_def.name)
+                step_result = plg(
+                    data=upstream,
+                    _obp_initiated=True,
+                    **(step_def.arguments or {}),
+                )
 
             end_iso = datetime.now(timezone.utc).isoformat()
 
@@ -361,14 +390,14 @@ class Workflow:
 
             output_token = compute_step_output_token(
                 step_result,
-                plugin_name=step_def.name,
+                plugin_name=step_def.name or sid,
                 plugin_kind=step_def.kind,
                 arguments=step_def.arguments or {},
                 upstream_tokens=upstream_tokens or None,
             )
 
             prov = StepProvenance(
-                plugin_name=step_def.name,
+                plugin_name=step_def.name or sid,
                 plugin_kind=step_def.kind,
                 start_time=start_iso,
                 end_time=end_iso,
@@ -382,6 +411,34 @@ class Workflow:
             self._apply_retention(tree, executed)
 
         return tree
+
+    @staticmethod
+    def _resolve_workflow_spec(step_def: WorkflowStepDefinitionModel) -> WorkflowSpecModel:
+        """Resolve the sub-workflow spec from an expanded workflow step.
+
+        Parameters
+        ----------
+        step_def : WorkflowStepDefinitionModel
+            A step definition with ``kind="workflow"``.
+
+        Returns
+        -------
+        WorkflowSpecModel
+        """
+        if step_def.spec is not None:
+            return step_def.spec
+
+        plg = Workflow._resolve_plugin(step_def.kind, step_def.name)
+        if isinstance(plg, YamlPluginCallable):
+            spec_dict = plg._yaml.get("spec", {})
+            return WorkflowSpecModel.model_validate(spec_dict)
+        if hasattr(plg, "spec"):
+            return plg.spec
+
+        raise PluginResolutionError(
+            f"Could not extract workflow spec for step "
+            f"'{step_def.name}' (kind={step_def.kind})"
+        )
 
     @staticmethod
     def _resolve_plugin(kind: str, name: str):
@@ -405,7 +462,6 @@ class Workflow:
             If the interface or plugin cannot be resolved.
         """
         from geoips import interfaces
-        from geoips.errors import PluginResolutionError
         from geoips.utils.types.partial_lexeme import Lexeme
 
         interface_name = str(Lexeme(kind).plural)

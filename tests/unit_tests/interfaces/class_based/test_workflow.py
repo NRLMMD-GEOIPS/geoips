@@ -4,6 +4,7 @@
 """Tests for the Workflow composite class."""
 
 import pytest
+import xarray as xr
 
 from geoips.interfaces.class_based.workflow import (
     Workflow,
@@ -235,3 +236,55 @@ class TestSplitJoinScaffolding:
         wf = Workflow(spec, workflow_name="split_test")
         with pytest.raises(NotImplementedError):
             wf.call()
+
+
+class TestWorkflowSpecResolution:
+    def test_inline_spec_returned_directly(self):
+        spec = _make_spec(
+            {
+                "sub": {
+                    "kind": "workflow",
+                    "spec": {
+                        "steps": {
+                            "inner": {
+                                "kind": "algorithm",
+                                "name": "single_channel",
+                                "arguments": {},
+                            }
+                        }
+                    },
+                },
+            }
+        )
+        step_def = spec.steps["sub"]
+        assert step_def.spec is not None
+        resolved = Workflow._resolve_workflow_spec(step_def)
+        assert resolved is step_def.spec
+        assert "inner" in resolved.steps
+        assert resolved.steps["inner"].kind == "algorithm"
+
+
+class TestCollectUpstreamNested:
+    def test_empty_depends_with_children_returns_tree(self):
+        parent = xr.DataTree(name="multi_input")
+        parent["reader_out"] = xr.DataTree(
+            xr.Dataset({"data": (["x"], [1, 2, 3])}), name="reader_out"
+        )
+
+        wf = Workflow(
+            _make_spec({"r": {"kind": "reader", "name": "x", "arguments": {}}}),
+            workflow_name="test",
+        )
+        result = wf._collect_upstream_data(parent, [])
+        assert result is parent
+
+    def test_empty_depends_no_children_returns_empty(self):
+        wf = Workflow(
+            _make_spec({"r": {"kind": "reader", "name": "x", "arguments": {}}}),
+            workflow_name="test",
+        )
+        empty_root = wf._collect_upstream_data(
+            xr.DataTree(name="fresh"), []
+        )
+        assert dict(empty_root.children) == {}
+        assert empty_root.name == "empty"

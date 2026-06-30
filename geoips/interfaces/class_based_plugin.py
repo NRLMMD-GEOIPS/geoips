@@ -158,10 +158,6 @@ class BaseClassPlugin(ABC):
         # Step 1: Unwrap DataTree → native type
         data = self._unwrap(data)
 
-        # Stash attrs from Dataset input for restoration in _post_call (OBP only)
-        if _obp_initiated and hasattr(data, "attrs"):
-            self._stashed_input_attrs = dict(data.attrs)
-
         # Step 2: Apply family-specific input conversion (OBP only)
         if _obp_initiated:
             conversion_map = getattr(self, "_family_conversion_map", None)
@@ -210,16 +206,6 @@ class BaseClassPlugin(ABC):
                 spec = conversion_map.get(self.family)
                 if spec is not None and spec.output_converter is not None:
                     data = spec.output_converter(data)
-
-        # Step 1.5: Restore stashed metadata from input (OBP only)
-        stashed = getattr(self, "_stashed_input_attrs", None)
-        if _obp_initiated and stashed:
-            if hasattr(data, "attrs"):
-                for k, v in stashed.items():
-                    if k not in getattr(data, "attrs", {}):
-                        data.attrs[k] = v
-                LOG.debug("Restored %d stashed attrs to output", len(stashed))
-            self._stashed_input_attrs = None
 
         # Step 2: Wrap into DataTreeDitto if not already (OBP only)
         if _obp_initiated and not isinstance(data, xr.DataTree):
@@ -338,6 +324,7 @@ class BaseClassPlugin(ABC):
             "filename_formatter": lambda c: c.ds.attrs.get("output_fnames"),
             "gridline_annotator": lambda c: _wrap_spec(c.ds.attrs.get("spec")),
             "product": lambda c: str(c.name) if c.name else None,
+            "reader": _unwrap_ds,
             "sector": lambda c: c.ds.attrs.get("area_definition"),
         }
 
@@ -384,39 +371,52 @@ class BaseClassPlugin(ABC):
         -------
             The processed data.
         """
-        if _obp_initiated:
-            provided_args = set(kwargs)
-            accepted_args = set(list(inspect.signature(self.call).parameters.keys()))
-            unaccepted_args = provided_args - accepted_args
-            for arg in unaccepted_args:
-                provided_args.remove(arg)
-
-            new_kwargs = {kwarg: kwargs[kwarg] for kwarg in provided_args}
-        else:
-            new_kwargs = kwargs
+        new_kwargs = self._obp_filter_kwargs(kwargs) if _obp_initiated else kwargs
 
         if data is None:
-            result = self.call(*args, **new_kwargs)
-        else:
-            if _obp_initiated:
-                new_kwargs = self._extract_child_kwargs(data, new_kwargs)
-            data = self._pre_call(data, *args, _obp_initiated=_obp_initiated, **new_kwargs)
-            if (
-                _obp_initiated
-                and isinstance(data, xr.DataTree)
-                and len(dict(data.children)) > 1
-                and not data.ds.attrs.get("_ditto_original_type")
-            ):
-                new_args = _kwarg_to_positional(new_kwargs, self.call)
-                result = self.call(*new_args, **new_kwargs)
-                data = self._post_call(result, *args, _obp_initiated=_obp_initiated, **new_kwargs)
-                result = data
-            else:
-                data = self.call(data, *args, **new_kwargs)
-                data = self._post_call(data, *args, _obp_initiated=_obp_initiated, **new_kwargs)
-                result = data
+            return self.call(*args, **new_kwargs)
 
-        return result
+        if _obp_initiated:
+            new_kwargs = self._extract_child_kwargs(data, new_kwargs)
+
+        data = self._pre_call(
+            data, *args, _obp_initiated=_obp_initiated, **new_kwargs
+        )
+
+        if self._use_positional_unpacking(data, _obp_initiated):
+            new_args = _kwarg_to_positional(new_kwargs, self.call)
+            result = self.call(*new_args, **new_kwargs)
+        else:
+            result = self.call(data, *args, **new_kwargs)
+
+        data = self._post_call(
+            result, *args, _obp_initiated=_obp_initiated, **new_kwargs
+        )
+        return data
+
+    @staticmethod
+    def _use_positional_unpacking(data, _obp_initiated):
+        """Return True when ``call()`` should receive unpacked positional args.
+
+        Multi-child multi_input DataTrees cannot be passed as the first
+        positional ``data`` arg (signature mismatch).  This helper detects
+        that case so ``_invoke`` can switch to positional unpacking.
+        """
+        return (
+            _obp_initiated
+            and isinstance(data, xr.DataTree)
+            and len(dict(data.children)) > 1
+            and not data.ds.attrs.get("_ditto_original_type")
+        )
+
+    def _obp_filter_kwargs(self, kwargs):
+        """Remove kwargs not accepted by ``self.call``."""
+        provided = set(kwargs)
+        accepted = set(inspect.signature(self.call).parameters.keys())
+        unaccepted = provided - accepted
+        for arg in unaccepted:
+            kwargs.pop(arg, None)
+        return {kwarg: kwargs[kwarg] for kwarg in provided - unaccepted}
 
     def __init__(self, module=None):
         """
@@ -535,10 +535,19 @@ def _kwarg_to_positional(kwargs, call_func):
             consumed.add(pname)
         elif param.default is not _inspect_mod.Parameter.empty:
             positional.append(param.default)
-        elif pname == "data" and "xarray_obj" in kwargs:
-            val = kwargs.pop("xarray_obj")
-            positional.append(val)
-            consumed.add("xarray_obj")
+        elif pname == "data":
+            for alias in ("xarray_obj",):
+                if alias in kwargs:
+                    val = kwargs.pop(alias)
+                    positional.append(val)
+                    consumed.add(alias)
+                    break
+            else:
+                raise TypeError(
+                    f"_kwarg_to_positional: required parameter {pname!r} "
+                    f"is missing from kwargs and cannot be filled automatically. "
+                    f"Available kwargs: {list(kwargs)}"
+                )
         else:
             raise TypeError(
                 f"_kwarg_to_positional: required parameter {pname!r} "

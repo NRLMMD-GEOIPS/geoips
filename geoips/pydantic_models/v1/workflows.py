@@ -619,6 +619,15 @@ class WorkflowSpecModel(FrozenModel):
         ),
     )
 
+    @model_validator(mode="after")
+    def _reject_retention_by_kind(self):
+        if self.retention_by_kind is not None:
+            raise ValueError(
+                "retention_by_kind is not yet implemented. "
+                "Remove it from the YAML or set it to null."
+            )
+        return self
+
     @classmethod
     def extend_dict(cls, base: dict, new: dict) -> dict:
         """Extend a dictionary with the contents of another dictionary.

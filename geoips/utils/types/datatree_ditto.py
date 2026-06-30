@@ -292,12 +292,6 @@ class DataTreeDitto(DataTree):
         if original_type is None:
             return dataset
 
-        # Try shared registry first (faster dispatch)
-        try:
-            from geoips.utils.types.converter_registry import converter_registry
-        except ImportError:
-            converter_registry = None
-
         # Find converter by original type string — preserve the existing
         # string-matching behaviour for backward compatibility.
         for obj_type, converter_dict in self._converters.items():
@@ -497,9 +491,17 @@ class DataTreeDitto(DataTree):
     def _convert_datatree_to_ditto(dt: DataTree) -> "DataTreeDitto":
         """Convert a DataTree to DataTreeDitto recursively.
 
-        Deprecated internal method.  Use ``DataTreeDitto.from_datatree()``
-        instead.  Kept for backward compatibility.
+        .. deprecated::
+            Use :meth:`DataTreeDitto.from_datatree` instead.
         """
+        import warnings
+
+        warnings.warn(
+            "DataTreeDitto._convert_datatree_to_ditto is deprecated; "
+            "use DataTreeDitto.from_datatree instead.",
+            DeprecationWarning,
+            stacklevel=2,
+        )
         return DataTreeDitto.from_datatree(dt)
 
     def get_original(self, path: str = ".") -> Any:

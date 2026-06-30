@@ -36,6 +36,7 @@ _KIND_TO_KWARG: dict[str, str] = {
     "gridline_annotator": "gridline_annotator",
     "product": "product_name",
     "product_default": "product_default_info",
+    "reader": "xarray_obj",
     "sector": "area_def",
 }
 

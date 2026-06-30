@@ -58,13 +58,12 @@ def _dict_to_dataset(d: dict, **kwargs) -> xr.Dataset:
         elif isinstance(value, (int, float, str, bool)) or value is None:
             ds.attrs[f"_ditto_attr_{key}"] = value
         else:
-            LOG.warning(
-                "Stringifying non-scalar value for key %r (type %s) — "
-                "round-trip will NOT preserve the original object",
-                key,
-                type(value).__name__,
+            raise TypeError(
+                f"Cannot store value of type {type(value).__name__!r} "
+                f"for key {key!r} in dict-to-Dataset conversion. "
+                f"Only numpy arrays, scalars (int, float, str, bool, None) "
+                f"are supported."
             )
-            ds.attrs[f"_ditto_attr_{key}"] = str(value)
     return ds
 
 

@@ -447,7 +447,7 @@ class WorkflowsInterface(BaseYamlInterface):
             "interface": expanded_workflow["interface"],
             "family": expanded_workflow["family"],
             "docstring": expanded_workflow["docstring"],
-            "package": expanded_workflow["docstring"],
+            "package": expanded_workflow["package"],
             "relpath": expanded_workflow["relpath"],
             "spec": expanded_workflow["spec"],
         }
