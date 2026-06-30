@@ -8,6 +8,7 @@ from datetime import datetime
 from os.path import basename
 
 import numpy as np
+import xarray as xr
 from xarray import concat, Dataset
 
 from geoips.interfaces.class_based_plugin import BaseClassPlugin
