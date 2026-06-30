@@ -59,6 +59,44 @@ def valid_str_attr(cls, attr_name: str):
         raise ValueError(f"{cls.__name__}.{attr_name} cannot be empty")
 
 
+def _extract_annotator_spec(child):
+    spec = child.ds.attrs.get("spec") if child.ds is not None else None
+    return {"spec": spec} if spec is not None else None
+
+
+def _extract_attr(child, attr_name):
+    return child.ds.attrs.get(attr_name) if child.ds is not None else None
+
+
+def _extract_ds(child):
+    from geoips.utils.types.datatree_ditto import DataTreeDitto
+    if isinstance(child, DataTreeDitto):
+        return child.ds
+    if isinstance(child, xr.DataTree):
+        return child.ds
+    return child
+
+
+def _extract_product_name(child):
+    return str(child.name) if child.name else None
+
+
+def _extract_attrs_dict(child):
+    return dict(child.ds.attrs) if child.ds is not None else {}
+
+
+_OBP_CONDUITS: dict[str, dict] = {
+    "algorithm":         {"kwarg": "xarray_obj",           "extract": _extract_ds},
+    "colormapper":       {"kwarg": "mpl_colors_info",       "extract": lambda c: _extract_attr(c, "_mpl_colors_info")},
+    "feature_annotator": {"kwarg": "feature_annotator",     "extract": _extract_annotator_spec},
+    "filename_formatter": {"kwarg": "output_fnames",        "extract": lambda c: _extract_attr(c, "output_fnames")},
+    "gridline_annotator": {"kwarg": "gridline_annotator",   "extract": _extract_annotator_spec},
+    "product":           {"kwarg": "product_name",          "extract": _extract_product_name},
+    "product_default":   {"kwarg": "product_default_info",  "extract": _extract_attrs_dict},
+    "reader":            {"kwarg": "xarray_obj",            "extract": _extract_ds},
+    "sector":            {"kwarg": "area_def",              "extract": lambda c: _extract_attr(c, "area_definition")},
+}
+
 # class BaseClassPlugin(Generic[P, R], ABC):
 class BaseClassPlugin(ABC):
     """The base class for GeoIPS class-based plugins.
@@ -290,9 +328,27 @@ class BaseClassPlugin(ABC):
         return DataTreeDitto(result, name=getattr(self, "name", "result"))
 
     @staticmethod
-    def _extract_child_kwargs(data, kwargs):
-        from geoips.utils.types.yaml_plugin_callable import _KIND_TO_KWARG
+    def _to_mutable_dataset(data):
+        """Convert a DataTree with children into a mutable ``xr.Dataset``.
 
+        ``DataTree.ds`` returns an immutable ``DatasetView``.  Plugins
+        that need to write into the dataset must call this helper first.
+
+        * Single child → ``children[0].to_dataset()``
+        * Multiple children → ``xr.merge(...)``
+        * Not a DataTree → returned unchanged.
+        """
+        if not isinstance(data, xr.DataTree):
+            return data
+        children = list(data.children.values())
+        if len(children) == 1:
+            return children[0].to_dataset()
+        if len(children) > 1:
+            return xr.merge([c.to_dataset() for c in children])
+        return data
+
+    @staticmethod
+    def _extract_child_kwargs(data, kwargs):
         if not isinstance(data, xr.DataTree):
             return kwargs
 
@@ -300,47 +356,18 @@ class BaseClassPlugin(ABC):
         if not children:
             return kwargs
 
-        def _wrap_spec(spec):
-            return {"spec": spec} if spec is not None else None
-
-        def _unwrap_ditto(child):
-            from geoips.utils.types.datatree_ditto import DataTreeDitto
-            if isinstance(child, DataTreeDitto):
-                return child.get_original()
-            return child.ds
-
-        def _unwrap_ds(child):
-            from geoips.utils.types.datatree_ditto import DataTreeDitto
-            if isinstance(child, DataTreeDitto):
-                return child.ds
-            if isinstance(child, xr.DataTree):
-                return child.ds
-            return child
-
-        _EXTRACTORS = {
-            "algorithm": _unwrap_ds,
-            "colormapper": lambda c: c.ds.attrs.get("_mpl_colors_info"),
-            "feature_annotator": lambda c: _wrap_spec(c.ds.attrs.get("spec")),
-            "filename_formatter": lambda c: c.ds.attrs.get("output_fnames"),
-            "gridline_annotator": lambda c: _wrap_spec(c.ds.attrs.get("spec")),
-            "product": lambda c: str(c.name) if c.name else None,
-            "reader": _unwrap_ds,
-            "sector": lambda c: c.ds.attrs.get("area_definition"),
-        }
-
         for _child_name, child in children.items():
             pkind = str(child.ds.attrs.get("plugin_kind", "")) if child.ds is not None else ""
-            kwarg_name = _KIND_TO_KWARG.get(pkind)
-            if not kwarg_name or kwarg_name in kwargs:
+            conduit = _OBP_CONDUITS.get(pkind)
+            if conduit is None:
+                continue
+            kwarg_name = conduit["kwarg"]
+            if kwarg_name in kwargs:
                 continue
 
-            extract = _EXTRACTORS.get(pkind)
-            if extract is not None:
-                val = extract(child)
-                if val is not None:
-                    kwargs[kwarg_name] = val
-            elif pkind in ("product", "product_default"):
-                kwargs[kwarg_name] = dict(child.ds.attrs)
+            val = conduit["extract"](child)
+            if val is not None:
+                kwargs[kwarg_name] = val
 
         if "xarray_obj" in kwargs and "product_name" in kwargs:
             xo = kwargs["xarray_obj"]
