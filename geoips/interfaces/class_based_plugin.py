@@ -437,13 +437,9 @@ class BaseClassPlugin(ABC):
         )
 
     def _obp_filter_kwargs(self, kwargs):
-        """Remove kwargs not accepted by ``self.call``."""
-        provided = set(kwargs)
+        """Return a dict of only the kwargs accepted by ``self.call``."""
         accepted = set(inspect.signature(self.call).parameters.keys())
-        unaccepted = provided - accepted
-        for arg in unaccepted:
-            kwargs.pop(arg, None)
-        return {kwarg: kwargs[kwarg] for kwarg in provided - unaccepted}
+        return {k: v for k, v in kwargs.items() if k in accepted}
 
     def __init__(self, module=None):
         """
