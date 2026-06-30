@@ -12,7 +12,11 @@ import pytest
 # GeoIPS imports
 from geoips.pydantic_models.v1.algorithms import AlgorithmArgumentsModel
 from geoips.pydantic_models.v1.colormappers import ColormapperArgumentsModel
+from geoips.pydantic_models.v1.filename_formatters import (
+    FilenameFormatterArgumentsModel,
+)
 from geoips.pydantic_models.v1.interpolators import InterpolatorArgumentsModel
+from geoips.pydantic_models.v1.output_formatters import OutputFormatterArgumentsModel
 from geoips.pydantic_models.v1.output_checkers import OutputCheckerArgumentsModel
 from geoips.pydantic_models.v1.readers import ReaderArgumentsModel
 from geoips.pydantic_models.v1.title_formatters import TitleFormatterArgumentsModel
@@ -33,6 +37,10 @@ models_available = {
     "feature_annotators": {
         "good_source": ("yaml", "default_oldlace"),
         "model": None,
+    },
+    "filename_formatters": {
+        "good_source": ("fixture", "valid_filename_formatter_arguments"),
+        "model": FilenameFormatterArgumentsModel,
     },
     "gridline_annotators": {
         "good_source": ("yaml", "default_palegreen"),
@@ -61,6 +69,10 @@ models_available = {
     "output_checkers": {
         "good_source": ("fixture", "valid_output_checker_arguments"),
         "model": OutputCheckerArgumentsModel,
+    },
+    "output_formatters": {
+        "good_source": ("fixture", "valid_output_formatter_arguments"),
+        "model": OutputFormatterArgumentsModel,
     },
     "title_formatters": {
         "good_source": ("fixture", "valid_title_formatter_arguments"),
