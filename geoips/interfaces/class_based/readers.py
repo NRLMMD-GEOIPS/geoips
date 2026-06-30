@@ -45,9 +45,7 @@ class BaseReaderPlugin(BaseClassPlugin, abstract=True):
                             pass
             ds = (primary_ds or xr.Dataset()).assign_attrs(**extra_attrs)
             return xr.DataTree(ds, name=getattr(self, "name", "reader"))
-        return super()._post_call(
-            data, *args, _obp_initiated=_obp_initiated, **kwargs
-        )
+        return super()._post_call(data, *args, _obp_initiated=_obp_initiated, **kwargs)
 
 
 class ReadersInterface(BaseClassInterface):
@@ -73,7 +71,7 @@ class ReadersInterface(BaseClassInterface):
         chans=None,
         area_def=None,
         self_register=False,
-        **kwargs
+        **kwargs,
     ):
         """Read in data potentially from multiple scan times into an xarray dict.
 
@@ -217,7 +215,7 @@ class ReadersInterface(BaseClassInterface):
             chans,
             area_def,
             self_register,
-            **kwargs
+            **kwargs,
         )
         return dict_xarrays
 
@@ -278,7 +276,7 @@ class ReadersInterface(BaseClassInterface):
         chans=None,
         area_def=None,
         self_register=False,
-        **kwargs
+        **kwargs,
     ):
         """
         Read in data from a list of filenames.
@@ -330,7 +328,7 @@ class ReadersInterface(BaseClassInterface):
                 chans=chans,
                 area_def=area_def,
                 self_register=self_register,
-                **kwargs
+                **kwargs,
             )
             for (
                 dname,

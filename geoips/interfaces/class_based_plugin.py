@@ -70,6 +70,7 @@ def _extract_attr(child, attr_name):
 
 def _extract_ds(child):
     from geoips.utils.types.datatree_ditto import DataTreeDitto
+
     if isinstance(child, DataTreeDitto):
         return child.ds
     if isinstance(child, xr.DataTree):
@@ -86,16 +87,35 @@ def _extract_attrs_dict(child):
 
 
 _OBP_CONDUITS: dict[str, dict] = {
-    "algorithm":         {"kwarg": "xarray_obj",           "extract": _extract_ds},
-    "colormapper":       {"kwarg": "mpl_colors_info",       "extract": lambda c: _extract_attr(c, "_mpl_colors_info")},
-    "feature_annotator": {"kwarg": "feature_annotator",     "extract": _extract_annotator_spec},
-    "filename_formatter": {"kwarg": "output_fnames",        "extract": lambda c: _extract_attr(c, "output_fnames")},
-    "gridline_annotator": {"kwarg": "gridline_annotator",   "extract": _extract_annotator_spec},
-    "product":           {"kwarg": "product_name",          "extract": _extract_product_name},
-    "product_default":   {"kwarg": "product_default_info",  "extract": _extract_attrs_dict},
-    "reader":            {"kwarg": "xarray_obj",            "extract": _extract_ds},
-    "sector":            {"kwarg": "area_def",              "extract": lambda c: _extract_attr(c, "area_definition")},
+    "algorithm": {"kwarg": "xarray_obj", "extract": _extract_ds},
+    "colormapper": {
+        "kwarg": "mpl_colors_info",
+        "extract": lambda c: _extract_attr(c, "_mpl_colors_info"),
+    },
+    "feature_annotator": {
+        "kwarg": "feature_annotator",
+        "extract": _extract_annotator_spec,
+    },
+    "filename_formatter": {
+        "kwarg": "output_fnames",
+        "extract": lambda c: _extract_attr(c, "output_fnames"),
+    },
+    "gridline_annotator": {
+        "kwarg": "gridline_annotator",
+        "extract": _extract_annotator_spec,
+    },
+    "product": {"kwarg": "product_name", "extract": _extract_product_name},
+    "product_default": {
+        "kwarg": "product_default_info",
+        "extract": _extract_attrs_dict,
+    },
+    "reader": {"kwarg": "xarray_obj", "extract": _extract_ds},
+    "sector": {
+        "kwarg": "area_def",
+        "extract": lambda c: _extract_attr(c, "area_definition"),
+    },
 }
+
 
 # class BaseClassPlugin(Generic[P, R], ABC):
 class BaseClassPlugin(ABC):
@@ -202,7 +222,9 @@ class BaseClassPlugin(ABC):
             if conversion_map is not None:
                 spec = conversion_map.get(self.family)
                 if spec is not None and spec.input_converter is not None:
-                    if spec.input_type is not None and not isinstance(data, spec.input_type):
+                    if spec.input_type is not None and not isinstance(
+                        data, spec.input_type
+                    ):
                         data = spec.input_converter(data)
                     elif spec.input_type is None:
                         data = spec.input_converter(data)
@@ -357,7 +379,11 @@ class BaseClassPlugin(ABC):
             return kwargs
 
         for _child_name, child in children.items():
-            pkind = str(child.ds.attrs.get("plugin_kind", "")) if child.ds is not None else ""
+            pkind = (
+                str(child.ds.attrs.get("plugin_kind", ""))
+                if child.ds is not None
+                else ""
+            )
             conduit = _OBP_CONDUITS.get(pkind)
             if conduit is None:
                 continue
@@ -371,7 +397,11 @@ class BaseClassPlugin(ABC):
 
         if "xarray_obj" in kwargs and "product_name" in kwargs:
             xo = kwargs["xarray_obj"]
-            if hasattr(xo, "data_vars") and xo.data_vars and "product_name" not in xo.data_vars:
+            if (
+                hasattr(xo, "data_vars")
+                and xo.data_vars
+                and "product_name" not in xo.data_vars
+            ):
                 pn = kwargs["product_name"]
                 if isinstance(pn, str) and pn not in xo.data_vars:
                     xo = xo.rename({list(xo.data_vars)[0]: pn})
@@ -406,9 +436,7 @@ class BaseClassPlugin(ABC):
         if _obp_initiated:
             new_kwargs = self._extract_child_kwargs(data, new_kwargs)
 
-        data = self._pre_call(
-            data, *args, _obp_initiated=_obp_initiated, **new_kwargs
-        )
+        data = self._pre_call(data, *args, _obp_initiated=_obp_initiated, **new_kwargs)
 
         if self._use_positional_unpacking(data, _obp_initiated):
             new_args = _kwarg_to_positional(new_kwargs, self.call)
@@ -541,6 +569,7 @@ def _kwarg_to_positional(kwargs, call_func):
         Positional arguments for ``call_func``.
     """
     import inspect as _inspect_mod
+
     sig = _inspect_mod.signature(call_func)
     positional = []
     consumed = set()

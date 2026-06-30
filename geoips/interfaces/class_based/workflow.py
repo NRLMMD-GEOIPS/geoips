@@ -168,7 +168,9 @@ class Workflow:
         time by ``_validate_dependencies``; this function assumes a DAG.
         """
         step_ids = list(self._spec.steps.keys())
-        indegree = {sid: len(step.depends_on or ()) for sid, step in self._spec.steps.items()}
+        indegree = {
+            sid: len(step.depends_on or ()) for sid, step in self._spec.steps.items()
+        }
 
         queue = deque(sid for sid in step_ids if indegree[sid] == 0)
         order: list[str] = []
@@ -209,7 +211,10 @@ class Workflow:
         return result
 
     def _attach_step_node(
-        self, tree: xr.DataTree, step_id: str, step_data: Any,
+        self,
+        tree: xr.DataTree,
+        step_id: str,
+        step_data: Any,
     ) -> None:
         """Attach a step's output as a child node in the DataTree.
 
@@ -294,7 +299,9 @@ class Workflow:
         try:
             area_defs = get_sectors_from_yamls(sector_list)
             LOG.interactive(
-                "Resolved %d area_def(s) from sector_list %s", len(area_defs), sector_list
+                "Resolved %d area_def(s) from sector_list %s",
+                len(area_defs),
+                sector_list,
             )
             return area_defs
         except Exception as exc:
@@ -365,16 +372,12 @@ class Workflow:
             arg_hash = compute_arguments_hash(step_def.arguments or {})
             start_iso = datetime.now(timezone.utc).isoformat()
 
-            upstream = self._collect_upstream_data(
-                tree, step_def.depends_on or []
-            )
+            upstream = self._collect_upstream_data(tree, step_def.depends_on or [])
 
             if step_def.kind == "workflow":
                 sub_spec = self._resolve_workflow_spec(step_def)
                 sub_wf = Workflow(sub_spec, workflow_name=sid)
-                step_result = sub_wf.call(
-                    workflow_tree=upstream, fnames=fnames
-                )
+                step_result = sub_wf.call(workflow_tree=upstream, fnames=fnames)
             elif not (step_def.depends_on or []):
                 plg = self._resolve_plugin(step_def.kind, step_def.name)
                 if step_def.kind == "reader":
@@ -431,7 +434,9 @@ class Workflow:
         return tree
 
     @staticmethod
-    def _resolve_workflow_spec(step_def: WorkflowStepDefinitionModel) -> WorkflowSpecModel:
+    def _resolve_workflow_spec(
+        step_def: WorkflowStepDefinitionModel,
+    ) -> WorkflowSpecModel:
         """Resolve the sub-workflow spec from an expanded workflow step.
 
         Parameters
@@ -498,5 +503,6 @@ class Workflow:
 
         if isinstance(result, dict) and not callable(getattr(result, "call", None)):
             from geoips.utils.types.yaml_plugin_callable import YamlPluginCallable
+
             return YamlPluginCallable(result)
         return result

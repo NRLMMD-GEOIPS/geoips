@@ -45,9 +45,7 @@ class BaseFilenameFormatterPlugin(BaseClassPlugin, abstract=True):
         """
         if _obp_initiated and isinstance(data, xr.DataTree):
             data = self._to_mutable_dataset(data)
-        return super()._pre_call(
-            data, *args, _obp_initiated=_obp_initiated, **kwargs
-        )
+        return super()._pre_call(data, *args, _obp_initiated=_obp_initiated, **kwargs)
 
     def _post_call(self, data=None, *args, _obp_initiated=False, **kwargs):
         r"""Normalize filename output into ``DataTreeDitto`` for OBP.

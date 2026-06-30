@@ -32,6 +32,7 @@ LOG = logging.getLogger(__name__)
 def _kind_to_kwarg():
     """Return {plugin_kind: kwarg_name} from the shared OBP conduits registry."""
     from geoips.interfaces.class_based_plugin import _OBP_CONDUITS
+
     return {k: v["kwarg"] for k, v in _OBP_CONDUITS.items()}
 
 
@@ -91,10 +92,13 @@ class YamlPluginCallable:
             ``spec`` dictionary and the standard routing metadata.
         """
         spec = dict(self._yaml.get("spec", {}))
-        kind = self.interface.rstrip("s")  # e.g. "gridline_annotators" → "gridline_annotator"
+        kind = self.interface.rstrip(
+            "s"
+        )  # e.g. "gridline_annotators" → "gridline_annotator"
 
         if self.interface == "gridline_annotators" and data is not None:
             from geoips.dev.output_config import set_lonlat_spacing
+
             area_def = None
             if hasattr(data, "ds") and data.ds is not None:
                 area_def = data.ds.attrs.get("area_definition")
@@ -113,11 +117,13 @@ class YamlPluginCallable:
                         "Failed to compute gridline spacing for %r: %s", self.name, exc
                     )
 
-        ds = xr.Dataset(attrs={
-            "spec": spec,
-            "plugin_kind": kind,
-            "output_key": _kind_to_kwarg().get(kind, kind),
-        })
+        ds = xr.Dataset(
+            attrs={
+                "spec": spec,
+                "plugin_kind": kind,
+                "output_key": _kind_to_kwarg().get(kind, kind),
+            }
+        )
         dt = DataTreeDitto(ds, name=self.name)
         return dt
 
