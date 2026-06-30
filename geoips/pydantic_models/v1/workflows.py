@@ -19,24 +19,35 @@ from __future__ import annotations
 # Python Standard Libraries
 from copy import deepcopy
 import datetime as dt
+from glob import glob
 import logging
-from os import environ
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Optional, Union
 
 # Third-Party Libraries
-from pydantic import ConfigDict, Field, field_validator, model_validator, ValidationInfo
+from pydantic import (
+    ConfigDict,
+    FilePath,
+    Field,
+    field_validator,
+    model_validator,
+    RootModel,
+    ValidationInfo,
+)
 
 # GeoIPS imports
 from geoips import interfaces
 from geoips.pydantic_models.v1.bases import (
-    PythonIdentifier,
     PluginModel,
     FrozenModel,
     PermissiveFrozenModel,
 )
 from geoips.pydantic_models.v1.algorithms import AlgorithmArgumentsModel
 from geoips.pydantic_models.v1.coverage_checkers import CoverageCheckerArgumentsModel
+from geoips.pydantic_models.v1.filename_formatters import (
+    FilenameFormatterArgumentsModel,
+)
 from geoips.pydantic_models.v1.interpolators import InterpolatorArgumentsModel
+from geoips.pydantic_models.v1.output_checkers import OutputCheckerArgumentsModel
 from geoips.pydantic_models.v1.readers import ReaderArgumentsModel
 from geoips.utils.types.partial_lexeme import Lexeme
 
@@ -121,19 +132,13 @@ class OutputFormatterArgumentsModel(PermissiveFrozenModel):
     pass
 
 
-class FilenameFormatterArgumentsModel(PermissiveFrozenModel):
-    """Validate FilenameFormatter arguments."""
-
-    pass
-
-
 class AlgorithmStepValidationModel(PermissiveFrozenModel):
     """Validate step-level requirements for algorithm plugins."""
 
     @model_validator(mode="after")
     def _variables_required_algorithm_plugins(self):
         """
-        Validate that ``varaibles`` field is present when required.
+        Validate that ``variables`` field is present when required.
 
         Ensures that input for the ``variables`` argument is provided for specific
         algorithm plugins and is not None.
@@ -271,7 +276,9 @@ class WorkflowStepDefinitionModel(FrozenModel):
     kind: Lexeme = Field(..., description="plugin kind")
     name: str | tuple[str] = Field(None, description="plugin name", init=False)
     spec: WorkflowSpecModel = Field(None, description="The workflow specification")
-    arguments: Dict[str, Any] = Field(default_factory=dict, description="step args")
+    arguments: Dict[str, Any] | None = Field(
+        default_factory=dict, description="step args"
+    )
 
     @field_validator("kind", mode="before")
     @classmethod
@@ -335,6 +342,7 @@ class WorkflowStepDefinitionModel(FrozenModel):
         if values.get("kind") == "workflow":
             if (values.get("name") is None) == (values.get("spec") is None):
                 raise ValueError("Exactly one of 'name' or 'spec' must be provided.")
+            values["arguments"] = None
         else:
             if values.get("spec"):
                 raise ValueError(
@@ -409,6 +417,10 @@ class WorkflowStepDefinitionModel(FrozenModel):
         WorkflowStepDefinitionModel
             The validated instance of WorkflowStepDefinitionModel
         """
+        if model.arguments is None:
+            # model.arguments is set to None when a workflow has been specified in place
+            # I.e. an expanded product or a workflow with a spec section (no name)
+            return model
         # Delegate arguments validation to each plugin kind argument class
         plugin_kind = model.kind
         plugin_kind_pascal_case = "".join(
@@ -422,6 +434,7 @@ class WorkflowStepDefinitionModel(FrozenModel):
             "CoverageCheckerArgumentsModel": CoverageCheckerArgumentsModel,
             "FilenameFormatterArgumentsModel": FilenameFormatterArgumentsModel,
             "InterpolatorArgumentsModel": InterpolatorArgumentsModel,
+            "OutputCheckerArgumentsModel": OutputCheckerArgumentsModel,
             "OutputFormatterArgumentsModel": OutputFormatterArgumentsModel,
             "CoverageCheckerArgumentsModel": CoverageCheckerArgumentsModel,
             "ProductDefaultArgumentsModel": ProductDefaultArgumentsModel,
@@ -455,24 +468,12 @@ class WorkflowStepDefinitionModel(FrozenModel):
 class WorkflowSpecModel(FrozenModel):
     """The specification for a workflow."""
 
+    # list of steps
     global_arguments: GlobalVariablesModel | None = Field(
         None, description="Arguments shared across workflow steps"
     )
-    steps: Dict[PythonIdentifier, WorkflowStepDefinitionModel] = Field(
+    steps: Dict[str, WorkflowStepDefinitionModel] = Field(
         ..., description="Steps to produce the workflow."
-    )
-    globals: Dict[str, Any] = Field(
-        None,
-        description=(
-            "Optional dictionary of  variables that can be used for multiple plugins in"
-            " a workflow."
-        ),
-        examples=[
-            {
-                "variables": ["B14BT"],
-                "mtif_type": "vis",
-            },
-        ],
     )
 
     @classmethod
@@ -632,7 +633,7 @@ class WorkflowSpecModel(FrozenModel):
                 # Generate a step ID based off the current step's plugin name
                 # if it's a product, merge the name tuple into a single name
                 step_id = (
-                    "_".join(step.get("name"))
+                    ":".join(step.get("name"))
                     if step.get("kind") == "product"
                     else step.get("name")
                 )
@@ -655,26 +656,235 @@ class WorkflowSpecModel(FrozenModel):
         return data
 
 
+class OutputCheckerOverride(PermissiveFrozenModel):
+    """Model for generic output checker overrides in a workflow test section.
+
+    Takes the form of:
+
+    output_checker:
+        name: my_oc
+        arguments:
+        ...
+    """
+
+    name: Optional[str] = Field(
+        None,
+        description=(
+            "The name of the output checker plugin to use. If None, use a default "
+            "output checker plugin associated with the produced file type(s)."
+        ),
+    )
+    arguments: OutputCheckerArgumentsModel = Field(
+        default_factory=dict,
+        description=(
+            "A dictionary of arguments to be supplied to an output_checker plugin."
+        ),
+    )
+
+
+class StepOutputOverride(FrozenModel):
+    """Model for overriding the output checker arguments for a single step.
+
+    Takes the form of:
+
+    step_id:
+        compare_path: path
+        token: token_value
+        argument_x: value
+        ...
+    """
+
+    model_config = ConfigDict(extra="allow")
+
+    # Supporting either FilePath types or str types as yaml.Constructor cannot construct
+    # environment variable flags against an instance of a FilePath object. Only strings
+    # work in that case.
+    compare_path: FilePath | str = Field(
+        ...,
+        description="The path to the comparison file.",
+    )
+    output_products: Optional[List[FilePath] | List[str]] = Field(
+        None,
+        description="A list of paths to the output file(s).",
+    )
+    token: Optional[str] = Field(
+        None,
+        description=(
+            "A token representing the current state of the xarray.Datatree after "
+            "running the referenced step. Not yet implemented."
+        ),
+    )
+
+
+class OutputsConfig(
+    RootModel[
+        Dict[
+            str,
+            Union[
+                OutputCheckerOverride,
+                StepOutputOverride,
+            ],
+        ]
+    ]
+):
+    """Model used to cast an unknown instance of 'outputs' into a single model.
+
+    Arbitrary output names (step ids) mapped to one of:
+        - OutputCheckerConfig
+        - OutputWriterConfig
+    """
+
+    # Arbitrary output names (step ids) mapped to one of:
+    #
+    # - OutputCheckerConfig
+    # - OutputWriterConfig
+    #
+    pass
+
+
+class NestedSpecOverride(PermissiveFrozenModel):
+    """Spec definition allowing for recursive overrides."""
+
+    steps: Dict[str, StepOverrideType] = Field(default_factory=dict)
+
+
+class StepOverrideType(PermissiveFrozenModel):
+    """
+    A workflow step override.
+
+    Either:
+    - arbitrary arguments
+    OR
+    - a nested spec containing additional steps
+    """
+
+    spec: Optional[NestedSpecOverride] = None
+
+
+# class ArgumentOverride(FrozenModel):
+#     """Generic class for argument overrides."""
+
+
+# Required for recursive references
+NestedSpecOverride.model_rebuild()
+StepOverrideType.model_rebuild()
+
+
+class WorkflowTestModel(FrozenModel):
+    """Model for the test section of GeoIPS workflow plugins."""
+
+    # Not pathlib.Path objects as readers only expect a list of strings
+    fnames: List[str] = Field(
+        ...,
+        description="A list of one or more filepaths to the data used for this test.",
+    )
+    #
+    # globals:
+    #   argument: value
+    #
+    globals: Dict[str, Any] = Field(
+        default_factory=dict,
+        description="Override dictionary for global arguments.",
+    )
+
+    #
+    # kinds:
+    #     readers:
+    #         argument: value
+    #
+    # Keys must match interfaces.__all__
+    #
+    kinds: Dict[str, Dict[str, Any]] = Field(
+        default_factory=dict,
+        description="Override dictionary for plugins matching a certain 'kind'.",
+    )
+
+    #
+    # steps:
+    #     step_id:
+    #         argument: value
+    #
+    # or recursive nested specs
+    #
+    steps: Dict[str, StepOverrideType] = Field(
+        default_factory=dict,
+        description="Override dictionary for individual steps.",
+    )
+
+    #
+    # outputs:
+    #     output_checker:  # If not provided use default for the specific file type
+    #         name: my_oc
+    #         arguments:
+    #             compare_path: ...
+    #             token: ...
+    #    ahi_data_writer: {compare_path: ..., token: ...}
+
+    outputs: OutputsConfig = Field(
+        default_factory=dict,
+        description=(
+            "Override dictionary for output checker steps or every instance of"
+            " an output checker."
+        ),
+    )
+
+    @model_validator(mode="after")
+    def validate_kind_keys(self) -> WorkflowTestModel:
+        """Ensure kinds keys are valid GeoIPS interfaces."""
+        # Make sure any element of kinds are a valid interface
+        invalid = set(self.kinds) - set(interfaces.__all__)
+
+        if invalid:
+            raise ValueError(
+                f"Invalid kinds keys: {sorted(invalid)}. "
+                f"Valid interfaces are: {sorted(interfaces.__all__)}"
+            )
+
+        return self
+
+    @field_validator("fnames", mode="before")
+    @classmethod
+    def generate_filepaths(cls, v):
+        """Convert a single string or list of strings to pathlib.Path objects."""
+        if (
+            not isinstance(v, str)
+            and not isinstance(v, list)
+            and not isinstance(v, tuple)
+        ):
+            raise ValueError(
+                f"Error, got {v} but expected a single string or list of strings."
+            )
+
+        filepaths = v if isinstance(v, list) else [v]
+        final_paths = []
+
+        # cspell:ignore ipath, jpath, jpaths
+        for ipath in filepaths:
+            jpaths = sorted(glob(ipath))
+            for jpath in jpaths:
+                # Don't do pathlib.Path as readers don't expect that.
+                final_paths.append(jpath)
+
+        return final_paths
+
+    @field_validator("outputs", mode="before")
+    @classmethod
+    def coerce_outputs(cls, v):
+        """Coerce an instance of 'outputs' into a single model."""
+        return OutputsConfig(root=v).root
+
+
 class WorkflowPluginModel(PluginModel):
     """A plugin that produces a workflow."""
 
     model_config = ConfigDict(extra="allow")
-    spec: WorkflowSpecModel = Field(..., description="The workflow specification")
-    test: Dict[str, Any] = Field(
+    test: WorkflowTestModel = Field(
         None,
         description=(
             "An optional dictionary of parameters used to test this workflow.",
         ),
-        examples=[
-            {
-                "fnames": f"{environ['GEOIPS_TESTDATA_DIR']}/test_data_abi/data/goes16_20200918_1950/*",  # NOQA
-                "command_line_args": {
-                    "compare_path": f"{environ['GEOIPS_PACKAGES_DIR']}/geoips/tests/outputs/abi.static.<product>.imagery_clean",  # NOQA
-                    "logging_level": "info",
-                },
-            },
-        ],
     )
+    spec: WorkflowSpecModel = Field(..., description="The workflow specification")
 
     @model_validator(mode="before")
     @classmethod

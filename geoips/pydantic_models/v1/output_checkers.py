@@ -14,7 +14,7 @@ from __future__ import annotations
 
 from typing import List, Optional
 
-from pydantic import Field, FilePath
+from pydantic import ConfigDict, Field, FilePath
 
 from geoips.pydantic_models.v1.bases import FrozenModel
 
@@ -22,11 +22,16 @@ from geoips.pydantic_models.v1.bases import FrozenModel
 class OutputCheckerArgumentsModel(FrozenModel):
     """Output Checker spec (specification) format."""
 
-    compare_path: Optional[FilePath] = Field(
-        strict=True,
+    model_config = ConfigDict(extra="allow")
+
+    compare_path: FilePath | str = Field(
+        ...,
         description="The path to the comparison file.",
     )
-    output_products: Optional[List[FilePath]] = Field(
-        strict=True,
+    output_products: List[FilePath] | List[str] = Field(
+        ...,
         description="A list of paths to the output file(s).",
+    )
+    token: Optional[str] = Field(
+        None, description="A token of the dataset to compare to."
     )

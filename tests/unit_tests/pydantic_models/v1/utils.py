@@ -8,7 +8,7 @@ from importlib import import_module, resources
 from pathlib import Path
 import pytest
 from copy import deepcopy
-from typing import Any, Tuple, Type
+from typing import Any, List, Tuple, Type
 import warnings
 import yaml
 
@@ -87,7 +87,7 @@ class TestCaseModel(BaseModel):
             "sector plugins)."
         ),
     )
-    err_str: str = Field(
+    err_str: str | List[str] = Field(
         ..., description="Expected error message fragment for the ValidationError."
     )
 
@@ -452,8 +452,14 @@ def validate_bad_plugin(
                     or bad_field == model_class.__name__
                 ), f"Field '{bad_field}' not found in model '{failing_model}'"
         if err_str:
-            assert (
-                err_str in err_msg or err_str == err_msg
+            if not isinstance(err_str, list):
+                err_str = [err_str]
+            passed = []
+            for err in err_str:
+                passed.append(err in err_msg or err == err_msg)
+
+            assert any(
+                passed
             ), f"Expected error message to match: \n {err_str} \n Got:\n{err_msg}"
     else:
         assert False, f"Expected ValidationError for key '{key}', but none was raised."

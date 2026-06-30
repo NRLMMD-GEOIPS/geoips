@@ -61,8 +61,8 @@ throughout the CLI and can be seen in the output from ``-h/--help``.
 Discovery Commands
 ==================
 
-The CLI Implements two top-level discovery commands that retrieve information
-about GeoIPS artifacts: ``list`` and ``describe``.
+The CLI Implements three top-level discovery commands that retrieve information
+about GeoIPS artifacts: ``list``, ``describe``, and ``expand``.
 
 list
 ----
