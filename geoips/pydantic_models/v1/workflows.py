@@ -617,6 +617,44 @@ class WorkflowStepDefinitionModel(FrozenModel):
 
         return model
 
+    @model_validator(mode="after")
+    def _validate_interpolator_step_depends_on_two(
+        cls, model: WorkflowStepDefinitionModel
+    ) -> WorkflowStepDefinitionModel:
+        """
+        Validate that if the step is an an interpolator, that it depends on two steps.
+
+        This validator is called after the model is initialized. It ensures that the
+        entire workflow is valid before perforing this validation. This is a corner
+        case as it is one of few plugins that require exactly two steps to process
+        correctly.
+
+        Parameters
+        ----------
+        model: WorkflowStepDefinitionModel
+            The WorkflowStepDefinitionModel instance to validate.
+
+        Returns
+        -------
+        WorkflowStepDefinitionModel
+            The validated instance of WorkflowStepDefinitionModel
+        """
+        if model.kind != "interpolator":
+            return model
+
+        dependencies = model.depends_on
+
+        if not dependencies or (
+            isinstance(dependencies, list) and len(dependencies) < 2
+        ):
+            raise ValueError(
+                "Error: 'depends_on' field must be specified for any interpolator step "
+                "and it must depend on at least two steps, one of which being an input "
+                "data step and the other being a sector step."
+            )
+
+        return model
+
 
 class WorkflowSpecModel(FrozenModel):
     """The specification for a workflow."""
