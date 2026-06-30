@@ -44,11 +44,7 @@ class BaseFilenameFormatterPlugin(BaseClassPlugin, abstract=True):
             normalized; otherwise the result returned by the base ``_pre_call``.
         """
         if _obp_initiated and isinstance(data, xr.DataTree):
-            children = list(data.children.values())
-            if len(children) == 1:
-                data = children[0].to_dataset()
-            elif len(children) > 1:
-                data = xr.merge([c.to_dataset() for c in children])
+            data = self._to_mutable_dataset(data)
         return super()._pre_call(
             data, *args, _obp_initiated=_obp_initiated, **kwargs
         )
