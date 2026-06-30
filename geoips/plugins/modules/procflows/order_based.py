@@ -97,10 +97,9 @@ def call(workflow, fnames, command_line_args=None):
                 # Temporary re-validate here as well. Just ensures that we catch any
                 # weird bugs.
                 data = plg(
-                    data,
-                    **obp_utils.validate_arguments(
-                        apiVersion, interface, step_def["arguments"]
-                    ),
+                    data=data,
+                    _obp_initiated=True,
+                    **validate_arguments(apiVersion, interface, step_def["arguments"]),
                 )
             LOG.interactive(
                 "Completed Step: step_id: '%s', plugin_kind: '%s', plugin_name: '%s'.",

@@ -40,27 +40,32 @@ class ReaderArgumentsModel(PermissiveFrozenModel):
     area_def: AreaDefinition | None = Field(
         None, description="The domain over which to read data."
     )
-    variables: List[str] = Field(
-        None,
-        description="List of variables to read",
-        alias="chans",
-    )
-    metadata_only: bool = Field(False, description="Read metadata only.")
-    self_register: str = Field(None, description="Enable self-registration.")
     fnames: List[Path] = Field(
         None, description="full path to the file(s) for static dataset inputs."
     )
+    metadata_only: bool = Field(False, description="Read metadata only.")
+    presector: bool = Field(
+        False,
+        description="Specify whether to presector the data prior to applying "
+        "the algorithm",
+    )
+    resampled_read: bool = Field(
+        False,
+        description="Specify whether a resampled read is required, needed for "
+        "datatypes that will be read within 'get_alg_xarray'",
+    )
     sectored_read: bool = Field(False)
+    self_register: str = Field(None, description="Enable self-registration.")
     self_register_source: str = Field(
         None, description="Source dataset to use for self-registration"
     )
     self_register_dataset: str = Field(
         None, description="Dataset within the source to use for self-registration"
     )
-    resampled_read: bool = Field(
-        False,
-        description="Specify whether a resampled read is required, needed for "
-        "datatypes that will be read within 'get_alg_xarray'",
+    variables: List[str] = Field(
+        None,
+        description="List of variables to read",
+        alias="chans",
     )
 
     @field_validator("area_def", mode="before")
