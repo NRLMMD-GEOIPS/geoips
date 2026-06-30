@@ -53,14 +53,20 @@ from geoips.pydantic_models.v1.interpolators import InterpolatorArgumentsModel
 from geoips.pydantic_models.v1.output_checkers import OutputCheckerArgumentsModel
 from geoips.pydantic_models.v1.readers import ReaderArgumentsModel
 from geoips.utils.types.partial_lexeme import Lexeme
+from geoips.interfaces.obp_adaptation import (
+    interface_name_for_kind,
+    kind_for_interface,
+)
 
 LOG = logging.getLogger(__name__)
 
 SCAFFOLD_KINDS = frozenset({"split", "join"})
-"""Kinds reserved as scaffolding markers.
+"""Fan-out/fan-in scaffolding kinds.
 
-Steps with these kinds are accepted by schema validation but raise
-``NotImplementedError`` at runtime.
+``split`` carries an inline body ``spec`` and branch-config ``arguments``
+(``scopes`` or ``over: sector_list``); ``join`` re-collects the branches. These
+do not reference a plugin ``name`` and are skipped by plugin-name / argument
+validation.
 """
 
 DEFAULT_RETENTION = "keep_referenced"
@@ -96,7 +102,7 @@ def get_plugin_names(plugin_kind: str) -> List[str]:
         If the plugin kind is invalid
 
     """
-    interface_name = Lexeme(plugin_kind).plural
+    interface_name = interface_name_for_kind(plugin_kind)
     try:
         interface = getattr(interfaces, interface_name)
     except AttributeError as e:
@@ -128,7 +134,7 @@ def get_plugin_kinds() -> set[str]:
         singular names of distinct plugin kinds
     """
     return {
-        Lexeme(plugin_kinds).singular
+        kind_for_interface(plugin_kinds)
         for ifs in interfaces.list_available_interfaces().values()
         for plugin_kinds in ifs
     }
@@ -247,6 +253,7 @@ class GlobalVariablesModel(PermissiveFrozenModel):
     identification, product DB output configuration, and the
     presectoring toggle)
     """
+
     minimum_coverage: float | str = Field(default=PLUGIN_PROVIDED)
     presector: bool = Field(
         False,
@@ -333,7 +340,13 @@ class WorkflowStepDefinitionModel(FrozenModel):
     spec: WorkflowSpecModel | None = Field(
         None, description="The workflow specification"
     )
-    arguments: Dict[str, Any] = Field(default_factory=dict, description="step args")
+    arguments: Dict[str, Any] | None = Field(
+        default_factory=dict,
+        description=(
+            "Step arguments. ``None`` for ``kind: workflow`` steps (which carry "
+            "an inline ``spec`` instead), as set by ``_ensure_xor_name_spec``."
+        ),
+    )
     depends_on: List[PythonIdentifier] | None = Field(
         None,
         description=(
@@ -408,16 +421,6 @@ class WorkflowStepDefinitionModel(FrozenModel):
 
         return value
 
-    @field_validator("scope", mode="before")
-    @classmethod
-    def _reject_scope(cls, value: str | None) -> None:
-        """Reject non-None ``scope`` — split/join is not yet implemented."""
-        if value is not None:
-            raise ValueError(
-                "scope is not yet implemented — remove this field from the YAML"
-            )
-        return value
-
     @field_validator("when", mode="before")
     @classmethod
     def _reject_when(cls, value: str | None) -> None:
@@ -450,10 +453,29 @@ class WorkflowStepDefinitionModel(FrozenModel):
         ValueError
             If the plugin name is not valid for the specified plugin kind.
         """
-        if values.get("kind") == "workflow":
+        kind = values.get("kind")
+        if kind == "workflow":
             if (values.get("name") is None) == (values.get("spec") is None):
                 raise ValueError("Exactly one of 'name' or 'spec' must be provided.")
             values["arguments"] = None
+        elif kind == "split":
+            # A split step carries an inline 'spec' (the per-branch body sub-
+            # workflow) plus branch-config 'arguments' (e.g. ``over: sector_list``
+            # or an explicit ``scopes`` list). It does not reference a plugin name.
+            if values.get("spec") is None:
+                raise ValueError(
+                    "A 'split' step must provide an inline 'spec' "
+                    "(the per-branch body sub-workflow)."
+                )
+            if values.get("name") is not None:
+                raise ValueError("A 'split' step must not specify a 'name'.")
+        elif kind == "join":
+            # A join step merges the branches produced by a split. It takes no
+            # name and no spec — only ``depends_on`` (the split step id).
+            if values.get("spec") is not None:
+                raise ValueError("A 'join' step cannot define a 'spec'.")
+            if values.get("name") is not None:
+                raise ValueError("A 'join' step must not specify a 'name'.")
         else:
             if values.get("spec"):
                 raise ValueError(
@@ -611,14 +633,17 @@ class WorkflowSpecModel(FrozenModel):
         description=(
             "Per-kind retention overrides. Keys are plugin kind names "
             "(e.g. 'reader', 'algorithm'). If None, no per-kind override. "
-            "This is a v2 feature; field exists but is not wired in v1."
+            "Not yet implemented in v1: rejected at validation by "
+            "``_reject_retention_by_kind`` until the runtime wires it in."
         ),
     )
     defaults: Dict[str, Dict[str, Any]] | None = Field(
         None,
         description=(
             "Per-kind argument defaults applied to every step of that kind. "
-            "Keys are plugin kind names. Step-level arguments override these."
+            "Keys are plugin kind names. Step-level arguments override these. "
+            "Not yet implemented in v1: rejected at validation by "
+            "``_reject_defaults`` until the runtime wires it in."
         ),
     )
 
@@ -627,6 +652,21 @@ class WorkflowSpecModel(FrozenModel):
         if self.retention_by_kind is not None:
             raise ValueError(
                 "retention_by_kind is not yet implemented. "
+                "Remove it from the YAML or set it to null."
+            )
+        return self
+
+    @model_validator(mode="after")
+    def _reject_defaults(self):
+        """Reject ``defaults`` until the runtime wires it in.
+
+        The field is accepted by the schema but never consumed by
+        ``Workflow.call``; rejecting at validation prevents a spec from
+        silently ignoring per-kind defaults (decision D4).
+        """
+        if self.defaults is not None:
+            raise ValueError(
+                "defaults (per-kind argument defaults) is not yet implemented. "
                 "Remove it from the YAML or set it to null."
             )
         return self
@@ -742,7 +782,7 @@ class WorkflowSpecModel(FrozenModel):
         expand = context.get("expand", False)
 
         kind = step.get("kind")
-        interface = getattr(interfaces, Lexeme(kind).plural)
+        interface = getattr(interfaces, interface_name_for_kind(kind))
 
         if kind == "product":
             plugin = interface.get_plugin(*step.get("name"))
@@ -913,6 +953,7 @@ class WorkflowSpecModel(FrozenModel):
                     stack.pop()
 
         return self
+
 
 class OutputCheckerOverride(PermissiveFrozenModel):
     """Model for generic output checker overrides in a workflow test section.
