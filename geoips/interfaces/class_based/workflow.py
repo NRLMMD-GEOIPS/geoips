@@ -9,8 +9,11 @@ order, and walks through the steps collecting downstream provenance into an
 ``xr.DataTree``.  Retention is governed by the Strategy pattern so the
 execution loop never branches on the policy name.
 
-Split / join steps are accepted by the schema but are not implemented;
-the runtime raises ``NotImplementedError`` when encountering them.
+``split`` steps fan a workflow out into one branch per scope (e.g. one per
+static sector in ``globals.sector_list``), running an inline body sub-workflow
+per branch; ``join`` steps re-collect those branches.  Conditional execution
+(``when``) is accepted by the schema but not yet implemented and raises
+``NotImplementedError`` at runtime.
 """
 
 from __future__ import annotations
@@ -27,7 +30,6 @@ import xarray as xr
 
 from geoips.pydantic_models.v1.workflows import (
     DEFAULT_RETENTION,
-    SCAFFOLD_KINDS,
     WorkflowSpecModel,
     WorkflowStepDefinitionModel,
 )
@@ -351,17 +353,16 @@ class Workflow:
         tree = (
             xr.DataTree(name=self._wf_name) if workflow_tree is None else workflow_tree
         )
+        # A *seeded* run is a sub-workflow handed a pre-loaded input tree (e.g. a
+        # split branch). For these, a first step (``depends_on: []``) consumes the
+        # seeded input. A top-level run (``workflow_tree is None``) is never
+        # seeded, so its independent steps receive no upstream data.
+        seeded = workflow_tree is not None and bool(dict(workflow_tree.children))
         self._set_root_attrs(tree)
         executed: set[str] = set()
 
         for sid in self._order:
             step_def = self._spec.steps[sid]
-
-            if step_def.kind in SCAFFOLD_KINDS:
-                raise NotImplementedError(
-                    f"split/join execution is not yet implemented "
-                    f"(encountered at step '{sid}')"
-                )
 
             if step_def.when is not None:
                 raise NotImplementedError(
@@ -374,29 +375,18 @@ class Workflow:
 
             upstream = self._collect_upstream_data(tree, step_def.depends_on or [])
 
-            if step_def.kind == "workflow":
+            if step_def.kind == "split":
+                step_result = self._run_split(upstream, step_def, sid, fnames=fnames)
+            elif step_def.kind == "join":
+                step_result = self._run_join(tree, step_def, sid)
+            elif step_def.kind == "workflow":
                 sub_spec = self._resolve_workflow_spec(step_def)
-                sub_wf = Workflow(sub_spec, workflow_name=sid)
-                step_result = sub_wf.call(workflow_tree=upstream, fnames=fnames)
-            elif not (step_def.depends_on or []):
-                plg = self._resolve_plugin(step_def.kind, step_def.name)
-                if step_def.kind == "reader":
-                    step_result = plg(
-                        fnames=fnames,
-                        _obp_initiated=True,
-                        **(step_def.arguments or {}),
-                    )
-                else:
-                    step_result = plg(
-                        _obp_initiated=True,
-                        **(step_def.arguments or {}),
-                    )
+                step_result = Workflow(sub_spec, workflow_name=sid).call(
+                    workflow_tree=upstream, fnames=fnames
+                )
             else:
-                plg = self._resolve_plugin(step_def.kind, step_def.name)
-                step_result = plg(
-                    data=upstream,
-                    _obp_initiated=True,
-                    **(step_def.arguments or {}),
+                step_result = self._invoke_plugin_step(
+                    step_def, upstream, seeded=seeded, fnames=fnames
                 )
 
             end_iso = datetime.now(timezone.utc).isoformat()
@@ -432,6 +422,142 @@ class Workflow:
             self._apply_retention(tree, executed)
 
         return tree
+
+    def _invoke_plugin_step(self, step_def, upstream, *, seeded, fnames):
+        """Resolve and call a single plugin step (not split/join/workflow).
+
+        The data a step receives depends on its position:
+
+        * a ``reader`` gets ``fnames`` (and no upstream data);
+        * a step with dependencies — or the first step of a *seeded*
+          sub-workflow (a split branch) — gets ``data=upstream``;
+        * any other independent step is called with no data.
+        """
+        plg = self._resolve_plugin(step_def.kind, step_def.name)
+        arguments = step_def.arguments or {}
+        if step_def.kind == "reader":
+            return plg(fnames=fnames, _obp_initiated=True, **arguments)
+        if step_def.depends_on or seeded:
+            return plg(data=upstream, _obp_initiated=True, **arguments)
+        return plg(_obp_initiated=True, **arguments)
+
+    # ------------------------------------------------------------------
+    # split / join (per-branch fan-out, e.g. one branch per static sector)
+    # ------------------------------------------------------------------
+
+    def _run_split(self, upstream, step_def, sid, *, fnames=None):
+        """Run a ``split`` step's inline body sub-workflow once per branch.
+
+        Branches come from the step's ``arguments``:
+
+        * ``scopes: [k1, k2, ...]`` — explicit branch keys (no sector context).
+        * ``over: sector_list`` — one branch per static sector resolved from
+          ``globals.sector_list``; each branch's ``AreaDefinition`` is seeded
+          into the branch input tree as a ``sector`` node so the body's steps
+          receive it as ``area_def`` via the standard conduit mechanism.
+
+        Each branch result is nested under ``/<sid>/<scope>``.
+
+        Parameters
+        ----------
+        upstream : xr.DataTree
+            Collected upstream data for the split step.
+        step_def : WorkflowStepDefinitionModel
+            The ``kind="split"`` step definition (carries the inline body spec).
+        sid : str
+            The split step id (root node name for the branch subtree).
+        fnames : list[str] or None
+            Input filenames forwarded to each branch sub-workflow.
+
+        Returns
+        -------
+        xr.DataTree
+            A node named *sid* with one child per branch scope.
+        """
+        body_spec = step_def.spec
+        if body_spec is None:
+            raise PluginResolutionError(f"split step '{sid}' has no inline body spec")
+
+        branches = self._resolve_branches(step_def, sid)
+        split_node = xr.DataTree(name=sid)
+        for scope, area_def in branches:
+            seed = self._seed_branch_tree(upstream, area_def)
+            branch_wf = Workflow(body_spec, workflow_name=scope)
+            branch_result = branch_wf.call(workflow_tree=seed, fnames=fnames)
+            split_node[scope] = branch_result
+
+        split_node.attrs["split_scopes"] = [scope for scope, _ in branches]
+        return split_node
+
+    def _resolve_branches(self, step_def, sid):
+        """Return ``[(scope_name, AreaDefinition | None), ...]`` for a split step."""
+        args = step_def.arguments or {}
+        if args.get("scopes"):
+            return [(str(scope), None) for scope in args["scopes"]]
+        if args.get("over") == "sector_list":
+            branches = self._resolve_sector_branches()
+            if not branches:
+                raise PluginResolutionError(
+                    f"split step '{sid}' uses 'over: sector_list' but no sectors "
+                    f"could be resolved from globals.sector_list"
+                )
+            return branches
+        raise PluginResolutionError(
+            f"split step '{sid}' must define arguments with either 'scopes' "
+            f"(explicit branch keys) or 'over: sector_list'"
+        )
+
+    def _resolve_sector_branches(self):
+        """Return ``[(scope_name, AreaDefinition)]`` from ``globals.sector_list``."""
+        branches: list[tuple[str, Any]] = []
+        for area_def in self._resolve_area_defs():
+            name = (
+                getattr(area_def, "area_id", None)
+                or getattr(area_def, "name", None)
+                or f"sector_{len(branches)}"
+            )
+            branches.append((str(name), area_def))
+        return branches
+
+    @staticmethod
+    def _seed_branch_tree(upstream, area_def):
+        """Build a branch input tree: upstream data + an optional sector node.
+
+        The branch body's first step (``depends_on: []``) receives this tree
+        directly (see :meth:`_collect_upstream_data`), so seeding a ``sector``
+        node here makes the per-branch ``area_def`` available to the body's
+        steps through the normal conduit extraction.
+        """
+        seed = xr.DataTree(name="branch_input")
+        if isinstance(upstream, xr.DataTree):
+            for child_name, child in dict(upstream.children).items():
+                seed[child_name] = child
+        if area_def is not None:
+            sector_ds = xr.Dataset(
+                attrs={"area_definition": area_def, "plugin_kind": "sector"}
+            )
+            seed["_sector"] = DataTreeDitto(sector_ds, name="_sector")
+        return seed
+
+    def _run_join(self, tree, step_def, sid):
+        """Collect a split's per-branch outputs into a single node.
+
+        Re-nests each branch subtree under ``/<sid>/<scope>`` and records the
+        joined scopes in ``joined_scopes``.
+        """
+        join_node = xr.DataTree(name=sid)
+        joined_scopes: list[str] = []
+
+        for dep in step_def.depends_on or ():
+            split_node = tree.get(dep)
+            if split_node is None:
+                continue
+            for scope, branch in dict(split_node.children).items():
+                joined_scopes.append(scope)
+                join_node[scope] = branch
+
+        join_node.attrs["joined_scopes"] = joined_scopes
+        return join_node
 
     @staticmethod
     def _resolve_workflow_spec(
@@ -483,11 +609,13 @@ class Workflow:
         PluginResolutionError
             If the interface or plugin cannot be resolved.
         """
-        from geoips import interfaces
-        from geoips.utils.types.partial_lexeme import Lexeme
+        from geoips.interfaces.obp_adaptation import (
+            interface_name_for_kind,
+            kind_to_interface,
+        )
 
-        interface_name = str(Lexeme(kind).plural)
-        iface = getattr(interfaces, interface_name, None)
+        interface_name = interface_name_for_kind(kind)
+        iface = kind_to_interface(kind)
         if iface is None:
             raise PluginResolutionError(
                 f"Kind '{kind}' -> interface '{interface_name}': "
