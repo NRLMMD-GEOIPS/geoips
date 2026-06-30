@@ -54,6 +54,19 @@ class StepProvenance:
     output_token: str
     gc_status: str = "kept"
 
+    @classmethod
+    def from_attrs(cls, attrs: dict) -> "StepProvenance":
+        """Reconstruct from a node's ``ds.attrs`` dict."""
+        return cls(
+            plugin_name=attrs.get("plugin_name", "unknown"),
+            plugin_kind=attrs.get("plugin_kind", "unknown"),
+            start_time=attrs.get("start_time", ""),
+            end_time=attrs.get("end_time", ""),
+            arguments_hash=attrs.get("arguments_hash", ""),
+            output_token=attrs.get("output_token", ""),
+            gc_status=attrs.get("gc_status", "kept"),
+        )
+
 
 class RetentionPolicy(ABC):
     """Decides whether a step's data variables may be garbage-collected.
@@ -197,7 +210,6 @@ class Workflow:
 
     def _attach_step_node(
         self, tree: xr.DataTree, step_id: str, step_data: Any,
-        step_kind: str = "",
     ) -> None:
         """Attach a step's output as a child node in the DataTree.
 
@@ -209,33 +221,9 @@ class Workflow:
             Step identifier used as the child node name.
         step_data : Any
             The return value of ``plugin._invoke(...)``.
-        step_kind : str
-            The step kind, used to specialise handling (e.g. readers).
         """
         if isinstance(step_data, xr.DataTree):
             tree[step_id] = step_data
-        elif isinstance(step_data, dict) and step_kind == "reader":
-            primary_ds = None
-            extra_attrs = {}
-            for key, value in step_data.items():
-                if isinstance(value, xr.Dataset):
-                    if key == "METADATA":
-                        extra_attrs.update(value.attrs)
-                    elif primary_ds is None:
-                        primary_ds = value
-                        extra_attrs["_reader_dataset_key"] = key
-                    else:
-                        # Merge additional datasets into the primary
-                        try:
-                            primary_ds = xr.merge([primary_ds, value])
-                        except Exception as exc:
-                            LOG.warning(
-                                "Could not merge reader dataset %r into primary: %s",
-                                key, exc,
-                            )
-                            extra_attrs[f"_reader_extra_{key}"] = str(key)
-            ds = (primary_ds or xr.Dataset()).assign_attrs(**extra_attrs)
-            tree[step_id] = DataTreeDitto(ds, name=step_id)
         else:
             tree[step_id] = DataTreeDitto(step_data, name=step_id)
 
@@ -268,15 +256,8 @@ class Workflow:
             del node.ds[var_name]
 
         # Reconstruct provenance from existing attrs; mark as GC'd
-        prov = StepProvenance(
-            plugin_name=node.ds.attrs.get("plugin_name", "unknown"),
-            plugin_kind=node.ds.attrs.get("plugin_kind", "unknown"),
-            start_time=node.ds.attrs.get("start_time", ""),
-            end_time=node.ds.attrs.get("end_time", ""),
-            arguments_hash=node.ds.attrs.get("arguments_hash", ""),
-            output_token=node.ds.attrs.get("output_token", ""),
-            gc_status="data_dropped",
-        )
+        prov = StepProvenance.from_attrs(node.ds.attrs)
+        prov = dataclasses.replace(prov, gc_status="data_dropped")
         self._record_provenance(node, prov)
 
     def _apply_retention(self, tree: xr.DataTree, executed: set[str]) -> None:
@@ -442,7 +423,7 @@ class Workflow:
                 output_token=output_token,
             )
 
-            self._attach_step_node(tree, sid, step_result, step_kind=step_def.kind)
+            self._attach_step_node(tree, sid, step_result)
             self._record_provenance(tree[sid], prov)
             executed.add(sid)
             self._apply_retention(tree, executed)
@@ -467,8 +448,7 @@ class Workflow:
 
         plg = Workflow._resolve_plugin(step_def.kind, step_def.name)
         if isinstance(plg, YamlPluginCallable):
-            spec_dict = plg._yaml.get("spec", {})
-            return WorkflowSpecModel.model_validate(spec_dict)
+            return WorkflowSpecModel.model_validate(plg.spec)
         if hasattr(plg, "spec"):
             return plg.spec
 
