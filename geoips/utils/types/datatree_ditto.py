@@ -292,11 +292,15 @@ class DataTreeDitto(DataTree):
         if original_type is None:
             return dataset
 
-        # Find converter by original type string — preserve the existing
-        # string-matching behaviour for backward compatibility.
-        for obj_type, converter_dict in self._converters.items():
-            if f"{obj_type.__module__}.{obj_type.__name__}" == original_type:
-                return converter_dict["from_dataset"](dataset)
+        # Resolve the original-type string against the shared registry and
+        # delegate the reverse (Dataset -> original) conversion to it, so the
+        # converter dispatch has a single source of truth.  ``_converters`` is
+        # retained only as a backward-compatible registration mirror.
+        from geoips.utils.types.converter_registry import converter_registry
+
+        for target_type in converter_registry.registered_types.get(xr.Dataset, ()):
+            if f"{target_type.__module__}.{target_type.__name__}" == original_type:
+                return converter_registry.convert(dataset, target_type)
 
         # Fallback: return dataset if converter not found
         return dataset

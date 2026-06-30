@@ -24,17 +24,6 @@ from geoips.utils.types.datatree_ditto import DataTreeDitto
 
 LOG = logging.getLogger(__name__)
 
-# ---------------------------------------------------------------------------
-# kind → downstream kwarg name mapping
-# ---------------------------------------------------------------------------
-
-
-def _kind_to_kwarg():
-    """Return {plugin_kind: kwarg_name} from the shared OBP conduits registry."""
-    from geoips.interfaces.class_based_plugin import _OBP_CONDUITS
-
-    return {k: v["kwarg"] for k, v in _OBP_CONDUITS.items()}
-
 
 class YamlPluginCallable:
     """Wraps a YAML plugin dict into a callable DataTree participant.
@@ -91,10 +80,11 @@ class YamlPluginCallable:
             A ``DataTreeDitto`` whose ``ds.attrs`` contain the plugin's
             ``spec`` dictionary and the standard routing metadata.
         """
+        from geoips.interfaces.obp_adaptation import kind_for_interface
+
         spec = dict(self._yaml.get("spec", {}))
-        kind = self.interface.rstrip(
-            "s"
-        )  # e.g. "gridline_annotators" → "gridline_annotator"
+        # e.g. "gridline_annotators" -> "gridline_annotator"
+        kind = kind_for_interface(self.interface)
 
         if self.interface == "gridline_annotators" and data is not None:
             from geoips.dev.output_config import set_lonlat_spacing
@@ -117,11 +107,13 @@ class YamlPluginCallable:
                         "Failed to compute gridline spacing for %r: %s", self.name, exc
                     )
 
+        from geoips.interfaces.obp_adaptation import kwarg_name_for_kind
+
         ds = xr.Dataset(
             attrs={
                 "spec": spec,
                 "plugin_kind": kind,
-                "output_key": _kind_to_kwarg().get(kind, kind),
+                "output_key": kwarg_name_for_kind(kind),
             }
         )
         dt = DataTreeDitto(ds, name=self.name)
