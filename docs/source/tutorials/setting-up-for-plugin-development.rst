@@ -8,7 +8,7 @@
 Setting up for Plugin Development
 =================================
 
-1. To develop a new GeoIPS plugin, first :ref:`install GeoIPS<installing-geoips>` and ensure
+1. To develop a new GeoIPS plugin, first :ref:`install GeoIPS<installation>` and ensure
    that you have your environment enabled and all environment variables set as described in
    the installation instructions.
 

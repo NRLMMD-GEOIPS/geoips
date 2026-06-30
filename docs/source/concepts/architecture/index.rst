@@ -12,9 +12,5 @@ Architecture
     extend-with-plugins
     interfaces/module_based/output-checkers/index.rst
     structure-of-geoips/index
-    xarray-standards
     geoips-specification
-    cached-files
-    tests/index
-    documentation/index
     command_line_interface

@@ -12,6 +12,6 @@ Getting Started
 
    what-is-geoips/index
    system-requirements
-   installing/index
+   installation
    best-practices/research-and-ops
 

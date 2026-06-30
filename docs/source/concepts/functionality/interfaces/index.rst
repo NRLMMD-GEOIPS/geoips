@@ -9,6 +9,7 @@ Interfaces
 .. toctree::
     :maxdepth: 1
 
+    architecture_interfaces
     module_based/algorithm
     module_based/colormapper
     module_based/filename_formats

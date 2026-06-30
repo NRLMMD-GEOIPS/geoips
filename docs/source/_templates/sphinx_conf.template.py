@@ -5,6 +5,7 @@
 
 import sys
 import os
+from pathlib import Path
 import PKGNAME
 
 VERSION = str(PKGNAME.__version__)
@@ -90,7 +91,14 @@ exclude_patterns = [
     # https://github.com/sphinx-doc/sphinx/issues/1965#issuecomment-124732907
     "**/includes/**",
     "import/*",
+    "getting-started/installing/**",
+    "links.rst",
 ]
+
+# The reST epilog is included at the end of every source file that is read, and
+# can be used to include common content, in this case, useful links.
+docs_dir = Path(__file__).parent
+rst_epilog = (docs_dir / "links.rst").read_text(encoding="utf-8")
 
 # The reST default role (used for this markup: `text`) to use for all
 # documents.
@@ -136,8 +144,8 @@ html_theme_options = {
     "github_url": "https://github.com/NRLMMD-GEOIPS/PKGNAME",
     "navbar_end": ["theme-switcher", "navbar-icon-links"],
     "logo": {
-        "image_light": "_static/NRL_logo_RGB.jpg",
-        "image_dark": "_static/NRL_logo_sidebar_Reverse.png",
+        "image_light": "_static/geoips_logo.png",
+        "image_dark": "_static/geoips_logo.png",
     },
 }
 
@@ -336,7 +344,22 @@ def rstjinja(app, docname, source):
     if app.builder.format != "html":
         return
     src = source[0]
-    rendered = app.builder.templates.render_string(src, app.config.html_context)
+    context = dict(app.config.html_context or {})
+    context.update(
+        {
+            "pkgname": "PKGNAME",
+            "pkgtitle": "PKGNAME" if "PKGNAME" != "geoips" else "GeoIPS",
+            "docname": docname,
+            "builder": app.builder,
+            "config": app.config,
+            "env": app.env,
+            "project": app.config.project,
+            "author": app.config.author,
+            "version": app.config.version,
+            "release": app.config.release,
+        }
+    )
+    rendered = app.builder.templates.render_string(src, context)
     source[0] = rendered
 
 
