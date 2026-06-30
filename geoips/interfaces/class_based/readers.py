@@ -22,15 +22,29 @@ class BaseReaderPlugin(BaseClassPlugin, abstract=True):
     data_tree = False
 
     def _post_call(self, data=None, *args, _obp_initiated=False, **kwargs):
-        """Return reader dict output as-is when OBP-initiated.
+        """Merge reader dict output into a ``DataTree`` for OBP.
 
-        Readers return {key: xr.Dataset}. The base _post_call wraps this
-        in DataTreeDitto which stringifies the Dataset values. Return the
-        raw dict so Workflow._attach_step_node can extract the primary
-        Dataset and attach it to the tree correctly.
+        Readers return ``{key: xr.Dataset}``.  This hook merges the dict
+        into a single ``xr.Dataset``, preserving ``METADATA`` attrs,
+        and wraps the result in a plain ``xr.DataTree`` so downstream
+        steps can access it via the standard tree-based data flow.
         """
         if _obp_initiated and isinstance(data, dict):
-            return data
+            primary_ds = None
+            extra_attrs = {}
+            for key, value in data.items():
+                if isinstance(value, xr.Dataset):
+                    if key == "METADATA":
+                        extra_attrs.update(value.attrs)
+                    elif primary_ds is None:
+                        primary_ds = value
+                    else:
+                        try:
+                            primary_ds = xr.merge([primary_ds, value])
+                        except Exception:
+                            pass
+            ds = (primary_ds or xr.Dataset()).assign_attrs(**extra_attrs)
+            return xr.DataTree(ds, name=getattr(self, "name", "reader"))
         return super()._post_call(
             data, *args, _obp_initiated=_obp_initiated, **kwargs
         )
