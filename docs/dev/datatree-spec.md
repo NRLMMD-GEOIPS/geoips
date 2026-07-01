@@ -338,33 +338,6 @@ Step `name` values match the `PluginModel.name` field of the registered plugin. 
 Parallel branches are introduced by a `split` operator and closed by a `join` operator. A `split` step's node has named children — one per branch. Steps with `scope: <branch>` produce nodes nested under the corresponding branch path: `/<split_id>/<branch>/<step_id>`. The `DataTree` thus **mirrors** the **execution structure** all the way down.
 
 ```yaml
-steps:
-  iter_sectors:
-    kind: split
-    name: split_by_sector_list
-    depend_on: [read_abi]
-    arguments:
-      sector_list: ["conus", "colorado", "texas"]
-    spec:
-      apply_sector:
-        kind: sector
-        name: {{ current_sector }}  # Using jinja2 notation here but not sure if correct
-      interp_to_sector:
-        kind: interpolator
-        name: nearest_neighbor
-        arguments: {}
-      infrared:
-        kind: algorithm
-        name: single_channel
-        arguments:
-          output_data_range: [-90, 30]
-      ...
-      write_image:
-        kind: output_formatter
-        name: imagery_clean
-```
-
-```yaml
 split_by_cloud_mask:
   kind: split
   name: split_by_data
