@@ -97,5 +97,4 @@ def patch_plugin_registry(monkeypatch):
     """
     from geoips.interfaces.class_based.workflow import Workflow
 
-    monkeypatch.setattr(Workflow, "_resolve_plugin",
-                        staticmethod(_mock_resolve_plugin))
+    monkeypatch.setattr(Workflow, "_resolve_plugin", staticmethod(_mock_resolve_plugin))

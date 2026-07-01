@@ -380,7 +380,10 @@ def compute_lon_auto_spacing(area_def):
 
     if maxlon < minlon:
         maxlon = maxlon + 360
-    elif maxlon == minlon and area_def.area_extent_ll[3] - area_def.area_extent_ll[1] >= 170:
+    elif (
+        maxlon == minlon
+        and area_def.area_extent_ll[3] - area_def.area_extent_ll[1] >= 170
+    ):
         # global dataset: both longitudes wrap to the same point
         maxlon = maxlon + 360
     lon_extent = maxlon - minlon

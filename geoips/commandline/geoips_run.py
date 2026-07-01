@@ -131,6 +131,8 @@ class GeoipsRunOrderBased(GeoipsWorkflowCommand):
     source would use.
     """
 
+    # add something to this command 'that would generate tokens' maybe '--write-tokens'
+
     name = "order_based"
     command_classes = []
     warning_with_color = (
@@ -326,6 +328,16 @@ class GeoipsRunOrderBased(GeoipsWorkflowCommand):
                 "'<global_variable_name>=<some_value>'"
             ),
         )
+        self.parser.add_argument(
+            "-wt",
+            "--write-tokens",
+            default=False,
+            action="store_true",
+            help=(
+                "Write tokens for the output of every step in a workflow. Used for "
+                "quick comparison against known token outputs."
+            ),
+        )
 
         # Turning off all additional procflow args for this command. We want this
         # command to have a limited set of arguments to start.
@@ -405,7 +417,7 @@ class GeoipsRunOrderBased(GeoipsWorkflowCommand):
         workflow = self._apply_overrides(workflow, args)
 
         obp = procflows.get_plugin("order_based")
-        obp(workflow=workflow, fnames=args.filenames, command_line_args=args)
+        obp(workflow_spec=workflow, fnames=args.filenames, command_line_args=args)
 
         if PATHS["NO_COLOR"]:
             print(self.warning_no_color)

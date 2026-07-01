@@ -307,8 +307,6 @@ class TestCollectUpstreamNested:
             _make_spec({"r": {"kind": "reader", "name": "x", "arguments": {}}}),
             workflow_name="test",
         )
-        empty_root = wf._collect_upstream_data(
-            xr.DataTree(name="fresh"), []
-        )
+        empty_root = wf._collect_upstream_data(xr.DataTree(name="fresh"), [])
         assert dict(empty_root.children) == {}
         assert empty_root.name == "empty"

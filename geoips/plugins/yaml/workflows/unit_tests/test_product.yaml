@@ -11,8 +11,8 @@ test:
   fnames: !ENV ${GEOIPS_TESTDATA_DIR}/test_data_abi/data/goes16_20200918_1950/*
   outputs:
     abi:Infrared:
+      full_test_policy: on_token_mismatch # always | never
       compare_path: !ENV ${GEOIPS_PACKAGES_DIR}/geoips/tests/outputs/abi.static.Infrared.imagery_clean/20200918.195020.goes-16.abi.Infrared.test_goes16_eqc_3km_day_20200918T1950Z.100p00.noaa.3p0.png
-      token: FAKE_TOKEN
   steps:
     reader:
       area_def: null
@@ -33,18 +33,8 @@ spec:
       kind: reader
       name: abi_netcdf
       arguments:
-        variables: ['B14BT']
-    product:
+        chans: ['B14BT']
+    abi:Infrared:
       kind: product
       name: [abi, Infrared]
       arguments: {}
-    # TODO: Implement logic that automatically generates 'output_products'. Right now
-    # if this is not commented out the CI will fail since the 'output_product' paths
-    # differ for CI than on my local machine
-    # output_checker:
-    #   kind: output_checker
-    #   name: image
-    #   arguments:
-    #     compare_path: !ENV ${GEOIPS_PACKAGES_DIR}/geoips/tests/outputs/abi.static.Infrared.imagery_clean.low_memory/20200918.195020.goes-16.abi.Infrared.test_goes16_eqc_3km_night_20200918T1950Z.100p00.noaa.3p0.png
-    #     output_products:
-    #       - !ENV ${GEOIPS_OUTDIRS}/preprocessed/annotated_imagery/Tests-x-Goes_East/x-x-x/Infrared/abi/20200918.195020.goes-16.abi.Infrared.test_goes16_eqc_3km_day_20200918T1950Z.100p00.noaa.3p0.png
