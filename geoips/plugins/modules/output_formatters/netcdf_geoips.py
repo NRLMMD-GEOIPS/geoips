@@ -3,14 +3,14 @@
 
 """Geoips style NetCDF output format."""
 
-from geoips.interfaces.class_based.output_formatters import BaseOutputFormatterPlugin
+from geoips.interfaces.class_based.output_formatters import NetcdfOutputFormatterPlugin
 
 import logging
 
 LOG = logging.getLogger(__name__)
 
 
-class NetcdfGeoipOutputFormatterPlugin(BaseOutputFormatterPlugin):
+class NetcdfGeoipOutputFormatterPlugin(NetcdfOutputFormatterPlugin):
     """Netcdf Geoip Output formatter plugin class."""
 
     interface = "output_formatters"

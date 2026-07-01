@@ -3,7 +3,7 @@
 
 """Standard xarray-based NetCDF output format."""
 
-from geoips.interfaces.class_based.output_formatters import BaseOutputFormatterPlugin
+from geoips.interfaces.class_based.output_formatters import NetcdfOutputFormatterPlugin
 
 import logging
 from datetime import datetime
@@ -13,7 +13,7 @@ import numpy as np
 LOG = logging.getLogger(__name__)
 
 
-class NetcdfXarrayOutputFormatterPlugin(BaseOutputFormatterPlugin):
+class NetcdfXarrayOutputFormatterPlugin(NetcdfOutputFormatterPlugin):
     """Netcdf Xarray Output formatter plugin class."""
 
     interface = "output_formatters"
@@ -39,39 +39,6 @@ class NetcdfXarrayOutputFormatterPlugin(BaseOutputFormatterPlugin):
                 compression_kwargs=compression_kwargs,
             )
         return output_fnames
-
-    def clean_attr_for_netcdf(self, xobj, attr):
-        """Check xarray attributes."""
-        # datetime
-        if isinstance(xobj.attrs[attr], datetime):
-            xobj.attrs[attr] = xobj.attrs[attr].strftime("%c")
-        # None cast as string.
-        elif xobj.attrs[attr] is None:
-            xobj.attrs[attr] = str(xobj.attrs[attr])
-        # bools cast as string.
-        elif isinstance(xobj.attrs[attr], bool):
-            xobj.attrs[attr] = str(xobj.attrs[attr])
-        # use json.dumps for dict, list, and tuples.
-        elif isinstance(xobj.attrs[attr], (dict, list, tuple)):
-            xobj.attrs[attr] = json.dumps(
-                xobj.attrs[attr], default=self.make_json_friendly
-            )
-        # str, bytes, int, float are natively handled
-        elif isinstance(xobj.attrs[attr], (str, bytes, int, float)):
-            xobj.attrs[attr] = xobj.attrs[attr]
-        # other non-native types can just be cast to string.
-        # We may want to remove this case, if we want to explicitly handle non-supported
-        # types, for easier conversion when reading back in.
-        elif not isinstance(xobj.attrs[attr], (str, bytes, int, float)):
-            xobj.attrs[attr] = str(xobj.attrs[attr])
-        else:
-            LOG.warning(
-                "SKIPPING attr %s %s, unsupported type %s",
-                attr,
-                xobj.attrs[attr],
-                type(attr),
-            )
-            xobj.attrs.pop(attr)
 
     def make_json_friendly(self, value):
         """Return a JSON-serializable version of `value`."""

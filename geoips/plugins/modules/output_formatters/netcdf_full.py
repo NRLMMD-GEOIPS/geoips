@@ -3,14 +3,14 @@
 
 """Full NetCDF output format, writing out all channels in full dataset."""
 
-from geoips.interfaces.class_based.output_formatters import BaseOutputFormatterPlugin
+from geoips.interfaces.class_based.output_formatters import NetcdfOutputFormatterPlugin
 
 import logging
 
 LOG = logging.getLogger(__name__)
 
 
-class NetcdfFullOutputFormatterPlugin(BaseOutputFormatterPlugin):
+class NetcdfFullOutputFormatterPlugin(NetcdfOutputFormatterPlugin):
     """Netcdf Full Output formatter plugin class."""
 
     interface = "output_formatters"

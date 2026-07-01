@@ -3,7 +3,7 @@
 
 """Produce histogram from the given dataset with specified bin size."""
 
-from geoips.interfaces.class_based.output_formatters import BaseOutputFormatterPlugin
+from geoips.interfaces.class_based.output_formatters import NetcdfOutputFormatterPlugin
 
 import logging
 import numpy
@@ -11,7 +11,7 @@ import numpy
 LOG = logging.getLogger(__name__)
 
 
-class HistogramJsonOutputFormatterPlugin(BaseOutputFormatterPlugin):
+class HistogramJsonOutputFormatterPlugin(NetcdfOutputFormatterPlugin):
     """Histogram Json Output formatter plugin class."""
 
     interface = "output_formatters"

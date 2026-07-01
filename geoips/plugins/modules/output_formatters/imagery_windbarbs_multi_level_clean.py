@@ -3,14 +3,18 @@
 
 """Matplotlib-based windbarb annotated image output clean."""
 
-from geoips.interfaces.class_based.output_formatters import BaseOutputFormatterPlugin
+from geoips.interfaces.class_based.output_formatters import (
+    WindbarbOutputFormatterPlugin,
+)
 
 import logging
 
 LOG = logging.getLogger(__name__)
 
 
-class ImageryWindbarbsMultiLevelCleanOutputFormatterPlugin(BaseOutputFormatterPlugin):
+class ImageryWindbarbsMultiLevelCleanOutputFormatterPlugin(
+    WindbarbOutputFormatterPlugin
+):
     """Imagery Windbarbs Multi Level Clean Output formatter plugin class."""
 
     interface = "output_formatters"

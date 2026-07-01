@@ -3,6 +3,8 @@
 
 """Output formatters interface class."""
 
+from datetime import datetime
+import json
 import logging
 from os.path import dirname, exists
 
@@ -20,107 +22,64 @@ LOG = logging.getLogger(__name__)
 class BaseOutputFormatterPlugin(BaseClassPlugin, abstract=True):
     """Base class for GeoIPS output_formatter plugins."""
 
-    def write_xarray_netcdf(
-        self,
-        xarray_obj,
-        ncdf_fname,
-        clobber=False,
-        use_compression=True,
-        compression_kwargs=None,
+    def update_sector_info_with_default_metadata(
+        self, area_def, xarray_obj, product_filename=None, metadata_filename=None
     ):
-        """Write out xarray_obj to netcdf file named ncdf_fname."""
-        make_dirs(dirname(ncdf_fname))
+        """Update sector info found in "area_def" with standard metadata output.
 
-        orig_attrs = xarray_obj.attrs.copy()
-        orig_var_attrs = {}
+        This function is used by metadata_tc output formatter as well for updating the
+        sector_info with these additional default metadata fields. We should not filter
+        out non-default metadata here, since metadata_tc uses this function.
 
-        # Specially handled attributes.
-        area_def_str = "none"
-        # GEOIPS 1 COMPATIBILITY
-        if "area_def" in xarray_obj.attrs.keys():
-            # Must pop off the actual area_defintion - does not write to xarray properly
-            area_def = xarray_obj.attrs.pop("area_def")
-            area_def_str = repr(area_def)
-            xarray_obj.attrs["area_def_str"] = area_def_str
-        # If actual area_definition object, write it out to xarray as str
-        elif "area_definition" in xarray_obj.attrs.keys():
-            # If area_definition_str was explicitly defined on the area_definition
-            # object, use that
-            if hasattr(xarray_obj.area_definition, "area_definition_str"):
-                # Must pop off the actual area_defintion - does not write to xarray
-                # properly
-                area_def_str = xarray_obj.area_definition.area_definition_str
-                area_def = xarray_obj.attrs.pop("area_definition")
-                xarray_obj.attrs["area_definition_str"] = area_def_str
-            else:
-                # Must pop off the actual area_defintion - does not write to xarray
-                # properly
-                area_def = xarray_obj.attrs.pop("area_definition")
-                area_def_str = repr(area_def)
-                xarray_obj.attrs["area_definition_str"] = area_def_str
+        Parameters
+        ----------
+        area_def : AreaDefinition
+            Pyresample AreaDefinition of sector information
+        xarray_obj : xarray.Dataset
+            xarray Dataset object that was used to produce product
+        product_filename : str
+            Full path to full product filename that this YAML file refers to
 
-        # Standard attribute cleaning for proper serialization for xarray.to_netcdf.
-        for attr in xarray_obj.attrs.copy().keys():
-            self.clean_attr_for_netcdf(xarray_obj, attr)
-        for varname in xarray_obj.variables.keys():
-            orig_var_attrs[varname] = xarray_obj[varname].attrs.copy()
-            for attr in xarray_obj[varname].attrs.keys():
-                self.clean_attr_for_netcdf(xarray_obj[varname], attr)
+        Returns
+        -------
+        dict
+            sector_info dict with standard metadata added
+             * bounding box
+             * product filename with wildcards
+             * basename of original source filenames
+        """
+        sector_info = area_def.sector_info.copy()
 
-        # Strings to print to the log statement, not used in any other way.
-        # If an attribute is not defined, print 'none'.
-        roi_str = "none"
-        if "interpolation_radius_of_influence" in xarray_obj.attrs.keys():
-            roi_str = xarray_obj.interpolation_radius_of_influence
+        if hasattr(area_def, "sector_type") and "sector_type" not in sector_info:
+            sector_info["sector_type"] = area_def.sector_type
 
-        sdt_str = "none"
-        if "start_datetime" in xarray_obj.attrs.keys():
-            sdt_str = xarray_obj.attrs["start_datetime"]
+        sector_info["bounding_box"] = {}
+        sector_info["bounding_box"]["minlat"] = area_def.area_extent_ll[1]
+        sector_info["bounding_box"]["maxlat"] = area_def.area_extent_ll[3]
+        sector_info["bounding_box"]["minlon"] = area_def.area_extent_ll[0]
+        sector_info["bounding_box"]["maxlon"] = area_def.area_extent_ll[2]
+        sector_info["bounding_box"]["pixel_width_m"] = area_def.pixel_size_x
+        sector_info["bounding_box"]["pixel_height_m"] = area_def.pixel_size_y
+        sector_info["bounding_box"]["image_width"] = area_def.width
+        sector_info["bounding_box"]["image_height"] = area_def.height
+        sector_info["bounding_box"]["proj4_string"] = area_def.proj_str
 
-        edt_str = "none"
-        if "end_datetime" in xarray_obj.attrs.keys():
-            edt_str = xarray_obj.attrs["end_datetime"]
+        if product_filename:
+            sector_info["product_filename"] = replace_geoips_paths(product_filename)
+        if metadata_filename:
+            sector_info["metadata_filename"] = replace_geoips_paths(metadata_filename)
 
-        dp_str = "none"
-        if "data_provider" in xarray_obj.attrs.keys():
-            dp_str = xarray_obj.attrs["data_provider"]
+        if "source_file_names" in xarray_obj.attrs.keys():
+            sector_info["source_file_names"] = xarray_obj.source_file_names
+        # Backwards compatibility, so the default metadata doesn't change.
+        if "source_file_names" in xarray_obj.attrs.keys():
+            sector_info["source_file_names"] = xarray_obj.source_file_names
 
-        LOG.info(
-            "Writing xarray obj to file %s, source %s, platform %s, start_dt %s, ",
-            "end_dt %s, %s %s, %s %s, %s %s",
-            ncdf_fname,
-            xarray_obj.source_name,
-            xarray_obj.platform_name,
-            sdt_str,
-            edt_str,
-            "provider",
-            dp_str,
-            "roi",
-            roi_str,
-            "area_def",
-            area_def_str,
-        )
+        return sector_info
 
-        if use_compression:
-            if compression_kwargs is None:
-                compression_kwargs = {"zlib": True, "complevel": 5}
-            encoding = {x: compression_kwargs for x in list(xarray_obj)}
-        else:
-            encoding = {}
 
-        # Only re-write the file if requested.
-        if clobber is True or not exists(ncdf_fname):
-            xarray_obj.to_netcdf(ncdf_fname, encoding=encoding)
-        else:
-            LOG.warning("SKIPPING not outputing file %s, exists", ncdf_fname)
-
-        # Put the original attributes back at both the dataset level and the variable
-        # level. We do not want the serializable attributes on the original dataset.
-        xarray_obj.attrs = orig_attrs
-        for varname in xarray_obj.variables.keys():
-            xarray_obj[varname].attrs = orig_var_attrs[varname]
-
-        return [ncdf_fname]
+class WindbarbOutputFormatterPlugin(BaseOutputFormatterPlugin, abstract=True):
+    """Base class for windbarb-based output formatter plugins."""
 
     def output_clean_windbarbs(
         self,
@@ -173,6 +132,90 @@ class BaseOutputFormatterPlugin(BaseClassPlugin, abstract=True):
                 )
 
         return success_outputs
+
+    def assign_height_levels(self, windbarb_data_dict, pressure_range_dict):
+        """Assing derived motion winds to specified height levels.
+
+        Using the pressure associated with each retrieved wind observation, assign to
+        a specified level (e.g. Low/Mid/High) based on predefined pressure ranges. Each
+        pressure level is assigned an integer, and any unassigned are set to 0
+
+        Parameters
+        ----------
+        formatted_data_dict : dict
+            Dictionary holding DMW data - must include a pressure key
+        pressure_range_dict : dict
+            Dictionary specifying pressure range for each defined level.
+            e.g. {"Low": [701, 1013.25], "Mid": [401, 700], "High": [0, 400]}
+
+        Returns
+        -------
+        tuple
+            Array of assigned level numbers, and list of associated labels that can be
+            used to set the ticks on a colorbar
+        """
+        pressure = windbarb_data_dict["pressure"]
+        n_valid = numpy.count_nonzero(pressure)
+        height_num = numpy.zeros(pressure.shape)
+        level_labels = ["Unassigned"]
+        for i, (level, pressure_range) in enumerate(pressure_range_dict.items()):
+            max_pres = max(pressure_range)
+            min_pres = min(pressure_range)
+            pressure_mask = (pressure.data >= min_pres) & (pressure.data <= max_pres)
+            height_num[pressure_mask] = i + 1
+            level_labels.append(f"{level}\n({max_pres} - {min_pres} hPa)")
+            LOG.info(
+                "Number of wind retrievals for %s: %s",
+                level,
+                numpy.count_nonzero(pressure_mask),
+            )
+        LOG.info("Assigned %s/%s retrievals", numpy.count_nonzero(height_num), n_valid)
+        return height_num, level_labels
+
+    def plot_barbs(
+        self,
+        main_ax,
+        mapobj,
+        mpl_colors_info,
+        formatted_data_dict,
+        barb_color_variable="speed",
+    ):
+        """Plot windbarbs on matplotlib figure."""
+        # main_ax.extent = area_def.area_extent_ll
+        main_ax.set_extent(mapobj.bounds, crs=mapobj)
+        # main_ax.extent = mapobj.bounds
+        # NOTE this does not work if transform=mapobj.
+        # Something about transforming to PlateCarree projection, then
+        # reprojecting to mapobj.  I don't fully understand it, but this
+        # works beautifully, and transform=mapobj puts all the vectors
+        # in the center of the image.
+        main_ax.scatter(
+            x=formatted_data_dict["lon"].data[formatted_data_dict["rain_inds"]],
+            y=formatted_data_dict["lat"].data[formatted_data_dict["rain_inds"]],
+            transform=crs.PlateCarree(),
+            marker="D",
+            color="k",
+            s=formatted_data_dict["rain_size"],
+            zorder=2,
+        )
+        main_ax.barbs(
+            formatted_data_dict["lon"].data,
+            formatted_data_dict["lat"].data,
+            formatted_data_dict["u"].data,
+            formatted_data_dict["v"].data,
+            formatted_data_dict[barb_color_variable].data,
+            transform=crs.PlateCarree(),
+            pivot="tip",
+            rounding=False,
+            cmap=mpl_colors_info["cmap"],
+            flip_barb=formatted_data_dict["flip_barb"],
+            # barb_increments=dict(half=10, full=20, flag=50),
+            sizes=formatted_data_dict["sizes_dict"],
+            length=formatted_data_dict["barb_length"],
+            linewidth=formatted_data_dict["line_width"],
+            norm=mpl_colors_info["norm"],
+            zorder=1,
+        )
 
     def format_windbarb_data(self, xarray_obj, product_name):
         """Format windbarb data before plotting."""
@@ -321,144 +364,144 @@ class BaseOutputFormatterPlugin(BaseClassPlugin, abstract=True):
 
         return return_dict
 
-    def assign_height_levels(self, windbarb_data_dict, pressure_range_dict):
-        """Assing derived motion winds to specified height levels.
 
-        Using the pressure associated with each retrieved wind observation, assign to
-        a specified level (e.g. Low/Mid/High) based on predefined pressure ranges. Each
-        pressure level is assigned an integer, and any unassigned are set to 0
+class NetcdfOutputFormatterPlugin(BaseOutputFormatterPlugin, abstract=True):
+    """Base class for netcdf-based output formatter plugins."""
 
-        Parameters
-        ----------
-        formatted_data_dict : dict
-            Dictionary holding DMW data - must include a pressure key
-        pressure_range_dict : dict
-            Dictionary specifying pressure range for each defined level.
-            e.g. {"Low": [701, 1013.25], "Mid": [401, 700], "High": [0, 400]}
-
-        Returns
-        -------
-        tuple
-            Array of assigned level numbers, and list of associated labels that can be
-            used to set the ticks on a colorbar
-        """
-        pressure = windbarb_data_dict["pressure"]
-        n_valid = numpy.count_nonzero(pressure)
-        height_num = numpy.zeros(pressure.shape)
-        level_labels = ["Unassigned"]
-        for i, (level, pressure_range) in enumerate(pressure_range_dict.items()):
-            max_pres = max(pressure_range)
-            min_pres = min(pressure_range)
-            pressure_mask = (pressure.data >= min_pres) & (pressure.data <= max_pres)
-            height_num[pressure_mask] = i + 1
-            level_labels.append(f"{level}\n({max_pres} - {min_pres} hPa)")
-            LOG.info(
-                "Number of wind retrievals for %s: %s",
-                level,
-                numpy.count_nonzero(pressure_mask),
-            )
-        LOG.info("Assigned %s/%s retrievals", numpy.count_nonzero(height_num), n_valid)
-        return height_num, level_labels
-
-    def plot_barbs(
+    def write_xarray_netcdf(
         self,
-        main_ax,
-        mapobj,
-        mpl_colors_info,
-        formatted_data_dict,
-        barb_color_variable="speed",
+        xarray_obj,
+        ncdf_fname,
+        clobber=False,
+        use_compression=True,
+        compression_kwargs=None,
     ):
-        """Plot windbarbs on matplotlib figure."""
-        # main_ax.extent = area_def.area_extent_ll
-        main_ax.set_extent(mapobj.bounds, crs=mapobj)
-        # main_ax.extent = mapobj.bounds
-        # NOTE this does not work if transform=mapobj.
-        # Something about transforming to PlateCarree projection, then
-        # reprojecting to mapobj.  I don't fully understand it, but this
-        # works beautifully, and transform=mapobj puts all the vectors
-        # in the center of the image.
-        main_ax.scatter(
-            x=formatted_data_dict["lon"].data[formatted_data_dict["rain_inds"]],
-            y=formatted_data_dict["lat"].data[formatted_data_dict["rain_inds"]],
-            transform=crs.PlateCarree(),
-            marker="D",
-            color="k",
-            s=formatted_data_dict["rain_size"],
-            zorder=2,
+        """Write out xarray_obj to netcdf file named ncdf_fname."""
+        make_dirs(dirname(ncdf_fname))
+
+        orig_attrs = xarray_obj.attrs.copy()
+        orig_var_attrs = {}
+
+        # Specially handled attributes.
+        area_def_str = "none"
+        # GEOIPS 1 COMPATIBILITY
+        if "area_def" in xarray_obj.attrs.keys():
+            # Must pop off the actual area_defintion - does not write to xarray properly
+            area_def = xarray_obj.attrs.pop("area_def")
+            area_def_str = repr(area_def)
+            xarray_obj.attrs["area_def_str"] = area_def_str
+        # If actual area_definition object, write it out to xarray as str
+        elif "area_definition" in xarray_obj.attrs.keys():
+            # If area_definition_str was explicitly defined on the area_definition
+            # object, use that
+            if hasattr(xarray_obj.area_definition, "area_definition_str"):
+                # Must pop off the actual area_defintion - does not write to xarray
+                # properly
+                area_def_str = xarray_obj.area_definition.area_definition_str
+                area_def = xarray_obj.attrs.pop("area_definition")
+                xarray_obj.attrs["area_definition_str"] = area_def_str
+            else:
+                # Must pop off the actual area_defintion - does not write to xarray
+                # properly
+                area_def = xarray_obj.attrs.pop("area_definition")
+                area_def_str = repr(area_def)
+                xarray_obj.attrs["area_definition_str"] = area_def_str
+
+        # Standard attribute cleaning for proper serialization for xarray.to_netcdf.
+        for attr in xarray_obj.attrs.copy().keys():
+            self.clean_attr_for_netcdf(xarray_obj, attr)
+        for varname in xarray_obj.variables.keys():
+            orig_var_attrs[varname] = xarray_obj[varname].attrs.copy()
+            for attr in xarray_obj[varname].attrs.keys():
+                self.clean_attr_for_netcdf(xarray_obj[varname], attr)
+
+        # Strings to print to the log statement, not used in any other way.
+        # If an attribute is not defined, print 'none'.
+        roi_str = "none"
+        if "interpolation_radius_of_influence" in xarray_obj.attrs.keys():
+            roi_str = xarray_obj.interpolation_radius_of_influence
+
+        sdt_str = "none"
+        if "start_datetime" in xarray_obj.attrs.keys():
+            sdt_str = xarray_obj.attrs["start_datetime"]
+
+        edt_str = "none"
+        if "end_datetime" in xarray_obj.attrs.keys():
+            edt_str = xarray_obj.attrs["end_datetime"]
+
+        dp_str = "none"
+        if "data_provider" in xarray_obj.attrs.keys():
+            dp_str = xarray_obj.attrs["data_provider"]
+
+        LOG.info(
+            "Writing xarray obj to file %s, source %s, platform %s, start_dt %s, ",
+            "end_dt %s, %s %s, %s %s, %s %s",
+            ncdf_fname,
+            xarray_obj.source_name,
+            xarray_obj.platform_name,
+            sdt_str,
+            edt_str,
+            "provider",
+            dp_str,
+            "roi",
+            roi_str,
+            "area_def",
+            area_def_str,
         )
-        main_ax.barbs(
-            formatted_data_dict["lon"].data,
-            formatted_data_dict["lat"].data,
-            formatted_data_dict["u"].data,
-            formatted_data_dict["v"].data,
-            formatted_data_dict[barb_color_variable].data,
-            transform=crs.PlateCarree(),
-            pivot="tip",
-            rounding=False,
-            cmap=mpl_colors_info["cmap"],
-            flip_barb=formatted_data_dict["flip_barb"],
-            # barb_increments=dict(half=10, full=20, flag=50),
-            sizes=formatted_data_dict["sizes_dict"],
-            length=formatted_data_dict["barb_length"],
-            linewidth=formatted_data_dict["line_width"],
-            norm=mpl_colors_info["norm"],
-            zorder=1,
-        )
 
-    def update_sector_info_with_default_metadata(
-        self, area_def, xarray_obj, product_filename=None, metadata_filename=None
-    ):
-        """Update sector info found in "area_def" with standard metadata output.
+        if use_compression:
+            if compression_kwargs is None:
+                compression_kwargs = {"zlib": True, "complevel": 5}
+            encoding = {x: compression_kwargs for x in list(xarray_obj)}
+        else:
+            encoding = {}
 
-        This function is used by metadata_tc output formatter as well for updating the
-        sector_info with these additional default metadata fields. We should not filter
-        out non-default metadata here, since metadata_tc uses this function.
+        # Only re-write the file if requested.
+        if clobber is True or not exists(ncdf_fname):
+            xarray_obj.to_netcdf(ncdf_fname, encoding=encoding)
+        else:
+            LOG.warning("SKIPPING not outputing file %s, exists", ncdf_fname)
 
-        Parameters
-        ----------
-        area_def : AreaDefinition
-            Pyresample AreaDefinition of sector information
-        xarray_obj : xarray.Dataset
-            xarray Dataset object that was used to produce product
-        product_filename : str
-            Full path to full product filename that this YAML file refers to
+        # Put the original attributes back at both the dataset level and the variable
+        # level. We do not want the serializable attributes on the original dataset.
+        xarray_obj.attrs = orig_attrs
+        for varname in xarray_obj.variables.keys():
+            xarray_obj[varname].attrs = orig_var_attrs[varname]
 
-        Returns
-        -------
-        dict
-            sector_info dict with standard metadata added
-             * bounding box
-             * product filename with wildcards
-             * basename of original source filenames
-        """
-        sector_info = area_def.sector_info.copy()
+        return [ncdf_fname]
 
-        if hasattr(area_def, "sector_type") and "sector_type" not in sector_info:
-            sector_info["sector_type"] = area_def.sector_type
-
-        sector_info["bounding_box"] = {}
-        sector_info["bounding_box"]["minlat"] = area_def.area_extent_ll[1]
-        sector_info["bounding_box"]["maxlat"] = area_def.area_extent_ll[3]
-        sector_info["bounding_box"]["minlon"] = area_def.area_extent_ll[0]
-        sector_info["bounding_box"]["maxlon"] = area_def.area_extent_ll[2]
-        sector_info["bounding_box"]["pixel_width_m"] = area_def.pixel_size_x
-        sector_info["bounding_box"]["pixel_height_m"] = area_def.pixel_size_y
-        sector_info["bounding_box"]["image_width"] = area_def.width
-        sector_info["bounding_box"]["image_height"] = area_def.height
-        sector_info["bounding_box"]["proj4_string"] = area_def.proj_str
-
-        if product_filename:
-            sector_info["product_filename"] = replace_geoips_paths(product_filename)
-        if metadata_filename:
-            sector_info["metadata_filename"] = replace_geoips_paths(metadata_filename)
-
-        if "source_file_names" in xarray_obj.attrs.keys():
-            sector_info["source_file_names"] = xarray_obj.source_file_names
-        # Backwards compatibility, so the default metadata doesn't change.
-        if "source_file_names" in xarray_obj.attrs.keys():
-            sector_info["source_file_names"] = xarray_obj.source_file_names
-
-        return sector_info
+    def clean_attr_for_netcdf(self, xobj, attr):
+        """Check xarray attributes."""
+        # datetime
+        if isinstance(xobj.attrs[attr], datetime):
+            xobj.attrs[attr] = xobj.attrs[attr].strftime("%c")
+        # None cast as string.
+        elif xobj.attrs[attr] is None:
+            xobj.attrs[attr] = str(xobj.attrs[attr])
+        # bools cast as string.
+        elif isinstance(xobj.attrs[attr], bool):
+            xobj.attrs[attr] = str(xobj.attrs[attr])
+        # use json.dumps for dict, list, and tuples.
+        elif isinstance(xobj.attrs[attr], (dict, list, tuple)):
+            xobj.attrs[attr] = json.dumps(
+                xobj.attrs[attr], default=self.make_json_friendly
+            )
+        # str, bytes, int, float are natively handled
+        elif isinstance(xobj.attrs[attr], (str, bytes, int, float)):
+            xobj.attrs[attr] = xobj.attrs[attr]
+        # other non-native types can just be cast to string.
+        # We may want to remove this case, if we want to explicitly handle non-supported
+        # types, for easier conversion when reading back in.
+        elif not isinstance(xobj.attrs[attr], (str, bytes, int, float)):
+            xobj.attrs[attr] = str(xobj.attrs[attr])
+        else:
+            LOG.warning(
+                "SKIPPING attr %s %s, unsupported type %s",
+                attr,
+                xobj.attrs[attr],
+                type(attr),
+            )
+            xobj.attrs.pop(attr)
 
 
 class OutputFormattersInterface(BaseClassInterface):
