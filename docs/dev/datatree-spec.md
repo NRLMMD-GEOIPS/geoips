@@ -407,18 +407,78 @@ steps:
 
 The nested workflow's `test` block is **not** executed during the parent run.
 
-The child workflow's complete `DataTree` — including all of its per-step nodes — is nested as-is under the parent's `/<step_id>`. A sub-workflow is just a `DataTree` (like all other steps), and that `DataTree` becomes a child node in the parent.
+An embedded workflow is just another type of step and behaves the same as any other step. As with any other step, the child workflow is represented as a DataTree within the root DataTree. Likewise, it will contain attributes describing what happened when the step was executed.
+
+The only difference between the DataTree resulting from an embedded workflow and any other kind of step is that the embedded workflow's DataTree will, itself, contain DataTrees representing each of its contained steps.
 
 For a child workflow `preprocess_l1b` with steps `read_l1b`, `sector`, `calibrate`, `mask`, and `outputs: [calibrated, masked]`, the parent's tree looks like:
 
 ```
-/preprocessing                        # the entire child workflow's DataTree
-├── attrs: { workflow_name: "preprocess_l1b", ... }
-├── /read_l1b                          # child's reader step
-├── /sector                            # child's sector step
-├── /calibrate                         # also reachable as the "calibrated" output
-└── /mask                              # also reachable as the "masked" output
+<root>
+├── /preprocessing                        # the entire child workflow's DataTree
+|   ├── attrs: { workflow_name: "preprocess_l1b", ... }
+|   ├── /read_l1b                          # child's reader step
+|   ├── /sector                            # child's sector step
+|   ├── /calibrate                         # also reachable as the "calibrated" output
+|   └── /mask                              # also reachable as the "masked" output
+└── root.attrs: { processing_history: [...], ... }
 ```
+
+As another example, many sensors are capable of producing the same products. For example, both ABI and AHI (and others) are able to produce an infrared product. To avoid duplication, we would define a general "Infrared" product, then reuse it in workflows specific to ABI and AHI. For example:
+
+```yaml
+# A general Infared algorithm
+apiVersion: geoips/v1
+interface: workflows
+family: order_based
+name: Infrared
+docstring: Workflow-stub for producing a general Infrared product
+spec:
+  apply_sector:
+    kind: sector
+    name: conus
+  interp_data:
+    kind: interpolator
+    name: nearest_neighbor
+  create_infrared_image:
+    kind: algorithm
+    name: single_channel
+    arguments:
+      output_data_range: [-90.0, 30.0]
+      input_units: Kelvin
+      output_units: celsius
+      min_outbounds: crop
+      max_outbounds: crop
+      norm: false
+      inverse: false
+  apply_colormap:
+    kind: colormapper
+    name: infrared
+    arguments:
+      data_range: [-90.0, 30.0]
+```
+
+```yaml
+apiVersion: geoips/v1
+interface: workflows
+family: order_based
+name: ABI-Infrared
+docstring: ABI CH-14 infrared PNG
+spec:
+  read_abi:
+    kind: reader
+    name: abi_netcdf
+    arguments:
+      variables: [B14BT]
+  infrared:
+    kind: workflow
+    name: Infrared
+  write_png:
+    kind: output_formatter
+    name: imagery_clean
+```
+
+The same Workflow for AHI would look identical except that `variables` would be set to `[B13BT]` instead of `[B14BT]`.
 
 The child's `outputs:` declaration is a _product manifest_, not a visibility boundary:
 
@@ -433,38 +493,9 @@ It does **not** restrict what a parent can address. A parent step may reference 
 Every step resolves to a class-based plugin instance via the GeoIPS Plugin Registry. The class hierarchy that governs step execution is:
 
 ```
-BaseClassPlugin(ABC)                # geoips/interfaces/class_based_plugin.py
-├── data_tree: bool = False         # discriminator: True = DataTree-native
-├── call(*args, **kwargs)           # abstract; plugin's core logic
-├── _pre_call(data, *args, **kwargs)  # hook: convert TO DataTree
-├── _post_call(data, *args, **kwargs) # hook: convert FROM DataTree
-├── _invoke(data=None, *args, **kwargs)  # orchestrator:
-│   └── if data is None → call(*args, **kwargs)
-│   └── if data is not None → _pre_call → call → _post_call
-│
-├── BaseAlgorithmPlugin            # data_tree=False (legacy)
-├── BaseInterpolatorPlugin         # data_tree=False (legacy)
-├── BaseOutputFormatterPlugin      # data_tree=False (legacy)
-├── BaseCoverageCheckerPlugin      # data_tree=False (legacy)
-├── BaseFilenameFormatterPlugin    # data_tree=False (legacy)
-├── BaseOutputCheckerPlugin        # data_tree=False (legacy)
-├── BaseTitleFormatterPlugin       # data_tree=False (legacy)
-├── BaseReaderPlugin               # data_tree=False (legacy)
-├── BaseSectorAdjusterPlugin       # data_tree=False (legacy)
-├── BaseSectorSpecGeneratorPlugin  # data_tree=False (legacy)
-├── BaseSectorMetadataGeneratorPlugin # data_tree=False (legacy)
-├── BaseDatabasePlugin             # data_tree=False (legacy)
-├── BaseColormapperPlugin          # data_tree=True  (metadata-only DT)
-│
-├── BaseProcflowPlugin             # abstract; data_tree=True
-│   └── OrderBased                  # concrete procflow; produces DataTree
-│
-└── Workflow(Plugin)                # composite; IS a step, HAS steps
-    ├── interface = "workflows"
-    ├── data_tree = True
-    ├── steps: Dict[str, Plugin]    # resolved child plugin instances
-    ├── call(workflow_tree: DataTree) → DataTree
-    └── DataTree output: /<step_id> per step with provenance in attrs
+
+BaseClassPlugin(ABC) # geoips/interfaces/class_based_plugin.py ├── data_tree: bool = False # discriminator: True = DataTree-native ├── call(*args, \*\*kwargs) # abstract; plugin's core logic ├── \_pre_call(data, *args, **kwargs) # hook: convert TO DataTree ├── \_post_call(data, \*args, **kwargs) # hook: convert FROM DataTree ├── \_invoke(data=None, *args, \*\*kwargs) # orchestrator: │ └── if data is None → call(*args, \*\*kwargs) │ └── if data is not None → \_pre_call → call → \_post_call │ ├── BaseAlgorithmPlugin # data_tree=False (legacy) ├── BaseInterpolatorPlugin # data_tree=False (legacy) ├── BaseOutputFormatterPlugin # data_tree=False (legacy) ├── BaseCoverageCheckerPlugin # data_tree=False (legacy) ├── BaseFilenameFormatterPlugin # data_tree=False (legacy) ├── BaseOutputCheckerPlugin # data_tree=False (legacy) ├── BaseTitleFormatterPlugin # data_tree=False (legacy) ├── BaseReaderPlugin # data_tree=False (legacy) ├── BaseSectorAdjusterPlugin # data_tree=False (legacy) ├── BaseSectorSpecGeneratorPlugin # data_tree=False (legacy) ├── BaseSectorMetadataGeneratorPlugin # data_tree=False (legacy) ├── BaseDatabasePlugin # data_tree=False (legacy) ├── BaseColormapperPlugin # data_tree=True (metadata-only DT) │ ├── BaseProcflowPlugin # abstract; data_tree=True │ └── OrderBased # concrete procflow; produces DataTree │ └── Workflow(Plugin) # composite; IS a step, HAS steps ├── interface = "workflows" ├── data_tree = True ├── steps: Dict[str, Plugin] # resolved child plugin instances ├── call(workflow_tree: DataTree) → DataTree └── DataTree output: /<step_id> per step with provenance in attrs
+
 ```
 
 **Rationale:** `Workflow` IS-A `Plugin` (can be nested) and HAS-A collection of `Plugin` instances (children). This is the Composite pattern. The `data_tree` flag discriminates which path `_invoke()` takes: DataTree-native plugins skip conversion; legacy plugins convert to/from DataTree via `_pre_call`/`_post_call` and `DataTreeDitto`.
@@ -474,21 +505,9 @@ BaseClassPlugin(ABC)                # geoips/interfaces/class_based_plugin.py
 The `_invoke()` method on `BaseClassPlugin` orchestrates DataTree conversion based on the `data_tree` class attribute. The current implementation branches only on `data is None`. It is extended with `data_tree`-aware wrapping that uses `DataTreeDitto` for round-trip type conversion.
 
 ```
-_invoke(data=None, *args, **kwargs):
-    if data is None:                         # Reader path (no upstream DT)
-        result = self.call(*args, **kwargs)
-        if not self.data_tree:
-            result = _ensure_datatree(result)  # wrap legacy output via DataTreeDitto
-        return result
-    else:                                    # Non-reader path
-        if not self.data_tree:
-            data = _unwrap_datatree(data)     # DT → legacy format via DataTreeDitto
-        data = self._pre_call(data, ...)
-        data = self.call(data, ...)
-        data = self._post_call(data, ...)
-        if not self.data_tree:
-            data = _ensure_datatree(data)     # legacy → DT via DataTreeDitto
-        return data
+
+\_invoke(data=None, *args, \*\*kwargs): if data is None: # Reader path (no upstream DT) result = self.call(*args, \*\*kwargs) if not self.data_tree: result = \_ensure_datatree(result) # wrap legacy output via DataTreeDitto return result else: # Non-reader path if not self.data_tree: data = \_unwrap_datatree(data) # DT → legacy format via DataTreeDitto data = self.\_pre_call(data, ...) data = self.call(data, ...) data = self.\_post_call(data, ...) if not self.data_tree: data = \_ensure_datatree(data) # legacy → DT via DataTreeDitto return data
+
 ```
 
 **`_unwrap_datatree(tree: DataTree) -> Any`:** Extracts the legacy format (xr.Dataset, np.ndarray, dict, etc.) from a DataTree. Uses `DataTreeDitto.get_original()` for registered converters. This is a **hard requirement** — `DataTreeDitto` from the `datatree-ditto` branch must be available.
