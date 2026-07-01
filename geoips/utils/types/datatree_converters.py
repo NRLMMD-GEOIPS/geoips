@@ -4,10 +4,12 @@
 """Converter registration for ``DataTreeDitto`` and the shared registry.
 
 Registers converters for ``dict``, ``xr.DataArray``, ``np.ndarray``,
-and ``np.ma.MaskedArray`` on both the ``TypeConverterRegistry``
-singleton and the ``DataTreeDitto._converters`` compatibility surface
-so that round-trip storage and plugin-lifecycle hooks use the same
-conversion functions.
+``np.ma.MaskedArray``, and ``list`` via a single call site —
+``DataTreeDitto.register_converter`` — which populates *both* the shared
+``TypeConverterRegistry`` singleton (the live dispatch path used by the
+plugin-lifecycle hooks and by ``DataTreeDitto`` conversions) and the
+``DataTreeDitto._converters`` backward-compatibility mirror.  Using one
+call per type means the two surfaces cannot drift out of sync.
 
 Registration is idempotent — calling this module twice (e.g. via
 reload) will not produce duplicate entries.
@@ -20,7 +22,6 @@ import logging
 import numpy as np
 import xarray as xr
 
-from geoips.utils.types.converter_registry import converter_registry
 from geoips.utils.types.converters import (
     dataset_to_list,
     dataset_to_masked_array,
@@ -58,13 +59,12 @@ def _dict_to_dataset(d: dict, **kwargs) -> xr.Dataset:
         elif isinstance(value, (int, float, str, bool)) or value is None:
             ds.attrs[f"_ditto_attr_{key}"] = value
         else:
-            LOG.warning(
-                "Stringifying non-scalar value for key %r (type %s) — "
-                "round-trip will NOT preserve the original object",
-                key,
-                type(value).__name__,
+            raise TypeError(
+                f"Cannot store value of type {type(value).__name__!r} "
+                f"for key {key!r} in dict-to-Dataset conversion. "
+                f"Only numpy arrays, scalars (int, float, str, bool, None) "
+                f"are supported."
             )
-            ds.attrs[f"_ditto_attr_{key}"] = str(value)
     return ds
 
 
@@ -114,27 +114,12 @@ def _ds_to_da(ds: xr.Dataset, **kwargs) -> xr.DataArray:
 
 
 # ============================================================================
-# Register on BOTH surfaces
+# Register all converters via the single ``register_converter`` call site.
+#
+# ``DataTreeDitto.register_converter`` registers each pair on the shared
+# ``TypeConverterRegistry`` (via ``register_bidirectional``) AND mirrors it onto
+# ``DataTreeDitto._converters``, so both surfaces are populated from one call.
 # ============================================================================
-
-# --- converter_registry (shared, used by plugin hooks) -----------------------
-
-converter_registry.register(np.ndarray, xr.Dataset, numpy_to_dataset)
-converter_registry.register(xr.Dataset, np.ndarray, dataset_to_numpy)
-
-converter_registry.register(np.ma.MaskedArray, xr.Dataset, masked_array_to_dataset)
-converter_registry.register(xr.Dataset, np.ma.MaskedArray, dataset_to_masked_array)
-
-converter_registry.register(dict, xr.Dataset, _dict_to_dataset)
-converter_registry.register(xr.Dataset, dict, _dataset_to_dict)
-
-converter_registry.register(xr.DataArray, xr.Dataset, _da_to_ds)
-converter_registry.register(xr.Dataset, xr.DataArray, _ds_to_da)
-
-converter_registry.register(list, xr.Dataset, list_to_dataset)
-converter_registry.register(xr.Dataset, list, dataset_to_list)
-
-# --- DataTreeDitto._converters (backward-compat surface) ---------------------
 
 DataTreeDitto.register_converter(np.ndarray, numpy_to_dataset, dataset_to_numpy)
 DataTreeDitto.register_converter(

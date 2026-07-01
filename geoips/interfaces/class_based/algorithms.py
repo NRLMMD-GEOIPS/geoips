@@ -3,6 +3,8 @@
 
 """Algorithms interface class."""
 
+import xarray as xr
+
 from geoips.interfaces.class_based_plugin import BaseClassPlugin
 from geoips.interfaces.base import BaseClassInterface
 from geoips.utils.types.family_conversions import ALGORITHM_FAMILY_CONVERSIONS
@@ -18,6 +20,78 @@ class BaseAlgorithmPlugin(BaseClassPlugin, abstract=True):
 
     data_tree = False
     _family_conversion_map = ALGORITHM_FAMILY_CONVERSIONS
+
+    def _pre_call(self, data=None, *args, _obp_initiated=False, **kwargs):
+        r"""Normalize ``DataTreeDitto`` input into a mutable ``xr.Dataset``.
+
+        :func:`_collect_upstream_data` wraps upstream outputs in an :class:xr.DataTree`
+        whose child nodes expose immutable ``DatasetView`` objects via ``.ds``.
+        Algorithms that write back to ``xobj`` (e.g. ``xobj[product_name] = ...``)
+        need a mutable ``xr.Dataset``.  This override converts the DataTreeDitto to a
+        mutable Dataset before the base-class hook applies family converters.
+
+        * Single upstream dep -> ``children[0].to_dataset()``
+        * Multiple upstream deps -> ``xr.merge([c.to_dataset() for c in children])``
+
+        Parameters
+        ----------
+        data : DataTreeDitto | xr.DataTree | xr.Dataset | None, optional
+            Upstream input passed into the algorithm. When the runtime procflow in OBP,
+            this will be ``DataTreeDitto`` containing one or more dependency nodes.
+        \*args : tuple
+            Additional positional arguments forwarded to the base ``_pre_call``.
+        _obp_initiated : bool, default=False
+            Indicates whether the call originated from the OBP workflow. When
+            ``True``, ``DataTreeDitto`` inputs are converted into mutable datasets.
+        \*\*kwargs : dict
+            Additional keyword arguments forwarded to the base ``_pre_call``.
+
+        Returns
+        -------
+        xr.Dataset | Any
+            A mutable ``xr.Dataset`` when upstream input is normalized from
+            ``DataTree``; otherwise whatever the base ``_pre_call`` returns.
+        """
+        if _obp_initiated and isinstance(data, xr.DataTree):
+            data = self._to_mutable_dataset(data)
+        return super()._pre_call(data, *args, _obp_initiated=_obp_initiated, **kwargs)
+
+    def _post_call(self, data=None, *args, _obp_initiated=False, **kwargs):
+        r"""Normalize algorithm output into ``DataTreeDitto`` and attach product_name.
+
+        When invoked by the Order-Based Procflow (OBP), algorithm outputs are
+        wrapped into a ``DataTreeDitto`` by the base ``_post_call`` so they can
+        be stored as nodes in the workflow ``DataTree`` and retain step-level
+        provenance.
+
+        This override injects ``product_name`` into ``data.attrs`` before the
+        base hook runs, ensuring downstream steps can access the resolved product
+        name.
+
+        Parameters
+        ----------
+        data : xr.Dataset | Any, optional
+            Output produced by the algorithm. If it exposes ``.attrs``, metadata
+            can be attached before wrapping.
+        \*args : tuple
+            Additional positional arguments forwarded to the base ``_post_call``.
+        _obp_initiated : bool, default=False
+            Indicates whether the call originated from the OBP workflow. When
+            ``True``, output metadata is enriched and the result is wrapped for
+            ``DataTree`` storage.
+        \*\*kwargs : dict
+            Additional keyword arguments forwarded to the base ``_post_call``.
+            ``product_name`` is used here when available.
+
+        Returns
+        -------
+        DataTreeDitto
+            The normalized ``DataTreeDitto`` output for insertion into the workflow
+            ``DataTree``.
+        """
+        if _obp_initiated and kwargs.get("product_name") and hasattr(data, "attrs"):
+            data.attrs["product_name"] = kwargs["product_name"]
+        return super()._post_call(data, *args, _obp_initiated=_obp_initiated, **kwargs)
 
 
 class AlgorithmsInterface(BaseClassInterface):

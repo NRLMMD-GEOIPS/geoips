@@ -1,8 +1,7 @@
 # # # This source code is subject to the license referenced at
 # # # https://github.com/NRLMMD-GEOIPS.
 
-"""Universal adapter that wraps any YAML plugin dict into a callable DataTree
-participant.
+"""Adapter wrapping any YAML plugin dict into a callable DataTree participant.
 
 Every YAML-defined plugin (feature_annotator, gridline_annotator, product,
 product_default, sector, …) becomes a first-class DAG step that adds its
@@ -23,21 +22,6 @@ import xarray as xr
 from geoips.utils.types.datatree_ditto import DataTreeDitto
 
 LOG = logging.getLogger(__name__)
-
-# ---------------------------------------------------------------------------
-# kind → downstream kwarg name mapping
-# ---------------------------------------------------------------------------
-
-_KIND_TO_KWARG: dict[str, str] = {
-    "algorithm": "xarray_obj",
-    "colormapper": "mpl_colors_info",
-    "feature_annotator": "feature_annotator",
-    "filename_formatter": "output_fnames",
-    "gridline_annotator": "gridline_annotator",
-    "product": "product_name",
-    "product_default": "product_default_info",
-    "sector": "area_def",
-}
 
 
 class YamlPluginCallable:
@@ -68,6 +52,11 @@ class YamlPluginCallable:
         self.name: str = yaml_plugin.get("name", "yaml_callable")
         self.data_tree: bool = True
 
+    @property
+    def spec(self) -> dict[str, Any]:
+        """The ``spec`` section of the wrapped YAML plugin dict."""
+        return dict(self._yaml.get("spec", {}))
+
     # ------------------------------------------------------------------
     # callable protocol
     # ------------------------------------------------------------------
@@ -90,10 +79,11 @@ class YamlPluginCallable:
             A ``DataTreeDitto`` whose ``ds.attrs`` contain the plugin's
             ``spec`` dictionary and the standard routing metadata.
         """
+        from geoips.utils.types.partial_lexeme import Lexeme
+
         spec = dict(self._yaml.get("spec", {}))
-        kind = self.interface.rstrip(
-            "s"
-        )  # e.g. "gridline_annotators" → "gridline_annotator"
+        # e.g. "gridline_annotators" -> "gridline_annotator"
+        kind = str(Lexeme(self.interface).singular)
 
         if self.interface == "gridline_annotators" and data is not None:
             from geoips.dev.output_config import set_lonlat_spacing
@@ -116,11 +106,13 @@ class YamlPluginCallable:
                         "Failed to compute gridline spacing for %r: %s", self.name, exc
                     )
 
+        from geoips.utils.types.obp_conduits import kwarg_name_for_kind
+
         ds = xr.Dataset(
             attrs={
                 "spec": spec,
                 "plugin_kind": kind,
-                "output_key": _KIND_TO_KWARG.get(kind, kind),
+                "output_key": kwarg_name_for_kind(kind),
             }
         )
         dt = DataTreeDitto(ds, name=self.name)
@@ -135,6 +127,7 @@ class YamlPluginCallable:
     # ------------------------------------------------------------------
 
     def __repr__(self) -> str:
+        """Return a concise repr with the wrapped plugin's interface and name."""
         return (
             f"{self.__class__.__name__}("
             f"interface={self.interface!r}, "

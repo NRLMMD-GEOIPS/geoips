@@ -147,11 +147,22 @@ class ImageOutputCheckerPlugin(BaseOutputCheckerPlugin):
         from geoips.commandline.log_setup import log_with_emphasis
 
         LOG.info("**Comparing output_product vs. compare product")
-        # Open existing images.
-        out_img = Image.open(output_product)
-        comp_img = Image.open(compare_product)
+
+        #######################################################################
+        # ## Open existing images.
+        # Explicitly convert comparison images to RGBA to ensure consistent
+        # image modes for the pixelmatch comparison.  Pillow 12.0 implicitly
+        # handled image conversions, with Pillow 12.1 we must explicitly
+        # convert all images to RGBA to ensure pixelmatch does not fail on
+        # incompatible image modes.  Note Palette mode (P) will fail in the pixelmatch
+        # call even if all images are of the same mode P, since pixelmatch internally
+        # is expecting RGBA, so ensure we explicitly always use RGBA for these
+        # comparisons.
+        out_img = Image.open(output_product).convert("RGBA")
+        comp_img = Image.open(compare_product).convert("RGBA")
         diff_img = Image.new(mode=out_img.mode, size=comp_img.size)
         exact_diff_img = Image.new(mode=out_img.mode, size=comp_img.size)
+
         # Compute the pixel diff between the two images.
         if np.array(comp_img).shape == np.array(out_img).shape:
             diff_arr = np.abs(np.array(comp_img) - np.array(out_img))

@@ -4,6 +4,7 @@
 """Tests for the Workflow composite class."""
 
 import pytest
+import xarray as xr
 
 from geoips.interfaces.class_based.workflow import (
     Workflow,
@@ -218,20 +219,96 @@ class TestStepProvenance:
 
 
 class TestSplitJoinScaffolding:
-    """Split/join scaffolding raises NotImplementedError at runtime."""
+    """Split runs its inline body once per branch scope."""
 
-    def test_split_raises_not_implemented(self):
-        """A split kind raises NotImplementedError at execution time."""
+    def test_split_runs_body_per_scope(self, monkeypatch):
+        """A split with explicit ``scopes`` runs its body once per scope."""
+
+        class _Passthrough:
+            data_tree = True
+
+            def call(self, data=None, **kwargs):
+                return data
+
+            def __call__(self, data=None, **kwargs):
+                return data if data is not None else xr.DataTree(name="empty")
+
+        monkeypatch.setattr(
+            Workflow, "_resolve_plugin", staticmethod(lambda kind, name: _Passthrough())
+        )
+
         spec = _make_spec(
             {
                 "s": {
                     "kind": "split",
-                    "name": "split_by_band",
-                    "arguments": {},
+                    "arguments": {"scopes": ["band1", "band2"]},
+                    "spec": {
+                        "steps": {
+                            "p": {
+                                "kind": "algorithm",
+                                "name": "passthrough",
+                                "arguments": {},
+                                "depends_on": [],
+                            }
+                        }
+                    },
                     "depends_on": [],
                 },
             }
         )
-        wf = Workflow(spec, workflow_name="split_test")
-        with pytest.raises(NotImplementedError):
-            wf.call()
+        result = Workflow(spec, workflow_name="split_test").call()
+        split_node = result.get("s")
+        assert split_node is not None
+        assert set(dict(split_node.children)) == {"band1", "band2"}
+
+
+class TestWorkflowSpecResolution:
+    def test_inline_spec_returned_directly(self):
+        spec = _make_spec(
+            {
+                "sub": {
+                    "kind": "workflow",
+                    "spec": {
+                        "steps": {
+                            "inner": {
+                                "kind": "algorithm",
+                                "name": "single_channel",
+                                "arguments": {},
+                            }
+                        }
+                    },
+                },
+            }
+        )
+        step_def = spec.steps["sub"]
+        assert step_def.spec is not None
+        resolved = Workflow._resolve_workflow_spec(step_def)
+        assert resolved is step_def.spec
+        assert "inner" in resolved.steps
+        assert resolved.steps["inner"].kind == "algorithm"
+
+
+class TestCollectUpstreamNested:
+    def test_empty_depends_with_children_returns_tree(self):
+        parent = xr.DataTree(name="multi_input")
+        parent["reader_out"] = xr.DataTree(
+            xr.Dataset({"data": (["x"], [1, 2, 3])}), name="reader_out"
+        )
+
+        wf = Workflow(
+            _make_spec({"r": {"kind": "reader", "name": "x", "arguments": {}}}),
+            workflow_name="test",
+        )
+        result = wf._collect_upstream_data(parent, [])
+        assert result is parent
+
+    def test_empty_depends_no_children_returns_empty(self):
+        wf = Workflow(
+            _make_spec({"r": {"kind": "reader", "name": "x", "arguments": {}}}),
+            workflow_name="test",
+        )
+        empty_root = wf._collect_upstream_data(
+            xr.DataTree(name="fresh"), []
+        )
+        assert dict(empty_root.children) == {}
+        assert empty_root.name == "empty"
