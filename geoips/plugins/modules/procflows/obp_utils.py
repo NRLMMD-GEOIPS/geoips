@@ -7,7 +7,7 @@
 from importlib import import_module
 
 # GeoIPS imports
-from geoips.interfaces.obp_adaptation import kind_for_interface
+from geoips.utils.types.partial_lexeme import Lexeme
 from geoips.constants import PLUGIN_PROVIDED
 
 interface = None
@@ -38,7 +38,7 @@ def validate_arguments(apiVersion, interface, arguments):
     except ImportError as e:
         raise ImportError(f"Could not import models from '{version}': {e}") from e
 
-    interface_base = kind_for_interface(interface)
+    interface_base = str(Lexeme(interface).singular)
     model_name = f"{interface_base.title().replace('_', '')}ArgumentsModel"
 
     try:
