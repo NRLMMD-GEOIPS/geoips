@@ -352,7 +352,14 @@ def check_for_partial_cache(
         # could vary drastically from the reported positions at specific times.
         LOG.info("Cache flagged as having no coverage: %s", no_coverage_cache)
     if not Path(cache_filename).exists():
-        raise CacheNotFoundError("Cache does not exist: %s", cache_filename)
+        error_str = f"Cache does not exist: {cache_filename}"
+        if Path(partial_cache_filename).exists():
+            error_str = (
+                f"{error_str}\n"
+                "Partial cache file DOES exist, try deleting it and re-running\n"
+                f"  rm -fv {partial_cache_filename}"
+            )
+        raise CacheNotFoundError(error_str)
 
 
 def create_empty_partial_cache(partial_cache_filename, cache_backend):
@@ -528,6 +535,22 @@ def get_geolocation(
     # Ensure sun_zen and sun_azm are masked appropriately for off-disk values.
     sun_zen = np.ma.masked_where(sat_zen.mask == True, sun_zen)
     sun_azm = np.ma.masked_where(sat_zen.mask == True, sun_azm)
+    # There is a bug in the satellite azimuth calculation where it is off by 180°
+    # It doesn't seem like it is an issue with the output being in 0-360 vs -180 - 180
+    # Converting to -180 - 180 will not yield the correct result.
+    if sat_azm.max() > 180:
+        # sat_azm[sat_azm > 180] -= 360 <- This does not work
+        sat_azm -= 180
+    # There is another bug in the solar azimuth calculation that causes the output to
+    # be in radians, and in degrees east:
+    if sun_azm.min() > 0 and sun_azm.max() < 2 * np.pi:
+        # If our full disk solar azimuth angle array has minimum greater than zero,
+        # then we are dealing with the bugged calculation. Need to apply the following
+        # corrections:
+        # 1: Convert from radians to degrees
+        # 2: Convert from 0-360 to -180 - 180
+        sun_azm = np.rad2deg(sun_azm)
+        sun_azm[sun_azm > 180] -= 360
 
     if resource_tracker is not None:
         resource_tracker.track_resource_usage(
