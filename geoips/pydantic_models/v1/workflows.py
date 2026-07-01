@@ -250,7 +250,6 @@ class GlobalVariablesModel(PermissiveFrozenModel):
     identification, product DB output configuration, and the
     presectoring toggle)
     """
-
     minimum_coverage: float | str = Field(default=PLUGIN_PROVIDED)
     presector: bool = Field(
         False,
@@ -529,9 +528,10 @@ class WorkflowStepDefinitionModel(FrozenModel):
             return model
 
         valid_plugin_names = get_plugin_names(plugin_kind)
-        # output checker has default plugin in some cases
-        # the workflow YAML would use plugin_provided as plugin name
-        if plugin_name != PLUGIN_PROVIDED and plugin_name not in valid_plugin_names:
+        # In SSP, single_source.py resovles the required plugin through
+        # identify_checker(output_product, checker_override).
+        # This shuold be made explicit in OBP.
+        if plugin_name not in valid_plugin_names:
             raise ValueError(
                 f"Invalid plugin name '{plugin_name}'."
                 f"Must be one of {sorted(valid_plugin_names)}"
@@ -596,6 +596,7 @@ class WorkflowSpecModel(FrozenModel):
     """The specification for a workflow."""
 
     # list of steps
+    globals: GlobalVariablesModel | None = Field(
     globals: GlobalVariablesModel | None = Field(
         None, description="Arguments shared across workflow steps"
     )
@@ -950,6 +951,64 @@ class WorkflowSpecModel(FrozenModel):
                     stack.pop()
 
         return self
+
+    @model_validator(mode="before")
+    @classmethod
+    def expand_steps(cls, data: dict, info: ValidationInfo):
+        """Expand each step of a workflow if it is a select plugin type.
+
+        Plugin types this function will expand include
+        ['products', 'product_defaults', 'workflows'].
+
+        This function will fully expand each step of the mentioned types before any
+        validation occurs. This way workflows can support nested workflows, of which all
+        of the mentioned types produce.
+        """
+        if data is None:
+            return data
+
+        context = info.context or {}
+        expand = context.get("expand", False)
+
+        steps = data.pop("steps", {})
+        expanded_steps = {}
+
+        for name, step in steps.items():
+            # Default
+            if step.get("kind") in ["product", "product_default"]:
+                spec = {"steps": cls.expand_step(step, info)}
+                new_step = {
+                    "kind": "workflow",
+                    "spec": spec,
+                }
+                # Generate a step ID based off the current step's plugin name.
+                # For products, join the name tuple with "_" and replace any
+                # remaining non-identifier characters so the result is always
+                # a valid PythonIdentifier (required by depends_on validation).
+                import re
+
+                step_id = (
+                    re.sub(r"[^a-zA-Z0-9_]", "_", "_".join(step.get("name")))
+                    if step.get("kind") == "product"
+                    else step.get("name")
+                )
+                expanded_steps = cls.extend_dict(expanded_steps, {step_id: new_step})
+            # Done for CLI calls to fully expand a workflow plugin
+            elif (
+                step.get("kind") == "workflow"
+                and expand
+                and (step.get("spec") is None or step.get("name"))
+            ):
+                expanded_steps = cls.extend_dict(
+                    expanded_steps, cls.expand_step(step, info)
+                )
+            else:
+                # Not a workflow or product-based plugin, just keep the step as it is
+                expanded_steps[name] = step
+
+        data["steps"] = expanded_steps
+
+        return data
 
 
 class OutputCheckerOverride(PermissiveFrozenModel):

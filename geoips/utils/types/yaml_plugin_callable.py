@@ -23,6 +23,22 @@ from geoips.utils.types.datatree_ditto import DataTreeDitto
 
 LOG = logging.getLogger(__name__)
 
+# ---------------------------------------------------------------------------
+# kind → downstream kwarg name mapping
+# ---------------------------------------------------------------------------
+
+_KIND_TO_KWARG: dict[str, str] = {
+    "algorithm": "xarray_obj",
+    "colormapper": "mpl_colors_info",
+    "coverage_checker": "coverage",
+    "feature_annotator": "feature_annotator",
+    "filename_formatter": "output_fnames",
+    "gridline_annotator": "gridline_annotator",
+    "product": "product_name",
+    "product_default": "product_default_info",
+    "sector": "area_def",
+}
+
 
 class YamlPluginCallable:
     """Wraps a YAML plugin dict into a callable DataTree participant.

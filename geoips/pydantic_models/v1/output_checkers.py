@@ -28,8 +28,8 @@ class OutputCheckerArgumentsModel(FrozenModel):
         ...,
         description="The path to the comparison file.",
     )
-    output_products: List[FilePath] | List[str] = Field(
-        ...,
+    output_products: List[FilePath] | List[str] | None = Field(
+        None,
         description="A list of paths to the output file(s).",
     )
     token: Optional[str] = Field(

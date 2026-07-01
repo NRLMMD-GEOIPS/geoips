@@ -334,17 +334,37 @@ class BaseClassPlugin(ABC):
         if not children:
             return kwargs
 
+        def _wrap_spec(spec):
+            return {"spec": spec} if spec is not None else None
+
+        def _unwrap_ditto(child):
+            from geoips.utils.types.datatree_ditto import DataTreeDitto
+            if isinstance(child, DataTreeDitto):
+                return child.get_original()
+            return child.ds
+
+        def _unwrap_ds(child):
+            from geoips.utils.types.datatree_ditto import DataTreeDitto
+            if isinstance(child, DataTreeDitto):
+                return child.ds
+            if isinstance(child, xr.DataTree):
+                return child.ds
+            return child
+
+        _EXTRACTORS = {
+            "algorithm": _unwrap_ds,
+            "colormapper": lambda c: c.ds.attrs.get("_mpl_colors_info"),
+            "feature_annotator": lambda c: _wrap_spec(c.ds.attrs.get("spec")),
+            "filename_formatter": lambda c: c.ds.attrs.get("output_fnames"),
+            "gridline_annotator": lambda c: _wrap_spec(c.ds.attrs.get("spec")),
+            "product": lambda c: str(c.name) if c.name else None,
+            "sector": lambda c: c.ds.attrs.get("area_definition"),
+        }
+
         for _child_name, child in children.items():
-            pkind = (
-                str(child.ds.attrs.get("plugin_kind", ""))
-                if child.ds is not None
-                else ""
-            )
-            conduit = OBP_CONDUITS.get(pkind)
-            if conduit is None:
-                continue
-            kwarg_name = conduit["kwarg"]
-            if kwarg_name in kwargs:
+            pkind = str(child.ds.attrs.get("plugin_kind", "")) if child.ds is not None else ""
+            kwarg_name = _KIND_TO_KWARG.get(pkind)
+            if not kwarg_name or kwarg_name in kwargs:
                 continue
 
             val = conduit["extract"](child)
@@ -359,8 +379,15 @@ class BaseClassPlugin(ABC):
                 and "product_name" not in xo.data_vars
             ):
                 pn = kwargs["product_name"]
-                if isinstance(pn, str) and pn not in xo.data_vars:
-                    xo = xo.rename({list(xo.data_vars)[0]: pn})
+                first_var = list(xo.data_vars)[0]
+                if (
+                    isinstance(pn, str)
+                    and pn not in xo.data_vars
+                    and pn not in xo.coords
+                    and pn not in xo.dims
+                    and first_var != pn
+                ):
+                    xo = xo.rename({first_var: pn})
                     kwargs["xarray_obj"] = xo
 
         return kwargs
@@ -393,45 +420,26 @@ class BaseClassPlugin(ABC):
             # ``BaseReaderPlugin._post_call`` and the ``_wrap`` into a
             # ``DataTreeDitto``.  ``_pre_call`` is a no-op for ``data is None``.
             result = self.call(*args, **new_kwargs)
-            return self._post_call(
-                result, *args, _obp_initiated=_obp_initiated, **new_kwargs
-            )
-
-        if _obp_initiated:
-            new_kwargs = self._extract_child_kwargs(data, new_kwargs)
-
-        data = self._pre_call(data, *args, _obp_initiated=_obp_initiated, **new_kwargs)
-
-        if self._use_positional_unpacking(data, _obp_initiated):
-            new_args = _kwarg_to_positional(new_kwargs, self.call)
-            result = self.call(*new_args, **new_kwargs)
         else:
-            result = self.call(data, *args, **new_kwargs)
+            if _obp_initiated:
+                new_kwargs = self._extract_child_kwargs(data, new_kwargs)
+            data = self._pre_call(data, *args, _obp_initiated=_obp_initiated, **new_kwargs)
+            if (
+                _obp_initiated
+                and isinstance(data, xr.DataTree)
+                and len(dict(data.children)) > 1
+                and not data.ds.attrs.get("_ditto_original_type")
+            ):
+                new_args = _kwarg_to_positional(new_kwargs, self.call)
+                result = self.call(*new_args, **new_kwargs)
+                data = self._post_call(result, *args, _obp_initiated=_obp_initiated, **new_kwargs)
+                result = data
+            else:
+                data = self.call(data, *args, **new_kwargs)
+                data = self._post_call(data, *args, _obp_initiated=_obp_initiated, **new_kwargs)
+                result = data
 
-        data = self._post_call(
-            result, *args, _obp_initiated=_obp_initiated, **new_kwargs
-        )
-        return data
-
-    @staticmethod
-    def _use_positional_unpacking(data, _obp_initiated):
-        """Return True when ``call()`` should receive unpacked positional args.
-
-        Multi-child multi_input DataTrees cannot be passed as the first
-        positional ``data`` arg (signature mismatch).  This helper detects
-        that case so ``_invoke`` can switch to positional unpacking.
-        """
-        return (
-            _obp_initiated
-            and isinstance(data, xr.DataTree)
-            and len(dict(data.children)) > 1
-            and not data.ds.attrs.get("_ditto_original_type")
-        )
-
-    def _obp_filter_kwargs(self, kwargs):
-        """Return a dict of only the kwargs accepted by ``self.call``."""
-        accepted = set(inspect.signature(self.call).parameters.keys())
-        return {k: v for k, v in kwargs.items() if k in accepted}
+        return result
 
     def __init__(self, module=None):
         """
