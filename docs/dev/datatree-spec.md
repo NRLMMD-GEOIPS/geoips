@@ -27,7 +27,8 @@ Pre-OBP procflows have accumulated two kinds of implicit complexity:
 - **G6: Tokenizable.** Inputs, outputs, and step invocations (the calling arguments for each step — its input DataTree plus its configuration kwargs) are hashable via `dask.base.tokenize`, enabling content-addressable caching and fast regression tests.
 - **G7: Parallel-ready.** `split`/`join` operators and `depends_on` edges define a DAG that a scheduler can (theoretically, in the future) execute in parallel.
 - **G8: Testable first.** Every step should ship with unit tests built on synthetic `DataTree` fixtures and be able to participate in token-based integration tests.
-- **G9: Rich, machine-readable provenance.** Every output `DataTree` carries enough metadata to reproduce itself, even if intermediate data has been GC'd.
+- **G9: Rich, machine-readable provenance.** Every output `DataTree` carries enough
+  metadata to reproduce itself, even if intermediate data has been garbage collected (GC'd).
 
 ## 2. Normative Language & Terminology
 
@@ -88,29 +89,41 @@ interface: workflows
 family: order_based
 name: abi_infrared_multi
 docstring: ABI ch.14 infrared, both annotated PNG and clean netCDF outputs.
-package: geoips
+# Specification for how to test the workflow specified in the `spec` section. This will
+# supplement the generalized `spec` section when this workflow is called using
+# `geoips test abi_infrared_multi`.
 test:
+  # The input file list to be used
   fnames: !ENV ${GEOIPS_TESTDATA_DIR}/test_data_abi/data/goes16_20200918_1950/*
   outputs:
     abi:Infrared:
       policy: on_failure  # can also be "always"
       compare_path: !ENV ${GEOIPS_PACKAGES_DIR}/geoips/tests/outputs/abi.static.Infrared.imagery_clean/20200918.195020.goes-16.abi.Infrared.test_goes16_eqc_3km_day_20200918T1950Z.100p00.noaa.3p0.png
+  # The test.steps section allows overriding steps in the spec section at test time.
+  # This can override any part of a step except its step_id including its kind, name,
+  # arguments, and any other fields.
   steps:
-    reader:
-      area_def: null
-    abi:Infrared:
-      spec:
-        steps:
-          algorithm:
-            output_units: Kelvin
+    # Override the variable read by the read_abi step from B14BT to B15BT
+    read_abi:
+      arguments:
+        variables: ["B15BT"]
+    # Override the output_data_range from single_channel to [-100.0, 30.0]
+    single_channel:
+      arguments:
+        output_data_range: [-100.0, 30.0]
+  # The test.kinds section allows overriding arguments for any steps that call a plugin
+  # of the named kind.
   kinds:
+    # Override the satellite_zenith_angle_cutoff for all steps of kind `reader`.
     readers:
       satellite_zenith_angle_cutoff: 80
+  # The test.globals section allows overriding arguments set in spec.globals.
   globals:
     sector_list: global_cylindrical
     logging_level: debug
 spec:
-  global_arguments:
+  # Globals are made available to all plugins in the workflow.
+  globals:
     window_start_time: null
     window_end_time: null
     product_name: null
@@ -118,6 +131,7 @@ spec:
     no_presectoring: true
     product_db: false
     product_db_writer: null
+  # The steps to execute when running the workflow.
   steps:
     read_abi:
       kind: reader
