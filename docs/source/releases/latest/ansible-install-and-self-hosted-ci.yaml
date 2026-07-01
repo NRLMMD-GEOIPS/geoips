@@ -1,0 +1,75 @@
+installation:
+- title: Replace install shell scripts with Ansible playbooks
+  description: |
+    Replace legacy shell scripts (base_install.sh, full_install.sh, site_install.sh,
+    check_system_requirements.sh) with Ansible playbooks and roles in
+    tests/ansible/.  The same playbooks run on bare-metal and inside Docker
+    containers using a three-tier tag model (base, full, site).
+
+    Rework the multi-stage Dockerfile to delegate to ansible playbooks.  Add new
+    targets: dev (editable site), dev-quick (editable base), and production
+    (source-free slim runtime).
+  files:
+    added:
+    - tests/ansible/
+    modified:
+    - Dockerfile
+    - Makefile
+    - .dockerignore
+  related-issue:
+    number: 1261
+  date:
+    start: 2025-09
+    finish: 2026-06-25
+continuous integration:
+- title: Add self-hosted runner integration test workflow
+  description: |
+    Add integ_test.yaml CI workflow on self-hosted runners that builds a Docker
+    image, downloads test datasets via ansible, and runs base and full integration
+    tests.  Test data is mounted as a runtime volume (never baked into images).
+
+    Rename ci.yml to integ_test.yaml to reflect its integration-test focus.
+  files:
+    added:
+    - .github/workflows/integ_test.yaml
+    modified:
+    - .github/workflows/ci.yml
+  related-issue:
+    number: 1261
+  date:
+    start: 2025-09
+    finish: 2026-06-25
+enhancement:
+- title: Rename extra_plugins to extra_plugin_packages
+  description: |
+    Rename the ansible variable extra_plugins to extra_plugin_packages to clarify
+    that it installs plugin packages rather than individual plugins.
+  files:
+    modified:
+    - tests/ansible/inventory/local.yml
+    - tests/ansible/playbooks/install.yml
+    - tests/ansible/roles/source_repos/defaults/main.yml
+    - tests/ansible/roles/source_repos/tasks/main.yml
+    - tests/ansible/README.md
+    - Makefile
+    - docs/source/concepts/architecture/ci-infrastructure.rst
+  related-issue:
+    number: 1261
+  date:
+    start: 2025-09
+    finish: 2026-06-25
+documentation:
+- title: Update CI infrastructure documentation
+  description: |
+    Clarify that ansible playbooks manage software, plugins, and test datasets
+    for CI purposes.  Document that ansible-core is pre-installed on CI runners.
+    Add early cross-reference to Makefile convenience targets.  Document
+    editable_pip_install=true behavior in dev Docker targets.
+  files:
+    modified:
+    - docs/source/concepts/architecture/ci-infrastructure.rst
+  related-issue:
+    number: 1261
+  date:
+    start: 2025-09
+    finish: 2026-06-25
