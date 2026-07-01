@@ -346,6 +346,9 @@ steps:
     arguments:
       sector_list: ["conus", "colorado", "texas"]
     spec:
+      apply_sector:
+        kind: sector
+        name: {{ current_sector }}  # Using jinja2 notation here but not sure if correct
       interp_to_sector:
         kind: interpolator
         name: nearest_neighbor
