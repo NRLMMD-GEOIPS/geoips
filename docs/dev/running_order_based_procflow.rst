@@ -169,9 +169,8 @@ Take for example the following workflow.
     fnames: !ENV ${GEOIPS_TESTDATA_DIR}/test_data_abi/data/goes16_20200918_1950/*
     outputs:
       abi:Infrared:
-        policy: on_failure # | always
-        output_checker_arguments:
-          compare_path: !ENV ${GEOIPS_PACKAGES_DIR}/geoips/tests/outputs/abi.static.Infrared.imagery_clean/20200918.195020.goes-16.abi.Infrared.test_goes16_eqc_3km_day_20200918T1950Z.100p00.noaa.3p0.png
+        full_test_policy: on_token_mismatch # | always | never
+        compare_path: !ENV ${GEOIPS_PACKAGES_DIR}/geoips/tests/outputs/abi.static.Infrared.imagery_clean/20200918.195020.goes-16.abi.Infrared.test_goes16_eqc_3km_day_20200918T1950Z.100p00.noaa.3p0.png
     steps:
       reader:
         area_def: null
@@ -208,10 +207,9 @@ field must take on the following format:
     outputs:
       <step_id>: &output-step-definition
         # name: <output_checker_name>                 # optional, derived from compare path if not provided
-        # policy: "on_failure" | "always"             # optional
-        # depends_on: [<step_idX>, <step_idY>, ...]   # optional
-        output_checker_arguments:
-          compare_path: /path/to/comparison/file.ext  # required
+        # full_test_policy: "on_token_mismatch" | "always" | "never"         # optional
+        # compare_path: /path/to/comparison/file.ext  # optional, but usually should exist
+        # threshold: float [0,1] # Only works for image output checker
       <step_idX>:
         spec:
           steps:

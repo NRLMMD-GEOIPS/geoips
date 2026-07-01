@@ -39,7 +39,6 @@ from geoips.pydantic_models.v1.bases import (
     PluginModel,
     FrozenModel,
     PermissiveFrozenModel,
-    PythonIdentifier,
 )
 from geoips.pydantic_models.v1.algorithms import AlgorithmArgumentsModel
 from geoips.pydantic_models.v1.coverage_checkers import CoverageCheckerArgumentsModel
@@ -368,6 +367,15 @@ class WorkflowStepDefinitionModel(FrozenModel):
             "Runtime evaluation is not yet implemented."
         ),
     )
+    full_test_policy: Literal["on_token_mismatch", "always", "never", None] = Field(
+        None,
+        description=(
+            "Tells GeoIPS in what circumstances an output checker should run based on "
+            "the result of the token comparison. Defaults to only running the specified"
+            " (or detected) output checker on failed token comparison."
+            "Should only EVER exist for an output checker step."
+        ),
+    )
 
     @field_validator("kind", mode="before")
     @classmethod
@@ -579,9 +587,9 @@ class WorkflowSpecModel(FrozenModel):
     global_arguments: GlobalVariablesModel | None = Field(
         None, description="Arguments shared across workflow steps"
     )
-    steps: Dict[
-        str, Union[WorkflowStepDefinitionModel, OutputCheckerStepDefinitionModel]
-    ] = Field(..., description="Steps to produce the workflow.")
+    steps: Dict[str, Union[WorkflowStepDefinitionModel]] = Field(
+        ..., description="Steps to produce the workflow."
+    )
 
     outputs: List[str] | None = Field(
         None,
@@ -901,7 +909,7 @@ class WorkflowSpecModel(FrozenModel):
         return self
 
 
-class OutputCheckerStepDefinitionModel(PermissiveFrozenModel):
+class OutputCheckerOverrideModel(PermissiveFrozenModel):
     """Model for output checker step definitions / overrides in a workflow test / steps section.  # NOQA
 
     Takes the form of:
@@ -919,6 +927,7 @@ class OutputCheckerStepDefinitionModel(PermissiveFrozenModel):
             "The name of the output checker plugin to use. If None, use a default "
             "output checker plugin associated with the produced file type(s)."
         ),
+        alias="output_checker_name",
     )
     compare_path: Union[FilePath, str, None] = Field(
         None,
@@ -938,14 +947,6 @@ class OutputCheckerStepDefinitionModel(PermissiveFrozenModel):
             "Tells GeoIPS in what circumstances an output checker should run based on "
             "the result of the token comparison. Defaults to only running the specified"
             " (or detected) output checker on failed token comparison."
-        ),
-    )
-    depends_on: List[str] | None = Field(
-        None,
-        description=(
-            "Step IDs this step depends on. If None, defaults to "
-            "[previous_step_id] for non-first steps, [] for the first step. "
-            "The runner validates all references exist and no cycles exist."
         ),
     )
 
@@ -1025,7 +1026,7 @@ class WorkflowTestModel(FrozenModel):
     #             optional_arg1: <x>
     #             optional_arg2: <z>
 
-    outputs: Dict[str, OutputCheckerStepDefinitionModel] = Field(
+    outputs: Dict[str, OutputCheckerOverrideModel] = Field(
         default_factory=dict,
         description=(
             "Override dictionary for output checker steps or every instance of"
