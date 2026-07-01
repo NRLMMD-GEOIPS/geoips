@@ -493,9 +493,40 @@ It does **not** restrict what a parent can address. A parent step may reference 
 Every step resolves to a class-based plugin instance via the GeoIPS Plugin Registry. The class hierarchy that governs step execution is:
 
 ```
-
-BaseClassPlugin(ABC) # geoips/interfaces/class_based_plugin.py ├── data_tree: bool = False # discriminator: True = DataTree-native ├── call(*args, \*\*kwargs) # abstract; plugin's core logic ├── \_pre_call(data, *args, **kwargs) # hook: convert TO DataTree ├── \_post_call(data, \*args, **kwargs) # hook: convert FROM DataTree ├── \_invoke(data=None, *args, \*\*kwargs) # orchestrator: │ └── if data is None → call(*args, \*\*kwargs) │ └── if data is not None → \_pre_call → call → \_post_call │ ├── BaseAlgorithmPlugin # data_tree=False (legacy) ├── BaseInterpolatorPlugin # data_tree=False (legacy) ├── BaseOutputFormatterPlugin # data_tree=False (legacy) ├── BaseCoverageCheckerPlugin # data_tree=False (legacy) ├── BaseFilenameFormatterPlugin # data_tree=False (legacy) ├── BaseOutputCheckerPlugin # data_tree=False (legacy) ├── BaseTitleFormatterPlugin # data_tree=False (legacy) ├── BaseReaderPlugin # data_tree=False (legacy) ├── BaseSectorAdjusterPlugin # data_tree=False (legacy) ├── BaseSectorSpecGeneratorPlugin # data_tree=False (legacy) ├── BaseSectorMetadataGeneratorPlugin # data_tree=False (legacy) ├── BaseDatabasePlugin # data_tree=False (legacy) ├── BaseColormapperPlugin # data_tree=True (metadata-only DT) │ ├── BaseProcflowPlugin # abstract; data_tree=True │ └── OrderBased # concrete procflow; produces DataTree │ └── Workflow(Plugin) # composite; IS a step, HAS steps ├── interface = "workflows" ├── data_tree = True ├── steps: Dict[str, Plugin] # resolved child plugin instances ├── call(workflow_tree: DataTree) → DataTree └── DataTree output: /<step_id> per step with provenance in attrs
-
+BaseClassPlugin(ABC)                # geoips/interfaces/class_based_plugin.py
+├── data_tree: bool = False         # discriminator: True = DataTree-native
+├── call(*args, **kwargs)           # abstract; plugin's core logic
+├── _pre_call(data, *args, **kwargs)  # hook: convert TO DataTree
+├── _post_call(data, *args, **kwargs) # hook: convert FROM DataTree
+├── _invoke(data=None, *args, **kwargs)  # orchestrator:
+│   └── if data is None → call(*args, **kwargs)
+│   └── if data is not None → _pre_call → call → _post_call
+├── __call__()  # Dynamically added. Errors if overridden.
+|   └── _invoke(data=None, *args, **kwargs)
+│
+├── BaseAlgorithmPlugin            # data_tree=False (legacy)
+├── BaseInterpolatorPlugin         # data_tree=False (legacy)
+├── BaseOutputFormatterPlugin      # data_tree=False (legacy)
+├── BaseCoverageCheckerPlugin      # data_tree=False (legacy)
+├── BaseFilenameFormatterPlugin    # data_tree=False (legacy)
+├── BaseOutputCheckerPlugin        # data_tree=False (legacy)
+├── BaseTitleFormatterPlugin       # data_tree=False (legacy)
+├── BaseReaderPlugin               # data_tree=False (legacy)
+├── BaseSectorAdjusterPlugin       # data_tree=False (legacy)
+├── BaseSectorSpecGeneratorPlugin  # data_tree=False (legacy)
+├── BaseSectorMetadataGeneratorPlugin # data_tree=False (legacy)
+├── BaseDatabasePlugin             # data_tree=False (legacy)
+├── BaseColormapperPlugin          # data_tree=True  (metadata-only DT)
+│
+├── BaseProcflowPlugin             # abstract; data_tree=True (to be deprecated)
+│   └── OrderBased                  # concrete procflow; produces DataTree (when procflows are deprecated, this will become the core of GeoIPS)
+│
+└── Workflow(Plugin)                # composite; IS a step, HAS steps
+    ├── interface = "workflows"
+    ├── data_tree = True
+    ├── steps: Dict[str, Plugin]    # resolved child plugin instances
+    ├── call(workflow_tree: DataTree) → DataTree
+    └── DataTree output: /<step_id> per step with provenance in attrs
 ```
 
 **Rationale:** `Workflow` IS-A `Plugin` (can be nested) and HAS-A collection of `Plugin` instances (children). This is the Composite pattern. The `data_tree` flag discriminates which path `_invoke()` takes: DataTree-native plugins skip conversion; legacy plugins convert to/from DataTree via `_pre_call`/`_post_call` and `DataTreeDitto`.
@@ -505,9 +536,21 @@ BaseClassPlugin(ABC) # geoips/interfaces/class_based_plugin.py ├── data_tr
 The `_invoke()` method on `BaseClassPlugin` orchestrates DataTree conversion based on the `data_tree` class attribute. The current implementation branches only on `data is None`. It is extended with `data_tree`-aware wrapping that uses `DataTreeDitto` for round-trip type conversion.
 
 ```
-
-\_invoke(data=None, *args, \*\*kwargs): if data is None: # Reader path (no upstream DT) result = self.call(*args, \*\*kwargs) if not self.data_tree: result = \_ensure_datatree(result) # wrap legacy output via DataTreeDitto return result else: # Non-reader path if not self.data_tree: data = \_unwrap_datatree(data) # DT → legacy format via DataTreeDitto data = self.\_pre_call(data, ...) data = self.call(data, ...) data = self.\_post_call(data, ...) if not self.data_tree: data = \_ensure_datatree(data) # legacy → DT via DataTreeDitto return data
-
+_invoke(data=None, *args, **kwargs):
+    if data is None:                         # Reader path (no upstream DT)
+        result = self.call(*args, **kwargs)
+        if not self.data_tree:
+            result = _ensure_datatree(result)  # wrap legacy output via DataTreeDitto
+        return result
+    else:                                    # Non-reader path
+        if not self.data_tree:
+            data = _unwrap_datatree(data)     # DT → legacy format via DataTreeDitto
+        data = self._pre_call(data, ...)
+        data = self.call(data, ...)
+        data = self._post_call(data, ...)
+        if not self.data_tree:
+            data = _ensure_datatree(data)     # legacy → DT via DataTreeDitto
+        return data
 ```
 
 **`_unwrap_datatree(tree: DataTree) -> Any`:** Extracts the legacy format (xr.Dataset, np.ndarray, dict, etc.) from a DataTree. Uses `DataTreeDitto.get_original()` for registered converters. This is a **hard requirement** — `DataTreeDitto` from the `datatree-ditto` branch must be available.
