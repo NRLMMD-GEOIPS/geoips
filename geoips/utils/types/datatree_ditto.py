@@ -1,3 +1,11 @@
+"""``DataTreeDitto``: a ``DataTree`` that auto-converts non-xarray payloads.
+
+Extends ``xarray.DataTree`` so that non-xarray objects (numpy arrays, dicts,
+etc.) assigned into the tree are converted to ``Dataset`` objects on the way in
+and recovered to their original type on the way out, using the shared
+``converter_registry``.
+"""
+
 from functools import wraps
 from typing import Any
 
@@ -292,23 +300,21 @@ class DataTreeDitto(DataTree):
         if original_type is None:
             return dataset
 
-        # Try shared registry first (faster dispatch)
-        try:
-            from geoips.utils.types.converter_registry import converter_registry
-        except ImportError:
-            converter_registry = None
+        # Resolve the original-type string against the shared registry and
+        # delegate the reverse (Dataset -> original) conversion to it, so the
+        # converter dispatch has a single source of truth.  ``_converters`` is
+        # retained only as a backward-compatible registration mirror.
+        from geoips.utils.types.converter_registry import converter_registry
 
-        # Find converter by original type string — preserve the existing
-        # string-matching behaviour for backward compatibility.
-        for obj_type, converter_dict in self._converters.items():
-            if f"{obj_type.__module__}.{obj_type.__name__}" == original_type:
-                return converter_dict["from_dataset"](dataset)
+        for target_type in converter_registry.registered_types.get(xr.Dataset, ()):
+            if f"{target_type.__module__}.{target_type.__name__}" == original_type:
+                return converter_registry.convert(dataset, target_type)
 
         # Fallback: return dataset if converter not found
         return dataset
 
     def _intercept_assignment(func):
-        """Decorator to intercept and convert assignments to DataTreeDitto.
+        """Intercept and convert assignments to DataTreeDitto.
 
         Handles three cases for the assigned value:
         1. Already an xarray type (DataTreeDitto, Dataset, DataArray,
@@ -442,6 +448,7 @@ class DataTreeDitto(DataTree):
         *args: Any,
         kwargs: Mapping[str, Any] | None = None,
     ) -> DataTree | tuple[DataTree, ...]:
+        """Map a function over datasets, returning ``DataTreeDitto`` output."""
         return super().map_over_datasets(func, *args, kwargs=kwargs)
 
     @_enforce_ditto_output
@@ -454,10 +461,12 @@ class DataTreeDitto(DataTree):
 
     @_enforce_ditto_output
     def filter(self: DataTree, filterfunc: Callable[[DataTree], bool]) -> DataTree:
+        """Filter the tree by node, returning ``DataTreeDitto`` output."""
         return super().filter(filterfunc)
 
     @_enforce_ditto_output
     def match(self, pattern: str) -> DataTree:
+        """Match nodes by glob pattern, returning ``DataTreeDitto`` output."""
         return super().match(pattern)
 
     @_enforce_ditto_output
@@ -469,6 +478,7 @@ class DataTreeDitto(DataTree):
         keep_attrs=None,
         **kwargs,
     ):
+        """Reduce this tree by mean, returning ``DataTreeDitto`` output."""
         return super().mean(dim, skipna=skipna, keep_attrs=keep_attrs, **kwargs)
 
     @classmethod
@@ -497,9 +507,17 @@ class DataTreeDitto(DataTree):
     def _convert_datatree_to_ditto(dt: DataTree) -> "DataTreeDitto":
         """Convert a DataTree to DataTreeDitto recursively.
 
-        Deprecated internal method.  Use ``DataTreeDitto.from_datatree()``
-        instead.  Kept for backward compatibility.
+        .. deprecated::
+            Use :meth:`DataTreeDitto.from_datatree` instead.
         """
+        import warnings
+
+        warnings.warn(
+            "DataTreeDitto._convert_datatree_to_ditto is deprecated; "
+            "use DataTreeDitto.from_datatree instead.",
+            DeprecationWarning,
+            stacklevel=2,
+        )
         return DataTreeDitto.from_datatree(dt)
 
     def get_original(self, path: str = ".") -> Any:

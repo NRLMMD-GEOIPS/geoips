@@ -9,8 +9,11 @@ order, and walks through the steps collecting downstream provenance into an
 ``xr.DataTree``.  Retention is governed by the Strategy pattern so the
 execution loop never branches on the policy name.
 
-Split / join steps are accepted by the schema but are not implemented;
-the runtime raises ``NotImplementedError`` when encountering them.
+``split`` steps fan a workflow out into one branch per scope (e.g. one per
+static sector in ``globals.sector_list``), running an inline body sub-workflow
+per branch; ``join`` steps re-collect those branches.  Conditional execution
+(``when``) is accepted by the schema but not yet implemented and raises
+``NotImplementedError`` at runtime.
 """
 
 from __future__ import annotations
@@ -27,10 +30,12 @@ import xarray as xr
 
 from geoips.pydantic_models.v1.workflows import (
     DEFAULT_RETENTION,
-    SCAFFOLD_KINDS,
     WorkflowSpecModel,
+    WorkflowStepDefinitionModel,
 )
+from geoips.errors import PluginResolutionError
 from geoips.utils.types.datatree_ditto import DataTreeDitto
+from geoips.utils.types.yaml_plugin_callable import YamlPluginCallable
 from geoips.utils.types.tokenization import (
     compute_arguments_hash,
     compute_step_output_token,
@@ -50,6 +55,19 @@ class StepProvenance:
     arguments_hash: str
     output_token: str
     gc_status: str = "kept"
+
+    @classmethod
+    def from_attrs(cls, attrs: dict) -> "StepProvenance":
+        """Reconstruct from a node's ``ds.attrs`` dict."""
+        return cls(
+            plugin_name=attrs.get("plugin_name", "unknown"),
+            plugin_kind=attrs.get("plugin_kind", "unknown"),
+            start_time=attrs.get("start_time", ""),
+            end_time=attrs.get("end_time", ""),
+            arguments_hash=attrs.get("arguments_hash", ""),
+            output_token=attrs.get("output_token", ""),
+            gc_status=attrs.get("gc_status", "kept"),
+        )
 
 
 class RetentionPolicy(ABC):
@@ -131,9 +149,15 @@ class Workflow:
         The workflow name (used as the root DataTree node name).
     """
 
-    def __init__(self, spec: WorkflowSpecModel, workflow_name: str) -> None:
+    def __init__(
+        self,
+        spec: WorkflowSpecModel,
+        workflow_name: str,
+        write_tokens: bool = False,
+    ) -> None:
         self._spec = spec
         self._wf_name = workflow_name
+        self._write_tokens = write_tokens
         self._order: list[str] = self._topological_order()
         self._retention: RetentionPolicy = _POLICIES[
             self._spec.retention or DEFAULT_RETENTION
@@ -146,7 +170,9 @@ class Workflow:
         time by ``_validate_dependencies``; this function assumes a DAG.
         """
         step_ids = list(self._spec.steps.keys())
-        indegree = {sid: len(step.depends_on or ()) for sid, step in self._spec.steps.items()}
+        indegree = {
+            sid: len(step.depends_on or ()) for sid, step in self._spec.steps.items()
+        }
 
         queue = deque(sid for sid in step_ids if indegree[sid] == 0)
         order: list[str] = []
@@ -169,10 +195,14 @@ class Workflow:
         """Collect upstream step outputs into a single DataTree.
 
         Returns an ``xr.DataTree`` named ``multi_input`` with each
-        upstream node as a child under its step id.  Readers (empty
-        ``depends_on``) receive an empty DataTree.
+        upstream node as a child under its step id.  When *depends_on*
+        is empty but *tree* already has children (a sub-workflow
+        receiving data from its parent), the tree itself is returned
+        so the first step can access the pre-loaded upstream data.
         """
         if not depends_on:
+            if dict(tree.children):
+                return tree
             return xr.DataTree(name="empty")
 
         result = xr.DataTree(name="multi_input")
@@ -183,8 +213,10 @@ class Workflow:
         return result
 
     def _attach_step_node(
-        self, tree: xr.DataTree, step_id: str, step_data: Any,
-        step_kind: str = "",
+        self,
+        tree: xr.DataTree,
+        step_id: str,
+        step_data: Any,
     ) -> None:
         """Attach a step's output as a child node in the DataTree.
 
@@ -196,33 +228,9 @@ class Workflow:
             Step identifier used as the child node name.
         step_data : Any
             The return value of ``plugin._invoke(...)``.
-        step_kind : str
-            The step kind, used to specialise handling (e.g. readers).
         """
         if isinstance(step_data, xr.DataTree):
             tree[step_id] = step_data
-        elif isinstance(step_data, dict) and step_kind == "reader":
-            primary_ds = None
-            extra_attrs = {}
-            for key, value in step_data.items():
-                if isinstance(value, xr.Dataset):
-                    if key == "METADATA":
-                        extra_attrs.update(value.attrs)
-                    elif primary_ds is None:
-                        primary_ds = value
-                        extra_attrs["_reader_dataset_key"] = key
-                    else:
-                        # Merge additional datasets into the primary
-                        try:
-                            primary_ds = xr.merge([primary_ds, value])
-                        except Exception as exc:
-                            LOG.warning(
-                                "Could not merge reader dataset %r into primary: %s",
-                                key, exc,
-                            )
-                            extra_attrs[f"_reader_extra_{key}"] = str(key)
-            ds = (primary_ds or xr.Dataset()).assign_attrs(**extra_attrs)
-            tree[step_id] = DataTreeDitto(ds, name=step_id)
         else:
             tree[step_id] = DataTreeDitto(step_data, name=step_id)
 
@@ -255,15 +263,8 @@ class Workflow:
             del node.ds[var_name]
 
         # Reconstruct provenance from existing attrs; mark as GC'd
-        prov = StepProvenance(
-            plugin_name=node.ds.attrs.get("plugin_name", "unknown"),
-            plugin_kind=node.ds.attrs.get("plugin_kind", "unknown"),
-            start_time=node.ds.attrs.get("start_time", ""),
-            end_time=node.ds.attrs.get("end_time", ""),
-            arguments_hash=node.ds.attrs.get("arguments_hash", ""),
-            output_token=node.ds.attrs.get("output_token", ""),
-            gc_status="data_dropped",
-        )
+        prov = StepProvenance.from_attrs(node.ds.attrs)
+        prov = dataclasses.replace(prov, gc_status="data_dropped")
         self._record_provenance(node, prov)
 
     def _apply_retention(self, tree: xr.DataTree, executed: set[str]) -> None:
@@ -300,7 +301,9 @@ class Workflow:
         try:
             area_defs = get_sectors_from_yamls(sector_list)
             LOG.interactive(
-                "Resolved %d area_def(s) from sector_list %s", len(area_defs), sector_list
+                "Resolved %d area_def(s) from sector_list %s",
+                len(area_defs),
+                sector_list,
             )
             return area_defs
         except Exception as exc:
@@ -346,11 +349,14 @@ class Workflow:
         xr.DataTree
             The fully-populated workflow DataTree.
         """
-        from geoips.errors import PluginResolutionError
-
         tree = (
             xr.DataTree(name=self._wf_name) if workflow_tree is None else workflow_tree
         )
+        # A *seeded* run is a sub-workflow handed a pre-loaded input tree (e.g. a
+        # split branch). For these, a first step (``depends_on: []``) consumes the
+        # seeded input. A top-level run (``workflow_tree is None``) is never
+        # seeded, so its independent steps receive no upstream data.
+        seeded = workflow_tree is not None and bool(dict(workflow_tree.children))
         self._set_root_attrs(tree)
         executed: set[str] = set()
 
@@ -371,41 +377,30 @@ class Workflow:
         for sid in self._order:
             step_def = self._spec.steps[sid]
 
-            if step_def.kind in SCAFFOLD_KINDS:
+            if step_def.when is not None:
                 raise NotImplementedError(
-                    f"split/join execution is not yet implemented "
+                    f"conditional execution ('when') is not yet implemented "
                     f"(encountered at step '{sid}')"
                 )
-
-            if step_def.when is not None:
-                LOG.info("step '%s' has when expression; not yet implemented", sid)
 
             arg_hash = compute_arguments_hash(step_def.arguments or {})
             start_iso = datetime.now(timezone.utc).isoformat()
 
-            plg = self._resolve_plugin(step_def.kind, step_def.name)
-            LOG.interactive("Step '%s' (%s: %s) starting ...", sid, step_def.kind, step_def.name)
+            upstream = self._collect_upstream_data(tree, step_def.depends_on or [])
 
-            # Step explicit arguments take priority over globals-derived kwargs.
-            _step_kwargs = {**_globals_kwargs, **(step_def.arguments or {})}
-
-            if step_def.kind == "reader":
-                # Readers always need fnames. When they depend on upstream steps
-                # (e.g. a sector step that provides area_def), collect upstream
-                # so _extract_child_kwargs can inject area_def, but also pass
-                # fnames so the reader can open files.
-                if step_def.depends_on:
-                    upstream = self._collect_upstream_data(tree, step_def.depends_on)
-                    step_result = plg(
-                        data=upstream, fnames=fnames, _obp_initiated=True, **_step_kwargs
-                    )
-                else:
-                    step_result = plg(fnames=fnames, _obp_initiated=True, **_step_kwargs)
-            elif not (step_def.depends_on or []):
-                step_result = plg(_obp_initiated=True, **_step_kwargs)
+            if step_def.kind == "split":
+                step_result = self._run_split(upstream, step_def, sid, fnames=fnames)
+            elif step_def.kind == "join":
+                step_result = self._run_join(tree, step_def, sid)
+            elif step_def.kind == "workflow":
+                sub_spec = self._resolve_workflow_spec(step_def)
+                step_result = Workflow(sub_spec, workflow_name=sid).call(
+                    workflow_tree=upstream, fnames=fnames
+                )
             else:
-                upstream = self._collect_upstream_data(tree, list(executed))
-                step_result = plg(data=upstream, _obp_initiated=True, **_step_kwargs)
+                step_result = self._invoke_plugin_step(
+                    step_def, upstream, seeded=seeded, fnames=fnames
+                )
 
             end_iso = datetime.now(timezone.utc).isoformat()
 
@@ -419,14 +414,14 @@ class Workflow:
 
             output_token = compute_step_output_token(
                 step_result,
-                plugin_name=step_def.name,
+                plugin_name=step_def.name or sid,
                 plugin_kind=step_def.kind,
                 arguments=step_def.arguments or {},
                 upstream_tokens=upstream_tokens or None,
             )
 
             prov = StepProvenance(
-                plugin_name=step_def.name,
+                plugin_name=step_def.name or sid,
                 plugin_kind=step_def.kind,
                 start_time=start_iso,
                 end_time=end_iso,
@@ -434,7 +429,7 @@ class Workflow:
                 output_token=output_token,
             )
 
-            self._attach_step_node(tree, sid, step_result, step_kind=step_def.kind)
+            self._attach_step_node(tree, sid, step_result)
             self._record_provenance(tree[sid], prov)
             executed.add(sid)
             self._apply_retention(tree, executed)
@@ -443,6 +438,170 @@ class Workflow:
         LOG.interactive("Full DataTree after workflow run:\n%s", tree)
         return tree
 
+    def _invoke_plugin_step(self, step_def, upstream, *, seeded, fnames):
+        """Resolve and call a single plugin step (not split/join/workflow).
+
+        The data a step receives depends on its position:
+
+        * a ``reader`` gets ``fnames`` (and no upstream data);
+        * a step with dependencies — or the first step of a *seeded*
+          sub-workflow (a split branch) — gets ``data=upstream``;
+        * any other independent step is called with no data.
+        """
+        plg = self._resolve_plugin(step_def.kind, step_def.name)
+        arguments = step_def.arguments or {}
+        if step_def.kind == "reader":
+            return plg(fnames=fnames, _obp_initiated=True, **arguments)
+        if step_def.depends_on or seeded:
+            return plg(data=upstream, _obp_initiated=True, **arguments)
+        return plg(_obp_initiated=True, **arguments)
+
+    # ------------------------------------------------------------------
+    # split / join (per-branch fan-out, e.g. one branch per static sector)
+    # ------------------------------------------------------------------
+
+    def _run_split(self, upstream, step_def, sid, *, fnames=None):
+        """Run a ``split`` step's inline body sub-workflow once per branch.
+
+        Branches come from the step's ``arguments``:
+
+        * ``scopes: [k1, k2, ...]`` — explicit branch keys (no sector context).
+        * ``over: sector_list`` — one branch per static sector resolved from
+          ``globals.sector_list``; each branch's ``AreaDefinition`` is seeded
+          into the branch input tree as a ``sector`` node so the body's steps
+          receive it as ``area_def`` via the standard conduit mechanism.
+
+        Each branch result is nested under ``/<sid>/<scope>``.
+
+        Parameters
+        ----------
+        upstream : xr.DataTree
+            Collected upstream data for the split step.
+        step_def : WorkflowStepDefinitionModel
+            The ``kind="split"`` step definition (carries the inline body spec).
+        sid : str
+            The split step id (root node name for the branch subtree).
+        fnames : list[str] or None
+            Input filenames forwarded to each branch sub-workflow.
+
+        Returns
+        -------
+        xr.DataTree
+            A node named *sid* with one child per branch scope.
+        """
+        body_spec = step_def.spec
+        if body_spec is None:
+            raise PluginResolutionError(f"split step '{sid}' has no inline body spec")
+
+        branches = self._resolve_branches(step_def, sid)
+        split_node = xr.DataTree(name=sid)
+        for scope, area_def in branches:
+            seed = self._seed_branch_tree(upstream, area_def)
+            branch_wf = Workflow(body_spec, workflow_name=scope)
+            branch_result = branch_wf.call(workflow_tree=seed, fnames=fnames)
+            split_node[scope] = branch_result
+
+        split_node.attrs["split_scopes"] = [scope for scope, _ in branches]
+        return split_node
+
+    def _resolve_branches(self, step_def, sid):
+        """Return ``[(scope_name, AreaDefinition | None), ...]`` for a split step."""
+        args = step_def.arguments or {}
+        if args.get("scopes"):
+            return [(str(scope), None) for scope in args["scopes"]]
+        if args.get("over") == "sector_list":
+            branches = self._resolve_sector_branches()
+            if not branches:
+                raise PluginResolutionError(
+                    f"split step '{sid}' uses 'over: sector_list' but no sectors "
+                    f"could be resolved from globals.sector_list"
+                )
+            return branches
+        raise PluginResolutionError(
+            f"split step '{sid}' must define arguments with either 'scopes' "
+            f"(explicit branch keys) or 'over: sector_list'"
+        )
+
+    def _resolve_sector_branches(self):
+        """Return ``[(scope_name, AreaDefinition)]`` from ``globals.sector_list``."""
+        branches: list[tuple[str, Any]] = []
+        for area_def in self._resolve_area_defs():
+            name = (
+                getattr(area_def, "area_id", None)
+                or getattr(area_def, "name", None)
+                or f"sector_{len(branches)}"
+            )
+            branches.append((str(name), area_def))
+        return branches
+
+    @staticmethod
+    def _seed_branch_tree(upstream, area_def):
+        """Build a branch input tree: upstream data + an optional sector node.
+
+        The branch body's first step (``depends_on: []``) receives this tree
+        directly (see :meth:`_collect_upstream_data`), so seeding a ``sector``
+        node here makes the per-branch ``area_def`` available to the body's
+        steps through the normal conduit extraction.
+        """
+        seed = xr.DataTree(name="branch_input")
+        if isinstance(upstream, xr.DataTree):
+            for child_name, child in dict(upstream.children).items():
+                seed[child_name] = child
+        if area_def is not None:
+            sector_ds = xr.Dataset(
+                attrs={"area_definition": area_def, "plugin_kind": "sector"}
+            )
+            seed["_sector"] = DataTreeDitto(sector_ds, name="_sector")
+        return seed
+
+    def _run_join(self, tree, step_def, sid):
+        """Collect a split's per-branch outputs into a single node.
+
+        Re-nests each branch subtree under ``/<sid>/<scope>`` and records the
+        joined scopes in ``joined_scopes``.
+        """
+        join_node = xr.DataTree(name=sid)
+        joined_scopes: list[str] = []
+
+        for dep in step_def.depends_on or ():
+            split_node = tree.get(dep)
+            if split_node is None:
+                continue
+            for scope, branch in dict(split_node.children).items():
+                joined_scopes.append(scope)
+                join_node[scope] = branch
+
+        join_node.attrs["joined_scopes"] = joined_scopes
+        return join_node
+
+    @staticmethod
+    def _resolve_workflow_spec(
+        step_def: WorkflowStepDefinitionModel,
+    ) -> WorkflowSpecModel:
+        """Resolve the sub-workflow spec from an expanded workflow step.
+
+        Parameters
+        ----------
+        step_def : WorkflowStepDefinitionModel
+            A step definition with ``kind="workflow"``.
+
+        Returns
+        -------
+        WorkflowSpecModel
+        """
+        if step_def.spec is not None:
+            return step_def.spec
+
+        plg = Workflow._resolve_plugin(step_def.kind, step_def.name)
+        if isinstance(plg, YamlPluginCallable):
+            return WorkflowSpecModel.model_validate(plg.spec)
+        if hasattr(plg, "spec"):
+            return plg.spec
+
+        raise PluginResolutionError(
+            f"Could not extract workflow spec for step "
+            f"'{step_def.name}' (kind={step_def.kind})"
+        )
 
     @staticmethod
     def _resolve_plugin(kind: str, name: str):
@@ -466,7 +625,6 @@ class Workflow:
             If the interface or plugin cannot be resolved.
         """
         from geoips import interfaces
-        from geoips.errors import PluginResolutionError
         from geoips.utils.types.partial_lexeme import Lexeme
 
         interface_name = str(Lexeme(kind).plural)
@@ -486,5 +644,6 @@ class Workflow:
 
         if isinstance(result, dict) and not callable(getattr(result, "call", None)):
             from geoips.utils.types.yaml_plugin_callable import YamlPluginCallable
+
             return YamlPluginCallable(result)
         return result

@@ -57,16 +57,13 @@ class TestWorkflowStepDefinitionModel:
         )
         assert step.scope is None
 
-    def test_scope_field_rejected(self):
-        """Providing a non-None scope raises a validation error."""
-        import pytest
-        from pydantic import ValidationError
-
-        with pytest.raises(ValidationError, match="scope is not yet implemented"):
-            WorkflowStepDefinitionModel.model_validate(
-                {"kind": "algorithm", "name": "single_channel", "scope": "cloudy"},
-                context=CTX,
-            )
+    def test_scope_field_accepts_value(self):
+        """``scope`` is now accepted (split/join branch label)."""
+        step = WorkflowStepDefinitionModel.model_validate(
+            {"kind": "algorithm", "name": "single_channel", "scope": "cloudy"},
+            context=CTX,
+        )
+        assert step.scope == "cloudy"
 
     def test_when_field_defaults_none(self):
         """Default when to None when not supplied."""
@@ -83,13 +80,28 @@ class TestWorkflowStepDefinitionModel:
         assert step.name == "abi_netcdf"
 
     def test_split_join_accepted_as_valid_kinds(self):
-        """Accept split and join as valid step kinds."""
+        """Accept split (inline body spec + branch args) and join step kinds."""
         step = WorkflowStepDefinitionModel.model_validate(
-            {"kind": "split", "name": "split_by_data"}
+            {
+                "kind": "split",
+                "arguments": {"scopes": ["a", "b"]},
+                "spec": {
+                    "steps": {
+                        "p": {
+                            "kind": "algorithm",
+                            "name": "single_channel",
+                            "arguments": {},
+                            "depends_on": [],
+                        }
+                    }
+                },
+            },
+            context=CTX,
         )
         assert step.kind == "split"
+        assert step.spec is not None
         step = WorkflowStepDefinitionModel.model_validate(
-            {"kind": "join", "name": "merge_data"}
+            {"kind": "join", "depends_on": ["s"]}, context=CTX
         )
         assert step.kind == "join"
 
@@ -213,18 +225,18 @@ class TestWorkflowSpecModel:
         spec = WorkflowSpecModel.model_validate(self._make_linear_spec(), context=CTX)
         assert spec.retention == "keep_referenced"
 
-    def test_defaults_field_accepts_per_kind_dict(self):
-        """Accept a per-kind defaults dictionary."""
-        spec = WorkflowSpecModel.model_validate(
-            self._make_linear_spec(defaults={"reader": {"self_register": False}}),
-            context=CTX,
-        )
-        assert spec.defaults["reader"]["self_register"] is False
+    def test_defaults_field_rejected_until_wired(self):
+        """``defaults`` is rejected at validation until the runtime wires it in."""
+        with pytest.raises(Exception):
+            WorkflowSpecModel.model_validate(
+                self._make_linear_spec(defaults={"reader": {"self_register": False}}),
+                context=CTX,
+            )
 
-    def test_retention_by_kind_field_accepts_overrides(self):
-        """Accept per-kind retention overrides."""
-        spec = WorkflowSpecModel.model_validate(
-            self._make_linear_spec(retention_by_kind={"reader": "keep_all"}),
-            context=CTX,
-        )
-        assert spec.retention_by_kind["reader"] == "keep_all"
+    def test_retention_by_kind_field_rejected_until_wired(self):
+        """``retention_by_kind`` is rejected at validation until it is wired in."""
+        with pytest.raises(Exception):
+            WorkflowSpecModel.model_validate(
+                self._make_linear_spec(retention_by_kind={"reader": "keep_all"}),
+                context=CTX,
+            )

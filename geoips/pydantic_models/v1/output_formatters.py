@@ -14,9 +14,8 @@ from pydantic import Field
 from pyresample.geometry import AreaDefinition
 
 # GeoIPS imports
+from geoips.constants import PLUGIN_PROVIDED
 from geoips.pydantic_models.v1.bases import PermissiveFrozenModel
-
-PLUGIN_PROVIDED = "plugin_provided"
 
 
 class OutputFormatterArgumentsModel(PermissiveFrozenModel):

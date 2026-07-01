@@ -43,11 +43,7 @@ class BaseCoverageCheckerPlugin(BaseClassPlugin, abstract=True):
             ``DataTree``; otherwise whatever the base ``_pre_call`` returns.
         """
         if _obp_initiated and isinstance(data, xr.DataTree):
-            children = list(data.children.values())
-            if len(children) == 1:
-                data = children[0].to_dataset()
-            elif len(children) > 1:
-                data = xr.merge([c.to_dataset() for c in children])
+            data = self._to_mutable_dataset(data)
         return super()._pre_call(data, *args, _obp_initiated=_obp_initiated, **kwargs)
 
     def _post_call(self, data=None, *args, _obp_initiated=False, **kwargs):

@@ -824,6 +824,11 @@ class GeoipsWorkflowCommand(GeoipsExecutableCommand):
                 workflow = WorkflowPluginModel(
                     **workflow,
                     is_registered=False,
+                    # Adding context in pydantic is akin to passing in values that are
+                    # usually None to an Objects __init__ function. It will construct
+                    # differently if those parameters are provided. In this case, we are
+                    # telling pydantic to expand the workflow, rather than validate just
+                    # what's in the data provided
                     context={"expand": True},
                 ).model_dump()
             except Exception as e:
@@ -832,6 +837,7 @@ class GeoipsWorkflowCommand(GeoipsExecutableCommand):
                 )
         # unregistered workflow @ filepath (any path that exists on disk)
         elif self.ensure_valid_json_or_yaml_path(value):
+            # since the filepath was valid and exists, load the data and validate it
             filepath = self.ensure_valid_json_or_yaml_path(value)
             if filepath.suffix.lower() == ".json":
                 loader = json.load
@@ -840,10 +846,17 @@ class GeoipsWorkflowCommand(GeoipsExecutableCommand):
 
             with open(filepath, "r") as f:
                 workflow = loader(f)
+            # This assumes if you pass the filepath option that the plugin itself is
+            # not registered. Validate that it's formatted correctly.
             try:
                 workflow = WorkflowPluginModel(
                     **workflow,
                     is_registered=False,
+                    # Adding context in pydantic is akin to passing in values that are
+                    # usually None to an Objects __init__ function. It will construct
+                    # differently if those parameters are provided. In this case, we are
+                    # telling pydantic to expand the workflow, rather than validate just
+                    # what's in the data provided
                     context={"expand": True},
                 ).model_dump()
             except Exception as e:

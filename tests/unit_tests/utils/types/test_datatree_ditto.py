@@ -36,10 +36,8 @@ class TestDataTreeDittoCore:
         arr = np.random.rand(3, 4)
         dt = DataTreeDitto(dataset=arr)
         assert isinstance(dt.ds, xr.Dataset)
-        # Check the underlying dataset for attributes
-        actual_ds = dt.ds._dataset if hasattr(dt.ds, "_dataset") else dt.ds
-        assert "_ditto_original_type" in actual_ds.attrs
-        assert actual_ds.attrs["_ditto_original_type"] == "numpy.ndarray"
+        assert "_ditto_original_type" in dt.ds.attrs
+        assert dt.ds.attrs["_ditto_original_type"] == "numpy.ndarray"
 
     def test_initialization_with_unsupported_type(self):
         """Test creating DataTreeDitto with unsupported type raises error."""
@@ -278,13 +276,7 @@ class TestDataTreeConversion:
 
         # Data should be preserved as dataset
         assert isinstance(standard_dt["test"].ds, xr.Dataset)
-        # Original conversion metadata should be preserved
-        actual_ds = (
-            standard_dt["test"].ds._dataset
-            if hasattr(standard_dt["test"].ds, "_dataset")
-            else standard_dt["test"].ds
-        )
-        assert "_ditto_original_type" in actual_ds.attrs
+        assert "_ditto_original_type" in standard_dt["test"].ds.attrs
 
 
 class TestMetadataAndIntrospection:
@@ -602,9 +594,8 @@ class TestSubclassConverterMatching:
 
         assert isinstance(dt, DataTreeDitto)
         assert isinstance(dt.ds, xr.Dataset)
-        actual_ds = dt.ds._dataset if hasattr(dt.ds, "_dataset") else dt.ds
-        assert "_ditto_original_type" in actual_ds.attrs
-        assert actual_ds.attrs["_ditto_original_type"] in (
+        assert "_ditto_original_type" in dt.ds.attrs
+        assert dt.ds.attrs["_ditto_original_type"] in (
             "numpy.ma.MaskedArray",
             "numpy.ma.core.MaskedArray",
         )
@@ -631,8 +622,7 @@ class TestSubclassConverterMatching:
         masked = np.ma.array([10, 20, 30], mask=[0, 1, 0])
         dt = DataTreeDitto(dataset=masked)
 
-        actual_ds = dt.ds._dataset if hasattr(dt.ds, "_dataset") else dt.ds
-        assert actual_ds.attrs["_ditto_original_type"] == "numpy.ma.MaskedArray"
+        assert dt.ds.attrs["_ditto_original_type"] == "numpy.ma.MaskedArray"
 
         DataTreeDitto._converters = saved_converters
 

@@ -35,6 +35,7 @@ import logging
 import xarray as xr
 
 from geoips import interfaces
+from geoips.utils.types.obp_conduits import OBP_CONDUITS
 
 LOG = logging.getLogger(__name__)
 
@@ -57,6 +58,11 @@ def valid_str_attr(cls, attr_name: str):
         raise TypeError(f"{cls.__name__}.{attr_name} must be a string")
     if not attr_value:
         raise ValueError(f"{cls.__name__}.{attr_name} cannot be empty")
+
+
+# The OBP conduit binding registry and its extractor helpers now live in
+# ``geoips.utils.types.obp_conduits`` (imported above as ``OBP_CONDUITS``) so
+# that there is a single home for per-kind input wiring.
 
 
 # class BaseClassPlugin(Generic[P, R], ABC):
@@ -158,17 +164,15 @@ class BaseClassPlugin(ABC):
         # Step 1: Unwrap DataTree → native type
         data = self._unwrap(data)
 
-        # Stash attrs from Dataset input for restoration in _post_call (OBP only)
-        if _obp_initiated and hasattr(data, "attrs"):
-            self._stashed_input_attrs = dict(data.attrs)
-
         # Step 2: Apply family-specific input conversion (OBP only)
         if _obp_initiated:
             conversion_map = getattr(self, "_family_conversion_map", None)
             if conversion_map is not None:
                 spec = conversion_map.get(self.family)
                 if spec is not None and spec.input_converter is not None:
-                    if spec.input_type is not None and not isinstance(data, spec.input_type):
+                    if spec.input_type is not None and not isinstance(
+                        data, spec.input_type
+                    ):
                         data = spec.input_converter(data)
                     elif spec.input_type is None:
                         data = spec.input_converter(data)
@@ -210,16 +214,6 @@ class BaseClassPlugin(ABC):
                 spec = conversion_map.get(self.family)
                 if spec is not None and spec.output_converter is not None:
                     data = spec.output_converter(data)
-
-        # Step 1.5: Restore stashed metadata from input (OBP only)
-        stashed = getattr(self, "_stashed_input_attrs", None)
-        if _obp_initiated and stashed:
-            if hasattr(data, "attrs"):
-                for k, v in stashed.items():
-                    if k not in getattr(data, "attrs", {}):
-                        data.attrs[k] = v
-                LOG.debug("Restored %d stashed attrs to output", len(stashed))
-            self._stashed_input_attrs = None
 
         # Step 2: Wrap into DataTreeDitto if not already (OBP only)
         if _obp_initiated and not isinstance(data, xr.DataTree):
@@ -303,20 +297,34 @@ class BaseClassPlugin(ABC):
             return DataTreeDitto(ds, name=getattr(self, "name", "result"))
         return DataTreeDitto(result, name=getattr(self, "name", "result"))
 
-    def _extract_child_kwargs(self, data, kwargs):
-        from geoips.utils.types.yaml_plugin_callable import _KIND_TO_KWARG
+    @staticmethod
+    def _to_mutable_dataset(data):
+        """Convert a DataTree with children into a mutable ``xr.Dataset``.
 
+        ``DataTree.ds`` returns an immutable ``DatasetView``.  Plugins
+        that need to write into the dataset must call this helper first.
+
+        * Single child → ``children[0].to_dataset()``
+        * Multiple children → ``xr.merge(...)``
+        * Not a DataTree → returned unchanged.
+        """
+        if not isinstance(data, xr.DataTree):
+            return data
+        children = list(data.children.values())
+        if len(children) == 1:
+            return children[0].to_dataset()
+        if len(children) > 1:
+            return xr.merge([c.to_dataset() for c in children])
+        return data
+
+    @staticmethod
+    def _extract_child_kwargs(data, kwargs):
         if not isinstance(data, xr.DataTree):
             return kwargs
 
         children = dict(data.children)
         if not children:
             return kwargs
-
-        # Determine the first positional parameter of call() so we can skip
-        # adding a child kwarg that would conflict with data passed positionally.
-        _call_params = list(inspect.signature(self.call).parameters)
-        _first_call_param = _call_params[0] if _call_params else None
 
         def _wrap_spec(spec):
             return {"spec": spec} if spec is not None else None
@@ -338,7 +346,6 @@ class BaseClassPlugin(ABC):
         _EXTRACTORS = {
             "algorithm": _unwrap_ds,
             "colormapper": lambda c: c.ds.attrs.get("_mpl_colors_info"),
-            "coverage_checker": lambda c: c.ds.attrs.get("coverage"),
             "feature_annotator": lambda c: _wrap_spec(c.ds.attrs.get("spec")),
             "filename_formatter": lambda c: c.ds.attrs.get("output_fnames"),
             "gridline_annotator": lambda c: _wrap_spec(c.ds.attrs.get("spec")),
@@ -349,29 +356,20 @@ class BaseClassPlugin(ABC):
         for _child_name, child in children.items():
             pkind = str(child.ds.attrs.get("plugin_kind", "")) if child.ds is not None else ""
             kwarg_name = _KIND_TO_KWARG.get(pkind)
-            # The continue guard would skip the elif part when xarray_obj matches the
-            # first positional paramter.
-            if pkind == "algorithm" and "variable_name" not in kwargs and child.ds is not None:
-                attr_product_name = child.ds.attrs.get("product_name")
-                if attr_product_name:
-                    kwargs["variable_name"] = attr_product_name
-            # Skip if already provided, or if the kwarg matches the first positional
-            # parameter of call() — in that case data fills it directly and adding
-            # it again as a keyword would cause "multiple values for argument" errors.
             if not kwarg_name or kwarg_name in kwargs:
                 continue
 
-            extract = _EXTRACTORS.get(pkind)
-            if extract is not None:
-                val = extract(child)
-                if val is not None:
-                    kwargs[kwarg_name] = val
-            elif pkind in ("product", "product_default"):
-                kwargs[kwarg_name] = dict(child.ds.attrs)
+            val = conduit["extract"](child)
+            if val is not None:
+                kwargs[kwarg_name] = val
 
         if "xarray_obj" in kwargs and "product_name" in kwargs:
             xo = kwargs["xarray_obj"]
-            if hasattr(xo, "data_vars") and xo.data_vars and "product_name" not in xo.data_vars:
+            if (
+                hasattr(xo, "data_vars")
+                and xo.data_vars
+                and "product_name" not in xo.data_vars
+            ):
                 pn = kwargs["product_name"]
                 first_var = list(xo.data_vars)[0]
                 if (
@@ -405,28 +403,18 @@ class BaseClassPlugin(ABC):
         -------
             The processed data.
         """
-        if _obp_initiated:
-            provided_args = set(kwargs)
-            accepted_args = set(list(inspect.signature(self.call).parameters.keys()))
-            unaccepted_args = provided_args - accepted_args
-            for arg in unaccepted_args:
-                provided_args.remove(arg)
-
-            new_kwargs = {kwarg: kwargs[kwarg] for kwarg in provided_args}
-        else:
-            new_kwargs = kwargs
+        new_kwargs = self._obp_filter_kwargs(kwargs) if _obp_initiated else kwargs
 
         if data is None:
+            # No upstream data (e.g. reader steps, or any first step). We still
+            # run ``_post_call`` so interface-level normalization happens — most
+            # importantly the reader ``dict -> DataTree`` merge in
+            # ``BaseReaderPlugin._post_call`` and the ``_wrap`` into a
+            # ``DataTreeDitto``.  ``_pre_call`` is a no-op for ``data is None``.
             result = self.call(*args, **new_kwargs)
-            result = self._post_call(result, *args, _obp_initiated=_obp_initiated, **new_kwargs)
         else:
             if _obp_initiated:
                 new_kwargs = self._extract_child_kwargs(data, new_kwargs)
-                # Re-filter after _extract_child_kwargs may have added extra keys
-                # (e.g. variable_name) that call() doesn't accept.
-                new_kwargs = {
-                    k: v for k, v in new_kwargs.items() if k in accepted_args
-                }
             data = self._pre_call(data, *args, _obp_initiated=_obp_initiated, **new_kwargs)
             if (
                 _obp_initiated
@@ -439,26 +427,7 @@ class BaseClassPlugin(ABC):
                 data = self._post_call(result, *args, _obp_initiated=_obp_initiated, **new_kwargs)
                 result = data
             else:
-                _call_params = list(inspect.signature(self.call).parameters)
-                _first_param = _call_params[0] if _call_params else None
-                if (
-                    _obp_initiated
-                    and _first_param
-                    and _first_param in new_kwargs
-                    and not isinstance(new_kwargs[_first_param], (xr.Dataset, xr.DataTree))
-                ):
-                    # First param holds a non-dataset resource (e.g. area_def).
-                    # data (upstream) is NOT the right value for it — call via
-                    # kwargs only so each arg is bound by name, not position.
-                    data = self.call(**new_kwargs)
-                else:
-                    # Standard: data fills the first positional parameter.
-                    # Remove it from new_kwargs if OBP globals also injected it
-                    # there to prevent "multiple values for argument X".
-                    if _first_param and _first_param in new_kwargs:
-                        new_kwargs = dict(new_kwargs)
-                        del new_kwargs[_first_param]
-                    data = self.call(data, *args, **new_kwargs)
+                data = self.call(data, *args, **new_kwargs)
                 data = self._post_call(data, *args, _obp_initiated=_obp_initiated, **new_kwargs)
                 result = data
 
@@ -564,6 +533,7 @@ def _kwarg_to_positional(kwargs, call_func):
         Positional arguments for ``call_func``.
     """
     import inspect as _inspect_mod
+
     sig = _inspect_mod.signature(call_func)
     positional = []
     consumed = set()
@@ -581,10 +551,19 @@ def _kwarg_to_positional(kwargs, call_func):
             consumed.add(pname)
         elif param.default is not _inspect_mod.Parameter.empty:
             positional.append(param.default)
-        elif pname == "data" and "xarray_obj" in kwargs:
-            val = kwargs.pop("xarray_obj")
-            positional.append(val)
-            consumed.add("xarray_obj")
+        elif pname == "data":
+            for alias in ("xarray_obj",):
+                if alias in kwargs:
+                    val = kwargs.pop(alias)
+                    positional.append(val)
+                    consumed.add(alias)
+                    break
+            else:
+                raise TypeError(
+                    f"_kwarg_to_positional: required parameter {pname!r} "
+                    f"is missing from kwargs and cannot be filled automatically. "
+                    f"Available kwargs: {list(kwargs)}"
+                )
         else:
             raise TypeError(
                 f"_kwarg_to_positional: required parameter {pname!r} "
