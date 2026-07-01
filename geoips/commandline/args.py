@@ -473,7 +473,7 @@ def add_args(parser, arglist=None, legacy=False):
         prod_group.add_argument(
             "--product_spec_override",
             nargs="?",
-            default={},
+            default=None,
             type=literal_eval,
             help="""Specify product spec fields to override the default specifications.
                             Should be formatted as a json dictionary string""",
@@ -636,6 +636,17 @@ def add_args(parser, arglist=None, legacy=False):
             help="""If true, do not pre-sector data prior to running the algorithm.
                     This is less efficient, but allows the original dataset to
                     be passed to the algorithm in full.""",
+        )
+
+    if arglist is None or "disable_nan_array_removal" in arglist:
+        procflow_group.add_argument(
+            "--disable_nan_array_removal",
+            action="store_true",
+            help="""If true, do not remove arrays of all nans before passing to
+                    interpolator or algorithm steps.  This process can be very slow
+                    and use a large amount of memory for large arrays, so allow
+                    turning it off if we know in advance that we do not have to worry
+                    about handling arrays comprised on all nans.""",
         )
 
     if arglist is None or "output_checker_name" in arglist:

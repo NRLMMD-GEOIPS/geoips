@@ -1,0 +1,21 @@
+realtime:
+- title: 'Update config_based procflow to pull sector_adjuster_kwargs from output config YAML'
+  description: |
+    Supporting the use of sector_adjuster_kwargs was previously only supported by the
+    single_source procflow via command line arguments. The config_based procflow was
+    updated to pull sector_adjuster_kwargs from the output_config YAML, and defaults to
+    an empty dictionary if none are specified in the output_config.
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - 'geoips/plugins/modules/procflows/config_based.py'
+  related-issue:
+    internal: "geoips#1038"
+  date:
+    start: 2026-03-24
+    finish: 2026-03-24
