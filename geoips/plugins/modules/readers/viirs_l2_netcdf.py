@@ -74,7 +74,13 @@ class ViirsL2NetcdfReaderPlugin(BaseReaderPlugin):
         str
             Standard GeoIPS platform name
         """
-        geoips_pform_name = {"NPP": "npp", "NPP_OPS": "npp", "JPSS": "noaa20"}
+        geoips_pform_name = {
+            "NPP": "npp",
+            "NPP_OPS": "npp",
+            "JPSS": "n20",
+            "JP1VIIRS": "n20",
+            "JP2VIIRS": "n21",
+        }
         return geoips_pform_name[meta_platform_name]
 
     def pair_file_names(self, file_list):

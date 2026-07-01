@@ -47,6 +47,11 @@ import os
 import logging
 from datetime import datetime, timedelta
 
+from geoips.plugins.modules.sector_metadata_generators.bdeck_parser import (
+    assemble_invest_storm_id,
+    assemble_numbered_storm_id,
+)
+
 LOG = logging.getLogger(__name__)
 
 
@@ -266,6 +271,28 @@ class FdeckParserSectorMetadataGeneratorPlugin(BaseSectorMetadataGeneratorPlugin
                 "tc" + storm_year + storm_basin + storm_num
             )  # TLO
             fields["final_storm_name"] = "STORM" + storm_num  # TLO
+
+        # If storm_year is defined, assemble storm_id for the current storm, whether
+        # numbered or invest. storm_year must be defined, since it is required for
+        # storm_id construction.
+        if storm_year:
+            # storm_id is of format BBNNYYYY for numbered storms (less than 90)
+            # and BBNNYYYY.YYYYMMDDHH for invests (greater than 89). Do not attempt
+            # to construct storm_id if storm_start_datetime is not defined, since
+            # it is required for invest storm ids.
+            if int(storm_num) > 89 and storm_start_datetime:
+                fields["storm_id"] = self.assemble_invest_storm_id(
+                    storm_basin,
+                    int(storm_num),
+                    int(storm_year),
+                    storm_start_datetime,
+                )
+            # Numbered storm IDs do not require storm_start_datetime.
+            else:
+                fields["storm_id"] = self.assemble_numbered_storm_id(
+                    storm_basin, int(storm_num), int(storm_year)
+                )
+
 
         if source_filename:
             from geoips.geoips_utils import replace_geoips_paths

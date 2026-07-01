@@ -1,0 +1,30 @@
+documentation:
+- title: Add release note for version 1.19.0
+  description: |
+    Release note on release branch to force tag/release, package/publish,
+    and deploy docs.
+
+    Additionally add any updated files from geoips_ci/sync
+  files:
+    added:
+    - docs/source/releases/latest/1.19.0-release-note.yaml
+    modified:
+    - geoips_ci/sync updated files
+  date:
+    start: 2026-06-05
+    finish: 2026-06-05
+  related-issue:
+    internal: geoips#1067 - 1.19.0 updates
+documentation:
+- title: Update tagged versions
+  description: |
+
+    * Tagged version: 1.19.0
+  files:
+    modified:
+    - .github/versions/tagged_version
+  date:
+    start: 2026-06-05
+    finish: 2026-06-05
+  related-issue:
+    internal: geoips#1067 - 1.19.0 updates

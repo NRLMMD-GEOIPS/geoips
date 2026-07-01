@@ -168,12 +168,12 @@ class BdeckParserSectorMetadataGeneratorPlugin(BaseSectorMetadataGeneratorPlugin
             datetime.now() - storm_start_datetime_from_first_line_of_current_deck_file
         ).total_seconds()
         archived_threshold = (
-            datetime.now() - (datetime.now() - relativedelta(years=2))
+            datetime.now() - (datetime.now() - relativedelta(months=6))
         ).total_seconds()
         is_archived = storm_age_seconds > archived_threshold
         if is_archived:
             LOG.info(
-                "Storm age greater than 2 years - treating as an archived deck file"
+                "Storm age greater than 6 months - treating as an archived deck file"
                 "(will automatically skip any bad/poorly formatted lines)"
             )
 
@@ -234,6 +234,12 @@ class BdeckParserSectorMetadataGeneratorPlugin(BaseSectorMetadataGeneratorPlugin
                     continue
                 else:
                     raise ValueError(e)
+            except IndexError as e:
+                if is_archived:
+                    LOG.warning("Skipping bad/poorly formatted line")
+                    continue
+                else:
+                    raise IndexError(e)
             # Was previously RE-SETTING finalstormname here.
             # That is why we were getting incorrect final_storm_name fields
             all_fields += [curr_fields]
@@ -242,6 +248,7 @@ class BdeckParserSectorMetadataGeneratorPlugin(BaseSectorMetadataGeneratorPlugin
 
         return all_fields, final_storm_name, tc_year, allowed_aid_types
 
+
     def lat_to_dec(self, lat_str):
         """Return decimal latitude based on N/S specified string."""
         latnodec = lat_str
@@ -249,12 +256,14 @@ class BdeckParserSectorMetadataGeneratorPlugin(BaseSectorMetadataGeneratorPlugin
         latdecsign = latdec[:-1] if (latdec[-1] == "N") else "-" + latdec[:-1]
         return latdecsign
 
+
     def lon_to_dec(self, lon_str):
         """Return decimal longitude based on E/W specified string."""
         lonnodec = lon_str
         londec = lonnodec[:-2] + "." + lonnodec[-2:]
         londecsign = londec[:-1] if (londec[-1] == "E") else "-" + londec[:-1]
         return londecsign
+
 
     def parse_bdeck_line(
         self,
@@ -275,17 +284,17 @@ class BdeckParserSectorMetadataGeneratorPlugin(BaseSectorMetadataGeneratorPlugin
             Current line from the deck file including all storm information
 
             * AL, 20, 2020091618,   , BEST,   0, 168N,  502W,  85,  973, HU,  64,
-              NEQ,   30,   25,    0,   30, 1010,  180,  20, 105,   0,   L,   0,    ,
-              0,   0,      TEDDY, D, 12, NEQ,  300,  300,  240,  300,
-              genesis-num, 039,
+            NEQ,   30,   25,    0,   30, 1010,  180,  20, 105,   0,   L,   0,    ,
+            0,   0,      TEDDY, D, 12, NEQ,  300,  300,  240,  300,
+            genesis-num, 039,
             * AL, 20, 2020091700,   , BEST,   0, 174N,  511W,  85,  973, HU,  34,
-              NEQ,  220,  100,   80,  170, 1009,  210,  20, 100,   0,   L,   0,    ,
-              0,   0,      TEDDY, D, 12, NEQ,  330,  300,  270,  300,
-              genesis-num, 039,
+            NEQ,  220,  100,   80,  170, 1009,  210,  20, 100,   0,   L,   0,    ,
+            0,   0,      TEDDY, D, 12, NEQ,  330,  300,  270,  300,
+            genesis-num, 039,
             * AL, 20, 2020091700,   , BEST,   0, 174N,  511W,  85,  973, HU,  50,
-              NEQ,   60,   50,   50,   70, 1009,  210,  20, 100,   0,   L,   0,    ,
-              0,   0,      TEDDY, D, 12, NEQ,  330,  300,  270,  300,
-              genesis-num, 039,
+            NEQ,   60,   50,   50,   70, 1009,  210,  20, 100,   0,   L,   0,    ,
+            0,   0,      TEDDY, D, 12, NEQ,  330,  300,  270,  300,
+            genesis-num, 039,
 
         Returns
         -------
@@ -336,10 +345,9 @@ class BdeckParserSectorMetadataGeneratorPlugin(BaseSectorMetadataGeneratorPlugin
         # throughout the life of a storm when possible. We want to maintain both
         # the storm start datetime stored in the filename when it exists, as well as
         # the storm start datetime from the first entry in the current deck file
-        # (which will ALWAYS exist) for reference, and set the actual
-        # storm_start_datetime field based on those two values below (if filename storm
-        # start datetime exists, use that, otherwise use the current deck file storm
-        # start datetime).
+        # (which will ALWAYS exist) for reference, and set the actual storm_start_datetime
+        # field based on those two values below (if filename storm start datetime exists,
+        # use that, otherwise use the current deck file storm start datetime).
         ###########################################################################
 
         # Some processing systems will set the original storm start datetime
@@ -376,9 +384,7 @@ class BdeckParserSectorMetadataGeneratorPlugin(BaseSectorMetadataGeneratorPlugin
         # deck file to the next during the life of a storm, but at least it
         # provides a sensible defined value.
         if not storm_start_datetime:
-            storm_start_datetime = (
-                storm_start_datetime_from_first_line_of_current_deck_file
-            )
+            storm_start_datetime = storm_start_datetime_from_first_line_of_current_deck_file
         fields["storm_start_datetime"] = storm_start_datetime
 
         # BEST, MBAM, OFCL, JTWC, etc - BEST202101220600 when updated
@@ -418,10 +424,9 @@ class BdeckParserSectorMetadataGeneratorPlugin(BaseSectorMetadataGeneratorPlugin
         # If the invest_number/letter was pre-defined and passed in, use those values.
         if invest_number:
             fields["invest_number"] = invest_number
-        # Add invest_storm_id if storm_start_datetime and invest_number both are
-        # defined. Include storm start datetime in invest storm id since invest numbers
-        # repeat. e.g. sh902021.2020083106, sh902021.2020120718, sh902021.2021011112,
-        # etc.
+        # Add invest_storm_id if storm_start_datetime and invest_number both are defined.
+        # Include storm start datetime in invest storm id since invest numbers repeat.
+        # e.g. sh902021.2020083106, sh902021.2020120718, sh902021.2021011112, etc.
         if storm_start_datetime and invest_number:
             fields["invest_storm_id"] = self.assemble_invest_storm_id(
                 storm_basin, invest_number, storm_year, storm_start_datetime
@@ -459,6 +464,7 @@ class BdeckParserSectorMetadataGeneratorPlugin(BaseSectorMetadataGeneratorPlugin
                 )
         return fields
 
+
     def assemble_numbered_storm_id(self, storm_basin, storm_number, storm_year):
         """Assemble numbered storm ID from storm basin, number, and year.
 
@@ -479,6 +485,7 @@ class BdeckParserSectorMetadataGeneratorPlugin(BaseSectorMetadataGeneratorPlugin
             int(storm_number),
             int(storm_year),
         )
+
 
     def assemble_invest_storm_id(
         self, storm_basin, invest_number, storm_year, storm_start_datetime
@@ -505,6 +512,7 @@ class BdeckParserSectorMetadataGeneratorPlugin(BaseSectorMetadataGeneratorPlugin
             storm_start_datetime.strftime("%Y%m%d%H"),
         )
 
+
     def get_invest_number_bdeck(self, deck_lines, is_archived):
         """Get invest number from full bdeck file."""
         invest_number = None
@@ -516,11 +524,17 @@ class BdeckParserSectorMetadataGeneratorPlugin(BaseSectorMetadataGeneratorPlugin
                     LOG.warning("Skipping bad/poorly formatted line")
                 else:
                     continue
+            except IndexError:
+                if is_archived:
+                    LOG.warning("Skipping bad/poorly formatted line")
+                else:
+                    continue
             if fields["storm_name"] == "INVEST" and fields["storm_num"] > 89:
                 invest_number = fields["storm_num"]
             if fields.get("invest_number"):
                 invest_number = int(fields["invest_number"])
         return invest_number
+
 
     def get_storm_start_datetime_from_bdeck_entry(self, deck_lines):
         """Get storm start datetime from full bdeck file.
@@ -534,24 +548,23 @@ class BdeckParserSectorMetadataGeneratorPlugin(BaseSectorMetadataGeneratorPlugin
         as additional bdeck file are obtained.
 
         Since we want to always have a storm start datetime defined, whether we have
-        additional metadata available containing the absolute storm start datetime or
-        not, we always return the storm start datetime from the first entry in the
-        current deck file here.
+        additional metadata available containing the absolute storm start datetime or not,
+        we always return the storm start datetime from the first entry in the current
+        deck file here.
         """
         # Return the synoptic time of the first bdeck entry
         fields = self.parse_bdeck_line(deck_lines[0])
-        LOG.info(
-            "  GETTING storm start time from bdeck entry %s", fields["synoptic_time"]
-        )
+        LOG.info("  GETTING storm start time from bdeck entry %s", fields["synoptic_time"])
         return fields["synoptic_time"]
+
 
     def get_storm_start_datetime_from_bdeck_filename(self, bdeck_filename):
         """Return the storm start time found in the actual filename, if it exists.
 
-        The absolute storm start datetime is the first time a position was ever
-        identified for a given storm.  Note the current deck file may have a different
-        initial entry than when the invest was first identified, but we would like to
-        maintain the original storm start datetime to ensure a consistent storm ID
+        The absolute storm start datetime is the first time a position was ever identified
+        for a given storm.  Note the current deck file may have a different initial
+        entry than when the invest was first identified, but we would like to maintain
+        the original storm start datetime to ensure a consistent storm ID
         throughout the life of a storm when possible.
 
         Standard ATCF bdeck file names do NOT include the storm start datetime.
@@ -581,24 +594,24 @@ class BdeckParserSectorMetadataGeneratorPlugin(BaseSectorMetadataGeneratorPlugin
 
         * 20260102T1623Z first invest file created
 
-          * 2026010212 First line in first invest deck file
+        * 2026010212 First line in first invest deck file
         * 20260102T1646Z second invest file created (23 min after first)
 
-          * 2026010118 First line in all subsequent invest deck files
+        * 2026010118 First line in all subsequent invest deck files
         * 20260104T1833Z final invest file created
 
-          * 2026010418 Final storm position time in final invest deck file
+        * 2026010418 Final storm position time in final invest deck file
 
         bsh122026.2026010212.dat
 
         * 2026010118 First line in all numbered storm deck files
         * 20260104T1854Z First numbered storm file created (21 min after final invest)
 
-          * 2026010418 Final storm position time in first numbered storm deck file
+        * 2026010418 Final storm position time in first numbered storm deck file
             (same as final invest)
         * 20260106T1857Z final file created
 
-          * 2026010618 Final line in final numbered storm deck file
+        * 2026010618 Final line in final numbered storm deck file
 
         """
         bdeck_parts = os.path.basename(bdeck_filename).split(".")
@@ -607,8 +620,7 @@ class BdeckParserSectorMetadataGeneratorPlugin(BaseSectorMetadataGeneratorPlugin
             try:
                 storm_start_datetime = datetime.strptime(bdeck_parts[1], "%Y%m%d%H")
                 LOG.info(
-                    "  USING storm start time found in filename %s",
-                    storm_start_datetime,
+                    "  USING storm start time found in filename %s", storm_start_datetime
                 )
             except ValueError:
                 LOG.warning(
@@ -618,6 +630,7 @@ class BdeckParserSectorMetadataGeneratorPlugin(BaseSectorMetadataGeneratorPlugin
                 storm_start_datetime = None
         return storm_start_datetime
 
+
     def get_stormyear_from_bdeck_filename(self, bdeck_filename):
         """Get the storm year from the B-deck filename.
 
@@ -626,7 +639,7 @@ class BdeckParserSectorMetadataGeneratorPlugin(BaseSectorMetadataGeneratorPlugin
         bdeck_filename : str
             * Path to deck file to search for storm year
             * Must be of format: `xxxxxYYYY.*.dat` - pulls YYYY from filename based
-              on location
+            on location
 
         Returns
         -------
@@ -634,6 +647,7 @@ class BdeckParserSectorMetadataGeneratorPlugin(BaseSectorMetadataGeneratorPlugin
             Storm year
         """
         return int(os.path.basename(bdeck_filename)[5:9])
+
 
     def get_final_storm_name_bdeck(
         self, deck_lines, tcyear, trackfile_name=None, is_archived=False
@@ -651,15 +665,18 @@ class BdeckParserSectorMetadataGeneratorPlugin(BaseSectorMetadataGeneratorPlugin
                 )
                 # if curr_fields['storm_name']:
                 if curr_fields["storm_name"] and curr_fields["storm_name"] != "INVEST":
-                    LOG.debug(
-                        "UPDATING final_storm_name to %s", curr_fields["storm_name"]
-                    )
+                    LOG.debug("UPDATING final_storm_name to %s", curr_fields["storm_name"])
                     final_storm_name = curr_fields["storm_name"]
             except ValueError as e:
                 if is_archived:
                     LOG.warning("Skipping bad/poorly formatted line")
                 else:
                     raise ValueError(e)
+            except IndexError as e:
+                if is_archived:
+                    LOG.warning("Skipping bad/poorly formatted line")
+                else:
+                    raise IndexError(e)
         return final_storm_name
 
 
