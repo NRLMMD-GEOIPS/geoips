@@ -15,9 +15,6 @@ from xarray import DataTree
 
 from collections.abc import (
     Callable,
-    Hashable,
-    Iterable,
-    Iterator,
     Mapping,
 )
 

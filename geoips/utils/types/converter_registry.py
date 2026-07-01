@@ -153,8 +153,7 @@ class TypeConverterRegistry:
         if (obj_type, target) in self._converters:
             return True
         return any(
-            tgt is target and isinstance(obj, src)
-            for src, tgt in self._converters
+            tgt is target and isinstance(obj, src) for src, tgt in self._converters
         )
 
     # ------------------------------------------------------------------
@@ -165,15 +164,13 @@ class TypeConverterRegistry:
     def registered_types(self) -> dict[type, set[type]]:
         """Return {source_type: {target_type, ...}} summary."""
         summary: dict[type, set[type]] = {}
-        for (src, tgt) in self._converters:
+        for src, tgt in self._converters:
             summary.setdefault(src, set()).add(tgt)
         return summary
 
     def __repr__(self) -> str:
-        return (
-            f"{self.__class__.__name__}("
-            f"converters={len(self._converters)})"
-        )
+        """Return a concise repr showing the number of registered converters."""
+        return f"{self.__class__.__name__}(" f"converters={len(self._converters)})"
 
 
 # Module-level singleton — import and use directly.

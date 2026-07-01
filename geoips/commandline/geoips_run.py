@@ -400,7 +400,6 @@ class GeoipsRunOrderBased(GeoipsWorkflowCommand):
             - The argument namespace to parse through.
         """
         workflow = args.workflow
-        write_tokens = args.write_tokens
 
         workflow = self._apply_overrides(workflow, args)
 

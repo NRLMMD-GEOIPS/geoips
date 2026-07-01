@@ -155,20 +155,4 @@ def call(
         "set_label_kwargs": set_label_kwargs,
     }
 
-    # from geoips.utils.types.datatree_ditto import DataTreeDitto
-
-    # ds = xr.Dataset(attrs={
-    #     "_mpl_colors_info": mpl_colors_info,
-    #     "data_range": data_range,
-    #     "cmap_name": cmap_name,
-    #     "cbar_label": cbar_label,
-    #     "cbar_ticks": mpl_ticks,
-    #     "cbar_tick_labels": mpl_tick_labels,
-    #     "cbar_spacing": cbar_spacing,
-    #     "cbar_full_width": cbar_full_width,
-    #     "plugin_kind": "colormapper",
-    #     "output_key": "mpl_colors_info",
-    # })
-    # dt = DataTreeDitto(ds, name="colormapper_output")
-    # return dt
     return mpl_colors_info

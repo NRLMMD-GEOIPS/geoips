@@ -832,9 +832,7 @@ class GeoipsWorkflowCommand(GeoipsExecutableCommand):
                     context={"expand": True},
                 ).model_dump()
             except Exception as e:
-                self.parser.error(
-                    f"Could not parse workflow dict: {e}"
-                )
+                self.parser.error(f"Could not parse workflow dict: {e}")
         # unregistered workflow @ filepath (any path that exists on disk)
         elif self.ensure_valid_json_or_yaml_path(value):
             # since the filepath was valid and exists, load the data and validate it
@@ -860,9 +858,7 @@ class GeoipsWorkflowCommand(GeoipsExecutableCommand):
                     context={"expand": True},
                 ).model_dump()
             except Exception as e:
-                self.parser.error(
-                    f"Could not parse workflow file '{value}': {e}"
-                )
+                self.parser.error(f"Could not parse workflow file '{value}': {e}")
         # registered named workflow
         elif isinstance(value, str):
             rbr = (

@@ -72,9 +72,7 @@ def compute_arguments_hash(arguments: dict[str, Any]) -> str:
     try:
         return compute_token(arguments)
     except Exception as exc:
-        LOG.warning(
-            "Could not tokenize arguments: %s", exc
-        )
+        LOG.warning("Could not tokenize arguments: %s", exc)
         return f"{_UNTOKENIZABLE_PREFIX}{type(exc).__name__}"
 
 

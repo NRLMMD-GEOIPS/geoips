@@ -333,7 +333,10 @@ def set_lonlat_spacing(gridline_annotator, area_def):
         maxlon = utils.wrap_longitudes(area_def.area_extent_ll[2])
         if maxlon < minlon:
             maxlon = maxlon + 360
-        elif maxlon == minlon and area_def.area_extent_ll[3] - area_def.area_extent_ll[1] >= 170:
+        elif (
+            maxlon == minlon
+            and area_def.area_extent_ll[3] - area_def.area_extent_ll[1] >= 170
+        ):
             # global dataset: both longitudes wrap to the same point
             maxlon = maxlon + 360
         lon_extent = maxlon - minlon

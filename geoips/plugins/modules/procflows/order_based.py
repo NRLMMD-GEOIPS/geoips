@@ -77,11 +77,13 @@ class OrderBased(BaseProcflowPlugin):
             if "spec" in workflow_spec and isinstance(workflow_spec["spec"], dict):
                 wf_name = workflow_spec.get("name", "embedded")
                 spec = WorkflowSpecModel.model_validate(
-                    workflow_spec["spec"], context=ctx,
+                    workflow_spec["spec"],
+                    context=ctx,
                 )
             else:
                 wf_spec = WorkflowPluginModel.model_validate(
-                    workflow_spec, context=ctx,
+                    workflow_spec,
+                    context=ctx,
                 )
                 wf_name = wf_spec.name
                 spec = wf_spec.spec

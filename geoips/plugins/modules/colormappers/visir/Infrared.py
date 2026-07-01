@@ -107,19 +107,4 @@ def call(data_range=[-90, 30]):
         "cbar_full_width": True,
     }
 
-    # from geoips.utils.types.datatree_ditto import DataTreeDitto
-
-    # ds = xr.Dataset(attrs={
-    #     "_mpl_colors_info": mpl_colors_info,
-    #     "data_range": data_range,
-    #     "cbar_label": cbar_label,
-    #     "cbar_ticks": ticks,
-    #     "cbar_tick_labels": mpl_tick_labels,
-    #     "cbar_spacing": cbar_spacing,
-    #     "cbar_full_width": True,
-    #     "plugin_kind": "colormapper",
-    #     "output_key": "mpl_colors_info",
-    # })
-    # dt = DataTreeDitto(ds, name="colormapper_output")
-    # return dt
     return mpl_colors_info
