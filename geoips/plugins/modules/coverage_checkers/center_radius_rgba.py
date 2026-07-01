@@ -11,6 +11,8 @@ import logging
 # Third-Party Libraries
 import numpy
 
+from geoips.utils.coverage_checkers import create_radius
+
 LOG = logging.getLogger(__name__)
 
 
@@ -68,7 +70,7 @@ class CenterRadiusRgbaCoverageCheckerPlugin(BaseCoverageCheckerPlugin):
             area_def,
         )
 
-        dumby_arr = self.create_radius(
+        dumby_arr = create_radius(
             temp_arr,
             radius_pixels=radius_pixels,
             x_center=temp_arr.shape[0] / 2,
