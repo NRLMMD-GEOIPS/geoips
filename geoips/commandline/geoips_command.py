@@ -257,6 +257,10 @@ class GeoipsCommand(abc.ABC):
                     break
                 if self.name == "install-github" and self.parent.name == "config":
                     break
+                if self.name == "create" and self.parent.name == "config":
+                    break
+                if self.name == "validate" and self.parent.name == "config":
+                    break
                 self.parent_parsers.insert(
                     0,
                     getattr(ParentParsers, f"{curr_parent.name}_parser"),
