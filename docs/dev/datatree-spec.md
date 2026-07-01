@@ -1,23 +1,31 @@
 ## Abstract
 
-> **Implementation Status (May 2026)**
+> **Implementation Status (June 2026)**
 >
 > The DataTree runtime described in this specification has been partially
 > implemented.  The following sections are **implemented**:
 >
-> - §2  DataTree container — `DataTreeDitto` with pluggable converters
+> - §2  DataTree container — `DataTreeDitto` with pluggable converters (single
+>   shared `converter_registry` for dispatch)
 > - §3  Workflow specification — pydantic models with `depends_on`,
->   `outputs`, `retention`, `keep`
+>   `outputs`, `retention`, `keep`, and `scope` (the `split`/`join` branch label)
 > - §4  Runtime execution — `Workflow` composite class, topological sort,
 >   provenance recording
-> - §5  Process flow — class-based `OrderBased` procflow
+> - §4.5 `split` / `join` execution — a `split` step carries an inline body
+>   sub-workflow and branch config (`scopes:` or `over: sector_list`); the body
+>   runs once per branch, nested under `/<split_id>/<scope>`, and a `join`
+>   re-collects the branches.  **Static multi-sector processing (SBP)** is
+>   supported via `over: sector_list`: one branch per static sector, with each
+>   branch's `AreaDefinition` seeded in so body steps receive it as `area_def`.
+> - §5  Process flow — class-based `OrderBased` procflow (readers returning the
+>   standard `{key: Dataset}` dict are merged to a `DataTree` end-to-end)
 > - §7  Tokenization — per-step `output_token` using `dask.base.tokenize`
 >   with `dask:` prefix
 >
 > The following are **deferred to follow-up work**:
 >
-> - §4.5 `split` / `join` execution (scaffolding only)
-> - §4.5 `when:` expression evaluation (ignored with warning)
+> - §4.5 dynamic sectors (only static `sector_list` fan-out is implemented)
+> - §4.5 `when:` expression evaluation (rejected at validation for now)
 > - §5.3 `processing_history` table
 > - §5.4 `inputs` / `products` manifests
 > - §7.5 workflow-level output token
