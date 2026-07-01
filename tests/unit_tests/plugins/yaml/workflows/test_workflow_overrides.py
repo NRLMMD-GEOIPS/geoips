@@ -413,9 +413,7 @@ def test_insert_after_key():
 
     new_value = {
         "full_test_policy": "always",
-        "arguments": {
-            "compare_path": "/tmp/output.png",
-        },
+        "compare_path": "/tmp/output.png",
         "name": "image",
     }
 
@@ -450,27 +448,7 @@ def test_insert_after_key_missing_target():
             new_key="output_checker1",
             new_value={
                 "full_test_policy": "always",
-                "arguments": {
-                    "compare_path": "/tmp/test.png",
-                },
-            },
-        )
-
-
-def test_insert_after_key_invalid_override_format():
-    """Test failure when an output checker override lacks arguments.
-
-    Verifies that improperly formatted workflow test overrides raise
-    a PluginError when neither 'arguments' nor
-    'output_checker_arguments' are present.
-    """
-    with pytest.raises(PluginError, match="improperly formatted"):
-        workflows._insert_after_key(
-            {"reader": {}},
-            target_key="reader",
-            new_key="output_checker1",
-            new_value={
-                "full_test_policy": "always",
+                "compare_path": "/tmp/test.png",
             },
         )
 
@@ -498,9 +476,7 @@ def test_apply_output_checker_override():
     override = {
         "reader": {
             "full_test_policy": "always",
-            "arguments": {
-                "compare_path": "/tmp/output.png",
-            },
+            "compare_path": "/tmp/output.png",
             "name": "image",
         }
     }
@@ -531,9 +507,7 @@ def test_apply_output_checker_override_missing_nested_key():
     override = {
         "missing_step": {
             "full_test_policy": "always",
-            "arguments": {
-                "compare_path": "/tmp/output.png",
-            },
+            "compare_path": "/tmp/output.png",
         }
     }
 

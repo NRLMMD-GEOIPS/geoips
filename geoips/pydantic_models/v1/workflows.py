@@ -27,6 +27,7 @@ from typing import Any, Dict, List, Literal, Optional, Union
 from pydantic import (
     ConfigDict,
     Field,
+    FilePath,
     field_validator,
     model_validator,
     ValidationInfo,
@@ -919,12 +920,17 @@ class OutputCheckerStepDefinitionModel(PermissiveFrozenModel):
             "output checker plugin associated with the produced file type(s)."
         ),
     )
-    arguments: OutputCheckerArgumentsModel = Field(
-        ...,
+    compare_path: Union[FilePath, str, None] = Field(
+        None,
+        description="The path to the comparison file.",
+    )
+    threshold: Optional[float] = Field(
+        None,
         description=(
-            "A dictionary of arguments to be supplied to an output_checker plugin."
+            "Threshold for the image comparison. Argument to pixelmatch. Between "
+            "0 and 1, with 0 the most strict comparison, and 1 the most lenient."
         ),
-        alias="output_checker_arguments",
+        alias="output_checker_threshold",
     )
     full_test_policy: Literal["on_token_mismatch", "always", "never"] = Field(
         "on_token_mismatch",
