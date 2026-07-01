@@ -339,35 +339,58 @@ Parallel branches are introduced by a `split` operator and closed by a `join` op
 
 ```yaml
 steps:
-  split_by_cloud_mask:
+  iter_sectors:
     kind: split
-    name: split_by_data
-    depends_on: [sector]
+    name: split_by_sector_list
+    depend_on: [read_abi]
     arguments:
-      on: "/sector/cloud_mask"
-      branches:
-        cloudy: "cloud_mask == 1"
-        clear: "cloud_mask == 0"
-    scope: null
-  algo_cloudy:
-    kind: algorithm
-    name: cloud_top_height
-    depends_on: [split_by_cloud_mask]
-    scope: cloudy # output node: /split_by_cloud_mask/cloudy/algo_cloudy
-  algo_clear:
-    kind: algorithm
-    name: sst
-    depends_on: [split_by_cloud_mask]
-    scope: clear # output node: /split_by_cloud_mask/clear/algo_clear
-  recombine:
-    kind: join
-    name: merge_by_mask
-    depends_on: [algo_cloudy, algo_clear]
-    arguments:
-      strategy: "merge_by_mask"
-      conflict:
-        "error" # error | last_wins | first_wins | explicit_map
-        # output node: /recombine (exits the split scope)
+      sector_list: ["conus", "colorado", "texas"]
+    spec:
+      interp_to_sector:
+        kind: interpolator
+        name: nearest_neighbor
+        arguments: {}
+      infrared:
+        kind: algorithm
+        name: single_channel
+        arguments:
+          output_data_range: [-90, 30]
+      ...
+      write_image:
+        kind: output_formatter
+        name: imagery_clean
+```
+
+```yaml
+split_by_cloud_mask:
+  kind: split
+  name: split_by_data
+  depends_on: [sector]
+  arguments:
+    on: "/sector/cloud_mask"
+    branches:
+      cloudy: "cloud_mask == 1"
+      clear: "cloud_mask == 0"
+  scope: null
+algo_cloudy:
+  kind: algorithm
+  name: cloud_top_height
+  depends_on: [split_by_cloud_mask]
+  scope: cloudy # output node: /split_by_cloud_mask/cloudy/algo_cloudy
+algo_clear:
+  kind: algorithm
+  name: sst
+  depends_on: [split_by_cloud_mask]
+  scope: clear # output node: /split_by_cloud_mask/clear/algo_clear
+recombine:
+  kind: join
+  name: merge_by_mask
+  depends_on: [algo_cloudy, algo_clear]
+  arguments:
+    strategy: "merge_by_mask"
+    conflict:
+      "error" # error | last_wins | first_wins | explicit_map
+      # output node: /recombine (exits the split scope)
 ```
 
 Resulting tree:
