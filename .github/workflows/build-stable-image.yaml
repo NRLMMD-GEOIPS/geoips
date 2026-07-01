@@ -1,5 +1,8 @@
 name: Build stable docker image
 
+# 0. GEOIPS REPO ONLY - build latest docker image on all merges to default branch
+#    * Plugin packages typically use latest image to ensure we have the most up to
+#      date geoips infrastructure for the CI.
 # 1. Tag and Release - on merge of v*-version-release
 #    * Tag current version
 #    * Release just tagged version
@@ -14,15 +17,19 @@ name: Build stable docker image
 # 4. GEOIPS REPO ONLY - build stable docker image on published release (from #1)
 #    * Stable image required for all plugin packages to use for CI
 #    * doc-test workflow will fail on all plugin packages without stable image.
-#    * reusable-build-docker-image is set up to build specifically the stable
-#      image on the default branch - since this workflow is run after merge to
-#      the default branch, it will build the stable image.
+
+# reusable-build-docker-image is set up to build specifically the stable and latest images
+# on the default branch and on tag/release.
 
 on:
-  # triggers the workflow on published release
+  # triggers the workflow on published release, this will build the 'stable' image
   release:
     types:
       - published
+  # triggers the workflow on pushes to the default branch, this will build the 'latest' image
+  push:
+    branches:
+      - main
   # allows run of this workflow manually from the actions tab
   # must be merged to default before it will be available to manually run.
   workflow_dispatch:

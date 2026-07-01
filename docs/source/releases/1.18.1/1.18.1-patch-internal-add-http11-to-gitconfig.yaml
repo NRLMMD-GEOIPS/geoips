@@ -1,0 +1,15 @@
+bug fixes:
+- title: Add http.version HTTP/1.1 to gitconfig
+  description: |
+    Resolves git clone timeout issues.
+    Note this setup is not executed if .gitconfig already exists, so will not impact
+    existing gitconfig files.
+  files:
+    modified:
+    - setup/bash_setup/gitconfigs
+  related-issue:
+    internal: geoips#1029 - 1.18.0 updates
+  date:
+    start: 2026-03-31
+    finish: 2026-03-31
+

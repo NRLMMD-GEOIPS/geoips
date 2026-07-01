@@ -11,7 +11,7 @@ permissions:
 
 jobs:
   status-check:
-    runs-on: ubuntu-latest
+    runs-on: ${{ vars.RUNNER }}
     steps:
       - name: No-op status check
-        run: echo "No-op Actions workflow to enforce up to date branches before merge"
+        run: echo "No-op Actions workflow to allow enforcing up to date branches before merge"

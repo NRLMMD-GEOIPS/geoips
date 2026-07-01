@@ -59,7 +59,7 @@ Pre-OBP procflows have accumulated two kinds of implicit complexity:
 - **G6: Tokenizable.** Inputs, outputs, and step invocations (the calling arguments for each step — its input DataTree plus its configuration kwargs) are hashable via `dask.base.tokenize`, enabling content-addressable caching and fast regression tests.
 - **G7: Parallel-ready.** `split`/`join` operators and `depends_on` edges define a DAG that a scheduler can (theoretically, in the future) execute in parallel.
 - **G8: Testable first.** Every step should ship with unit tests built on synthetic `DataTree` fixtures and be able to participate in token-based integration tests.
-- **G9: Rich, machine-readable provenance.** Every output `DataTree` carries enough metadata to reproduce itself, even if intermediate data has been GC'd.
+- **G9: Rich, machine-readable provenance.** Every output `DataTree` carries enough metadata to reproduce itself, even if intermediate data has been garbage collected (GC'd).
 
 ## 2. Normative Language & Terminology
 
@@ -69,24 +69,24 @@ The words **MUST**, **MUST NOT**, **SHOULD**, **SHOULD NOT**, **MAY**, and **REQ
 
 ### 2.2 Glossary
 
-| Term                              | Definition                                                                                                                                                        |
-| --------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **DataTree**                      | An `xarray.DataTree` instance; the sole inter-step data container.                                                                                                |
-| **Step**                          | Any GeoIPS `Plugin` participating in a workflow. Each step is resolved via the Plugin Registry by `kind` and `name`. The step's calling arguments (input DataTree plus kwargs) are referred to as its **step invocation**. |
-| **Workflow (spec)**               | A YAML document defining steps in dependency order. Validated by `WorkflowPluginModel`. Registered under the `workflows` interface.                              |
-| **Workflow (runtime)**            | An instance of the `Workflow(Plugin)` class — a Composite-pattern Plugin that IS a Step and HAS child Plugin instances. Callable as `DataTree → DataTree`.       |
-| **Plugin**                        | An instance of a class-based plugin (e.g., reader, algorithm, colormapper). Every Plugin may be a step in a workflow. The `data_tree` flag discriminates whether the plugin natively consumes/produces DataTree. |
-| **Step node**                     | The `DataTree` child at `/<step_id>` containing one step's output.                                                                                                |
-| **Operator**                      | A special step kind (`split`, `join`) that changes the _shape_ of the DAG rather than transforming data.                                                          |
-| **Branch**                        | A named child `DataTree` inside a `split` step's node.                                                                                                            |
-| **Output**                        | A step id named in the workflow's top-level `outputs:` list; survives GC unconditionally. **Default:** the last step id in `spec.steps` (Python 3.7+ dict insertion order). |
-| **Token**                         | The output of `dask.base.tokenize(obj)` — a deterministic tokenization (hash-like output) of an object's content. Tokens enable content-addressable caching (skip recomputation when inputs haven't changed) and fast regression tests (compare output token instead of pixel-by-pixel diffing). Tokens are stored in each step node's `attrs`. |
-| **Provenance**                    | The structured record of what software, steps, arguments, and inputs produced a `DataTree`.                                                                       |
-| **Boundary step**                 | A step at the workflow's I/O edge (reader, output_formatter) that is explicitly permitted controlled side effects.                                                |
-| **Retention**                     | The policy that decides whether step data variables are kept after downstream steps consume them. Applies to data variables only; metadata (including tokens) always survives. |
-| **Garbage Collected (GC'd) node** | A step node whose data variables have been dropped; its `attrs` (including its token) are preserved.                                                                      |
-| **Step invocation**               | The fully resolved calling arguments for a step — the input DataTree plus the plugin's configuration kwargs from the workflow YAML.                                |
-| **OrderBased**                    | A subclass of `BaseProcflowPlugin` that loads a `WorkflowPluginModel`, constructs a `Workflow`, and invokes it with input filenames. Replaces the legacy module-level `call()` function. |
+| Term | Definition |
+| --- | --- |
+| **DataTree** | An `xarray.DataTree` instance; the sole inter-step data container. |
+| **Step** | Any GeoIPS `Plugin` participating in a workflow. Each step is resolved via the Plugin Registry by `kind` and `name`. The step's calling arguments (input DataTree plus kwargs) are referred to as its **step invocation**. |
+| **Workflow (spec)** | A YAML document defining steps in dependency order. Validated by `WorkflowPluginModel`. Registered under the `workflows` interface. |
+| **Workflow (runtime)** | An instance of the `Workflow(Plugin)` class — a Composite-pattern Plugin that IS a Step and HAS child Plugin instances. Callable as `DataTree → DataTree`. |
+| **Plugin** | An instance of a class-based plugin (e.g., reader, algorithm, colormapper). Every Plugin may be a step in a workflow. The `data_tree` flag discriminates whether the plugin natively consumes/produces DataTree. |
+| **Step node** | The child `DataTree` containing one step's output located at `/<step_id>` within a parent Workflow DataTree. |
+| **Operator** | A special step kind (`split`, `join`) that changes the _shape_ of the DAG rather than transforming data. |
+| **Branch** | A named child `DataTree` inside a `split` step's node. |
+| **Output** | A step id named in the workflow's top-level `outputs:` list; survives GC unconditionally. **Default:** the last step id in `spec.steps` (Python 3.7+ dict insertion order). |
+| **Token** | The output of `dask.base.tokenize(obj)` — a deterministic tokenization (hash-like output) of an object's content. Tokens enable content-addressable caching (skip recomputation when inputs haven't changed) and fast regression tests (compare output token instead of pixel-by-pixel diffing). Tokens are stored in each step node's `attrs`. |
+| **Provenance** | The structured record of what software, steps, arguments, and inputs produced a `DataTree`. |
+| **Boundary step** | A step at the workflow's I/O edge (reader, output_formatter) that is explicitly permitted controlled side effects. |
+| **Retention** | The policy that decides whether step data variables are kept after downstream steps consume them. Applies to data variables only; metadata (including tokens) always survives. |
+| **Garbage Collected (GC'd) node** | A step node whose data variables have been dropped; its `attrs` (including its token) are preserved. |
+| **Step invocation** | The fully resolved calling arguments for a step — the input DataTree plus the plugin's configuration kwargs from the workflow YAML. |
+| **OrderBased** | A subclass of `BaseProcflowPlugin` that loads a `WorkflowPluginModel`, constructs a `Workflow`, and invokes it with input filenames. Replaces the legacy module-level `call()` function. |
 
 ### 2.3 YAML to Runtime Resolution
 
@@ -110,7 +110,7 @@ The path from a YAML file on disk to an executing workflow:
 
 ## 3. Quick Example: End-to-End Workflow
 
-A complete workflow with one reader, two algorithms, a colormapper, and two output formatters.
+A complete workflow with a reader, an algorithm, a colormapper, and two output formatters.
 
 ### 3.1 Workflow YAML
 
@@ -120,21 +120,41 @@ interface: workflows
 family: order_based
 name: abi_infrared_multi
 docstring: ABI ch.14 infrared, both annotated PNG and clean netCDF outputs.
-package: geoips
+# Specification for how to test the workflow specified in the `spec` section. This will
+# supplement the generalized `spec` section when this workflow is called using
+# `geoips test abi_infrared_multi`.
 test:
+  # The input file list to be used
   fnames: !ENV ${GEOIPS_TESTDATA_DIR}/test_data_abi/data/goes16_20200918_1950/*
-  command_line_args:
-    compare_path: !ENV ${GEOIPS_PACKAGES_DIR}/geoips/tests/outputs/abi.static.<product>.imagery_clean
-    logging_level: "info"
-  overrides:
-    steps:
-      - abi_Infrared.spec.steps.algorithm.output_units='Kelvin'
-    kinds:
-      - readers.self_register=False
-    globals:
-      - sector_list='global_cylindrical'
+  outputs:
+    abi:Infrared:
+      policy: on_failure # can also be "always"
+      compare_path: !ENV ${GEOIPS_PACKAGES_DIR}/geoips/tests/outputs/abi.static.Infrared.imagery_clean/20200918.195020.goes-16.abi.Infrared.test_goes16_eqc_3km_day_20200918T1950Z.100p00.noaa.3p0.png
+  # The test.steps section allows overriding steps in the spec section at test time.
+  # This can override any part of a step except its step_id including its kind, name,
+  # arguments, and any other fields.
+  steps:
+    # Override the variable read by the read_abi step from B14BT to B15BT
+    read_abi:
+      arguments:
+        variables: ["B15BT"]
+    # Override the output_data_range from single_channel to [-100.0, 30.0]
+    single_channel:
+      arguments:
+        output_data_range: [-100.0, 30.0]
+  # The test.kinds section allows overriding arguments for any steps that call a plugin
+  # of the named kind.
+  kinds:
+    # Override the satellite_zenith_angle_cutoff for all steps of kind `reader`.
+    readers:
+      satellite_zenith_angle_cutoff: 80
+  # The test.globals section allows overriding arguments set in spec.globals.
+  globals:
+    sector_list: global_cylindrical
+    logging_level: debug
 spec:
-  global_arguments:
+  # Globals are made available to all plugins in the workflow.
+  globals:
     window_start_time: null
     window_end_time: null
     product_name: null
@@ -142,6 +162,7 @@ spec:
     no_presectoring: true
     product_db: false
     product_db_writer: null
+  # The steps to execute when running the workflow.
   steps:
     read_abi:
       kind: reader
@@ -185,6 +206,8 @@ spec:
 ```
 
 ### 3.2 Resulting Workflow DataTree
+
+When executed using `geoips run`, the workflow described in section 3.1 would result in the following DataTree.
 
 ```
 <xarray.DataTree: abi_infrared_multi>
@@ -233,7 +256,7 @@ Note: GC'd nodes still carry their tokens (computed before GC). The workflow's o
 A workflow YAML file **MUST** use the GeoIPS v1 plugin format. It is validated by `WorkflowPluginModel` (pydantic) in `geoips/pydantic_models/v1/workflows.py`.
 
 | Key | Required | Purpose |
-|-----|----------|---------|
+| --- | --- | --- |
 | `apiVersion` | MUST | GeoIPS API version, e.g., `geoips/v1` |
 | `interface` | MUST | Always `workflows` |
 | `family` | MUST | Always `order_based` |
@@ -247,6 +270,7 @@ A workflow YAML file **MUST** use the GeoIPS v1 plugin format. It is validated b
 | `test` | MAY | Self-contained end-to-end test configuration |
 
 > **Proposed fields (not yet in pydantic models):**
+>
 > - `spec.retention_by_kind` — per-kind retention overrides (v2 feature)
 > - `spec.version` — author-assigned semver or date tag
 
@@ -255,6 +279,8 @@ A workflow YAML file **MUST** use the GeoIPS v1 plugin format. It is validated b
 > **Dependency Note:** The test section format described here aligns with `WorkflowTestModel` from the `geoips-obp-cli-updates` branch. If that branch has not merged, the `test:` field accepts `Dict[str, Any]` as a fallback.
 
 > **Interface Note:** The `workflows` interface is class-based. Workflow YAML files are data artifacts validated by `WorkflowPluginModel`; at runtime, they are resolved to `Workflow` class instances via the Plugin Registry.
+
+> **Future Note:** There will be a GeoIPS Plugin API v2. We will make GeoIPS capable of reading and handling both formats, but v2 will provide additional functionality.
 
 ### 4.2 Metadata Header
 
@@ -267,33 +293,54 @@ docstring: ABI ch.14 infrared with PNG and netCDF outputs.
 package: geoips
 ```
 
-These fields propagate into the output `DataTree`'s root attrs. In v2 (`apiVersion: geoips/v2`), the format will change to use `kind: Workflow` with `metadata:` and `spec:` blocks.
+These fields propagate into the output Workflow-level `DataTree`'s root attrs. In v2 (`apiVersion: geoips/v2`), the format will change to use `kind: Workflow` with `metadata:` and `spec:` blocks.
 
 ### 4.3 Test Section
 
-The `test` block is the workflow's executable specification. Running `geoips test <workflow.yaml>` **MUST** execute the workflow against this block.
+The `test` block is the workflow's executable specification. Running `geoips test <workflow.yaml>` **MUST** execute the workflow against this block. The `test` block is used to define a repeatable configuration for the workflow that can be run as an integration test. This helps protect against regressions. This block is only used when a workflow is run using `geoips test <workflow_name>`.
+
+When `geoips test <workflow_name>` is called, the test section is applied to the spec section. In practice, this means that:
+
+- an `OutputChecker` is created for each section under the `outputs` field.
+- any overrides specified in the `steps` section are applied to their respective steps.
+- overrides specified in the `kinds` section are applied to the arguments sections of all steps that call a plugin of the specified `kind`.
+- overrides specified in the `globals` section override their respective fields in the `globals` section.
 
 > **Dependency Note:** The format below reflects the `WorkflowTestModel` from the `geoips-obp-cli-updates` branch. If that branch has not merged, the `test:` field accepts `Dict[str, Any]` as a fallback.
 
 ```yaml
+# Specification for how to test the workflow specified in the `spec` section. This will
+# supplement the generalized `spec` section when this workflow is called using
+# `geoips test abi_infrared_multi`.
 test:
-  inputs:
-    - name: abi_sample
-      files: ["tests/data/abi/OR_ABI-L1b-*.nc"]
-      # OR declare synthetic inputs:
-      # synthetic:
-      #   generator: geoips.testing.synthetic.infrared_brightness
-      #   arguments: { shape: [512, 512], seed: 42 }
-
-  expected:
-    output_token: "blake2b:9f2a...c0d1"     # strict regression
-    artifacts:                               # per-file checksums
-      - { path: "out/abi_infrared.png", sha256: "0a1b2c..." }
-    tolerances: { rtol: 1.0e-5, atol: 1.0e-7 }
-
-  runtime:
-    max_seconds: 300
-    max_memory_gb: 8
+  # The input file list to be used
+  fnames: !ENV ${GEOIPS_TESTDATA_DIR}/test_data_abi/data/goes16_20200918_1950/*
+  outputs:
+    abi:Infrared:
+      policy: on_failure # can also be "always"
+      compare_path: !ENV ${GEOIPS_PACKAGES_DIR}/geoips/tests/outputs/abi.static.Infrared.imagery_clean/20200918.195020.goes-16.abi.Infrared.test_goes16_eqc_3km_day_20200918T1950Z.100p00.noaa.3p0.png
+  # The test.steps section allows overriding steps in the spec section at test time.
+  # This can override any part of a step except its step_id including its kind, name,
+  # arguments, and any other fields.
+  steps:
+    # Override the variable read by the read_abi step from B14BT to B15BT
+    read_abi:
+      arguments:
+        variables: ["B15BT"]
+    # Override the output_data_range from single_channel to [-100.0, 30.0]
+    single_channel:
+      arguments:
+        output_data_range: [-100.0, 30.0]
+  # The test.kinds section allows overriding arguments for any steps that call a plugin
+  # of the named kind.
+  kinds:
+    # Override the satellite_zenith_angle_cutoff for all steps of kind `reader`.
+    readers:
+      satellite_zenith_angle_cutoff: 80
+  # The test.globals section allows overriding arguments set in spec.globals.
+  globals:
+    sector_list: global_cylindrical
+    logging_level: debug
 ```
 
 Three independent checks exist, each optional: (a) dask token for strict regression, (b) per-artifact sha256 for output files, and (c) tolerance-based numerical comparison.
@@ -305,7 +352,7 @@ Three independent checks exist, each optional: (a) dask token for strict regress
 Each step is a dict entry in `spec.steps`. The **dict key** is the step id (must be a valid `PythonIdentifier`), used for `depends_on` references and as the step's DataTree node name.
 
 | Key | Required | Type | Notes |
-| --- | -------- | ---- | ----- |
+| --- | --- | --- | --- |
 | `kind` | MUST | plugin kind | `reader`, `algorithm`, `interpolator`, `colormapper`, `output_formatter`, `sectorizer`, `coverage_checker`, `filename_formatter`, `split`, `join`, `workflow` |
 | `name` | MUST | plugin ref | Resolved via the GeoIPS Plugin Registry by `kind` and `name` |
 | `arguments` | SHOULD | mapping | Validated against the plugin's Pydantic argument model |
@@ -323,35 +370,35 @@ Step `name` values match the `PluginModel.name` field of the registered plugin. 
 Parallel branches are introduced by a `split` operator and closed by a `join` operator. A `split` step's node has named children — one per branch. Steps with `scope: <branch>` produce nodes nested under the corresponding branch path: `/<split_id>/<branch>/<step_id>`. The `DataTree` thus **mirrors** the **execution structure** all the way down.
 
 ```yaml
-steps:
-  split_by_cloud_mask:
-    kind: split
-    name: split_by_data
-    depends_on: [sector]
-    arguments:
-      on: "/sector/cloud_mask"
-      branches:
-        cloudy: "cloud_mask == 1"
-        clear: "cloud_mask == 0"
-    scope: null
-  algo_cloudy:
-    kind: algorithm
-    name: cloud_top_height
-    depends_on: [split_by_cloud_mask]
-    scope: cloudy                   # output node: /split_by_cloud_mask/cloudy/algo_cloudy
-  algo_clear:
-    kind: algorithm
-    name: sst
-    depends_on: [split_by_cloud_mask]
-    scope: clear                    # output node: /split_by_cloud_mask/clear/algo_clear
-  recombine:
-    kind: join
-    name: merge_by_mask
-    depends_on: [algo_cloudy, algo_clear]
-    arguments:
-      strategy: "merge_by_mask"
-      conflict: "error"             # error | last_wins | first_wins | explicit_map
-                                  # output node: /recombine (exits the split scope)
+split_by_cloud_mask:
+  kind: split
+  name: split_by_data
+  depends_on: [sector]
+  arguments:
+    on: "/sector/cloud_mask"
+    branches:
+      cloudy: "cloud_mask == 1"
+      clear: "cloud_mask == 0"
+  scope: null
+algo_cloudy:
+  kind: algorithm
+  name: cloud_top_height
+  depends_on: [split_by_cloud_mask]
+  scope: cloudy # output node: /split_by_cloud_mask/cloudy/algo_cloudy
+algo_clear:
+  kind: algorithm
+  name: sst
+  depends_on: [split_by_cloud_mask]
+  scope: clear # output node: /split_by_cloud_mask/clear/algo_clear
+recombine:
+  kind: join
+  name: merge_by_mask
+  depends_on: [algo_cloudy, algo_clear]
+  arguments:
+    strategy: "merge_by_mask"
+    conflict:
+      "error" # error | last_wins | first_wins | explicit_map
+      # output node: /recombine (exits the split scope)
 ```
 
 Resulting tree:
@@ -392,18 +439,78 @@ steps:
 
 The nested workflow's `test` block is **not** executed during the parent run.
 
-The child workflow's complete `DataTree` — including all of its per-step nodes — is nested as-is under the parent's `/<step_id>`. A sub-workflow is just a `DataTree` (like all other steps), and that `DataTree` becomes a child node in the parent.
+An embedded workflow is just another type of step and behaves the same as any other step. As with any other step, the child workflow is represented as a DataTree within the root DataTree. Likewise, it will contain attributes describing what happened when the step was executed.
+
+The only difference between the DataTree resulting from an embedded workflow and any other kind of step is that the embedded workflow's DataTree will, itself, contain DataTrees representing each of its contained steps.
 
 For a child workflow `preprocess_l1b` with steps `read_l1b`, `sector`, `calibrate`, `mask`, and `outputs: [calibrated, masked]`, the parent's tree looks like:
 
 ```
-/preprocessing                        # the entire child workflow's DataTree
-├── attrs: { workflow_name: "preprocess_l1b", ... }
-├── /read_l1b                          # child's reader step
-├── /sector                            # child's sector step
-├── /calibrate                         # also reachable as the "calibrated" output
-└── /mask                              # also reachable as the "masked" output
+<root>
+├── /preprocessing                        # the entire child workflow's DataTree
+|   ├── attrs: { workflow_name: "preprocess_l1b", ... }
+|   ├── /read_l1b                          # child's reader step
+|   ├── /sector                            # child's sector step
+|   ├── /calibrate                         # also reachable as the "calibrated" output
+|   └── /mask                              # also reachable as the "masked" output
+└── root.attrs: { processing_history: [...], ... }
 ```
+
+As another example, many sensors are capable of producing the same products. For example, both ABI and AHI (and others) are able to produce an infrared product. To avoid duplication, we would define a general "Infrared" product, then reuse it in workflows specific to ABI and AHI. For example:
+
+```yaml
+# A general Infared algorithm
+apiVersion: geoips/v1
+interface: workflows
+family: order_based
+name: Infrared
+docstring: Workflow-stub for producing a general Infrared product
+spec:
+  apply_sector:
+    kind: sector
+    name: conus
+  interp_data:
+    kind: interpolator
+    name: nearest_neighbor
+  create_infrared_image:
+    kind: algorithm
+    name: single_channel
+    arguments:
+      output_data_range: [-90.0, 30.0]
+      input_units: Kelvin
+      output_units: celsius
+      min_outbounds: crop
+      max_outbounds: crop
+      norm: false
+      inverse: false
+  apply_colormap:
+    kind: colormapper
+    name: infrared
+    arguments:
+      data_range: [-90.0, 30.0]
+```
+
+```yaml
+apiVersion: geoips/v1
+interface: workflows
+family: order_based
+name: ABI-Infrared
+docstring: ABI CH-14 infrared PNG
+spec:
+  read_abi:
+    kind: reader
+    name: abi_netcdf
+    arguments:
+      variables: [B14BT]
+  infrared:
+    kind: workflow
+    name: Infrared
+  write_png:
+    kind: output_formatter
+    name: imagery_clean
+```
+
+The same Workflow for AHI would look identical except that `variables` would be set to `[B13BT]` instead of `[B14BT]`.
 
 The child's `outputs:` declaration is a _product manifest_, not a visibility boundary:
 
@@ -426,6 +533,8 @@ BaseClassPlugin(ABC)                # geoips/interfaces/class_based_plugin.py
 ├── _invoke(data=None, *args, **kwargs)  # orchestrator:
 │   └── if data is None → call(*args, **kwargs)
 │   └── if data is not None → _pre_call → call → _post_call
+├── __call__()  # Dynamically added. Errors if overridden.
+|   └── _invoke(data=None, *args, **kwargs)
 │
 ├── BaseAlgorithmPlugin            # data_tree=False (legacy)
 ├── BaseInterpolatorPlugin         # data_tree=False (legacy)
@@ -441,8 +550,8 @@ BaseClassPlugin(ABC)                # geoips/interfaces/class_based_plugin.py
 ├── BaseDatabasePlugin             # data_tree=False (legacy)
 ├── BaseColormapperPlugin          # data_tree=True  (metadata-only DT)
 │
-├── BaseProcflowPlugin             # abstract; data_tree=True
-│   └── OrderBased                  # concrete procflow; produces DataTree
+├── BaseProcflowPlugin             # abstract; data_tree=True (to be deprecated)
+│   └── OrderBased                  # concrete procflow; produces DataTree (when procflows are deprecated, this will become the core of GeoIPS)
 │
 └── Workflow(Plugin)                # composite; IS a step, HAS steps
     ├── interface = "workflows"
@@ -539,7 +648,7 @@ Step nodes are named by step id (the dict key), not by `kind` or `name`. Ids are
 ### 5.2 Root-Level Attributes (`root.attrs`)
 
 | Key | Req. | Type | Notes |
-| --- | ---- | ---- | ----- |
+| --- | --- | --- | --- |
 | `start_datetime` | MUST | ISO-8601 / np.datetime64 | Earliest input timestamp |
 | `end_datetime` | MUST | ISO-8601 / np.datetime64 | Latest input timestamp |
 | `sample_distance_km` | SHOULD | float | Post-sector resolution |
@@ -564,7 +673,7 @@ Step nodes are named by step id (the dict key), not by `kind` or `name`. Ids are
 Workflow-level provenance is stored in `root.attrs` as scalars, lists, and dicts. The runner populates these automatically.
 
 | Attr | Type | Notes |
-|------|------|-------|
+| --- | --- | --- |
 | `workflow_spec_yaml` | str | Full original YAML text |
 | `workflow_spec_sha256` | str | Hash of canonical JSON form |
 | `processing_history` | list[dict] | One entry per step: `{step_id, plugin_name, plugin_version, kind, start_time, end_time, input_tokens_json, output_token, arguments_json, gc_status}` |
@@ -625,14 +734,14 @@ Optional (SHOULD for channel data):
 
 Use the full, CF-aligned names — **not** abbreviations. Readers of legacy sensor files **MUST** rename short coords on read.
 
-| Coord name | Units | Notes |
-|------------|-------|-------|
-| `latitude` | degrees_north | Per CF-1.10 |
-| `longitude` | degrees_east | Per CF-1.10 |
-| `time` | datetime64[ns] | Per CF; no float seconds-since |
-| `solar_zenith_angle` | degrees | 0 = sun overhead |
-| `sensor_zenith_angle` | degrees | 0 = nadir |
-| `sensor_azimuth_angle` | degrees | Clockwise from north |
+| Coord name             | Units          | Notes                          |
+| ---------------------- | -------------- | ------------------------------ |
+| `latitude`             | degrees_north  | Per CF-1.10                    |
+| `longitude`            | degrees_east   | Per CF-1.10                    |
+| `time`                 | datetime64[ns] | Per CF; no float seconds-since |
+| `solar_zenith_angle`   | degrees        | 0 = sun overhead               |
+| `sensor_zenith_angle`  | degrees        | 0 = nadir                      |
+| `sensor_azimuth_angle` | degrees        | Clockwise from north           |
 
 ### 5.7 Parallel Branches
 
@@ -694,8 +803,8 @@ This keeps the step signature uniform (always one `DataTree → DataTree`) and m
 A non-boundary step **MUST**:
 
 1. **Not** read from disk, network, env vars (directly), or system clock.
-    - Use `geoips.paths` for any reference paths it needs.
-    - `time.now()` should be forbidden; timestamps come from the runner.
+   - Use `geoips.paths` for any reference paths it needs.
+   - `time.now()` should be forbidden; timestamps come from the runner.
 2. **Not** write to disk, stdout (use logging, not `print`), or any mutable global.
 3. **Not** rely on process-wide random state; if randomness is needed, accept a `seed` argument.
 4. Produce output that is **deterministic** given inputs and arguments, within documented floating-point tolerance.
@@ -748,7 +857,7 @@ Given `token = dask.base.tokenize(obj)`, two objects with the same token are int
 ### 7.2 What Must Be Tokenizable
 
 | Object | Tokenization status | Requirement |
-| ------ | ------------------- | ----------- |
+| --- | --- | --- |
 | `xarray.DataArray` | Native via dask | Given |
 | `xarray.Dataset` | Native | Given |
 | `xarray.DataTree` | Native | Given |
@@ -823,13 +932,13 @@ A `split` operator takes one `DataTree` and returns one `DataTree` with named br
 
 A `join` operator takes a `DataTree` whose ancestors include a split, and returns a single merged `DataTree`. The join's output node lives one level _outside_ its source split (typically the workflow root), reflecting that the join exits the branch scope. Strategies:
 
-| `strategy` | Behavior |
-|-------------|----------|
+| `strategy`      | Behavior                                           |
+| --------------- | -------------------------------------------------- |
 | `merge_by_mask` | Element-wise combine using the original split mask |
-| `concat` | xarray `concat` along a new or existing dimension |
-| `first_wins` | Right-to-left merge, first occurrence kept |
-| `last_wins` | Right-to-left merge, last occurrence kept |
-| `explicit_map` | User provides a variable-name → branch mapping |
+| `concat`        | xarray `concat` along a new or existing dimension  |
+| `first_wins`    | Right-to-left merge, first occurrence kept         |
+| `last_wins`     | Right-to-left merge, last occurrence kept          |
+| `explicit_map`  | User provides a variable-name → branch mapping     |
 
 Nested splits work recursively: an inner split inside `cloudy` produces `/split_outer/cloudy/split_inner/...`; the inner join's output lands at `/split_outer/cloudy/<join_id>` (the inner split's level).
 
@@ -938,7 +1047,7 @@ A workflow with 12 steps over a 10 GB dataset risks holding 120 GB in memory if 
 ### 10.2 Retention Policies (Workflow-Level)
 
 | Policy | Behavior | Use case |
-| ------ | -------- | -------- |
+| --- | --- | --- |
 | `keep_all` | Every step node retains its full data. Nothing is GC'd. | Debugging, integration tests |
 | `keep_referenced` | A step's data is dropped once all its downstream consumers have run. Outputs always kept. | Default; production |
 | `keep_outputs_only` | All intermediates are dropped as soon as their last consumer completes. | Production at scale |
@@ -987,7 +1096,7 @@ steps:
     kind: reader
     name: abi_netcdf
     arguments: { ... }
-    keep: true              # this reader's full data survives any policy
+    keep: true # this reader's full data survives any policy
 ```
 
 Use cases: inspecting raw reader output for QA, retaining small-but-valuable intermediates, debugging. **Default: `false` for all step kinds.**
@@ -1063,18 +1172,18 @@ This lets CI run the _full_ workflow with no network or test-data-volume depende
 
 All defined in `geoips/errors.py`, inheriting from `GeoipsError`:
 
-| Exception | Raised when… |
-|-----------|-------------|
-| `WorkflowSpecError` | YAML fails Pydantic validation |
-| `PluginResolutionError` | `name:` cannot be resolved in the Plugin Registry |
-| `DependencyCycleError` | `depends_on` graph is cyclic |
-| `DanglingOutputError` | A name in `outputs:` is not a defined step id |
-| `DataTreeSchemaError` | Required attrs or nodes are missing |
-| `CoverageError` | Product fails `minimum_coverage` |
-| `TokenMismatchError` | Integration test token differs from expected |
-| `RetentionConfigError` | Conflicting retention settings |
-| `BoundaryIOError` | Reader/output_formatter failure |
-| `JoinConflictError` | `join` strategy hit unresolvable variable conflict |
+| Exception               | Raised when…                                       |
+| ----------------------- | -------------------------------------------------- |
+| `WorkflowSpecError`     | YAML fails Pydantic validation                     |
+| `PluginResolutionError` | `name:` cannot be resolved in the Plugin Registry  |
+| `DependencyCycleError`  | `depends_on` graph is cyclic                       |
+| `DanglingOutputError`   | A name in `outputs:` is not a defined step id      |
+| `DataTreeSchemaError`   | Required attrs or nodes are missing                |
+| `CoverageError`         | Product fails `minimum_coverage`                   |
+| `TokenMismatchError`    | Integration test token differs from expected       |
+| `RetentionConfigError`  | Conflicting retention settings                     |
+| `BoundaryIOError`       | Reader/output_formatter failure                    |
+| `JoinConflictError`     | `join` strategy hit unresolvable variable conflict |
 
 > **Implementation Note:** These exception classes are defined in `geoips/errors` but are not yet raised by all existing code. They will be wired into the workflow runner and validators during implementation. The base class `GeoipsError` (from the `1309-create-geoipserror-class` branch) is a prerequisite.
 
@@ -1086,12 +1195,12 @@ Steps **MUST** raise typed exceptions, not return sentinels or partial results.
 
 Four version numbers travel with a workflow:
 
-| Field | Meaning |
-| ----- | ------- |
-| `api_version` | OBP runtime API version (e.g., `geoips/v1`) |
-| `geoips_version` | The runner's package version |
-| `workflow_version` | Author-assigned workflow version |
-| `plugin_version` | Per-plugin semver |
+| Field              | Meaning                                     |
+| ------------------ | ------------------------------------------- |
+| `api_version`      | OBP runtime API version (e.g., `geoips/v1`) |
+| `geoips_version`   | The runner's package version                |
+| `workflow_version` | Author-assigned workflow version            |
+| `plugin_version`   | Per-plugin semver                           |
 
 The runner **MUST** refuse (or offer to migrate) workflows whose `api_version` falls outside its supported range.
 
