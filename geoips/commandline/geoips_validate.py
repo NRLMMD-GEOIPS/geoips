@@ -131,7 +131,7 @@ class GeoipsValidate(GeoipsExecutableCommand):
                         plugin = yaml.safe_load(fo)
                 interface_name = plugin["interface"]
                 plugin_name = plugin["name"]
-        except AttributeError or KeyError:
+        except (AttributeError, KeyError):
             # Report such error.
             err_str = f"Plugin found at {fpath} doesn't have 'interface' and/or "
             err_str += "'name' attribute[s]. This plugin is invalid."
