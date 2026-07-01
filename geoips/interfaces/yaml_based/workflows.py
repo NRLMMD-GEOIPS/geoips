@@ -360,9 +360,9 @@ class WorkflowsInterface(BaseYamlInterface):
             return steps
 
         for key, value in override.items():
-            # Detected leaf output checker override. Overriding. 'policy' is a field
-            # that is unique to output checker overrides and step definitions
-            if isinstance(value, Mapping) and "policy" in value:
+            # Detected leaf output checker override. Overriding. 'full_test_policy' is a
+            # field that is unique to output checker overrides and step definitions
+            if isinstance(value, Mapping) and "full_test_policy" in value:
                 # Generate a unique step id based on how many output checker step ids
                 # were encountered previously
                 count = sum(

@@ -412,7 +412,7 @@ def test_insert_after_key():
     )
 
     new_value = {
-        "policy": "always",
+        "full_test_policy": "always",
         "arguments": {
             "compare_path": "/tmp/output.png",
         },
@@ -449,7 +449,7 @@ def test_insert_after_key_missing_target():
             target_key="algorithm",
             new_key="output_checker1",
             new_value={
-                "policy": "always",
+                "full_test_policy": "always",
                 "arguments": {
                     "compare_path": "/tmp/test.png",
                 },
@@ -470,7 +470,7 @@ def test_insert_after_key_invalid_override_format():
             target_key="reader",
             new_key="output_checker1",
             new_value={
-                "policy": "always",
+                "full_test_policy": "always",
             },
         )
 
@@ -480,7 +480,7 @@ def test_apply_output_checker_override():
 
     Ensures that a new output checker step is inserted after the
     specified workflow step when a leaf override containing a
-    policy field is encountered.
+    full_test_policy field is encountered.
     """
     steps = OrderedDict(
         {
@@ -497,7 +497,7 @@ def test_apply_output_checker_override():
 
     override = {
         "reader": {
-            "policy": "always",
+            "full_test_policy": "always",
             "arguments": {
                 "compare_path": "/tmp/output.png",
             },
@@ -530,7 +530,7 @@ def test_apply_output_checker_override_missing_nested_key():
 
     override = {
         "missing_step": {
-            "policy": "always",
+            "full_test_policy": "always",
             "arguments": {
                 "compare_path": "/tmp/output.png",
             },
