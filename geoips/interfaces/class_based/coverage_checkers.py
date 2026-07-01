@@ -74,6 +74,11 @@ class BaseCoverageCheckerPlugin(BaseClassPlugin, abstract=True):
             ``data.ds.attrs["coverage"]``; otherwise the result returned by the
             base ``_post_call``.
         """
+        # Calling super()._post_call() here results in a DataTreeDitto object. The DTD
+        # object will have the same name as the calling CoverageChecker. It will contain
+        # a single attribute named "value" that will contain the coverage percentage.
+        #
+        # The code below will rename the "value" attribute to "coverage".
         data = super()._post_call(data, *args, _obp_initiated=_obp_initiated, **kwargs)
         if _obp_initiated and hasattr(data, "ds") and data.ds is not None:
             attrs = data.ds.attrs

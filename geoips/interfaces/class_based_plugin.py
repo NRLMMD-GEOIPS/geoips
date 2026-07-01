@@ -290,11 +290,19 @@ class BaseClassPlugin(ABC):
             return result
         if isinstance(result, DataTreeDitto):
             return result
+        # If we already have a DataTree, convert to DTD and return
         if isinstance(result, xr.DataTree):
             return DataTreeDitto.from_datatree(result)
+        # In the case of a scalar, create a DataSet, then convert to DataTreeDitto.
+        # The resulting DTD instance will have a single attribute, "value", containing
+        # the scalar value. This must be handled by the calling plugin's `_post_call()`
+        # to give the attribute an appropriate name. For example, CoverageCheckers
+        # rename "value" to "coverage"
         if isinstance(result, (str, int, float, bool)):
             ds = xr.Dataset(attrs={"value": result})
             return DataTreeDitto(ds, name=getattr(self, "name", "result"))
+        # For all types not previously handled, convert whatever we got to a DTD whose
+        # name is the same as the calling plugin and return
         return DataTreeDitto(result, name=getattr(self, "name", "result"))
 
     @staticmethod
