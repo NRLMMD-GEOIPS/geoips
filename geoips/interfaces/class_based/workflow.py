@@ -349,7 +349,6 @@ class Workflow:
         xr.DataTree
             The fully-populated workflow DataTree.
         """
-
         tree = (
             xr.DataTree(name=self._wf_name) if workflow_tree is None else workflow_tree
         )

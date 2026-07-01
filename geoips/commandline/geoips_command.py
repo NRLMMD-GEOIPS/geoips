@@ -824,6 +824,11 @@ class GeoipsWorkflowCommand(GeoipsExecutableCommand):
                 workflow = WorkflowPluginModel(
                     **workflow,
                     is_registered=False,
+                    # Adding context in pydantic is akin to passing in values that are
+                    # usually None to an Objects __init__ function. It will construct
+                    # differently if those parameters are provided. In this case, we are
+                    # telling pydantic to expand the workflow, rather than validate just
+                    # what's in the data provided
                     context={"expand": True},
                 ).model_dump()
             except Exception as e:
@@ -844,6 +849,11 @@ class GeoipsWorkflowCommand(GeoipsExecutableCommand):
                 workflow = WorkflowPluginModel(
                     **workflow,
                     is_registered=False,
+                    # Adding context in pydantic is akin to passing in values that are
+                    # usually None to an Objects __init__ function. It will construct
+                    # differently if those parameters are provided. In this case, we are
+                    # telling pydantic to expand the workflow, rather than validate just
+                    # what's in the data provided
                     context={"expand": True},
                 ).model_dump()
             except Exception as e:

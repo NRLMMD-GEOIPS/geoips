@@ -222,6 +222,7 @@ class SectorArgumentsModel(PermissiveFrozenModel):
     pass
 
 
+# Dictionary listing all plugin arguments models
 _PLUGIN_ARGUMENTS_MODELS: dict[str, type] = {
     "AlgorithmArgumentsModel": AlgorithmArgumentsModel,
     "ColormapperArgumentsModel": ColormapperArgumentsModel,

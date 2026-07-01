@@ -1,8 +1,7 @@
 # # # This source code is subject to the license referenced at
 # # # https://github.com/NRLMMD-GEOIPS.
 
-"""Universal adapter that wraps any YAML plugin dict into a callable DataTree
-participant.
+"""Adapter wrapping any YAML plugin dict into a callable DataTree participant.
 
 Every YAML-defined plugin (feature_annotator, gridline_annotator, product,
 product_default, sector, …) becomes a first-class DAG step that adds its
@@ -128,6 +127,7 @@ class YamlPluginCallable:
     # ------------------------------------------------------------------
 
     def __repr__(self) -> str:
+        """Return a concise repr with the wrapped plugin's interface and name."""
         return (
             f"{self.__class__.__name__}("
             f"interface={self.interface!r}, "
