@@ -35,7 +35,7 @@ import logging
 import xarray as xr
 
 from geoips import interfaces
-from geoips.interfaces.obp_adaptation import OBP_CONDUITS
+from geoips.utils.types.obp_conduits import OBP_CONDUITS
 
 LOG = logging.getLogger(__name__)
 
@@ -61,7 +61,7 @@ def valid_str_attr(cls, attr_name: str):
 
 
 # The OBP conduit binding registry and its extractor helpers now live in
-# ``geoips.interfaces.obp_adaptation`` (imported above as ``OBP_CONDUITS``) so
+# ``geoips.utils.types.obp_conduits`` (imported above as ``OBP_CONDUITS``) so
 # that there is a single home for per-kind input wiring.
 
 

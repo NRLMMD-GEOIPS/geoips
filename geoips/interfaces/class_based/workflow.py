@@ -609,13 +609,11 @@ class Workflow:
         PluginResolutionError
             If the interface or plugin cannot be resolved.
         """
-        from geoips.interfaces.obp_adaptation import (
-            interface_name_for_kind,
-            kind_to_interface,
-        )
+        from geoips import interfaces
+        from geoips.utils.types.partial_lexeme import Lexeme
 
-        interface_name = interface_name_for_kind(kind)
-        iface = kind_to_interface(kind)
+        interface_name = str(Lexeme(kind).plural)
+        iface = getattr(interfaces, interface_name, None)
         if iface is None:
             raise PluginResolutionError(
                 f"Kind '{kind}' -> interface '{interface_name}': "
