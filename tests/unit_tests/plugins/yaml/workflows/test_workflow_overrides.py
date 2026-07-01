@@ -412,10 +412,8 @@ def test_insert_after_key():
     )
 
     new_value = {
-        "policy": "always",
-        "arguments": {
-            "compare_path": "/tmp/output.png",
-        },
+        "full_test_policy": "always",
+        "compare_path": "/tmp/output.png",
         "name": "image",
     }
 
@@ -449,28 +447,8 @@ def test_insert_after_key_missing_target():
             target_key="algorithm",
             new_key="output_checker1",
             new_value={
-                "policy": "always",
-                "arguments": {
-                    "compare_path": "/tmp/test.png",
-                },
-            },
-        )
-
-
-def test_insert_after_key_invalid_override_format():
-    """Test failure when an output checker override lacks arguments.
-
-    Verifies that improperly formatted workflow test overrides raise
-    a PluginError when neither 'arguments' nor
-    'output_checker_arguments' are present.
-    """
-    with pytest.raises(PluginError, match="improperly formatted"):
-        workflows._insert_after_key(
-            {"reader": {}},
-            target_key="reader",
-            new_key="output_checker1",
-            new_value={
-                "policy": "always",
+                "full_test_policy": "always",
+                "compare_path": "/tmp/test.png",
             },
         )
 
@@ -480,7 +458,7 @@ def test_apply_output_checker_override():
 
     Ensures that a new output checker step is inserted after the
     specified workflow step when a leaf override containing a
-    policy field is encountered.
+    full_test_policy field is encountered.
     """
     steps = OrderedDict(
         {
@@ -497,10 +475,8 @@ def test_apply_output_checker_override():
 
     override = {
         "reader": {
-            "policy": "always",
-            "arguments": {
-                "compare_path": "/tmp/output.png",
-            },
+            "full_test_policy": "always",
+            "compare_path": "/tmp/output.png",
             "name": "image",
         }
     }
@@ -530,10 +506,8 @@ def test_apply_output_checker_override_missing_nested_key():
 
     override = {
         "missing_step": {
-            "policy": "always",
-            "arguments": {
-                "compare_path": "/tmp/output.png",
-            },
+            "full_test_policy": "always",
+            "compare_path": "/tmp/output.png",
         }
     }
 

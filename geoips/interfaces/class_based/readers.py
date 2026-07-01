@@ -8,6 +8,7 @@ from datetime import datetime
 from os.path import basename
 
 import numpy as np
+import xarray as xr
 from xarray import concat, Dataset
 
 from geoips.interfaces.class_based_plugin import BaseClassPlugin
@@ -21,7 +22,31 @@ class BaseReaderPlugin(BaseClassPlugin, abstract=True):
 
     data_tree = False
 
-    pass
+    def _post_call(self, data=None, *args, _obp_initiated=False, **kwargs):
+        """Merge reader dict output into a ``DataTree`` for OBP.
+
+        Readers return ``{key: xr.Dataset}``.  This hook merges the dict
+        into a single ``xr.Dataset``, preserving ``METADATA`` attrs,
+        and wraps the result in a plain ``xr.DataTree`` so downstream
+        steps can access it via the standard tree-based data flow.
+        """
+        if _obp_initiated and isinstance(data, dict):
+            primary_ds = None
+            extra_attrs = {}
+            for key, value in data.items():
+                if isinstance(value, xr.Dataset):
+                    if key == "METADATA":
+                        extra_attrs.update(value.attrs)
+                    elif primary_ds is None:
+                        primary_ds = value
+                    else:
+                        try:
+                            primary_ds = xr.merge([primary_ds, value])
+                        except Exception:
+                            pass
+            ds = (primary_ds or xr.Dataset()).assign_attrs(**extra_attrs)
+            return xr.DataTree(ds, name=getattr(self, "name", "reader"))
+        return super()._post_call(data, *args, _obp_initiated=_obp_initiated, **kwargs)
 
 
 class ReadersInterface(BaseClassInterface):

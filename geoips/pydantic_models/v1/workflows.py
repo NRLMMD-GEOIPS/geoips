@@ -27,6 +27,7 @@ from typing import Any, Dict, List, Literal, Optional, Union
 from pydantic import (
     ConfigDict,
     Field,
+    FilePath,
     field_validator,
     model_validator,
     ValidationInfo,
@@ -946,7 +947,7 @@ class OutputCheckerStepDefinitionModel(PermissiveFrozenModel):
 
     output_checker:
         name: my_oc
-        policy: "on_failure" | "always"
+        full_test_policy: "on_token_mismatch" | "always" | "never"
         arguments:
         ...
     """
@@ -958,19 +959,24 @@ class OutputCheckerStepDefinitionModel(PermissiveFrozenModel):
             "output checker plugin associated with the produced file type(s)."
         ),
     )
-    arguments: OutputCheckerArgumentsModel = Field(
-        ...,
-        description=(
-            "A dictionary of arguments to be supplied to an output_checker plugin."
-        ),
-        alias="output_checker_arguments",
+    compare_path: Union[FilePath, str, None] = Field(
+        None,
+        description="The path to the comparison file.",
     )
-    policy: Literal["on_failure", "always"] = Field(
-        "on_failure",
+    threshold: Optional[float] = Field(
+        None,
         description=(
-            "Whether or not to run the output checker based on the result of "
-            "the token comparison. Defaults to only running the specified (or detected)"
-            " output checker on failed token comparison."
+            "Threshold for the image comparison. Argument to pixelmatch. Between "
+            "0 and 1, with 0 the most strict comparison, and 1 the most lenient."
+        ),
+        alias="output_checker_threshold",
+    )
+    full_test_policy: Literal["on_token_mismatch", "always", "never"] = Field(
+        "on_token_mismatch",
+        description=(
+            "Tells GeoIPS in what circumstances an output checker should run based on "
+            "the result of the token comparison. Defaults to only running the specified"
+            " (or detected) output checker on failed token comparison."
         ),
     )
     depends_on: List[str] | None = Field(
@@ -1052,7 +1058,7 @@ class WorkflowTestModel(FrozenModel):
     # outputs:
     #     step_id:
     #         # name: optional, default=None, derived from 'compare_path' if not provided  # NOQA
-    #         # policy: optional, default="on_failure"
+    #         # full_test_policy: optional, default="on_token_mismatch"
     #         output_checker_arguments:
     #             compare_path: <path_to_compare_file>
     #             optional_arg1: <x>
