@@ -4,7 +4,7 @@
 """Filename formatter for full-day text windspeed products."""
 
 from geoips.interfaces.class_based.filename_formatters import (
-    BaseFilenameFormatterPlugin,
+    WindsFilenameFormatterPlugin,
 )
 
 import logging
@@ -16,7 +16,7 @@ from geoips.filenames.base_paths import PATHS as gpaths
 LOG = logging.getLogger(__name__)
 
 
-class TextWindsDayFnameFilenameFormatterPlugin(BaseFilenameFormatterPlugin):
+class TextWindsDayFnameFilenameFormatterPlugin(WindsFilenameFormatterPlugin):
     """Text Winds DAY Fname Filename formatter plugin class."""
 
     interface = "filename_formatters"

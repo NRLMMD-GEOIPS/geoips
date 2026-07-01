@@ -12,6 +12,12 @@ from geoips.interfaces.base import BaseClassInterface
 class BaseFilenameFormatterPlugin(BaseClassPlugin, abstract=True):
     """Base class for GeoIPS filename_formatter plugins."""
 
+    pass
+
+
+class WindsFilenameFormatterPlugin(BaseFilenameFormatterPlugin, abstract=True):
+    """Base class for wind-based filename_formatter plugins."""
+
     def assemble_windspeeds_text_full_fname(
         self,
         basedir,
