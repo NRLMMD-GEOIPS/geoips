@@ -113,6 +113,8 @@ def list_available_interfaces():
                     inspect.ismodule,
                 )
             ]
+            if "workflow" in available_interfaces:
+                available_interfaces.remove("workflow")
             all_interfaces[f"{interface_type}_based"] = available_interfaces
         except AttributeError:
             continue
