@@ -248,7 +248,6 @@ class BdeckParserSectorMetadataGeneratorPlugin(BaseSectorMetadataGeneratorPlugin
 
         return all_fields, final_storm_name, tc_year, allowed_aid_types
 
-
     def lat_to_dec(self, lat_str):
         """Return decimal latitude based on N/S specified string."""
         latnodec = lat_str
@@ -256,14 +255,12 @@ class BdeckParserSectorMetadataGeneratorPlugin(BaseSectorMetadataGeneratorPlugin
         latdecsign = latdec[:-1] if (latdec[-1] == "N") else "-" + latdec[:-1]
         return latdecsign
 
-
     def lon_to_dec(self, lon_str):
         """Return decimal longitude based on E/W specified string."""
         lonnodec = lon_str
         londec = lonnodec[:-2] + "." + lonnodec[-2:]
         londecsign = londec[:-1] if (londec[-1] == "E") else "-" + londec[:-1]
         return londecsign
-
 
     def parse_bdeck_line(
         self,
@@ -384,7 +381,9 @@ class BdeckParserSectorMetadataGeneratorPlugin(BaseSectorMetadataGeneratorPlugin
         # deck file to the next during the life of a storm, but at least it
         # provides a sensible defined value.
         if not storm_start_datetime:
-            storm_start_datetime = storm_start_datetime_from_first_line_of_current_deck_file
+            storm_start_datetime = (
+                storm_start_datetime_from_first_line_of_current_deck_file
+            )
         fields["storm_start_datetime"] = storm_start_datetime
 
         # BEST, MBAM, OFCL, JTWC, etc - BEST202101220600 when updated
@@ -464,7 +463,6 @@ class BdeckParserSectorMetadataGeneratorPlugin(BaseSectorMetadataGeneratorPlugin
                 )
         return fields
 
-
     def assemble_numbered_storm_id(self, storm_basin, storm_number, storm_year):
         """Assemble numbered storm ID from storm basin, number, and year.
 
@@ -485,7 +483,6 @@ class BdeckParserSectorMetadataGeneratorPlugin(BaseSectorMetadataGeneratorPlugin
             int(storm_number),
             int(storm_year),
         )
-
 
     def assemble_invest_storm_id(
         self, storm_basin, invest_number, storm_year, storm_start_datetime
@@ -512,7 +509,6 @@ class BdeckParserSectorMetadataGeneratorPlugin(BaseSectorMetadataGeneratorPlugin
             storm_start_datetime.strftime("%Y%m%d%H"),
         )
 
-
     def get_invest_number_bdeck(self, deck_lines, is_archived):
         """Get invest number from full bdeck file."""
         invest_number = None
@@ -535,7 +531,6 @@ class BdeckParserSectorMetadataGeneratorPlugin(BaseSectorMetadataGeneratorPlugin
                 invest_number = int(fields["invest_number"])
         return invest_number
 
-
     def get_storm_start_datetime_from_bdeck_entry(self, deck_lines):
         """Get storm start datetime from full bdeck file.
 
@@ -554,9 +549,10 @@ class BdeckParserSectorMetadataGeneratorPlugin(BaseSectorMetadataGeneratorPlugin
         """
         # Return the synoptic time of the first bdeck entry
         fields = self.parse_bdeck_line(deck_lines[0])
-        LOG.info("  GETTING storm start time from bdeck entry %s", fields["synoptic_time"])
+        LOG.info(
+            "  GETTING storm start time from bdeck entry %s", fields["synoptic_time"]
+        )
         return fields["synoptic_time"]
-
 
     def get_storm_start_datetime_from_bdeck_filename(self, bdeck_filename):
         """Return the storm start time found in the actual filename, if it exists.
@@ -620,7 +616,8 @@ class BdeckParserSectorMetadataGeneratorPlugin(BaseSectorMetadataGeneratorPlugin
             try:
                 storm_start_datetime = datetime.strptime(bdeck_parts[1], "%Y%m%d%H")
                 LOG.info(
-                    "  USING storm start time found in filename %s", storm_start_datetime
+                    "  USING storm start time found in filename %s",
+                    storm_start_datetime,
                 )
             except ValueError:
                 LOG.warning(
@@ -629,7 +626,6 @@ class BdeckParserSectorMetadataGeneratorPlugin(BaseSectorMetadataGeneratorPlugin
                 )
                 storm_start_datetime = None
         return storm_start_datetime
-
 
     def get_stormyear_from_bdeck_filename(self, bdeck_filename):
         """Get the storm year from the B-deck filename.
@@ -648,7 +644,6 @@ class BdeckParserSectorMetadataGeneratorPlugin(BaseSectorMetadataGeneratorPlugin
         """
         return int(os.path.basename(bdeck_filename)[5:9])
 
-
     def get_final_storm_name_bdeck(
         self, deck_lines, tcyear, trackfile_name=None, is_archived=False
     ):
@@ -665,7 +660,9 @@ class BdeckParserSectorMetadataGeneratorPlugin(BaseSectorMetadataGeneratorPlugin
                 )
                 # if curr_fields['storm_name']:
                 if curr_fields["storm_name"] and curr_fields["storm_name"] != "INVEST":
-                    LOG.debug("UPDATING final_storm_name to %s", curr_fields["storm_name"])
+                    LOG.debug(
+                        "UPDATING final_storm_name to %s", curr_fields["storm_name"]
+                    )
                     final_storm_name = curr_fields["storm_name"]
             except ValueError as e:
                 if is_archived:

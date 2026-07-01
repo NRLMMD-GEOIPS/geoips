@@ -22,7 +22,13 @@ class TextWindOutputFormatterPlugin(BaseOutputFormatterPlugin):
     name = "text_winds"
 
     def call(
-        self, xarray_dict, varlist, output_fnames, append=False, overwrite=True, source_names=None,
+        self,
+        xarray_dict,
+        varlist,
+        output_fnames,
+        append=False,
+        overwrite=True,
+        source_names=None,
     ):
         """Write text windspeed output file."""
         output_products = []
@@ -50,9 +56,14 @@ class TextWindOutputFormatterPlugin(BaseOutputFormatterPlugin):
         # Remove any duplicates - they would have been overwritten
         return list(set(output_products))
 
-
     def write_text_winds(
-        self, xarray_obj, varlist, output_fnames, append=False, overwrite=True, source_names=None,
+        self,
+        xarray_obj,
+        varlist,
+        output_fnames,
+        append=False,
+        overwrite=True,
+        source_names=None,
     ):
         """Write out TC formatted text file of wind speeds.
 
@@ -95,7 +106,9 @@ class TextWindOutputFormatterPlugin(BaseOutputFormatterPlugin):
         if not isinstance(output_fnames, list):
             raise TypeError("Parameter output_fnames must be a list of str")
         if not isinstance(speed_array, numpy.ndarray):
-            raise TypeError("Parameter speed_array must be a numpy.ndarray of wind speeds")
+            raise TypeError(
+                "Parameter speed_array must be a numpy.ndarray of wind speeds"
+            )
         if not isinstance(lat_array, numpy.ndarray):
             raise TypeError("Parameter lat_array must be a numpy.ndarray of latitudes")
         if not isinstance(lon_array, numpy.ndarray):
@@ -156,7 +169,9 @@ class TextWindOutputFormatterPlugin(BaseOutputFormatterPlugin):
                     dtstr = datetime.utcfromtimestamp(time).strftime("%Y%m%d%H%M")
                     # if lon > 180:
                     #     lon = lon - 360
-                    format_string = " {0:>3s} {1:>8.1f} {2:>6.1f} {3:>3d} {4:>3d} {5:s}\n"
+                    format_string = (
+                        " {0:>3s} {1:>8.1f} {2:>6.1f} {3:>3d} {4:>3d} {5:s}\n"
+                    )
                     fobj.write(
                         format_string.format(
                             source_name, lat, lon, int(direction), int(speed), dtstr
@@ -179,7 +194,9 @@ class TextWindOutputFormatterPlugin(BaseOutputFormatterPlugin):
             output_products += [text_fname]
 
         ctime = datetime.fromtimestamp(os.stat(text_fname).st_ctime)
-        LOG.info("    SUCCESS wrote out text windspeed file %s at %s", text_fname, ctime)
+        LOG.info(
+            "    SUCCESS wrote out text windspeed file %s at %s", text_fname, ctime
+        )
 
         for additional_text_fname in output_fnames:
             shutil.copy(text_fname, additional_text_fname)

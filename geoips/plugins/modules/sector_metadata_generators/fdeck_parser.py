@@ -293,7 +293,6 @@ class FdeckParserSectorMetadataGeneratorPlugin(BaseSectorMetadataGeneratorPlugin
                     storm_basin, int(storm_num), int(storm_year)
                 )
 
-
         if source_filename:
             from geoips.geoips_utils import replace_geoips_paths
 
