@@ -3,6 +3,8 @@
 
 """Read derived surface winds from CYGNSS netcdf data."""
 
+from geoips.interfaces.class_based.readers import BaseReaderPlugin
+
 # Python Standard Libraries
 import logging
 
@@ -14,86 +16,106 @@ from geoips.xarray_utils.time import get_min_from_xarray_time, get_max_from_xarr
 
 LOG = logging.getLogger(__name__)
 
-MS_TO_KTS = 1.94384
-DEG_TO_KM = 111.321
 
-interface = "readers"
-family = "standard"
-name = "cygnss_netcdf"
+class CygnssNetcdfReaderPlugin(BaseReaderPlugin):
+    """Cygnss Netcdf reader plugin class."""
 
+    interface = "readers"
+    family = "standard"
+    name = "cygnss_netcdf"
 
-def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=False):
-    """Read CYGNSS derived winds from netcdf data.
+    MS_TO_KTS = 1.94384
+    DEG_TO_KM = 111.321
+    source_names = ["cygnss"]
 
-    Parameters
-    ----------
-    fnames : list
-        * List of strings, full paths to files
-    metadata_only : bool, default=False
-        * Return before actually reading data if True
-    chans : list of str, default=None
-        * List of desired channels (skip unneeded variables as needed).
-        * Include all channels if None.
-    area_def : pyresample.AreaDefinition, default=None
-        * NOT YET IMPLEMENTED
-        * Specify region to read
-        * Read all data if None.
-    self_register : str or bool, default=False
-        * NOT YET IMPLEMENTED
-        * register all data to the specified dataset id (as specified in the
-          return dictionary keys).
-        * Read multiple resolutions of data if False.
+    def call(
+        self,
+        fnames,
+        metadata_only=False,
+        chans=None,
+        area_def=None,
+        self_register=False,
+    ):
+        """Read CYGNSS derived winds from netcdf data.
 
-    Returns
-    -------
-    dict of xarray.Datasets
-        * dictionary of xarray.Dataset objects with required Variables and
-          Attributes.
-        * Dictionary keys can be any descriptive dataset ids.
+        Parameters
+        ----------
+        fnames : list
+            * List of strings, full paths to files
+        metadata_only : bool, default=False
+            * Return before actually reading data if True
+        chans : list of str, default=None
+            * List of desired channels (skip unneeded variables as needed).
+            * Include all channels if None.
+        area_def : pyresample.AreaDefinition, default=None
+            * NOT YET IMPLEMENTED
+            * Specify region to read
+            * Read all data if None.
+        self_register : str or bool, default=False
+            * NOT YET IMPLEMENTED
+            * register all data to the specified dataset id (as specified in the
+              return dictionary keys).
+            * Read multiple resolutions of data if False.
 
-    See Also
-    --------
-    :ref:`xarray_standards`
-        Additional information regarding required attributes and variables
-        for GeoIPS-formatted xarray Datasets.
-    """
-    out_dict = {}
+        Returns
+        -------
+        dict of xarray.Datasets
+            * dictionary of xarray.Dataset objects with required Variables and
+              Attributes.
+            * Dictionary keys can be any descriptive dataset ids.
 
-    # Single file is full day of data, so only need one.
-    fname = fnames[0]
+        See Also
+        --------
+        :ref:`xarray_standards`
+            Additional information regarding required attributes and variables
+            for GeoIPS-formatted xarray Datasets.
+        """
+        out_dict = {}
 
-    wind_xarray = xarray.open_dataset(str(fname))
-    wind_xarray = wind_xarray.rename(
-        {"lat": "latitude", "lon": "longitude", "sample_time": "time"}
-    )
-    wind_xarray.attrs["source_name"] = "cygnss"
-    wind_xarray.attrs["platform_name"] = "cygnss"
-    wind_xarray.attrs["data_provider"] = "noaa-nesdis-star-socd-oswt"
-    wind_xarray.attrs["source_file_names"] = fnames
-    wind_xarray.attrs["interpolation_radius_of_influence"] = 20000
-    wind_xarray.attrs["sample_distance_km"] = DEG_TO_KM / 4
+        # Single file is full day of data, so only need one.
+        fname = fnames[0]
 
-    wind_xarray.attrs["start_datetime"] = get_min_from_xarray_time(wind_xarray, "time")
-    wind_xarray.attrs["end_datetime"] = get_max_from_xarray_time(wind_xarray, "time")
+        wind_xarray = xarray.open_dataset(str(fname))
+        wind_xarray = wind_xarray.rename(
+            {"lat": "latitude", "lon": "longitude", "sample_time": "time"}
+        )
+        wind_xarray.attrs["source_name"] = "cygnss"
+        wind_xarray.attrs["platform_name"] = "cygnss"
+        wind_xarray.attrs["data_provider"] = "noaa-nesdis-star-socd-oswt"
+        wind_xarray.attrs["source_file_names"] = fnames
+        wind_xarray.attrs["interpolation_radius_of_influence"] = 20000
+        wind_xarray.attrs["sample_distance_km"] = self.DEG_TO_KM / 4
 
-    out_dict["METADATA"] = wind_xarray[[]]
-    if metadata_only:
+        wind_xarray.attrs["start_datetime"] = get_min_from_xarray_time(
+            wind_xarray, "time"
+        )
+        wind_xarray.attrs["end_datetime"] = get_max_from_xarray_time(
+            wind_xarray, "time"
+        )
+
+        out_dict["METADATA"] = wind_xarray[[]]
+        if metadata_only:
+            return out_dict
+
+        if chans:
+            if "wind_speed_kts" in chans:
+                wind_xarray["wind_speed_kts"] = (
+                    wind_xarray["wind_speed"] * self.MS_TO_KTS
+                )
+                wind_xarray["wind_speed_kts"].attrs["units"] = "kts"
+
+        ds_var_list = list(wind_xarray.variables.keys())
+
+        if chans:
+            for chan in chans:
+                if chan not in ds_var_list:
+                    raise ValueError(f"Variable {chan} not found in dataset.")
+
+            wind_xarray = wind_xarray[chans]
+
+        out_dict["CYGNSS"] = wind_xarray
+
         return out_dict
 
-    if chans:
-        if "wind_speed_kts" in chans:
-            wind_xarray["wind_speed_kts"] = wind_xarray["wind_speed"] * MS_TO_KTS
-            wind_xarray["wind_speed_kts"].attrs["units"] = "kts"
 
-    ds_var_list = list(wind_xarray.variables.keys())
-
-    if chans:
-        for chan in chans:
-            if chan not in ds_var_list:
-                raise ValueError(f"Variable {chan} not found in dataset.")
-
-        wind_xarray = wind_xarray[chans]
-
-    out_dict["CYGNSS"] = wind_xarray
-
-    return out_dict
+PLUGIN_CLASS = CygnssNetcdfReaderPlugin

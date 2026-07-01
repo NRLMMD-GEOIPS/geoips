@@ -683,14 +683,14 @@ def get_vis_ir_bg(sect_xarray):
     LOG.info("irfnames: %s", irfnames)
     LOG.info("visfnames: %s", visfnames)
     ret_arr = {}
-    from geoips.plugins.modules.readers.geoips_netcdf import read_xarray_netcdf
+    from geoips.plugins.classes.readers.geoips_netcdf import GeoipsNetcdfReaderPlugin
 
     if irfnames:
-        ir_bg = read_xarray_netcdf(irfnames[0])
+        ir_bg = GeoipsNetcdfReaderPlugin.read_xarray_netcdf(irfnames[0])
         ret_arr["IR"] = ir_bg
         ret_arr["METADATA"] = ir_bg[[]]
     if visfnames:
-        vis_bg = read_xarray_netcdf(visfnames[0])
+        vis_bg = GeoipsNetcdfReaderPlugin.read_xarray_netcdf(visfnames[0])
         ret_arr["VIS"] = vis_bg
         ret_arr["METADATA"] = vis_bg[[]]
     LOG.info("ret_arr: %s", ret_arr)
