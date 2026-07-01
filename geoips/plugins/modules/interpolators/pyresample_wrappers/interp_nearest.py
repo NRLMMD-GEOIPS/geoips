@@ -99,15 +99,17 @@ def call(area_def, input_xarray, output_xarray, varlist, array_num=None, **kwarg
 
     if output_xarray is None:
         output_xarray = xarray.Dataset()
-    if "latitude" not in output_xarray.variables.keys():
-        interp_lons, interp_lats = area_def.get_lonlats()
-        output_xarray["latitude"] = xarray.DataArray(interp_lats)
-        output_xarray["longitude"] = xarray.DataArray(interp_lons)
+
     copy_standard_metadata(input_xarray, output_xarray, force=False)
     output_xarray.attrs["registered_dataset"] = True
     output_xarray.attrs["area_definition"] = area_def
 
     for ind in range(len(varlist)):
         output_xarray[varlist[ind]] = xarray.DataArray(interp_data[ind])
+
+    if "latitude" not in output_xarray.variables.keys():
+        interp_lons, interp_lats = area_def.get_lonlats()
+        output_xarray["latitude"] = xarray.DataArray(interp_lats)
+        output_xarray["longitude"] = xarray.DataArray(interp_lons)
 
     return output_xarray

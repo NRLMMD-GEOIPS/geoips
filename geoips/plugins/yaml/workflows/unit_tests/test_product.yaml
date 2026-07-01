@@ -32,9 +32,11 @@ spec:
     reader:
       kind: reader
       name: abi_netcdf
+      depends_on: []
       arguments:
         chans: ['B14BT']
     abi:Infrared:
       kind: product
       name: [abi, Infrared]
+      depends_on: [reader]
       arguments: {}

@@ -34,6 +34,7 @@ import logging
 
 import xarray as xr
 
+from geoips.errors import PluginError
 from geoips import interfaces
 from geoips.utils.types.obp_conduits import OBP_CONDUITS
 
@@ -365,6 +366,50 @@ class BaseClassPlugin(ABC):
 
         return kwargs
 
+    def _call_interpolator(self, data, kwargs):
+        """Call the main interpolator plugin method.
+
+        Parameters
+        ----------
+        data : R, optional
+            The output data from the plugin.
+
+        Returns
+        -------
+            The processed data.
+        """
+        input_xarray = None
+        sector_found = False
+        for group in data.groups:
+            ds = data[group]
+            # This is the data dependency
+            if hasattr(ds, "attrs") and ds.attrs.get("plugin_kind"):
+                if ds.attrs["plugin_kind"] != "sector":
+                    input_xarray = ds.to_dataset()
+                else:
+                    sector_found = True
+
+        if input_xarray is None:
+            raise RuntimeError(
+                "Error: Could not find an input dataset to interpolate for "
+                f"interpolator plugin '{self.name}'."
+            )
+
+        if not sector_found:
+            raise RuntimeError(
+                "Error: Could not find an appropriate sector step to interpolate to for"
+                f" interpolator plugin '{self.name}'."
+            )
+
+        interp_kwargs = _collect_interp_kwargs(input_xarray)
+        if kwargs.get("area_def"):
+            interp_kwargs["area_def"] = kwargs["area_def"]
+        if kwargs.get("varlist"):
+            interp_kwargs["varlist"] = kwargs["varlist"]
+        result = self.call(**interp_kwargs)
+
+        return result
+
     def _invoke(self, data=None, *args, _obp_initiated=False, **kwargs):
         """Call the main plugin method.
 
@@ -403,8 +448,11 @@ class BaseClassPlugin(ABC):
         data = self._pre_call(data, *args, _obp_initiated=_obp_initiated, **new_kwargs)
 
         if self._use_positional_unpacking(data, _obp_initiated):
-            new_args = _kwarg_to_positional(new_kwargs, self.call)
-            result = self.call(*new_args, **new_kwargs)
+            if self.interface == "interpolators":
+                result = self._call_interpolator(data, new_kwargs)
+            else:
+                new_args = _kwarg_to_positional(new_kwargs, self.call)
+                result = self.call(*new_args, **new_kwargs)
         else:
             result = self.call(data, *args, **new_kwargs)
 
@@ -571,3 +619,36 @@ def _kwarg_to_positional(kwargs, call_func):
                 f"Available kwargs: {list(kwargs)}"
             )
     return tuple(positional)
+
+
+def _collect_interp_kwargs(data, collect_varlist=True):
+    """Collect a set of keyword arguments for an interpolator plugin call.
+
+    Parameters
+    ----------
+    data : xarray.core.datatree.DatasetView (essentially an xarray.Dataset)
+        The input dataset to interpolate.
+    collect_varlist : bool, optional
+        Whether or not to collect the variable list to interpolate automatically.
+        Defaults to True, but can be overridden if a user specifies a 'varlist'
+        argument in their workflow under the interpolator step.
+
+    Returns
+    -------
+    kwargs : dict
+        A dictionary of keyword arguments generated from data required to run an
+        interpolator plugin.
+    """
+    interp_kwargs = {
+        "area_def": interfaces.sectors.get_plugin("goes_east").area_definition,
+        "input_xarray": data,
+        "output_xarray": xr.Dataset(),
+        "varlist": list(data.variables.keys()),
+    }
+
+    if not collect_varlist:
+        # if the user defined this in the interpolator step arguments, then remove this
+        # key, value pair
+        interp_kwargs.pop("varlist")
+
+    return interp_kwargs

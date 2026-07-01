@@ -1,0 +1,28 @@
+enhancement:
+- title: 'OBP Interpolators Update'
+  description: |
+    Adds support for inserting interpolator steps in a workflow plugin. If an
+    interpolator step is specified, it MUST depend on two other steps, one of which
+    must be a data source, and the other must be a sector. This way it can accurately
+    interpolate data from that source to that sector.
+  files:
+    moved:
+      - geoips/plugins/yaml/workflows/unit_tests/full_run.yaml -> geoips/plugins/yaml/workflows/unit_tests/Infrared.yaml
+    added:
+      - geoips/plugins/yaml/workflows/unit_tests/Visible.yaml
+    modified:
+      - geoips/interfaces/class_based/workflow.py
+      - geoips/interfaces/class_based_plugin.py
+      - geoips/plugins/modules/algorithms/single_channel.py
+      - geoips/plugins/modules/interpolators/pyresample_wrappers/interp_gauss.py
+      - geoips/plugins/modules/interpolators/pyresample_wrappers/interp_nearest.py
+      - geoips/plugins/modules/procflows/single_source.py
+      - geoips/plugins/yaml/workflows/unit_tests/test_product.yaml
+      - geoips/pydantic_models/v1/workflows.py
+      - geoips/utils/types/converters.py
+  related-issue:
+    number: null
+    repo_url: ''
+  date:
+    start: null
+    finish: null

@@ -28,6 +28,7 @@ from typing import Any
 
 import xarray as xr
 
+from geoips.commandline.log_setup import setup_logging
 from geoips.pydantic_models.v1.workflows import (
     DEFAULT_RETENTION,
     WorkflowSpecModel,
@@ -41,7 +42,9 @@ from geoips.utils.types.tokenization import (
     compute_step_output_token,
 )
 
-LOG = logging.getLogger(__name__)
+# LOG = logging.getLogger(__name__)
+
+LOG = setup_logging(logging_level="info")
 
 
 @dataclass(frozen=True, slots=True)
@@ -178,14 +181,21 @@ class Workflow:
 
         queue = deque(sid for sid in step_ids if indegree[sid] == 0)
         order: list[str] = []
-        while queue:
-            sid = queue.popleft()
-            order.append(sid)
-            for other_sid, other_step in self._spec.steps.items():
-                if sid in (other_step.depends_on or ()):
-                    indegree[other_sid] -= 1
-                    if indegree[other_sid] == 0:
-                        queue.append(other_sid)
+
+        if not queue:
+            # If every step has a dependency, just go in the order of the specified
+            # keys. This can occur for 'generated' / 'embedded' workflows which
+            # reference a step outside the scope of the provided workflow spec
+            order = step_ids
+        else:
+            while queue:
+                sid = queue.popleft()
+                order.append(sid)
+                for other_sid, other_step in self._spec.steps.items():
+                    if sid in (other_step.depends_on or ()):
+                        indegree[other_sid] -= 1
+                        if indegree[other_sid] == 0:
+                            queue.append(other_sid)
 
         return order
 
