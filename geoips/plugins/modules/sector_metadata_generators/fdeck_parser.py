@@ -40,22 +40,17 @@ or
 """
 
 from geoips.interfaces.class_based.sector_metadata_generators import (
-    BaseSectorMetadataGeneratorPlugin,
+    DeckSectorMetaGeneratorPlugin,
 )
 
 import os
 import logging
 from datetime import datetime, timedelta
 
-from geoips.plugins.modules.sector_metadata_generators.bdeck_parser import (
-    assemble_invest_storm_id,
-    assemble_numbered_storm_id,
-)
-
 LOG = logging.getLogger(__name__)
 
 
-class FdeckParserSectorMetadataGeneratorPlugin(BaseSectorMetadataGeneratorPlugin):
+class FdeckParserSectorMetadataGeneratorPlugin(DeckSectorMetaGeneratorPlugin):
     """Fdeck Parser Sector Metadata generator plugin class."""
 
     interface = "sector_metadata_generators"
