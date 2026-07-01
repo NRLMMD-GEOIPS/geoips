@@ -265,7 +265,14 @@ These fields propagate into the output Workflow-level `DataTree`'s root attrs. I
 
 ### 4.3 Test Section
 
-The `test` block is the workflow's executable specification. Running `geoips test <workflow.yaml>` **MUST** execute the workflow against this block.
+The `test` block is the workflow's executable specification. Running `geoips test <workflow.yaml>` **MUST** execute the workflow against this block. The `test` block is used to define a repeatable configuration for the workflow that can be run as an integration test. This helps protect against regressions. This block is only used when a workflow is run using `geoips test <workflow_name>`.
+
+When `geoips test <workflow_name>` is called, the test section is applied to the spec section. In practice, this means that:
+
+- an `OutputChecker` is created for each section under the `outputs` field.
+- any overrides specified in the `steps` section are applied to their respective steps.
+- overrides specified in the `kinds` section are applied to the arguments sections of all steps that call a plugin of the specified `kind`.
+- overrides specified in the `globals` section override their respective fields in the `globals` section.
 
 > **Dependency Note:** The format below reflects the `WorkflowTestModel` from the `geoips-obp-cli-updates` branch. If that branch has not merged, the `test:` field accepts `Dict[str, Any]` as a fallback.
 
