@@ -837,6 +837,7 @@ class GeoipsWorkflowCommand(GeoipsExecutableCommand):
                 )
         # unregistered workflow @ filepath (any path that exists on disk)
         elif self.ensure_valid_json_or_yaml_path(value):
+            # since the filepath was valid and exists, load the data and validate it
             filepath = self.ensure_valid_json_or_yaml_path(value)
             if filepath.suffix.lower() == ".json":
                 loader = json.load
@@ -845,6 +846,8 @@ class GeoipsWorkflowCommand(GeoipsExecutableCommand):
 
             with open(filepath, "r") as f:
                 workflow = loader(f)
+            # This assumes if you pass the filepath option that the plugin itself is
+            # not registered. Validate that it's formatted correctly.
             try:
                 workflow = WorkflowPluginModel(
                     **workflow,
