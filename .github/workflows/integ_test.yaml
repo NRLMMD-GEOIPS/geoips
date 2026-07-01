@@ -23,7 +23,7 @@ jobs:
       group: integ-test-${{ github.ref }}-${{ matrix.editable_pip_install }}
       cancel-in-progress: true
     name: integ-test (editable=${{ matrix.editable_pip_install }})
-    uses: NRLMMD-GEOIPS/geoips_ci/.github/workflows/reusable-ci.yaml@fix-pip-editable
+    uses: NRLMMD-GEOIPS/geoips_ci/.github/workflows/reusable-ci.yaml
     with:
       editable_pip_install: ${{ matrix.editable_pip_install }}
     secrets:
