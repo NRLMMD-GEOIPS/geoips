@@ -3,14 +3,92 @@
 
 """Filename formatters interface class."""
 
+import xarray as xr
+
 from geoips.interfaces.class_based_plugin import BaseClassPlugin
 from geoips.interfaces.base import BaseClassInterface
+from geoips.utils.types.datatree_ditto import DataTreeDitto
 
 
 class BaseFilenameFormatterPlugin(BaseClassPlugin, abstract=True):
     """Base class for GeoIPS filename_formatter plugins."""
 
-    pass
+    data_tree = False
+
+    def _pre_call(self, data=None, *args, _obp_initiated=False, **kwargs):
+        r"""Normalize ``DataTreeDitto`` input into a mutable ``xr.Dataset``.
+
+        When invoked by OBP, upstream dependency outputs are collected into a
+        multi-input ``xr.DataTree``. This hook converts the child node datasets into a
+        writable ``xr.Dataset`` so ``call()`` receives the expected ``xarray_obj``
+        input.
+
+        A single upstream dependency is converted directly. Multiple upstream
+        dependencies are merged into one dataset.
+
+        Parameters
+        ----------
+        data : xr.DataTree | xr.Dataset | None, optional
+            Upstream input passed into the plugin. In OBP, this is typically a
+            multi-input ``xr.DataTree`` containing dependency nodes.
+        \*args : tuple
+            Additional positional arguments forwarded to the base ``_pre_call``.
+        _obp_initiated : bool, default=False
+            Indicates whether the call originated from OBP.
+        \*\*kwargs : dict
+            Additional keyword arguments forwarded to the base ``_pre_call``.
+
+        Returns
+        -------
+        xr.Dataset | Any
+            A mutable ``xr.Dataset`` when upstream ``xr.DataTree`` input is
+            normalized; otherwise the result returned by the base ``_pre_call``.
+        """
+        if _obp_initiated and isinstance(data, xr.DataTree):
+            data = self._to_mutable_dataset(data)
+        return super()._pre_call(data, *args, _obp_initiated=_obp_initiated, **kwargs)
+
+    def _post_call(self, data=None, *args, _obp_initiated=False, **kwargs):
+        r"""Normalize filename output into ``DataTreeDitto`` for OBP.
+
+        Filename formatter ``call()`` methods return a plain output path string. When
+        invoked by OBP, this hook wraps that path into a ``DataTreeDitto`` so it can be
+        attached to the workflow ``DataTree`` with metadata needed by downstream steps.
+
+        Why a data variable and not just ``attrs``? The output path *is* this
+        step's produced data, so it is stored as an ``output_path`` data
+        variable (a ``DataArray``). Plugin kinds whose product is purely
+        descriptive (e.g. a sector's area definition, a colormapper's color
+        info) carry that information in ``attrs`` instead, because it describes
+        the node rather than being the node's data. The path is additionally
+        mirrored into ``attrs['output_fnames']`` for the conduit that feeds it
+        to downstream steps.
+
+        Parameters
+        ----------
+        data : str | None
+            The output filename produced by ``call()``.
+        _obp_initiated : bool, default=False
+            Indicates whether the call originated from OBP. When ``True``,
+            the filename is wrapped into ``DataTreeDitto``.
+
+        Returns
+        -------
+        DataTreeDitto | str | None
+            The normalized ``DataTreeDitto`` output for insertion into the workflow
+            ``DataTree``.
+        """
+        if _obp_initiated and isinstance(data, str):
+            ds = xr.Dataset(
+                {"output_path": (["path"], [data])},
+                attrs={
+                    "output_fnames": [data],
+                    "plugin_kind": "filename_formatter",
+                    "output_key": "output_fnames",
+                },
+            )
+            return DataTreeDitto(ds, name="filename_output")
+        return data
 
 
 class FilenameFormattersInterface(BaseClassInterface):

@@ -18,6 +18,8 @@ description: 11.2 µm Infrared.
   # compare_path: !ENV ${GEOIPS_PACKAGES_DIR}/geoips/tests/outputs/abi.static.<product>.imagery_clean
   # logging_level: info
 spec:
+  retention: keep_referenced
+  outputs: [read_abi_L1_data]
   global_arguments:
     presector: False
     product_db: False
@@ -32,6 +34,7 @@ spec:
     read_abi_L1_data:
       kind: reader
       name: abi_netcdf
+      keep: true
       arguments:
         variables: ['B14BT']
     # interpolate_using_gaussian:

@@ -5,6 +5,7 @@
 
 import logging
 
+import xarray as xr
 from matplotlib.colors import Normalize
 from matplotlib import pyplot as plt
 
@@ -101,7 +102,11 @@ def call(
     elif cmap_source == "geoips":
         cmap_plugin = colormappers.get_plugin(cmap_name)
         # Just get the cmap out of mpl_colors_info to use here.
-        mpl_cmap = cmap_plugin()["cmap"]
+        result = cmap_plugin()
+        if hasattr(result, "ds"):
+            mpl_cmap = result.ds.attrs["_mpl_colors_info"]["cmap"]
+        else:
+            mpl_cmap = result["cmap"]
     elif cmap_source == "ascii":
         if cmap_path is not None:
             mpl_cmap = from_ascii(cmap_path, cmap_name=cmap_name)

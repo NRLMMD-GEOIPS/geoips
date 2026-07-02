@@ -105,5 +105,4 @@ def call(data_range=[-90, 30]):
         "cbar_full_width": True,
     }
 
-    # return cbar, min_tb, max_tb
     return mpl_colors_info

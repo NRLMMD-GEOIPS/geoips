@@ -30,8 +30,14 @@ from __future__ import annotations
 from abc import ABC, abstractmethod
 import functools
 import inspect
+import logging
+
+import xarray as xr
 
 from geoips import interfaces
+from geoips.utils.types.obp_conduits import OBP_CONDUITS
+
+LOG = logging.getLogger(__name__)
 
 # P = ParamSpec("P")
 # R = TypeVar("R")
@@ -52,6 +58,11 @@ def valid_str_attr(cls, attr_name: str):
         raise TypeError(f"{cls.__name__}.{attr_name} must be a string")
     if not attr_value:
         raise ValueError(f"{cls.__name__}.{attr_name} cannot be empty")
+
+
+# The OBP conduit binding registry and its extractor helpers now live in
+# ``geoips.utils.types.obp_conduits`` (imported above as ``OBP_CONDUITS``) so
+# that there is a single home for per-kind input wiring.
 
 
 # class BaseClassPlugin(Generic[P, R], ABC):
@@ -126,43 +137,254 @@ class BaseClassPlugin(ABC):
     def _pre_call(self, data=None, *args, _obp_initiated=False, **kwargs):
         """Preprocess the data before calling the main plugin method.
 
+        For ``data_tree=False`` plugins this hook:
+
+        1. Unwraps a ``DataTreeDitto`` (or plain ``DataTree``) input
+           to recover the native object via ``_unwrap()``.
+        2. Applies a family-specific input conversion if the plugin's
+           class defines a ``_family_conversion_map``.
+
+        For ``data_tree=True`` plugins the data passes through unchanged.
+
         Parameters
         ----------
         data : R, optional
             The input data for the plugin.
         _obp_initiated : bool, optional
-            Whether or not this plugin is being called via the order based procflow.
-            Defaults to False.
+            Whether or not this plugin is being called via the order
+            based procflow.  Defaults to False.
 
         Returns
         -------
         The processed data.
         """
+        if data is None or self.data_tree:
+            return data
+
+        # Step 1: Unwrap DataTree → native type
+        data = self._unwrap(data)
+
+        # Step 2: Apply family-specific input conversion (OBP only)
+        if _obp_initiated:
+            conversion_map = getattr(self, "_family_conversion_map", None)
+            if conversion_map is not None:
+                spec = conversion_map.get(self.family)
+                if spec is not None and spec.input_converter is not None:
+                    if spec.input_type is not None and not isinstance(
+                        data, spec.input_type
+                    ):
+                        data = spec.input_converter(data)
+                    elif spec.input_type is None:
+                        data = spec.input_converter(data)
+
         return data
 
     # def _post_call(self, data: R, *args, **kwargs) -> R:
     def _post_call(self, data=None, *args, _obp_initiated=False, **kwargs):
         """Post-process the data after calling the main plugin method.
 
+        For ``data_tree=False`` plugins this hook:
+
+        1. Applies a family-specific output (reverse) conversion if the
+           plugin's class defines a ``_family_conversion_map``.
+        2. Wraps a non-DataTree result back into a ``DataTreeDitto``
+           via ``_wrap()``.
+
+        For ``data_tree=True`` plugins the data passes through unchanged.
+
         Parameters
         ----------
         data : R, optional
             The output data from the plugin.
         _obp_initiated : bool, optional
-            Whether or not this plugin is being called via the order based procflow.
-            Defaults to False.
+            Whether or not this plugin is being called via the order
+            based procflow.  Defaults to False.
 
         Returns
         -------
             The processed data.
         """
+        if data is None or self.data_tree:
+            return data
+
+        # Step 1: Apply family-specific reverse conversion (OBP only)
+        if _obp_initiated:
+            conversion_map = getattr(self, "_family_conversion_map", None)
+            if conversion_map is not None:
+                spec = conversion_map.get(self.family)
+                if spec is not None and spec.output_converter is not None:
+                    data = spec.output_converter(data)
+
+        # Step 2: Wrap into DataTreeDitto if not already (OBP only)
+        if _obp_initiated and not isinstance(data, xr.DataTree):
+            data = self._wrap(data)
+
         return data
 
-    # def _invoke(self, data: R, *args: P.args, **kwargs: P.kwargs) -> R:
+    def _unwrap(self, data):
+        """Unwrap a DataTree-like container to the original type.
+
+        If the input is a ``DataTreeDitto``, call ``get_original()``
+        to recover the native object (numpy array, Dataset, dict, …)
+        that was originally passed to the constructor.  If the input
+        is a plain ``xr.DataTree`` that contains a ``DataTreeDitto``
+        dataset, extract and unwrap it.
+
+        For multi-input DataTrees (collected by
+        ``Workflow._collect_upstream_data``) the root dataset carries
+        no ``_ditto_original_type``.  In that case:
+
+        * A single child is unwrapped directly.
+        * Multiple children pass through unchanged (the caller's
+          ``_extract_child_kwargs`` handles extraction).
+
+        Parameters
+        ----------
+        data : Any
+            The container passed to the plugin callable.
+
+        Returns
+        -------
+        Any
+            The unwrapped native object.
+        """
+        from geoips.utils.types.datatree_ditto import DataTreeDitto
+
+        if isinstance(data, DataTreeDitto):
+            return data.get_original()
+
+        if isinstance(data, xr.DataTree):
+            children = dict(data.children)
+            if children and not data.ds.attrs.get("_ditto_original_type"):
+                if len(children) == 1:
+                    child = next(iter(children.values()))
+                    if isinstance(child, DataTreeDitto):
+                        return child.get_original()
+                    return child
+                return data
+            try:
+                return DataTreeDitto(data.ds).get_original()
+            except (TypeError, ValueError, RuntimeError) as exc:
+                LOG.debug("Could not unwrap DataTree to original: %s", exc)
+        return data
+
+    def _wrap(self, result):
+        """Wrap a non-DataTree result back into a DataTreeDitto.
+
+        If *result* is already a ``DataTreeDitto`` it is returned as-is.
+        Any other non-None value is wrapped into a ``DataTreeDitto``
+        (with an automatic name derived from the plugin).
+
+        Parameters
+        ----------
+        result : Any
+            The return value of ``_post_call``.
+
+        Returns
+        -------
+        DataTreeDitto or the original result.
+        """
+        from geoips.utils.types.datatree_ditto import DataTreeDitto
+
+        if result is None:
+            return result
+        if isinstance(result, DataTreeDitto):
+            return result
+        # If we already have a DataTree, convert to DTD and return
+        if isinstance(result, xr.DataTree):
+            return DataTreeDitto.from_datatree(result)
+        # In the case of a scalar, create a DataSet, then convert to DataTreeDitto.
+        # The resulting DTD instance will have a single attribute, "value", containing
+        # the scalar value. This must be handled by the calling plugin's `_post_call()`
+        # to give the attribute an appropriate name. For example, CoverageCheckers
+        # rename "value" to "coverage"
+        if isinstance(result, (str, int, float, bool)):
+            ds = xr.Dataset(attrs={"value": result})
+            return DataTreeDitto(ds, name=getattr(self, "name", "result"))
+        # For all types not previously handled, convert whatever we got to a DTD whose
+        # name is the same as the calling plugin and return
+        plugin_name = getattr(self, "name", "result")
+        try:
+            return DataTreeDitto(result, name=plugin_name)
+        except TypeError as exc:
+            raise TypeError(
+                f"Plugin '{plugin_name}' (kind "
+                f"'{getattr(self, 'interface', 'unknown')}') returned a value of "
+                f"type '{type(result).__module__}.{type(result).__name__}' that "
+                f"could not be wrapped in a DataTreeDitto because no converter is "
+                f"registered for it. Either return a supported type (DataTree, "
+                f"Dataset, DataArray, ndarray, dict, list, or a scalar) or "
+                f"register a converter for this type. See "
+                f"geoips.utils.types.converters for examples.\n"
+                f"Original error: {exc}"
+            ) from exc
+
+    @staticmethod
+    def _to_mutable_dataset(data):
+        """Convert a DataTree with children into a mutable ``xr.Dataset``.
+
+        ``DataTree.ds`` returns an immutable ``DatasetView``.  Plugins
+        that need to write into the dataset must call this helper first.
+
+        * Single child → ``children[0].to_dataset()``
+        * Multiple children → ``xr.merge(...)``
+        * Not a DataTree → returned unchanged.
+        """
+        if not isinstance(data, xr.DataTree):
+            return data
+        children = list(data.children.values())
+        if len(children) == 1:
+            return children[0].to_dataset()
+        if len(children) > 1:
+            return xr.merge([c.to_dataset() for c in children])
+        return data
+
+    @staticmethod
+    def _extract_child_kwargs(data, kwargs):
+        if not isinstance(data, xr.DataTree):
+            return kwargs
+
+        children = dict(data.children)
+        if not children:
+            return kwargs
+
+        for _child_name, child in children.items():
+            pkind = (
+                str(child.ds.attrs.get("plugin_kind", ""))
+                if child.ds is not None
+                else ""
+            )
+            conduit = OBP_CONDUITS.get(pkind)
+            if conduit is None:
+                continue
+            kwarg_name = conduit["kwarg"]
+            if kwarg_name in kwargs:
+                continue
+
+            val = conduit["extract"](child)
+            if val is not None:
+                kwargs[kwarg_name] = val
+
+        if "xarray_obj" in kwargs and "product_name" in kwargs:
+            xo = kwargs["xarray_obj"]
+            if (
+                hasattr(xo, "data_vars")
+                and xo.data_vars
+                and "product_name" not in xo.data_vars
+            ):
+                pn = kwargs["product_name"]
+                if isinstance(pn, str) and pn not in xo.data_vars:
+                    xo = xo.rename({list(xo.data_vars)[0]: pn})
+                    kwargs["xarray_obj"] = xo
+
+        return kwargs
+
     def _invoke(self, data=None, *args, _obp_initiated=False, **kwargs):
         """Call the main plugin method.
 
         Additionally, filter out unaccepted arguments if initiated via the OBP.
+        Unwrap / wrap and family-specific type conversions are handled by
+        ``_pre_call()`` and ``_post_call()``.
 
         Parameters
         ----------
@@ -176,31 +398,133 @@ class BaseClassPlugin(ABC):
         -------
             The processed data.
         """
-        # In the long run every plugin will accept a data tree
-        # (I.e. colormapper modifies metadata)
-        # if self.interface in [
-        #     "colormappers",
-        #     "sector_spec_generators",
-        #     # "sector_metadata_generators",
-        # ]:
-        if _obp_initiated:
-            provided_args = set(kwargs)
-            accepted_args = set(list(inspect.signature(self.call).parameters.keys()))
-            unaccepted_args = provided_args - accepted_args
-            for arg in unaccepted_args:
-                provided_args.remove(arg)
-
-            new_kwargs = {kwarg: kwargs[kwarg] for kwarg in provided_args}
-        else:
-            new_kwargs = kwargs
+        new_kwargs = self._obp_filter_kwargs(kwargs) if _obp_initiated else kwargs
 
         if data is None:
-            data = self.call(*args, **new_kwargs)
+            # No upstream data (e.g. reader steps, or any first step). We still
+            # run ``_post_call`` so interface-level normalization happens — most
+            # importantly the reader ``dict -> DataTree`` merge in
+            # ``BaseReaderPlugin._post_call`` and the ``_wrap`` into a
+            # ``DataTreeDitto``.  ``_pre_call`` is a no-op for ``data is None``.
+            result = self.call(*args, **new_kwargs)
+            return self._post_call(
+                result, *args, _obp_initiated=_obp_initiated, **new_kwargs
+            )
+
+        if _obp_initiated:
+            new_kwargs = self._extract_child_kwargs(data, new_kwargs)
+
+        data = self._pre_call(data, *args, _obp_initiated=_obp_initiated, **new_kwargs)
+
+        if data is None:
+            # ``_pre_call`` stripped the input (e.g. a legacy ``data_tree=False``
+            # reader handed an injected tree it cannot consume). Fall back to the
+            # no-data call path, dropping any conduit-injected kwargs that this
+            # plugin's ``call`` does not accept.
+            call_kwargs = self._call_kwargs(new_kwargs, _obp_initiated)
+            result = self.call(*args, **call_kwargs)
+            return self._post_call(
+                result, *args, _obp_initiated=_obp_initiated, **new_kwargs
+            )
+
+        # Note: ``_call_kwargs`` drops conduit-injected kwargs (e.g.
+        # ``xarray_obj``) the plugin's ``call`` does not accept. In the unpacking
+        # branch it must be computed *after* ``_kwarg_to_positional`` (which pops
+        # the promoted keys from ``new_kwargs`` in-place), so those keys are not
+        # passed both positionally and by keyword.
+        if self._use_positional_unpacking(data, _obp_initiated):
+            new_args = _kwarg_to_positional(new_kwargs, self.call)
+            call_kwargs = self._call_kwargs(new_kwargs, _obp_initiated)
+            result = self.call(*new_args, **call_kwargs)
         else:
-            data = self._pre_call(data, *args, **new_kwargs)
-            data = self.call(data, *args, **new_kwargs)
-            data = self._post_call(data, *args, **new_kwargs)
+            call_kwargs = self._call_kwargs(new_kwargs, _obp_initiated)
+            if _obp_initiated and not self._should_pass_positional_data(call_kwargs):
+                # ``call`` has no free positional slot for the injected tree — its
+                # real input arrives via a kwarg (e.g. a colormapper's
+                # ``data_range``, a reader's ``fnames``, a conduit-injected
+                # ``xarray_obj``), or the signature is keyword-only. Dropping the
+                # positional ``data`` lets an entry step's injected tree
+                # (including a top-level "empty dataset") reach such plugins
+                # harmlessly instead of raising "multiple values"/"takes 0
+                # positional arguments".
+                result = self.call(*args, **call_kwargs)
+            else:
+                # ``data`` is passed positionally; for legacy families the same
+                # data has already been converted into ``data`` by ``_pre_call``.
+                result = self.call(data, *args, **call_kwargs)
+
+        data = self._post_call(
+            result, *args, _obp_initiated=_obp_initiated, **new_kwargs
+        )
         return data
+
+    def _should_pass_positional_data(self, call_kwargs):
+        """Return True if injected ``data`` should be passed to ``call`` positionally.
+
+        ``self.call`` is a bound method, so ``inspect.signature`` already drops
+        ``self``. Data is passed positionally only when ``call`` actually has a
+        free positional slot for it:
+
+        * If ``call`` leads with a positional parameter
+          (``POSITIONAL_ONLY``/``POSITIONAL_OR_KEYWORD``), pass data there —
+          unless that same name is already supplied via ``call_kwargs`` (e.g. a
+          colormapper's ``data_range`` or a reader's ``fnames``), which would
+          raise "multiple values for argument ...".
+        * Otherwise, pass positionally only if ``call`` accepts ``*args``
+          (``VAR_POSITIONAL``) to absorb it.
+        * A keyword-only-leading signature (``def call(self, *, x=...)``) or one
+          with no parameters has no positional slot, so data is dropped rather
+          than forced in (which would raise ``TypeError``).
+        """
+        leading = None
+        has_var_positional = False
+        for name, p in inspect.signature(self.call).parameters.items():
+            if p.kind is inspect.Parameter.VAR_POSITIONAL:
+                has_var_positional = True
+            elif leading is None and p.kind in (
+                inspect.Parameter.POSITIONAL_ONLY,
+                inspect.Parameter.POSITIONAL_OR_KEYWORD,
+            ):
+                leading = name
+        if leading is not None:
+            return leading not in call_kwargs
+        return has_var_positional
+
+    @staticmethod
+    def _use_positional_unpacking(data, _obp_initiated):
+        """Return True when ``call()`` should receive unpacked positional args.
+
+        Multi-child multi_input DataTrees cannot be passed as the first
+        positional ``data`` arg (signature mismatch).  This helper detects
+        that case so ``_invoke`` can switch to positional unpacking.
+        """
+        return (
+            _obp_initiated
+            and isinstance(data, xr.DataTree)
+            and len(dict(data.children)) > 1
+            and not data.ds.attrs.get("_ditto_original_type")
+        )
+
+    def _obp_filter_kwargs(self, kwargs):
+        """Return a dict of only the kwargs accepted by ``self.call``.
+
+        If ``call`` accepts ``**kwargs`` (a ``VAR_KEYWORD`` parameter) every key
+        is retained, since such a signature accepts arbitrary keywords.
+        """
+        params = inspect.signature(self.call).parameters.values()
+        if any(p.kind is inspect.Parameter.VAR_KEYWORD for p in params):
+            return dict(kwargs)
+        accepted = {p.name for p in params}
+        return {k: v for k, v in kwargs.items() if k in accepted}
+
+    def _call_kwargs(self, kwargs, _obp_initiated):
+        """Return the kwargs to forward to ``self.call``.
+
+        Under OBP, filter to only those ``call`` accepts so conduit-injected
+        kwargs that don't match this plugin's signature are dropped. Outside
+        OBP, pass kwargs through unchanged to preserve legacy behavior.
+        """
+        return self._obp_filter_kwargs(kwargs) if _obp_initiated else kwargs
 
     def __init__(self, module=None):
         """
@@ -279,3 +603,64 @@ class BaseClassPlugin(ABC):
         _call.__signature__ = inspect.signature(call_method)  # mirror only call()
         _call.__annotations__ = getattr(call_method, "__annotations__", {})
         cls.__call__ = _call
+
+
+def _kwarg_to_positional(kwargs, call_func):
+    """Convert kwargs to positional args matching ``call_func`` signature.
+
+    For multi-child multi_input DataTrees, ``_invoke`` cannot pass the
+    DataTree as the first positional arg (signature mismatch).  This
+    helper inspects ``call_func``'s parameter names and promotes
+    matching kwargs to positional arguments.
+
+    Parameters
+    ----------
+    kwargs : dict
+        Keyword arguments (mutated in-place — matching keys are popped).
+    call_func : callable
+        The plugin's ``call`` method (used for signature inspection).
+
+    Returns
+    -------
+    tuple
+        Positional arguments for ``call_func``.
+    """
+    import inspect as _inspect_mod
+
+    sig = _inspect_mod.signature(call_func)
+    positional = []
+    consumed = set()
+    for pname, param in sig.parameters.items():
+        if pname == "self":
+            continue
+        if param.kind not in (
+            _inspect_mod.Parameter.POSITIONAL_ONLY,
+            _inspect_mod.Parameter.POSITIONAL_OR_KEYWORD,
+        ):
+            break
+        if pname in kwargs:
+            val = kwargs.pop(pname)
+            positional.append(val)
+            consumed.add(pname)
+        elif param.default is not _inspect_mod.Parameter.empty:
+            positional.append(param.default)
+        elif pname == "data":
+            for alias in ("xarray_obj",):
+                if alias in kwargs:
+                    val = kwargs.pop(alias)
+                    positional.append(val)
+                    consumed.add(alias)
+                    break
+            else:
+                raise TypeError(
+                    f"_kwarg_to_positional: required parameter {pname!r} "
+                    f"is missing from kwargs and cannot be filled automatically. "
+                    f"Available kwargs: {list(kwargs)}"
+                )
+        else:
+            raise TypeError(
+                f"_kwarg_to_positional: required parameter {pname!r} "
+                f"is missing from kwargs and cannot be filled automatically. "
+                f"Available kwargs: {list(kwargs)}"
+            )
+    return tuple(positional)

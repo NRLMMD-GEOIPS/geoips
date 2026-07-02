@@ -378,7 +378,20 @@ def compute_lon_auto_spacing(area_def):
     minlon = pyresample.utils.wrap_longitudes(area_def.area_extent_ll[0])
     maxlon = pyresample.utils.wrap_longitudes(area_def.area_extent_ll[2])
 
-    if minlon > maxlon and maxlon < 0:
+    # ``wrap_longitudes`` maps both edges into [-180, 180], which can invert or
+    # collapse the min/max ordering. Add 360 to ``maxlon`` to recover a positive
+    # longitude extent. This was added to support global sectors in the
+    # order-based procflow (e.g. the tiny global test sector), where a
+    # full-globe area_def wraps both edges to the same point.
+    if maxlon < minlon:
+        # Dateline-crossing extent: maxlon wrapped below minlon.
+        maxlon = maxlon + 360
+    elif (
+        maxlon == minlon
+        and area_def.area_extent_ll[3] - area_def.area_extent_ll[1] >= 170
+    ):
+        # Global dataset: both longitudes wrap to the same point and the
+        # latitude extent is near-global, so treat the span as a full 360.
         maxlon = maxlon + 360
     lon_extent = maxlon - minlon
 

@@ -89,6 +89,10 @@ def call(
         source_dir=source_dir,
         **kwargs,
     )
+
+    # The DataTree wrapping for the order-based procflow is handled by the
+    # filename_formatter interface's ``_post_call``; this plugin just returns
+    # the native output path string.
     return web_fname
 
 
