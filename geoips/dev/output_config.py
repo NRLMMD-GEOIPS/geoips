@@ -14,6 +14,7 @@ from geoips.interfaces import products
 from geoips.interfaces import colormappers
 from geoips.interfaces import feature_annotators
 from geoips.interfaces import gridline_annotators
+from geoips.image_utils.maps import compute_lon_extent
 
 LOG = logging.getLogger(__name__)
 
@@ -325,8 +326,6 @@ def set_lonlat_spacing(gridline_annotator, area_def):
         or gridline_annotator["grid_lon_spacing"] == "auto"
         or gridline_annotator["grid_lat_spacing"] == "auto"
     ):
-        from geoips.image_utils.maps import compute_lon_extent
-
         minlat = area_def.area_extent_ll[1]
         maxlat = area_def.area_extent_ll[3]
         lon_extent = compute_lon_extent(area_def)

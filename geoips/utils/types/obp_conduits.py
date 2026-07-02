@@ -26,6 +26,8 @@ from __future__ import annotations
 
 import xarray as xr
 
+from geoips.utils.types.datatree_ditto import DataTreeDitto
+
 
 def _extract_annotator_spec(child):
     spec = child.ds.attrs.get("spec") if child.ds is not None else None
@@ -37,8 +39,6 @@ def _extract_attr(child, attr_name):
 
 
 def _extract_ds(child):
-    from geoips.utils.types.datatree_ditto import DataTreeDitto
-
     if isinstance(child, DataTreeDitto):
         return child.ds
     if isinstance(child, xr.DataTree):

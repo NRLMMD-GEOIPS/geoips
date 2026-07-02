@@ -35,6 +35,7 @@ import logging
 import xarray as xr
 
 from geoips import interfaces
+from geoips.utils.types.datatree_ditto import DataTreeDitto
 from geoips.utils.types.obp_conduits import OBP_CONDUITS
 
 LOG = logging.getLogger(__name__)
@@ -248,8 +249,6 @@ class BaseClassPlugin(ABC):
         Any
             The unwrapped native object.
         """
-        from geoips.utils.types.datatree_ditto import DataTreeDitto
-
         if isinstance(data, DataTreeDitto):
             return data.get_original()
 
@@ -284,8 +283,6 @@ class BaseClassPlugin(ABC):
         -------
         DataTreeDitto or the original result.
         """
-        from geoips.utils.types.datatree_ditto import DataTreeDitto
-
         if result is None:
             return result
         if isinstance(result, DataTreeDitto):
@@ -625,24 +622,22 @@ def _kwarg_to_positional(kwargs, call_func):
     tuple
         Positional arguments for ``call_func``.
     """
-    import inspect as _inspect_mod
-
-    sig = _inspect_mod.signature(call_func)
+    sig = inspect.signature(call_func)
     positional = []
     consumed = set()
     for pname, param in sig.parameters.items():
         if pname == "self":
             continue
         if param.kind not in (
-            _inspect_mod.Parameter.POSITIONAL_ONLY,
-            _inspect_mod.Parameter.POSITIONAL_OR_KEYWORD,
+            inspect.Parameter.POSITIONAL_ONLY,
+            inspect.Parameter.POSITIONAL_OR_KEYWORD,
         ):
             break
         if pname in kwargs:
             val = kwargs.pop(pname)
             positional.append(val)
             consumed.add(pname)
-        elif param.default is not _inspect_mod.Parameter.empty:
+        elif param.default is not inspect.Parameter.empty:
             positional.append(param.default)
         elif pname == "data":
             for alias in ("xarray_obj",):

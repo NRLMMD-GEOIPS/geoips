@@ -3,9 +3,11 @@
 
 """Sector interface module."""
 
+from importlib.resources import files
+
 from cartopy import feature as cfeature
 import numpy as np
-from pyresample import kd_tree
+from pyresample import kd_tree, load_area
 import xarray as xr
 
 from geoips.filenames.base_paths import PATHS as gpaths
@@ -106,9 +108,6 @@ class SectorPluginBase(BaseYamlPlugin):
     def area_definition(self):
         """Return the pyresample AreaDefinition for the sector."""
         # if self.family.startswith(("area_definition", "generated")):
-        from pyresample import load_area
-        from importlib.resources import files
-
         if self.family.startswith("area_definition"):
             abspath = str(files(self.package) / self.relpath)
             ad = load_area(abspath, "spec")

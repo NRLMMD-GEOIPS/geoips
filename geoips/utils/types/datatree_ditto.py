@@ -6,6 +6,7 @@ and recovered to their original type on the way out, using the shared
 ``converter_registry``.
 """
 
+import warnings
 from functools import wraps
 from typing import Any
 
@@ -17,6 +18,9 @@ from collections.abc import (
     Callable,
     Mapping,
 )
+
+from geoips.utils.types.converter_registry import converter_registry
+from geoips.utils.types.converters import dataset_to_numpy, numpy_to_dataset
 
 
 class DataTreeDitto(DataTree):
@@ -184,8 +188,6 @@ class DataTreeDitto(DataTree):
             "from_dataset": from_dataset_func,
         }
         # Also register on the shared registry
-        from geoips.utils.types.converter_registry import converter_registry
-
         converter_registry.register_bidirectional(
             obj_type, xr.Dataset, to_dataset_func, from_dataset_func
         )
@@ -217,8 +219,6 @@ class DataTreeDitto(DataTree):
         -------
         xarray.Dataset
         """
-        from geoips.utils.types.converters import numpy_to_dataset
-
         return numpy_to_dataset(obj, name=name, dims=dims, **kwargs)
 
     @staticmethod
@@ -239,8 +239,6 @@ class DataTreeDitto(DataTree):
         -------
         numpy.ndarray
         """
-        from geoips.utils.types.converters import dataset_to_numpy
-
         return dataset_to_numpy(dataset, **kwargs)
 
     def _convert_to_dataset(self, obj: Any, **kwargs) -> xr.Dataset:
@@ -267,8 +265,6 @@ class DataTreeDitto(DataTree):
         TypeError
             If no converter is registered for the object's type.
         """
-        from geoips.utils.types.converter_registry import converter_registry
-
         return converter_registry.convert(obj, xr.Dataset, **kwargs)
 
     def _convert_from_dataset(self, dataset: xr.Dataset) -> Any:
@@ -301,8 +297,6 @@ class DataTreeDitto(DataTree):
         # delegate the reverse (Dataset -> original) conversion to it, so the
         # converter dispatch has a single source of truth.  ``_converters`` is
         # retained only as a backward-compatible registration mirror.
-        from geoips.utils.types.converter_registry import converter_registry
-
         for target_type in converter_registry.registered_types.get(xr.Dataset, ()):
             if f"{target_type.__module__}.{target_type.__name__}" == original_type:
                 return converter_registry.convert(dataset, target_type)
@@ -460,8 +454,7 @@ class DataTreeDitto(DataTree):
         if ds is None:
             return False
         return (
-            ds.attrs.get("_ditto_original_type")
-            == f"{dict.__module__}.{dict.__name__}"
+            ds.attrs.get("_ditto_original_type") == f"{dict.__module__}.{dict.__name__}"
         )
 
     def _as_original_dict(self):
@@ -597,8 +590,6 @@ class DataTreeDitto(DataTree):
         .. deprecated::
             Use :meth:`DataTreeDitto.from_datatree` instead.
         """
-        import warnings
-
         warnings.warn(
             "DataTreeDitto._convert_datatree_to_ditto is deprecated; "
             "use DataTreeDitto.from_datatree instead.",

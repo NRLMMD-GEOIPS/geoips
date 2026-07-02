@@ -21,6 +21,7 @@ from copy import deepcopy
 import datetime as dt
 from glob import glob
 import logging
+import re
 from typing import Any, Dict, List, Literal, Optional, Union
 
 # Third-Party Libraries
@@ -37,6 +38,11 @@ from pydantic import (
 # GeoIPS imports
 from geoips import interfaces
 from geoips.constants import PLUGIN_PROVIDED
+from geoips.errors import (
+    DanglingOutputError,
+    DependencyCycleError,
+    PluginResolutionError,
+)
 from geoips.pydantic_models.v1.bases import (
     PluginModel,
     FrozenModel,
@@ -849,8 +855,6 @@ class WorkflowSpecModel(FrozenModel):
                 # For products, join the name tuple with "_" and replace any
                 # remaining non-identifier characters so the result is always
                 # a valid PythonIdentifier (required by depends_on validation).
-                import re
-
                 step_id = (
                     re.sub(r"[^a-zA-Z0-9_]", "_", "_".join(step.get("name")))
                     if step.get("kind") == "product"
@@ -928,8 +932,6 @@ class WorkflowSpecModel(FrozenModel):
         cur : str
             The referencing step id (for error messages).
         """
-        from geoips.errors import PluginResolutionError
-
         seg = segments[0]
         if seg not in spec.steps:
             raise PluginResolutionError(
@@ -968,9 +970,7 @@ class WorkflowSpecModel(FrozenModel):
                     f"{sorted(explicit_scopes)}"
                 )
 
-        WorkflowSpecModel._validate_reference_in_spec(
-            step.spec, remaining, dep, cur
-        )
+        WorkflowSpecModel._validate_reference_in_spec(step.spec, remaining, dep, cur)
 
     @model_validator(mode="after")
     def _validate_dependencies(self):
@@ -993,11 +993,6 @@ class WorkflowSpecModel(FrozenModel):
         DependencyCycleError
             If the ``depends_on`` graph contains a directed cycle.
         """
-        from geoips.errors import (
-            DanglingOutputError,
-            DependencyCycleError,
-        )
-
         step_ids = list(self.steps.keys())
 
         if not step_ids:
