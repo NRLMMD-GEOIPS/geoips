@@ -861,6 +861,12 @@ class GeoipsWorkflowCommand(GeoipsExecutableCommand):
                 self.parser.error(f"Could not parse workflow file '{value}': {e}")
         # registered named workflow
         elif isinstance(value, str):
+            # Whether to rebuild the plugin registry before resolving the named
+            # workflow is gated on the ``GEOIPS_REBUILD_REGISTRIES`` config so a
+            # stale registry is refreshed automatically only when the user has
+            # opted in (never silently against their configuration).
+            # ``non_existent`` names are used by tests to assert failure without
+            # triggering a rebuild, so the rebuild is force-disabled for them.
             rbr = (
                 False if "non_existent" in value else PATHS["GEOIPS_REBUILD_REGISTRIES"]
             )

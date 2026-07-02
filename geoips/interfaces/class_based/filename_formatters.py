@@ -7,6 +7,7 @@ import xarray as xr
 
 from geoips.interfaces.class_based_plugin import BaseClassPlugin
 from geoips.interfaces.base import BaseClassInterface
+from geoips.utils.types.datatree_ditto import DataTreeDitto
 
 
 class BaseFilenameFormatterPlugin(BaseClassPlugin, abstract=True):
@@ -54,6 +55,15 @@ class BaseFilenameFormatterPlugin(BaseClassPlugin, abstract=True):
         invoked by OBP, this hook wraps that path into a ``DataTreeDitto`` so it can be
         attached to the workflow ``DataTree`` with metadata needed by downstream steps.
 
+        Why a data variable and not just ``attrs``? The output path *is* this
+        step's produced data, so it is stored as an ``output_path`` data
+        variable (a ``DataArray``). Plugin kinds whose product is purely
+        descriptive (e.g. a sector's area definition, a colormapper's color
+        info) carry that information in ``attrs`` instead, because it describes
+        the node rather than being the node's data. The path is additionally
+        mirrored into ``attrs['output_fnames']`` for the conduit that feeds it
+        to downstream steps.
+
         Parameters
         ----------
         data : str | None
@@ -69,9 +79,6 @@ class BaseFilenameFormatterPlugin(BaseClassPlugin, abstract=True):
             ``DataTree``.
         """
         if _obp_initiated and isinstance(data, str):
-            import xarray as xr
-            from geoips.utils.types.datatree_ditto import DataTreeDitto
-
             ds = xr.Dataset(
                 {"output_path": (["path"], [data])},
                 attrs={

@@ -6,7 +6,6 @@
 # Python Standard Libraries
 import logging
 
-import xarray as xr
 from os.path import join as pathjoin
 
 from geoips.filenames.base_paths import PATHS as gpaths
@@ -91,17 +90,9 @@ def call(
         **kwargs,
     )
 
-    # from geoips.utils.types.datatree_ditto import DataTreeDitto
-
-    # ds = xr.Dataset(
-    #     {"output_path": (["path"], [web_fname])},
-    #     attrs={
-    #         "output_fnames": [web_fname],
-    #         "plugin_kind": "filename_formatter",
-    #         "output_key": "output_fnames",
-    #     },
-    # )
-    # dt = DataTreeDitto(ds, name="filename_output")
+    # The DataTree wrapping for the order-based procflow is handled by the
+    # filename_formatter interface's ``_post_call``; this plugin just returns
+    # the native output path string.
     return web_fname
 
 

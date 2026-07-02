@@ -5,8 +5,6 @@
 
 import logging
 
-import xarray as xr
-
 LOG = logging.getLogger(__name__)
 
 interface = "colormappers"

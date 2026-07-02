@@ -442,25 +442,201 @@ class TestSubWorkflowDependsOnRuntime:
         assert order.index("subwf") < order.index("consumer")
 
 
+def _child(name, values=(1, 2, 3)):
+    """Build a named DataTree child node carrying a small dataset."""
+    return xr.DataTree(xr.Dataset({"data": (["x"], list(values))}), name=name)
+
+
+class TestInputRefValidation:
+    """The ``_input`` magic token validates as a virtual source."""
+
+    def test_input_ref_validates_without_resolution_error(self):
+        """Bare _input validates without a reference-resolution error."""
+        # Should not raise: "_input" is not resolved as a real step.
+        _make_spec(
+            {
+                "read": {"kind": "reader", "name": "x", "depends_on": []},
+                "algo": {
+                    "kind": "algorithm",
+                    "name": "single_channel",
+                    "depends_on": ["_input"],
+                },
+            }
+        )
+
+    def test_input_ref_mixed_with_real_dep_validates(self):
+        """Combining _input with a real dependency validates."""
+        _make_spec(
+            {
+                "read": {"kind": "reader", "name": "x", "depends_on": []},
+                "algo": {
+                    "kind": "algorithm",
+                    "name": "single_channel",
+                    "depends_on": ["_input", "read"],
+                },
+            }
+        )
+
+    def test_input_ref_does_not_create_false_cycle(self):
+        """A repeated _input token is not treated as a dependency cycle."""
+        # A self-referential-looking "_input" must not be treated as a cycle.
+        spec = _make_spec(
+            {
+                "a": {
+                    "kind": "algorithm",
+                    "name": "single_channel",
+                    "depends_on": ["_input"],
+                },
+                "b": {
+                    "kind": "algorithm",
+                    "name": "single_channel",
+                    "depends_on": ["_input", "a"],
+                },
+            }
+        )
+        wf = Workflow(spec, workflow_name="t")
+        assert wf._order == ["a", "b"]
+
+
 class TestCollectUpstreamNested:
-    def test_empty_depends_with_children_returns_tree(self):
-        parent = xr.DataTree(name="multi_input")
-        parent["reader_out"] = xr.DataTree(
-            xr.Dataset({"data": (["x"], [1, 2, 3])}), name="reader_out"
-        )
+    """``_collect_upstream_data`` merges real deps and injected data."""
 
-        wf = Workflow(
+    def _wf(self):
+        """Build a one-reader-step Workflow for helper calls."""
+        return Workflow(
             _make_spec({"r": {"kind": "reader", "name": "x", "arguments": {}}}),
             workflow_name="test",
         )
-        result = wf._collect_upstream_data(parent, [])
-        assert result is parent
 
-    def test_empty_depends_no_children_returns_empty(self):
+    def test_entry_step_receives_injected_children(self):
+        """An entry step merges the injected children into its input tree."""
+        wf = self._wf()
+        injected = {"reader_out": _child("reader_out")}
+        result = wf._collect_upstream_data(
+            xr.DataTree(name="fresh"), [], injected, is_entry=True
+        )
+        assert result.name == "multi_input"
+        assert "reader_out" in dict(result.children)
+
+    def test_non_entry_empty_depends_returns_empty_tree(self):
+        """A non-entry step with no deps gets an empty multi_input tree."""
+        wf = self._wf()
+        injected = {"reader_out": _child("reader_out")}
+        result = wf._collect_upstream_data(
+            xr.DataTree(name="fresh"), [], injected, is_entry=False
+        )
+        assert result.name == "multi_input"
+        assert dict(result.children) == {}
+
+    def test_top_level_entry_step_gets_empty_dataset(self):
+        """A top-level entry step (no injected data) gets an empty tree."""
+        wf = self._wf()
+        result = wf._collect_upstream_data(
+            xr.DataTree(name="fresh"), [], {}, is_entry=True
+        )
+        assert result.name == "multi_input"
+        assert dict(result.children) == {}
+
+    def test_input_ref_skipped_in_dependency_resolution(self):
+        """The _input token is skipped while real deps still resolve."""
+        wf = self._wf()
+        tree = xr.DataTree(name="root")
+        tree["dep"] = _child("dep")
+        injected = {"reader_out": _child("reader_out")}
+        result = wf._collect_upstream_data(
+            tree, ["_input", "dep"], injected, is_entry=True
+        )
+        # real dependency "dep" and injected "reader_out" both present;
+        # "_input" itself is not resolved as a node.
+        assert set(dict(result.children)) == {"dep", "reader_out"}
+
+    def test_real_dep_not_clobbered_by_injected_same_key(self):
+        """A real dep wins over an injected child of the same key."""
+        wf = self._wf()
+        tree = xr.DataTree(name="root")
+        tree["reader_out"] = _child("reader_out", values=(9, 9, 9))
+        injected = {"reader_out": _child("reader_out", values=(1, 1, 1))}
+        result = wf._collect_upstream_data(
+            tree, ["reader_out"], injected, is_entry=True
+        )
+        assert list(result["reader_out"].ds["data"].values) == [9, 9, 9]
+
+
+class TestEntrySteps:
+    """Resolution of which steps receive externally-injected data."""
+
+    def test_defaults_to_first_step_when_no_input_declared(self):
+        """With no "_input", the first step is the implicit entry step."""
         wf = Workflow(
-            _make_spec({"r": {"kind": "reader", "name": "x", "arguments": {}}}),
+            _make_spec(
+                {
+                    "read": {"kind": "reader", "name": "x", "depends_on": []},
+                    "algo": {
+                        "kind": "algorithm",
+                        "name": "single_channel",
+                        "depends_on": ["read"],
+                    },
+                }
+            ),
             workflow_name="test",
         )
-        empty_root = wf._collect_upstream_data(xr.DataTree(name="fresh"), [])
-        assert dict(empty_root.children) == {}
-        assert empty_root.name == "empty"
+        assert wf._entry_steps == {"read"}
+
+    def test_explicit_input_overrides_first_step_fallback(self):
+        """An explicit "_input" step overrides the first-step fallback."""
+        wf = Workflow(
+            _make_spec(
+                {
+                    "read": {"kind": "reader", "name": "x", "depends_on": []},
+                    "algo": {
+                        "kind": "algorithm",
+                        "name": "single_channel",
+                        "depends_on": ["_input"],
+                    },
+                }
+            ),
+            workflow_name="test",
+        )
+        assert wf._entry_steps == {"algo"}
+
+    def test_multiple_input_steps_fan_out(self):
+        """Multiple "_input" steps all become entry steps (fan-out)."""
+        wf = Workflow(
+            _make_spec(
+                {
+                    "a": {
+                        "kind": "algorithm",
+                        "name": "single_channel",
+                        "depends_on": ["_input"],
+                    },
+                    "b": {
+                        "kind": "algorithm",
+                        "name": "single_channel",
+                        "depends_on": ["_input"],
+                    },
+                }
+            ),
+            workflow_name="test",
+        )
+        assert wf._entry_steps == {"a", "b"}
+
+    def test_input_ref_does_not_break_topological_order(self):
+        """The _input token does not stall topological ordering."""
+        wf = Workflow(
+            _make_spec(
+                {
+                    "a": {
+                        "kind": "algorithm",
+                        "name": "single_channel",
+                        "depends_on": ["_input"],
+                    },
+                    "b": {
+                        "kind": "algorithm",
+                        "name": "single_channel",
+                        "depends_on": ["a"],
+                    },
+                }
+            ),
+            workflow_name="test",
+        )
+        assert wf._order == ["a", "b"]

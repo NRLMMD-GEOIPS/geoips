@@ -391,22 +391,35 @@ class DataTreeDitto(DataTree):
     def __getitem__(self, key: str) -> "DataTreeDitto":
         """Override getitem to return DataTreeDitto instances.
 
-        xarray's ``__getitem__`` returns ``DataArray`` when a child node has a
-        single data variable. We intercept that and walk to the actual child
-        node instead, ensuring a ``DataTreeDitto`` is always returned.
+        A *dict-origin* node (``_ditto_original_type == builtins.dict``) wraps a
+        plain ``dict`` and behaves like that dict: ``obj[key]`` returns the
+        wrapped dict's value (raising ``KeyError`` for a missing key), bypassing
+        the tree machinery entirely. This is relied on by the single-source
+        procflow, where objects such as ``mpl_colors_info`` are dict-origin
+        dittos accessed with ``obj["cmap"]``.
+
+        For all other nodes, standard ``DataTree`` node lookup applies. xarray's
+        ``__getitem__`` returns ``DataArray`` when a child node has a single data
+        variable; we intercept that and walk to the actual child node instead,
+        ensuring a ``DataTreeDitto`` is always returned.
 
         Parameters
         ----------
         key : str
-            Name of the child node to retrieve.
+            Name of the child node to retrieve, or (for dict-origin nodes) a
+            key of the wrapped dict.
 
         Returns
         -------
-        DataTreeDitto
-            The child node, guaranteed to be a DataTreeDitto.
+        DataTreeDitto or Any
+            The child node (guaranteed to be a DataTreeDitto) for node lookups,
+            or the wrapped dict's value for dict-origin key access.
 
         Raises
         ------
+        KeyError
+            If *key* is not a child node, or (for dict-origin nodes) not a key
+            of the wrapped dict.
         TypeError
             If ``__getitem__`` returns an unexpected type.
 
@@ -418,6 +431,9 @@ class DataTreeDitto(DataTree):
         >>> isinstance(child, DataTreeDitto)
         True
         """
+        original = self._as_original_dict()
+        if original is not None:
+            return original[key]
         result = super().__getitem__(key)
         if isinstance(result, DataTreeDitto):
             return result
@@ -437,6 +453,80 @@ class DataTreeDitto(DataTree):
         raise TypeError(
             f"__getitem__ returned unexpected type: {type(result).__name__}"
         )
+
+    def _is_dict_origin(self) -> bool:
+        """Return ``True`` if this node wraps a plain ``dict`` (dict-origin)."""
+        ds = self.ds
+        if ds is None:
+            return False
+        return (
+            ds.attrs.get("_ditto_original_type")
+            == f"{dict.__module__}.{dict.__name__}"
+        )
+
+    def _as_original_dict(self):
+        """Return the wrapped ``dict`` for a dict-origin node, else ``None``.
+
+        Returns ``None`` for every non-dict-origin node so that all mapping
+        overrides below fall through to the standard ``DataTree`` behavior and
+        never interfere with xarray's internal tree traversal.
+        """
+        if not self._is_dict_origin():
+            return None
+        original = self.get_original()
+        return original if isinstance(original, dict) else None
+
+    def __contains__(self, key) -> bool:
+        """Support ``key in ditto``.
+
+        Dict-origin nodes report membership of the wrapped dict; all other
+        nodes use standard ``DataTree`` membership.
+        """
+        original = self._as_original_dict()
+        if original is not None:
+            return key in original
+        return super().__contains__(key)
+
+    def get(self, key, default=None):
+        """Mapping-style ``get``.
+
+        Dict-origin nodes return the wrapped dict's value (or *default*); all
+        other nodes delegate to ``DataTree.get``. This deliberately does *not*
+        route through :meth:`__getitem__` so it stays safe for xarray's internal
+        tree traversal (which calls ``node.get(part)``).
+        """
+        original = self._as_original_dict()
+        if original is not None:
+            return original.get(key, default)
+        return super().get(key, default)
+
+    def __iter__(self):
+        """Iterate wrapped-dict keys for dict-origin nodes, else child nodes."""
+        original = self._as_original_dict()
+        if original is not None:
+            return iter(original)
+        return super().__iter__()
+
+    def keys(self):
+        """Return wrapped-dict keys for dict-origin nodes, else child names."""
+        original = self._as_original_dict()
+        if original is not None:
+            return original.keys()
+        return super().keys()
+
+    def values(self):
+        """Return wrapped-dict values for dict-origin nodes, else children."""
+        original = self._as_original_dict()
+        if original is not None:
+            return original.values()
+        return super().values()
+
+    def items(self):
+        """Return wrapped-dict items for dict-origin nodes, else child items."""
+        original = self._as_original_dict()
+        if original is not None:
+            return original.items()
+        return super().items()
 
     @_enforce_ditto_output
     def map_over_datasets(

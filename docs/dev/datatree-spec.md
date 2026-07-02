@@ -356,7 +356,7 @@ Each step is a dict entry in `spec.steps`. The **dict key** is the step id (must
 | `kind` | MUST | plugin kind | `reader`, `algorithm`, `interpolator`, `colormapper`, `output_formatter`, `sectorizer`, `coverage_checker`, `filename_formatter`, `split`, `join`, `workflow` |
 | `name` | MUST | plugin ref | Resolved via the GeoIPS Plugin Registry by `kind` and `name` |
 | `arguments` | SHOULD | mapping | Validated against the plugin's Pydantic argument model |
-| `depends_on` | SHOULD | list[str] | Other step ids. **If omitted, defaults to the immediately preceding step in dict iteration order.** |
+| `depends_on` | SHOULD | list[str] | Other step ids, or the magic token `_input` (the workflow's data-injection entry point — see §8.1.1). **If omitted, defaults to the immediately preceding step in dict iteration order.** |
 | `keep` | MAY | bool | If `true`, this step's data survives GC regardless of `retention`. **Default: `false` for all step kinds.** |
 | `scope` | MAY | str | For steps following a `split`: which branch to operate on (§4.5). |
 | `when` | MAY | expression | Skip step if expression is false. Expressions must be pandas-style filter expressions, not arbitrary Python code (e.g., `when: "{{ config.has_zenith }}"`). |
@@ -787,6 +787,8 @@ The input `tree` to a step is itself a `DataTree`. The number of dependencies de
 
 **Zero `depends_on` (typically a `kind: reader`):** `tree` is passed from the runner; the reader produces all data from its `arguments` (file paths) and returns its output `DataTree`.
 
+**`_input` (entry step):** `tree` is the data injected into this workflow from the outside — the parent's collected upstream tree for a sub-workflow / split branch, or an empty `DataTree` at top level. See §8.1.1. When combined with real dependencies, those parent outputs are merged into the same `tree` alongside the injected children.
+
 **One `depends_on`:** `tree` is the parent step's `DataTree` directly. So if `single_channel` depends on `sector`, then inside `single_channel`, `tree` is the sector's DataTree.
 
 **Multiple `depends_on`:** `tree` is a single `DataTree` whose children are the parent step nodes, indexed by step `id`. So if `colocate` depends on `read_abi` and `read_atms`, then inside `colocate`:
@@ -914,6 +916,35 @@ steps:
 ```
 
 If omitted, `depends_on` defaults to the immediately preceding step in the YAML dict (Python 3.7+ insertion order). The first step's default is an empty list (no dependencies).
+
+#### 8.1.1 The `_input` magic dependency
+
+`depends_on` may include the magic token `_input`, which marks a step as the workflow's **data-injection entry point**:
+
+- In a **sub-workflow** (a `kind: workflow` step) or a **split branch**, the `_input` step receives the data injected by the parent (the parent's collected `upstream` tree, including any seeded `sector`/`area_def` node for branches).
+- In a **top-level workflow** (run without a parent), the `_input` step receives an **empty `DataTree`** (the "empty dataset").
+
+Rules:
+
+- **Fallback:** if no step declares `_input`, the injected/empty data goes to the **first step** (insertion order) — the historical behavior, preserved for backward compatibility.
+- **Fan-out:** any number of steps may declare `_input`; each receives the same injected data.
+- **Mixing:** `_input` may be combined with real references, e.g. `depends_on: [_input, sector]`; the step's input tree merges the injected data with the named upstream outputs (a real dependency of the same key wins).
+- `_input` is a **virtual source**: it is exempt from dependency-reference validation, cycle detection, and topological ordering.
+
+```yaml
+spec:
+  steps:
+    prep:
+      kind: algorithm
+      name: prepare
+      depends_on: []          # runs first, but is NOT the entry step
+    consume:
+      kind: algorithm
+      name: single_channel
+      depends_on: [_input]    # receives the parent's injected data
+```
+
+> **Readers and `_input`:** an entry `reader` step is always handed `fnames` and, additionally, the injected tree as `data`. A legacy (`data_tree=False`) reader strips that tree in its `_pre_call` and reads only from `fnames`; a DataTree-aware (`data_tree=True`) reader consumes it.
 
 ### 8.2 Topological Execution
 

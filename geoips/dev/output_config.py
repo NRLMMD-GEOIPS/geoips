@@ -357,11 +357,15 @@ def set_lonlat_spacing(gridline_annotator, area_def):
             lat_spacing = lat_extent / 5.0
 
         LOG.info("lon_extent: %s, lon_spacing: %s", lon_extent, lon_spacing)
+        # Legacy flat keys, retained for the classic procflows.
         gridline_annotator["grid_lat_spacing"] = lat_spacing
         gridline_annotator["grid_lon_spacing"] = lon_spacing
-        # Update YAML-format spacing dict wherever it lives:
-        #   - inner spec dict: {"spacing": ...} at top level
-        #   - full plugin dict: {"spec": {"spacing": ...}} nested
+        # Order-based procflow gridline_annotator YAML plugins expose spacing as
+        # a nested ``spacing: {latitude, longitude}`` dict instead of the flat
+        # ``grid_*_spacing`` keys above. Keep that dict in sync so both the
+        # legacy and OBP code paths see the auto-computed spacing. The dict may
+        # live either at the top level (an inner spec dict, ``{"spacing": ...}``)
+        # or nested under ``spec`` (a full plugin dict, ``{"spec": {...}}``).
         spacing_source = gridline_annotator.get("spec", gridline_annotator)
         spacing = spacing_source.get("spacing") if "spacing" in spacing_source else {}
         if isinstance(spacing, dict):

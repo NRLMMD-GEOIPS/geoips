@@ -22,6 +22,20 @@ class BaseReaderPlugin(BaseClassPlugin, abstract=True):
 
     data_tree = False
 
+    def _pre_call(self, data=None, *args, _obp_initiated=False, **kwargs):
+        """Strip injected upstream data for legacy (``data_tree=False``) readers.
+
+        Under OBP the workflow engine routes the entry step's input tree to the
+        reader as ``data``. A legacy reader reads solely from ``fnames`` and its
+        ``call`` does not accept a ``data`` argument, so the injected tree is
+        dropped here (return ``None``); ``_invoke`` then calls the reader with
+        ``fnames`` only. A ``data_tree=True`` reader is DataTree-aware and keeps
+        the tree via the standard pass-through in ``super()._pre_call``.
+        """
+        if _obp_initiated and not self.data_tree:
+            return None
+        return super()._pre_call(data, *args, _obp_initiated=_obp_initiated, **kwargs)
+
     def _post_call(self, data=None, *args, _obp_initiated=False, **kwargs):
         """Merge reader dict output into a ``DataTree`` for OBP.
 

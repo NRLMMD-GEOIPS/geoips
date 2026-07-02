@@ -11,6 +11,10 @@ plugin-lifecycle hooks and by ``DataTreeDitto`` conversions) and the
 ``DataTreeDitto._converters`` backward-compatibility mirror.  Using one
 call per type means the two surfaces cannot drift out of sync.
 
+This module contains *only wiring* — every converter function lives in the
+single canonical module :mod:`geoips.utils.types.converters`. This module
+imports those functions and registers them.
+
 Registration is idempotent — calling this module twice (e.g. via
 reload) will not produce duplicate entries.
 """
@@ -23,9 +27,13 @@ import numpy as np
 import xarray as xr
 
 from geoips.utils.types.converters import (
+    dataarray_to_dataset,
+    dataset_to_dataarray,
+    dataset_to_dict,
     dataset_to_list,
     dataset_to_masked_array,
     dataset_to_numpy,
+    dict_to_dataset,
     list_to_dataset,
     masked_array_to_dataset,
     numpy_to_dataset,
@@ -33,85 +41,6 @@ from geoips.utils.types.converters import (
 from geoips.utils.types.datatree_ditto import DataTreeDitto
 
 LOG = logging.getLogger(__name__)
-
-# ============================================================================
-# dict ↔ Dataset  (kept local — these are the specialised dict converters
-#                  that preserve insertion order via _ditto_keys)
-# ============================================================================
-
-
-def _dict_to_dataset(d: dict, **kwargs) -> xr.Dataset:
-    """Convert a ``dict`` to an ``xr.Dataset`` for storage in DataTreeDitto.
-
-    Numpy-array values become data variables (each with synthetic dim
-    names of the form ``<key>_dim_<i>``); scalar values (``int``,
-    ``float``, ``str``, ``bool``, ``None``) become ``attrs`` under a
-    ``_ditto_attr_<key>`` namespace; any other value is stringified.
-    Original insertion order is preserved in ``_ditto_keys``.
-    """
-    ds = xr.Dataset()
-    ds.attrs["_ditto_original_type"] = f"{dict.__module__}.{dict.__name__}"
-    ds.attrs["_ditto_keys"] = list(d.keys())
-    for key, value in d.items():
-        if isinstance(value, np.ndarray):
-            dims = [f"{key}_dim_{i}" for i in range(value.ndim)]
-            ds[key] = xr.DataArray(value, dims=dims)
-        elif isinstance(value, (int, float, str, bool)) or value is None:
-            ds.attrs[f"_ditto_attr_{key}"] = value
-        else:
-            raise TypeError(
-                f"Cannot store value of type {type(value).__name__!r} "
-                f"for key {key!r} in dict-to-Dataset conversion. "
-                f"Only numpy arrays, scalars (int, float, str, bool, None) "
-                f"are supported."
-            )
-    return ds
-
-
-def _dataset_to_dict(ds: xr.Dataset, **kwargs) -> dict:
-    """Convert a dict-origin ``xr.Dataset`` back to a plain ``dict``.
-
-    Walks ``_ditto_keys`` to preserve original insertion order.
-    """
-    keys = ds.attrs.get("_ditto_keys", [])
-    out: dict = {}
-    for k in keys:
-        if k in ds.data_vars:
-            out[k] = ds[k].values
-        elif f"_ditto_attr_{k}" in ds.attrs:
-            out[k] = ds.attrs[f"_ditto_attr_{k}"]
-    return out
-
-
-# ============================================================================
-# DataArray ↔ Dataset
-# ============================================================================
-
-
-def _da_to_ds(da: xr.DataArray, **kwargs) -> xr.Dataset:
-    """Convert a ``DataArray`` to a ``Dataset`` for DataTreeDitto storage."""
-    name = da.name or "data"
-    ds = da.to_dataset(name=name)
-    ds.attrs["_ditto_original_type"] = (
-        f"{xr.DataArray.__module__}.{xr.DataArray.__name__}"
-    )
-    ds.attrs["_ditto_da_name"] = name
-    return ds
-
-
-def _ds_to_da(ds: xr.Dataset, **kwargs) -> xr.DataArray:
-    """Convert a DataArray-origin Dataset back to ``xr.DataArray``."""
-    name = ds.attrs.get("_ditto_da_name")
-    if name is None:
-        if len(ds.data_vars) != 1:
-            raise ValueError(
-                "Cannot convert Dataset to DataArray: "
-                "'_ditto_da_name' attr is missing and the Dataset has "
-                f"{len(ds.data_vars)} data_vars (need exactly 1)."
-            )
-        name = next(iter(ds.data_vars))
-    return ds[name]
-
 
 # ============================================================================
 # Register all converters via the single ``register_converter`` call site.
@@ -127,8 +56,10 @@ DataTreeDitto.register_converter(
     masked_array_to_dataset,
     dataset_to_masked_array,
 )
-DataTreeDitto.register_converter(dict, _dict_to_dataset, _dataset_to_dict)
-DataTreeDitto.register_converter(xr.DataArray, _da_to_ds, _ds_to_da)
+DataTreeDitto.register_converter(dict, dict_to_dataset, dataset_to_dict)
+DataTreeDitto.register_converter(
+    xr.DataArray, dataarray_to_dataset, dataset_to_dataarray
+)
 DataTreeDitto.register_converter(list, list_to_dataset, dataset_to_list)
 
 # Note: xr.Dataset is intentionally NOT registered. DataTreeDitto.__init__
