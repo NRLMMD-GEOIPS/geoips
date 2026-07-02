@@ -9,10 +9,9 @@ enhancement:
       outputs:
         <step_id>: &output-step-definition
           # name: <output_checker_name>                 # optional, derived from compare path if not provided
-          # policy: "on_failue" | "always"              # optional
-          # depends_on: [<step_idX>, <step_idY>, ...]   # optional
-          output_checker_arguments:
-            compare_path: /path/to/comparison/file.ext  # required
+          # full_test_policy: "on_token_mismatch" | "always" | "never"         # optional
+          # compare_path: /path/to/comparison/file.ext  # optional, but usually should exist
+          # threshold: float [0,1] # Only works for image output checker
         <step_idX>:
           spec:
             steps:
@@ -36,53 +35,6 @@ enhancement:
     the definition of the output checker override.
 
     Take the following workflow.
-
-    ```yaml
-    apiVersion: geoips/v1
-    interface: workflows
-    family: order_based
-    name: test_product
-    docstring: |
-      11.2 µm Infrared.
-
-      This product utilizes channel 14 (11.2 µm) and highlights areas of deep convection within a Tropical Cyclone.
-    description: 11.2 µm Infrared.
-    test:
-      fnames: !ENV ${GEOIPS_TESTDATA_DIR}/test_data_abi/data/goes16_20200918_1950/*
-      outputs:
-        abi:Infrared:
-          policy: on_failure # always
-          output_checker_arguments:
-            compare_path: !ENV ${GEOIPS_PACKAGES_DIR}/geoips/tests/outputs/abi.static.Infrared.imagery_clean/20200918.195020.goes-16.abi.Infrared.test_goes16_eqc_3km_day_20200918T1950Z.100p00.noaa.3p0.png
-      steps:
-        reader:
-          area_def: null
-        abi:Infrared:
-          spec:
-            steps:
-              algorithm:
-                output_units: Kelvin
-      kinds:
-        readers:
-          satellite_zenith_angle_cutoff: 80
-      globals:
-        sector_list: global_cylindrical
-        logging_level: info
-    spec:
-      steps:
-        reader:
-          kind: reader
-          name: abi_netcdf
-          arguments:
-            chans: ['B14BT']
-        abi:Infrared:
-          kind: product
-          name: [abi, Infrared]
-          arguments: {}
-    ```
-
-    When we run ``geoips test workflow test_product``, the resulting runtime workflow
-    would take on the following format:
 
     ```yaml
     apiVersion: geoips/v1
@@ -157,21 +109,21 @@ enhancement:
     ```
   files:
     modified:
+      - docs/dev/class_based_plugins.rst
       - docs/dev/order_based_procflow.rst
       - docs/dev/running_order_based_procflow.rst
+      - docs/source/releases/latest/geoips-obp-output-checker-overrides.yaml
       - geoips/commandline/geoips_command.py
       - geoips/commandline/geoips_run.py
       - geoips/commandline/geoips_test.py
       - geoips/dev/output_config.py
       - geoips/image_utils/maps.py
+      - geoips/interfaces/class_based/coverage_checkers.py
       - geoips/interfaces/class_based/procflows.py
-      - geoips/interfaces/class_based/readers.py
       - geoips/interfaces/class_based/workflow.py
       - geoips/interfaces/class_based_plugin.py
       - geoips/interfaces/yaml_based/sectors.py
       - geoips/interfaces/yaml_based/workflows.py
-      - geoips/plugins/modules/colormappers/matplotlib_linear_norm.py
-      - geoips/plugins/modules/colormappers/visir/Infrared.py
       - geoips/plugins/modules/procflows/order_based.py
       - geoips/plugins/yaml/workflows/unit_tests/full_run.yaml
       - geoips/plugins/yaml/workflows/unit_tests/test_product.yaml
@@ -180,13 +132,12 @@ enhancement:
       - geoips/pydantic_models/v1/workflows.py
       - geoips/utils/types/converter_registry.py
       - geoips/utils/types/converters.py
-      - geoips/utils/types/datatree_converters.py
       - geoips/utils/types/family_conversions.py
       - geoips/utils/types/tokenization.py
-      - geoips/utils/types/yaml_plugin_callable.py
       - tests/integration_tests/conftest.py
       - tests/integration_tests/test_obp_datatree.py
       - tests/integration_tests/test_obp_family_conversions.py
+      - tests/unit_tests/interfaces/class_based/test_workflow.py
       - tests/unit_tests/plugins/yaml/workflows/test_workflow_overrides.py
   related-issue:
     number: null
