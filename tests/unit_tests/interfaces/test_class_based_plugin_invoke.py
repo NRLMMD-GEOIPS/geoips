@@ -136,9 +136,7 @@ class TestPositionalDataRouting:
         # No "multiple values for argument 'data_range'" error, and the kwarg
         # (not the positional tree) supplies the value. ``data_tree=True`` so the
         # raw Dataset passes through _post_call unchanged.
-        result = _RangePlugin()(
-            data=dt, data_range=[0, 100], _obp_initiated=True
-        )
+        result = _RangePlugin()(data=dt, data_range=[0, 100], _obp_initiated=True)
         assert result.attrs["data_range"] == [0, 100]
 
     def test_keyword_only_leading_signature_drops_data(self):
@@ -188,9 +186,7 @@ class TestReaderDataStripping:
     def test_legacy_reader_strips_injected_tree(self):
         """A ``data_tree=False`` reader drops the injected tree and reads fnames."""
         plugin = _FakeLegacyReader()
-        injected = xr.DataTree(
-            xr.Dataset({"up": ("x", [9, 9, 9])}), name="multi_input"
-        )
+        injected = xr.DataTree(xr.Dataset({"up": ("x", [9, 9, 9])}), name="multi_input")
         result = plugin(data=injected, fnames=["a.nc"], _obp_initiated=True)
         assert isinstance(result, xr.DataTree)
         assert "var" in result.ds
@@ -207,9 +203,7 @@ class TestReaderDataStripping:
     def test_native_reader_keeps_injected_tree(self):
         """A ``data_tree=True`` reader receives the injected tree as data."""
         plugin = _FakeNativeReader()
-        injected = xr.DataTree(
-            xr.Dataset({"up": ("x", [9, 9, 9])}), name="multi_input"
-        )
+        injected = xr.DataTree(xr.Dataset({"up": ("x", [9, 9, 9])}), name="multi_input")
         result = plugin(data=injected, fnames=["a.nc"], _obp_initiated=True)
         assert isinstance(result, xr.DataTree)
         assert "up" in result.ds

@@ -223,11 +223,7 @@ class Workflow:
         # container step; use a set per step so multiple references into the
         # same container count as a single incoming edge.
         dep_heads = {
-            sid: {
-                _dep_head(d)
-                for d in (step.depends_on or ())
-                if d != INPUT_REF
-            }
+            sid: {_dep_head(d) for d in (step.depends_on or ()) if d != INPUT_REF}
             for sid, step in self._spec.steps.items()
         }
         indegree = {sid: len(dep_heads[sid]) for sid in step_ids}

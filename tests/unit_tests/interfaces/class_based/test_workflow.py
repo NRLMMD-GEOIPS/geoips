@@ -371,9 +371,7 @@ class TestSubWorkflowDependsOnRuntime:
             def __call__(self, data=None, **kwargs):
                 if isinstance(data, xr.DataTree):
                     seen["children"] = set(dict(data.children))
-                return xr.DataTree(
-                    xr.Dataset({"v": (["x"], [1, 2, 3])}), name="out"
-                )
+                return xr.DataTree(xr.Dataset({"v": (["x"], [1, 2, 3])}), name="out")
 
         monkeypatch.setattr(
             Workflow,
@@ -607,7 +605,7 @@ class TestEntrySteps:
             workflow_name="test",
         )
         assert wf._entry_steps == {"algo"}
-    
+
     def test_empty_workflow(self):
         """Test for no upstream data on empty workflow."""
         empty_root = wf._collect_upstream_data(xr.DataTree(name="fresh"), [])

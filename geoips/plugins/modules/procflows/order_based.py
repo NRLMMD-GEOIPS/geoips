@@ -44,7 +44,7 @@ class OrderBased(BaseProcflowPlugin):
     def call(
         self,
         workflow_spec: WorkflowPluginModel | WorkflowSpecModel | dict,
-        fnames: Any = None,
+        fnames: Any,
         command_line_args: Any = None,
         **kwargs: Any,
     ):

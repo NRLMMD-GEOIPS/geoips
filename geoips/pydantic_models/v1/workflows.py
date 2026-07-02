@@ -638,7 +638,9 @@ class WorkflowStepDefinitionModel(FrozenModel):
         dependencies = model.depends_on
 
         if not dependencies or (
-            isinstance(dependencies, list) and len(dependencies) != 2
+            isinstance(dependencies, list)
+            and dependencies != ["_input"]
+            and len(dependencies) != 2
         ):
             raise ValueError(
                 "Error: 'depends_on' field must be specified for any interpolator step "
@@ -905,11 +907,15 @@ class WorkflowSpecModel(FrozenModel):
         for name, step in steps.items():
             # Default
             if step.get("kind") in ["product", "product_default"]:
+                if step.get("depends_on"):
+                    _inputs = step["depends_on"]
                 spec = {"steps": cls.expand_step(step, info, _inputs)}
                 new_step = {
                     "kind": "workflow",
                     "spec": spec,
                 }
+                if step.get("depends_on"):
+                    new_step["depends_on"] = step["depends_on"]
                 # Generate a step ID based off the current step's plugin name.
                 # For products, join the name tuple with "_" and replace any
                 # remaining non-identifier characters so the result is always
