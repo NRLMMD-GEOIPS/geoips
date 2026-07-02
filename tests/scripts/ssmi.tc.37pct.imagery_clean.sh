@@ -23,7 +23,23 @@ geoips run single_source \
           --output_formatter_kwargs '{}' \
           --filename_formatter_kwargs '{}' \
           --metadata_output_formatter_kwargs '{}' \
-          --metadata_filename_formatter_kwargs '{}'
+          --metadata_filename_formatter_kwargs '{}' \
+          --sector_adjuster_kwargs '{
+              "archer_config": {
+                  "include_archer_metadata_in_sector_info": True,
+                  "required_vmax_kts": 50,
+                  "output_products_dict": {
+                      "archer_image": {
+                          "output_formatter": "archer_image",
+                          "filename_formatter": "archer_image",
+                      },
+                      "archer_fix": {
+                          "output_formatter": "archer_fix",
+                          "filename_formatter": "archer_fix",
+                      }
+                  }
+              }
+          }'
 ss_retval=$?
 
 exit $((ss_retval))

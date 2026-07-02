@@ -14,7 +14,23 @@ geoips run single_source $GEOIPS_TESTDATA_DIR/test_data_gpm/data/3B-HHR-E.MS.MRG
           --output_formatter imagery_clean \
           --trackfile_parser bdeck_parser \
           --trackfiles $GEOIPS_PACKAGES_DIR/geoips/tests/sectors/tc_bdecks/bal132025.dat \
-          --compare_path "$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/imerg.tc.Rain.imagery_clean"
+          --compare_path "$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/imerg.tc.Rain.imagery_clean" \
+          --sector_adjuster_kwargs '{
+              "archer_config": {
+                  "include_archer_metadata_in_sector_info": True,
+                  "required_vmax_kts": 50,
+                  "output_products_dict": {
+                      "archer_image": {
+                          "output_formatter": "archer_image",
+                          "filename_formatter": "archer_image",
+                      },
+                      "archer_fix": {
+                          "output_formatter": "archer_fix",
+                          "filename_formatter": "archer_fix",
+                      }
+                  }
+              }
+          }'
 ss_retval=$?
 
 exit $((ss_retval))
