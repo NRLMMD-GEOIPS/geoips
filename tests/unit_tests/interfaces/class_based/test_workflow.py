@@ -262,6 +262,76 @@ class TestSplitJoinScaffolding:
         assert set(dict(split_node.children)) == {"band1", "band2"}
 
 
+class TestRootWorkflowTiming:
+    """Root workflow nodes carry ISO-8601 start/end times (spec PR #1319)."""
+
+    @staticmethod
+    def _passthrough_spec():
+        return _make_spec(
+            {
+                "p": {
+                    "kind": "algorithm",
+                    "name": "passthrough",
+                    "arguments": {},
+                    "depends_on": [],
+                }
+            }
+        )
+
+    def _patch_passthrough(self, monkeypatch):
+        class _Passthrough:
+            data_tree = True
+
+            def __call__(self, data=None, **kwargs):
+                return data if data is not None else xr.DataTree(name="empty")
+
+        monkeypatch.setattr(
+            Workflow,
+            "_resolve_plugin",
+            staticmethod(lambda kind, name: _Passthrough()),
+        )
+
+    def test_root_has_start_and_end_times(self, monkeypatch):
+        """Root attrs include start_time/end_time with end >= start."""
+        from datetime import datetime
+
+        self._patch_passthrough(monkeypatch)
+        result = Workflow(self._passthrough_spec(), workflow_name="timed").call()
+
+        assert "start_time" in result.attrs
+        assert "end_time" in result.attrs
+        start = datetime.fromisoformat(result.attrs["start_time"])
+        end = datetime.fromisoformat(result.attrs["end_time"])
+        assert end >= start
+
+    def test_sub_workflow_root_has_times(self, monkeypatch):
+        """Nested sub-workflow root nodes also carry start/end times."""
+        self._patch_passthrough(monkeypatch)
+        spec = _make_spec(
+            {
+                "sub": {
+                    "kind": "workflow",
+                    "spec": {
+                        "steps": {
+                            "inner": {
+                                "kind": "algorithm",
+                                "name": "passthrough",
+                                "arguments": {},
+                                "depends_on": [],
+                            }
+                        }
+                    },
+                    "depends_on": [],
+                },
+            }
+        )
+        result = Workflow(spec, workflow_name="outer").call()
+        sub_node = result.get("sub")
+        assert sub_node is not None
+        assert "start_time" in sub_node.attrs
+        assert "end_time" in sub_node.attrs
+
+
 class TestWorkflowSpecResolution:
     def test_inline_spec_returned_directly(self):
         spec = _make_spec(
@@ -286,6 +356,90 @@ class TestWorkflowSpecResolution:
         assert resolved is step_def.spec
         assert "inner" in resolved.steps
         assert resolved.steps["inner"].kind == "algorithm"
+
+
+class TestSubWorkflowDependsOnRuntime:
+    """Runtime resolution of dotted ``depends_on`` into sub-workflow steps."""
+
+    def test_consumer_receives_nested_node(self, monkeypatch):
+        """A step depending on ``subwf.inner`` receives that nested node."""
+        seen = {}
+
+        class _Plugin:
+            data_tree = True
+
+            def __call__(self, data=None, **kwargs):
+                if isinstance(data, xr.DataTree):
+                    seen["children"] = set(dict(data.children))
+                return xr.DataTree(
+                    xr.Dataset({"v": (["x"], [1, 2, 3])}), name="out"
+                )
+
+        monkeypatch.setattr(
+            Workflow,
+            "_resolve_plugin",
+            staticmethod(lambda kind, name: _Plugin()),
+        )
+
+        spec = _make_spec(
+            {
+                "subwf": {
+                    "kind": "workflow",
+                    "depends_on": [],
+                    "spec": {
+                        "steps": {
+                            "inner": {
+                                "kind": "algorithm",
+                                "name": "passthrough",
+                                "arguments": {},
+                                "depends_on": [],
+                            }
+                        }
+                    },
+                },
+                "consumer": {
+                    "kind": "algorithm",
+                    "name": "passthrough",
+                    "arguments": {},
+                    "depends_on": ["subwf.inner"],
+                },
+            }
+        )
+        tree = Workflow(spec, workflow_name="t").call()
+
+        # The nested node is addressable by path...
+        assert tree["subwf/inner"] is not None
+        # ...and was delivered to the consumer under a sanitized child key.
+        assert seen.get("children") == {"subwf__inner"}
+
+    def test_topological_order_uses_head(self):
+        """Ordering treats ``subwf.inner`` as a dependency on ``subwf``."""
+        spec = _make_spec(
+            {
+                "consumer": {
+                    "kind": "algorithm",
+                    "name": "passthrough",
+                    "arguments": {},
+                    "depends_on": ["subwf.inner"],
+                },
+                "subwf": {
+                    "kind": "workflow",
+                    "depends_on": [],
+                    "spec": {
+                        "steps": {
+                            "inner": {
+                                "kind": "algorithm",
+                                "name": "passthrough",
+                                "arguments": {},
+                                "depends_on": [],
+                            }
+                        }
+                    },
+                },
+            }
+        )
+        order = Workflow(spec, workflow_name="t")._order
+        assert order.index("subwf") < order.index("consumer")
 
 
 class TestCollectUpstreamNested:

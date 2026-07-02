@@ -1,8 +1,9 @@
 #!/bin/bash
 # Test the DataTree-based OBP workflow with first-class auxiliary plugins.
 #
-# Requires: $GEOIPS_TESTDATA_DIR to be set (for reader test data).
-# Alternatively uses the bundled test output file.
+# Requires: a full clone of the geoips repository. This test reads a bundled
+# output file under tests/outputs/ and does NOT require $GEOIPS_TESTDATA_DIR
+# or any externally downloaded reader test data.
 #
 # Usage:
 #   bash tests/scripts/obp.datatree_conversion_test.sh
@@ -15,7 +16,8 @@ TEST_DATA="tests/outputs/abi.static.Infrared.netcdf_geoips/20200918.195020.goes-
 
 if [ ! -f "$TEST_DATA" ]; then
     echo "ERROR: Test data file not found: $TEST_DATA"
-    echo "This test requires the GeoIPS test data to be available."
+    echo "This test requires a full clone of the geoips repository (the file"
+    echo "is bundled under tests/outputs/)."
     exit 1
 fi
 

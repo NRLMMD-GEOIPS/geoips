@@ -100,7 +100,7 @@ The path from a YAML file on disk to an executing workflow:
 
 4. **Topological Sort** — `Workflow.call()` validates the `depends_on` DAG for cycles (raising `DependencyCycleError` if found). For v1 linear workflows, execution follows dict insertion order by default. Topological sort is retained as a DAG-integrity check.
 
-5. **Invocation** — Each child's `_invoke(data_tree, **arguments)` is called. `_invoke()` checks the `data_tree` flag: if `True` (Workflow, colormapper), passes DataTree through transparently via `DataTreeDitto`; if `False` (legacy plugins), unwraps via `_pre_call()` and re-wraps via `_post_call()` using `DataTreeDitto`'s converter registry.
+5. **Invocation** — Each child is called directly as `child(data_tree, **arguments)`, which dispatches through `__call__` to `_invoke()` (never call `_invoke()` directly). `_invoke()` checks the `data_tree` flag: if `True` (Workflow, colormapper), passes DataTree through transparently via `DataTreeDitto`; if `False` (legacy plugins), unwraps via `_pre_call()` and re-wraps via `_post_call()` using `DataTreeDitto`'s converter registry.
 
 6. **Retention** — After each step, the runner applies retention policy to upstream step nodes. Steps marked `keep: true` or listed in `outputs` are exempt from garbage collection.
 
@@ -598,14 +598,16 @@ for step_id in self._topological_order():
     plugin = self.steps[step_id]
 
     if step_def.kind == "reader":
-        # Readers have no upstream data — call(*args, fnames, **arguments)
-        step_result = plugin._invoke(
+        # Readers have no upstream data — call(*args, fnames, **arguments).
+        # Call the plugin directly (plugin(...)); this routes through
+        # __call__ -> _invoke, so never call _invoke() directly.
+        step_result = plugin(
             data=None, fnames=fnames, **step_def.arguments
         )
     else:
         # Non-readers receive upstream DataTree
         upstream = self._collect_upstream_data(tree, step_def.depends_on)
-        step_result = plugin._invoke(
+        step_result = plugin(
             data=upstream, **step_def.arguments
         )
 
@@ -770,9 +772,9 @@ Branch identity is propagated via each branch's `attrs["branch"] = "<name>"` so 
 
 ## 6. Step Contract (Functional Paradigm)
 
-### 6.1 Step Execution via `_invoke()`
+### 6.1 Step Execution via `plugin()`
 
-Every step in a Workflow is a `Plugin` instance. The runner calls `plugin._invoke(data, **arguments)`. Based on the plugin's `data_tree` class flag:
+Every step in a Workflow is a `Plugin` instance. The runner calls the plugin directly — `plugin(data, **arguments)` — which routes through `__call__` to `_invoke()` (never call `_invoke()` directly). Based on the plugin's `data_tree` class flag:
 
 - `data_tree=True` (Workflow, colormapper): DataTree passes through transparently.
 - `data_tree=False` (algorithms, output_formatters, etc.): DataTree is unwrapped before `call()` and the result is re-wrapped after.
@@ -1340,9 +1342,10 @@ Workflow (geoips/interfaces/class_based/workflow.py):
 
     call(self, workflow_tree: DataTree | None = None, **kwargs) -> DataTree:
         1. Topological sort by depends_on edges.
-        2. For each step in order:
-           a. If reader: plugin._invoke(data=None, fnames=fnames, **arguments)
-           b. Otherwise: plugin._invoke(data=upstream_tree, **arguments)
+        2. For each step in order (call the plugin directly; plugin(...)
+           dispatches through __call__ -> _invoke, so never call _invoke()):
+           a. If reader: plugin(data=None, fnames=fnames, **arguments)
+           b. Otherwise: plugin(data=upstream_tree, **arguments)
            c. Attach output at tree["/<step_id>"]
            d. Apply retention to upstream nodes
         3. Return the workflow DataTree.
@@ -1372,7 +1375,7 @@ OrderBased (geoips/plugins/modules/procflows/order_based.py):
         1. Normalize input to WorkflowSpecModel (accepts dict, WorkflowPluginModel,
            or WorkflowSpecModel).
         2. Construct Workflow(spec, name=workflow_name).
-        3. Invoke: workflow._invoke(data=None, fnames=fnames, **kwargs).
+        3. Invoke: workflow(data=None, fnames=fnames, **kwargs).
         4. Return the resulting DataTree.
 ```
 
