@@ -3,13 +3,17 @@
 
 """Sector interface module."""
 
+from importlib.resources import files
+
 from cartopy import feature as cfeature
 import numpy as np
-from pyresample import kd_tree
+from pyresample import kd_tree, load_area
+import xarray as xr
 
 from geoips.filenames.base_paths import PATHS as gpaths
 from geoips.interfaces.base import BaseYamlPlugin, BaseYamlInterface
 from geoips.image_utils.mpl_utils import create_figure_and_main_ax_and_mapobj
+from geoips.utils.types.datatree_ditto import DataTreeDitto
 
 # Commenting these out for PR #260
 # Will work on this again after the 2023 workshop
@@ -62,13 +66,13 @@ class SectorPluginBase(BaseYamlPlugin):
     data_tree = True
 
     def call(self, data=None, **kwargs):
-        """Return a DataTree with the sector's area-definition metadata.
+        r"""Return a DataTree with the sector's area-definition metadata.
 
         Parameters
         ----------
         data : xr.DataTree or None
             Upstream DataTree (unused for sectors).
-        **kwargs
+        \\*\\*kwargs
             Step arguments (unused).
 
         Returns
@@ -76,11 +80,10 @@ class SectorPluginBase(BaseYamlPlugin):
         xr.DataTree
             A ``DataTreeDitto`` whose ``ds.attrs`` carry ``area_id``,
             ``area_extent``, ``shape``, and ``projection`` for downstream
-            consumers (e.g. interpolator, filename formatter).
+            consumers (e.g. interpolator, filename formatter). Per the
+            DataTree spec, this metadata lives in the step node's ``attrs``
+            (there is no separate ``/metadata`` node).
         """
-        import xarray as xr
-        from geoips.utils.types.datatree_ditto import DataTreeDitto
-
         ad = self.area_definition
         ds = xr.Dataset(
             attrs={
@@ -98,16 +101,13 @@ class SectorPluginBase(BaseYamlPlugin):
         return DataTreeDitto(ds, name=self.name)
 
     def __call__(self, data=None, **kwargs):
-        """See :meth:`call`."""
+        """See ``call``."""
         return self.call(data=data, **kwargs)
 
     @property
     def area_definition(self):
         """Return the pyresample AreaDefinition for the sector."""
         # if self.family.startswith(("area_definition", "generated")):
-        from pyresample import load_area
-        from importlib.resources import files
-
         if self.family.startswith("area_definition"):
             abspath = str(files(self.package) / self.relpath)
             ad = load_area(abspath, "spec")

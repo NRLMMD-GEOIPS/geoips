@@ -20,6 +20,8 @@ from typing import Any
 import xarray as xr
 
 from geoips.utils.types.datatree_ditto import DataTreeDitto
+from geoips.utils.types.obp_conduits import kwarg_name_for_kind
+from geoips.utils.types.partial_lexeme import Lexeme
 
 LOG = logging.getLogger(__name__)
 
@@ -79,8 +81,6 @@ class YamlPluginCallable:
             A ``DataTreeDitto`` whose ``ds.attrs`` contain the plugin's
             ``spec`` dictionary and the standard routing metadata.
         """
-        from geoips.utils.types.partial_lexeme import Lexeme
-
         spec = dict(self._yaml.get("spec", {}))
         # e.g. "gridline_annotators" -> "gridline_annotator"
         kind = str(Lexeme(self.interface).singular)
@@ -105,8 +105,6 @@ class YamlPluginCallable:
                     LOG.warning(
                         "Failed to compute gridline spacing for %r: %s", self.name, exc
                     )
-
-        from geoips.utils.types.obp_conduits import kwarg_name_for_kind
 
         ds = xr.Dataset(
             attrs={

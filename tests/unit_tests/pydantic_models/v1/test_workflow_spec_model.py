@@ -256,3 +256,116 @@ class TestWorkflowSpecModel:
                 self._make_linear_spec(retention_by_kind={"reader": "keep_all"}),
                 context=CTX,
             )
+
+
+class TestSubWorkflowDependsOn:
+    """Dotted ``depends_on`` references into workflow/split container steps."""
+
+    def _workflow_container_spec(self, dep):
+        return {
+            "steps": {
+                "subwf": {
+                    "kind": "workflow",
+                    "depends_on": [],
+                    "spec": {
+                        "steps": {
+                            "inner": {
+                                "kind": "algorithm",
+                                "name": "single_channel",
+                                "arguments": {},
+                                "depends_on": [],
+                            }
+                        }
+                    },
+                },
+                "consumer": {
+                    "kind": "algorithm",
+                    "name": "single_channel",
+                    "arguments": {},
+                    "depends_on": [dep],
+                },
+            }
+        }
+
+    def _split_container_spec(self, dep):
+        return {
+            "steps": {
+                "sp": {
+                    "kind": "split",
+                    "arguments": {"scopes": ["a", "b"]},
+                    "depends_on": [],
+                    "spec": {
+                        "steps": {
+                            "inner": {
+                                "kind": "algorithm",
+                                "name": "single_channel",
+                                "arguments": {},
+                                "depends_on": [],
+                            }
+                        }
+                    },
+                },
+                "consumer": {
+                    "kind": "algorithm",
+                    "name": "single_channel",
+                    "arguments": {},
+                    "depends_on": [dep],
+                },
+            }
+        }
+
+    def test_valid_workflow_nested_reference_accepted(self):
+        """A dotted reference into a workflow container step is accepted."""
+        spec = WorkflowSpecModel.model_validate(
+            self._workflow_container_spec("subwf.inner"), context=CTX
+        )
+        assert spec.steps["consumer"].depends_on == ["subwf.inner"]
+
+    def test_missing_nested_segment_rejected(self):
+        """A dotted reference to a nonexistent nested step is rejected."""
+        with pytest.raises(PluginResolutionError):
+            WorkflowSpecModel.model_validate(
+                self._workflow_container_spec("subwf.ghost"), context=CTX
+            )
+
+    def test_dotted_reference_into_non_container_rejected(self):
+        """A dotted reference whose head is not a container is rejected."""
+        spec_data = {
+            "steps": {
+                "read": {
+                    "kind": "reader",
+                    "name": "abi_netcdf",
+                    "arguments": {},
+                    "depends_on": [],
+                },
+                "consumer": {
+                    "kind": "algorithm",
+                    "name": "single_channel",
+                    "arguments": {},
+                    "depends_on": ["read.something"],
+                },
+            }
+        }
+        with pytest.raises(PluginResolutionError):
+            WorkflowSpecModel.model_validate(spec_data, context=CTX)
+
+    def test_split_reference_requires_scope(self):
+        """A bare ``split.step`` reference is rejected (scope required)."""
+        with pytest.raises(PluginResolutionError):
+            WorkflowSpecModel.model_validate(
+                self._split_container_spec("sp.inner"), context=CTX
+            )
+
+    def test_split_reference_with_scope_accepted(self):
+        """A ``split.scope.step`` reference is accepted."""
+        spec = WorkflowSpecModel.model_validate(
+            self._split_container_spec("sp.a.inner"), context=CTX
+        )
+        assert spec.steps["consumer"].depends_on == ["sp.a.inner"]
+
+    def test_split_reference_unknown_scope_rejected(self):
+        """A ``split.<unknown_scope>.step`` reference is rejected."""
+        with pytest.raises(PluginResolutionError):
+            WorkflowSpecModel.model_validate(
+                self._split_container_spec("sp.z.inner"), context=CTX
+            )

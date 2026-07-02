@@ -21,6 +21,7 @@ from copy import deepcopy
 import datetime as dt
 from glob import glob
 import logging
+import re
 from typing import Any, Dict, List, Literal, Optional, Union
 
 # Third-Party Libraries
@@ -36,10 +37,18 @@ from pydantic import (
 # GeoIPS imports
 from geoips.constants import PLUGIN_PROVIDED
 from geoips import interfaces
+from geoips.constants import PLUGIN_PROVIDED
+from geoips.errors import (
+    DanglingOutputError,
+    DependencyCycleError,
+    PluginResolutionError,
+)
 from geoips.pydantic_models.v1.bases import (
     PluginModel,
     FrozenModel,
     PermissiveFrozenModel,
+    PythonIdentifier,
+    StepReference,
 )
 from geoips.pydantic_models.v1.algorithms import AlgorithmArgumentsModel
 from geoips.pydantic_models.v1.coverage_checkers import CoverageCheckerArgumentsModel
@@ -58,6 +67,17 @@ SCAFFOLD_KINDS = frozenset({"split", "join"})
 
 Steps with these kinds are accepted by schema validation but raise
 ``NotImplementedError`` at runtime.
+"""
+
+INPUT_REF = "_input"
+"""Magic ``depends_on`` token marking a workflow's data-injection entry step.
+
+A step whose ``depends_on`` contains ``_input`` receives the data injected into
+the workflow from the outside: the parent's upstream tree for a sub-workflow (or
+split branch), or an empty ``DataTree`` for a top-level workflow. It is a virtual
+source (not a real step), so it is skipped by dependency-reference validation,
+cycle detection, and topological ordering. If no step declares ``_input``, the
+first step receives the injected data (backward-compatible fallback).
 """
 
 DEFAULT_RETENTION = "keep_referenced"
@@ -336,12 +356,21 @@ class WorkflowStepDefinitionModel(FrozenModel):
     arguments: Dict[str, Any] | None = Field(
         default_factory=dict, description="step args"
     )
-    depends_on: List[str] | None = Field(
+    depends_on: List[StepReference] | None = Field(
         None,
         description=(
-            "Step IDs this step depends on. If None, defaults to "
-            "[previous_step_id] for non-first steps, [] for the first step. "
-            "The runner validates all references exist and no cycles exist."
+            "Step references this step depends on. Each reference is either a "
+            "top-level step id (e.g. 'reader') or a dot-separated path into a "
+            "'workflow'/'split' container step (e.g. 'subwf.algo' or "
+            "'split.scope.algo'), or the magic token '_input' marking this step "
+            "as the workflow's data-injection entry point (parent data for a "
+            "sub-workflow/branch, or an empty DataTree at top level). '_input' "
+            "may be combined with real references and may appear on any number "
+            "of steps (fan-out). If None, defaults to [previous_step_id] for "
+            "non-first steps, [] for the first step; when no step declares "
+            "'_input' the first step receives the injected data. The runner "
+            "validates all references exist (recursing into sub-workflows) and "
+            "that no cycles exist."
         ),
     )
     keep: bool = Field(
@@ -669,6 +698,30 @@ class WorkflowSpecModel(FrozenModel):
         ),
     )
 
+    @model_validator(mode="after")
+    def _reject_retention_by_kind(self):
+        if self.retention_by_kind is not None:
+            raise ValueError(
+                "retention_by_kind is not yet implemented. "
+                "Remove it from the YAML or set it to null."
+            )
+        return self
+
+    @model_validator(mode="after")
+    def _reject_defaults(self):
+        """Reject ``defaults`` until the runtime wires it in.
+
+        The field is accepted by the schema but never consumed by
+        ``Workflow.call``; rejecting at validation prevents a spec from
+        silently ignoring per-kind defaults.
+        """
+        if self.defaults is not None:
+            raise ValueError(
+                "defaults (per-kind argument defaults) is not yet implemented. "
+                "Remove it from the YAML or set it to null."
+            )
+        return self
+
     @classmethod
     def extend_dict(cls, base: dict, new: dict) -> dict:
         """Extend a dictionary with the contents of another dictionary.
@@ -751,7 +804,7 @@ class WorkflowSpecModel(FrozenModel):
                 if plugin_name == "colormapper":
                     steps[plugin_name]["depends_on"] = []
                 elif idx == 0 and _inputs:
-                    steps[plugin_name]["depends_on"] = _inputs
+                    steps[plugin_name]["depends_on"] = ["_input"]
                     last_data_step = [plugin_name]
                 elif idx == 0 and not _inputs:
                     steps[plugin_name]["depends_on"] = []
@@ -857,8 +910,10 @@ class WorkflowSpecModel(FrozenModel):
                     "kind": "workflow",
                     "spec": spec,
                 }
-                # Generate a step ID based off the current step's plugin name
-                # if it's a product, merge the name tuple into a single name
+                # Generate a step ID based off the current step's plugin name.
+                # For products, join the name tuple with "_" and replace any
+                # remaining non-identifier characters so the result is always
+                # a valid PythonIdentifier (required by depends_on validation).
                 step_id = (
                     ":".join(step.get("name"))
                     if step.get("kind") == "product"
@@ -901,6 +956,12 @@ class WorkflowSpecModel(FrozenModel):
         if not step_ids:
             return data
 
+        if INPUT_REF in steps:
+            raise ValueError(
+                f"step id '{INPUT_REF}' is reserved: it is the magic "
+                f"data-injection dependency token and cannot name a step"
+            )
+
         if data.get("outputs") is None:
             data["outputs"] = [step_ids[-1]]
 
@@ -911,75 +972,148 @@ class WorkflowSpecModel(FrozenModel):
 
         return data
 
-    # @model_validator(mode="after")
-    # def _validate_dependencies(self):
-    #     """Validate ``outputs`` refs, ``depends_on`` refs, and detect cycles.
+    @staticmethod
+    def _validate_reference_in_spec(spec, segments, dep, cur):
+        """Recursively validate a dotted ``depends_on`` reference.
 
-    #     This is a read-only validator — all defaults have already been
-    #     injected by ``_inject_defaults`` at mode="before".
+        Walks *segments* through *spec*'s steps, descending into ``workflow``
+        and ``split`` container steps. ``split`` references must include a scope
+        segment (``split.<scope>.<step>``) because a split nests its body once
+        per branch (``/<split>/<scope>/<step>``); a bare ``split.<step>`` is
+        ambiguous and rejected.
 
-    #     Raises
-    #     ------
-    #     DanglingOutputError
-    #         If an entry in ``outputs`` is not a defined step id.
-    #     PluginResolutionError
-    #         If a ``depends_on`` value references a non-existent step id.
-    #     DependencyCycleError
-    #         If the ``depends_on`` graph contains a directed cycle.
-    #     """
-    #     from geoips.errors import (
-    #         DanglingOutputError,
-    #         DependencyCycleError,
-    #         PluginResolutionError,
-    #     )
+        Parameters
+        ----------
+        spec : WorkflowSpecModel
+            The (sub-)workflow spec to resolve *segments* against.
+        segments : list[str]
+            Remaining dot-split reference segments.
+        dep : str
+            The full original reference (for error messages).
+        cur : str
+            The referencing step id (for error messages).
+        """
+        seg = segments[0]
+        if seg not in spec.steps:
+            raise PluginResolutionError(
+                f"step '{cur}' depends_on '{dep}': '{seg}' is not a step in the "
+                f"referenced workflow; valid steps: {sorted(spec.steps)}"
+            )
+        remaining = segments[1:]
+        if not remaining:
+            return
 
-    #     step_ids = list(self.steps.keys())
+        step = spec.steps[seg]
+        if step.kind not in ("workflow", "split"):
+            raise PluginResolutionError(
+                f"step '{cur}' depends_on '{dep}': '{seg}' is a '{step.kind}' "
+                f"step and has no nested steps; only 'workflow' and 'split' "
+                f"steps can be referenced with a dotted path"
+            )
+        if step.spec is None:
+            raise PluginResolutionError(
+                f"step '{cur}' depends_on '{dep}': container step '{seg}' has "
+                f"no inline spec to resolve nested steps"
+            )
 
-    #     if not step_ids:
-    #         return self
+        if step.kind == "split":
+            if len(remaining) < 2:
+                raise PluginResolutionError(
+                    f"step '{cur}' depends_on '{dep}': references into a 'split' "
+                    f"step must include a scope, e.g. '{seg}.<scope>.<step>'"
+                )
+            scope, remaining = remaining[0], remaining[1:]
+            explicit_scopes = (step.arguments or {}).get("scopes")
+            if explicit_scopes is not None and scope not in explicit_scopes:
+                raise PluginResolutionError(
+                    f"step '{cur}' depends_on '{dep}': scope '{scope}' is not a "
+                    f"declared scope of split '{seg}'; valid scopes: "
+                    f"{sorted(explicit_scopes)}"
+                )
 
-    #     # --- validate outputs reference valid steps ---
-    #     unknown_outputs = set(self.outputs or []) - set(step_ids)
-    #     if unknown_outputs:
-    #         raise DanglingOutputError(
-    #             f"outputs {sorted(unknown_outputs)} are not defined step ids; "
-    #             f"valid ids: {sorted(step_ids)}"
-    #         )
+        WorkflowSpecModel._validate_reference_in_spec(step.spec, remaining, dep, cur)
 
-    #     # --- validate depends_on references & detect cycles ---
-    #     # Iterative three-color DFS (no recursion — safe for large workflows).
-    #     WHITE, GRAY, BLACK = 0, 1, 2
-    #     color: dict[str, int] = {sid: WHITE for sid in self.steps}
+    @model_validator(mode="after")
+    def _validate_dependencies(self):
+        """Validate ``outputs`` refs, ``depends_on`` refs, and detect cycles.
 
-    #     for sid in self.steps:
-    #         if color[sid] != WHITE:
-    #             continue
-    #         color[sid] = GRAY
-    #         stack: list[tuple[str, int]] = [(sid, 0)]
-    #         while stack:
-    #             cur, idx = stack[-1]
-    #             deps = self.steps[cur].depends_on or []
-    #             if idx < len(deps):
-    #                 stack[-1] = (cur, idx + 1)
-    #                 dep = deps[idx]
-    #                 if dep not in self.steps:
-    #                     raise PluginResolutionError(
-    #                         f"step '{cur}' depends_on '{dep}', "
-    #                         f"which is not a defined step id"
-    #                     )
-    #                 if color.get(dep) == GRAY:
-    #                     raise DependencyCycleError(
-    #                         f"dependency cycle detected involving "
-    #                         f"'{cur}' -> '{dep}'"
-    #                     )
-    #                 if color.get(dep) == WHITE:
-    #                     color[dep] = GRAY
-    #                     stack.append((dep, 0))
-    #             else:
-    #                 color[cur] = BLACK
-    #                 stack.pop()
+        This is a read-only validator — all defaults have already been
+        injected by ``_inject_defaults`` at mode="before".
 
-    #     return self
+        ``depends_on`` references may be dotted paths into ``workflow``/``split``
+        container steps (e.g. ``subwf.algo``); these are validated by recursing
+        into the container's inline spec. Cycle detection operates on the
+        top-level *head* of each reference (the segment before the first dot).
+
+        Raises
+        ------
+        DanglingOutputError
+            If an entry in ``outputs`` is not a defined step id.
+        PluginResolutionError
+            If a ``depends_on`` reference (or nested segment) does not resolve.
+        DependencyCycleError
+            If the ``depends_on`` graph contains a directed cycle.
+        """
+        step_ids = list(self.steps.keys())
+
+        if not step_ids:
+            return self
+
+        # --- validate outputs reference valid steps ---
+        unknown_outputs = set(self.outputs or []) - set(step_ids)
+        if unknown_outputs:
+            raise DanglingOutputError(
+                f"outputs {sorted(unknown_outputs)} are not defined step ids; "
+                f"valid ids: {sorted(step_ids)}"
+            )
+
+        # --- deep-validate every depends_on reference (incl. dotted paths) ---
+        # The magic ``_input`` token is a virtual source, not a real step, so it
+        # is exempt from reference resolution.
+        for cur, step in self.steps.items():
+            for dep in step.depends_on or []:
+                if dep == INPUT_REF:
+                    continue
+                self._validate_reference_in_spec(self, dep.split("."), dep, cur)
+
+        # --- detect cycles on the top-level heads of each reference ---
+        # Iterative three-color DFS (no recursion — safe for large workflows).
+        # ``_input`` is a virtual source and never a graph node, so it is
+        # dropped from the head set below.
+        def _head(dep):
+            return dep.split(".", 1)[0]
+
+        WHITE, GRAY, BLACK = 0, 1, 2
+        color: dict[str, int] = {sid: WHITE for sid in self.steps}
+
+        for sid in self.steps:
+            if color[sid] != WHITE:
+                continue
+            color[sid] = GRAY
+            stack: list[tuple[str, int]] = [(sid, 0)]
+            while stack:
+                cur, idx = stack[-1]
+                deps = [
+                    _head(d)
+                    for d in (self.steps[cur].depends_on or [])
+                    if d != INPUT_REF
+                ]
+                if idx < len(deps):
+                    stack[-1] = (cur, idx + 1)
+                    dep = deps[idx]
+                    if color.get(dep) == GRAY:
+                        raise DependencyCycleError(
+                            f"dependency cycle detected involving "
+                            f"'{cur}' -> '{dep}'"
+                        )
+                    if color.get(dep) == WHITE:
+                        color[dep] = GRAY
+                        stack.append((dep, 0))
+                else:
+                    color[cur] = BLACK
+                    stack.pop()
+
+        return self
 
 
 class OutputCheckerOverrideModel(PermissiveFrozenModel):

@@ -31,11 +31,13 @@ import xarray as xr
 from geoips.commandline.log_setup import setup_logging
 from geoips.pydantic_models.v1.workflows import (
     DEFAULT_RETENTION,
+    INPUT_REF,
     WorkflowSpecModel,
     WorkflowStepDefinitionModel,
 )
 from geoips.errors import PluginResolutionError
 from geoips.utils.types.datatree_ditto import DataTreeDitto
+from geoips.utils.types.partial_lexeme import Lexeme
 from geoips.utils.types.yaml_plugin_callable import YamlPluginCallable
 from geoips.utils.types.tokenization import (
     compute_arguments_hash,
@@ -45,6 +47,31 @@ from geoips.utils.types.tokenization import (
 # LOG = logging.getLogger(__name__)
 
 LOG = setup_logging(logging_level="info")
+
+
+def _dep_head(dep: str) -> str:
+    """Return the top-level step id of a (possibly dotted) ``depends_on`` ref.
+
+    A dotted reference such as ``"subwf.algo"`` or ``"split.scope.algo"``
+    depends, at the top-level DAG, on its container step (``"subwf"`` /
+    ``"split"``). Plain references are returned unchanged.
+    """
+    return dep.split(".", 1)[0]
+
+
+def _resolve_ref_node(tree: xr.DataTree, ref: str):
+    """Return the node at a (possibly dotted) ``depends_on`` ref, or None.
+
+    Dotted references are translated to node paths (``"subwf.algo"`` ->
+    ``"subwf/algo"``). ``DataTree.get`` only performs single-level lookups, so
+    path indexing (``tree[path]``) is used and ``KeyError`` is caught to signal
+    an unresolved reference.
+    """
+    path = ref.replace(".", "/")
+    try:
+        return tree[path]
+    except KeyError:
+        return None
 
 
 @dataclass(frozen=True, slots=True)
@@ -96,12 +123,11 @@ class RetentionPolicy(ABC):
         return self._spec.steps[step_id].keep is True
 
     def _has_pending_consumers(self, step_id: str, executed: set[str]) -> bool:
-        for other_id, other_step in self._spec.steps.items():
-            if other_id not in executed:
-                for dep in other_step.depends_on or ():
-                    if dep == step_id:
-                        return True
-        return False
+        return any(
+            step_id in {_dep_head(dep) for dep in (other_step.depends_on or ())}
+            for other_id, other_step in self._spec.steps.items()
+            if other_id not in executed
+        )
 
 
 class KeepAllPolicy(RetentionPolicy):
@@ -158,15 +184,33 @@ class Workflow:
         self,
         spec: WorkflowSpecModel,
         workflow_name: str,
-        write_tokens: bool = False,
     ) -> None:
         self._spec = spec
         self._wf_name = workflow_name
-        self._write_tokens = write_tokens
         self._order: list[str] = self._topological_order()
+        self._entry_steps: set[str] = self._resolve_entry_steps()
         self._retention: RetentionPolicy = _POLICIES[
             self._spec.retention or DEFAULT_RETENTION
         ](self._spec)
+
+    def _resolve_entry_steps(self) -> set[str]:
+        """Return the step ids that receive externally-injected data.
+
+        An *entry step* is any step whose ``depends_on`` contains the magic
+        ``_input`` token. When no step declares ``_input``, the first step (by
+        insertion order) is the implicit entry step — a backward-compatible
+        fallback matching the pre-``_input`` behavior where a sub-workflow's
+        first step consumed the seeded input tree.
+        """
+        explicit = {
+            sid
+            for sid, step in self._spec.steps.items()
+            if INPUT_REF in (step.depends_on or ())
+        }
+        if explicit:
+            return explicit
+        step_ids = list(self._spec.steps.keys())
+        return {step_ids[0]} if step_ids else set()
 
     def _topological_order(self) -> list[str]:
         """Return step ids in a valid execution order.
@@ -175,27 +219,29 @@ class Workflow:
         time by ``_validate_dependencies``; this function assumes a DAG.
         """
         step_ids = list(self._spec.steps.keys())
-        indegree = {
-            sid: len(step.depends_on or ()) for sid, step in self._spec.steps.items()
+        # Collapse dotted references to their top-level head so ordering is by
+        # container step; use a set per step so multiple references into the
+        # same container count as a single incoming edge.
+        dep_heads = {
+            sid: {
+                _dep_head(d)
+                for d in (step.depends_on or ())
+                if d != INPUT_REF
+            }
+            for sid, step in self._spec.steps.items()
         }
+        indegree = {sid: len(dep_heads[sid]) for sid in step_ids}
 
         queue = deque(sid for sid in step_ids if indegree[sid] == 0)
         order: list[str] = []
-
-        if not queue:
-            # If every step has a dependency, just go in the order of the specified
-            # keys. This can occur for 'generated' / 'embedded' workflows which
-            # reference a step outside the scope of the provided workflow spec
-            order = step_ids
-        else:
-            while queue:
-                sid = queue.popleft()
-                order.append(sid)
-                for other_sid, other_step in self._spec.steps.items():
-                    if sid in (other_step.depends_on or ()):
-                        indegree[other_sid] -= 1
-                        if indegree[other_sid] == 0:
-                            queue.append(other_sid)
+        while queue:
+            sid = queue.popleft()
+            order.append(sid)
+            for other_sid in step_ids:
+                if sid in dep_heads[other_sid]:
+                    indegree[other_sid] -= 1
+                    if indegree[other_sid] == 0:
+                        queue.append(other_sid)
 
         return order
 
@@ -203,25 +249,41 @@ class Workflow:
         self,
         tree: xr.DataTree,
         depends_on: list[str],
+        injected: dict[str, xr.DataTree],
+        is_entry: bool,
     ) -> xr.DataTree:
-        """Collect upstream step outputs into a single DataTree.
+        """Collect a step's input data into a single ``multi_input`` DataTree.
 
-        Returns an ``xr.DataTree`` named ``multi_input`` with each
-        upstream node as a child under its step id.  When *depends_on*
-        is empty but *tree* already has children (a sub-workflow
-        receiving data from its parent), the tree itself is returned
-        so the first step can access the pre-loaded upstream data.
+        Two sources are merged:
+
+        * **Real dependencies** — each ``depends_on`` reference (excluding the
+          magic ``_input`` token) is resolved to its node in *tree* and added
+          under its (sanitized) reference.
+        * **Injected data** — when *is_entry* is True, the *injected* children
+          (the parent's upstream tree for a sub-workflow/branch, or ``{}`` at
+          top level) are merged in. A real dependency of the same key is never
+          clobbered.
+
+        The result is always an ``xr.DataTree`` named ``multi_input`` (possibly
+        empty, e.g. a top-level entry step, which is passed through as the
+        "empty dataset").
+
+        Dotted references (e.g. ``"subwf.algo"``) are resolved as node paths
+        (``tree.get("subwf/algo")``); the ``.`` is replaced with ``__`` for the
+        child key because ``/`` is illegal in a DataTree node name. Plain
+        references are unaffected (no dot to translate).
         """
-        if not depends_on:
-            if dict(tree.children):
-                return tree
-            return xr.DataTree(name="empty")
-
         result = xr.DataTree(name="multi_input")
         for dep_id in depends_on:
-            dep_node = tree.get(dep_id)
+            if dep_id == INPUT_REF:
+                continue
+            dep_node = _resolve_ref_node(tree, dep_id)
             if dep_node is not None:
-                result[dep_id] = dep_node
+                result[dep_id.replace(".", "__")] = dep_node
+        if is_entry:
+            for child_name, child in injected.items():
+                if child_name not in result.children:
+                    result[child_name] = child
         return result
 
     def _attach_step_node(
@@ -232,6 +294,14 @@ class Workflow:
     ) -> None:
         """Attach a step's output as a child node in the DataTree.
 
+        The step output is normalized to a ``DataTreeDitto`` so every node in
+        the workflow tree is the same type. The node name is *not* forced on
+        construction; assigning it under ``step_id`` sets the name. Plugins
+        routinely name their output node after themselves (e.g. ``single_channel``)
+        and it is then renamed to the ``step_id`` (e.g. ``algorithm``); this is
+        normal, so the rename is logged at ``debug`` level rather than warned —
+        warning on every step proved far too noisy in practice.
+
         Parameters
         ----------
         tree : xr.DataTree
@@ -239,12 +309,24 @@ class Workflow:
         step_id : str
             Step identifier used as the child node name.
         step_data : Any
-            The return value of ``plugin._invoke(...)``.
+            The return value of calling the plugin, ``plugin(...)``.
         """
-        if isinstance(step_data, xr.DataTree):
-            tree[step_id] = step_data
+        if isinstance(step_data, DataTreeDitto):
+            node = step_data
+        elif isinstance(step_data, xr.DataTree):
+            node = DataTreeDitto.from_datatree(step_data)
         else:
-            tree[step_id] = DataTreeDitto(step_data, name=step_id)
+            node = DataTreeDitto(step_data)
+
+        existing_name = getattr(node, "name", None)
+        if existing_name and existing_name != step_id:
+            LOG.debug(
+                "Renaming DataTree node '%s' to step id '%s'.",
+                existing_name,
+                step_id,
+            )
+
+        tree[step_id] = node
 
     def _record_provenance(self, node: xr.DataTree, prov: StepProvenance) -> None:
         """Stamp provenance fields into the step node's ``attrs``.
@@ -322,13 +404,19 @@ class Workflow:
             LOG.warning("Could not resolve sector_list %s: %s", sector_list, exc)
             return []
 
-    def _set_root_attrs(self, tree: xr.DataTree) -> None:
+    def _set_root_attrs(self, tree: xr.DataTree, start_time: str) -> None:
         """Stamp minimum-viable root provenance on the workflow DataTree.
 
         Parameters
         ----------
         tree : xr.DataTree
             The workflow's root DataTree.
+        start_time : str
+            ISO-8601 UTC timestamp captured immediately before the step loop.
+            Recorded as the workflow's ``start_time`` (the matching
+            ``end_time`` is stamped by ``call`` after the loop). Uses the
+            same attr keys as ``StepProvenance`` so every node — steps and
+            (sub-)workflow roots alike — carries start/end times.
         """
         import geoips
 
@@ -337,6 +425,7 @@ class Workflow:
         tree.attrs["retention_policy"] = self._spec.retention or "keep_referenced"
         tree.attrs["geoips_version"] = getattr(geoips, "__version__", "unknown")
         tree.attrs["api_version"] = "geoips/v1"
+        tree.attrs["start_time"] = start_time
 
     def call(
         self,
@@ -361,15 +450,20 @@ class Workflow:
         xr.DataTree
             The fully-populated workflow DataTree.
         """
-        tree = (
-            xr.DataTree(name=self._wf_name) if workflow_tree is None else workflow_tree
+        # Externally-injected data: the parent's upstream tree for a
+        # sub-workflow / split branch, or ``{}`` for a top-level run. It is
+        # snapshotted here (before any step runs) and routed to this workflow's
+        # entry step(s) via ``_collect_upstream_data``. The root ``tree`` is
+        # always fresh so injected data flows only through entry steps rather
+        # than living alongside step outputs at the root.
+        injected: dict[str, xr.DataTree] = (
+            dict(workflow_tree.children)
+            if isinstance(workflow_tree, xr.DataTree)
+            else {}
         )
-        # A *seeded* run is a sub-workflow handed a pre-loaded input tree (e.g. a
-        # split branch). For these, a first step (``depends_on: []``) consumes the
-        # seeded input. A top-level run (``workflow_tree is None``) is never
-        # seeded, so its independent steps receive no upstream data.
-        seeded = workflow_tree is not None and bool(dict(workflow_tree.children))
-        self._set_root_attrs(tree)
+        tree = xr.DataTree(name=self._wf_name)
+        wf_start_iso = datetime.now(timezone.utc).isoformat()
+        self._set_root_attrs(tree, start_time=wf_start_iso)
         executed: set[str] = set()
 
         for sid in self._order:
@@ -384,7 +478,10 @@ class Workflow:
             arg_hash = compute_arguments_hash(step_def.arguments or {})
             start_iso = datetime.now(timezone.utc).isoformat()
 
-            upstream = self._collect_upstream_data(tree, step_def.depends_on or [])
+            is_entry = sid in self._entry_steps
+            upstream = self._collect_upstream_data(
+                tree, step_def.depends_on or [], injected, is_entry
+            )
 
             if step_def.kind == "split":
                 step_result = self._run_split(upstream, step_def, sid, fnames=fnames)
@@ -397,14 +494,21 @@ class Workflow:
                 )
             else:
                 step_result = self._invoke_plugin_step(
-                    step_def, upstream, seeded=seeded, fnames=fnames
+                    step_def, upstream, is_entry=is_entry, fnames=fnames
                 )
 
             end_iso = datetime.now(timezone.utc).isoformat()
 
+            # A step may depend on more than one upstream step (e.g. an
+            # output_formatter that consumes an algorithm, colormapper, and
+            # sector), so collect one output token per dependency. These feed
+            # into this step's own token, making it content-addressable on the
+            # full set of inputs that produced it.
             upstream_tokens: dict[str, str] = {}
             for dep in step_def.depends_on or ():
-                dep_node = tree.get(dep)
+                if dep == INPUT_REF:
+                    continue
+                dep_node = _resolve_ref_node(tree, dep)
                 if dep_node is not None and dep_node.attrs:
                     token = dep_node.attrs.get("output_token")
                     if token:
@@ -432,23 +536,39 @@ class Workflow:
             executed.add(sid)
             self._apply_retention(tree, executed)
 
+        # Stamp the root workflow end time once all steps have completed. Nested
+        # sub-workflows and split branches run their own ``call`` and therefore
+        # get their own start/end times on their respective root nodes.
+        tree.attrs["end_time"] = datetime.now(timezone.utc).isoformat()
+
         return tree
 
-    def _invoke_plugin_step(self, step_def, upstream, *, seeded, fnames):
+    def _invoke_plugin_step(self, step_def, upstream, *, is_entry, fnames):
         """Resolve and call a single plugin step (not split/join/workflow).
 
-        The data a step receives depends on its position:
+        The data a step receives depends on its role:
 
-        * a ``reader`` gets ``fnames`` (and no upstream data);
-        * a step with dependencies — or the first step of a *seeded*
-          sub-workflow (a split branch) — gets ``data=upstream``;
+        * a ``reader`` always gets ``fnames``; it additionally gets
+          ``data=upstream`` when it should receive input (an entry step or a
+          step with real dependencies). A legacy (``data_tree=False``) reader
+          strips that tree in its ``_pre_call`` and reads only from ``fnames``;
+          a ``data_tree=True`` reader consumes it.
+        * a non-reader gets ``data=upstream`` when it is an entry step or has
+          real dependencies. An entry step receives ``data`` even when the tree
+          is empty (the top-level "empty dataset").
         * any other independent step is called with no data.
         """
         plg = self._resolve_plugin(step_def.kind, step_def.name)
         arguments = step_def.arguments or {}
+        has_real_deps = any(d != INPUT_REF for d in (step_def.depends_on or ()))
+        pass_data = is_entry or has_real_deps
         if step_def.kind == "reader":
+            if pass_data:
+                return plg(
+                    data=upstream, fnames=fnames, _obp_initiated=True, **arguments
+                )
             return plg(fnames=fnames, _obp_initiated=True, **arguments)
-        if step_def.depends_on or seeded:
+        if pass_data:
             return plg(data=upstream, _obp_initiated=True, **arguments)
         return plg(_obp_initiated=True, **arguments)
 
@@ -534,10 +654,11 @@ class Workflow:
     def _seed_branch_tree(upstream, area_def):
         """Build a branch input tree: upstream data + an optional sector node.
 
-        The branch body's first step (``depends_on: []``) receives this tree
-        directly (see :meth:`_collect_upstream_data`), so seeding a ``sector``
-        node here makes the per-branch ``area_def`` available to the body's
-        steps through the normal conduit extraction.
+        The branch body's entry step — the step whose ``depends_on`` contains
+        ``_input``, or the first step if none declares it — receives this tree
+        (see ``_collect_upstream_data``), so seeding a ``sector`` node here
+        makes the per-branch ``area_def`` available to the body's steps through
+        the normal conduit extraction.
         """
         seed = xr.DataTree(name="branch_input")
         if isinstance(upstream, xr.DataTree):
@@ -620,8 +741,10 @@ class Workflow:
         PluginResolutionError
             If the interface or plugin cannot be resolved.
         """
+        # ``geoips.interfaces`` is imported locally on purpose: this module
+        # lives *inside* the ``geoips.interfaces`` package, and importing the
+        # heavy parent package at module load time risks a circular import.
         from geoips import interfaces
-        from geoips.utils.types.partial_lexeme import Lexeme
 
         interface_name = str(Lexeme(kind).plural)
         iface = getattr(interfaces, interface_name, None)
@@ -644,7 +767,5 @@ class Workflow:
                 ) from exc
 
         if isinstance(result, dict) and not callable(getattr(result, "call", None)):
-            from geoips.utils.types.yaml_plugin_callable import YamlPluginCallable
-
             return YamlPluginCallable(result)
         return result

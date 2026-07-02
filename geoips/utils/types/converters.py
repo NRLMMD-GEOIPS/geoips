@@ -161,8 +161,13 @@ def masked_array_to_dataset(
     if dims is None:
         dims = [f"dim_{i}" for i in range(obj.ndim)]
 
-    # Store data (filled values, not masked)
-    data_arr = xr.DataArray(np.ma.filled(obj, fill_value=np.nan), dims=dims, name=name)
+    # Store the underlying data preserving the original dtype. Do NOT fill
+    # masked entries with NaN: NaN is not representable in integer/unsigned/
+    # string dtypes (``np.ma.filled(int_array, np.nan)`` raises), and even
+    # where it succeeds it silently upcasts the dtype. The companion mask
+    # variable records which entries are masked so the exact original array is
+    # reconstructed in ``dataset_to_masked_array``.
+    data_arr = xr.DataArray(np.ma.getdata(obj), dims=dims, name=name)
     dataset = data_arr.to_dataset()
 
     # Store mask as bool
@@ -181,8 +186,13 @@ def masked_array_to_dataset(
             "_conv_mask_var": mask_name,
         }
     )
-    if obj.fill_value is not None:
-        dataset.attrs["_conv_fill_value"] = float(obj.fill_value)
+    # Preserve the fill_value as a native scalar without forcing a float cast
+    # (integer and string MaskedArrays have non-float fill values).
+    fill_value = getattr(obj, "fill_value", None)
+    if fill_value is not None:
+        dataset.attrs["_conv_fill_value"] = (
+            fill_value.item() if hasattr(fill_value, "item") else fill_value
+        )
 
     return dataset
 
@@ -210,9 +220,23 @@ def dataset_to_masked_array(dataset: xr.Dataset, **kwargs: Any) -> np.ma.MaskedA
     data = dataset[var_name].values
     mask = dataset[mask_name].values if mask_name in dataset.data_vars else False
 
+    # Restore the original dtype if it was recorded. In-memory this is a no-op
+    # (the data was stored via ``np.ma.getdata`` with its dtype intact), but it
+    # recovers the correct dtype after a serialization round-trip that may have
+    # upcast the data (e.g. netCDF promoting integers to float).
+    orig_dtype = dataset.attrs.get("_ditto_original_dtype")
+    if orig_dtype is not None:
+        try:
+            data = data.astype(orig_dtype)
+        except (TypeError, ValueError):
+            pass
+
     result = np.ma.MaskedArray(data, mask=mask)
     if fill_value is not None:
-        result.fill_value = fill_value
+        try:
+            result.fill_value = fill_value
+        except (TypeError, ValueError):
+            pass
     return result
 
 
@@ -387,6 +411,125 @@ def dataset_dict_to_dataset(dct: dict[str, xr.Dataset], **kwargs: Any) -> xr.Dat
     merged: xr.Dataset = xr.merge(datasets) if datasets else xr.Dataset()
     merged.attrs["_conv_var_order"] = list(dct.keys())
     return merged
+
+
+# ---------------------------------------------------------------------------
+# dict  ⇄  xr.Dataset  (generic, insertion-order-preserving)
+# ---------------------------------------------------------------------------
+
+
+def dict_to_dataset(obj: dict, **kwargs: Any) -> xr.Dataset:
+    """Convert a plain ``dict`` to an ``xr.Dataset`` for DataTreeDitto storage.
+
+    Numpy-array values become data variables (each with synthetic dim
+    names of the form ``<key>_dim_<i>``); scalar values (``int``,
+    ``float``, ``str``, ``bool``, ``None``) become ``attrs`` under a
+    ``_ditto_attr_<key>`` namespace; any other value type raises
+    ``TypeError``. Original insertion order is preserved in ``_ditto_keys``.
+
+    Parameters
+    ----------
+    obj : dict
+        Dictionary of numpy arrays and/or scalars.
+    **kwargs
+        Ignored.
+
+    Returns
+    -------
+    xr.Dataset
+    """
+    ds = xr.Dataset()
+    ds.attrs["_ditto_original_type"] = _type_key(dict)
+    ds.attrs["_ditto_keys"] = list(obj.keys())
+    for key, value in obj.items():
+        if isinstance(value, np.ndarray):
+            dims = [f"{key}_dim_{i}" for i in range(value.ndim)]
+            ds[key] = xr.DataArray(value, dims=dims)
+        elif isinstance(value, (int, float, str, bool)) or value is None:
+            ds.attrs[f"_ditto_attr_{key}"] = value
+        else:
+            raise TypeError(
+                f"Cannot store value of type {type(value).__name__!r} "
+                f"for key {key!r} in dict-to-Dataset conversion. "
+                f"Only numpy arrays, scalars (int, float, str, bool, None) "
+                f"are supported."
+            )
+    return ds
+
+
+def dataset_to_dict(dataset: xr.Dataset, **kwargs: Any) -> dict:
+    """Recover a plain ``dict`` from a dict-origin ``xr.Dataset``.
+
+    Walks ``_ditto_keys`` to preserve original insertion order.
+
+    Parameters
+    ----------
+    dataset : xr.Dataset
+    **kwargs
+        Ignored.
+
+    Returns
+    -------
+    dict
+    """
+    keys = dataset.attrs.get("_ditto_keys", [])
+    out: dict = {}
+    for k in keys:
+        if k in dataset.data_vars:
+            out[k] = dataset[k].values
+        elif f"_ditto_attr_{k}" in dataset.attrs:
+            out[k] = dataset.attrs[f"_ditto_attr_{k}"]
+    return out
+
+
+# ---------------------------------------------------------------------------
+# xr.DataArray  ⇄  xr.Dataset
+# ---------------------------------------------------------------------------
+
+
+def dataarray_to_dataset(obj: xr.DataArray, **kwargs: Any) -> xr.Dataset:
+    """Convert a ``DataArray`` to a ``Dataset`` for DataTreeDitto storage.
+
+    Parameters
+    ----------
+    obj : xr.DataArray
+    **kwargs
+        Ignored.
+
+    Returns
+    -------
+    xr.Dataset
+    """
+    name = obj.name or "data"
+    ds = obj.to_dataset(name=name)
+    ds.attrs["_ditto_original_type"] = _type_key(xr.DataArray)
+    ds.attrs["_ditto_da_name"] = name
+    return ds
+
+
+def dataset_to_dataarray(dataset: xr.Dataset, **kwargs: Any) -> xr.DataArray:
+    """Recover an ``xr.DataArray`` from a DataArray-origin ``xr.Dataset``.
+
+    Parameters
+    ----------
+    dataset : xr.Dataset
+    **kwargs
+        Ignored.
+
+    Returns
+    -------
+    xr.DataArray
+    """
+    name = dataset.attrs.get("_ditto_da_name")
+    if name is None:
+        if len(dataset.data_vars) != 1:
+            raise ValueError(
+                "Cannot convert Dataset to DataArray: "
+                "'_ditto_da_name' attr is missing and the Dataset has "
+                f"{len(dataset.data_vars)} data_vars (need exactly 1)."
+            )
+        name = next(iter(dataset.data_vars))
+    return dataset[name]
 
 
 # ---------------------------------------------------------------------------
