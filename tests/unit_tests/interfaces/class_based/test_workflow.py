@@ -477,6 +477,15 @@ class TestInputRefValidation:
             }
         )
 
+    def test_input_reserved_as_step_id(self):
+        """A step literally named ``_input`` is rejected as a reserved id."""
+        with pytest.raises(Exception, match="reserved"):
+            _make_spec(
+                {
+                    "_input": {"kind": "reader", "name": "x", "depends_on": []},
+                }
+            )
+
     def test_input_ref_does_not_create_false_cycle(self):
         """A repeated _input token is not treated as a dependency cycle."""
         # A self-referential-looking "_input" must not be treated as a cycle.

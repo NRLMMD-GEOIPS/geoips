@@ -141,6 +141,19 @@ class TestPositionalDataRouting:
         )
         assert result.attrs["data_range"] == [0, 100]
 
+    def test_keyword_only_leading_signature_drops_data(self):
+        """A keyword-only-leading ``call`` never receives positional data."""
+
+        class _KwOnlyPlugin(_FakeNativePlugin):
+            def call(self, *, fnames=None, **kwargs):
+                return xr.Dataset(attrs={"fnames": list(fnames or [])})
+
+        dt = xr.DataTree(name="multi_input")
+        # Would raise "takes 0 positional arguments" if data were passed
+        # positionally; instead it is dropped and fnames arrives by keyword.
+        result = _KwOnlyPlugin()(data=dt, fnames=["a.nc"], _obp_initiated=True)
+        assert result.attrs["fnames"] == ["a.nc"]
+
 
 class _FakeLegacyReader(BaseReaderPlugin):
     """A legacy (``data_tree=False``) reader whose ``call`` rejects ``data``."""
