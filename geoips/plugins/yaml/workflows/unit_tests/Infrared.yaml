@@ -62,5 +62,4 @@ spec:
       arguments:
         product_name: Infrared
         product_name_title: G16 Infrared @ 11.2 um
-        # product_datatype_title: ""
         output_fnames: [!ENV $GEOIPS_OUTDIRS/infrared_full_run.png]
