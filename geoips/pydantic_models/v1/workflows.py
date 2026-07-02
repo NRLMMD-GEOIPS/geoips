@@ -676,7 +676,7 @@ class WorkflowSpecModel(FrozenModel):
 
     @classmethod
     def product_to_steps(
-        cls, plugin: dict, last_step_id: str | None = None
+        cls, plugin: dict, _inputs: list[str] | None = None
     ) -> tuple[dict[dict], dict]:
         """Define a product or product default plugin as a series of workflow steps.
 
@@ -684,9 +684,9 @@ class WorkflowSpecModel(FrozenModel):
         ----------
         plugin: dict
             A dictionary representation of a product or product default plugin.
-        last_step_id: str, optional
-            The step id of the step that ran previous. Optional. If None, assume no
-            step was ran prior.
+        _inputs: list[str], optional
+            One or more step ids that are providing input data to this step. Optional.
+            If None, assume no input data is available or needed.
 
         Returns
         -------
@@ -710,11 +710,11 @@ class WorkflowSpecModel(FrozenModel):
 
                 if plugin_name == "colormapper":
                     steps[plugin_name]["depends_on"] = []
-                elif idx == 0 and last_step_id:
-                    steps[plugin_name]["depends_on"] = [last_step_id]
+                elif idx == 0 and _inputs:
+                    steps[plugin_name]["depends_on"] = _inputs
                     last_data_step = [plugin_name]
-                elif idx == 0 and not last_step_id:
-                    steps[plugin_name]["depends_on"] = [last_step_id]
+                elif idx == 0 and not _inputs:
+                    steps[plugin_name]["depends_on"] = []
                     last_data_step = [plugin_name]
                 else:
                     steps[plugin_name]["depends_on"] = last_data_step
@@ -740,7 +740,7 @@ class WorkflowSpecModel(FrozenModel):
 
     @classmethod
     def expand_step(
-        cls, step: dict, info: ValidationInfo, last_step_id: str | None = None
+        cls, step: dict, info: ValidationInfo, _inputs: list[str] | None = None
     ) -> dict[dict]:
         """Expand the definition of this step if it is a select plugin type.
 
@@ -756,9 +756,9 @@ class WorkflowSpecModel(FrozenModel):
             A dictionary representation of a workflow step.
         info: ValidationInfo
             An object representing the context in which this model was instantiated.
-        last_step_id: str, optional
-            The step id of the step that ran previous. Optional. If None, assume no
-            step was ran prior.
+        _inputs: list[str], optional
+            One or more step ids that are providing input data to this step. Optional.
+            If None, assume no input data is available or needed.
 
         Returns
         -------
@@ -780,7 +780,7 @@ class WorkflowSpecModel(FrozenModel):
             plugin = interface.get_plugin(step.get("name"), _expand=expand)
 
         if kind in ["product", "product_default"]:
-            steps, global_vars = cls.product_to_steps(plugin, last_step_id)  # NOQA
+            steps, global_vars = cls.product_to_steps(plugin, _inputs)  # NOQA
         else:
             steps = cls.expand_steps(plugin.get("spec"), info)["steps"]
 
@@ -807,12 +807,12 @@ class WorkflowSpecModel(FrozenModel):
         steps = data.pop("steps", {})
         expanded_steps = {}
 
-        last_step_id = None
+        _inputs = None
 
         for name, step in steps.items():
             # Default
             if step.get("kind") in ["product", "product_default"]:
-                spec = {"steps": cls.expand_step(step, info, last_step_id)}
+                spec = {"steps": cls.expand_step(step, info, _inputs)}
                 new_step = {
                     "kind": "workflow",
                     "spec": spec,
@@ -838,7 +838,7 @@ class WorkflowSpecModel(FrozenModel):
                 # Not a workflow or product-based plugin, just keep the step as it is
                 expanded_steps[name] = step
 
-            last_step_id = name
+            _inputs = [name]
 
         data["steps"] = expanded_steps
 
