@@ -1,241 +1,316 @@
-###############################################################################
-#                              BASE STAGE
-###############################################################################
-FROM python:3.11-slim-bullseye AS base
+# =============================================================================
+#  GeoIPS Multi-Stage Dockerfile
+#
+#  Build targets:
+#    docker build --target geoips-base .     # core GeoIPS only
+#    docker build --target geoips-full .     # + shapefiles, settings repos, doc/test extras
+#    docker build --target geoips-site .     # + all open-source plugin packages
+#    docker build --target dev .             # site + editable install + dev tools (ssh,vim,…)
+#    docker build --target dev-quick .       # base + editable install + dev tools (fast build)
+#    docker build --target production  .     # slim runtime image (no source, no ansible)
+#
+#  Cache-optimised CI usage:
+#    # 1. Pull/push deps cache across runs (deps stage changes rarely)
+#    docker build --target deps --tag geoips:cache .
+#    docker push ghcr.io/org/repo:build-cache
+#
+#    # 2. Build full target using cached deps layers
+#    docker build --cache-from geoips:cache --target geoips-site --tag $IMAGE_TAG .
+#
+#  Extra plugins (any target):
+#    docker build --target geoips-site --build-arg EXTRA_PLUGINS=my_plugin .
+#
+#  Private plugins:
+#    docker build --target geoips-site --build-arg GEOIPS_USE_PRIVATE_PLUGINS=true .
+#
+#  Test data is NEVER baked in.  Mount at runtime:
+#    docker run -v /path/to/testdata:/geoips_testdata geoips ...
+# =============================================================================
 
-# Avoid interactive prompts
+###############################################################################
+# Stage 1: base-os — system packages + uv (no Python libs yet)
+###############################################################################
+FROM python:3.11-slim-trixie AS base-os
+
 ARG DEBIAN_FRONTEND=noninteractive
+ENV CFLAGS="-Wno-incompatible-pointer-types"
 
-    # Install site dependencies
-    RUN apt-get update \
-        && apt-get upgrade -y \
-        && apt-get install -y --no-install-recommends \
-        wget git libopenblas-dev g++ make gfortran \
-        && rm -rf /var/lib/apt/lists/*
-
-    # Upgrade pip
-    RUN python -m pip install --no-cache-dir --upgrade pip
-
-    ###############################################################################
-    #                              BUILD STAGE
-    ###############################################################################
-    FROM base AS build
-
-    # Build arguments
-    ARG USER=geoips_user
-    ARG USER_ID=1000
-    ARG GROUP_ID=1000
-    ARG GEOIPS_BASE_CLONE_DIR=.
-
-    ARG GEOIPS_PACKAGES_DIR=/packages
-    ARG GEOIPS_OUTDIRS=/output
-    ARG GEOIPS_DEPENDENCIES_DIR=/app/dependencies
-    ARG GEOIPS_TESTDATA_DIR=/geoips_testdata
-    ARG GEOIPS_REPO_URL=https://github.com/NRLMMD-GEOIPS/
-
-    # If set to something other than "False", will chmod -R a+rw on output dirs
-    ARG UNSAFE_PERMS=False
-
-    # Environment variables
-    ENV GEOIPS_OUTDIRS="${GEOIPS_OUTDIRS}" \
-        GEOIPS_REPO_URL="${GEOIPS_REPO_URL}" \
-        GEOIPS_PACKAGES_DIR="${GEOIPS_PACKAGES_DIR}" \
-        GEOIPS_DEPENDENCIES_DIR="${GEOIPS_DEPENDENCIES_DIR}" \
-        GEOIPS_TESTDATA_DIR="${GEOIPS_TESTDATA_DIR}" \
-        CARTOPY_DATA_DIR="${GEOIPS_PACKAGES_DIR}" \
-        PATH="${PATH}:/home/${USER}/.local/bin:${GEOIPS_DEPENDENCIES_DIR}/bin"
-
-    # Create a non-root user
-    RUN groupadd -g "${GROUP_ID}" "${USER}" \
-        && useradd -l -m -u "${USER_ID}" -g "${GROUP_ID}" "${USER}"
-
-
-    # Create directories; set ownership and permissions to all if UNSAFE_PERMS != "False"
-    RUN mkdir -p "${GEOIPS_OUTDIRS}" \
-        && mkdir -p "${GEOIPS_DEPENDENCIES_DIR}" \
-        && mkdir -p "${GEOIPS_TESTDATA_DIR}" \
-        && mkdir -p "${GEOIPS_PACKAGES_DIR}/geoips" \
-        && chown -R "${USER}:${GROUP_ID}" \
-            "${GEOIPS_OUTDIRS}" \
-            "${GEOIPS_DEPENDENCIES_DIR}" \
-            "${GEOIPS_TESTDATA_DIR}" \
-            "${GEOIPS_PACKAGES_DIR}" \
-        && if [ "${UNSAFE_PERMS}" != "False" ]; then \
-            chmod -R a+rw \
-            "${GEOIPS_OUTDIRS}" \
-            "${GEOIPS_DEPENDENCIES_DIR}" \
-            "${GEOIPS_TESTDATA_DIR}" \
-            "${GEOIPS_PACKAGES_DIR}"; \
-        fi
-
-    USER ${USER}
-
-    # Set working directory
-    WORKDIR ${GEOIPS_PACKAGES_DIR}/geoips
-
-    # Copy only requirements first to leverage Docker layer caching
-    COPY --chown=${USER}:${GROUP_ID} ${GEOIPS_BASE_CLONE_DIR}/environments/requirements.txt ./requirements.txt
-    RUN python -m pip install --no-cache-dir -r requirements.txt
-
-    # Now copy all of GeoIPS
-    COPY --chown=${USER}:${GROUP_ID} ${GEOIPS_BASE_CLONE_DIR} ./
-
-    # Configure Git (avoid "detected dubious ownership" warnings when mounted)
-    RUN git config --global --add safe.directory '*'
-
-    # Install GeoIPS in editable mode
-    RUN python -m pip install --no-cache-dir -e "."
-    RUN geoips config create-reg
+# Single apt pass: add unstable source first, then one update + install.
+RUN echo "deb http://deb.debian.org/debian/ unstable main contrib non-free" \
+      > /etc/apt/sources.list.d/unstable.list \
+    && apt-get update \
+    && apt-get upgrade -y \
+    && apt-get install -y --no-install-recommends \
+         git wget libopenblas-dev g++ make gfortran libeccodes-dev \
+         -t unstable gdal-bin libgdal-dev \
+    && rm -rf /var/lib/apt/lists/* \
+    && pip install --no-cache-dir uv
 
 ###############################################################################
-#                          FULL BUILD STAGE
+# Stage 2: deps — Python requirements + cartopy shapefiles (cached layer)
+#
+# Everything below the ---- line only rebuilds when requirements.txt or the
+# shapefiles setup changes.  Day-to-day source edits skip this entire stage.
 ###############################################################################
-FROM build AS full_build
+FROM base-os AS deps
 
-USER root
-RUN --mount=type=bind,from=testdata,target=${GEOIPS_TESTDATA_DIR},rw \
-    git config --global --add safe.directory '*' \
-    && python -m pip install --no-cache-dir -e "$GEOIPS_PACKAGES_DIR/geoips/" \
-    && bash $GEOIPS_PACKAGES_DIR/geoips/tests/integration_tests/base_install.sh \
-    && bash $GEOIPS_PACKAGES_DIR/geoips/tests/integration_tests/full_install.sh \
-    && geoips config create-reg \
-    && chown -R ${USER}:${GROUP_ID} ${GEOIPS_PACKAGES_DIR} ${GEOIPS_OUTDIRS}
+ARG USER=geoips_user
+ARG USER_ID=1000
+ARG GROUP_ID=1000
 
-USER ${USER}
+ENV GEOIPS_PACKAGES_DIR=/packages \
+    GEOIPS_OUTDIRS=/output \
+    GEOIPS_TESTDATA_DIR=/geoips_testdata \
+    GEOIPS_DEPENDENCIES_DIR=/app/dependencies \
+    GEOIPS_REPO_URL=https://github.com/NRLMMD-GEOIPS/ \
+    CARTOPY_DATA_DIR=/packages
+
+RUN groupadd -g ${GROUP_ID} ${USER} \
+    && useradd -l -m -u ${USER_ID} -g ${GROUP_ID} ${USER} \
+    && mkdir -p \
+       ${GEOIPS_OUTDIRS} \
+       ${GEOIPS_DEPENDENCIES_DIR} \
+       ${GEOIPS_TESTDATA_DIR} \
+       ${GEOIPS_PACKAGES_DIR}/geoips \
+    && chown -R ${USER}:${GROUP_ID} \
+       ${GEOIPS_OUTDIRS} \
+       ${GEOIPS_DEPENDENCIES_DIR} \
+       ${GEOIPS_TESTDATA_DIR} \
+       ${GEOIPS_PACKAGES_DIR}
+
+# ---- cached layer: Python packages (changes only when requirements.txt does) ----
+COPY --chown=${USER}:${GROUP_ID} environments/requirements.txt /tmp/requirements.txt
+RUN uv pip install --system --no-cache -r /tmp/requirements.txt \
+    && uv pip install --system --no-cache ansible-core
+
+# ---- cached layer: cartopy shapefiles (no source dependency) ----
+# Pre-populated here so the ansible role in later stages detects them and skips.
+# This clone is 300MB+ and only reruns when the Dockerfile line changes.
+RUN git clone --depth 1 https://github.com/nvkelso/natural-earth-vector \
+      /packages/shapefiles_clone/natural-earth-vector \
+    && mkdir -p /packages/shapefiles/natural_earth/cultural \
+               /packages/shapefiles/natural_earth/physical \
+    && ln -sfv /packages/shapefiles_clone/natural-earth-vector/*_cultural/*/* \
+               /packages/shapefiles/natural_earth/cultural/ \
+    && ln -sfv /packages/shapefiles_clone/natural-earth-vector/*_physical/*/* \
+               /packages/shapefiles/natural_earth/physical/ \
+    && ln -sfv /packages/shapefiles_clone/natural-earth-vector/*_cultural/* \
+               /packages/shapefiles/natural_earth/cultural/ \
+    && ln -sfv /packages/shapefiles_clone/natural-earth-vector/*_physical/* \
+               /packages/shapefiles/natural_earth/physical/ \
+    && chown -R ${USER}:${GROUP_ID} /packages/shapefiles*
+
 ###############################################################################
-#                          SITE BUILD STAGE
+# Stage 3: geoips-base — core GeoIPS built from source (non-editable)
 ###############################################################################
-FROM build AS site_build
+FROM deps AS geoips-base
 
-# Install all plugins
-USER root
-RUN --mount=type=bind,from=testdata,target=${GEOIPS_TESTDATA_DIR},rw \
-    git config --global --add safe.directory '*' \
-    && python -m pip install --no-cache-dir -e "$GEOIPS_PACKAGES_DIR/geoips/" \
-    && bash $GEOIPS_PACKAGES_DIR/geoips/tests/integration_tests/base_install.sh \
-    && bash $GEOIPS_PACKAGES_DIR/geoips/tests/integration_tests/full_install.sh \
-    && bash $GEOIPS_PACKAGES_DIR/geoips/tests/integration_tests/site_install.sh \
-    && geoips config create-reg \
-    && chown -R ${USER}:${GROUP_ID} ${GEOIPS_PACKAGES_DIR} ${GEOIPS_OUTDIRS}
-USER ${USER}
+ARG USER=geoips_user
+ARG USER_ID=1000
+ARG GROUP_ID=1000
+ARG EXTRA_PLUGINS=""
+ARG GEOIPS_MODIFIED_BRANCH=""
 
-###############################################################################
-#                          BASE TEST STAGE
-###############################################################################
-FROM build AS test_base
+ENV EXTRA_PLUGINS=${EXTRA_PLUGINS} \
+    GEOIPS_MODIFIED_BRANCH=${GEOIPS_MODIFIED_BRANCH}
 
-# Install only test + doc extras and no external plugins (minimal test environment)
-RUN python -m pip install --no-cache-dir -e "$GEOIPS_PACKAGES_DIR/geoips/[doc,test]" \
-    && echo "import coverage; coverage.process_startup()" > ~/.local/lib/python3.11/site-packages/coverage.pth
+# ---- this layer rebuilds on any source change, but deps above are cached ----
+COPY --chown=${USER}:${GROUP_ID} . ${GEOIPS_PACKAGES_DIR}/geoips/
 
-###############################################################################
-#   TEMPORARY FOR CI TESTING - DELETE AFTER UPDATING CI TO USE test_base
-###############################################################################
-FROM build AS doclinttest
+# Git worktrees store .git as a FILE pointing to the main repo on the host.
+# That path is invalid inside the container, which breaks poetry-dynamic-versioning
+# (dunamai needs a real .git dir to resolve the version).  Create a minimal shim
+# so pip install succeeds.
+RUN if [ -f ${GEOIPS_PACKAGES_DIR}/geoips/.git ]; then \
+      rm ${GEOIPS_PACKAGES_DIR}/geoips/.git ; \
+      cd ${GEOIPS_PACKAGES_DIR}/geoips ; \
+      git init -q ; \
+      git commit --allow-empty -q -m "docker-build" ; \
+    fi
 
-USER root
-# Configure Git (avoid "detected dubious ownership" warnings when mounted)
 RUN git config --global --add safe.directory '*'
 
-RUN python -m pip install --no-cache-dir -e "$GEOIPS_PACKAGES_DIR/geoips/[doc,lint,test]"
-
-RUN mkdir -p /__w /__e /__t /github && \
-    chmod -R 777 /__w /__e /__t /github /tmp # For github actions
-
-# Switch back to non-root for runtime
-#USER ${USER}
-
-###############################################################################
-#                          FULL TEST STAGE
-###############################################################################
-FROM full_build AS test_full
-
-RUN python -m pip install --no-cache-dir -e "$GEOIPS_PACKAGES_DIR/geoips/[doc,test]" \
-    && echo "import coverage; coverage.process_startup()" > ~/.local/lib/python3.11/site-packages/coverage.pth
-# See https://coverage.readthedocs.io/en/coverage-5.1/subprocess.html#measuring-sub-processes
-# for more info on how this helps measure coverage of subprocess-based tests
-
-ENTRYPOINT ["pytest"]
+# Install geoips core with uv.  python_env role is skipped because uv already
+# installed the package; ansible only runs system_deps verification + registries.
+RUN uv pip install --system --no-cache ${GEOIPS_PACKAGES_DIR}/geoips \
+    && cd ${GEOIPS_PACKAGES_DIR}/geoips/tests/ansible \
+    && ansible-playbook playbooks/install.yml \
+       --tags base \
+       --skip-tags python_env \
+       -e editable_pip_install=false \
+       -v \
+    && chown -R ${USER_ID}:${GROUP_ID} ${GEOIPS_PACKAGES_DIR} /home/${USER}
 
 ###############################################################################
-#                          SITE TEST STAGE
+# Stage 3.5: doclinttest - a fake stage for compat with the other CI
 ###############################################################################
-FROM site_build AS test_site
+FROM geoips-base AS doclinttest
 
-RUN python -m pip install --no-cache-dir -e "$GEOIPS_PACKAGES_DIR/geoips/[doc,test]" \
-    && echo "import coverage; coverage.process_startup()" > ~/.local/lib/python3.11/site-packages/coverage.pth
-# See https://coverage.readthedocs.io/en/coverage-5.1/subprocess.html#measuring-sub-processes
-# for more info on how this helps measure coverage of subprocess-based tests
+ARG USER=geoips_user
+ARG USER_ID=1000
+ARG GROUP_ID=1000
 
-ENTRYPOINT ["pytest"]
+RUN echo "Echoing..."
 
 ###############################################################################
-#                           DEV STAGE
+# Stage 4: geoips-full — settings repos, doc/test extras
+#
+# Cartopy shapefiles were pre-populated in the deps stage, so the ansible
+# cartopy_shapefiles role is skipped.  Doc/test extras are installed with uv.
 ###############################################################################
-FROM test_site AS dev
+FROM geoips-base AS geoips-full
 
-# Install lint, debug, etc. on top of site test as well as some helpful tools
-# Modify permissions as well and make the default user root
-# Even though it is reccomended to use user geoips_user
+ARG USER=geoips_user
+ARG USER_ID=1000
+ARG GROUP_ID=1000
+
 USER root
+RUN uv pip install --system --no-cache ${GEOIPS_PACKAGES_DIR}/geoips[doc,test] \
+    && cd ${GEOIPS_PACKAGES_DIR}/geoips/tests/ansible \
+    && ansible-playbook playbooks/install.yml \
+       --tags full \
+       --skip-tags python_env,cartopy_shapefiles \
+       -e editable_pip_install=false \
+       -v \
+    && chown -R ${USER_ID}:${GROUP_ID} ${GEOIPS_PACKAGES_DIR} /home/${USER}
+
+USER ${USER}
+
+###############################################################################
+# Stage 5: geoips-site — all open-source (+ optional private) plugin packages
+###############################################################################
+FROM geoips-full AS geoips-site
+
+ARG USER=geoips_user
+ARG USER_ID=1000
+ARG GROUP_ID=1000
+ARG GEOIPS_USE_PRIVATE_PLUGINS=false
+ARG EDITABLE_PIP_INSTALL=true
+ENV GEOIPS_USE_PRIVATE_PLUGINS=${GEOIPS_USE_PRIVATE_PLUGINS}
+
+USER root
+RUN uv pip install --system --no-cache \
+    $([ "$EDITABLE_PIP_INSTALL" = "true" ] && echo "-e") \
+    ${GEOIPS_PACKAGES_DIR}/geoips[doc,test,lint,debug] \
+    && cd ${GEOIPS_PACKAGES_DIR}/geoips/tests/ansible \
+    && ansible-playbook playbooks/install.yml \
+       --tags site \
+       --skip-tags python_env,cartopy_shapefiles \
+       -e editable_pip_install=$EDITABLE_PIP_INSTALL \
+       -v \
+    && chown -R ${USER_ID}:${GROUP_ID} ${GEOIPS_PACKAGES_DIR} ${GEOIPS_OUTDIRS} /home/${USER}
+
+USER ${USER}
+
+###############################################################################
+# Stage 6: dev — full site + editable install + developer tools
+#
+# Inherits geoips-site (all plugins installed non-editable) then converts
+# to editable mode so the devcontainer's workspace bind-mount at
+# /packages/geoips makes host source changes live immediately.
+#
+# .git is provided by the workspace mount (not baked into the image).
+###############################################################################
+FROM geoips-site AS dev
+
+ARG USER=geoips_user
+ARG USER_ID=1000
+ARG GROUP_ID=1000
+
+USER root
+
+# Developer tools — ssh server for remote connections, editors, shell niceties
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
-    ssh vim wget sudo \
-    && rm -rf /var/lib/apt/lists/* \
-    && git config --global --add safe.directory '*' \
-    && usermod -aG sudo ${USER} \
-    && echo "${USER} ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers \
-    && chown -R geoips_user /output/ \
-    && chmod -R 0777 /output/ \
-    && chown -R geoips_user /packages/ \
-    && chmod -R 0777 /packages/
-RUN python -m pip install --no-cache-dir -e "$GEOIPS_PACKAGES_DIR/geoips/[doc,test,lint,debug]"
+       openssh-server \
+       vim \
+       htop \
+       curl \
+       bash-completion \
+    && rm -rf /var/lib/apt/lists/*
+
+# Convert to editable install.  Non-editable packages are already in
+# site-packages from the earlier stages; editable overlays them so
+# Python loads from /packages/geoips (→ workspace bind mount → host).
+RUN uv pip install --system --no-cache -e ${GEOIPS_PACKAGES_DIR}/geoips[doc,test,lint,debug] \
+    && cd ${GEOIPS_PACKAGES_DIR}/geoips/tests/ansible \
+    && ansible-playbook playbooks/install.yml \
+       --tags site \
+       --skip-tags registries,python_env,cartopy_shapefiles \
+       -e editable_pip_install=true \
+       -v \
+    && chown -R ${USER_ID}:${GROUP_ID} ${GEOIPS_PACKAGES_DIR} /home/${USER}
+
+# Prepare SSH for remote dev connections
+RUN mkdir -p /var/run/sshd \
+    && echo "PermitRootLogin yes" >> /etc/ssh/sshd_config
+
+USER ${USER}
 
 ###############################################################################
-#                              PRODUCTION STAGE
+# Stage 7: dev-quick — base + editable install + dev tools (fast builds)
+#
+# Lightweight development target for quick iteration.  Skips all plugins,
+# shapefiles, and settings repos.  Use when you only need core GeoIPS.
 ###############################################################################
-FROM build AS production
+FROM geoips-base AS dev-quick
+
+ARG USER=geoips_user
+ARG USER_ID=1000
+ARG GROUP_ID=1000
 
 USER root
 
-# I'm not sure if this actually achieves the goal...
-# Remove unnecessary files for smaller production image
-RUN cd "$GEOIPS_PACKAGES_DIR/geoips" \
-    && rm -rf \
-       CHANGELOG_TEMPLATE.rst \
-       environments \
-       .github \
-       pyproject.toml \
-       tests \
-       CODE_OF_CONDUCT.md \
-       Dockerfile \
-       .flake8 \
-       .gitignore \
-       pytest.ini \
-       update_this_release_note \
-       bandit.yml \
-       COMMIT_MESSAGE_TEMPLATE.md \
-       .dockerignore \
-       interface_notes.md \
-       README.md \
-       CHANGELOG.rst \
-       .config \
-       docs \
-       setup \
-       requirements.txt \
-    && apt-get remove -y \
-       git \
-       make \
-       g++ \
-       wget \
-       gfortran \
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends \
+       openssh-server \
+       vim \
+       htop \
+       curl \
+       bash-completion \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN uv pip install --system --no-cache -e ${GEOIPS_PACKAGES_DIR}/geoips[doc,test,lint,debug]
+
+RUN mkdir -p /var/run/sshd \
+    && echo "PermitRootLogin yes" >> /etc/ssh/sshd_config
+
+USER ${USER}
+
+###############################################################################
+# Stage 8: production — minimal runtime, no source tree, no ansible, no git
+#
+# Because we built from source (non-editable), the entire geoips package and
+# its plugins live in site-packages.  We copy only that plus the bin stubs,
+# leaving the source tree, tests, ansible, docs, and build tools behind.
+###############################################################################
+FROM base-os AS production
+
+ARG USER=geoips_user
+ARG USER_ID=1000
+ARG GROUP_ID=1000
+
+ENV GEOIPS_PACKAGES_DIR=/packages \
+    GEOIPS_OUTDIRS=/output \
+    GEOIPS_TESTDATA_DIR=/geoips_testdata \
+    GEOIPS_DEPENDENCIES_DIR=/app/dependencies
+
+RUN groupadd -g ${GROUP_ID} ${USER} \
+    && useradd -l -m -u ${USER_ID} -g ${GROUP_ID} ${USER} \
+    && mkdir -p ${GEOIPS_OUTDIRS} ${GEOIPS_TESTDATA_DIR}
+
+# Only site-packages and console-script stubs — no source tree at all.
+# Copies from geoips-base: includes core GeoIPS but NO plugin packages.
+# Plugin packages are not needed for a production runtime image.
+COPY --from=geoips-base /usr/local/lib/python3.11/site-packages \
+                        /usr/local/lib/python3.11/site-packages
+COPY --from=geoips-base /usr/local/bin /usr/local/bin
+
+# Strip build-only OS packages
+RUN apt-get remove -y git make wget g++ gfortran \
     && apt-get autoremove -y \
     && rm -rf /var/lib/apt/lists/*
 
-# Switch back to non-root for runtime
 USER ${USER}
-WORKDIR ${GEOIPS_PACKAGES_DIR}/geoips
-
-# By default, provide a simple help CMD and a direct ENTRYPOINT
 ENTRYPOINT ["geoips"]
-CMD ["geoips", "--help"]
+CMD ["--help"]
