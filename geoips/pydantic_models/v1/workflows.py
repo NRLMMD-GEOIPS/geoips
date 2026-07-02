@@ -764,7 +764,7 @@ class WorkflowSpecModel(FrozenModel):
                 if plugin_name == "colormapper":
                     steps[plugin_name]["depends_on"] = []
                 elif idx == 0 and _inputs:
-                    steps[plugin_name]["depends_on"] = _inputs
+                    steps[plugin_name]["depends_on"] = ["_input"]
                     last_data_step = [plugin_name]
                 elif idx == 0 and not _inputs:
                     steps[plugin_name]["depends_on"] = []
