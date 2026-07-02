@@ -675,13 +675,18 @@ class WorkflowSpecModel(FrozenModel):
         return result
 
     @classmethod
-    def product_to_steps(cls, plugin: dict) -> tuple[dict[dict], dict]:
+    def product_to_steps(
+        cls, plugin: dict, last_step_id: str | None = None
+    ) -> tuple[dict[dict], dict]:
         """Define a product or product default plugin as a series of workflow steps.
 
         Parameters
         ----------
         plugin: dict
-            - A dictionary representation of a product or product default plugin.
+            A dictionary representation of a product or product default plugin.
+        last_step_id: str, optional
+            The step id of the step that ran previous. Optional. If None, assume no
+            step was ran prior.
 
         Returns
         -------
@@ -697,9 +702,28 @@ class WorkflowSpecModel(FrozenModel):
         global_vars = {"variables": spec["variables"]} if spec.get("variables") else {}
 
         if family in ORDERED_PRODUCT_FAMILIES:
-            for plugin_name in family.split("_"):
+            step_order = family.split("_")
+            last_data_step = []
+            for idx, plugin_name in enumerate(step_order):
                 steps[plugin_name] = spec[plugin_name].get("plugin")
                 steps[plugin_name]["kind"] = plugin_name
+
+                if plugin_name == "colormapper":
+                    steps[plugin_name]["depends_on"] = []
+                elif idx == 0 and last_step_id:
+                    steps[plugin_name]["depends_on"] = [last_step_id]
+                    last_data_step = [plugin_name]
+                elif idx == 0 and not last_step_id:
+                    steps[plugin_name]["depends_on"] = [last_step_id]
+                    last_data_step = [plugin_name]
+                else:
+                    steps[plugin_name]["depends_on"] = last_data_step
+                    last_data_step = [plugin_name]
+
+            if "coverage_checker" in spec:
+                steps["coverage_checker"] = spec["coverage_checker"].get("plugin")
+                steps["coverage_checker"]["kind"] = "coverage_checker"
+                steps["coverage_checker"]["depends_on"] = last_data_step
         else:
             for key, value in spec.items():
                 if key in ["mtif_type", "variables"]:
@@ -715,7 +739,9 @@ class WorkflowSpecModel(FrozenModel):
         return steps, global_vars
 
     @classmethod
-    def expand_step(cls, step: dict, info: ValidationInfo) -> dict[dict]:
+    def expand_step(
+        cls, step: dict, info: ValidationInfo, last_step_id: str | None = None
+    ) -> dict[dict]:
         """Expand the definition of this step if it is a select plugin type.
 
         Plugin types this function will expand include
@@ -730,6 +756,9 @@ class WorkflowSpecModel(FrozenModel):
             A dictionary representation of a workflow step.
         info: ValidationInfo
             An object representing the context in which this model was instantiated.
+        last_step_id: str, optional
+            The step id of the step that ran previous. Optional. If None, assume no
+            step was ran prior.
 
         Returns
         -------
@@ -751,7 +780,7 @@ class WorkflowSpecModel(FrozenModel):
             plugin = interface.get_plugin(step.get("name"), _expand=expand)
 
         if kind in ["product", "product_default"]:
-            steps, global_vars = cls.product_to_steps(plugin)  # NOQA
+            steps, global_vars = cls.product_to_steps(plugin, last_step_id)  # NOQA
         else:
             steps = cls.expand_steps(plugin.get("spec"), info)["steps"]
 
@@ -778,10 +807,12 @@ class WorkflowSpecModel(FrozenModel):
         steps = data.pop("steps", {})
         expanded_steps = {}
 
+        last_step_id = None
+
         for name, step in steps.items():
             # Default
             if step.get("kind") in ["product", "product_default"]:
-                spec = {"steps": cls.expand_step(step, info)}
+                spec = {"steps": cls.expand_step(step, info, last_step_id)}
                 new_step = {
                     "kind": "workflow",
                     "spec": spec,
@@ -806,6 +837,8 @@ class WorkflowSpecModel(FrozenModel):
             else:
                 # Not a workflow or product-based plugin, just keep the step as it is
                 expanded_steps[name] = step
+
+            last_step_id = name
 
         data["steps"] = expanded_steps
 
