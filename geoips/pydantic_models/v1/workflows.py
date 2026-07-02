@@ -369,6 +369,15 @@ class WorkflowStepDefinitionModel(FrozenModel):
             "Runtime evaluation is not yet implemented."
         ),
     )
+    full_test_policy: Literal["on_token_mismatch", "always", "never", None] = Field(
+        None,
+        description=(
+            "Tells GeoIPS in what circumstances an output checker should run based on "
+            "the result of the token comparison. Defaults to only running the specified"
+            " (or detected) output checker on failed token comparison."
+            "Should only EVER exist for an output checker step."
+        ),
+    )
 
     @field_validator("kind", mode="before")
     @classmethod
@@ -618,9 +627,9 @@ class WorkflowSpecModel(FrozenModel):
     globals: GlobalVariablesModel | None = Field(
         None, description="Arguments shared across workflow steps"
     )
-    steps: Dict[
-        str, Union[WorkflowStepDefinitionModel, OutputCheckerStepDefinitionModel]
-    ] = Field(..., description="Steps to produce the workflow.")
+    steps: Dict[str, Union[WorkflowStepDefinitionModel]] = Field(
+        ..., description="Steps to produce the workflow."
+    )
 
     outputs: List[str] | None = Field(
         None,
@@ -706,13 +715,18 @@ class WorkflowSpecModel(FrozenModel):
         return result
 
     @classmethod
-    def product_to_steps(cls, plugin: dict) -> tuple[dict[dict], dict]:
+    def product_to_steps(
+        cls, plugin: dict, _inputs: list[str] | None = None
+    ) -> tuple[dict[dict], dict]:
         """Define a product or product default plugin as a series of workflow steps.
 
         Parameters
         ----------
         plugin: dict
-            - A dictionary representation of a product or product default plugin.
+            A dictionary representation of a product or product default plugin.
+        _inputs: list[str], optional
+            One or more step ids that are providing input data to this step. Optional.
+            If None, assume no input data is available or needed.
 
         Returns
         -------
@@ -728,9 +742,28 @@ class WorkflowSpecModel(FrozenModel):
         global_vars = {"variables": spec["variables"]} if spec.get("variables") else {}
 
         if family in ORDERED_PRODUCT_FAMILIES:
-            for plugin_name in family.split("_"):
+            step_order = family.split("_")
+            last_data_step = []
+            for idx, plugin_name in enumerate(step_order):
                 steps[plugin_name] = spec[plugin_name].get("plugin")
                 steps[plugin_name]["kind"] = plugin_name
+
+                if plugin_name == "colormapper":
+                    steps[plugin_name]["depends_on"] = []
+                elif idx == 0 and _inputs:
+                    steps[plugin_name]["depends_on"] = _inputs
+                    last_data_step = [plugin_name]
+                elif idx == 0 and not _inputs:
+                    steps[plugin_name]["depends_on"] = []
+                    last_data_step = [plugin_name]
+                else:
+                    steps[plugin_name]["depends_on"] = last_data_step
+                    last_data_step = [plugin_name]
+
+            if "coverage_checker" in spec:
+                steps["coverage_checker"] = spec["coverage_checker"].get("plugin")
+                steps["coverage_checker"]["kind"] = "coverage_checker"
+                steps["coverage_checker"]["depends_on"] = last_data_step
         else:
             for key, value in spec.items():
                 if key in ["mtif_type", "variables"]:
@@ -746,7 +779,9 @@ class WorkflowSpecModel(FrozenModel):
         return steps, global_vars
 
     @classmethod
-    def expand_step(cls, step: dict, info: ValidationInfo) -> dict[dict]:
+    def expand_step(
+        cls, step: dict, info: ValidationInfo, _inputs: list[str] | None = None
+    ) -> dict[dict]:
         """Expand the definition of this step if it is a select plugin type.
 
         Plugin types this function will expand include
@@ -761,6 +796,9 @@ class WorkflowSpecModel(FrozenModel):
             A dictionary representation of a workflow step.
         info: ValidationInfo
             An object representing the context in which this model was instantiated.
+        _inputs: list[str], optional
+            One or more step ids that are providing input data to this step. Optional.
+            If None, assume no input data is available or needed.
 
         Returns
         -------
@@ -782,7 +820,7 @@ class WorkflowSpecModel(FrozenModel):
             plugin = interface.get_plugin(step.get("name"), _expand=expand)
 
         if kind in ["product", "product_default"]:
-            steps, global_vars = cls.product_to_steps(plugin)  # NOQA
+            steps, global_vars = cls.product_to_steps(plugin, _inputs)  # NOQA
         else:
             steps = cls.expand_steps(plugin.get("spec"), info)["steps"]
 
@@ -809,10 +847,12 @@ class WorkflowSpecModel(FrozenModel):
         steps = data.pop("steps", {})
         expanded_steps = {}
 
+        _inputs = None
+
         for name, step in steps.items():
             # Default
             if step.get("kind") in ["product", "product_default"]:
-                spec = {"steps": cls.expand_step(step, info)}
+                spec = {"steps": cls.expand_step(step, info, _inputs)}
                 new_step = {
                     "kind": "workflow",
                     "spec": spec,
@@ -837,6 +877,8 @@ class WorkflowSpecModel(FrozenModel):
             else:
                 # Not a workflow or product-based plugin, just keep the step as it is
                 expanded_steps[name] = step
+
+            _inputs = [name]
 
         data["steps"] = expanded_steps
 
@@ -940,7 +982,7 @@ class WorkflowSpecModel(FrozenModel):
     #     return self
 
 
-class OutputCheckerStepDefinitionModel(PermissiveFrozenModel):
+class OutputCheckerOverrideModel(PermissiveFrozenModel):
     """Model for output checker step definitions / overrides in a workflow test / steps section.  # NOQA
 
     Takes the form of:
@@ -958,6 +1000,7 @@ class OutputCheckerStepDefinitionModel(PermissiveFrozenModel):
             "The name of the output checker plugin to use. If None, use a default "
             "output checker plugin associated with the produced file type(s)."
         ),
+        alias="output_checker_name",
     )
     compare_path: Union[FilePath, str, None] = Field(
         None,
@@ -977,14 +1020,6 @@ class OutputCheckerStepDefinitionModel(PermissiveFrozenModel):
             "Tells GeoIPS in what circumstances an output checker should run based on "
             "the result of the token comparison. Defaults to only running the specified"
             " (or detected) output checker on failed token comparison."
-        ),
-    )
-    depends_on: List[str] | None = Field(
-        None,
-        description=(
-            "Step IDs this step depends on. If None, defaults to "
-            "[previous_step_id] for non-first steps, [] for the first step. "
-            "The runner validates all references exist and no cycles exist."
         ),
     )
 
@@ -1064,7 +1099,7 @@ class WorkflowTestModel(FrozenModel):
     #             optional_arg1: <x>
     #             optional_arg2: <z>
 
-    outputs: Dict[str, OutputCheckerStepDefinitionModel] = Field(
+    outputs: Dict[str, OutputCheckerOverrideModel] = Field(
         default_factory=dict,
         description=(
             "Override dictionary for output checker steps or every instance of"
