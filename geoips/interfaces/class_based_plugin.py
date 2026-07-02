@@ -35,6 +35,7 @@ import logging
 import xarray as xr
 
 from geoips import interfaces
+from geoips.utils.types.datatree_ditto import DataTreeDitto
 from geoips.utils.types.obp_conduits import OBP_CONDUITS
 
 LOG = logging.getLogger(__name__)
@@ -248,8 +249,6 @@ class BaseClassPlugin(ABC):
         Any
             The unwrapped native object.
         """
-        from geoips.utils.types.datatree_ditto import DataTreeDitto
-
         if isinstance(data, DataTreeDitto):
             return data.get_original()
 
@@ -284,8 +283,6 @@ class BaseClassPlugin(ABC):
         -------
         DataTreeDitto or the original result.
         """
-        from geoips.utils.types.datatree_ditto import DataTreeDitto
-
         if result is None:
             return result
         if isinstance(result, DataTreeDitto):
@@ -303,7 +300,21 @@ class BaseClassPlugin(ABC):
             return DataTreeDitto(ds, name=getattr(self, "name", "result"))
         # For all types not previously handled, convert whatever we got to a DTD whose
         # name is the same as the calling plugin and return
-        return DataTreeDitto(result, name=getattr(self, "name", "result"))
+        plugin_name = getattr(self, "name", "result")
+        try:
+            return DataTreeDitto(result, name=plugin_name)
+        except TypeError as exc:
+            raise TypeError(
+                f"Plugin '{plugin_name}' (kind "
+                f"'{getattr(self, 'interface', 'unknown')}') returned a value of "
+                f"type '{type(result).__module__}.{type(result).__name__}' that "
+                f"could not be wrapped in a DataTreeDitto because no converter is "
+                f"registered for it. Either return a supported type (DataTree, "
+                f"Dataset, DataArray, ndarray, dict, list, or a scalar) or "
+                f"register a converter for this type. See "
+                f"geoips.utils.types.converters for examples.\n"
+                f"Original error: {exc}"
+            ) from exc
 
     @staticmethod
     def _to_mutable_dataset(data):
@@ -402,16 +413,79 @@ class BaseClassPlugin(ABC):
 
         data = self._pre_call(data, *args, _obp_initiated=_obp_initiated, **new_kwargs)
 
+        if data is None:
+            # ``_pre_call`` stripped the input (e.g. a legacy ``data_tree=False``
+            # reader handed an injected tree it cannot consume). Fall back to the
+            # no-data call path, dropping any conduit-injected kwargs that this
+            # plugin's ``call`` does not accept.
+            call_kwargs = self._call_kwargs(new_kwargs, _obp_initiated)
+            result = self.call(*args, **call_kwargs)
+            return self._post_call(
+                result, *args, _obp_initiated=_obp_initiated, **new_kwargs
+            )
+
+        # Note: ``_call_kwargs`` drops conduit-injected kwargs (e.g.
+        # ``xarray_obj``) the plugin's ``call`` does not accept. In the unpacking
+        # branch it must be computed *after* ``_kwarg_to_positional`` (which pops
+        # the promoted keys from ``new_kwargs`` in-place), so those keys are not
+        # passed both positionally and by keyword.
         if self._use_positional_unpacking(data, _obp_initiated):
             new_args = _kwarg_to_positional(new_kwargs, self.call)
-            result = self.call(*new_args, **new_kwargs)
+            call_kwargs = self._call_kwargs(new_kwargs, _obp_initiated)
+            result = self.call(*new_args, **call_kwargs)
         else:
-            result = self.call(data, *args, **new_kwargs)
+            call_kwargs = self._call_kwargs(new_kwargs, _obp_initiated)
+            if _obp_initiated and not self._should_pass_positional_data(call_kwargs):
+                # ``call`` has no free positional slot for the injected tree — its
+                # real input arrives via a kwarg (e.g. a colormapper's
+                # ``data_range``, a reader's ``fnames``, a conduit-injected
+                # ``xarray_obj``), or the signature is keyword-only. Dropping the
+                # positional ``data`` lets an entry step's injected tree
+                # (including a top-level "empty dataset") reach such plugins
+                # harmlessly instead of raising "multiple values"/"takes 0
+                # positional arguments".
+                result = self.call(*args, **call_kwargs)
+            else:
+                # ``data`` is passed positionally; for legacy families the same
+                # data has already been converted into ``data`` by ``_pre_call``.
+                result = self.call(data, *args, **call_kwargs)
 
         data = self._post_call(
             result, *args, _obp_initiated=_obp_initiated, **new_kwargs
         )
         return data
+
+    def _should_pass_positional_data(self, call_kwargs):
+        """Return True if injected ``data`` should be passed to ``call`` positionally.
+
+        ``self.call`` is a bound method, so ``inspect.signature`` already drops
+        ``self``. Data is passed positionally only when ``call`` actually has a
+        free positional slot for it:
+
+        * If ``call`` leads with a positional parameter
+          (``POSITIONAL_ONLY``/``POSITIONAL_OR_KEYWORD``), pass data there —
+          unless that same name is already supplied via ``call_kwargs`` (e.g. a
+          colormapper's ``data_range`` or a reader's ``fnames``), which would
+          raise "multiple values for argument ...".
+        * Otherwise, pass positionally only if ``call`` accepts ``*args``
+          (``VAR_POSITIONAL``) to absorb it.
+        * A keyword-only-leading signature (``def call(self, *, x=...)``) or one
+          with no parameters has no positional slot, so data is dropped rather
+          than forced in (which would raise ``TypeError``).
+        """
+        leading = None
+        has_var_positional = False
+        for name, p in inspect.signature(self.call).parameters.items():
+            if p.kind is inspect.Parameter.VAR_POSITIONAL:
+                has_var_positional = True
+            elif leading is None and p.kind in (
+                inspect.Parameter.POSITIONAL_ONLY,
+                inspect.Parameter.POSITIONAL_OR_KEYWORD,
+            ):
+                leading = name
+        if leading is not None:
+            return leading not in call_kwargs
+        return has_var_positional
 
     @staticmethod
     def _use_positional_unpacking(data, _obp_initiated):
@@ -429,9 +503,25 @@ class BaseClassPlugin(ABC):
         )
 
     def _obp_filter_kwargs(self, kwargs):
-        """Return a dict of only the kwargs accepted by ``self.call``."""
-        accepted = set(inspect.signature(self.call).parameters.keys())
+        """Return a dict of only the kwargs accepted by ``self.call``.
+
+        If ``call`` accepts ``**kwargs`` (a ``VAR_KEYWORD`` parameter) every key
+        is retained, since such a signature accepts arbitrary keywords.
+        """
+        params = inspect.signature(self.call).parameters.values()
+        if any(p.kind is inspect.Parameter.VAR_KEYWORD for p in params):
+            return dict(kwargs)
+        accepted = {p.name for p in params}
         return {k: v for k, v in kwargs.items() if k in accepted}
+
+    def _call_kwargs(self, kwargs, _obp_initiated):
+        """Return the kwargs to forward to ``self.call``.
+
+        Under OBP, filter to only those ``call`` accepts so conduit-injected
+        kwargs that don't match this plugin's signature are dropped. Outside
+        OBP, pass kwargs through unchanged to preserve legacy behavior.
+        """
+        return self._obp_filter_kwargs(kwargs) if _obp_initiated else kwargs
 
     def __init__(self, module=None):
         """
@@ -532,24 +622,22 @@ def _kwarg_to_positional(kwargs, call_func):
     tuple
         Positional arguments for ``call_func``.
     """
-    import inspect as _inspect_mod
-
-    sig = _inspect_mod.signature(call_func)
+    sig = inspect.signature(call_func)
     positional = []
     consumed = set()
     for pname, param in sig.parameters.items():
         if pname == "self":
             continue
         if param.kind not in (
-            _inspect_mod.Parameter.POSITIONAL_ONLY,
-            _inspect_mod.Parameter.POSITIONAL_OR_KEYWORD,
+            inspect.Parameter.POSITIONAL_ONLY,
+            inspect.Parameter.POSITIONAL_OR_KEYWORD,
         ):
             break
         if pname in kwargs:
             val = kwargs.pop(pname)
             positional.append(val)
             consumed.add(pname)
-        elif param.default is not _inspect_mod.Parameter.empty:
+        elif param.default is not inspect.Parameter.empty:
             positional.append(param.default)
         elif pname == "data":
             for alias in ("xarray_obj",):

@@ -97,8 +97,13 @@ class TypeConverterRegistry:
         Matching order:
 
         1. Exact ``type(obj)`` → *target* entry.
-        2. ``isinstance``-based match (MRO-ordered, most specific
-           registered type first).
+        2. ``isinstance``-based match, ordered by the object's Method
+           Resolution Order (MRO) so the most specific registered base class
+           wins. The MRO is the linearized order Python searches an object's
+           class hierarchy (``type(obj).__mro__``); see
+           https://docs.python.org/3/howto/mro.html. For example, a
+           ``MaskedArray`` (a subclass of ``ndarray``) prefers a registered
+           ``MaskedArray`` converter over an ``ndarray`` one.
 
         Parameters
         ----------
@@ -141,10 +146,23 @@ class TypeConverterRegistry:
             src = matching[0][0]
             return self._converters[(src, target)](obj, **kwargs)
 
+        registered_sources = sorted(
+            {f"{src.__module__}.{src.__name__}" for src, _ in self._converters}
+        )
         raise TypeError(
-            f"No converter registered from {obj_type} to {target}. "
-            f"Registered targets: "
-            f"{list({tgt for _, tgt in self._converters})}",
+            f"Cannot convert an object of type "
+            f"'{obj_type.__module__}.{obj_type.__name__}' to "
+            f"'{target.__module__}.{target.__name__}': no converter is "
+            f"registered for this type. This typically surfaces when a "
+            f"DataTreeDitto (or the order-based procflow) is given a payload "
+            f"whose type has no registered conversion. To fix it, register a "
+            f"converter, e.g.:\n"
+            f"    from geoips.utils.types.converter_registry import "
+            f"converter_registry\n"
+            f"    converter_registry.register("
+            f"{obj_type.__name__}, {target.__name__}, my_converter_fn)\n"
+            f"Currently registered source types: {registered_sources}. "
+            f"See geoips.utils.types.converters for examples."
         )
 
     def can_convert(self, obj: Any, target: type) -> bool:
@@ -169,6 +187,7 @@ class TypeConverterRegistry:
         return summary
 
     def __repr__(self) -> str:
+        """Return a concise repr showing the number of registered converters."""
         return f"{self.__class__.__name__}(" f"converters={len(self._converters)})"
 
 

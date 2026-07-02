@@ -14,6 +14,7 @@ from geoips.interfaces import products
 from geoips.interfaces import colormappers
 from geoips.interfaces import feature_annotators
 from geoips.interfaces import gridline_annotators
+from geoips.image_utils.maps import compute_lon_extent
 
 LOG = logging.getLogger(__name__)
 
@@ -325,21 +326,9 @@ def set_lonlat_spacing(gridline_annotator, area_def):
         or gridline_annotator["grid_lon_spacing"] == "auto"
         or gridline_annotator["grid_lat_spacing"] == "auto"
     ):
-        from pyresample import utils
-
         minlat = area_def.area_extent_ll[1]
         maxlat = area_def.area_extent_ll[3]
-        minlon = utils.wrap_longitudes(area_def.area_extent_ll[0])
-        maxlon = utils.wrap_longitudes(area_def.area_extent_ll[2])
-        if maxlon < minlon:
-            maxlon = maxlon + 360
-        elif (
-            maxlon == minlon
-            and area_def.area_extent_ll[3] - area_def.area_extent_ll[1] >= 170
-        ):
-            # global dataset: both longitudes wrap to the same point
-            maxlon = maxlon + 360
-        lon_extent = maxlon - minlon
+        lon_extent = compute_lon_extent(area_def)
         lat_extent = maxlat - minlat
 
         if lon_extent > 5:
@@ -357,11 +346,12 @@ def set_lonlat_spacing(gridline_annotator, area_def):
             lat_spacing = lat_extent / 5.0
 
         LOG.info("lon_extent: %s, lon_spacing: %s", lon_extent, lon_spacing)
+        # Legacy flat keys, retained for the classic procflows.
         gridline_annotator["grid_lat_spacing"] = lat_spacing
         gridline_annotator["grid_lon_spacing"] = lon_spacing
-        # Update YAML-format spacing dict wherever it lives:
-        #   - inner spec dict: {"spacing": ...} at top level
-        #   - full plugin dict: {"spec": {"spacing": ...}} nested
+        # OBP gridline_annotator plugins use a nested ``spacing:
+        # {latitude, longitude}`` dict (possibly under ``spec``) instead of the
+        # flat keys above; keep it in sync so both code paths see the spacing.
         spacing_source = gridline_annotator.get("spec", gridline_annotator)
         spacing = spacing_source.get("spacing") if "spacing" in spacing_source else {}
         if isinstance(spacing, dict):
