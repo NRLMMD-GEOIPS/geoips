@@ -3,8 +3,11 @@
 
 """Colormappers interface class."""
 
+import xarray as xr
+
 from geoips.interfaces.class_based_plugin import BaseClassPlugin
 from geoips.interfaces.base import BaseClassInterface
+from geoips.utils.types.datatree_ditto import DataTreeDitto
 
 
 class BaseColormapperPlugin(BaseClassPlugin, abstract=True):
@@ -20,9 +23,6 @@ class BaseColormapperPlugin(BaseClassPlugin, abstract=True):
         so downstream steps can extract it.  SSP receives the raw dict.
         """
         if _obp_initiated and isinstance(data, dict):
-            import xarray as xr
-            from geoips.utils.types.datatree_ditto import DataTreeDitto
-
             ds = xr.Dataset(attrs={"_mpl_colors_info": data})
             return DataTreeDitto(ds, name=getattr(self, "name", "colormapper"))
         return data

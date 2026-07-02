@@ -129,6 +129,53 @@ def test_join_collects_branches(patch_split):
     assert set(dict(join_node.children)) == {"alpha", "beta"}
 
 
+def _split_spec_with_input():
+    """Split whose branch body routes injected branch data via ``_input``."""
+    return _spec(
+        {
+            "read": {
+                "kind": "reader",
+                "name": "synthetic_reader",
+                "arguments": {},
+                "depends_on": [],
+            },
+            "per_scope": {
+                "kind": "split",
+                "arguments": {"scopes": ["alpha", "beta"]},
+                "spec": {
+                    "steps": {
+                        "prep": {
+                            "kind": "algorithm",
+                            "name": "passthrough",
+                            "arguments": {},
+                            "depends_on": [],
+                        },
+                        "process": {
+                            "kind": "algorithm",
+                            "name": "passthrough",
+                            "arguments": {},
+                            "depends_on": ["_input"],
+                        },
+                    },
+                },
+                "depends_on": ["read"],
+            },
+        }
+    )
+
+
+def test_split_branch_input_step_receives_seed(patch_split):
+    """A branch body ``_input`` step receives the seeded branch data."""
+    result = Workflow(_split_spec_with_input(), workflow_name="t").call(fnames=[])
+    for scope in ("alpha", "beta"):
+        process = result[f"per_scope/{scope}/process"]
+        prep = result[f"per_scope/{scope}/prep"]
+        # entry step ("_input") received the seeded branch tree; the non-entry
+        # "prep" step ran with no upstream data.
+        assert dict(process.children), f"{scope}/process should receive seed"
+        assert not dict(prep.children), f"{scope}/prep should get no data"
+
+
 def test_split_requires_scopes_or_over(patch_split):
     """A split with neither 'scopes' nor 'over' raises at runtime."""
     spec = _spec(

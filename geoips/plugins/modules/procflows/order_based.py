@@ -44,7 +44,8 @@ class OrderBased(BaseProcflowPlugin):
     def call(
         self,
         workflow_spec: WorkflowPluginModel | WorkflowSpecModel | dict,
-        fnames: Any,
+        fnames: Any = None,
+        command_line_args: Any = None,
         **kwargs: Any,
     ):
         """Run the order-based procflow.
@@ -57,6 +58,9 @@ class OrderBased(BaseProcflowPlugin):
             ``WorkflowSpecModel`` that wraps a ``@spec:`` field.
         fnames : list[str] or str or None
             Input filename glob or list of filenames for reader steps.
+        command_line_args : Namespace or None
+            Parsed CLI arguments, accepted for parity with the CLI entry point.
+            Not currently consumed by the workflow runtime.
         kwargs : dict
             Additional keyword arguments forwarded to the ``Workflow``.
 

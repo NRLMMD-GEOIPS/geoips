@@ -25,6 +25,8 @@ from pluginify.config import REGISTRY_DIRECTORY
 from tabulate import tabulate
 
 from geoips.commandline.ancillary_info import cmd_instructions, alias_mapping
+from pydantic import ValidationError
+
 from geoips.commandline.log_setup import setup_logging
 from geoips.errors import PluginError
 from geoips.filenames.base_paths import PATHS
@@ -831,10 +833,42 @@ class GeoipsWorkflowCommand(GeoipsExecutableCommand):
                     # what's in the data provided
                     context={"expand": True},
                 ).model_dump()
-            except Exception as e:
+            except (ValidationError, ValueError, TypeError) as e:
                 self.parser.error(f"Could not parse workflow dict: {e}")
+        # unregistered workflow @ filepath (any path that exists on disk)
+        elif self.ensure_valid_json_or_yaml_path(value):
+            # since the filepath was valid and exists, load the data and validate it
+            filepath = self.ensure_valid_json_or_yaml_path(value)
+            if filepath.suffix.lower() == ".json":
+                loader = json.load
+            else:
+                loader = yaml.safe_load
+
+            with open(filepath, "r") as f:
+                workflow = loader(f)
+            # This assumes if you pass the filepath option that the plugin itself is
+            # not registered. Validate that it's formatted correctly.
+            try:
+                workflow = WorkflowPluginModel(
+                    **workflow,
+                    is_registered=False,
+                    # Adding context in pydantic is akin to passing in values that are
+                    # usually None to an Objects __init__ function. It will construct
+                    # differently if those parameters are provided. In this case, we are
+                    # telling pydantic to expand the workflow, rather than validate just
+                    # what's in the data provided
+                    context={"expand": True},
+                ).model_dump()
+            except (ValidationError, ValueError, TypeError) as e:
+                self.parser.error(f"Could not parse workflow file '{value}': {e}")
         # registered named workflow
         elif isinstance(value, str):
+            # Whether to rebuild the plugin registry before resolving the named
+            # workflow is gated on the ``GEOIPS_REBUILD_REGISTRIES`` config so a
+            # stale registry is refreshed automatically only when the user has
+            # opted in (never silently against their configuration).
+            # ``non_existent`` names are used by tests to assert failure without
+            # triggering a rebuild, so the rebuild is force-disabled for them.
             rbr = (
                 False if "non_existent" in value else PATHS["GEOIPS_REBUILD_REGISTRIES"]
             )

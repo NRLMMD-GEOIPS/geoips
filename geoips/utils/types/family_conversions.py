@@ -3,6 +3,20 @@
 
 """Family-to-converter mappings for the plugin-lifecycle hooks.
 
+.. note::
+
+   These mappings exist purely for **backwards compatibility**. They let the
+   DataTree-based order-based procflow drive *legacy* family-based plugins by
+   converting the shared DataTree payload into the concrete type each legacy
+   family expects (and back again). They are keyed by *family* only and do not
+   describe per-plugin argument/keyword-argument signatures — those legacy
+   call-signature bindings live in ``geoips.utils.types.obp_conduits``.
+
+   New plugins are expected to be DataTree-native (declare ``data_tree = True``)
+   and therefore need no entry here. As legacy families are migrated, their
+   entries should be removed; this module is expected to shrink over time and
+   is a candidate for eventual deletion.
+
 Each mapping entry is a ``FamilyConversionSpec`` that tells the
 ``_pre_call`` / ``_post_call`` hooks what type the plugin's family
 expects as input, what type it returns, and which converter functions
