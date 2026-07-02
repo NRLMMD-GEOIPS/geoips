@@ -181,7 +181,7 @@ class GeoipsRunOrderBased(GeoipsWorkflowCommand):
         """
         try:
             override = workflows.global_override_type(value)
-        except Exception:
+        except ValueError:
             raise self.parser.error(
                 f"Invalid format '{value}'. Expected '<global_variable_name>=<value>'"
             )
@@ -206,7 +206,7 @@ class GeoipsRunOrderBased(GeoipsWorkflowCommand):
         """
         try:
             override = workflows.kind_override_type(value)
-        except Exception:
+        except ValueError:
             raise self.parser.error(
                 f"Invalid format '{value}'. Expected '<kind>.<argument_name>=<value>'"
             )
@@ -231,7 +231,7 @@ class GeoipsRunOrderBased(GeoipsWorkflowCommand):
         """
         try:
             override = workflows.step_override_type(value)
-        except Exception:
+        except ValueError:
             raise self.parser.error(
                 f"Invalid format '{value}'. Expected '<step_id>.<...>=<value>'"
             )

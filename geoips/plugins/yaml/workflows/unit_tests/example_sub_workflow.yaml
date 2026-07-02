@@ -1,0 +1,19 @@
+apiVersion: geoips/v1
+interface: workflows
+family: order_based
+name: example_sub_workflow
+package: geoips
+docstring: |
+  Example workflow that nests another workflow as a single step.
+
+  The ``run_example`` step uses ``kind: workflow`` to invoke the
+  ``example_workflow`` plugin, demonstrating how a workflow can be composed
+  from other workflows in the order-based procflow.
+spec:
+  outputs: [run_example]
+  steps:
+    run_example:
+      kind: workflow
+      name: example_workflow
+      depends_on: []
+      arguments: {}

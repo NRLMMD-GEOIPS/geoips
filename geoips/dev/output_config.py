@@ -325,21 +325,11 @@ def set_lonlat_spacing(gridline_annotator, area_def):
         or gridline_annotator["grid_lon_spacing"] == "auto"
         or gridline_annotator["grid_lat_spacing"] == "auto"
     ):
-        from pyresample import utils
+        from geoips.image_utils.maps import compute_lon_extent
 
         minlat = area_def.area_extent_ll[1]
         maxlat = area_def.area_extent_ll[3]
-        minlon = utils.wrap_longitudes(area_def.area_extent_ll[0])
-        maxlon = utils.wrap_longitudes(area_def.area_extent_ll[2])
-        if maxlon < minlon:
-            maxlon = maxlon + 360
-        elif (
-            maxlon == minlon
-            and area_def.area_extent_ll[3] - area_def.area_extent_ll[1] >= 170
-        ):
-            # global dataset: both longitudes wrap to the same point
-            maxlon = maxlon + 360
-        lon_extent = maxlon - minlon
+        lon_extent = compute_lon_extent(area_def)
         lat_extent = maxlat - minlat
 
         if lon_extent > 5:
@@ -360,12 +350,9 @@ def set_lonlat_spacing(gridline_annotator, area_def):
         # Legacy flat keys, retained for the classic procflows.
         gridline_annotator["grid_lat_spacing"] = lat_spacing
         gridline_annotator["grid_lon_spacing"] = lon_spacing
-        # Order-based procflow gridline_annotator YAML plugins expose spacing as
-        # a nested ``spacing: {latitude, longitude}`` dict instead of the flat
-        # ``grid_*_spacing`` keys above. Keep that dict in sync so both the
-        # legacy and OBP code paths see the auto-computed spacing. The dict may
-        # live either at the top level (an inner spec dict, ``{"spacing": ...}``)
-        # or nested under ``spec`` (a full plugin dict, ``{"spec": {...}}``).
+        # OBP gridline_annotator plugins use a nested ``spacing:
+        # {latitude, longitude}`` dict (possibly under ``spec``) instead of the
+        # flat keys above; keep it in sync so both code paths see the spacing.
         spacing_source = gridline_annotator.get("spec", gridline_annotator)
         spacing = spacing_source.get("spacing") if "spacing" in spacing_source else {}
         if isinstance(spacing, dict):

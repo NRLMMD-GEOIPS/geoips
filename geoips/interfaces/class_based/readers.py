@@ -4,6 +4,7 @@
 """Readers interface class."""
 
 import collections
+import logging
 from datetime import datetime
 from os.path import basename
 
@@ -15,6 +16,8 @@ from geoips.interfaces.class_based_plugin import BaseClassPlugin
 from geoips.errors import NoValidFilesError
 from geoips.interfaces.base import BaseClassInterface
 from geoips.plugins.modules.readers.utils.hrit_reader import HritError
+
+LOG = logging.getLogger(__name__)
 
 
 class BaseReaderPlugin(BaseClassPlugin, abstract=True):
@@ -56,8 +59,13 @@ class BaseReaderPlugin(BaseClassPlugin, abstract=True):
                     else:
                         try:
                             primary_ds = xr.merge([primary_ds, value])
-                        except Exception:
-                            pass
+                        except (xr.MergeError, ValueError) as err:
+                            LOG.warning(
+                                "Could not merge reader dataset '%s' into the "
+                                "primary DataTree dataset; dropping it: %s",
+                                key,
+                                err,
+                            )
             ds = (primary_ds or xr.Dataset()).assign_attrs(**extra_attrs)
             return xr.DataTree(ds, name=getattr(self, "name", "reader"))
         return super()._post_call(data, *args, _obp_initiated=_obp_initiated, **kwargs)

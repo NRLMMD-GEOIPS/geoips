@@ -90,9 +90,8 @@ def call(
         **kwargs,
     )
 
-    # The DataTree wrapping for the order-based procflow is handled by the
-    # filename_formatter interface's ``_post_call``; this plugin just returns
-    # the native output path string.
+    # OBP DataTree wrapping is handled by the interface ``_post_call``; this
+    # plugin just returns the output path string.
     return web_fname
 
 
