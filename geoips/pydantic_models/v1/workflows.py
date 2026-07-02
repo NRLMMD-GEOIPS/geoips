@@ -891,6 +891,12 @@ class WorkflowSpecModel(FrozenModel):
         if not step_ids:
             return data
 
+        if INPUT_REF in steps:
+            raise ValueError(
+                f"step id '{INPUT_REF}' is reserved: it is the magic "
+                f"data-injection dependency token and cannot name a step"
+            )
+
         if data.get("outputs") is None:
             data["outputs"] = [step_ids[-1]]
 

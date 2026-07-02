@@ -438,17 +438,15 @@ class BaseClassPlugin(ABC):
             result = self.call(*new_args, **call_kwargs)
         else:
             call_kwargs = self._call_kwargs(new_kwargs, _obp_initiated)
-            if _obp_initiated and self._leading_positional_param() in call_kwargs:
-                # ``call``'s first positional slot is already supplied by a kwarg
-                # (e.g. a colormapper's ``data_range`` or a reader's ``fnames``
-                # from ``arguments``, or a conduit-injected ``xarray_obj``).
-                # Passing ``data`` positionally would land in that same slot and
-                # raise "multiple values for argument ...", so drop it — the
-                # plugin's real input arrives via the kwarg. This lets an entry
-                # step's injected tree (including a top-level "empty dataset")
-                # reach such plugins harmlessly, while plugins that lead with an
-                # un-supplied positional (``data``, ``xarray_obj``, ...) still
-                # receive it below.
+            if _obp_initiated and not self._should_pass_positional_data(call_kwargs):
+                # ``call`` has no free positional slot for the injected tree — its
+                # real input arrives via a kwarg (e.g. a colormapper's
+                # ``data_range``, a reader's ``fnames``, a conduit-injected
+                # ``xarray_obj``), or the signature is keyword-only. Dropping the
+                # positional ``data`` lets an entry step's injected tree
+                # (including a top-level "empty dataset") reach such plugins
+                # harmlessly instead of raising "multiple values"/"takes 0
+                # positional arguments".
                 result = self.call(*args, **call_kwargs)
             else:
                 # ``data`` is passed positionally; for legacy families the same
@@ -460,22 +458,37 @@ class BaseClassPlugin(ABC):
         )
         return data
 
-    def _leading_positional_param(self):
-        """Return the name of ``call``'s first positional parameter, or None.
+    def _should_pass_positional_data(self, call_kwargs):
+        """Return True if injected ``data`` should be passed to ``call`` positionally.
 
-        "Positional" means ``POSITIONAL_ONLY`` or ``POSITIONAL_OR_KEYWORD``
-        (``self`` is already excluded because ``inspect.signature`` on a bound
-        method drops it). Returns None when ``call`` leads with ``*args`` or
-        keyword-only params — in which case positionally-passed data is safely
-        absorbed and never collides.
+        ``self.call`` is a bound method, so ``inspect.signature`` already drops
+        ``self``. Data is passed positionally only when ``call`` actually has a
+        free positional slot for it:
+
+        * If ``call`` leads with a positional parameter
+          (``POSITIONAL_ONLY``/``POSITIONAL_OR_KEYWORD``), pass data there —
+          unless that same name is already supplied via ``call_kwargs`` (e.g. a
+          colormapper's ``data_range`` or a reader's ``fnames``), which would
+          raise "multiple values for argument ...".
+        * Otherwise, pass positionally only if ``call`` accepts ``*args``
+          (``VAR_POSITIONAL``) to absorb it.
+        * A keyword-only-leading signature (``def call(self, *, x=...)``) or one
+          with no parameters has no positional slot, so data is dropped rather
+          than forced in (which would raise ``TypeError``).
         """
+        leading = None
+        has_var_positional = False
         for name, p in inspect.signature(self.call).parameters.items():
-            if p.kind in (
+            if p.kind is inspect.Parameter.VAR_POSITIONAL:
+                has_var_positional = True
+            elif leading is None and p.kind in (
                 inspect.Parameter.POSITIONAL_ONLY,
                 inspect.Parameter.POSITIONAL_OR_KEYWORD,
             ):
-                return name
-        return None
+                leading = name
+        if leading is not None:
+            return leading not in call_kwargs
+        return has_var_positional
 
     @staticmethod
     def _use_positional_unpacking(data, _obp_initiated):
