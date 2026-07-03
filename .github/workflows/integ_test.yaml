@@ -22,7 +22,7 @@ jobs:
     if: github.event_name == 'workflow_dispatch' || github.event.pull_request.draft == false
     strategy:
       matrix:
-        pip_editable: [true, false]
+        pip_editable: [false, true]
     name: integ-test (editable=${{ matrix.pip_editable }})
     uses: NRLMMD-GEOIPS/geoips_ci/.github/workflows/reusable-ci.yaml@main
     with:
