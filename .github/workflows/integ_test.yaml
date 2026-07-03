@@ -9,6 +9,10 @@ defaults:
   run:
     shell: bash
 
+concurrency:
+  group: integ-test-${{ github.ref }}
+  cancel-in-progress: true
+
 permissions:
   contents: read
   packages: write
@@ -19,11 +23,8 @@ jobs:
     strategy:
       matrix:
         editable_pip_install: [true, false]
-    concurrency:
-      group: integ-test-${{ github.ref }}-${{ matrix.editable_pip_install }}
-      cancel-in-progress: true
     name: integ-test (editable=${{ matrix.editable_pip_install }})
-    uses: NRLMMD-GEOIPS/geoips_ci/.github/workflows/reusable-ci.yaml
+    uses: NRLMMD-GEOIPS/geoips_ci/.github/workflows/reusable-ci.yaml@main
     with:
       editable_pip_install: ${{ matrix.editable_pip_install }}
     secrets:
