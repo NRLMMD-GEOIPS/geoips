@@ -39,12 +39,12 @@ class OrderBased(BaseProcflowPlugin):
     interface = "procflows"
     family = "standard"
     name = "order_based"
-    data_tree = True
 
     def call(
         self,
         workflow_spec: WorkflowPluginModel | WorkflowSpecModel | dict,
         fnames: Any = None,
+        command_line_args: Any = None,
         **kwargs: Any,
     ):
         """Run the order-based procflow.
@@ -57,6 +57,9 @@ class OrderBased(BaseProcflowPlugin):
             ``WorkflowSpecModel`` that wraps a ``@spec:`` field.
         fnames : list[str] or str or None
             Input filename glob or list of filenames for reader steps.
+        command_line_args : Namespace or None
+            Parsed CLI arguments, accepted for parity with the CLI entry point.
+            Not currently consumed by the workflow runtime.
         kwargs : dict
             Additional keyword arguments forwarded to the ``Workflow``.
 
@@ -77,11 +80,13 @@ class OrderBased(BaseProcflowPlugin):
             if "spec" in workflow_spec and isinstance(workflow_spec["spec"], dict):
                 wf_name = workflow_spec.get("name", "embedded")
                 spec = WorkflowSpecModel.model_validate(
-                    workflow_spec["spec"], context=ctx,
+                    workflow_spec["spec"],
+                    context=ctx,
                 )
             else:
                 wf_spec = WorkflowPluginModel.model_validate(
-                    workflow_spec, context=ctx,
+                    workflow_spec,
+                    context=ctx,
                 )
                 wf_name = wf_spec.name
                 spec = wf_spec.spec

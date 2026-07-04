@@ -128,12 +128,16 @@ class TestOutputTokenStability:
         """Same spec + same data -> identical output_token."""
         spec = _build_linear_spec()
         t1 = (
-            Workflow(spec, workflow_name="e1").call(fnames=[])
-            .get("read").attrs["output_token"]
+            Workflow(spec, workflow_name="e1")
+            .call(fnames=[])
+            .get("read")
+            .attrs["output_token"]
         )
         t2 = (
-            Workflow(spec, workflow_name="e2").call(fnames=[])
-            .get("read").attrs["output_token"]
+            Workflow(spec, workflow_name="e2")
+            .call(fnames=[])
+            .get("read")
+            .attrs["output_token"]
         )
         assert t1 == t2
 
@@ -192,9 +196,86 @@ class TestRetention:
         assert algo_node.ds is not None
 
         assert read_node is not None
-        assert read_node.attrs.get("gc_status") == "data_dropped", (
-            "Non-output step should be GC'd by keep_outputs_only policy"
+        assert (
+            read_node.attrs.get("gc_status") == "data_dropped"
+        ), "Non-output step should be GC'd by keep_outputs_only policy"
+
+
+class TestInputMagicRef:
+    """The ``_input`` magic dependency routes injected data to an entry step."""
+
+    def _algo_args(self):
+        return {
+            "output_data_range": [-90.0, 30.0],
+            "input_units": "Kelvin",
+            "output_units": "celsius",
+            "min_outbounds": "crop",
+            "max_outbounds": "crop",
+            "norm": False,
+            "inverse": False,
+        }
+
+    def test_subworkflow_input_step_receives_parent_data(self):
+        """A child ``_input`` step (not the first) gets the parent's data."""
+        spec = WorkflowSpecModel.model_validate(
+            {
+                "steps": {
+                    "read": {
+                        "kind": "reader",
+                        "name": "synthetic_reader",
+                        "arguments": {},
+                        "depends_on": [],
+                    },
+                    "sub": {
+                        "kind": "workflow",
+                        "depends_on": ["read"],
+                        "spec": {
+                            "steps": {
+                                "pre": {
+                                    "kind": "algorithm",
+                                    "name": "single_channel",
+                                    "arguments": self._algo_args(),
+                                    "depends_on": [],
+                                },
+                                "consume": {
+                                    "kind": "algorithm",
+                                    "name": "single_channel",
+                                    "arguments": self._algo_args(),
+                                    "depends_on": ["_input"],
+                                },
+                            },
+                        },
+                    },
+                },
+            },
+            context=CTX,
         )
+        result = Workflow(spec, workflow_name="parent").call(fnames=[])
+
+        consume = result["sub/consume"]
+        pre = result["sub/pre"]
+        # The entry step ("_input") received the injected parent tree; the
+        # non-entry first step ("pre") ran with no upstream data.
+        assert dict(consume.children), "consume (entry step) should receive data"
+        assert not dict(pre.children), "pre (non-entry) should get no data"
+
+    def test_top_level_input_step_gets_empty_dataset(self):
+        """A top-level ``_input`` step receives an empty DataTree, not an error."""
+        spec = WorkflowSpecModel.model_validate(
+            {
+                "steps": {
+                    "entry": {
+                        "kind": "algorithm",
+                        "name": "single_channel",
+                        "arguments": self._algo_args(),
+                        "depends_on": ["_input"],
+                    },
+                },
+            },
+            context=CTX,
+        )
+        result = Workflow(spec, workflow_name="top").call(fnames=[])
+        assert result.get("entry") is not None
 
 
 class TestErrorPaths:

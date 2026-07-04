@@ -104,13 +104,15 @@ class SyntheticColormapper(BaseClassPlugin):
         from geoips.utils.types.datatree_ditto import DataTreeDitto
 
         mpl_info = {"cmap_name": "Greys", "data_range": data_range, "colorbar": True}
-        ds = xr.Dataset(attrs={
-            "_mpl_colors_info": mpl_info,
-            "data_range": data_range,
-            "cmap_name": "Greys",
-            "plugin_kind": "colormapper",
-            "output_key": "mpl_colors_info",
-        })
+        ds = xr.Dataset(
+            attrs={
+                "_mpl_colors_info": mpl_info,
+                "data_range": data_range,
+                "cmap_name": "Greys",
+                "plugin_kind": "colormapper",
+                "output_key": "mpl_colors_info",
+            }
+        )
         dt = DataTreeDitto(ds, name=self.name)
         return dt
 
@@ -125,11 +127,13 @@ class SyntheticFilenameFormatter(BaseClassPlugin):
         from geoips.utils.types.datatree_ditto import DataTreeDitto
 
         fname = "/tmp/output." + suffix
-        ds = xr.Dataset(attrs={
-            "output_fnames": [fname],
-            "plugin_kind": "filename_formatter",
-            "output_key": "output_fnames",
-        })
+        ds = xr.Dataset(
+            attrs={
+                "output_fnames": [fname],
+                "plugin_kind": "filename_formatter",
+                "output_key": "output_fnames",
+            }
+        )
         dt = DataTreeDitto(ds, name=self.name)
         return dt
 
@@ -144,11 +148,13 @@ class SyntheticImageOutputFormatter(BaseClassPlugin):
     def call(self, data, output_fnames=None, mpl_colors_info=None, **kwargs):
         from geoips.utils.types.datatree_ditto import DataTreeDitto
 
-        ds = xr.Dataset(attrs={
-            "saved_files": ["/tmp/saved.png"],
-            "received_fnames": output_fnames is not None,
-            "received_colors": mpl_colors_info is not None,
-        })
+        ds = xr.Dataset(
+            attrs={
+                "saved_files": ["/tmp/saved.png"],
+                "received_fnames": output_fnames is not None,
+                "received_colors": mpl_colors_info is not None,
+            }
+        )
         dt = DataTreeDitto(ds, name=self.name)
         return dt
 
@@ -181,23 +187,29 @@ def _resolve_synthetic_plugin(kind, name):
 
 def _make_yaml_callable(kind, name):
     from geoips.utils.types.yaml_plugin_callable import YamlPluginCallable
+
     interface = kind + "s"
-    return YamlPluginCallable({
-        "interface": interface,
-        "family": "test",
-        "name": name,
-        "spec": {"lines": {"color": "black"}, "labels": {"top": True}},
-    })
+    return YamlPluginCallable(
+        {
+            "interface": interface,
+            "family": "test",
+            "name": name,
+            "spec": {"lines": {"color": "black"}, "labels": {"top": True}},
+        }
+    )
 
 
 def _make_sector_callable(name):
     from geoips.utils.types.yaml_plugin_callable import YamlPluginCallable
-    return YamlPluginCallable({
-        "interface": "sectors",
-        "family": "area_definition",
-        "name": name,
-        "spec": {"area_id": name, "shape": [100, 100], "projection": "eqc"},
-    })
+
+    return YamlPluginCallable(
+        {
+            "interface": "sectors",
+            "family": "area_definition",
+            "name": name,
+            "spec": {"area_id": name, "shape": [100, 100], "projection": "eqc"},
+        }
+    )
 
 
 # ---------------------------------------------------------------------------
@@ -207,8 +219,9 @@ def _make_sector_callable(name):
 
 @pytest.fixture
 def patch_for_family_conversions(monkeypatch):
-    monkeypatch.setattr(Workflow, "_resolve_plugin",
-                        staticmethod(_resolve_synthetic_plugin))
+    monkeypatch.setattr(
+        Workflow, "_resolve_plugin", staticmethod(_resolve_synthetic_plugin)
+    )
 
 
 def _build_spec(steps_dict, **overrides):
@@ -224,29 +237,38 @@ def _build_spec(steps_dict, **overrides):
 
 class TestMultiInputUnwrap:
     def test_single_child_unwrap(self, patch_for_family_conversions):
-        spec = _build_spec({
-            "read": {
-                "kind": "reader", "name": "synthetic_reader", "arguments": {},
-                "depends_on": [],
-            },
-        })
+        spec = _build_spec(
+            {
+                "read": {
+                    "kind": "reader",
+                    "name": "synthetic_reader",
+                    "arguments": {},
+                    "depends_on": [],
+                },
+            }
+        )
         result = Workflow(spec, workflow_name="t").call(fnames=[])
         child = result.get("read")
         assert child is not None
         assert isinstance(child, xr.DataTree)
 
     def test_reader_to_algo_chain(self, patch_for_family_conversions):
-        spec = _build_spec({
-            "read": {
-                "kind": "reader", "name": "synthetic_reader", "arguments": {},
-                "depends_on": [],
-            },
-            "algo": {
-                "kind": "algorithm", "name": "synthetic_list_numpy_algo",
-                "arguments": {},
-                "depends_on": ["read"],
-            },
-        })
+        spec = _build_spec(
+            {
+                "read": {
+                    "kind": "reader",
+                    "name": "synthetic_reader",
+                    "arguments": {},
+                    "depends_on": [],
+                },
+                "algo": {
+                    "kind": "algorithm",
+                    "name": "synthetic_list_numpy_algo",
+                    "arguments": {},
+                    "depends_on": ["read"],
+                },
+            }
+        )
         result = Workflow(spec, workflow_name="chain").call(fnames=[])
         algo_node = result.get("algo")
         assert algo_node is not None
@@ -254,17 +276,22 @@ class TestMultiInputUnwrap:
 
 class TestFamilyConversions:
     def test_list_numpy_to_numpy_conversion(self, patch_for_family_conversions):
-        spec = _build_spec({
-            "read": {
-                "kind": "reader", "name": "synthetic_reader", "arguments": {},
-                "depends_on": [],
-            },
-            "algo": {
-                "kind": "algorithm", "name": "synthetic_list_numpy_algo",
-                "arguments": {},
-                "depends_on": ["read"],
-            },
-        })
+        spec = _build_spec(
+            {
+                "read": {
+                    "kind": "reader",
+                    "name": "synthetic_reader",
+                    "arguments": {},
+                    "depends_on": [],
+                },
+                "algo": {
+                    "kind": "algorithm",
+                    "name": "synthetic_list_numpy_algo",
+                    "arguments": {},
+                    "depends_on": ["read"],
+                },
+            }
+        )
         result = Workflow(spec, workflow_name="conv").call(fnames=[])
         algo_node = result.get("algo")
         assert algo_node is not None
@@ -272,17 +299,22 @@ class TestFamilyConversions:
         assert algo_node.ds is not None
 
     def test_xarray_to_xarray_passthrough(self, patch_for_family_conversions):
-        spec = _build_spec({
-            "read": {
-                "kind": "reader", "name": "synthetic_reader", "arguments": {},
-                "depends_on": [],
-            },
-            "algo": {
-                "kind": "algorithm", "name": "synthetic_xr_to_xr_algo",
-                "arguments": {},
-                "depends_on": ["read"],
-            },
-        })
+        spec = _build_spec(
+            {
+                "read": {
+                    "kind": "reader",
+                    "name": "synthetic_reader",
+                    "arguments": {},
+                    "depends_on": [],
+                },
+                "algo": {
+                    "kind": "algorithm",
+                    "name": "synthetic_xr_to_xr_algo",
+                    "arguments": {},
+                    "depends_on": ["read"],
+                },
+            }
+        )
         result = Workflow(spec, workflow_name="xrxr").call(fnames=[])
         algo_node = result.get("algo")
         assert algo_node is not None
@@ -290,13 +322,16 @@ class TestFamilyConversions:
 
 class TestAuxiliaryPluginSteps:
     def test_colormapper_step(self, patch_for_family_conversions):
-        spec = _build_spec({
-            "cmap": {
-                "kind": "colormapper", "name": "synthetic_colormap",
-                "arguments": {"data_range": [0, 100]},
-                "depends_on": [],
-            },
-        })
+        spec = _build_spec(
+            {
+                "cmap": {
+                    "kind": "colormapper",
+                    "name": "synthetic_colormap",
+                    "arguments": {"data_range": [0, 100]},
+                    "depends_on": [],
+                },
+            }
+        )
         result = Workflow(spec, workflow_name="cmap").call(fnames=[])
         cmap_node = result.get("cmap")
         assert cmap_node is not None
@@ -304,35 +339,44 @@ class TestAuxiliaryPluginSteps:
         assert "plugin_name" in cmap_node.ds.attrs
 
     def test_filename_formatter_step(self, patch_for_family_conversions):
-        spec = _build_spec({
-            "read": {
-                "kind": "reader", "name": "synthetic_reader", "arguments": {},
-                "depends_on": [],
-            },
-            "algo": {
-                "kind": "algorithm", "name": "synthetic_list_numpy_algo",
-                "arguments": {},
-                "depends_on": ["read"],
-            },
-            "fname": {
-                "kind": "filename_formatter", "name": "synthetic_fname",
-                "arguments": {"suffix": "png"},
-                "depends_on": ["algo"],
-            },
-        })
+        spec = _build_spec(
+            {
+                "read": {
+                    "kind": "reader",
+                    "name": "synthetic_reader",
+                    "arguments": {},
+                    "depends_on": [],
+                },
+                "algo": {
+                    "kind": "algorithm",
+                    "name": "synthetic_list_numpy_algo",
+                    "arguments": {},
+                    "depends_on": ["read"],
+                },
+                "fname": {
+                    "kind": "filename_formatter",
+                    "name": "synthetic_fname",
+                    "arguments": {"suffix": "png"},
+                    "depends_on": ["algo"],
+                },
+            }
+        )
         result = Workflow(spec, workflow_name="fname").call(fnames=[])
         fnode = result.get("fname")
         assert fnode is not None
         assert fnode.ds is not None
 
     def test_gridline_annotator_yaml_callable(self, patch_for_family_conversions):
-        spec = _build_spec({
-            "grid": {
-                "kind": "gridline_annotator", "name": "default",
-                "arguments": {},
-                "depends_on": [],
-            },
-        })
+        spec = _build_spec(
+            {
+                "grid": {
+                    "kind": "gridline_annotator",
+                    "name": "default",
+                    "arguments": {},
+                    "depends_on": [],
+                },
+            }
+        )
         result = Workflow(spec, workflow_name="grid").call(fnames=[])
         gnode = result.get("grid")
         assert gnode is not None
@@ -340,13 +384,16 @@ class TestAuxiliaryPluginSteps:
         assert "spec" in gnode.ds.attrs
 
     def test_feature_annotator_yaml_callable(self, patch_for_family_conversions):
-        spec = _build_spec({
-            "feat": {
-                "kind": "feature_annotator", "name": "default",
-                "arguments": {},
-                "depends_on": [],
-            },
-        })
+        spec = _build_spec(
+            {
+                "feat": {
+                    "kind": "feature_annotator",
+                    "name": "default",
+                    "arguments": {},
+                    "depends_on": [],
+                },
+            }
+        )
         result = Workflow(spec, workflow_name="feat").call(fnames=[])
         fnode = result.get("feat")
         assert fnode is not None
@@ -355,32 +402,40 @@ class TestAuxiliaryPluginSteps:
 
 class TestChildKwargExtraction:
     def test_colormap_to_output_formatter(self, patch_for_family_conversions):
-        spec = _build_spec({
-            "read": {
-                "kind": "reader", "name": "synthetic_reader", "arguments": {},
-                "depends_on": [],
-            },
-            "algo": {
-                "kind": "algorithm", "name": "synthetic_list_numpy_algo",
-                "arguments": {},
-                "depends_on": ["read"],
-            },
-            "cmap": {
-                "kind": "colormapper", "name": "synthetic_colormap",
-                "arguments": {"data_range": [0, 100]},
-                "depends_on": [],
-            },
-            "fname": {
-                "kind": "filename_formatter", "name": "synthetic_fname",
-                "arguments": {"suffix": "png"},
-                "depends_on": ["algo"],
-            },
-            "out": {
-                "kind": "output_formatter", "name": "synthetic_image",
-                "arguments": {},
-                "depends_on": ["algo", "cmap", "fname"],
-            },
-        })
+        spec = _build_spec(
+            {
+                "read": {
+                    "kind": "reader",
+                    "name": "synthetic_reader",
+                    "arguments": {},
+                    "depends_on": [],
+                },
+                "algo": {
+                    "kind": "algorithm",
+                    "name": "synthetic_list_numpy_algo",
+                    "arguments": {},
+                    "depends_on": ["read"],
+                },
+                "cmap": {
+                    "kind": "colormapper",
+                    "name": "synthetic_colormap",
+                    "arguments": {"data_range": [0, 100]},
+                    "depends_on": [],
+                },
+                "fname": {
+                    "kind": "filename_formatter",
+                    "name": "synthetic_fname",
+                    "arguments": {"suffix": "png"},
+                    "depends_on": ["algo"],
+                },
+                "out": {
+                    "kind": "output_formatter",
+                    "name": "synthetic_image",
+                    "arguments": {},
+                    "depends_on": ["algo", "cmap", "fname"],
+                },
+            }
+        )
         result = Workflow(spec, workflow_name="child_extract").call(fnames=[])
         out_node = result.get("out")
         assert out_node is not None
@@ -389,42 +444,51 @@ class TestChildKwargExtraction:
 
 class TestFullPipeline:
     def test_full_pipeline(self, patch_for_family_conversions):
-        spec = _build_spec({
-            "read": {
-                "kind": "reader", "name": "synthetic_reader", "arguments": {},
-                "depends_on": [],
+        spec = _build_spec(
+            {
+                "read": {
+                    "kind": "reader",
+                    "name": "synthetic_reader",
+                    "arguments": {},
+                    "depends_on": [],
+                },
+                "algo": {
+                    "kind": "algorithm",
+                    "name": "synthetic_list_numpy_algo",
+                    "arguments": {},
+                    "depends_on": ["read"],
+                },
+                "cmap": {
+                    "kind": "colormapper",
+                    "name": "synthetic_colormap",
+                    "arguments": {"data_range": [0, 100]},
+                    "depends_on": [],
+                },
+                "fname": {
+                    "kind": "filename_formatter",
+                    "name": "synthetic_fname",
+                    "arguments": {"suffix": "png"},
+                    "depends_on": ["algo"],
+                },
+                "grid": {
+                    "kind": "gridline_annotator",
+                    "name": "default",
+                    "arguments": {},
+                    "depends_on": [],
+                },
+                "feat": {
+                    "kind": "feature_annotator",
+                    "name": "default",
+                    "arguments": {},
+                    "depends_on": [],
+                },
+                "out": {
+                    "kind": "output_formatter",
+                    "name": "synthetic_image",
+                    "arguments": {},
+                    "depends_on": ["algo", "cmap", "fname", "grid", "feat"],
+                },
             },
-            "algo": {
-                "kind": "algorithm", "name": "synthetic_list_numpy_algo",
-                "arguments": {},
-                "depends_on": ["read"],
-            },
-            "cmap": {
-                "kind": "colormapper", "name": "synthetic_colormap",
-                "arguments": {"data_range": [0, 100]},
-                "depends_on": [],
-            },
-            "fname": {
-                "kind": "filename_formatter", "name": "synthetic_fname",
-                "arguments": {"suffix": "png"},
-                "depends_on": ["algo"],
-            },
-            "grid": {
-                "kind": "gridline_annotator", "name": "default",
-                "arguments": {},
-                "depends_on": [],
-            },
-            "feat": {
-                "kind": "feature_annotator", "name": "default",
-                "arguments": {},
-                "depends_on": [],
-            },
-            "out": {
-                "kind": "output_formatter", "name": "synthetic_image",
-                "arguments": {},
-                "depends_on": ["algo", "cmap", "fname", "grid", "feat"],
-            },
-        },
             outputs=["out"],
             retention="keep_outputs_only",
         )
@@ -440,57 +504,73 @@ class TestFullPipeline:
 
 class TestBackwardCompat:
     def test_inline_colormapper_still_present(
-        self, patch_for_family_conversions,
+        self,
+        patch_for_family_conversions,
     ):
-        spec = _build_spec({
-            "read": {
-                "kind": "reader", "name": "synthetic_reader", "arguments": {},
-                "depends_on": [],
-            },
-            "algo": {
-                "kind": "algorithm", "name": "synthetic_list_numpy_algo",
-                "arguments": {},
-                "depends_on": ["read"],
-            },
-            "out": {
-                "kind": "output_formatter", "name": "synthetic_image",
-                "arguments": {
-                    "mpl_colors_info": {"cmap_name": "legacy", "data_range": [0, 1]},
-                    "output_fnames": ["/tmp/legacy.png"],
+        spec = _build_spec(
+            {
+                "read": {
+                    "kind": "reader",
+                    "name": "synthetic_reader",
+                    "arguments": {},
+                    "depends_on": [],
                 },
-                "depends_on": ["algo"],
-            },
-        })
+                "algo": {
+                    "kind": "algorithm",
+                    "name": "synthetic_list_numpy_algo",
+                    "arguments": {},
+                    "depends_on": ["read"],
+                },
+                "out": {
+                    "kind": "output_formatter",
+                    "name": "synthetic_image",
+                    "arguments": {
+                        "mpl_colors_info": {
+                            "cmap_name": "legacy",
+                            "data_range": [0, 1],
+                        },
+                        "output_fnames": ["/tmp/legacy.png"],
+                    },
+                    "depends_on": ["algo"],
+                },
+            }
+        )
         result = Workflow(spec, workflow_name="backcompat").call(fnames=[])
         assert result.get("out") is not None
 
 
 class TestRetention:
     def test_keep_outputs_only_gc_aux_steps(self, patch_for_family_conversions):
-        spec = _build_spec({
-            "read": {
-                "kind": "reader", "name": "synthetic_reader", "arguments": {},
-                "depends_on": [],
-            },
-            "algo": {
-                "kind": "algorithm", "name": "synthetic_list_numpy_algo",
-                "arguments": {},
-                "depends_on": ["read"],
-            },
-            "cmap": {
-                "kind": "colormapper", "name": "synthetic_colormap",
-                "arguments": {"data_range": [0, 100]},
-                "depends_on": [],
-            },
-            "out": {
-                "kind": "output_formatter", "name": "synthetic_image",
-                "arguments": {
-                    "mpl_colors_info": {"cmap_name": "test"},
-                    "output_fnames": ["/tmp/t.png"],
+        spec = _build_spec(
+            {
+                "read": {
+                    "kind": "reader",
+                    "name": "synthetic_reader",
+                    "arguments": {},
+                    "depends_on": [],
                 },
-                "depends_on": ["algo"],
+                "algo": {
+                    "kind": "algorithm",
+                    "name": "synthetic_list_numpy_algo",
+                    "arguments": {},
+                    "depends_on": ["read"],
+                },
+                "cmap": {
+                    "kind": "colormapper",
+                    "name": "synthetic_colormap",
+                    "arguments": {"data_range": [0, 100]},
+                    "depends_on": [],
+                },
+                "out": {
+                    "kind": "output_formatter",
+                    "name": "synthetic_image",
+                    "arguments": {
+                        "mpl_colors_info": {"cmap_name": "test"},
+                        "output_fnames": ["/tmp/t.png"],
+                    },
+                    "depends_on": ["algo"],
+                },
             },
-        },
             outputs=["out"],
             retention="keep_outputs_only",
         )

@@ -1,13 +1,18 @@
 # # # This source code is subject to the license referenced at
 # # # https://github.com/NRLMMD-GEOIPS.
 
-"""End-to-end test for static multi-sector processing (SBP) in the OBP.
+"""End-to-end test for static sectoring in the OBP (single-source-procflow parity).
+
+This exercises the order-based procflow (OBP) equivalent of the legacy
+single-source procflow's (SSP) static ``sector_list`` behavior: processing a
+run against one or more static sectors.
 
 A ``split`` step with ``over: sector_list`` resolves each static sector in
 ``globals.sector_list`` to an ``AreaDefinition`` and runs the inline body
 sub-workflow once per sector, seeding the per-sector ``area_def`` into the
-branch so the body's steps receive it.  This is the core SBP capability: one
-output branch per static sector in a single run.
+branch so the body's steps receive it.  This is the core capability: one
+output branch per static sector in a single run — mirroring how the SSP
+produces one output per sector.
 
 Uses *real* sector resolution (``global_cylindrical`` + ``australia``) but a
 synthetic reader and a synthetic body step so no input data files are needed.

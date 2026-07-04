@@ -3,16 +3,30 @@
 
 """The Order-Based Procflow (OBP) conduit binding registry.
 
-:data:`OBP_CONDUITS` maps an upstream node's plugin *kind* to the
+``OBP_CONDUITS`` maps an upstream node's plugin *kind* to the
 keyword-argument name and extractor a downstream plugin expects.  This
 previously lived inside ``class_based_plugin`` (as ``_OBP_CONDUITS``) and was
 reached back into by ``YamlPluginCallable``; it now has one home, so new plugin
 kinds are wired in exactly one place.
+
+This registry holds the **bespoke, per-kind call-signature bindings** for
+legacy plugins — i.e. the specific keyword-argument name each legacy plugin
+family expects and how to pull that value out of an upstream DataTree node.
+It is the companion to ``geoips.utils.types.family_conversions``, which
+handles *type* conversions; this module handles *argument wiring*. Together
+they let the DataTree-based OBP drive legacy plugins.
+
+Like ``family_conversions``, these bindings are a backwards-compatibility
+layer: DataTree-native plugins (``data_tree = True``) consume the DataTree
+directly and need no conduit entry, so this registry is expected to shrink as
+plugins are migrated. (Originally adapted from @srikanth-kumar's work.)
 """
 
 from __future__ import annotations
 
 import xarray as xr
+
+from geoips.utils.types.datatree_ditto import DataTreeDitto
 
 
 def _extract_annotator_spec(child):
@@ -25,8 +39,6 @@ def _extract_attr(child, attr_name):
 
 
 def _extract_ds(child):
-    from geoips.utils.types.datatree_ditto import DataTreeDitto
-
     if isinstance(child, DataTreeDitto):
         return child.ds
     if isinstance(child, xr.DataTree):

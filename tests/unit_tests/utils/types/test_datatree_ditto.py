@@ -2,12 +2,11 @@ import pytest
 import numpy as np
 import xarray as xr
 from xarray import DataTree
-import pandas as pd
-from typing import Any
-import copy
 
 # Import the module
 from geoips.utils.types.datatree_ditto import DataTreeDitto
+from geoips.utils.types.converter_registry import converter_registry
+from geoips.utils.types.converters import numpy_to_dataset, dataset_to_numpy
 
 
 class TestDataTreeDittoCore:
@@ -41,7 +40,7 @@ class TestDataTreeDittoCore:
 
     def test_initialization_with_unsupported_type(self):
         """Test creating DataTreeDitto with unsupported type raises error."""
-        with pytest.raises(TypeError, match="No converter registered"):
+        with pytest.raises(TypeError, match="no converter is registered"):
             DataTreeDitto(dataset="unsupported string")
 
 
@@ -50,12 +49,11 @@ class TestConverterSystem:
 
     def test_builtin_numpy_converter_exists(self):
         """Test that numpy converter is registered by default."""
-        assert np.ndarray in DataTreeDitto._converters
-        assert "to_dataset" in DataTreeDitto._converters[np.ndarray]
-        assert "from_dataset" in DataTreeDitto._converters[np.ndarray]
+        assert converter_registry.can_convert(np.array([1, 2, 3]), xr.Dataset)
 
     def test_register_custom_converter(self):
         """Test registering a custom converter."""
+        registry_snapshot = dict(converter_registry._converters)
 
         def list_to_dataset(obj, name="data", dims=None, **kwargs):
             arr = np.array(obj)
@@ -76,7 +74,9 @@ class TestConverterSystem:
             var_name = dataset.attrs.get("_ditto_var_name", "data")
             return dataset[var_name].values.tolist()
 
-        DataTreeDitto.register_converter(list, list_to_dataset, dataset_to_list)
+        converter_registry.register_bidirectional(
+            list, xr.Dataset, list_to_dataset, dataset_to_list
+        )
 
         # Test the converter works
         dt = DataTreeDitto()
@@ -86,13 +86,14 @@ class TestConverterSystem:
         assert isinstance(dt["list_data"].ds, xr.Dataset)
         assert dt.get_original("list_data") == test_list
 
-        # Cleanup
-        del DataTreeDitto._converters[list]
+        # Cleanup: restore the shared registry.
+        converter_registry._converters.clear()
+        converter_registry._converters.update(registry_snapshot)
 
     def test_numpy_to_dataset_conversion(self):
         """Test numpy array to dataset conversion details."""
         arr = np.array([[1, 2, 3], [4, 5, 6]])
-        ds = DataTreeDitto._numpy_to_dataset(arr, name="test_data")
+        ds = numpy_to_dataset(arr, name="test_data")
 
         assert isinstance(ds, xr.Dataset)
         assert "test_data" in ds.data_vars
@@ -104,8 +105,8 @@ class TestConverterSystem:
     def test_dataset_to_numpy_conversion(self):
         """Test dataset to numpy array conversion."""
         arr = np.array([[1, 2, 3], [4, 5, 6]])
-        ds = DataTreeDitto._numpy_to_dataset(arr, name="test_data")
-        converted_back = DataTreeDitto._dataset_to_numpy(ds)
+        ds = numpy_to_dataset(arr, name="test_data")
+        converted_back = dataset_to_numpy(ds)
 
         np.testing.assert_array_equal(arr, converted_back)
 
@@ -113,7 +114,7 @@ class TestConverterSystem:
         """Test numpy conversion with custom dimensions."""
         arr = np.random.rand(2, 3, 4)
         custom_dims = ["time", "lat", "lon"]
-        ds = DataTreeDitto._numpy_to_dataset(arr, dims=custom_dims)
+        ds = numpy_to_dataset(arr, dims=custom_dims)
 
         assert ds.attrs["_ditto_dims"] == custom_dims
         assert list(ds["data"].dims) == custom_dims
@@ -426,13 +427,13 @@ class TestEdgeCases:
     def test_dataset_without_var_name_metadata(self):
         """Test converting dataset back when var_name metadata is missing."""
         arr = np.array([1, 2, 3])
-        ds = DataTreeDitto._numpy_to_dataset(arr)
+        ds = numpy_to_dataset(arr)
 
         # Remove the var_name metadata
         del ds.attrs["_ditto_var_name"]
 
         # Should still work by using first data variable
-        retrieved = DataTreeDitto._dataset_to_numpy(ds)
+        retrieved = dataset_to_numpy(ds)
         np.testing.assert_array_equal(retrieved, arr)
 
 
@@ -488,6 +489,9 @@ def sample_datatree_ditto():
 @pytest.fixture
 def custom_converter_setup():
     """Setup and teardown for custom converter tests."""
+    # Snapshot the registry so teardown restores global state exactly,
+    # regardless of test ordering.
+    registry_snapshot = dict(converter_registry._converters)
 
     # Setup: register a string converter
     def string_to_dataset(obj, name="data", dims=None, **kwargs):
@@ -510,13 +514,15 @@ def custom_converter_setup():
     def dataset_to_string(dataset, **kwargs):
         return dataset.attrs["_ditto_original_string"]
 
-    DataTreeDitto.register_converter(str, string_to_dataset, dataset_to_string)
+    converter_registry.register_bidirectional(
+        str, xr.Dataset, string_to_dataset, dataset_to_string
+    )
 
     yield
 
-    # Teardown: remove the converter
-    if str in DataTreeDitto._converters:
-        del DataTreeDitto._converters[str]
+    # Teardown: restore the registry to its pre-fixture state.
+    converter_registry._converters.clear()
+    converter_registry._converters.update(registry_snapshot)
 
 
 class TestWithFixtures:
@@ -605,18 +611,18 @@ class TestSubclassConverterMatching:
 
     def test_specific_converter_wins_over_base(self):
         """Test that a more specific converter is preferred."""
-        saved_converters = dict(DataTreeDitto._converters)
+        registry_snapshot = dict(converter_registry._converters)
 
         def masked_to_ds(obj, name="data", dims=None, **kwargs):
-            ds = DataTreeDitto._numpy_to_dataset(obj, name=name, dims=dims)
+            ds = numpy_to_dataset(obj, name=name, dims=dims)
             ds.attrs["_ditto_original_type"] = "numpy.ma.MaskedArray"
             return ds
 
         def masked_from_ds(ds, **kwargs):
-            return np.ma.array(DataTreeDitto._dataset_to_numpy(ds))
+            return np.ma.array(dataset_to_numpy(ds))
 
-        DataTreeDitto.register_converter(
-            np.ma.MaskedArray, masked_to_ds, masked_from_ds
+        converter_registry.register_bidirectional(
+            np.ma.MaskedArray, xr.Dataset, masked_to_ds, masked_from_ds
         )
 
         masked = np.ma.array([10, 20, 30], mask=[0, 1, 0])
@@ -624,7 +630,8 @@ class TestSubclassConverterMatching:
 
         assert dt.ds.attrs["_ditto_original_type"] == "numpy.ma.MaskedArray"
 
-        DataTreeDitto._converters = saved_converters
+        converter_registry._converters.clear()
+        converter_registry._converters.update(registry_snapshot)
 
     def test_no_converter_for_type_raises_error(self):
         """Test that types without converter still raise TypeError."""
@@ -670,3 +677,113 @@ class TestEnforceDittoOutput:
         wrapper = DataTreeDitto._enforce_ditto_output(lambda *a, **kw: 42)
         with pytest.raises(TypeError, match="to return DataTree or DataTreeDitto"):
             wrapper(dt)
+
+
+class TestDictOriginGetItem:
+    """Dict-style ``__getitem__`` access for dict-origin dittos.
+
+    The single-source procflow wraps plain dicts (e.g. ``mpl_colors_info``)
+    in a ``DataTreeDitto`` and then accesses them with ``obj["cmap"]``. Node
+    lookup must still take precedence; the dict fallback only applies when the
+    key is not a child node and the ditto wraps a dict.
+    """
+
+    def test_dict_key_access(self):
+        """Access dict values by key on a dict-origin ditto."""
+        dt = DataTreeDitto({"cmap": "viridis", "norm": 42})
+        assert dt["cmap"] == "viridis"
+        assert dt["norm"] == 42
+
+    def test_dict_key_access_none_value(self):
+        """A stored ``None`` value is returned, not treated as missing."""
+        dt = DataTreeDitto({"cmap": None})
+        assert dt["cmap"] is None
+
+    def test_missing_dict_key_raises_keyerror(self):
+        """A key absent from the wrapped dict raises KeyError."""
+        dt = DataTreeDitto({"cmap": "viridis"})
+        with pytest.raises(KeyError):
+            dt["does_not_exist"]
+
+    def test_non_dict_origin_missing_node_raises_keyerror(self):
+        """Missing node on a non-dict-origin ditto still raises KeyError."""
+        dt = DataTreeDitto(np.array([1, 2, 3]))
+        with pytest.raises(KeyError):
+            dt["cmap"]
+
+    def test_node_lookup_takes_precedence(self):
+        """Child-node lookup is unaffected by the dict fallback."""
+        dt = DataTreeDitto()
+        dt["child"] = np.array([1, 2, 3])
+        assert isinstance(dt["child"], DataTreeDitto)
+
+
+class TestDictOriginMapping:
+    """Dict-origin dittos behave like the wrapped dict for the read protocol.
+
+    Regression coverage for an inconsistency where ``obj["k"]`` worked but
+    ``"k" in obj``, ``obj.get("k")`` and iteration did not reflect the wrapped
+    dict. Non-dict-origin dittos must retain standard ``DataTree`` behavior.
+    """
+
+    def _sample(self):
+        return DataTreeDitto({"cmap": "viridis", "norm": 42, "opt": None})
+
+    def test_contains_true(self):
+        """``in`` reports keys present in the wrapped dict."""
+        assert "cmap" in self._sample()
+
+    def test_contains_false(self):
+        """``in`` reports False for keys absent from the wrapped dict."""
+        assert "missing" not in self._sample()
+
+    def test_get_hit(self):
+        """``get`` returns the wrapped dict value for a present key."""
+        assert self._sample().get("norm") == 42
+
+    def test_get_missing_returns_default(self):
+        """``get`` returns the provided default for an absent key."""
+        assert self._sample().get("missing", "DEF") == "DEF"
+
+    def test_get_none_value_not_treated_as_missing(self):
+        """A stored ``None`` is returned rather than the default."""
+        assert self._sample().get("opt", "DEF") is None
+
+    def test_iter_yields_dict_keys(self):
+        """Iteration yields the wrapped dict's keys in order."""
+        assert list(self._sample()) == ["cmap", "norm", "opt"]
+
+    def test_keys_values_items(self):
+        """``keys``/``values``/``items`` mirror the wrapped dict."""
+        dt = self._sample()
+        assert list(dt.keys()) == ["cmap", "norm", "opt"]
+        assert list(dt.values()) == ["viridis", 42, None]
+        assert list(dt.items()) == [
+            ("cmap", "viridis"),
+            ("norm", 42),
+            ("opt", None),
+        ]
+
+    def test_dict_roundtrip_via_mapping(self):
+        """``dict(ditto)`` reconstructs the wrapped dict."""
+        assert dict(self._sample()) == {"cmap": "viridis", "norm": 42, "opt": None}
+
+    def test_non_dict_origin_contains_uses_tree(self):
+        """Non-dict-origin ``in`` uses child-node membership."""
+        dt = DataTreeDitto()
+        dt["child"] = np.array([1, 2, 3])
+        assert "child" in dt
+        assert "missing" not in dt
+
+    def test_non_dict_origin_get_returns_child(self):
+        """Non-dict-origin ``get`` returns the child node or default."""
+        dt = DataTreeDitto()
+        dt["child"] = np.array([1, 2, 3])
+        assert isinstance(dt.get("child"), DataTreeDitto)
+        assert dt.get("missing", "DEF") == "DEF"
+
+    def test_non_dict_origin_iter_yields_children(self):
+        """Non-dict-origin iteration yields child names."""
+        dt = DataTreeDitto()
+        dt["child"] = np.array([1, 2, 3])
+        assert list(dt) == ["child"]

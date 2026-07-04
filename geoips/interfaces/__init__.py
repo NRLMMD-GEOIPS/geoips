@@ -92,31 +92,19 @@ def list_available_interfaces():
     """Return a dictionary of available interfaces.
 
     Collect and return a dictionary whose keys are the interface types (i.e.
-    module_based, yaml_based, and text_based) and whose values are lists of the
+    class_based, yaml_based, and text_based) and whose values are lists of the
     available interfaces for each interface type.
+
+    The lists are sourced from the canonical ``class_based_interfaces`` and
+    ``yaml_based_interfaces`` allowlists defined in this module rather than by
+    introspecting imported submodules. Introspection is fragile: any
+    non-interface module imported into ``geoips.interfaces.class_based`` (for
+    example the ``workflow`` runtime executor, which is *not* a registered
+    interface) would leak into the result and break plugin validation and unit
+    tests. The allowlists are the single source of truth for interface names.
     """
-    # These are buried to avoid polluting the interface module's namespace
-    import inspect
-    from geoips import interfaces
-
-    all_interfaces = {
-        "class_based": [],
+    return {
+        "class_based": list(class_based_interfaces),
         "text_based": [],
-        "yaml_based": [],
+        "yaml_based": list(yaml_based_interfaces),
     }
-    for interface_type in ["class", "text", "yaml"]:
-        try:
-            available_interfaces = [
-                str(mod_info[0])
-                for mod_info in inspect.getmembers(
-                    getattr(interfaces, f"{interface_type}_based"),
-                    inspect.ismodule,
-                )
-            ]
-            if "workflow" in available_interfaces:
-                available_interfaces.remove("workflow")
-            all_interfaces[f"{interface_type}_based"] = available_interfaces
-        except AttributeError:
-            continue
-
-    return all_interfaces

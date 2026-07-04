@@ -6,7 +6,6 @@
 # Python Standard Libraries
 import logging
 
-import xarray as xr
 from os.path import join as pathjoin
 
 from geoips.filenames.base_paths import PATHS as gpaths
@@ -90,6 +89,9 @@ def call(
         source_dir=source_dir,
         **kwargs,
     )
+
+    # OBP DataTree wrapping is handled by the interface ``_post_call``; this
+    # plugin just returns the output path string.
     return web_fname
 
 
