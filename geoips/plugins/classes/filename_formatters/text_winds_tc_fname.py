@@ -30,7 +30,7 @@ class TextWindsTcFnameFilenameFormatterPlugin(BaseFilenameFormatterPlugin):
 
         See Also
         --------
-        geoips.plugins.modules.filename_formatters.text_winds_tc_fname.
+        geoips.plugins.classes.filename_formatters.text_winds_tc_fname.
             assemble_windspeeds_text_tc_fname
             Shared utility to facilitate creating multiple similar filenames
             from the same code.

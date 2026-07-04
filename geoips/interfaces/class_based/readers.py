@@ -16,8 +16,8 @@ from geoips.utils.context_managers import import_optional_dependencies
 from geoips.errors import NoValidFilesError
 from geoips.interfaces.class_based_plugin import BaseClassPlugin
 from geoips.interfaces.base import BaseClassInterface
-from geoips.plugins.modules.readers.utils.hrit_reader import HritError
-from geoips.plugins.modules.readers.utils.geostationary_geolocation import (
+from geoips.plugins.classes.readers.utils.hrit_reader import HritError
+from geoips.plugins.classes.readers.utils.geostationary_geolocation import (
     check_geolocation_cache_backend,
     get_geolocation_cache_filename,
     AutoGenError,

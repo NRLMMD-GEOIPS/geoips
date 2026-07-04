@@ -55,7 +55,7 @@ from geoips.interfaces import products
 from geoips.interfaces import sector_adjusters
 
 # Collect functions from single_source (should consolidate these somewhere)
-from geoips.plugins.modules.procflows.single_source import (
+from geoips.plugins.classes.procflows.single_source import (
     process_sectored_data_output,
     process_xarray_dict_to_output_format,
     pad_area_definition,

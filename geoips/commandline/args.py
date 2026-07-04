@@ -283,7 +283,7 @@ def add_args(parser, arglist=None, legacy=False):
             nargs="?",
             default=None,
             help="""Specify sector adjuster to be used within processing, located in:
-                            <package>.plugins.modules.sector_adjusters.
+                            <package>.plugins.classes.sector_adjusters.
                                 <myadjuster>.<myadjuster>""",
         )
     if arglist is None or "sector_adjuster_kwargs" in arglist:
@@ -355,7 +355,7 @@ def add_args(parser, arglist=None, legacy=False):
             nargs="?",
             default=None,
             help="""Specify TC trackfile parser to use with trackfiles, located in:
-                            geoips*.plugins.modules.sector_metadata_generators .
+                            geoips*.plugins.classes.sector_metadata_generators .
                                 myparsername.myparsername,
                             The trackfile_parser string should be the parser module
                             name (no .py)""",
@@ -523,7 +523,7 @@ def add_args(parser, arglist=None, legacy=False):
         if legacy:
             help_str = (
                 "Specify procflow that should be followed for this file, located in "
-                "geoips.plugins.modules.procflows.myprocflowname.name. The procflow "
+                "geoips.plugins.classes.procflows.myprocflowname.name. The procflow "
                 "string should be the procflow module file name (excluding '.py' )."
             )
         else:
@@ -930,7 +930,7 @@ def add_args(parser, arglist=None, legacy=False):
             default=None,
             help="""If --product_db_writer is passed, the specific product
                     database writer will be located in
-                    geoips*.plugins.modules.postgres_database.
+                    geoips*.plugins.classes.postgres_database.
                         mywriter_name.mywriter_name,
                     The writer_name string should be the reader module name
                     (no .py)""",

@@ -323,7 +323,7 @@ def get_trackfile_area_defs(
     trackfiles : list
         List of trackfiles to convert into area_defs
     trackfile_parser : str
-        Parser to use from plugins.modules.sector_metadata_generators on trackfiles
+        Parser to use from plugins.classes.sector_metadata_generators on trackfiles
     trackfile_sectorlist list of str, default=None
         * list of sector names to process, of format: tc2020io01amphan.
         * If None, or 'all' contained in list, process all matching TC sectors.

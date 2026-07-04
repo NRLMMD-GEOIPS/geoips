@@ -36,7 +36,7 @@ class TextWindsFullFnameFilenameFormatterPlugin(WindsFilenameFormatterPlugin):
 
         See Also
         --------
-        geoips.plugins.modules.filename_formatters.text_winds_full_fname.
+        geoips.plugins.classes.filename_formatters.text_winds_full_fname.
             assemble_windspeeds_text_full_fname
             Shared utility to create filenames with similar formatting requirements.
         """

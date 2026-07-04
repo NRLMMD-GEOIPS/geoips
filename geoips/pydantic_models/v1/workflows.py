@@ -122,7 +122,7 @@ def get_plugin_kinds() -> set[str]:
 
 
 # NOTE: We need to move all of the argument models to their own module once implemented
-# and supported by the OBP. geoips.plugins.modules.procflows.order_based:validate_arguments  # NOQA
+# and supported by the OBP. geoips.plugins.classes.procflows.order_based:validate_arguments  # NOQA
 # will not work otherwise
 
 
