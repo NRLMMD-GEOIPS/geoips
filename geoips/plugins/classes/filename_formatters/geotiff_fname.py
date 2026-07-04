@@ -10,7 +10,7 @@ from geoips.interfaces.class_based.filename_formatters import (
 # Python Standard Libraries
 import logging
 
-from geoips.plugins.classes.procflows.single_source import remove_unsupported_kwargs
+from geoips.plugins.modules.procflows.single_source import remove_unsupported_kwargs
 from geoips.filenames.base_paths import PATHS as gpaths
 
 LOG = logging.getLogger(__name__)

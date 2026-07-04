@@ -523,7 +523,7 @@ def add_args(parser, arglist=None, legacy=False):
         if legacy:
             help_str = (
                 "Specify procflow that should be followed for this file, located in "
-                "geoips.plugins.classes.procflows.myprocflowname.name. The procflow "
+                "geoips.plugins.modules.procflows.myprocflowname.name. The procflow "
                 "string should be the procflow module file name (excluding '.py' )."
             )
         else:
