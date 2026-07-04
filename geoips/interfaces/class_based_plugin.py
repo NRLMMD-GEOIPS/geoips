@@ -345,61 +345,19 @@ class BaseClassPlugin(ABC):
         if not children:
             return kwargs
 
-        def _wrap_spec(spec):
-            return {"spec": spec} if spec is not None else None
-
-        def _unwrap_ditto(child):
-            from geoips.utils.types.datatree_ditto import DataTreeDitto
-            if isinstance(child, DataTreeDitto):
-                return child.get_original()
-            return child.ds
-
-        def _unwrap_ds(child):
-            from geoips.utils.types.datatree_ditto import DataTreeDitto
-            if isinstance(child, DataTreeDitto):
-                return child.ds
-            if isinstance(child, xr.DataTree):
-                return child.ds
-            return child
-
-        _EXTRACTORS = {
-            "algorithm": _unwrap_ds,
-            "colormapper": lambda c: c.ds.attrs.get("_mpl_colors_info"),
-            "feature_annotator": lambda c: _wrap_spec(c.ds.attrs.get("spec")),
-            "filename_formatter": lambda c: c.ds.attrs.get("output_fnames"),
-            "gridline_annotator": lambda c: _wrap_spec(c.ds.attrs.get("spec")),
-            "product": lambda c: str(c.name) if c.name else None,
-            "sector": lambda c: c.ds.attrs.get("area_definition"),
-        }
+        from geoips.utils.types.obp_conduits import OBP_CONDUITS
 
         for _child_name, child in children.items():
             pkind = str(child.ds.attrs.get("plugin_kind", "")) if child.ds is not None else ""
-            kwarg_name = _KIND_TO_KWARG.get(pkind)
-            if not kwarg_name or kwarg_name in kwargs:
+            conduit = OBP_CONDUITS.get(pkind)
+            if conduit is None:
                 continue
-
+            kwarg_name = conduit["kwarg"]
+            if kwarg_name in kwargs:
+                continue
             val = conduit["extract"](child)
             if val is not None:
                 kwargs[kwarg_name] = val
-
-        if "xarray_obj" in kwargs and "product_name" in kwargs:
-            xo = kwargs["xarray_obj"]
-            if (
-                hasattr(xo, "data_vars")
-                and xo.data_vars
-                and "product_name" not in xo.data_vars
-            ):
-                pn = kwargs["product_name"]
-                first_var = list(xo.data_vars)[0]
-                if (
-                    isinstance(pn, str)
-                    and pn not in xo.data_vars
-                    and pn not in xo.coords
-                    and pn not in xo.dims
-                    and first_var != pn
-                ):
-                    xo = xo.rename({first_var: pn})
-                    kwargs["xarray_obj"] = xo
 
         return kwargs
 
