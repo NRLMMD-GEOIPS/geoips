@@ -72,8 +72,6 @@ class BaseOutputFormatterPlugin(BaseClassPlugin, abstract=True):
         if "source_file_names" in xarray_obj.attrs.keys():
             sector_info["source_file_names"] = xarray_obj.source_file_names
         # Backwards compatibility, so the default metadata doesn't change.
-        if "source_file_names" in xarray_obj.attrs.keys():
-            sector_info["source_file_names"] = xarray_obj.source_file_names
 
         return sector_info
 
