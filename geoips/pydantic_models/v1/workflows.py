@@ -623,7 +623,6 @@ class WorkflowSpecModel(FrozenModel):
 
     # list of steps
     globals: GlobalVariablesModel | None = Field(
-    globals: GlobalVariablesModel | None = Field(
         None, description="Arguments shared across workflow steps"
     )
     steps: Dict[str, WorkflowStepDefinitionModel] = Field(
