@@ -1,3 +1,9 @@
+"""Convert GeoIPS module-based plugin source files to class-based plugins.
+
+This module uses LibCST to move plugin metadata and functions into a generated
+plugin class, add its base-class import, and expose the class as ``PLUGIN_CLASS``.
+"""
+
 import os
 from pathlib import Path
 import re
@@ -6,7 +12,20 @@ import libcst as cst
 
 
 class ModuleToClassTransformer(cst.CSTTransformer):
+    """Transform a module-based GeoIPS plugin into a class-based plugin.
+
+    Parameters
+    ----------
+    class_name : str
+        Name of the class to generate.
+    base_class : str
+        Name of the interface base class inherited by the generated class.
+    interface_name : str
+        Snake-case interface name used to construct the base-class import.
+    """
+
     def __init__(self, class_name, base_class, interface_name):
+        """Initialize the transformer for a single plugin conversion."""
         self.class_name = class_name
         self.base_class = base_class
         self.interface_name = interface_name
@@ -21,6 +40,21 @@ class ModuleToClassTransformer(cst.CSTTransformer):
         self.module_body = []
 
     def leave_Module(self, original_node, updated_node):
+        """Build the class-based module after visiting its child nodes.
+
+        Parameters
+        ----------
+        original_node : libcst.Module
+            Module before its child nodes were transformed.
+        updated_node : libcst.Module
+            Module containing the transformed child nodes.
+
+        Returns
+        -------
+        libcst.Module
+            Rebuilt module containing the generated plugin class and
+            ``PLUGIN_CLASS`` assignment.
+        """
         body = list(updated_node.body)
 
         new_body = []
@@ -117,6 +151,19 @@ class ModuleToClassTransformer(cst.CSTTransformer):
         return updated_node.with_changes(body=[*new_body, new_assignment])
 
     def _is_class_attr(self, stmt):
+        """Return whether a statement defines plugin metadata moved into the class.
+
+        Parameters
+        ----------
+        stmt : libcst.SimpleStatementLine
+            Statement to inspect.
+
+        Returns
+        -------
+        bool
+            ``True`` when the statement assigns ``interface``, ``name``, or
+            ``family``; otherwise, ``False``.
+        """
         TARGETS = {"interface", "name", "family"}
 
         if not stmt.body:
@@ -135,7 +182,7 @@ class ModuleToClassTransformer(cst.CSTTransformer):
     #         return func.with_changes(
     #             decorators=[cst.Decorator(decorator=cst.Name("staticmethod"))]
     #         )
-
+    #
     #     # add self if needed
     #     params = func.params
     #     if not params.params or params.params[0].name.value != "self":
@@ -143,18 +190,22 @@ class ModuleToClassTransformer(cst.CSTTransformer):
     #             params=[cst.Param(name=cst.Name("self"))] + list(params.params)
     #         )
     #         return func.with_changes(params=new_params)
-
+    #
     #     return func
 
     def _build_class_docstring(self):
-        """
-        Generate a simple class docstring from the class name.
+        """Build a short docstring for the generated plugin class.
 
-        Example:
-            RgbDefaultAlgorithmPlugin
-            -> "RGB Default algorithm plugin class."
-        """
+        Returns
+        -------
+        str
+            Docstring derived from the configured class name.
 
+        Examples
+        --------
+        ``RgbDefaultAlgorithmPlugin`` becomes
+        ``"RGB Default algorithm plugin class."``.
+        """
         # Remove trailing "Plugin"
         name = self.class_name.removesuffix("Plugin")
 
@@ -180,6 +231,19 @@ class ModuleToClassTransformer(cst.CSTTransformer):
         return f"{title} {plugin_type} plugin class."
 
     def _convert_function(self, func):
+        """Ensure a function moved into the plugin class accepts ``self``.
+
+        Parameters
+        ----------
+        func : libcst.FunctionDef
+            Function definition to convert into an instance method.
+
+        Returns
+        -------
+        libcst.FunctionDef
+            Function definition with ``self`` prepended when it is not already
+            the first parameter.
+        """
         params = func.params
 
         # add self if needed
@@ -195,6 +259,23 @@ class ModuleToClassTransformer(cst.CSTTransformer):
 def write_transformed_module(
     input_path, output_path, class_name, base_class=None, interface_name=None
 ):
+    """Convert a module-based plugin and write the resulting source code.
+
+    Parameters
+    ----------
+    input_path : str or pathlib.Path
+        Path to the module-based plugin source file.
+    output_path : str or pathlib.Path
+        Destination for the transformed source. Any existing file is replaced.
+    class_name : str
+        Name of the plugin class to generate.
+    base_class : str, optional
+        Name of the interface base class. Despite the default, ``None`` is not
+        supported during conversion.
+    interface_name : str, optional
+        Snake-case interface name. Despite the default, ``None`` is not
+        supported during conversion.
+    """
     source = Path(input_path).read_text()
 
     module = cst.parse_module(source)
@@ -205,7 +286,7 @@ def write_transformed_module(
 
     os.makedirs(os.path.dirname(output_path), exist_ok=True)
     if not os.path.exists(output_path):
-        with open(output_path, "w") as f:
+        with open(output_path, "w"):
             pass
     Path(output_path).write_text(new_code)
 
@@ -213,6 +294,21 @@ def write_transformed_module(
 def convert_single_file(
     input_file, output_file, class_name, base_class, interface_name
 ):
+    """Convert one module-based plugin file to a class-based plugin file.
+
+    Parameters
+    ----------
+    input_file : str or pathlib.Path
+        Path to the module-based plugin source file.
+    output_file : str or pathlib.Path
+        Destination for the transformed source.
+    class_name : str
+        Name of the plugin class to generate.
+    base_class : str
+        Name of the interface base class.
+    interface_name : str
+        Snake-case interface name used to construct the base-class import.
+    """
     write_transformed_module(
         input_file,
         output_file,
