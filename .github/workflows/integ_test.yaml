@@ -9,6 +9,10 @@ defaults:
   run:
     shell: bash
 
+concurrency:
+  group: integ-test-${{ github.ref }}
+  cancel-in-progress: true
+
 permissions:
   contents: read
   packages: write
@@ -18,14 +22,11 @@ jobs:
     if: github.event_name == 'workflow_dispatch' || github.event.pull_request.draft == false
     strategy:
       matrix:
-        editable_pip_install: [true, false]
-    concurrency:
-      group: integ-test-${{ github.ref }}-${{ matrix.editable_pip_install }}
-      cancel-in-progress: true
-    name: integ-test (editable=${{ matrix.editable_pip_install }})
-    uses: NRLMMD-GEOIPS/geoips_ci/.github/workflows/reusable-ci.yaml
+        pip_editable: [false, true]
+    name: integ-test (editable=${{ matrix.pip_editable }})
+    uses: NRLMMD-GEOIPS/geoips_ci/.github/workflows/reusable-ci.yaml@main
     with:
-      editable_pip_install: ${{ matrix.editable_pip_install }}
+      pip_editable: ${{ matrix.pip_editable }}
     secrets:
       token: ${{ secrets.GITHUB_TOKEN }}
       docker_token: ${{ secrets.DOCKER_TOKEN }}

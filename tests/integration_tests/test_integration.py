@@ -309,24 +309,31 @@ def setup_environment():
     setting environment variables required for the integration tests.  Assumes
     that ``GEOIPS_PACKAGES_DIR`` is already set in the environment.
 
+    ``geoips_repopath`` always resolves to the GeoIPS core repository.
+    ``repopath`` resolves to the current repository (geoips or a plugin).
+
     Notes
     -----
     The following environment variables are set:
 
     - geoips_repopath
     - geoips_pkgname
-    - repopath (alias for geoips_repopath — used by lint scripts)
-    - pkgname (alias for geoips_pkgname — used by lint scripts)
+    - repopath (the current repo — used by lint scripts)
+    - pkgname (the current package name — used by lint scripts)
     """
-    os.environ["geoips_repopath"] = _REPO_ROOT
-    os.environ["geoips_pkgname"] = "geoips"
-
-    os.environ["repopath"] = os.environ["geoips_repopath"]
-    os.environ["pkgname"] = os.environ["geoips_pkgname"]
-
     geoips_packages_dir = os.getenv("GEOIPS_PACKAGES_DIR")
     if not geoips_packages_dir:
         raise EnvironmentError("GEOIPS_PACKAGES_DIR environment variable not set.")
+
+    pkgname = os.getenv("GEOIPS_PKGNAME", "geoips")
+
+    # Base path — always the GeoIPS core repository
+    os.environ["geoips_repopath"] = os.path.join(geoips_packages_dir, "geoips")
+    os.environ["geoips_pkgname"] = "geoips"
+
+    # Setup current repo's environment — may differ from geoips core for plugin repos
+    os.environ["repopath"] = os.path.join(geoips_packages_dir, pkgname)
+    os.environ["pkgname"] = pkgname
 
 
 @pytest.fixture(scope="session")
@@ -395,6 +402,15 @@ def run_script_with_bash(
     subprocess.CalledProcessError
         If the shell command returns a non-zero exit status.
     """
+    # The print statements all appear to print AFTER the script is complete
+    # And appears to not include a newline after printing the script.
+    # Unset all supported specific output path env vars to ensure consistent test
+    # output locations.  These are all defaulted to GEOIPS_OUTDIRS locations in
+    # geoips_utils replace paths - we want to ensure they are not set so all paths
+    # are updated with the GEOIPS_OUTDIRS relative paths for test consistency across
+    # installs. GEOIPS_REPLACE_OUTPUT_PATHS is set within geoips/filenames/base_paths.py
+    # to a default set of supported environment variables, overridden to the
+    # specified list if GEOIPS_REPLACE_OUTPUT_PATHS is set within the environment.
     print("")
     removed_env_vars = {}
     if unset_output_path_env_vars:
