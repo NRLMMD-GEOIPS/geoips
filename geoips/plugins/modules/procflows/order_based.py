@@ -39,7 +39,6 @@ class OrderBased(BaseProcflowPlugin):
     interface = "procflows"
     family = "standard"
     name = "order_based"
-    data_tree = True
 
     def call(
         self,

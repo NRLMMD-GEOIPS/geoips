@@ -6,11 +6,9 @@ and recovered to their original type on the way out, using the shared
 ``converter_registry``.
 """
 
-import warnings
 from functools import wraps
 from typing import Any
 
-import numpy as np
 import xarray as xr
 from xarray import DataTree
 
@@ -20,7 +18,6 @@ from collections.abc import (
 )
 
 from geoips.utils.types.converter_registry import converter_registry
-from geoips.utils.types.converters import dataset_to_numpy, numpy_to_dataset
 
 
 class DataTreeDitto(DataTree):
@@ -68,14 +65,9 @@ class DataTreeDitto(DataTree):
         >>> dt.ds.data.values.tolist()
         [1, 2, 3]
         """
-        # Initialize class-level converter registry if it does not exist
-        if not hasattr(DataTreeDitto, "_converters"):
-            DataTreeDitto._converters = {}
-            DataTreeDitto._register_builtin_converters()
-
         if dataset is not None:
             if isinstance(dataset, xr.DataArray):
-                if xr.DataArray in DataTreeDitto._converters:
+                if converter_registry.can_convert(dataset, xr.Dataset):
                     dataset = self._convert_to_dataset(dataset)
                 else:
                     dataset = dataset.to_dataset()
@@ -136,111 +128,6 @@ class DataTreeDitto(DataTree):
 
         return wrapper
 
-    @classmethod
-    def _register_builtin_converters(cls):
-        """Register built-in converters for common types.
-
-        Registers converters for numpy arrays automatically when the class
-        is first instantiated.  Delegates to the shared
-        ``TypeConverterRegistry`` and also populates the ``_converters``
-        compat dict.
-        """
-        cls.register_converter(np.ndarray, cls._numpy_to_dataset, cls._dataset_to_numpy)
-
-    @classmethod
-    def register_converter(
-        cls,
-        obj_type: type,
-        to_dataset_func: Callable,
-        from_dataset_func: Callable,
-    ) -> None:
-        """Register a converter for a specific object type.
-
-        Updates the class-level ``_converters`` dict for backward
-        compatibility AND registers the bidirectional pair on the shared
-        ``TypeConverterRegistry`` singleton.
-
-        Parameters
-        ----------
-        obj_type : type
-            The type of object to convert.
-        to_dataset_func : callable
-            Function to convert object to xarray.Dataset. Must accept the object
-            as first argument and return an xarray.Dataset.
-        from_dataset_func : callable
-            Function to convert xarray.Dataset back to original object. Must
-            accept an xarray.Dataset and return an object of obj_type.
-
-        Examples
-        --------
-        >>> def list_to_dataset(lst, name="data", **kwargs):
-        ...     arr = np.array(lst)
-        ...     return DataTreeDitto._numpy_to_dataset(arr, name, **kwargs)
-        >>> def dataset_to_list(ds, **kwargs):
-        ...     return DataTreeDitto._dataset_to_numpy(ds, **kwargs).tolist()
-        >>> DataTreeDitto.register_converter(list, list_to_dataset, dataset_to_list)
-        """
-        if not hasattr(DataTreeDitto, "_converters"):
-            DataTreeDitto._converters = {}
-            DataTreeDitto._register_builtin_converters()
-        cls._converters[obj_type] = {
-            "to_dataset": to_dataset_func,
-            "from_dataset": from_dataset_func,
-        }
-        # Also register on the shared registry
-        converter_registry.register_bidirectional(
-            obj_type, xr.Dataset, to_dataset_func, from_dataset_func
-        )
-
-    @staticmethod
-    def _numpy_to_dataset(
-        obj: np.ndarray,
-        name: str = "data",
-        dims: list[str] | None = None,
-        **kwargs,
-    ) -> xr.Dataset:
-        """Convert numpy array to xarray Dataset.
-
-        Thin wrapper around ``geoips.utils.types.converters.numpy_to_dataset``
-        for backward compatibility.
-
-        Parameters
-        ----------
-        obj : numpy.ndarray
-            The numpy array to convert.
-        name : str, default "data"
-            Name for the data variable in the resulting dataset.
-        dims : list of str, optional
-            Dimension names for the DataArray.
-        **kwargs
-            Additional keyword arguments.
-
-        Returns
-        -------
-        xarray.Dataset
-        """
-        return numpy_to_dataset(obj, name=name, dims=dims, **kwargs)
-
-    @staticmethod
-    def _dataset_to_numpy(dataset: xr.Dataset, **kwargs) -> np.ndarray:
-        """Convert xarray Dataset back to numpy array.
-
-        Thin wrapper around ``geoips.utils.types.converters.dataset_to_numpy``
-        for backward compatibility.
-
-        Parameters
-        ----------
-        dataset : xarray.Dataset
-            Dataset to convert back to numpy array.
-        **kwargs
-            Additional keyword arguments.
-
-        Returns
-        -------
-        numpy.ndarray
-        """
-        return dataset_to_numpy(dataset, **kwargs)
-
     def _convert_to_dataset(self, obj: Any, **kwargs) -> xr.Dataset:
         """Convert an object to xarray Dataset using the shared registry.
 
@@ -295,8 +182,7 @@ class DataTreeDitto(DataTree):
 
         # Resolve the original-type string against the shared registry and
         # delegate the reverse (Dataset -> original) conversion to it, so the
-        # converter dispatch has a single source of truth.  ``_converters`` is
-        # retained only as a backward-compatible registration mirror.
+        # converter dispatch has a single source of truth.
         for target_type in converter_registry.registered_types.get(xr.Dataset, ()):
             if f"{target_type.__module__}.{target_type.__name__}" == original_type:
                 return converter_registry.convert(dataset, target_type)
@@ -582,21 +468,6 @@ class DataTreeDitto(DataTree):
         for child_name, child in dt.children.items():
             new_ditto[child_name] = cls.from_datatree(child)
         return new_ditto
-
-    @staticmethod
-    def _convert_datatree_to_ditto(dt: DataTree) -> "DataTreeDitto":
-        """Convert a DataTree to DataTreeDitto recursively.
-
-        .. deprecated::
-            Use :meth:`DataTreeDitto.from_datatree` instead.
-        """
-        warnings.warn(
-            "DataTreeDitto._convert_datatree_to_ditto is deprecated; "
-            "use DataTreeDitto.from_datatree instead.",
-            DeprecationWarning,
-            stacklevel=2,
-        )
-        return DataTreeDitto.from_datatree(dt)
 
     def get_original(self, path: str = ".") -> Any:
         """Get the original object (before conversion) at the specified path.
