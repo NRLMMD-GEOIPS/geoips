@@ -405,6 +405,12 @@ def run_script_with_bash(
     # The print statements all appear to print AFTER the script is complete
     # And appears to not include a newline after printing the script.
     # Unset all supported specific output path env vars to ensure consistent test
+    # output locations.  These are all defaulted to GEOIPS_OUTDIRS locations in
+    # geoips_utils replace paths - we want to ensure they are not set so all paths
+    # are updated with the GEOIPS_OUTDIRS relative paths for test consistency across
+    # installs. GEOIPS_REPLACE_OUTPUT_PATHS is set within geoips/filenames/base_paths.py
+    # to a default set of supported environment variables, overridden to the
+    # specified list if GEOIPS_REPLACE_OUTPUT_PATHS is set within the environment.
     print("")
     removed_env_vars = {}
     if unset_output_path_env_vars:
