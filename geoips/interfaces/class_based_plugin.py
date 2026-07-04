@@ -40,6 +40,17 @@ from geoips.utils.types.obp_conduits import OBP_CONDUITS
 
 LOG = logging.getLogger(__name__)
 
+_MISSING = object()
+LEGACY_DATA_ARGUMENTS = frozenset(
+    {
+        "arrays",
+        "input_xarray",
+        "xarray_dict",
+        "xarray_obj",
+        "xobj",
+    }
+)
+
 # P = ParamSpec("P")
 # R = TypeVar("R")
 
@@ -376,131 +387,120 @@ class BaseClassPlugin(ABC):
 
         return kwargs
 
-    def _invoke(self, data=None, *args, _obp_initiated=False, **kwargs):
-        """Call the main plugin method.
+    def _invoke(self, *args, _obp_initiated=False, **kwargs):
+        """Call the plugin while adapting the canonical ``data`` keyword.
 
-        Additionally, filter out unaccepted arguments if initiated via the OBP.
-        Unwrap / wrap and family-specific type conversions are handled by
-        ``_pre_call()`` and ``_post_call()``.
+        ``data`` belongs to the ``BaseClassPlugin.__call__`` protocol. It is always
+        accepted by that wrapper, even when the implementation's ``call`` method does
+        not declare a data parameter (readers are the important example). Existing
+        plugins may instead declare one of the legacy data argument names in
+        :data:`LEGACY_DATA_ARGUMENTS`; this method binds the real ``call`` signature
+        first and then places preprocessed data into the matching argument.
 
-        Parameters
-        ----------
-        data : R, optional
-            The output data from the plugin.
-        _obp_initiated : bool, optional
-            Whether or not this plugin is being called via the order based procflow.
-            Defaults to False.
-
-        Returns
-        -------
-            The processed data.
+        All other positional and keyword arguments retain normal Python binding
+        semantics. In particular, the first positional argument to a reader remains
+        ``fnames`` and a second-position ``input_xarray`` or ``xarray_obj`` remains in
+        its declared position.
         """
-        new_kwargs = self._obp_filter_kwargs(kwargs) if _obp_initiated else kwargs
+        input_data = kwargs.pop("data", _MISSING)
+        signature = inspect.signature(self.call)
+        data_argument = self._resolve_data_argument(signature)
 
-        if data is None:
-            # No upstream data (e.g. reader steps, or any first step). We still
-            # run ``_post_call`` so interface-level normalization happens — most
-            # importantly the reader ``dict -> DataTree`` merge in
-            # ``BaseReaderPlugin._post_call`` and the ``_wrap`` into a
-            # ``DataTreeDitto``.  ``_pre_call`` is a no-op for ``data is None``.
-            result = self.call(*args, **new_kwargs)
-            return self._post_call(
-                result, *args, _obp_initiated=_obp_initiated, **new_kwargs
-            )
+        call_kwargs = dict(kwargs)
+        conduit_arguments = set()
+        if _obp_initiated and input_data is not _MISSING:
+            original_keys = set(call_kwargs)
+            call_kwargs = self._extract_child_kwargs(input_data, call_kwargs)
+            conduit_arguments = set(call_kwargs) - original_keys
 
         if _obp_initiated:
-            new_kwargs = self._extract_child_kwargs(data, new_kwargs)
+            call_kwargs = self._obp_filter_kwargs(call_kwargs)
+            conduit_arguments.intersection_update(call_kwargs)
 
-        data = self._pre_call(data, *args, _obp_initiated=_obp_initiated, **new_kwargs)
+        bound = signature.bind_partial(*args, **call_kwargs)
+        data_is_bound = data_argument is not None and data_argument in bound.arguments
 
-        if data is None:
-            # ``_pre_call`` stripped the input (e.g. a legacy ``data_tree=False``
-            # reader handed an injected tree it cannot consume). Fall back to the
-            # no-data call path, dropping any conduit-injected kwargs that this
-            # plugin's ``call`` does not accept.
-            call_kwargs = self._call_kwargs(new_kwargs, _obp_initiated)
-            result = self.call(*args, **call_kwargs)
-            return self._post_call(
-                result, *args, _obp_initiated=_obp_initiated, **new_kwargs
-            )
-
-        # Note: ``_call_kwargs`` drops conduit-injected kwargs (e.g.
-        # ``xarray_obj``) the plugin's ``call`` does not accept. In the unpacking
-        # branch it must be computed *after* ``_kwarg_to_positional`` (which pops
-        # the promoted keys from ``new_kwargs`` in-place), so those keys are not
-        # passed both positionally and by keyword.
-        if self._use_positional_unpacking(data, _obp_initiated):
-            new_args = _kwarg_to_positional(new_kwargs, self.call)
-            call_kwargs = self._call_kwargs(new_kwargs, _obp_initiated)
-            result = self.call(*new_args, **call_kwargs)
+        if input_data is not _MISSING and data_is_bound:
+            if data_argument not in conduit_arguments:
+                raise TypeError(
+                    f"Plugin '{self.name}' received input through both the canonical "
+                    f"'data' keyword and its call argument {data_argument!r}"
+                )
+            # A conduit extracted the implementation-specific value from the
+            # aggregate input tree. Prefer that value over the aggregate tree itself.
+            data_to_prepare = bound.arguments[data_argument]
+        elif input_data is not _MISSING:
+            data_to_prepare = input_data
+        elif data_is_bound:
+            # Preserve direct legacy calls such as plugin(xarray_obj=dataset).
+            data_to_prepare = bound.arguments[data_argument]
         else:
-            call_kwargs = self._call_kwargs(new_kwargs, _obp_initiated)
-            if _obp_initiated and not self._should_pass_positional_data(call_kwargs):
-                # ``call`` has no free positional slot for the injected tree — its
-                # real input arrives via a kwarg (e.g. a colormapper's
-                # ``data_range``, a reader's ``fnames``, a conduit-injected
-                # ``xarray_obj``), or the signature is keyword-only. Dropping the
-                # positional ``data`` lets an entry step's injected tree
-                # (including a top-level "empty dataset") reach such plugins
-                # harmlessly instead of raising "multiple values"/"takes 0
-                # positional arguments".
-                result = self.call(*args, **call_kwargs)
-            else:
-                # ``data`` is passed positionally; for legacy families the same
-                # data has already been converted into ``data`` by ``_pre_call``.
-                result = self.call(data, *args, **call_kwargs)
+            data_to_prepare = _MISSING
 
-        data = self._post_call(
-            result, *args, _obp_initiated=_obp_initiated, **new_kwargs
+        hook_kwargs = self._hook_kwargs(bound, exclude={data_argument, "data"})
+        if data_to_prepare is not _MISSING:
+            prepared_data = self._pre_call(
+                data_to_prepare,
+                _obp_initiated=_obp_initiated,
+                **hook_kwargs,
+            )
+            if data_argument is not None:
+                bound.arguments[data_argument] = prepared_data
+
+        result = self.call(*bound.args, **bound.kwargs)
+        post_call_kwargs = self._hook_kwargs(bound, exclude={data_argument, "data"})
+        return self._post_call(
+            result,
+            _obp_initiated=_obp_initiated,
+            **post_call_kwargs,
         )
-        return data
 
-    def _should_pass_positional_data(self, call_kwargs):
-        """Return True if injected ``data`` should be passed to ``call`` positionally.
+    def _resolve_data_argument(self, signature):
+        """Return the implementation argument that receives canonical input data.
 
-        ``self.call`` is a bound method, so ``inspect.signature`` already drops
-        ``self``. Data is passed positionally only when ``call`` actually has a
-        free positional slot for it:
-
-        * If ``call`` leads with a positional parameter
-          (``POSITIONAL_ONLY``/``POSITIONAL_OR_KEYWORD``), pass data there —
-          unless that same name is already supplied via ``call_kwargs`` (e.g. a
-          colormapper's ``data_range`` or a reader's ``fnames``), which would
-          raise "multiple values for argument ...".
-        * Otherwise, pass positionally only if ``call`` accepts ``*args``
-          (``VAR_POSITIONAL``) to absorb it.
-        * A keyword-only-leading signature (``def call(self, *, x=...)``) or one
-          with no parameters has no positional slot, so data is dropped rather
-          than forced in (which would raise ``TypeError``).
+        New plugins use ``data``. During the transition, known legacy argument names
+        are detected from the actual ``call`` signature. A plugin with an unusual
+        legacy name may declare ``data_argument`` on its class. Plugins such as legacy
+        readers, whose ``call`` method consumes no upstream data, resolve to ``None``;
+        their wrapper still accepts ``data`` for hooks and dependency extraction.
         """
-        leading = None
-        has_var_positional = False
-        for name, p in inspect.signature(self.call).parameters.items():
-            if p.kind is inspect.Parameter.VAR_POSITIONAL:
-                has_var_positional = True
-            elif leading is None and p.kind in (
-                inspect.Parameter.POSITIONAL_ONLY,
-                inspect.Parameter.POSITIONAL_OR_KEYWORD,
-            ):
-                leading = name
-        if leading is not None:
-            return leading not in call_kwargs
-        return has_var_positional
+        if "data" in signature.parameters:
+            return "data"
+
+        override = getattr(self, "data_argument", None)
+        if override is not None:
+            if override not in signature.parameters:
+                raise TypeError(
+                    f"Plugin '{self.name}' declares data_argument={override!r}, but "
+                    "that name is not present in its call signature"
+                )
+            return override
+
+        matches = LEGACY_DATA_ARGUMENTS.intersection(signature.parameters)
+        if len(matches) == 1:
+            return next(iter(matches))
+        if len(matches) > 1:
+            raise TypeError(
+                f"Plugin '{self.name}' has multiple possible data arguments "
+                f"{sorted(matches)}; set its data_argument attribute explicitly"
+            )
+        return None
 
     @staticmethod
-    def _use_positional_unpacking(data, _obp_initiated):
-        """Return True when ``call()`` should receive unpacked positional args.
-
-        Multi-child multi_input DataTrees cannot be passed as the first
-        positional ``data`` arg (signature mismatch).  This helper detects
-        that case so ``_invoke`` can switch to positional unpacking.
-        """
-        return (
-            _obp_initiated
-            and isinstance(data, xr.DataTree)
-            and len(dict(data.children)) > 1
-            and not data.ds.attrs.get("_ditto_original_type")
-        )
+    def _hook_kwargs(bound, exclude=frozenset()):
+        """Return bound call arguments as keyword context for invocation hooks."""
+        hook_kwargs = {}
+        for name, value in bound.arguments.items():
+            if name in exclude:
+                continue
+            parameter = bound.signature.parameters[name]
+            if parameter.kind is inspect.Parameter.VAR_KEYWORD:
+                hook_kwargs.update(
+                    {key: item for key, item in value.items() if key not in exclude}
+                )
+            else:
+                hook_kwargs[name] = value
+        return hook_kwargs
 
     def _obp_filter_kwargs(self, kwargs):
         """Return a dict of only the kwargs accepted by ``self.call``.
@@ -513,15 +513,6 @@ class BaseClassPlugin(ABC):
             return dict(kwargs)
         accepted = {p.name for p in params}
         return {k: v for k, v in kwargs.items() if k in accepted}
-
-    def _call_kwargs(self, kwargs, _obp_initiated):
-        """Return the kwargs to forward to ``self.call``.
-
-        Under OBP, filter to only those ``call`` accepts so conduit-injected
-        kwargs that don't match this plugin's signature are dropped. Outside
-        OBP, pass kwargs through unchanged to preserve legacy behavior.
-        """
-        return self._obp_filter_kwargs(kwargs) if _obp_initiated else kwargs
 
     def __init__(self, module=None):
         """
@@ -594,68 +585,9 @@ class BaseClassPlugin(ABC):
             raise TypeError(f"{cls.__name__} must implement call()")
 
         @functools.wraps(call_method)
-        def _call(self, data=None, *args, **kwargs):
-            return cls._invoke(self, data, *args, **kwargs)
+        def _call(self, *args, **kwargs):
+            return cls._invoke(self, *args, **kwargs)
 
         _call.__signature__ = inspect.signature(call_method)  # mirror only call()
         _call.__annotations__ = getattr(call_method, "__annotations__", {})
         cls.__call__ = _call
-
-
-def _kwarg_to_positional(kwargs, call_func):
-    """Convert kwargs to positional args matching ``call_func`` signature.
-
-    For multi-child multi_input DataTrees, ``_invoke`` cannot pass the
-    DataTree as the first positional arg (signature mismatch).  This
-    helper inspects ``call_func``'s parameter names and promotes
-    matching kwargs to positional arguments.
-
-    Parameters
-    ----------
-    kwargs : dict
-        Keyword arguments (mutated in-place — matching keys are popped).
-    call_func : callable
-        The plugin's ``call`` method (used for signature inspection).
-
-    Returns
-    -------
-    tuple
-        Positional arguments for ``call_func``.
-    """
-    sig = inspect.signature(call_func)
-    positional = []
-    consumed = set()
-    for pname, param in sig.parameters.items():
-        if pname == "self":
-            continue
-        if param.kind not in (
-            inspect.Parameter.POSITIONAL_ONLY,
-            inspect.Parameter.POSITIONAL_OR_KEYWORD,
-        ):
-            break
-        if pname in kwargs:
-            val = kwargs.pop(pname)
-            positional.append(val)
-            consumed.add(pname)
-        elif param.default is not inspect.Parameter.empty:
-            positional.append(param.default)
-        elif pname == "data":
-            for alias in ("xarray_obj",):
-                if alias in kwargs:
-                    val = kwargs.pop(alias)
-                    positional.append(val)
-                    consumed.add(alias)
-                    break
-            else:
-                raise TypeError(
-                    f"_kwarg_to_positional: required parameter {pname!r} "
-                    f"is missing from kwargs and cannot be filled automatically. "
-                    f"Available kwargs: {list(kwargs)}"
-                )
-        else:
-            raise TypeError(
-                f"_kwarg_to_positional: required parameter {pname!r} "
-                f"is missing from kwargs and cannot be filled automatically. "
-                f"Available kwargs: {list(kwargs)}"
-            )
-    return tuple(positional)
