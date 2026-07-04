@@ -48,26 +48,16 @@ class BaseReaderPlugin(BaseClassPlugin, abstract=True):
         steps can access it via the standard tree-based data flow.
         """
         if _obp_initiated and isinstance(data, dict):
-            primary_ds = None
-            extra_attrs = {}
-            for key, value in data.items():
-                if isinstance(value, xr.Dataset):
-                    if key == "METADATA":
-                        extra_attrs.update(value.attrs)
-                    elif primary_ds is None:
-                        primary_ds = value
-                    else:
-                        try:
-                            primary_ds = xr.merge([primary_ds, value])
-                        except (xr.MergeError, ValueError) as err:
-                            LOG.warning(
-                                "Could not merge reader dataset '%s' into the "
-                                "primary DataTree dataset; dropping it: %s",
-                                key,
-                                err,
-                            )
-            ds = (primary_ds or xr.Dataset()).assign_attrs(**extra_attrs)
-            return xr.DataTree(ds, name=getattr(self, "name", "reader"))
+            # Pop off the metadata dataset for use as datatree-level attributes
+            metadata = data.pop("METADATA")
+            # Create the datatree with all received datasets
+            dt = xr.DataTree.from_dict(
+                {f"/{key}": val for key, val in data.items()},
+                name=getattr(self, "name", "reader")
+            )
+            # Add the metadata attributes to the top-level datatree
+            dt.attrs.update(**metadata.attrs)
+            return dt
         return super()._post_call(data, *args, _obp_initiated=_obp_initiated, **kwargs)
 
 
