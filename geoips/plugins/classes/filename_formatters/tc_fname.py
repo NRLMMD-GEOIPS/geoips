@@ -48,7 +48,7 @@ class TcFnameFilenameFormatterPlugin(BaseFilenameFormatterPlugin):
 
         See Also
         --------
-        geoips.plugins.modules.filename_formatters.tc_fname.assemble_tc_fname
+        geoips.plugins.classes.filename_formatters.tc_fname.assemble_tc_fname
             This uses the shared utility "assemble_tc_fname", such that a common
             filename can be used by related filename formatters.
         """

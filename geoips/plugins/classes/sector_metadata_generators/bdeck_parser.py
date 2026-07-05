@@ -280,6 +280,7 @@ class BdeckParserSectorMetadataGeneratorPlugin(DeckSectorMetaGeneratorPlugin):
         line : str
             Current line from the deck file including all storm information
 
+            ```
             * AL, 20, 2020091618,   , BEST,   0, 168N,  502W,  85,  973, HU,  64,
             NEQ,   30,   25,    0,   30, 1010,  180,  20, 105,   0,   L,   0,    ,
             0,   0,      TEDDY, D, 12, NEQ,  300,  300,  240,  300,
@@ -292,6 +293,7 @@ class BdeckParserSectorMetadataGeneratorPlugin(DeckSectorMetaGeneratorPlugin):
             NEQ,   60,   50,   50,   70, 1009,  210,  20, 100,   0,   L,   0,    ,
             0,   0,      TEDDY, D, 12, NEQ,  330,  300,  270,  300,
             genesis-num, 039,
+            ```
 
         Returns
         -------
@@ -335,16 +337,16 @@ class BdeckParserSectorMetadataGeneratorPlugin(DeckSectorMetaGeneratorPlugin):
         fields["synoptic_time"] = datetime.strptime(parts[2], "%Y%m%d%H")
 
         ###########################################################################
-        # Storm start datetime is the first time a position was ever identified for
-        # a given storm.  Note the current deck file may have a different initial
-        # entry than when the storm was first identified, but we need to maintain
-        # the original storm start datetime to ensure a consistent storm ID
-        # throughout the life of a storm when possible. We want to maintain both
-        # the storm start datetime stored in the filename when it exists, as well as
-        # the storm start datetime from the first entry in the current deck file
-        # (which will ALWAYS exist) for reference, and set the actual storm_start_datetime
-        # field based on those two values below (if filename storm start datetime exists,
-        # use that, otherwise use the current deck file storm start datetime).
+        # Storm start datetime is the first time a position was ever identified for a
+        # given storm.  Note the current deck file may have a different initial entry
+        # than when the storm was first identified, but we need to maintain the original
+        # storm start datetime to ensure a consistent storm ID throughout the life of a
+        # storm when possible. We want to maintain both the storm start datetime stored
+        # in the filename when it exists, as well as the storm start datetime from the
+        # first entry in the current deck file (which will ALWAYS exist) for reference,
+        # and set the actual storm_start_datetime field based on those two values below
+        # (if filename storm start datetime exists, use that, otherwise use the current
+        # deck file storm start datetime).
         ###########################################################################
 
         # Some processing systems will set the original storm start datetime
@@ -423,9 +425,10 @@ class BdeckParserSectorMetadataGeneratorPlugin(DeckSectorMetaGeneratorPlugin):
         # If the invest_number/letter was pre-defined and passed in, use those values.
         if invest_number:
             fields["invest_number"] = invest_number
-        # Add invest_storm_id if storm_start_datetime and invest_number both are defined.
-        # Include storm start datetime in invest storm id since invest numbers repeat.
-        # e.g. sh902021.2020083106, sh902021.2020120718, sh902021.2021011112, etc.
+        # Add invest_storm_id if storm_start_datetime and invest_number both are
+        # defined.  Include storm start datetime in invest storm id since invest numbers
+        # repeat.  e.g. sh902021.2020083106, sh902021.2020120718, sh902021.2021011112,
+        # etc.
         if storm_start_datetime and invest_number:
             fields["invest_storm_id"] = self.assemble_invest_storm_id(
                 storm_basin, invest_number, storm_year, storm_start_datetime
@@ -497,9 +500,9 @@ class BdeckParserSectorMetadataGeneratorPlugin(DeckSectorMetaGeneratorPlugin):
         as additional bdeck file are obtained.
 
         Since we want to always have a storm start datetime defined, whether we have
-        additional metadata available containing the absolute storm start datetime or not,
-        we always return the storm start datetime from the first entry in the current
-        deck file here.
+        additional metadata available containing the absolute storm start datetime or
+        not, we always return the storm start datetime from the first entry in the
+        current deck file here.
         """
         # Return the synoptic time of the first bdeck entry
         fields = self.parse_bdeck_line(deck_lines[0])
@@ -511,10 +514,10 @@ class BdeckParserSectorMetadataGeneratorPlugin(DeckSectorMetaGeneratorPlugin):
     def get_storm_start_datetime_from_bdeck_filename(self, bdeck_filename):
         """Return the storm start time found in the actual filename, if it exists.
 
-        The absolute storm start datetime is the first time a position was ever identified
-        for a given storm.  Note the current deck file may have a different initial
-        entry than when the invest was first identified, but we would like to maintain
-        the original storm start datetime to ensure a consistent storm ID
+        The absolute storm start datetime is the first time a position was ever
+        identified for a given storm.  Note the current deck file may have a different
+        initial entry than when the invest was first identified, but we would like to
+        maintain the original storm start datetime to ensure a consistent storm ID
         throughout the life of a storm when possible.
 
         Standard ATCF bdeck file names do NOT include the storm start datetime.
@@ -589,7 +592,7 @@ class BdeckParserSectorMetadataGeneratorPlugin(DeckSectorMetaGeneratorPlugin):
         bdeck_filename : str
             * Path to deck file to search for storm year
             * Must be of format: `xxxxxYYYY.*.dat` - pulls YYYY from filename based
-            on location
+              on location
 
         Returns
         -------
