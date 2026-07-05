@@ -18,15 +18,24 @@ permissions:
   packages: write
 
 jobs:
-  integ-test:
-    if: github.event_name == 'workflow_dispatch' || github.event.pull_request.draft == false
-    strategy:
-      matrix:
-        pip_editable: [true, false]
-    name: integ-test (editable=${{ matrix.pip_editable }})
+  integ-test-editable:
+    if: >-
+      github.event_name == 'workflow_dispatch'
+      || github.event.pull_request.draft == false
+    name: integ-test (editable=true)
     uses: NRLMMD-GEOIPS/geoips_ci/.github/workflows/reusable-ci.yaml@main
     with:
-      pip_editable: ${{ matrix.pip_editable }}
+      pip_editable: true
+    secrets:
+      token: ${{ secrets.GITHUB_TOKEN }}
+      docker_token: ${{ secrets.DOCKER_TOKEN }}
+
+  integ-test-non-editable:
+    needs: integ-test-editable
+    name: integ-test (editable=false)
+    uses: NRLMMD-GEOIPS/geoips_ci/.github/workflows/reusable-ci.yaml@main
+    with:
+      pip_editable: false
     secrets:
       token: ${{ secrets.GITHUB_TOKEN }}
       docker_token: ${{ secrets.DOCKER_TOKEN }}
