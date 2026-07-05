@@ -34,6 +34,7 @@ spec:
     algorithm:
       kind: algorithm
       name: windbarbs_dmw
+      depends_on: [reader]
       arguments:
         product_name: DMW-High
         variables: ["wind_speed", "wind_direction", "pressure"]
