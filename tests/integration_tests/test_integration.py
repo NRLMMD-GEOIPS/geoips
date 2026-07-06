@@ -15,9 +15,9 @@ from geoips.geoips_utils import call_cmd
 from geoips.filenames.base_paths import PATHS as gpaths
 
 MACHINE_ARCH = platform.machine().lower()
-IS_ARM = MACHINE_ARCH in {"aarch64", "arm64"} or MACHINE_ARCH.startswith("arm")
+IS_ARM = MACHINE_ARCH in ["aarch64", "arm64"] or MACHINE_ARCH.startswith("arm")
 print("")
-pring("Architecture: {MACHINE_ARCH}")
+print("Architecture: {MACHINE_ARCH}")
 
 print("")
 for test_envvarname in [
