@@ -4,6 +4,7 @@
 """Pytest file for calling integration bash scripts."""
 
 import os
+import platform
 import shlex
 from datetime import datetime, timezone
 import re
@@ -12,6 +13,9 @@ import pytest
 
 from geoips.geoips_utils import call_cmd
 from geoips.filenames.base_paths import PATHS as gpaths
+
+MACHINE_ARCH = platform.machine().lower()
+IS_ARM = MACHINE_ARCH in {"aarch64", "arm64"} or MACHINE_ARCH.startswith("arm")
 
 print("")
 for test_envvarname in [
@@ -90,8 +94,8 @@ full_integ_test_calls = [
     pytest.param(
         "$geoips_repopath/tests/scripts/ami.tc.WV.geotiff.sh",
         marks=pytest.mark.xfail(
-            condition=os.environ.get("GITHUB_ACTIONS") == "true",
-            reason="AMI GeoTIFF failure is currently permitted in GitHub Actions",
+            condition=IS_ARM,
+            reason="AMI GeoTIFF failure is currently permitted in GitHub Actions on ARM ({MACHINE_ARCH})",
             strict=False,
         ),
     ),
@@ -153,8 +157,8 @@ full_integ_test_calls = [
     pytest.param(
         "$geoips_repopath/tests/scripts/viirs.static.visible.imagery_clean.sh",
         marks=pytest.mark.xfail(
-            condition=os.environ.get("GITHUB_ACTIONS") == "true",
-            reason="AMI GeoTIFF failure is currently permitted in GitHub Actions",
+            condition=IS_ARM,
+            reason="AMI GeoTIFF failure is currently permitted in GitHub Actions on ARM ({MACHINE_ARCH})",
             strict=False,
         ),
     ),
