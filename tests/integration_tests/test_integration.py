@@ -160,7 +160,7 @@ full_integ_test_calls = [
         "$geoips_repopath/tests/scripts/viirs.static.visible.imagery_clean.sh",
         marks=pytest.mark.xfail(
             # condition=IS_ARM,
-            reason="VIIRS static visible failure is currently permitted: fails on ARM chips",
+            reason="VIIRS static vis failure currently permitted: fails on ARM chips",
             strict=False,
         ),
     ),
