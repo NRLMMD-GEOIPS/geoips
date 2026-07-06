@@ -79,7 +79,7 @@ numexpr = "*"          # for efficiency improvements
 psutil = "*"           # Required for memory checks
 pydantic = ">=2.10.0"  # Data validation using Python type hints
 pyhdf = "*"            # hdf4 readers (MODIS)
-pyaml-env = "*"        # Reading YAML output config files, with paths
+geoips-yaml-utils = "*"  # Required to reference environment variables in YAML
 pyorbital = "*"        # required by satpy
 pypublicdecompwt = "*" # Required to read SEVIRI data
 rio-cogeo = "*"        # Cloud Optimized GEOTIFF output
