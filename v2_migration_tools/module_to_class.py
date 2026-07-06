@@ -193,9 +193,7 @@ def convert_modules_by_package(package):
                     ),
                     output_file=(
                         "/home/evan/geoips/geoips_packages/random/"
-                        + plugin_metadata.get("relpath").replace(
-                            "modules", "classes"
-                        )
+                        + plugin_metadata.get("relpath").replace("modules", "classes")
                     ),
                     class_name=class_name,
                     base_class=base_class_name,
