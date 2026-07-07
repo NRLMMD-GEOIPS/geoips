@@ -23,7 +23,7 @@ jobs:
       github.event_name == 'workflow_dispatch'
       || github.event.pull_request.draft == false
     name: integ-test (editable=true)
-    uses: NRLMMD-GEOIPS/geoips_ci/.github/workflows/reusable-ci.yaml@test-failure-modes
+    uses: NRLMMD-GEOIPS/geoips_ci/.github/workflows/reusable-ci.yaml@main
     with:
       pip_editable: true
       continue_on_plugins_integ_error: true
@@ -34,7 +34,7 @@ jobs:
   integ-test-non-editable:
     needs: integ-test-editable
     name: integ-test (editable=false)
-    uses: NRLMMD-GEOIPS/geoips_ci/.github/workflows/reusable-ci.yaml@test-failure-modes
+    uses: NRLMMD-GEOIPS/geoips_ci/.github/workflows/reusable-ci.yaml@main
     with:
       pip_editable: false
       continue_on_plugins_integ_error: true
