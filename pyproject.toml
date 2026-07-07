@@ -55,6 +55,12 @@ files = ["*/_version.py"]
 requires = ["poetry-core>=1.0.0", "poetry-dynamic-versioning>=1.0.0,<2.0.0"]
 build-backend = "poetry_dynamic_versioning.backend"                          # object used to perform the build process
 
+[dependency-groups]
+dev = [
+    "jupyter>=1.1.1",
+    "nbconvert>=7.17.1",
+]
+
 [tool.poetry.dependencies] # must download to run
 # NOTE this setuptools dependency should be removed altogether once meson fortran builds are working
 setuptools = "<70"     # Required for any fortran builds until meson working

@@ -46,6 +46,9 @@ class SectorPluginBase(BaseYamlPlugin):
             (there is no separate ``/metadata`` node).
         """
         ad = self.area_definition
+        region = self.get("metadata", {}).get("region", {})
+        if region:
+            ad.sector_info = dict(region)
         ds = xr.Dataset(
             attrs={
                 "area_definition": ad,

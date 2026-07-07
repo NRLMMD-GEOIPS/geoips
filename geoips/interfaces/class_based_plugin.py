@@ -138,14 +138,15 @@ class BaseClassPlugin(ABC):
     def _pre_call(self, data=None, *args, _obp_initiated=False, **kwargs):
         """Preprocess the data before calling the main plugin method.
 
-        For ``data_tree=False`` plugins this hook:
+        For legacy plugins (those that define a ``family``) this hook:
 
         1. Unwraps a ``DataTreeDitto`` (or plain ``DataTree``) input
            to recover the native object via ``_unwrap()``.
         2. Applies a family-specific input conversion if the plugin's
            class defines a ``_family_conversion_map``.
 
-        For ``data_tree=True`` plugins the data passes through unchanged.
+        Datatree-native plugins (no ``family`` attribute) pass through
+        unchanged.
 
         Parameters
         ----------
@@ -159,7 +160,7 @@ class BaseClassPlugin(ABC):
         -------
         The processed data.
         """
-        if data is None or self.data_tree:
+        if data is None or not hasattr(self.__class__, "family"):
             return data
 
         # Step 1: Unwrap DataTree → native type
@@ -184,14 +185,15 @@ class BaseClassPlugin(ABC):
     def _post_call(self, data=None, *args, _obp_initiated=False, **kwargs):
         """Post-process the data after calling the main plugin method.
 
-        For ``data_tree=False`` plugins this hook:
+        For legacy plugins (those that define a ``family``) this hook:
 
         1. Applies a family-specific output (reverse) conversion if the
            plugin's class defines a ``_family_conversion_map``.
         2. Wraps a non-DataTree result back into a ``DataTreeDitto``
            via ``_wrap()``.
 
-        For ``data_tree=True`` plugins the data passes through unchanged.
+        Datatree-native plugins (no ``family`` attribute) pass through
+        unchanged.
 
         Parameters
         ----------
@@ -205,7 +207,7 @@ class BaseClassPlugin(ABC):
         -------
             The processed data.
         """
-        if data is None or self.data_tree:
+        if data is None or not hasattr(self.__class__, "family"):
             return data
 
         # Step 1: Apply family-specific reverse conversion (OBP only)
@@ -338,6 +340,32 @@ class BaseClassPlugin(ABC):
 
     @staticmethod
     def _extract_child_kwargs(data, kwargs):
+        """Inject conduit-mapped keyword arguments from upstream DataTree children.
+
+        Walks each child of *data* (a ``multi_input`` DataTree built by
+        ``_collect_upstream_data``), reads ``plugin_kind`` from attrs,
+        looks up the matching conduit in ``OBP_CONDUITS``, and injects
+        the extracted value into *kwargs* when the target key is not
+        already present.
+
+        After all conduits have been processed the legacy product-name
+        rename bridge is applied (``_apply_legacy_product_name_rename``).
+
+        Parameters
+        ----------
+        data : xr.DataTree
+            The ``multi_input`` DataTree whose children are dependency
+            outputs from earlier steps.
+        kwargs : dict
+            Mutable keyword-argument dict (from step arguments).
+            Conduit-injected keys are added in-place.
+
+        Returns
+        -------
+        dict
+            The same *kwargs* dict, now including any conduit-injected
+            values.
+        """
         if not isinstance(data, xr.DataTree):
             return kwargs
 
@@ -359,6 +387,11 @@ class BaseClassPlugin(ABC):
             if val is not None:
                 kwargs[kwarg_name] = val
 
+<<<<<<< feature/ssp-obp-with-datatree
+=======
+        _apply_legacy_product_name_rename(kwargs)
+
+>>>>>>> obp-meets-datatree
         return kwargs
 
     def _invoke(self, data=None, *args, _obp_initiated=False, **kwargs):
@@ -609,7 +642,6 @@ def _kwarg_to_positional(kwargs, call_func):
     """
     sig = inspect.signature(call_func)
     positional = []
-    consumed = set()
     for pname, param in sig.parameters.items():
         if pname == "self":
             continue
@@ -619,24 +651,13 @@ def _kwarg_to_positional(kwargs, call_func):
         ):
             break
         if pname in kwargs:
-            val = kwargs.pop(pname)
-            positional.append(val)
-            consumed.add(pname)
+            positional.append(kwargs.pop(pname))
         elif param.default is not inspect.Parameter.empty:
             positional.append(param.default)
-        elif pname == "data":
-            for alias in ("xarray_obj",):
-                if alias in kwargs:
-                    val = kwargs.pop(alias)
-                    positional.append(val)
-                    consumed.add(alias)
-                    break
-            else:
-                raise TypeError(
-                    f"_kwarg_to_positional: required parameter {pname!r} "
-                    f"is missing from kwargs and cannot be filled automatically. "
-                    f"Available kwargs: {list(kwargs)}"
-                )
+        elif _resolve_positional_alias(pname, kwargs, positional):
+            pass
+        elif pname in _PARAM_DEFAULTS:
+            positional.append(_PARAM_DEFAULTS[pname])
         else:
             raise TypeError(
                 f"_kwarg_to_positional: required parameter {pname!r} "
@@ -644,3 +665,62 @@ def _kwarg_to_positional(kwargs, call_func):
                 f"Available kwargs: {list(kwargs)}"
             )
     return tuple(positional)
+
+
+#: Positional-parameter names that have no meaningful kwarg counterpart in
+#: the OBP conduit system but are safe to default to ``None`` (the plugin
+#: creates its own internally — e.g. ``output_xarray`` in interpolators).
+_PARAM_DEFAULTS: dict[str, object] = {
+    "output_xarray": None,
+}
+
+#: Legacy SSP plugins call the same upstream value by different parameter
+#: names.  This maps a ``call`` signature's positional parameter name to
+#: the bespoke conduit kwarg name that carries the actual value.
+_CALL_TO_CONDUIT_ALIASES: dict[str, tuple[str, ...]] = {
+    "data": ("xarray_obj",),
+    "input_xarray": ("xarray_obj",),
+    "xobj": ("xarray_obj",),
+}
+
+
+def _resolve_positional_alias(pname, kwargs, positional):
+    """Try to fill *pname* from a conduit-kwarg alias.
+
+    Returns True if a matching alias was found and consumed, False otherwise.
+    """
+    for alias in _CALL_TO_CONDUIT_ALIASES.get(pname, ()):
+        if alias in kwargs:
+            positional.append(kwargs.pop(alias))
+            return True
+    return False
+
+
+def _apply_legacy_product_name_rename(kwargs):
+    """Rename the first data variable to ``product_name`` value for legacy SSP.
+
+    Some legacy algorithms produce a dataset whose first data variable
+    has a generic name (e.g. the first channel name). Downstream legacy
+    plugins (filename formatters, output formatters) expect the variable
+    to be named after the product. When both ``xarray_obj`` and
+    ``product_name`` are present in *kwargs* and the target name does not
+    already exist as a variable or coordinate, the first data variable is
+    renamed in-place.
+
+    This is a backwards-compatibility bridge for legacy
+    single-source-procflow plugins and only fires when both keyword
+    arguments appear together via the conduit system.
+    """
+    xo = kwargs.get("xarray_obj")
+    pn = kwargs.get("product_name")
+    if xo is None or pn is None:
+        return
+    if not (hasattr(xo, "data_vars") and xo.data_vars):
+        return
+    if not isinstance(pn, str):
+        return
+    if pn in xo.data_vars:
+        return
+    first_var = list(xo.data_vars)[0]
+    if first_var != pn and pn not in xo:
+        kwargs["xarray_obj"] = xo.rename({first_var: pn})
