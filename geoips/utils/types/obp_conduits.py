@@ -125,8 +125,8 @@ OBP_CONDUITS: dict[str, dict] = {
         "extract": _extract_annotator_spec,
     },
     "filename_formatter": {
-        "kwarg": "output_fnames",
-        "extract": lambda c: _extract_attr(c, "output_fnames"),
+        "kwarg": "output_filenames",
+        "extract": lambda c: _extract_attr(c, "output_filenames"),
     },
     "gridline_annotator": {
         "kwarg": "gridline_annotator",

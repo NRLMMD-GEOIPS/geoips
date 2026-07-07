@@ -26,6 +26,7 @@ from typing import Any, Dict, List, Literal, Optional, Union
 
 # Third-Party Libraries
 from pydantic import (
+    AliasChoices,
     ConfigDict,
     FilePath,
     Field,
@@ -1219,9 +1220,10 @@ class WorkflowTestModel(FrozenModel):
     """Model for the test section of GeoIPS workflow plugins."""
 
     # Not pathlib.Path objects as readers only expect a list of strings
-    fnames: List[str] = Field(
+    filenames: List[str] = Field(
         ...,
         description="A list of one or more filepaths to the data used for this test.",
+        validation_alias=AliasChoices("fnames", "filenames"),
     )
     #
     # globals:
@@ -1287,7 +1289,7 @@ class WorkflowTestModel(FrozenModel):
 
         return self
 
-    @field_validator("fnames", mode="before")
+    @field_validator("filenames", mode="before")
     @classmethod
     def generate_filepaths(cls, v):
         """Convert a single string or list of strings to pathlib.Path objects."""

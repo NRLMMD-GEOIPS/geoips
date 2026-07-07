@@ -61,7 +61,7 @@ class BaseFilenameFormatterPlugin(BaseClassPlugin, abstract=True):
         descriptive (e.g. a sector's area definition, a colormapper's color
         info) carry that information in ``attrs`` instead, because it describes
         the node rather than being the node's data. The path is additionally
-        mirrored into ``attrs['output_fnames']`` for the conduit that feeds it
+        mirrored into ``attrs['output_filenames']`` for the conduit that feeds it
         to downstream steps.
 
         Parameters
@@ -82,9 +82,9 @@ class BaseFilenameFormatterPlugin(BaseClassPlugin, abstract=True):
             ds = xr.Dataset(
                 {"output_path": (["path"], [data])},
                 attrs={
-                    "output_fnames": [data],
+                    "output_filenames": [data],
                     "plugin_kind": "filename_formatter",
-                    "output_key": "output_fnames",
+                    "output_key": "output_filenames",
                 },
             )
             return DataTreeDitto(ds, name="filename_output")

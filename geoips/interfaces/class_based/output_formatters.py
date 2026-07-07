@@ -19,6 +19,22 @@ class BaseOutputFormatterPlugin(BaseClassPlugin, abstract=True):
     data_tree = False
     _family_conversion_map = OUTPUT_FORMATTER_FAMILY_CONVERSIONS
 
+    def _normalize_obp_kwargs(self, kwargs):
+        """Rename ``output_filenames`` → ``output_fnames`` for legacy formatters.
+
+        Legacy (family-bearing) output formatter plugins expect
+        ``output_fnames`` in their ``call`` signature, but the OBP
+        conduit uses ``output_filenames``.  This hook renames the kwarg
+        so ``_obp_filter_kwargs`` does not drop it and ``call`` receives
+        the expected argument name.
+
+        Datatree-native output formatters (no ``family``) pass through
+        unchanged.
+        """
+        if hasattr(self.__class__, "family") and "output_filenames" in kwargs:
+            kwargs["output_fnames"] = kwargs.pop("output_filenames")
+        return kwargs
+
 
 class OutputFormattersInterface(BaseClassInterface):
     """Data format for the resulting output product (e.g. netCDF, png)."""

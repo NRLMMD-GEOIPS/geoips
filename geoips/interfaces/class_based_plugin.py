@@ -437,6 +437,25 @@ class BaseClassPlugin(ABC):
                 return dict(attrs)
         return None
 
+    def _normalize_obp_kwargs(self, kwargs):
+        """Rename OBP-injected kwarg names for legacy plugins.
+
+        Subclasses override this to translate new-style argument names
+        (e.g. ``filenames``, ``output_filenames``) back to the names
+        legacy (family-bearing) plugins expect (e.g. ``fnames``,
+        ``output_fnames``).  Called after ``_pre_call`` and before
+        ``_call_kwargs``, so the renamed kwargs survive the
+        ``_obp_filter_kwargs`` filter.
+
+        The default implementation returns *kwargs* unchanged.
+
+        Returns
+        -------
+        dict
+            The (possibly-renamed) kwargs dictionary.
+        """
+        return kwargs
+
     def _invoke(self, data=None, *args, _obp_initiated=False, **kwargs):
         """Call the main plugin method.
 
@@ -456,15 +475,17 @@ class BaseClassPlugin(ABC):
         -------
             The processed data.
         """
-        new_kwargs = self._obp_filter_kwargs(kwargs) if _obp_initiated else kwargs
+        new_kwargs = kwargs
 
         if data is None:
-            # No upstream data (e.g. reader steps, or any first step). We still
-            # run ``_post_call`` so interface-level normalization happens — most
-            # importantly the reader ``dict -> DataTree`` merge in
-            # ``BaseReaderPlugin._post_call`` and the ``_wrap`` into a
-            # ``DataTreeDitto``.  ``_pre_call`` is a no-op for ``data is None``.
-            result = self.call(*args, **new_kwargs)
+            if _obp_initiated:
+                new_kwargs = self._normalize_obp_kwargs(new_kwargs)
+            # No upstream data (e.g. a reader called outside OBP, or a
+            # metadata-only read).  ``_call_kwargs`` also runs
+            # ``_obp_filter_kwargs`` when ``_obp_initiated`` is true.
+            # ``_pre_call`` is a no-op for ``data is None``.
+            call_kwargs = self._call_kwargs(new_kwargs, _obp_initiated)
+            result = self.call(*args, **call_kwargs)
             return self._post_call(
                 result, *args, _obp_initiated=_obp_initiated, **new_kwargs
             )
@@ -474,6 +495,9 @@ class BaseClassPlugin(ABC):
 
         pre_call_attrs = self._capture_attrs(self._unwrap(data))
         data = self._pre_call(data, *args, _obp_initiated=_obp_initiated, **new_kwargs)
+
+        if _obp_initiated:
+            new_kwargs = self._normalize_obp_kwargs(new_kwargs)
 
         if data is None:
             call_kwargs = self._call_kwargs(new_kwargs, _obp_initiated)
@@ -499,7 +523,7 @@ class BaseClassPlugin(ABC):
             if _obp_initiated and not self._should_pass_positional_data(call_kwargs):
                 # ``call`` has no free positional slot for the injected tree — its
                 # real input arrives via a kwarg (e.g. a colormapper's
-                # ``data_range``, a reader's ``fnames``, a conduit-injected
+                # ``data_range``, a reader's ``filenames``, a conduit-injected
                 # ``xarray_obj``), or the signature is keyword-only. Dropping the
                 # positional ``data`` lets an entry step's injected tree
                 # (including a top-level "empty dataset") reach such plugins
@@ -529,7 +553,7 @@ class BaseClassPlugin(ABC):
         * If ``call`` leads with a positional parameter
           (``POSITIONAL_ONLY``/``POSITIONAL_OR_KEYWORD``), pass data there —
           unless that same name is already supplied via ``call_kwargs`` (e.g. a
-          colormapper's ``data_range`` or a reader's ``fnames``), which would
+          colormapper's ``data_range`` or a reader's ``filenames``), which would
           raise "multiple values for argument ...".
         * Otherwise, pass positionally only if ``call`` accepts ``*args``
           (``VAR_POSITIONAL``) to absorb it.
