@@ -15,45 +15,6 @@ from geoips.interfaces.base import BaseYamlPlugin, BaseYamlInterface
 from geoips.image_utils.mpl_utils import create_figure_and_main_ax_and_mapobj
 from geoips.utils.types.datatree_ditto import DataTreeDitto
 
-# Commenting these out for PR #260
-# Will work on this again after the 2023 workshop
-#
-# def center_to_area_definition(sector):
-#     """Return a pyresample AreaDefinition for the input sector.
-#
-#     The input sector must supply location information in the center format.
-#     """
-#     if not sector.family.startswith("center"):
-#         raise ValueError("Sector does not supply location as center coordinates.")
-#     raise NotImplementedError
-#
-#
-# def corners_to_area_definition(sector):
-#     """Return a pyresample AreaDefinition for the input sector.
-#
-#     The input sector must supply location information in the "corners" format.
-#     """
-#     if not sector.family.startswith("center"):
-#         raise ValueError("Sector does not supply location as corner coordinates.")
-#
-#     ad_info = {
-#         "area_id": sector.name,
-#         "projection": {
-#             "units": "m",
-#             "a": 6371228.0,
-#             "proj": sector.spec.projection,
-#             "lat_0": sector.spec.center.lat,
-#             "lon_0": sector.spec.center.lon,
-#         },
-#         "width": sector.shape[0],
-#         "height": sector.shape[1],
-#         "resolution": [sector.resolution, sector.resolution],
-#         "center": [0, 0],
-#     }
-#
-#     ad = create_area_def(**ad_info)
-#     raise NotImplementedError
-
 
 class SectorPluginBase(BaseYamlPlugin):
     """The base class for all sector plugins.
@@ -85,6 +46,9 @@ class SectorPluginBase(BaseYamlPlugin):
             (there is no separate ``/metadata`` node).
         """
         ad = self.area_definition
+        region = self.get("metadata", {}).get("region", {})
+        if region:
+            ad.sector_info = dict(region)
         ds = xr.Dataset(
             attrs={
                 "area_definition": ad,

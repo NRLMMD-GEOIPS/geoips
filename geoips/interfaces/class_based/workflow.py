@@ -543,31 +543,20 @@ class Workflow:
     def _invoke_plugin_step(self, step_def, upstream, *, is_entry, fnames):
         """Resolve and call a single plugin step (not split/join/workflow).
 
-        The data a step receives depends on its role:
-
-        * a ``reader`` always gets ``fnames``; it additionally gets
-          ``data=upstream`` when it should receive input (an entry step or a
-          step with real dependencies). A legacy (``data_tree=False``) reader
-          strips that tree in its ``_pre_call`` and reads only from ``fnames``;
-          a ``data_tree=True`` reader consumes it.
-        * a non-reader gets ``data=upstream`` when it is an entry step or has
-          real dependencies. An entry step receives ``data`` even when the tree
-          is empty (the top-level "empty dataset").
-        * any other independent step is called with no data.
+        All steps are called uniformly with ``data`` as a keyword
+        argument.  The only exception is ``reader`` steps, which
+        additionally receive ``fnames`` before ``data``; legacy readers
+        strip the ``data`` tree in their ``_pre_call`` and operate on
+        ``fnames`` alone.
         """
         plg = self._resolve_plugin(step_def.kind, step_def.name)
-        arguments = step_def.arguments or {}
-        has_real_deps = any(d != INPUT_REF for d in (step_def.depends_on or ()))
-        pass_data = is_entry or has_real_deps
+        arguments = dict(step_def.arguments or {})
+
         if step_def.kind == "reader":
-            if pass_data:
-                return plg(
-                    data=upstream, fnames=fnames, _obp_initiated=True, **arguments
-                )
-            return plg(fnames=fnames, _obp_initiated=True, **arguments)
-        if pass_data:
-            return plg(data=upstream, _obp_initiated=True, **arguments)
-        return plg(_obp_initiated=True, **arguments)
+            return plg(
+                fnames=fnames, data=upstream, _obp_initiated=True, **arguments
+            )
+        return plg(data=upstream, _obp_initiated=True, **arguments)
 
     # ------------------------------------------------------------------
     # split / join (per-branch fan-out, e.g. one branch per static sector)

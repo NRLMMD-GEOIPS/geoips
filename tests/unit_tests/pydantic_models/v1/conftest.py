@@ -204,7 +204,7 @@ def valid_output_formatter_arguments():
 def valid_workflow_spec_model_data():
     """Fixture providing valid data testing WorkflowSpecModel fields."""
     return {
-        "global_arguments": {
+        "globals": {
             "presector": False,
             "product_db": True,
             "product_db_writer": "postgres_database",
