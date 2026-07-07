@@ -61,8 +61,12 @@ def _flatten_datatree_for_legacy_plugin(ds, child):
     if ds is not None and not ds.data_vars and child.children:
         children = list(child.children.values())
         if len(children) == 1:
-            return children[0].to_dataset()
-        return xr.merge([c.to_dataset() for c in children])
+            merged = children[0].to_dataset()
+        else:
+            merged = xr.merge([c.to_dataset() for c in children])
+        for k, v in ds.attrs.items():
+            merged.attrs.setdefault(k, v)
+        return merged
     return ds
 
 
