@@ -136,7 +136,7 @@ class TestGeoipsRun(BaseCliTest):
                 "name": "generated",
                 "docstring": "Dynamically generated workflow plugin.",
                 "spec": {
-                    "global_arguments": {
+                    "globals": {
                         "presector": False,
                         "product_db": False,
                         "product_db_writer": None,
