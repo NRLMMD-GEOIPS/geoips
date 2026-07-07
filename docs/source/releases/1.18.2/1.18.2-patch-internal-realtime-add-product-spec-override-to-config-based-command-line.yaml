@@ -1,0 +1,39 @@
+realtime:
+- title: 'Add product_spec_override command line support to config-based procflow'
+  description: |
+    Initially product_spec_override was only supported in the actual YAML procflow
+    config file, and command line product_spec_override argument was not passed
+    through as well.
+
+    Add product_spec_override support to the update_output_dict_from_command_line_args
+    function, to ensure the product_spec_override is included in the final output
+    request.
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - 'geoips/plugins/modules/procflows/config_based.py'
+  date:
+    start: 2026-05-06
+    finish: 2026-05-06
+- title: 'Default product_spec_override command line argument to None'
+  description: |
+    Don't default product_spec_override to empty dict, default to None.
+    Otherwise any procflow config defined product_spec_overrides would be automatically
+    replaced with nothing!
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - 'geoips/commandline/args.py'
+  date:
+    start: 2026-05-11
+    finish: 2026-05-11

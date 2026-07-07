@@ -315,17 +315,6 @@ def setup_environment():
 
 
 @pytest.fixture(scope="session")
-def site_setup():
-    """
-    Set up the site integration tests by checking install and setting env-vars.
-
-    Calls `check_site_install()` to verify the installation and `setup_environment()`
-    to set up the necessary environment variables before running integration tests.
-    """
-    check_site_install()
-
-
-@pytest.fixture(scope="session")
 def base_setup():
     """
     Set up the base integration tests by checking install and setting env-vars.
@@ -334,17 +323,6 @@ def base_setup():
     to set up the necessary environment variables before running integration tests.
     """
     check_base_install()
-
-
-@pytest.fixture(scope="session")
-def full_setup():
-    """
-    Set up the full integration tests by checking install and setting env-vars.
-
-    Calls `check_full_install()` to verify the installation and `setup_environment()`
-    to set up the necessary environment variables before running integration tests.
-    """
-    check_full_install()
 
 
 def is_likely_oserror_missing_file(log_contents: str) -> bool:
@@ -414,17 +392,17 @@ def run_script_with_bash(
         if removed_env_vars:
             print(f"REMOVED ENV VARS {removed_env_vars.keys()}")
     else:
-        print("NOT REMOVING ENV VARS!")
+        print("WILL NOT REMOVE ENV VARS!")
 
     if fail_on_missing_data:
-        print("FAILING ON MISSING DATA!")
+        print("WILL FAIL ON MISSING DATA!")
     else:
-        print("NOT FAILING ON MISSING DATA!")
+        print("WILL NOT FAIL ON MISSING DATA!")
 
     if not gpaths["GEOIPS_TEST_SUPPRESS_PYTEST_FAILED_LOG_CONTENTS"]:
-        print("DUMPING ALL BAD LOG CONTENTS TO TERMINAL!")
+        print("WILL DUMP ALL BAD LOG CONTENTS TO TERMINAL!")
     else:
-        print("SUPPRESSING BAD LOG CONTENTS TO TERMINAL!")
+        print("WILL SUPPRESS BAD LOG CONTENTS TO TERMINAL!")
 
     if ".sh" in script:
         expanded_call = shlex.split("bash " + os.path.expandvars(script))
@@ -436,7 +414,9 @@ def run_script_with_bash(
     log_fname = set_log_filename(expanded_call[1:])
 
     # Note - this never seems to print until after the cmd is complete
-    print(f"Log: {log_fname} , latest logs:")
+    # Duplicated with PASSED LOG FILE or FAILED LOG FILE line, and since it never
+    # prints before the command runs, it is not worth having it here.
+    # print(f"Log: {log_fname} , latest logs:")
     print(f"ls -lthr {os.path.dirname(log_fname)}/*")
     print(datetime.now(timezone.utc))
     retval, stdout, stderr = call_cmd(
@@ -551,7 +531,7 @@ def test_integ_validation_script(base_setup: None, script: str):
 @pytest.mark.integration
 @pytest.mark.parametrize("script", multi_repo_integ_test_calls)
 def test_integ_multi_repo_script(
-    site_setup: None, script: str, fail_on_missing_data: bool
+    base_setup: None, script: str, fail_on_missing_data: bool
 ):
     """
     Run integration test scripts by executing specified shell commands.
@@ -574,7 +554,7 @@ def test_integ_multi_repo_script(
 @pytest.mark.full
 @pytest.mark.integration
 @pytest.mark.parametrize("script", full_integ_test_calls)
-def test_integ_full_script(full_setup: None, script: str, fail_on_missing_data: bool):
+def test_integ_full_script(base_setup: None, script: str, fail_on_missing_data: bool):
     """
     Run integration test scripts by executing specified shell commands.
 
@@ -600,7 +580,7 @@ def test_integ_full_script(full_setup: None, script: str, fail_on_missing_data: 
 @pytest.mark.integration
 @pytest.mark.parametrize("script", limited_data_integ_test_calls)
 def test_integ_limited_data_script(
-    full_setup: None, script: str, fail_on_missing_data: bool
+    base_setup: None, script: str, fail_on_missing_data: bool
 ):
     """
     Run integration test scripts by executing specified shell commands.
