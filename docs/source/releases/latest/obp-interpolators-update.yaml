@@ -11,25 +11,10 @@ enhancement:
     added:
       - geoips/plugins/yaml/workflows/unit_tests/Visible.yaml
     modified:
-      - docs/dev/datatree-spec.md
-      - docs/source/releases/latest/geoipserror-base-class.yaml
       - docs/source/releases/latest/obp-interpolators-update.yaml
-      - docs/source/releases/latest/workflow-domain-exceptions.yaml
-      - geoips/commandline/geoips_command.py
-      - geoips/commandline/geoips_run.py
-      - geoips/dev/output_config.py
-      - geoips/image_utils/maps.py
-      - geoips/interfaces/__init__.py
-      - geoips/interfaces/class_based/colormappers.py
-      - geoips/interfaces/class_based/filename_formatters.py
-      - geoips/interfaces/class_based/readers.py
       - geoips/interfaces/class_based/workflow.py
       - geoips/interfaces/class_based_plugin.py
-      - geoips/interfaces/yaml_based/sectors.py
       - geoips/plugins/modules/algorithms/single_channel.py
-      - geoips/plugins/modules/colormappers/matplotlib_linear_norm.py
-      - geoips/plugins/modules/colormappers/visir/Infrared.py
-      - geoips/plugins/modules/filename_formatters/geoips_fname.py
       - geoips/plugins/modules/interpolators/pyresample_wrappers/interp_gauss.py
       - geoips/plugins/modules/interpolators/pyresample_wrappers/interp_nearest.py
       - geoips/plugins/modules/procflows/order_based.py
@@ -37,28 +22,15 @@ enhancement:
       - geoips/plugins/yaml/workflows/unit_tests/Infrared.yaml
       - geoips/plugins/yaml/workflows/unit_tests/Visible.yaml
       - geoips/plugins/yaml/workflows/unit_tests/dmw_high.yaml
-      - geoips/plugins/yaml/workflows/unit_tests/example_sub_workflow.yaml
-      - geoips/plugins/yaml/workflows/unit_tests/example_workflow.yaml
       - geoips/plugins/yaml/workflows/unit_tests/output_checker.yaml
       - geoips/plugins/yaml/workflows/unit_tests/test_product.yaml
       - geoips/pydantic_models/v1/bases.py
       - geoips/pydantic_models/v1/workflows.py
-      - geoips/utils/types/converter_registry.py
       - geoips/utils/types/converters.py
-      - geoips/utils/types/datatree_converters.py
-      - geoips/utils/types/datatree_ditto.py
-      - geoips/utils/types/family_conversions.py
-      - geoips/utils/types/obp_conduits.py
-      - geoips/utils/types/yaml_plugin_callable.py
-      - tests/integration_tests/test_obp_datatree.py
-      - tests/integration_tests/test_obp_sectoring.py
-      - tests/integration_tests/test_obp_split_join.py
-      - tests/scripts/obp.datatree_conversion_test.sh
       - tests/unit_tests/interfaces/class_based/test_workflow.py
       - tests/unit_tests/interfaces/test_class_based_plugin_invoke.py
       - tests/unit_tests/pydantic_models/v1/test_workflow_spec_model.py
       - tests/unit_tests/utils/types/test_datatree_converters.py
-      - tests/unit_tests/utils/types/test_datatree_ditto.py
   related-issue:
     number: null
     repo_url: ''
