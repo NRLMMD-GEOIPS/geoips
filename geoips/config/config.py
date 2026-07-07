@@ -353,10 +353,14 @@ class GeoIPSConfig:
         _deep_update(settings_dict, auto)
         settings = GeoSettings.model_validate(settings_dict)
 
+        plugin_yaml: dict[str, Any] = {}
         project_data = load_project_config()
         if project_data is not None and isinstance(project_data, dict):
             geoips_data = project_data.get("geoips")
             if isinstance(geoips_data, dict):
+                raw_plugins = geoips_data.get("plugins")
+                if isinstance(raw_plugins, dict):
+                    plugin_yaml = raw_plugins
                 settings_dict = settings.model_dump()
                 _deep_update(settings_dict, geoips_data)
                 settings = GeoSettings.model_validate(settings_dict)
@@ -369,6 +373,61 @@ class GeoIPSConfig:
 
         self._settings = settings
         self._legacy_dict = self._build_legacy_dict()
+        self._plugin_yaml = plugin_yaml
+        self._plugin_cache: dict[str, Any] = {}
+        self._plugins_ns: Any = None
+
+    def _resolve_plugin(self, name: str) -> Any:
+        """Resolve, validate, and cache a single plugin's settings.
+
+        Parameters
+        ----------
+        name : str
+            The registered plugin name.
+
+        Returns
+        -------
+        pydantic.BaseModel
+            The validated settings model instance for the plugin.
+
+        Raises
+        ------
+        KeyError
+            If no plugin with *name* is registered.
+        """
+        from geoips.config.plugins import (
+            discover_config_plugins,
+            resolve_plugin_settings,
+        )
+
+        if name in self._plugin_cache:
+            return self._plugin_cache[name]
+        plugins = discover_config_plugins()
+        if name not in plugins:
+            raise KeyError(name)
+        settings = resolve_plugin_settings(plugins[name], self._plugin_yaml.get(name))
+        self._plugin_cache[name] = settings
+        return settings
+
+    @property
+    def plugins(self) -> Any:
+        """Accessor for configuration contributed by external plugin packages.
+
+        Returns a namespace supporting attribute access
+        (``config.plugins.my_pkg``), item access (``config.plugins["my_pkg"]``),
+        ``.get()``, and iteration over registered plugin names. Plugin modules
+        are imported lazily on first access.
+        """
+        from geoips.config.plugins import (
+            discover_config_plugins,
+            PluginSettingsNamespace,
+        )
+
+        if self._plugins_ns is None:
+            self._plugins_ns = PluginSettingsNamespace(
+                self._resolve_plugin, discover_config_plugins().keys()
+            )
+        return self._plugins_ns
 
     def __getattr__(self, name: str) -> Any:
         """Delegate attribute access to the inner settings model.

@@ -320,6 +320,98 @@ at startup. You can override any of them with an absolute path.
      - ``geoips.tc_template``
      - ``TC_TEMPLATE``
 
+Configuration from plugin packages
+==================================
+
+External plugin packages can register their own configuration settings with
+GeoIPS. Once a plugin is installed, its settings participate in the same
+layered system (defaults → ``.geoips.yaml`` → environment variables), are
+accessible in Python, and are included by ``geoips config create``.
+
+Registering settings
+--------------------
+
+A plugin package defines a pydantic model for its settings and exposes a
+:class:`~geoips.config.plugins.ConfigPlugin` object:
+
+.. code-block:: python
+
+    # my_pkg/config.py
+    from pydantic import BaseModel, Field
+    from geoips.config import ConfigPlugin
+
+
+    class MyPkgSettings(BaseModel):
+        max_workers: int = Field(4, description="Max parallel workers.")
+        tile_cache: str | None = None
+
+
+    CONFIG_PLUGIN = ConfigPlugin(name="my_pkg", settings_model=MyPkgSettings)
+
+It then advertises this object through the ``geoips.config_plugins``
+entry-point group in its ``pyproject.toml``:
+
+.. code-block:: toml
+
+    [project.entry-points."geoips.config_plugins"]
+    my_pkg = "my_pkg.config:CONFIG_PLUGIN"
+
+The entry-point name (``my_pkg``) must match ``ConfigPlugin.name``.
+
+.. note::
+
+   Plugin settings models should provide a default (or be ``Optional``) for
+   every field. Settings are validated lazily on first access, so a plugin
+   with an unset required field only raises when that plugin is accessed —
+   but providing defaults avoids surprising failures entirely.
+
+Accessing plugin settings
+-------------------------
+
+Plugin settings live under the ``plugins`` namespace, keyed by plugin name:
+
+.. code-block:: python
+
+    from geoips.config import config
+
+    print(config.plugins.my_pkg.max_workers)
+    print(config.plugins["my_pkg"].tile_cache)
+
+In ``.geoips.yaml`` they are set under ``geoips.plugins.<name>``:
+
+.. code-block:: yaml
+
+    geoips:
+      plugins:
+        my_pkg:
+          max_workers: 8
+          tile_cache: /fast/disk/tiles
+
+Environment variables
+---------------------
+
+Each plugin field is overridable via an auto-generated environment variable of
+the form ``GEOIPS_PLUGIN_<PKG>_<FIELD>`` (uppercased, with ``.`` in nested
+field paths replaced by ``_``). For the example above:
+
+.. code-block:: bash
+
+    export GEOIPS_PLUGIN_MY_PKG_MAX_WORKERS=16
+
+Environment variables take precedence over the YAML file, which takes
+precedence over the model defaults — identical to core settings. Auto-generated
+names cannot collide with core GeoIPS variables; if a plugin declares explicit
+``env_overrides`` aliases, GeoIPS raises a ``ConfigError`` on any collision.
+
+Generation and validation
+-------------------------
+
+``geoips config create --all`` includes each installed plugin's settings under
+``geoips.plugins.<name>``, with a per-plugin header comment and per-field
+``# default: ...`` comments. ``geoips config validate`` validates each plugin
+section against its registered model and warns about unknown plugins or
+settings.
+
 Environment Variable Overrides
 ==============================
 

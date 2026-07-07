@@ -138,3 +138,35 @@ class TestEnvMapLegacyDictSync:
 def test_pydantic_available():
     """Sanity check that pydantic (schema dependency) is importable."""
     assert pydantic.VERSION
+
+
+class TestPluginEnvMapSync:
+    """Installed config plugins must produce a valid, collision-free env map."""
+
+    def test_plugin_env_map_builds(self):
+        """Verify the plugin env map builds without collisions in this env."""
+        from geoips.config.plugins import build_plugin_env_map
+
+        # Raises ConfigError on any collision with core or between plugins.
+        build_plugin_env_map()
+
+    def test_plugin_env_vars_disjoint_from_core(self):
+        """Verify plugin env vars never overlap the core GEOIPS_ENV_MAP."""
+        from geoips.config.plugins import build_plugin_env_map
+
+        assert not (set(build_plugin_env_map()) & set(GEOIPS_ENV_MAP))
+
+    def test_plugin_env_targets_resolve(self):
+        """Verify every plugin env target resolves to a real model field."""
+        from geoips.config.plugins import (
+            discover_config_plugins,
+            build_plugin_env_map,
+        )
+
+        plugins = discover_config_plugins()
+        for target in build_plugin_env_map(plugins).values():
+            _, pkg, dotted = target.split(".", 2)
+            model = plugins[pkg].settings_model
+            assert _field_path_is_valid(
+                model, dotted
+            ), f"Plugin env target {target!r} does not resolve to a field."

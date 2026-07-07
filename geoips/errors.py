@@ -73,6 +73,16 @@ class CliError(Exception):
     pass
 
 
+class ConfigError(GeoipsError):
+    """Raise exception on GeoIPS configuration error.
+
+    Used for invalid configuration files, plugin config registration
+    problems, and environment-variable collisions.
+    """
+
+    pass
+
+
 class DuplicateKeyError(ConstructorError, GeoipsError):
     """Raised when a YAML mapping contains duplicate keys."""
 

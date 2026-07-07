@@ -8,6 +8,7 @@ Various configuration-based commands for setting up your geoips environment.
 
 import os
 import pathlib
+from importlib import metadata
 from os import listdir, remove
 from os.path import join
 import subprocess
@@ -26,23 +27,38 @@ from tqdm import tqdm
 import geoips
 from geoips.commandline.ancillary_info.test_data import test_dataset_dict
 from geoips.commandline.geoips_command import GeoipsCommand, GeoipsExecutableCommand
+from geoips.config.config import _cast_env_value
+from geoips.config.plugins import (
+    CONFIG_PLUGIN_GROUP,
+    build_plugin_env_map,
+    cast_plugin_target,
+    discover_config_plugins,
+    field_comment,
+    full_model_defaults,
+    is_nested_model,
+)
+from geoips.config.schema import GEOIPS_ENV_MAP, GeoSettings
+from geoips.config.yaml_loader import find_project_config
+
+
+def _combined_env_map() -> dict[str, str]:
+    """Return the core env map merged with all plugin-contributed env vars."""
+    return {**GEOIPS_ENV_MAP, **build_plugin_env_map()}
 
 
 def _collect_env_overrides() -> dict[str, str]:
     """Collect GeoIPS configuration values from environment variables.
 
-    Iterates ``GEOIPS_ENV_MAP`` and returns a mapping of dot-path field
-    names to values for every environment variable that is set.
+    Iterates the combined core + plugin env map and returns a mapping of
+    environment variable name to value for every variable that is set.
 
     Returns
     -------
     dict[str, str]
-        Mapping of ``"field.path"`` to raw string environment values.
+        Mapping of environment variable name to raw string environment values.
     """
-    from geoips.config.schema import GEOIPS_ENV_MAP
-
     overrides: dict[str, str] = {}
-    for env_var in GEOIPS_ENV_MAP:
+    for env_var in _combined_env_map():
         raw = os.environ.get(env_var)
         if raw is not None:
             overrides[env_var] = raw
@@ -94,8 +110,10 @@ def _prompt_for_missing(
 def _build_nested_config(overrides: dict[str, str]) -> dict:
     """Convert flat env-var overrides into a nested YAML-ready dictionary.
 
-    Uses ``GEOIPS_ENV_MAP`` to translate environment variable names into
-    dot-separated field paths, then nests them.
+    Uses the combined core + plugin env map to translate environment variable
+    names into dot-separated field paths, then nests them. Plugin values
+    (``plugins.<pkg>.<field>``) are cast against their plugin model's field
+    type; core values use the core caster.
 
     Parameters
     ----------
@@ -107,15 +125,17 @@ def _build_nested_config(overrides: dict[str, str]) -> dict:
     dict
         Nested dictionary suitable for ``yaml.dump``.
     """
-    from geoips.config.schema import GEOIPS_ENV_MAP
-    from geoips.config.config import _cast_env_value
+    combined = _combined_env_map()
 
     result: dict = {}
     for env_var, raw_value in overrides.items():
-        field_path = GEOIPS_ENV_MAP.get(env_var, "")
+        field_path = combined.get(env_var, "")
         if not field_path:
             continue
-        cast = _cast_env_value(raw_value, field_path)
+        if field_path.startswith("plugins."):
+            cast = cast_plugin_target(field_path, raw_value)
+        else:
+            cast = _cast_env_value(raw_value, field_path)
         parts = field_path.split(".")
         node = result
         for part in parts[:-1]:
@@ -143,6 +163,104 @@ def _deep_merge(base: dict, override: dict) -> None:
             base[key] = value
 
 
+def _indent_lines(text: str, indent: int) -> list[str]:
+    """Indent every non-empty line of *text* by *indent* spaces."""
+    pad = " " * indent
+    return [pad + line if line else line for line in text.rstrip("\n").split("\n")]
+
+
+def _format_scalar(key: str, value) -> str:
+    """Render ``key: value`` for a scalar/list using flow style (single line)."""
+    dumped = yaml.safe_dump({key: value}, default_flow_style=True, sort_keys=False)
+    return dumped.strip()[1:-1]
+
+
+def _dump_annotated(values: dict, model_cls, indent: int) -> list[str]:
+    """Render a plugin's values as YAML lines with per-field default comments.
+
+    Parameters
+    ----------
+    values : dict
+        The plugin field values to render (in declared order).
+    model_cls : type[pydantic.BaseModel]
+        The plugin settings model, used for comments and nested structure.
+    indent : int
+        Number of leading spaces for this level.
+
+    Returns
+    -------
+    list[str]
+        YAML lines, each scalar annotated with a ``# default: ...`` comment.
+    """
+    pad = " " * indent
+    lines: list[str] = []
+    fields = model_cls.model_fields
+    for key, value in values.items():
+        field_info = fields.get(key)
+        nested_cls = is_nested_model(field_info.annotation) if field_info else None
+        if isinstance(value, dict) and nested_cls is not None:
+            lines.append(f"{pad}{key}:")
+            lines += _dump_annotated(value, nested_cls, indent + 2)
+            continue
+        line = f"{pad}{_format_scalar(key, value)}"
+        comment = field_comment(model_cls, key) if field_info else ""
+        if comment:
+            line += f"  # {comment}"
+        lines.append(line)
+    return lines
+
+
+def _plugin_dist_names() -> dict[str, str | None]:
+    """Return a mapping of config-plugin name to its distribution name."""
+    names: dict[str, str | None] = {}
+    for entry in metadata.entry_points(group=CONFIG_PLUGIN_GROUP):
+        dist = getattr(entry, "dist", None)
+        names[entry.name] = dist.name if dist is not None else None
+    return names
+
+
+def _render_config(core_nested: dict, plugin_values: dict, plugins: dict) -> str:
+    """Render the full ``geoips:`` YAML document with annotated plugin blocks.
+
+    Parameters
+    ----------
+    core_nested : dict
+        Core (non-plugin) settings to render under ``geoips:``.
+    plugin_values : dict
+        Mapping of plugin name to its field-value dict.
+    plugins : dict
+        Registered ``ConfigPlugin`` objects keyed by name (for models/comments).
+
+    Returns
+    -------
+    str
+        The complete YAML file content.
+    """
+    lines = ["geoips:"]
+    if core_nested:
+        core_yaml = yaml.dump(core_nested, default_flow_style=False, sort_keys=False)
+        lines += _indent_lines(core_yaml, 2)
+
+    if plugin_values:
+        dist_names = _plugin_dist_names()
+        lines.append("  plugins:")
+        for name in sorted(plugin_values):
+            dist = dist_names.get(name)
+            header = f"    # Plugin: {name}" + (f" ({dist})" if dist else "")
+            lines.append(header)
+            lines.append(f"    {name}:")
+            plugin = plugins.get(name)
+            if plugin is not None:
+                lines += _dump_annotated(plugin_values[name], plugin.settings_model, 6)
+            else:
+                sub = yaml.dump(
+                    plugin_values[name], default_flow_style=False, sort_keys=False
+                )
+                lines += _indent_lines(sub, 6)
+
+    return "\n".join(lines) + "\n"
+
+
 def _resolve_config_path(file_arg: pathlib.Path | None) -> pathlib.Path | None:
     """Resolve the config file path from an optional argument.
 
@@ -162,8 +280,6 @@ def _resolve_config_path(file_arg: pathlib.Path | None) -> pathlib.Path | None:
     if file_arg is not None:
         return file_arg
 
-    from geoips.config.yaml_loader import find_project_config
-
     found = find_project_config()
     return pathlib.Path(found) if found else None
 
@@ -171,8 +287,11 @@ def _resolve_config_path(file_arg: pathlib.Path | None) -> pathlib.Path | None:
 def _validate_config_file(file_path: pathlib.Path) -> list[str]:
     """Validate a GeoIPS YAML configuration file.
 
-    Checks YAML syntax and validates all settings against the GeoIPS
-    configuration model.
+    Checks YAML syntax, validates core settings against the GeoIPS
+    configuration model, and validates each ``geoips.plugins.<pkg>`` section
+    against its registered plugin model. Unknown top-level settings and
+    unknown plugin names are reported as warnings, since they are silently
+    ignored at load time.
 
     Parameters
     ----------
@@ -181,40 +300,85 @@ def _validate_config_file(file_path: pathlib.Path) -> list[str]:
 
     Returns
     -------
-    list[str]
-        Human-readable error messages. An empty list means the file
-        is valid.
+    tuple[list[str], list[str]]
+        A ``(errors, warnings)`` pair of human-readable messages. An empty
+        *errors* list means the file is valid.
     """
-    from geoips.config.schema import GeoSettings
-
     errors: list[str] = []
+    warnings: list[str] = []
 
     try:
         with open(file_path, "r") as fh:
             data = yaml.safe_load(fh)
     except yaml.YAMLError as exc:
-        return [f"YAML syntax error: {exc}"]
+        return [f"YAML syntax error: {exc}"], warnings
     except OSError as exc:
-        return [f"Cannot read file: {exc}"]
+        return [f"Cannot read file: {exc}"], warnings
 
     if not isinstance(data, dict):
-        return ["File must contain a YAML mapping (dictionary)."]
+        return ["File must contain a YAML mapping (dictionary)."], warnings
 
     geoips_data = data.get("geoips")
     if geoips_data is None:
-        return ["Missing top-level 'geoips' key."]
+        return ["Missing top-level 'geoips' key."], warnings
 
     if not isinstance(geoips_data, dict):
-        return ["The 'geoips' key must contain a mapping (dictionary)."]
+        return ["The 'geoips' key must contain a mapping (dictionary)."], warnings
 
+    known_keys = set(GeoSettings.model_fields) | {"plugins"}
+    for key in geoips_data:
+        if key not in known_keys:
+            warnings.append(f"geoips.{key}: unknown setting (ignored)")
+
+    core_data = {k: v for k, v in geoips_data.items() if k != "plugins"}
     try:
-        GeoSettings.model_validate(geoips_data)
+        GeoSettings.model_validate(core_data)
     except ValidationError as exc:
         for err in exc.errors():
             loc = ".".join(str(p) for p in err["loc"])
-            msg = err["msg"]
-            errors.append(f"geoips.{loc}: {msg}")
+            errors.append(f"geoips.{loc}: {err['msg']}")
 
+    errors.extend(_validate_plugins_section(geoips_data.get("plugins"), warnings))
+
+    return errors, warnings
+
+
+def _validate_plugins_section(plugins_data, warnings: list[str]) -> list[str]:
+    """Validate the ``geoips.plugins`` mapping against registered plugins.
+
+    Parameters
+    ----------
+    plugins_data : Any
+        The value of ``geoips.plugins`` from the config file (or ``None``).
+    warnings : list[str]
+        List appended to in-place with warnings for unknown plugins.
+
+    Returns
+    -------
+    list[str]
+        Error messages for invalid plugin sections.
+    """
+    if plugins_data is None:
+        return []
+    if not isinstance(plugins_data, dict):
+        return ["geoips.plugins: must be a mapping (dictionary)."]
+
+    errors: list[str] = []
+    registered = discover_config_plugins()
+    for pkg, pkg_data in plugins_data.items():
+        plugin = registered.get(pkg)
+        if plugin is None:
+            warnings.append(f"geoips.plugins.{pkg}: unknown plugin (ignored)")
+            continue
+        if not isinstance(pkg_data, dict):
+            errors.append(f"geoips.plugins.{pkg}: must be a mapping (dictionary).")
+            continue
+        try:
+            plugin.settings_model.model_validate(pkg_data)
+        except ValidationError as exc:
+            for err in exc.errors():
+                loc = ".".join(str(p) for p in err["loc"])
+                errors.append(f"geoips.plugins.{pkg}.{loc}: {err['msg']}")
     return errors
 
 
@@ -567,17 +731,26 @@ class GeoipsConfigCreate(GeoipsExecutableCommand):
             return
 
         nested = _build_nested_config(overrides)
+        plugin_values = nested.pop("plugins", {})
+        core_nested = nested
+
+        plugins = discover_config_plugins()
 
         if args.all:
-            from geoips.config.schema import GeoSettings
-
             defaults = GeoSettings(
                 outdirs=os.environ.get("GEOIPS_OUTDIRS", "")
             ).model_dump()
-            _deep_merge(defaults, nested)
-            nested = {"geoips": defaults}
-        else:
-            nested = {"geoips": nested}
+            _deep_merge(defaults, core_nested)
+            core_nested = defaults
+
+            full_plugins: dict = {}
+            for name, plugin in plugins.items():
+                plugin_defaults = full_model_defaults(plugin.settings_model)
+                _deep_merge(plugin_defaults, plugin_values.get(name, {}))
+                full_plugins[name] = plugin_defaults
+            plugin_values = full_plugins
+
+        content = _render_config(core_nested, plugin_values, plugins)
 
         output_path = args.output.resolve()
         if output_path.exists() and not args.force:
@@ -588,7 +761,7 @@ class GeoipsConfigCreate(GeoipsExecutableCommand):
         output_path.parent.mkdir(parents=True, exist_ok=True)
 
         with open(output_path, "w") as fh:
-            yaml.dump(nested, fh, default_flow_style=False, sort_keys=False)
+            fh.write(content)
 
         num_env = len([k for k in overrides if os.environ.get(k)])
         num_prompted = len(overrides) - num_env
@@ -649,7 +822,11 @@ class GeoipsConfigValidate(GeoipsExecutableCommand):
                 "in the current directory."
             )
 
-        errors = _validate_config_file(file_path)
+        errors, warnings = _validate_config_file(file_path)
+
+        if warnings and not args.quiet:
+            for warning in warnings:
+                print(f"  warning: {warning}")
 
         if errors:
             if not args.quiet:

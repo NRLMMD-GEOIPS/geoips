@@ -16,11 +16,13 @@ Usage::
 """
 
 from geoips.config.config import GeoIPSConfig, get_config, make_dirs
+from geoips.config.plugins import ConfigPlugin
 from geoips.config.schema import GeoSettings
 
 config = get_config()
 
 __all__ = [
+    "ConfigPlugin",
     "GeoIPSConfig",
     "GeoSettings",
     "config",

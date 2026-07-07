@@ -36,6 +36,7 @@ from pydantic import (
 
 # GeoIPS imports
 from geoips import interfaces
+from geoips.config import config
 from geoips.pydantic_models.v1.bases import (
     PluginModel,
     FrozenModel,
@@ -883,6 +884,15 @@ class WorkflowPluginModel(PluginModel):
         description=(
             "An optional dictionary of parameters used to test this workflow.",
         ),
+        examples=[
+            {
+                "fnames": f"{config.testdata_dir}/test_data_abi/data/goes16_20200918_1950/*",  # NOQA
+                "command_line_args": {
+                    "compare_path": f"{config.packages_dir}/geoips/tests/outputs/abi.static.<product>.imagery_clean",  # NOQA
+                    "logging_level": "info",
+                },
+            },
+        ],
     )
     spec: WorkflowSpecModel = Field(..., description="The workflow specification")
 
