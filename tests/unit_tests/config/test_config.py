@@ -226,7 +226,7 @@ class TestInvalidProjectConfig:
             lambda: {"geoips": {"features": {"no_color": "notabool"}}},
         )
         monkeypatch.setattr(
-            config_mod, "find_project_config", lambda: "/tmp/bad/.geoips.yaml"
+            config_mod, "find_project_config", lambda: "bad/.geoips.yaml"
         )
 
         with pytest.raises(ConfigError) as excinfo:
