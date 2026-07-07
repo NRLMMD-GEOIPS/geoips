@@ -22,6 +22,7 @@ import xarray as xr
 from geoips.utils.types.datatree_ditto import DataTreeDitto
 from geoips.utils.types.obp_conduits import kwarg_name_for_kind
 from geoips.utils.types.partial_lexeme import Lexeme
+from geoips.dev.output_config import set_lonlat_spacing
 
 LOG = logging.getLogger(__name__)
 
@@ -86,8 +87,6 @@ class YamlPluginCallable:
         kind = str(Lexeme(self.interface).singular)
 
         if self.interface == "gridline_annotators" and data is not None:
-            from geoips.dev.output_config import set_lonlat_spacing
-
             area_def = None
             if hasattr(data, "ds") and data.ds is not None:
                 area_def = data.ds.attrs.get("area_definition")
