@@ -11,7 +11,6 @@ from matplotlib import pyplot as plt
 from geoips.image_utils.colormap_utils import from_ascii
 from geoips.geoips_utils import find_ascii_palette
 from geoips.interfaces import colormappers
-from geoips.utils.types.datatree_ditto import DataTreeDitto
 
 LOG = logging.getLogger(__name__)
 
@@ -101,14 +100,8 @@ def call(
             raise ValueError(f"Colormap {cmap_name} not found in source {cmap_source}")
     elif cmap_source == "geoips":
         cmap_plugin = colormappers.get_plugin(cmap_name)
-        # Just get the cmap out of mpl_colors_info to use here.
         result = cmap_plugin()
-        if isinstance(result, DataTreeDitto):
-            # OBP path: the colormapper output is wrapped in a DataTreeDitto
-            # whose dataset attrs carry the mpl_colors_info dict.
-            mpl_cmap = result.ds.attrs["_mpl_colors_info"]["cmap"]
-        else:
-            mpl_cmap = result["cmap"]
+        mpl_cmap = result["cmap"]
     elif cmap_source == "ascii":
         if cmap_path is not None:
             mpl_cmap = from_ascii(cmap_path, cmap_name=cmap_name)
