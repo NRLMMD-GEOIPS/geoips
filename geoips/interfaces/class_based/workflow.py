@@ -42,6 +42,9 @@ from geoips.utils.types.tokenization import (
     compute_arguments_hash,
     compute_step_output_token,
 )
+from geoips.sector_utils.utils import get_sectors_from_yamls
+
+import geoips
 
 LOG = logging.getLogger(__name__)
 
@@ -374,8 +377,6 @@ class Workflow:
         list of pyresample.AreaDefinition
             Empty list if ``sector_list`` is absent or resolution fails.
         """
-        from geoips.sector_utils.utils import get_sectors_from_yamls
-
         _globals = self._spec.globals
         if _globals is None:
             sector_list = []
@@ -413,8 +414,6 @@ class Workflow:
             same attr keys as ``StepProvenance`` so every node — steps and
             (sub-)workflow roots alike — carries start/end times.
         """
-        import geoips
-
         tree.attrs["workflow_name"] = self._wf_name
         tree.attrs["outputs"] = self._spec.outputs or []
         tree.attrs["retention_policy"] = self._spec.retention or "keep_referenced"
