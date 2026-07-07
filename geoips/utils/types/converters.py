@@ -273,46 +273,6 @@ def dataset_vars_to_list(dataset: xr.Dataset, **kwargs: Any) -> list[np.ndarray]
     return list_arrays
 
 
-def list_numpy_to_dataset(
-    arrays: list[np.ndarray],
-    names: list[str] | None = None,
-    dims: list[list[str]] | None = None,
-    **kwargs: Any,
-) -> xr.Dataset:
-    """Create an ``xr.Dataset`` from a list of numpy arrays.
-
-    Parameters
-    ----------
-    arrays : list[np.ndarray]
-        Arrays to store as data variables.
-    names : list[str] or None
-        Variable names.  Defaults to ``var_0``, ``var_1``, …
-    dims : list[list[str]] or None
-        Per-variable dimension names.  Auto-generated when ``None``.
-    **kwargs
-        Ignored.
-
-    Returns
-    -------
-    xr.Dataset
-    """
-    if names is None:
-        names = [f"var_{i}" for i in range(len(arrays))]
-    if dims is None:
-        dims = [
-            [f"dim_{i}_{j}" for j in range(arr.ndim)] for i, arr in enumerate(arrays)
-        ]
-
-    data_vars = {}
-    for arr, name, d in zip(arrays, names, dims):
-        data_vars[name] = xr.DataArray(arr, dims=d, name=name)
-
-    ds = xr.Dataset(data_vars)
-    ds.attrs["_conv_var_names"] = names
-    ds.attrs["_conv_var_order"] = names
-    return ds
-
-
 # ---------------------------------------------------------------------------
 # list  →  xr.Dataset
 # ---------------------------------------------------------------------------

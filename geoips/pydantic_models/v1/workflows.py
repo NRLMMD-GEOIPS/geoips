@@ -638,13 +638,11 @@ class WorkflowStepDefinitionModel(FrozenModel):
         dependencies = model.depends_on
 
         if not dependencies or (
-            isinstance(dependencies, list)
-            and dependencies != ["_input"]
-            and len(dependencies) != 2
+            isinstance(dependencies, list) and len(dependencies) < 2
         ):
             raise ValueError(
                 "Error: 'depends_on' field must be specified for any interpolator step "
-                "and it must depend on two steps exactly, one of which being an input "
+                "and it must depend on at least two steps, one of which being an input "
                 "data step and the other being a sector step."
             )
 

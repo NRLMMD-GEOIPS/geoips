@@ -2,12 +2,11 @@ import pytest
 import numpy as np
 import xarray as xr
 from xarray import DataTree
-import pandas as pd
-from typing import Any
-import copy
 
 # Import the module
 from geoips.utils.types.datatree_ditto import DataTreeDitto
+from geoips.utils.types.converter_registry import converter_registry
+from geoips.utils.types.converters import numpy_to_dataset, dataset_to_numpy
 
 
 class TestDataTreeDittoCore:
@@ -50,15 +49,10 @@ class TestConverterSystem:
 
     def test_builtin_numpy_converter_exists(self):
         """Test that numpy converter is registered by default."""
-        assert np.ndarray in DataTreeDitto._converters
-        assert "to_dataset" in DataTreeDitto._converters[np.ndarray]
-        assert "from_dataset" in DataTreeDitto._converters[np.ndarray]
+        assert converter_registry.can_convert(np.array([1, 2, 3]), xr.Dataset)
 
     def test_register_custom_converter(self):
         """Test registering a custom converter."""
-        from geoips.utils.types.converter_registry import converter_registry
-
-        converters_snapshot = dict(DataTreeDitto._converters)
         registry_snapshot = dict(converter_registry._converters)
 
         def list_to_dataset(obj, name="data", dims=None, **kwargs):
@@ -80,7 +74,9 @@ class TestConverterSystem:
             var_name = dataset.attrs.get("_ditto_var_name", "data")
             return dataset[var_name].values.tolist()
 
-        DataTreeDitto.register_converter(list, list_to_dataset, dataset_to_list)
+        converter_registry.register_bidirectional(
+            list, xr.Dataset, list_to_dataset, dataset_to_list
+        )
 
         # Test the converter works
         dt = DataTreeDitto()
@@ -90,17 +86,14 @@ class TestConverterSystem:
         assert isinstance(dt["list_data"].ds, xr.Dataset)
         assert dt.get_original("list_data") == test_list
 
-        # Cleanup: restore both registries (register_converter also populates
-        # the shared converter_registry, not just DataTreeDitto._converters).
-        DataTreeDitto._converters.clear()
-        DataTreeDitto._converters.update(converters_snapshot)
+        # Cleanup: restore the shared registry.
         converter_registry._converters.clear()
         converter_registry._converters.update(registry_snapshot)
 
     def test_numpy_to_dataset_conversion(self):
         """Test numpy array to dataset conversion details."""
         arr = np.array([[1, 2, 3], [4, 5, 6]])
-        ds = DataTreeDitto._numpy_to_dataset(arr, name="test_data")
+        ds = numpy_to_dataset(arr, name="test_data")
 
         assert isinstance(ds, xr.Dataset)
         assert "test_data" in ds.data_vars
@@ -112,8 +105,8 @@ class TestConverterSystem:
     def test_dataset_to_numpy_conversion(self):
         """Test dataset to numpy array conversion."""
         arr = np.array([[1, 2, 3], [4, 5, 6]])
-        ds = DataTreeDitto._numpy_to_dataset(arr, name="test_data")
-        converted_back = DataTreeDitto._dataset_to_numpy(ds)
+        ds = numpy_to_dataset(arr, name="test_data")
+        converted_back = dataset_to_numpy(ds)
 
         np.testing.assert_array_equal(arr, converted_back)
 
@@ -121,7 +114,7 @@ class TestConverterSystem:
         """Test numpy conversion with custom dimensions."""
         arr = np.random.rand(2, 3, 4)
         custom_dims = ["time", "lat", "lon"]
-        ds = DataTreeDitto._numpy_to_dataset(arr, dims=custom_dims)
+        ds = numpy_to_dataset(arr, dims=custom_dims)
 
         assert ds.attrs["_ditto_dims"] == custom_dims
         assert list(ds["data"].dims) == custom_dims
@@ -434,13 +427,13 @@ class TestEdgeCases:
     def test_dataset_without_var_name_metadata(self):
         """Test converting dataset back when var_name metadata is missing."""
         arr = np.array([1, 2, 3])
-        ds = DataTreeDitto._numpy_to_dataset(arr)
+        ds = numpy_to_dataset(arr)
 
         # Remove the var_name metadata
         del ds.attrs["_ditto_var_name"]
 
         # Should still work by using first data variable
-        retrieved = DataTreeDitto._dataset_to_numpy(ds)
+        retrieved = dataset_to_numpy(ds)
         np.testing.assert_array_equal(retrieved, arr)
 
 
@@ -496,12 +489,8 @@ def sample_datatree_ditto():
 @pytest.fixture
 def custom_converter_setup():
     """Setup and teardown for custom converter tests."""
-    from geoips.utils.types.converter_registry import converter_registry
-
-    # Snapshot both registries so teardown restores global state exactly,
-    # regardless of test ordering (register_converter also populates the
-    # shared converter_registry, not just DataTreeDitto._converters).
-    converters_snapshot = dict(getattr(DataTreeDitto, "_converters", {}))
+    # Snapshot the registry so teardown restores global state exactly,
+    # regardless of test ordering.
     registry_snapshot = dict(converter_registry._converters)
 
     # Setup: register a string converter
@@ -525,13 +514,13 @@ def custom_converter_setup():
     def dataset_to_string(dataset, **kwargs):
         return dataset.attrs["_ditto_original_string"]
 
-    DataTreeDitto.register_converter(str, string_to_dataset, dataset_to_string)
+    converter_registry.register_bidirectional(
+        str, xr.Dataset, string_to_dataset, dataset_to_string
+    )
 
     yield
 
-    # Teardown: restore both registries to their pre-fixture state.
-    DataTreeDitto._converters.clear()
-    DataTreeDitto._converters.update(converters_snapshot)
+    # Teardown: restore the registry to its pre-fixture state.
     converter_registry._converters.clear()
     converter_registry._converters.update(registry_snapshot)
 
@@ -622,21 +611,18 @@ class TestSubclassConverterMatching:
 
     def test_specific_converter_wins_over_base(self):
         """Test that a more specific converter is preferred."""
-        from geoips.utils.types.converter_registry import converter_registry
-
-        saved_converters = dict(DataTreeDitto._converters)
         registry_snapshot = dict(converter_registry._converters)
 
         def masked_to_ds(obj, name="data", dims=None, **kwargs):
-            ds = DataTreeDitto._numpy_to_dataset(obj, name=name, dims=dims)
+            ds = numpy_to_dataset(obj, name=name, dims=dims)
             ds.attrs["_ditto_original_type"] = "numpy.ma.MaskedArray"
             return ds
 
         def masked_from_ds(ds, **kwargs):
-            return np.ma.array(DataTreeDitto._dataset_to_numpy(ds))
+            return np.ma.array(dataset_to_numpy(ds))
 
-        DataTreeDitto.register_converter(
-            np.ma.MaskedArray, masked_to_ds, masked_from_ds
+        converter_registry.register_bidirectional(
+            np.ma.MaskedArray, xr.Dataset, masked_to_ds, masked_from_ds
         )
 
         masked = np.ma.array([10, 20, 30], mask=[0, 1, 0])
@@ -644,7 +630,6 @@ class TestSubclassConverterMatching:
 
         assert dt.ds.attrs["_ditto_original_type"] == "numpy.ma.MaskedArray"
 
-        DataTreeDitto._converters = saved_converters
         converter_registry._converters.clear()
         converter_registry._converters.update(registry_snapshot)
 
