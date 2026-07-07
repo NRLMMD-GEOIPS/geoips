@@ -50,6 +50,7 @@ from geoips.interfaces import (
     products,
     readers,
     sector_adjusters,
+    sector_spec_generators,
 )
 
 # These output families require an input filename list, AND require the returned
@@ -855,7 +856,12 @@ def combine_filename_extra_fields(source_xarray, dest_xarray):
 
 
 def process_sectored_data_output(
-    xobjs, variables, prod_plugin, output_dict, area_def=None
+    xobjs,
+    variables,
+    prod_plugin,
+    output_dict,
+    area_def=None,
+    pid_track=None,
 ):
     """Process sectored data output.
 
@@ -871,13 +877,18 @@ def process_sectored_data_output(
         in PRODUCT_FAMILIES_OF_SECTORED_XARRAY_DICT_WITHOUT_ALGORITHM_WITH_AREA
     ):
         output_products += process_xarray_dict_to_output_format(
-            xobjs, variables, prod_plugin, output_dict, area_def=area_def
+            xobjs,
+            variables,
+            prod_plugin,
+            output_dict,
+            area_def=area_def,
+            pid_track=pid_track,
         )
     return output_products
 
 
 def process_xarray_dict_to_output_format(
-    xobjs, variables, prod_plugin, output_dict, area_def=None
+    xobjs, variables, prod_plugin, output_dict, area_def=None, pid_track=None
 ):
     """Process xarray dict to output format."""
     output_formatter = get_output_formatter(output_dict)
@@ -1022,6 +1033,9 @@ def process_xarray_dict_to_output_format(
             f"      output_plugin_type must be one of {supported_output_plugin_types}"
         )
 
+    if pid_track:
+        pid_track.print_mem_usg(logstr="AFTER OUTPUT_PLUGIN")
+
     # We only pre-generated metadata filenames if we also pre-generated output
     # product filenames
     if output_plugin.family in OUTPUT_FAMILIES_WITH_OUTFNAMES_ARG:
@@ -1071,11 +1085,9 @@ def pad_area_definition(
             clat = area_def.proj_dict["lat_0"]
             clon = area_def.proj_dict["lon_0"]
 
-        from geoips.plugins.modules.sector_spec_generators.center_coordinates import (
-            call,
-        )
+        center_coords = sector_spec_generators.get_plugin("center_coordinates")
 
-        pad_area_def = call(
+        pad_area_def = center_coords(
             area_id=area_def.area_id,
             long_description=area_def.description,
             clat=clat,
@@ -1595,6 +1607,7 @@ def get_alg_xarray(
     variable_names=None,
     window_start_time=None,
     window_end_time=None,
+    pid_track=None,
 ):
     """Get alg xarray.
 
@@ -1625,6 +1638,7 @@ def get_alg_xarray(
         xarray Dataset containing the final data after interpolation, algorithm,
         resectoring, etc have been applied.
     """
+    LOG.interactive("Applying algorithms and interpolation...")
     if not variable_names:
         # original input variables from sensor.py (i.e., abi.py)
         variables = get_required_variables(prod_plugin)
@@ -1634,20 +1648,27 @@ def get_alg_xarray(
         # sectored xarray.
         variables = variable_names
 
-    LOG.interactive("Applying algorithms and interpolation...")
+    if pid_track:
+        pid_track.print_mem_usg(logstr="AFTER GET_REQUIRED_VARIABLES")
 
     datasets_for_vars = get_requested_datasets_for_variables(prod_plugin)
 
+    if pid_track:
+        pid_track.print_mem_usg(logstr="AFTER GET_REQUESTED_DATASETS_FOR_VARIABLES")
     # Get the algorithm and interpolator plugins we need to use, based
     # on the contents of prod_plugin.
     alg_plugin, alg_args, interp_plugin, interp_args = get_alg_and_interp_plugins(
         prod_plugin
     )
 
+    if pid_track:
+        pid_track.print_mem_usg(logstr="BEFORE RESECTOR_XARRAYS")
     # Re-sector the xarrays if requested.
     curr_sect_xarrays = resector_xarrays(
         resector, sect_xarrays, area_def, variables, window_start_time, window_end_time
     )
+    if pid_track:
+        pid_track.print_mem_usg(logstr="AFTER RESECTOR_XARRAYS")
 
     LOG.info("get_alg_xarray required variables: %s", variables)
     LOG.info("get_alg_xarray requested datasets for variables: %s", datasets_for_vars)
@@ -1679,6 +1700,8 @@ def get_alg_xarray(
             variable_names,
             area_def,
         )
+        if pid_track:
+            pid_track.print_mem_usg(logstr="AFTER APPLY_ALG_FIRST")
 
         if prod_plugin.family in ["algorithm_interpolator_colormapper"]:
             # Now apply the intepolator after applying the algorithm.
@@ -1692,6 +1715,8 @@ def get_alg_xarray(
             )
         else:
             final_xarray = alg_xarray
+        if pid_track:
+            pid_track.print_mem_usg(logstr="AFTER APPLY_INTERP_AFTER_ALG")
 
         # MLS This appears to update alg_xarray, not final_xarray, with the
         # area_def information.  So this might not be right..
@@ -1715,6 +1740,8 @@ def get_alg_xarray(
         area_def,
         processed_xarrays,
     )
+    if pid_track:
+        pid_track.print_mem_usg(logstr="AFTER APPLY_INTERP_FIRST")
 
     # Make sure we have all the appropriate attributes attached to the current
     # interp_xarray.
@@ -1737,6 +1764,8 @@ def get_alg_xarray(
         variables,
         processed_xarrays,
     )
+    if pid_track:
+        pid_track.print_mem_usg(logstr="AFTER APPLY_ALG_AFTER_INTERP")
 
     # Make sure we have all the appropriate attributes attached to the current
     # interp_xarray.
@@ -1838,6 +1867,7 @@ def call(fnames, command_line_args=None):
     process_datetimes = {}
     process_datetimes["overall_start"] = datetime.utcnow()
     final_products = []
+    sector_adj_products = []
     removed_products = []
     saved_products = []
     database_writes = []
@@ -1933,7 +1963,7 @@ def call(fnames, command_line_args=None):
     # Load plugins
     reader_plugin = readers.get_plugin(reader_name)
 
-    pid_track.print_mem_usg()
+    pid_track.print_mem_usg(logstr="AFTER GET READER PLUGIN")
 
     num_jobs = 0
     LOG.interactive(
@@ -1941,7 +1971,7 @@ def call(fnames, command_line_args=None):
     )
     xobjs = reader_plugin(fnames, metadata_only=True, **reader_kwargs)
     source_name = xobjs["METADATA"].source_name
-    pid_track.print_mem_usg()
+    pid_track.print_mem_usg(logstr="AFTER GET READER METADATA")
 
     prod_plugin = products.get_plugin(
         source_name, product_name, command_line_args["product_spec_override"]
@@ -1965,7 +1995,7 @@ def call(fnames, command_line_args=None):
         )
 
     # Use the xarray objects and command line args to determine required area_defs
-    pid_track.print_mem_usg()
+    pid_track.print_mem_usg(logstr="AFTER SELF REGISTERED DATA READ")
     area_defs = get_area_defs_from_command_line_args(
         command_line_args, xobjs, variables, filter_time=True
     )
@@ -1978,13 +2008,13 @@ def call(fnames, command_line_args=None):
         and not sectored_read
         and not resampled_read
     ):
-        pid_track.print_mem_usg()
+        pid_track.print_mem_usg(logstr="START AREA_DEF_LOOP")
         LOG.interactive("Reading full dataset with reader '%s'...", reader_plugin.name)
         xobjs = reader_plugin(
             fnames, metadata_only=False, chans=variables, **reader_kwargs
         )
 
-    pid_track.print_mem_usg()
+    pid_track.print_mem_usg(logstr="AFTER SECTORED READ")
     # If we have a product of a family that does not require an area definition,
     # and operates on dictionaries of xarrays, process it here.
     # This will not have any required area_defs, so will never make it into
@@ -2008,6 +2038,7 @@ def call(fnames, command_line_args=None):
                 resampled_read=resampled_read,
                 window_start_time=window_start_time,
                 window_end_time=window_end_time,
+                pid_track=pid_track,
             )
         # This is a workaround so these products can use single source and other
         # algorithms which don't return a dictionary of xarrays. Just convert this back
@@ -2041,7 +2072,7 @@ def call(fnames, command_line_args=None):
         # loop through all area defs below.
         xdict = reader_plugin(fnames, metadata_only=False, **reader_kwargs)
 
-    pid_track.print_mem_usg()
+    pid_track.print_mem_usg(logstr="AFTER UNSECTORED AREA_DEF READ")
 
     new_attrs = {"filename_extra_fields": {}}
     # This is the main loop over all area defs - used for any processing that
@@ -2123,7 +2154,7 @@ def call(fnames, command_line_args=None):
             else:
                 pad_sect_xarrays = xobjs
 
-        pid_track.print_mem_usg()
+        pid_track.print_mem_usg(logstr="AFTER PRE-SECTOR_XARRAYS")
         if len(pad_sect_xarrays.keys()) == 0:
             LOG.interactive(
                 "SKIPPING no sectored xarrays returned for %s", area_def.area_id
@@ -2155,9 +2186,10 @@ def call(fnames, command_line_args=None):
             prod_plugin,
             command_line_args,
             area_def=area_def,
+            pid_track=pid_track,
         )
 
-        pid_track.print_mem_usg()
+        pid_track.print_mem_usg("AFTER PROCESS_SECTORED_DATA_OUTPUT")
         # If we had a request for sectored data processing, skip the rest of the loop
         if curr_output_products:
             final_products += curr_output_products
@@ -2206,6 +2238,7 @@ def call(fnames, command_line_args=None):
                     )
                 else:
                     LOG.interactive("Adjusting sectors with %s...", sector_adjuster)
+                    adadj_fnames = None
                     area_def = sect_adj_plugin(
                         list(sect_xarrays.values()),
                         area_def,
@@ -2225,14 +2258,19 @@ def call(fnames, command_line_args=None):
                         variables,
                         **sector_adjuster_kwargs,
                     )
+
                 else:
                     LOG.interactive("Adjusting sectors with %s...", sector_adjuster)
+                    adadj_fnames = None
                     area_def = sect_adj_plugin(
                         list(pad_sect_xarrays.values()),
                         area_def,
                         variables,
                         **sector_adjuster_kwargs,
                     )
+            if adadj_fnames:
+                # This list gets printed at the end
+                sector_adj_products += [x["sect_adj_output_file"] for x in adadj_fnames]
             # These will be added to the alg_xarray
             # new_attrs['area_definition'] = area_def
             if "adjustment_id" in area_def.sector_info:
@@ -2240,13 +2278,30 @@ def call(fnames, command_line_args=None):
                     area_def.sector_info["adjustment_id"]
                 )
 
-        pid_track.print_mem_usg()
-        all_vars = []
-        for key, xobj in pad_sect_xarrays.items():
-            # Double check the xarray object actually contains data
-            for var in list(xobj.variables.keys()):
-                if xobj[var].count() > 0:
-                    all_vars.append(var)
+        pid_track.print_mem_usg(logstr="AFTER SECTOR ADJUSTERS", verbose=False)
+        if not command_line_args["disable_nan_array_removal"]:
+            all_vars = []
+            for key, xobj in pad_sect_xarrays.items():
+                # Double check the xarray object actually contains data. Could lose
+                # some due to day/night masking, etc.
+                for var in list(xobj.variables.keys()):
+                    # NOTE this is very resource intensive for very large arrays.
+                    if xobj[var].count():
+                        all_vars.append(var)
+                    pid_track.print_mem_usg(
+                        logstr=f"AFTER CHECKING VAR {var} FOR ALL NAN", verbose=False
+                    )
+            pid_track.print_mem_usg(
+                logstr="AFTER CHECKING ALL VARS FOR ALL NAN", verbose=False
+            )
+        else:
+            LOG.info("SKIPPING array validation!  Disabled at command line!")
+            all_vars = []
+            for key, xobj in pad_sect_xarrays.items():
+                curr_vars = list(xobj.variables.keys())
+                all_vars += curr_vars
+                LOG.info(f"Adding all variables from dataset '{key}': '{curr_vars}")
+
         # If the required variables are not contained within the xarray objects, do not
         # attempt to process (variables in product algorithm are not available)
         if set(variables).issubset(all_vars):
@@ -2262,6 +2317,7 @@ def call(fnames, command_line_args=None):
                     resampled_read=resampled_read,
                     window_start_time=window_start_time,
                     window_end_time=window_end_time,
+                    pid_track=pid_track,
                 )
             elif area_def.sector_type in ["reader_defined", "self_register"]:
                 alg_xarray = get_alg_xarray(
@@ -2273,6 +2329,7 @@ def call(fnames, command_line_args=None):
                     variable_names=variables,
                     window_start_time=window_start_time,
                     window_end_time=window_end_time,
+                    pid_track=pid_track,
                 )
             else:
                 alg_xarray = get_alg_xarray(
@@ -2283,9 +2340,10 @@ def call(fnames, command_line_args=None):
                     resampled_read=resampled_read,
                     window_start_time=window_start_time,
                     window_end_time=window_end_time,
+                    pid_track=pid_track,
                 )
 
-            pid_track.print_mem_usg()
+            pid_track.print_mem_usg(logstr="AFTER GET_ALG_XARRAY")
 
             # This defaults to "covg_func" and "covg_args" - if
             # image_production_covg_* exist, it will use those.
@@ -2396,7 +2454,7 @@ def call(fnames, command_line_args=None):
             if not curr_products:
                 continue
 
-            pid_track.print_mem_usg()
+            pid_track.print_mem_usg(logstr="AFTER PLOT_DATA")
             final_products += curr_products
             curr_removed_products, curr_saved_products = remove_duplicates(
                 curr_products, remove_files=True
@@ -2490,6 +2548,11 @@ def call(fnames, command_line_args=None):
         "\n\n\nThe following products were produced from procflow %s\n\n",
         basename(__file__),
     )
+    # Add sector_adj_products to the final_products list after running comparisons.
+    # We might want to eventually compare/check the products output by the sector
+    # adjuster, but we cannot guarantee the sector adjuster will create a product in a
+    # supported format.
+    final_products += sector_adj_products
     for output_product in final_products:
         LOG.interactive(
             "    \u001b[34mSINGLESOURCESUCCESS\033[0m %s",
@@ -2500,7 +2563,7 @@ def call(fnames, command_line_args=None):
     for removed_product in removed_products:
         LOG.interactive("    DELETEDPRODUCT %s", removed_product)
 
-    pid_track.print_mem_usg(verbose=True)
+    pid_track.print_mem_usg(logstr="END", verbose=True)
 
     LOG.interactive("READER_NAME: %s", reader_name)
     LOG.interactive("PRODUCT_NAME: %s", product_name)

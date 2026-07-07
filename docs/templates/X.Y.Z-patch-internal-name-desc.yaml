@@ -1,0 +1,22 @@
+bug fixes:
+- title: Updates required internal to make this release function
+  description: |
+    * Update the contents of this with actual required patches / files changed.
+    * Rename the patch release note file to include your name and a short description
+      of the fix in the release note filename (create a separate patch release note for
+      each bug fix)
+    * Update related-issue and start/finish time from the general release note added to this repo
+  files:
+    added:
+    - docs/source/releases/X.Y.Z/X.Y.Z-patch-internal-name-desc.yaml
+    modified:
+    - 'Add files you actually modified / added / deleted /etc'
+    deleted:
+    - ''
+    moved:
+    - ''
+  related-issue:
+    internal: geoips#NNN - X.Y.Z updates
+  date:
+    start: YYYY-MM-DD
+    finish: YYYY-MM-DD

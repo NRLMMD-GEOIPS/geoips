@@ -103,6 +103,7 @@ def update_output_dict_from_command_line_args(output_dict, command_line_args=Non
     final_output_dict = output_dict.copy()
     for cmdline_fld_name in [
         "filename_formatter_kwargs",
+        "product_spec_override",
         "metadata_filename_formatter_kwargs",
     ]:
         # Skip fields that are NOT in command_line_args
@@ -909,6 +910,14 @@ def call(fnames, command_line_args=None):
         presector_data = not bool(config_dict["no_presectoring"])
     else:
         presector_data = True
+
+    if command_line_args.get("disable_nan_array_removal"):
+        disable_nan_array_removal = command_line_args["disable_nan_array_removal"]
+    elif "disable_nan_array_removal" in config_dict:
+        disable_nan_array_removal = bool(config_dict["disable_nan_array_removal"])
+    else:
+        disable_nan_array_removal = True
+
     if command_line_args.get("output_checker_kwargs") is not None:
         output_checker_kwargs = command_line_args["output_checker_kwargs"]
     else:
@@ -1005,15 +1014,32 @@ def call(fnames, command_line_args=None):
         for sector, database_writer in command_line_args[
             "product_db_writer_override"
         ].items():
+            # If a sector specified in the command line product_db_writer_override
+            # is not defined in the procflow config, just ignore it.  Allows specifying
+            # supported sector overrides for multiple procflow configs in the same
+            # command line override.
+            if sector not in config_dict["available_sectors"]:
+                continue
             sector_settings = config_dict["available_sectors"][sector]
+            # If the actual database_writer was specified in the command line override,
+            # update here.
             if database_writer.get("product_database_writer"):
+                LOG.info(
+                    "OVERRIDING product_database_writer with "
+                    f"{database_writer['product_database_writer']}"
+                )
                 sector_settings["product_database_writer"] = database_writer[
                     "product_database_writer"
                 ]
+            # If the database_writer_kwargs were specified in the command line override,
+            # update here.
             if database_writer.get("product_database_writer_kwargs"):
                 for key, val in database_writer[
                     "product_database_writer_kwargs"
                 ].items():
+                    LOG.info(
+                        f"OVERRIDING product_database_writer_kwargs {key} with {val}"
+                    )
                     sector_settings["product_database_writer_kwargs"][key] = val
 
     if command_line_args.get("composite_output_kwargs_override"):
@@ -1318,16 +1344,29 @@ def call(fnames, command_line_args=None):
             else:
                 pad_sect_xarrays = xobjs
 
-            pid_track.print_mem_usg(logstr="MEMUSG", verbose=False)
-
-            # See what variables are left after sectoring (could lose some due to
-            # day/night)
-            all_vars = []
-            for key, xobj in pad_sect_xarrays.items():
-                # Double check the xarray object actually contains data
-                for var in list(xobj.variables.keys()):
-                    if xobj[var].count() > 0:
-                        all_vars.append(var)
+            pid_track.print_mem_usg(logstr="AFTER SECTOR ADJUSTERS", verbose=False)
+            if not disable_nan_array_removal:
+                all_vars = []
+                for key, xobj in pad_sect_xarrays.items():
+                    # Double check the xarray object actually contains data. Could lose
+                    # some due to day/night masking, etc.
+                    for var in list(xobj.variables.keys()):
+                        if xobj[var].count() > 0:
+                            all_vars.append(var)
+                        pid_track.print_mem_usg(
+                            logstr=f"AFTER CHECKING VAR {var} FOR ALL NAN",
+                            verbose=False,
+                        )
+                pid_track.print_mem_usg(
+                    logstr="AFTER CHECKING ALL VARS FOR ALL NAN", verbose=False
+                )
+            else:
+                LOG.info("SKIPPING array validation!  Disabled at command line!")
+                all_vars = []
+                for key, xobj in pad_sect_xarrays.items():
+                    curr_vars = list(xobj.variables.keys())
+                    all_vars += curr_vars
+                    LOG.info(f"Adding all variables from dataset '{key}': '{curr_vars}")
 
             # If we didn't get any data, continue to the next sector_type
             if len(pad_sect_xarrays) == 0:
@@ -1423,10 +1462,14 @@ def call(fnames, command_line_args=None):
             # Must adjust the area definition AFTER sectoring xarray (to get valid
             # start/end time
             sector_adjuster = None
+            sector_adjuster_kwargs = {}
             if "sector_adjuster" in config_dict["available_sectors"][sector_type]:
                 sector_adjuster = config_dict["available_sectors"][sector_type][
                     "sector_adjuster"
                 ]
+                sector_adjuster_kwargs = config_dict["available_sectors"][
+                    sector_type
+                ].get("sector_adjuster_kwargs", {})
 
             adadj_fnames = []
             if sector_adjuster:
@@ -1494,6 +1537,7 @@ def call(fnames, command_line_args=None):
                             config_dict["available_sectors"][sector_type][
                                 "adjust_variables"
                             ],
+                            **sector_adjuster_kwargs,
                         )
                     else:
                         LOG.interactive("Adjusting sector with '%s'", sector_adjuster)
@@ -1504,6 +1548,7 @@ def call(fnames, command_line_args=None):
                             config_dict["available_sectors"][sector_type][
                                 "adjust_variables"
                             ],
+                            **sector_adjuster_kwargs,
                         )
                 else:
                     # AMSU-b specifically needs full swath width... Need a way to
@@ -1520,6 +1565,7 @@ def call(fnames, command_line_args=None):
                             config_dict["available_sectors"][sector_type][
                                 "adjust_variables"
                             ],
+                            **sector_adjuster_kwargs,
                         )
                     else:
                         LOG.interactive("Adjusting sector with '%s'", sector_adjuster)
@@ -1530,6 +1576,7 @@ def call(fnames, command_line_args=None):
                             config_dict["available_sectors"][sector_type][
                                 "adjust_variables"
                             ],
+                            **sector_adjuster_kwargs,
                         )
 
                 cpath = set_comparison_path(
@@ -1539,7 +1586,27 @@ def call(fnames, command_line_args=None):
                     command_line_args=command_line_args,
                 )
                 final_products = initialize_final_products(final_products, cpath)
-                final_products[cpath]["files"] += adadj_fnames
+                final_products[cpath]["files"] += [
+                    x["sect_adj_output_file"] for x in adadj_fnames
+                ]
+                if product_db:
+                    for adjout in adadj_fnames:
+                        sect_adj_output_dict = {
+                            "requested_sector_type": sector_type,
+                            "output_formatter": adjout["output_formatter"],
+                        }
+                        product_added = write_to_database(
+                            adjout["sect_adj_output_file"],
+                            adjout["product"],
+                            sect_xarrays["METADATA"],
+                            config_dict["available_sectors"],
+                            sect_adj_output_dict,
+                            geoips_version,
+                            coverage=None,
+                            area_def=area_def,
+                            config_dict=config_dict,
+                        )
+                        final_products[cpath]["database writes"] += [product_added]
 
                 LOG.info(
                     "\n\n\n\nAFTER ADJUSTMENT area definition: %s\n\n\n\n", area_def
@@ -1813,7 +1880,10 @@ def call(fnames, command_line_args=None):
                         verbose=False,
                         key=f"GET ALGORITHM XARRAY: {rkey_base}",
                     )
-                    if output_fmt_plugin.family == "xarray_data":
+                    if (
+                        output_fmt_plugin.family == "xarray_data"
+                        and area_def.sector_type not in ["self_register"]
+                    ):
                         # If we're saving out intermediate data file, write out
                         # pad_area_def.
                         if product_name not in pad_alg_xarrays:

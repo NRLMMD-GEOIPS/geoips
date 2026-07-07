@@ -1,0 +1,23 @@
+bug fixes:
+- title: Fix time in text winds output formatter
+  description: |
+    Ensure we properly convert timestamps in xarray object to values for print in text
+    winds output formatter.  Previously manually converted by dividing by 10e-6, update
+    to use pandas for conversions to avoid hard coding the units.  This works for both
+    xarray 2026.2.0 and 2026.4.0 (2026.4.0 broke smap time handling)
+
+    Additionally updated text output checker to limit diff output to 10k characters, to
+    avoid potentially VERY large log output.
+  files:
+    modified:
+    - 'geoips/plugins/classes/output_checkers/text.py'
+    - 'geoips/plugins/modules/output_formatters/text_winds.py'
+    deleted:
+    - ''
+    moved:
+    - ''
+  related-issue:
+    internal: geoips#1067 - 1.19.0 updates
+  date:
+    start: 2026-06-01
+    finish: 2026-06-01

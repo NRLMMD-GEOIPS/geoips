@@ -44,20 +44,19 @@ def test_expose_pkg_cmds(pkg_name, caplog):
         )
     )
     if len(eps):
-        # Both of these packages have commands. geoips is implemented via poetry, and
-        # data_fusion is implemented via setuptools. Either way, this should work
-        # without an error being raised
-        expose_geoips_commands(pkg_name, LOG)
+        # Determine the max len of all console script names
+        max_ep_len = max([len(ep.name) for ep in eps])
+        # Explicitly pass in the column width to be the max len of the console script
+        # names, to ensure none of the console script names wrap, which causes the
+        # ep.name in replaced check to fail (since the full string is not in the output)
+        expose_geoips_commands(pkg_name, LOG, max_ep_len)
         assert f"Available {pkg_name.title()} Commands" in caplog.text
         # Replace calls are needed as we need to filter out the table chars
         # if the table was split due to terminal size
         replaced = str(
             caplog.text.replace("\n", "")
             .replace(" ", "")
-            .replace(
-                "-",
-                "",
-            )
+            .replace("-", "")
             .replace("│", "")
         )
         for ep in eps:
