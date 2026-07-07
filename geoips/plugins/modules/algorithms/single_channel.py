@@ -9,8 +9,6 @@ to apply corrections to a single channel output product.
 
 import logging
 
-import numpy as np
-
 LOG = logging.getLogger(__name__)
 
 KtoC_conversion = -273.15
