@@ -379,13 +379,13 @@ class GeoIPSConfig:
                 try:
                     settings = GeoSettings.model_validate(settings_dict)
                 except ValidationError as exc:
-                    LOG.warning(
-                        "Ignoring invalid GeoIPS config file %r:\n%s\n"
-                        "Falling back to environment variables and defaults. "
-                        "Run 'geoips config validate' for details.",
-                        find_project_config(),
-                        _format_config_errors(exc),
-                    )
+                    raise ConfigError(
+                        f"Invalid GeoIPS config file "
+                        f"{find_project_config()!r}:\n"
+                        f"{_format_config_errors(exc)}\n"
+                        "Fix the errors above or run 'geoips config validate' "
+                        "for details."
+                    ) from None
 
         env_overrides = _get_env_overrides()
         if env_overrides:

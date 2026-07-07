@@ -231,9 +231,7 @@ class GeoSettings(BaseModel):
         description="URL for the GeoIPS documentation.",
     )
     rcfile: str = Field("", description="Path to a GeoIPS rc file, if any.")
-    default_queue: str | None = Field(
-        None, description="Default job scheduler queue."
-    )
+    default_queue: str | None = Field(None, description="Default job scheduler queue.")
     boxname: str | None = Field(
         None, description="Hostname/box identifier (auto-derived)."
     )
@@ -263,9 +261,7 @@ class GeoSettings(BaseModel):
         None, description="URL for private TC web output."
     )
     publicwww_url: str | None = Field(None, description="URL for public web output.")
-    privatewww_url: str | None = Field(
-        None, description="URL for private web output."
-    )
+    privatewww_url: str | None = Field(None, description="URL for private web output.")
 
 
 GEOIPS_ENV_MAP: dict[str, str] = {

@@ -206,3 +206,32 @@ class TestEnvOverrides:
         monkeypatch.setenv("ANNOTATED_IMAGERY_PATH", "/custom/annotated")
         cfg = GeoIPSConfig()
         assert cfg.output_paths.annotated_imagery == "/custom/annotated"
+
+
+class TestInvalidProjectConfig:
+    """A malformed project config warns and falls back rather than crashing."""
+
+    def test_invalid_config_warns_and_falls_back(self, monkeypatch, caplog):
+        """Verify invalid values are ignored with a warning; env still applies."""
+        import importlib
+
+        config_mod = importlib.import_module("geoips.config.config")
+
+        monkeypatch.setenv("GEOIPS_OUTDIRS", "/test/out")
+        monkeypatch.setattr(
+            config_mod,
+            "load_project_config",
+            lambda: {"geoips": {"features": {"no_color": "notabool"}}},
+        )
+        monkeypatch.setattr(
+            config_mod, "find_project_config", lambda: "/tmp/bad/.geoips.yaml"
+        )
+
+        with caplog.at_level("WARNING"):
+            cfg = GeoIPSConfig()
+
+        assert "Ignoring invalid GeoIPS config file" in caplog.text
+        assert "geoips.features.no_color" in caplog.text
+        # Falls back to the default rather than crashing.
+        assert cfg.features.no_color is False
+        assert cfg.outdirs == "/test/out"
