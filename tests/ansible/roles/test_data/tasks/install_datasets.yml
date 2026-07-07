@@ -6,6 +6,7 @@
 # The `creates:` parameter lets Ansible skip the CLI call entirely when the
 # dataset directory already exists.  If a dataset is only partially extracted,
 # delete its directory to force a re-download.
+# FURTHER REVIEW config install
 ---
 
 - name: "Install test dataset: {{ item }}"
