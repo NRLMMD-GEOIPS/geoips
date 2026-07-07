@@ -13,6 +13,7 @@ from __future__ import annotations
 import logging
 import os
 import socket
+import warnings
 from typing import Any
 
 import platformdirs
@@ -246,6 +247,11 @@ def _compute_auto_settings(base_settings: GeoSettings) -> dict[str, Any]:
             return os.path.join(outdirs, val)
         return val
 
+    # These are the legacy output-path variables that historically did NOT use a
+    # ``GEOIPS_`` prefix (e.g. ``PRESECTORED_DATA_PATH``, ``SCRATCH``, ``LOGDIR``).
+    # The list mirrors every field on ``OutputPathsSettings`` and is kept in sync
+    # with the schema, ``GEOIPS_ENV_MAP``, and legacy ``base_paths.py`` by
+    # ``tests/unit_tests/config/test_env_map_sync.py``.
     for field_name in (
         "presectored_data",
         "preread_data",
@@ -432,11 +438,24 @@ class GeoIPSConfig:
         This mirrors the shape of the old ``PATHS`` dict from
         ``geoips.filenames.base_paths`` for backward compatibility.
 
+        Deprecated: The flat uppercase dictionary is a backwards-compatibility
+        layer and is slated for removal in a future release. New code should
+        access settings via the structured ``GeoIPSConfig`` / ``GeoSettings``
+        attributes instead. ``geoips.config.schema.GEOIPS_ENV_MAP`` is the
+        authoritative list of supported environment variables and settings.
+
         Returns
         -------
         dict[str, Any]
             Flat uppercase-keyed configuration dictionary.
         """
+        warnings.warn(
+            "GeoIPSConfig.to_legacy_dict() and the flat uppercase config keys "
+            "are deprecated and will be removed in a future release. Access "
+            "settings via the structured GeoIPSConfig attributes instead.",
+            DeprecationWarning,
+            stacklevel=2,
+        )
         return dict(self._legacy_dict)
 
     def _build_legacy_dict(self) -> dict[str, Any]:

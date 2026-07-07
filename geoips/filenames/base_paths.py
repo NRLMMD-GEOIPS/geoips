@@ -22,7 +22,10 @@ warn(
     stacklevel=4,
 )
 
-PATHS = config.to_legacy_dict()
+# This module already emits its own DeprecationWarning above, so build PATHS
+# directly from the config's cached legacy dict to avoid a redundant warning
+# from ``to_legacy_dict()`` on every import.
+PATHS = dict(config._legacy_dict)
 
 
 def make_dirs(path):

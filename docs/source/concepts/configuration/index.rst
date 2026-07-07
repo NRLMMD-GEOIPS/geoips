@@ -48,7 +48,11 @@ The configuration file uses a nested YAML structure under the top-level
       test:
         output_checker_threshold_image: 0.10
 
-All keys are optional — only specify the ones you want to override.
+Most keys are optional — only specify the ones you want to override. The one
+setting you should provide is ``outdirs`` (equivalently ``GEOIPS_OUTDIRS``),
+which controls where GeoIPS writes output. If it is not set via the environment
+or the configuration file, GeoIPS logs a warning and falls back to
+``$HOME/geoips_outdirs``.
 
 Search locations
 ----------------
@@ -105,6 +109,16 @@ Settings reference
 
 The table below lists all configurable settings, their YAML paths, and
 their corresponding environment variable names.
+
+.. note::
+
+   :data:`geoips.config.schema.GEOIPS_ENV_MAP` is the authoritative,
+   canonical mapping of every supported environment variable to its
+   configuration setting. The tables below are a human-readable reference
+   generated from that map. A unit test
+   (``tests/unit_tests/config/test_env_map_sync.py``) enforces that the
+   map, the schema, and the legacy ``base_paths.py`` variables stay in
+   sync, so any newly added setting must be registered in ``GEOIPS_ENV_MAP``.
 
 .. list-table:: Configuration Settings Reference
    :header-rows: 1

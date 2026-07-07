@@ -21,6 +21,7 @@ feature:
     - 'tests/unit_tests/config/test_config.py'
     - 'tests/unit_tests/config/test_schema.py'
     - 'tests/unit_tests/config/test_yaml_loader.py'
+    - 'tests/unit_tests/config/test_env_map_sync.py'
     deleted:
     - ''
     moved:
