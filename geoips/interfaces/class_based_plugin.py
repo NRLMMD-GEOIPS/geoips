@@ -412,8 +412,8 @@ class BaseClassPlugin(ABC):
         for group in data.groups:
             ds = data[group]
             # This is the data dependency
-            if hasattr(ds, "attrs") and ds.attrs.get("plugin_kind"):
-                if ds.attrs["plugin_kind"] != "sector":
+            if hasattr(ds, "attrs"):  # and ds.attrs.get("plugin_kind"):
+                if ds.attrs.get("plugin_kind", None) != "sector":
                     input_xarray = ds.to_dataset()
                 else:
                     sector_found = True
@@ -435,6 +435,7 @@ class BaseClassPlugin(ABC):
             interp_kwargs["area_def"] = kwargs["area_def"]
         if kwargs.get("varlist"):
             interp_kwargs["varlist"] = kwargs["varlist"]
+
         result = self.call(**interp_kwargs)
 
         return result
