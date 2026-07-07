@@ -38,12 +38,61 @@ def _extract_attr(child, attr_name):
     return child.ds.attrs.get(attr_name) if child.ds is not None else None
 
 
+def _flatten_datatree_for_legacy_plugin(ds, child):
+    """Flatten a multi-child DataTree into a single Dataset for legacy plugins.
+
+    Reader plugins produce DataTrees with child nodes per dataset key
+    (``/METADATA``, ``/wind_speed``, …).  The root Dataset has no data
+    variables — only attrs.  Legacy plugins expect a single flat Dataset,
+    so children are merged here into one.
+
+    Parameters
+    ----------
+    ds : xr.Dataset or None
+        Root Dataset of the child node (may be empty).
+    child : xr.DataTree
+        The upstream child node with sub-datasets as its own children.
+
+    Returns
+    -------
+    xr.Dataset
+        Flattened Dataset, or *ds* unchanged if no children need merging.
+    """
+    if ds is not None and not ds.data_vars and child.children:
+        children = list(child.children.values())
+        if len(children) == 1:
+            return children[0].to_dataset()
+        return xr.merge([c.to_dataset() for c in children])
+    return ds
+
+
 def _extract_ds(child):
+    """Extract the Dataset payload from a DataTree child.
+
+    DataTreeDitto and plain DataTree nodes are unwrapped to their
+    ``.ds`` attribute.  Reader-style multi-child DataTrees (root has
+    attrs only, children hold the actual datasets) are flattened into a
+    single Dataset via ``_flatten_datatree_for_legacy_plugin`` so
+    legacy downstream plugins see a flat structure.
+
+    Parameters
+    ----------
+    child : DataTreeDitto or xr.DataTree or Any
+        Upstream child node or raw value.
+
+    Returns
+    -------
+    xr.Dataset or Any
+        Extracted/flattened Dataset, or *child* unchanged.
+    """
     if isinstance(child, DataTreeDitto):
-        return child.ds
-    if isinstance(child, xr.DataTree):
-        return child.ds
-    return child
+        ds = child.ds
+    elif isinstance(child, xr.DataTree):
+        ds = child.ds
+    else:
+        return child
+
+    return _flatten_datatree_for_legacy_plugin(ds, child)
 
 
 def _extract_product_name(child):
@@ -63,6 +112,10 @@ OBP_CONDUITS: dict[str, dict] = {
         "kwarg": "mpl_colors_info",
         "extract": lambda c: _extract_attr(c, "_mpl_colors_info"),
     },
+    "coverage_checker": {
+        "kwarg": "coverage",
+        "extract": lambda c: _extract_attr(c, "coverage"),
+    },
     "feature_annotator": {
         "kwarg": "feature_annotator",
         "extract": _extract_annotator_spec,
@@ -75,6 +128,7 @@ OBP_CONDUITS: dict[str, dict] = {
         "kwarg": "gridline_annotator",
         "extract": _extract_annotator_spec,
     },
+    "interpolator": {"kwarg": "xarray_obj", "extract": _extract_ds},
     "product": {"kwarg": "product_name", "extract": _extract_product_name},
     "product_default": {
         "kwarg": "product_default_info",

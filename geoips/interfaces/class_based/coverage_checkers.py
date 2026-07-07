@@ -14,6 +14,71 @@ class BaseCoverageCheckerPlugin(BaseClassPlugin, abstract=True):
 
     data_tree = False
 
+    def _invoke(self, data=None, *args, _obp_initiated=False, **kwargs):
+        """Iterate over ``variables`` when a list is given, then delegate.
+
+        When *kwargs* contains a ``variables`` list (from step
+        arguments) the coverage checker is invoked once per entry with
+        ``variable_name`` injected.  If ``minimum_coverage`` is also
+        present, a ``ValueError`` is raised immediately when any
+        variable's coverage falls below the threshold.
+
+        Otherwise delegates to the standard ``_invoke`` without
+        alteration.
+
+        Parameters
+        ----------
+        data : xr.DataTree or xr.Dataset or None
+            Upstream data passed into the plugin.
+        *args : tuple
+            Additional positional arguments forwarded to the base
+            ``_invoke``.
+        _obp_initiated : bool, default=False
+            Whether the call originates from the Order-Based Procflow.
+        **kwargs : dict
+            Step arguments.  When ``variables`` is a ``list`` it is
+            consumed along with ``minimum_coverage``; remaining keys
+            are forwarded to each per-variable call.
+
+        Returns
+        -------
+        DataTreeDitto
+            The output of the worst-coverage variable.
+
+        Raises
+        ------
+        ValueError
+            When ``minimum_coverage`` is set and any variable's
+            coverage percentage falls below it.
+        """
+        variables = kwargs.get("variables")
+        if not _obp_initiated or not isinstance(variables, list):
+            return super()._invoke(
+                data, *args, _obp_initiated=_obp_initiated, **kwargs
+            )
+
+        minimum_coverage = kwargs.pop("minimum_coverage", 0.0)
+        kwargs.pop("variables")
+
+        min_cov = 100.0
+        result = None
+        for vname in variables:
+            vkwargs = {**kwargs, "variable_name": vname}
+            res = super()._invoke(
+                data, *args, _obp_initiated=_obp_initiated, **vkwargs
+            )
+            cov = res.ds.attrs.get("coverage", res.ds.attrs.get("value", 0.0))
+            if cov < minimum_coverage:
+                raise ValueError(
+                    f"Coverage for variable '{vname}' is {cov:.1f}%, "
+                    f"below the required minimum of "
+                    f"{minimum_coverage:.1f}%."
+                )
+            if cov < min_cov:
+                min_cov = cov
+                result = res
+        return result
+
     def _pre_call(self, data=None, *args, _obp_initiated=False, **kwargs):
         r"""Normalize upstream ``DataTreeDitto`` input into a mutable ``xr.Dataset``.
 
