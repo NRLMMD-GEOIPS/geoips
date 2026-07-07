@@ -71,11 +71,28 @@ class TestRenderConfig:
         content = cli._render_config({"outdirs": "/data"}, plugin_values, plugins)
 
         assert "# Plugin: sample (sample-dist)" in content
-        assert "# default: 4 — Max parallel workers." in content
+        assert "# Max parallel workers. (default: 4)" in content
         # The rendered document round-trips and the plugin model validates.
         loaded = yaml.safe_load(content)
         assert loaded["geoips"]["outdirs"] == "/data"
         SampleSettings.model_validate(loaded["geoips"]["plugins"]["sample"])
+
+    def test_core_render_comments_and_valid_roundtrip(self, register_plugins):
+        """Verify a resolved core dump renders comments and reloads validly."""
+        from geoips.config.config import GeoIPSConfig
+        from geoips.config.schema import GeoSettings
+
+        register_plugins()
+        resolved = GeoIPSConfig().model_dump()
+        content = cli._render_config(resolved, {}, {})
+
+        # Comments are present on core fields.
+        assert "# Base directory for all GeoIPS output." in content
+        # No breaking nulls: the resolved dump reloads without error, and
+        # cache_dir stays populated (the bug wrote null and broke reloading).
+        loaded = yaml.safe_load(content)
+        GeoSettings.model_validate(loaded["geoips"])
+        assert loaded["geoips"]["cache"]["cache_dir"] is not None
 
 
 class TestValidatePluginsSection:

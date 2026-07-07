@@ -20,28 +20,56 @@ class OutputPathsSettings(BaseModel):
 
     model_config = ConfigDict(frozen=True)
 
-    presectored_data: str = "preprocessed/sectored"
-    preread_data: str = "preprocessed/unsectored"
-    preregistered_data: str = "preprocessed/registered"
-    precalculated_data: str = "preprocessed/algorithms"
-    clean_imagery: str = "preprocessed/clean_imagery"
-    annotated_imagery: str = "preprocessed/annotated_imagery"
-    geotiff_imagery: str = "preprocessed/geotiff_imagery"
-    final_data: str = "preprocessed/final"
-    pregenerated_geolocation: str = "preprocessed/geolocation"
-    scratch: str = "scratch"
-    localscratch: str = "scratch"
-    sharedscratch: str = "scratch"
-    logdir: str = "logs"
-    geoipsdata: str = "geoipsdata"
-    ancildat_autogen: str = "ancildat_autogen"
-    ancildat: str = "ancildat"
-    tcwww: str = "preprocessed/tcwww"
-    tcprivatewww: str = "preprocessed/tcprivatewww"
-    publicwww: str = "preprocessed/publicwww"
-    privatewww: str = "preprocessed/privatewww"
-    tc_decks_db: str = "longterm_files/tc/tc_decks.db"
-    tc_decks_dir: str = "longterm_files/tc/decks"
+    presectored_data: str = Field(
+        "preprocessed/sectored", description="Pre-sectored intermediate data."
+    )
+    preread_data: str = Field(
+        "preprocessed/unsectored", description="Pre-read (unsectored) data."
+    )
+    preregistered_data: str = Field(
+        "preprocessed/registered", description="Pre-registered intermediate data."
+    )
+    precalculated_data: str = Field(
+        "preprocessed/algorithms", description="Pre-calculated algorithm data."
+    )
+    clean_imagery: str = Field(
+        "preprocessed/clean_imagery", description="Clean (unannotated) imagery."
+    )
+    annotated_imagery: str = Field(
+        "preprocessed/annotated_imagery", description="Annotated imagery output."
+    )
+    geotiff_imagery: str = Field(
+        "preprocessed/geotiff_imagery", description="GeoTIFF imagery output."
+    )
+    final_data: str = Field(
+        "preprocessed/final", description="Final processed data output."
+    )
+    pregenerated_geolocation: str = Field(
+        "preprocessed/geolocation", description="Pre-generated geolocation data."
+    )
+    scratch: str = Field("scratch", description="General scratch directory.")
+    localscratch: str = Field("scratch", description="Node-local scratch directory.")
+    sharedscratch: str = Field("scratch", description="Shared scratch directory.")
+    logdir: str = Field("logs", description="Log file directory.")
+    geoipsdata: str = Field("geoipsdata", description="Miscellaneous GeoIPS data.")
+    ancildat_autogen: str = Field(
+        "ancildat_autogen", description="Auto-generated ancillary data."
+    )
+    ancildat: str = Field("ancildat", description="Static ancillary data.")
+    tcwww: str = Field("preprocessed/tcwww", description="TC web output.")
+    tcprivatewww: str = Field(
+        "preprocessed/tcprivatewww", description="Private TC web output."
+    )
+    publicwww: str = Field("preprocessed/publicwww", description="Public web output.")
+    privatewww: str = Field(
+        "preprocessed/privatewww", description="Private web output."
+    )
+    tc_decks_db: str = Field(
+        "longterm_files/tc/tc_decks.db", description="TC decks database file."
+    )
+    tc_decks_dir: str = Field(
+        "longterm_files/tc/decks", description="TC deck files directory."
+    )
 
 
 class CacheSettings(BaseModel):
@@ -49,16 +77,42 @@ class CacheSettings(BaseModel):
 
     model_config = ConfigDict(frozen=True)
 
-    cache_dir: str | None = None
-    data_cache_dir: str | None = None
-    satpy_data_cache_dir: str | None = None
-    geolocation_cache_backend: str = "memmap"
-    data_cache_shortterm_geolocation_dynamic: str = "shortterm/geolocation/dynamic"
-    data_cache_longterm_geolocation_static: str = "longterm/geolocation/static"
-    data_cache_shortterm_geolocation_solar_angles: str = "shortterm/geolocation/solar"
-    data_cache_shortterm_calibrated_data: str = "shortterm/calibrated_data"
-    satpy_cache_shortterm_calibrated_data: str = "shortterm/calibrated_data"
-    satpy_cache_shortterm_geolocation_solar_angles: str = "shortterm/geolocation/solar"
+    cache_dir: str | None = Field(
+        None, description="Base cache directory (defaults to the platform cache dir)."
+    )
+    data_cache_dir: str | None = Field(
+        None, description="Data cache directory (defaults to cache_dir)."
+    )
+    satpy_data_cache_dir: str | None = Field(
+        None, description="Satpy data cache directory (defaults to cache_dir)."
+    )
+    geolocation_cache_backend: str = Field(
+        "memmap", description="Geolocation cache backend (e.g. 'memmap')."
+    )
+    data_cache_shortterm_geolocation_dynamic: str = Field(
+        "shortterm/geolocation/dynamic",
+        description="Short-term dynamic geolocation cache subpath.",
+    )
+    data_cache_longterm_geolocation_static: str = Field(
+        "longterm/geolocation/static",
+        description="Long-term static geolocation cache subpath.",
+    )
+    data_cache_shortterm_geolocation_solar_angles: str = Field(
+        "shortterm/geolocation/solar",
+        description="Short-term solar-angle geolocation cache subpath.",
+    )
+    data_cache_shortterm_calibrated_data: str = Field(
+        "shortterm/calibrated_data",
+        description="Short-term calibrated data cache subpath.",
+    )
+    satpy_cache_shortterm_calibrated_data: str = Field(
+        "shortterm/calibrated_data",
+        description="Short-term Satpy calibrated data cache subpath.",
+    )
+    satpy_cache_shortterm_geolocation_solar_angles: str = Field(
+        "shortterm/geolocation/solar",
+        description="Short-term Satpy solar-angle cache subpath.",
+    )
 
 
 class FeatureSettings(BaseModel):
@@ -66,11 +120,19 @@ class FeatureSettings(BaseModel):
 
     model_config = ConfigDict(frozen=True)
 
-    no_color: bool = False
-    use_pydantic: bool = False
-    rebuild_registries: bool = True
-    operational_user: bool = False
-    rich_console_output: bool = False
+    no_color: bool = Field(False, description="Disable colored console output.")
+    use_pydantic: bool = Field(
+        False, description="Use pydantic-based plugin validation."
+    )
+    rebuild_registries: bool = Field(
+        True, description="Rebuild plugin registries automatically when needed."
+    )
+    operational_user: bool = Field(
+        False, description="Enable operational-user behavior."
+    )
+    rich_console_output: bool = Field(
+        False, description="Enable rich-formatted console output."
+    )
 
 
 class LoggingSettings(BaseModel):
@@ -78,11 +140,14 @@ class LoggingSettings(BaseModel):
 
     model_config = ConfigDict(frozen=True)
 
-    level: str = "interactive"
-    fmt_string: str = (
-        "%(asctime)s %(module)12s.py:%(lineno)-4d %(levelname)7s: %(message)s"
+    level: str = Field(
+        "interactive", description="Logging level (interactive, info, debug, ...)."
     )
-    datefmt_string: str = "%d_%H%M%S"
+    fmt_string: str = Field(
+        "%(asctime)s %(module)12s.py:%(lineno)-4d %(levelname)7s: %(message)s",
+        description="Logging message format string.",
+    )
+    datefmt_string: str = Field("%d_%H%M%S", description="Logging date format string.")
 
 
 class TestSettings(BaseModel):
@@ -90,12 +155,24 @@ class TestSettings(BaseModel):
 
     model_config = ConfigDict(frozen=True)
 
-    output_checker_threshold_image: float = 0.05
-    print_text_output_checker_to_console: bool = True
-    prompt_to_overwrite_comparison_file_if_mismatch: bool = False
-    suppress_pytest_failed_log_contents: bool = False
-    sector_create_annotated_outputs: bool = False
-    sector_create_geotiff_outputs: bool = False
+    output_checker_threshold_image: float = Field(
+        0.05, description="Image comparison difference threshold."
+    )
+    print_text_output_checker_to_console: bool = Field(
+        True, description="Print text output-checker diffs to the console."
+    )
+    prompt_to_overwrite_comparison_file_if_mismatch: bool = Field(
+        False, description="Prompt to overwrite comparison files on mismatch."
+    )
+    suppress_pytest_failed_log_contents: bool = Field(
+        False, description="Suppress log contents for failed pytest output."
+    )
+    sector_create_annotated_outputs: bool = Field(
+        False, description="Create annotated outputs during sector tests."
+    )
+    sector_create_geotiff_outputs: bool = Field(
+        False, description="Create GeoTIFF outputs during sector tests."
+    )
 
 
 class GeoSettings(BaseModel):
@@ -111,39 +188,84 @@ class GeoSettings(BaseModel):
 
     model_config = ConfigDict(frozen=True)
 
-    outdirs: str
-    packages_dir: str | None = None
-    basedir: str | None = None
-    testdata_dir: str | None = None
-    dependencies_dir: str | None = None
-    base_path: str | None = None
+    outdirs: str = Field(description="Base directory for all GeoIPS output.")
+    packages_dir: str | None = Field(
+        None, description="Directory containing GeoIPS plugin packages."
+    )
+    basedir: str | None = Field(
+        None, description="Base directory for the GeoIPS installation/source."
+    )
+    testdata_dir: str | None = Field(
+        None, description="Directory containing GeoIPS test data."
+    )
+    dependencies_dir: str | None = Field(
+        None, description="Directory for external dependencies."
+    )
+    base_path: str | None = Field(
+        None, description="Path to the installed geoips package (auto-derived)."
+    )
 
-    output_paths: OutputPathsSettings = Field(default_factory=OutputPathsSettings)
-    cache: CacheSettings = Field(default_factory=CacheSettings)
-    features: FeatureSettings = Field(default_factory=FeatureSettings)
-    logging: LoggingSettings = Field(default_factory=LoggingSettings)
-    test: TestSettings = Field(default_factory=TestSettings)
+    output_paths: OutputPathsSettings = Field(
+        default_factory=OutputPathsSettings, description="Output sub-directories."
+    )
+    cache: CacheSettings = Field(
+        default_factory=CacheSettings, description="Cache directories and backend."
+    )
+    features: FeatureSettings = Field(
+        default_factory=FeatureSettings, description="Boolean feature toggles."
+    )
+    logging: LoggingSettings = Field(
+        default_factory=LoggingSettings, description="Logging configuration."
+    )
+    test: TestSettings = Field(
+        default_factory=TestSettings, description="Test/comparison configuration."
+    )
 
-    version: str = "0.0.0"
-    copyright: str = "NRL-Monterey"
-    copyright_abbreviated: str = "NRLMRY"
-    docs_url: str = "https://nrlmmd-geoips.github.io/geoips/"
-    rcfile: str = ""
-    default_queue: str | None = None
-    boxname: str | None = None
-    warning_level: str = "default"
-    home: str | None = None
+    version: str = Field("0.0.0", description="GeoIPS version string.")
+    copyright: str = Field("NRL-Monterey", description="Copyright holder.")
+    copyright_abbreviated: str = Field(
+        "NRLMRY", description="Abbreviated copyright holder."
+    )
+    docs_url: str = Field(
+        "https://nrlmmd-geoips.github.io/geoips/",
+        description="URL for the GeoIPS documentation.",
+    )
+    rcfile: str = Field("", description="Path to a GeoIPS rc file, if any.")
+    default_queue: str | None = Field(
+        None, description="Default job scheduler queue."
+    )
+    boxname: str | None = Field(
+        None, description="Hostname/box identifier (auto-derived)."
+    )
+    warning_level: str = Field("default", description="Python warnings filter level.")
+    home: str | None = Field(None, description="Home directory (auto-derived).")
 
-    replace_output_paths: list[str] = Field(default_factory=list)
-    pregenerated_static_geolocation: str = "longterm_files/geolocation"
-    pregenerated_dynamic_geolocation: str = "longterm_files/geolocation_dynamic"
-    tc_decks_type: str = "bdecks"
-    tc_template: str = "plugins/yaml/sectors/dynamic/tc_web_template.yaml"
+    replace_output_paths: list[str] = Field(
+        default_factory=list,
+        description="Path names to replace when building output filenames.",
+    )
+    pregenerated_static_geolocation: str = Field(
+        "longterm_files/geolocation",
+        description="Sub-path for pre-generated static geolocation.",
+    )
+    pregenerated_dynamic_geolocation: str = Field(
+        "longterm_files/geolocation_dynamic",
+        description="Sub-path for pre-generated dynamic geolocation.",
+    )
+    tc_decks_type: str = Field("bdecks", description="TC decks type (e.g. 'bdecks').")
+    tc_template: str = Field(
+        "plugins/yaml/sectors/dynamic/tc_web_template.yaml",
+        description="Path to the TC web sector template.",
+    )
 
-    tcwww_url: str | None = None
-    tcprivatewww_url: str | None = None
-    publicwww_url: str | None = None
-    privatewww_url: str | None = None
+    tcwww_url: str | None = Field(None, description="URL for TC web output.")
+    tcprivatewww_url: str | None = Field(
+        None, description="URL for private TC web output."
+    )
+    publicwww_url: str | None = Field(None, description="URL for public web output.")
+    privatewww_url: str | None = Field(
+        None, description="URL for private web output."
+    )
 
 
 GEOIPS_ENV_MAP: dict[str, str] = {

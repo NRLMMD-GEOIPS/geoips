@@ -17,11 +17,21 @@ import warnings
 from typing import Any
 
 import platformdirs
+from pydantic import ValidationError
 
 from geoips.config.schema import GEOIPS_ENV_MAP, GeoSettings
-from geoips.config.yaml_loader import load_project_config
+from geoips.config.yaml_loader import find_project_config, load_project_config
 
 LOG = logging.getLogger(__name__)
+
+
+def _format_config_errors(exc: ValidationError) -> str:
+    """Format a pydantic ValidationError as readable ``geoips.<field>: <msg>`` lines."""
+    lines = []
+    for err in exc.errors():
+        loc = ".".join(str(part) for part in err["loc"])
+        lines.append(f"  geoips.{loc}: {err['msg']}")
+    return "\n".join(lines)
 
 
 def _cast_env_value(value: str, target_field: str) -> Any:
@@ -362,8 +372,20 @@ class GeoIPSConfig:
                 if isinstance(raw_plugins, dict):
                     plugin_yaml = raw_plugins
                 settings_dict = settings.model_dump()
-                _deep_update(settings_dict, geoips_data)
-                settings = GeoSettings.model_validate(settings_dict)
+                _deep_update(
+                    settings_dict,
+                    {k: v for k, v in geoips_data.items() if k != "plugins"},
+                )
+                try:
+                    settings = GeoSettings.model_validate(settings_dict)
+                except ValidationError as exc:
+                    LOG.warning(
+                        "Ignoring invalid GeoIPS config file %r:\n%s\n"
+                        "Falling back to environment variables and defaults. "
+                        "Run 'geoips config validate' for details.",
+                        find_project_config(),
+                        _format_config_errors(exc),
+                    )
 
         env_overrides = _get_env_overrides()
         if env_overrides:

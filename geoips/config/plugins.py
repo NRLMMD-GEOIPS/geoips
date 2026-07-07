@@ -171,21 +171,23 @@ def full_model_defaults(model_cls: type[BaseModel]) -> dict[str, Any]:
 
 
 def field_comment(model_cls: type[BaseModel], name: str) -> str:
-    """Return a human-readable ``default: ... — description`` comment for a field."""
+    """Return a human-readable comment for a field.
+
+    Prefers the field's ``description``; appends ``(default: ...)`` for scalar
+    fields with a simple default. Nested-model and factory defaults are not
+    expanded (their contents render as their own YAML lines).
+    """
     field_info = model_cls.model_fields.get(name)
     if field_info is None:
         return ""
     parts: list[str] = []
-    if field_info.default is not PydanticUndefined:
-        parts.append(f"default: {field_info.default!r}")
-    elif field_info.default_factory is not None:
-        factory = field_info.default_factory
-        parts.append(f"default: {factory()!r}")  # type: ignore[call-arg]
-    else:
-        parts.append("required")
     if field_info.description:
         parts.append(field_info.description)
-    return " — ".join(parts)
+    if field_info.default is not PydanticUndefined:
+        parts.append(f"(default: {field_info.default!r})")
+    elif not field_info.description and field_info.default_factory is None:
+        parts.append("(required)")
+    return " ".join(parts)
 
 
 def _cast_env_value(annotation: Any, raw: str) -> Any:

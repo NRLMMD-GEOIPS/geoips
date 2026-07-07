@@ -27,7 +27,7 @@ from tqdm import tqdm
 import geoips
 from geoips.commandline.ancillary_info.test_data import test_dataset_dict
 from geoips.commandline.geoips_command import GeoipsCommand, GeoipsExecutableCommand
-from geoips.config.config import _cast_env_value
+from geoips.config.config import GeoIPSConfig, _cast_env_value
 from geoips.config.plugins import (
     CONFIG_PLUGIN_GROUP,
     build_plugin_env_map,
@@ -198,12 +198,15 @@ def _dump_annotated(values: dict, model_cls, indent: int) -> list[str]:
     for key, value in values.items():
         field_info = fields.get(key)
         nested_cls = is_nested_model(field_info.annotation) if field_info else None
+        comment = field_comment(model_cls, key) if field_info else ""
         if isinstance(value, dict) and nested_cls is not None:
-            lines.append(f"{pad}{key}:")
+            header = f"{pad}{key}:"
+            if comment:
+                header += f"  # {comment}"
+            lines.append(header)
             lines += _dump_annotated(value, nested_cls, indent + 2)
             continue
         line = f"{pad}{_format_scalar(key, value)}"
-        comment = field_comment(model_cls, key) if field_info else ""
         if comment:
             line += f"  # {comment}"
         lines.append(line)
@@ -238,8 +241,7 @@ def _render_config(core_nested: dict, plugin_values: dict, plugins: dict) -> str
     """
     lines = ["geoips:"]
     if core_nested:
-        core_yaml = yaml.dump(core_nested, default_flow_style=False, sort_keys=False)
-        lines += _indent_lines(core_yaml, 2)
+        lines += _dump_annotated(core_nested, GeoSettings, 2)
 
     if plugin_values:
         dist_names = _plugin_dist_names()
@@ -737,11 +739,12 @@ class GeoipsConfigCreate(GeoipsExecutableCommand):
         plugins = discover_config_plugins()
 
         if args.all:
-            defaults = GeoSettings(
-                outdirs=os.environ.get("GEOIPS_OUTDIRS", "")
-            ).model_dump()
-            _deep_merge(defaults, core_nested)
-            core_nested = defaults
+            # Dump the fully-resolved config (auto-derived paths filled in) so
+            # the generated file is complete and valid on reload — raw model
+            # defaults contain nulls (e.g. cache_dir) that break reloading.
+            resolved = GeoIPSConfig().model_dump()
+            _deep_merge(resolved, core_nested)
+            core_nested = resolved
 
             full_plugins: dict = {}
             for name, plugin in plugins.items():
