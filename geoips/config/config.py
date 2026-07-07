@@ -21,6 +21,7 @@ from pydantic import ValidationError
 
 from geoips.config.schema import GEOIPS_ENV_MAP, GeoSettings
 from geoips.config.yaml_loader import find_project_config, load_project_config
+from geoips.errors import ConfigError
 
 LOG = logging.getLogger(__name__)
 

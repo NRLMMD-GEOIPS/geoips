@@ -209,11 +209,13 @@ class TestEnvOverrides:
 
 
 class TestInvalidProjectConfig:
-    """A malformed project config warns and falls back rather than crashing."""
+    """A malformed project config raises a clear ConfigError."""
 
-    def test_invalid_config_warns_and_falls_back(self, monkeypatch, caplog):
-        """Verify invalid values are ignored with a warning; env still applies."""
+    def test_invalid_config_raises(self, monkeypatch):
+        """Verify invalid values raise ConfigError listing the offending fields."""
         import importlib
+
+        from geoips.errors import ConfigError
 
         config_mod = importlib.import_module("geoips.config.config")
 
@@ -227,11 +229,9 @@ class TestInvalidProjectConfig:
             config_mod, "find_project_config", lambda: "/tmp/bad/.geoips.yaml"
         )
 
-        with caplog.at_level("WARNING"):
-            cfg = GeoIPSConfig()
+        with pytest.raises(ConfigError) as excinfo:
+            GeoIPSConfig()
 
-        assert "Ignoring invalid GeoIPS config file" in caplog.text
-        assert "geoips.features.no_color" in caplog.text
-        # Falls back to the default rather than crashing.
-        assert cfg.features.no_color is False
-        assert cfg.outdirs == "/test/out"
+        message = str(excinfo.value)
+        assert "Invalid GeoIPS config file" in message
+        assert "geoips.features.no_color" in message
