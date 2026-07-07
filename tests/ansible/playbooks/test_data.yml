@@ -22,6 +22,7 @@
 #
 # Tasks are inlined here (no role indirection) because include_tasks
 # inside a role does not always resolve vars correctly at loop scope.
+# FURTHER REVIEW config install
 ---
 - name: Download GeoIPS test data
   hosts: localhost
