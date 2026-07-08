@@ -689,7 +689,10 @@ class BaseClassPlugin(ABC):
             inspect.Parameter.POSITIONAL_OR_KEYWORD,
         )
         _call.__signature__ = call_signature.replace(
-            parameters=[self_param, *call_signature.parameters.values()]
+            parameters=[
+                self_param,
+                *[p for p in call_signature.parameters.values() if p.name != "self"],
+            ]
         )
         _call.__annotations__ = getattr(call_method, "__annotations__", {})
         cls.__call__ = _call
