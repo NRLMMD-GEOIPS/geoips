@@ -427,7 +427,7 @@ class BaseClassPlugin(ABC):
         for group in data.groups:
             ds = data[group]
             # This is the data dependency
-            if hasattr(ds, "attrs"):  # and ds.attrs.get("plugin_kind"):
+            if hasattr(ds, "attrs") and len(ds.attrs):
                 if ds.attrs.get("plugin_kind", None) != "sector":
                     input_xarray = ds.to_dataset()
                 else:
@@ -448,12 +448,20 @@ class BaseClassPlugin(ABC):
         interp_kwargs = _collect_interp_kwargs(input_xarray)
         if kwargs.get("area_def"):
             interp_kwargs["area_def"] = kwargs["area_def"]
+        else:
+            raise RuntimeError(
+                "Error: Could not determine an appropriate area definition to "
+                "interpolate to. Please ensure your interpolator step depends on a "
+                "sector before continuing."
+            )
+
         if kwargs.get("varlist"):
             interp_kwargs["varlist"] = kwargs["varlist"]
 
         result = self.call(**interp_kwargs)
 
         return result
+
     @staticmethod
     def _capture_attrs(data):
         """Return a dict copy of ``data.attrs`` when available, or None.
@@ -524,7 +532,8 @@ class BaseClassPlugin(ABC):
             call_kwargs = self._call_kwargs(new_kwargs, _obp_initiated)
             result = self.call(*args, **call_kwargs)
             return self._post_call(
-                result, *args,
+                result,
+                *args,
                 _obp_initiated=_obp_initiated,
                 _pre_call_attrs=pre_call_attrs,
                 **new_kwargs,
@@ -560,7 +569,8 @@ class BaseClassPlugin(ABC):
                 result = self.call(data, *args, **call_kwargs)
 
         data = self._post_call(
-            result, *args,
+            result,
+            *args,
             _obp_initiated=_obp_initiated,
             _pre_call_attrs=pre_call_attrs,
             **new_kwargs,
@@ -780,7 +790,8 @@ def _collect_interp_kwargs(data, collect_varlist=True):
         interpolator plugin.
     """
     interp_kwargs = {
-        "area_def": interfaces.sectors.get_plugin("goes_east").area_definition,
+        # Not adding area_def as that is determined by the sector step the interpolator
+        # depends on
         "input_xarray": data,
         "output_xarray": xr.Dataset(),
         "varlist": list(data.variables.keys()),
