@@ -50,10 +50,10 @@ class BaseReaderPlugin(BaseClassPlugin, abstract=True):
         reader as ``data``. A legacy reader reads solely from ``filenames`` and its
         ``call`` does not accept a ``data`` argument, so the injected tree is
         dropped here (return ``None``); ``_invoke`` then calls the reader with
-        ``filenames`` only. A Datatree-native reader (no ``family`` attribute)
+        ``filenames`` only. A Datatree-native reader (``data_tree=True``)
         keeps the tree via the standard pass-through in ``super()._pre_call``.
         """
-        if _obp_initiated and hasattr(self.__class__, "family"):
+        if _obp_initiated and not getattr(self, "data_tree", False):
             return None
         return super()._pre_call(data, *args, _obp_initiated=_obp_initiated, **kwargs)
 

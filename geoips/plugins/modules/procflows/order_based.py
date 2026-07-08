@@ -102,7 +102,7 @@ class OrderBased(BaseProcflowPlugin):
         LOG.interactive("Begin processing '%s' workflow.", wf_name)
 
         workflow = Workflow(spec, workflow_name=wf_name)
-        result = workflow.call(fnames=fnames, **kwargs)
+        result = workflow.call(filenames=fnames, **kwargs)
 
         LOG.interactive("The workflow '%s' has finished processing.", wf_name)
         return result

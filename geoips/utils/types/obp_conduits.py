@@ -114,7 +114,7 @@ OBP_CONDUITS: dict[str, dict] = {
     "algorithm": {"kwarg": "xarray_obj", "extract": _extract_ds},
     "colormapper": {
         "kwarg": "mpl_colors_info",
-        "extract": lambda c: _extract_attr(c, "_mpl_colors_info"),
+        "extract": lambda c: _extract_attr(c, "mpl_colors_info"),
     },
     "coverage_checker": {
         "kwarg": "coverage",

@@ -36,7 +36,7 @@ from geoips.utils.types.converters import (
     FamilyConversionSpec,
     dataset_to_dataset_dict,
     dataset_dict_to_dataset,
-    dataset_vars_to_list,
+    dataset_vars_to_numpy_list,
     numpy_to_dataset,
 )
 
@@ -61,19 +61,19 @@ ALGORITHM_FAMILY_CONVERSIONS: dict[str, FamilyConversionSpec] = {
     # -- families that receive a list[np.ndarray] ------------------------------
     "list_numpy_to_numpy": FamilyConversionSpec(
         input_type=list,
-        input_converter=dataset_vars_to_list,
+        input_converter=dataset_vars_to_numpy_list,
         output_type=np.ndarray,
         output_converter=numpy_to_dataset,
     ),
     "channel_combination": FamilyConversionSpec(
         input_type=list,
-        input_converter=dataset_vars_to_list,
+        input_converter=dataset_vars_to_numpy_list,
         output_type=np.ndarray,
         output_converter=numpy_to_dataset,
     ),
     "rgb": FamilyConversionSpec(
         input_type=list,
-        input_converter=dataset_vars_to_list,
+        input_converter=dataset_vars_to_numpy_list,
         output_type=np.ndarray,
         output_converter=numpy_to_dataset,
     ),
