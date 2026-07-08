@@ -29,15 +29,29 @@ class BaseReaderPlugin(BaseClassPlugin, abstract=True):
         """Strip injected upstream data for legacy (family-bearing) readers.
 
         Under OBP the workflow engine routes the entry step's input tree to the
-        reader as ``data``. A legacy reader reads solely from ``fnames`` and its
+        reader as ``data``. A legacy reader reads solely from ``filenames`` and its
         ``call`` does not accept a ``data`` argument, so the injected tree is
         dropped here (return ``None``); ``_invoke`` then calls the reader with
-        ``fnames`` only. A Datatree-native reader (no ``family`` attribute)
+        ``filenames`` only. A Datatree-native reader (no ``family`` attribute)
         keeps the tree via the standard pass-through in ``super()._pre_call``.
         """
         if _obp_initiated and hasattr(self.__class__, "family"):
             return None
         return super()._pre_call(data, *args, _obp_initiated=_obp_initiated, **kwargs)
+
+    def _normalize_obp_kwargs(self, kwargs):
+        """Rename ``filenames`` → ``fnames`` for legacy readers.
+
+        Legacy (family-bearing) reader plugins expect ``fnames`` in their
+        ``call`` signature, but the OBP workflow interface uses ``filenames``.
+        This hook renames the kwarg so ``_obp_filter_kwargs`` does not drop
+        it and ``call`` receives the expected argument name.
+
+        Datatree-native readers (no ``family``) pass through unchanged.
+        """
+        if hasattr(self.__class__, "family") and "filenames" in kwargs:
+            kwargs["fnames"] = kwargs.pop("filenames")
+        return kwargs
 
     def _post_call(self, data=None, *args, _obp_initiated=False, **kwargs):
         """Merge reader dict output into a ``DataTree`` for OBP.
