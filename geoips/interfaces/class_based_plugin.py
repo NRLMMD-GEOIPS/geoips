@@ -402,11 +402,8 @@ class BaseClassPlugin(ABC):
             if val is not None:
                 kwargs[kwarg_name] = val
 
-<<<<<<< feature/ssp-obp-with-datatree
-=======
         _apply_legacy_product_name_rename(kwargs)
 
->>>>>>> obp-meets-datatree
         return kwargs
 
     @staticmethod
