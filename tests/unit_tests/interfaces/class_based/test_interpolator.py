@@ -59,7 +59,7 @@ interp_plg = interpolators.get_plugin("interp_nearest")
 
 
 @pytest.mark.parametrize(
-    ["data", "collect_varlist"], [[DummyData(), False], [DummyData, True]]
+    ["data", "collect_varlist"], [[DummyData(), False], [DummyData(), True]]
 )
 def test_collect_interp_kwargs(data, collect_varlist):
     """Test class_based_plugin._collect_interp_kwargs."""
