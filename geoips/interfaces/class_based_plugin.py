@@ -672,6 +672,7 @@ class BaseClassPlugin(ABC):
             if attribute_checker is not None:
                 attribute_checker(cls)
 
+
         # Prevent overriding __call__ in a True class-based plugin
         if "__call__" in cls.__dict__:
             raise TypeError(f"{cls.__name__} cannot override __call__")
@@ -685,7 +686,14 @@ class BaseClassPlugin(ABC):
         def _call(self, data=None, *args, **kwargs):
             return cls._invoke(self, data, *args, **kwargs)
 
-        _call.__signature__ = inspect.signature(call_method)  # mirror only call()
+        call_signature = inspect.signature(call_method)
+        self_param = inspect.Parameter(
+            "self",
+            inspect.Parameter.POSITIONAL_OR_KEYWORD,
+        )
+        _call.__signature__ = call_signature.replace(
+            parameters=[self_param, *call_signature.parameters.values()]
+        )
         _call.__annotations__ = getattr(call_method, "__annotations__", {})
         cls.__call__ = _call
 
