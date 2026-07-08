@@ -25,7 +25,7 @@ class InfraredColormapperPlugin(BaseColormapperPlugin):
         data_range : list of float, default=[-90, 30]
             * Min and max value for colormap.
             * Ensure the data range matches the range of the algorithm specified for
-              use with this colormap
+            use with this colormap
             * This colormap MUST include -90 and 30
 
         Returns
@@ -110,7 +110,6 @@ class InfraredColormapperPlugin(BaseColormapperPlugin):
             "cbar_full_width": True,
         }
 
-        # return cbar, min_tb, max_tb
         return mpl_colors_info
 
 
