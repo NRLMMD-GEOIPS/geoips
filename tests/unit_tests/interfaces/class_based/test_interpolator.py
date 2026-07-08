@@ -3,7 +3,6 @@
 import numpy as np
 import pytest
 import xarray as xr
-from unittest.mock import MagicMock
 
 from geoips.interfaces.class_based_plugin import _collect_interp_kwargs
 from geoips.interfaces import interpolators
