@@ -1,10 +1,9 @@
+"""Unit tests for DataTreeDitto."""
+
 import pytest
 import numpy as np
 import xarray as xr
 from xarray import DataTree
-import pandas as pd
-from typing import Any
-import copy
 
 # Import the module
 from geoips.utils.types.datatree_ditto import DataTreeDitto
@@ -495,9 +494,8 @@ def sample_datatree_ditto():
 
 @pytest.fixture
 def custom_converter_setup():
-    """Setup and teardown for custom converter tests."""
+    """Set up and tear down fixtures for custom converter tests."""
 
-    # Setup: register a string converter
     def string_to_dataset(obj, name="data", dims=None, **kwargs):
         # Convert string to char array
         char_array = np.array(list(obj))

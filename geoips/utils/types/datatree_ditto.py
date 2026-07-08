@@ -1,3 +1,5 @@
+"""DataTreeDitto — a DataTree subclass that auto-converts non-xarray objects."""
+
 from functools import wraps
 from typing import Any
 
@@ -7,9 +9,6 @@ from xarray import DataTree
 
 from collections.abc import (
     Callable,
-    Hashable,
-    Iterable,
-    Iterator,
     Mapping,
 )
 
@@ -189,7 +188,7 @@ class DataTreeDitto(DataTree):
             Dimension names for the DataArray. If None, auto-generates names
             like "dim_0", "dim_1", etc. These are stored in ``_ditto_dims``
             metadata for round-trip recovery.
-        **kwargs
+        ``**kwargs`` : dict, optional
             Additional keyword arguments (currently unused).
 
         Returns
@@ -233,7 +232,7 @@ class DataTreeDitto(DataTree):
         ----------
         dataset : xarray.Dataset
             Dataset to convert back to numpy array.
-        **kwargs
+        ``**kwargs`` : dict, optional
             Additional keyword arguments (currently unused).
 
         Returns
@@ -271,7 +270,7 @@ class DataTreeDitto(DataTree):
         ----------
         obj : Any
             Object to convert to xarray Dataset.
-        **kwargs
+        ``**kwargs`` : dict, optional
             Additional keyword arguments passed to the converter function.
 
         Returns
@@ -361,9 +360,10 @@ class DataTreeDitto(DataTree):
         return dataset
 
     def _intercept_assignment(func):
-        """Decorator to intercept and convert assignments to DataTreeDitto.
+        """Intercept and convert assignments to DataTreeDitto.
 
         Handles three cases for the assigned value:
+
         1. Already an xarray type (DataTreeDitto, Dataset, DataArray,
            Variable, DataTreeCoordinates) — passed through unchanged.
         2. A plain ``DataTree`` — recursively converted to a ``DataTreeDitto``
@@ -489,7 +489,7 @@ class DataTreeDitto(DataTree):
         )
 
     @_enforce_ditto_output
-    def map_over_datasets(
+    def map_over_datasets(  # noqa: D102
         self,
         func: Callable[..., Any],
         *args: Any,
@@ -506,15 +506,17 @@ class DataTreeDitto(DataTree):
         return super()._binary_op(other, f, reflexive, join)
 
     @_enforce_ditto_output
-    def filter(self: DataTree, filterfunc: Callable[[DataTree], bool]) -> DataTree:
+    def filter(  # noqa: D102
+        self: DataTree, filterfunc: Callable[[DataTree], bool]
+    ) -> DataTree:
         return super().filter(filterfunc)
 
     @_enforce_ditto_output
-    def match(self, pattern: str) -> DataTree:
+    def match(self, pattern: str) -> DataTree:  # noqa: D102
         return super().match(pattern)
 
     @_enforce_ditto_output
-    def mean(
+    def mean(  # noqa: D102
         self,
         dim=None,
         *,
