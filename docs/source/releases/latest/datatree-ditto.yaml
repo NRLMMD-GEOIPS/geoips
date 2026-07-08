@@ -2,8 +2,8 @@ enhancement:
 - title: 'Add DataTreeDitto'
   description: 'Pokemon, the world''s most valuable intellectual property, has a pokemon named "ditto" that duplicates its opponents behavior and structure with only slight difference. This PR introduces a data type - the DataTreeDitto that behaves very similarly to xarray DataTrees with slight differences. This allows us to use non-xobjects while still getting all of the benefits of the xarray DataTrees. Using non-xobjects results in more computational overhead, so this data structure should ultimately be phased out.'
   files:
-    deleted:
-    moved:
+    deleted: []
+    moved: []
     added:
     - '.github/workflows/integ_test.yaml'
     - 'Makefile'
