@@ -8,8 +8,6 @@ from xarray.core.datatree_mapping import map_over_datasets
 from xarray.core.treenode import TreeIsomorphismError
 from xarray.testing import assert_equal, assert_identical
 
-empty = xr.Dataset()
-
 from geoips.utils.types.datatree_ditto import DataTreeDitto
 
 
@@ -155,7 +153,7 @@ class TestMapOverSubTree:
                 "Dataset or None or a tuple of such types"
             ),
         ):
-            map_over_datasets(lambda x: "string", dt1)  # type: ignore[arg-type,return-value]
+            map_over_datasets(lambda x: "string", dt1)  # type: ignore[arg-type,return-value]  # noqa: E501
 
     def test_return_tuple_of_wrong_types(self, simple_datatree):
         dt1 = simple_datatree
@@ -167,7 +165,7 @@ class TestMapOverSubTree:
                 "Dataset or None or a tuple of such types"
             ),
         ):
-            map_over_datasets(lambda x: (x, "string"), dt1)  # type: ignore[arg-type,return-value]
+            map_over_datasets(lambda x: (x, "string"), dt1)  # type: ignore[arg-type,return-value]  # noqa: E501
 
     def test_return_inconsistent_number_of_results(self, simple_datatree):
         dt1 = simple_datatree
@@ -228,7 +226,7 @@ class TestMapOverSubTree:
         assert_equal(result_tree, expected)
 
     def test_discard_ancestry(self, create_test_datatree):
-        # Check for datatree GH issue https://github.com/xarray-contrib/datatree/issues/48
+        # Check for datatree GH issue https://github.com/xarray-contrib/datatree/issues/48  # noqa: E501
         dt = create_test_datatree()
         subtree = dt["set1"]
         expected = create_test_datatree(modify=lambda ds: 10.0 * ds)["set1"]
@@ -279,7 +277,7 @@ class TestMapOverSubTree:
 class TestMutableOperations:
     def test_construct_using_type(self):
         # from datatree GH issue https://github.com/xarray-contrib/datatree/issues/188
-        # xarray's .weighted is unusual because it uses type() to create a Dataset/DataArray
+        # xarray's .weighted is unusual because it uses type() to create a Dataset/DataArray  # noqa: E501
 
         a = xr.DataArray(
             np.random.rand(3, 4, 10),
