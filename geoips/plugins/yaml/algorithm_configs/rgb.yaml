@@ -1,0 +1,30 @@
+interface: algorithm_configs
+name: rgb
+family: list
+docstring:
+  Configuration plugins for generic rgb recipes.
+spec:
+  - name: airmass
+    source_names: [abi]
+    family: standard
+    docstring: |
+      airmass rgb recipe.
+    spec:
+      red:
+        equation: 'xobj["B08BT"].data - xobj["B10BT"].data'
+        data_range: [-26.2, 0.2]
+        gamma: 1
+        input_units: kelvin
+        output_units: kelvin
+      green:
+        equation: 'xobj["B12BT"].data - xobj["B13BT"]'
+        data_range: [-43.2, 6.7]
+        gamma: 1
+        input_units: kelvin
+        output_units: kelvin
+      blue:
+        equation: 'xobj["B08BT"].data'
+        data_range: [243.9, 208.5]
+        gamma: 1
+        input_units: kelvin
+        output_units: kelvin
