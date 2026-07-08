@@ -963,7 +963,7 @@ The runner:
 
 A `split` operator takes one `DataTree` and returns one `DataTree` with named branch children (§5.7). Steps with `scope: <branch>` produce nodes nested at `/<split_id>/<branch>/<step_id>` — the DataTree mirrors the execution structure all the way down.
 
-A `join` operator takes a `DataTree` whose ancestors include a split, and returns a single merged `DataTree`. The join's output node lives one level _outside_ its source split (typically the workflow root), reflecting that the join exits the branch scope. Strategies:
+A `join` operator takes a `DataTree` containing multiple branches (e.g. multiple readers, a `Split` operator, etc.), and returns a single merged `DataTree`. The join's output node lives one level _outside_ its source split (typically the workflow root), reflecting that the join exits the branch scope. Strategies:
 
 | `strategy`      | Behavior                                           |
 | --------------- | -------------------------------------------------- |

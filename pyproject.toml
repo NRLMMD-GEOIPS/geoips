@@ -65,7 +65,7 @@ dev = [
 # NOTE this setuptools dependency should be removed altogether once meson fortran builds are working
 setuptools = "<70"     # Required for any fortran builds until meson working
 python = ">=3.11.0,<3.13.0"    # mandatory to declare the required python version
-pluginify = { version = "0.1.0.post11.dev0", allow-prereleases = true }       # Required for plugin management and loading
+pluginify = { version = "1.19.1a0", allow-prereleases = true }       # Required for plugin management and loading
 matplotlib = ">=3.7.0,<3.11" # Base requirement works, version specific to test outputs
 netcdf4 = ">1.7.0"     # Base requirement >= 1.7.0 works without reader seg faults
 numpy = ">=2.3.0"      # Base requirement, 2.2.6 works, 2.3.0 broke float pyYAML serialization, now resolved.
@@ -97,6 +97,7 @@ alphashape = ">=1.3.1" # For masking scipy's griddata output
 tabulate = "*"     # Tables for the CLI
 tqdm = "*"         # Progress bars for CLI dataset installs
 colorama = "*"     # Easy terminal color codes
+rich = ">=13.0"     # Rich live terminal display for CLI progress
 pygrib = "*" # Reading GRIB model data
 hdf5plugin = "*" # Reading compressed netCDF FCI data. This installs required decomp plugins
                  # In order to use the MTG FCI reader, the HDF5_PLUGIN_PATH is a required
@@ -124,7 +125,6 @@ sphinxcontrib-typer = { version = "*", optional = true }
 m2r2 = { version = "*", optional = true }
 brassy = { version = ">=0.0.3", optional = true }
 sphinx-argparse = { version = "*", optional = true }
-rich = { version = "*", optional = true }
 rich-argparse = { version = "*", optional = true }
 # Version 3.0.2 causes error , 0.8.4 works
 # Unsure why there was such a wide range of version numbers installed.
@@ -147,6 +147,7 @@ pinkrst = { version = "*", optional = true }
 pytest = { version = "*", optional = true }
 pytest-cov = { version = "*", optional = true }
 pytest-mock = { version = ">=3.14.0", optional = true}
+pytest-html = { version = "*", optional = true }
 pytest-xdist = { version = "*", optional = true }
 pixelmatch = { version = "*", optional = true }
 # Debug group
@@ -169,7 +170,6 @@ doc = [
     "m2r2",                      # Required for rendering markdown into RST-based documentation
     "brassy",                    # Release Note Generation
     "mistune", 	# Required for rendering markdown into RST-based documentation
-    "rich", # for building docs; also a dependency of brassy
     "rich-argparse" # for building docs; also a dependency of brassy
 ]
 lint = [
@@ -187,6 +187,7 @@ lint = [
 test = [
     "pytest",          # Required for unit tests
     "pytest-cov",      # Reports on test coverage
+    "pytest-html",     # HTML test reports for CI artifacts
     "pytest-mock",     # Required for unit tests
     "pixelmatch",
     "pytest-xdist",

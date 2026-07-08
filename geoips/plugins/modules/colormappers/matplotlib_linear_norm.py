@@ -111,11 +111,11 @@ def call(
                 mpl_cmap = from_ascii(ascii_path, cmap_name=cmap_name)
             except ValueError:
                 raise ValueError(
-                    "Colormap {cmap_name} not found in source {cmap_source}"
+                    f"Colormap {cmap_name} not found in source {cmap_source}"
                 )
     else:
         raise ValueError(
-            "Uknown colormap source {cmap_source}, must be one of "
+            f"Unknown colormap source {cmap_source}, must be one of "
             "'matplotlib', 'geoips', or 'ascii'"
         )
 
