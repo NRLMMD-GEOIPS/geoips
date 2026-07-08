@@ -2,6 +2,7 @@ name: Require up-to-date branch
 
 on:
   pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
   push:
     branches:
       - main
@@ -11,6 +12,7 @@ permissions:
 
 jobs:
   status-check:
+    if: github.event_name == 'push' || github.event.pull_request.draft == false
     runs-on: ${{ vars.RUNNER }}
     steps:
       - name: No-op status check
