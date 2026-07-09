@@ -340,18 +340,60 @@ class BaseClassPlugin(ABC):
         ``DataTree.ds`` returns an immutable ``DatasetView``.  Plugins
         that need to write into the dataset must call this helper first.
 
-        * Single child → ``children[0].to_dataset()``
-        * Multiple children → ``xr.merge(...)``
-        * Not a DataTree → returned unchanged.
+        * Single child with its own data_vars → ``children[0].to_dataset()``
+        * Single child whose data lives in *its* children (reader-style
+          multi-dataset output: root is attrs-only, sub-children hold each
+          variable group) -> ``xr.merge(sub-children)`` with root attrs preserved
+        * Multiple children -> ``xr.merge(...)``
+        * Not a DataTree -> returned unchanged.
         """
+        # if not isinstance(data, xr.DataTree):
+        #     return data
+        # children = list(data.children.values())
+        # if len(children) == 1:
+        #     child = children[0]
+        #     child_ds = child.ds
+        #     if child_ds is not None and not child_ds.data_vars and child.children:
+        #         sub_children = list(child.children.values())
+        #         if len(sub_children) == 1:
+        #             merged = sub_children[0].to_dataset()
+        #         else:
+        #             merged = xr.merge([c.to_dataset() for c in sub_children])
+        #         for k, v in child_ds.attrs.items():
+        #             merged.attrs.setdefault(k, v)
+        #         return merged
+        #     return child.to_dataset()
+        # if len(children) > 1:
+        #     return xr.merge([c.to_dataset() for c in children])
+        # return data
+
         if not isinstance(data, xr.DataTree):
             return data
+
         children = list(data.children.values())
-        if len(children) == 1:
-            return children[0].to_dataset()
+
+        if not children:
+            return data
+
         if len(children) > 1:
-            return xr.merge([c.to_dataset() for c in children])
+            return xr.merge(child.to_dataset() for child in children)
+
+        child = children[0]
+        child_ds = child.ds
+
+        if child_ds is None or child_ds.data_vars or not child.children:
+            return child.to_dataset()
+
+        sub_children = list(child.children.values())
+
+        if len(sub_children) == 1:
+            data = sub_children[0].to_dataset()
+        else:
+            data = xr.merge(sub_child.to_dataset() for sub_child in sub_children)
+
+        data.attrs = {**child_ds.attrs, **data.attrs}
         return data
+
 
     @staticmethod
     def _extract_child_kwargs(data, kwargs):
