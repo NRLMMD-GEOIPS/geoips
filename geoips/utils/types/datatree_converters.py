@@ -9,7 +9,7 @@ singleton -- the live dispatch path used by the plugin-lifecycle hooks and by
 ``DataTreeDitto`` conversions.
 
 This module contains *only wiring* -- every converter function lives in the
-single canonical module :mod:`geoips.utils.types.converters`. This module
+single canonical module ``geoips.utils.types.converters``. This module
 imports those functions and registers them.
 
 Registration is idempotent -- calling this module twice (e.g. via reload) will

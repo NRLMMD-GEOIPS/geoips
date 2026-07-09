@@ -333,7 +333,10 @@ class TestRootWorkflowTiming:
 
 
 class TestWorkflowSpecResolution:
+    """Test how workflow step definitions resolve nested workflow specs."""
+
     def test_inline_spec_returned_directly(self):
+        """Resolve inline workflow specs without plugin lookup."""
         spec = _make_spec(
             {
                 "sub": {

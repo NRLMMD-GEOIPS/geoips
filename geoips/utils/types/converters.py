@@ -77,8 +77,8 @@ def numpy_to_dataset(
     dims : list[str] or None
         Dimension names.  Auto-generated (``dim_0``, ``dim_1``, …) when
         ``None``.
-    **kwargs
-        Ignored — forward-compatibility slot.
+
+    kwargs : Ignored — forward-compatibility slot.
 
     Returns
     -------
@@ -111,8 +111,7 @@ def dataset_to_numpy(dataset: xr.Dataset, **kwargs: Any) -> np.ndarray:
     Parameters
     ----------
     dataset : xr.Dataset
-    **kwargs
-        Ignored.
+    kwargs : Ignored.
 
     Returns
     -------
@@ -148,11 +147,9 @@ def masked_array_to_dataset(
     Parameters
     ----------
     obj : np.ma.MaskedArray
-    name : str
-        Base data-variable name.
+    name : str Base data-variable name.
     dims : list[str] or None
-    **kwargs
-        Ignored.
+    kwargs : Ignored.
 
     Returns
     -------
@@ -206,8 +203,7 @@ def dataset_to_masked_array(dataset: xr.Dataset, **kwargs: Any) -> np.ma.MaskedA
     Parameters
     ----------
     dataset : xr.Dataset
-    **kwargs
-        Ignored.
+    kwargs : Ignored.
 
     Returns
     -------
@@ -256,9 +252,7 @@ def dataset_vars_to_numpy_list(dataset: xr.Dataset, **kwargs: Any) -> list[np.nd
     Parameters
     ----------
     dataset : xr.Dataset
-    **kwargs
-        Ignored — future slot for ``variables`` subset / ordering
-        context.
+    kwargs : Ignored — future slot for ``variables`` subset / ordering context.
 
     Returns
     -------
@@ -286,10 +280,8 @@ def list_to_dataset(
 
     Parameters
     ----------
-    obj : list
-        List of any JSON-serializable values (e.g. filenames).
-    **kwargs
-        Ignored.
+    obj : list List of any JSON-serializable values (e.g. filenames).
+    kwargs : Ignored.
 
     Returns
     -------
@@ -311,8 +303,7 @@ def dataset_to_list(dataset: xr.Dataset, **kwargs: Any) -> list:
     Parameters
     ----------
     dataset : xr.Dataset
-    **kwargs
-        Ignored.
+    kwargs : Ignored.
 
     Returns
     -------
@@ -338,8 +329,7 @@ def dataset_to_dataset_dict(
     Parameters
     ----------
     dataset : xr.Dataset
-    **kwargs
-        Ignored.
+    kwargs : Ignored.
 
     Returns
     -------
@@ -360,8 +350,7 @@ def dataset_dict_to_dataset(dct: dict[str, xr.Dataset], **kwargs: Any) -> xr.Dat
     Parameters
     ----------
     dct : dict[str, xr.Dataset]
-    **kwargs
-        Ignored.
+    kwargs : Ignored.
 
     Returns
     -------
@@ -389,10 +378,8 @@ def dict_to_dataset(obj: dict, **kwargs: Any) -> xr.Dataset:
 
     Parameters
     ----------
-    obj : dict
-        Dictionary of numpy arrays and/or scalars.
-    **kwargs
-        Ignored.
+    obj : dict Dictionary of numpy arrays and/or scalars.
+    kwargs : Ignored.
 
     Returns
     -------
@@ -425,8 +412,7 @@ def dataset_to_dict(dataset: xr.Dataset, **kwargs: Any) -> dict:
     Parameters
     ----------
     dataset : xr.Dataset
-    **kwargs
-        Ignored.
+    kwargs : Ignored.
 
     Returns
     -------
@@ -453,8 +439,7 @@ def dataarray_to_dataset(obj: xr.DataArray, **kwargs: Any) -> xr.Dataset:
     Parameters
     ----------
     obj : xr.DataArray
-    **kwargs
-        Ignored.
+    kwargs : Ignored.
 
     Returns
     -------
@@ -473,8 +458,7 @@ def dataset_to_dataarray(dataset: xr.Dataset, **kwargs: Any) -> xr.DataArray:
     Parameters
     ----------
     dataset : xr.Dataset
-    **kwargs
-        Ignored.
+    kwargs : Ignored.
 
     Returns
     -------

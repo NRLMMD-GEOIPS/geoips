@@ -6,7 +6,6 @@
 import collections
 import logging
 from datetime import datetime
-import logging
 from os.path import basename
 from pathlib import Path
 

@@ -30,12 +30,12 @@ class BaseCoverageCheckerPlugin(BaseClassPlugin, abstract=True):
         ----------
         data : xr.DataTree or xr.Dataset or None
             Upstream data passed into the plugin.
-        *args : tuple
+        args : tuple
             Additional positional arguments forwarded to the base
             ``_invoke``.
         _obp_initiated : bool, default=False
             Whether the call originates from the Order-Based Procflow.
-        **kwargs : dict
+        kwargs : dict
             Step arguments.  When ``variables`` is a ``list`` it is
             consumed along with ``minimum_coverage``; remaining keys
             are forwarded to each per-variable call.

@@ -8,7 +8,7 @@ subclasses that go through the real ``_invoke`` / ``_pre_call`` / ``_post_call``
 chain, verifying:
 
 - Multi-input unwrap extracts single upstream child correctly.
-- Family conversions (dataset_vars_to_list, numpy_to_dataset, …) are applied.
+- Family conversions (dataset_vars_to_list, numpy_to_dataset, ...) are applied.
 - YAML plugins (gridline_annotator, feature_annotator) become callable via
   ``YamlPluginCallable`` and add metadata to the step DataTree.
 - Colormapper and filename-formatter steps return DataTree output.
@@ -37,18 +37,16 @@ CTX = {"skip_plugin_name_validation": True}
 LOG = logging.getLogger(__name__)
 
 
-# ---------------------------------------------------------------------------
-# synthetic BaseClassPlugin subclasses
-# ---------------------------------------------------------------------------
-
-
 class SyntheticReader(BaseClassPlugin):
+    """Synthetic reader plugin that returns a small xarray dataset."""
+
     interface = "readers"
     family = "standard"
     name = "synthetic_reader"
     data_tree = False
 
     def call(self, fnames=None, **kwargs):
+        """Return synthetic ABI-like data for workflow tests."""
         from geoips.utils.types.datatree_ditto import DataTreeDitto
 
         ds = xr.Dataset(
@@ -70,6 +68,8 @@ class SyntheticReader(BaseClassPlugin):
 
 
 class SyntheticListNumpyToNumpyAlgo(BaseClassPlugin):
+    """Synthetic algorithm for list-of-arrays to array family conversion."""
+
     interface = "algorithms"
     family = "list_numpy_to_numpy"
     name = "synthetic_list_numpy_algo"
@@ -77,12 +77,15 @@ class SyntheticListNumpyToNumpyAlgo(BaseClassPlugin):
     _family_conversion_map = ALGORITHM_FAMILY_CONVERSIONS
 
     def call(self, data, **kwargs):
+        """Double the first converted numpy array."""
         assert isinstance(data, list), "expected list[np.ndarray] after conversion"
         arr = data[0] * 2 if data else np.array([])
         return arr
 
 
 class SyntheticXarrayToXarrayAlgo(BaseClassPlugin):
+    """Synthetic algorithm that verifies xarray-to-xarray conversion."""
+
     interface = "algorithms"
     family = "xarray_to_xarray"
     name = "synthetic_xr_to_xr_algo"
@@ -90,17 +93,21 @@ class SyntheticXarrayToXarrayAlgo(BaseClassPlugin):
     _family_conversion_map = ALGORITHM_FAMILY_CONVERSIONS
 
     def call(self, data, **kwargs):
+        """Return the converted xarray dataset unchanged."""
         assert isinstance(data, xr.Dataset), "expected xr.Dataset"
         return data
 
 
 class SyntheticColormapper(BaseClassPlugin):
+    """Synthetic colormapper plugin that emits matplotlib color metadata."""
+
     interface = "colormappers"
     family = "matplotlib"
     name = "synthetic_colormap"
     data_tree = True
 
     def call(self, data_range=None, **kwargs):
+        """Return color mapping metadata as a DataTree node."""
         from geoips.utils.types.datatree_ditto import DataTreeDitto
 
         mpl_info = {"cmap_name": "Greys", "data_range": data_range, "colorbar": True}
@@ -118,12 +125,15 @@ class SyntheticColormapper(BaseClassPlugin):
 
 
 class SyntheticFilenameFormatter(BaseClassPlugin):
+    """Synthetic filename formatter that emits output filename metadata."""
+
     interface = "filename_formatters"
     family = "standard"
     name = "synthetic_fname"
     data_tree = True
 
     def call(self, data=None, suffix=".png", **kwargs):
+        """Return a fake output filename as a DataTree node."""
         from geoips.utils.types.datatree_ditto import DataTreeDitto
 
         fname = "/fake/path/output." + suffix
@@ -139,6 +149,8 @@ class SyntheticFilenameFormatter(BaseClassPlugin):
 
 
 class SyntheticImageOutputFormatter(BaseClassPlugin):
+    """Synthetic image output formatter that records received dependencies."""
+
     interface = "output_formatters"
     family = "image"
     name = "synthetic_image"
@@ -146,6 +158,7 @@ class SyntheticImageOutputFormatter(BaseClassPlugin):
     _family_conversion_map = OUTPUT_FORMATTER_FAMILY_CONVERSIONS
 
     def call(self, data, output_fnames=None, mpl_colors_info=None, **kwargs):
+        """Return output metadata showing which auxiliary inputs arrived."""
         from geoips.utils.types.datatree_ditto import DataTreeDitto
 
         ds = xr.Dataset(
@@ -159,12 +172,8 @@ class SyntheticImageOutputFormatter(BaseClassPlugin):
         return dt
 
 
-# ---------------------------------------------------------------------------
-# mock resolver
-# ---------------------------------------------------------------------------
-
-
 def _resolve_synthetic_plugin(kind, name):
+    """Resolve workflow plugin requests to synthetic test plugins."""
     _ = name
     if kind == "reader":
         return SyntheticReader()
@@ -186,6 +195,7 @@ def _resolve_synthetic_plugin(kind, name):
 
 
 def _make_yaml_callable(kind, name):
+    """Build a YAML plugin callable for annotation step tests."""
     from geoips.utils.types.yaml_plugin_callable import YamlPluginCallable
 
     interface = kind + "s"
@@ -200,6 +210,7 @@ def _make_yaml_callable(kind, name):
 
 
 def _make_sector_callable(name):
+    """Build a YAML plugin callable for synthetic sector tests."""
     from geoips.utils.types.yaml_plugin_callable import YamlPluginCallable
 
     return YamlPluginCallable(
@@ -212,31 +223,26 @@ def _make_sector_callable(name):
     )
 
 
-# ---------------------------------------------------------------------------
-# fixtures
-# ---------------------------------------------------------------------------
-
-
 @pytest.fixture
 def patch_for_family_conversions(monkeypatch):
+    """Patch workflow plugin resolution to use synthetic test plugins."""
     monkeypatch.setattr(
         Workflow, "_resolve_plugin", staticmethod(_resolve_synthetic_plugin)
     )
 
 
 def _build_spec(steps_dict, **overrides):
+    """Build a workflow spec model with test validation context."""
     return WorkflowSpecModel.model_validate(
         {"steps": steps_dict, **overrides}, context=CTX
     )
 
 
-# ---------------------------------------------------------------------------
-# test classes
-# ---------------------------------------------------------------------------
-
-
 class TestMultiInputUnwrap:
+    """Test workflow handling of single upstream child extraction."""
+
     def test_single_child_unwrap(self, patch_for_family_conversions):
+        """Attach a reader step output as a DataTree child."""
         spec = _build_spec(
             {
                 "read": {
@@ -253,6 +259,7 @@ class TestMultiInputUnwrap:
         assert isinstance(child, xr.DataTree)
 
     def test_reader_to_algo_chain(self, patch_for_family_conversions):
+        """Run a reader-to-algorithm chain through family conversion."""
         spec = _build_spec(
             {
                 "read": {
@@ -275,7 +282,10 @@ class TestMultiInputUnwrap:
 
 
 class TestFamilyConversions:
+    """Test OBP family conversions for algorithm plugin inputs and outputs."""
+
     def test_list_numpy_to_numpy_conversion(self, patch_for_family_conversions):
+        """Convert reader output into list-of-numpy input for an algorithm."""
         spec = _build_spec(
             {
                 "read": {
@@ -299,6 +309,7 @@ class TestFamilyConversions:
         assert algo_node.ds is not None
 
     def test_xarray_to_xarray_passthrough(self, patch_for_family_conversions):
+        """Pass reader output through an xarray-to-xarray algorithm."""
         spec = _build_spec(
             {
                 "read": {
@@ -321,7 +332,10 @@ class TestFamilyConversions:
 
 
 class TestAuxiliaryPluginSteps:
+    """Test first-class auxiliary plugin steps in workflows."""
+
     def test_colormapper_step(self, patch_for_family_conversions):
+        """Run a colormapper step and attach its DataTree output."""
         spec = _build_spec(
             {
                 "cmap": {
@@ -339,6 +353,7 @@ class TestAuxiliaryPluginSteps:
         assert "plugin_name" in cmap_node.ds.attrs
 
     def test_filename_formatter_step(self, patch_for_family_conversions):
+        """Run a filename formatter step after reader and algorithm steps."""
         spec = _build_spec(
             {
                 "read": {
@@ -367,6 +382,7 @@ class TestAuxiliaryPluginSteps:
         assert fnode.ds is not None
 
     def test_gridline_annotator_yaml_callable(self, patch_for_family_conversions):
+        """Run a gridline annotator YAML plugin as a callable workflow step."""
         spec = _build_spec(
             {
                 "grid": {
@@ -384,6 +400,7 @@ class TestAuxiliaryPluginSteps:
         assert "spec" in gnode.ds.attrs
 
     def test_feature_annotator_yaml_callable(self, patch_for_family_conversions):
+        """Run a feature annotator YAML plugin as a callable workflow step."""
         spec = _build_spec(
             {
                 "feat": {
@@ -401,7 +418,10 @@ class TestAuxiliaryPluginSteps:
 
 
 class TestChildKwargExtraction:
+    """Test mapping auxiliary child outputs into output formatter kwargs."""
+
     def test_colormap_to_output_formatter(self, patch_for_family_conversions):
+        """Pass colormapper and filename formatter outputs to an image output."""
         spec = _build_spec(
             {
                 "read": {
@@ -443,7 +463,10 @@ class TestChildKwargExtraction:
 
 
 class TestFullPipeline:
+    """Test a complete reader-to-output workflow with auxiliary steps."""
+
     def test_full_pipeline(self, patch_for_family_conversions):
+        """Run the full synthetic pipeline and retain expected step metadata."""
         spec = _build_spec(
             {
                 "read": {
@@ -503,10 +526,13 @@ class TestFullPipeline:
 
 
 class TestBackwardCompat:
+    """Test backward-compatible inline auxiliary output arguments."""
+
     def test_inline_colormapper_still_present(
         self,
         patch_for_family_conversions,
     ):
+        """Accept inline colormapper metadata on an output formatter step."""
         spec = _build_spec(
             {
                 "read": {
@@ -540,7 +566,10 @@ class TestBackwardCompat:
 
 
 class TestRetention:
+    """Test workflow retention behavior for consumed auxiliary steps."""
+
     def test_keep_outputs_only_gc_aux_steps(self, patch_for_family_conversions):
+        """Mark auxiliary steps as garbage-collected when keeping outputs only."""
         spec = _build_spec(
             {
                 "read": {

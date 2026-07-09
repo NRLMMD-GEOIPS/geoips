@@ -372,7 +372,7 @@ class DataTreeDitto(DataTree):
 
         Dict-origin nodes return the wrapped dict's value (or *default*); all
         other nodes delegate to ``DataTree.get``. This deliberately does *not*
-        route through :meth:`__getitem__` so it stays safe for xarray's internal
+        route through ``__getitem__`` so it stays safe for xarray's internal
         tree traversal (which calls ``node.get(part)``).
         """
         original = self._as_original_dict()

@@ -490,7 +490,7 @@ def sample_datatree_ditto():
 
 @pytest.fixture
 def custom_converter_setup():
-    """Setup and teardown for custom converter tests."""
+    """Set up and tear down for custom converter tests."""
     # Snapshot the registry so teardown restores global state exactly,
     # regardless of test ordering.
     registry_snapshot = dict(converter_registry._converters)
