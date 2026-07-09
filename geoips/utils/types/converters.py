@@ -245,7 +245,7 @@ def dataset_to_masked_array(dataset: xr.Dataset, **kwargs: Any) -> np.ma.MaskedA
 # ---------------------------------------------------------------------------
 
 
-def dataset_vars_to_list(dataset: xr.Dataset, **kwargs: Any) -> list[np.ndarray]:
+def dataset_vars_to_numpy_list(dataset: xr.Dataset, **kwargs: Any) -> list[np.ndarray]:
     """Extract every data variable as a list of arrays.
 
     Arrays are returned in insertion order (the order they appear when

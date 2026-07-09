@@ -69,8 +69,10 @@ class BaseOutputFormatterPlugin(BaseClassPlugin, abstract=True):
                     f"Output formatter {cls.name!r} (family {cls.family!r}) "
                     f"has 'area_def' before '{data_param}' in its call "
                     f"signature. The recommended order is data "
-                    f"({data_param}) first, then area_def. This will "
-                    f"become an error in a future release.",
+                    f"({data_param}) first, then area_def. "
+                    f"The preferred migration is to make this plugin "
+                    f"DataTree-native (set ``data_tree = True`` and "
+                    f"remove ``family``).",
                     DeprecationWarning,
                     stacklevel=2,
                 )

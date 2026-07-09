@@ -1,3 +1,5 @@
+"""Unit tests for DataTreeDitto."""
+
 import pytest
 import numpy as np
 import xarray as xr
@@ -493,7 +495,6 @@ def custom_converter_setup():
     # regardless of test ordering.
     registry_snapshot = dict(converter_registry._converters)
 
-    # Setup: register a string converter
     def string_to_dataset(obj, name="data", dims=None, **kwargs):
         # Convert string to char array
         char_array = np.array(list(obj))

@@ -138,14 +138,14 @@ class BaseClassPlugin(ABC):
     def _pre_call(self, data=None, *args, _obp_initiated=False, **kwargs):
         """Preprocess the data before calling the main plugin method.
 
-        For legacy plugins (those that define a ``family``) this hook:
+        For legacy plugins (``data_tree=False`` with a ``family``) this hook:
 
         1. Unwraps a ``DataTreeDitto`` (or plain ``DataTree``) input
            to recover the native object via ``_unwrap()``.
         2. Applies a family-specific input conversion if the plugin's
            class defines a ``_family_conversion_map``.
 
-        Datatree-native plugins (no ``family`` attribute) pass through
+        Datatree-native plugins (``data_tree=True``) pass through
         unchanged.
 
         Parameters
@@ -160,7 +160,7 @@ class BaseClassPlugin(ABC):
         -------
         The processed data.
         """
-        if data is None or not hasattr(self.__class__, "family"):
+        if data is None or getattr(self, "data_tree", False):
             return data
 
         # Step 1: Unwrap DataTree → native type
@@ -185,14 +185,14 @@ class BaseClassPlugin(ABC):
     def _post_call(self, data=None, *args, _obp_initiated=False, **kwargs):
         """Post-process the data after calling the main plugin method.
 
-        For legacy plugins (those that define a ``family``) this hook:
+        For legacy plugins (``data_tree=False`` with a ``family``) this hook:
 
         1. Applies a family-specific output (reverse) conversion if the
            plugin's class defines a ``_family_conversion_map``.
         2. Wraps a non-DataTree result back into a ``DataTreeDitto``
            via ``_wrap()``.
 
-        Datatree-native plugins (no ``family`` attribute) pass through
+        Datatree-native plugins (``data_tree=True``) pass through
         unchanged.
 
         Parameters
@@ -214,7 +214,7 @@ class BaseClassPlugin(ABC):
         -------
             The processed data.
         """
-        if data is None or not hasattr(self.__class__, "family"):
+        if data is None or getattr(self, "data_tree", False):
             return data
 
         # Step 1: Apply family-specific reverse conversion (OBP only)
@@ -688,6 +688,11 @@ class BaseClassPlugin(ABC):
             "self",
             inspect.Parameter.POSITIONAL_OR_KEYWORD,
         )
+        call_params = [
+            p
+            for p in call_signature.parameters.values()
+            if p.name != "self"
+        ]
         _call.__signature__ = call_signature.replace(
             parameters=[
                 self_param,

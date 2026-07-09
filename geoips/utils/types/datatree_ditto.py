@@ -139,7 +139,7 @@ class DataTreeDitto(DataTree):
         ----------
         obj : Any
             Object to convert to xarray Dataset.
-        **kwargs
+        ``**kwargs`` : dict, optional
             Additional keyword arguments passed to the converter function.
 
         Returns
@@ -194,6 +194,7 @@ class DataTreeDitto(DataTree):
         """Intercept and convert assignments to DataTreeDitto.
 
         Handles three cases for the assigned value:
+
         1. Already an xarray type (DataTreeDitto, Dataset, DataArray,
            Variable, DataTreeCoordinates) — passed through unchanged.
         2. A plain ``DataTree`` — recursively converted to a ``DataTreeDitto``
@@ -408,7 +409,7 @@ class DataTreeDitto(DataTree):
         return super().items()
 
     @_enforce_ditto_output
-    def map_over_datasets(
+    def map_over_datasets(  # noqa: D102
         self,
         func: Callable[..., Any],
         *args: Any,
@@ -426,17 +427,17 @@ class DataTreeDitto(DataTree):
         return super()._binary_op(other, f, reflexive, join)
 
     @_enforce_ditto_output
-    def filter(self: DataTree, filterfunc: Callable[[DataTree], bool]) -> DataTree:
-        """Filter the tree by node, returning ``DataTreeDitto`` output."""
+    def filter(  # noqa: D102
+        self: DataTree, filterfunc: Callable[[DataTree], bool]
+    ) -> DataTree:
         return super().filter(filterfunc)
 
     @_enforce_ditto_output
-    def match(self, pattern: str) -> DataTree:
-        """Match nodes by glob pattern, returning ``DataTreeDitto`` output."""
+    def match(self, pattern: str) -> DataTree:  # noqa: D102
         return super().match(pattern)
 
     @_enforce_ditto_output
-    def mean(
+    def mean(  # noqa: D102
         self,
         dim=None,
         *,
