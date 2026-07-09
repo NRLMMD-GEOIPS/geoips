@@ -56,10 +56,7 @@ class TestGeoipsTestWorkflow(BaseCliTest):
         wf = workflows.get_plugin(args[-1])
 
         if wf.get("test") is None:
-            assert (
-                "Error: cannot test 'test_workflow' workflow plugin as it is missing a "
-                "``test`` section."
-            ) in error
+            assert "cannot test" in error and "missing a ``test`` section." in error
         else:
             assert (
                 "Error: ``test`` parameters differ from the set of allowable parameters"

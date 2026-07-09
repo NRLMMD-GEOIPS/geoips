@@ -58,7 +58,7 @@ def valid_reader_arguments_model_data(file_generated_from_pytest_fixture):
         "variables": ["None"],
         "metadata_only": True,
         "self_register": "LOW",
-        "fnames": [file_generated_from_pytest_fixture],
+        "filenames": [file_generated_from_pytest_fixture],
     }
 
 
