@@ -126,7 +126,7 @@ class SyntheticFilenameFormatter(BaseClassPlugin):
     def call(self, data=None, suffix=".png", **kwargs):
         from geoips.utils.types.datatree_ditto import DataTreeDitto
 
-        fname = "/tmp/output." + suffix
+        fname = "/fake/path/output." + suffix
         ds = xr.Dataset(
             attrs={
                 "output_fnames": [fname],
@@ -150,7 +150,7 @@ class SyntheticImageOutputFormatter(BaseClassPlugin):
 
         ds = xr.Dataset(
             attrs={
-                "saved_files": ["/tmp/saved.png"],
+                "saved_files": ["/fake/path/saved.png"],
                 "received_fnames": output_fnames is not None,
                 "received_colors": mpl_colors_info is not None,
             }
@@ -529,7 +529,7 @@ class TestBackwardCompat:
                             "cmap_name": "legacy",
                             "data_range": [0, 1],
                         },
-                        "output_fnames": ["/tmp/legacy.png"],
+                        "output_fnames": ["/fake/path/legacy.png"],
                     },
                     "depends_on": ["algo"],
                 },
@@ -566,7 +566,7 @@ class TestRetention:
                     "name": "synthetic_image",
                     "arguments": {
                         "mpl_colors_info": {"cmap_name": "test"},
-                        "output_fnames": ["/tmp/t.png"],
+                        "output_fnames": ["/fake/path/t.png"],
                     },
                     "depends_on": ["algo"],
                 },
