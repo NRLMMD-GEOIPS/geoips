@@ -3,10 +3,8 @@ enhancement:
   description: |
     Adds `GeoipsError` as a common root, then updates `errors.py` so each class inherits from it. Now, calling `except GeoipsError:` will catch any GeoIPS error. `DuplicateKeyError` now inherits from `yaml.constructor.ConstructorError`, and the raise site in `yaml_utils.py` has been updated so that the call-signature is formatted correctly. `CliError` is intentionally left unchanged pending a separate scope conversation; also folds in a one-line fix to `geoips_validate.py:134` where `except AttributeError or KeyError:` was silently short-circuiting to `AttributeError`.
   files:
-    deleted:
-    - ''
-    moved:
-    - ''
+    deleted: []
+    moved: []
     added:
     - 'docs/source/releases/latest/1309-create-geoipserror-class.yaml'
     modified:
@@ -17,5 +15,5 @@ enhancement:
     number: 1309
     repo_url: 'https://github.com/NRLMMD-GEOIPS/geoips'
   date:
-    start: 2026/05/22
-    finish: 2026/05/29
+    start: 2026-05-22
+    finish: 2026-05-29

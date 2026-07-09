@@ -1,4 +1,4 @@
-Refactor:
+refactor:
 - title: 'Convert Majority of Module-Based Plugins to Class-Based'
   description: |
     This update includes a large refactoring of the module-based side of the codebase.

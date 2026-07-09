@@ -12,10 +12,8 @@ feature:
     `None`, Pydantic-Python behavior will not allow the plugin-defined defaults to
     actually take effect.
   files:
-    deleted:
-    - ''
-    moved:
-    - ''
+    deleted: []
+    moved: []
     added:
     - 'tests/unit_tests/plugins/modules/procflows/conftest.py'
     - 'tests/unit_tests/plugins/modules/procflows/test_obp_utils.py'

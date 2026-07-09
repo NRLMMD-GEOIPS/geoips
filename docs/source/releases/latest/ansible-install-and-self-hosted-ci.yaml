@@ -18,8 +18,9 @@ installation:
     - .dockerignore
   related-issue:
     number: 1261
+    repo_url: ''
   date:
-    start: 2025-09
+    start: 2025-09-01
     finish: 2026-06-25
 continuous integration:
 - title: Add self-hosted runner integration test workflow
@@ -36,8 +37,9 @@ continuous integration:
     - .github/workflows/ci.yml
   related-issue:
     number: 1261
+    repo_url: ''
   date:
-    start: 2025-09
+    start: 2025-09-01
     finish: 2026-06-25
 enhancement:
 - title: Rename extra_plugins to extra_plugin_packages
@@ -55,8 +57,9 @@ enhancement:
     - docs/source/concepts/architecture/ci-infrastructure.rst
   related-issue:
     number: 1261
+    repo_url: ''
   date:
-    start: 2025-09
+    start: 2025-09-01
     finish: 2026-06-25
 documentation:
 - title: Update CI infrastructure documentation
@@ -70,6 +73,7 @@ documentation:
     - docs/source/concepts/architecture/ci-infrastructure.rst
   related-issue:
     number: 1261
+    repo_url: ''
   date:
-    start: 2025-09
+    start: 2025-09-01
     finish: 2026-06-25
