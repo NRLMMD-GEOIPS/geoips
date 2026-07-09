@@ -11,8 +11,8 @@ import logging
 LOG = logging.getLogger(__name__)
 
 
-class ConvectiveStormAlgorithmPlugin(BaseAlgorithmPlugin):
-    """Convective Storm algorithm plugin class."""
+class ConfigRgbAlgorithmPlugin(BaseAlgorithmPlugin):
+    """Congig rgb algorithm plugin class."""
 
     interface = "algorithms"
     family = "xarray_to_numpy"
@@ -145,4 +145,4 @@ class ConvectiveStormAlgorithmPlugin(BaseAlgorithmPlugin):
         return rgba
 
 
-PLUGIN_CLASS = ConvectiveStormAlgorithmPlugin
+PLUGIN_CLASS = ConfigRgbAlgorithmPlugin
