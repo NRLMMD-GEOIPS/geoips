@@ -415,8 +415,8 @@ class GeoipsTestWorkflow(GeoipsWorkflowCommand):
             - The list argument namespace to parse through
         """
         workflow = args.workflow
-        fnames = workflow["test"].get("fnames", [])
         try:
+            fnames = workflow["test"].get("fnames", [])
             workflow = workflows._override_expanded_workflow(workflow)
         except KeyError:
             raise self.parser.error(

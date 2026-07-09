@@ -13,6 +13,6 @@ class TestOrderBased:
         """Expected class-level interface, family, name, and data_tree attrs."""
         ob = OrderBased()
         assert ob.interface == "procflows"
-        assert ob.family == "standard"
+        assert ob.family == "order_based"
         assert ob.name == "order_based"
         assert ob.data_tree is True

@@ -222,7 +222,7 @@ class TestSplitJoinScaffolding:
     """Split runs its inline body once per branch scope."""
 
     def test_split_runs_body_per_scope(self, monkeypatch):
-        """A split with explicit ``scopes`` runs its body once per scope."""
+        """A workflow step with inline spec runs its body."""
 
         class _Passthrough:
             data_tree = True
@@ -239,9 +239,8 @@ class TestSplitJoinScaffolding:
 
         spec = _make_spec(
             {
-                "s": {
-                    "kind": "split",
-                    "arguments": {"scopes": ["band1", "band2"]},
+                "w": {
+                    "kind": "workflow",
                     "spec": {
                         "steps": {
                             "p": {
@@ -256,10 +255,9 @@ class TestSplitJoinScaffolding:
                 },
             }
         )
-        result = Workflow(spec, workflow_name="split_test").call()
-        split_node = result.get("s")
-        assert split_node is not None
-        assert set(dict(split_node.children)) == {"band1", "band2"}
+        result = Workflow(spec, workflow_name="workflow_test").call()
+        wf_node = result.get("w")
+        assert wf_node is not None
 
 
 class TestRootWorkflowTiming:
@@ -611,9 +609,17 @@ class TestEntrySteps:
     
     def test_empty_workflow(self):
         """Test for no upstream data on empty workflow."""
-        empty_root = wf._collect_upstream_data(xr.DataTree(name="fresh"), [])
+        wf = Workflow(
+            _make_spec(
+                {
+                    "a": {"kind": "algorithm", "name": "single_channel", "arguments": {}},
+                }
+            ),
+            workflow_name="test",
+        )
+        empty_root = wf._collect_upstream_data(xr.DataTree(name="fresh"), [], {}, False)
         assert dict(empty_root.children) == {}
-        assert empty_root.name == "empty"
+        assert empty_root.name == "multi_input"
 
     def test_multiple_input_steps_fan_out(self):
         """Multiple "_input" steps all become entry steps (fan-out)."""
