@@ -19,3 +19,4 @@ Architecture
     ci-infrastructure
     documentation/index
     command_line_interface
+    custom-types/index
