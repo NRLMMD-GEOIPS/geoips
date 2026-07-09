@@ -2,7 +2,7 @@
 max-line-length=88
 count=True
 ignore=E203,W503,E712
-extend-exclude=_version.py,lib,*_docs,geoips_dev_utils
+extend-exclude=_version.py,lib,*_docs,geoips_dev_utils,.venv
 docstring-convention=numpy
 rst-roles=class,func,ref
 rst-directives=envvar,exception
@@ -10,3 +10,5 @@ rst-substitutions=version
 statistics=True
 per-file-ignores =
   /*/interfaces/__init__.py:F401
+  tests/unit_tests/utils/types/test_datatree_ditto_FROM_XARRAY.py: D100,D101,D102,D103,D400,E501,E701
+  tests/unit_tests/utils/types/test_datatree_ditto_mapping_FROM_XARRAY.py: D100,D101,D102,D103,D400,D202,D401
