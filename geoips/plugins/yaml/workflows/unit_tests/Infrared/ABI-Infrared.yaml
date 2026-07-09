@@ -1,0 +1,45 @@
+apiVersion: geoips/v1
+kind: Workflow
+# In SSP can specify product without specifying source, then rely on the SSP to find the
+# correct product. We can't easily do that in the OBP...
+name: ABI-Infrared
+family: order_based
+interface: workflows
+docstring: |
+  Infrared product for the ABI sensor
+test:
+  fnames: !ENV ${GEOIPS_TESTDATA_DIR}/test_data_abi/data/goes16_20200918_1950/*
+spec:
+  steps:
+    reader:
+      kind: reader
+      name: abi_netcdf
+      arguments:
+        chans: ['B14BT']
+    sector:
+      kind: sector
+      name: goes_east
+      depends_on: []
+      arguments: {}
+    interpolator:
+      kind: interpolator
+      name: interp_nearest
+      depends_on: [reader, sector]
+      arguments:
+        varlist: ['B14BT']
+    infarared_workflow:
+      kind: workflow
+      name: Infrared-Base
+      depends_on: [interpolator]
+      arguments:
+        apply_single_channel.output_data_range: [-90, 30]
+        infrared_colormap.data_range: [-90, 30]
+    output_formatter:
+      kind: workflow
+      name: output-imagery-annotated
+      depends_on: [apply_single_channel, gridlines, features, infrared_colormap, sector]
+      arguments:
+        output_formatter:
+          product_name: Infrared
+          product_name_title: GOES-ABI Infrared @ 11.2 um
+          output_fnames: [!ENV $GEOIPS_OUTDIRS/goes_abi_infrared_full_run.png]

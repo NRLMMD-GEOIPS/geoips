@@ -1,0 +1,25 @@
+apiVersion: geoips/v1
+kind: Workflow
+name: Infrared-Base
+family: order_based
+interface: workflows
+docstring: |
+  A workflow stub for producing a scaled infrared product and its colormap.
+spec:
+  steps:
+    apply_single_channel:
+      kind: algorithm
+      name: single_channel
+      arguments:
+        output_data_range: [-90.0, 30.0]
+        input_units: Kelvin
+        output_units: celsius
+        min_outbounds: crop
+        max_outbounds: crop
+        norm: false
+        inverse: false
+    infrared_colormap:
+      kind: colormapper
+      name: Infrared
+      arguments:
+        data_range: [-90.0, 30.0]
