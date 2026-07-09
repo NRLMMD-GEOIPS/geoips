@@ -388,19 +388,16 @@ class BaseClassPlugin(ABC):
         if not children:
             return kwargs
 
+        from geoips.utils.types.obp_conduits import OBP_CONDUITS
+
         for _child_name, child in children.items():
-            pkind = (
-                str(child.ds.attrs.get("plugin_kind", ""))
-                if child.ds is not None
-                else ""
-            )
+            pkind = str(child.ds.attrs.get("plugin_kind", "")) if child.ds is not None else ""
             conduit = OBP_CONDUITS.get(pkind)
             if conduit is None:
                 continue
             kwarg_name = conduit["kwarg"]
             if kwarg_name in kwargs:
                 continue
-
             val = conduit["extract"](child)
             if val is not None:
                 kwargs[kwarg_name] = val
@@ -697,7 +694,10 @@ class BaseClassPlugin(ABC):
             if p.name != "self"
         ]
         _call.__signature__ = call_signature.replace(
-            parameters=[self_param] + call_params
+            parameters=[
+                self_param,
+                *[p for p in call_signature.parameters.values() if p.name != "self"],
+            ]
         )
         _call.__annotations__ = getattr(call_method, "__annotations__", {})
         cls.__call__ = _call

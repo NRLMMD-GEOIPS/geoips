@@ -460,6 +460,20 @@ class Workflow:
         self._set_root_attrs(tree, start_time=wf_start_iso)
         executed: set[str] = set()
 
+        # Resolve sectors and inject common globals into every step invocation.
+        # _invoke's OBP arg-filtering drops kwargs silently for steps that don't
+        # declare the corresponding parameter.
+        area_defs = self._resolve_area_defs()
+        _globals_kwargs = {"area_def": area_defs[0]} if area_defs else {}
+
+        _globals = self._spec.globals
+        if _globals is not None:
+            pn = getattr(_globals, "product_name", None)
+            if pn is None and hasattr(_globals, "get"):
+                pn = _globals.get("product_name")
+            if pn:
+                _globals_kwargs["product_name"] = pn
+
         for sid in self._order:
             step_def = self._spec.steps[sid]
 
@@ -535,6 +549,8 @@ class Workflow:
         # get their own start/end times on their respective root nodes.
         tree.attrs["end_time"] = datetime.now(timezone.utc).isoformat()
 
+
+        LOG.interactive("Full DataTree after workflow run:\n%s", tree)
         return tree
 
     def _invoke_plugin_step(self, step_def, upstream, *, is_entry, filenames):

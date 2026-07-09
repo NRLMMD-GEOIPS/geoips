@@ -1,0 +1,27 @@
+feature:
+- title: 'OBP: First Product Implementation'
+  description: 'Introduces ABI static DMW as the first working product implementation in OBP'
+  files: 
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - 'geoips/plugins/yaml/workflows/abi.static.dmw.imagery.windbarbs.yaml'
+    modified:
+    - 'geoips/interfaces/class_based/algorithms.py'
+    - 'geoips/interfaces/class_based/coverage_checkers.py'
+    - 'geoips/interfaces/class_based/filename_formatters.py'
+    - 'geoips/interfaces/class_based/readers.py'
+    - 'geoips/interfaces/class_based/workflow.py'
+    - 'geoips/interfaces/yaml_based/sectors.py'
+    - 'geoips/interfaces/class_based_plugin.py'
+    - 'geoips/modules/interpolators/pyresample_wrappers/interp_nearest.py'
+    - 'geoips/utils/types/yaml_plugin_callable.py'
+    - 'docs/dev/order_based_procflow.rst'
+  related-issue:
+    number: 1358, 1360
+    repo_url: ''
+  date:
+    start: null
+    finish: null

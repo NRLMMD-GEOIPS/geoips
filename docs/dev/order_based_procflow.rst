@@ -118,7 +118,6 @@ Output Formatter step in the code block below includes two additional plugins,
     apiVersion: geoips/v1
     interface: products
     family: order_based
-    is_registered: false
     name: read_test
     docstring: Read test.
     package: geoips
@@ -175,15 +174,6 @@ Output Formatter step in the code block below includes two additional plugins,
         apply_interpolator:
           kind: interpolator
           name: interp_nearest
-        output_checker_1:
-          kind: output_checker
-          name: image
-          arguments:
-            checker_name: image
-            compare_path: "path/to/comparison/file.png"
-            output_products: [
-              "path/to/output/product.png",
-            ]
         apply_imagery_annotated_output_formatter:
           kind: output_formatter
           name: imagery_annotated
@@ -198,6 +188,15 @@ Output Formatter step in the code block below includes two additional plugins,
                 name: geoips_fname
                 arguments:
                   suffix: ".png"
+        output_checker_1:
+          kind: output_checker
+          name: image
+          arguments:
+            checker_name: image
+            compare_path: "path/to/comparison/file.png"
+            output_products: [
+              "path/to/output/product.png",
+            ]
 
 The code block above demonstrates a valid example of a product definition for
 an Order-Based Procflow.
