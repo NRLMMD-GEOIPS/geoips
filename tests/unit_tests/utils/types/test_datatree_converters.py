@@ -72,9 +72,7 @@ class TestMaskedArrayConverter:
 
     def test_uint8_masked_roundtrip(self):
         """Round-trip a uint8 MaskedArray with an active mask."""
-        self._assert_roundtrip(
-            np.ma.array([1, 2, 3], dtype=np.uint8, mask=[0, 1, 0])
-        )
+        self._assert_roundtrip(np.ma.array([1, 2, 3], dtype=np.uint8, mask=[0, 1, 0]))
 
     def test_float_masked_roundtrip(self):
         """Round-trip a float MaskedArray with an active mask."""
@@ -82,9 +80,7 @@ class TestMaskedArrayConverter:
 
     def test_2d_int_masked_roundtrip(self):
         """Round-trip a 2D integer MaskedArray with an active mask."""
-        self._assert_roundtrip(
-            np.ma.array([[1, 2], [3, 4]], mask=[[0, 1], [1, 0]])
-        )
+        self._assert_roundtrip(np.ma.array([[1, 2], [3, 4]], mask=[[0, 1], [1, 0]]))
 
     def test_string_masked_roundtrip(self):
         """Round-trip a string MaskedArray (non-numeric fill value)."""

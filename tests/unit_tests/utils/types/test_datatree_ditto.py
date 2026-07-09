@@ -1,3 +1,5 @@
+"""Unit tests for DataTreeDitto."""
+
 import pytest
 import numpy as np
 import xarray as xr
@@ -488,12 +490,11 @@ def sample_datatree_ditto():
 
 @pytest.fixture
 def custom_converter_setup():
-    """Setup and teardown for custom converter tests."""
+    """Set up and tear down for custom converter tests."""
     # Snapshot the registry so teardown restores global state exactly,
     # regardless of test ordering.
     registry_snapshot = dict(converter_registry._converters)
 
-    # Setup: register a string converter
     def string_to_dataset(obj, name="data", dims=None, **kwargs):
         # Convert string to char array
         char_array = np.array(list(obj))

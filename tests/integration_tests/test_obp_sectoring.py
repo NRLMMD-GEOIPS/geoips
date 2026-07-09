@@ -80,6 +80,7 @@ def _resolve(kind, name):
 
 @pytest.fixture
 def patch_sectoring(monkeypatch):
+    """Patch workflow plugin resolution and reset recorded sector calls."""
     monkeypatch.setattr(Workflow, "_resolve_plugin", staticmethod(_resolve))
     _SectorRecorder.seen_area_ids = []
 

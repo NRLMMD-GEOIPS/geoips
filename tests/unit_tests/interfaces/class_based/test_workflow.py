@@ -333,7 +333,10 @@ class TestRootWorkflowTiming:
 
 
 class TestWorkflowSpecResolution:
+    """Test how workflow step definitions resolve nested workflow specs."""
+
     def test_inline_spec_returned_directly(self):
+        """Resolve inline workflow specs without plugin lookup."""
         spec = _make_spec(
             {
                 "sub": {
@@ -371,9 +374,7 @@ class TestSubWorkflowDependsOnRuntime:
             def __call__(self, data=None, **kwargs):
                 if isinstance(data, xr.DataTree):
                     seen["children"] = set(dict(data.children))
-                return xr.DataTree(
-                    xr.Dataset({"v": (["x"], [1, 2, 3])}), name="out"
-                )
+                return xr.DataTree(xr.Dataset({"v": (["x"], [1, 2, 3])}), name="out")
 
         monkeypatch.setattr(
             Workflow,

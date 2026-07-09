@@ -61,6 +61,7 @@ def _resolve(kind, name):
 
 @pytest.fixture
 def patch_split(monkeypatch):
+    """Patch workflow plugin resolution for split and join tests."""
     monkeypatch.setattr(Workflow, "_resolve_plugin", staticmethod(_resolve))
 
 
