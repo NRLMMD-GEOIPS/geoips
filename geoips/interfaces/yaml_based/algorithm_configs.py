@@ -11,7 +11,6 @@ class AlgorithmConfigsInterface(BaseYamlInterface):
 
     name = "algorithm_configs"
     use_pydantic = True
-    # validator = FeatureAnnotatorPluginModel
 
 
 algorithm_configs = AlgorithmConfigsInterface()

@@ -1,15 +1,7 @@
 # # # This source code is subject to the license referenced at
 # # # https://github.com/NRLMMD-GEOIPS.
 
-"""Data manipulation steps for "Convective_Storms" EUMETSAT RGB product.
-
-This algorithm expects five Infrared/Visible channels for an RGB image:
-* Red SEVIRI B05BT - B06BT
-* Green SEVIRI B04BT - B09BT
-* Blue SEVIRI B03Ref - B01Ref
-"""
-
-from ast import literal_eval
+"""Data manipulation steps for generic rgb recipes."""
 
 from geoips.interfaces.class_based.algorithms import BaseAlgorithmPlugin
 from geoips.interfaces import algorithm_configs
@@ -26,14 +18,41 @@ class ConvectiveStormAlgorithmPlugin(BaseAlgorithmPlugin):
     family = "xarray_to_numpy"
     name = "config_rgb"
 
+    @staticmethod
+    def _apply_equation(xobj, equation):
+        """Apply the provided equation to data contained in xobj.
+
+        Parameters
+        ----------
+        xobj : xarray.Dataset
+            The input dataset to perform an equation on.
+        equation : dict[str, Any]
+            The equation to perform on input data.
+
+        Returns
+        -------
+        data : numpy.ndarray
+            The resulting dataset after performing the equation.
+        """
+        equation_type = equation["type"]
+
+        if equation_type == "addition":
+            data = (
+                xobj[equation["variables"][0]].to_masked_array()
+                + xobj[equation["variables"][1]].to_masked_array()
+            )
+        elif equation_type == "difference":
+            data = (
+                xobj[equation["variables"][0]].to_masked_array()
+                - xobj[equation["variables"][1]].to_masked_array()
+            )
+        else:
+            data = xobj[equation["variables"][0]].to_masked_array()
+
+        return data
+
     def call(self, xobj, config_name):  # NOQA -- xobj is used in the literal eval calls
-        """Dust RGB product algorithm data manipulation steps.
-
-        This algorithm expects TBs from five SEVIRI channels:
-
-        * Red: B05BT - B06BT
-        * Green: B04BT - B09BT
-        * Blue: B03Ref - B01Ref
+        """Apply a generic algorithm for rgb recipes.
 
         Parameters
         ----------
@@ -49,9 +68,9 @@ class ConvectiveStormAlgorithmPlugin(BaseAlgorithmPlugin):
         """
         config = algorithm_configs.get_plugin(config_name)
 
-        red = literal_eval(config["spec"]["red"]["equation"])
-        grn = literal_eval(config["spec"]["green"]["equation"])
-        blu = literal_eval(config["spec"]["blue"]["equation"])
+        red = self._apply_equation(xobj, config["spec"]["red"]["equation"])
+        grn = self._apply_equation(xobj, config["spec"]["green"]["equation"])
+        blu = self._apply_equation(xobj, config["spec"]["blue"]["equation"])
 
         input_units_red = config["spec"]["red"]["input_units"]
         output_units_red = config["spec"]["red"]["output_units"]
