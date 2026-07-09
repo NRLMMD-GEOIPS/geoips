@@ -371,9 +371,7 @@ class TestSubWorkflowDependsOnRuntime:
             def __call__(self, data=None, **kwargs):
                 if isinstance(data, xr.DataTree):
                     seen["children"] = set(dict(data.children))
-                return xr.DataTree(
-                    xr.Dataset({"v": (["x"], [1, 2, 3])}), name="out"
-                )
+                return xr.DataTree(xr.Dataset({"v": (["x"], [1, 2, 3])}), name="out")
 
         monkeypatch.setattr(
             Workflow,
