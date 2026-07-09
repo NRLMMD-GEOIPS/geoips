@@ -456,6 +456,15 @@ class BaseClassPlugin(ABC):
         """
         return kwargs
 
+    def _normalize_call_args(self, data, args, kwargs, *, _obp_initiated=False):
+        """Normalize raw ``__call__`` arguments before preprocessing.
+
+        Interface-specific subclasses can override this hook when they need to
+        support multiple public calling conventions while preserving one
+        internal convention for ``_pre_call`` and ``call``.
+        """
+        return data, args, kwargs
+
     def _invoke(self, data=None, *args, _obp_initiated=False, **kwargs):
         """Call the main plugin method.
 
@@ -476,6 +485,9 @@ class BaseClassPlugin(ABC):
             The processed data.
         """
         new_kwargs = kwargs
+        data, args, new_kwargs = self._normalize_call_args(
+            data, args, new_kwargs, _obp_initiated=_obp_initiated
+        )
 
         if data is None:
             if _obp_initiated:
@@ -503,7 +515,8 @@ class BaseClassPlugin(ABC):
             call_kwargs = self._call_kwargs(new_kwargs, _obp_initiated)
             result = self.call(*args, **call_kwargs)
             return self._post_call(
-                result, *args,
+                result,
+                *args,
                 _obp_initiated=_obp_initiated,
                 _pre_call_attrs=pre_call_attrs,
                 **new_kwargs,
@@ -536,7 +549,8 @@ class BaseClassPlugin(ABC):
                 result = self.call(data, *args, **call_kwargs)
 
         data = self._post_call(
-            result, *args,
+            result,
+            *args,
             _obp_initiated=_obp_initiated,
             _pre_call_attrs=pre_call_attrs,
             **new_kwargs,
@@ -672,7 +686,6 @@ class BaseClassPlugin(ABC):
             if attribute_checker is not None:
                 attribute_checker(cls)
 
-
         # Prevent overriding __call__ in a True class-based plugin
         if "__call__" in cls.__dict__:
             raise TypeError(f"{cls.__name__} cannot override __call__")
@@ -692,9 +705,7 @@ class BaseClassPlugin(ABC):
             inspect.Parameter.POSITIONAL_OR_KEYWORD,
         )
         call_params = [
-            p
-            for p in call_signature.parameters.values()
-            if p.name != "self"
+            p for p in call_signature.parameters.values() if p.name != "self"
         ]
         _call.__signature__ = call_signature.replace(
             parameters=[self_param] + call_params
