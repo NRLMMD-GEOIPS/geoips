@@ -394,7 +394,6 @@ class BaseClassPlugin(ABC):
         data.attrs = {**child_ds.attrs, **data.attrs}
         return data
 
-
     @staticmethod
     def _extract_child_kwargs(data, kwargs):
         """Inject conduit-mapped keyword arguments from upstream DataTree children.
