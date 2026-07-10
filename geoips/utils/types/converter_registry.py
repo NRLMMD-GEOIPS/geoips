@@ -108,7 +108,7 @@ class TypeConverterRegistry:
             Object to convert.
         target : type
             Desired target type.
-        **kwargs
+        kwargs
             Forwarded to the converter function.
 
         Returns

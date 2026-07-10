@@ -30,12 +30,12 @@ class BaseCoverageCheckerPlugin(BaseClassPlugin, abstract=True):
         ----------
         data : xr.DataTree or xr.Dataset or None
             Upstream data passed into the plugin.
-        *args : tuple
+        args : tuple
             Additional positional arguments forwarded to the base
             ``_invoke``.
         _obp_initiated : bool, default=False
             Whether the call originates from the Order-Based Procflow.
-        **kwargs : dict
+        kwargs : dict
             Step arguments.  When ``variables`` is a ``list`` it is
             consumed along with ``minimum_coverage``; remaining keys
             are forwarded to each per-variable call.
@@ -53,9 +53,7 @@ class BaseCoverageCheckerPlugin(BaseClassPlugin, abstract=True):
         """
         variables = kwargs.get("variables")
         if not _obp_initiated or not isinstance(variables, list):
-            return super()._invoke(
-                data, *args, _obp_initiated=_obp_initiated, **kwargs
-            )
+            return super()._invoke(data, *args, _obp_initiated=_obp_initiated, **kwargs)
 
         minimum_coverage = kwargs.pop("minimum_coverage", 0.0)
         kwargs.pop("variables")
@@ -64,9 +62,7 @@ class BaseCoverageCheckerPlugin(BaseClassPlugin, abstract=True):
         result = None
         for vname in variables:
             vkwargs = {**kwargs, "variable_name": vname}
-            res = super()._invoke(
-                data, *args, _obp_initiated=_obp_initiated, **vkwargs
-            )
+            res = super()._invoke(data, *args, _obp_initiated=_obp_initiated, **vkwargs)
             cov = res.ds.attrs.get("coverage", res.ds.attrs.get("value", 0.0))
             if cov < minimum_coverage:
                 raise ValueError(

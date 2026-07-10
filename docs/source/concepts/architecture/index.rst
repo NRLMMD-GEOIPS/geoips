@@ -16,6 +16,7 @@ Architecture
     geoips-specification
     cached-files
     tests/index
+    ci-infrastructure
     documentation/index
     command_line_interface
     custom-types/index

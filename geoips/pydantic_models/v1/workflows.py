@@ -26,6 +26,7 @@ from typing import Any, Dict, List, Literal, Optional, Union
 
 # Third-Party Libraries
 from pydantic import (
+    AliasChoices,
     ConfigDict,
     Field,
     FilePath,
@@ -637,13 +638,13 @@ class WorkflowStepDefinitionModel(FrozenModel):
 
         dependencies = model.depends_on
 
-        if not dependencies or (
-            isinstance(dependencies, list) and len(dependencies) < 2
-        ):
+        if not dependencies:
+            return model
+
+        if isinstance(dependencies, list) and len(dependencies) < 1:
             raise ValueError(
                 "Error: 'depends_on' field must be specified for any interpolator step "
-                "and it must depend on at least two steps, one of which being an input "
-                "data step and the other being a sector step."
+                "and it must depend on at least one step."
             )
 
         return model
@@ -941,6 +942,33 @@ class WorkflowSpecModel(FrozenModel):
 
         data["steps"] = expanded_steps
 
+        mapping = {}
+        for name, step in steps.items():
+            if step.get("kind") in ("product", "product_default"):
+                step_id = (
+                    re.sub(r"[^a-zA-Z0-9_]", "_", "_".join(step.get("name")))
+                    if step.get("kind") == "product"
+                    else step.get("name")
+                )
+                mapping[name] = [step_id]
+            elif (
+                step.get("kind") == "workflow"
+                and expand
+                and (step.get("spec") is None or step.get("name"))
+            ):
+                expanded = cls.expand_step(step, info)
+                mapping[name] = list(expanded.keys())
+
+        outputs = data.get("outputs")
+        if outputs and mapping:
+            remapped = []
+            for out in outputs:
+                if out in mapping:
+                    remapped.extend(mapping[out])
+                else:
+                    remapped.append(out)
+            data["outputs"] = remapped
+
         return data
 
     @model_validator(mode="before")
@@ -967,7 +995,11 @@ class WorkflowSpecModel(FrozenModel):
             )
 
         if data.get("outputs") is None:
-            data["outputs"] = [step_ids[-1]]
+            output_candidates = [
+                sid for sid in step_ids
+                if steps[sid].get("kind") not in ("workflow", "product", "product_default")
+            ]
+            data["outputs"] = output_candidates[-1:] if output_candidates else [step_ids[-1]]
 
         for i, sid in enumerate(step_ids):
             step = steps[sid]
@@ -1190,9 +1222,10 @@ class WorkflowTestModel(FrozenModel):
     """Model for the test section of GeoIPS workflow plugins."""
 
     # Not pathlib.Path objects as readers only expect a list of strings
-    fnames: List[str] = Field(
+    filenames: List[str] = Field(
         ...,
         description="A list of one or more filepaths to the data used for this test.",
+        validation_alias=AliasChoices("fnames", "filenames"),
     )
     #
     # globals:
@@ -1259,7 +1292,7 @@ class WorkflowTestModel(FrozenModel):
 
         return self
 
-    @field_validator("fnames", mode="before")
+    @field_validator("filenames", mode="before")
     @classmethod
     def generate_filepaths(cls, v):
         """Convert a single string or list of strings to pathlib.Path objects."""
