@@ -993,10 +993,14 @@ class WorkflowSpecModel(FrozenModel):
 
         if data.get("outputs") is None:
             output_candidates = [
-                sid for sid in step_ids
-                if steps[sid].get("kind") not in ("workflow", "product", "product_default")
+                sid
+                for sid in step_ids
+                if steps[sid].get("kind")
+                not in ("workflow", "product", "product_default")
             ]
-            data["outputs"] = output_candidates[-1:] if output_candidates else [step_ids[-1]]
+            data["outputs"] = (
+                output_candidates[-1:] if output_candidates else [step_ids[-1]]
+            )
 
         for i, sid in enumerate(step_ids):
             step = steps[sid]
