@@ -554,7 +554,7 @@ class Workflow:
 
         if step_def.kind == "reader":
             return plg(
-                filenames=filenames, data=upstream, _obp_initiated=True, **arguments
+                fnames=filenames, data=upstream, _obp_initiated=True, **arguments
             )
         return plg(data=upstream, _obp_initiated=True, **arguments)
 
