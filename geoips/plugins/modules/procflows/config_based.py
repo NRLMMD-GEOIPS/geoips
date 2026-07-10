@@ -10,12 +10,12 @@ from os.path import exists
 from os.path import basename
 from os import getpid
 from datetime import datetime
-from pyaml_env import parse_config
 
 from geoips.commandline.args import check_command_line_args
 from geoips.errors import PluginError
 from geoips.filenames.base_paths import PATHS as gpaths
 from geoips.utils.memusg.memusg_tracker import PidLog
+from geoips.utils.yaml_utils import parse_config
 
 from geoips.geoips_utils import output_process_times
 from geoips.dev.product import (

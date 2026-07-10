@@ -77,3 +77,9 @@ class DuplicateKeyError(ConstructorError, GeoipsError):
     """Raised when a YAML mapping contains duplicate keys."""
 
     pass
+
+
+class MissingEnvironmentVariableError(Exception):
+    """Raised when an environment variable is referenced without being set."""
+
+    pass
