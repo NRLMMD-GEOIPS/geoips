@@ -7,6 +7,12 @@ docstring: |
   A workflow stub for producing a scaled infrared product and its colormap.
 spec:
   steps:
+    interpolator:
+      kind: interpolator
+      name: interp_nearest
+      depends_on: [_input, _input]
+      arguments:
+        varlist: ['B14BT']
     apply_single_channel:
       kind: algorithm
       name: single_channel
@@ -21,5 +27,6 @@ spec:
     infrared_colormap:
       kind: colormapper
       name: Infrared
+      depends_on: []
       arguments:
         data_range: [-90.0, 30.0]

@@ -7,18 +7,34 @@ family: order_based
 interface: workflows
 docstring: |
   Infrared product for the AHI sensor
+test:
+  fnames: !ENV ${GEOIPS_TESTDATA_DIR}/test_data_ahi/data/20200405_0000/*
 spec:
   steps:
-    read_ahi:
+    reader:
       kind: reader
       name: ahi_hsd
       arguments:
         chans: ["B13BT"]
+    sector:
+      kind: sector
+      name: japan
+      depends_on: []
+      arguments: {}
     infarared_workflow:
       kind: workflow
-      name: Infrared
+      name: Infrared-Base
+      depends_on: [reader, sector]
       arguments:
-        apply_single_channel:
-          output_data_range: [-90, 30]
-        infrared_colormap:
-          data_range: [-90, 30]
+        interpolator.varlist: ["B13BT"]
+        apply_single_channel.output_data_range: [-90, 30]
+        infrared_colormap.data_range: [-90, 30]
+    apply_imagery_annotated:
+      kind: workflow
+      name: output-imagery-annotated
+      depends_on: [apply_single_channel, gridlines, features, infrared_colormap, sector]
+      arguments:
+        apply_imagery_annotated:
+          product_name: Infrared
+          product_name_title: GOES-ABI Infrared @ 11.2 um
+          output_fnames: [!ENV $GEOIPS_OUTDIRS/himawari_ahi_infrared_full_run.png]

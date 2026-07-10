@@ -551,9 +551,7 @@ class Workflow:
         arguments = dict(step_def.arguments or {})
 
         if step_def.kind == "reader":
-            return plg(
-                fnames=fnames, data=upstream, _obp_initiated=True, **arguments
-            )
+            return plg(fnames=fnames, data=upstream, _obp_initiated=True, **arguments)
         return plg(data=upstream, _obp_initiated=True, **arguments)
 
     # ------------------------------------------------------------------

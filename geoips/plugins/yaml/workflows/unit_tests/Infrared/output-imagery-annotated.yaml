@@ -17,7 +17,7 @@ spec:
       name: default
       depends_on: []
       arguments: {}
-    output_formatter:
+    apply_imagery_annotated:
       kind: output_formatter
       name: imagery_annotated
       arguments:

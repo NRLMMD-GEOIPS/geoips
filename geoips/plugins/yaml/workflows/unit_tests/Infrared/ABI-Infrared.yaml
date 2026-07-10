@@ -21,25 +21,20 @@ spec:
       name: goes_east
       depends_on: []
       arguments: {}
-    interpolator:
-      kind: interpolator
-      name: interp_nearest
-      depends_on: [reader, sector]
-      arguments:
-        varlist: ['B14BT']
     infarared_workflow:
       kind: workflow
       name: Infrared-Base
-      depends_on: [interpolator]
+      depends_on: [reader, sector]
       arguments:
+        interpolator.varlist: ["B14BT"]
         apply_single_channel.output_data_range: [-90, 30]
         infrared_colormap.data_range: [-90, 30]
-    output_formatter:
+    apply_imagery_annotated:
       kind: workflow
       name: output-imagery-annotated
       depends_on: [apply_single_channel, gridlines, features, infrared_colormap, sector]
       arguments:
-        output_formatter:
+        apply_imagery_annotated:
           product_name: Infrared
           product_name_title: GOES-ABI Infrared @ 11.2 um
           output_fnames: [!ENV $GEOIPS_OUTDIRS/goes_abi_infrared_full_run.png]
