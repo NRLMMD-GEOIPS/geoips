@@ -416,6 +416,9 @@ class GeoipsTestWorkflow(GeoipsWorkflowCommand):
         """
         workflow = args.workflow
         fnames = workflow["test"].get("fnames", [])
+        if not fnames:
+            fnames = workflow["test"].get("filenames", [])
+
         try:
             workflow = workflows._override_expanded_workflow(workflow)
         except KeyError:
@@ -426,10 +429,6 @@ class GeoipsTestWorkflow(GeoipsWorkflowCommand):
             )
 
         obp = procflows.get_plugin("order_based")
-
-        # TODO: Add additional logic here for other parameters included in a workflow
-        # test section, such as 'compare_path'. 'overrides' section not passed to obp
-        # as the override has already been applied to the workflow plugin.
         obp(workflow_spec=workflow, fnames=fnames)
 
 

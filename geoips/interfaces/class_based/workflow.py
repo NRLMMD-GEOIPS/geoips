@@ -426,7 +426,7 @@ class Workflow:
         self,
         workflow_tree=None,
         *,
-        fnames=None,
+        filenames=None,
         **kwargs,
     ):
         """Execute the workflow steps in topological order.
@@ -435,7 +435,7 @@ class Workflow:
         ----------
         workflow_tree : xr.DataTree or None
             A DataTree to execute into. If None, a new root is created.
-        fnames : list[str] or None
+        filenames : list[str] or None
             Input filenames for reader steps.
         ``**kwargs``
             Additional keyword arguments forwarded to plugins.
@@ -479,17 +479,19 @@ class Workflow:
             )
 
             if step_def.kind == "split":
-                step_result = self._run_split(upstream, step_def, sid, fnames=fnames)
+                step_result = self._run_split(
+                    upstream, step_def, sid, filenames=filenames
+                )
             elif step_def.kind == "join":
                 step_result = self._run_join(tree, step_def, sid)
             elif step_def.kind == "workflow":
                 sub_spec = self._resolve_workflow_spec(step_def)
                 step_result = Workflow(sub_spec, workflow_name=sid).call(
-                    workflow_tree=upstream, fnames=fnames
+                    workflow_tree=upstream, filenames=filenames
                 )
             else:
                 step_result = self._invoke_plugin_step(
-                    step_def, upstream, is_entry=is_entry, fnames=fnames
+                    step_def, upstream, is_entry=is_entry, filenames=filenames
                 )
 
             end_iso = datetime.now(timezone.utc).isoformat()
@@ -538,27 +540,29 @@ class Workflow:
 
         return tree
 
-    def _invoke_plugin_step(self, step_def, upstream, *, is_entry, fnames):
+    def _invoke_plugin_step(self, step_def, upstream, *, is_entry, filenames):
         """Resolve and call a single plugin step (not split/join/workflow).
 
         All steps are called uniformly with ``data`` as a keyword
         argument.  The only exception is ``reader`` steps, which
-        additionally receive ``fnames`` before ``data``; legacy readers
+        additionally receive ``filenames`` before ``data``; legacy readers
         strip the ``data`` tree in their ``_pre_call`` and operate on
-        ``fnames`` alone.
+        ``filenames`` alone.
         """
         plg = self._resolve_plugin(step_def.kind, step_def.name)
         arguments = dict(step_def.arguments or {})
 
         if step_def.kind == "reader":
-            return plg(fnames=fnames, data=upstream, _obp_initiated=True, **arguments)
+            return plg(
+                filenames=filenames, data=upstream, _obp_initiated=True, **arguments
+            )
         return plg(data=upstream, _obp_initiated=True, **arguments)
 
     # ------------------------------------------------------------------
     # split / join (per-branch fan-out, e.g. one branch per static sector)
     # ------------------------------------------------------------------
 
-    def _run_split(self, upstream, step_def, sid, *, fnames=None):
+    def _run_split(self, upstream, step_def, sid, *, filenames=None):
         """Run a ``split`` step's inline body sub-workflow once per branch.
 
         Branches come from the step's ``arguments``:
@@ -579,7 +583,7 @@ class Workflow:
             The ``kind="split"`` step definition (carries the inline body spec).
         sid : str
             The split step id (root node name for the branch subtree).
-        fnames : list[str] or None
+        filenames : list[str] or None
             Input filenames forwarded to each branch sub-workflow.
 
         Returns
@@ -596,7 +600,7 @@ class Workflow:
         for scope, area_def in branches:
             seed = self._seed_branch_tree(upstream, area_def)
             branch_wf = Workflow(body_spec, workflow_name=scope)
-            branch_result = branch_wf.call(workflow_tree=seed, fnames=fnames)
+            branch_result = branch_wf.call(workflow_tree=seed, filenames=filenames)
             split_node[scope] = branch_result
 
         split_node.attrs["split_scopes"] = [scope for scope, _ in branches]

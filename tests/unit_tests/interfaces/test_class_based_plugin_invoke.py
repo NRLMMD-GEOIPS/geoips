@@ -165,7 +165,10 @@ class _FakeLegacyReader(BaseReaderPlugin):
         # Legacy readers read solely from fnames; the injected tree must have
         # been stripped in _pre_call so it never arrives as `data`.
         assert "data" not in kwargs
-        return {"DATA": xr.Dataset({"var": ("x", [1, 2, 3])})}
+        return {
+            "METADATA": xr.Dataset(attrs={"source_name": "test"}),
+            "DATA": xr.Dataset({"var": ("x", [1, 2, 3])}),
+        }
 
 
 class _FakeNativeReader(BaseReaderPlugin):
@@ -189,8 +192,9 @@ class TestReaderDataStripping:
         injected = xr.DataTree(xr.Dataset({"up": ("x", [9, 9, 9])}), name="multi_input")
         result = plugin(data=injected, fnames=["a.nc"], _obp_initiated=True)
         assert isinstance(result, xr.DataTree)
-        assert "var" in result.ds
-        assert (result.ds["var"].values == [1, 2, 3]).all()
+        data_node = result["DATA"]
+        assert "var" in data_node.ds
+        assert (data_node.ds["var"].values == [1, 2, 3]).all()
 
     def test_legacy_reader_strips_empty_tree(self):
         """A top-level entry reader handed an empty DataTree still runs cleanly."""
@@ -198,7 +202,8 @@ class TestReaderDataStripping:
         empty = xr.DataTree(name="multi_input")
         result = plugin(data=empty, fnames=["a.nc"], _obp_initiated=True)
         assert isinstance(result, xr.DataTree)
-        assert "var" in result.ds
+        data_node = result["DATA"]
+        assert "var" in data_node.ds
 
     def test_native_reader_keeps_injected_tree(self):
         """A ``data_tree=True`` reader receives the injected tree as data."""

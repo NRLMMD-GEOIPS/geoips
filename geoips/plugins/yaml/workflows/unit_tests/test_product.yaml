@@ -28,6 +28,7 @@ test:
   #   sector_list: global_cylindrical
   #   logging_level: info
 spec:
+  outputs: [abi_Infrared]
   steps:
     reader:
       kind: reader

@@ -139,14 +139,14 @@ class BaseClassPlugin(ABC):
     def _pre_call(self, data=None, *args, _obp_initiated=False, **kwargs):
         """Preprocess the data before calling the main plugin method.
 
-        For legacy plugins (those that define a ``family``) this hook:
+        For legacy plugins (``data_tree=False`` with a ``family``) this hook:
 
         1. Unwraps a ``DataTreeDitto`` (or plain ``DataTree``) input
            to recover the native object via ``_unwrap()``.
         2. Applies a family-specific input conversion if the plugin's
            class defines a ``_family_conversion_map``.
 
-        Datatree-native plugins (no ``family`` attribute) pass through
+        Datatree-native plugins (``data_tree=True``) pass through
         unchanged.
 
         Parameters
@@ -161,7 +161,7 @@ class BaseClassPlugin(ABC):
         -------
         The processed data.
         """
-        if data is None or not hasattr(self.__class__, "family"):
+        if data is None or getattr(self, "data_tree", False):
             return data
 
         # Step 1: Unwrap DataTree → native type
@@ -186,14 +186,14 @@ class BaseClassPlugin(ABC):
     def _post_call(self, data=None, *args, _obp_initiated=False, **kwargs):
         """Post-process the data after calling the main plugin method.
 
-        For legacy plugins (those that define a ``family``) this hook:
+        For legacy plugins (``data_tree=False`` with a ``family``) this hook:
 
         1. Applies a family-specific output (reverse) conversion if the
            plugin's class defines a ``_family_conversion_map``.
         2. Wraps a non-DataTree result back into a ``DataTreeDitto``
            via ``_wrap()``.
 
-        Datatree-native plugins (no ``family`` attribute) pass through
+        Datatree-native plugins (``data_tree=True``) pass through
         unchanged.
 
         Parameters
@@ -215,7 +215,7 @@ class BaseClassPlugin(ABC):
         -------
             The processed data.
         """
-        if data is None or not hasattr(self.__class__, "family"):
+        if data is None or getattr(self, "data_tree", False):
             return data
 
         # Step 1: Apply family-specific reverse conversion (OBP only)
@@ -341,17 +341,58 @@ class BaseClassPlugin(ABC):
         ``DataTree.ds`` returns an immutable ``DatasetView``.  Plugins
         that need to write into the dataset must call this helper first.
 
-        * Single child → ``children[0].to_dataset()``
-        * Multiple children → ``xr.merge(...)``
-        * Not a DataTree → returned unchanged.
+        * Single child with its own data_vars → ``children[0].to_dataset()``
+        * Single child whose data lives in *its* children (reader-style
+          multi-dataset output: root is attrs-only, sub-children hold each
+          variable group) -> ``xr.merge(sub-children)`` with root attrs preserved
+        * Multiple children -> ``xr.merge(...)``
+        * Not a DataTree -> returned unchanged.
         """
+        # if not isinstance(data, xr.DataTree):
+        #     return data
+        # children = list(data.children.values())
+        # if len(children) == 1:
+        #     child = children[0]
+        #     child_ds = child.ds
+        #     if child_ds is not None and not child_ds.data_vars and child.children:
+        #         sub_children = list(child.children.values())
+        #         if len(sub_children) == 1:
+        #             merged = sub_children[0].to_dataset()
+        #         else:
+        #             merged = xr.merge([c.to_dataset() for c in sub_children])
+        #         for k, v in child_ds.attrs.items():
+        #             merged.attrs.setdefault(k, v)
+        #         return merged
+        #     return child.to_dataset()
+        # if len(children) > 1:
+        #     return xr.merge([c.to_dataset() for c in children])
+        # return data
+
         if not isinstance(data, xr.DataTree):
             return data
+
         children = list(data.children.values())
-        if len(children) == 1:
-            return children[0].to_dataset()
+
+        if not children:
+            return data
+
         if len(children) > 1:
-            return xr.merge([c.to_dataset() for c in children])
+            return xr.merge(child.to_dataset() for child in children)
+
+        child = children[0]
+        child_ds = child.ds
+
+        if child_ds is None or child_ds.data_vars or not child.children:
+            return child.to_dataset()
+
+        sub_children = list(child.children.values())
+
+        if len(sub_children) == 1:
+            data = sub_children[0].to_dataset()
+        else:
+            data = xr.merge(sub_child.to_dataset() for sub_child in sub_children)
+
+        data.attrs = {**child_ds.attrs, **data.attrs}
         return data
 
     @staticmethod
@@ -490,6 +531,34 @@ class BaseClassPlugin(ABC):
                 return dict(attrs)
         return None
 
+    def _normalize_obp_kwargs(self, kwargs):
+        """Rename OBP-injected kwarg names for legacy plugins.
+
+        Subclasses override this to translate new-style argument names
+        (e.g. ``filenames``, ``output_filenames``) back to the names
+        legacy (family-bearing) plugins expect (e.g. ``fnames``,
+        ``output_fnames``).  Called after ``_pre_call`` and before
+        ``_call_kwargs``, so the renamed kwargs survive the
+        ``_obp_filter_kwargs`` filter.
+
+        The default implementation returns *kwargs* unchanged.
+
+        Returns
+        -------
+        dict
+            The (possibly-renamed) kwargs dictionary.
+        """
+        return kwargs
+
+    def _normalize_call_args(self, data, args, kwargs, *, _obp_initiated=False):
+        """Normalize raw ``__call__`` arguments before preprocessing.
+
+        Interface-specific subclasses can override this hook when they need to
+        support multiple public calling conventions while preserving one
+        internal convention for ``_pre_call`` and ``call``.
+        """
+        return data, args, kwargs
+
     def _invoke(self, data=None, *args, _obp_initiated=False, **kwargs):
         """Call the main plugin method.
 
@@ -509,15 +578,20 @@ class BaseClassPlugin(ABC):
         -------
             The processed data.
         """
-        new_kwargs = self._obp_filter_kwargs(kwargs) if _obp_initiated else kwargs
+        new_kwargs = kwargs
+        data, args, new_kwargs = self._normalize_call_args(
+            data, args, new_kwargs, _obp_initiated=_obp_initiated
+        )
 
         if data is None:
-            # No upstream data (e.g. reader steps, or any first step). We still
-            # run ``_post_call`` so interface-level normalization happens — most
-            # importantly the reader ``dict -> DataTree`` merge in
-            # ``BaseReaderPlugin._post_call`` and the ``_wrap`` into a
-            # ``DataTreeDitto``.  ``_pre_call`` is a no-op for ``data is None``.
-            result = self.call(*args, **new_kwargs)
+            if _obp_initiated:
+                new_kwargs = self._normalize_obp_kwargs(new_kwargs)
+            # No upstream data (e.g. a reader called outside OBP, or a
+            # metadata-only read).  ``_call_kwargs`` also runs
+            # ``_obp_filter_kwargs`` when ``_obp_initiated`` is true.
+            # ``_pre_call`` is a no-op for ``data is None``.
+            call_kwargs = self._call_kwargs(new_kwargs, _obp_initiated)
+            result = self.call(*args, **call_kwargs)
             return self._post_call(
                 result, *args, _obp_initiated=_obp_initiated, **new_kwargs
             )
@@ -527,6 +601,9 @@ class BaseClassPlugin(ABC):
 
         pre_call_attrs = self._capture_attrs(self._unwrap(data))
         data = self._pre_call(data, *args, _obp_initiated=_obp_initiated, **new_kwargs)
+
+        if _obp_initiated:
+            new_kwargs = self._normalize_obp_kwargs(new_kwargs)
 
         if data is None:
             call_kwargs = self._call_kwargs(new_kwargs, _obp_initiated)
@@ -556,7 +633,7 @@ class BaseClassPlugin(ABC):
             if _obp_initiated and not self._should_pass_positional_data(call_kwargs):
                 # ``call`` has no free positional slot for the injected tree — its
                 # real input arrives via a kwarg (e.g. a colormapper's
-                # ``data_range``, a reader's ``fnames``, a conduit-injected
+                # ``data_range``, a reader's ``filenames``, a conduit-injected
                 # ``xarray_obj``), or the signature is keyword-only. Dropping the
                 # positional ``data`` lets an entry step's injected tree
                 # (including a top-level "empty dataset") reach such plugins
@@ -587,7 +664,7 @@ class BaseClassPlugin(ABC):
         * If ``call`` leads with a positional parameter
           (``POSITIONAL_ONLY``/``POSITIONAL_OR_KEYWORD``), pass data there —
           unless that same name is already supplied via ``call_kwargs`` (e.g. a
-          colormapper's ``data_range`` or a reader's ``fnames``), which would
+          colormapper's ``data_range`` or a reader's ``filenames``), which would
           raise "multiple values for argument ...".
         * Otherwise, pass positionally only if ``call`` accepts ``*args``
           (``VAR_POSITIONAL``) to absorb it.
@@ -719,7 +796,17 @@ class BaseClassPlugin(ABC):
         def _call(self, data=None, *args, **kwargs):
             return cls._invoke(self, data, *args, **kwargs)
 
-        _call.__signature__ = inspect.signature(call_method)  # mirror only call()
+        call_signature = inspect.signature(call_method)
+        self_param = inspect.Parameter(
+            "self",
+            inspect.Parameter.POSITIONAL_OR_KEYWORD,
+        )
+        call_params = [
+            p for p in call_signature.parameters.values() if p.name != "self"
+        ]
+        _call.__signature__ = call_signature.replace(
+            parameters=[self_param] + call_params
+        )
         _call.__annotations__ = getattr(call_method, "__annotations__", {})
         cls.__call__ = _call
 
