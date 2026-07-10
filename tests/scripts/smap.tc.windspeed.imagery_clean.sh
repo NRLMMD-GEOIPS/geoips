@@ -15,23 +15,7 @@ geoips run single_source \
     --window_start_time "20210926T2000Z" \
     --window_end_time "20210926T2200Z" \
     --trackfile_parser bdeck_parser \
-    --trackfiles $GEOIPS_PACKAGES_DIR/geoips/tests/sectors/tc_bdecks/bwp202021.dat \
-    --sector_adjuster_kwargs '{
-        "archer_config": {
-            "include_archer_metadata_in_sector_info": True,
-            "required_vmax_kts": 50,
-            "output_products_dict": {
-                "archer_image": {
-                    "output_formatter": "archer_image",
-                    "filename_formatter": "archer_image",
-                },
-                "archer_fix": {
-                    "output_formatter": "archer_fix",
-                    "filename_formatter": "archer_fix",
-                }
-            }
-        }
-    }'
+    --trackfiles $GEOIPS_PACKAGES_DIR/geoips/tests/sectors/tc_bdecks/bwp202021.dat
 ss_retval=$?
 
 exit $((ss_retval))
