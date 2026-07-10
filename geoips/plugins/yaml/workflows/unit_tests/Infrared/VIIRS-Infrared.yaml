@@ -36,5 +36,5 @@ spec:
       arguments:
         apply_imagery_annotated:
           product_name: Infrared
-          product_name_title: GOES-ABI Infrared @ 11.2 um
+          product_name_title: JPSS-VIIRS Infrared @ 11.2 um
           output_fnames: [!ENV $GEOIPS_OUTDIRS/jpss_viirs_infrared_full_run.png]
