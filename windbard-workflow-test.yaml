@@ -2,10 +2,7 @@ apiVersion: geoips/v1
 interface: workflows
 family: order_based
 name: abi.static.dmw.imagery.windbarbs
-docstring: The windbarbs_dmw_high product workflow.
-package: geoips
-test:
-  fnames: /tmp/test_data_abi/data/goes16_20210929_0000/OR_ABI-L2-DMWVF*.nc
+docstring: A windbarbs_dmw_high workflow.
 spec:
   steps:
     sector:
