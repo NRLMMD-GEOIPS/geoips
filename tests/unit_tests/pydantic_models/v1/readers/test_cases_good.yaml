@@ -79,3 +79,8 @@ valid_value_self_register_dataset:
   key: self_register_dataset
   val: 'Full-Disk'
   cls: ReaderArgumentsModel
+valid_value_presector:
+  description: "Ensure valid value for presector is accepted"
+  key: presector
+  val: True
+  cls: WorkflowSpecModel
