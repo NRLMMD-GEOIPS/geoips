@@ -652,7 +652,8 @@ class BaseClassPlugin(ABC):
         if any(p.kind is inspect.Parameter.VAR_KEYWORD for p in params):
             return dict(kwargs)
         accepted = {p.name for p in params}
-        return {k: v for k, v in kwargs.items() if k in accepted}
+        result = {k: v for k, v in kwargs.items() if k in accepted}
+        return result
 
     def _call_kwargs(self, kwargs, _obp_initiated):
         """Return the kwargs to forward to ``self.call``.

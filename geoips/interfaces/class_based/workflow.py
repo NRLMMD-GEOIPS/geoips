@@ -487,7 +487,11 @@ class Workflow:
                 )
             else:
                 step_result = self._invoke_plugin_step(
-                    step_def, upstream, is_entry=is_entry, filenames=filenames
+                    step_def,
+                    upstream,
+                    is_entry=is_entry,
+                    filenames=filenames,
+                    globals_kwargs=_globals_kwargs,
                 )
 
             end_iso = datetime.now(timezone.utc).isoformat()
@@ -538,7 +542,9 @@ class Workflow:
         LOG.interactive("Full DataTree after workflow run:\n%s", tree)
         return tree
 
-    def _invoke_plugin_step(self, step_def, upstream, *, is_entry, filenames):
+    def _invoke_plugin_step(
+        self, step_def, upstream, *, is_entry, filenames, globals_kwargs=None
+    ):
         """Resolve and call a single plugin step (not split/join/workflow).
 
         All steps are called uniformly with ``data`` as a keyword
@@ -546,9 +552,17 @@ class Workflow:
         additionally receive ``filenames`` before ``data``; legacy readers
         strip the ``data`` tree in their ``_pre_call`` and operate on
         ``filenames`` alone.
+
+        ``globals_kwargs`` contains workflow-level globals (e.g.
+        ``product_name``, ``area_def``) that are injected into every step
+        unless overridden by the step's own ``arguments``.
         """
         plg = self._resolve_plugin(step_def.kind, step_def.name)
         arguments = dict(step_def.arguments or {})
+
+        if globals_kwargs:
+            for k, v in globals_kwargs.items():
+                arguments.setdefault(k, v)
 
         if step_def.kind == "reader":
             return plg(
