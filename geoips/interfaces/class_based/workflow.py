@@ -121,7 +121,7 @@ class RetentionPolicy(ABC):
 
     Parameters
     ----------
-    spec : WorkflowSpecModel
+    spec : :class:`~geoips.pydantic_models.v1.workflows.WorkflowSpecModel`
         The workflow specification.
     """
 
