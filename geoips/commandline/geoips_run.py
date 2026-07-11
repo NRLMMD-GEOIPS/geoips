@@ -130,9 +130,6 @@ class GeoipsRunOrderBased(GeoipsWorkflowCommand):
     Makes use of workflow plugins and additional commandline arguments that single
     source would use.
     """
-
-    # add something to this command 'that would generate tokens' maybe '--write-tokens'
-
     name = "order_based"
     command_classes = []
     warning_with_color = (
