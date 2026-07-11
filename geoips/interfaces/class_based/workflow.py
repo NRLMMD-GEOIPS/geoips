@@ -74,6 +74,22 @@ def _resolve_ref_node(tree: xr.DataTree, ref: str):
         return None
 
 
+def _summarize_arguments(arguments: dict[str, Any]) -> dict[str, str]:
+    """Return a concise, log-friendly summary of plugin call arguments."""
+    simple_types = (str, int, float, bool, type(None))
+    summary = {}
+    for key, val in arguments.items():
+        if isinstance(val, simple_types):
+            summary[key] = repr(val)
+        elif isinstance(val, (list, tuple, set)):
+            summary[key] = f"{type(val).__name__}[{len(val)}]"
+        elif isinstance(val, dict):
+            summary[key] = f"dict[{len(val)}]"
+        else:
+            summary[key] = type(val).__name__
+    return summary
+
+
 @dataclass(frozen=True, slots=True)
 class StepProvenance:
     """Per-step provenance bundle stamped into a step node's ``attrs``."""
@@ -404,6 +420,35 @@ class Workflow:
         tree.attrs["api_version"] = "geoips/v1"
         tree.attrs["start_time"] = start_time
 
+    def _global_arguments(self) -> dict[str, Any]:
+        """Return workflow globals as invocation kwargs.
+
+        ``None`` values are omitted so placeholder globals do not override plugin
+        defaults or conduit-provided runtime values.
+        """
+        if self._spec.globals is None:
+            return {}
+        if hasattr(self._spec.globals, "model_dump"):
+            return self._spec.globals.model_dump(exclude_none=True)
+        if hasattr(self._spec.globals, "items"):
+            return {
+                key: val
+                for key, val in self._spec.globals.items()
+                if val is not None
+            }
+        return {}
+
+    def _step_arguments(self, step_def: WorkflowStepDefinitionModel) -> dict[str, Any]:
+        """Merge workflow globals with step-specific arguments.
+
+        Step-specific arguments take precedence over workflow globals. Unsupported
+        kwargs are still filtered by the class-based plugin invocation layer.
+        """
+        return {
+            **self._global_arguments(),
+            **dict(step_def.arguments or {}),
+        }
+
     def call(
         self,
         workflow_tree=None,
@@ -452,7 +497,12 @@ class Workflow:
                     f"(encountered at step '{sid}')"
                 )
 
-            arg_hash = compute_arguments_hash(step_def.arguments or {})
+            step_arguments = (
+                self._step_arguments(step_def)
+                if step_def.kind not in ("split", "join", "workflow")
+                else dict(step_def.arguments or {})
+            )
+            arg_hash = compute_arguments_hash(step_arguments)
             start_iso = datetime.now(timezone.utc).isoformat()
 
             is_entry = sid in self._entry_steps
@@ -473,7 +523,12 @@ class Workflow:
                 )
             else:
                 step_result = self._invoke_plugin_step(
-                    step_def, upstream, is_entry=is_entry, filenames=filenames
+                    sid,
+                    step_def,
+                    upstream,
+                    is_entry=is_entry,
+                    filenames=filenames,
+                    arguments=step_arguments,
                 )
 
             end_iso = datetime.now(timezone.utc).isoformat()
@@ -497,7 +552,7 @@ class Workflow:
                 step_result,
                 plugin_name=step_def.name or sid,
                 plugin_kind=step_def.kind,
-                arguments=step_def.arguments or {},
+                arguments=step_arguments,
                 upstream_tokens=upstream_tokens or None,
             )
 
@@ -522,7 +577,9 @@ class Workflow:
 
         return tree
 
-    def _invoke_plugin_step(self, step_def, upstream, *, is_entry, filenames):
+    def _invoke_plugin_step(
+        self, sid, step_def, upstream, *, is_entry, filenames, arguments
+    ):
         """Resolve and call a single plugin step (not split/join/workflow).
 
         All steps are called uniformly with ``data`` as a keyword
@@ -532,13 +589,33 @@ class Workflow:
         ``filenames`` alone.
         """
         plg = self._resolve_plugin(step_def.kind, step_def.name)
-        arguments = dict(step_def.arguments or {})
+
+        LOG.interactive(
+            "Running step '%s': %s plugin '%s'",
+            sid,
+            step_def.kind,
+            step_def.name,
+        )
+        LOG.info(
+            "Calling step '%s' with arguments: %s",
+            sid,
+            _summarize_arguments(arguments),
+        )
 
         if step_def.kind == "reader":
-            return plg(
+            result = plg(
                 filenames=filenames, data=upstream, _obp_initiated=True, **arguments
             )
-        return plg(data=upstream, _obp_initiated=True, **arguments)
+        else:
+            result = plg(data=upstream, _obp_initiated=True, **arguments)
+
+        LOG.interactive(
+            "Completed step '%s': %s plugin '%s'",
+            sid,
+            step_def.kind,
+            step_def.name,
+        )
+        return result
 
     # ------------------------------------------------------------------
     # split / join (per-branch fan-out, e.g. one branch per static sector)
