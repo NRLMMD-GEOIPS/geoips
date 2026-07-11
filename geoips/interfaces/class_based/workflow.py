@@ -3,11 +3,11 @@
 
 """DataTree-spec Workflow composite executor.
 
-The ``Workflow`` class is a non-registered runtime executor that loads a
-validated ``WorkflowSpecModel``, resolves plugins, builds a topological step
-order, and walks through the steps collecting downstream provenance into an
-``xr.DataTree``.  Retention is governed by the Strategy pattern so the
-execution loop never branches on the policy name.
+The ``Workflow`` class is a non-registered runtime executor that loads a validated
+:class:`~geoips.pydantic_models.v1.workflows.WorkflowSpecModel` resolves plugins, builds
+a topological step order, and walks through the steps collecting downstream provenance
+into an ``xr.DataTree``.  Retention is governed by the Strategy pattern so the execution
+loop never branches on the policy name.
 
 ``split`` steps fan a workflow out into one branch per scope (e.g. one per
 static sector in ``globals.sector_list``), running an inline body sub-workflow
@@ -121,7 +121,7 @@ class RetentionPolicy(ABC):
 
     Parameters
     ----------
-    spec : WorkflowSpecModel
+    spec : :class:`~geoips.pydantic_models.v1.workflows.WorkflowSpecModel`
         The workflow specification.
     """
 
@@ -178,7 +178,7 @@ class Workflow:
 
     Parameters
     ----------
-    spec : WorkflowSpecModel
+    spec : :class:`~geoips.pydantic_models.v1.workflows.WorkflowSpecModel`
         A pydantic-validated workflow specification.
     workflow_name : str
         The workflow name (used as the root DataTree node name).
@@ -749,7 +749,7 @@ class Workflow:
 
         Returns
         -------
-        WorkflowSpecModel
+        :class:`~geoips.pydantic_models.v1.workflows.WorkflowSpecModel`
         """
         if step_def.spec is not None:
             return step_def.spec
