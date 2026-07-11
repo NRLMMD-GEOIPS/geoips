@@ -119,9 +119,6 @@ class RetentionPolicy(ABC):
     def can_gc(self, step_id: str, *, executed: set[str]) -> bool:
         """Return True if the step's ``data_vars`` can be dropped."""
 
-    def _is_output(self, step_id: str) -> bool:
-        return step_id in (self._spec.outputs or ())
-
     def _is_kept(self, step_id: str) -> bool:
         return self._spec.steps[step_id].keep is True
 
@@ -146,23 +143,14 @@ class KeepReferencedPolicy(RetentionPolicy):
 
     def can_gc(self, step_id: str, *, executed: set[str]) -> bool:
         """Return True if the step's data_vars can be dropped."""
-        if self._is_output(step_id) or self._is_kept(step_id):
+        if self._is_kept(step_id):
             return False
         return not self._has_pending_consumers(step_id, executed)
-
-
-class KeepOutputsOnlyPolicy(RetentionPolicy):
-    """GC everything except declared outputs and ``keep=True`` steps."""
-
-    def can_gc(self, step_id: str, *, executed: set[str]) -> bool:
-        """Return True if the step's data_vars can be dropped."""
-        return not (self._is_output(step_id) or self._is_kept(step_id))
 
 
 _POLICIES: dict[str, type[RetentionPolicy]] = {
     "keep_all": KeepAllPolicy,
     "keep_referenced": KeepReferencedPolicy,
-    "keep_outputs_only": KeepOutputsOnlyPolicy,
 }
 
 GENERATED_WORKFLOW = "GENERATED_WORKFLOW"
@@ -416,7 +404,6 @@ class Workflow:
             (sub-)workflow roots alike — carries start/end times.
         """
         tree.attrs["workflow_name"] = self._wf_name
-        tree.attrs["outputs"] = self._spec.outputs or []
         tree.attrs["retention_policy"] = self._spec.retention or "keep_referenced"
         tree.attrs["geoips_version"] = getattr(geoips, "__version__", "unknown")
         tree.attrs["api_version"] = "geoips/v1"
