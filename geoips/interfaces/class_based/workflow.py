@@ -176,7 +176,7 @@ class Workflow:
 
     Parameters
     ----------
-    spec : WorkflowSpecModel
+    spec : :class:`~geoips.pydantic_models.v1.workflows.WorkflowSpecModel`
         A pydantic-validated workflow specification.
     workflow_name : str
         The workflow name (used as the root DataTree node name).
@@ -747,7 +747,7 @@ class Workflow:
 
         Returns
         -------
-        WorkflowSpecModel
+        :class:`~geoips.pydantic_models.v1.workflows.WorkflowSpecModel`
         """
         if step_def.spec is not None:
             return step_def.spec
