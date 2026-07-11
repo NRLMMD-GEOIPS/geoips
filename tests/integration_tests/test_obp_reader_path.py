@@ -1,10 +1,10 @@
 # # # This source code is subject to the license referenced at
 # # # https://github.com/NRLMMD-GEOIPS.
 
-"""End-to-end OBP safety-net test for the real reader contract.
+r"""End-to-end OBP safety-net test for the real reader contract.
 
 GeoIPS readers return ``{key: xr.Dataset}`` dicts (not pre-wrapped
-``DataTree``\\ s).  This is the most-traveled OBP path — read → process — and
+``DataTree``\ s).  This is the most-traveled OBP path — read → process — and
 it was previously broken in two ways that no test exercised:
 
 1. ``BaseReaderPlugin._post_call`` used ``xr.*`` without importing ``xarray``.
@@ -71,6 +71,7 @@ def _resolve(kind, name):
 
 @pytest.fixture
 def patch_reader_path(monkeypatch):
+    """Patch workflow plugin resolution and reset algorithm call tracking."""
     monkeypatch.setattr(Workflow, "_resolve_plugin", staticmethod(_resolve))
     _XrToXrAlgo.received_type = None
 

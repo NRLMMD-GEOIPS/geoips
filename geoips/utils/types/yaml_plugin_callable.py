@@ -88,7 +88,7 @@ class YamlPluginCallable:
         data : xr.DataTree or None
             Upstream DataTree (ignored for most YAML plugins; gridline
             annotators may use it for automatic spacing computation).
-        **kwargs
+        kwargs
             Step arguments from the workflow specification.  Currently
             forwarded for interface-specific post-processing.
 
@@ -132,7 +132,7 @@ class YamlPluginCallable:
         return dt
 
     def __call__(self, data: xr.DataTree | None = None, **kwargs: Any) -> xr.DataTree:
-        """See :meth:`call`."""
+        """See ``call``."""
         return self.call(data=data, **kwargs)
 
     # ------------------------------------------------------------------

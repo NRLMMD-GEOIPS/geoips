@@ -42,10 +42,7 @@ def _translate_display_args(family_args_or_schema):
     if isinstance(family_args_or_schema, list):
         return [_DISPLAY_ARG_MAP.get(a, a) for a in family_args_or_schema]
     if isinstance(family_args_or_schema, dict):
-        return {
-            _DISPLAY_ARG_MAP.get(k, k): v
-            for k, v in family_args_or_schema.items()
-        }
+        return {_DISPLAY_ARG_MAP.get(k, k): v for k, v in family_args_or_schema.items()}
     return family_args_or_schema
 
 

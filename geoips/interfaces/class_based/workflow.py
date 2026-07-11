@@ -116,9 +116,6 @@ class RetentionPolicy(ABC):
     def can_gc(self, step_id: str, *, executed: set[str]) -> bool:
         """Return True if the step's ``data_vars`` can be dropped."""
 
-    def _is_output(self, step_id: str) -> bool:
-        return step_id in (self._spec.outputs or ())
-
     def _is_kept(self, step_id: str) -> bool:
         return self._spec.steps[step_id].keep is True
 
@@ -143,23 +140,14 @@ class KeepReferencedPolicy(RetentionPolicy):
 
     def can_gc(self, step_id: str, *, executed: set[str]) -> bool:
         """Return True if the step's data_vars can be dropped."""
-        if self._is_output(step_id) or self._is_kept(step_id):
+        if self._is_kept(step_id):
             return False
         return not self._has_pending_consumers(step_id, executed)
-
-
-class KeepOutputsOnlyPolicy(RetentionPolicy):
-    """GC everything except declared outputs and ``keep=True`` steps."""
-
-    def can_gc(self, step_id: str, *, executed: set[str]) -> bool:
-        """Return True if the step's data_vars can be dropped."""
-        return not (self._is_output(step_id) or self._is_kept(step_id))
 
 
 _POLICIES: dict[str, type[RetentionPolicy]] = {
     "keep_all": KeepAllPolicy,
     "keep_referenced": KeepReferencedPolicy,
-    "keep_outputs_only": KeepOutputsOnlyPolicy,
 }
 
 
@@ -221,11 +209,7 @@ class Workflow:
         # container step; use a set per step so multiple references into the
         # same container count as a single incoming edge.
         dep_heads = {
-            sid: {
-                _dep_head(d)
-                for d in (step.depends_on or ())
-                if d != INPUT_REF
-            }
+            sid: {_dep_head(d) for d in (step.depends_on or ()) if d != INPUT_REF}
             for sid, step in self._spec.steps.items()
         }
         indegree = {sid: len(dep_heads[sid]) for sid in step_ids}
@@ -415,7 +399,6 @@ class Workflow:
             (sub-)workflow roots alike — carries start/end times.
         """
         tree.attrs["workflow_name"] = self._wf_name
-        tree.attrs["outputs"] = self._spec.outputs or []
         tree.attrs["retention_policy"] = self._spec.retention or "keep_referenced"
         tree.attrs["geoips_version"] = getattr(geoips, "__version__", "unknown")
         tree.attrs["api_version"] = "geoips/v1"
@@ -492,7 +475,9 @@ class Workflow:
             )
 
             if step_def.kind == "split":
-                step_result = self._run_split(upstream, step_def, sid, filenames=filenames)
+                step_result = self._run_split(
+                    upstream, step_def, sid, filenames=filenames
+                )
             elif step_def.kind == "join":
                 step_result = self._run_join(tree, step_def, sid)
             elif step_def.kind == "workflow":
