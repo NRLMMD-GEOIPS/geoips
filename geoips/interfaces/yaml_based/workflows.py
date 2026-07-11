@@ -509,7 +509,6 @@ class WorkflowsInterface(BaseYamlInterface):
                 "globals": goverrides,
                 "kinds": koverrides,
                 "steps": soverrides,
-                "outputs": oc_overrides,
             }.items():
                 if overrides:
                     workflow["test"][override_type] = overrides
