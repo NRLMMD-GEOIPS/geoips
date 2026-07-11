@@ -432,9 +432,7 @@ class Workflow:
             return self._spec.globals.model_dump(exclude_none=True)
         if hasattr(self._spec.globals, "items"):
             return {
-                key: val
-                for key, val in self._spec.globals.items()
-                if val is not None
+                key: val for key, val in self._spec.globals.items() if val is not None
             }
         return {}
 
