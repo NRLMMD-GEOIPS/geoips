@@ -652,11 +652,9 @@ class WorkflowSpecModel(FrozenModel):
     """The specification for a workflow."""
 
     # list of steps
-    global_arguments: GlobalVariablesModel | None = Field(
+    globals: GlobalVariablesModel | None = Field(
         None,
         description="Arguments shared across workflow steps",
-        alias="globals",
-        validation_alias=AliasChoices("globals", "global_arguments"),
     )
     steps: Dict[str, Union[WorkflowStepDefinitionModel]] = Field(
         ..., description="Steps to produce the workflow."
