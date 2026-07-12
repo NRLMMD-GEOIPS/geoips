@@ -611,7 +611,11 @@ class TestEntrySteps:
         wf = Workflow(
             _make_spec(
                 {
-                    "a": {"kind": "algorithm", "name": "single_channel", "arguments": {}},
+                    "a": {
+                        "kind": "algorithm",
+                        "name": "single_channel",
+                        "arguments": {},
+                    },
                 }
             ),
             workflow_name="test",

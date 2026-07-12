@@ -28,6 +28,8 @@ profiling/
 ####################################################
 # geoips package specific .gitignore options:
 
+# GeoIPS config file
+.geoips.yaml
 # auto-downloaded test datasets
 tests/data/**
 # auto-generated command instructions file

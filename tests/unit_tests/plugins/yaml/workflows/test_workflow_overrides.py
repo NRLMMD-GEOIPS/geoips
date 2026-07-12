@@ -4,11 +4,13 @@
 
 from collections import OrderedDict
 from copy import deepcopy
+import tempfile
 
 import pytest
 
-from geoips.errors import PluginError
 from geoips.interfaces.yaml_based.workflows import workflows
+
+tmpdir = tempfile.gettempdir()
 
 
 @pytest.fixture
@@ -413,7 +415,7 @@ def test_insert_after_key():
 
     new_value = {
         "full_test_policy": "always",
-        "compare_path": "/tmp/output.png",
+        "compare_path": f"{tmpdir}/output.png",
         "name": "image",
     }
 
@@ -448,7 +450,7 @@ def test_insert_after_key_missing_target():
             new_key="output_checker1",
             new_value={
                 "full_test_policy": "always",
-                "compare_path": "/tmp/test.png",
+                "compare_path": f"{tmpdir}/test.png",
             },
         )
 
@@ -476,7 +478,7 @@ def test_apply_output_checker_override():
     override = {
         "reader": {
             "full_test_policy": "always",
-            "compare_path": "/tmp/output.png",
+            "compare_path": f"{tmpdir}/output.png",
             "name": "image",
         }
     }
@@ -507,7 +509,7 @@ def test_apply_output_checker_override_missing_nested_key():
     override = {
         "missing_step": {
             "full_test_policy": "always",
-            "compare_path": "/tmp/output.png",
+            "compare_path": f"{tmpdir}/output.png",
         }
     }
 

@@ -33,7 +33,10 @@ class ProcflowsInterface(BaseClassInterface):
     name = "procflows"
     plugin_class = BaseProcflowPlugin
 
-    required_args = {"standard": ["fnames"], "order_based": ["workflow_spec", "filenames"]}
+    required_args = {
+        "standard": ["fnames"],
+        "order_based": ["workflow_spec", "filenames"],
+    }
     required_kwargs = {"standard": ["command_line_args"], "order_based": []}
 
 
