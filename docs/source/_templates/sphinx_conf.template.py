@@ -39,17 +39,50 @@ extensions = [
     "sphinx.ext.viewcode",
     "sphinxarg.ext",
     "sphinxcontrib.autoprogram",
-    "m2r2",
+    # MyST Markdown support (replaces the previously-unused ``m2r2``). Lets docs be
+    # authored in Markdown (``.md``) while existing reStructuredText (``.rst``) keeps
+    # working unchanged.
+    "myst_parser",
+    # Auto-render pydantic models (GeoIPS OBP workflow / interface / config models) as
+    # reference documentation so field docs stay in sync with the code.
+    "sphinxcontrib.autodoc_pydantic",
     "sphinxcontrib.mermaid",
     "sphinxcontrib.typer",
 ]
+
+# -- MyST (Markdown) configuration ----------------------------------------
+# Enable the MyST extensions used throughout the GeoIPS docs. ``colon_fence``
+# allows ``:::{note}``-style admonitions/directives in Markdown; ``deflist``
+# enables definition lists; ``attrs_block`` allows block attributes.
+myst_enable_extensions = [
+    "colon_fence",
+    "deflist",
+    "attrs_block",
+    "fieldlist",
+    "substitution",
+]
+# Auto-generate anchors for headings so cross-file Markdown links resolve.
+myst_heading_anchors = 3
+
+# -- autodoc-pydantic configuration ---------------------------------------
+# Keep the rendered model documentation compact and useful: show field docs and
+# validators, hide noisy JSON schema / config dumps by default.
+autodoc_pydantic_model_show_json = False
+autodoc_pydantic_model_show_config_summary = False
+autodoc_pydantic_model_show_validator_members = False
+autodoc_pydantic_model_show_field_summary = True
+autodoc_pydantic_field_list_validators = False
+autodoc_pydantic_field_show_constraints = True
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ["_templates"]
 
 # The suffix(es) of source filenames.
-# You can specify multiple suffix as a list of string:
-source_suffix = [".rst"]
+# ``.rst`` is parsed as reStructuredText; ``.md`` is parsed as MyST Markdown.
+source_suffix = {
+    ".rst": "restructuredtext",
+    ".md": "markdown",
+}
 
 # The encoding of source files.
 source_encoding = "utf-8"
