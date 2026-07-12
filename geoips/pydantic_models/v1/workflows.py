@@ -652,8 +652,9 @@ class WorkflowSpecModel(FrozenModel):
     """The specification for a workflow."""
 
     # list of steps
-    global_arguments: GlobalVariablesModel | None = Field(
-        None, description="Arguments shared across workflow steps"
+    globals: GlobalVariablesModel | None = Field(
+        None,
+        description="Arguments shared across workflow steps",
     )
     steps: Dict[str, Union[WorkflowStepDefinitionModel]] = Field(
         ..., description="Steps to produce the workflow."
@@ -914,7 +915,7 @@ class WorkflowSpecModel(FrozenModel):
                 # remaining non-identifier characters so the result is always
                 # a valid PythonIdentifier (required by depends_on validation).
                 step_id = (
-                    ":".join(step.get("name"))
+                    "_".join(step.get("name"))
                     if step.get("kind") == "product"
                     else step.get("name")
                 )
@@ -940,7 +941,7 @@ class WorkflowSpecModel(FrozenModel):
         for name, step in steps.items():
             if step.get("kind") in ("product", "product_default"):
                 step_id = (
-                    re.sub(r"[^a-zA-Z0-9_]", "_", "_".join(step.get("name")))
+                    "_".join(step.get("name"))
                     if step.get("kind") == "product"
                     else step.get("name")
                 )
