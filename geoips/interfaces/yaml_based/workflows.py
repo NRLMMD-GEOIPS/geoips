@@ -167,8 +167,8 @@ class WorkflowsInterface(BaseYamlInterface):
         """
         current = d
         for key in [step_id] + keys:
-            current = current.get(key, {})
-        current["arguments"][argument] = value
+            current = current.setdefault(key, {})
+        current.setdefault("arguments", {})[argument] = value
 
         return d
 
