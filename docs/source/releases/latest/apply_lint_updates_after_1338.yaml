@@ -3,7 +3,7 @@ bug fix:
   description: ''
   files:
     added: []
-    modified: []
+    modified:
     - 'geoips/commandline/geoips_run.py'
     - 'geoips/interfaces/class_based/procflows.py'
     - 'geoips/interfaces/yaml_based/workflows.py'
