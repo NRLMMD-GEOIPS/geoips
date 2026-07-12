@@ -1,0 +1,24 @@
+bug fix:
+- title: 'Fix order-based procflow reader path (dict -> DataTree)'
+  description: |
+    Readers return the standard GeoIPS ``{{key: xr.Dataset}}`` dict, but this most
+    common OBP path was broken in two ways that no test exercised. First,
+    ``BaseReaderPlugin._post_call`` used ``xr.*`` without importing xarray.
+    Second, ``BaseClassPlugin._invoke`` early-returned when ``data is None`` (the
+    reader case), so ``_post_call`` never ran and the ``dict -> DataTree`` merge
+    was skipped, causing ``_attach_step_node`` to crash trying to wrap a raw dict.
+    ``_invoke`` now runs ``_post_call`` in the no-data branch, so reader output is
+    merged into a ``DataTree`` end-to-end. A new integration test exercises the
+    real dict-returning reader through the reader -> algorithm path.
+  files:
+    added:
+    - tests/integration_tests/test_obp_reader_path.py
+    modified:
+    - geoips/interfaces/class_based/readers.py
+    - geoips/interfaces/class_based_plugin.py
+  related-issue:
+    number: null
+    repo_url: ''
+  date:
+    start: null
+    finish: null

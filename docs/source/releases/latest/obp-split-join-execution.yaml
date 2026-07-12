@@ -1,0 +1,27 @@
+feature:
+- title: 'Implement split/join fan-out in the order-based procflow'
+  description: |
+    ``split`` and ``join`` step kinds are now executed rather than raising
+    NotImplementedError. A ``split`` step carries an inline body sub-workflow
+    (``spec``) plus branch config in ``arguments`` (an explicit ``scopes`` list,
+    or ``over: sector_list``); the body runs once per branch, nested under
+    ``/<split_id>/<scope>``. A ``join`` step re-collects the branches under a
+    single node and records ``joined_scopes``. The ``scope`` field is re-enabled
+    (no longer rejected at validation) as the branch label, and the schema accepts
+    a ``split`` step's inline ``spec`` + branch ``arguments``. Seeded
+    sub-workflows now correctly pass their pre-loaded input to a first
+    (``depends_on: []``) step.
+  files:
+    added:
+    - tests/integration_tests/test_obp_split_join.py
+    modified:
+    - geoips/interfaces/class_based/workflow.py
+    - geoips/pydantic_models/v1/workflows.py
+    - tests/unit_tests/interfaces/class_based/test_workflow.py
+    - tests/unit_tests/pydantic_models/v1/test_workflow_spec_model.py
+  related-issue:
+    number: null
+    repo_url: ''
+  date:
+    start: null
+    finish: null
