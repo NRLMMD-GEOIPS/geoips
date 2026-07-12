@@ -110,7 +110,6 @@ class InfraredColormapperPlugin(BaseColormapperPlugin):
             "cbar_full_width": True,
         }
 
-        # return cbar, min_tb, max_tb
         return mpl_colors_info
 
 

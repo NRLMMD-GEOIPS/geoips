@@ -18,11 +18,8 @@ import tempfile
 import yaml
 from pydantic import ValidationError
 
-from numpy import any
-from pluginify.commandline_typer import configure_logging
-from pluginify.plugin_registry import PluginRegistry
-import tarfile
-from tqdm import tqdm
+import requests
+import yaml
 
 import geoips
 from geoips.commandline.ancillary_info.test_data import test_dataset_dict
@@ -458,6 +455,8 @@ class GeoipsConfigInstall(GeoipsExecutableCommand):
     name = "install"
     command_classes = []
 
+    _FIRST_CHUNK_SIZE = 5 * 1024 * 1024  # 5 MB
+
     def add_arguments(self):
         """Add arguments to the config-subparser for the Config Command."""
         self.parser.add_argument(
@@ -483,137 +482,280 @@ class GeoipsConfigInstall(GeoipsExecutableCommand):
                 "if set else will default to the current working directory."
             ),
         )
+        self.parser.add_argument(
+            "-j",
+            "--parallel",
+            type=int,
+            default=int(os.getenv("GEOIPS_DOWNLOAD_WORKERS", "6")),
+            metavar="N",
+            help=(
+                "Number of concurrent downloads (env: GEOIPS_DOWNLOAD_WORKERS, "
+                "default: 6)."
+            ),
+        )
+        self.parser.add_argument(
+            "--no-rich",
+            action="store_true",
+            help=(
+                "Disable rich live progress display.  Plain text output "
+                "suitable for CI logs or redirected stdout."
+            ),
+        )
+        self.parser.add_argument(
+            "--temp-dir",
+            type=pathlib.Path,
+            default=None,
+            help=("Directory for temporary download files (default: system /tmp)."),
+        )
 
     def __call__(self, args):
-        """Run the `geoips config install <test_dataset_names> -o <outdir>` command.
+        """Run the ``geoips config install <test_dataset_names> -o <outdir>`` command.
 
         Parameters
         ----------
         args: Namespace()
-            - The argument namespace to parse through
+            The argument namespace to parse through.
         """
-        test_dataset_names = args.test_dataset_names
         outdir = args.outdir
-
         if not outdir.is_dir():
             self.parser.error(f"Specified output directory {outdir} doesn't exist.")
             raise FileNotFoundError(outdir)
 
-        if len(test_dataset_names) > 1 and "all" in test_dataset_names:
-            self.parser.error(
-                "You cannot specify 'all' alongside other test dataset names. "
-                "If 'all' is specified, that must be the only argument provided."
-            )
+        names = self._resolve_dataset_names(args.test_dataset_names)
+        display = create_progress_display(
+            total=len(names),
+            use_rich=not args.no_rich,
+            is_tty=sys.stdout.isatty(),
+        )
+        display.start()
+        try:
+            self._install_pipeline(names, outdir, args, display)
+        finally:
+            display.stop()
 
-        all_datasets = len(test_dataset_names) == 1 and test_dataset_names[0] == "all"
+    # ------------------------------------------------------------------
+    # Pipeline orchestration
+    # ------------------------------------------------------------------
 
-        install_dataset_names = (
-            list(test_dataset_dict.keys()) if all_datasets else test_dataset_names
+    def _install_pipeline(self, names, outdir, args, display):
+        """Orchestrate the full install pipeline."""
+        infos = self._build_dataset_infos(names, outdir)
+
+        results = _chunk_check_parallel(
+            self._verify_version_file,
+            self._fetch_first_chunk_hash,
+            self._read_stored_chunk_hash,
+            infos,
+            args.parallel,
+            self._FIRST_CHUNK_SIZE,
         )
 
-        for test_dataset_name in install_dataset_names:
-            test_dataset_url = test_dataset_dict[test_dataset_name]
-            if any([test_dataset_name in fol for fol in listdir(outdir)]):
-                print(
-                    f"Test dataset '{test_dataset_name}' already exists under "
-                    f"'{join(outdir, test_dataset_name)}*/'. See that "
-                    "location for the contents of the test dataset."
+        for r in results:
+            if r.disposition == "cached":
+                display.add_cached(r.record.name)
+            elif r.disposition == "stale":
+                display.log_stale(r.record.name, r.reason)
+                self._cleanup_dataset_dir(r.record.existing_dir, r.record.version_file)
+
+        targets = [r for r in results if r.disposition != "cached"]
+        if not targets:
+            return
+
+        temp_dir = str(args.temp_dir) if args.temp_dir else None
+        _download_parallel(
+            self._download_to_temp,
+            self._FIRST_CHUNK_SIZE,
+            targets,
+            outdir,
+            temp_dir,
+            args.parallel,
+            display,
+        )
+
+    @staticmethod
+    def _resolve_dataset_names(test_dataset_names):
+        """Resolve ``all`` into the full list of known dataset names."""
+        if "all" in test_dataset_names:
+            return list(test_dataset_dict.keys())
+        return test_dataset_names
+
+    def _build_dataset_infos(self, names, outdir):
+        """Create internal :class:`ChunkCheckRecord` entries for each dataset."""
+        infos = []
+        for name in names:
+            url = test_dataset_dict[name]
+            version_file = join(outdir, f".{name}_version")
+            existing_dir = self._find_existing_dataset_dir(outdir, name)
+            infos.append(
+                ChunkCheckRecord(
+                    name=name,
+                    url=url,
+                    version_file=version_file,
+                    existing_dir=existing_dir,
                 )
-            else:
-                print(
-                    f"Installing {test_dataset_name} test dataset. This may take a "
-                    "while..."
-                )
-                self.download_extract_test_data(test_dataset_url, outdir)
-                out_str = (
-                    f"Test dataset '{test_dataset_name}' has been installed under "
-                    f"{outdir}/{test_dataset_name}/"
-                )
-                # Print the output of the command.
-                print(out_str)
-
-    def download_extract_test_data(self, url, download_dir):
-        """Download the specified URL and write it to the corresponding download_dir.
-
-        Will extract the data using tarfile and create an archive by bundling the
-        associated files and directories together.
-
-        Parameters
-        ----------
-        url: str
-            - The url of the test dataset to download
-        download_dir: pathlib.Path
-            - The directory in which to download and extract the data into
-        """
-        resp = requests.get(url, stream=True, timeout=15)
-        if resp.status_code == 200:
-
-            total_size = int(resp.headers.get("Content-Length", 0))
-            chunk_size = 1024 * 1024  # 1MB
-
-            # Write the data to a temp file on disk. This is needed as files larger than
-            # 1-2Gb might not fit in memory for some machines. Delete the temp file
-            # after extraction has finished.
-            with tempfile.NamedTemporaryFile(delete=False) as tmp_file:
-                # Progress bar setup
-                progress = tqdm(
-                    total=total_size,
-                    unit="B",
-                    unit_scale=True,
-                    unit_divisor=1024,
-                    desc="Downloading",
-                )
-
-                for chunk in resp.iter_content(chunk_size=chunk_size):
-                    if chunk:
-                        tmp_file.write(chunk)
-                        progress.update(len(chunk))
-
-                progress.close()
-                tmp_file.flush()
-
-                # Seek back to the start of the file for extraction
-                tmp_file.seek(0)
-
-            print("Beginning data extraction...")
-            self.extract_data_cautiously(tmp_file.name, download_dir)
-            # Delete the temp file!
-            remove(tmp_file.name)
-        else:
-            self.parser.error(
-                f"Error retrieving data from {url}; Status Code {resp.status_code}."
             )
+        return infos
 
-    def extract_data_cautiously(self, filepath, download_dir):
-        """Extract the GET Response cautiously and skip any dangerous members.
+    @staticmethod
+    def _read_stored_chunk_hash(version_file):
+        """Read the stored *chunk_sha256* from a version file.
 
-        Iterate through a Response and check that each member is not dangerous to
-        extract to your machine. If it is, skip it.
+        Returns the hex string or None if the field is missing or unreadable.
+        """
+        try:
+            with open(version_file, "r") as fh:
+                data = yaml.safe_load(fh)
+            return data.get("chunk_sha256") if isinstance(data, dict) else None
+        except Exception:
+            return None
 
-        Where 'dangerous' is a filepath that is not part of 'download_dir'. File path
-        maneuvering characters could be invoked ('../', ...), which we will not allow
-        when downloading test data.
+    @staticmethod
+    def _fetch_first_chunk_hash(url, chunk_size):
+        """Download the first *chunk_size* bytes of *url* and return its SHA256.
+
+        Uses an HTTP Range request (``bytes=0-{chunk_size-1}``).  If the server
+        does not support ranges this method still works — the response body is
+        just truncated in the hash loop.
 
         Parameters
         ----------
-        filepath: str
-            - The path to the temporary file to extract from.
-        download_dir: pathlib.Path
-            - The directory in which to download and extract the data into
-        """
-        with tarfile.open(filepath, mode="r:gz") as tar:
-            members = tar.getmembers()
+        url : str
+            The test dataset URL.
+        chunk_size : int
+            Number of bytes to download.
 
-            # Validate and extract each member of the archive
-            with tqdm(
-                total=len(members), unit="file", desc="Extracting", ncols=80
-            ) as progress:
-                for m in tar:
-                    member_path = (download_dir / m.name).resolve()
-                    if not str(member_path).startswith(str(download_dir.resolve())):
-                        raise SystemExit("Found unsafe filepath in tar, exiting now.")
-                    tar.extract(m, path=download_dir, filter="tar")
-                    progress.update(1)
+        Returns
+        -------
+        str or None
+            Hex digest of the first *chunk_size* bytes, or None on any failure
+            (network error, non-2xx status, timeout, etc.).
+        """
+        try:
+            headers = {"Range": f"bytes=0-{chunk_size - 1}"}
+            resp = requests.get(url, headers=headers, stream=True, timeout=30)
+            if resp.status_code not in (200, 206):
+                return None
+
+            hasher = hashlib.sha256()
+            received = 0
+            for chunk in resp.iter_content(chunk_size=1024 * 1024):
+                if chunk:
+                    remaining = chunk_size - received
+                    if remaining <= 0:
+                        break
+                    to_hash = chunk[:remaining]
+                    hasher.update(to_hash)
+                    received += len(to_hash)
+            return hasher.hexdigest()
+        except Exception:
+            return None
+
+    @staticmethod
+    def _find_existing_dataset_dir(outdir, dataset_name):
+        """Find an existing dataset directory matching *dataset_name* under *outdir*.
+
+        Returns the path to the dataset directory if found, else None.
+        """
+        try:
+            for entry in listdir(outdir):
+                if dataset_name in entry:
+                    full_path = join(outdir, entry)
+                    if pathlib.Path(full_path).is_dir():
+                        return full_path
+        except FileNotFoundError:
+            pass
+        return None
+
+    @staticmethod
+    def _verify_version_file(version_file, dataset_name, expected_url):
+        """Verify that *version_file* exists, is valid, and matches *expected_url*.
+
+        Also checks that the dataset directory is non-empty to guard against
+        partially extracted archives.
+
+        Returns True if the cached dataset appears valid, False otherwise.
+        """
+        if not pathlib.Path(version_file).is_file():
+            return False
+        try:
+            with open(version_file, "r") as fh:
+                data = yaml.safe_load(fh)
+            if not isinstance(data, dict):
+                return False
+            if data.get("dataset") != dataset_name:
+                return False
+            if data.get("url") != expected_url:
+                return False
+            if "chunk_sha256" not in data:
+                return False
+            if "sha256" not in data:
+                return False
+            return True
+        except Exception:
+            return False
+
+    @staticmethod
+    def _cleanup_dataset_dir(dataset_dir, version_file):
+        """Remove the dataset directory and its version file."""
+        if dataset_dir and pathlib.Path(dataset_dir).is_dir():
+            shutil.rmtree(dataset_dir, ignore_errors=True)
+        if pathlib.Path(version_file).is_file():
+            remove(version_file)
+
+    # ------------------------------------------------------------------
+    # Download to temp (functional, called from worker threads)
+    # ------------------------------------------------------------------
+
+    @staticmethod
+    def _download_to_temp(url, temp_dir, chunk_size):
+        """Download *url* to a temporary file and return hashes + path.
+
+        Parameters
+        ----------
+        url : str
+            URL of the dataset archive to download.
+        temp_dir : str or None
+            Directory for the temporary file (None for system default).
+        chunk_size : int
+            Bytes to capture for the chunk hash.
+
+        Returns
+        -------
+        DownloadResult
+            Populated with ``full_hash``, ``chunk_hash``, ``temp_path``.
+            The ``name`` field is not set (caller fills it).
+
+        Raises
+        ------
+        requests.HTTPError
+            On non-2xx status.
+        """
+        sha256 = hashlib.sha256()
+        chunk_hash = hashlib.sha256()
+        accumulated = 0
+
+        resp = requests.get(url, stream=True, timeout=(15, 300))
+        resp.raise_for_status()
+        total_size = int(resp.headers.get("Content-Length", 0))
+
+        with tempfile.NamedTemporaryFile(dir=temp_dir, delete=False) as tmp:
+            for data in resp.iter_content(chunk_size=1024 * 1024):
+                if data:
+                    tmp.write(data)
+                    sha256.update(data)
+                    if accumulated < chunk_size:
+                        to_add = data[: chunk_size - accumulated]
+                        chunk_hash.update(to_add)
+                        accumulated += len(to_add)
+            temp_path = tmp.name
+
+        return DownloadResult(
+            name="",
+            full_hash=sha256.hexdigest(),
+            chunk_hash=chunk_hash.hexdigest(),
+            temp_path=temp_path,
+            total_bytes=total_size,
+        )
 
 
 class GeoipsConfigInstallGithub(GeoipsExecutableCommand):

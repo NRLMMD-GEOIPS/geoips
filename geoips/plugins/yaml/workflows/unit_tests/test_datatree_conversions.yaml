@@ -1,0 +1,52 @@
+apiVersion: geoips/v1
+interface: workflows
+family: order_based
+name: test_datatree_conversions
+package: geoips
+docstring: |
+  End-to-end test of the DataTree-based order-based procflow with the full
+  plugin chain: reader → algorithm → colormapper → gridlines → features.
+
+  Usage:
+      geoips run order_based test_datatree_conversions \
+          tests/outputs/abi.static.Infrared.netcdf_geoips/*.nc
+spec:
+  retention: keep_outputs_only
+  outputs: [algorithm]
+  steps:
+    read:
+      kind: reader
+      name: geoips_netcdf
+      arguments: {}
+
+    algorithm:
+      kind: algorithm
+      name: single_channel
+      depends_on: [read]
+      arguments:
+        output_data_range: [-90.0, 30.0]
+        input_units: Kelvin
+        output_units: celsius
+        min_outbounds: crop
+        max_outbounds: crop
+        norm: false
+        inverse: false
+
+    colormap:
+      kind: colormapper
+      name: Infrared
+      depends_on: []
+      arguments:
+        data_range: [-90.0, 30.0]
+
+    gridlines:
+      kind: gridline_annotator
+      name: default
+      depends_on: []
+      arguments: {}
+
+    features:
+      kind: feature_annotator
+      name: default
+      depends_on: []
+      arguments: {}

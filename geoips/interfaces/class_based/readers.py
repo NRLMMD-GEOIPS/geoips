@@ -4,12 +4,13 @@
 """Readers interface class."""
 
 import collections
-from datetime import datetime
 import logging
+from datetime import datetime
 from os.path import basename
 from pathlib import Path
 
 import numpy as np
+import xarray as xr
 from xarray import concat, Dataset
 
 from geoips.utils.context_managers import import_optional_dependencies
@@ -33,11 +34,59 @@ with import_optional_dependencies(loglevel="info"):
     import numexpr as ne
     import zarr
 
+LOG = logging.getLogger(__name__)
+
 
 class BaseReaderPlugin(BaseClassPlugin, abstract=True):
     """Base class for GeoIPS reader plugins."""
 
-    pass
+    data_tree = False
+
+    def _pre_call(self, data=None, *args, _obp_initiated=False, **kwargs):
+        """Strip injected upstream data for legacy (family-bearing) readers.
+
+        Under OBP the workflow engine routes the entry step's input tree to the
+        reader as ``data``. A legacy reader reads solely from ``filenames`` and its
+        ``call`` does not accept a ``data`` argument, so the injected tree is
+        dropped here (return ``None``); ``_invoke`` then calls the reader with
+        ``filenames`` only. A Datatree-native reader (``data_tree=True``)
+        keeps the tree via the standard pass-through in ``super()._pre_call``.
+        """
+        if _obp_initiated and not getattr(self, "data_tree", False):
+            return None
+        return super()._pre_call(data, *args, _obp_initiated=_obp_initiated, **kwargs)
+
+    def _normalize_obp_kwargs(self, kwargs):
+        """Rename ``filenames`` → ``fnames`` for legacy readers.
+
+        Legacy (family-bearing) reader plugins expect ``fnames`` in their
+        ``call`` signature, but the OBP workflow interface uses ``filenames``.
+        This hook renames the kwarg so ``_obp_filter_kwargs`` does not drop
+        it and ``call`` receives the expected argument name.
+
+        Datatree-native readers (no ``family``) pass through unchanged.
+        """
+        if hasattr(self.__class__, "family") and "filenames" in kwargs:
+            kwargs["fnames"] = kwargs.pop("filenames")
+        return kwargs
+
+    def _post_call(self, data=None, *args, _obp_initiated=False, **kwargs):
+        """Merge reader dict output into a ``DataTree`` for OBP.
+
+        Readers return ``{key: xr.Dataset}``.  This hook merges the dict
+        into a single ``xr.Dataset``, preserving ``METADATA`` attrs,
+        and wraps the result in a plain ``xr.DataTree`` so downstream
+        steps can access it via the standard tree-based data flow.
+        """
+        if _obp_initiated and isinstance(data, dict):
+            metadata = data.pop("METADATA")
+            root_ds = xr.Dataset()
+            root_ds.attrs.update(metadata.attrs)
+            dt = xr.DataTree(root_ds, name=getattr(self, "name", "reader"))
+            for key, val in data.items():
+                dt[key] = xr.DataTree(val, name=key)
+            return dt
+        return super()._post_call(data, *args, _obp_initiated=_obp_initiated, **kwargs)
 
 
 class BaseAbiReaderPlugin(BaseReaderPlugin, abstract=True):
@@ -580,6 +629,12 @@ class ReadersInterface(BaseClassInterface):
         # channels.
         self.unique_stimes = list(set(self.start_times).difference(set([None])))
         self.unique_etimes = list(set(self.end_times).difference(set([None])))
+        if not self.unique_stimes:
+            raise NoValidFilesError(
+                f"No valid files found out of {len(fnames)} provided. "
+                f"Requested channels: {chans}. "
+                "Ensure files and channels match the reader's expectations."
+            )
         # Set these values to this class so they can be used downstream for reading
         # data from the correct time steps
         metadata_by_scan_time = []

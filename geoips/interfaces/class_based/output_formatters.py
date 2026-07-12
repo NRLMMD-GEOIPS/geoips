@@ -4,23 +4,194 @@
 """Output formatters interface class."""
 
 from datetime import datetime
+import functools
+import inspect
 import json
 import logging
 from os.path import dirname, exists
+import warnings
 
 import cartopy.crs as crs
 import numpy
+import xarray as xr
 
 from geoips.filenames.base_paths import make_dirs
 from geoips.geoips_utils import replace_geoips_paths
 from geoips.interfaces.class_based_plugin import BaseClassPlugin
 from geoips.interfaces.base import BaseClassInterface
+from geoips.utils.types.family_conversions import OUTPUT_FORMATTER_FAMILY_CONVERSIONS
+
+
+def _is_area_definition(obj):
+    """Return True if *obj* looks like a pyresample Geometry (duck-typed).
+
+    Avoids a mandatory ``pyresample`` import while still reliably detecting
+    ``AreaDefinition`` / ``SwathDefinition`` objects at call time.  Only those
+    classes expose the ``area_extent`` attribute.
+    """
+    return hasattr(obj, "area_extent") and not isinstance(obj, xr.DataTree)
+
 
 LOG = logging.getLogger(__name__)
 
+DATA_PARAM_NAMES = ("xarray_obj", "xarray_dict")
+
+
+def _call_with_original_order(call_method, original_params, self_obj, bound_args):
+    """Call a legacy implementation using its original parameter order."""
+    args = [self_obj]
+    kwargs = {}
+    for param in original_params[1:]:
+        if param.name not in bound_args.arguments:
+            continue
+        value = bound_args.arguments[param.name]
+        if param.kind is inspect.Parameter.POSITIONAL_ONLY:
+            args.append(value)
+        elif param.kind is inspect.Parameter.VAR_POSITIONAL:
+            args.extend(value)
+        elif param.kind is inspect.Parameter.VAR_KEYWORD:
+            kwargs.update(value)
+        else:
+            kwargs[param.name] = value
+    return call_method(*args, **kwargs)
+
+
+def _normalize_output_formatter_call_signature(call_method):
+    """Return a data-first wrapper for legacy area-first output formatters."""
+    original_sig = inspect.signature(call_method)
+    original_params = list(original_sig.parameters.values())
+    param_names = [param.name for param in original_params]
+
+    data_param_name = next(
+        (pname for pname in DATA_PARAM_NAMES if pname in param_names), None
+    )
+    if data_param_name is None or "area_def" not in param_names:
+        return call_method, False
+
+    data_idx = param_names.index(data_param_name)
+    area_idx = param_names.index("area_def")
+    if data_idx < area_idx:
+        return call_method, False
+
+    insert_idx = 1 if param_names and param_names[0] == "self" else 0
+    data_param = original_params[data_idx]
+    normalized_params = [
+        param for idx, param in enumerate(original_params) if idx != data_idx
+    ]
+    normalized_params.insert(insert_idx, data_param)
+    normalized_sig = original_sig.replace(parameters=normalized_params)
+
+    @functools.wraps(call_method)
+    def _data_first_call(self, *args, **kwargs):
+        if args and _is_area_definition(args[0]):
+            return call_method(self, *args, **kwargs)
+        bound_args = normalized_sig.bind(self, *args, **kwargs)
+        return _call_with_original_order(call_method, original_params, self, bound_args)
+
+    _data_first_call.__signature__ = normalized_sig
+    return _data_first_call, True
+
 
 class BaseOutputFormatterPlugin(BaseClassPlugin, abstract=True):
-    """Base class for GeoIPS output_formatter plugins."""
+    """Base class for GeoIPS output_formatter plugins.
+
+    Plugins with ``data_tree=False`` have their inputs / outputs
+    automatically converted according to the family-specific rules
+    defined in ``OUTPUT_FORMATTER_FAMILY_CONVERSIONS``.
+    """
+
+    data_tree = False
+    _family_conversion_map = OUTPUT_FORMATTER_FAMILY_CONVERSIONS
+
+    def __init_subclass__(cls, *, abstract=False, **kwargs):
+        """Register a concrete output formatter subclass.
+
+        In addition to the standard ``BaseClassPlugin`` validation this
+        emits a ``DeprecationWarning`` when ``area_def`` appears before
+        the data argument (``xarray_obj`` / ``xarray_dict``) in ``call``'s
+        signature — the recommended order from GeoIPS 2.0 onward is data
+        first, then ``area_def``.
+        """
+        legacy_area_first = False
+        if not abstract and "call" in cls.__dict__:
+            cls.call, legacy_area_first = _normalize_output_formatter_call_signature(
+                cls.__dict__["call"]
+            )
+
+        super().__init_subclass__(abstract=abstract, **kwargs)
+        if abstract or not hasattr(cls, "family") or not hasattr(cls, "call"):
+            return
+        if legacy_area_first:
+            data_param = next(
+                pname
+                for pname in DATA_PARAM_NAMES
+                if pname in inspect.signature(cls.call).parameters
+            )
+            warnings.warn(
+                f"Output formatter {cls.name!r} (family {cls.family!r}) "
+                f"has a legacy 'area_def' before '{data_param}' implementation "
+                f"signature. GeoIPS will expose and invoke it as data-first "
+                f"({data_param}) first, then area_def. "
+                f"The preferred migration is to make this plugin "
+                f"DataTree-native (set ``data_tree = True`` and "
+                f"remove ``family``).",
+                DeprecationWarning,
+                stacklevel=2,
+            )
+
+    def _normalize_call_args(self, data, args, kwargs, *, _obp_initiated=False):
+        """Normalize legacy formatter calls to data-first argument order.
+
+        Legacy procflows may call output formatters as either
+        ``formatter(area_def, xarray_obj, ...)`` or
+        ``formatter(area_def, xarray_obj=xarray_obj, ...)``.  Normalize both
+        forms to the data-first convention exposed by ``call``:
+        ``formatter(xarray_obj, area_def, ...)``.
+        """
+        if data is not None and _is_area_definition(data):
+            if not getattr(self, "_warned_geom_first_call", False):
+                warnings.warn(
+                    f"Output formatter {self.name!r} (family {self.family!r}) "
+                    f"received a pyresample Geometry as the first positional "
+                    f"argument. The recommended order is data first, area_def "
+                    f"second.",
+                    DeprecationWarning,
+                    stacklevel=2,
+                )
+                self._warned_geom_first_call = True
+            data_param = next(
+                (p for p in DATA_PARAM_NAMES if p in kwargs),
+                None,
+            )
+            if data_param is None and args:
+                return args[0], (data, *args[1:]), kwargs
+            if data_param is not None:
+                new_kwargs = dict(kwargs)
+                new_data = new_kwargs.pop(data_param)
+                return new_data, (data, *args), new_kwargs
+        return super()._normalize_call_args(
+            data, args, kwargs, _obp_initiated=_obp_initiated
+        )
+
+    def _pre_call(self, data=None, *args, _obp_initiated=False, **kwargs):
+        """Check argument order and reorder if necessary, then delegate."""
+        return super()._pre_call(data, *args, _obp_initiated=_obp_initiated, **kwargs)
+
+    def _normalize_obp_kwargs(self, kwargs):
+        """Rename ``output_filenames`` → ``output_fnames`` for legacy formatters.
+
+        Legacy (family-bearing) output formatter plugins expect
+        ``output_fnames`` in their ``call`` signature, but the OBP
+        conduit uses ``output_filenames``.  This hook renames the kwarg
+        so ``_obp_filter_kwargs`` does not drop it and ``call`` receives
+        the expected argument name.
+
+        Datatree-native output formatters (no ``family``) pass through
+        unchanged.
+        """
+        if hasattr(self.__class__, "family") and "output_filenames" in kwargs:
+            kwargs["output_fnames"] = kwargs.pop("output_filenames")
+        return kwargs
 
     def update_sector_info_with_default_metadata(
         self, area_def, xarray_obj, product_filename=None, metadata_filename=None
@@ -509,12 +680,12 @@ class OutputFormattersInterface(BaseClassInterface):
     plugin_class = BaseOutputFormatterPlugin
 
     required_args = {
-        "image": ["area_def", "xarray_obj", "product_name", "output_fnames"],
+        "image": ["xarray_obj", "area_def", "product_name", "output_fnames"],
         "unprojected": ["xarray_obj", "product_name", "output_fnames"],
-        "image_overlay": ["area_def", "xarray_obj", "product_name", "output_fnames"],
+        "image_overlay": ["xarray_obj", "area_def", "product_name", "output_fnames"],
         "image_multi": [
-            "area_def",
             "xarray_obj",
+            "area_def",
             "product_names",
             "output_fnames",
             "mpl_colors_info",
@@ -541,8 +712,8 @@ class OutputFormattersInterface(BaseClassInterface):
         ],
         "xarray_data": ["xarray_obj", "product_names", "output_fnames"],
         "standard_metadata": [
-            "area_def",
             "xarray_obj",
+            "area_def",
             "metadata_yaml_filename",
             "product_filename",
         ],

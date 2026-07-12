@@ -58,7 +58,7 @@ def valid_reader_arguments_model_data(file_generated_from_pytest_fixture):
         "variables": ["None"],
         "metadata_only": True,
         "self_register": "LOW",
-        "fnames": [file_generated_from_pytest_fixture],
+        "filenames": [file_generated_from_pytest_fixture],
     }
 
 
@@ -204,7 +204,7 @@ def valid_output_formatter_arguments():
 def valid_workflow_spec_model_data():
     """Fixture providing valid data testing WorkflowSpecModel fields."""
     return {
-        "global_arguments": {
+        "globals": {
             "presector": False,
             "product_db": True,
             "product_db_writer": "postgres_database",

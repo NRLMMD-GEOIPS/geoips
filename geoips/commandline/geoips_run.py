@@ -130,7 +130,6 @@ class GeoipsRunOrderBased(GeoipsWorkflowCommand):
     Makes use of workflow plugins and additional commandline arguments that single
     source would use.
     """
-
     name = "order_based"
     command_classes = []
     warning_with_color = (
@@ -180,17 +179,12 @@ class GeoipsRunOrderBased(GeoipsWorkflowCommand):
             The validated contents of an override string in a dictionary.
         """
         try:
-            lhs, rhs = value.split("=", 1)
+            override = workflows.global_override_type(value)
         except ValueError:
             raise self.parser.error(
                 f"Invalid format '{value}'. Expected '<global_variable_name>=<value>'"
             )
-
-        return {
-            "argument": lhs,
-            # doing a yaml.safe_load attempts to cast the value into its correct type
-            "value": yaml.safe_load(rhs),
-        }
+        return override
 
     def kind_override_type(self, value: str):
         """Ensure an override string fits the following format.
@@ -210,29 +204,12 @@ class GeoipsRunOrderBased(GeoipsWorkflowCommand):
             The validated contents of an override string in a dictionary.
         """
         try:
-            lhs, rhs = value.split("=", 1)
+            override = workflows.kind_override_type(value)
         except ValueError:
             raise self.parser.error(
                 f"Invalid format '{value}'. Expected '<kind>.<argument_name>=<value>'"
             )
-
-        parts = lhs.split(".")
-
-        if len(parts) != 2:
-            raise self.parser.error(
-                f"Invalid key '{lhs}'. Must be in the format of "
-                "'<kind>.<argument_name>'"
-            )
-
-        kind = parts[0]
-        argument = parts[1]
-
-        return {
-            "kind": kind,
-            "argument": argument,
-            # doing a yaml.safe_load attempts to cast the value into its correct type
-            "value": yaml.safe_load(rhs),
-        }
+        return override
 
     def step_override_type(self, value: str):
         """Ensure an override string fits the following format.
@@ -252,30 +229,12 @@ class GeoipsRunOrderBased(GeoipsWorkflowCommand):
             The validated contents of an override string in a dictionary.
         """
         try:
-            lhs, rhs = value.split("=", 1)
+            override = workflows.step_override_type(value)
         except ValueError:
             raise self.parser.error(
                 f"Invalid format '{value}'. Expected '<step_id>.<...>=<value>'"
             )
-
-        parts = lhs.split(".")
-
-        if len(parts) < 2:
-            raise self.parser.error(
-                f"Invalid key '{lhs}'. Must have at least '<step_id>.<string>'"
-            )
-
-        step_id = parts[0]
-        keys = parts[1:-1]
-        argument = parts[-1]
-
-        return {
-            "step_id": step_id,
-            "keys": keys,
-            "argument": argument,
-            # doing a yaml.safe_load attempts to cast the value into its correct type
-            "value": yaml.safe_load(rhs),
-        }
+        return override
 
     def add_arguments(self):
         """Add arguments to the run-subparser for the 'run order-based' command."""
@@ -366,6 +325,16 @@ class GeoipsRunOrderBased(GeoipsWorkflowCommand):
                 "'<global_variable_name>=<some_value>'"
             ),
         )
+        self.parser.add_argument(
+            "-wt",
+            "--write-tokens",
+            default=False,
+            action="store_true",
+            help=(
+                "Write tokens for the output of every step in a workflow. Used for "
+                "quick comparison against known token outputs."
+            ),
+        )
 
         # Turning off all additional procflow args for this command. We want this
         # command to have a limited set of arguments to start.
@@ -444,7 +413,7 @@ class GeoipsRunOrderBased(GeoipsWorkflowCommand):
         workflow = self._apply_overrides(workflow, args)
 
         obp = procflows.get_plugin("order_based")
-        obp(workflow=workflow, fnames=args.filenames, command_line_args=args)
+        obp(workflow_spec=workflow, filenames=args.filenames, command_line_args=args)
 
         if PATHS["NO_COLOR"]:
             print(self.warning_no_color)
