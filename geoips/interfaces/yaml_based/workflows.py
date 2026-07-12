@@ -12,7 +12,6 @@ import logging
 from lexeme_type.lexeme import Lexeme
 import yaml
 
-from geoips.errors import PluginError
 from geoips.interfaces.base import BaseYamlInterface
 from geoips.interfaces import output_checkers
 
