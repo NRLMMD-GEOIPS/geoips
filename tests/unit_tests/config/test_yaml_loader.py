@@ -3,6 +3,8 @@
 
 """Tests for ``geoips.config.yaml_loader``."""
 
+import pytest
+
 from geoips.config.yaml_loader import find_project_config, load_project_config
 
 
@@ -48,6 +50,26 @@ class TestFindProjectConfig:
         result = find_project_config()
         assert result == str(rcfile)
 
+    def test_explicit_path_is_used(self, monkeypatch, tmp_path):
+        """Verify an explicit config path is used instead of default search paths."""
+        explicit_file = tmp_path / "explicit.yaml"
+        explicit_file.write_text("geoips:\n  version: explicit-version\n")
+
+        cwd_file = tmp_path / ".geoips.yaml"
+        cwd_file.write_text("geoips:\n  version: cwd-version\n")
+        monkeypatch.chdir(tmp_path)
+
+        result = find_project_config(str(explicit_file))
+
+        assert result == str(explicit_file)
+
+    def test_explicit_missing_path_raises(self, tmp_path):
+        """Verify an explicit config path must exist."""
+        missing_file = tmp_path / "missing.yaml"
+
+        with pytest.raises(FileNotFoundError):
+            find_project_config(str(missing_file))
+
 
 class TestLoadProjectConfig:
     """Tests for load_project_config."""
@@ -64,6 +86,27 @@ class TestLoadProjectConfig:
         assert result is not None
         assert result["geoips"]["version"] == "loaded-version"
         assert result["geoips"]["features"]["no_color"] is True
+
+    def test_loads_explicit_path(self, monkeypatch, tmp_path):
+        """Verify an explicit config path is loaded instead of default search paths."""
+        explicit_file = tmp_path / "explicit.yaml"
+        explicit_file.write_text("geoips:\n  version: explicit-version\n")
+
+        cwd_file = tmp_path / ".geoips.yaml"
+        cwd_file.write_text("geoips:\n  version: cwd-version\n")
+        monkeypatch.chdir(tmp_path)
+
+        result = load_project_config(str(explicit_file))
+
+        assert result is not None
+        assert result["geoips"]["version"] == "explicit-version"
+
+    def test_explicit_missing_path_raises(self, tmp_path):
+        """Verify loading an explicit missing config path raises."""
+        missing_file = tmp_path / "missing.yaml"
+
+        with pytest.raises(FileNotFoundError):
+            load_project_config(str(missing_file))
 
     def test_returns_none_for_invalid_yaml(self, monkeypatch, tmp_path):
         """Verify None is returned when YAML is not a mapping."""
