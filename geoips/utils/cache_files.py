@@ -11,11 +11,32 @@ which defaults to `platformdirs.user_cache_dir("geoips")` if not set.
 
 import os
 import json
+import hashlib
 from logging import getLogger
 import geoips.utils.yaml_utils as yaml
 from geoips.filenames.base_paths import PATHS
 
 LOG = getLogger(__name__)
+
+
+def _file_sha256(path):
+    """Return the hex SHA-256 digest of a file's contents.
+
+    Parameters
+    ----------
+    path: str
+        The path to the file to hash.
+
+    Returns
+    -------
+    str
+        The hexadecimal SHA-256 digest of the file contents.
+    """
+    hasher = hashlib.sha256()
+    with open(path, "rb") as handle:
+        for chunk in iter(lambda: handle.read(65536), b""):
+            hasher.update(chunk)
+    return hasher.hexdigest()
 
 
 def source_modified(source, dest):
@@ -43,12 +64,44 @@ def source_modified(source, dest):
     return False
 
 
+def _cache_is_stale(source, dest):
+    """Return True if the cached JSON is missing or out of date with the source.
+
+    Staleness is determined by comparing a stored SHA-256 hash of the source file
+    against the source's current contents. Content-based invalidation is used
+    instead of modification times because file timestamps are unreliable across
+    git checkouts and environments (a cache can end up newer than a source that
+    was actually regenerated with different content).
+
+    Parameters
+    ----------
+    source: str
+        The path to the source YAML file.
+    dest: str
+        The path to the cached JSON file.
+
+    Returns
+    -------
+    bool
+        True if the cache should be regenerated, False otherwise.
+    """
+    hash_file = dest + ".sha256"
+    if not os.path.exists(dest) or not os.path.exists(hash_file):
+        return True
+    try:
+        with open(hash_file, "r") as handle:
+            cached_hash = handle.read().strip()
+    except OSError:
+        return True
+    return cached_hash != _file_sha256(source)
+
+
 def create_cached_json_from_yaml(source, cache_dir=None):
     """Create a cached JSON file from a YAML file.
 
     This function reads a YAML file and writes its contents to a JSON file in the user
     cache directory. The JSON file will be created if it does not already exist, or
-    updated if it does.
+    updated if the source YAML file's contents have changed since it was last cached.
 
     Parameters
     ----------
@@ -69,12 +122,15 @@ def create_cached_json_from_yaml(source, cache_dir=None):
     os.makedirs(cache_dir, exist_ok=True)
     dest = os.path.join(cache_dir, os.path.basename(source).replace(".yaml", ".json"))
 
-    if source_modified(source, dest):
+    if _cache_is_stale(source, dest):
         with open(source, "r") as yaml_file:
             data = yaml.safe_load(yaml_file)
 
         with open(dest, "w") as json_file:
             json.dump(data, json_file, indent=4)
+
+        with open(dest + ".sha256", "w") as hash_file:
+            hash_file.write(_file_sha256(source))
     return dest
 
 
@@ -95,6 +151,6 @@ def get_cached_json(source, cache_dir=None):
         The path to the cache directory. If not provided, the default user cache
         directory will be used.
     """
-    cache_file = create_cached_json_from_yaml(source)
+    cache_file = create_cached_json_from_yaml(source, cache_dir=cache_dir)
     with open(cache_file, "r") as json_file:
         return json.load(json_file)
