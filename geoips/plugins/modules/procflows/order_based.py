@@ -37,13 +37,13 @@ class OrderBased(BaseProcflowPlugin):
     """
 
     interface = "procflows"
-    family = "standard"
+    family = "order_based"
     name = "order_based"
 
     def call(
         self,
         workflow_spec: WorkflowPluginModel | WorkflowSpecModel | dict,
-        fnames: Any = None,
+        filenames: Any,
         command_line_args: Any = None,
         **kwargs: Any,
     ):
@@ -96,13 +96,13 @@ class OrderBased(BaseProcflowPlugin):
                 f"dict, got {type(workflow_spec).__name__}"
             )
 
-        if isinstance(fnames, str):
-            fnames = glob(fnames)
+        if isinstance(filenames, str):
+            filenames = glob(filenames)
 
         LOG.interactive("Begin processing '%s' workflow.", wf_name)
 
         workflow = Workflow(spec, workflow_name=wf_name)
-        result = workflow.call(filenames=fnames, **kwargs)
+        result = workflow.call(filenames=filenames, **kwargs)
 
         LOG.interactive("The workflow '%s' has finished processing.", wf_name)
         return result
@@ -119,3 +119,6 @@ def call(workflow_spec, fnames, command_line_args=None, **kwargs):
         command_line_args=command_line_args,
         **kwargs,
     )
+
+
+PLUGIN_CLASS = OrderBased

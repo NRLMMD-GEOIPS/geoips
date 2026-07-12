@@ -65,7 +65,7 @@ The code block below demonstrates the syntax of a sample step definition:
           kind:  <kind_name>        # plugin kind such as reader
           name:  <plugin_name>      # specific plugin name
           arguments: {}
-        step_id:     # unique step identifier for second step
+        step_idX:     # unique step identifier for second step
 
 
 Example
@@ -125,8 +125,9 @@ Output Formatter step in the code block below includes two additional plugins,
       fnames: !ENV ${GEOIPS_TESTDATA_DIR}/test_data_abi/data/goes16_20200918_1950/*
       outputs:
         abi:Infrared:
-          compare_path: !ENV ${GEOIPS_PACKAGES_DIR}/geoips/tests/outputs/abi.static.Infrared.imagery_clean/20200918.195020.goes-16.abi.Infrared.test_goes16_eqc_3km_day_20200918T1950Z.100p00.noaa.3p0.png
-          token: FAKE_TOKEN
+          policy: on_failure # | always
+          output_checker_arguments:
+            compare_path: !ENV ${GEOIPS_PACKAGES_DIR}/geoips/tests/outputs/abi.static.Infrared.imagery_clean/20200918.195020.goes-16.abi.Infrared.test_goes16_eqc_3km_day_20200918T1950Z.100p00.noaa.3p0.png
       steps:
         reader:
           area_def: null

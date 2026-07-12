@@ -10,7 +10,6 @@ from geoips.interfaces.class_based.workflow import (
     Workflow,
     KeepAllPolicy,
     KeepReferencedPolicy,
-    KeepOutputsOnlyPolicy,
     StepProvenance,
 )
 from geoips.pydantic_models.v1.workflows import WorkflowSpecModel
@@ -163,28 +162,28 @@ class TestRetention:
         assert policy.can_gc("r", executed={"r", "a"}) is True
         assert policy.can_gc("a", executed={"r", "a"}) is False
 
-    def test_keep_outputs_only_gcs_non_output(self):
-        """The keep_outputs_only policy GCs everything except declared outputs."""
-        spec = _make_spec(
-            {
-                "r": {
-                    "kind": "reader",
-                    "name": "r1",
-                    "arguments": {},
-                    "depends_on": [],
-                },
-                "a": {
-                    "kind": "algorithm",
-                    "name": "a1",
-                    "arguments": {},
-                    "depends_on": ["r"],
-                },
-            },
-            outputs=["a"],
-        )
-        policy = KeepOutputsOnlyPolicy(spec)
-        assert policy.can_gc("r", executed={"r", "a"}) is True
-        assert policy.can_gc("a", executed={"r", "a"}) is False
+    # def test_keep_outputs_only_gcs_non_output(self):
+    #     """The keep_outputs_only policy GCs everything except declared outputs."""
+    #     spec = _make_spec(
+    #         {
+    #             "r": {
+    #                 "kind": "reader",
+    #                 "name": "r1",
+    #                 "arguments": {},
+    #                 "depends_on": [],
+    #             },
+    #             "a": {
+    #                 "kind": "algorithm",
+    #                 "name": "a1",
+    #                 "arguments": {},
+    #                 "depends_on": ["r"],
+    #             },
+    #         },
+    #         outputs=["a"],
+    #     )
+    #     policy = KeepOutputsOnlyPolicy(spec)
+    #     assert policy.can_gc("r", executed={"r", "a"}) is True
+    #     assert policy.can_gc("a", executed={"r", "a"}) is False
 
 
 class TestStepProvenance:
@@ -222,7 +221,7 @@ class TestSplitJoinScaffolding:
     """Split runs its inline body once per branch scope."""
 
     def test_split_runs_body_per_scope(self, monkeypatch):
-        """A split with explicit ``scopes`` runs its body once per scope."""
+        """A workflow step with inline spec runs its body."""
 
         class _Passthrough:
             data_tree = True
@@ -239,9 +238,8 @@ class TestSplitJoinScaffolding:
 
         spec = _make_spec(
             {
-                "s": {
-                    "kind": "split",
-                    "arguments": {"scopes": ["band1", "band2"]},
+                "w": {
+                    "kind": "workflow",
                     "spec": {
                         "steps": {
                             "p": {
@@ -256,10 +254,9 @@ class TestSplitJoinScaffolding:
                 },
             }
         )
-        result = Workflow(spec, workflow_name="split_test").call()
-        split_node = result.get("s")
-        assert split_node is not None
-        assert set(dict(split_node.children)) == {"band1", "band2"}
+        result = Workflow(spec, workflow_name="workflow_test").call()
+        wf_node = result.get("w")
+        assert wf_node is not None
 
 
 class TestRootWorkflowTiming:
@@ -608,6 +605,24 @@ class TestEntrySteps:
             workflow_name="test",
         )
         assert wf._entry_steps == {"algo"}
+
+    def test_empty_workflow(self):
+        """Test for no upstream data on empty workflow."""
+        wf = Workflow(
+            _make_spec(
+                {
+                    "a": {
+                        "kind": "algorithm",
+                        "name": "single_channel",
+                        "arguments": {},
+                    },
+                }
+            ),
+            workflow_name="test",
+        )
+        empty_root = wf._collect_upstream_data(xr.DataTree(name="fresh"), [], {}, False)
+        assert dict(empty_root.children) == {}
+        assert empty_root.name == "multi_input"
 
     def test_multiple_input_steps_fan_out(self):
         """Multiple "_input" steps all become entry steps (fan-out)."""

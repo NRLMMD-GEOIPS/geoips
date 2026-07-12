@@ -12,7 +12,6 @@ import logging
 from lexeme_type.lexeme import Lexeme
 import yaml
 
-from geoips.errors import PluginError
 from geoips.interfaces.base import BaseYamlInterface
 from geoips.interfaces import output_checkers
 
@@ -167,8 +166,8 @@ class WorkflowsInterface(BaseYamlInterface):
         """
         current = d
         for key in [step_id] + keys:
-            current = current.get(key, {})
-        current["arguments"][argument] = value
+            current = current.setdefault(key, {})
+        current.setdefault("arguments", {})[argument] = value
 
         return d
 
@@ -270,10 +269,13 @@ class WorkflowsInterface(BaseYamlInterface):
         for override_type, overrides in wf_overrides.items():
             type_singular = Lexeme(override_type).singular
             for override in overrides:
-                steps = getattr(self, f"_override_{type_singular}")(
-                    steps,
-                    getattr(self, f"{type_singular}_override_type")(override),
-                )
+                if isinstance(override, str):
+                    steps = getattr(self, f"_override_{type_singular}")(
+                        steps,
+                        getattr(self, f"{type_singular}_override_type")(override),
+                    )
+                else:
+                    steps = getattr(self, f"_override_{type_singular}")(steps, override)
 
         workflow["spec"]["steps"] = steps
 
@@ -317,18 +319,18 @@ class WorkflowsInterface(BaseYamlInterface):
             new_steps[key] = value
 
             if key == target_key:
-                try:
-                    arguments = new_value.pop("output_checker_arguments")
-                except KeyError:
-                    arguments = new_value.pop("arguments", None)
-                    if arguments is None:
-                        raise PluginError(
-                            "Error: input workflow plugin is improperly formatted "
-                            "either in it's workflow test section."
-                            f"Offending input value == {new_value}"
-                        )
+                compare_path = new_value.pop("compare_path", None)
+                threshold = new_value.pop("threshold", None)
+                arguments = {"compare_path": compare_path, "threshold": threshold}
+
                 new_steps[new_key] = new_value
                 new_steps[new_key]["arguments"] = arguments
+                if not arguments["compare_path"]:
+                    LOG.warning(
+                        "WARNING: NO COMPARE PATH PROVIDED, NOT ADDING OUTPUT CHECKER "
+                        f"STEP AFTER STEP '{target_key}'."
+                    )
+                    return steps
                 if "name" not in new_value:
                     new_steps[new_key]["name"] = output_checkers.identify_checker(
                         arguments["compare_path"]
@@ -360,9 +362,9 @@ class WorkflowsInterface(BaseYamlInterface):
             return steps
 
         for key, value in override.items():
-            # Detected leaf output checker override. Overriding. 'policy' is a field
-            # that is unique to output checker overrides and step definitions
-            if isinstance(value, Mapping) and "policy" in value:
+            # Detected leaf output checker override. Overriding. 'full_test_policy' is a
+            # field that is unique to output checker overrides and step definitions
+            if isinstance(value, Mapping) and "full_test_policy" in value:
                 # Generate a unique step id based on how many output checker step ids
                 # were encountered previously
                 count = sum(

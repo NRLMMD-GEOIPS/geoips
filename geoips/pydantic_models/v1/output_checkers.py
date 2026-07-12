@@ -28,10 +28,14 @@ class OutputCheckerArgumentsModel(FrozenModel):
         ...,
         description="The path to the comparison file.",
     )
-    output_products: List[FilePath] | List[str] | None = Field(
+    output_products: Optional[List[FilePath] | List[str]] = Field(
         None,
         description="A list of paths to the output file(s).",
     )
-    token: Optional[str] = Field(
-        None, description="A token of the dataset to compare to."
+    threshold: Optional[float] = Field(
+        None,
+        description=(
+            "Threshold for the image comparison. Argument to pixelmatch. Between "
+            "0 and 1, with 0 the most strict comparison, and 1 the most lenient."
+        ),
     )
