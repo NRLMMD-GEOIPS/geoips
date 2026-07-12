@@ -1,0 +1,20 @@
+bug fix:
+- title: ''
+  description: ''
+  files:
+    added: []
+    modified: []
+    - 'geoips/commandline/geoips_run.py'
+    - 'geoips/interfaces/class_based/procflows.py'
+    - 'geoips/interfaces/yaml_based/workflows.py'
+    - 'geoips/pydantic_models/v1/workflows.py'
+    - 'tests/unit_tests/interfaces/class_based/test_workflow.py'
+    - 'tests/unit_tests/plugins/yaml/workflows/test_workflow_overrides.py'
+    deleted: []
+    moved: []
+  related-issue:
+    number: null
+    repo_url: ''
+  date:
+    start: 2026-07-12
+    finish: 2026-07-12
