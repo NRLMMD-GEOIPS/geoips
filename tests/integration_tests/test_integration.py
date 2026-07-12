@@ -3,10 +3,12 @@
 
 """Pytest file for calling integration bash scripts."""
 
+import fcntl
 import os
 import platform
 import shlex
 from datetime import datetime, timezone
+from pathlib import Path
 import re
 
 import pytest
@@ -260,10 +262,28 @@ def _run_ansible_check(tags, label):
         orig_vals[key] = os.environ.get(key)
         os.environ[key] = val
 
+    run_uid = os.environ.get("PYTEST_XDIST_TESTRUNUID", "single-process")
+    state_dir = Path(os.getenv("GEOIPS_OUTDIRS", "/tmp")) / "pytest-install-state"
+    state_dir.mkdir(parents=True, exist_ok=True)
+    lock_path = state_dir / "ansible-install.lock"
+    done_path = state_dir / f"{run_uid}-{label}.done"
+
     try:
-        retval, stdout, stderr = call_cmd(
-            cmd, output_log_fname=log_fname, use_logging=False, use_print=False
-        )
+        with open(lock_path, "w", encoding="utf-8") as lock_fobj:
+            fcntl.flock(lock_fobj, fcntl.LOCK_EX)
+            try:
+                if done_path.exists():
+                    print(f"Ansible install check ({label}) already completed.")
+                    return
+
+                retval, stdout, stderr = call_cmd(
+                    cmd, output_log_fname=log_fname, use_logging=False, use_print=False
+                )
+
+                if retval == 0:
+                    done_path.write_text(f"{log_fname}\n", encoding="utf-8")
+            finally:
+                fcntl.flock(lock_fobj, fcntl.LOCK_UN)
     finally:
         # Restore original env
         for key, orig in orig_vals.items():
