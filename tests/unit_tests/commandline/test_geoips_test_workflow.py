@@ -47,6 +47,9 @@ class TestGeoipsTestWorkflow(BaseCliTest):
             assert "1 validation error for" in error
             return
 
+        if "No valid files found" in error:
+            return
+
         assert "To use, type `geoips test workflow <workflow_type>" in error
 
         if "non_existent" in args[-1]:

@@ -40,10 +40,10 @@ class ReaderArgumentsModel(PermissiveFrozenModel):
     area_def: AreaDefinition | None = Field(
         None, description="The domain over which to read data."
     )
-    variables: List[str] = Field(
+    chans: List[str] = Field(
         None,
         description="List of variables to read",
-        alias="chans",
+        alias="variables",
     )
     metadata_only: bool = Field(False, description="Read metadata only.")
     self_register: str = Field(None, description="Enable self-registration.")

@@ -28,11 +28,10 @@ from typing import Any, Dict, List, Literal, Optional, Union
 from pydantic import (
     AliasChoices,
     ConfigDict,
-    FilePath,
     Field,
+    FilePath,
     field_validator,
     model_validator,
-    RootModel,
     ValidationInfo,
 )
 
@@ -64,12 +63,10 @@ from geoips.utils.types.partial_lexeme import Lexeme
 LOG = logging.getLogger(__name__)
 
 SCAFFOLD_KINDS = frozenset({"split", "join"})
-"""Fan-out/fan-in scaffolding kinds.
+"""Kinds reserved as scaffolding markers.
 
-``split`` carries an inline body ``spec`` and branch-config ``arguments``
-(``scopes`` or ``over: sector_list``); ``join`` re-collects the branches. These
-do not reference a plugin ``name`` and are skipped by plugin-name / argument
-validation.
+Steps with these kinds are accepted by schema validation but raise
+``NotImplementedError`` at runtime.
 """
 
 INPUT_REF = "_input"
@@ -116,7 +113,7 @@ def get_plugin_names(plugin_kind: str) -> List[str]:
         If the plugin kind is invalid
 
     """
-    interface_name = str(Lexeme(plugin_kind).plural)
+    interface_name = Lexeme(plugin_kind).plural
     try:
         interface = getattr(interfaces, interface_name)
     except AttributeError as e:
@@ -240,7 +237,6 @@ class SectorArgumentsModel(PermissiveFrozenModel):
     pass
 
 
-# Dictionary listing all plugin arguments models
 _PLUGIN_ARGUMENTS_MODELS: dict[str, type] = {
     "AlgorithmArgumentsModel": AlgorithmArgumentsModel,
     "ColormapperArgumentsModel": ColormapperArgumentsModel,
@@ -269,7 +265,6 @@ class GlobalVariablesModel(PermissiveFrozenModel):
     presectoring toggle)
     """
 
-    minimum_coverage: float | str = Field(default=PLUGIN_PROVIDED)
     presector: bool = Field(
         False,
         description="Specify whether to presector the data prior to applying "
@@ -344,6 +339,8 @@ class GlobalVariablesModel(PermissiveFrozenModel):
 class WorkflowStepDefinitionModel(FrozenModel):
     """Validate step definition : kind, name, and arguments."""
 
+    model_config = ConfigDict()
+
     kind: Lexeme = Field(..., description="plugin kind")
     name: str | tuple[str] | None = Field(
         None,
@@ -356,11 +353,7 @@ class WorkflowStepDefinitionModel(FrozenModel):
         None, description="The workflow specification"
     )
     arguments: Dict[str, Any] | None = Field(
-        default_factory=dict,
-        description=(
-            "Step arguments. ``None`` for ``kind: workflow`` steps (which carry "
-            "an inline ``spec`` instead), as set by ``_ensure_xor_name_spec``."
-        ),
+        default_factory=dict, description="step args"
     )
     depends_on: List[StepReference] | None = Field(
         None,
@@ -404,6 +397,15 @@ class WorkflowStepDefinitionModel(FrozenModel):
             "Runtime evaluation is not yet implemented."
         ),
     )
+    full_test_policy: Literal["on_token_mismatch", "always", "never", None] = Field(
+        None,
+        description=(
+            "Tells GeoIPS in what circumstances an output checker should run based on "
+            "the result of the token comparison. Defaults to only running the specified"
+            " (or detected) output checker on failed token comparison."
+            "Should only EVER exist for an output checker step."
+        ),
+    )
 
     @field_validator("kind", mode="before")
     @classmethod
@@ -445,6 +447,16 @@ class WorkflowStepDefinitionModel(FrozenModel):
 
         return value
 
+    @field_validator("scope", mode="before")
+    @classmethod
+    def _reject_scope(cls, value: str | None) -> None:
+        """Reject non-None ``scope`` — split/join is not yet implemented."""
+        if value is not None:
+            raise ValueError(
+                "scope is not yet implemented — remove this field from the YAML"
+            )
+        return value
+
     @field_validator("when", mode="before")
     @classmethod
     def _reject_when(cls, value: str | None) -> None:
@@ -477,29 +489,10 @@ class WorkflowStepDefinitionModel(FrozenModel):
         ValueError
             If the plugin name is not valid for the specified plugin kind.
         """
-        kind = values.get("kind")
-        if kind == "workflow":
+        if values.get("kind") == "workflow":
             if (values.get("name") is None) == (values.get("spec") is None):
                 raise ValueError("Exactly one of 'name' or 'spec' must be provided.")
             values["arguments"] = None
-        elif kind == "split":
-            # A split step carries an inline 'spec' (the per-branch body sub-
-            # workflow) plus branch-config 'arguments' (e.g. ``over: sector_list``
-            # or an explicit ``scopes`` list). It does not reference a plugin name.
-            if values.get("spec") is None:
-                raise ValueError(
-                    "A 'split' step must provide an inline 'spec' "
-                    "(the per-branch body sub-workflow)."
-                )
-            if values.get("name") is not None:
-                raise ValueError("A 'split' step must not specify a 'name'.")
-        elif kind == "join":
-            # A join step merges the branches produced by a split. It takes no
-            # name and no spec — only ``depends_on`` (the split step id).
-            if values.get("spec") is not None:
-                raise ValueError("A 'join' step cannot define a 'spec'.")
-            if values.get("name") is not None:
-                raise ValueError("A 'join' step must not specify a 'name'.")
         else:
             if values.get("spec"):
                 raise ValueError(
@@ -556,9 +549,7 @@ class WorkflowStepDefinitionModel(FrozenModel):
             return model
 
         valid_plugin_names = get_plugin_names(plugin_kind)
-        # output checker has default plugin in some cases
-        # the workflow YAML would use plugin_provided as plugin name
-        if plugin_name != PLUGIN_PROVIDED and plugin_name not in valid_plugin_names:
+        if plugin_name not in valid_plugin_names:
             raise ValueError(
                 f"Invalid plugin name '{plugin_name}'."
                 f"Must be one of {sorted(valid_plugin_names)}"
@@ -662,13 +653,14 @@ class WorkflowSpecModel(FrozenModel):
 
     # list of steps
     globals: GlobalVariablesModel | None = Field(
-        None, description="Arguments shared across workflow steps"
+        None,
+        description="Arguments shared across workflow steps",
     )
-    steps: Dict[str, WorkflowStepDefinitionModel] = Field(
+    steps: Dict[str, Union[WorkflowStepDefinitionModel]] = Field(
         ..., description="Steps to produce the workflow."
     )
 
-    outputs: List[PythonIdentifier] | None = Field(
+    outputs: List[str] | None = Field(
         None,
         description=(
             "Step IDs that constitute workflow outputs. These step nodes "
@@ -695,17 +687,14 @@ class WorkflowSpecModel(FrozenModel):
         description=(
             "Per-kind retention overrides. Keys are plugin kind names "
             "(e.g. 'reader', 'algorithm'). If None, no per-kind override. "
-            "Not yet implemented in v1: rejected at validation by "
-            "``_reject_retention_by_kind`` until the runtime wires it in."
+            "This is a v2 feature; field exists but is not wired in v1."
         ),
     )
     defaults: Dict[str, Dict[str, Any]] | None = Field(
         None,
         description=(
             "Per-kind argument defaults applied to every step of that kind. "
-            "Keys are plugin kind names. Step-level arguments override these. "
-            "Not yet implemented in v1: rejected at validation by "
-            "``_reject_defaults`` until the runtime wires it in."
+            "Keys are plugin kind names. Step-level arguments override these."
         ),
     )
 
@@ -779,13 +768,18 @@ class WorkflowSpecModel(FrozenModel):
         return result
 
     @classmethod
-    def product_to_steps(cls, plugin: dict) -> tuple[dict[dict], dict]:
+    def product_to_steps(
+        cls, plugin: dict, _inputs: list[str] | None = None
+    ) -> tuple[dict[dict], dict]:
         """Define a product or product default plugin as a series of workflow steps.
 
         Parameters
         ----------
         plugin: dict
-            - A dictionary representation of a product or product default plugin.
+            A dictionary representation of a product or product default plugin.
+        _inputs: list[str], optional
+            One or more step ids that are providing input data to this step. Optional.
+            If None, assume no input data is available or needed.
 
         Returns
         -------
@@ -801,9 +795,28 @@ class WorkflowSpecModel(FrozenModel):
         global_vars = {"variables": spec["variables"]} if spec.get("variables") else {}
 
         if family in ORDERED_PRODUCT_FAMILIES:
-            for plugin_name in family.split("_"):
+            step_order = family.split("_")
+            last_data_step = []
+            for idx, plugin_name in enumerate(step_order):
                 steps[plugin_name] = spec[plugin_name].get("plugin")
                 steps[plugin_name]["kind"] = plugin_name
+
+                if plugin_name == "colormapper":
+                    steps[plugin_name]["depends_on"] = []
+                elif idx == 0 and _inputs:
+                    steps[plugin_name]["depends_on"] = ["_input"]
+                    last_data_step = [plugin_name]
+                elif idx == 0 and not _inputs:
+                    steps[plugin_name]["depends_on"] = []
+                    last_data_step = [plugin_name]
+                else:
+                    steps[plugin_name]["depends_on"] = last_data_step
+                    last_data_step = [plugin_name]
+
+            if "coverage_checker" in spec:
+                steps["coverage_checker"] = spec["coverage_checker"].get("plugin")
+                steps["coverage_checker"]["kind"] = "coverage_checker"
+                steps["coverage_checker"]["depends_on"] = last_data_step
         else:
             for key, value in spec.items():
                 if key in ["mtif_type", "variables"]:
@@ -819,7 +832,9 @@ class WorkflowSpecModel(FrozenModel):
         return steps, global_vars
 
     @classmethod
-    def expand_step(cls, step: dict, info: ValidationInfo) -> dict[dict]:
+    def expand_step(
+        cls, step: dict, info: ValidationInfo, _inputs: list[str] | None = None
+    ) -> dict[dict]:
         """Expand the definition of this step if it is a select plugin type.
 
         Plugin types this function will expand include
@@ -834,6 +849,9 @@ class WorkflowSpecModel(FrozenModel):
             A dictionary representation of a workflow step.
         info: ValidationInfo
             An object representing the context in which this model was instantiated.
+        _inputs: list[str], optional
+            One or more step ids that are providing input data to this step. Optional.
+            If None, assume no input data is available or needed.
 
         Returns
         -------
@@ -855,7 +873,7 @@ class WorkflowSpecModel(FrozenModel):
             plugin = interface.get_plugin(step.get("name"), _expand=expand)
 
         if kind in ["product", "product_default"]:
-            steps, global_vars = cls.product_to_steps(plugin)  # NOQA
+            steps, global_vars = cls.product_to_steps(plugin, _inputs)  # NOQA
         else:
             steps = cls.expand_steps(plugin.get("spec"), info)["steps"]
 
@@ -882,10 +900,12 @@ class WorkflowSpecModel(FrozenModel):
         steps = data.pop("steps", {})
         expanded_steps = {}
 
+        _inputs = None
+
         for name, step in steps.items():
             # Default
             if step.get("kind") in ["product", "product_default"]:
-                spec = {"steps": cls.expand_step(step, info)}
+                spec = {"steps": cls.expand_step(step, info, _inputs)}
                 new_step = {
                     "kind": "workflow",
                     "spec": spec,
@@ -895,7 +915,7 @@ class WorkflowSpecModel(FrozenModel):
                 # remaining non-identifier characters so the result is always
                 # a valid PythonIdentifier (required by depends_on validation).
                 step_id = (
-                    re.sub(r"[^a-zA-Z0-9_]", "_", "_".join(step.get("name")))
+                    "_".join(step.get("name"))
                     if step.get("kind") == "product"
                     else step.get("name")
                 )
@@ -913,13 +933,15 @@ class WorkflowSpecModel(FrozenModel):
                 # Not a workflow or product-based plugin, just keep the step as it is
                 expanded_steps[name] = step
 
+            _inputs = [name]
+
         data["steps"] = expanded_steps
 
         mapping = {}
         for name, step in steps.items():
             if step.get("kind") in ("product", "product_default"):
                 step_id = (
-                    re.sub(r"[^a-zA-Z0-9_]", "_", "_".join(step.get("name")))
+                    "_".join(step.get("name"))
                     if step.get("kind") == "product"
                     else step.get("name")
                 )
@@ -1129,13 +1151,14 @@ class WorkflowSpecModel(FrozenModel):
         return self
 
 
-class OutputCheckerOverride(PermissiveFrozenModel):
-    """Model for generic output checker overrides in a workflow test section.
+class OutputCheckerOverrideModel(PermissiveFrozenModel):
+    """Model for output checker step definitions / overrides in a workflow test / steps section.  # NOQA
 
     Takes the form of:
 
     output_checker:
         name: my_oc
+        full_test_policy: "on_token_mismatch" | "always" | "never"
         arguments:
         ...
     """
@@ -1146,81 +1169,28 @@ class OutputCheckerOverride(PermissiveFrozenModel):
             "The name of the output checker plugin to use. If None, use a default "
             "output checker plugin associated with the produced file type(s)."
         ),
+        alias="output_checker_name",
     )
-    arguments: OutputCheckerArgumentsModel = Field(
-        default_factory=dict,
-        description=(
-            "A dictionary of arguments to be supplied to an output_checker plugin."
-        ),
-    )
-
-
-class StepOutputOverride(FrozenModel):
-    """Model for overriding the output checker arguments for a single step.
-
-    Takes the form of:
-
-    step_id:
-        compare_path: path
-        token: token_value
-        argument_x: value
-        ...
-    """
-
-    model_config = ConfigDict(extra="allow")
-
-    # Supporting either FilePath types or str types as yaml.Constructor cannot construct
-    # environment variable flags against an instance of a FilePath object. Only strings
-    # work in that case.
-    compare_path: FilePath | str = Field(
-        ...,
+    compare_path: Union[FilePath, str, None] = Field(
+        None,
         description="The path to the comparison file.",
     )
-    output_products: Optional[List[FilePath] | List[str]] = Field(
-        None,
-        description="A list of paths to the output file(s).",
-    )
-    token: Optional[str] = Field(
+    threshold: Optional[float] = Field(
         None,
         description=(
-            "A token representing the current state of the xarray.Datatree after "
-            "running the referenced step. Not yet implemented."
+            "Threshold for the image comparison. Argument to pixelmatch. Between "
+            "0 and 1, with 0 the most strict comparison, and 1 the most lenient."
         ),
+        alias="output_checker_threshold",
     )
-    depends_on: List[str] | None = Field(
-        None,
+    full_test_policy: Literal["on_token_mismatch", "always", "never"] = Field(
+        "on_token_mismatch",
         description=(
-            "Step IDs this step depends on. If None, defaults to "
-            "[previous_step_id] for non-first steps, [] for the first step. "
-            "The runner validates all references exist and no cycles exist."
+            "Tells GeoIPS in what circumstances an output checker should run based on "
+            "the result of the token comparison. Defaults to only running the specified"
+            " (or detected) output checker on failed token comparison."
         ),
     )
-
-
-class OutputsConfig(
-    RootModel[
-        Dict[
-            str,
-            Union[
-                OutputCheckerOverride,
-                StepOutputOverride,
-            ],
-        ]
-    ]
-):
-    """Model used to cast an unknown instance of 'outputs' into a single model.
-
-    Arbitrary output names (step ids) mapped to one of:
-        - OutputCheckerConfig
-        - OutputWriterConfig
-    """
-
-    # Arbitrary output names (step ids) mapped to one of:
-    #
-    # - OutputCheckerConfig
-    # - OutputWriterConfig
-    #
-    pass
 
 
 class NestedSpecOverride(PermissiveFrozenModel):
@@ -1240,10 +1210,6 @@ class StepOverrideType(PermissiveFrozenModel):
     """
 
     spec: Optional[NestedSpecOverride] = None
-
-
-# class ArgumentOverride(FrozenModel):
-#     """Generic class for argument overrides."""
 
 
 # Required for recursive references
@@ -1295,15 +1261,16 @@ class WorkflowTestModel(FrozenModel):
 
     #
     # outputs:
-    #     output_checker:  # If not provided use default for the specific file type
-    #         name: my_oc
-    #         arguments:
-    #             compare_path: ...
-    #             token: ...
-    #    ahi_data_writer: {compare_path: ..., token: ...}
+    #     step_id:
+    #         # name: optional, default=None, derived from 'compare_path' if not provided  # NOQA
+    #         # full_test_policy: optional, default="on_token_mismatch"
+    #         output_checker_arguments:
+    #             compare_path: <path_to_compare_file>
+    #             optional_arg1: <x>
+    #             optional_arg2: <z>
 
-    outputs: OutputsConfig = Field(
-        default_factory=lambda: OutputsConfig({}),
+    outputs: Dict[str, OutputCheckerOverrideModel] = Field(
+        default_factory=dict,
         description=(
             "Override dictionary for output checker steps or every instance of"
             " an output checker."
@@ -1348,12 +1315,6 @@ class WorkflowTestModel(FrozenModel):
                 final_paths.append(jpath)
 
         return final_paths
-
-    @field_validator("outputs", mode="before")
-    @classmethod
-    def coerce_outputs(cls, v):
-        """Coerce an instance of 'outputs' into a single model."""
-        return OutputsConfig(root=v).root
 
 
 class WorkflowPluginModel(PluginModel):

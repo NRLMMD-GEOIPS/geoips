@@ -166,6 +166,8 @@ _POLICIES: dict[str, type[RetentionPolicy]] = {
     "keep_referenced": KeepReferencedPolicy,
 }
 
+GENERATED_WORKFLOW = "GENERATED_WORKFLOW"
+
 
 class Workflow:
     """Non-registered runtime executor for a validated workflow spec.
@@ -799,10 +801,15 @@ class Workflow:
         try:
             result = iface.get_plugin(name)
         except Exception as exc:
-            raise PluginResolutionError(
-                f"Kind '{kind}' -> interface '{interface_name}': "
-                f"cannot resolve plugin '{name}': {exc}"
-            ) from exc
+            if interface_name == "workflows" and name is None:
+                # occurs for workflow 'plugins' generated at runtimes for product /
+                # product default plugins.
+                return GENERATED_WORKFLOW
+            else:
+                raise PluginResolutionError(
+                    f"Kind '{kind}' -> interface '{interface_name}': "
+                    f"cannot resolve plugin '{name}': {exc}"
+                ) from exc
 
         if isinstance(result, dict) and not callable(getattr(result, "call", None)):
             return YamlPluginCallable(result)

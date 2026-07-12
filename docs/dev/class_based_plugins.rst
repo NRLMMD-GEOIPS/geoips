@@ -42,8 +42,8 @@ it should use to load the requested plugin.
 Converting a Module-Based Plugin to Class-Based
 -----------------------------------------------
 
-The conversion process for transforming a module-based plugin to a class-based plugin is
-very simple. It's essentially wrapping all plugin functionality with a class and adding
+The conversion process for transforming a module-based plugin to a class-based plugin (CBP)
+is very simple. It's essentially wrapping all plugin functionality with a class and adding
 ``self`` to all relevant function calls. The last steps needed to convert are to import
 the relevant ``Base<interface>Plugin`` class, inherit from it, and to add a module-level
 variable that points to the correct plugin class defined in that module. This is needed
@@ -485,3 +485,55 @@ Class-Based ``single_channel`` Algorithm Plugin
 
    PLUGIN_CLASS = SingleChannelAlgorithmPlugin
 
+Diving Deeper
+-------------
+
+.. note::
+
+   This section is mainly intended for developers or those who care about the
+   intricacies of class-based work under the hood.
+
+There are a few major benefits to converting module-based plugins to class-based plugins.
+We've already outlined some in a previous section (such as shared functionality by moving
+common methods to a parent class), but there are more complex advantages as well that
+wouldn't necessarily be seen by someone just making use of GeoIPS' software.
+
+As we've detailed, every CBP must have a ``call`` function. If we inspect the top-most
+parent class that every CBP inherits from, we wrap the ``call`` function to call an
+``_invoke`` method instead which is responsible for many tasks. As you may recall, every
+CBP has a family. Take for example an algorithm plugin of the family
+``list_numpy_to_numpy``. This means that the algorithm expects a list of numpy arrays
+to operate on. Since the Order-Based Procflow (OBP) operates only on xarray.Datatree
+objects, this causes a problem. Therefore, it's the responsibility of ``_invoke`` to
+perform data type conversions before triggering the algorithm's ``call`` method.
+
+In simple terms, ``_invoke`` operates in
+essentially 4 steps.
+
+::
+
+   _invoke(data=None, *args, **kwargs)
+
+   +----------------------------------+
+   |   Filter out unaccepted kwargs   |
+   +-----------------+----------------+
+                     |
+                     v
+   +----------------------------------+
+   |  Convert data to expected type   |  # _pre_call
+   +-----------------+----------------+
+                     |
+                     v
+   +----------------------------------+
+   |            CBP.call()            |
+   +-----------------+----------------+
+                     |
+                     v
+   +----------------------------------+
+   |  Convert output back to Datatree |  # _post_call
+   +-----------------+----------------+
+
+The flowchart above depicts what happens to data by default when a CBP is called. If
+desired, you can override this functionality by creating your own ``_pre_call`` and/or
+``_post_call`` methods on your CBP. Keep in mind that ``_post_call`` should output a
+xarray.Datatree object, otherwise the OBP will fail.
