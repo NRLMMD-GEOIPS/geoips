@@ -1,21 +1,9 @@
 """Unit test module for interpolator interface preprocessing."""
 
-import numpy as np
 import pytest
 import xarray as xr
 
-from geoips.interfaces.class_based.interpolators import _collect_interp_kwargs
 from geoips.interfaces import interpolators
-
-
-class DummyData:
-    """Dummy class representing an xarray.Dataset."""
-
-    variables = {
-        "B01BT": np.ndarray(shape=(2000, 2000)),
-        "B13BT": np.ndarray(shape=(2000, 2000)),
-        "B14BT": np.ndarray(shape=(2000, 2000)),
-    }
 
 
 dt_no_sector = xr.DataTree.from_dict(
@@ -58,20 +46,6 @@ dt_with_sector = xr.DataTree.from_dict(
 )
 
 interp_plg = interpolators.get_plugin("interp_nearest")
-
-
-@pytest.mark.parametrize(
-    ["data", "collect_varlist"], [[DummyData(), False], [DummyData(), True]]
-)
-def test_collect_interp_kwargs(data, collect_varlist):
-    """Test interpolator default kwarg collection."""
-    kwargs = _collect_interp_kwargs(data, collect_varlist=collect_varlist)
-    expected_kwargs = ["input_xarray", "output_xarray"]
-    if collect_varlist:
-        expected_kwargs += ["varlist"]
-
-    for kwarg in expected_kwargs:
-        assert kwarg in kwargs
 
 
 def test_pre_call_interpolator_no_sector():

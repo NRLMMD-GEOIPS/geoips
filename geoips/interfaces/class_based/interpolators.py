@@ -86,20 +86,6 @@ class BaseInterpolatorPlugin(BaseClassPlugin, abstract=True):
         return input_xarray, sector_found
 
 
-def _collect_interp_kwargs(data, collect_varlist=True):
-    """Collect default keyword arguments for an interpolator plugin call."""
-    interp_kwargs = {
-        "input_xarray": data,
-        "output_xarray": xr.Dataset(),
-        "varlist": list(data.variables.keys()),
-    }
-
-    if not collect_varlist:
-        interp_kwargs.pop("varlist")
-
-    return interp_kwargs
-
-
 class InterpolatorsInterface(BaseClassInterface):
     """Interpolation routine to apply when reprojecting data."""
 
