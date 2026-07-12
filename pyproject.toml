@@ -110,7 +110,7 @@ hdf5plugin = "*" # Reading compressed netCDF FCI data. This installs required de
                  # error unless HDF5_PLUGIN_PATH is a valid environment variable. We are
                  # using the pypi hdf5plugin package, and set HDF5_PLUGIN_PATH to
                  # site-packages/hdf5plugin/plugins in the config_geoips file.
-
+platformdirs = "*" # for easy file locations; this is a dependency of pluginify as well
 # Optional dependencies
 # To add a new optional dependency it must be added both here and in one of the "extra"
 # groups below.
