@@ -6,24 +6,29 @@
 Various configuration-based commands for setting up your geoips environment.
 """
 
+import hashlib
 import os
 import pathlib
+import shutil
+import sys
+from concurrent.futures import ThreadPoolExecutor, as_completed
+from datetime import datetime, timezone
 from importlib import metadata
 from os import listdir, remove
 from os.path import join
 import subprocess
+import tarfile
+import tempfile
+from typing import NamedTuple
 
 import requests
-import tempfile
 import yaml
 from pydantic import ValidationError
-
-import requests
-import yaml
 
 import geoips
 from geoips.commandline.ancillary_info.test_data import test_dataset_dict
 from geoips.commandline.geoips_command import GeoipsCommand, GeoipsExecutableCommand
+from geoips.commandline.install_progress import create_progress_display
 from geoips.config.config import GeoIPSConfig, _cast_env_value
 from geoips.config.plugins import (
     CONFIG_PLUGIN_GROUP,
@@ -36,6 +41,157 @@ from geoips.config.plugins import (
 )
 from geoips.config.schema import GEOIPS_ENV_MAP, GeoSettings
 from geoips.config.yaml_loader import find_project_config
+from pluginify.commandline_typer import configure_logging
+from pluginify.plugin_registry import PluginRegistry
+
+
+class ChunkCheckRecord(NamedTuple):
+    """Immutable record passed through the chunk-check pipeline."""
+
+    name: str
+    url: str
+    version_file: str
+    existing_dir: str | None
+
+
+class ChunkCheckOutcome(NamedTuple):
+    """Result of a chunk-hash check for one dataset."""
+
+    record: ChunkCheckRecord
+    disposition: str  # "cached" | "needs_download" | "stale"
+    reason: str
+
+
+class DownloadResult(NamedTuple):
+    """Result of a full dataset download."""
+
+    name: str
+    full_hash: str
+    chunk_hash: str
+    temp_path: str
+    total_bytes: int
+
+
+def _chunk_check_parallel(
+    verify_version, fetch_chunk, read_stored, infos, max_workers, chunk_size
+):
+    """Run chunk-hash verification for *infos* in parallel."""
+
+    def check_one(info):
+        """Pure function: classify a single dataset from its record."""
+        if info.existing_dir is None:
+            return ChunkCheckOutcome(info, "needs_download", "not installed")
+
+        if not verify_version(info.version_file, info.name, info.url):
+            return ChunkCheckOutcome(
+                info, "stale", "version file invalid or incomplete"
+            )
+
+        live_hash = fetch_chunk(info.url, chunk_size)
+        if live_hash is None:
+            stored = read_stored(info.version_file)
+            if stored is not None:
+                return ChunkCheckOutcome(info, "cached", "trusted (server unreachable)")
+            return ChunkCheckOutcome(
+                info, "stale", "no chunk hash + server unreachable"
+            )
+
+        stored = read_stored(info.version_file)
+        if stored is not None and live_hash == stored:
+            return ChunkCheckOutcome(info, "cached", "chunk verified")
+
+        return ChunkCheckOutcome(
+            info, "stale", "upstream changed (chunk hash mismatch)"
+        )
+
+    with ThreadPoolExecutor(max_workers=max_workers) as pool:
+        return list(pool.map(check_one, infos))
+
+
+def _download_parallel(
+    download_to_temp, first_chunk_size, targets, outdir, temp_dir, max_workers, display
+):
+    """Download *targets* in parallel, extract sequentially on main thread."""
+
+    def run_one(target, chunk_size):
+        name = target.record.name
+        display.add_download(name, 0)
+        try:
+            result = download_to_temp(target.record.url, temp_dir, chunk_size)
+            display.mark_download_done(name)
+            return result._replace(name=name)
+        except Exception as exc:
+            display.mark_failed(name, str(exc))
+            return None
+
+    with ThreadPoolExecutor(max_workers=max_workers) as pool:
+        futures = {pool.submit(run_one, t, first_chunk_size): t for t in targets}
+        for future in as_completed(futures):
+            result = future.result()
+            if result is None:
+                continue
+            _extract_and_finalize(result, outdir, display, first_chunk_size)
+
+
+def _extract_and_finalize(result, outdir, display, chunk_size):  # noqa: ARG001
+    """Extract a downloaded archive and write its version file."""
+    name = result.name
+    total = _count_tar_members(result.temp_path)
+    display.add_extract(name, total)
+
+    try:
+        _extract_from_temp(result.temp_path, outdir)
+        display.update_extract(name, total, total)
+        _write_version_file(
+            join(outdir, f".{name}_version"),
+            name,
+            test_dataset_dict[name],
+            result.full_hash,
+            result.chunk_hash,
+        )
+        display.mark_complete(name)
+    except Exception as exc:
+        display.mark_failed(name, str(exc))
+    finally:
+        try:
+            remove(result.temp_path)
+        except OSError:
+            pass
+
+
+def _count_tar_members(temp_path):
+    """Return the file-count of a tar archive for progress display."""
+    try:
+        with tarfile.open(temp_path, mode="r:gz") as tar:
+            return len(tar.getmembers())
+    except Exception:
+        return 1
+
+
+def _extract_from_temp(temp_path, outdir):
+    """Extract a tar archive to *outdir*, validating paths."""
+    with tarfile.open(temp_path, mode="r:gz") as tar:
+        for m in tar:
+            member_path = (outdir / m.name).resolve()
+            if not str(member_path).startswith(str(outdir.resolve())):
+                raise SystemExit("Found unsafe filepath in tar, exiting now.")
+            tar.extract(m, path=outdir, filter="tar")
+
+
+def _write_version_file(
+    version_file, dataset_name, url, sha256_hash, chunk_sha256=None
+):
+    """Write a ``.geoips_testdata_version`` file recording the download."""
+    data = {
+        "dataset": dataset_name,
+        "url": url,
+        "sha256": sha256_hash,
+        "downloaded_at": datetime.now(timezone.utc).isoformat(),
+    }
+    if chunk_sha256:
+        data["chunk_sha256"] = chunk_sha256
+    with open(version_file, "w") as fh:
+        yaml.safe_dump(data, fh, default_flow_style=False)
 
 
 def _combined_env_map() -> dict[str, str]:
