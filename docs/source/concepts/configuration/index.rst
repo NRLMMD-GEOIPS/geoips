@@ -151,7 +151,7 @@ their corresponding environment variable names.
    * - Cache directory
      - ``geoips.cache.cache_dir``
      - ``GEOIPS_CACHE_DIR``
-     - platform dirs
+     - ``platformdirs.user_cache_dir``
    * - Data cache directory
      - ``geoips.cache.data_cache_dir``
      - ``GEOIPS_DATA_CACHE_DIR``
