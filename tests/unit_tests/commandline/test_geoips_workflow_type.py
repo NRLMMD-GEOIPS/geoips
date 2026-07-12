@@ -9,6 +9,7 @@ class DummyParser:
     """Small parser stub that makes parser.error test-visible."""
 
     def error(self, message):
+        """Raise an assertion so parser errors fail the test."""
         raise AssertionError(message)
 
 
@@ -16,9 +17,11 @@ class FakeWorkflowPluginModel:
     """Model stub that preserves constructor arguments."""
 
     def __init__(self, **kwargs):
+        """Store keyword arguments supplied to the model stub."""
         self.kwargs = kwargs
 
     def model_dump(self):
+        """Return the stored keyword arguments like a pydantic model."""
         return self.kwargs
 
 
@@ -29,9 +32,11 @@ class WorkflowCommandForTest(geoips_command.GeoipsWorkflowCommand):
     command_classes = []
 
     def add_arguments(self):
+        """Satisfy the abstract command API for tests."""
         pass
 
     def __call__(self, args):
+        """Satisfy the abstract command API for tests."""
         pass
 
 

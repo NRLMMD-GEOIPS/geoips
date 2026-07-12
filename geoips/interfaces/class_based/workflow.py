@@ -18,7 +18,6 @@ per branch; ``join`` steps re-collect those branches.  Conditional execution
 
 from __future__ import annotations
 
-import logging
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
 import dataclasses

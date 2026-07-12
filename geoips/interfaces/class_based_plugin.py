@@ -775,10 +775,9 @@ def _is_pre_call_result_with_kwargs(result):
           functions.
     """
     return (
-        isinstance(result, tuple)
-        and len(result) == 2
-        and isinstance(result[1], dict)
+        isinstance(result, tuple) and len(result) == 2 and isinstance(result[1], dict)
     )
+
 
 def _kwarg_to_positional(kwargs, call_func):
     """Convert kwargs to positional args matching ``call_func`` signature.
@@ -825,7 +824,6 @@ def _kwarg_to_positional(kwargs, call_func):
                 f"Available kwargs: {list(kwargs)}"
             )
     return tuple(positional)
-
 
 
 #: Positional-parameter names that have no meaningful kwarg counterpart in

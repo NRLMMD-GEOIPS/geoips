@@ -30,9 +30,7 @@ class BaseInterpolatorPlugin(BaseClassPlugin, abstract=True):
             )
             return data, kwargs
 
-        return super()._pre_call(
-            data, *args, _obp_initiated=_obp_initiated, **kwargs
-        )
+        return super()._pre_call(data, *args, _obp_initiated=_obp_initiated, **kwargs)
 
     def _prepare_obp_interpolator_kwargs(self, data, kwargs):
         """Populate legacy interpolator call kwargs from OBP inputs."""
