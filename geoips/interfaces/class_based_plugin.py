@@ -34,7 +34,6 @@ import logging
 
 import xarray as xr
 
-from geoips.errors import PluginError
 from geoips import interfaces
 from geoips.utils.types.datatree_ditto import DataTreeDitto
 from geoips.utils.types.obp_conduits import OBP_CONDUITS
@@ -451,58 +450,6 @@ class BaseClassPlugin(ABC):
 
         return kwargs
 
-    def _call_interpolator(self, data, kwargs):
-        """Call the main interpolator plugin method.
-
-        Parameters
-        ----------
-        data : R, optional
-            The output data from the plugin.
-
-        Returns
-        -------
-            The processed data.
-        """
-        input_xarray = None
-        sector_found = False
-        for group in data.groups:
-            ds = data[group]
-            # This is the data dependency
-            if hasattr(ds, "attrs") and len(ds.attrs):
-                if ds.attrs.get("plugin_kind", None) != "sector":
-                    input_xarray = ds.to_dataset()
-                else:
-                    sector_found = True
-
-        if input_xarray is None:
-            raise RuntimeError(
-                "Error: Could not find an input dataset to interpolate for "
-                f"interpolator plugin '{self.name}'."
-            )
-
-        if not sector_found:
-            raise RuntimeError(
-                "Error: Could not find an appropriate sector step to interpolate to for"
-                f" interpolator plugin '{self.name}'."
-            )
-
-        interp_kwargs = _collect_interp_kwargs(input_xarray)
-        if kwargs.get("area_def"):
-            interp_kwargs["area_def"] = kwargs["area_def"]
-        else:
-            raise RuntimeError(
-                "Error: Could not determine an appropriate area definition to "
-                "interpolate to. Please ensure your interpolator step depends on a "
-                "sector before continuing."
-            )
-
-        if kwargs.get("varlist"):
-            interp_kwargs["varlist"] = kwargs["varlist"]
-
-        result = self.call(**interp_kwargs)
-
-        return result
-
     @staticmethod
     def _capture_attrs(data):
         """Return a dict copy of ``data.attrs`` when available, or None.
@@ -600,7 +547,15 @@ class BaseClassPlugin(ABC):
             new_kwargs = self._extract_child_kwargs(data, new_kwargs)
 
         pre_call_attrs = self._capture_attrs(self._unwrap(data))
-        data = self._pre_call(data, *args, _obp_initiated=_obp_initiated, **new_kwargs)
+        pre_call_result = self._pre_call(
+            data, *args, _obp_initiated=_obp_initiated, **new_kwargs
+        )
+        # This distinction will be removed later today.
+        # For more, please see the note in _is_pre_call_result_with_kwargs.
+        if _is_pre_call_result_with_kwargs(pre_call_result):
+            data, new_kwargs = pre_call_result
+        else:
+            data = pre_call_result
 
         if _obp_initiated:
             new_kwargs = self._normalize_obp_kwargs(new_kwargs)
@@ -622,12 +577,9 @@ class BaseClassPlugin(ABC):
         # the promoted keys from ``new_kwargs`` in-place), so those keys are not
         # passed both positionally and by keyword.
         if self._use_positional_unpacking(data, _obp_initiated):
-            if self.interface == "interpolators":
-                result = self._call_interpolator(data, new_kwargs)
-            else:
-                new_args = _kwarg_to_positional(new_kwargs, self.call)
-                call_kwargs = self._call_kwargs(new_kwargs, _obp_initiated)
-                result = self.call(*new_args, **call_kwargs)
+            new_args = _kwarg_to_positional(new_kwargs, self.call)
+            call_kwargs = self._call_kwargs(new_kwargs, _obp_initiated)
+            result = self.call(*new_args, **call_kwargs)
         else:
             call_kwargs = self._call_kwargs(new_kwargs, _obp_initiated)
             if _obp_initiated and not self._should_pass_positional_data(call_kwargs):
@@ -811,6 +763,23 @@ class BaseClassPlugin(ABC):
         cls.__call__ = _call
 
 
+def _is_pre_call_result_with_kwargs(result):
+    """Return True when ``_pre_call`` returned updated data and kwargs.
+
+    Most plugin hooks return only the transformed data. Interface-level hooks that
+    also need to prepare call keyword arguments may return ``(data, kwargs)``.
+
+    NOTE: This is temporary for this PR only. I intend to update ALL _pre_call hooks
+          to return kwargs in a follow-on PR. _invoke should just call _pre_call,
+          call, and _post_call. All other duties should be handled by those three
+          functions.
+    """
+    return (
+        isinstance(result, tuple)
+        and len(result) == 2
+        and isinstance(result[1], dict)
+    )
+
 def _kwarg_to_positional(kwargs, call_func):
     """Convert kwargs to positional args matching ``call_func`` signature.
 
@@ -857,39 +826,6 @@ def _kwarg_to_positional(kwargs, call_func):
             )
     return tuple(positional)
 
-
-def _collect_interp_kwargs(data, collect_varlist=True):
-    """Collect a set of keyword arguments for an interpolator plugin call.
-
-    Parameters
-    ----------
-    data : xarray.core.datatree.DatasetView (essentially an xarray.Dataset)
-        The input dataset to interpolate.
-    collect_varlist : bool, optional
-        Whether or not to collect the variable list to interpolate automatically.
-        Defaults to True, but can be overridden if a user specifies a 'varlist'
-        argument in their workflow under the interpolator step.
-
-    Returns
-    -------
-    kwargs : dict
-        A dictionary of keyword arguments generated from data required to run an
-        interpolator plugin.
-    """
-    interp_kwargs = {
-        # Not adding area_def as that is determined by the sector step the interpolator
-        # depends on
-        "input_xarray": data,
-        "output_xarray": xr.Dataset(),
-        "varlist": list(data.variables.keys()),
-    }
-
-    if not collect_varlist:
-        # if the user defined this in the interpolator step arguments, then remove this
-        # key, value pair
-        interp_kwargs.pop("varlist")
-
-    return interp_kwargs
 
 
 #: Positional-parameter names that have no meaningful kwarg counterpart in
