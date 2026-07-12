@@ -130,9 +130,6 @@ class GeoipsRunOrderBased(GeoipsWorkflowCommand):
     Makes use of workflow plugins and additional commandline arguments that single
     source would use.
     """
-
-    # add something to this command 'that would generate tokens' maybe '--write-tokens'
-
     name = "order_based"
     command_classes = []
     warning_with_color = (
@@ -416,7 +413,7 @@ class GeoipsRunOrderBased(GeoipsWorkflowCommand):
         workflow = self._apply_overrides(workflow, args)
 
         obp = procflows.get_plugin("order_based")
-        obp(workflow_spec=workflow, fnames=args.filenames, command_line_args=args)
+        obp(workflow_spec=workflow, filenames=args.filenames, command_line_args=args)
 
         if PATHS["NO_COLOR"]:
             print(self.warning_no_color)

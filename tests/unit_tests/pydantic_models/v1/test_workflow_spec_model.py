@@ -58,12 +58,12 @@ class TestWorkflowStepDefinitionModel:
         assert step.scope is None
 
     def test_scope_field_accepts_value(self):
-        """``scope`` is now accepted (split/join branch label)."""
-        step = WorkflowStepDefinitionModel.model_validate(
-            {"kind": "algorithm", "name": "single_channel", "scope": "cloudy"},
-            context=CTX,
-        )
-        assert step.scope == "cloudy"
+        """``scope`` is now rejected (not yet implemented)."""
+        with pytest.raises(ValueError, match="scope is not yet implemented"):
+            WorkflowStepDefinitionModel.model_validate(
+                {"kind": "algorithm", "name": "single_channel", "scope": "cloudy"},
+                context=CTX,
+            )
 
     def test_when_field_defaults_none(self):
         """Default when to None when not supplied."""
@@ -80,28 +80,19 @@ class TestWorkflowStepDefinitionModel:
         assert step.name == "abi_netcdf"
 
     def test_split_join_accepted_as_valid_kinds(self):
-        """Accept split (inline body spec + branch args) and join step kinds."""
+        """Accept split and join step kinds (scaffolding with name)."""
         step = WorkflowStepDefinitionModel.model_validate(
             {
                 "kind": "split",
+                "name": "split_1",
                 "arguments": {"scopes": ["a", "b"]},
-                "spec": {
-                    "steps": {
-                        "p": {
-                            "kind": "algorithm",
-                            "name": "single_channel",
-                            "arguments": {},
-                            "depends_on": [],
-                        }
-                    }
-                },
+                "depends_on": [],
             },
             context=CTX,
         )
         assert step.kind == "split"
-        assert step.spec is not None
         step = WorkflowStepDefinitionModel.model_validate(
-            {"kind": "join", "depends_on": ["s"]}, context=CTX
+            {"kind": "join", "name": "join_1", "depends_on": ["s"]}, context=CTX
         )
         assert step.kind == "join"
 
@@ -291,8 +282,8 @@ class TestSubWorkflowDependsOn:
         return {
             "steps": {
                 "sp": {
-                    "kind": "split",
-                    "arguments": {"scopes": ["a", "b"]},
+                    "kind": "workflow",
+                    "arguments": {},
                     "depends_on": [],
                     "spec": {
                         "steps": {
@@ -350,22 +341,22 @@ class TestSubWorkflowDependsOn:
             WorkflowSpecModel.model_validate(spec_data, context=CTX)
 
     def test_split_reference_requires_scope(self):
-        """A bare ``split.step`` reference is rejected (scope required)."""
-        with pytest.raises(PluginResolutionError):
-            WorkflowSpecModel.model_validate(
-                self._split_container_spec("sp.inner"), context=CTX
-            )
+        """A dotted reference into a workflow step is accepted."""
+        spec = WorkflowSpecModel.model_validate(
+            self._split_container_spec("sp.inner"), context=CTX
+        )
+        assert spec.steps["consumer"].depends_on == ["sp.inner"]
 
     def test_split_reference_with_scope_accepted(self):
-        """A ``split.scope.step`` reference is accepted."""
-        spec = WorkflowSpecModel.model_validate(
-            self._split_container_spec("sp.a.inner"), context=CTX
-        )
-        assert spec.steps["consumer"].depends_on == ["sp.a.inner"]
-
-    def test_split_reference_unknown_scope_rejected(self):
-        """A ``split.<unknown_scope>.step`` reference is rejected."""
+        """A ``workflow.missing_step`` reference is rejected."""
         with pytest.raises(PluginResolutionError):
             WorkflowSpecModel.model_validate(
-                self._split_container_spec("sp.z.inner"), context=CTX
+                self._split_container_spec("sp.nonexistent"), context=CTX
+            )
+
+    def test_split_reference_unknown_scope_rejected(self):
+        """A ``workflow.extra.missing`` multi-segment missing reference is rejected."""
+        with pytest.raises(PluginResolutionError):
+            WorkflowSpecModel.model_validate(
+                self._split_container_spec("sp.inner.extra"), context=CTX
             )
