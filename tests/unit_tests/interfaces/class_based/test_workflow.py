@@ -605,13 +605,17 @@ class TestEntrySteps:
             workflow_name="test",
         )
         assert wf._entry_steps == {"algo"}
-    
+
     def test_empty_workflow(self):
         """Test for no upstream data on empty workflow."""
         wf = Workflow(
             _make_spec(
                 {
-                    "a": {"kind": "algorithm", "name": "single_channel", "arguments": {}},
+                    "a": {
+                        "kind": "algorithm",
+                        "name": "single_channel",
+                        "arguments": {},
+                    },
                 }
             ),
             workflow_name="test",

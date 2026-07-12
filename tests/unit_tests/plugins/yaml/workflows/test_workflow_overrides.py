@@ -7,7 +7,6 @@ from copy import deepcopy
 
 import pytest
 
-from geoips.errors import PluginError
 from geoips.interfaces.yaml_based.workflows import workflows
 
 
