@@ -16,6 +16,7 @@ from xarray import concat, Dataset
 from geoips.utils.context_managers import import_optional_dependencies
 from geoips.errors import NoValidFilesError
 from geoips.interfaces.class_based_plugin import BaseClassPlugin
+from geoips.xarray_utils.coords import normalize_geoips_dataset_coords
 from geoips.interfaces.base import BaseClassInterface
 from geoips.plugins.classes.readers.utils.hrit_reader import HritError
 from geoips.plugins.classes.readers.utils.geostationary_geolocation import (
@@ -84,7 +85,7 @@ class BaseReaderPlugin(BaseClassPlugin, abstract=True):
             root_ds.attrs.update(metadata.attrs)
             dt = xr.DataTree(root_ds, name=getattr(self, "name", "reader"))
             for key, val in data.items():
-                dt[key] = xr.DataTree(val, name=key)
+                dt[key] = xr.DataTree(normalize_geoips_dataset_coords(val), name=key)
             return dt
         return super()._post_call(data, *args, _obp_initiated=_obp_initiated, **kwargs)
 

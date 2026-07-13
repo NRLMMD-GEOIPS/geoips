@@ -512,8 +512,6 @@ class TestFullPipeline:
                     "depends_on": ["algo", "cmap", "fname", "grid", "feat"],
                 },
             },
-            outputs=["out"],
-            retention="keep_outputs_only",
         )
         result = Workflow(spec, workflow_name="full").call(fnames=[])
         out_node = result.get("out")
@@ -568,8 +566,8 @@ class TestBackwardCompat:
 class TestRetention:
     """Test workflow retention behavior for consumed auxiliary steps."""
 
-    def test_keep_outputs_only_gc_aux_steps(self, patch_for_family_conversions):
-        """Mark auxiliary steps as garbage-collected when keeping outputs only."""
+    def test_keep_referenced_gc_aux_steps(self, patch_for_family_conversions):
+        """Mark auxiliary steps as garbage-collected after consumers run."""
         spec = _build_spec(
             {
                 "read": {
@@ -600,8 +598,6 @@ class TestRetention:
                     "depends_on": ["algo"],
                 },
             },
-            outputs=["out"],
-            retention="keep_outputs_only",
         )
         result = Workflow(spec, workflow_name="ret").call(fnames=[])
         cmap_node = result.get("cmap")

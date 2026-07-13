@@ -5,7 +5,9 @@
 
 from pluginify.errors import PluginError  # NOQA ; used in various imports
 
-from yaml.constructor import ConstructorError
+# Preserve the historical GeoIPS import path while using the shared YAML
+# utility package implementation.
+from geoips_yaml_utils.errors import DuplicateKeyError  # NOQA ; Used in imports
 
 
 class GeoipsError(Exception):
@@ -83,12 +85,6 @@ class ConfigError(GeoipsError):
     pass
 
 
-class DuplicateKeyError(ConstructorError, GeoipsError):
-    """Raised when a YAML mapping contains duplicate keys."""
-
-    pass
-
-
 # ── DataTree / Workflow Domain Exceptions ─────────────────────────────────
 
 
@@ -117,16 +113,6 @@ class DependencyCycleError(GeoipsError):
 
     Raised during workflow validation when steps form a circular dependency
     chain that cannot be topologically sorted.
-    """
-
-    pass
-
-
-class DanglingOutputError(GeoipsError):
-    """A step ID in ``outputs:`` does not appear in ``spec.steps``.
-
-    Raised during workflow validation when an output reference names a step
-    that is not defined in the workflow's step dictionary.
     """
 
     pass

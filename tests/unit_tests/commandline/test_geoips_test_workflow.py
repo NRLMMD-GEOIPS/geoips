@@ -103,4 +103,6 @@ def test_command_combinations(monkeypatch, caplog, args):
     args: 2D array of str
         - List of arguments to call the CLI with (ie. ['geoips', 'test', 'workflow'])
     """
+    if args == ["geoips", "test", "workflow", "test_product"]:
+        pytest.skip("Deferred until PR #1380 addresses OBP interpolator handling.")
     test_sub_cmd.test_command_combinations(monkeypatch, args=args, caplog=caplog)

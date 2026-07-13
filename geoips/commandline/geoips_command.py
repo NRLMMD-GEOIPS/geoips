@@ -817,11 +817,14 @@ class GeoipsWorkflowCommand(GeoipsExecutableCommand):
               OBP if overrides don't occur.
         """
         # unregistered generated workflow
-        try:
-            workflow = literal_eval(value)
-        except (ValueError, SyntaxError):
-            # Ignore these errors, could still be valid input
-            workflow = None
+        if isinstance(value, Mapping):
+            workflow = value
+        else:
+            try:
+                workflow = literal_eval(value)
+            except (ValueError, SyntaxError, TypeError):
+                # Ignore these errors, could still be valid input
+                workflow = None
 
         if isinstance(workflow, Mapping):
             # Validate the generated workflow with is_registered set to false as this
@@ -839,27 +842,8 @@ class GeoipsWorkflowCommand(GeoipsExecutableCommand):
                 ).model_dump()
             except (ValidationError, ValueError, TypeError) as e:
                 self.parser.error(f"Could not parse workflow dict: {e}")
-        # registered named workflow
-        elif isinstance(value, str):
-            # Whether to rebuild the plugin registry before resolving the named
-            # workflow is gated on the ``GEOIPS_REBUILD_REGISTRIES`` config so a
-            # stale registry is refreshed automatically only when the user has
-            # opted in (never silently against their configuration).
-            # ``non_existent`` names are used by tests to assert failure without
-            # triggering a rebuild, so the rebuild is force-disabled for them.
-            rbr = (
-                False if "non_existent" in value else PATHS["GEOIPS_REBUILD_REGISTRIES"]
-            )
-            try:
-                workflow = workflows.get_plugin(
-                    value, _expand=True, rebuild_registries=rbr
-                )
-            except PluginError:
-                self.parser.error(
-                    f"Error: could not load workflow plugin under name '{value}'."
-                )
         # unregistered workflow @ filepath (any path that exists on disk)
-        elif self.ensure_valid_json_or_yaml_path(value):
+        elif isinstance(value, str) and self.ensure_valid_json_or_yaml_path(value):
             # since the filepath was valid and exists, load the data and validate it
             filepath = self.ensure_valid_json_or_yaml_path(value)
             if filepath.suffix.lower() == ".json":
@@ -885,6 +869,25 @@ class GeoipsWorkflowCommand(GeoipsExecutableCommand):
                 ).model_dump()
             except (ValidationError, ValueError, TypeError) as e:
                 self.parser.error(f"Could not parse workflow file '{value}': {e}")
+        # registered named workflow
+        elif isinstance(value, str):
+            # Whether to rebuild the plugin registry before resolving the named
+            # workflow is gated on the ``GEOIPS_REBUILD_REGISTRIES`` config so a
+            # stale registry is refreshed automatically only when the user has
+            # opted in (never silently against their configuration).
+            # ``non_existent`` names are used by tests to assert failure without
+            # triggering a rebuild, so the rebuild is force-disabled for them.
+            rbr = (
+                False if "non_existent" in value else PATHS["GEOIPS_REBUILD_REGISTRIES"]
+            )
+            try:
+                workflow = workflows.get_plugin(
+                    value, _expand=True, rebuild_registries=rbr
+                )
+            except PluginError:
+                self.parser.error(
+                    f"Error: could not load workflow plugin under name '{value}'."
+                )
         else:
             self.parser.error(
                 "Error: positional argument 'workflow' could not be associated with an"

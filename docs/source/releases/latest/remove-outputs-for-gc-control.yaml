@@ -1,0 +1,50 @@
+removal:
+- title: 'Remove outputs field from steps'
+  description: |
+    The functionality provided by the `outputs` field in workflow steps has
+    been superseeded by expanded use of `depends_on`. This PR removes all 
+    remaining references to `outputs`.
+  files:
+    added:
+    - 'geoips/plugins/yaml/workflows/abi_infrared_test.yaml'
+    modified:
+    - 'docs/dev/datatree-spec.md'
+    - 'docs/source/releases/latest/geoips-obp-output-checker-overrides.yaml'
+    - 'docs/source/releases/latest/workflow-domain-exceptions.yaml'
+    - 'environments/requirements.txt'
+    - 'geoips/commandline/geoips_test.py'
+    - 'geoips/config/config.py'
+    - 'geoips/config/yaml_loader.py'
+    - 'geoips/errors.py'
+    - 'geoips/plugins/modules/procflows/config_based.py'
+    - 'geoips/plugins/modules/procflows/order_based.py'
+    - 'geoips/plugins/yaml/workflows/geostationary_dmw/windbarbs_dmw_high.yaml'
+    - 'geoips/plugins/yaml/workflows/read_test_interpolator_v1.yaml'
+    - 'geoips/plugins/yaml/workflows/read_test_v1.yaml'
+    - 'geoips/plugins/yaml/workflows/read_test_v1_coverage_checker.yaml'
+    - 'geoips/plugins/yaml/workflows/unit_tests/example_sub_workflow.yaml'
+    - 'geoips/plugins/yaml/workflows/unit_tests/example_workflow.yaml'
+    - 'geoips/plugins/yaml/workflows/unit_tests/test_datatree_conversions.yaml'
+    - 'geoips/plugins/yaml/workflows/unit_tests/test_product.yaml'
+    - 'geoips/plugins/yaml/workflows/unit_tests/test_product_default.yaml'
+    - 'geoips/plugins/yaml/workflows/visir/Infrared.yaml'
+    - 'geoips/pydantic_models/v1/workflows.py'
+    - 'geoips/utils/memusg/dataframe_utils.py'
+    - 'geoips/utils/yaml_utils.py'
+    - 'pyproject.toml'
+    - 'tests/integration_tests/test_integration.py'
+    - 'tests/integration_tests/test_obp_datatree.py'
+    - 'tests/integration_tests/test_obp_family_conversions.py'
+    - 'tests/unit_tests/config/test_config.py'
+    - 'tests/unit_tests/config/test_yaml_loader.py'
+    - 'tests/unit_tests/interfaces/class_based/test_workflow.py'
+    - 'tests/unit_tests/pydantic_models/v1/test_workflow_spec_model.py'
+    - 'tests/unit_tests/pydantic_models/v1/workflows/test_workflow_step_definition_model.py'
+    deleted: []
+    moved: []
+  related-issue:
+    number: null
+    repo_url: ''
+  date:
+    start: 2026-07-12
+    finish: 2026-07-12 
