@@ -10,6 +10,8 @@ from os.path import abspath
 
 from colorama import Fore, Style
 
+import geoips_yaml_utils as yaml
+
 from geoips.commandline.args import add_args
 from geoips.commandline.run_procflow import main
 from geoips.commandline.geoips_command import (
@@ -21,7 +23,6 @@ from geoips.filenames.base_paths import PATHS
 from geoips.interfaces import procflows, workflows
 from geoips.pydantic_models.v1.workflows import WorkflowPluginModel
 from geoips.utils.context_managers import import_optional_dependencies
-import geoips.utils.yaml_utils as yaml
 
 data_fusion_installed = False
 
