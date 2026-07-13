@@ -4,6 +4,9 @@
 """GeoIPS error module."""
 
 from pluginify.errors import PluginError  # NOQA ; used in various imports
+# Preserve the historical GeoIPS import path while using the shared YAML
+# utility package implementation.
+from geoips_yaml_utils.errors import DuplicateKeyError  # NOQA ; Used in imports
 
 
 class GeoipsError(Exception):
@@ -79,11 +82,6 @@ class ConfigError(GeoipsError):
     """
 
     pass
-
-
-# Preserve the historical GeoIPS import path while using the shared YAML
-# utility package implementation.
-from geoips_yaml_utils.errors import DuplicateKeyError
 
 
 # ── DataTree / Workflow Domain Exceptions ─────────────────────────────────
