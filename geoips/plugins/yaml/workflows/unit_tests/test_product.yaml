@@ -12,7 +12,8 @@ test:
   outputs:
     output_formatter:
       full_test_policy: on_token_mismatch # always | never
-      compare_path: !ENV ${GEOIPS_PACKAGES_DIR}/geoips/tests/outputs/abi.static.Infrared.imagery_clean/20200918.195020.goes-16.abi.Infrared.test_goes16_eqc_3km_day_20200918T1950Z.100p00.noaa.3p0.png
+      compare_path: !ENV ${GEOIPS_PACKAGES_DIR}/geoips/tests/outputs/abi.static.Infrared.imagery_clean
+      output_checker_name: image
   steps:
     reader:
       area_def: null

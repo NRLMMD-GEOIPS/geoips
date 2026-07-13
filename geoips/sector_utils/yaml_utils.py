@@ -5,7 +5,7 @@
 
 import logging
 import numpy as np
-import geoips.utils.yaml_utils as yaml
+import geoips_yaml_utils as yaml
 
 LOG = logging.getLogger(__name__)
 

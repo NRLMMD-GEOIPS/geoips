@@ -395,10 +395,7 @@ def test_override_workflow_dict_format(sample_workflow):
 
 
 def test_insert_after_key():
-    """Test inserting a new output checker step after a target step.
-
-    Ensures the new step is inserted immediately after the target
-    step and that required output checker metadata is populated.
+    """Test inserting a new step after a target step.
     """
     steps = OrderedDict(
         {
@@ -414,9 +411,9 @@ def test_insert_after_key():
     )
 
     new_value = {
-        "full_test_policy": "always",
-        "compare_path": f"{tmpdir}/output.png",
-        "name": "image",
+        "kind": "output_checker",
+        "arguments": {"compare_path": f"{tmpdir}/output.png"},
+        "output_checker_name": "image",
     }
 
     result = workflows._insert_after_key(
@@ -434,7 +431,7 @@ def test_insert_after_key():
         "algorithm",
     ]
 
-    assert result["output_checker1"]["kind"] == "output_checker"
+    assert result["output_checker1"] == new_value
 
 
 def test_insert_after_key_missing_target():
@@ -455,6 +452,50 @@ def test_insert_after_key_missing_target():
         )
 
 
+def test_build_output_checker_step_requires_output_formatter_target():
+    """Test output checker overrides require an output formatter target."""
+    with pytest.raises(ValueError, match="must target an output_formatter"):
+        workflows._build_output_checker_step(
+            "algorithm",
+            {
+                "kind": "algorithm",
+                "arguments": {},
+            },
+            {
+                "full_test_policy": "always",
+                "compare_path": f"{tmpdir}/test.png",
+            },
+        )
+
+
+def test_build_output_checker_step():
+    """Test building an output checker step from a workflow test override."""
+    result = workflows._build_output_checker_step(
+        "output_formatter",
+        {
+            "kind": "output_formatter",
+            "arguments": {},
+        },
+        {
+            "full_test_policy": "always",
+            "compare_path": f"{tmpdir}/output.png",
+            "threshold": 5,
+            "output_checker_name": "image",
+        },
+    )
+
+    assert result == {
+        "full_test_policy": "always",
+        "name": "image",
+        "arguments": {
+            "compare_path": f"{tmpdir}/output.png",
+            "threshold": 5,
+        },
+        "depends_on": ["output_formatter"],
+        "kind": "output_checker",
+    }
+
+
 def test_apply_output_checker_override():
     """Test applying an output checker override to workflow steps.
 
@@ -468,18 +509,18 @@ def test_apply_output_checker_override():
                 "kind": "reader",
                 "arguments": {},
             },
-            "algorithm": {
-                "kind": "algorithm",
+            "output_formatter": {
+                "kind": "output_formatter",
                 "arguments": {},
             },
         }
     )
 
     override = {
-        "reader": {
+        "output_formatter": {
             "full_test_policy": "always",
             "compare_path": f"{tmpdir}/output.png",
-            "name": "image",
+            "output_checker_name": "image",
         }
     }
 
@@ -489,9 +530,11 @@ def test_apply_output_checker_override():
     )
 
     assert "output_checker1" in result
+    assert result["output_checker1"]["name"] == "image"
 
     keys = list(result.keys())
-    assert keys.index("output_checker1") == (keys.index("reader") + 1)
+    assert keys.index("output_checker1") == (keys.index("output_formatter") + 1)
+    assert result["output_checker1"]["depends_on"] == ["output_formatter"]
 
 
 def test_apply_output_checker_override_missing_nested_key():
