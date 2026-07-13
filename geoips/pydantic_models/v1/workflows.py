@@ -63,8 +63,8 @@ LOG = logging.getLogger(__name__)
 SCAFFOLD_KINDS = frozenset({"split", "join"})
 """Kinds reserved as scaffolding markers.
 
-Steps with these kinds are accepted by schema validation but raise
-``NotImplementedError`` at runtime.
+Steps with these kinds are accepted by schema validation and executed by
+workflow orchestration rather than plugin resolution.
 """
 
 INPUT_REF = "_input"
@@ -343,7 +343,8 @@ class WorkflowStepDefinitionModel(FrozenModel):
     name: str | tuple[str] | None = Field(
         None,
         description=(
-            "Plugin name. Required for every step except those with "
+            "Plugin name. Required for plugin-backed steps, but not for "
+            "scaffold steps such as ``split`` or ``join`` or steps with "
             "``kind: workflow`` that supply an inline ``spec``."
         ),
     )
@@ -384,7 +385,7 @@ class WorkflowStepDefinitionModel(FrozenModel):
             "For steps following a ``split``: which branch to operate on. "
             "When set, this step's output node nests at "
             "``/<split_id>/<scope>/<step_id>``. "
-            "Split/join execution is not yet implemented."
+            "Explicit step-level scope routing is not yet implemented."
         ),
     )
     when: str | None = Field(
@@ -448,7 +449,7 @@ class WorkflowStepDefinitionModel(FrozenModel):
     @field_validator("scope", mode="before")
     @classmethod
     def _reject_scope(cls, value: str | None) -> None:
-        """Reject non-None ``scope`` — split/join is not yet implemented."""
+        """Reject non-None ``scope`` — explicit step-level scoping is not implemented."""
         if value is not None:
             raise ValueError(
                 "scope is not yet implemented — remove this field from the YAML"
@@ -469,8 +470,9 @@ class WorkflowStepDefinitionModel(FrozenModel):
     def _ensure_xor_name_spec(cls, values):
         """Ensure that fields 'spec' and 'name' are mutually exclusive.
 
-        Additionally, ensure that only workflow plugins can define spec in a step. All
-        other plugins must reference a name and provide arguments as is done usually.
+        Additionally, ensure that only workflow and split steps can define ``spec``.
+        Plugin-backed steps must reference a name and provide arguments as usual.
+        Join steps are scaffold steps and do not resolve a plugin by name.
 
         Parameters
         ----------
@@ -489,18 +491,28 @@ class WorkflowStepDefinitionModel(FrozenModel):
         """
         if values.get("kind") == "workflow":
             if (values.get("name") is None) == (values.get("spec") is None):
-                raise ValueError("Exactly one of 'name' or 'spec' must be provided.")
+                raise ValueError("Exactly one of name or spec must be provided.")
             values["arguments"] = None
+        elif values.get("kind") == "split":
+            if values.get("name") is not None:
+                raise ValueError("Split steps cannot define a plugin name.")
+            if values.get("spec") is None:
+                raise ValueError("Split steps must define an inline spec.")
+        elif values.get("kind") == "join":
+            if values.get("name") is not None:
+                raise ValueError("Join steps cannot define a plugin name.")
+            if values.get("spec") is not None:
+                raise ValueError("Join steps cannot define an inline spec.")
         else:
             if values.get("spec"):
                 raise ValueError(
-                    "You cannot implement a 'spec' field for any step other than one "
-                    "which a workflow."
+                    "You cannot implement a spec field for any step other than "
+                    "one which is a workflow or split."
                 )
             if values.get("name") is None:
                 raise ValueError(
                     "You must specify a name field for every plugin step that is not a "
-                    "workflow step."
+                    "workflow, split, or join step."
                 )
 
         return values
