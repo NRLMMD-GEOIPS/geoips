@@ -72,7 +72,6 @@ numpy = ">=2.3.0"      # Base requirement, 2.2.6 works, 2.3.0 broke float pyYAML
 pyresample = "*"       # Base requirement Geospatial image resampling
 # efficiency improvements >= 1.22.3
 pyyaml = "*"           # Base requirement
-geoips_yaml_utils = "*" # GeoIPS YAML loading with duplicate key checks and !ENV expansion
 scipy = ">1.2"         # Base requirement, requires openblas
 # Resolved as of 2025.3.1 https://github.com/NRLMMD-GEOIPS/geoips/issues/558
 # Also note, ufuncs went away 2022.06, and back 2025.3.1, impacting scat_noaa_winds_netcdf
@@ -86,6 +85,7 @@ numexpr = "*"          # for efficiency improvements
 psutil = "*"           # Required for memory checks
 pydantic = ">=2.10.0"  # Data validation using Python type hints
 pyhdf = "*"            # hdf4 readers (MODIS)
+pyaml-env = "*"        # Reading YAML output config files, with paths
 pyorbital = "*"        # required by satpy
 pypublicdecompwt = "*" # Required to read SEVIRI data
 rio-cogeo = "*"        # Cloud Optimized GEOTIFF output

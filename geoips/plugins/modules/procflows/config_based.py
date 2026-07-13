@@ -10,7 +10,7 @@ from os.path import exists
 from os.path import basename
 from os import getpid
 from datetime import datetime
-from geoips_yaml_utils import parse_config
+from pyaml_env import parse_config
 
 from geoips.commandline.args import check_command_line_args
 from geoips.errors import PluginError

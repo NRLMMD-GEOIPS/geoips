@@ -4,7 +4,7 @@
 """Various utils for processing statistics."""
 
 import pandas as pd
-import geoips_yaml_utils as yaml
+import pyaml_env
 
 # Geoips libraries
 from geoips.filenames.base_paths import PATHS as gpaths
@@ -140,7 +140,7 @@ def sort_resource_dframe(dframe):
         static_dframe = dframe[dframe["Sector"] == static_sector]
         for procflow_config in static_dframe["Procflow Output Config"]:
             if procflow_config not in parsed_procflow_configs:
-                loaded_config = yaml.parse_config(procflow_config)
+                loaded_config = pyaml_env.parse_config(procflow_config)
                 system_cache_type = gpaths["GEOIPS_GEOLOCATION_CACHE_BACKEND"]
                 if "reader_kwargs" in loaded_config:
                     cache_type = loaded_config["reader_kwargs"].get(
@@ -171,7 +171,7 @@ def sort_resource_dframe(dframe):
     dynamic_dframe = dframe[dframe["Sector"].isin(dynamic_sectors)]
     for procflow_config in dynamic_dframe["Procflow Output Config"]:
         if procflow_config not in parsed_procflow_configs:
-            loaded_config = yaml.parse_config(procflow_config)
+            loaded_config = pyaml_env.parse_config(procflow_config)
             system_cache_type = gpaths["GEOIPS_GEOLOCATION_CACHE_BACKEND"]
             if "reader_kwargs" in loaded_config:
                 cache_type = loaded_config["reader_kwargs"].get(
