@@ -135,6 +135,9 @@ class RetentionPolicy(ABC):
     def _is_kept(self, step_id: str) -> bool:
         return self._spec.steps[step_id].keep is True
 
+    def _is_output(self, step_id: str) -> bool:
+        return step_id in (self._spec.outputs or ())
+
     def _has_pending_consumers(self, step_id: str, executed: set[str]) -> bool:
         return any(
             step_id in {_dep_head(dep) for dep in (other_step.depends_on or ())}
@@ -156,7 +159,7 @@ class KeepReferencedPolicy(RetentionPolicy):
 
     def can_gc(self, step_id: str, *, executed: set[str]) -> bool:
         """Return True if the step's data_vars can be dropped."""
-        if self._is_kept(step_id):
+        if self._is_kept(step_id) or self._is_output(step_id):
             return False
         return not self._has_pending_consumers(step_id, executed)
 

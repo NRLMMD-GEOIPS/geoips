@@ -44,18 +44,37 @@ def _default_search_locations() -> list[str]:
     return locations
 
 
-def find_project_config() -> str | None:
+def find_project_config(project_config_path: str | None = None) -> str | None:
     """Find the project-level YAML configuration file.
 
-    Searches locations returned by :func:`_default_search_locations` in
-    order, returning the first file path that exists.
+    If *project_config_path* is supplied, only that path is checked. Otherwise,
+    searches locations returned by :func:`_default_search_locations` in order,
+    returning the first file path that exists.
+
+    Parameters
+    ----------
+    project_config_path : str or None, optional
+        Explicit project config path to use instead of the default search locations.
 
     Returns
     -------
     str or None
-        Absolute path to the found config file, or ``None`` if no file
-        was found in any search location.
+        Absolute path to the found config file, or ``None`` if no file was found
+        during default search.
+
+    Raises
+    ------
+    FileNotFoundError
+        If *project_config_path* is supplied and does not exist.
     """
+    if project_config_path is not None:
+        if os.path.isfile(project_config_path):
+            LOG.debug("Found project config: %s", project_config_path)
+            return os.path.abspath(project_config_path)
+        raise FileNotFoundError(
+            f"Project config file {project_config_path!r} does not exist."
+        )
+
     for candidate in _default_search_locations():
         if os.path.isfile(candidate):
             LOG.debug("Found project config: %s", candidate)
@@ -63,18 +82,23 @@ def find_project_config() -> str | None:
     return None
 
 
-def load_project_config() -> dict | None:
+def load_project_config(project_config_path: str | None = None) -> dict | None:
     """Load the project-level YAML configuration as a dictionary.
 
     Finds and parses the project config file using
     :func:`find_project_config`.
+
+    Parameters
+    ----------
+    project_config_path : str or None, optional
+        Explicit project config path to use instead of the default search locations.
 
     Returns
     -------
     dict or None
         Parsed YAML dictionary if a config file was found, otherwise ``None``.
     """
-    config_path = find_project_config()
+    config_path = find_project_config(project_config_path)
     if config_path is None:
         return None
     with open(config_path, "r") as fh:
