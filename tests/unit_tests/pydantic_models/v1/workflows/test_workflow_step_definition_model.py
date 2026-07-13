@@ -74,7 +74,7 @@ def test_bad_workflow_step_definition_model_validator_empty_input():
     assert error_info[0]["type"] == "value_error"
     assert error_info[0]["msg"] == (
         "Value error, You must specify a name field for every plugin step that is "
-        "not a workflow step."
+        "not a workflow, split, or join step."
     )
 
 
