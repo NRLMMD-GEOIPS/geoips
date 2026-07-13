@@ -46,6 +46,7 @@ from geoips.pydantic_models.v1.bases import (
     PluginModel,
     FrozenModel,
     PermissiveFrozenModel,
+    PythonIdentifier,
     StepReference,
 )
 from geoips.pydantic_models.v1.algorithms import AlgorithmArgumentsModel
@@ -490,6 +491,9 @@ class WorkflowStepDefinitionModel(FrozenModel):
         ValueError
             If the plugin name is not valid for the specified plugin kind.
         """
+        if not isinstance(values, dict):
+            return values
+
         if values.get("kind") == "workflow":
             if (values.get("name") is None) == (values.get("spec") is None):
                 raise ValueError("Exactly one of name or spec must be provided.")
@@ -667,7 +671,7 @@ class WorkflowSpecModel(FrozenModel):
         None,
         description="Arguments shared across workflow steps",
     )
-    steps: Dict[str, Union[WorkflowStepDefinitionModel]] = Field(
+    steps: Dict[PythonIdentifier, WorkflowStepDefinitionModel] = Field(
         ..., description="Steps to produce the workflow."
     )
 
@@ -901,6 +905,10 @@ class WorkflowSpecModel(FrozenModel):
         _inputs = None
 
         for name, step in steps.items():
+            if not isinstance(step, dict):
+                expanded_steps[name] = step
+                _inputs = [name]
+                continue
             # Default
             if step.get("kind") in ["product", "product_default"]:
                 if step.get("depends_on"):
@@ -941,6 +949,8 @@ class WorkflowSpecModel(FrozenModel):
 
         mapping = {}
         for name, step in steps.items():
+            if not isinstance(step, dict):
+                continue
             if step.get("kind") in ("product", "product_default"):
                 step_id = (
                     "_".join(step.get("name"))
@@ -983,6 +993,8 @@ class WorkflowSpecModel(FrozenModel):
 
         for i, sid in enumerate(step_ids):
             step = steps[sid]
+            if not isinstance(step, dict):
+                continue
             if step.get("depends_on") is None:
                 step["depends_on"] = [] if i == 0 else [step_ids[i - 1]]
 

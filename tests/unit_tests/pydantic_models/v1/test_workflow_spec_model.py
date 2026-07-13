@@ -4,11 +4,9 @@
 """Tests for updated WorkflowStepDefinitionModel and WorkflowSpecModel."""
 
 import pytest
+from pydantic import ValidationError
 
-from geoips.errors import (
-    DependencyCycleError,
-    PluginResolutionError,
-)
+from geoips.errors import PluginResolutionError
 from geoips.pydantic_models.v1.workflows import (
     WorkflowSpecModel,
     WorkflowStepDefinitionModel,
@@ -160,6 +158,36 @@ class TestWorkflowSpecModel:
             }
         }
         assert WorkflowSpecModel.model_validate(spec_data, context=CTX)
+
+    def test_step_ids_must_be_python_identifiers(self):
+        """Reject workflow step ids that are not valid Python identifiers."""
+        spec_data = {
+            "steps": {
+                "abi:Infrared": {
+                    "kind": "reader",
+                    "name": "abi_netcdf",
+                    "arguments": {},
+                }
+            }
+        }
+
+        with pytest.raises(ValidationError) as excinfo:
+            WorkflowSpecModel.model_validate(spec_data, context=CTX)
+
+        error_text = str(excinfo.value)
+        assert "abi:Infrared" in error_text
+        assert "valid Python identifier" in error_text
+
+    @pytest.mark.parametrize("step_value", [None, "reader", []])
+    def test_step_definitions_must_be_mappings(self, step_value):
+        """Malformed step definitions should fail schema validation cleanly."""
+        spec_data = {"steps": {"reader": step_value}}
+
+        with pytest.raises(ValidationError) as excinfo:
+            WorkflowSpecModel.model_validate(spec_data, context=CTX)
+
+        error_text = str(excinfo.value)
+        assert "steps.reader" in error_text
 
     # def test_depends_on_rejects_unknown_step(self):
     #     """Reject a depends_on reference to an unknown step."""

@@ -5,7 +5,6 @@ import xarray as xr
 
 from geoips.interfaces import interpolators
 
-
 dt_no_sector = xr.DataTree.from_dict(
     {
         "/": xr.Dataset(coords={"time": [1, 2, 3]}),

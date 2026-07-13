@@ -43,9 +43,7 @@ class WorkflowCommandForTest(geoips_command.GeoipsWorkflowCommand):
 @pytest.fixture
 def workflow_command(monkeypatch):
     """Return a GeoipsWorkflowCommand instance with external validation mocked."""
-    monkeypatch.setattr(
-        geoips_command, "WorkflowPluginModel", FakeWorkflowPluginModel
-    )
+    monkeypatch.setattr(geoips_command, "WorkflowPluginModel", FakeWorkflowPluginModel)
     command = object.__new__(WorkflowCommandForTest)
     command.parser = DummyParser()
     return command
@@ -80,9 +78,7 @@ def test_workflow_type_loads_yaml_path_before_registered_name_lookup(
     assert workflow["context"] == {"expand": True}
 
 
-def test_workflow_type_accepts_registered_workflow_names(
-    monkeypatch, workflow_command
-):
+def test_workflow_type_accepts_registered_workflow_names(monkeypatch, workflow_command):
     """A non-path string should still resolve through the workflow registry."""
     calls = []
 
