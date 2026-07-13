@@ -8,6 +8,7 @@ Runs the appropriate tests based on the arguments provided.
 
 from glob import glob
 from importlib import resources
+import logging
 from os import makedirs
 from os.path import basename, exists, join
 import sys
@@ -25,6 +26,8 @@ from geoips.errors import PluginError
 from geoips.filenames.base_paths import PATHS
 from geoips.geoips_utils import is_editable
 from geoips.interfaces import procflows, sectors, workflows
+
+LOG = logging.getLogger(__name__)
 
 # class GeoipsTestUnitTest(GeoipsExecutableCommand):
 #     """Test Command for running GeoIPS Unit Tests."""
@@ -416,7 +419,14 @@ class GeoipsTestWorkflow(GeoipsWorkflowCommand):
         """
         workflow = args.workflow
         try:
-            fnames = workflow["test"].get("fnames", [])
+            test_section = workflow["test"]
+            fnames = test_section.get("filenames", test_section.get("fnames", []))
+            LOG.info(
+                "Testing workflow %r with %d input file(s).",
+                workflow["name"],
+                len(fnames),
+            )
+            LOG.debug("Workflow test input files: %s", fnames)
             workflow = workflows._override_expanded_workflow(workflow)
         except KeyError:
             raise self.parser.error(
