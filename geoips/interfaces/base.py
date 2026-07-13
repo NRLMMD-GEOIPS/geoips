@@ -21,7 +21,7 @@ from pluginify.interfaces.base import (  # NOQA: F401
     BaseYamlPlugin,
 )  # imports used elsewhere in GeoIPS
 
-import geoips.utils.yaml_utils as yaml
+import geoips_yaml_utils as yaml
 from geoips.errors import PluginError
 
 LOG = logging.getLogger(__name__)
