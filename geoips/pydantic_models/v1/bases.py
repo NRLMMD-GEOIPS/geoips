@@ -354,6 +354,46 @@ def python_identifier(val: str) -> str:
 PythonIdentifier = Annotated[str, AfterValidator(python_identifier)]
 
 
+def step_reference(val: str) -> str:
+    """Validate a workflow step reference, optionally into a sub-workflow.
+
+    A step reference is one or more Python identifiers joined by ``.`` (dots).
+    A single segment (e.g. ``"reader"``) refers to a top-level step. A dotted
+    reference (e.g. ``"subwf.algo"`` or ``"split.scope.algo"``) refers to a
+    step nested inside a ``workflow`` or ``split`` container step; each segment
+    must itself be a valid Python identifier.
+
+    Parameters
+    ----------
+    val : str
+        The input string to validate.
+
+    Returns
+    -------
+    str
+        The input string if every dot-separated segment is a valid Python
+        identifier.
+
+    Raises
+    ------
+    ValueError
+        If *val* is empty or any segment is not a valid Python identifier.
+    """
+    if not val:
+        raise ValueError("Step reference must be a non-empty string.")
+    segments = val.split(".")
+    for segment in segments:
+        # Reuse python_identifier so keyword/identifier rules stay consistent.
+        python_identifier(segment)
+    return val
+
+
+# Create the StepReference type: a dot-separated path of Python identifiers,
+# used by ``depends_on`` to reference top-level steps or steps nested inside
+# ``workflow``/``split`` container steps.
+StepReference = Annotated[str, AfterValidator(step_reference)]
+
+
 def get_interfaces(namespace) -> set[str]:
     """Return a set of distinct interfaces.
 

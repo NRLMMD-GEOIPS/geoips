@@ -97,6 +97,9 @@ class GeoipsFnameFilenameFormatterPlugin(BaseFilenameFormatterPlugin):
             source_dir=source_dir,
             **kwargs,
         )
+
+        # OBP DataTree wrapping is handled by the interface ``_post_call``; this
+        # plugin just returns the output path string.
         return web_fname
 
     def assemble_geoips_fname(

@@ -1,0 +1,20 @@
+enhancement:
+- title: 'Add dask-based output_token provenance to workflow steps'
+  description: |
+    Each step node in the workflow DataTree now carries an output_token and
+    arguments_hash in its attrs. Tokens are computed via dask.base.tokenize
+    with a dask: prefix for forward-compatibility. Tokens survive garbage
+    collection (only data_vars are dropped; attrs remain). Untokenizable
+    outputs are stamped with a sentinel untokenizable:<Type> value and do
+    not halt the workflow.
+  files:
+    added:
+    - geoips/utils/types/tokenization.py
+    modified:
+    - geoips/interfaces/class_based/workflow.py
+  related-issue:
+    number: null
+    repo_url: ''
+  date:
+    start: null
+    finish: null
