@@ -1,0 +1,84 @@
+apiVersion: geoips/v1
+interface: workflows
+family: order_based
+name: abi_infrared_test
+package: geoips
+is_registered: false
+docstring: |
+  End-to-end ABI Infrared order-based workflow test.
+
+description: |
+  Reads GOES ABI B14BT data, loads the CONUS sector, interpolates with nearest
+  neighbor resampling, applies the standard Infrared single_channel algorithm,
+  creates a GeoIPS image filename, and writes clean imagery output.
+
+test:
+  fnames: !ENV ${GEOIPS_TESTDATA_DIR}/test_data_abi/data/goes16_20200918_1950/*
+
+spec:
+  steps:
+    reader:
+      kind: reader
+      name: abi_netcdf
+      depends_on: []
+      arguments:
+        chans: [B14BT]
+
+    sector:
+      kind: sector
+      name: conus
+      depends_on: []
+      arguments: {}
+
+    interpolator:
+      kind: interpolator
+      name: interp_nearest
+      depends_on: [reader, sector]
+      arguments:
+        varlist: [B14BT]
+
+    algorithm:
+      kind: algorithm
+      name: single_channel
+      depends_on: [interpolator]
+      arguments:
+        output_data_range: [-90.0, 30.0]
+        input_units: Kelvin
+        output_units: celsius
+        min_outbounds: crop
+        max_outbounds: crop
+        norm: false
+        inverse: false
+
+    colormapper:
+      kind: colormapper
+      name: Infrared
+      depends_on: []
+      arguments:
+        data_range: [-90.0, 30.0]
+
+    coverage_checker:
+      kind: coverage_checker
+      name: masked_arrays
+      depends_on: [algorithm, sector]
+      arguments:
+        # I'm not sure if this is the correct behavior here or if this just needs to be
+        # documented as the behavior from single_channel
+        variable_name: data
+
+    filename_formatter:
+      kind: filename_formatter
+      name: geoips_fname
+      depends_on: [algorithm, coverage_checker, sector]
+      arguments:
+        product_name: Infrared
+        output_type: png
+
+    output_formatter:
+      kind: output_formatter
+      name: imagery_clean
+      keep: true
+      depends_on: [algorithm, sector, colormapper, filename_formatter]
+      arguments:
+        product_name: Infrared
+        product_name_title: G16 Infrared @ 11.2 um

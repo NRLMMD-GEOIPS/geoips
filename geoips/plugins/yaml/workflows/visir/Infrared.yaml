@@ -7,7 +7,6 @@ docstring: |
   All auxiliary plugins (colormapper, filename formatter) are first-class
   DAG steps rather than inline arguments of the output formatter.
 spec:
-  outputs: [output_formatter]
   steps:
     interpolator:
       kind: interpolator
