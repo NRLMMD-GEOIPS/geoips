@@ -97,8 +97,7 @@ class InterpGaussInterpolatorPlugin(BaseInterpolatorPlugin):
             input_xarray.source_name, lons, lats
         )
 
-        # Set s default value of igmaval as 10000
-
+        # Set s default value of sigmaval as 10000
         if sigmaval is None:
             sigmaval = 10000
 
@@ -108,8 +107,8 @@ class InterpGaussInterpolatorPlugin(BaseInterpolatorPlugin):
             area_def,
             data_box_definition,
             # Cast to float, in case the reader returns np.float64, etc (which
-            # pyresample does not like).  Pyresample requires a "number":
-            # TypeError: radius_of_influence must be number
+            # pyresample does not like).  Pyresample requires a "number": TypeError:
+            # radius_of_influence must be number
             float(input_xarray.interpolation_radius_of_influence),
             interp_type="gauss",
             sigmas=sigmaval,
@@ -117,16 +116,18 @@ class InterpGaussInterpolatorPlugin(BaseInterpolatorPlugin):
         )
         if output_xarray is None:
             output_xarray = xarray.Dataset()
-        if "latitude" not in output_xarray.variables.keys():
-            interp_lons, interp_lats = area_def.get_lonlats()
-            output_xarray["latitude"] = xarray.DataArray(interp_lats)
-            output_xarray["longitude"] = xarray.DataArray(interp_lons)
+
         copy_standard_metadata(input_xarray, output_xarray, force=False)
         output_xarray.attrs["registered_dataset"] = True
         output_xarray.attrs["area_definition"] = area_def
 
         for ind in range(len(varlist)):
             output_xarray[varlist[ind]] = xarray.DataArray(interp_data[ind])
+
+        if "latitude" not in output_xarray.variables.keys():
+            interp_lons, interp_lats = area_def.get_lonlats()
+            output_xarray["latitude"] = xarray.DataArray(interp_lats)
+            output_xarray["longitude"] = xarray.DataArray(interp_lons)
 
         return output_xarray
 

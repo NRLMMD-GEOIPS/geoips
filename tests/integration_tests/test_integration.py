@@ -496,14 +496,14 @@ def run_script_with_bash(
         is_missing = is_likely_oserror_missing_file(combined)
         cmd_str = " ".join(expanded_call)
         err_msg = (
-            f"\n{'='*60}\n"
+            f"\n{'=' * 60}\n"
             f"Exit code: {retval}\n"
             f"Command: {cmd_str}\n"
             f"Log file: {log_fname}\n"
             f"Missing data: {is_missing}\n"
-            f"{'='*60}\n"
+            f"{'=' * 60}\n"
             f"Last 25 output lines:\n{summary}\n"
-            f"{'='*60}\n"
+            f"{'=' * 60}\n"
         )
         if is_missing:
             if fail_on_missing_data:

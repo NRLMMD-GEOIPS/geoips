@@ -40,14 +40,14 @@ class ReaderArgumentsModel(PermissiveFrozenModel):
     area_def: AreaDefinition | None = Field(
         None, description="The domain over which to read data."
     )
-    variables: List[str] = Field(
+    chans: List[str] = Field(
         None,
         description="List of variables to read",
-        alias="chans",
+        alias="variables",
     )
     metadata_only: bool = Field(False, description="Read metadata only.")
     self_register: str = Field(None, description="Enable self-registration.")
-    fnames: List[Path] = Field(
+    filenames: List[Path] = Field(
         None, description="full path to the file(s) for static dataset inputs."
     )
     sectored_read: bool = Field(False)
@@ -102,7 +102,7 @@ class ReaderArgumentsModel(PermissiveFrozenModel):
             return value
         raise ValueError("Input should be a valid AreaDefinition")
 
-    @field_validator("fnames", mode="before")
+    @field_validator("filenames", mode="before")
     @classmethod
     def _validate_and_normalize_fnames(cls, value: Any) -> List[Path] | None:
         """

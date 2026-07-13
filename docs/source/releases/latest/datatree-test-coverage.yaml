@@ -1,0 +1,25 @@
+continuous integration:
+- title: 'Add unit and integration tests for the DataTree runtime'
+  description: |
+    New unit tests cover pydantic schema validation (WorkflowStepDefinitionModel,
+    WorkflowSpecModel), _invoke() DataTree wrapping, Workflow topological sort
+    and retention policies, DataTreeDitto converters, and dask tokenization.
+    A new integration test suite exercises synthetic-reader workflows end-to-end
+    with DataTree shape assertions and output_token stability checks across
+    repeated runs.
+  files:
+    added:
+    - tests/unit_tests/pydantic_models/v1/test_workflow_spec_model.py
+    - tests/unit_tests/utils/types/test_datatree_converters.py
+    - tests/unit_tests/utils/types/test_tokenization.py
+    - tests/unit_tests/interfaces/test_class_based_plugin_invoke.py
+    - tests/unit_tests/interfaces/class_based/test_workflow.py
+    - tests/unit_tests/plugins/modules/procflows/test_order_based.py
+    - tests/integration_tests/test_obp_datatree.py
+    - tests/integration_tests/conftest.py
+  related-issue:
+    number: null
+    repo_url: ''
+  date:
+    start: null
+    finish: null

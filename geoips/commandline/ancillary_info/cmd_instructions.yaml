@@ -70,6 +70,38 @@ instructions:
       To use, type `geoips config install-github <repository_name>`.
     output_info:
       - Not Applicable
+  geoips_config_create:
+    help_str: |
+      Generate a .geoips.yaml configuration file from your current environment
+      variables, with interactive prompts for any missing values.
+
+      Scans GEOIPS_* and unprefixed environment variables and writes them as a
+      structured YAML configuration file. By default, prompts interactively for
+      key variables not set in the environment (GEOIPS_OUTDIRS, GEOIPS_TESTDATA_DIR,
+      GEOIPS_PACKAGES_DIR).
+
+      Use --no-prompt for non-interactive/CI use. Use --all to include default
+      values for all settings. Use --force to overwrite an existing output file.
+    usage_str: |
+      To use, type `geoips config create` or
+      `geoips config create -o /path/to/.geoips.yaml --force`.
+    output_info:
+      - The generated .geoips.yaml configuration file
+  geoips_config_validate:
+    help_str: |
+      Validate a GeoIPS .geoips.yaml configuration file.
+
+      Checks YAML syntax, verifies the file contains a valid geoips configuration
+      mapping, and validates all settings against the expected types and structure.
+      Reports all errors found.
+
+      If no --file is given, searches standard locations ($GEOIPS_RCFILE,
+      ./.geoips.yaml, ~/.config/geoips/config.yaml).
+    usage_str: |
+      To use, type `geoips config validate` or
+      `geoips config validate -f /path/to/.geoips.yaml`.
+    output_info:
+      - Validation status (valid/invalid) with error details if invalid
   geoips_describe: &geoips-describe-artifact
     help_str: |
       Retrieve information about a GeoIPS artifact. For this command, an artifact is one

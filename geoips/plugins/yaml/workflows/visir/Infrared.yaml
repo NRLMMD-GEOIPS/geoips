@@ -3,15 +3,23 @@ family: order_based
 name: ob_Infrared
 docstring: |
   The Infrared Workflow configuration.
+
+  All auxiliary plugins (colormapper, filename formatter) are first-class
+  DAG steps rather than inline arguments of the output formatter.
 spec:
+  outputs: [output_formatter]
   steps:
     interpolator:
       kind: interpolator
       name: interp_nearest
+      depends_on: []
+      keep: false
       arguments: {}
+
     algorithm:
       kind: algorithm
       name: single_channel
+      depends_on: [interpolator]
       arguments:
         output_data_range: [-90.0, 30.0]
         input_units: Kelvin
@@ -20,17 +28,21 @@ spec:
         max_outbounds: crop
         norm: False
         inverse: False
+
+    colormap:
+      kind: colormapper
+      name: Infrared
+      arguments:
+        data_range: [-90.0, 30.0]
+
+    filename:
+      kind: filename_formatter
+      name: geoips_fname
+      depends_on: [algorithm]
+      arguments:
+        suffix: ".png"
+
     output_formatter:
       kind: output_formatter
       name: imagery_annotated
-      arguments:
-        colormapper:
-          kind: colormapper
-          name: Infrared
-          arguments:
-            data_range: [-90.0, 30.0]
-        filename_formatter:
-          kind: filename_formatter
-          name: geoips_fname
-          arguments:
-            suffix: ".png"
+      depends_on: [algorithm, colormap, filename]
