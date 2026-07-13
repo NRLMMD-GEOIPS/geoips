@@ -101,22 +101,12 @@ class TestWorkflowConstruction:
                 }
             )
 
-    def test_default_outputs_last_step(self):
-        """outputs: None defaults to last dict key."""
-        spec = _make_spec(
-            {
-                "first": {"kind": "reader", "name": "r1", "arguments": {}},
-                "last": {"kind": "algorithm", "name": "a1", "arguments": {}},
-            }
-        )
-        assert spec.outputs == ["last"]
-
 
 class TestRetention:
     """Retention policy tests."""
 
     def test_keep_forces_retention(self):
-        """Step with keep:True exempt from GC."""
+        """Step with keep:True is exempt from keep_referenced GC."""
         spec = _make_spec(
             {
                 "a": {
@@ -128,7 +118,9 @@ class TestRetention:
                 "b": {"kind": "algorithm", "name": "a1", "arguments": {}},
             }
         )
+        policy = KeepReferencedPolicy(spec)
         assert spec.steps["a"].keep is True
+        assert policy.can_gc("a", executed={"a", "b"}) is False
 
     def test_keep_all_never_gcs(self):
         """The keep_all policy never permits GC."""
@@ -140,8 +132,8 @@ class TestRetention:
         policy = KeepAllPolicy(spec)
         assert policy.can_gc("r", executed={"r"}) is False
 
-    def test_keep_referenced_gcs_non_output(self):
-        """The keep_referenced policy GCs non-output step after all consumers done."""
+    def test_keep_referenced_gcs_unreferenced_steps(self):
+        """The keep_referenced policy GCs steps after all consumers are done."""
         spec = _make_spec(
             {
                 "r": {
@@ -160,30 +152,7 @@ class TestRetention:
         )
         policy = KeepReferencedPolicy(spec)
         assert policy.can_gc("r", executed={"r", "a"}) is True
-        assert policy.can_gc("a", executed={"r", "a"}) is False
-
-    # def test_keep_outputs_only_gcs_non_output(self):
-    #     """The keep_outputs_only policy GCs everything except declared outputs."""
-    #     spec = _make_spec(
-    #         {
-    #             "r": {
-    #                 "kind": "reader",
-    #                 "name": "r1",
-    #                 "arguments": {},
-    #                 "depends_on": [],
-    #             },
-    #             "a": {
-    #                 "kind": "algorithm",
-    #                 "name": "a1",
-    #                 "arguments": {},
-    #                 "depends_on": ["r"],
-    #             },
-    #         },
-    #         outputs=["a"],
-    #     )
-    #     policy = KeepOutputsOnlyPolicy(spec)
-    #     assert policy.can_gc("r", executed={"r", "a"}) is True
-    #     assert policy.can_gc("a", executed={"r", "a"}) is False
+        assert policy.can_gc("a", executed={"r", "a"}) is True
 
 
 class TestStepProvenance:

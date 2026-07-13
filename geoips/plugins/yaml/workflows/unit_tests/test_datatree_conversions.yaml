@@ -11,8 +11,7 @@ docstring: |
       geoips run order_based test_datatree_conversions \
           tests/outputs/abi.static.Infrared.netcdf_geoips/*.nc
 spec:
-  retention: keep_outputs_only
-  outputs: [algorithm]
+  retention: keep_referenced
   steps:
     read:
       kind: reader

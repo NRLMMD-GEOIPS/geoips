@@ -114,16 +114,6 @@ class DependencyCycleError(GeoipsError):
     pass
 
 
-class DanglingOutputError(GeoipsError):
-    """A step ID in ``outputs:`` does not appear in ``spec.steps``.
-
-    Raised during workflow validation when an output reference names a step
-    that is not defined in the workflow's step dictionary.
-    """
-
-    pass
-
-
 class DataTreeSchemaError(GeoipsError):
     """Required attributes or child nodes are missing from a DataTree.
 

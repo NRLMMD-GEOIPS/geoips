@@ -10,7 +10,6 @@ docstring: |
   ``example_workflow`` plugin, demonstrating how a workflow can be composed
   from other workflows in the order-based procflow.
 spec:
-  outputs: [run_example]
   steps:
     run_example:
       kind: workflow
