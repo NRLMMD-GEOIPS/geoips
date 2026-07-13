@@ -1,18 +1,25 @@
 # # # This source code is subject to the license referenced at
 # # # https://github.com/NRLMMD-GEOIPS.
 
-"""Processing workflow for order based data source processing."""
+"""Processing workflow for order-based data source processing.
 
-# Python Standard Libraries
-from argparse import ArgumentParser
-from glob import glob
+The ``OrderBased`` class replaces the legacy module-level ``call()``
+function.  External callers should resolve through the procflows registry:
+``interfaces.procflows.get_plugin("order_based")(workflow_spec, fnames=fnames)``.
+"""
+
+from __future__ import annotations
+
 import logging
+from glob import glob
+from typing import Any
 
-# GeoIPS imports
-from geoips import interfaces
-from geoips.commandline.log_setup import setup_logging
-from geoips.utils.types.partial_lexeme import Lexeme
-from geoips.plugins.modules.procflows import obp_utils
+from geoips.interfaces.class_based.procflows import BaseProcflowPlugin
+from geoips.interfaces.class_based.workflow import Workflow
+from geoips.pydantic_models.v1.workflows import (
+    WorkflowPluginModel,
+    WorkflowSpecModel,
+)
 
 LOG = logging.getLogger(__name__)
 
@@ -21,111 +28,97 @@ family = "standard"
 name = "order_based"
 
 
-def call(workflow, fnames, command_line_args=None):
-    """Run the order based procflow (OBP).
+class OrderBased(BaseProcflowPlugin):
+    """Execute an order-based process workflow (OBP).
 
-    Process the specified input data files using the OBP in the order of steps
-    listed in the workflow definition file.
-
-    Parameters
-    ----------
-    workflow: dict
-        The workflow plugin dictionary to process.
-    fnames : list of str
-        List of filenames from which to read data.
-    command_line_args : list of str, None
-        Command line arguments to pass to the workflow.
+    Loads a validated workflow specification, builds a ``Workflow``
+    composite instance, and walks through steps in topological order,
+    collecting output into an ``xr.DataTree``.
     """
-    if isinstance(fnames, str):
-        fnames = glob(fnames)
-        # fnames = [Path(fname) for fname in glob(fnames)]
 
-    LOG.interactive(f"Begin processing '{workflow.get('name', 'embedded')}' workflow.")
+    interface = "procflows"
+    family = "order_based"
+    name = "order_based"
 
-    workflow = obp_utils.remove_keys_with_default_value_plugin_provided(workflow)
-    apiVersion = workflow.get("apiVersion", "geoips/v1")
-    handled_interfaces = ["readers", "coverage_checkers", "workflows"]
-    for step_id, step_def in workflow["spec"]["steps"].items():
-        interface = str(Lexeme(step_def["kind"]).plural)
+    def call(
+        self,
+        workflow_spec: WorkflowPluginModel | WorkflowSpecModel | dict,
+        filenames: Any,
+        command_line_args: Any = None,
+        **kwargs: Any,
+    ):
+        """Run the order-based procflow.
 
-        if interface not in handled_interfaces:
-            LOG.interactive(
-                "⚠️ Skipping unhandled interface '%s'. Would have called the '%s' "
-                "plugin.",
-                interface,
-                step_def["name"],
-            )
-            continue
-        elif interface == "workflows":
-            if step_def.get("spec"):
-                print("RECURSIVELY CALLING VIA SPEC DEFINITION")
-                call(step_def, fnames)
+        Parameters
+        ----------
+        workflow_spec : WorkflowPluginModel | WorkflowSpecModel | dict
+            The workflow specification to execute.  May be a pre-validated
+            model, a raw dictionary that will be validated on entry, or a
+            ``WorkflowSpecModel`` that wraps a ``@spec:`` field.
+        fnames : list[str] or str or None
+            Input filename glob or list of filenames for reader steps.
+        command_line_args : Namespace or None
+            Parsed CLI arguments, accepted for parity with the CLI entry point.
+            Not currently consumed by the workflow runtime.
+        kwargs : dict
+            Additional keyword arguments forwarded to the ``Workflow``.
+
+        Returns
+        -------
+        xr.DataTree
+            The fully-populated workflow DataTree.
+        """
+        if isinstance(workflow_spec, WorkflowSpecModel):
+            wf_name = "embedded"
+            spec = workflow_spec
+        elif isinstance(workflow_spec, WorkflowPluginModel):
+            wf_spec = workflow_spec
+            wf_name = wf_spec.name
+            spec = wf_spec.spec
+        elif isinstance(workflow_spec, dict):
+            ctx = {"skip_plugin_name_validation": True}
+            if "spec" in workflow_spec and isinstance(workflow_spec["spec"], dict):
+                wf_name = workflow_spec.get("name", "embedded")
+                spec = WorkflowSpecModel.model_validate(
+                    workflow_spec["spec"],
+                    context=ctx,
+                )
             else:
-                print("RECURSIVELY CALLING VIA GET PLUGIN CALL")
-                call(interfaces.workflows.get_plugin(step_def.get(name), fnames))
+                wf_spec = WorkflowPluginModel.model_validate(
+                    workflow_spec,
+                    context=ctx,
+                )
+                wf_name = wf_spec.name
+                spec = wf_spec.spec
         else:
-            plg = getattr(interfaces, interface, None).get_plugin(step_def["name"])
-
-            LOG.interactive(
-                "Beginning Step: '%s', plugin_kind: '%s', plugin_name:'%s'.",
-                step_id,
-                step_def["kind"],
-                step_def["name"],
-            )
-            LOG.info("Arguments: '%s'", step_def["arguments"])
-
-            if interface == "readers":
-                # TEMPORARY FIX: Remove when all readers are updated to accept
-                # "variables"
-                if "variables" in step_def["arguments"]:
-                    step_def["arguments"]["chans"] = step_def["arguments"].pop(
-                        "variables"
-                    )
-                step_def["arguments"]["fnames"] = fnames
-                # Temporary re-validation step. Seems arguments can sometimes leak
-                # through without being validated. For example, we use the 'add_args'
-                # function which validates args differently than our pydantic models
-                # do
-                obp_utils.validate_arguments(
-                    apiVersion, interface, step_def["arguments"]
-                )
-                # pass in the original arguments as not all readers implement the same
-                # arg / kwarg set.
-                data = plg(**step_def["arguments"], _obp_initiated=True)
-                print(data)
-            else:
-                # Temporary re-validate here as well. Just ensures that we catch any
-                # weird bugs.
-                data = plg(
-                    data,
-                    **obp_utils.validate_arguments(
-                        apiVersion, interface, step_def["arguments"]
-                    ),
-                )
-            LOG.interactive(
-                "Completed Step: step_id: '%s', plugin_kind: '%s', plugin_name: '%s'.",
-                step_id,
-                step_def["name"],
-                step_def["kind"],
+            raise TypeError(
+                f"Expected WorkflowPluginModel, WorkflowSpecModel, or "
+                f"dict, got {type(workflow_spec).__name__}"
             )
 
-    LOG.interactive(
-        f"\nThe workflow '{workflow.get('name', 'embedded')}' has finished "
-        "processing.\n"
+        if isinstance(filenames, str):
+            filenames = glob(filenames)
+
+        LOG.interactive("Begin processing '%s' workflow.", wf_name)
+
+        workflow = Workflow(spec, workflow_name=wf_name)
+        result = workflow.call(filenames=filenames, **kwargs)
+
+        LOG.interactive("The workflow '%s' has finished processing.", wf_name)
+        return result
+
+
+def call(workflow_spec, fnames, command_line_args=None, **kwargs):
+    """Module-level entry point for pluginify discovery.
+
+    Delegates to :class:`OrderBased.call`.
+    """
+    return OrderBased().call(
+        workflow_spec,
+        fnames=fnames,
+        command_line_args=command_line_args,
+        **kwargs,
     )
 
 
-if __name__ == "__main__":
-
-    parser = ArgumentParser(description="order-based procflow processing")
-    parser.add_argument("workflow", help="The workflow name to process.")
-    parser.add_argument("fnames", nargs="+", help="The filenames to process.")
-    parser.add_argument(
-        "-l",
-        "--loglevel",
-        choices=["debug", "info", "interactive", "warning", "error"],
-        default="interactive",
-    )
-    args = parser.parse_args()
-    LOG = setup_logging(logging_level=args.loglevel)
-    call(interface.workflows.get_plugin(args.workflow), args.fnames)
+PLUGIN_CLASS = OrderBased

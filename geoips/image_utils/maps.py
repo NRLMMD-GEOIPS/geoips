@@ -16,6 +16,10 @@ from geoips.interfaces import feature_annotators, gridline_annotators
 
 LOG = logging.getLogger(__name__)
 
+# Latitude extent (deg) above which an area whose wrapped longitude edges
+# coincide is treated as spanning a full 360 deg (i.e. a global sector).
+GLOBAL_SECTOR_LAT_EXTENT_DEG = 170
+
 
 def ellps2axis(ellps_name):
     """
@@ -373,14 +377,27 @@ def compute_lat_auto_spacing(area_def):
     return lat_spacing
 
 
-def compute_lon_auto_spacing(area_def):
-    """Compute automatic spacing for longitude lines based on area definition."""
+def compute_lon_extent(area_def):
+    """Return the longitude extent (deg) of an area, handling wrap-around.
+
+    ``wrap_longitudes`` maps both edges into [-180, 180], which can invert or
+    collapse the min/max ordering. Add 360 to ``maxlon`` to recover a positive
+    extent for dateline-crossing sectors and for global sectors (where a
+    full-globe area_def wraps both edges to the same point).
+    """
     minlon = pyresample.utils.wrap_longitudes(area_def.area_extent_ll[0])
     maxlon = pyresample.utils.wrap_longitudes(area_def.area_extent_ll[2])
-
-    if minlon > maxlon and maxlon < 0:
+    lat_extent = area_def.area_extent_ll[3] - area_def.area_extent_ll[1]
+    if maxlon < minlon or (
+        maxlon == minlon and lat_extent >= GLOBAL_SECTOR_LAT_EXTENT_DEG
+    ):
         maxlon = maxlon + 360
-    lon_extent = maxlon - minlon
+    return maxlon - minlon
+
+
+def compute_lon_auto_spacing(area_def):
+    """Compute automatic spacing for longitude lines based on area definition."""
+    lon_extent = compute_lon_extent(area_def)
 
     if lon_extent > 5:
         lon_spacing = int(lon_extent / 5)
