@@ -80,19 +80,28 @@ class TestWorkflowStepDefinitionModel:
         assert step.name == "abi_netcdf"
 
     def test_split_join_accepted_as_valid_kinds(self):
-        """Accept split and join step kinds (scaffolding with name)."""
+        """Accept split and join step kinds as workflow scaffolding."""
         step = WorkflowStepDefinitionModel.model_validate(
             {
                 "kind": "split",
-                "name": "split_1",
                 "arguments": {"scopes": ["a", "b"]},
+                "spec": {
+                    "steps": {
+                        "process": {
+                            "kind": "algorithm",
+                            "name": "single_channel",
+                            "arguments": {},
+                            "depends_on": [],
+                        }
+                    }
+                },
                 "depends_on": [],
             },
             context=CTX,
         )
         assert step.kind == "split"
         step = WorkflowStepDefinitionModel.model_validate(
-            {"kind": "join", "name": "join_1", "depends_on": ["s"]}, context=CTX
+            {"kind": "join", "depends_on": ["s"]}, context=CTX
         )
         assert step.kind == "join"
 
