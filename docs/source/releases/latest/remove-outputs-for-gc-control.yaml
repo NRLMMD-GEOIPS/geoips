@@ -1,60 +1,9 @@
-bug fix:
-- title: ''
-  description: ''
-  files:
-    deleted:
-    - ''
-    moved:
-    - ''
-    added:
-    - ''
-    modified:
-    - ''
-  related-issue:
-    number: null
-    repo_url: ''
-  date:
-    start: null
-    finish: null
-enhancement:
-- title: ''
-  description: ''
-  files:
-    deleted:
-    - ''
-    moved:
-    - ''
-    added:
-    - ''
-    modified:
-    - ''
-  related-issue:
-    number: null
-    repo_url: ''
-  date:
-    start: null
-    finish: null
-deprecation:
-- title: ''
-  description: ''
-  files:
-    deleted:
-    - ''
-    moved:
-    - ''
-    added:
-    - ''
-    modified:
-    - ''
-  related-issue:
-    number: null
-    repo_url: ''
-  date:
-    start: null
-    finish: null
 removal:
-- title: ''
-  description: ''
+- title: 'Remove outputs field from steps'
+  description: |
+    The functionality provided by the `outputs` field in workflow steps has
+    been superseeded by expanded use of `depends_on`. This PR removes all 
+    remaining references to `outputs`.
   files:
     added:
     - 'geoips/plugins/yaml/workflows/abi_infrared_test.yaml'
