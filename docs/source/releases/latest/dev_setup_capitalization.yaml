@@ -1,0 +1,13 @@
+documentation:
+- title: 'Consistent capitalization in dev_setup'
+  description: 'Capitalization of "geoips" and "github" were inconsistent in the dev_setup.rst documentation file'
+  files:
+    modified:
+      - 'docs/source/tutorials/dev_setup.rst'
+  related-issue:
+    number: null
+    repo_url: ''
+  date:
+    start: null
+    finish: null
+
