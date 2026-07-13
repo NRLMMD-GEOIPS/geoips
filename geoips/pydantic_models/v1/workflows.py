@@ -669,20 +669,16 @@ class WorkflowSpecModel(FrozenModel):
         ..., description="Steps to produce the workflow."
     )
 
-    retention: Literal["keep_all", "keep_referenced"] | None = (
-        Field(
-            DEFAULT_RETENTION,
-            description=(
-                "Workflow-level data retention policy. "
-                "- keep_all: never GC any step data. "
-                "- keep_referenced: GC a step's data when no remaining "
-                "  downstream step references it."
-            ),
-        )
+    retention: Literal["keep_all", "keep_referenced"] | None = Field(
+        DEFAULT_RETENTION,
+        description=(
+            "Workflow-level data retention policy. "
+            "- keep_all: never GC any step data. "
+            "- keep_referenced: GC a step's data when no remaining "
+            "  downstream step references it."
+        ),
     )
-    retention_by_kind: (
-        Dict[str, Literal["keep_all", "keep_referenced"]] | None
-    ) = Field(
+    retention_by_kind: Dict[str, Literal["keep_all", "keep_referenced"]] | None = Field(
         None,
         description=(
             "Per-kind retention overrides. Keys are plugin kind names "
