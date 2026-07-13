@@ -28,6 +28,7 @@ removal:
     - 'geoips/utils/memusg/dataframe_utils.py'
     - 'geoips/utils/cache_files.py'
     - 'docs/source/contribute/coding-standards.rst'
+    - 'geoips/errors.py'
 
   related-issue:
     number: 1382
