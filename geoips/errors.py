@@ -5,8 +5,6 @@
 
 from pluginify.errors import PluginError  # NOQA ; used in various imports
 
-from yaml.constructor import ConstructorError
-
 
 class GeoipsError(Exception):
     """Base class for all GeoIPS-specific exceptions.
@@ -83,10 +81,9 @@ class ConfigError(GeoipsError):
     pass
 
 
-class DuplicateKeyError(ConstructorError, GeoipsError):
-    """Raised when a YAML mapping contains duplicate keys."""
-
-    pass
+# Preserve the historical GeoIPS import path while using the shared YAML
+# utility package implementation.
+from geoips_yaml_utils.errors import DuplicateKeyError
 
 
 # ── DataTree / Workflow Domain Exceptions ─────────────────────────────────
