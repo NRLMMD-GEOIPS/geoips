@@ -8,7 +8,6 @@ docstring: |
   The absolute difference between IR-BD between two Geokompsat AMI scan times.
 description: 11.2 µm Infrared.
 spec:
-  outputs: [algorithm]
   steps:
     read_abi_L1_data:
       kind: reader

@@ -264,8 +264,7 @@ A workflow YAML file **MUST** use the GeoIPS v1 plugin format. It is validated b
 | `docstring` | MUST | Human-readable description of the workflow |
 | `package` | MUST | Plugin package name, e.g., `geoips` |
 | `spec.steps` | MUST | Dict of step definitions, keyed by step id |
-| `spec.outputs` | MAY | List of step ids constituting workflow outputs. **Default:** last step id in `spec.steps` (Python 3.7+ dict insertion order) |
-| `spec.retention` | MAY | `keep_all` \| `keep_referenced` (default) \| `keep_outputs_only` |
+| `spec.retention` | MAY | `keep_all` \| `keep_referenced` (default) |
 | `spec.defaults` | MAY | Argument defaults applied to every step of a given `kind` |
 | `test` | MAY | Self-contained end-to-end test configuration |
 
@@ -661,7 +660,6 @@ Step nodes are named by step id (the dict key), not by `kind` or `name`. Ids are
 | `data_attribution` | MUST | object `{short, title, long}` | For display and ingest |
 | `workflow_name` | MUST | str | Mirrors `workflow.name` |
 | `workflow_version` | SHOULD | str | Author-assigned version |
-| `outputs` | MUST | list[str] | Mirrors `workflow.outputs` |
 | `retention_policy` | MUST | str | The retention policy actually applied |
 | `geoips_version` | MUST | str | Recorded by runner, not plugin |
 | `api_version` | MUST | str | OBP API version |
@@ -888,7 +886,7 @@ A step's token **MUST NOT** change when only:
 **GC'd step nodes still carry their output token** in `/<step_id>.attrs["output_token"]`. This means:
 
 - The workflow-level token is stable regardless of retention policy.
-- A workflow run with `keep_outputs_only` produces the same workflow-level token as a run with `keep_all`, given the same inputs and code.
+- A workflow run with `keep_referenced` produces the same workflow-level token as a run with `keep_all`, given the same inputs and code.
 - Reproducibility attestation does not require keeping intermediate data.
 
 ### 7.5 Token-Based Integration Tests
@@ -979,19 +977,12 @@ Nested splits work recursively: an inner split inside `cloudy` produces `/split_
 
 ## 9. Multi-Output Workflows
 
-### 9.1 Declaring Outputs
+### 9.1 Terminal and User-Facing Steps
 
-Every workflow **MAY** declare `outputs:` — a list of step ids whose nodes are the user-facing results. Outputs may be of any `kind`. If nothing is specified by `outputs`, the last step id in `spec.steps` (Python 3.7+ dict insertion order) is assumed to be the output. Outputs are exempt from garbage collection.
-
-> **Python ordering note:** The default `outputs: [<last_step_id>]` relies on Python 3.7+ dict insertion ordering. This is guaranteed behavior tested in GeoIPS CI (Python >=3.11).
+Workflow result steps are represented directly in `spec.steps` and connected through `depends_on`. There is no separate workflow-level `outputs:` list. If a terminal or intermediate step's data variables must survive garbage collection for inspection or downstream use, set `keep: true` on that step.
 
 ```yaml
 spec:
-  outputs:
-    - render_png_low_res
-    - render_png_high_res
-    - write_nc
-    - write_geotiff
   steps:
     read_abi:
       kind: reader
@@ -1001,8 +992,18 @@ spec:
       kind: output_formatter
       name: imagery_annotated
       depends_on: [read_abi]
+      keep: true
       arguments: { ... }
-    ...
+    render_png_high_res:
+      kind: output_formatter
+      name: imagery_annotated
+      depends_on: [read_abi]
+      arguments: { ... }
+    write_nc:
+      kind: output_formatter
+      name: netcdf_xarray
+      depends_on: [read_abi]
+      arguments: { ... }
 ```
 
 ### 9.2 Multiple Inputs
@@ -1082,18 +1083,16 @@ A workflow with 12 steps over a 10 GB dataset risks holding 120 GB in memory if 
 | Policy | Behavior | Use case |
 | --- | --- | --- |
 | `keep_all` | Every step node retains its full data. Nothing is GC'd. | Debugging, integration tests |
-| `keep_referenced` | A step's data is dropped once all its downstream consumers have run. Outputs always kept. | Default; production |
-| `keep_outputs_only` | All intermediates are dropped as soon as their last consumer completes. | Production at scale |
+| `keep_referenced` | A step's data is dropped once all its downstream consumers have run, unless the step has `keep: true`. | Default; production |
 
 ### 10.3 Precedence Order
 
 For each step S, the runner applies the **first** rule that matches:
 
-1. If S.id is in `workflow.outputs` → **always kept** (forced).
-2. If `S.keep == True` → **always kept** (forced).
-3. Otherwise → use the workflow-level `retention` policy.
+1. If `S.keep == True` → **always kept** (forced).
+2. Otherwise → use the workflow-level `retention` policy.
 
-Per-step `keep` and declared `outputs` are not overridable.
+Per-step `keep` is not overridable.
 
 ### 10.4 What Is GC'd, What Survives
 
@@ -1113,9 +1112,8 @@ A GC'd node is _transparent_:
 
 ```
 For each step S after it completes:
-    For each predecessor P of S:
-        If P is in workflow.outputs: continue       # always kept (rule 1)
-        If P.keep is True:           continue       # author override (rule 2)
+    For each completed step P:
+        If P.keep is True: continue                 # author override
         If all of P's downstream consumers have completed:
             drop_data(tree, P)                      # null out data_vars
             mark_gc(tree, P)
@@ -1210,7 +1208,6 @@ All defined in `geoips/errors.py`, inheriting from `GeoipsError`:
 | `WorkflowSpecError`     | YAML fails Pydantic validation                     |
 | `PluginResolutionError` | `name:` cannot be resolved in the Plugin Registry  |
 | `DependencyCycleError`  | `depends_on` graph is cyclic                       |
-| `DanglingOutputError`   | A name in `outputs:` is not a defined step id      |
 | `DataTreeSchemaError`   | Required attrs or nodes are missing                |
 | `CoverageError`         | Product fails `minimum_coverage`                   |
 | `TokenMismatchError`    | Integration test token differs from expected       |
@@ -1420,7 +1417,6 @@ class GeoipsError(Exception): pass
 class WorkflowSpecError(GeoipsError): pass
 class PluginResolutionError(GeoipsError): pass
 class DependencyCycleError(GeoipsError): pass
-class DanglingOutputError(GeoipsError): pass
 class DataTreeSchemaError(GeoipsError): pass
 class TokenMismatchError(GeoipsError): pass
 class RetentionConfigError(GeoipsError): pass

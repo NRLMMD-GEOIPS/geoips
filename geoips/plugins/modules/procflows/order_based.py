@@ -53,8 +53,9 @@ class OrderBased(BaseProcflowPlugin):
         ----------
         workflow_spec : WorkflowPluginModel | WorkflowSpecModel | dict
             The workflow specification to execute.  May be a pre-validated
-            model, a raw dictionary that will be validated on entry, or a
-            ``WorkflowSpecModel`` that wraps a ``@spec:`` field.
+            :class:`~geoips.pydantic_models.v1.workflows.WorkflowSpecModel` model, a
+            raw dictionary that will be validated on entry, or a that wraps a ``@spec:``
+            field.
         fnames : list[str] or str or None
             Input filename glob or list of filenames for reader steps.
         command_line_args : Namespace or None

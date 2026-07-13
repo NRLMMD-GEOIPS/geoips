@@ -5,7 +5,10 @@
 
 import pytest
 
-from geoips.errors import PluginResolutionError
+from geoips.errors import (
+    DependencyCycleError,
+    PluginResolutionError,
+)
 from geoips.pydantic_models.v1.workflows import (
     WorkflowSpecModel,
     WorkflowStepDefinitionModel,
@@ -76,19 +79,28 @@ class TestWorkflowStepDefinitionModel:
         assert step.name == "abi_netcdf"
 
     def test_split_join_accepted_as_valid_kinds(self):
-        """Accept split and join step kinds (scaffolding with name)."""
+        """Accept split and join step kinds as workflow scaffolding."""
         step = WorkflowStepDefinitionModel.model_validate(
             {
                 "kind": "split",
-                "name": "split_1",
                 "arguments": {"scopes": ["a", "b"]},
+                "spec": {
+                    "steps": {
+                        "process": {
+                            "kind": "algorithm",
+                            "name": "single_channel",
+                            "arguments": {},
+                            "depends_on": [],
+                        }
+                    }
+                },
                 "depends_on": [],
             },
             context=CTX,
         )
         assert step.kind == "split"
         step = WorkflowStepDefinitionModel.model_validate(
-            {"kind": "join", "name": "join_1", "depends_on": ["s"]}, context=CTX
+            {"kind": "join", "depends_on": ["s"]}, context=CTX
         )
         assert step.kind == "join"
 
@@ -120,25 +132,6 @@ class TestWorkflowSpecModel:
             },
             **overrides,
         }
-
-    def test_outputs_default_to_last_step(self):
-        """Default outputs to the last step in the spec."""
-        spec = WorkflowSpecModel.model_validate(self._make_linear_spec(), context=CTX)
-        assert spec.outputs == ["output"]
-
-    def test_outputs_accepts_explicit_list(self):
-        """Accept an explicit list for outputs."""
-        spec = WorkflowSpecModel.model_validate(
-            self._make_linear_spec(outputs=["algo", "output"]), context=CTX
-        )
-        assert spec.outputs == ["algo", "output"]
-
-    # def test_outputs_rejects_dangling_step_id(self):
-    #     """Reject an output that references a nonexistent step."""
-    #     with pytest.raises(DanglingOutputError):
-    #         WorkflowSpecModel.model_validate(
-    #             self._make_linear_spec(outputs=["nonexistent_step"]), context=CTX
-    #         )
 
     def test_depends_on_default_previous_step_for_middle(self):
         """Default depends_on to the previous step for middle steps."""
@@ -210,7 +203,7 @@ class TestWorkflowSpecModel:
 
     def test_retention_field_accepts_valid_values(self):
         """Accept all valid retention policy values."""
-        for val in ["keep_all", "keep_referenced", "keep_outputs_only"]:
+        for val in ["keep_all", "keep_referenced"]:
             spec = WorkflowSpecModel.model_validate(
                 self._make_linear_spec(retention=val), context=CTX
             )
