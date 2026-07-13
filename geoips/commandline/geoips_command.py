@@ -24,15 +24,15 @@ from colorama import Fore, Style
 from pluginify.config import REGISTRY_DIRECTORY
 from tabulate import tabulate
 
-from geoips.commandline.ancillary_info import cmd_instructions, alias_mapping
 from pydantic import ValidationError
+import geoips_yaml_utils as yaml
 
+from geoips.commandline.ancillary_info import cmd_instructions, alias_mapping
 from geoips.commandline.log_setup import setup_logging
 from geoips.errors import PluginError
 from geoips.filenames.base_paths import PATHS
 from geoips.interfaces import workflows
 from geoips.pydantic_models.v1.workflows import WorkflowPluginModel
-import geoips.utils.yaml_utils as yaml
 
 
 class PluginPackages:
