@@ -10,11 +10,14 @@ import shlex
 from datetime import datetime, timezone
 from pathlib import Path
 import re
+import tempfile
 
 import pytest
 
 from geoips.geoips_utils import call_cmd
 from geoips.filenames.base_paths import PATHS as gpaths
+
+tmpdir = tempfile.mkdtemp()
 
 MACHINE_ARCH = platform.machine().lower()
 IS_ARM = MACHINE_ARCH in ["aarch64", "arm64"] or MACHINE_ARCH.startswith("arm")
@@ -263,7 +266,7 @@ def _run_ansible_check(tags, label):
         os.environ[key] = val
 
     run_uid = os.environ.get("PYTEST_XDIST_TESTRUNUID", "single-process")
-    state_dir = Path(os.getenv("GEOIPS_OUTDIRS", "/tmp")) / "pytest-install-state"
+    state_dir = Path(os.getenv("GEOIPS_OUTDIRS", tmpdir)) / "pytest-install-state"
     state_dir.mkdir(parents=True, exist_ok=True)
     lock_path = state_dir / "ansible-install.lock"
     done_path = state_dir / f"{run_uid}-{label}.done"

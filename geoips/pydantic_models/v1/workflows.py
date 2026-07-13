@@ -449,7 +449,7 @@ class WorkflowStepDefinitionModel(FrozenModel):
     @field_validator("scope", mode="before")
     @classmethod
     def _reject_scope(cls, value: str | None) -> None:
-        """Reject non-None ``scope`` — explicit step-level scoping is not implemented."""
+        """Reject non-None ``scope`` — explicit step-level scoping not implemented."""
         if value is not None:
             raise ValueError(
                 "scope is not yet implemented — remove this field from the YAML"
