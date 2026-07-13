@@ -14,19 +14,19 @@ test:
       full_test_policy: on_token_mismatch # always | never
       compare_path: !ENV ${GEOIPS_PACKAGES_DIR}/geoips/tests/outputs/abi.static.Infrared.imagery_clean
       output_checker_name: image
-  steps:
-    reader:
-      area_def: null
-    abi_Infrared:
-      spec:
-        steps:
-          algorithm:
-            output_units: Kelvin
-  kinds:
-    readers:
-      satellite_zenith_angle_cutoff: 80
+  # steps:
+  #   reader:
+  #     area_def: null
+  #   abi_Infrared:
+  #     spec:
+  #       steps:
+  #         algorithm:
+  #           output_units: Kelvin
+  # kinds:
+  #   readers:
+  #     satellite_zenith_angle_cutoff: 80
   globals:
-    sector_list: global_cylindrical
+    # sector_list: global_cylindrical
     logging_level: info
 spec:
   steps:
@@ -38,7 +38,7 @@ spec:
         chans: ['B14BT']
     sector:
       kind: sector
-      name: goes_east
+      name: test_goes16_eqc_3km_day_20200918T1950Z
       depends_on: []
       arguments: {}
     abi_Infrared:
@@ -56,11 +56,34 @@ spec:
       name: default
       depends_on: []
       arguments: {}
+    check_coverage:
+      kind: coverage_checker
+      name: masked_arrays
+      depends_on: [abi_Infrared.algorithm, sector]
+      arguments:
+        variable_name: data
+    create_filenames:
+      kind: filename_formatter
+      name: geoips_fname
+      # I don't like this and will look into a solution
+      # We provide the Product step to get product_name but I think that is also
+      # available from abi_Infrared.algorithm.
+      # Additionally, xarr_obj isn't available from the Product. To get that you
+      # have to dig to the algorithm. I think I'd prefer if the Product carried
+      # the output data as well. We'll see.
+      depends_on: [abi_Infrared.algorithm, sector, check_coverage]
+      arguments:
+        product_name: Infrared
     output_formatter:
       kind: output_formatter
-      name: imagery_annotated
-      depends_on: [abi_Infrared.algorithm, abi_Infrared.colormapper, gridlines, features, sector]
+      name: imagery_clean
+      depends_on:
+        - abi_Infrared.algorithm
+        - abi_Infrared.colormapper
+        - create_filenames
+        - gridlines
+        - features
+        - sector
       arguments:
         product_name: Infrared
         product_name_title: G16 Infrared @ 11.2 um
-        output_fnames: [!ENV $GEOIPS_OUTDIRS/infrared_full_run.png]
