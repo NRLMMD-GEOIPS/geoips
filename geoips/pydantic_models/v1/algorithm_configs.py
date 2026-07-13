@@ -5,8 +5,9 @@
 
 from typing import Any, Dict, List, Literal, Optional
 
-from pydantic import Field, model_validator
+from pydantic import Field, field_validator, model_validator
 
+from geoips.interfaces import algorithms
 from geoips.pydantic_models.v1.bases import (
     FrozenModel,
     PluginModel,
@@ -85,6 +86,9 @@ class RgbGunRecipe(FrozenModel):
 class AlgorithmConfigSingleInstanceSpec(FrozenModel):
     """Algorithm config plugin (specification) format."""
 
+    algorithm: str = Field(
+        ..., description="The name of the algorithm to send this configuration to."
+    )
     red: RgbGunRecipe = Field(
         ..., description="Specification for the red gun of the rgb recipe."
     )
@@ -95,6 +99,25 @@ class AlgorithmConfigSingleInstanceSpec(FrozenModel):
         ..., description="Specification for the blue gun of the rgb recipe."
     )
 
+    @field_validator("algorithm", mode="before")
+    def _validate_algorithm(cls, v):
+        """Validate that the input value for 'algorithm' is a registered algorithm plugin.  # NOQA
+
+        Parameters
+        ----------
+        cls : AlgorithmConfigSingleInstanceSpec
+            The config class containing the 'algorithm' field.
+        v : str
+            The input value for 'algorithm'.
+
+        Returns
+        -------
+        v : str
+            The input name of a registered algorithm plugin.
+        """
+        algorithms.get_plugin(v)
+        return v
+
 
 class AlgorithmConfigPluginModel(PluginModel):
     """Feature Annotator plugin format."""
@@ -103,3 +126,6 @@ class AlgorithmConfigPluginModel(PluginModel):
         ...,
         description=("Specification for algorithm config plugins."),
     )
+
+
+algorithms.get_plugin

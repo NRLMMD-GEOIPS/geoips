@@ -5,6 +5,7 @@ family: standard
 docstring:
   Configuration plugins for generic rgb recipes.
 spec:
+  algorithm: config_rgb
   red:
     equation:
       type: difference
