@@ -1,7 +1,7 @@
 # # # This source code is subject to the license referenced at
 # # # https://github.com/NRLMMD-GEOIPS.
 
-"""Compatibility wrapper around :mod:`geoips_yaml_utils`.
+"""Compatibility wrapper around ``geoips_yaml_utils``.
 
 Usage:
     import geoips.utils.yaml_utils as yaml

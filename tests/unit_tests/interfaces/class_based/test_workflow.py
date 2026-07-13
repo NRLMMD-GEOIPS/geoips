@@ -101,6 +101,7 @@ class TestWorkflowConstruction:
                 }
             )
 
+
 class TestRetention:
     """Retention policy tests."""
 
@@ -152,6 +153,7 @@ class TestRetention:
         policy = KeepReferencedPolicy(spec)
         assert policy.can_gc("r", executed={"r", "a"}) is True
         assert policy.can_gc("a", executed={"r", "a"}) is True
+
 
 class TestStepProvenance:
     """StepProvenance dataclass tests."""
