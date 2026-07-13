@@ -11,6 +11,8 @@ Functionality
 .. toctree::
     :maxdepth: 1
 
+    order-based-processing/index
+    scripting/index
     command-line/index
     documentation-building
     examples/index
