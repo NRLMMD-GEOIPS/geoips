@@ -37,6 +37,7 @@ import xarray as xr
 from geoips import interfaces
 from geoips.utils.types.datatree_ditto import DataTreeDitto
 from geoips.utils.types.obp_conduits import OBP_CONDUITS
+from geoips.xarray_utils.coords import normalize_geoips_dataset_coords
 
 LOG = logging.getLogger(__name__)
 
@@ -233,6 +234,9 @@ class BaseClassPlugin(ABC):
             for k, v in pre_call_attrs.items():
                 data.attrs.setdefault(k, v)
 
+        if _obp_initiated:
+            data = normalize_geoips_dataset_coords(data)
+
         # Step 2: Wrap into DataTreeDitto if not already (OBP only)
         if _obp_initiated and not isinstance(data, xr.DataTree):
             data = self._wrap(data)
@@ -317,6 +321,8 @@ class BaseClassPlugin(ABC):
             return DataTreeDitto(ds, name=getattr(self, "name", "result"))
         # For all types not previously handled, convert whatever we got to a DTD whose
         # name is the same as the calling plugin and return
+        if isinstance(result, xr.Dataset):
+            result = normalize_geoips_dataset_coords(result)
         plugin_name = getattr(self, "name", "result")
         try:
             return DataTreeDitto(result, name=plugin_name)
@@ -376,13 +382,14 @@ class BaseClassPlugin(ABC):
             return data
 
         if len(children) > 1:
-            return xr.merge(child.to_dataset() for child in children)
+            data = xr.merge(child.to_dataset() for child in children)
+            return normalize_geoips_dataset_coords(data)
 
         child = children[0]
         child_ds = child.ds
 
         if child_ds is None or child_ds.data_vars or not child.children:
-            return child.to_dataset()
+            return normalize_geoips_dataset_coords(child.to_dataset())
 
         sub_children = list(child.children.values())
 
@@ -392,7 +399,7 @@ class BaseClassPlugin(ABC):
             data = xr.merge(sub_child.to_dataset() for sub_child in sub_children)
 
         data.attrs = {**child_ds.attrs, **data.attrs}
-        return data
+        return normalize_geoips_dataset_coords(data)
 
     @staticmethod
     def _extract_child_kwargs(data, kwargs):

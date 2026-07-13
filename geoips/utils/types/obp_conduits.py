@@ -27,6 +27,7 @@ from __future__ import annotations
 import xarray as xr
 
 from geoips.utils.types.datatree_ditto import DataTreeDitto
+from geoips.xarray_utils.coords import normalize_geoips_dataset_coords
 
 
 def _extract_annotator_spec(child):
@@ -66,8 +67,8 @@ def _flatten_datatree_for_legacy_plugin(ds, child):
             merged = xr.merge([c.to_dataset() for c in children])
         for k, v in ds.attrs.items():
             merged.attrs.setdefault(k, v)
-        return merged
-    return ds
+        return normalize_geoips_dataset_coords(merged)
+    return normalize_geoips_dataset_coords(ds)
 
 
 def _extract_ds(child):
