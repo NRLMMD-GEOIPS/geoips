@@ -555,6 +555,7 @@ def build_module_apidocs_with_sphinx(
         apidoc_build_path,  # output path
         module_path,  # module path
         "*/lib/*",  # exclude path
+        "*/pydantic_models/v2alpha1/*",  # Exclude path
     ]
     # See https://github.com/sphinx-doc/sphinx/issues/8664
     # and https://www.sphinx-doc.org/en/master/man/sphinx-apidoc.html
