@@ -38,7 +38,6 @@ from pydantic import (
 from geoips import interfaces
 from geoips.config import config
 from geoips.errors import (
-    DanglingOutputError,
     DependencyCycleError,
     PluginResolutionError,
 )
@@ -670,28 +669,19 @@ class WorkflowSpecModel(FrozenModel):
         ..., description="Steps to produce the workflow."
     )
 
-    outputs: List[str] | None = Field(
-        None,
-        description=(
-            "Step IDs that constitute workflow outputs. These step nodes "
-            "are exempt from garbage collection. If None, defaults to "
-            "[last_step_id] using Python 3.7+ dict insertion ordering."
-        ),
-    )
-    retention: Literal["keep_all", "keep_referenced", "keep_outputs_only"] | None = (
+    retention: Literal["keep_all", "keep_referenced"] | None = (
         Field(
             DEFAULT_RETENTION,
             description=(
                 "Workflow-level data retention policy. "
                 "- keep_all: never GC any step data. "
                 "- keep_referenced: GC a step's data when no remaining "
-                "  downstream step references it. "
-                "- keep_outputs_only: GC everything except declared outputs."
+                "  downstream step references it."
             ),
         )
     )
     retention_by_kind: (
-        Dict[str, Literal["keep_all", "keep_referenced", "keep_outputs_only"]] | None
+        Dict[str, Literal["keep_all", "keep_referenced"]] | None
     ) = Field(
         None,
         description=(
@@ -964,22 +954,12 @@ class WorkflowSpecModel(FrozenModel):
                 expanded = cls.expand_step(step, info)
                 mapping[name] = list(expanded.keys())
 
-        outputs = data.get("outputs")
-        if outputs and mapping:
-            remapped = []
-            for out in outputs:
-                if out in mapping:
-                    remapped.extend(mapping[out])
-                else:
-                    remapped.append(out)
-            data["outputs"] = remapped
-
         return data
 
     @model_validator(mode="before")
     @classmethod
     def _inject_defaults(cls, data: dict, info: ValidationInfo) -> dict:
-        """Inject implicit defaults for ``outputs`` and ``depends_on``.
+        """Inject implicit defaults for ``depends_on``.
 
         Runs after ``expand_steps`` so the step dict is fully resolved.
         All defaults are baked into the raw dict *before* freezing, so no
@@ -997,17 +977,6 @@ class WorkflowSpecModel(FrozenModel):
             raise ValueError(
                 f"step id '{INPUT_REF}' is reserved: it is the magic "
                 f"data-injection dependency token and cannot name a step"
-            )
-
-        if data.get("outputs") is None:
-            output_candidates = [
-                sid
-                for sid in step_ids
-                if steps[sid].get("kind")
-                not in ("workflow", "product", "product_default")
-            ]
-            data["outputs"] = (
-                output_candidates[-1:] if output_candidates else [step_ids[-1]]
             )
 
         for i, sid in enumerate(step_ids):
@@ -1080,7 +1049,7 @@ class WorkflowSpecModel(FrozenModel):
 
     @model_validator(mode="after")
     def _validate_dependencies(self):
-        """Validate ``outputs`` refs, ``depends_on`` refs, and detect cycles.
+        """Validate ``depends_on`` refs and detect cycles.
 
         This is a read-only validator — all defaults have already been
         injected by ``_inject_defaults`` at mode="before".
@@ -1092,8 +1061,6 @@ class WorkflowSpecModel(FrozenModel):
 
         Raises
         ------
-        DanglingOutputError
-            If an entry in ``outputs`` is not a defined step id.
         PluginResolutionError
             If a ``depends_on`` reference (or nested segment) does not resolve.
         DependencyCycleError
@@ -1103,14 +1070,6 @@ class WorkflowSpecModel(FrozenModel):
 
         if not step_ids:
             return self
-
-        # --- validate outputs reference valid steps ---
-        unknown_outputs = set(self.outputs or []) - set(step_ids)
-        if unknown_outputs:
-            raise DanglingOutputError(
-                f"outputs {sorted(unknown_outputs)} are not defined step ids; "
-                f"valid ids: {sorted(step_ids)}"
-            )
 
         # --- deep-validate every depends_on reference (incl. dotted paths) ---
         # The magic ``_input`` token is a virtual source, not a real step, so it
