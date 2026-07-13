@@ -1,9 +1,9 @@
 enhancement:
 - title: 'Add workflow-domain exception classes'
   description: |
-    Add seven typed exceptions for order-based-procflow workflow operations,
+    Add six typed exceptions for order-based-procflow workflow operations,
     all subclassing GeoipsError: WorkflowSpecError, PluginResolutionError,
-    DependencyCycleError, DanglingOutputError, DataTreeSchemaError,
+    DependencyCycleError, DataTreeSchemaError,
     RetentionConfigError, and BoundaryIOError.
   files:
     modified:
