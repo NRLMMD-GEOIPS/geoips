@@ -161,7 +161,7 @@ class KeepReferencedPolicy(RetentionPolicy):
 
     def can_gc(self, step_id: str, *, executed: set[str]) -> bool:
         """Return True if the step's data_vars can be dropped."""
-        if self._is_kept(step_id) or self._is_output(step_id):
+        if self._is_kept(step_id):
             return False
         return not self._has_pending_consumers(step_id, executed)
 
