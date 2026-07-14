@@ -39,23 +39,18 @@ spec:
     sector:
       kind: sector
       name: test_goes16_eqc_3km_day_20200918T1950Z
-      depends_on: []
-      arguments: {}
     abi_Infrared:
       kind: product
       name: [abi, Infrared]
       depends_on: [reader, sector]
-      arguments: {}
     gridlines:
       kind: gridline_annotator
       name: default
       depends_on: []
-      arguments: {}
     features:
       kind: feature_annotator
       name: default
       depends_on: []
-      arguments: {}
     check_coverage:
       kind: coverage_checker
       name: masked_arrays
