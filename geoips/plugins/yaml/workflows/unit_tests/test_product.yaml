@@ -26,14 +26,13 @@ test:
   #   readers:
   #     satellite_zenith_angle_cutoff: 80
   globals:
-    # sector_list: global_cylindrical
+    # sector_list: test_goes16_eqc_3km_night_20200918T1950Z
     logging_level: info
 spec:
   steps:
     reader:
       kind: reader
       name: abi_netcdf
-      depends_on: []
       arguments:
         chans: ['B14BT']
     sector:
@@ -46,11 +45,9 @@ spec:
     gridlines:
       kind: gridline_annotator
       name: default
-      depends_on: []
     features:
       kind: feature_annotator
       name: default
-      depends_on: []
     check_coverage:
       kind: coverage_checker
       name: masked_arrays
