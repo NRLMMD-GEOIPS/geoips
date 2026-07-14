@@ -395,8 +395,7 @@ def test_override_workflow_dict_format(sample_workflow):
 
 
 def test_insert_after_key():
-    """Test inserting a new step after a target step.
-    """
+    """Test inserting a new step after a target step."""
     steps = OrderedDict(
         {
             "reader": {
