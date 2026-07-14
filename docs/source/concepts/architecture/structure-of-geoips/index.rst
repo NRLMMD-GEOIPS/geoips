@@ -46,9 +46,10 @@ The primary plugin interfaces include:
 * **output_formatters** - data format for the resulting output product (ie, netCDF, png, etc)
 * **filename_formatters** - full path and file name formatting specification, using attributes within the xarray objects
 
-The primary processing workflows available at this time, which access the
-appropriate plugins at the appropriate point in the processing stream using the
-appropriate plugin interface, include:
+The recommended processing workflow in GeoIPS 2.0 is the :ref:`Order-Based Procflow
+<order-based-processing>` (OBP), which lets you define the exact ordered sequence of plugin
+steps in a YAML :ref:`workflow <workflows>`. The following legacy procflows are still
+available but **deprecated** — OBP can produce everything they can:
 
 * **single_source** - single input type and single output type
 * **config_based** - efficient method for producing all possible outputs for

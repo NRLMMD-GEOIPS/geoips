@@ -52,7 +52,7 @@ The following optional attributes can be used within processing if available.
 These are also referenced explicitly in geoips_utils.py copy_standard_metadata,
 and are included if they exist, and skipped if they do not exist.
 
-* 'data_attribution' - OPTIONAL dictionary containing the following entries: 
+* 'data_attribution' - OPTIONAL dictionary containing the following entries:
 
   * 'title'
 
