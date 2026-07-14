@@ -1,7 +1,7 @@
 apiVersion: geoips/v1
 interface: workflows
 family: order_based
-name: test_product
+name: abi-static-Infrared-imagery-annotated-enhanced
 docstring: |
   11.2 µm Infrared.
 
