@@ -1,0 +1,28 @@
+bug fix:
+- title: 'Fix geoips config create --all output and add field comments'
+  description: |
+    Switch to dumping the fully resolved config so the config
+    file is complete and valid on reload. Also render the file with per-field
+    comments as pulled from new schema field descriptions.
+
+    An invalid .geoips.yaml now errors with a clear message.
+  files:
+    added:
+    - 'docs/source/releases/latest/fix-config-create-all-and-comments.yaml'
+    deleted:
+    - ''
+    moved:
+    - ''
+    modified:
+    - 'geoips/config/schema.py'
+    - 'geoips/config/config.py'
+    - 'geoips/config/plugins.py'
+    - 'geoips/commandline/geoips_config.py'
+    - 'tests/unit_tests/config/test_config.py'
+    - 'tests/unit_tests/config/test_config_cli.py'
+  related-issue:
+    number: null
+    repo_url: ''
+  date:
+    start: null
+    finish: null

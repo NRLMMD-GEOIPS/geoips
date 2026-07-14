@@ -9,14 +9,41 @@ Retrieves the appropriate family/interface/package/plugin based on the args prov
 from importlib import metadata, resources, import_module
 
 from pluginify.create_plugin_registries import format_docstring
+import geoips_yaml_utils as yaml
 
-import geoips.utils.yaml_utils as yaml
 from geoips.commandline.geoips_command import (
     CommandClassFactory,
     GeoipsCommand,
     GeoipsExecutableCommand,
 )
 from geoips import interfaces
+
+_DISPLAY_ARG_MAP = {
+    "fnames": "filenames",
+    "output_fnames": "output_filenames",
+}
+
+
+def _translate_display_args(family_args_or_schema):
+    """Replace legacy arg names with display-friendly equivalents.
+
+    Parameters
+    ----------
+    family_args_or_schema : list or dict
+        Required args list (class-based interface) or YAML schema dict.
+
+    Returns
+    -------
+    list or dict
+        The same structure with ``fnames`` → ``filenames`` and
+        ``output_fnames`` → ``output_filenames`` in list elements /
+        dict keys.
+    """
+    if isinstance(family_args_or_schema, list):
+        return [_DISPLAY_ARG_MAP.get(a, a) for a in family_args_or_schema]
+    if isinstance(family_args_or_schema, dict):
+        return {_DISPLAY_ARG_MAP.get(k, k): v for k, v in family_args_or_schema.items()}
+    return family_args_or_schema
 
 
 class GeoipsDescribeArtifact(GeoipsExecutableCommand):
@@ -229,6 +256,7 @@ class GeoipsDescribeArtifact(GeoipsExecutableCommand):
                 docstring = family_args_or_schema["description"]
             else:
                 docstring = "Not Implemented."
+        family_args_or_schema = _translate_display_args(family_args_or_schema)
         family_entry = {
             "Interface Name": interface_name,
             "Interface Type": interface_type,

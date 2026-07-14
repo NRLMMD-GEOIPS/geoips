@@ -55,11 +55,17 @@ files = ["*/_version.py"]
 requires = ["poetry-core>=1.0.0", "poetry-dynamic-versioning>=1.0.0,<2.0.0"]
 build-backend = "poetry_dynamic_versioning.backend"                          # object used to perform the build process
 
+[dependency-groups]
+dev = [
+    "jupyter>=1.1.1",
+    "nbconvert>=7.17.1",
+]
+
 [tool.poetry.dependencies] # must download to run
 # NOTE this setuptools dependency should be removed altogether once meson fortran builds are working
 setuptools = "<70"     # Required for any fortran builds until meson working
 python = ">=3.11.0,<3.13.0"    # mandatory to declare the required python version
-pluginify = { version = "1.19.1a0", allow-prereleases = true }       # Required for plugin management and loading
+pluginify = ">=1.0.0"       # Required for plugin management and loading
 matplotlib = ">=3.7.0,<3.11" # Base requirement works, version specific to test outputs
 netcdf4 = ">1.7.0"     # Base requirement >= 1.7.0 works without reader seg faults
 numpy = ">=2.3.0"      # Base requirement, 2.2.6 works, 2.3.0 broke float pyYAML serialization, now resolved.
@@ -79,7 +85,7 @@ numexpr = "*"          # for efficiency improvements
 psutil = "*"           # Required for memory checks
 pydantic = ">=2.10.0"  # Data validation using Python type hints
 pyhdf = "*"            # hdf4 readers (MODIS)
-pyaml-env = "*"        # Reading YAML output config files, with paths
+geoips-yaml-utils = "*"  # Required to reference environment variables in YAML
 pyorbital = "*"        # required by satpy
 pypublicdecompwt = "*" # Required to read SEVIRI data
 rio-cogeo = "*"        # Cloud Optimized GEOTIFF output
@@ -104,7 +110,7 @@ hdf5plugin = "*" # Reading compressed netCDF FCI data. This installs required de
                  # error unless HDF5_PLUGIN_PATH is a valid environment variable. We are
                  # using the pypi hdf5plugin package, and set HDF5_PLUGIN_PATH to
                  # site-packages/hdf5plugin/plugins in the config_geoips file.
-
+platformdirs = "*" # for easy file locations; this is a dependency of pluginify as well
 # Optional dependencies
 # To add a new optional dependency it must be added both here and in one of the "extra"
 # groups below.

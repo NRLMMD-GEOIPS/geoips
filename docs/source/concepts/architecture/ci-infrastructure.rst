@@ -6,7 +6,7 @@
 .. _ci-infrastructure:
 
 CI and Installation Infrastructure
-===================================
+==================================
 
 GeoIPS uses `Ansible <https://docs.ansible.com/>`_ playbooks to manage installation of the
 software, its plugins, and test datasets for CI purposes.  The same playbooks run on bare-metal developer
@@ -110,12 +110,12 @@ each tier.
 
 
 Running the install playbook
------------------------------
+----------------------------
 
 All commands below assume the repository root as the working directory.
 
 Base install (core GeoIPS only)
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. code-block:: bash
 
@@ -123,7 +123,7 @@ Base install (core GeoIPS only)
    ansible-playbook playbooks/install.yml --tags base
 
 Full install (base + shapefiles + test extras)
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. code-block:: bash
 
@@ -131,7 +131,7 @@ Full install (base + shapefiles + test extras)
    ansible-playbook playbooks/install.yml --tags base,full
 
 Site install (full + all plugin packages)
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. code-block:: bash
 
@@ -139,7 +139,7 @@ Site install (full + all plugin packages)
    ansible-playbook playbooks/install.yml --tags base,full,site
 
 Site install with private repos
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. code-block:: bash
 
@@ -148,7 +148,7 @@ Site install with private repos
      -e geoips_use_private_plugins=true
 
 Installing specific extra plugin packages
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Pass a comma-separated list of repository names:
 
@@ -160,7 +160,7 @@ Pass a comma-separated list of repository names:
 
 
 Configuration variables
-------------------------
+-----------------------
 
 Override any variable with ``-e`` on the command line.  Defaults live in
 ``tests/ansible/inventory/local.yml`` and are resolved (in order) from environment variables,
@@ -205,7 +205,7 @@ then hardcoded defaults.  Copy the inventory file to create a custom setup
 
 
 Downloading test data
-----------------------
+---------------------
 
 Test data is managed by a **separate** playbook (``test_data.yml``) and is **never** baked
 into Docker images.  It uses the same tier tags as the install playbook.
@@ -214,7 +214,7 @@ The ``test_data`` role wraps ``geoips config install``, which is idempotent — 
 already present on disk are skipped.
 
 Base datasets only
-^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^
 
 .. code-block:: bash
 
@@ -222,7 +222,7 @@ Base datasets only
    ansible-playbook playbooks/test_data.yml --tags base
 
 Base + full datasets
-^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^
 
 .. code-block:: bash
 
@@ -230,7 +230,7 @@ Base + full datasets
    ansible-playbook playbooks/test_data.yml --tags base,full
 
 All datasets (including site + private)
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. code-block:: bash
 
@@ -239,7 +239,7 @@ All datasets (including site + private)
      -e geoips_use_private_plugins=true
 
 Override the download location
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. code-block:: bash
 
@@ -267,7 +267,7 @@ The datasets installed at each tier are defined in
 
 
 Role responsibilities
-----------------------
+---------------------
 
 The roles live in ``tests/ansible/roles/`` and each handles one concern.
 
@@ -325,7 +325,7 @@ The roles live in ``tests/ansible/roles/`` and each handles one concern.
 
 
 Make targets
-^^^^^^^^^^^^^
+^^^^^^^^^^^^
 
 The Makefile provides convenience wrappers:
 
@@ -346,7 +346,7 @@ The Makefile provides convenience wrappers:
 
 
 Docker integration
--------------------
+------------------
 
 The Dockerfile uses a multi-stage build that maps directly to the Ansible tiers:
 
@@ -387,7 +387,7 @@ Test data is always a runtime mount, never a build-time layer.
 
 
 Branch fallback strategy
--------------------------
+------------------------
 
 Every repo clone — in both ``settings_repos`` and ``source_repos`` — follows a two-step
 pattern:
@@ -426,7 +426,7 @@ Completed tasks will execute as fast no-ops.  Multiple runs will not hurt anythi
 
 
 Adding new repositories
-------------------------
+-----------------------
 
 Repositories and which install group they belong to are managed by
 ``tests/ansible/inventory/local.yml``.  To add a new repo or move a repo to a
@@ -451,10 +451,10 @@ different install group, edit ``tests/ansible/inventory/local.yml`` as follows:
 
 
 Troubleshooting
-----------------
+---------------
 
 Increase verbosity
-^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^
 
 Add ``-vvv`` to any ``ansible-playbook`` command for detailed task output:
 
@@ -463,7 +463,7 @@ Add ``-vvv`` to any ``ansible-playbook`` command for detailed task output:
    ansible-playbook playbooks/install.yml --tags base -vvv
 
 Dry run
-^^^^^^^^
+^^^^^^^
 
 Use ``--check`` to see what Ansible *would* do without making any changes:
 
@@ -472,7 +472,7 @@ Use ``--check`` to see what Ansible *would* do without making any changes:
    ansible-playbook playbooks/install.yml --tags base --check
 
 Re-running after a failure
-^^^^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Ansible is idempotent.  Fix the underlying issue and re-run the same command.  Completed
 tasks will be fast no-ops.

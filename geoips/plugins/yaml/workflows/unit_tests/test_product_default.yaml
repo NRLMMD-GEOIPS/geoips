@@ -21,4 +21,5 @@ spec:
     output_formatter:
       kind: output_formatter
       name: imagery_clean
+      depends_on: [Infrared]
       arguments: {}

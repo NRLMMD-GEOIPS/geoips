@@ -10,6 +10,8 @@ from geoips.interfaces.base import BaseClassInterface
 class BaseInterpolatorPlugin(BaseClassPlugin, abstract=True):
     """Base class for GeoIPS interpolator plugins."""
 
+    data_tree = False
+
     pass
 
 

@@ -1,5 +1,37 @@
 ## Abstract
 
+> **Implementation Status (June 2026)**
+>
+> The DataTree runtime described in this specification has been partially
+> implemented.  The following sections are **implemented**:
+>
+> - §2  DataTree container — `DataTreeDitto` with pluggable converters (single
+>   shared `converter_registry` for dispatch)
+> - §3  Workflow specification — pydantic models with `depends_on`,
+>   `outputs`, `retention`, `keep`, and `scope` (the `split`/`join` branch label)
+> - §4  Runtime execution — `Workflow` composite class, topological sort,
+>   provenance recording
+> - §4.5 `split` / `join` execution — a `split` step carries an inline body
+>   sub-workflow and branch config (`scopes:` or `over: sector_list`); the body
+>   runs once per branch, nested under `/<split_id>/<scope>`, and a `join`
+>   re-collects the branches.  **Static multi-sector processing (SBP)** is
+>   supported via `over: sector_list`: one branch per static sector, with each
+>   branch's `AreaDefinition` seeded in so body steps receive it as `area_def`.
+> - §5  Process flow — class-based `OrderBased` procflow (readers returning the
+>   standard `{key: Dataset}` dict are merged to a `DataTree` end-to-end)
+> - §7  Tokenization — per-step `output_token` using `dask.base.tokenize`
+>   with `dask:` prefix
+>
+> The following are **deferred to follow-up work**:
+>
+> - §4.5 dynamic sectors (only static `sector_list` fan-out is implemented)
+> - §4.5 `when:` expression evaluation (rejected at validation for now)
+> - §5.3 `processing_history` table
+> - §5.4 `inputs` / `products` manifests
+> - §7.5 workflow-level output token
+> - §8  v2alpha1 pydantic models
+> - §9  CLI override system from `geoips-obp-cli-updates`
+
 Every step in a workflow takes a `DataTree` and returns a `DataTree`. The workflow itself is a `DataTree` whose children are the per-step DataTrees. Provenance (processing history, tokens, quality flags, input manifests, product artifacts) is stored as native xarray attributes (`attrs`) on the DataTree and its step nodes. Workflows are themselves callable as steps — the `Workflow` class IS a `Plugin`, implementing the Composite pattern. Steps are required to be deterministic, (ideally) side-effect-free with respect to global state, declaratively composed via YAML, validated by Pydantic schemas, and hashable via `dask.base.tokenize`. Tokenization enables content-addressable caching, fast regression tests, and a straightforward path to auto-parallel execution via `split`/`join` operators and declared `depends_on` edges. In other words..... DataTrees, DataTrees, DataTrees!! All the way down!!!
 
 ---
@@ -68,7 +100,7 @@ The path from a YAML file on disk to an executing workflow:
 
 4. **Topological Sort** — `Workflow.call()` validates the `depends_on` DAG for cycles (raising `DependencyCycleError` if found). For v1 linear workflows, execution follows dict insertion order by default. Topological sort is retained as a DAG-integrity check.
 
-5. **Invocation** — Each child's `_invoke(data_tree, **arguments)` is called. `_invoke()` checks the `data_tree` flag: if `True` (Workflow, colormapper), passes DataTree through transparently via `DataTreeDitto`; if `False` (legacy plugins), unwraps via `_pre_call()` and re-wraps via `_post_call()` using `DataTreeDitto`'s converter registry.
+5. **Invocation** — Each child is called directly as `child(data_tree, **arguments)`, which dispatches through `__call__` to `_invoke()` (never call `_invoke()` directly). `_invoke()` checks the `data_tree` flag: if `True` (Workflow, colormapper), passes DataTree through transparently via `DataTreeDitto`; if `False` (legacy plugins), unwraps via `_pre_call()` and re-wraps via `_post_call()` using `DataTreeDitto`'s converter registry.
 
 6. **Retention** — After each step, the runner applies retention policy to upstream step nodes. Steps marked `keep: true` or listed in `outputs` are exempt from garbage collection.
 
@@ -232,8 +264,7 @@ A workflow YAML file **MUST** use the GeoIPS v1 plugin format. It is validated b
 | `docstring` | MUST | Human-readable description of the workflow |
 | `package` | MUST | Plugin package name, e.g., `geoips` |
 | `spec.steps` | MUST | Dict of step definitions, keyed by step id |
-| `spec.outputs` | MAY | List of step ids constituting workflow outputs. **Default:** last step id in `spec.steps` (Python 3.7+ dict insertion order) |
-| `spec.retention` | MAY | `keep_all` \| `keep_referenced` (default) \| `keep_outputs_only` |
+| `spec.retention` | MAY | `keep_all` \| `keep_referenced` (default) |
 | `spec.defaults` | MAY | Argument defaults applied to every step of a given `kind` |
 | `test` | MAY | Self-contained end-to-end test configuration |
 
@@ -324,7 +355,7 @@ Each step is a dict entry in `spec.steps`. The **dict key** is the step id (must
 | `kind` | MUST | plugin kind | `reader`, `algorithm`, `interpolator`, `colormapper`, `output_formatter`, `sectorizer`, `coverage_checker`, `filename_formatter`, `split`, `join`, `workflow` |
 | `name` | MUST | plugin ref | Resolved via the GeoIPS Plugin Registry by `kind` and `name` |
 | `arguments` | SHOULD | mapping | Validated against the plugin's Pydantic argument model |
-| `depends_on` | SHOULD | list[str] | Other step ids. **If omitted, defaults to the immediately preceding step in dict iteration order.** |
+| `depends_on` | SHOULD | list[str] | Other step ids, or the magic token `_input` (the workflow's data-injection entry point — see §8.1.1). **If omitted, defaults to the immediately preceding step in dict iteration order.** |
 | `keep` | MAY | bool | If `true`, this step's data survives GC regardless of `retention`. **Default: `false` for all step kinds.** |
 | `scope` | MAY | str | For steps following a `split`: which branch to operate on (§4.5). |
 | `when` | MAY | expression | Skip step if expression is false. Expressions must be pandas-style filter expressions, not arbitrary Python code (e.g., `when: "{{ config.has_zenith }}"`). |
@@ -566,14 +597,16 @@ for step_id in self._topological_order():
     plugin = self.steps[step_id]
 
     if step_def.kind == "reader":
-        # Readers have no upstream data — call(*args, fnames, **arguments)
-        step_result = plugin._invoke(
+        # Readers have no upstream data — call(*args, fnames, **arguments).
+        # Call the plugin directly (plugin(...)); this routes through
+        # __call__ -> _invoke, so never call _invoke() directly.
+        step_result = plugin(
             data=None, fnames=fnames, **step_def.arguments
         )
     else:
         # Non-readers receive upstream DataTree
         upstream = self._collect_upstream_data(tree, step_def.depends_on)
-        step_result = plugin._invoke(
+        step_result = plugin(
             data=upstream, **step_def.arguments
         )
 
@@ -627,7 +660,6 @@ Step nodes are named by step id (the dict key), not by `kind` or `name`. Ids are
 | `data_attribution` | MUST | object `{short, title, long}` | For display and ingest |
 | `workflow_name` | MUST | str | Mirrors `workflow.name` |
 | `workflow_version` | SHOULD | str | Author-assigned version |
-| `outputs` | MUST | list[str] | Mirrors `workflow.outputs` |
 | `retention_policy` | MUST | str | The retention policy actually applied |
 | `geoips_version` | MUST | str | Recorded by runner, not plugin |
 | `api_version` | MUST | str | OBP API version |
@@ -738,9 +770,9 @@ Branch identity is propagated via each branch's `attrs["branch"] = "<name>"` so 
 
 ## 6. Step Contract (Functional Paradigm)
 
-### 6.1 Step Execution via `_invoke()`
+### 6.1 Step Execution via `plugin()`
 
-Every step in a Workflow is a `Plugin` instance. The runner calls `plugin._invoke(data, **arguments)`. Based on the plugin's `data_tree` class flag:
+Every step in a Workflow is a `Plugin` instance. The runner calls the plugin directly — `plugin(data, **arguments)` — which routes through `__call__` to `_invoke()` (never call `_invoke()` directly). Based on the plugin's `data_tree` class flag:
 
 - `data_tree=True` (Workflow, colormapper): DataTree passes through transparently.
 - `data_tree=False` (algorithms, output_formatters, etc.): DataTree is unwrapped before `call()` and the result is re-wrapped after.
@@ -752,6 +784,8 @@ See §4.7 for the full `_invoke()` flow diagram.
 The input `tree` to a step is itself a `DataTree`. The number of dependencies determines its shape:
 
 **Zero `depends_on` (typically a `kind: reader`):** `tree` is passed from the runner; the reader produces all data from its `arguments` (file paths) and returns its output `DataTree`.
+
+**`_input` (entry step):** `tree` is the data injected into this workflow from the outside — the parent's collected upstream tree for a sub-workflow / split branch, or an empty `DataTree` at top level. See §8.1.1. When combined with real dependencies, those parent outputs are merged into the same `tree` alongside the injected children.
 
 **One `depends_on`:** `tree` is the parent step's `DataTree` directly. So if `single_channel` depends on `sector`, then inside `single_channel`, `tree` is the sector's DataTree.
 
@@ -852,7 +886,7 @@ A step's token **MUST NOT** change when only:
 **GC'd step nodes still carry their output token** in `/<step_id>.attrs["output_token"]`. This means:
 
 - The workflow-level token is stable regardless of retention policy.
-- A workflow run with `keep_outputs_only` produces the same workflow-level token as a run with `keep_all`, given the same inputs and code.
+- A workflow run with `keep_referenced` produces the same workflow-level token as a run with `keep_all`, given the same inputs and code.
 - Reproducibility attestation does not require keeping intermediate data.
 
 ### 7.5 Token-Based Integration Tests
@@ -880,6 +914,35 @@ steps:
 ```
 
 If omitted, `depends_on` defaults to the immediately preceding step in the YAML dict (Python 3.7+ insertion order). The first step's default is an empty list (no dependencies).
+
+#### 8.1.1 The `_input` magic dependency
+
+`depends_on` may include the magic token `_input`, which marks a step as the workflow's **data-injection entry point**:
+
+- In a **sub-workflow** (a `kind: workflow` step) or a **split branch**, the `_input` step receives the data injected by the parent (the parent's collected `upstream` tree, including any seeded `sector`/`area_def` node for branches).
+- In a **top-level workflow** (run without a parent), the `_input` step receives an **empty `DataTree`** (the "empty dataset").
+
+Rules:
+
+- **Fallback:** if no step declares `_input`, the injected/empty data goes to the **first step** (insertion order) — the historical behavior, preserved for backward compatibility.
+- **Fan-out:** any number of steps may declare `_input`; each receives the same injected data.
+- **Mixing:** `_input` may be combined with real references, e.g. `depends_on: [_input, sector]`; the step's input tree merges the injected data with the named upstream outputs (a real dependency of the same key wins).
+- `_input` is a **virtual source**: it is exempt from dependency-reference validation, cycle detection, and topological ordering.
+
+```yaml
+spec:
+  steps:
+    prep:
+      kind: algorithm
+      name: prepare
+      depends_on: []          # runs first, but is NOT the entry step
+    consume:
+      kind: algorithm
+      name: single_channel
+      depends_on: [_input]    # receives the parent's injected data
+```
+
+> **Readers and `_input`:** an entry `reader` step is always handed `fnames` and, additionally, the injected tree as `data`. A legacy (`data_tree=False`) reader strips that tree in its `_pre_call` and reads only from `fnames`; a DataTree-aware (`data_tree=True`) reader consumes it.
 
 ### 8.2 Topological Execution
 
@@ -914,19 +977,12 @@ Nested splits work recursively: an inner split inside `cloudy` produces `/split_
 
 ## 9. Multi-Output Workflows
 
-### 9.1 Declaring Outputs
+### 9.1 Terminal and User-Facing Steps
 
-Every workflow **MAY** declare `outputs:` — a list of step ids whose nodes are the user-facing results. Outputs may be of any `kind`. If nothing is specified by `outputs`, the last step id in `spec.steps` (Python 3.7+ dict insertion order) is assumed to be the output. Outputs are exempt from garbage collection.
-
-> **Python ordering note:** The default `outputs: [<last_step_id>]` relies on Python 3.7+ dict insertion ordering. This is guaranteed behavior tested in GeoIPS CI (Python >=3.11).
+Workflow result steps are represented directly in `spec.steps` and connected through `depends_on`. There is no separate workflow-level `outputs:` list. If a terminal or intermediate step's data variables must survive garbage collection for inspection or downstream use, set `keep: true` on that step.
 
 ```yaml
 spec:
-  outputs:
-    - render_png_low_res
-    - render_png_high_res
-    - write_nc
-    - write_geotiff
   steps:
     read_abi:
       kind: reader
@@ -936,8 +992,18 @@ spec:
       kind: output_formatter
       name: imagery_annotated
       depends_on: [read_abi]
+      keep: true
       arguments: { ... }
-    ...
+    render_png_high_res:
+      kind: output_formatter
+      name: imagery_annotated
+      depends_on: [read_abi]
+      arguments: { ... }
+    write_nc:
+      kind: output_formatter
+      name: netcdf_xarray
+      depends_on: [read_abi]
+      arguments: { ... }
 ```
 
 ### 9.2 Multiple Inputs
@@ -1017,18 +1083,16 @@ A workflow with 12 steps over a 10 GB dataset risks holding 120 GB in memory if 
 | Policy | Behavior | Use case |
 | --- | --- | --- |
 | `keep_all` | Every step node retains its full data. Nothing is GC'd. | Debugging, integration tests |
-| `keep_referenced` | A step's data is dropped once all its downstream consumers have run. Outputs always kept. | Default; production |
-| `keep_outputs_only` | All intermediates are dropped as soon as their last consumer completes. | Production at scale |
+| `keep_referenced` | A step's data is dropped once all its downstream consumers have run, unless the step has `keep: true`. | Default; production |
 
 ### 10.3 Precedence Order
 
 For each step S, the runner applies the **first** rule that matches:
 
-1. If S.id is in `workflow.outputs` → **always kept** (forced).
-2. If `S.keep == True` → **always kept** (forced).
-3. Otherwise → use the workflow-level `retention` policy.
+1. If `S.keep == True` → **always kept** (forced).
+2. Otherwise → use the workflow-level `retention` policy.
 
-Per-step `keep` and declared `outputs` are not overridable.
+Per-step `keep` is not overridable.
 
 ### 10.4 What Is GC'd, What Survives
 
@@ -1048,9 +1112,8 @@ A GC'd node is _transparent_:
 
 ```
 For each step S after it completes:
-    For each predecessor P of S:
-        If P is in workflow.outputs: continue       # always kept (rule 1)
-        If P.keep is True:           continue       # author override (rule 2)
+    For each completed step P:
+        If P.keep is True: continue                 # author override
         If all of P's downstream consumers have completed:
             drop_data(tree, P)                      # null out data_vars
             mark_gc(tree, P)
@@ -1145,7 +1208,6 @@ All defined in `geoips/errors.py`, inheriting from `GeoipsError`:
 | `WorkflowSpecError`     | YAML fails Pydantic validation                     |
 | `PluginResolutionError` | `name:` cannot be resolved in the Plugin Registry  |
 | `DependencyCycleError`  | `depends_on` graph is cyclic                       |
-| `DanglingOutputError`   | A name in `outputs:` is not a defined step id      |
 | `DataTreeSchemaError`   | Required attrs or nodes are missing                |
 | `CoverageError`         | Product fails `minimum_coverage`                   |
 | `TokenMismatchError`    | Integration test token differs from expected       |
@@ -1308,9 +1370,10 @@ Workflow (geoips/interfaces/class_based/workflow.py):
 
     call(self, workflow_tree: DataTree | None = None, **kwargs) -> DataTree:
         1. Topological sort by depends_on edges.
-        2. For each step in order:
-           a. If reader: plugin._invoke(data=None, fnames=fnames, **arguments)
-           b. Otherwise: plugin._invoke(data=upstream_tree, **arguments)
+        2. For each step in order (call the plugin directly; plugin(...)
+           dispatches through __call__ -> _invoke, so never call _invoke()):
+           a. If reader: plugin(data=None, fnames=fnames, **arguments)
+           b. Otherwise: plugin(data=upstream_tree, **arguments)
            c. Attach output at tree["/<step_id>"]
            d. Apply retention to upstream nodes
         3. Return the workflow DataTree.
@@ -1340,7 +1403,7 @@ OrderBased (geoips/plugins/modules/procflows/order_based.py):
         1. Normalize input to WorkflowSpecModel (accepts dict, WorkflowPluginModel,
            or WorkflowSpecModel).
         2. Construct Workflow(spec, name=workflow_name).
-        3. Invoke: workflow._invoke(data=None, fnames=fnames, **kwargs).
+        3. Invoke: workflow(data=None, fnames=fnames, **kwargs).
         4. Return the resulting DataTree.
 ```
 
@@ -1354,7 +1417,6 @@ class GeoipsError(Exception): pass
 class WorkflowSpecError(GeoipsError): pass
 class PluginResolutionError(GeoipsError): pass
 class DependencyCycleError(GeoipsError): pass
-class DanglingOutputError(GeoipsError): pass
 class DataTreeSchemaError(GeoipsError): pass
 class TokenMismatchError(GeoipsError): pass
 class RetentionConfigError(GeoipsError): pass

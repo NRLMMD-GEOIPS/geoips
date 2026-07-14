@@ -213,7 +213,7 @@ class ImageryAnnotatedOutputFormatterPlugin(BaseOutputFormatterPlugin):
             prod_plugin = products.get_plugin(
                 xarray_obj.source_name,
                 product_name,
-                output_dict.get("product_spec_override"),
+                output_dict.get("product_spec_override") if output_dict else None,
             )
         except (PluginError, ValidationError):
             LOG.warning(

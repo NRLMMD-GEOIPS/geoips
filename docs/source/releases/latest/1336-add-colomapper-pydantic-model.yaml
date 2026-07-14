@@ -2,10 +2,8 @@ feature:
 - title: 'Add Colormapper Pydantic model'
   description: 'Introduce Pydantic model defining and validating OBP-v1 ColormapperArgumentsModel'
   files:
-    deleted:
-    - ''
-    moved:
-    - ''
+    deleted: []
+    moved: []
     added:
     - 'docs/source/releases/latest/1336-add-colomapper-pydantic-model.yaml'
     - 'tests/unit_tests/pydantic_models/v1/colormappers/test_cases_bad.yaml'
