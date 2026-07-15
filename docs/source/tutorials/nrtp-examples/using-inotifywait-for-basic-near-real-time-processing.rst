@@ -3,11 +3,13 @@
  | # # # This source code is subject to the license referenced at
  | # # # https://github.com/NRLMMD-GEOIPS.
 
+.. _using-inotifywait:
+
 Using ``inotifywait`` for Near Real-Time Processing
 ===================================================
 
 This tutorial explains how to set up a simple script to run **GeoIPS** for near
-real-time data processing using ``inotifywait``. This is a simple exmaple that
+real-time data processing using ``inotifywait``. This is a simple example that
 can be extended by the user to fit their needs.  For more complex workflows,
 consider:
 
@@ -72,13 +74,7 @@ This is an example script, but you can run whatever processing you want:
     inotifywait -m -e close_write --format "%f" "$WATCH_DIR" | while read FILENAME
     do
         echo "Processing new file: $FILENAME"
-        geoips run single_source \
-             --reader_name abi_netcdf \
-             --product_name Visible \
-             --output_formatter unprojected_image \
-             --filename_formatter geoips_fname \
-             --self_register_dataset MED \
-             --self_register_source abi \
+        geoips run order_based abi_visible_unprojected \
              "$WATCH_DIR/$FILENAME"
     done
 
