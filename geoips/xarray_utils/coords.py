@@ -6,7 +6,7 @@
 from __future__ import annotations
 
 import xarray as xr
-from types import Final
+from typing import Final
 
 GEOIPS_COORD_NAMES: Final = (
     "latitude",
