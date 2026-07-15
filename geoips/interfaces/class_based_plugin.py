@@ -429,19 +429,16 @@ class BaseClassPlugin(ABC):
         if not children:
             return kwargs
 
+        from geoips.utils.types.obp_conduits import OBP_CONDUITS
+
         for _child_name, child in children.items():
-            pkind = (
-                str(child.ds.attrs.get("plugin_kind", ""))
-                if child.ds is not None
-                else ""
-            )
+            pkind = str(child.ds.attrs.get("plugin_kind", "")) if child.ds is not None else ""
             conduit = OBP_CONDUITS.get(pkind)
             if conduit is None:
                 continue
             kwarg_name = conduit["kwarg"]
             if kwarg_name in kwargs:
                 continue
-
             val = conduit["extract"](child)
             if val is not None:
                 kwargs[kwarg_name] = val
@@ -655,7 +652,8 @@ class BaseClassPlugin(ABC):
         if any(p.kind is inspect.Parameter.VAR_KEYWORD for p in params):
             return dict(kwargs)
         accepted = {p.name for p in params}
-        return {k: v for k, v in kwargs.items() if k in accepted}
+        result = {k: v for k, v in kwargs.items() if k in accepted}
+        return result
 
     def _call_kwargs(self, kwargs, _obp_initiated):
         """Return the kwargs to forward to ``self.call``.

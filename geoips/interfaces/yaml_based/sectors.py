@@ -79,6 +79,14 @@ class SectorPluginBase(BaseYamlPlugin):
         #     ad = center_to_area_definition(self)
         # elif self.family.startswith("corners"):
         #     ad = corners_to_area_definition(self)
+
+        # Attach sector_info from plugin metadata so downstream plugins
+        # (e.g. geoips_fname) can access region, continent, area, etc.
+        if not hasattr(ad, "sector_info"):
+            meta = self.get("metadata") or {} if isinstance(self, dict) else {}
+            region = meta.get("region", {})
+            ad.sector_info = dict(region) if region else {}
+
         return ad
 
     def create_test_plot(
