@@ -16,6 +16,7 @@ import numpy
 import xarray as xr
 
 from geoips.filenames.base_paths import make_dirs
+from geoips.errors import BoundaryIOError
 from geoips.geoips_utils import replace_geoips_paths
 from geoips.interfaces.class_based_plugin import BaseClassPlugin
 from geoips.interfaces.base import BaseClassInterface
@@ -176,6 +177,37 @@ class BaseOutputFormatterPlugin(BaseClassPlugin, abstract=True):
     def _pre_call(self, data=None, *args, _obp_initiated=False, **kwargs):
         """Check argument order and reorder if necessary, then delegate."""
         return super()._pre_call(data, *args, _obp_initiated=_obp_initiated, **kwargs)
+
+    def _post_call(self, data, *args, _obp_initiated=False, **kwargs):
+        """Attach semantic output-file attrs to OBP output formatter results."""
+        if not (_obp_initiated and isinstance(data, list)):
+            return super()._post_call(
+                data, *args, _obp_initiated=_obp_initiated, **kwargs
+            )
+
+        if not data:
+            raise BoundaryIOError(
+                f"Output formatter plugin '{self.name}' did not produce any "
+                "output products."
+            )
+
+        output_products = list(data)
+        data = super()._post_call(
+            data,
+            *args,
+            _obp_initiated=_obp_initiated,
+            **kwargs,
+        )
+
+        attrs = (
+            data.ds.attrs
+            if isinstance(data, xr.DataTree) and data.ds is not None
+            else None
+        )
+        if attrs is not None:
+            attrs.setdefault("output_products", output_products)
+
+        return data
 
     def _normalize_obp_kwargs(self, kwargs):
         """Rename ``output_filenames`` → ``output_fnames`` for legacy formatters.

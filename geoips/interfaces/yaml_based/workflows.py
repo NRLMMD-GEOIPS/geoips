@@ -294,23 +294,26 @@ class WorkflowsInterface(BaseYamlInterface):
     ########################################
 
     def _insert_after_key(self, steps, target_key, new_key, new_value):
-        """Insert a new key/value pair immediately after target_key.
+        """Insert a key/value pair immediately after an existing key.
+
+        This helper only preserves ordering. Callers are responsible for
+        constructing and validating ``new_value`` before insertion.
 
         Parameters
         ----------
         steps : dict
             Workflow steps dictionary.
         target_key : str
-            The key of the target step_id to insert an output checker step after.
+            Existing step id to insert after.
         new_key : str
-            The step_id out the output checker step to be added.
+            New step id to insert.
         new_value : dict
-            A dictionary of output_checker overrides to add to 'new_key' step.
+            New step definition to insert.
 
         Returns
         -------
-        new_steps : dict
-            Overridden steps dictionary with a new output_checker step.
+        dict
+            Workflow steps dictionary with the new key/value pair inserted.
         """
         new_steps = {}
         inserted = False
@@ -319,29 +322,68 @@ class WorkflowsInterface(BaseYamlInterface):
             new_steps[key] = value
 
             if key == target_key:
-                compare_path = new_value.pop("compare_path", None)
-                threshold = new_value.pop("threshold", None)
-                arguments = {"compare_path": compare_path, "threshold": threshold}
-
-                new_steps[new_key] = new_value
-                new_steps[new_key]["arguments"] = arguments
-                if not arguments["compare_path"]:
-                    LOG.warning(
-                        "WARNING: NO COMPARE PATH PROVIDED, NOT ADDING OUTPUT CHECKER "
-                        f"STEP AFTER STEP '{target_key}'."
-                    )
-                    return steps
-                if "name" not in new_value:
-                    new_steps[new_key]["name"] = output_checkers.identify_checker(
-                        arguments["compare_path"]
-                    )
-                new_steps[new_key]["kind"] = "output_checker"
+                new_steps[new_key] = dict(new_value)
                 inserted = True
 
         if not inserted:
             raise KeyError(f"Could not find key '{target_key}' for insertion.")
 
         return new_steps
+
+    def _build_output_checker_step(self, target_key, target_step, override):
+        """Build an output checker step from a workflow test override.
+
+        Output checker overrides target an existing output formatter step. The
+        generated checker depends on that formatter and receives ``compare_path``
+        and ``threshold`` as call arguments.
+
+        Parameters
+        ----------
+        target_key : str
+            Step id of the output formatter being checked.
+        target_step : dict
+            Workflow step definition identified by ``target_key``.
+        override : dict
+            Output checker override from a workflow ``test.outputs`` section.
+
+        Returns
+        -------
+        dict or None
+            Output checker step definition, or ``None`` when no compare path was
+            supplied and the checker should not be inserted.
+        """
+        if target_step.get("kind") != "output_formatter":
+            raise ValueError(
+                "Output checker overrides must target an output_formatter "
+                f"step. Step '{target_key}' has kind '{target_step.get('kind')}'."
+            )
+
+        checker_step = dict(override)
+        compare_path = checker_step.pop("compare_path", None)
+        threshold = checker_step.pop("threshold", None)
+
+        if not compare_path:
+            LOG.warning(
+                "WARNING: NO COMPARE PATH PROVIDED, NOT ADDING OUTPUT CHECKER "
+                f"STEP AFTER STEP '{target_key}'."
+            )
+            return None
+
+        if "name" in checker_step and "output_checker_name" in checker_step:
+            raise ValueError("Specify only one of 'name' or 'output_checker_name'.")
+        if "output_checker_name" in checker_step:
+            checker_step["name"] = checker_step.pop("output_checker_name")
+
+        checker_step["arguments"] = {"compare_path": compare_path}
+        if threshold is not None:
+            checker_step["arguments"]["threshold"] = threshold
+        checker_step["depends_on"] = [target_key]
+        checker_step["kind"] = "output_checker"
+
+        if "name" not in checker_step:
+            checker_step["name"] = output_checkers.identify_checker(compare_path)
+
+        return checker_step
 
     def _apply_output_checker_override(self, steps, override):
         """Recursively apply output checker overrides.
@@ -372,11 +414,20 @@ class WorkflowsInterface(BaseYamlInterface):
                 )
                 oc_step_name = f"output_checker{count + 1}"
 
+                try:
+                    target_step = steps[key]
+                except KeyError:
+                    raise KeyError(f"Could not find key '{key}' for insertion.")
+
+                checker_step = self._build_output_checker_step(key, target_step, value)
+                if checker_step is None:
+                    return steps
+
                 return self._insert_after_key(
                     steps,
                     target_key=key,
                     new_key=oc_step_name,
-                    new_value=value,
+                    new_value=checker_step,
                 )
 
             if isinstance(value, Mapping):

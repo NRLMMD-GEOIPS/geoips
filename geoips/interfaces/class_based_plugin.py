@@ -37,6 +37,7 @@ import xarray as xr
 from geoips import interfaces
 from geoips.utils.types.datatree_ditto import DataTreeDitto
 from geoips.utils.types.obp_conduits import OBP_CONDUITS
+from geoips.xarray_utils.coords import normalize_geoips_dataset_coords
 
 LOG = logging.getLogger(__name__)
 
@@ -233,6 +234,9 @@ class BaseClassPlugin(ABC):
             for k, v in pre_call_attrs.items():
                 data.attrs.setdefault(k, v)
 
+        if _obp_initiated:
+            data = normalize_geoips_dataset_coords(data)
+
         # Step 2: Wrap into DataTreeDitto if not already (OBP only)
         if _obp_initiated and not isinstance(data, xr.DataTree):
             data = self._wrap(data)
@@ -317,6 +321,8 @@ class BaseClassPlugin(ABC):
             return DataTreeDitto(ds, name=getattr(self, "name", "result"))
         # For all types not previously handled, convert whatever we got to a DTD whose
         # name is the same as the calling plugin and return
+        if isinstance(result, xr.Dataset):
+            result = normalize_geoips_dataset_coords(result)
         plugin_name = getattr(self, "name", "result")
         try:
             return DataTreeDitto(result, name=plugin_name)
@@ -376,13 +382,14 @@ class BaseClassPlugin(ABC):
             return data
 
         if len(children) > 1:
-            return xr.merge(child.to_dataset() for child in children)
+            data = xr.merge(child.to_dataset() for child in children)
+            return normalize_geoips_dataset_coords(data)
 
         child = children[0]
         child_ds = child.ds
 
         if child_ds is None or child_ds.data_vars or not child.children:
-            return child.to_dataset()
+            return normalize_geoips_dataset_coords(child.to_dataset())
 
         sub_children = list(child.children.values())
 
@@ -392,7 +399,7 @@ class BaseClassPlugin(ABC):
             data = xr.merge(sub_child.to_dataset() for sub_child in sub_children)
 
         data.attrs = {**child_ds.attrs, **data.attrs}
-        return data
+        return normalize_geoips_dataset_coords(data)
 
     @staticmethod
     def _extract_child_kwargs(data, kwargs):
@@ -547,7 +554,15 @@ class BaseClassPlugin(ABC):
             new_kwargs = self._extract_child_kwargs(data, new_kwargs)
 
         pre_call_attrs = self._capture_attrs(self._unwrap(data))
-        data = self._pre_call(data, *args, _obp_initiated=_obp_initiated, **new_kwargs)
+        pre_call_result = self._pre_call(
+            data, *args, _obp_initiated=_obp_initiated, **new_kwargs
+        )
+        # This distinction will be removed later today.
+        # For more, please see the note in _is_pre_call_result_with_kwargs.
+        if _is_pre_call_result_with_kwargs(pre_call_result):
+            data, new_kwargs = pre_call_result
+        else:
+            data = pre_call_result
 
         if _obp_initiated:
             new_kwargs = self._normalize_obp_kwargs(new_kwargs)
@@ -753,6 +768,22 @@ class BaseClassPlugin(ABC):
         )
         _call.__annotations__ = getattr(call_method, "__annotations__", {})
         cls.__call__ = _call
+
+
+def _is_pre_call_result_with_kwargs(result):
+    """Return True when ``_pre_call`` returned updated data and kwargs.
+
+    Most plugin hooks return only the transformed data. Interface-level hooks that
+    also need to prepare call keyword arguments may return ``(data, kwargs)``.
+
+    NOTE: This is temporary for this PR only. I intend to update ALL _pre_call hooks
+          to return kwargs in a follow-on PR. _invoke should just call _pre_call,
+          call, and _post_call. All other duties should be handled by those three
+          functions.
+    """
+    return (
+        isinstance(result, tuple) and len(result) == 2 and isinstance(result[1], dict)
+    )
 
 
 def _kwarg_to_positional(kwargs, call_func):

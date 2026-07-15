@@ -549,13 +549,15 @@ def build_module_apidocs_with_sphinx(
     Exception
         If the sphinx-apidoc command fails.
     """
+    v2alpha1_path = os.path.join(module_path, "pydantic_models", "v2alpha1")
     arguments = [
         "--no-toc",
         "-o",  # flag for output path
         apidoc_build_path,  # output path
         module_path,  # module path
         "*/lib/*",  # exclude path
-        "*/pydantic_models/v2alpha1/*",  # Exclude path
+        v2alpha1_path,  # Exclude path
+        os.path.join(v2alpha1_path, "*"),  # Exclude path
     ]
     # See https://github.com/sphinx-doc/sphinx/issues/8664
     # and https://www.sphinx-doc.org/en/master/man/sphinx-apidoc.html

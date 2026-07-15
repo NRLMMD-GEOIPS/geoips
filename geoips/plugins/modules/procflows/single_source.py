@@ -1704,7 +1704,7 @@ def get_alg_xarray(
             pid_track.print_mem_usg(logstr="AFTER APPLY_ALG_FIRST")
 
         if prod_plugin.family in ["algorithm_interpolator_colormapper"]:
-            # Now apply the intepolator after applying the algorithm.
+            # Now apply the interpolator after applying the algorithm.
             final_xarray = apply_interp_after_alg(
                 alg_xarray,
                 interp_plugin,
