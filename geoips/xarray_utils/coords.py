@@ -14,7 +14,7 @@ GEOIPS_COORD_NAMES: Final = (
     "satellite_zenith_angle",
     "satellite_azimuth_angle",
     "solar_zenith_angle",
-    "solar_azimuth_angle"
+    "solar_azimuth_angle",
 )
 
 
