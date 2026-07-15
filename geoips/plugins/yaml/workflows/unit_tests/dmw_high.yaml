@@ -23,14 +23,12 @@ spec:
     minimum_coverage: 0
     variables: ["wind_speed", "wind_direction", "pressure"]
   steps:
-    reader:
-      kind: reader
-      name: abi_l2_netcdf
-      arguments:
-        area_def: goes_east
     sector:
       kind: sector
       name: goes_east
+    reader:
+      kind: reader
+      name: abi_l2_netcdf
     algorithm:
       kind: algorithm
       name: windbarbs_dmw
