@@ -30,7 +30,7 @@ test:
 
 spec:
   steps:
-    geoips/plugins/yaml/workflows/unit_tests/test_product.yamlsector:
+    sector:
       kind: sector
       name: test_goes16_eqc_3km_day_20200918T1950Z
       depends_on: []
