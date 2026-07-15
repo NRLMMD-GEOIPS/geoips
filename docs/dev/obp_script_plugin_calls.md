@@ -15,11 +15,11 @@ Scripts should initialize their top-level tree with a GeoIPS helper rather than
 constructing a bare `xarray.DataTree` directly.
 
 ```python
-from geoips.utils.types.script_datatree import initialize_script_tree
+from geoips.scripting import RetentionPolicy, initialize_script_tree
 
 tree = initialize_script_tree(
     name="abi_infrared_test",
-    retention_policy="metadata_only",
+    retention_policy=RetentionPolicy.metadata_only,
 )
 ```
 
@@ -37,6 +37,27 @@ script-level metadata, such as:
 For now, scripts still pass `_obp_initiated=True` on each plugin call. In the
 future, GeoIPS should infer OBP/script behavior from `execution_mode="script"`.
 
+The public scripting API is exposed from `geoips.scripting`. Lower-level helpers
+may live elsewhere internally, but user scripts should prefer imports from
+`geoips.scripting`.
+
+Supported retention policies are available as `RetentionPolicy` values:
+
+```python
+from geoips.scripting import RETENTION_POLICIES, RetentionPolicy, initialize_script_tree
+
+print(RETENTION_POLICIES)
+
+tree = initialize_script_tree(
+    name="abi_infrared_test",
+    retention_policy=RetentionPolicy.metadata_only,
+)
+```
+
+String values such as `"metadata_only"` are also accepted for scripts that load
+configuration dynamically, but `RetentionPolicy.metadata_only` is preferred in
+ordinary Python code.
+
 ## Example: Full ABI Infrared Processing
 
 ```python
@@ -53,11 +74,11 @@ from geoips.interfaces import (
     readers,
     sectors,
 )
+from geoips.scripting import RetentionPolicy, initialize_script_tree
 from geoips.utils.types.script_datatree import (
     add_data_step,
     get_current_data,
     get_output_products,
-    initialize_script_tree,
 )
 
 
@@ -72,7 +93,7 @@ fnames = sorted(
 
 tree = initialize_script_tree(
     name="abi_infrared_test",
-    retention_policy="metadata_only",
+    retention_policy=RetentionPolicy.metadata_only,
 )
 
 reader = readers.get_plugin("abi_netcdf")
@@ -175,10 +196,10 @@ import os
 import matplotlib.pyplot as plt
 
 from geoips.interfaces import readers
+from geoips.scripting import RetentionPolicy, initialize_script_tree
 from geoips.utils.types.script_datatree import (
     add_data_step,
     get_current_data,
-    initialize_script_tree,
 )
 
 
@@ -193,7 +214,7 @@ fnames = sorted(
 
 tree = initialize_script_tree(
     name="abi_channel_difference",
-    retention_policy="keep_all",
+    retention_policy=RetentionPolicy.keep_all,
 )
 
 reader = readers.get_plugin("abi_netcdf")
@@ -306,9 +327,11 @@ accumulated script tree after each plugin call.
 Scripts must explicitly choose a retention policy when initializing the tree:
 
 ```python
+from geoips.scripting import RetentionPolicy, initialize_script_tree
+
 tree = initialize_script_tree(
     name="abi_infrared_test",
-    retention_policy="metadata_only",
+    retention_policy=RetentionPolicy.metadata_only,
 )
 ```
 
@@ -318,7 +341,7 @@ A plugin call can override that policy for a single step:
 tree = interpolator(
     data=tree,
     step_id="interpolate_data",
-    retention_policy="keep_all",
+    retention_policy=RetentionPolicy.keep_all,
     _obp_initiated=True,
     varlist=["B14BT"],
 )
@@ -326,9 +349,7 @@ tree = interpolator(
 
 Supported policies:
 
-```python
-"keep_all"
-```
+`RetentionPolicy.keep_all`
 
 Keep every plugin result intact. This is useful for debugging, exploratory
 scripts, notebooks, and tests where the user wants to inspect intermediate data.
@@ -336,9 +357,7 @@ scripts, notebooks, and tests where the user wants to inspect intermediate data.
 Example: keep reader and interpolator data while investigating whether
 interpolation changed geolocation or variable values.
 
-```python
-"metadata_only"
-```
+`RetentionPolicy.metadata_only`
 
 Keep the current plugin result intact, but reduce older results to attrs only.
 This is useful for normal processing where downstream plugins need context but
@@ -348,9 +367,7 @@ Example: after interpolation, keep the interpolated data but reduce the original
 reader output to metadata so the script preserves provenance without carrying a
 second large data array.
 
-```python
-"current_only"
-```
+`RetentionPolicy.current_only`
 
 Keep only the current plugin result and discard older step nodes. This is useful
 for memory-sensitive processing where the script only needs the latest data
@@ -366,7 +383,7 @@ intermediate result:
 ```python
 tree = initialize_script_tree(
     name="abi_infrared_test",
-    retention_policy="keep_all",
+    retention_policy=RetentionPolicy.keep_all,
 )
 
 tree = reader(
@@ -387,7 +404,7 @@ tree = interpolator(
 tree = algorithm(
     data=tree,
     step_id="apply_algorithm",
-    retention_policy="metadata_only",
+    retention_policy=RetentionPolicy.metadata_only,
     _obp_initiated=True,
     output_data_range=[-90.0, 30.0],
     input_units="Kelvin",
