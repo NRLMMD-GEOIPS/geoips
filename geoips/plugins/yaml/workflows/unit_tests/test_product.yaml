@@ -1,0 +1,21 @@
+apiVersion: geoips/v1
+interface: workflows
+family: order_based
+name: test_product
+docstring: |
+  11.2 um Infrared.
+
+  This product utilizes channel 14 (11.2 um) and highlights areas of deep convection within a Tropical Cyclone.
+description: 11.2 um Infrared.
+spec:
+  steps:
+    reader:
+      kind: reader
+      name: abi_netcdf
+      arguments:
+        variables: ["B14BT"]
+    abi_Infrared:
+      kind: product
+      name: [abi, Infrared]
+      depends_on: [reader]
+      arguments: {}
