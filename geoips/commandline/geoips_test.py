@@ -418,26 +418,27 @@ class GeoipsTestWorkflow(GeoipsWorkflowCommand):
             - The list argument namespace to parse through
         """
         workflow = args.workflow
-        fnames = workflow["test"].get("fnames", [])
-        if not fnames:
-            fnames = workflow["test"].get("filenames", [])
 
         try:
             test_section = workflow["test"]
-            fnames = test_section.get("filenames", test_section.get("fnames", []))
-            LOG.info(
-                "Testing workflow %r with %d input file(s).",
-                workflow["name"],
-                len(fnames),
-            )
-            LOG.debug("Workflow test input files: %s", fnames)
-            workflow = workflows._override_expanded_workflow(workflow)
         except KeyError:
-            raise self.parser.error(
+            test_section = None
+
+        if test_section is None:
+            self.parser.error(
                 f"Error: cannot test '{workflow['name']}' workflow plugin as it is "
                 "missing a ``test`` section. Please create this content before "
                 "attempting to test this plugin again."
             )
+
+        fnames = test_section.get("filenames", test_section.get("fnames", []))
+        LOG.info(
+            "Testing workflow %r with %d input file(s).",
+            workflow["name"],
+            len(fnames),
+        )
+        LOG.debug("Workflow test input files: %s", fnames)
+        workflow = workflows._override_expanded_workflow(workflow)
 
         obp = procflows.get_plugin("order_based")
 
