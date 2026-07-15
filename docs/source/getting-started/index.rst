@@ -3,6 +3,8 @@
  | # # # This source code is subject to the license referenced at
  | # # # https://github.com/NRLMMD-GEOIPS.
 
+.. _getting-started:
+
 Getting Started
 ---------------
 
@@ -13,5 +15,7 @@ Getting Started
    what-is-geoips/index
    system-requirements
    installing/index
+   first-workflow
+   migrating-to-2.0
    best-practices/research-and-ops
 
