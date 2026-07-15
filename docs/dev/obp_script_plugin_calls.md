@@ -31,8 +31,13 @@ script-level metadata, such as:
     "execution_mode": "script",
     "retention_policy": "metadata_only",
     "start_time": "...",
+    "end_time": None,
 }
 ```
+
+Root `start_time` and `end_time` are managed by GeoIPS. `start_time` is set
+automatically when the script tree is initialized, and `end_time` starts as
+`None`. Scripts should not supply either value to `initialize_script_tree()`.
 
 For now, scripts still pass `_obp_initiated=True` on each plugin call. In the
 future, GeoIPS should infer OBP/script behavior from `execution_mode="script"`.
@@ -324,6 +329,11 @@ configuration arguments directly.
 Retention policies control how much previously produced data remains in the
 accumulated script tree after each plugin call.
 
+Retention is applied automatically whenever a plugin result is attached to the
+script tree. In normal scripts, each plugin call returns the tree after the
+current step has been inserted and the effective retention policy has been
+applied.
+
 Scripts must explicitly choose a retention policy when initializing the tree:
 
 ```python
@@ -442,7 +452,8 @@ from scripted step attachment for now; workflow support may be added later.
 Registered plugin results receive automatic `start_time` and `end_time` values
 when explicit times are not provided. Manual steps do not receive automatic
 timestamps; their `start_time` and `end_time` values remain `None` unless the
-script supplies them explicitly.
+script supplies them explicitly. Explicit step timestamps must be
+`datetime.datetime` instances; GeoIPS stores them as ISO strings in step attrs.
 
 ## Script Step Data Inputs
 
@@ -464,7 +475,10 @@ tree = attach_plugin_result(
 ```
 
 Passing an unsupported value directly raises a script-specific `TypeError` that
-identifies the step and the unsupported type.
+identifies the step, the unsupported type, and the original converter error when
+available. Supported container types may still reject unsupported contents; for
+example, dict conversion accepts scalars and numpy arrays, but not arbitrary
+Python lists.
 
 ## User-Modified Data
 

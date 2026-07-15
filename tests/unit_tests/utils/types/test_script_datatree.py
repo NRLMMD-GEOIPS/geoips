@@ -3,7 +3,7 @@
 
 """Unit tests for OBP-style script DataTree helpers."""
 
-from datetime import datetime
+from datetime import datetime, timezone
 
 import pytest
 import xarray as xr
@@ -34,6 +34,7 @@ class TestInitializeScriptTree:
         assert tree.attrs["retention_policy"] == retention_policy.value
         assert "start_time" in tree.attrs
         datetime.fromisoformat(tree.attrs["start_time"])
+        assert tree.attrs["end_time"] is None
 
     def test_accepts_string_retention_policy(self):
         """Test initializing a script tree accepts retention policy strings."""
@@ -206,14 +207,16 @@ class TestAttachPluginResult:
         """Test manually created data preserves explicitly supplied timestamps."""
         tree = initialize_script_tree("test_script", RetentionPolicy.keep_all)
         result = xr.Dataset({"data": ("x", [1, 2, 3])})
+        start_time = datetime(2026, 7, 15, 0, 0, 0, tzinfo=timezone.utc)
+        end_time = datetime(2026, 7, 15, 0, 0, 1, tzinfo=timezone.utc)
 
         attach_plugin_result(
             tree,
             result,
             step_id="custom_step",
             plugin_kind="manual",
-            start_time="2026-07-15T00:00:00+00:00",
-            end_time="2026-07-15T00:00:01+00:00",
+            start_time=start_time,
+            end_time=end_time,
         )
 
         assert tree["custom_step"].attrs["start_time"] == "2026-07-15T00:00:00+00:00"
@@ -248,6 +251,273 @@ class TestAttachPluginResult:
         )
 
         with pytest.raises(ValueError, match="unique step_id"):
+            attach_plugin_result(
+                tree,
+                result,
+                step_id="read_data",
+                plugin_kind="reader",
+                plugin_name="abi_netcdf",
+            )
+
+    def test_rejects_invalid_plugin_kind(self):
+        """Test attaching a plugin result rejects unknown plugin kinds."""
+        tree = initialize_script_tree("test_script", RetentionPolicy.keep_all)
+        result = xr.Dataset({"data": ("x", [1, 2, 3])})
+
+        with pytest.raises(ValueError, match="Invalid script plugin kind"):
+            attach_plugin_result(
+                tree,
+                result,
+                step_id="read_data",
+                plugin_kind="not_a_kind",
+                plugin_name="abi_netcdf",
+            )
+
+    def test_rejects_empty_plugin_name(self):
+        """Test registered plugin kinds reject empty plugin names."""
+        tree = initialize_script_tree("test_script", RetentionPolicy.keep_all)
+        result = xr.Dataset({"data": ("x", [1, 2, 3])})
+
+        with pytest.raises(ValueError, match="plugin_name"):
+            attach_plugin_result(
+                tree,
+                result,
+                step_id="read_data",
+                plugin_kind="reader",
+                plugin_name="",
+            )
+
+    def test_rejects_invalid_step_id(self):
+        """Test attaching a plugin result rejects invalid step ids."""
+        tree = initialize_script_tree("test_script", RetentionPolicy.keep_all)
+        result = xr.Dataset({"data": ("x", [1, 2, 3])})
+
+        with pytest.raises(ValueError, match="valid Python identifiers"):
+            attach_plugin_result(
+                tree,
+                result,
+                step_id="read-data",
+                plugin_kind="reader",
+                plugin_name="abi_netcdf",
+            )
+
+    def test_rejects_unconvertible_step_data_with_script_context(self):
+        """Test attaching unsupported data gives a script-specific error."""
+        tree = initialize_script_tree("test_script", RetentionPolicy.keep_all)
+
+        with pytest.raises(TypeError, match="script step 'mytest'") as excinfo:
+            attach_plugin_result(
+                tree,
+                0,
+                step_id="mytest",
+                plugin_kind="manual",
+                plugin_name="manual",
+            )
+
+        assert "builtins.int" in str(excinfo.value)
+        assert "wrap it in a Dataset, DataArray, or supported dict" in str(
+            excinfo.value
+        )
+        assert isinstance(excinfo.value.__cause__, TypeError)
+
+    def test_unconvertible_step_data_includes_original_converter_error(self):
+        """Test script-specific conversion errors include converter details."""
+        tree = initialize_script_tree("test_script", RetentionPolicy.keep_all)
+
+        with pytest.raises(TypeError, match="Only numpy arrays") as excinfo:
+            attach_plugin_result(
+                tree,
+                {"value": [1, 2, 3]},
+                step_id="mytest",
+                plugin_kind="manual",
+            )
+
+        assert "Original conversion error" in str(excinfo.value)
+
+    def test_stamps_step_attrs(self):
+        """Test attaching a plugin result stamps step metadata attrs."""
+        tree = initialize_script_tree("test_script", RetentionPolicy.keep_all)
+        result = xr.Dataset({"data": ("x", [1, 2, 3])})
+        start_time = datetime(2026, 7, 15, 0, 0, 0, tzinfo=timezone.utc)
+        end_time = datetime(2026, 7, 15, 0, 0, 1, tzinfo=timezone.utc)
+
+        attach_plugin_result(
+            tree,
+            result,
+            step_id="apply_algorithm",
+            plugin_kind="algorithm",
+            plugin_name="single_channel",
+            start_time=start_time,
+            end_time=end_time,
+            retention_policy=RetentionPolicy.metadata_only,
+        )
+
+        attrs = tree["apply_algorithm"].attrs
+        assert attrs["step_id"] == "apply_algorithm"
+        assert attrs["plugin_kind"] == "algorithm"
+        assert attrs["plugin_name"] == "single_channel"
+        assert attrs["start_time"] == "2026-07-15T00:00:00+00:00"
+        assert attrs["end_time"] == "2026-07-15T00:00:01+00:00"
+        assert attrs["retention_policy"] == "metadata_only"
+
+    def test_rejects_non_datetime_timestamps(self):
+        """Test script step timestamps must be datetime instances."""
+        tree = initialize_script_tree("test_script", RetentionPolicy.keep_all)
+        result = xr.Dataset({"data": ("x", [1, 2, 3])})
+
+        with pytest.raises(TypeError, match="datetime.datetime"):
+            attach_plugin_result(
+                tree,
+                result,
+                step_id="custom_step",
+                plugin_kind="manual",
+                start_time="2026-07-15T00:00:00+00:00",
+            )
+
+        assert "custom_step" not in tree.children
+
+    def test_registered_plugin_kind_defaults_times_to_current_time(self):
+        """Test registered plugin data receives automatic timestamps."""
+        tree = initialize_script_tree("test_script", RetentionPolicy.keep_all)
+        result = xr.Dataset({"data": ("x", [1, 2, 3])})
+
+        attach_plugin_result(
+            tree,
+            result,
+            step_id="apply_algorithm",
+            plugin_kind="algorithm",
+            plugin_name="single_channel",
+        )
+
+        datetime.fromisoformat(tree["apply_algorithm"].attrs["start_time"])
+        datetime.fromisoformat(tree["apply_algorithm"].attrs["end_time"])
+
+    def test_inherits_root_retention_policy(self):
+        """Test attaching a plugin result inherits the root retention policy."""
+        tree = initialize_script_tree("test_script", RetentionPolicy.current_only)
+        result = xr.Dataset({"data": ("x", [1, 2, 3])})
+
+        attach_plugin_result(
+            tree,
+            result,
+            step_id="read_data",
+            plugin_kind="reader",
+            plugin_name="abi_netcdf",
+        )
+
+        assert tree["read_data"].attrs["retention_policy"] == "current_only"
+
+    def test_attach_applies_metadata_only_retention(self):
+        """Test attach reduces older steps when metadata_only is active."""
+        tree = initialize_script_tree("test_script", RetentionPolicy.metadata_only)
+        result = xr.Dataset(
+            {"data": ("x", [1, 2, 3])},
+            coords={"latitude": ("x", [10, 20, 30])},
+        )
+
+        attach_plugin_result(
+            tree,
+            result,
+            step_id="read_data",
+            plugin_kind="reader",
+            plugin_name="abi_netcdf",
+        )
+        attach_plugin_result(
+            tree,
+            result,
+            step_id="apply_algorithm",
+            plugin_kind="algorithm",
+            plugin_name="single_channel",
+        )
+
+        assert "read_data" in tree.children
+        assert not tree["read_data"].ds.data_vars
+        assert not tree["read_data"].ds.coords
+        assert tree["read_data"].attrs["plugin_kind"] == "reader"
+        assert "data" in tree["apply_algorithm"].ds.data_vars
+
+    def test_attach_applies_current_only_retention(self):
+        """Test attach removes older steps when current_only is active."""
+        tree = initialize_script_tree("test_script", RetentionPolicy.current_only)
+        result = xr.Dataset({"data": ("x", [1, 2, 3])})
+
+        attach_plugin_result(
+            tree,
+            result,
+            step_id="read_data",
+            plugin_kind="reader",
+            plugin_name="abi_netcdf",
+        )
+        attach_plugin_result(
+            tree,
+            result,
+            step_id="apply_algorithm",
+            plugin_kind="algorithm",
+            plugin_name="single_channel",
+        )
+
+        assert "read_data" not in tree.children
+        assert "apply_algorithm" in tree.children
+
+    def test_attach_retention_policy_override_applies_to_current_step(self):
+        """Test attach retention policy overrides root policy immediately."""
+        tree = initialize_script_tree("test_script", RetentionPolicy.keep_all)
+        result = xr.Dataset({"data": ("x", [1, 2, 3])})
+
+        attach_plugin_result(
+            tree,
+            result,
+            step_id="read_data",
+            plugin_kind="reader",
+            plugin_name="abi_netcdf",
+        )
+        attach_plugin_result(
+            tree,
+            result,
+            step_id="apply_algorithm",
+            plugin_kind="algorithm",
+            plugin_name="single_channel",
+            retention_policy=RetentionPolicy.current_only,
+        )
+
+        assert "read_data" not in tree.children
+        assert "apply_algorithm" in tree.children
+        assert tree["apply_algorithm"].attrs["retention_policy"] == "current_only"
+
+    def test_rejects_non_script_root(self):
+        """Test attaching a plugin result rejects non-script DataTrees."""
+        tree = xr.DataTree(name="plain")
+        result = xr.Dataset({"data": ("x", [1, 2, 3])})
+
+        with pytest.raises(ValueError, match="initialize_script_tree"):
+            attach_plugin_result(
+                tree,
+                result,
+                step_id="read_data",
+                plugin_kind="reader",
+                plugin_name="abi_netcdf",
+            )
+
+    def test_rejects_non_datatree_root(self):
+        """Test attaching a plugin result rejects non-DataTree roots."""
+        result = xr.Dataset({"data": ("x", [1, 2, 3])})
+
+        with pytest.raises(TypeError, match="xarray.DataTree"):
+            attach_plugin_result(
+                {},
+                result,
+                step_id="read_data",
+                plugin_kind="reader",
+                plugin_name="abi_netcdf",
+            )
+
+    def test_rejects_partially_initialized_script_tree(self):
+        """Test helpers reject manually constructed script-like DataTrees."""
+        tree = xr.DataTree(name="plain")
+        tree.attrs["execution_mode"] = SCRIPT_EXECUTION_MODE
+        result = xr.Dataset({"data": ("x", [1, 2, 3])})
+
+        with pytest.raises(ValueError, match="missing required metadata"):
             attach_plugin_result(
                 tree,
                 result,
@@ -376,131 +646,3 @@ class TestApplyScriptRetention:
 
         with pytest.raises(ValueError, match="initialize_script_tree"):
             apply_script_retention(tree, "apply_algorithm")
-
-    def test_rejects_invalid_plugin_kind(self):
-        """Test attaching a plugin result rejects unknown plugin kinds."""
-        tree = initialize_script_tree("test_script", RetentionPolicy.keep_all)
-        result = xr.Dataset({"data": ("x", [1, 2, 3])})
-
-        with pytest.raises(ValueError, match="Invalid script plugin kind"):
-            attach_plugin_result(
-                tree,
-                result,
-                step_id="read_data",
-                plugin_kind="not_a_kind",
-                plugin_name="abi_netcdf",
-            )
-
-    def test_rejects_empty_plugin_name(self):
-        """Test registered plugin kinds reject empty plugin names."""
-        tree = initialize_script_tree("test_script", RetentionPolicy.keep_all)
-        result = xr.Dataset({"data": ("x", [1, 2, 3])})
-
-        with pytest.raises(ValueError, match="plugin_name"):
-            attach_plugin_result(
-                tree,
-                result,
-                step_id="read_data",
-                plugin_kind="reader",
-                plugin_name="",
-            )
-
-    def test_rejects_invalid_step_id(self):
-        """Test attaching a plugin result rejects invalid step ids."""
-        tree = initialize_script_tree("test_script", RetentionPolicy.keep_all)
-        result = xr.Dataset({"data": ("x", [1, 2, 3])})
-
-        with pytest.raises(ValueError, match="valid Python identifiers"):
-            attach_plugin_result(
-                tree,
-                result,
-                step_id="read-data",
-                plugin_kind="reader",
-                plugin_name="abi_netcdf",
-            )
-
-    def test_rejects_unconvertible_step_data_with_script_context(self):
-        """Test attaching unsupported data gives a script-specific error."""
-        tree = initialize_script_tree("test_script", RetentionPolicy.keep_all)
-
-        with pytest.raises(TypeError, match="script step 'mytest'") as excinfo:
-            attach_plugin_result(
-                tree,
-                0,
-                step_id="mytest",
-                plugin_kind="manual",
-                plugin_name="manual",
-            )
-
-        assert "builtins.int" in str(excinfo.value)
-        assert "wrap it in a Dataset, DataArray, or dict" in str(excinfo.value)
-        assert isinstance(excinfo.value.__cause__, TypeError)
-
-    def test_stamps_step_attrs(self):
-        """Test attaching a plugin result stamps step metadata attrs."""
-        tree = initialize_script_tree("test_script", RetentionPolicy.keep_all)
-        result = xr.Dataset({"data": ("x", [1, 2, 3])})
-
-        attach_plugin_result(
-            tree,
-            result,
-            step_id="apply_algorithm",
-            plugin_kind="algorithm",
-            plugin_name="single_channel",
-            start_time="2026-07-15T00:00:00+00:00",
-            end_time="2026-07-15T00:00:01+00:00",
-            retention_policy=RetentionPolicy.metadata_only,
-        )
-
-        attrs = tree["apply_algorithm"].attrs
-        assert attrs["step_id"] == "apply_algorithm"
-        assert attrs["plugin_kind"] == "algorithm"
-        assert attrs["plugin_name"] == "single_channel"
-        assert attrs["start_time"] == "2026-07-15T00:00:00+00:00"
-        assert attrs["end_time"] == "2026-07-15T00:00:01+00:00"
-        assert attrs["retention_policy"] == "metadata_only"
-
-    def test_registered_plugin_kind_defaults_times_to_current_time(self):
-        """Test registered plugin data receives automatic timestamps."""
-        tree = initialize_script_tree("test_script", RetentionPolicy.keep_all)
-        result = xr.Dataset({"data": ("x", [1, 2, 3])})
-
-        attach_plugin_result(
-            tree,
-            result,
-            step_id="apply_algorithm",
-            plugin_kind="algorithm",
-            plugin_name="single_channel",
-        )
-
-        datetime.fromisoformat(tree["apply_algorithm"].attrs["start_time"])
-        datetime.fromisoformat(tree["apply_algorithm"].attrs["end_time"])
-
-    def test_inherits_root_retention_policy(self):
-        """Test attaching a plugin result inherits the root retention policy."""
-        tree = initialize_script_tree("test_script", RetentionPolicy.current_only)
-        result = xr.Dataset({"data": ("x", [1, 2, 3])})
-
-        attach_plugin_result(
-            tree,
-            result,
-            step_id="read_data",
-            plugin_kind="reader",
-            plugin_name="abi_netcdf",
-        )
-
-        assert tree["read_data"].attrs["retention_policy"] == "current_only"
-
-    def test_rejects_non_script_root(self):
-        """Test attaching a plugin result rejects non-script DataTrees."""
-        tree = xr.DataTree(name="plain")
-        result = xr.Dataset({"data": ("x", [1, 2, 3])})
-
-        with pytest.raises(ValueError, match="initialize_script_tree"):
-            attach_plugin_result(
-                tree,
-                result,
-                step_id="read_data",
-                plugin_kind="reader",
-                plugin_name="abi_netcdf",
-            )

@@ -39,6 +39,8 @@ When adding or changing retention policy behavior:
 - Accept both `RetentionPolicy` values and equivalent strings when appropriate.
 - Store canonical string values in DataTree attrs so attrs remain easy to
   inspect and serialize.
+- Apply retention at the attachment boundary so each scripted plugin call
+  returns a tree that already reflects the effective policy.
 - Add tests for enum values and string values.
 - Add tests for interactive descriptions on each policy member.
 
@@ -86,6 +88,34 @@ such as a `dict`, `Dataset`, or `DataArray`.
 Keep low-level conversion behavior in `DataTreeDitto` and the converter
 registry. Script helpers may catch conversion errors and re-raise them with
 script-specific context, such as the step id and the unsupported input type.
+When doing so, include the original converter error text in the script-facing
+error so users can see whether the problem is the outer object type or the
+contents of an otherwise supported container.
+
+## Script Tree And Timestamp Validation
+
+Script helpers should validate root script trees the first time they are seen.
+A valid script tree is an `xarray.DataTree` created by `initialize_script_tree()`
+with:
+
+- `execution_mode="script"`
+- `retention_policy`
+- `start_time`
+- `end_time`
+
+Do not rely only on `execution_mode="script"`; manually constructed trees with
+that attr but without the required metadata should fail with an error that
+directs users back to `initialize_script_tree()`.
+
+Root timestamps are managed by GeoIPS. `initialize_script_tree()` should stamp
+`start_time` automatically and initialize `end_time` to `None`; users should not
+be allowed to provide those values as arbitrary attrs.
+
+Step timestamps should be accepted as `datetime.datetime` instances or `None`,
+then stored as ISO strings in DataTree attrs. Timestamp strings should be
+rejected at the API boundary so scripts do not mix parsed and unparsed time
+metadata. For manual steps, omitted timestamps should remain `None`; registered
+plugin steps may receive automatic current UTC timestamps.
 
 ## Adding A Retention Policy
 
@@ -201,7 +231,8 @@ initialize_script_tree(
 raises an error like:
 
 ```text
-ValueError: Script DataTree metadata fields are reserved and may not be overridden: execution_mode.
+ValueError: Script DataTree metadata fields are reserved and may not be
+overridden: execution_mode.
 ```
 
 This prevents user metadata from clobbering fields GeoIPS relies on to identify

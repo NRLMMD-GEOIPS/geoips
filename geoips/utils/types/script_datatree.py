@@ -100,8 +100,20 @@ def validate_retention_policy(retention_policy):
 
 
 def _utc_now():
-    """Return the current UTC timestamp as an ISO-formatted string."""
-    return datetime.now(timezone.utc).isoformat()
+    """Return the current UTC datetime."""
+    return datetime.now(timezone.utc)
+
+
+def _format_timestamp(timestamp, field_name):
+    """Return an ISO-formatted timestamp string from a datetime or None."""
+    if timestamp is None:
+        return None
+    if not isinstance(timestamp, datetime):
+        raise TypeError(
+            f"{field_name} must be a datetime.datetime instance or None. "
+            f"Got {type(timestamp).__module__}.{type(timestamp).__name__}."
+        )
+    return timestamp.isoformat()
 
 
 def _is_script_tree(tree):
@@ -219,7 +231,7 @@ def initialize_script_tree(name, retention_policy, **attrs):
         {
             "execution_mode": SCRIPT_EXECUTION_MODE,
             "retention_policy": retention_policy.value,
-            "start_time": _utc_now(),
+            "start_time": _utc_now().isoformat(),
             "end_time": None,
             **attrs,
         }
@@ -243,22 +255,56 @@ def _normalize_script_step_result(step_data, step_name):
             "xarray DataArray, or another type convertible by DataTreeDitto. "
             f"Got {step_data_type.__module__}.{step_data_type.__name__}. "
             "To attach a scalar or other simple value, wrap it in a Dataset, "
-            "DataArray, or dict, for example {'value': 0}."
+            "DataArray, or supported dict, for example {'value': 0}. "
+            f"Original conversion error: {exc}"
         ) from exc
 
 
 def _require_script_tree(tree):
     """Raise if *tree* is not an initialized script DataTree."""
-    if not _is_script_tree(tree):
+    if not isinstance(tree, xr.DataTree):
+        raise TypeError(
+            "Script DataTree helpers require an xarray.DataTree created by "
+            f"initialize_script_tree(). Got {type(tree).__module__}."
+            f"{type(tree).__name__}."
+        )
+    if tree.attrs.get("execution_mode") != SCRIPT_EXECUTION_MODE:
         raise ValueError(
             "Script DataTree helpers may only operate on a DataTree created "
             "by initialize_script_tree()."
+        )
+    missing_attrs = [
+        attr
+        for attr in ("retention_policy", "start_time", "end_time")
+        if attr not in tree.attrs
+    ]
+    if missing_attrs:
+        missing_attr_names = ", ".join(missing_attrs)
+        raise ValueError(
+            "Script DataTree is missing required metadata. Use "
+            "initialize_script_tree() to create script trees. Missing attrs: "
+            f"{missing_attr_names}."
         )
 
 
 def _attrs_only_node(node):
     """Return a DataTree node containing only attrs from *node*."""
     return xr.DataTree(dataset=xr.Dataset(attrs=dict(node.attrs)))
+
+
+def _older_step_ids(tree, current_step_id):
+    """Return top-level step ids older than *current_step_id*."""
+    return [step_id for step_id in list(tree.children) if step_id != current_step_id]
+
+
+def _reduce_step_to_attrs_only(tree, step_id):
+    """Reduce a top-level script step node to attrs-only metadata."""
+    tree[step_id] = _attrs_only_node(tree[step_id])
+
+
+def _remove_step(tree, step_id):
+    """Remove a top-level script step node."""
+    del tree[step_id]
 
 
 def apply_script_retention(tree, current_step_id, retention_policy=None):
@@ -300,18 +346,16 @@ def apply_script_retention(tree, current_step_id, retention_policy=None):
     if retention_policy is RetentionPolicy.keep_all:
         return tree
 
-    older_step_ids = [
-        step_id for step_id in list(tree.children) if step_id != current_step_id
-    ]
+    older_step_ids = _older_step_ids(tree, current_step_id)
 
     if retention_policy is RetentionPolicy.metadata_only:
         for step_id in older_step_ids:
-            tree[step_id] = _attrs_only_node(tree[step_id])
+            _reduce_step_to_attrs_only(tree, step_id)
         return tree
 
     if retention_policy is RetentionPolicy.current_only:
         for step_id in older_step_ids:
-            del tree[step_id]
+            _remove_step(tree, step_id)
         return tree
 
     raise ValueError(f"Unhandled retention policy {retention_policy!r}.")
@@ -356,11 +400,11 @@ def attach_plugin_result(
         kinds. For ``plugin_kind="manual"``, omitted plugin names are recorded
         as ``"manual"``.
     start_time : str, optional
-        ISO-formatted step start time. Defaults to the current UTC time for
+        Step start datetime. Defaults to the current UTC time for
         registered plugin kinds. For ``plugin_kind="manual"``, omitted times
         are recorded as ``None``.
     end_time : str, optional
-        ISO-formatted step end time. Defaults to the current UTC time for
+        Step end datetime. Defaults to the current UTC time for
         registered plugin kinds. For ``plugin_kind="manual"``, omitted times
         are recorded as ``None``.
     retention_policy : RetentionPolicy or str, optional
@@ -399,15 +443,17 @@ def attach_plugin_result(
         retention_policy = tree.attrs.get("retention_policy")
     retention_policy = normalize_retention_policy(retention_policy)
 
-    node = _normalize_script_step_result(step_data, step_name)
-    tree[step_name] = node
-
     if plugin_kind == "manual":
         step_start_time = start_time
         step_end_time = end_time
     else:
         step_start_time = start_time or _utc_now()
         step_end_time = end_time or _utc_now()
+    step_start_time = _format_timestamp(step_start_time, "start_time")
+    step_end_time = _format_timestamp(step_end_time, "end_time")
+
+    node = _normalize_script_step_result(step_data, step_name)
+    tree[step_name] = node
 
     attached = tree[step_name]
     attached.attrs.update(
@@ -420,4 +466,5 @@ def attach_plugin_result(
             "retention_policy": retention_policy.value,
         }
     )
+    apply_script_retention(tree, step_name, retention_policy=retention_policy)
     return tree
