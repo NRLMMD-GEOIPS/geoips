@@ -50,6 +50,43 @@ When adding or changing reserved root attrs:
 - Add tests proving users cannot override the reserved attr through
   `initialize_script_tree(..., **attrs)`.
 
+## Script Plugin Kind Validation
+
+Script step metadata validates `plugin_kind` against the registered GeoIPS
+interface list. The valid kinds are derived from
+`geoips.interfaces.list_available_interfaces()`, singularized with `Lexeme`, and
+cached for the lifetime of the Python process. The special kind `manual` is also
+allowed for user-created script data.
+`product` and `workflow` are intentionally excluded for now; workflow support may
+be added later once scripted workflow composition is better defined.
+
+Do not replace this with a hard-coded list unless the interface registry is no
+longer available. Interface discovery can be expensive, so keep the lookup
+cached.
+
+When adding a new GeoIPS interface, script plugin kind validation should pick it
+up automatically through `list_available_interfaces()`. Add tests only if the
+new interface has special script behavior.
+
+## Script Step Data Conversion
+
+Script step data is normalized through `DataTreeDitto` before it is attached to
+the root script tree. Accepted values are:
+
+- `xarray.DataTree`
+- `DataTreeDitto`
+- `xarray.Dataset`
+- `xarray.DataArray`
+- other types registered with the `DataTreeDitto` converter registry
+
+The script helper should not silently accept arbitrary scalars. If a user wants
+to attach a scalar or simple value, they should wrap it in a supported structure
+such as a `dict`, `Dataset`, or `DataArray`.
+
+Keep low-level conversion behavior in `DataTreeDitto` and the converter
+registry. Script helpers may catch conversion errors and re-raise them with
+script-specific context, such as the step id and the unsupported input type.
+
 ## Adding A Retention Policy
 
 Retention policies are defined by the `RetentionPolicy` enum in
@@ -112,6 +149,11 @@ Current reserved attributes include:
 - `start_time`
 - `end_time`
 
+Reserved root attributes should be initialized when the script tree is created.
+If the value is not known at initialization time, initialize it to `None`.
+For example, `end_time` starts as `None` and can be filled by a later
+finalization or execution-lifecycle helper.
+
 To add a new reserved root attribute:
 
 1. Add the name to `_RESERVED_ROOT_ATTRS`.
@@ -125,8 +167,10 @@ To add a new reserved root attribute:
 2. Set the attribute from GeoIPS-managed code.
 
    Reserved attributes should be stamped by initialization, finalization,
-   attachment, retention, or provenance helpers. They should not be accepted as
-   arbitrary user-provided metadata.
+   attachment, retention, or provenance helpers. Add an initial value during
+   script tree initialization, using `None` when the value will be populated
+   later. Reserved attributes should not be accepted as arbitrary user-provided
+   metadata.
 
 3. Add tests.
 

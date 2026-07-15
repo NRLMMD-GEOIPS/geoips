@@ -433,6 +433,39 @@ Each step node may include metadata such as:
 This allows scripts and helper utilities to inspect what ran, when it ran, and
 how much of each result was retained.
 
+`plugin_kind` must be a registered GeoIPS plugin kind or `"manual"` for
+user-created script data. Product and workflow steps are intentionally excluded
+from scripted step attachment for now; workflow support may be added later.
+`plugin_name` is required for registered plugin kinds. For `"manual"` data,
+`plugin_name` may be omitted and defaults to `"manual"`.
+
+Registered plugin results receive automatic `start_time` and `end_time` values
+when explicit times are not provided. Manual steps do not receive automatic
+timestamps; their `start_time` and `end_time` values remain `None` unless the
+script supplies them explicitly.
+
+## Script Step Data Inputs
+
+Script step data must be representable as a `DataTree` node. Plugin results may
+be supplied as `xarray.DataTree`, `DataTreeDitto`, `xarray.Dataset`,
+`xarray.DataArray`, or another type supported by the `DataTreeDitto` converter
+registry.
+
+Scalars and other simple values should be wrapped in a supported structure
+before being attached:
+
+```python
+tree = attach_plugin_result(
+    tree,
+    {"value": 0},
+    step_id="manual_value",
+    plugin_kind="manual",
+)
+```
+
+Passing an unsupported value directly raises a script-specific `TypeError` that
+identifies the step and the unsupported type.
+
 ## User-Modified Data
 
 Scripts may extract the current data, modify it directly, and reinsert it as a
