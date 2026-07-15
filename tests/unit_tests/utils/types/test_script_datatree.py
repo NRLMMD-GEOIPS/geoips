@@ -55,7 +55,9 @@ class TestInitializeScriptTree:
         with pytest.raises(ValueError, match="Invalid retention policy"):
             initialize_script_tree("test_script", "keep_some")
 
-    @pytest.mark.parametrize("reserved_attr", ["execution_mode", "start_time"])
+    @pytest.mark.parametrize(
+        "reserved_attr", ["execution_mode", "start_time", "end_time"]
+    )
     def test_rejects_reserved_attrs(self, reserved_attr):
         """Test initializing a script tree rejects reserved attrs."""
         with pytest.raises(ValueError, match="reserved"):
@@ -64,6 +66,10 @@ class TestInitializeScriptTree:
 
 class TestRetentionPolicy:
     """Test retention policy enum values."""
+
+    def test_retention_policies_contains_policy_members(self):
+        """Test public retention policies are enum values, not raw strings."""
+        assert all(isinstance(policy, RetentionPolicy) for policy in RETENTION_POLICIES)
 
     def test_policy_values_are_string_like(self):
         """Test retention policy enum values behave like strings."""
