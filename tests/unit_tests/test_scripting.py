@@ -18,7 +18,7 @@ def test_initialize_script_tree_public_helper():
 def test_initialize_script_tree_docstring_describes_plugin_calls():
     """Test public initializer docstring describes plugin-call usage."""
     assert "data" in scripting.initialize_script_tree.__doc__
-    assert "_obp_initiated=True" in scripting.initialize_script_tree.__doc__
+    assert "execution_mode" in scripting.initialize_script_tree.__doc__
     assert "step_id" in scripting.initialize_script_tree.__doc__
 
 
@@ -43,3 +43,11 @@ def test_internal_validation_helper_not_public():
     """Test low-level validation helper is not part of public scripting API."""
     assert "validate_retention_policy" not in scripting.__all__
     assert not hasattr(scripting, "validate_retention_policy")
+
+
+def test_current_data_helpers_public():
+    """Test current data helpers are available from scripting API."""
+    assert "get_current_data" in scripting.__all__
+    assert "add_data_step" in scripting.__all__
+    assert hasattr(scripting, "get_current_data")
+    assert hasattr(scripting, "add_data_step")

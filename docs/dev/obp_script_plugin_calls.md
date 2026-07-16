@@ -39,8 +39,7 @@ Root `start_time` and `end_time` are managed by GeoIPS. `start_time` is set
 automatically when the script tree is initialized, and `end_time` starts as
 `None`. Scripts should not supply either value to `initialize_script_tree()`.
 
-For now, scripts still pass `_obp_initiated=True` on each plugin call. In the
-future, GeoIPS should infer OBP/script behavior from `execution_mode="script"`.
+Initialized script trees infer OBP/script behavior from `execution_mode="script"`, so normal script calls do not need to pass `_obp_initiated=True`.
 
 The public scripting API is exposed from `geoips.scripting`. Lower-level helpers
 may live elsewhere internally, but user scripts should prefer imports from
@@ -79,11 +78,11 @@ from geoips.interfaces import (
     readers,
     sectors,
 )
-from geoips.scripting import RetentionPolicy, initialize_script_tree
-from geoips.utils.types.script_datatree import (
+from geoips.scripting import (
+    RetentionPolicy,
     add_data_step,
     get_current_data,
-    get_output_products,
+    initialize_script_tree,
 )
 
 
@@ -114,27 +113,23 @@ tree = reader(
     data=tree,
     filenames=fnames,
     step_id="read_data",
-    _obp_initiated=True,
     varnames=["B14BT"],
 )
 
 tree = sector(
     data=tree,
     step_id="load_sector",
-    _obp_initiated=True,
 )
 
 tree = interpolator(
     data=tree,
     step_id="interpolate_data",
-    _obp_initiated=True,
     varlist=["B14BT"],
 )
 
 tree = algorithm(
     data=tree,
     step_id="apply_algorithm",
-    _obp_initiated=True,
     output_data_range=[-90.0, 30.0],
     input_units="Kelvin",
     output_units="celsius",
@@ -157,21 +152,18 @@ tree = add_data_step(
 tree = colormapper(
     data=tree,
     step_id="build_colormap",
-    _obp_initiated=True,
     data_range=[-90.0, 30.0],
 )
 
 tree = coverage_checker(
     data=tree,
     step_id="check_coverage",
-    _obp_initiated=True,
     variable_name="data",
 )
 
 tree = filename_formatter(
     data=tree,
     step_id="format_filename",
-    _obp_initiated=True,
     product_name="Infrared",
     output_type="png",
 )
@@ -179,12 +171,11 @@ tree = filename_formatter(
 tree = output_formatter(
     data=tree,
     step_id="write_image",
-    _obp_initiated=True,
     product_name="Infrared",
     product_name_title="G16 Infrared @ 11.2 um",
 )
 
-output_products = get_output_products(tree)
+output_products = tree["write_image"].attrs["output_products"]
 print(output_products)
 ```
 
@@ -201,10 +192,11 @@ import os
 import matplotlib.pyplot as plt
 
 from geoips.interfaces import readers
-from geoips.scripting import RetentionPolicy, initialize_script_tree
-from geoips.utils.types.script_datatree import (
+from geoips.scripting import (
+    RetentionPolicy,
     add_data_step,
     get_current_data,
+    initialize_script_tree,
 )
 
 
@@ -228,7 +220,6 @@ tree = reader(
     data=tree,
     filenames=fnames,
     step_id="read_b14_b15",
-    _obp_initiated=True,
     varnames=["B14BT", "B15BT"],
 )
 
@@ -262,7 +253,6 @@ Use `step_id` to name the result of each plugin call in the accumulated tree.
 tree = algorithm(
     data=tree,
     step_id="apply_algorithm",
-    _obp_initiated=True,
     ...
 )
 ```
@@ -352,7 +342,6 @@ tree = interpolator(
     data=tree,
     step_id="interpolate_data",
     retention_policy=RetentionPolicy.keep_all,
-    _obp_initiated=True,
     varlist=["B14BT"],
 )
 ```
@@ -400,14 +389,12 @@ tree = reader(
     data=tree,
     filenames=fnames,
     step_id="read_data",
-    _obp_initiated=True,
     varnames=["B14BT"],
 )
 
 tree = interpolator(
     data=tree,
     step_id="interpolate_data",
-    _obp_initiated=True,
     varlist=["B14BT"],
 )
 
@@ -415,7 +402,6 @@ tree = algorithm(
     data=tree,
     step_id="apply_algorithm",
     retention_policy=RetentionPolicy.metadata_only,
-    _obp_initiated=True,
     output_data_range=[-90.0, 30.0],
     input_units="Kelvin",
     output_units="celsius",
@@ -482,11 +468,11 @@ Python lists.
 
 ## User-Modified Data
 
-Scripts may extract the current data, modify it directly, and reinsert it as a
-new step.
+Scripts may extract a mutable copy of the current data, modify it, and reinsert
+it as a new step.
 
 ```python
-from geoips.utils.types.script_datatree import add_data_step, get_current_data
+from geoips.scripting import add_data_step, get_current_data
 
 xobj = get_current_data(tree)
 xobj["data"] = xobj["data"].where(xobj["data"] > -80)
@@ -498,32 +484,32 @@ tree = add_data_step(
 )
 ```
 
-The inserted data step is treated like any other data-producing step. Downstream
+`get_current_data()` returns a mutable dataset copy from the most recent
+data-containing step. Edits to that dataset do not modify the existing tree step
+in place; use `add_data_step()` to reinsert the modified data as a new manual
+step.
+
+The inserted data step is treated like any other data-containing step. Downstream
 plugins will see it as the most recent data input.
 
-## Current OBP Flag
+## Script Mode Detection
 
-For now, scripts must pass `_obp_initiated=True` when calling plugins in this
-style.
+Plugins infer script-mode OBP behavior from an initialized script tree. Pass the
+accumulated tree as `data`; `_obp_initiated=True` is not required for normal
+script calls.
 
 ```python
 tree = plugin(
     data=tree,
     step_id="some_action",
-    _obp_initiated=True,
     ...
 )
 ```
-
-A cleaner public scripting API should eventually infer this behavior from the
-script tree metadata.
 
 ## Future Features
 
 Future improvements may include:
 
-- Infer OBP/script behavior from `execution_mode="script"` so users no longer
-  need to pass `_obp_initiated=True` on every plugin call.
 - Memory tracking for each plugin step.
 - Additional helpers for extracting common values from script trees.
 - Convenience helpers for adding or resolving sectors in scripts.

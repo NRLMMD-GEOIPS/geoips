@@ -31,7 +31,6 @@ class RetentionPolicy(StrEnum):
     ...     data=tree,
     ...     filenames=fnames,
     ...     step_id="read_data",
-    ...     _obp_initiated=True,
     ... )
 
     String values such as ``"metadata_only"`` are also accepted for
@@ -177,8 +176,9 @@ def initialize_script_tree(name, retention_policy, **attrs):
     """Initialize a root DataTree for OBP-style scripted plugin calls.
 
     The returned tree is intended to be passed as the ``data`` argument to
-    plugins called with ``_obp_initiated=True``. Each plugin call will
-    eventually attach its result back onto this script tree using ``step_id``.
+    direct plugin calls. Plugins infer script-mode OBP behavior from the
+    tree's ``execution_mode`` metadata and attach results back onto this
+    script tree using ``step_id``.
 
     Parameters
     ----------
@@ -213,7 +213,6 @@ def initialize_script_tree(name, retention_policy, **attrs):
     ...     data=tree,
     ...     filenames=fnames,
     ...     step_id="read_data",
-    ...     _obp_initiated=True,
     ... )
     """
     retention_policy = normalize_retention_policy(retention_policy)
@@ -305,6 +304,75 @@ def _reduce_step_to_attrs_only(tree, step_id):
 def _remove_step(tree, step_id):
     """Remove a top-level script step node."""
     del tree[step_id]
+
+
+def _has_data_vars(node):
+    """Return whether a script step node contains data variables."""
+    return node.ds is not None and bool(node.ds.data_vars)
+
+
+def get_current_data(tree):
+    """Return the dataset from the most recent data-containing script step.
+
+    Parameters
+    ----------
+    tree : xarray.DataTree
+        Root script DataTree created by ``initialize_script_tree``.
+
+    Returns
+    -------
+    xarray.Dataset
+        Dataset from the most recent top-level step containing data variables.
+        The returned object is a mutable dataset copy intended for inspection,
+        modification, and reinsertion with ``add_data_step``.
+
+    Raises
+    ------
+    ValueError
+        If *tree* is not an initialized script DataTree or no data-containing
+        step is available.
+    """
+    _require_script_tree(tree)
+
+    for step_id in reversed(list(tree.children)):
+        node = tree[step_id]
+        if _has_data_vars(node):
+            return node.to_dataset()
+
+    raise ValueError(
+        "No data-containing script steps are available. Attach a plugin result "
+        "or manual data step before calling get_current_data()."
+    )
+
+
+def add_data_step(tree, data, *, step_id, retention_policy=None):
+    """Attach user-created or user-modified data as a manual script step.
+
+    Parameters
+    ----------
+    tree : xarray.DataTree
+        Root script DataTree created by ``initialize_script_tree``.
+    data : xarray.DataTree, DataTreeDitto, xarray.Dataset, xarray.DataArray, or
+        convertible object
+        Data to attach as the new manual step.
+    step_id : str
+        Step id for the inserted data.
+    retention_policy : RetentionPolicy or str, optional
+        Retention policy override for the inserted data step.
+
+    Returns
+    -------
+    xarray.DataTree
+        The same root script DataTree, updated in place and returned for
+        convenient chaining.
+    """
+    return attach_plugin_result(
+        tree,
+        data,
+        step_id=step_id,
+        plugin_kind="manual",
+        retention_policy=retention_policy,
+    )
 
 
 def apply_script_retention(tree, current_step_id, retention_policy=None):
@@ -399,11 +467,11 @@ def attach_plugin_result(
         Plugin name that produced *step_data*. Required for registered plugin
         kinds. For ``plugin_kind="manual"``, omitted plugin names are recorded
         as ``"manual"``.
-    start_time : str, optional
+    start_time : datetime.datetime, optional
         Step start datetime. Defaults to the current UTC time for
         registered plugin kinds. For ``plugin_kind="manual"``, omitted times
         are recorded as ``None``.
-    end_time : str, optional
+    end_time : datetime.datetime, optional
         Step end datetime. Defaults to the current UTC time for
         registered plugin kinds. For ``plugin_kind="manual"``, omitted times
         are recorded as ``None``.

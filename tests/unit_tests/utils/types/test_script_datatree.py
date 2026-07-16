@@ -13,8 +13,10 @@ from geoips.utils.types.script_datatree import (
     RetentionPolicy,
     SCRIPT_EXECUTION_MODE,
     _valid_script_plugin_kinds,
+    add_data_step,
     apply_script_retention,
     attach_plugin_result,
+    get_current_data,
     initialize_script_tree,
     validate_retention_policy,
 )
@@ -646,3 +648,148 @@ class TestApplyScriptRetention:
 
         with pytest.raises(ValueError, match="initialize_script_tree"):
             apply_script_retention(tree, "apply_algorithm")
+
+
+class TestCurrentDataHelpers:
+    """Test current data extraction and manual data insertion."""
+
+    def test_get_current_data_returns_most_recent_data(self):
+        """Test current data comes from the newest data-containing step."""
+        tree = initialize_script_tree("test_script", RetentionPolicy.keep_all)
+        first = xr.Dataset({"data": ("x", [1, 2, 3])})
+        second = xr.Dataset({"data": ("x", [4, 5, 6])})
+
+        attach_plugin_result(
+            tree,
+            first,
+            step_id="read_data",
+            plugin_kind="reader",
+            plugin_name="abi_netcdf",
+        )
+        attach_plugin_result(
+            tree,
+            second,
+            step_id="apply_algorithm",
+            plugin_kind="algorithm",
+            plugin_name="single_channel",
+        )
+
+        current = get_current_data(tree)
+
+        assert current["data"].values.tolist() == [4, 5, 6]
+
+    def test_get_current_data_skips_metadata_only_steps(self):
+        """Test current data ignores attrs-only metadata nodes."""
+        tree = initialize_script_tree("test_script", RetentionPolicy.keep_all)
+        first = xr.Dataset({"data": ("x", [1, 2, 3])})
+        metadata = xr.Dataset(attrs={"source": "metadata_only"})
+
+        attach_plugin_result(
+            tree,
+            first,
+            step_id="read_data",
+            plugin_kind="reader",
+            plugin_name="abi_netcdf",
+        )
+        attach_plugin_result(
+            tree,
+            metadata,
+            step_id="metadata_step",
+            plugin_kind="manual",
+        )
+
+        current = get_current_data(tree)
+
+        assert current["data"].values.tolist() == [1, 2, 3]
+
+    def test_get_current_data_rejects_empty_tree(self):
+        """Test current data extraction rejects trees with no data steps."""
+        tree = initialize_script_tree("test_script", RetentionPolicy.keep_all)
+
+        with pytest.raises(ValueError, match="No data-containing"):
+            get_current_data(tree)
+
+    def test_get_current_data_rejects_non_script_root(self):
+        """Test current data extraction rejects non-script DataTrees."""
+        tree = xr.DataTree(name="plain")
+
+        with pytest.raises(ValueError, match="initialize_script_tree"):
+            get_current_data(tree)
+
+    def test_add_data_step_inserts_manual_data(self):
+        """Test adding user data attaches a manual script step."""
+        tree = initialize_script_tree("test_script", RetentionPolicy.keep_all)
+        data = xr.Dataset({"data": ("x", [1, 2, 3])})
+
+        updated = add_data_step(tree, data, step_id="modify_data")
+
+        assert updated is tree
+        assert "modify_data" in tree.children
+        assert tree["modify_data"].attrs["plugin_kind"] == "manual"
+        assert tree["modify_data"].attrs["plugin_name"] == "manual"
+        assert tree["modify_data"].attrs["start_time"] is None
+        assert tree["modify_data"].attrs["end_time"] is None
+        assert "data" in tree["modify_data"].ds.data_vars
+
+    def test_add_data_step_becomes_current_data(self):
+        """Test manually inserted data becomes the current data-containing step."""
+        tree = initialize_script_tree("test_script", RetentionPolicy.keep_all)
+        data = xr.Dataset({"data": ("x", [1, 2, 3])})
+        attach_plugin_result(
+            tree,
+            data,
+            step_id="read_data",
+            plugin_kind="reader",
+            plugin_name="abi_netcdf",
+        )
+
+        current = get_current_data(tree)
+        modified = current.copy(deep=True)
+        modified["data"] = modified["data"] + 10
+        add_data_step(tree, modified, step_id="modify_data")
+
+        assert get_current_data(tree)["data"].values.tolist() == [11, 12, 13]
+
+    def test_get_current_data_returns_mutable_copy(self):
+        """Test current data can be modified without mutating its source step."""
+        tree = initialize_script_tree("test_script", RetentionPolicy.keep_all)
+        data = xr.Dataset({"data": ("x", [1, 2, 3])})
+        attach_plugin_result(
+            tree,
+            data,
+            step_id="read_data",
+            plugin_kind="reader",
+            plugin_name="abi_netcdf",
+        )
+
+        current = get_current_data(tree)
+        current["data"] = current["data"] + 10
+
+        assert current["data"].values.tolist() == [11, 12, 13]
+        assert tree["read_data"].ds["data"].values.tolist() == [1, 2, 3]
+
+    def test_add_data_step_applies_retention(self):
+        """Test adding data applies the effective retention policy."""
+        tree = initialize_script_tree("test_script", RetentionPolicy.current_only)
+        data = xr.Dataset({"data": ("x", [1, 2, 3])})
+        attach_plugin_result(
+            tree,
+            data,
+            step_id="read_data",
+            plugin_kind="reader",
+            plugin_name="abi_netcdf",
+        )
+
+        add_data_step(tree, data, step_id="modify_data")
+
+        assert "read_data" not in tree.children
+        assert "modify_data" in tree.children
+
+    def test_add_data_step_rejects_duplicate_step_id(self):
+        """Test adding data rejects duplicate step ids."""
+        tree = initialize_script_tree("test_script", RetentionPolicy.keep_all)
+        data = xr.Dataset({"data": ("x", [1, 2, 3])})
+        add_data_step(tree, data, step_id="modify_data")
+
+        with pytest.raises(ValueError, match="unique step_id"):
+            add_data_step(tree, data, step_id="modify_data")

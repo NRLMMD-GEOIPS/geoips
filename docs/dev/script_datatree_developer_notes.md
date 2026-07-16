@@ -14,6 +14,8 @@ normal user scripts should not need to import from that module directly.
 
 Current public scripting helpers and values:
 
+- `add_data_step`
+- `get_current_data`
 - `initialize_script_tree`
 - `RetentionPolicy`
 - `RETENTION_POLICIES`
