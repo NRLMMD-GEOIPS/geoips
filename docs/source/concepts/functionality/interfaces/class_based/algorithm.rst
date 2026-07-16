@@ -19,12 +19,12 @@ Algorithms vary in complexity based on requirements.
 
 A simple example is the
 `wind barb algorithm
-<https://github.com/NRLMMD-GEOIPS/geoips/blob/main/geoips/plugins/modules/algorithms/sfc_winds/windbarbs.py>`_,
+<https://github.com/NRLMMD-GEOIPS/geoips/blob/main/geoips/plugins/classes/algorithms/sfc_winds/windbarbs.py>`_,
 which primarily converts wind speed units and optionally applies data bounds.
 
 More complex algorithms include the
 `single channel algorithm
-<https://github.com/NRLMMD-GEOIPS/geoips/blob/main/geoips/plugins/modules/algorithms/single_channel.py>`_,
+<https://github.com/NRLMMD-GEOIPS/geoips/blob/main/geoips/plugins/classes/algorithms/single_channel.py>`_,
 which involves masking, solar zenith corrections, scaling, normalization, and unit conversion.
 The `stitched data fusion algorithm
 <https://github.com/NRLMMD-GEOIPS/data_fusion/blob/main/data_fusion/plugins/modules/algorithms/stitched.py>`_
@@ -50,3 +50,15 @@ For examples of including an algorithm in a product implementation, see the
 and
 :ref:`products <create-a-product>`
 tutorials.
+
+
+Plugin arguments
+================
+
+The arguments accepted by a algorithm step (validated in
+:ref:`Order-Based Processing workflows <order-based-processing>`) are defined by
+the model below. These fields are generated directly from the code, so they always
+reflect the current validation rules.
+
+.. autopydantic_model:: geoips.pydantic_models.v1.algorithms.AlgorithmArgumentsModel
+   :noindex:

@@ -8,10 +8,10 @@
 Readers in GeoIPS
 *****************
 
-A reader is a module-based GeoIPS plugin that reads data from a specific
+A reader is a class-based GeoIPS plugin that reads data from a specific
 source, such as, for example, Level 1b data from the GOES ABI sensor.
 GeoIPS has a wide array of
-`built-in readers <https://github.com/NRLMMD-GEOIPS/geoips/tree/main/geoips/plugins/modules/readers>`_
+`built-in readers <https://github.com/NRLMMD-GEOIPS/geoips/tree/main/geoips/plugins/classes/readers>`_
 available for use, which are primarily focused on satellite-based meteorological data,
 but can support nearly any type of environmental data.
 
@@ -42,3 +42,15 @@ test script serves as an example of command line call utilizing the abi_netcdf r
       from geoips.interfaces import readers
       reader_name = "abi_netcdf"
       data = readers.get_plugin(reader_name)
+
+
+Plugin arguments
+================
+
+The arguments accepted by a reader step (validated in
+:ref:`Order-Based Processing workflows <order-based-processing>`) are defined by
+the model below. These fields are generated directly from the code, so they always
+reflect the current validation rules.
+
+.. autopydantic_model:: geoips.pydantic_models.v1.readers.ReaderArgumentsModel
+   :noindex:

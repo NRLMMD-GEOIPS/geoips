@@ -8,7 +8,7 @@
 Interpolators in GeoIPS
 ***********************
 
-An interpolator is a module-based GeoIPS plugin that takes data in its native
+An interpolator is a class-based GeoIPS plugin that takes data in its native
 resolution and interpolates it to a grid with a different resolution. This
 interpolation can be done either before or after running an algorithm, or
 independently of running any algorithm.
@@ -32,3 +32,15 @@ tutorials.
       from geoips.interfaces import interpolators
       interp_name = "interp_nearest"
       interpolator = interpolators.get_plugin(interp_name)
+
+
+Plugin arguments
+================
+
+The arguments accepted by a interpolator step (validated in
+:ref:`Order-Based Processing workflows <order-based-processing>`) are defined by
+the model below. These fields are generated directly from the code, so they always
+reflect the current validation rules.
+
+.. autopydantic_model:: geoips.pydantic_models.v1.interpolators.InterpolatorArgumentsModel
+   :noindex:

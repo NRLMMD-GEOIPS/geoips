@@ -8,7 +8,7 @@
 Processing Workflows (Procflows) in GeoIPS
 ******************************************
 
-A processing workflow (procflow) is a module-based GeoIPS plugin that
+A processing workflow (procflow) is a class-based GeoIPS plugin that
 determines the "steps" that are used for a particular type of processing.
 Essentially, the procflow is the driver of GeoIPS processing that determines
 the order in which to call other plugins, such as algorithms and output formatters.
@@ -29,17 +29,16 @@ procflows.
 Procflows can be executed in two ways:
 
 1. **Specification at the Command Line:** Procflows are specified
-as the primary argument at the command line when running GeoIPS.
-For example, the single_source procflow is called as follows:
+as the primary argument at the command line when running GeoIPS. The recommended procflow
+in GeoIPS 2.0 is the :ref:`Order-Based Procflow <order-based-processing>`, called as follows:
 
    .. code-block:: bash
 
-      geoips run single_source
+      geoips run order_based <workflow> <files>
 
-The
-`ABI Infrared
-<https://github.com/NRLMMD-GEOIPS/geoips/blob/main/tests/scripts/abi.static.Infrared.imagery_annotated.sh>`_
-test script serves as an example of command line call utilizing the single_source procflow.
+The legacy ``single_source``, ``config_based``, and ``data_fusion`` procflows are still
+available (``geoips run single_source`` ...) but are deprecated; OBP can produce everything
+they can. See :ref:`running-obp` to run a workflow.
 
 2. **Direct Invocation:** Procflows can be called within another program:
 

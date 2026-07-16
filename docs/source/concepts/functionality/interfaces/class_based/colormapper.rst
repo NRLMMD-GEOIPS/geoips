@@ -8,7 +8,7 @@
 Colormaps in GeoIPS
 *******************
 
-A colormap is a module-based GeoIPS plugin that works in conjunction with an
+A colormap is a class-based GeoIPS plugin that works in conjunction with an
 image-based output formatter to dictate which colors are used to represent your
 data. GeoIPS colormaps are structured as Python dictionaries that contain the
 information needed for the output formatter to apply a colormap to the final
@@ -37,7 +37,7 @@ using the `colorbar_kwargs`, `set_ticks_kwargs`, and `set_label_kwargs` keys.
 
 For an example of how a custom colormapper is formatted, see the
 `Infrared colormapper
-<https://github.com/NRLMMD-GEOIPS/geoips/blob/main/geoips/plugins/modules/colormappers/visir/Infrared.py>`_.
+<https://github.com/NRLMMD-GEOIPS/geoips/blob/main/geoips/plugins/classes/colormappers/visir/Infrared.py>`_.
 
 Using a Colormapper
 ===================
@@ -83,3 +83,15 @@ The output of the plugin can then be applied to the plot of the image. For examp
       if mpl_colors_info["colorbar"] is True:
           # Create the colorbar defined in the colormapper.
           create_colorbar(fig, mpl_colors_info)
+
+
+Plugin arguments
+================
+
+The arguments accepted by a colormapper step (validated in
+:ref:`Order-Based Processing workflows <order-based-processing>`) are defined by
+the model below. These fields are generated directly from the code, so they always
+reflect the current validation rules.
+
+.. autopydantic_model:: geoips.pydantic_models.v1.colormappers.ColormapperArgumentsModel
+   :noindex:
