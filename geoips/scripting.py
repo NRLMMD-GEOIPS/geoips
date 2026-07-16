@@ -7,6 +7,7 @@ from geoips.utils.types.script_datatree import (
     RETENTION_POLICIES,
     RetentionPolicy,
     add_data_step,
+    attach_plugin_result,
     get_current_data,
     initialize_script_tree,
 )
@@ -16,6 +17,7 @@ __all__ = [
     "RETENTION_POLICIES",
     "RetentionPolicy",
     "add_data_step",
+    "attach_plugin_result",
     "get_current_data",
     "initialize_script_tree",
 ]

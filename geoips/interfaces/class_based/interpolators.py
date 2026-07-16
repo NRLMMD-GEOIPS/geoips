@@ -23,7 +23,16 @@ class BaseInterpolatorPlugin(BaseClassPlugin, abstract=True):
         Normalize them here so ``BaseClassPlugin._invoke`` can remain generic and
         still be the only method that calls ``call``.
         """
-        if _obp_initiated and self._use_positional_unpacking(data, _obp_initiated):
+        # Workflow mode usually arrives here with a multi-input tree. Script
+        # mode keeps the accumulated script tree in ``data``, then _invoke
+        # extracts upstream reader/interpolator and sector nodes into conduit
+        # kwargs such as ``xarray_obj`` and ``area_def``. Either shape needs
+        # normalization to the legacy interpolator call signature.
+        has_extracted_conduit_inputs = "xarray_obj" in kwargs or "area_def" in kwargs
+        if _obp_initiated and (
+            self._use_positional_unpacking(data, _obp_initiated)
+            or has_extracted_conduit_inputs
+        ):
             kwargs = self._prepare_obp_interpolator_kwargs(data, kwargs)
             data = super()._pre_call(
                 data, *args, _obp_initiated=_obp_initiated, **kwargs
@@ -35,7 +44,7 @@ class BaseInterpolatorPlugin(BaseClassPlugin, abstract=True):
     def _prepare_obp_interpolator_kwargs(self, data, kwargs):
         """Populate legacy interpolator call kwargs from OBP inputs."""
         input_xarray = kwargs.pop("xarray_obj", None)
-        sector_found = False
+        sector_found = kwargs.get("area_def") is not None
 
         if input_xarray is None or not sector_found:
             input_xarray, sector_found = self._collect_interpolator_inputs(

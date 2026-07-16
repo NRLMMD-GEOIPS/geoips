@@ -632,13 +632,28 @@ class BaseClassPlugin(ABC):
         if data is None:
             call_kwargs = self._call_kwargs(new_kwargs, _obp_initiated)
             result = self.call(*args, **call_kwargs)
-            return self._post_call(
+            data = self._post_call(
                 result,
                 *args,
                 _obp_initiated=_obp_initiated,
                 _pre_call_attrs=pre_call_attrs,
                 **new_kwargs,
             )
+            if script_mode:
+                # Legacy readers and other hooks may strip the positional input
+                # before calling ``call``. They still produce a script step, so
+                # attach the post-processed result before returning.
+                return attach_plugin_result(
+                    script_tree,
+                    data,
+                    step_id=step_id,
+                    plugin_kind=self._plugin_kind(),
+                    plugin_name=self.name,
+                    start_time=step_start_time,
+                    end_time=datetime.now(timezone.utc),
+                    retention_policy=step_retention_policy,
+                )
+            return data
 
         # Note: ``_call_kwargs`` drops conduit-injected kwargs (e.g.
         # ``xarray_obj``) the plugin's ``call`` does not accept. In the unpacking

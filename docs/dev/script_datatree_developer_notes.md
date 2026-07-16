@@ -15,12 +15,13 @@ normal user scripts should not need to import from that module directly.
 Current public scripting helpers and values:
 
 - `add_data_step`
+- `attach_plugin_result`
 - `get_current_data`
 - `initialize_script_tree`
 - `RetentionPolicy`
 - `RETENTION_POLICIES`
 
-Internal helpers should not be exposed from `geoips.scripting` until there is a
+Retention helpers should not be exposed from `geoips.scripting` until there is a
 clear user-facing need. For example, `normalize_retention_policy` and
 `validate_retention_policy` are implementation helpers and should remain
 internal for now.

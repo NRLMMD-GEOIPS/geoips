@@ -678,6 +678,33 @@ class TestCurrentDataHelpers:
 
         assert current["data"].values.tolist() == [4, 5, 6]
 
+    def test_get_current_data_flattens_nested_reader_step(self):
+        """Test current data extraction handles reader-style child datasets."""
+        tree = initialize_script_tree("test_script", RetentionPolicy.keep_all)
+        reader_output = xr.DataTree(xr.Dataset(attrs={"source_name": "abi"}))
+        reader_output["LOW"] = xr.DataTree(
+            xr.Dataset(
+                {
+                    "B14BT": ("x", [1, 2, 3]),
+                    "B15BT": ("x", [4, 5, 6]),
+                }
+            )
+        )
+
+        attach_plugin_result(
+            tree,
+            reader_output,
+            step_id="read_data",
+            plugin_kind="reader",
+            plugin_name="abi_netcdf",
+        )
+
+        current = get_current_data(tree)
+
+        assert current.attrs["source_name"] == "abi"
+        assert current["B14BT"].values.tolist() == [1, 2, 3]
+        assert current["B15BT"].values.tolist() == [4, 5, 6]
+
     def test_get_current_data_skips_metadata_only_steps(self):
         """Test current data ignores attrs-only metadata nodes."""
         tree = initialize_script_tree("test_script", RetentionPolicy.keep_all)

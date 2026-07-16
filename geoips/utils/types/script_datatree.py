@@ -31,6 +31,7 @@ class RetentionPolicy(StrEnum):
     ...     data=tree,
     ...     filenames=fnames,
     ...     step_id="read_data",
+    ...     _obp_initiated=True,
     ... )
 
     String values such as ``"metadata_only"`` are also accepted for
@@ -176,9 +177,8 @@ def initialize_script_tree(name, retention_policy, **attrs):
     """Initialize a root DataTree for OBP-style scripted plugin calls.
 
     The returned tree is intended to be passed as the ``data`` argument to
-    direct plugin calls. Plugins infer script-mode OBP behavior from the
-    tree's ``execution_mode`` metadata and attach results back onto this
-    script tree using ``step_id``.
+    plugins called with ``_obp_initiated=True``. Each plugin call will
+    eventually attach its result back onto this script tree using ``step_id``.
 
     Parameters
     ----------
@@ -213,6 +213,7 @@ def initialize_script_tree(name, retention_policy, **attrs):
     ...     data=tree,
     ...     filenames=fnames,
     ...     step_id="read_data",
+    ...     _obp_initiated=True,
     ... )
     """
     retention_policy = normalize_retention_policy(retention_policy)

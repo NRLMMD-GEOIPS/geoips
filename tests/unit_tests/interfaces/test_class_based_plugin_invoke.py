@@ -279,6 +279,20 @@ class _FakeNativeReader(BaseReaderPlugin):
 class TestReaderDataStripping:
     """OBP reader input handling based on the ``data_tree`` capability flag."""
 
+    def test_legacy_reader_script_mode_attaches_result(self):
+        """A legacy reader script call attaches its result to the script tree."""
+        plugin = _FakeLegacyReader()
+        tree = initialize_script_tree("test_script", RetentionPolicy.keep_all)
+
+        result = plugin(data=tree, fnames=["a.nc"], step_id="read_data")
+
+        assert result is tree
+        assert "read_data" in tree.children
+        assert tree["read_data"].attrs["plugin_kind"] == "reader"
+        assert tree["read_data"].attrs["plugin_name"] == "fake_legacy_reader"
+        assert "DATA" in tree["read_data"].children
+        assert tree["read_data"]["DATA"].ds["var"].values.tolist() == [1, 2, 3]
+
     def test_legacy_reader_strips_injected_tree(self):
         """A ``data_tree=False`` reader drops the injected tree and reads fnames."""
         plugin = _FakeLegacyReader()

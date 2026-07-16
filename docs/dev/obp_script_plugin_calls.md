@@ -19,7 +19,7 @@ from geoips.scripting import RetentionPolicy, initialize_script_tree
 
 tree = initialize_script_tree(
     name="abi_infrared_test",
-    retention_policy=RetentionPolicy.metadata_only,
+    retention_policy=RetentionPolicy.keep_all,
 )
 ```
 
@@ -81,6 +81,7 @@ from geoips.interfaces import (
 from geoips.scripting import (
     RetentionPolicy,
     add_data_step,
+    attach_plugin_result,
     get_current_data,
     initialize_script_tree,
 )
@@ -113,12 +114,18 @@ tree = reader(
     data=tree,
     filenames=fnames,
     step_id="read_data",
-    varnames=["B14BT"],
+    variables=["B14BT"],
 )
 
-tree = sector(
-    data=tree,
+# YAML-based plugins do not yet route through class-based script invocation,
+# so attach their result explicitly.
+sector_result = sector()
+tree = attach_plugin_result(
+    tree,
+    sector_result,
     step_id="load_sector",
+    plugin_kind="sector",
+    plugin_name="conus",
 )
 
 tree = interpolator(
