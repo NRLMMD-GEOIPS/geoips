@@ -7,12 +7,15 @@ import glob
 import os
 from pathlib import Path
 
+from geoips.filenames.base_paths import PATHS as gpaths
+
 from geoips.interfaces import (
     algorithms,
     colormappers,
     coverage_checkers,
     filename_formatters,
     interpolators,
+    output_checkers,
     output_formatters,
     readers,
     sectors,
@@ -23,6 +26,16 @@ from geoips.scripting import (
     get_current_data,
     get_output_products,
     initialize_script_tree,
+)
+
+
+SECTOR_NAME = "test_goes16_eqc_3km_day_20200918T1950Z"
+DEFAULT_COMPARE_PATH = (
+    Path(gpaths["GEOIPS_PACKAGES_DIR"])
+    / "geoips"
+    / "tests"
+    / "outputs"
+    / "abi.static.Infrared.imagery_clean"
 )
 
 
@@ -101,8 +114,13 @@ def _parse_args():
     parser.add_argument(
         "--retention-policy",
         choices=[policy.value for policy in RetentionPolicy],
-        default=RetentionPolicy.keep_all.value,
+        default=RetentionPolicy.metadata_only.value,
         help="Script DataTree retention policy to use.",
+    )
+    parser.add_argument(
+        "--compare-path",
+        default=str(DEFAULT_COMPARE_PATH),
+        help="Comparison directory for the generated image.",
     )
     return parser.parse_args()
 
@@ -140,13 +158,13 @@ def main():
     )
     _print_checkpoint(tree, "after reader", "read_data")
 
-    sector = sectors.get_plugin("conus")()
+    sector = sectors.get_plugin(SECTOR_NAME)()
     tree = attach_plugin_result(
         tree,
         sector,
         step_id="load_sector",
         plugin_kind="sector",
-        plugin_name="conus",
+        plugin_name=SECTOR_NAME,
     )
     _print_checkpoint(tree, "after sector", "load_sector")
 
@@ -209,6 +227,16 @@ def main():
         output_path = Path(output_product)
         print(f"exists={output_path.exists()} path={output_path}")
         assert output_path.exists(), output_product
+
+    if args.compare_path:
+        print("\n=== Output checker ===")
+        print(f"compare_path={args.compare_path}")
+        retval = output_checkers.get_plugin("image")(
+            compare_path=args.compare_path,
+            output_products=output_products,
+        )
+        print(f"output_checker_retval={retval}")
+        assert retval == 0
 
 
 if __name__ == "__main__":

@@ -83,6 +83,10 @@ validation_integ_test_calls = [
 full_integ_test_calls = [
     "$geoips_repopath/tests/scripts/abi.config_based_output_low_memory_resource_usage_logging.sh",  # noqa: E501
     "$geoips_repopath/tests/scripts/abi.static.Infrared.imagery_clean.sh",
+    (
+        "python $geoips_repopath/tests/example_scripts/obp_scripting/"
+        "verify_script_abi_infrared_output.py"
+    ),
     "$geoips_repopath/tests/scripts/abi.static.Infrared.imagery_annotated_enhanced.sh",
     "$geoips_repopath/tests/scripts/console_script_create_sector_image.sh",
     "$geoips_repopath/tests/scripts/abi.static.dmw.imagery_windbarbs_high.sh",
