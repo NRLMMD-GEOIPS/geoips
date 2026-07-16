@@ -188,7 +188,7 @@ def initialize_script_tree(name, retention_policy, **attrs):
         Retention policy to apply after scripted plugin calls. May be supplied
         as a ``RetentionPolicy`` value or its string value. May be overridden
         on individual steps.
-    **attrs : dict
+    attrs : dict
         Additional root-level metadata to store on the script DataTree.
 
     Returns
