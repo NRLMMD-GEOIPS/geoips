@@ -48,8 +48,10 @@ def test_internal_validation_helper_not_public():
 def test_current_data_helpers_public():
     """Test current data helpers are available from scripting API."""
     assert "get_current_data" in scripting.__all__
+    assert "get_output_products" in scripting.__all__
     assert "add_data_step" in scripting.__all__
     assert "attach_plugin_result" in scripting.__all__
     assert hasattr(scripting, "get_current_data")
+    assert hasattr(scripting, "get_output_products")
     assert hasattr(scripting, "add_data_step")
     assert hasattr(scripting, "attach_plugin_result")

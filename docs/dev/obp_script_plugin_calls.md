@@ -54,7 +54,7 @@ print(RETENTION_POLICIES)
 
 tree = initialize_script_tree(
     name="abi_infrared_test",
-    retention_policy=RetentionPolicy.metadata_only,
+    retention_policy=RetentionPolicy.keep_all,
 )
 ```
 
@@ -83,6 +83,7 @@ from geoips.scripting import (
     add_data_step,
     attach_plugin_result,
     get_current_data,
+    get_output_products,
     initialize_script_tree,
 )
 
@@ -182,7 +183,7 @@ tree = output_formatter(
     product_name_title="G16 Infrared @ 11.2 um",
 )
 
-output_products = tree["write_image"].attrs["output_products"]
+output_products = get_output_products(tree, step_id="write_image")
 print(output_products)
 ```
 

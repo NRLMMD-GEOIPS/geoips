@@ -20,6 +20,7 @@ from geoips.scripting import (
     RetentionPolicy,
     attach_plugin_result,
     get_current_data,
+    get_output_products,
     initialize_script_tree,
 )
 
@@ -182,7 +183,7 @@ def main():
     )
     _print_checkpoint(tree, "after output formatter", "write_image")
 
-    output_products = tree["write_image"].attrs.get("output_products")
+    output_products = get_output_products(tree, step_id="write_image")
     print("\n=== Final output products ===")
     print(f"output_products={output_products}")
 

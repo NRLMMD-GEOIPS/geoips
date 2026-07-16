@@ -9,6 +9,7 @@ from geoips.utils.types.script_datatree import (
     add_data_step,
     attach_plugin_result,
     get_current_data,
+    get_output_products,
     initialize_script_tree,
 )
 
@@ -19,5 +20,6 @@ __all__ = [
     "add_data_step",
     "attach_plugin_result",
     "get_current_data",
+    "get_output_products",
     "initialize_script_tree",
 ]

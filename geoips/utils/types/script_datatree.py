@@ -31,7 +31,6 @@ class RetentionPolicy(StrEnum):
     ...     data=tree,
     ...     filenames=fnames,
     ...     step_id="read_data",
-    ...     _obp_initiated=True,
     ... )
 
     String values such as ``"metadata_only"`` are also accepted for
@@ -177,8 +176,9 @@ def initialize_script_tree(name, retention_policy, **attrs):
     """Initialize a root DataTree for OBP-style scripted plugin calls.
 
     The returned tree is intended to be passed as the ``data`` argument to
-    plugins called with ``_obp_initiated=True``. Each plugin call will
-    eventually attach its result back onto this script tree using ``step_id``.
+    direct plugin calls. Plugins infer script-mode OBP behavior from the
+    tree's ``execution_mode`` metadata and attach results back onto this
+    script tree using ``step_id``.
 
     Parameters
     ----------
@@ -213,7 +213,6 @@ def initialize_script_tree(name, retention_policy, **attrs):
     ...     data=tree,
     ...     filenames=fnames,
     ...     step_id="read_data",
-    ...     _obp_initiated=True,
     ... )
     """
     retention_policy = normalize_retention_policy(retention_policy)
@@ -287,6 +286,72 @@ def _require_script_tree(tree):
         )
 
 
+def _normalize_output_products(output_products):
+    """Return output products as a list of paths/products."""
+    if output_products is None:
+        return []
+    if isinstance(output_products, str):
+        return [output_products]
+    return list(output_products)
+
+
+def get_output_products(tree, step_id=None):
+    """Return products written by scripted output formatter steps.
+
+    Parameters
+    ----------
+    tree : xarray.DataTree
+        Root script DataTree created by ``initialize_script_tree``.
+    step_id : str, optional
+        Specific output formatter step to inspect. If omitted, products from
+        all steps with ``attrs["output_products"]`` are returned in tree order.
+
+    Returns
+    -------
+    list
+        Output products recorded by output formatter steps.
+
+    Raises
+    ------
+    ValueError
+        If *tree* is not an initialized script tree, *step_id* is unknown, or
+        no output products are available.
+
+    Examples
+    --------
+    >>> from geoips.scripting import get_output_products
+    >>> output_products = get_output_products(tree)
+    >>> output_products
+    ["/path/to/output.png"]
+    """
+    _require_script_tree(tree)
+
+    if step_id is not None:
+        if step_id not in tree.children:
+            raise ValueError(f"Script DataTree does not contain step {step_id!r}.")
+        output_products = _normalize_output_products(
+            tree[step_id].attrs.get("output_products")
+        )
+        if not output_products:
+            raise ValueError(
+                f"Script step {step_id!r} does not contain output products."
+            )
+        return output_products
+
+    output_products = []
+    for child in tree.children.values():
+        output_products.extend(
+            _normalize_output_products(child.attrs.get("output_products"))
+        )
+
+    if not output_products:
+        raise ValueError(
+            "No output products are available. Run an output formatter step "
+            "before calling get_output_products()."
+        )
+    return output_products
+
+
 def _attrs_only_node(node):
     """Return a DataTree node containing only attrs from *node*."""
     return xr.DataTree(dataset=xr.Dataset(attrs=dict(node.attrs)))
@@ -308,8 +373,29 @@ def _remove_step(tree, step_id):
 
 
 def _has_data_vars(node):
-    """Return whether a script step node contains data variables."""
-    return node.ds is not None and bool(node.ds.data_vars)
+    """Return whether a script step node or its children contain data vars."""
+    if node.ds is not None and bool(node.ds.data_vars):
+        return True
+    return any(_has_data_vars(child) for child in node.children.values())
+
+
+def _to_mutable_dataset(node):
+    """Return a mutable Dataset containing data from *node* and children."""
+    datasets = []
+    if node.ds is not None and bool(node.ds.data_vars):
+        datasets.append(node.to_dataset())
+    for child in node.children.values():
+        if _has_data_vars(child):
+            datasets.append(_to_mutable_dataset(child))
+
+    if not datasets:
+        return xr.Dataset(attrs=dict(node.attrs))
+    if len(datasets) == 1:
+        dataset = datasets[0].copy(deep=True)
+    else:
+        dataset = xr.merge(datasets).copy(deep=True)
+    dataset.attrs = {**dict(node.attrs), **dict(dataset.attrs)}
+    return dataset
 
 
 def get_current_data(tree):
@@ -323,8 +409,9 @@ def get_current_data(tree):
     Returns
     -------
     xarray.Dataset
-        Dataset from the most recent top-level step containing data variables.
-        The returned object is a mutable dataset copy intended for inspection,
+        Dataset from the most recent top-level step containing data variables,
+        including data stored in child nodes such as reader outputs. The
+        returned object is a mutable dataset copy intended for inspection,
         modification, and reinsertion with ``add_data_step``.
 
     Raises
@@ -338,7 +425,7 @@ def get_current_data(tree):
     for step_id in reversed(list(tree.children)):
         node = tree[step_id]
         if _has_data_vars(node):
-            return node.to_dataset()
+            return _to_mutable_dataset(node)
 
     raise ValueError(
         "No data-containing script steps are available. Attach a plugin result "

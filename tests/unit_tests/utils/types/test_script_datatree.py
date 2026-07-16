@@ -17,6 +17,7 @@ from geoips.utils.types.script_datatree import (
     apply_script_retention,
     attach_plugin_result,
     get_current_data,
+    get_output_products,
     initialize_script_tree,
     validate_retention_policy,
 )
@@ -820,3 +821,93 @@ class TestCurrentDataHelpers:
 
         with pytest.raises(ValueError, match="unique step_id"):
             add_data_step(tree, data, step_id="modify_data")
+
+class TestGetOutputProducts:
+    """Test extracting output products from script trees."""
+
+    def test_get_output_products_returns_all_products(self):
+        """Test output products are collected from all output steps."""
+        tree = initialize_script_tree("test_script", RetentionPolicy.keep_all)
+        first = xr.Dataset(attrs={"output_products": ["one.png"]})
+        second = xr.Dataset(attrs={"output_products": ["two.png"]})
+
+        attach_plugin_result(
+            tree,
+            first,
+            step_id="write_first",
+            plugin_kind="output_formatter",
+            plugin_name="imagery_clean",
+        )
+        attach_plugin_result(
+            tree,
+            second,
+            step_id="write_second",
+            plugin_kind="output_formatter",
+            plugin_name="imagery_clean",
+        )
+
+        assert get_output_products(tree) == ["one.png", "two.png"]
+
+    def test_get_output_products_supports_specific_step(self):
+        """Test output products can be extracted from a specific step."""
+        tree = initialize_script_tree("test_script", RetentionPolicy.keep_all)
+        data = xr.Dataset(attrs={"output_products": ["one.png"]})
+        attach_plugin_result(
+            tree,
+            data,
+            step_id="write_image",
+            plugin_kind="output_formatter",
+            plugin_name="imagery_clean",
+        )
+
+        assert get_output_products(tree, step_id="write_image") == ["one.png"]
+
+    def test_get_output_products_normalizes_string(self):
+        """Test a single output product string is returned as a list."""
+        tree = initialize_script_tree("test_script", RetentionPolicy.keep_all)
+        data = xr.Dataset(attrs={"output_products": "one.png"})
+        attach_plugin_result(
+            tree,
+            data,
+            step_id="write_image",
+            plugin_kind="output_formatter",
+            plugin_name="imagery_clean",
+        )
+
+        assert get_output_products(tree) == ["one.png"]
+
+    def test_get_output_products_rejects_missing_outputs(self):
+        """Test missing output products raise a useful error."""
+        tree = initialize_script_tree("test_script", RetentionPolicy.keep_all)
+
+        with pytest.raises(ValueError, match="No output products"):
+            get_output_products(tree)
+
+    def test_get_output_products_rejects_unknown_step(self):
+        """Test requesting an unknown output step raises a useful error."""
+        tree = initialize_script_tree("test_script", RetentionPolicy.keep_all)
+
+        with pytest.raises(ValueError, match="does not contain step"):
+            get_output_products(tree, step_id="missing_step")
+
+    def test_get_output_products_rejects_step_without_outputs(self):
+        """Test requesting a non-output step raises a useful error."""
+        tree = initialize_script_tree("test_script", RetentionPolicy.keep_all)
+        attach_plugin_result(
+            tree,
+            xr.Dataset({"data": ("x", [1, 2, 3])}),
+            step_id="read_data",
+            plugin_kind="reader",
+            plugin_name="abi_netcdf",
+        )
+
+        with pytest.raises(ValueError, match="does not contain output products"):
+            get_output_products(tree, step_id="read_data")
+
+    def test_get_output_products_rejects_non_script_root(self):
+        """Test output product extraction rejects non-script DataTrees."""
+        tree = xr.DataTree(name="plain")
+
+        with pytest.raises(ValueError, match="initialize_script_tree"):
+            get_output_products(tree)
+
