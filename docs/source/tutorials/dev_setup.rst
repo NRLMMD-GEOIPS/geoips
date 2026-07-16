@@ -11,8 +11,8 @@ Instructions for setting up a new data type
 
 Instructions for setting up a new data type, including:
 
-* creating a new geoips test data repository from template,
-* creating a new geoips plugin repository from template,
+* creating a new GeoIPS test data repository from template,
+* creating a new GeoIPS plugin repository from template,
 
 This example will use a data type called "mydatatype".
 
@@ -20,7 +20,7 @@ Anything denoted with an '@' symbol within these instructions and within
 the associated templates will need to be modified accordingly, based on
 your desired functionality
 
-Follow Issue, Branch Pull Request Process if within GEOIPS org
+Follow Issue, Branch Pull Request Process if within GeoIPS org
 --------------------------------------------------------------
 
 This only required if you are creating a new repository within the NRLMMD GEOIPS
@@ -39,7 +39,7 @@ to hold the test datasets. Source code and test outputs are stored separately fr
 test datasets (idea being test datasets are effectively static, and will very
 infrequently require updates, unless new datasets are added).
 
-Use the "template_test_data" template on github
+Use the "template_test_data" template on GitHub
 
 * https://github.com/NRLMMD-GEOIPS/template_test_data
 * Click green "Use this template" button top right
@@ -71,7 +71,7 @@ Follow instructions in template README
 Create GeoIPS plugin repository for readers / products
 ------------------------------------------------------
 
-Use the "template_basic_plugin" template on github
+Use the "template_basic_plugin" template on GitHub
 
 * https://github.com/NRLMMD-GEOIPS/template_basic_plugin
 * Click green "Use this template" button top right
