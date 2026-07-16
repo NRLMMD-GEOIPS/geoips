@@ -889,9 +889,7 @@ class GeoipsWorkflowCommand(GeoipsExecutableCommand):
                     f"Error: could not load workflow plugin under name '{value}'."
                 )
             except ValidationError as e:
-                self.parser.error(
-                    f"Workflow '{value}' failed validation:\n{e}"
-                )
+                self.parser.error(f"Workflow '{value}' failed validation:\n{e}")
         else:
             self.parser.error(
                 "Error: positional argument 'workflow' could not be associated with an"

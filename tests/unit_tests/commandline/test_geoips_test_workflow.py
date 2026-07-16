@@ -24,8 +24,26 @@ class TestGeoipsTestWorkflow(BaseCliTest):
         if not hasattr(self, "_cmd_list"):
             base_args = ["geoips", "test", "workflow"]
             self._cmd_list = []
+            missing_test_workflow = {
+                "apiVersion": "geoips/v1",
+                "interface": "workflows",
+                "family": "order_based",
+                "name": "missing_test_section_workflow",
+                "docstring": "Workflow missing test section.",
+                "description": "Workflow missing test section.",
+                "spec": {
+                    "steps": {
+                        "sector": {
+                            "kind": "sector",
+                            "name": "test_goes16_eqc_3km_day_20200918T1950Z",
+                            "depends_on": [],
+                        },
+                    },
+                },
+            }
             self._cmd_list.append(base_args + ["test_product"])
             self._cmd_list.append(base_args + ["test_workflow"])
+            self._cmd_list.append(base_args + [str(missing_test_workflow)])
             self._cmd_list.append(base_args + ["-h"])
             # Add argument list with non existent workflow
             self._cmd_list.append(base_args + ["non_existent_workflow"])
@@ -54,6 +72,10 @@ class TestGeoipsTestWorkflow(BaseCliTest):
 
         if "non_existent" in args[-1]:
             assert "Error: could not load workflow plugin under name" in error
+            return
+
+        if "missing_test_section_workflow" in args[-1]:
+            assert "cannot test" in error and "missing a ``test`` section." in error
             return
 
         wf = workflows.get_plugin(args[-1])

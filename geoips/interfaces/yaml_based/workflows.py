@@ -374,10 +374,9 @@ class WorkflowsInterface(BaseYamlInterface):
         if "output_checker_name" in checker_step:
             checker_step["name"] = checker_step.pop("output_checker_name")
 
-        checker_step["arguments"] = {
-            "compare_path": compare_path,
-            "threshold": threshold,
-        }
+        checker_step["arguments"] = {"compare_path": compare_path}
+        if threshold is not None:
+            checker_step["arguments"]["threshold"] = threshold
         checker_step["depends_on"] = [target_key]
         checker_step["kind"] = "output_checker"
 
