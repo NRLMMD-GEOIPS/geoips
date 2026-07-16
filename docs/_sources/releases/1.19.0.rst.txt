@@ -1,0 +1,169 @@
+Version 1.19.0 (2026-07-16)
+***************************
+
+ * *Bug fixes*: Fix time in text winds output formatter
+ * *Bug fixes*: Fix time in smap reader due to xarray version change.
+ * *Bug fixes*: Fix broken jsonschema resolution specification to allow number not just int.
+ * *Bug fixes*: Add patch release note templates
+ * *Testing*: Remove full_setup and site_setup from integration test script
+ * *Installation*: Add clavr-x orb executable install to site install.
+ * *Documentation*: Update tagged versions
+ * *Release process*: Add 1.19.0 release note
+ * *Release process*: Update internal and github.com 'tagged_version'
+ * *Bug fix*: Do not pad xarray datasets in config_based procflow when the output format plugin family is "xarray_data"
+   and the area_definition is "self_registered"
+
+Bug fixes
+=========
+
+Fix time in text winds output formatter
+---------------------------------------
+
+Ensure we properly convert timestamps in xarray object to values for print in text
+winds output formatter.  Previously manually converted by dividing by 10e-6, update
+to use pandas for conversions to avoid hard coding the units.  This works for both
+xarray 2026.2.0 and 2026.4.0 (2026.4.0 broke smap time handling)
+
+Additionally updated text output checker to limit diff output to 10k characters, to
+avoid potentially VERY large log output.
+
+::
+
+     modified: geoips/plugins/classes/output_checkers/text.py
+     modified: geoips/plugins/modules/output_formatters/text_winds.py
+
+Bug fixes
+=========
+
+Fix time in smap reader due to xarray version change.
+-----------------------------------------------------
+
+xarray 2026.2.0 stored timestamps internally as ns, and it appears by default in
+2026.4.0 timestamps were being stored internally as ms.  No longer decode times
+in xarray.open_dataset, and manually convert times using pandas to ensure proper
+values.  Tested with both 2026.2.0 and 2026.4.0.
+
+::
+
+     modified: geoips/plugins/modules/readers/smap_remss_winds_netcdf.py
+     modified: geoips/plugins/modules/readers/utils/remss_reader.py
+
+Bug fixes
+=========
+
+Fix broken jsonschema resolution specification to allow number not just int.
+----------------------------------------------------------------------------
+
+* This was fixed once before, but backed out when adding additional methods of
+  specifying resolution.
+
+::
+
+     modified: geoips/schema/sectors/specs/area_definition.yaml
+
+Bug fixes
+=========
+
+Add patch release note templates
+--------------------------------
+
+* Add internal and os patch release note templates
+* Add no-bug-fixes-required-on-this-release release note template (which just needs to be copied into
+  place with appropriate X.Y.Z, not edited)
+* Add release note for patch-internal, using template!
+
+::
+
+     added: docs/source/releases/1.19.0/1.19.0-patch-internal-add-patch-release-note-templates.yaml
+     added: docs/templates/X.Y.Z-patch-internal-name-desc.yaml
+     added: docs/templates/X.Y.Z-patch-os-name-desc.yaml
+     added: docs/templates/X.Y.Z-no-bug-fixes-required-on-this-release.yaml
+
+Testing
+=======
+
+Remove full_setup and site_setup from integration test script
+-------------------------------------------------------------
+
+Only use base_setup for confirming geoips is installed properly - we do not want
+to run full_setup or site_setup because you may need to run one of the tests within
+those markers, but not actually have a completely full or site install available.
+We have stopped using full or site setup, so remove them as options to avoid
+confusion.
+
+::
+
+     modified: tests/integration_tests/test_integration.py
+
+Installation
+============
+
+Add clavr-x orb executable install to site install.
+---------------------------------------------------
+
+Ensure clavrx executable is installed during GeoIPS open source site install, since
+the clavrx proc test scripts require the clavrx executable.
+
+Also add pluginify to site_install.sh to ensure it is cloned locally and installed
+editable for development purposes.
+
+::
+
+     modified: tests/integration_tests/site_install.sh
+
+Documentation
+=============
+
+Update tagged versions
+----------------------
+
+* Tagged version: 1.19.0
+
+::
+
+     modified: .github/versions/tagged_version
+
+Release process
+===============
+
+Add 1.19.0 release note
+-----------------------
+
+Currently tagged internal version 1.18.2.
+
+::
+
+     added: docs/source/releases/1.19.0/1.19.0-internal-release.yaml
+
+Release process
+===============
+
+Update internal and github.com 'tagged_version'
+-----------------------------------------------
+
+Updated 'update_this_release_note' file in geoips repo for the
+next internal version-
+1.19.1
+next github.com version-
+1.20.0
+
+::
+
+     modified: .github/versions/tagged_version
+
+Bug fix
+=======
+
+Do not pad xarray datasets in config_based procflow when the output format plugin family is "xarray_data" and the
+area_definition is "self_registered"
+------------------------------------
+
+Check that the area_def is not "self_registered" before padding dataset in config_based procflow.
+Padding (resectoring) an xarray_dataset will not work if the area_definition is self_registered.
+Attempting to pad an xarray_dataset that is self_registered will result in an AttributeError,
+since we will have a SwathDefinition on our hands and not an AreaDefinition. SwathDefinitions
+do not have the 'get_array_indices_from_lonlat' attribute.
+
+::
+
+     modified: geoips/plugins/modules/procflows/config_based.py

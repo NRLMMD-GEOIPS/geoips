@@ -1,0 +1,1696 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Version 1.17.2 (2026-07-16) &#8212; GeoIPS, Geolocated Information Processing System 1.19.0.post776.dev0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/set_width.css?v=d4af5e1e" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=1e4423a0"></script>
+    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'releases/1.17.2';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <link rel="icon" href="../_static/nrlicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Version 1.17.1 (2026-07-16)" href="1.17.1.html" />
+    <link rel="prev" title="Version 1.17.3 (2026-07-16)" href="1.17.3.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="1.1" />
+    <meta name="docbuild:last-update" content="Jul 16, 2026 04:57:54"/>
+  
+    
+    <script src="../_static/searchtools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <script src="../searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/NRL_logo_RGB.jpg" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 1.19.0.post776.dev0 documentation - Home"/>
+    <img src="../_static/NRL_logo_sidebar_Reverse.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 1.19.0.post776.dev0 documentation - Home"/>
+  
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../getting-started/index.html">
+    Getting Started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../tutorials/index.html">
+    Tutorials
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../concepts/index.html">
+    Concepts
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../contribute/index.html">
+    Contribute
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../geoips_api/index.html">
+    API
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" current active">
+  <a class="nav-link dropdown-item nav-internal" href="index.html">
+    Release Notes
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../contact/index.html">
+    About Us
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/NRLMMD-GEOIPS/geoips" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../getting-started/index.html">
+    Getting Started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../tutorials/index.html">
+    Tutorials
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../concepts/index.html">
+    Concepts
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../contribute/index.html">
+    Contribute
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../geoips_api/index.html">
+    API
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    Release Notes
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../contact/index.html">
+    About Us
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/NRLMMD-GEOIPS/geoips" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item pst-sidebar-collapse"><button id="pst-collapse-sidebar-button" aria-expanded="true" aria-controls="pst-primary-sidebar"><svg class="pst-icon svg-inline--fa" role="img" aria-hidden="true" focusable="false" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+    <path fill="currentColor" d="M3 15.5C2.36232 15.5 1.74874 15.2564 1.28478 14.8189C0.820828 14.3815 0.541576 13.7832 0.504167 13.1467L0.5 13L0.5 3C0.499965 2.36232 0.743605 1.74874 1.18107 1.28478C1.61854 0.820828 2.21676 0.541576 2.85333 0.504167L3 0.5L13 0.5C13.6377 0.499965 14.2513 0.743605 14.7152 1.18107C15.1792 1.61854 15.4584 2.21676 15.4958 2.85333L15.5 3L15.5 13C15.5 13.6377 15.2564 14.2513 14.8189 14.7152C14.3815 15.1792 13.7832 15.4584 13.1467 15.4958L13 15.5L3 15.5ZM3 13.8333L10.5 13.8333L10.5 2.16667L3 2.16667C2.79589 2.16669 2.59889 2.24163 2.44636 2.37726C2.29383 2.5129 2.19638 2.69979 2.1725 2.9025L2.16667 3L2.16667 13C2.16669 13.2041 2.24163 13.4011 2.37726 13.5536C2.5129 13.7062 2.69979 13.8036 2.9025 13.8275L3 13.8333ZM6.65583 10.325L6.5775 10.2558L4.91083 8.58917C4.76735 8.44567 4.68116 8.25476 4.66843 8.05223C4.65569 7.84971 4.71729 7.6495 4.84167 7.48917L4.91083 7.41083L6.5775 5.74417C6.72747 5.59471 6.9287 5.50794 7.14032 5.50148C7.35194 5.49502 7.55809 5.56935 7.7169 5.70937C7.8757 5.8494 7.97525 6.04463 7.99533 6.25539C8.01541 6.46616 7.95451 6.67667 7.825 6.84417L7.75583 6.9225L6.67917 8L7.75583 9.0775C7.89931 9.22099 7.98551 9.41191 7.99824 9.61443C8.01097 9.81695 7.94938 10.0172 7.825 10.1775L7.75583 10.2558C7.61234 10.3993 7.42142 10.4855 7.2189 10.4982C7.01638 10.511 6.81617 10.4494 6.65583 10.325Z"/>
+  </svg>
+  <span class="pst-collapse-sidebar-label">Collapse Sidebar</span>
+  <span class="pst-expand-sidebar-label">Expand Sidebar</span>
+</button></div>
+        <div class="sidebar-primary-item">
+
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="latest.html">Version latest (2026-07-16)</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="upcoming.html">Version upcoming (2026-07-16)</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="1.19.0.html">Version 1.19.0 (2026-07-16)</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="1.18.2.html">Version 1.18.2 (2026-07-16)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="1.18.1.html">Version 1.18.1 (2026-07-16)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="1.18.0.html">Version 1.18.0 (2026-07-16)</a></li>
+</ul>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="1.17.3.html">Version 1.17.3 (2026-07-16)</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Version 1.17.2 (2026-07-16)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="1.17.1.html">Version 1.17.1 (2026-07-16)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="1.17.0.html">Version 1.17.0 (2026-07-16)</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="1.16.3.html">Version 1.16.3 (2026-07-16)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="1.16.2.html">Version 1.16.2 (2026-07-16)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="1.16.1.html">Version 1.16.1 (2026-07-16)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="1.16.0.html">Version 1.16.0 (2026-07-16)</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="1.15.3.html">Version 1.15.3 (2026-07-16)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="1.15.2.html">Version 1.15.2 (2026-07-16)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="1.15.1.html">Version 1.15.1 (2026-07-16)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="1.15.0.html">Version 1.15.0 (2026-07-16)</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="1.14.5.html">Version 1.14.5 (2026-07-16)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="1.14.4.html">Version 1.14.4 (2026-07-16)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="1.14.3.html">Version 1.14.3 (2026-07-16)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="1.14.2.html">Version 1.14.2 (2026-07-16)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="1.14.1.html">Version 1.14.1 (2026-07-16)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="1.14.0.html">Version 1.14.0 (2026-07-16)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_14_0a0.html">Version 1.14.0a0 (2024-08-16)</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="v1_13_1.html">Version 1.13.1 (2024-07-07)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_13_0.html">Version 1.13.0 (2024-06-08)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_13_0a0.html">Version 1.13.0a0 (2024-04-24)</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="v1_12_4.html">Version 1.12.4 (2024-05-15)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_12_3.html">Version 1.12.3 (2024-05-15)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_12_2.html">Version 1.12.2 (2024-04-24)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_12_2a0.html">Version 1.12.2a0 (2024-02-21)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_12_1.html">Version 1.12.1 (2024-02-16)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_12_0.html">Version 1.12.0 (2023-12-07)</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="v1_11_7.html">Version 1.11.7 (2023-11-16)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_11_7a0.html">Version 1.11.7a0 (2023-10-26)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_11_6.html">Version 1.11.6 (2023-10-30)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_11_5.html">Version 1.11.5 (2023-10-02)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_11_5a0.html">Version 1.11.5a0 (2023-09-27)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_11_3.html">Version 1.11.3 (2023-09-21)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_11_3a0.html">Version 1.11.3a0 (2023-09-20)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_11_2.html">Version 1.11.2 (2023-09-06)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_11_1.html">Version 1.11.1 (2023-08-16)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_11_1a0.html">Version 1.11.1a0 (2023-08-15)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_11_0.html">Version 1.11.0 (2023-08-02)</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="v1_10_3.html">Version 1.10.3 (2023-06-23)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_2.html">Version 1.10.2 (2023-06-01)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_1.html">Version 1.10.1 (2023-05-23)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_0.html">Version 1.10.0 (2023-05-17)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_0a13.html">Version 1.10.0a13 (2023-05-11)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_0a12.html">Version 1.10.0a12 (2023-05-09)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_0a11.html">Version 1.10.0a11 (2023-04-30)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_0a10.html">Version 1.10.0a10 (2023-04-29)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_0a9.html">Version 1.10.0a9 (2023-04-27)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_0a8.html">Version 1.10.0a8 (2023-04-28)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_0a7.html">Version 1.10.0a7 (2023-04-26)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_0a6.html">Version 1.10.0a6 (2023-04-26)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_0a5.html">Version 1.10.0a5 (2023-04-25)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_0a4.html">Version 1.10.0a4 (2023-04-25)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_0a3.html">Version 1.10.0a3 (2023-04-25)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_0a2.html">Version 1.10.0a2 (2023-04-25)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_0a1.html">Version 1.10.0a1 (2023-04-25)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_0a0.html">Version 1.10.0a0 (2023-04-04)</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="v1_9_2.html">Version 1.9.2 (2023-05-10)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_9_1.html">Version 1.9.1 (2023-04-03)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_9_0.html">Version 1.9.0 (2023-03-23)</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="v1_8_1.html">Version 1.8.1 (2023-03-22)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_8_0.html">Version 1.8.0 (2023-03-12)</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="v1_7_0.html">Version 1.7.0 (2023-02-15)</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="v1_6_3.html">Version 1.6.3 (2023-02-02)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_6_1.html">Version 1.6.1 (2023-01-04)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_6_0.html">Version 1.6.0 (2022-11-28)</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="v1_5_3.html">Version 1.5.3 (2022-11-07)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_5_2.html">Version 1.5.2 (2022-09-26)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_5_1.html">Version 1.5.1 (2022-07-13)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_5_0.html">Version 1.5.0 (2022-06-09)</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="v1_4_8.html">Version 1.4.8 (2022-05-15)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_4_7.html">Version 1.4.7 (2022-05-06)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_4_6.html">Version 1.4.6 (2022-04-18)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_4_5.html">Version 1.4.5 (2022-03-18)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_4_4.html">Version 1.4.4 (2022-03-06)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_4_3.html">Version 1.4.3 (2022-02-17)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_4_2.html">Version 1.4.2 (2022-02-05)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_4_1.html">Version 1.4.1 (2022-01-21)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_4_0.html">Version 1.4.0 (2022-01-10)</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="v1_3_2.html">Version 1.3.2 (2021-12-21)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_3_1.html">Version 1.3.1 (2021-12-07)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_3_0.html">Version 1.3.0 (2021-11-24)</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="v1_2_5.html">Version 1.2.5 (2021-11-18)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_2_4.html">Version 1.2.4 (2021-11-12)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_2_3.html">Version 1.2.3 (2021-11-05)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_2_2.html">Version 1.2.2 (2021-10-25)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_2_1.html">Version 1.2.1 (2021-10-04)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_2_0.html">Version 1.2.0 (2021-09-15)</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="v1_1_17.html">Version 1.1.17 (2021-03-03)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_1_16.html">Version 1.1.16 (2021-03-03)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_1_15.html">Version 1.1.15 (2021-02-15)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_1_14.html">Version 1.1.14 (2021-02-07)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_1_13.html">Version 1.1.13 (2021-01-29)</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">Release Notes</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Version 1.17.2 (2026-07-16)</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="version-1-17-2-2026-07-16">
+<h1>Version 1.17.2 (2026-07-16)<a class="headerlink" href="#version-1-17-2-2026-07-16" title="Permalink to this heading">#</a></h1>
+<blockquote>
+<div><ul class="simple">
+<li><p><em>Bug fix</em>: Use pkgname version in sphinx template rather than geoips version</p></li>
+<li><p><em>Bug fix</em>: Do not attempt to list output comparison directory if it does not exist.</p></li>
+<li><p><em>Bug fix</em>: Use area_def.area_id rather than description as the unique identifier</p></li>
+<li><p><em>Bug fix</em>: Include synoptic time in tc area_def area_ids, and filter sector list based on parsed storm_id</p></li>
+<li><p><em>Bug fix</em>: Use storm_id rather than area_id in text_winds_tc_fname</p></li>
+<li><p><em>Bug fix</em>: Do not fail if processing stats cannot be written to database</p></li>
+<li><p><em>Bug fix</em>: 1.17.2 ami_netcdf bug fix patch</p></li>
+<li><p><em>Bug fix</em>: Fixed a typo</p></li>
+<li><p><em>Bug fix</em>: Allow interactive pytest to make better use of defaults in pytest.ini</p></li>
+<li><p><em>Bug fix</em>: Separate build_docs and check_code into a lint pytest marker</p></li>
+<li><p><em>Bug fix</em>: For test output consistency, unset all www output location env vars from test_integration.py
+setup_environment</p></li>
+<li><p><em>Bug fix</em>: Fix brassy release note validation errors</p></li>
+<li><p><em>Bug fix</em>: Pin astropy to 7.1.0 and numpy to &lt;2.4.0 for compatibility</p></li>
+<li><p><em>Bug fix</em>: Improve ami_netcdf error handling for missing files</p></li>
+<li><p><em>Bug fix</em>: Fix netcdf4 import order issues</p></li>
+<li><p><em>Bug fix</em>: Update test data urls to include ami data</p></li>
+<li><p><em>Bug fix</em>: Updating imerg version changes</p></li>
+<li><p><em>Bug fix</em>: Assorted minor bug fixes.</p></li>
+<li><p><em>Enhancement</em>: Set the default tc metadata for metadata_default output formatter to current list of tc sector_info</p></li>
+<li><p><em>Enhancement</em>: Sgli reader, products, and cloud phase rgb</p></li>
+<li><p><em>Enhancement</em>: Update docker documentation and configuration</p></li>
+<li><p><em>Enhancement</em>: Rewrite geotiff output checker</p></li>
+<li><p><em>Enhancement</em>: Add environment variable for private plugin installation</p></li>
+<li><p><em>Enhancement</em>: Add regex checks to integration test outputs</p></li>
+<li><p><em>Enhancement</em>: Add –no-fail-on-missing-data flag to pytest</p></li>
+<li><p><em>Enhancement</em>: Add x_size and y_size kwargs to imagery_annotated output formatter.</p></li>
+<li><p><em>Testing</em>: Rename tiny sector products</p></li>
+<li><p><em>Testing</em>: Update global_terminator_satzen.sh to only take arguments and not run a fixed list with no arguments.</p></li>
+<li><p><em>Testing</em>: Meteosat eu and io general land ocean tiny test sector</p></li>
+<li><p><em>Testing</em>: Himawari-8 20200405t0000z terminator tiny test sector</p></li>
+<li><p><em>Testing</em>: Himawari general land ocean tiny test sector</p></li>
+<li><p><em>Testing</em>: Allow producing geotiff tiny sector output along with imagery_clean by env var request</p></li>
+<li><p><em>Testing</em>: Update test_data_seviri for 1.17.2 release</p></li>
+<li><p><em>Release updates - open source upload</em>: Open source upload</p></li>
+<li><p><em>Installation</em>: Update to geoips_tc_decks_dir, geoips_tc_decks_db, and add geoips_tc_decks_type</p></li>
+<li><p><em>Documentation</em>: Update upcoming and tagged versions</p></li>
+<li><p><em>Documentation</em>: Allow specifying geoips_replace_output_paths in the environment</p></li>
+<li><p><em>Bug fixes</em>: Correct logs for pre-sectoring data in config-based procflow.</p></li>
+<li><p><em>Bug fixes</em>: Add numpy representer to yaml.safe_load to ensure numpy types can be written to yaml outputs</p></li>
+<li><p><em>Bug fixes</em>: Use pandas to_pydatetime on return from to_datetime for numpy 2.3 upgrade</p></li>
+<li><p><em>Bug fixes</em>: Update indexing in fci reader for numpy 2.3</p></li>
+<li><p><em>Bug fixes</em>: Fix numpy 2.3 attribute serialization in xarray.to_netcdf</p></li>
+<li><p><em>Continuous integration</em>: Update docker ignore and git ignore configurations</p></li>
+<li><p><em>Continuous integration</em>: Update release note documentation</p></li>
+</ul>
+</div></blockquote>
+<section id="bug-fix">
+<h2>Bug fix<a class="headerlink" href="#bug-fix" title="Permalink to this heading">#</a></h2>
+<section id="use-pkgname-version-in-sphinx-template-rather-than-geoips-version">
+<h3>Use pkgname version in sphinx template rather than geoips version<a class="headerlink" href="#use-pkgname-version-in-sphinx-template-rather-than-geoips-version" title="Permalink to this heading">#</a></h3>
+<p>Previously the geoips version was used for all package documentation builds.
+Update sphinx template to use PKGNAME when importing the version to ensure the
+correct current version is used.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">_templates</span><span class="o">/</span><span class="n">sphinx_conf</span><span class="o">.</span><span class="n">template</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id1">
+<h2>Bug fix<a class="headerlink" href="#id1" title="Permalink to this heading">#</a></h2>
+<section id="do-not-attempt-to-list-output-comparison-directory-if-it-does-not-exist">
+<h3>Do not attempt to list output comparison directory if it does not exist.<a class="headerlink" href="#do-not-attempt-to-list-output-comparison-directory-if-it-does-not-exist" title="Permalink to this heading">#</a></h3>
+<p>This was preventing new test scripts from running with a comparison path
+that did not already have an existing output directory.  Update so log is
+printed noting that the output directory does not exist if it does not yet
+exist, else list the directory.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">interfaces</span><span class="o">/</span><span class="n">module_based</span><span class="o">/</span><span class="n">output_checkers</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id2">
+<h2>Bug fix<a class="headerlink" href="#id2" title="Permalink to this heading">#</a></h2>
+<section id="use-area-def-area-id-rather-than-description-as-the-unique-identifier">
+<h3>Use area_def.area_id rather than description as the unique identifier<a class="headerlink" href="#use-area-def-area-id-rather-than-description-as-the-unique-identifier" title="Permalink to this heading">#</a></h3>
+<p>Description is not guaranteed to be unique between sectors (it is not validated
+in any way), but area_id is expected to match the sector plugin name, which
+explicitly must be unique. Also, descriptions can be very long and unwieldy (many
+lines) when used as an identifier in logs… area_id is more appropriate.</p>
+<p>Update all instances of area_def.description to area_def.area_id.</p>
+<p>Additionally, this required the below update to include the synoptic time in the
+TC area ids, to ensure uniqueness, and using the storm_id in the sector_info
+for filtering command line requested TC sector list (so we do not have to include
+a specific time in the command line sector list request, but just the storm ID
+and geoips will find the closest time).</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">procflows</span><span class="o">/</span><span class="n">config_based</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">procflows</span><span class="o">/</span><span class="n">single_source</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id3">
+<h2>Bug fix<a class="headerlink" href="#id3" title="Permalink to this heading">#</a></h2>
+<section id="include-synoptic-time-in-tc-area-def-area-ids-and-filter-sector-list-based-on-parsed-storm-id">
+<h3>Include synoptic time in tc area_def area_ids, and filter sector list based on parsed storm_id<a class="headerlink" href="#include-synoptic-time-in-tc-area-def-area-ids-and-filter-sector-list-based-on-parsed-storm-id" title="Permalink to this heading">#</a></h3>
+<p>Update the TC area defs to include the synoptic time in the area_id,
+to ensure uniqueness for each storm location (since they are each unique sectors),
+and update the tc sector_list filtering to use the sector_info storm_id rather than
+the area_def.area_id when determining which sectors to process, allowing us to
+only request the storm id command line and allow geoips to determine the appropriate
+time programmatically.</p>
+<p>This required adding the storm_id field to the bdeck_parser to ensure the
+geoips-style storm id is included in the output fields.</p>
+<p>There is also one test output that uses metadata_tc vs metadata_default.  Update
+sar nrcs test output metadata YAML with new storm_id field, since metadata_tc
+includes ALL sector_info fields in the output (metadata_default includes only
+a specific list of fields, new fields are not included, to avoid unnecessary
+updates to test outputs).</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">add</span> <span class="n">storm_id</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">sector_metadata_generators</span><span class="o">/</span><span class="n">bdeck_parser</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">get_tc_area_id</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">sector_utils</span><span class="o">/</span><span class="n">tc_tracks</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">get_tc</span><span class="o">/</span><span class="n">trackfile_area_defs</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">sector_utils</span><span class="o">/</span><span class="n">utils</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">add</span> <span class="n">storm_id</span><span class="p">:</span>
+<span class="n">tests</span><span class="o">/</span><span class="n">outputs</span><span class="o">/</span><span class="n">sar</span><span class="o">.</span><span class="n">tc</span><span class="o">.</span><span class="n">nrcs</span><span class="o">.</span><span class="n">imagery_annotated</span><span class="o">/</span><span class="mi">20181025_203206</span><span class="n">_WP312018_sar</span><span class="o">-</span><span class="n">spd_sentinel</span><span class="o">-</span><span class="mi">1</span><span class="n">_nrcs_130kts_58p51_res1p0</span><span class="o">-</span><span class="n">cr300</span><span class="o">.</span><span class="n">png</span><span class="o">.</span><span class="n">yaml</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id4">
+<h2>Bug fix<a class="headerlink" href="#id4" title="Permalink to this heading">#</a></h2>
+<section id="use-storm-id-rather-than-area-id-in-text-winds-tc-fname">
+<h3>Use storm_id rather than area_id in text_winds_tc_fname<a class="headerlink" href="#use-storm-id-rather-than-area-id-in-text-winds-tc-fname" title="Permalink to this heading">#</a></h3>
+<p>So the text_winds_tc_fname filenames do not change, update to use storm_id rather
+than area_id.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">filename_formatters</span><span class="o">/</span><span class="n">text_winds_tc_fname</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id5">
+<h2>Bug fix<a class="headerlink" href="#id5" title="Permalink to this heading">#</a></h2>
+<section id="do-not-fail-if-processing-stats-cannot-be-written-to-database">
+<h3>Do not fail if processing stats cannot be written to database<a class="headerlink" href="#do-not-fail-if-processing-stats-cannot-be-written-to-database" title="Permalink to this heading">#</a></h3>
+<p>Sometimes the METADATA key from xobjs is dropped during processing, which causes
+the procflow to fail at the very end when writing processing statistics to the
+database. We should properly fix this, but for now catch the error and log as an
+error rather than failing.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">procflows</span><span class="o">/</span><span class="n">config_based</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id6">
+<h2>Bug fix<a class="headerlink" href="#id6" title="Permalink to this heading">#</a></h2>
+<section id="ami-netcdf-bug-fix-patch">
+<h3>1.17.2 ami_netcdf bug fix patch<a class="headerlink" href="#ami-netcdf-bug-fix-patch" title="Permalink to this heading">#</a></h3>
+<p>The 1.17.2 release introduced a small bug which made the
+tests/unit_tests_long/plugins/modules/readers/test_readers.py ami_netcdf reader test
+fail. This was caused by the new implementation of satellite zenith angle masking.
+Reverting to the previous mechanics solved this. This still supports dynamic
+satzen masking which the new release implemented. Also, updated the ‘get_test_files’
+function to use the new test_data_ami dataset rather than the ami data found in the
+test_data_noaa_aws dataset. The data is the exact same.</p>
+<p>Additionally, added registered_plugins.yaml to the .gitignore.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="o">.</span><span class="n">gitignore</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">readers</span><span class="o">/</span><span class="n">ami_netcdf</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">integration_tests</span><span class="o">/</span><span class="n">full_install</span><span class="o">.</span><span class="n">sh</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id7">
+<h2>Bug fix<a class="headerlink" href="#id7" title="Permalink to this heading">#</a></h2>
+<section id="fixed-a-typo">
+<h3>Fixed a typo<a class="headerlink" href="#fixed-a-typo" title="Permalink to this heading">#</a></h3>
+<p>Fixed a typo within single_source.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">procflows</span><span class="o">/</span><span class="n">single_source</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id8">
+<h2>Bug fix<a class="headerlink" href="#id8" title="Permalink to this heading">#</a></h2>
+<section id="allow-interactive-pytest-to-make-better-use-of-defaults-in-pytest-ini">
+<h3>Allow interactive pytest to make better use of defaults in pytest.ini<a class="headerlink" href="#allow-interactive-pytest-to-make-better-use-of-defaults-in-pytest-ini" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>cd to directory when running pytest, do NOT pass path (otherwise,
+it does not limit itself to unit_tests and integration_tests directories)</p></li>
+<li><p>Pass “$&#64;” directly to pytest call, so arguments are preserved.</p></li>
+<li><p>Remove args and geoips-system commands, just use all.</p></li>
+<li><p>Add -k as well as -m default args for individual commands, to allow filtering
+with both -k and -m for short, long, required, optional, etc.</p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">utils</span><span class="o">/</span><span class="n">interactive_pytest</span><span class="o">.</span><span class="n">sh</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id9">
+<h2>Bug fix<a class="headerlink" href="#id9" title="Permalink to this heading">#</a></h2>
+<section id="separate-build-docs-and-check-code-into-a-lint-pytest-marker">
+<h3>Separate build_docs and check_code into a lint pytest marker<a class="headerlink" href="#separate-build-docs-and-check-code-into-a-lint-pytest-marker" title="Permalink to this heading">#</a></h3>
+<p>Still include build_docs and check_code in integration pytest marker, but add
+a new ‘lint’ pytest marker for calling linting directly.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">integration_tests</span><span class="o">/</span><span class="n">test_integration</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">pytest</span><span class="o">.</span><span class="n">ini</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id10">
+<h2>Bug fix<a class="headerlink" href="#id10" title="Permalink to this heading">#</a></h2>
+<section id="for-test-output-consistency-unset-all-www-output-location-env-vars-from-test-integration-py-setup-environment">
+<h3>For test output consistency, unset all www output location env vars from test_integration.py setup_environment<a class="headerlink" href="#for-test-output-consistency-unset-all-www-output-location-env-vars-from-test-integration-py-setup-environment" title="Permalink to this heading">#</a></h3>
+<p>For consistency in tests, ensure the output env vars are not set by default in the
+geoips test_integration.py setup_environment. Add argument to setup_environment
+requesting the WWW env vars should NOT be unset.  This ensures consistent
+testing by default, but allows you to explicitly test specific output locations
+if needed.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">integration_tests</span><span class="o">/</span><span class="n">test_integration</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">geoips_utils</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id11">
+<h2>Bug fix<a class="headerlink" href="#id11" title="Permalink to this heading">#</a></h2>
+<section id="fix-brassy-release-note-validation-errors">
+<h3>Fix brassy release note validation errors<a class="headerlink" href="#fix-brassy-release-note-validation-errors" title="Permalink to this heading">#</a></h3>
+<p>Corrected date validation where finish date was before start date.
+Fixed internal field format and removed invalid repo_url fields
+when internal field is used.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">releases</span><span class="o">/</span><span class="mf">1.16.0</span><span class="o">/</span><span class="mi">946</span><span class="o">-</span><span class="n">handle</span><span class="o">-</span><span class="n">singular</span><span class="o">-</span><span class="ow">and</span><span class="o">-</span><span class="n">plural</span><span class="o">-</span><span class="n">forms</span><span class="o">-</span><span class="n">of</span><span class="o">-</span><span class="n">plugins</span><span class="o">-</span><span class="n">cleanly</span><span class="o">.</span><span class="n">yaml</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">releases</span><span class="o">/</span><span class="mf">1.14.5</span><span class="o">/</span><span class="mi">770</span><span class="o">-</span><span class="n">ingest</span><span class="o">-</span><span class="n">amsu</span><span class="o">-</span><span class="n">a</span><span class="o">-</span><span class="n">datasets</span><span class="o">-</span><span class="n">from</span><span class="o">-</span><span class="n">mirs</span><span class="o">-</span><span class="n">files</span><span class="o">.</span><span class="n">yaml</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">releases</span><span class="o">/</span><span class="mf">1.14.5</span><span class="o">/</span><span class="mi">775</span><span class="o">-</span><span class="n">fix</span><span class="o">-</span><span class="n">which</span><span class="o">-</span><span class="n">version</span><span class="o">-</span><span class="n">of</span><span class="o">-</span><span class="n">geoips</span><span class="o">-</span><span class="ow">is</span><span class="o">-</span><span class="n">displayed</span><span class="o">-</span><span class="n">at</span><span class="o">-</span><span class="n">the</span><span class="o">-</span><span class="n">command</span><span class="o">-</span><span class="n">line</span><span class="o">.</span><span class="n">yaml</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">releases</span><span class="o">/</span><span class="mf">1.14.5</span><span class="o">/</span><span class="mi">759</span><span class="o">-</span><span class="n">update</span><span class="o">-</span><span class="n">tc_decks_database</span><span class="o">-</span><span class="n">to</span><span class="o">-</span><span class="n">support</span><span class="o">-</span><span class="n">b</span><span class="o">-</span><span class="n">deck</span><span class="o">-</span><span class="n">files</span><span class="o">-</span><span class="mf">1.</span><span class="n">yaml</span>
+<span class="n">modified</span><span class="p">:</span>
+<span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">releases</span><span class="o">/</span><span class="mf">1.14.5</span><span class="o">/</span><span class="mi">773</span><span class="o">-</span><span class="n">revert</span><span class="o">-</span><span class="n">naming</span><span class="o">-</span><span class="n">of</span><span class="o">-</span><span class="n">mhs</span><span class="o">-</span><span class="n">variables</span><span class="o">-</span><span class="ow">in</span><span class="o">-</span><span class="n">mhs</span><span class="o">-</span><span class="n">product</span><span class="o">-</span><span class="n">config</span><span class="o">-</span><span class="ow">and</span><span class="o">-</span><span class="n">amsua_mhs_mirs</span><span class="o">-</span><span class="n">reader</span><span class="o">.</span><span class="n">yaml</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id12">
+<h2>Bug fix<a class="headerlink" href="#id12" title="Permalink to this heading">#</a></h2>
+<section id="pin-astropy-to-7-1-0-and-numpy-to-2-4-0-for-compatibility">
+<h3>Pin astropy to 7.1.0 and numpy to &lt;2.4.0 for compatibility<a class="headerlink" href="#pin-astropy-to-7-1-0-and-numpy-to-2-4-0-for-compatibility" title="Permalink to this heading">#</a></h3>
+<p>Pinned AstroPy to version 7.1.0 and numpy to versions below 2.4.0 to prevent incompatibility issues with numpy 2.4.0</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">environments</span><span class="o">/</span><span class="mf">1.17.1</span><span class="n">_siteinstall_pip_requirements_20251022</span><span class="o">.</span><span class="n">txt</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">pyproject</span><span class="o">.</span><span class="n">toml</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id13">
+<h2>Bug fix<a class="headerlink" href="#id13" title="Permalink to this heading">#</a></h2>
+<section id="improve-ami-netcdf-error-handling-for-missing-files">
+<h3>Improve ami_netcdf error handling for missing files<a class="headerlink" href="#improve-ami-netcdf-error-handling-for-missing-files" title="Permalink to this heading">#</a></h3>
+<p>Updated ami_netcdf reader to provide comprehensible error messages when no files are passed, rather than failing with
+esoteric errors later in the process. Also removed empty log statements.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">readers</span><span class="o">/</span><span class="n">ami_netcdf</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id14">
+<h2>Bug fix<a class="headerlink" href="#id14" title="Permalink to this heading">#</a></h2>
+<section id="fix-netcdf4-import-order-issues">
+<h3>Fix netcdf4 import order issues<a class="headerlink" href="#fix-netcdf4-import-order-issues" title="Permalink to this heading">#</a></h3>
+<p>Added netcdf4 import to geoips-init.py to fix issues with XArray and netcdf import orders, resolving conflicts between
+different netcdf4 readers used by XArray and netcdf4</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="fm">__init__</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id15">
+<h2>Bug fix<a class="headerlink" href="#id15" title="Permalink to this heading">#</a></h2>
+<section id="update-test-data-urls-to-include-ami-data">
+<h3>Update test data urls to include ami data<a class="headerlink" href="#update-test-data-urls-to-include-ami-data" title="Permalink to this heading">#</a></h3>
+<p>The test data URLs for ancillary information have been updated to include the
+AMI dataset for version 1.15.1. This ensures that tests relying on AMI data
+can now access the correct resources.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">geoips</span><span class="o">/</span><span class="n">commandline</span><span class="o">/</span><span class="n">ancillary_info</span><span class="o">/</span><span class="n">test</span><span class="o">-</span><span class="n">data</span><span class="o">-</span><span class="n">urls</span><span class="o">.</span><span class="n">yaml</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id16">
+<h2>Bug fix<a class="headerlink" href="#id16" title="Permalink to this heading">#</a></h2>
+<section id="updating-imerg-version-changes">
+<h3>Updating imerg version changes<a class="headerlink" href="#updating-imerg-version-changes" title="Permalink to this heading">#</a></h3>
+<p>There are some variable changes between V06B and V07B in IMERG data. This includes:
+V06B                     V07B
+Grid/precipitationCal -&gt; Grid/precipitation
+Grid/HQprecipitation -&gt; Grid/Intermediate/MWprecipitation
+Grid/HQprecipSource -&gt; Grid/Intermediate/MWprecipSource
+Grid/HQobservationTime -&gt; Grid/Intermediate/MWobservationTime
+Grid/IRprecipitation -&gt; Grid/Intermediate/IRprecipitation
+Grid/IRkalmanFilterWeight -&gt; Grid/Intermediate/IRinfluence
+Grid/precipitationUncal -&gt; Grid/Intermediate/precipitationUncal</p>
+<p>The epoch time has also changed from 1970-01-01 to 1980-01-06.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">added</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">outputs</span><span class="o">/</span><span class="n">imerg</span><span class="o">.</span><span class="n">tc</span><span class="o">.</span><span class="n">Rain</span><span class="o">.</span><span class="n">imagery_clean</span><span class="o">/</span><span class="mi">20251028_193000</span><span class="n">_AL132025_imerg_GPM_Rain_145kts_60p11_1p0</span><span class="o">.</span><span class="n">png</span>
+<span class="n">added</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">sectors</span><span class="o">/</span><span class="n">tc_bdecks</span><span class="o">/</span><span class="n">bal132025</span><span class="o">.</span><span class="n">dat</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">readers</span><span class="o">/</span><span class="n">abi_netcdf</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">readers</span><span class="o">/</span><span class="n">imerg_hdf5</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">scripts</span><span class="o">/</span><span class="n">imerg</span><span class="o">.</span><span class="n">tc</span><span class="o">.</span><span class="n">Rain</span><span class="o">.</span><span class="n">imagery_clean</span><span class="o">.</span><span class="n">sh</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id17">
+<h2>Bug fix<a class="headerlink" href="#id17" title="Permalink to this heading">#</a></h2>
+<section id="assorted-minor-bug-fixes">
+<h3>Assorted minor bug fixes.<a class="headerlink" href="#assorted-minor-bug-fixes" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>1.16.0 release note had start after finish date, broke build_docs.sh.</p></li>
+<li><p>sector resolution should be number not integer in jsonschema</p></li>
+<li><p>Include ‘not disabled’ by default in all interactive_pytest.sh commands</p>
+<ul>
+<li><p>Explicitly request ‘disabled’ tests.</p></li>
+</ul>
+</li>
+<li><p>Minor change to the 3 geotiff outputs (not visible to the naked eye, amsr2, ami,
+viirs)</p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">releases</span><span class="o">/</span><span class="mf">1.16.0</span><span class="o">/</span><span class="mi">946</span><span class="o">-</span><span class="n">handle</span><span class="o">-</span><span class="n">singular</span><span class="o">-</span><span class="ow">and</span><span class="o">-</span><span class="n">plural</span><span class="o">-</span><span class="n">forms</span><span class="o">-</span><span class="n">of</span><span class="o">-</span><span class="n">plugins</span><span class="o">-</span><span class="n">cleanly</span><span class="o">.</span><span class="n">yaml</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">schema</span><span class="o">/</span><span class="n">sectors</span><span class="o">/</span><span class="n">specs</span><span class="o">/</span><span class="n">area_definition</span><span class="o">.</span><span class="n">yaml</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">utils</span><span class="o">/</span><span class="n">interactive_pytest</span><span class="o">.</span><span class="n">sh</span>
+<span class="n">modified</span><span class="p">:</span>
+<span class="n">tests</span><span class="o">/</span><span class="n">outputs</span><span class="o">/</span><span class="n">amsr2</span><span class="o">.</span><span class="n">global_20km_longlat</span><span class="mf">.89</span><span class="n">H</span><span class="o">-</span><span class="n">Physical</span><span class="o">.</span><span class="n">cogeotiff</span><span class="o">/</span><span class="mf">20200518.062048</span><span class="o">.</span><span class="n">gcom</span><span class="o">-</span><span class="n">w1</span><span class="o">.</span><span class="n">amsr2</span><span class="mf">.89</span><span class="n">H</span><span class="o">-</span><span class="n">Physical</span><span class="o">.</span><span class="n">global_20km_longlat</span><span class="mf">.18</span><span class="n">p37</span><span class="o">.</span><span class="n">star</span><span class="mf">.20</span><span class="n">p0</span><span class="o">.</span><span class="n">tif</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">outputs</span><span class="o">/</span><span class="n">ami</span><span class="o">.</span><span class="n">tc</span><span class="o">.</span><span class="n">WV</span><span class="o">.</span><span class="n">geotiff</span><span class="o">/</span><span class="mi">20231208_030032</span><span class="n">_SH032024_ami_GK</span><span class="o">-</span><span class="mi">2</span><span class="n">A_WV_115kts_100p00_1p0</span><span class="o">.</span><span class="n">tif</span>
+<span class="n">modified</span><span class="p">:</span>
+<span class="n">tests</span><span class="o">/</span><span class="n">outputs</span><span class="o">/</span><span class="n">viirsday</span><span class="o">.</span><span class="k">global</span><span class="o">.</span><span class="n">Night</span><span class="o">-</span><span class="n">Vis</span><span class="o">-</span><span class="n">IR</span><span class="o">.</span><span class="n">cogeotiff_rgba</span><span class="o">/</span><span class="mf">20210209.074210</span><span class="o">.</span><span class="n">noaa</span><span class="o">-</span><span class="mf">20.</span><span class="n">viirs</span><span class="o">.</span><span class="n">Night</span><span class="o">-</span><span class="n">Vis</span><span class="o">-</span><span class="n">IR</span><span class="o">.</span><span class="n">global_cylindrical</span><span class="mf">.2</span><span class="n">p00</span><span class="o">.</span><span class="n">NASA</span><span class="mf">.20</span><span class="n">p0</span><span class="o">.</span><span class="n">tif</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="enhancement">
+<h2>Enhancement<a class="headerlink" href="#enhancement" title="Permalink to this heading">#</a></h2>
+<section id="set-the-default-tc-metadata-for-metadata-default-output-formatter-to-current-list-of-tc-sector-info">
+<h3>Set the default tc metadata for metadata_default output formatter to current list of tc sector_info<a class="headerlink" href="#set-the-default-tc-metadata-for-metadata-default-output-formatter-to-current-list-of-tc-sector-info" title="Permalink to this heading">#</a></h3>
+<p>To prevent updating every single TC metadata YAML output when a field is added to
+the trackfile parsers / TC sector_info dictionary, have an explicit list of fields
+to include in the metadata_default.py output formatter.  Any new fields will NOT
+be written to the YAML metadata_default output.</p>
+<p>This allows us to test the metadata_tc output formatter (which includes ALL
+metadata fields) separately from the metadata_default, but still allow outputting
+metadata_default for any product when desired.</p>
+<p>metadata_default fields will validate that standard fields like final_storm_name,
+invest_number, deck_line, vmax etc do not change, without adding new fields.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">output_formatters</span><span class="o">/</span><span class="n">metadata_default</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id18">
+<h2>Enhancement<a class="headerlink" href="#id18" title="Permalink to this heading">#</a></h2>
+<section id="sgli-reader-products-and-cloud-phase-rgb">
+<h3>Sgli reader, products, and cloud phase rgb<a class="headerlink" href="#sgli-reader-products-and-cloud-phase-rgb" title="Permalink to this heading">#</a></h3>
+<p>SGLI readers, and nominal products. Added EUMETSAT based Cloud Phase RGB product for both VIIRS and SGLI. Upgraded
+RGB-Default algorithm to better handle kwargs and data manipulation steps. Fixed west pac sector to have clean region
+name for output, removed spacing. Modified data.py to catch a case for accepting all variables from a product yaml file.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">added</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">releases</span><span class="o">/</span><span class="n">latest</span><span class="o">/</span><span class="mi">977</span><span class="o">-</span><span class="n">gcomc1</span><span class="o">-</span><span class="n">sgli</span><span class="o">.</span><span class="n">yaml</span>
+<span class="n">added</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">readers</span><span class="o">/</span><span class="n">sgli_l1b_hdf5</span><span class="o">.</span><span class="n">py</span>
+<span class="n">added</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">yaml</span><span class="o">/</span><span class="n">products</span><span class="o">/</span><span class="n">sgli</span><span class="o">.</span><span class="n">yaml</span>
+<span class="n">added</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">outputs</span><span class="o">/</span><span class="n">sgli</span><span class="o">.</span><span class="n">static</span><span class="o">.</span><span class="n">IR</span><span class="o">-</span><span class="n">RGB</span><span class="o">.</span><span class="n">imagery_clean</span><span class="o">/</span><span class="mf">20251018.000200</span><span class="o">.</span><span class="n">GCOM</span><span class="o">-</span><span class="n">C1</span><span class="o">.</span><span class="n">sgli</span><span class="o">.</span><span class="n">IR</span><span class="o">-</span><span class="n">RGB</span><span class="o">.</span><span class="n">korea</span><span class="mf">.76</span><span class="n">p68</span><span class="o">.</span><span class="n">JAXA</span><span class="mf">.1</span><span class="n">p0</span><span class="o">.</span><span class="n">png</span>
+<span class="n">added</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">scripts</span><span class="o">/</span><span class="n">sgli</span><span class="o">.</span><span class="n">static</span><span class="o">.</span><span class="n">IR</span><span class="o">-</span><span class="n">RGB</span><span class="o">.</span><span class="n">imagery_clean</span><span class="o">.</span><span class="n">sh</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">algorithms</span><span class="o">/</span><span class="n">RGB_Default</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">yaml</span><span class="o">/</span><span class="n">products</span><span class="o">/</span><span class="n">viirs</span><span class="o">.</span><span class="n">yaml</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">yaml</span><span class="o">/</span><span class="n">sectors</span><span class="o">/</span><span class="n">static</span><span class="o">/</span><span class="n">w_pacific</span><span class="o">.</span><span class="n">yaml</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">xarray_utils</span><span class="o">/</span><span class="n">data</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">integration_tests</span><span class="o">/</span><span class="n">test_integration</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id19">
+<h2>Enhancement<a class="headerlink" href="#id19" title="Permalink to this heading">#</a></h2>
+<section id="update-docker-documentation-and-configuration">
+<h3>Update docker documentation and configuration<a class="headerlink" href="#update-docker-documentation-and-configuration" title="Permalink to this heading">#</a></h3>
+<p>Updated Dockerfile with improvements for developer usability and build process. Added geoips_user to sudo group,
+installed vim, ssh, wget, and sudo. Opened permissions on output and packages to prevent permission errors in dev build
+stage.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">Dockerfile</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id20">
+<h2>Enhancement<a class="headerlink" href="#id20" title="Permalink to this heading">#</a></h2>
+<section id="rewrite-geotiff-output-checker">
+<h3>Rewrite geotiff output checker<a class="headerlink" href="#rewrite-geotiff-output-checker" title="Permalink to this heading">#</a></h3>
+<p>Completely rewrote the GeoTIFF output checker to actually check test data information inside the GeoTIFF files rather
+than just diffing files directly</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">output_checkers</span><span class="o">/</span><span class="n">geotiff</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id21">
+<h2>Enhancement<a class="headerlink" href="#id21" title="Permalink to this heading">#</a></h2>
+<section id="add-environment-variable-for-private-plugin-installation">
+<h3>Add environment variable for private plugin installation<a class="headerlink" href="#add-environment-variable-for-private-plugin-installation" title="Permalink to this heading">#</a></h3>
+<p>Added GEOIPS_USE_PRIVATE_PLUGINS environment variable to site install - if not set, private plugins wont be installed;
+if set to true, private plugins will be installed. This allows Dockerfile to build correctly in different contexts.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">integration_tests</span><span class="o">/</span><span class="n">site_install</span><span class="o">.</span><span class="n">sh</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id22">
+<h2>Enhancement<a class="headerlink" href="#id22" title="Permalink to this heading">#</a></h2>
+<section id="add-regex-checks-to-integration-test-outputs">
+<h3>Add regex checks to integration test outputs<a class="headerlink" href="#add-regex-checks-to-integration-test-outputs" title="Permalink to this heading">#</a></h3>
+<p>Added regex checks to output logs from integration tests to identify if tests failed because files were missing (e.g.,
+“no files found on disk” or “blank file was not found”) and error in a clearer way. Also logged pytest contents to
+pytest log.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">integration_tests</span><span class="o">/</span><span class="n">test_integration</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id23">
+<h2>Enhancement<a class="headerlink" href="#id23" title="Permalink to this heading">#</a></h2>
+<section id="add-no-fail-on-missing-data-flag-to-pytest">
+<h3>Add –no-fail-on-missing-data flag to pytest<a class="headerlink" href="#add-no-fail-on-missing-data-flag-to-pytest" title="Permalink to this heading">#</a></h3>
+<p>Added optional –no-fail-on-missing-data flag to integration pytest. When passed, tests will xfail if data is missing;
+when not passed, tests will fail normally. Updated test reader script to provide more comprehensible log outputs when
+mean differs from expected.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">conftest</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">integration_tests</span><span class="o">/</span><span class="n">test_integration</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">unit_tests_long</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">readers</span><span class="o">/</span><span class="n">test_readers</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id24">
+<h2>Enhancement<a class="headerlink" href="#id24" title="Permalink to this heading">#</a></h2>
+<section id="add-x-size-and-y-size-kwargs-to-imagery-annotated-output-formatter">
+<h3>Add x_size and y_size kwargs to imagery_annotated output formatter.<a class="headerlink" href="#add-x-size-and-y-size-kwargs-to-imagery-annotated-output-formatter" title="Permalink to this heading">#</a></h3>
+<p>Allows specifying x_size and y_size separately from the area definition shape.
+This is useful if you are producing multiple output formats for a single sector,
+and you do not need as high resolution output for the annotated image as other
+potential outputs.  This prevents reprocessing the data for multiple sized sectors,
+but still allows outputting a lower resolution / smaller annotated image.</p>
+<p>This reduced the time to write an 8250x8000 sector from 42s for the full size
+to 20s for 515x500, plus MUCH less space on disk.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">output_formatters</span><span class="o">/</span><span class="n">imagery_annotated</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="testing">
+<h2>Testing<a class="headerlink" href="#testing" title="Permalink to this heading">#</a></h2>
+<section id="rename-tiny-sector-products">
+<h3>Rename tiny sector products<a class="headerlink" href="#rename-tiny-sector-products" title="Permalink to this heading">#</a></h3>
+<p>Just channel based, not Infrared. Had to update all the tiny sector test outputs,
+update the tiny sector pytest script for variable names, as well as update the
+product names in the integration test product YAMLs.</p>
+<p>Additionally, the tiny_sectors_geostationary.sh script required an update ONLY to
+the comment identifying a possible product_name.  Added detailed usage and
+explanation of the tiny_sectors_geostationary.sh script while I was at it.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">renamed</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">yaml</span><span class="o">/</span><span class="n">products</span><span class="o">/</span><span class="n">integration_tests</span><span class="o">/</span><span class="n">Test</span><span class="o">-</span><span class="n">Day</span><span class="o">-</span><span class="n">Night</span><span class="o">.</span><span class="n">yaml</span>
+<span class="n">renamed</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">yaml</span><span class="o">/</span><span class="n">products</span><span class="o">/</span><span class="n">integration_tests</span><span class="o">/</span><span class="n">Test</span><span class="o">-</span><span class="n">Day</span><span class="o">-</span><span class="n">Only</span><span class="o">.</span><span class="n">yaml</span>
+<span class="n">renamed</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">yaml</span><span class="o">/</span><span class="n">products</span><span class="o">/</span><span class="n">integration_tests</span><span class="o">/</span><span class="n">Test</span><span class="o">-</span><span class="n">Night</span><span class="o">-</span><span class="n">Only</span><span class="o">.</span><span class="n">yaml</span>
+<span class="n">renamed</span><span class="p">:</span>
+<span class="n">tests</span><span class="o">/</span><span class="n">integration_tests</span><span class="o">/</span><span class="n">tiny_sectors</span><span class="o">/</span><span class="n">outputs</span><span class="o">/</span><span class="n">test_goes</span><span class="o">*</span><span class="n">Test</span><span class="o">-</span><span class="n">ABI</span><span class="o">-</span><span class="n">B14</span><span class="o">-*/*.</span><span class="n">goes</span><span class="o">*.</span><span class="n">abi</span><span class="o">.</span><span class="n">Test</span><span class="o">-</span><span class="n">ABI</span><span class="o">-</span><span class="n">B14</span><span class="o">-*.</span><span class="n">test_goes</span><span class="o">*.</span><span class="n">png</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">yaml</span><span class="o">/</span><span class="n">products</span><span class="o">/</span><span class="n">integration_tests</span><span class="o">/</span><span class="n">Test</span><span class="o">-</span><span class="n">Infrared</span><span class="o">-</span><span class="n">Day</span><span class="o">-</span><span class="n">Night</span><span class="o">.</span><span class="n">yaml</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">yaml</span><span class="o">/</span><span class="n">products</span><span class="o">/</span><span class="n">integration_tests</span><span class="o">/</span><span class="n">Test</span><span class="o">-</span><span class="n">Infrared</span><span class="o">-</span><span class="n">Day</span><span class="o">-</span><span class="n">Only</span><span class="o">.</span><span class="n">yaml</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">yaml</span><span class="o">/</span><span class="n">products</span><span class="o">/</span><span class="n">integration_tests</span><span class="o">/</span><span class="n">Test</span><span class="o">-</span><span class="n">Infrared</span><span class="o">-</span><span class="n">Night</span><span class="o">-</span><span class="n">Only</span><span class="o">.</span><span class="n">yaml</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">setup</span><span class="o">/</span><span class="n">bash_setup</span><span class="o">/</span><span class="n">screenrc_standard</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">integration_tests</span><span class="o">/</span><span class="n">test_tiny_sectors_geoips</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">integration_tests</span><span class="o">/</span><span class="n">tiny_sectors</span><span class="o">/</span><span class="n">tiny_sectors_geostationary</span><span class="o">.</span><span class="n">sh</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id25">
+<h2>Testing<a class="headerlink" href="#id25" title="Permalink to this heading">#</a></h2>
+<section id="update-global-terminator-satzen-sh-to-only-take-arguments-and-not-run-a-fixed-list-with-no-arguments">
+<h3>Update global_terminator_satzen.sh to only take arguments and not run a fixed list with no arguments.<a class="headerlink" href="#update-global-terminator-satzen-sh-to-only-take-arguments-and-not-run-a-fixed-list-with-no-arguments" title="Permalink to this heading">#</a></h3>
+<p>Now we can call pytest -m tiny_sector_global_example and it will run them all,
+so just specify explicitly in the test_tiny_sectors_geoips.py script.</p>
+<p>Also add comments to the test script and procflow config and pytest script
+explaining what it is for</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">example_scripts</span><span class="o">/</span><span class="n">global_terminator_satzen</span><span class="o">.</span><span class="n">sh</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">example_scripts</span><span class="o">/</span><span class="n">satzen</span><span class="o">.</span><span class="n">yaml</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">integration_tests</span><span class="o">/</span><span class="n">test_tiny_sectors_geoips</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id26">
+<h2>Testing<a class="headerlink" href="#id26" title="Permalink to this heading">#</a></h2>
+<section id="meteosat-eu-and-io-general-land-ocean-tiny-test-sector">
+<h3>Meteosat eu and io general land ocean tiny test sector<a class="headerlink" href="#meteosat-eu-and-io-general-land-ocean-tiny-test-sector" title="Permalink to this heading">#</a></h3>
+<p>Same location for both Meteosat EU and IO, off the coast of Spain, over
+the Mediterranean.</p>
+<ul class="simple">
+<li><p>Add meteoeu and meteoio landocean 3km tiny sector, off the coast of
+Spain, over the Mediterranean</p></li>
+<li><p>Add meteoeu and meteoio full disk tiny sectors</p></li>
+<li><p>Added meteoeu tiny sector outputs (no available meteoio dataset right now).
+landocean using fci, full disk using seviri.</p></li>
+<li><p>Update test_tiny_sectors_geoips.py with the global image evaluation for
+the 20250624 MSG-3 (METEOEU) dataset (remove unused 2020 MSG-1 METEO-IO
+dataset example).</p></li>
+<li><p>Update all seviri global sector test scripts to use new meteoeu
+landocean tiny sector, and update test outputs accordingly.</p></li>
+<li><p>Update all seviri unprojected image outputs to output the standard
+300x300 test output image size, vs previous 1000x1000, and update
+test outputs accordingly.  Note we can’t use tiny sectors for the
+self register / unprojected image outputs.</p></li>
+</ul>
+<p>This update saved only about 15% processing time improvement for the seviri
+sectored test scripts, but about 85% file size improvement (~1MB for full disk
+outputs, &lt;100KB for tiny sector outputs).</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">deleted</span><span class="p">:</span>
+<span class="n">tests</span><span class="o">/</span><span class="n">outputs</span><span class="o">/</span><span class="n">seviri</span><span class="o">.</span><span class="n">Convective_Storms</span><span class="o">.</span><span class="n">imagery_clean</span><span class="o">/</span><span class="mf">20250624.120000</span><span class="o">.</span><span class="n">msg</span><span class="o">-</span><span class="mf">3.</span><span class="n">seviri</span><span class="o">.</span><span class="n">Convective_Storms</span><span class="o">.</span><span class="n">global_cylindrical</span><span class="mf">.22</span><span class="n">p84</span><span class="o">.</span><span class="n">nesdisstar</span><span class="mf">.20</span><span class="n">p0</span><span class="o">.</span><span class="n">png</span>
+<span class="n">deleted</span><span class="p">:</span>
+<span class="n">tests</span><span class="o">/</span><span class="n">outputs</span><span class="o">/</span><span class="n">seviri</span><span class="o">.</span><span class="n">Day_Microphys_Summer</span><span class="o">.</span><span class="n">imagery_clean</span><span class="o">/</span><span class="mf">20250624.120000</span><span class="o">.</span><span class="n">msg</span><span class="o">-</span><span class="mf">3.</span><span class="n">seviri</span><span class="o">.</span><span class="n">Day_Microphys_Summer</span><span class="o">.</span><span class="n">global_cylindrical</span><span class="mf">.22</span><span class="n">p84</span><span class="o">.</span><span class="n">nesdisstar</span><span class="mf">.20</span><span class="n">p0</span><span class="o">.</span><span class="n">png</span>
+<span class="n">deleted</span><span class="p">:</span>
+<span class="n">tests</span><span class="o">/</span><span class="n">outputs</span><span class="o">/</span><span class="n">seviri</span><span class="o">.</span><span class="n">Day_Microphys_Winter</span><span class="o">.</span><span class="n">imagery_clean</span><span class="o">/</span><span class="mf">20250624.120000</span><span class="o">.</span><span class="n">msg</span><span class="o">-</span><span class="mf">3.</span><span class="n">seviri</span><span class="o">.</span><span class="n">Day_Microphys_Winter</span><span class="o">.</span><span class="n">global_cylindrical</span><span class="mf">.22</span><span class="n">p84</span><span class="o">.</span><span class="n">nesdisstar</span><span class="mf">.20</span><span class="n">p0</span><span class="o">.</span><span class="n">png</span>
+<span class="n">deleted</span><span class="p">:</span>
+<span class="n">tests</span><span class="o">/</span><span class="n">outputs</span><span class="o">/</span><span class="n">seviri</span><span class="o">.</span><span class="n">Day_Solar</span><span class="o">.</span><span class="n">imagery_clean</span><span class="o">/</span><span class="mf">20250624.120000</span><span class="o">.</span><span class="n">msg</span><span class="o">-</span><span class="mf">3.</span><span class="n">seviri</span><span class="o">.</span><span class="n">Day_Solar</span><span class="o">.</span><span class="n">global_cylindrical</span><span class="mf">.22</span><span class="n">p84</span><span class="o">.</span><span class="n">nesdisstar</span><span class="mf">.20</span><span class="n">p0</span><span class="o">.</span><span class="n">png</span>
+<span class="n">deleted</span><span class="p">:</span>
+<span class="n">tests</span><span class="o">/</span><span class="n">outputs</span><span class="o">/</span><span class="n">seviri</span><span class="o">.</span><span class="n">Dust</span><span class="o">-</span><span class="n">RGB</span><span class="o">.</span><span class="n">imagery_clean</span><span class="o">/</span><span class="mf">20250624.120000</span><span class="o">.</span><span class="n">msg</span><span class="o">-</span><span class="mf">3.</span><span class="n">seviri</span><span class="o">.</span><span class="n">Dust_RGB</span><span class="o">.</span><span class="n">global_cylindrical</span><span class="mf">.22</span><span class="n">p84</span><span class="o">.</span><span class="n">nesdisstar</span><span class="mf">.20</span><span class="n">p0</span><span class="o">.</span><span class="n">png</span>
+<span class="n">deleted</span><span class="p">:</span>
+<span class="n">tests</span><span class="o">/</span><span class="n">outputs</span><span class="o">/</span><span class="n">seviri</span><span class="o">.</span><span class="n">Natural</span><span class="o">-</span><span class="n">Color</span><span class="o">.</span><span class="n">imagery_clean</span><span class="o">/</span><span class="mf">20250624.120000</span><span class="o">.</span><span class="n">msg</span><span class="o">-</span><span class="mf">3.</span><span class="n">seviri</span><span class="o">.</span><span class="n">Natural_Color</span><span class="o">.</span><span class="n">global_cylindrical</span><span class="mf">.22</span><span class="n">p84</span><span class="o">.</span><span class="n">nesdisstar</span><span class="mf">.20</span><span class="n">p0</span><span class="o">.</span><span class="n">png</span>
+<span class="n">deleted</span><span class="p">:</span>
+<span class="n">tests</span><span class="o">/</span><span class="n">outputs</span><span class="o">/</span><span class="n">seviri</span><span class="o">.</span><span class="n">Night_Microphys</span><span class="o">.</span><span class="n">imagery_clean</span><span class="o">/</span><span class="mf">20250624.120000</span><span class="o">.</span><span class="n">msg</span><span class="o">-</span><span class="mf">3.</span><span class="n">seviri</span><span class="o">.</span><span class="n">Night_Microphys</span><span class="o">.</span><span class="n">global_cylindrical</span><span class="mf">.22</span><span class="n">p84</span><span class="o">.</span><span class="n">nesdisstar</span><span class="mf">.20</span><span class="n">p0</span><span class="o">.</span><span class="n">png</span>
+<span class="n">deleted</span><span class="p">:</span>
+<span class="n">tests</span><span class="o">/</span><span class="n">outputs</span><span class="o">/</span><span class="n">seviri</span><span class="o">.</span><span class="n">Volcanic_Ash</span><span class="o">.</span><span class="n">imagery_clean</span><span class="o">/</span><span class="mf">20250624.120000</span><span class="o">.</span><span class="n">msg</span><span class="o">-</span><span class="mf">3.</span><span class="n">seviri</span><span class="o">.</span><span class="n">Volcanic_Ash</span><span class="o">.</span><span class="n">global_cylindrical</span><span class="mf">.22</span><span class="n">p84</span><span class="o">.</span><span class="n">nesdisstar</span><span class="mf">.20</span><span class="n">p0</span><span class="o">.</span><span class="n">png</span>
+<span class="n">deleted</span><span class="p">:</span>
+<span class="n">tests</span><span class="o">/</span><span class="n">outputs</span><span class="o">/</span><span class="n">seviri</span><span class="o">.</span><span class="n">airmass</span><span class="o">.</span><span class="n">imagery_clean</span><span class="o">/</span><span class="mf">20250624.120000</span><span class="o">.</span><span class="n">msg</span><span class="o">-</span><span class="mf">3.</span><span class="n">seviri</span><span class="o">.</span><span class="n">airmass</span><span class="o">.</span><span class="n">global_cylindrical</span><span class="mf">.22</span><span class="n">p84</span><span class="o">.</span><span class="n">nesdisstar</span><span class="mf">.20</span><span class="n">p0</span><span class="o">.</span><span class="n">png</span>
+<span class="n">added</span><span class="p">:</span>
+<span class="n">tests</span><span class="o">/</span><span class="n">integration_tests</span><span class="o">/</span><span class="n">tiny_sectors</span><span class="o">/</span><span class="n">outputs</span><span class="o">/</span><span class="n">test_meteoeu_eqc_3km_landocean_Test</span><span class="o">-</span><span class="n">FCI</span><span class="o">-</span><span class="n">B14</span><span class="o">-</span><span class="n">Day</span><span class="o">-</span><span class="n">Only</span><span class="o">/</span><span class="mf">20250623.120000</span><span class="o">.</span><span class="n">MTG</span><span class="o">-</span><span class="n">I1</span><span class="o">.</span><span class="n">fci</span><span class="o">.</span><span class="n">Test</span><span class="o">-</span><span class="n">FCI</span><span class="o">-</span><span class="n">B14</span><span class="o">-</span><span class="n">Day</span><span class="o">-</span><span class="n">Only</span><span class="o">.</span><span class="n">test_meteoeu_eqc_3km_landocean</span><span class="mf">.100</span><span class="n">p00</span><span class="o">.</span><span class="n">EUMETSAT</span><span class="mf">.3</span><span class="n">p0</span><span class="o">.</span><span class="n">png</span>
+<span class="n">added</span><span class="p">:</span>
+<span class="n">tests</span><span class="o">/</span><span class="n">integration_tests</span><span class="o">/</span><span class="n">tiny_sectors</span><span class="o">/</span><span class="n">outputs</span><span class="o">/</span><span class="n">test_meteoeu_longlat_50km_fulldisk_Test</span><span class="o">-</span><span class="n">SEVIRI</span><span class="o">-</span><span class="n">B9</span><span class="o">-</span><span class="n">Day</span><span class="o">-</span><span class="n">Only</span><span class="o">/</span><span class="mf">20250624.120000</span><span class="o">.</span><span class="n">msg</span><span class="o">-</span><span class="mf">3.</span><span class="n">seviri</span><span class="o">.</span><span class="n">Test</span><span class="o">-</span><span class="n">SEVIRI</span><span class="o">-</span><span class="n">B9</span><span class="o">-</span><span class="n">Day</span><span class="o">-</span><span class="n">Only</span><span class="o">.</span><span class="n">test_meteoeu_longlat_50km_fulldisk</span><span class="mf">.86</span><span class="n">p42</span><span class="o">.</span><span class="n">nesdisstar</span><span class="mf">.53</span><span class="n">p7</span><span class="o">.</span><span class="n">png</span>
+<span class="n">added</span><span class="p">:</span>
+<span class="n">tests</span><span class="o">/</span><span class="n">outputs</span><span class="o">/</span><span class="n">seviri</span><span class="o">.</span><span class="n">Convective_Storms</span><span class="o">.</span><span class="n">imagery_clean</span><span class="o">/</span><span class="mf">20250624.120000</span><span class="o">.</span><span class="n">msg</span><span class="o">-</span><span class="mf">3.</span><span class="n">seviri</span><span class="o">.</span><span class="n">Convective_Storms</span><span class="o">.</span><span class="n">test_meteoeu_eqc_3km_landocean</span><span class="mf">.100</span><span class="n">p00</span><span class="o">.</span><span class="n">nesdisstar</span><span class="mf">.3</span><span class="n">p0</span><span class="o">.</span><span class="n">png</span>
+<span class="n">added</span><span class="p">:</span>
+<span class="n">tests</span><span class="o">/</span><span class="n">outputs</span><span class="o">/</span><span class="n">seviri</span><span class="o">.</span><span class="n">Day_Microphys_Summer</span><span class="o">.</span><span class="n">imagery_clean</span><span class="o">/</span><span class="mf">20250624.120000</span><span class="o">.</span><span class="n">msg</span><span class="o">-</span><span class="mf">3.</span><span class="n">seviri</span><span class="o">.</span><span class="n">Day_Microphys_Summer</span><span class="o">.</span><span class="n">test_meteoeu_eqc_3km_landocean</span><span class="mf">.100</span><span class="n">p00</span><span class="o">.</span><span class="n">nesdisstar</span><span class="mf">.3</span><span class="n">p0</span><span class="o">.</span><span class="n">png</span>
+<span class="n">added</span><span class="p">:</span>
+<span class="n">tests</span><span class="o">/</span><span class="n">outputs</span><span class="o">/</span><span class="n">seviri</span><span class="o">.</span><span class="n">Day_Microphys_Winter</span><span class="o">.</span><span class="n">imagery_clean</span><span class="o">/</span><span class="mf">20250624.120000</span><span class="o">.</span><span class="n">msg</span><span class="o">-</span><span class="mf">3.</span><span class="n">seviri</span><span class="o">.</span><span class="n">Day_Microphys_Winter</span><span class="o">.</span><span class="n">test_meteoeu_eqc_3km_landocean</span><span class="mf">.100</span><span class="n">p00</span><span class="o">.</span><span class="n">nesdisstar</span><span class="mf">.3</span><span class="n">p0</span><span class="o">.</span><span class="n">png</span>
+<span class="n">added</span><span class="p">:</span>
+<span class="n">tests</span><span class="o">/</span><span class="n">outputs</span><span class="o">/</span><span class="n">seviri</span><span class="o">.</span><span class="n">Day_Solar</span><span class="o">.</span><span class="n">imagery_clean</span><span class="o">/</span><span class="mf">20250624.120000</span><span class="o">.</span><span class="n">msg</span><span class="o">-</span><span class="mf">3.</span><span class="n">seviri</span><span class="o">.</span><span class="n">Day_Solar</span><span class="o">.</span><span class="n">test_meteoeu_eqc_3km_landocean</span><span class="mf">.100</span><span class="n">p00</span><span class="o">.</span><span class="n">nesdisstar</span><span class="mf">.3</span><span class="n">p0</span><span class="o">.</span><span class="n">png</span>
+<span class="n">added</span><span class="p">:</span>
+<span class="n">tests</span><span class="o">/</span><span class="n">outputs</span><span class="o">/</span><span class="n">seviri</span><span class="o">.</span><span class="n">Dust</span><span class="o">-</span><span class="n">RGB</span><span class="o">.</span><span class="n">imagery_clean</span><span class="o">/</span><span class="mf">20250624.120000</span><span class="o">.</span><span class="n">msg</span><span class="o">-</span><span class="mf">3.</span><span class="n">seviri</span><span class="o">.</span><span class="n">Dust_RGB</span><span class="o">.</span><span class="n">test_meteoeu_eqc_3km_landocean</span><span class="mf">.100</span><span class="n">p00</span><span class="o">.</span><span class="n">nesdisstar</span><span class="mf">.3</span><span class="n">p0</span><span class="o">.</span><span class="n">png</span>
+<span class="n">added</span><span class="p">:</span>
+<span class="n">tests</span><span class="o">/</span><span class="n">outputs</span><span class="o">/</span><span class="n">seviri</span><span class="o">.</span><span class="n">Natural</span><span class="o">-</span><span class="n">Color</span><span class="o">.</span><span class="n">imagery_clean</span><span class="o">/</span><span class="mf">20250624.120000</span><span class="o">.</span><span class="n">msg</span><span class="o">-</span><span class="mf">3.</span><span class="n">seviri</span><span class="o">.</span><span class="n">Natural_Color</span><span class="o">.</span><span class="n">test_meteoeu_eqc_3km_landocean</span><span class="mf">.100</span><span class="n">p00</span><span class="o">.</span><span class="n">nesdisstar</span><span class="mf">.3</span><span class="n">p0</span><span class="o">.</span><span class="n">png</span>
+<span class="n">added</span><span class="p">:</span>
+<span class="n">tests</span><span class="o">/</span><span class="n">outputs</span><span class="o">/</span><span class="n">seviri</span><span class="o">.</span><span class="n">Night_Microphys</span><span class="o">.</span><span class="n">imagery_clean</span><span class="o">/</span><span class="mf">20250624.120000</span><span class="o">.</span><span class="n">msg</span><span class="o">-</span><span class="mf">3.</span><span class="n">seviri</span><span class="o">.</span><span class="n">Night_Microphys</span><span class="o">.</span><span class="n">test_meteoeu_eqc_3km_landocean</span><span class="mf">.100</span><span class="n">p00</span><span class="o">.</span><span class="n">nesdisstar</span><span class="mf">.3</span><span class="n">p0</span><span class="o">.</span><span class="n">png</span>
+<span class="n">added</span><span class="p">:</span>
+<span class="n">tests</span><span class="o">/</span><span class="n">outputs</span><span class="o">/</span><span class="n">seviri</span><span class="o">.</span><span class="n">Volcanic_Ash</span><span class="o">.</span><span class="n">imagery_clean</span><span class="o">/</span><span class="mf">20250624.120000</span><span class="o">.</span><span class="n">msg</span><span class="o">-</span><span class="mf">3.</span><span class="n">seviri</span><span class="o">.</span><span class="n">Volcanic_Ash</span><span class="o">.</span><span class="n">test_meteoeu_eqc_3km_landocean</span><span class="mf">.100</span><span class="n">p00</span><span class="o">.</span><span class="n">nesdisstar</span><span class="mf">.3</span><span class="n">p0</span><span class="o">.</span><span class="n">png</span>
+<span class="n">added</span><span class="p">:</span>
+<span class="n">tests</span><span class="o">/</span><span class="n">outputs</span><span class="o">/</span><span class="n">seviri</span><span class="o">.</span><span class="n">airmass</span><span class="o">.</span><span class="n">imagery_clean</span><span class="o">/</span><span class="mf">20250624.120000</span><span class="o">.</span><span class="n">msg</span><span class="o">-</span><span class="mf">3.</span><span class="n">seviri</span><span class="o">.</span><span class="n">airmass</span><span class="o">.</span><span class="n">test_meteoeu_eqc_3km_landocean</span><span class="mf">.100</span><span class="n">p00</span><span class="o">.</span><span class="n">nesdisstar</span><span class="mf">.3</span><span class="n">p0</span><span class="o">.</span><span class="n">png</span>
+<span class="n">added</span><span class="p">:</span>
+<span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">yaml</span><span class="o">/</span><span class="n">sectors</span><span class="o">/</span><span class="n">integration_tests</span><span class="o">/</span><span class="n">geostationary</span><span class="o">/</span><span class="n">meteo_sectors</span><span class="o">/</span><span class="n">test_meteoeu_eqc_3km_landocean</span><span class="o">.</span><span class="n">yaml</span>
+<span class="n">added</span><span class="p">:</span>
+<span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">yaml</span><span class="o">/</span><span class="n">sectors</span><span class="o">/</span><span class="n">integration_tests</span><span class="o">/</span><span class="n">geostationary</span><span class="o">/</span><span class="n">meteo_sectors</span><span class="o">/</span><span class="n">test_meteoio_eqc_3km_landocean</span><span class="o">.</span><span class="n">yaml</span>
+<span class="n">added</span><span class="p">:</span>
+<span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">yaml</span><span class="o">/</span><span class="n">sectors</span><span class="o">/</span><span class="n">integration_tests</span><span class="o">/</span><span class="n">geostationary</span><span class="o">/</span><span class="n">meteo_sectors</span><span class="o">/</span><span class="n">test_meteoeu_longlat_50km_fulldisk</span><span class="o">.</span><span class="n">yaml</span>
+<span class="n">added</span><span class="p">:</span>
+<span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">yaml</span><span class="o">/</span><span class="n">sectors</span><span class="o">/</span><span class="n">integration_tests</span><span class="o">/</span><span class="n">geostationary</span><span class="o">/</span><span class="n">meteo_sectors</span><span class="o">/</span><span class="n">test_meteoio_longlat_50km_fulldisk</span><span class="o">.</span><span class="n">yaml</span>
+<span class="n">modified</span><span class="p">:</span>
+<span class="n">tests</span><span class="o">/</span><span class="n">outputs</span><span class="o">/</span><span class="n">seviri</span><span class="o">.</span><span class="n">WV</span><span class="o">-</span><span class="n">Upper</span><span class="o">.</span><span class="n">no_self_register</span><span class="o">.</span><span class="n">unprojected_image</span><span class="o">/</span><span class="mf">20250624.120000</span><span class="o">.</span><span class="n">msg</span><span class="o">-</span><span class="mf">3.</span><span class="n">seviri</span><span class="o">.</span><span class="n">WV</span><span class="o">-</span><span class="n">Upper</span><span class="o">-</span><span class="n">No</span><span class="o">-</span><span class="n">SR</span><span class="o">.</span><span class="n">unk</span><span class="o">.</span><span class="n">nesdisstar</span><span class="o">..</span><span class="n">png</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">integration_tests</span><span class="o">/</span><span class="n">test_tiny_sectors_geoips</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">scripts</span><span class="o">/</span><span class="n">seviri</span><span class="o">.</span><span class="n">Convective_Storms</span><span class="o">.</span><span class="n">imagery_clean</span><span class="o">.</span><span class="n">sh</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">scripts</span><span class="o">/</span><span class="n">seviri</span><span class="o">.</span><span class="n">Day_Microphys_Summer</span><span class="o">.</span><span class="n">imagery_clean</span><span class="o">.</span><span class="n">sh</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">scripts</span><span class="o">/</span><span class="n">seviri</span><span class="o">.</span><span class="n">Day_Microphys_Winter</span><span class="o">.</span><span class="n">imagery_clean</span><span class="o">.</span><span class="n">sh</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">scripts</span><span class="o">/</span><span class="n">seviri</span><span class="o">.</span><span class="n">Day_Solar</span><span class="o">.</span><span class="n">imagery_clean</span><span class="o">.</span><span class="n">sh</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">scripts</span><span class="o">/</span><span class="n">seviri</span><span class="o">.</span><span class="n">Dust_RGB</span><span class="o">.</span><span class="n">imagery_clean</span><span class="o">.</span><span class="n">sh</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">scripts</span><span class="o">/</span><span class="n">seviri</span><span class="o">.</span><span class="n">Natural_Color</span><span class="o">.</span><span class="n">imagery_clean</span><span class="o">.</span><span class="n">sh</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">scripts</span><span class="o">/</span><span class="n">seviri</span><span class="o">.</span><span class="n">Night_Microphys</span><span class="o">.</span><span class="n">imagery_clean</span><span class="o">.</span><span class="n">sh</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">scripts</span><span class="o">/</span><span class="n">seviri</span><span class="o">.</span><span class="n">Volcanic_Ash</span><span class="o">.</span><span class="n">imagery_clean</span><span class="o">.</span><span class="n">sh</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">scripts</span><span class="o">/</span><span class="n">seviri</span><span class="o">.</span><span class="n">WV</span><span class="o">-</span><span class="n">Upper</span><span class="o">.</span><span class="n">no_self_register</span><span class="o">.</span><span class="n">unprojected_image</span><span class="o">.</span><span class="n">sh</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">scripts</span><span class="o">/</span><span class="n">seviri</span><span class="o">.</span><span class="n">WV</span><span class="o">-</span><span class="n">Upper</span><span class="o">.</span><span class="n">unprojected_image</span><span class="o">.</span><span class="n">sh</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">scripts</span><span class="o">/</span><span class="n">seviri</span><span class="o">.</span><span class="n">airmass</span><span class="o">.</span><span class="n">imagery_clean</span><span class="o">.</span><span class="n">sh</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id27">
+<h2>Testing<a class="headerlink" href="#id27" title="Permalink to this heading">#</a></h2>
+<section id="himawari-8-20200405t0000z-terminator-tiny-test-sector">
+<h3>Himawari-8 20200405t0000z terminator tiny test sector<a class="headerlink" href="#himawari-8-20200405t0000z-terminator-tiny-test-sector" title="Permalink to this heading">#</a></h3>
+<p>Create terminator tiny sector for himawari-8 20200405T0000Z test dataset.
+Used for potential test scripts that are dependent on day/night data.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">added</span><span class="p">:</span>
+<span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">yaml</span><span class="o">/</span><span class="n">sectors</span><span class="o">/</span><span class="n">integration_tests</span><span class="o">/</span><span class="n">geostationary</span><span class="o">/</span><span class="n">himawari_sectors</span><span class="o">/</span><span class="n">himawari8_20200405T0000Z</span><span class="o">/</span><span class="n">test_himawari8_eqc_10km_terminator_20200405T0000Z</span><span class="o">.</span><span class="n">yaml</span>
+<span class="n">added</span><span class="p">:</span>
+<span class="n">tests</span><span class="o">/</span><span class="n">integration_tests</span><span class="o">/</span><span class="n">tiny_sectors</span><span class="o">/</span><span class="n">outputs</span><span class="o">/</span><span class="n">test_himawari8_eqc_10km_terminator_20200405T0000Z_Test</span><span class="o">-</span><span class="n">AHI</span><span class="o">-</span><span class="n">B13</span><span class="o">-</span><span class="n">Day</span><span class="o">-</span><span class="n">Only</span><span class="o">/</span><span class="mf">20200405.000000</span><span class="o">.</span><span class="n">himawari</span><span class="o">-</span><span class="mf">8.</span><span class="n">ahi</span><span class="o">.</span><span class="n">Test</span><span class="o">-</span><span class="n">AHI</span><span class="o">-</span><span class="n">B13</span><span class="o">-</span><span class="n">Day</span><span class="o">-</span><span class="n">Only</span><span class="o">.</span><span class="n">test_himawari8_eqc_10km_terminator_20200405T0000Z</span><span class="mf">.75</span><span class="n">p94</span><span class="o">.</span><span class="n">jma</span><span class="mf">.10</span><span class="n">p0</span><span class="o">.</span><span class="n">png</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">integration_tests</span><span class="o">/</span><span class="n">test_tiny_sectors_geoips</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id28">
+<h2>Testing<a class="headerlink" href="#id28" title="Permalink to this heading">#</a></h2>
+<section id="himawari-general-land-ocean-tiny-test-sector">
+<h3>Himawari general land ocean tiny test sector<a class="headerlink" href="#himawari-general-land-ocean-tiny-test-sector" title="Permalink to this heading">#</a></h3>
+<p>Use the standard geoips tiny test sector test_himawari_eqc_3km_landocean
+for the geoips tiny test scripts.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">added</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">yaml</span><span class="o">/</span><span class="n">sectors</span><span class="o">/</span><span class="n">integration_tests</span><span class="o">/</span><span class="n">geostationary</span><span class="o">/</span><span class="n">ahi_sectors</span><span class="o">/</span><span class="n">test_himawari_eqc_3km_landocean</span><span class="o">.</span><span class="n">yaml</span>
+<span class="n">added</span><span class="p">:</span>
+<span class="n">tests</span><span class="o">/</span><span class="n">integration_tests</span><span class="o">/</span><span class="n">tiny_sectors</span><span class="o">/</span><span class="n">outputs</span><span class="o">/</span><span class="n">test_himawari_eqc_3km_landocean_Test</span><span class="o">-</span><span class="n">AHI</span><span class="o">-</span><span class="n">B13</span><span class="o">-</span><span class="n">Day</span><span class="o">-</span><span class="n">Only</span><span class="o">/</span><span class="mf">20200405.000000</span><span class="o">.</span><span class="n">himawari</span><span class="o">-</span><span class="mf">8.</span><span class="n">ahi</span><span class="o">.</span><span class="n">Test</span><span class="o">-</span><span class="n">AHI</span><span class="o">-</span><span class="n">B13</span><span class="o">-</span><span class="n">Day</span><span class="o">-</span><span class="n">Only</span><span class="o">.</span><span class="n">test_himawari_eqc_3km_landocean</span><span class="mf">.100</span><span class="n">p00</span><span class="o">.</span><span class="n">jma</span><span class="mf">.3</span><span class="n">p0</span><span class="o">.</span><span class="n">png</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">integration_tests</span><span class="o">/</span><span class="n">test_tiny_sectors_geoips</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id29">
+<h2>Testing<a class="headerlink" href="#id29" title="Permalink to this heading">#</a></h2>
+<section id="allow-producing-geotiff-tiny-sector-output-along-with-imagery-clean-by-env-var-request">
+<h3>Allow producing geotiff tiny sector output along with imagery_clean by env var request<a class="headerlink" href="#allow-producing-geotiff-tiny-sector-output-along-with-imagery-clean-by-env-var-request" title="Permalink to this heading">#</a></h3>
+<p>If GEOIPS_CREATE_TINY_SECTOR_TEST_GEOTIFF_OUTPUTS is set, create a geotiff
+tiny sector output as well as the imagery_clean comparison output. This is
+for reference only, and not generally required for regular integration tests.</p>
+<p>Remove the old un-referenced test_geoips_run.sh script, since you can
+now produce the geotiff outputs from the tiny_sectors_geostationary.sh
+script.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">moved</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">yaml</span><span class="o">/</span><span class="n">sectors</span><span class="o">/</span><span class="n">integration_tests</span><span class="o">/</span><span class="n">test_geoips_run</span><span class="o">.</span><span class="n">sh</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">integration_tests</span><span class="o">/</span><span class="n">tiny_sectors</span><span class="o">/</span><span class="n">tiny_sectors_geostationary</span><span class="o">.</span><span class="n">sh</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">integration_tests</span><span class="o">/</span><span class="n">test_tiny_sectors_geoips</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id30">
+<h2>Testing<a class="headerlink" href="#id30" title="Permalink to this heading">#</a></h2>
+<section id="update-test-data-seviri-for-1-17-2-release">
+<h3>Update test_data_seviri for 1.17.2 release<a class="headerlink" href="#update-test-data-seviri-for-1-17-2-release" title="Permalink to this heading">#</a></h3>
+<p>This update adds MSG2 (Meteosat-09) data to the test_data_seviri test dataset. This
+data includes a terminator and will make use of tiny sectors for applicable plugin
+packages. This dataset replaces the previous 1.16.1 test_data_seviri dataset.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">commandline</span><span class="o">/</span><span class="n">ancillary_info</span><span class="o">/</span><span class="n">test</span><span class="o">-</span><span class="n">data</span><span class="o">-</span><span class="n">urls</span><span class="o">.</span><span class="n">yaml</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="release-updates-open-source-upload">
+<h2>Release updates - open source upload<a class="headerlink" href="#release-updates-open-source-upload" title="Permalink to this heading">#</a></h2>
+<section id="open-source-upload">
+<h3>Open source upload<a class="headerlink" href="#open-source-upload" title="Permalink to this heading">#</a></h3>
+<p>This repo updated with current geoips version release</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">standard</span> <span class="n">sync</span> <span class="n">files</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">release</span> <span class="n">notes</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="installation">
+<h2>Installation<a class="headerlink" href="#installation" title="Permalink to this heading">#</a></h2>
+<section id="update-to-geoips-tc-decks-dir-geoips-tc-decks-db-and-add-geoips-tc-decks-type">
+<h3>Update to geoips_tc_decks_dir, geoips_tc_decks_db, and add geoips_tc_decks_type<a class="headerlink" href="#update-to-geoips-tc-decks-dir-geoips-tc-decks-db-and-add-geoips-tc-decks-type" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Standardize to GEOIPS prefix env vars for TC_DECKS_DIR and TC_DECKS_DB, update in
+both base_paths.py and tc_decks_database.py.</p></li>
+<li><p>Add GEOIPS_TC_DECKS_TYPE, which we can use when querying the TC decks database.</p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">filenames</span><span class="o">/</span><span class="n">base_paths</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">sector_utils</span><span class="o">/</span><span class="n">tc_tracks_database</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="documentation">
+<h2>Documentation<a class="headerlink" href="#documentation" title="Permalink to this heading">#</a></h2>
+<section id="update-upcoming-and-tagged-versions">
+<h3>Update upcoming and tagged versions<a class="headerlink" href="#update-upcoming-and-tagged-versions" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Tagged version: 1.17.2</p></li>
+<li><p>Upcoming version: 1.17.3</p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="o">.</span><span class="n">github</span><span class="o">/</span><span class="n">versions</span><span class="o">/</span><span class="n">tagged_version</span>
+<span class="n">modified</span><span class="p">:</span> <span class="o">.</span><span class="n">github</span><span class="o">/</span><span class="n">versions</span><span class="o">/</span><span class="n">upcoming_version</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id31">
+<h2>Documentation<a class="headerlink" href="#id31" title="Permalink to this heading">#</a></h2>
+<section id="allow-specifying-geoips-replace-output-paths-in-the-environment">
+<h3>Allow specifying geoips_replace_output_paths in the environment<a class="headerlink" href="#allow-specifying-geoips-replace-output-paths-in-the-environment" title="Permalink to this heading">#</a></h3>
+<p>To allow specifying different environment variables for output path replacement,
+allow an environment variable override in geoips/filenames/base_paths.py allowing
+passing in other than the default TCWWW, PUBLICWWW, TCPRIVATEWWW, PRIVATEWWW env
+vars.</p>
+<ul class="simple">
+<li><p>Add GEOIPS_REPLACE_OUTPUT_PATHS to filenames/base_paths.py. It should be a space
+delimited list of env vars WITHOUT $ in env var, with the $ added in the split
+list in geoips.</p></li>
+<li><p>Loop through GEOIPS_REPLACE_OUTPUT_PATHS in geoips_utils for replacing variables,
+rather than explicit list of env vars. Note we still must loop through the
+standard non-output-path env vars explicitly (GEOIPS_OUTDIRS, GEOIPS_PACKAGES_DIR,
+etc), since these are env vars that are needed/used for other thigns, not
+just the output paths.</p></li>
+<li><p>Do NOT setup_environment from the full_setup, etc fixtures, call setup environment
+from each individual test script function with markers.  This allows individual
+groups of tests to request NOT unsetting the env vars found in GEOIPS_REPLACE_OUTPUT_PATHS,
+by passing in the requested argument.</p></li>
+<li><p>Add unset_output_path_env_var argument to test_integration.py, unsetting the
+output path env vars for consistency by default, but allowing maintaining them
+if we need to test the output env vars themselves.</p></li>
+<li><p>Loop through GEOIPS_REPLCE_OUTPUT_PATHS in check_output_file_list rather than
+hard coded list.</p></li>
+<li><p>Don’t include all REALTIME_OUTPUT_ARGS options in interactive_pytest.sh (since
+we include them in the realtime tests), just note that it defaults to writing
+output file list to temp location, comparing output, and copying output files.</p></li>
+<li><p>Also remove apparently unsupported arguments to geoips_utils… This would have
+provided unexpected results (ie, asking for specific variables to replace,
+then not actually replacing them), so removing to make sure it breaks catastrophically
+if it was attempted to be used somewhere, so we can re-add and fix so it works.
+But perhaps it is not needed (just use the GEOIPS_REPLACE_OUTPUT_PATHS)</p></li>
+<li><p>Also, remove create registries call from calls to full_install, etc from the
+integration tests (takes MUCH longer to start up the pytests with the create
+registries).</p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">filenames</span><span class="o">/</span><span class="n">base_paths</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">geoips_utils</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">integration_tests</span><span class="o">/</span><span class="n">test_integration</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">utils</span><span class="o">/</span><span class="n">check_output_file_list</span><span class="o">.</span><span class="n">sh</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">utils</span><span class="o">/</span><span class="n">interactive_pytest</span><span class="o">.</span><span class="n">sh</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">integration_tests</span><span class="o">/</span><span class="n">base_install</span><span class="o">.</span><span class="n">sh</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">integration_tests</span><span class="o">/</span><span class="n">full_install</span><span class="o">.</span><span class="n">sh</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">integration_tests</span><span class="o">/</span><span class="n">site_install</span><span class="o">.</span><span class="n">sh</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="bug-fixes">
+<h2>Bug fixes<a class="headerlink" href="#bug-fixes" title="Permalink to this heading">#</a></h2>
+<section id="correct-logs-for-pre-sectoring-data-in-config-based-procflow">
+<h3>Correct logs for pre-sectoring data in config-based procflow.<a class="headerlink" href="#correct-logs-for-pre-sectoring-data-in-config-based-procflow" title="Permalink to this heading">#</a></h3>
+<p>Previously the logs identified the pre-sectoring option within config-based
+procflow as “SELF REGISTERED”. Update logs to include a log statement for cases
+of no pre-sectoring, as well as updating the pre-sectoring logs to indicate
+SECTOR AREA_DEF rather than SECTOR SELF REGISTER (since self registering actually
+uses NO pre-sectoring).</p>
+<p>No actual change to the logic, just clarifying the log outputs and simplifying
+the conditional.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">procflows</span><span class="o">/</span><span class="n">config_based</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id32">
+<h2>Bug fixes<a class="headerlink" href="#id32" title="Permalink to this heading">#</a></h2>
+<section id="add-numpy-representer-to-yaml-safe-load-to-ensure-numpy-types-can-be-written-to-yaml-outputs">
+<h3>Add numpy representer to yaml.safe_load to ensure numpy types can be written to yaml outputs<a class="headerlink" href="#add-numpy-representer-to-yaml-safe-load-to-ensure-numpy-types-can-be-written-to-yaml-outputs" title="Permalink to this heading">#</a></h3>
+<p>As of NumPy 2.3, NumPy scalar types (e.g., np.float64, np.int64) are no longer
+automatically treated as native Python types by yaml.safe_dump, since numpy
+types are no longer subclasses of native Python types as of 2.3. This code
+explicitly registers custom representers to convert numpy types to standard Python
+types for YAML serialization.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">sector_utils</span><span class="o">/</span><span class="n">yaml_utils</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id33">
+<h2>Bug fixes<a class="headerlink" href="#id33" title="Permalink to this heading">#</a></h2>
+<section id="use-pandas-to-pydatetime-on-return-from-to-datetime-for-numpy-2-3-upgrade">
+<h3>Use pandas to_pydatetime on return from to_datetime for numpy 2.3 upgrade<a class="headerlink" href="#use-pandas-to-pydatetime-on-return-from-to-datetime-for-numpy-2-3-upgrade" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>EWS-G pandas to_pydatetime vs to_datetime</p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">readers</span><span class="o">/</span><span class="n">ewsg_netcdf</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id34">
+<h2>Bug fixes<a class="headerlink" href="#id34" title="Permalink to this heading">#</a></h2>
+<section id="update-indexing-in-fci-reader-for-numpy-2-3">
+<h3>Update indexing in fci reader for numpy 2.3<a class="headerlink" href="#update-indexing-in-fci-reader-for-numpy-2-3" title="Permalink to this heading">#</a></h3>
+<p>Updated indexing for NumPy 2.3 compatibility in FCI reader.
+Old code <cite>Lv[line_inds, sample_inds]</cite> fails with 2D indexers.
+Use xarray’s <cite>.isel()</cite> with labeled DataArrays to preserve elementwise indexing
+and maintain xarray structure (dims, coordinates, and methods) under NumPy 2.3+.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">readers</span><span class="o">/</span><span class="n">fci_netcdf</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id35">
+<h2>Bug fixes<a class="headerlink" href="#id35" title="Permalink to this heading">#</a></h2>
+<section id="fix-numpy-2-3-attribute-serialization-in-xarray-to-netcdf">
+<h3>Fix numpy 2.3 attribute serialization in xarray.to_netcdf<a class="headerlink" href="#fix-numpy-2-3-attribute-serialization-in-xarray-to-netcdf" title="Permalink to this heading">#</a></h3>
+<p>Resolved a TypeError caused by NumPy 2.3’s stricter dtype enforcement when writing
+Dataset and Variable attributes to NetCDF files. Attributes containing non-primitive
+types such as dicts, lists, NumPy scalars, or datetimes are now automatically converted
+to JSON-safe strings prior to serialization. This prevents errors such as
+“TypeError: illegal data type for attribute … got O” and
+“TypeError: Object of type int32 is not JSON serializable” when calling
+<cite>xarray.to_netcdf()</cite> with metadata containing Python or NumPy objects.</p>
+<p>Maintained custom handling for area_definitions.</p>
+<p>Additionally, logging updates to both config based and xarray_utils/data.py,
+printing additional information for composited datasets (including coverage
+for each file included in the composite, as well as the currently merged
+data).</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">output_formatters</span><span class="o">/</span><span class="n">netcdf_xarray</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">procflows</span><span class="o">/</span><span class="n">config_based</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">xarray_utils</span><span class="o">/</span><span class="n">data</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="continuous-integration">
+<h2>Continuous integration<a class="headerlink" href="#continuous-integration" title="Permalink to this heading">#</a></h2>
+<section id="update-docker-ignore-and-git-ignore-configurations">
+<h3>Update docker ignore and git ignore configurations<a class="headerlink" href="#update-docker-ignore-and-git-ignore-configurations" title="Permalink to this heading">#</a></h3>
+<p>Updated .dockerignore and .gitignore files to allow GIPS test data build mount. Updated Dockerfile to use this build
+mount when building, adding new options in dev step for improved developer usability.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="o">.</span><span class="n">dockerignore</span>
+<span class="n">modified</span><span class="p">:</span> <span class="o">.</span><span class="n">gitignore</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id36">
+<h2>Continuous integration<a class="headerlink" href="#id36" title="Permalink to this heading">#</a></h2>
+<section id="update-release-note-documentation">
+<h3>Update release note documentation<a class="headerlink" href="#update-release-note-documentation" title="Permalink to this heading">#</a></h3>
+<p>Updated release note names</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">releases</span><span class="o">/</span><span class="mf">1.17.2</span><span class="o">/</span><span class="mf">1.17.2</span><span class="o">-</span><span class="n">os</span><span class="o">-</span><span class="n">patches</span><span class="o">-</span><span class="n">bsl5</span><span class="o">.</span><span class="n">yaml</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">releases</span><span class="o">/</span><span class="mf">1.17.2</span><span class="o">/</span><span class="mf">1.17.2</span><span class="o">-</span><span class="n">os</span><span class="o">-</span><span class="n">patches</span><span class="o">-</span><span class="n">jsolbrig</span><span class="o">.</span><span class="n">yaml</span>
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="1.17.3.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Version 1.17.3 (2026-07-16)</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="1.17.1.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Version 1.17.1 (2026-07-16)</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bug-fix">Bug fix</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#use-pkgname-version-in-sphinx-template-rather-than-geoips-version">Use pkgname version in sphinx template rather than geoips version</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Bug fix</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#do-not-attempt-to-list-output-comparison-directory-if-it-does-not-exist">Do not attempt to list output comparison directory if it does not exist.</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Bug fix</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#use-area-def-area-id-rather-than-description-as-the-unique-identifier">Use area_def.area_id rather than description as the unique identifier</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">Bug fix</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#include-synoptic-time-in-tc-area-def-area-ids-and-filter-sector-list-based-on-parsed-storm-id">Include synoptic time in tc area_def area_ids, and filter sector list based on parsed storm_id</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">Bug fix</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#use-storm-id-rather-than-area-id-in-text-winds-tc-fname">Use storm_id rather than area_id in text_winds_tc_fname</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">Bug fix</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#do-not-fail-if-processing-stats-cannot-be-written-to-database">Do not fail if processing stats cannot be written to database</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">Bug fix</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ami-netcdf-bug-fix-patch">1.17.2 ami_netcdf bug fix patch</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">Bug fix</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fixed-a-typo">Fixed a typo</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id8">Bug fix</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#allow-interactive-pytest-to-make-better-use-of-defaults-in-pytest-ini">Allow interactive pytest to make better use of defaults in pytest.ini</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id9">Bug fix</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#separate-build-docs-and-check-code-into-a-lint-pytest-marker">Separate build_docs and check_code into a lint pytest marker</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id10">Bug fix</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#for-test-output-consistency-unset-all-www-output-location-env-vars-from-test-integration-py-setup-environment">For test output consistency, unset all www output location env vars from test_integration.py setup_environment</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id11">Bug fix</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fix-brassy-release-note-validation-errors">Fix brassy release note validation errors</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id12">Bug fix</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pin-astropy-to-7-1-0-and-numpy-to-2-4-0-for-compatibility">Pin astropy to 7.1.0 and numpy to &lt;2.4.0 for compatibility</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id13">Bug fix</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#improve-ami-netcdf-error-handling-for-missing-files">Improve ami_netcdf error handling for missing files</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id14">Bug fix</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fix-netcdf4-import-order-issues">Fix netcdf4 import order issues</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id15">Bug fix</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#update-test-data-urls-to-include-ami-data">Update test data urls to include ami data</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id16">Bug fix</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#updating-imerg-version-changes">Updating imerg version changes</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id17">Bug fix</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#assorted-minor-bug-fixes">Assorted minor bug fixes.</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#enhancement">Enhancement</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#set-the-default-tc-metadata-for-metadata-default-output-formatter-to-current-list-of-tc-sector-info">Set the default tc metadata for metadata_default output formatter to current list of tc sector_info</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id18">Enhancement</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sgli-reader-products-and-cloud-phase-rgb">Sgli reader, products, and cloud phase rgb</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id19">Enhancement</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#update-docker-documentation-and-configuration">Update docker documentation and configuration</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id20">Enhancement</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rewrite-geotiff-output-checker">Rewrite geotiff output checker</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id21">Enhancement</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#add-environment-variable-for-private-plugin-installation">Add environment variable for private plugin installation</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id22">Enhancement</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#add-regex-checks-to-integration-test-outputs">Add regex checks to integration test outputs</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id23">Enhancement</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#add-no-fail-on-missing-data-flag-to-pytest">Add –no-fail-on-missing-data flag to pytest</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id24">Enhancement</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#add-x-size-and-y-size-kwargs-to-imagery-annotated-output-formatter">Add x_size and y_size kwargs to imagery_annotated output formatter.</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#testing">Testing</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rename-tiny-sector-products">Rename tiny sector products</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id25">Testing</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#update-global-terminator-satzen-sh-to-only-take-arguments-and-not-run-a-fixed-list-with-no-arguments">Update global_terminator_satzen.sh to only take arguments and not run a fixed list with no arguments.</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id26">Testing</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meteosat-eu-and-io-general-land-ocean-tiny-test-sector">Meteosat eu and io general land ocean tiny test sector</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id27">Testing</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#himawari-8-20200405t0000z-terminator-tiny-test-sector">Himawari-8 20200405t0000z terminator tiny test sector</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id28">Testing</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#himawari-general-land-ocean-tiny-test-sector">Himawari general land ocean tiny test sector</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id29">Testing</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#allow-producing-geotiff-tiny-sector-output-along-with-imagery-clean-by-env-var-request">Allow producing geotiff tiny sector output along with imagery_clean by env var request</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id30">Testing</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#update-test-data-seviri-for-1-17-2-release">Update test_data_seviri for 1.17.2 release</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#release-updates-open-source-upload">Release updates - open source upload</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#open-source-upload">Open source upload</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#installation">Installation</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#update-to-geoips-tc-decks-dir-geoips-tc-decks-db-and-add-geoips-tc-decks-type">Update to geoips_tc_decks_dir, geoips_tc_decks_db, and add geoips_tc_decks_type</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#documentation">Documentation</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#update-upcoming-and-tagged-versions">Update upcoming and tagged versions</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id31">Documentation</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#allow-specifying-geoips-replace-output-paths-in-the-environment">Allow specifying geoips_replace_output_paths in the environment</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bug-fixes">Bug fixes</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#correct-logs-for-pre-sectoring-data-in-config-based-procflow">Correct logs for pre-sectoring data in config-based procflow.</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id32">Bug fixes</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#add-numpy-representer-to-yaml-safe-load-to-ensure-numpy-types-can-be-written-to-yaml-outputs">Add numpy representer to yaml.safe_load to ensure numpy types can be written to yaml outputs</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id33">Bug fixes</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#use-pandas-to-pydatetime-on-return-from-to-datetime-for-numpy-2-3-upgrade">Use pandas to_pydatetime on return from to_datetime for numpy 2.3 upgrade</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id34">Bug fixes</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#update-indexing-in-fci-reader-for-numpy-2-3">Update indexing in fci reader for numpy 2.3</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id35">Bug fixes</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fix-numpy-2-3-attribute-serialization-in-xarray-to-netcdf">Fix numpy 2.3 attribute serialization in xarray.to_netcdf</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#continuous-integration">Continuous integration</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#update-docker-ignore-and-git-ignore-configurations">Update docker ignore and git ignore configurations</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id36">Continuous integration</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#update-release-note-documentation">Update release note documentation</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+
+  <div class="tocsection sourcelink">
+    <a href="../_sources/releases/1.17.2.rst.txt">
+      <i class="fa-solid fa-file-lines"></i> Show Source
+    </a>
+  </div>
+</div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item"><div class="footer">
+    <a href="http://www.navy.mil">Official US Navy Website</a>
+    <a href="http://www.navy.com/navy/">US Navy Recruiting</a>
+    <a href="http://www.nrlmry.navy.mil">NRL</a>
+    <a href="http://foia.navy.mil">Accessibility</a>
+    <a href="http://foia.navy.mil">Freedom of Information Act</a>
+    <a href="http://www.nrlmry.navy.mil/privacypolicy.htm">Security & Policy</a>
+    <a href="http://www.nrlmry.navy.mil/linknotice.html">Hyperlink Notice</a>
+    <a href="mailto:webmaster@nrlmry.navy.mil">webmaster@nrlmry.navy.mil</a><br>
+    <a href="http://www.nrlmry.navy.mil">
+    Naval Research Laboratory Marine Meteorology Division Monterey, CA</a><br>
+    7 Grace Hopper Avenue, STOP 2, Monterey, CA 93943-5502
+</div></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

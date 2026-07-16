@@ -1,0 +1,21 @@
+geoips.plugins.classes.algorithms.sfc\_winds package
+====================================================
+
+Submodules
+----------
+
+geoips.plugins.classes.algorithms.sfc\_winds.windbarbs module
+-------------------------------------------------------------
+
+.. automodule:: geoips.plugins.classes.algorithms.sfc_winds.windbarbs
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: geoips.plugins.classes.algorithms.sfc_winds
+   :members:
+   :undoc-members:
+   :show-inheritance:

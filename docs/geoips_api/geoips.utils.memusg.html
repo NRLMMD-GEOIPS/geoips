@@ -1,0 +1,1092 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>geoips.utils.memusg package &#8212; GeoIPS, Geolocated Information Processing System 1.19.0.post776.dev0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/set_width.css?v=d4af5e1e" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=1e4423a0"></script>
+    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'geoips_api/geoips.utils.memusg';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <link rel="icon" href="../_static/nrlicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="geoips.utils.types package" href="geoips.utils.types.html" />
+    <link rel="prev" title="geoips.utils.coverage_checkers package" href="geoips.utils.coverage_checkers.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="1.1" />
+    <meta name="docbuild:last-update" content="Jul 16, 2026 04:57:54"/>
+  
+    
+    <script src="../_static/searchtools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <script src="../searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/NRL_logo_RGB.jpg" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 1.19.0.post776.dev0 documentation - Home"/>
+    <img src="../_static/NRL_logo_sidebar_Reverse.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 1.19.0.post776.dev0 documentation - Home"/>
+  
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../getting-started/index.html">
+    Getting Started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../tutorials/index.html">
+    Tutorials
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../concepts/index.html">
+    Concepts
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../contribute/index.html">
+    Contribute
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    API
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../releases/index.html">
+    Release Notes
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../contact/index.html">
+    About Us
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/NRLMMD-GEOIPS/geoips" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../getting-started/index.html">
+    Getting Started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../tutorials/index.html">
+    Tutorials
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../concepts/index.html">
+    Concepts
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../contribute/index.html">
+    Contribute
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    API
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../releases/index.html">
+    Release Notes
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../contact/index.html">
+    About Us
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/NRLMMD-GEOIPS/geoips" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item pst-sidebar-collapse"><button id="pst-collapse-sidebar-button" aria-expanded="true" aria-controls="pst-primary-sidebar"><svg class="pst-icon svg-inline--fa" role="img" aria-hidden="true" focusable="false" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+    <path fill="currentColor" d="M3 15.5C2.36232 15.5 1.74874 15.2564 1.28478 14.8189C0.820828 14.3815 0.541576 13.7832 0.504167 13.1467L0.5 13L0.5 3C0.499965 2.36232 0.743605 1.74874 1.18107 1.28478C1.61854 0.820828 2.21676 0.541576 2.85333 0.504167L3 0.5L13 0.5C13.6377 0.499965 14.2513 0.743605 14.7152 1.18107C15.1792 1.61854 15.4584 2.21676 15.4958 2.85333L15.5 3L15.5 13C15.5 13.6377 15.2564 14.2513 14.8189 14.7152C14.3815 15.1792 13.7832 15.4584 13.1467 15.4958L13 15.5L3 15.5ZM3 13.8333L10.5 13.8333L10.5 2.16667L3 2.16667C2.79589 2.16669 2.59889 2.24163 2.44636 2.37726C2.29383 2.5129 2.19638 2.69979 2.1725 2.9025L2.16667 3L2.16667 13C2.16669 13.2041 2.24163 13.4011 2.37726 13.5536C2.5129 13.7062 2.69979 13.8036 2.9025 13.8275L3 13.8333ZM6.65583 10.325L6.5775 10.2558L4.91083 8.58917C4.76735 8.44567 4.68116 8.25476 4.66843 8.05223C4.65569 7.84971 4.71729 7.6495 4.84167 7.48917L4.91083 7.41083L6.5775 5.74417C6.72747 5.59471 6.9287 5.50794 7.14032 5.50148C7.35194 5.49502 7.55809 5.56935 7.7169 5.70937C7.8757 5.8494 7.97525 6.04463 7.99533 6.25539C8.01541 6.46616 7.95451 6.67667 7.825 6.84417L7.75583 6.9225L6.67917 8L7.75583 9.0775C7.89931 9.22099 7.98551 9.41191 7.99824 9.61443C8.01097 9.81695 7.94938 10.0172 7.825 10.1775L7.75583 10.2558C7.61234 10.3993 7.42142 10.4855 7.2189 10.4982C7.01638 10.511 6.81617 10.4494 6.65583 10.325Z"/>
+  </svg>
+  <span class="pst-collapse-sidebar-label">Collapse Sidebar</span>
+  <span class="pst-expand-sidebar-label">Expand Sidebar</span>
+</button></div>
+        <div class="sidebar-primary-item">
+
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="geoips.html">geoips package</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2 has-children"><a class="reference internal" href="geoips.commandline.html">geoips.commandline package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="geoips.commandline.ancillary_info.html">geoips.commandline.ancillary_info package</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2"><a class="reference internal" href="geoips.config.html">geoips.config package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="geoips.data_manipulations.html">geoips.data_manipulations package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="geoips.dev.html">geoips.dev package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="geoips.filenames.html">geoips.filenames package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="geoips.image_utils.html">geoips.image_utils package</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="geoips.interfaces.html">geoips.interfaces package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="geoips.interfaces.class_based.html">geoips.interfaces.class_based package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.interfaces.yaml_based.html">geoips.interfaces.yaml_based package</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="geoips.plugins.html">geoips.plugins package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="geoips.plugins.classes.html">geoips.plugins.classes package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.classes.algorithms.html">geoips.plugins.classes.algorithms package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.classes.colormappers.html">geoips.plugins.classes.colormappers package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.classes.coverage_checkers.html">geoips.plugins.classes.coverage_checkers package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.classes.filename_formatters.html">geoips.plugins.classes.filename_formatters package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.classes.interpolators.html">geoips.plugins.classes.interpolators package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.classes.output_formatters.html">geoips.plugins.classes.output_formatters package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.classes.readers.html">geoips.plugins.classes.readers package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.classes.sector_metadata_generators.html">geoips.plugins.classes.sector_metadata_generators package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.classes.sector_spec_generators.html">geoips.plugins.classes.sector_spec_generators package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.classes.title_formatters.html">geoips.plugins.classes.title_formatters package</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="geoips.plugins.modules.html">geoips.plugins.modules package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.procflows.html">geoips.plugins.modules.procflows package</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="geoips.pydantic_models.html">geoips.pydantic_models package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="geoips.pydantic_models.v1.html">geoips.pydantic_models.v1 package</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2"><a class="reference internal" href="geoips.sector_utils.html">geoips.sector_utils package</a></li>
+<li class="toctree-l2 current active has-children"><a class="reference internal" href="geoips.utils.html">geoips.utils package</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="geoips.utils.coverage_checkers.html">geoips.utils.coverage_checkers package</a></li>
+<li class="toctree-l3 current active"><a class="current reference internal" href="#">geoips.utils.memusg package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.utils.types.html">geoips.utils.types package</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2"><a class="reference internal" href="geoips.xarray_utils.html">geoips.xarray_utils package</a></li>
+</ul>
+</details></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">API</a></li>
+    
+    
+    <li class="breadcrumb-item"><a href="geoips.html" class="nav-link">geoips package</a></li>
+    
+    
+    <li class="breadcrumb-item"><a href="geoips.utils.html" class="nav-link">geoips.utils package</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">geoips.utils.memusg package</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="geoips-utils-memusg-package">
+<h1>geoips.utils.memusg package<a class="headerlink" href="#geoips-utils-memusg-package" title="Permalink to this heading">#</a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading">#</a></h2>
+</section>
+<section id="module-geoips.utils.memusg.boxplots">
+<span id="geoips-utils-memusg-boxplots-module"></span><h2>geoips.utils.memusg.boxplots module<a class="headerlink" href="#module-geoips.utils.memusg.boxplots" title="Permalink to this heading">#</a></h2>
+<p>Functions for creating box and whisker plots.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.utils.memusg.boxplots.boxplot">
+<span class="sig-prename descclassname"><span class="pre">geoips.utils.memusg.boxplots.</span></span><span class="sig-name descname"><span class="pre">boxplot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">memusg_dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stat</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Max.</span> <span class="pre">Resident</span> <span class="pre">Set</span> <span class="pre">Size</span> <span class="pre">(GB)'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rotation</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">90</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fontsize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">12</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">figsize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(8,</span> <span class="pre">8)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">skip_sources</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">['modis']</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">geoips_vers</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">window_start_datetime</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">window_end_datetime</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source_map</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/utils/memusg/boxplots.html#boxplot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.utils.memusg.boxplots.boxplot" title="Permalink to this definition">#</a></dt>
+<dd><p>Create box and whisker plots of overall resource usage for procflows.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.utils.memusg.boxplots.checkpoint_boxplot">
+<span class="sig-prename descclassname"><span class="pre">geoips.utils.memusg.boxplots.</span></span><span class="sig-name descname"><span class="pre">checkpoint_boxplot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">memusg_dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stat</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'elapsed</span> <span class="pre">time'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rotation</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">90</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fontsize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">18</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">figsize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(24,</span> <span class="pre">8)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">platform</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">skip_sources</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">['modis']</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">skip_sectors</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">['DYNAMIC-TC',</span> <span class="pre">'DYNAMIC</span> <span class="pre">TC']</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot_sectors</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">geoips_vers</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">window_start_datetime</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">window_end_datetime</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source_map</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/utils/memusg/boxplots.html#checkpoint_boxplot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.utils.memusg.boxplots.checkpoint_boxplot" title="Permalink to this definition">#</a></dt>
+<dd><p>Create box and whisker plots of stats broken down by checkpoints.</p>
+</dd></dl>
+
+</section>
+<section id="module-geoips.utils.memusg.dataframe_utils">
+<span id="geoips-utils-memusg-dataframe-utils-module"></span><h2>geoips.utils.memusg.dataframe_utils module<a class="headerlink" href="#module-geoips.utils.memusg.dataframe_utils" title="Permalink to this heading">#</a></h2>
+<p>Various utils for processing statistics.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.utils.memusg.dataframe_utils.create_checkpoint_dataframe">
+<span class="sig-prename descclassname"><span class="pre">geoips.utils.memusg.dataframe_utils.</span></span><span class="sig-name descname"><span class="pre">create_checkpoint_dataframe</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">json_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">procflow_usg</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/utils/memusg/dataframe_utils.html#create_checkpoint_dataframe"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.utils.memusg.dataframe_utils.create_checkpoint_dataframe" title="Permalink to this definition">#</a></dt>
+<dd><p>Create a checkpoint dataframe that incorporates stats from overall usage stats.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>json_data</strong> (<em>list</em>) – List of json data entries</p></li>
+<li><p><strong>procflow_usg</strong> (<em>dict</em>) – Dict of panda dataframes where each key is a different source</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>dict of panda dataframes where each key is a different source</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.utils.memusg.dataframe_utils.print_stats">
+<span class="sig-prename descclassname"><span class="pre">geoips.utils.memusg.dataframe_utils.</span></span><span class="sig-name descname"><span class="pre">print_stats</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dframe</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">suite_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'</span> <span class="pre">'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/utils/memusg/dataframe_utils.html#print_stats"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.utils.memusg.dataframe_utils.print_stats" title="Permalink to this definition">#</a></dt>
+<dd><p>Print stats to stdout.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dframe</strong> (<em>pandas.core.frame.DataFrame</em>) – DataFrame of statistics</p></li>
+<li><p><strong>suite_name</strong> (<em>str</em><em>, </em><em>optional</em>) – Source name of stats, by default “ “</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.utils.memusg.dataframe_utils.sort_resource_dframe">
+<span class="sig-prename descclassname"><span class="pre">geoips.utils.memusg.dataframe_utils.</span></span><span class="sig-name descname"><span class="pre">sort_resource_dframe</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dframe</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/utils/memusg/dataframe_utils.html#sort_resource_dframe"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.utils.memusg.dataframe_utils.sort_resource_dframe" title="Permalink to this definition">#</a></dt>
+<dd><p>Sort resource usage statistics by sector type.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>dframe</strong> (<em>pandas.core.frame.DataFrame</em>) – Stats</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Dictionary of dataframes where each key is a different sector type</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.utils.memusg.dataframe_utils.sort_resource_stats">
+<span class="sig-prename descclassname"><span class="pre">geoips.utils.memusg.dataframe_utils.</span></span><span class="sig-name descname"><span class="pre">sort_resource_stats</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">resource_stats_dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sort_platform</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/utils/memusg/dataframe_utils.html#sort_resource_stats"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.utils.memusg.dataframe_utils.sort_resource_stats" title="Permalink to this definition">#</a></dt>
+<dd><p>Sort resource usage for each source by different sector types.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>resource_stats_dict</strong> (<em>dict</em>) – Dictionary of dataframes for each source</p></li>
+<li><p><strong>sort_platform</strong> (<em>bool</em><em>, </em><em>optional</em>) – Separate dataframes by platform in addition to source, by default False</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>dictionary of dataframes</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-geoips.utils.memusg.memusg_tracker">
+<span id="geoips-utils-memusg-memusg-tracker-module"></span><h2>geoips.utils.memusg.memusg_tracker module<a class="headerlink" href="#module-geoips.utils.memusg.memusg_tracker" title="Permalink to this heading">#</a></h2>
+<p>Utilities for tracking and monitoring memory and resource usage.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="geoips.utils.memusg.memusg_tracker.PidLog">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">geoips.utils.memusg.memusg_tracker.</span></span><span class="sig-name descname"><span class="pre">PidLog</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inpid</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logstr</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/utils/memusg/memusg_tracker.html#PidLog"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.utils.memusg.memusg_tracker.PidLog" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Track a PID and all children.</p>
+<ul class="simple">
+<li><p>Requires psutil and threading</p></li>
+</ul>
+<dl class="py method">
+<dt class="sig sig-object py" id="geoips.utils.memusg.memusg_tracker.PidLog.checkpoint_usage_stats">
+<span class="sig-name descname"><span class="pre">checkpoint_usage_stats</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">write_to_json</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metadata</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/utils/memusg/memusg_tracker.html#PidLog.checkpoint_usage_stats"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.utils.memusg.memusg_tracker.PidLog.checkpoint_usage_stats" title="Permalink to this definition">#</a></dt>
+<dd><p>Return organized dictionary of stats from track_resource_usage.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Resource usage statistics for markers/checkpoints recorded by the
+track_resource_usage method. Dictionary is ordered by the markers passed to
+track_resource_usage. Each key in the return dictionary will hold a
+dictionary of the resource usage statistics. If a group is specified in the
+marker name (e.g. “FOO: BAR”), the return dictionary will have a “BAR” key,
+and will have a “checkpoint_group” key in the corresponding resource usage
+dictionary with a value of “FOO”.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="geoips.utils.memusg.memusg_tracker.PidLog.print_mem_usg">
+<span class="sig-name descname"><span class="pre">print_mem_usg</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">logstr</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">write_to_json</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metadata</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/utils/memusg/memusg_tracker.html#PidLog.print_mem_usg"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.utils.memusg.memusg_tracker.PidLog.print_mem_usg" title="Permalink to this definition">#</a></dt>
+<dd><p>Print verbose resouce usage.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="geoips.utils.memusg.memusg_tracker.PidLog.print_resource_usage">
+<span class="sig-name descname"><span class="pre">print_resource_usage</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/utils/memusg/memusg_tracker.html#PidLog.print_resource_usage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.utils.memusg.memusg_tracker.PidLog.print_resource_usage" title="Permalink to this definition">#</a></dt>
+<dd><p>Print verbose resource usage, using “resource” package.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="geoips.utils.memusg.memusg_tracker.PidLog.save_csv">
+<span class="sig-name descname"><span class="pre">save_csv</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/utils/memusg/memusg_tracker.html#PidLog.save_csv"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.utils.memusg.memusg_tracker.PidLog.save_csv" title="Permalink to this definition">#</a></dt>
+<dd><p>Save a csv file to output.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="geoips.utils.memusg.memusg_tracker.PidLog.save_exit">
+<span class="sig-name descname"><span class="pre">save_exit</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/utils/memusg/memusg_tracker.html#PidLog.save_exit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.utils.memusg.memusg_tracker.PidLog.save_exit" title="Permalink to this definition">#</a></dt>
+<dd><p>Exit the thread cleanly.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="geoips.utils.memusg.memusg_tracker.PidLog.track_pids">
+<span class="sig-name descname"><span class="pre">track_pids</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/utils/memusg/memusg_tracker.html#PidLog.track_pids"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.utils.memusg.memusg_tracker.PidLog.track_pids" title="Permalink to this definition">#</a></dt>
+<dd><p>Track pids and create a dict of values.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="geoips.utils.memusg.memusg_tracker.PidLog.track_resource_usage">
+<span class="sig-name descname"><span class="pre">track_resource_usage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">logstr</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show_log</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">checkpoint</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">increment_key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/utils/memusg/memusg_tracker.html#PidLog.track_resource_usage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.utils.memusg.memusg_tracker.PidLog.track_resource_usage" title="Permalink to this definition">#</a></dt>
+<dd><p>Record resouce usage for a given processing marker in GeoIPS.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>logstr</strong> (<em>str</em><em>, </em><em>optional</em>) – String to include at the start of the log message, by default “”</p></li>
+<li><p><strong>verbose</strong> (<em>bool</em><em>, </em><em>optional</em>) – Print the full resource usage statistics dict to stdout, by default False</p></li>
+<li><p><strong>key</strong> (<em>str</em><em>, </em><em>optional</em>) – Unique name of marker to record statistics, by default None
+A marker can be categorized as part of a group when using “:” in the
+marker name (e.g “FOO: BAR”). This is used in the checkpoint_usage_stats
+method, where markers will have a “checkpoint_group” key in their resource
+usage statistics dictionary holding the name of the group.
+(e.g. stats[“BAR”][“checkpoint_group”] == “FOO”)</p></li>
+<li><p><strong>show_log</strong> (<em>bool</em><em>, </em><em>optional</em>) – Use LOG.info to print the current memory usage, by default True</p></li>
+<li><p><strong>checkpoint</strong> (<em>bool</em><em>, </em><em>optional</em>) – Re-use a marker key to record more detailed profiling of resource usage in
+terms of both timing and maximum memory usage, by default False</p></li>
+<li><p><strong>increment_key</strong> (<em>bool</em><em>, </em><em>optional</em>) – Append the number of times marker is re-used to the key, by default True
+Marker names should be unique, and should at minimum hold the start/end
+resource usage for the marker. If a marker is re-used and increment_key is
+False, a KeyError is raised. If increment_key is True and the marker has
+both start/end stats, a number is automatically appended to the key name.
+This number represents how many times a marker has been re-used. For
+example: “FOO: BAR” -&gt; “FOO: BAR(1)”: -&gt; “FOO: BAR(2)”
+(Note: “FOO: BAR(2)” is only created if “FOO: BAR(1)” has start/end stats)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Resource usage statistics for checkpoint</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>KeyError</strong> – Duplicate key is discovered and increment_key is False</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.utils.memusg.memusg_tracker.print_mem_usage">
+<span class="sig-prename descclassname"><span class="pre">geoips.utils.memusg.memusg_tracker.</span></span><span class="sig-name descname"><span class="pre">print_mem_usage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">logstr</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/utils/memusg/memusg_tracker.html#print_mem_usage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.utils.memusg.memusg_tracker.print_mem_usage" title="Permalink to this definition">#</a></dt>
+<dd><p>Print memory usage to LOG.info.</p>
+<ul class="simple">
+<li><p>By default include psutil output.</p></li>
+<li><p>If verbose is True, include output from both psutil and resource packages.</p></li>
+</ul>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.utils.memusg.memusg_tracker.print_resource_usage">
+<span class="sig-prename descclassname"><span class="pre">geoips.utils.memusg.memusg_tracker.</span></span><span class="sig-name descname"><span class="pre">print_resource_usage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">logstr</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/utils/memusg/memusg_tracker.html#print_resource_usage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.utils.memusg.memusg_tracker.print_resource_usage" title="Permalink to this definition">#</a></dt>
+<dd><p>Print verbose resource usage, using “resource” package.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.utils.memusg.memusg_tracker.single_track_pid">
+<span class="sig-prename descclassname"><span class="pre">geoips.utils.memusg.memusg_tracker.</span></span><span class="sig-name descname"><span class="pre">single_track_pid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">procpid</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/utils/memusg/memusg_tracker.html#single_track_pid"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.utils.memusg.memusg_tracker.single_track_pid" title="Permalink to this definition">#</a></dt>
+<dd><p>Output a snapshot of a pid usage on server.</p>
+<ul class="simple">
+<li><p>Requires an input pid.</p></li>
+</ul>
+</dd></dl>
+
+</section>
+<section id="module-geoips.utils.memusg.plot_json_files">
+<span id="geoips-utils-memusg-plot-json-files-module"></span><h2>geoips.utils.memusg.plot_json_files module<a class="headerlink" href="#module-geoips.utils.memusg.plot_json_files" title="Permalink to this heading">#</a></h2>
+<p>Find JSON statistics files on disk and plot stats.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.utils.memusg.plot_json_files.create_usage_dataframe_per_source">
+<span class="sig-prename descclassname"><span class="pre">geoips.utils.memusg.plot_json_files.</span></span><span class="sig-name descname"><span class="pre">create_usage_dataframe_per_source</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">loaded_json_dataframe</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/utils/memusg/plot_json_files.html#create_usage_dataframe_per_source"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.utils.memusg.plot_json_files.create_usage_dataframe_per_source" title="Permalink to this definition">#</a></dt>
+<dd><p>Separate dataframe into multiple by source.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>loaded_json_dataframe</strong> (<em>pandas.core.frame.DataFrame</em>) – Single dataframe with all stats</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Dict of DataFrames where each key is a different source</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.utils.memusg.plot_json_files.get_json_file_lists">
+<span class="sig-prename descclassname"><span class="pre">geoips.utils.memusg.plot_json_files.</span></span><span class="sig-name descname"><span class="pre">get_json_file_lists</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">json_stats_output_directory</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">geoips_version</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">window_start</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">window_end</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sector_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">include_checkpoints</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/utils/memusg/plot_json_files.html#get_json_file_lists"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.utils.memusg.plot_json_files.get_json_file_lists" title="Permalink to this definition">#</a></dt>
+<dd><p>Find list of JSON statistic files to load.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>json_stats_output_directory</strong> (<em>str</em>) – Base output directory of JSON files</p></li>
+<li><p><strong>geoips_version</strong> (<em>str</em>) – Version of GeoIPS</p></li>
+<li><p><strong>window_start</strong> (<em>datetime.datetime</em>) – Start of search window</p></li>
+<li><p><strong>window_end</strong> (<em>datetime.datetime</em>) – End of search window</p></li>
+<li><p><strong>sector_type</strong> (<em>str</em><em>, </em><em>optional</em>) – Limit jsons to either: mixed, static, or tc specific procflows, by default None</p></li>
+<li><p><strong>include_checkpoints</strong> (<em>bool</em><em>, </em><em>optional</em>) – Attempt to load detailed checkpoint statistics, by default False</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>List of files for each key</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.utils.memusg.plot_json_files.load_jsons_into_dataframes_by_source">
+<span class="sig-prename descclassname"><span class="pre">geoips.utils.memusg.plot_json_files.</span></span><span class="sig-name descname"><span class="pre">load_jsons_into_dataframes_by_source</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">json_files</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">json_filename_keys</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/utils/memusg/plot_json_files.html#load_jsons_into_dataframes_by_source"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.utils.memusg.plot_json_files.load_jsons_into_dataframes_by_source" title="Permalink to this definition">#</a></dt>
+<dd><p>Take list of json files and return dict of DataFrames.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>json_files</strong> (<em>list</em>) – List of json files to read</p></li>
+<li><p><strong>json_filename_keys</strong> (<em>list</em><em>, </em><em>optional</em>) – List of filename tags used to differentiate experiments</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Dict of DataFrames where each key is a different source</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.utils.memusg.plot_json_files.load_jsons_into_single_dataframe">
+<span class="sig-prename descclassname"><span class="pre">geoips.utils.memusg.plot_json_files.</span></span><span class="sig-name descname"><span class="pre">load_jsons_into_single_dataframe</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">json_files</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">json_filename_keys</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rename_columns</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/utils/memusg/plot_json_files.html#load_jsons_into_single_dataframe"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.utils.memusg.plot_json_files.load_jsons_into_single_dataframe" title="Permalink to this definition">#</a></dt>
+<dd><p>Load JSON files into single pandas dataframe.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>json_files</strong> (<em>list</em>) – List of json files to read</p></li>
+<li><p><strong>json_filename_keys</strong> (<em>list</em><em>, </em><em>optional</em>) – List of filename tags used to differentiate experiments</p></li>
+<li><p><strong>rename_columns</strong> (<em>bool</em><em>, </em><em>optional</em>) – Rename columns to be more plotting friendly, by default False</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Dataframe of stats</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>pandas.core.frame.DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.utils.memusg.plot_json_files.main">
+<span class="sig-prename descclassname"><span class="pre">geoips.utils.memusg.plot_json_files.</span></span><span class="sig-name descname"><span class="pre">main</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/utils/memusg/plot_json_files.html#main"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.utils.memusg.plot_json_files.main" title="Permalink to this definition">#</a></dt>
+<dd><p>Plot statistics.</p>
+</dd></dl>
+
+</section>
+<section id="module-geoips.utils.memusg">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-geoips.utils.memusg" title="Permalink to this heading">#</a></h2>
+<p>Utilities for memory usage tracking and reporting.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="geoips.utils.memusg.PidLog">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">geoips.utils.memusg.</span></span><span class="sig-name descname"><span class="pre">PidLog</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inpid</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logstr</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/utils/memusg/memusg_tracker.html#PidLog"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.utils.memusg.PidLog" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Track a PID and all children.</p>
+<ul class="simple">
+<li><p>Requires psutil and threading</p></li>
+</ul>
+<dl class="py method">
+<dt class="sig sig-object py" id="geoips.utils.memusg.PidLog.checkpoint_usage_stats">
+<span class="sig-name descname"><span class="pre">checkpoint_usage_stats</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">write_to_json</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metadata</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/utils/memusg/memusg_tracker.html#PidLog.checkpoint_usage_stats"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.utils.memusg.PidLog.checkpoint_usage_stats" title="Permalink to this definition">#</a></dt>
+<dd><p>Return organized dictionary of stats from track_resource_usage.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Resource usage statistics for markers/checkpoints recorded by the
+track_resource_usage method. Dictionary is ordered by the markers passed to
+track_resource_usage. Each key in the return dictionary will hold a
+dictionary of the resource usage statistics. If a group is specified in the
+marker name (e.g. “FOO: BAR”), the return dictionary will have a “BAR” key,
+and will have a “checkpoint_group” key in the corresponding resource usage
+dictionary with a value of “FOO”.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="geoips.utils.memusg.PidLog.print_mem_usg">
+<span class="sig-name descname"><span class="pre">print_mem_usg</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">logstr</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">write_to_json</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metadata</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/utils/memusg/memusg_tracker.html#PidLog.print_mem_usg"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.utils.memusg.PidLog.print_mem_usg" title="Permalink to this definition">#</a></dt>
+<dd><p>Print verbose resouce usage.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="geoips.utils.memusg.PidLog.print_resource_usage">
+<span class="sig-name descname"><span class="pre">print_resource_usage</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/utils/memusg/memusg_tracker.html#PidLog.print_resource_usage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.utils.memusg.PidLog.print_resource_usage" title="Permalink to this definition">#</a></dt>
+<dd><p>Print verbose resource usage, using “resource” package.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="geoips.utils.memusg.PidLog.save_csv">
+<span class="sig-name descname"><span class="pre">save_csv</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/utils/memusg/memusg_tracker.html#PidLog.save_csv"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.utils.memusg.PidLog.save_csv" title="Permalink to this definition">#</a></dt>
+<dd><p>Save a csv file to output.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="geoips.utils.memusg.PidLog.save_exit">
+<span class="sig-name descname"><span class="pre">save_exit</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/utils/memusg/memusg_tracker.html#PidLog.save_exit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.utils.memusg.PidLog.save_exit" title="Permalink to this definition">#</a></dt>
+<dd><p>Exit the thread cleanly.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="geoips.utils.memusg.PidLog.track_pids">
+<span class="sig-name descname"><span class="pre">track_pids</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/utils/memusg/memusg_tracker.html#PidLog.track_pids"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.utils.memusg.PidLog.track_pids" title="Permalink to this definition">#</a></dt>
+<dd><p>Track pids and create a dict of values.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="geoips.utils.memusg.PidLog.track_resource_usage">
+<span class="sig-name descname"><span class="pre">track_resource_usage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">logstr</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show_log</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">checkpoint</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">increment_key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/utils/memusg/memusg_tracker.html#PidLog.track_resource_usage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.utils.memusg.PidLog.track_resource_usage" title="Permalink to this definition">#</a></dt>
+<dd><p>Record resouce usage for a given processing marker in GeoIPS.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>logstr</strong> (<em>str</em><em>, </em><em>optional</em>) – String to include at the start of the log message, by default “”</p></li>
+<li><p><strong>verbose</strong> (<em>bool</em><em>, </em><em>optional</em>) – Print the full resource usage statistics dict to stdout, by default False</p></li>
+<li><p><strong>key</strong> (<em>str</em><em>, </em><em>optional</em>) – Unique name of marker to record statistics, by default None
+A marker can be categorized as part of a group when using “:” in the
+marker name (e.g “FOO: BAR”). This is used in the checkpoint_usage_stats
+method, where markers will have a “checkpoint_group” key in their resource
+usage statistics dictionary holding the name of the group.
+(e.g. stats[“BAR”][“checkpoint_group”] == “FOO”)</p></li>
+<li><p><strong>show_log</strong> (<em>bool</em><em>, </em><em>optional</em>) – Use LOG.info to print the current memory usage, by default True</p></li>
+<li><p><strong>checkpoint</strong> (<em>bool</em><em>, </em><em>optional</em>) – Re-use a marker key to record more detailed profiling of resource usage in
+terms of both timing and maximum memory usage, by default False</p></li>
+<li><p><strong>increment_key</strong> (<em>bool</em><em>, </em><em>optional</em>) – Append the number of times marker is re-used to the key, by default True
+Marker names should be unique, and should at minimum hold the start/end
+resource usage for the marker. If a marker is re-used and increment_key is
+False, a KeyError is raised. If increment_key is True and the marker has
+both start/end stats, a number is automatically appended to the key name.
+This number represents how many times a marker has been re-used. For
+example: “FOO: BAR” -&gt; “FOO: BAR(1)”: -&gt; “FOO: BAR(2)”
+(Note: “FOO: BAR(2)” is only created if “FOO: BAR(1)” has start/end stats)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Resource usage statistics for checkpoint</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>KeyError</strong> – Duplicate key is discovered and increment_key is False</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.utils.memusg.print_mem_usage">
+<span class="sig-prename descclassname"><span class="pre">geoips.utils.memusg.</span></span><span class="sig-name descname"><span class="pre">print_mem_usage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">logstr</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/utils/memusg/memusg_tracker.html#print_mem_usage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.utils.memusg.print_mem_usage" title="Permalink to this definition">#</a></dt>
+<dd><p>Print memory usage to LOG.info.</p>
+<ul class="simple">
+<li><p>By default include psutil output.</p></li>
+<li><p>If verbose is True, include output from both psutil and resource packages.</p></li>
+</ul>
+</dd></dl>
+
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="geoips.utils.coverage_checkers.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">geoips.utils.coverage_checkers package</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="geoips.utils.types.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">geoips.utils.types package</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#submodules">Submodules</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-geoips.utils.memusg.boxplots">geoips.utils.memusg.boxplots module</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.utils.memusg.boxplots.boxplot"><code class="docutils literal notranslate"><span class="pre">boxplot()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.utils.memusg.boxplots.checkpoint_boxplot"><code class="docutils literal notranslate"><span class="pre">checkpoint_boxplot()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-geoips.utils.memusg.dataframe_utils">geoips.utils.memusg.dataframe_utils module</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.utils.memusg.dataframe_utils.create_checkpoint_dataframe"><code class="docutils literal notranslate"><span class="pre">create_checkpoint_dataframe()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.utils.memusg.dataframe_utils.print_stats"><code class="docutils literal notranslate"><span class="pre">print_stats()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.utils.memusg.dataframe_utils.sort_resource_dframe"><code class="docutils literal notranslate"><span class="pre">sort_resource_dframe()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.utils.memusg.dataframe_utils.sort_resource_stats"><code class="docutils literal notranslate"><span class="pre">sort_resource_stats()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-geoips.utils.memusg.memusg_tracker">geoips.utils.memusg.memusg_tracker module</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.utils.memusg.memusg_tracker.PidLog"><code class="docutils literal notranslate"><span class="pre">PidLog</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.utils.memusg.memusg_tracker.PidLog.checkpoint_usage_stats"><code class="docutils literal notranslate"><span class="pre">PidLog.checkpoint_usage_stats()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.utils.memusg.memusg_tracker.PidLog.print_mem_usg"><code class="docutils literal notranslate"><span class="pre">PidLog.print_mem_usg()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.utils.memusg.memusg_tracker.PidLog.print_resource_usage"><code class="docutils literal notranslate"><span class="pre">PidLog.print_resource_usage()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.utils.memusg.memusg_tracker.PidLog.save_csv"><code class="docutils literal notranslate"><span class="pre">PidLog.save_csv()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.utils.memusg.memusg_tracker.PidLog.save_exit"><code class="docutils literal notranslate"><span class="pre">PidLog.save_exit()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.utils.memusg.memusg_tracker.PidLog.track_pids"><code class="docutils literal notranslate"><span class="pre">PidLog.track_pids()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.utils.memusg.memusg_tracker.PidLog.track_resource_usage"><code class="docutils literal notranslate"><span class="pre">PidLog.track_resource_usage()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.utils.memusg.memusg_tracker.print_mem_usage"><code class="docutils literal notranslate"><span class="pre">print_mem_usage()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.utils.memusg.memusg_tracker.print_resource_usage"><code class="docutils literal notranslate"><span class="pre">print_resource_usage()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.utils.memusg.memusg_tracker.single_track_pid"><code class="docutils literal notranslate"><span class="pre">single_track_pid()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-geoips.utils.memusg.plot_json_files">geoips.utils.memusg.plot_json_files module</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.utils.memusg.plot_json_files.create_usage_dataframe_per_source"><code class="docutils literal notranslate"><span class="pre">create_usage_dataframe_per_source()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.utils.memusg.plot_json_files.get_json_file_lists"><code class="docutils literal notranslate"><span class="pre">get_json_file_lists()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.utils.memusg.plot_json_files.load_jsons_into_dataframes_by_source"><code class="docutils literal notranslate"><span class="pre">load_jsons_into_dataframes_by_source()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.utils.memusg.plot_json_files.load_jsons_into_single_dataframe"><code class="docutils literal notranslate"><span class="pre">load_jsons_into_single_dataframe()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.utils.memusg.plot_json_files.main"><code class="docutils literal notranslate"><span class="pre">main()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-geoips.utils.memusg">Module contents</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.utils.memusg.PidLog"><code class="docutils literal notranslate"><span class="pre">PidLog</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.utils.memusg.PidLog.checkpoint_usage_stats"><code class="docutils literal notranslate"><span class="pre">PidLog.checkpoint_usage_stats()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.utils.memusg.PidLog.print_mem_usg"><code class="docutils literal notranslate"><span class="pre">PidLog.print_mem_usg()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.utils.memusg.PidLog.print_resource_usage"><code class="docutils literal notranslate"><span class="pre">PidLog.print_resource_usage()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.utils.memusg.PidLog.save_csv"><code class="docutils literal notranslate"><span class="pre">PidLog.save_csv()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.utils.memusg.PidLog.save_exit"><code class="docutils literal notranslate"><span class="pre">PidLog.save_exit()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.utils.memusg.PidLog.track_pids"><code class="docutils literal notranslate"><span class="pre">PidLog.track_pids()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.utils.memusg.PidLog.track_resource_usage"><code class="docutils literal notranslate"><span class="pre">PidLog.track_resource_usage()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.utils.memusg.print_mem_usage"><code class="docutils literal notranslate"><span class="pre">print_mem_usage()</span></code></a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+
+  <div class="tocsection sourcelink">
+    <a href="../_sources/geoips_api/geoips.utils.memusg.rst.txt">
+      <i class="fa-solid fa-file-lines"></i> Show Source
+    </a>
+  </div>
+</div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item"><div class="footer">
+    <a href="http://www.navy.mil">Official US Navy Website</a>
+    <a href="http://www.navy.com/navy/">US Navy Recruiting</a>
+    <a href="http://www.nrlmry.navy.mil">NRL</a>
+    <a href="http://foia.navy.mil">Accessibility</a>
+    <a href="http://foia.navy.mil">Freedom of Information Act</a>
+    <a href="http://www.nrlmry.navy.mil/privacypolicy.htm">Security & Policy</a>
+    <a href="http://www.nrlmry.navy.mil/linknotice.html">Hyperlink Notice</a>
+    <a href="mailto:webmaster@nrlmry.navy.mil">webmaster@nrlmry.navy.mil</a><br>
+    <a href="http://www.nrlmry.navy.mil">
+    Naval Research Laboratory Marine Meteorology Division Monterey, CA</a><br>
+    7 Grace Hopper Avenue, STOP 2, Monterey, CA 93943-5502
+</div></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>geoips.plugins.modules.procflows.single_source &#8212; GeoIPS, Geolocated Information Processing System 1.17.0a0 documentation</title>
+    <title>geoips.plugins.modules.procflows.single_source &#8212; GeoIPS, Geolocated Information Processing System 1.19.0.post776.dev0 documentation</title>
   
   
   
@@ -26,53 +26,569 @@
   </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../../../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
-<link href="../../../../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+  <link href="../../../../../_static/styles/theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+<link href="../../../../../_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="../../../../../_static/pygments.css?v=03e43079" />
     <link rel="stylesheet" type="text/css" href="../../../../../_static/set_width.css?v=d4af5e1e" />
     <link rel="stylesheet" type="text/css" href="../../../../../_static/sphinx-design.min.css?v=95c83b7e" />
   
   <!-- So that users can add custom icons -->
-  <script src="../../../../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <script defer src="../../../../../_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
-<link rel="preload" as="script" href="../../../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+  <link rel="preload" as="script" href="../../../../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
+<link rel="preload" as="script" href="../../../../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
 
-    <script data-url_root="../../../../../" id="documentation_options" src="../../../../../_static/documentation_options.js?v=c5be8013"></script>
+    <script data-url_root="../../../../../" id="documentation_options" src="../../../../../_static/documentation_options.js?v=1e4423a0"></script>
     <script src="../../../../../_static/doctools.js?v=888ff710"></script>
     <script src="../../../../../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../../../_static/design-tabs.js?v=f930bc37"></script>
-    <script type="module" src="https://cdn.jsdelivr.net/npm/mermaid@11.2.0/dist/mermaid.esm.min.mjs"></script>
-    <script type="module" src="https://cdn.jsdelivr.net/npm/@mermaid-js/layout-elk@0.1.4/dist/mermaid-layout-elk.esm.min.mjs"></script>
-    <script type="module">import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.2.0/dist/mermaid.esm.min.mjs";import elkLayouts from "https://cdn.jsdelivr.net/npm/@mermaid-js/layout-elk@0.1.4/dist/mermaid-layout-elk.esm.min.mjs";mermaid.registerLayoutLoaders(elkLayouts);mermaid.initialize({startOnLoad:false});</script>
     <script src="https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js"></script>
-    <script type="module">
-import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.2.0/dist/mermaid.esm.min.mjs";
-window.addEventListener("load", () => mermaid.run());
-</script>
+    <script type="module">import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.12.1/dist/mermaid.esm.min.mjs";
+
+
+
+
+
+const initStyles = () => {
+    const defaultStyle = document.createElement('style');
+    defaultStyle.textContent = `pre.mermaid {
+    /* Same as .mermaid-container > pre */
+    display: block;
+    width: 100%;
+}
+
+pre.mermaid > svg {
+    /* Same as .mermaid-container > pre > svg */
+    height: 500px;
+    width: 100%;
+    max-width: 100% !important;
+}`;
+    document.head.appendChild(defaultStyle);
+
+    const fullscreenStyle = document.createElement('style');
+    fullscreenStyle.textContent = `.mermaid-container {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+}
+
+.mermaid-container > pre {
+    display: block;
+    width: 100%;
+}
+
+.mermaid-container > pre > svg {
+    height: 500px;
+    width: 100%;
+    max-width: 100% !important;
+}
+
+.mermaid-fullscreen-btn {
+    width: 28px;
+    height: 28px;
+    background: rgba(255, 255, 255, 0.95);
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    border-radius: 4px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+    font-size: 14px;
+    line-height: 1;
+    padding: 0;
+    color: #333;
+}
+
+.mermaid-fullscreen-btn:hover {
+    opacity: 100% !important;
+    background: rgba(255, 255, 255, 1);
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
+    transform: scale(1.1);
+}
+
+.mermaid-fullscreen-btn.dark-theme {
+    background: rgba(50, 50, 50, 0.95);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: #e0e0e0;
+}
+
+.mermaid-fullscreen-btn.dark-theme:hover {
+    background: rgba(60, 60, 60, 1);
+    box-shadow: 0 3px 10px rgba(255, 255, 255, 0.2);
+}
+
+.mermaid-fullscreen-modal {
+    display: none;
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 95vw;
+    height: 100vh;
+    background: rgba(255, 255, 255, 0.98);
+    z-index: 9999;
+    padding: 20px;
+    overflow: auto;
+}
+
+.mermaid-fullscreen-modal.dark-theme {
+    background: rgba(0, 0, 0, 0.98);
+}
+
+.mermaid-fullscreen-modal.active {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.mermaid-container-fullscreen {
+    position: relative;
+    width: 95vw;
+    height: 90vh;
+    max-width: 95vw;
+    max-height: 90vh;
+    background: white;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+    overflow: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.mermaid-container-fullscreen.dark-theme {
+    background: #1a1a1a;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8);
+}
+
+.mermaid-container-fullscreen pre.mermaid {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.mermaid-container-fullscreen .mermaid svg {
+    height: 100% !important;
+    width: 100% !important;
+    cursor: grab;
+}
+
+.mermaid-fullscreen-close {
+    position: fixed !important;
+    top: 20px !important;
+    right: 20px !important;
+    width: 40px;
+    height: 40px;
+    background: rgba(255, 255, 255, 0.95);
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-radius: 50%;
+    cursor: pointer;
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    transition: all 0.2s;
+    font-size: 24px;
+    line-height: 1;
+    color: #333;
+}
+
+.mermaid-fullscreen-close:hover {
+    background: white;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+    transform: scale(1.1);
+}
+
+.mermaid-fullscreen-close.dark-theme {
+    background: rgba(50, 50, 50, 0.95);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #e0e0e0;
+}
+
+.mermaid-fullscreen-close.dark-theme:hover {
+    background: rgba(60, 60, 60, 1);
+    box-shadow: 0 6px 16px rgba(255, 255, 255, 0.2);
+}
+
+.mermaid-fullscreen-modal .mermaid-fullscreen-btn {
+    display: none !important;
+}`;
+    document.head.appendChild(fullscreenStyle);
+}
+
+// Detect if page has dark background
+const isDarkTheme = () => {
+    // We use a set of heuristics:
+    // 1. Check for common dark mode classes or attributes
+    // 2. Check computed background color brightness
+    if (document.documentElement.classList.contains('dark') ||
+        document.documentElement.getAttribute('data-theme') === 'dark' ||
+        document.body.classList.contains('dark') ||
+        document.body.getAttribute('data-theme') === 'dark') {
+        // console.log("Dark theme detected via class/attribute");
+        return true;
+    }
+    if (document.documentElement.classList.contains('light') ||
+        document.documentElement.getAttribute('data-theme') === 'light' ||
+        document.body.classList.contains('light') ||
+        document.body.getAttribute('data-theme') === 'light') {
+        // console.log("Light theme detected via class/attribute");
+        return false;
+    }
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        // console.log("Dark theme detected via prefers-color-scheme");
+        return true;
+    }
+    const bgColor = window.getComputedStyle(document.body).backgroundColor;
+    const match = bgColor.match(/rgb\((\d+),\s*(\d+),\s*(\d+)/);
+    if (match) {
+        const r = parseInt(match[1]);
+        const g = parseInt(match[2]);
+        const b = parseInt(match[3]);
+        const brightness = (r * 299 + g * 587 + b * 114) / 1000;
+        // console.log("Background color brightness:", brightness);
+        return brightness < 128;
+    }
+    // console.log("No dark or light theme detected, defaulting to light theme");
+    return false;
+};
+
+let darkTheme = isDarkTheme();
+let modal = null;
+let modalContent = null;
+let previousScrollOffset = [window.scrollX, window.scrollY];
+let _lazyObserver = null;
+let _renderQueue = Promise.resolve();
+
+// Apply d3 zoom to each SVG. Idempotent: an SVG already wrapped is skipped,
+// so this is safe to call both for the initial batch and for diagrams that
+// render lazily once they become visible.
+const addZoomToSvgs = (svgs) => {
+    svgs.each(function() {
+        if (this.getAttribute('data-zoom-applied') === 'true') return;
+        var svg = d3.select(this);
+        svg.html("<g class='wrapper'>" + svg.html() + "</g>");
+        var inner = svg.select("g");
+        var zoom = d3.zoom().on("zoom", function(event) {
+            inner.attr("transform", event.transform);
+        });
+        svg.call(zoom);
+        this.setAttribute('data-zoom-applied', 'true');
+    });
+};
+
+const runMermaid = async (rerun) => {
+    console.log("Running mermaid diagrams, rerun =", rerun);
+    // clear all existing mermaid charts
+    let all_mermaids = document.querySelectorAll(".mermaid");
+
+    if (rerun) {
+        // Disconnect any previous lazy rendering observer
+        if (_lazyObserver) {
+            _lazyObserver.disconnect();
+            _lazyObserver = null;
+        }
+
+        all_mermaids.forEach((el) => {
+            el.removeAttribute('data-mermaid-deferred');
+            el.removeAttribute('data-mermaid-render-failed');
+            if(!el.hasAttribute("data-original-code")) {
+                // store original code
+                // console.log(`Storing original code for first run: `, el.innerHTML);
+                el.setAttribute('data-original-code', el.innerHTML);
+            }
+            if(el.getAttribute("data-processed") === "true") {
+                // remove and restore original
+                el.removeAttribute("data-processed");
+                // console.log(`Restoring original code for re-run: `, el.getAttribute('data-original-code'));
+                el.innerHTML = el.getAttribute('data-original-code');
+            } else {
+                // store original code
+                // console.log(`Storing original code for re-run: `, el.innerHTML);
+                el.setAttribute('data-original-code', el.innerHTML);
+            }
+        });
+
+        // Separate visible and hidden elements. Mermaid's layout engine measures
+        // text dimensions via the DOM, which fails for elements hidden by a parent
+        // (e.g., Reveal.js non-active slides, sphinx-design unopened tabs),
+        // producing broken SVGs. Render visible elements now, defer hidden ones.
+        const visible = [];
+        const hidden = [];
+        all_mermaids.forEach((el) => {
+            // offsetParent is null for display:none ancestors.
+            // getClientRects().length > 0 catches position:fixed elements
+            // (which also have null offsetParent but are still visible).
+            if (el.offsetParent !== null || el.getClientRects().length > 0) {
+                visible.push(el);
+            } else {
+                hidden.push(el);
+                el.setAttribute('data-mermaid-deferred', 'true');
+            }
+        });
+
+        if (visible.length > 0) {
+            try {
+                await mermaid.run({ nodes: visible });
+            } catch (e) {
+                console.error("Mermaid rendering failed:", e);
+            }
+        }
+
+        // Lazily render hidden elements when they become visible.
+        // Uses a promise chain (_renderQueue) to serialize rendering,
+        // since IntersectionObserver may report multiple entries at once
+        // and mermaid.run() is not safe to call concurrently.
+        if (hidden.length > 0) {
+            if (typeof IntersectionObserver === 'undefined') {
+                console.warn("IntersectionObserver not available; hidden mermaid diagrams will not render.");
+            } else {
+                _renderQueue = Promise.resolve();
+                _lazyObserver = new IntersectionObserver((entries) => {
+                    for (const entry of entries) {
+                        if (entry.isIntersecting && entry.target.getAttribute("data-processed") !== "true") {
+                            _lazyObserver.unobserve(entry.target);
+                            const el = entry.target;
+                            _renderQueue = _renderQueue.then(async () => {
+                                try {
+                                    await mermaid.run({ nodes: [el] });
+                                    el.removeAttribute('data-mermaid-deferred');
+                                    // Apply zoom to the now-rendered diagram, matching
+                                    // the decoration visible diagrams receive.
+                                    if ("False" === "True") {
+                                        addZoomToSvgs(d3.selectAll(""));
+                                    }
+                                } catch (e) {
+                                    console.error("Mermaid deferred rendering failed:", e);
+                                    el.removeAttribute('data-mermaid-deferred');
+                                    el.setAttribute('data-mermaid-render-failed', 'true');
+                                }
+                            });
+                        }
+                    }
+                });
+                hidden.forEach((el) => _lazyObserver.observe(el));
+            }
+        }
+    }
+
+    all_mermaids = document.querySelectorAll(".mermaid");
+    // Exclude deferred (hidden) and render-failed elements from completion checks
+    const mermaids_active = document.querySelectorAll(".mermaid:not([data-mermaid-deferred]):not([data-mermaid-render-failed])");
+    const mermaids_processed = document.querySelectorAll(".mermaid:not([data-mermaid-deferred]):not([data-mermaid-render-failed])[data-processed='true']");
+
+    if ("False" === "True") {
+        const mermaids_to_add_zoom = -1 === -1 ? mermaids_active.length : -1;
+        if(mermaids_to_add_zoom > 0) {
+            var svgs = d3.selectAll("");
+            // Wait until every active (visible) diagram has rendered. Deferred
+            // diagrams are excluded, so a fixed d3_node_count that counts a
+            // hidden diagram no longer loops forever waiting for its SVG.
+            if(mermaids_active.length !== mermaids_processed.length) {
+                setTimeout(() => runMermaid(false), 200);
+                return;
+            }
+            addZoomToSvgs(svgs);
+        }
+    } else if(mermaids_active.length !== mermaids_processed.length) {
+        // Wait for mermaid to process all diagrams
+        setTimeout(() => runMermaid(false), 200);
+        return;
+    }
+
+    // Stop here if not adding fullscreen capability
+    if ("True" !== "True") return;
+
+    if (modal !== null ) {
+        // Destroy existing modal
+        modal.remove();
+        modal = null;
+        modalContent = null;
+    }
+
+    modal = document.createElement('div');
+    modal.className = 'mermaid-fullscreen-modal' + (darkTheme ? ' dark-theme' : '');
+    modal.setAttribute('role', 'dialog');
+    modal.setAttribute('aria-modal', 'true');
+    modal.setAttribute('aria-label', 'Fullscreen diagram viewer');
+    modal.innerHTML = `
+        <button class="mermaid-fullscreen-close${darkTheme ? ' dark-theme' : ''}" aria-label="Close fullscreen">✕</button>
+        <div class="mermaid-container-fullscreen${darkTheme ? ' dark-theme' : ''}"></div>
+    `;
+    document.body.appendChild(modal);
+
+    modalContent = modal.querySelector('.mermaid-container-fullscreen');
+    const closeBtn = modal.querySelector('.mermaid-fullscreen-close');
+
+    const closeModal = () => {
+        modal.classList.remove('active');
+        modalContent.innerHTML = '';
+        document.body.style.overflow = ''
+        window.scrollTo({left: previousScrollOffset[0], top: previousScrollOffset[1], behavior: 'instant'});
+    };
+
+    closeBtn.addEventListener('click', closeModal);
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) closeModal();
+    });
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && modal.classList.contains('active')) {
+            closeModal();
+        }
+    });
+
+    document.querySelectorAll('.mermaid').forEach((mermaidDiv) => {
+        if (mermaidDiv.parentNode.classList.contains('mermaid-container') ||
+            mermaidDiv.closest('.mermaid-fullscreen-modal')) {
+            // Already processed, adjust button class if needed
+            const existingBtn = mermaidDiv.parentNode.querySelector('.mermaid-fullscreen-btn');
+            if (existingBtn) {
+                existingBtn.className = 'mermaid-fullscreen-btn' + (darkTheme ? ' dark-theme' : '');
+            }
+            return;
+        }
+
+        const container = document.createElement('div');
+        container.className = 'mermaid-container';
+        mermaidDiv.parentNode.insertBefore(container, mermaidDiv);
+        container.appendChild(mermaidDiv);
+
+        const fullscreenBtn = document.createElement('button');
+        fullscreenBtn.className = 'mermaid-fullscreen-btn' + (darkTheme ? ' dark-theme' : '');
+        fullscreenBtn.setAttribute('aria-label', 'View diagram in fullscreen');
+        fullscreenBtn.textContent = '⛶';
+        fullscreenBtn.style.opacity = '50%';
+
+        // Calculate dynamic position based on diagram's margin and padding
+        const diagramStyle = window.getComputedStyle(mermaidDiv);
+        const marginTop = parseFloat(diagramStyle.marginTop) || 0;
+        const marginRight = parseFloat(diagramStyle.marginRight) || 0;
+        const paddingTop = parseFloat(diagramStyle.paddingTop) || 0;
+        const paddingRight = parseFloat(diagramStyle.paddingRight) || 0;
+        fullscreenBtn.style.top = `${marginTop + paddingTop + 4}px`;
+        fullscreenBtn.style.right = `${marginRight + paddingRight + 4}px`;
+
+        fullscreenBtn.addEventListener('click', () => {
+            previousScrollOffset = [window.scroll, window.scrollY];
+            const clone = mermaidDiv.cloneNode(true);
+            modalContent.innerHTML = '';
+            modalContent.appendChild(clone);
+
+            const svg = clone.querySelector('svg');
+            if (svg) {
+                svg.removeAttribute('width');
+                svg.removeAttribute('height');
+                svg.style.width = '100%';
+                svg.style.height = 'auto';
+                svg.style.maxWidth = '100%';
+                svg.style.sdisplay = 'block';
+
+                if ("False" === "True") {
+                    setTimeout(() => {
+                        const g = svg.querySelector('g');
+                        if (g) {
+                            var svgD3 = d3.select(svg);
+                            svgD3.html("<g class='wrapper'>" + svgD3.html() + "</g>");
+                            var inner = svgD3.select("g");
+                            var zoom = d3.zoom().on("zoom", function(event) {
+                                inner.attr("transform", event.transform);
+                            });
+                            svgD3.call(zoom);
+                        }
+                    }, 100);
+                }
+            }
+
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        });
+        container.appendChild(fullscreenBtn);
+    });
+};
+
+const load = async () => {
+    initStyles();
+
+    await runMermaid(true);
+
+    const reRunIfThemeChanges = async () => {
+        const newDarkTheme = isDarkTheme();
+        if (newDarkTheme !== darkTheme) {
+            darkTheme = newDarkTheme;
+            console.log("Theme change detected, re-running mermaid with", darkTheme ? "dark" : "default", "theme");
+            await mermaid.initialize(
+                {...JSON.parse(
+                    `{"startOnLoad": false}`
+                ),
+                ...{ darkMode: darkTheme, theme: darkTheme ? 'dark' : 'default' },
+                }
+            );
+            await runMermaid(true);
+        }
+    };
+
+    // Update theme classes when theme changes
+    const themeObserver = new MutationObserver(reRunIfThemeChanges);
+    themeObserver.observe(document.documentElement, {
+        attributes: true,
+        attributeFilter: ['class', 'style', 'data-theme']
+    });
+    themeObserver.observe(document.body, {
+        attributes: true,
+        attributeFilter: ['class', 'style', 'data-theme']
+    });
+};
+
+
+
+
+
+console.log("Initializing mermaid with", darkTheme ? "dark" : "default", "theme");
+mermaid.initialize(
+    {...JSON.parse(
+        `{"startOnLoad": false}`
+    ),
+    ...{ darkMode: darkTheme, theme: darkTheme ? 'dark' : 'default' },
+    }
+);
+
+window.addEventListener("load", load);
+window.runMermaid = runMermaid;</script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_modules/geoips/plugins/modules/procflows/single_source';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
     <link rel="icon" href="../../../../../_static/nrlicon.ico"/>
     <link rel="index" title="Index" href="../../../../../genindex.html" />
     <link rel="search" title="Search" href="../../../../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="1.1" />
-    <meta name="docbuild:last-update" content="Oct 14, 2025 20:03:48"/>
+    <meta name="docbuild:last-update" content="Jul 16, 2026 04:57:54"/>
+  
+    
+    <script src="../../../../../_static/searchtools.js"></script>
+    <script src="../../../../../_static/language_data.js"></script>
+    <script src="../../../../../searchindex.js"></script>
+  
   </head>
-  
-  
-  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
-
+  <body data-default-mode="">
   
   
   <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
   
   <div id="pst-scroll-pixel-helper"></div>
   
   <button type="button" class="btn rounded-pill" id="pst-back-to-top">
     <i class="fa-solid fa-arrow-up"></i>Back to top</button>
-
+  
+  
+  
   
   <dialog id="pst-search-dialog">
     
@@ -98,7 +614,7 @@ window.addEventListener("load", () => mermaid.run());
 </div>
 
   
-    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
 <div class="bd-header__inner bd-page-width">
   <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
     <span class="fa-solid fa-bars"></span>
@@ -124,8 +640,8 @@ window.addEventListener("load", () => mermaid.run());
       
     
     
-    <img src="../../../../../_static/NRL_logo_RGB.jpg" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 1.17.0a0 documentation - Home"/>
-    <img src="../../../../../_static/NRL_logo_sidebar_Reverse.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 1.17.0a0 documentation - Home"/>
+    <img src="../../../../../_static/NRL_logo_RGB.jpg" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 1.19.0.post776.dev0 documentation - Home"/>
+    <img src="../../../../../_static/NRL_logo_sidebar_Reverse.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 1.19.0.post776.dev0 documentation - Home"/>
   
   
 </a></div>
@@ -445,7 +961,7 @@ window.addEventListener("load", () => mermaid.run());
 <span class="kn">from</span><span class="w"> </span><span class="nn">geoips.errors</span><span class="w"> </span><span class="kn">import</span> <span class="n">OutputFormatterInvalidProjectionError</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">geoips.filenames.duplicate_files</span><span class="w"> </span><span class="kn">import</span> <span class="n">remove_duplicates</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">geoips.geoips_utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">copy_standard_metadata</span><span class="p">,</span> <span class="n">output_process_times</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">geoips.utils.memusg</span><span class="w"> </span><span class="kn">import</span> <span class="n">PidLog</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">geoips.utils.memusg.memusg_tracker</span><span class="w"> </span><span class="kn">import</span> <span class="n">PidLog</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">geoips.xarray_utils.data</span><span class="w"> </span><span class="kn">import</span> <span class="n">sector_xarrays</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">geoips.sector_utils.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">filter_area_defs_actual_time</span><span class="p">,</span> <span class="n">is_dynamic_sector</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">geoips.geoips_utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">replace_geoips_paths</span>
@@ -479,6 +995,7 @@ window.addEventListener("load", () => mermaid.run());
     <span class="n">products</span><span class="p">,</span>
     <span class="n">readers</span><span class="p">,</span>
     <span class="n">sector_adjusters</span><span class="p">,</span>
+    <span class="n">sector_spec_generators</span><span class="p">,</span>
 <span class="p">)</span>
 
 <span class="c1"># These output families require an input filename list, AND require the returned</span>
@@ -867,7 +1384,7 @@ window.addEventListener("load", () => mermaid.run());
             <span class="k">return</span> <span class="kc">False</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
-            <span class="s2">&quot;        USING </span><span class="si">%s</span><span class="s2"> varname from dataset </span><span class="si">%s</span><span class="s2"> - first availalbe, and &quot;</span>
+            <span class="s2">&quot;        USING </span><span class="si">%s</span><span class="s2"> varname from dataset </span><span class="si">%s</span><span class="s2"> - first available, and &quot;</span>
             <span class="s2">&quot;not specified in YAML&quot;</span><span class="p">,</span>
             <span class="n">varname</span><span class="p">,</span>
             <span class="n">key</span><span class="p">,</span>
@@ -1284,7 +1801,12 @@ window.addEventListener("load", () => mermaid.run());
 
 
 <div class="viewcode-block" id="process_sectored_data_output"><a class="viewcode-back" href="../../../../../geoips_api/geoips.plugins.modules.procflows.html#geoips.plugins.modules.procflows.single_source.process_sectored_data_output">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">process_sectored_data_output</span><span class="p">(</span>
-    <span class="n">xobjs</span><span class="p">,</span> <span class="n">variables</span><span class="p">,</span> <span class="n">prod_plugin</span><span class="p">,</span> <span class="n">output_dict</span><span class="p">,</span> <span class="n">area_def</span><span class="o">=</span><span class="kc">None</span>
+    <span class="n">xobjs</span><span class="p">,</span>
+    <span class="n">variables</span><span class="p">,</span>
+    <span class="n">prod_plugin</span><span class="p">,</span>
+    <span class="n">output_dict</span><span class="p">,</span>
+    <span class="n">area_def</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">pid_track</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Process sectored data output.</span>
 
@@ -1300,13 +1822,18 @@ window.addEventListener("load", () => mermaid.run());
         <span class="ow">in</span> <span class="n">PRODUCT_FAMILIES_OF_SECTORED_XARRAY_DICT_WITHOUT_ALGORITHM_WITH_AREA</span>
     <span class="p">):</span>
         <span class="n">output_products</span> <span class="o">+=</span> <span class="n">process_xarray_dict_to_output_format</span><span class="p">(</span>
-            <span class="n">xobjs</span><span class="p">,</span> <span class="n">variables</span><span class="p">,</span> <span class="n">prod_plugin</span><span class="p">,</span> <span class="n">output_dict</span><span class="p">,</span> <span class="n">area_def</span><span class="o">=</span><span class="n">area_def</span>
+            <span class="n">xobjs</span><span class="p">,</span>
+            <span class="n">variables</span><span class="p">,</span>
+            <span class="n">prod_plugin</span><span class="p">,</span>
+            <span class="n">output_dict</span><span class="p">,</span>
+            <span class="n">area_def</span><span class="o">=</span><span class="n">area_def</span><span class="p">,</span>
+            <span class="n">pid_track</span><span class="o">=</span><span class="n">pid_track</span><span class="p">,</span>
         <span class="p">)</span>
     <span class="k">return</span> <span class="n">output_products</span></div>
 
 
 <div class="viewcode-block" id="process_xarray_dict_to_output_format"><a class="viewcode-back" href="../../../../../geoips_api/geoips.plugins.modules.procflows.html#geoips.plugins.modules.procflows.single_source.process_xarray_dict_to_output_format">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">process_xarray_dict_to_output_format</span><span class="p">(</span>
-    <span class="n">xobjs</span><span class="p">,</span> <span class="n">variables</span><span class="p">,</span> <span class="n">prod_plugin</span><span class="p">,</span> <span class="n">output_dict</span><span class="p">,</span> <span class="n">area_def</span><span class="o">=</span><span class="kc">None</span>
+    <span class="n">xobjs</span><span class="p">,</span> <span class="n">variables</span><span class="p">,</span> <span class="n">prod_plugin</span><span class="p">,</span> <span class="n">output_dict</span><span class="p">,</span> <span class="n">area_def</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">pid_track</span><span class="o">=</span><span class="kc">None</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Process xarray dict to output format.&quot;&quot;&quot;</span>
     <span class="n">output_formatter</span> <span class="o">=</span> <span class="n">get_output_formatter</span><span class="p">(</span><span class="n">output_dict</span><span class="p">)</span>
@@ -1451,6 +1978,9 @@ window.addEventListener("load", () => mermaid.run());
             <span class="sa">f</span><span class="s2">&quot;      output_plugin_type must be one of </span><span class="si">{</span><span class="n">supported_output_plugin_types</span><span class="si">}</span><span class="s2">&quot;</span>
         <span class="p">)</span>
 
+    <span class="k">if</span> <span class="n">pid_track</span><span class="p">:</span>
+        <span class="n">pid_track</span><span class="o">.</span><span class="n">print_mem_usg</span><span class="p">(</span><span class="n">logstr</span><span class="o">=</span><span class="s2">&quot;AFTER OUTPUT_PLUGIN&quot;</span><span class="p">)</span>
+
     <span class="c1"># We only pre-generated metadata filenames if we also pre-generated output</span>
     <span class="c1"># product filenames</span>
     <span class="k">if</span> <span class="n">output_plugin</span><span class="o">.</span><span class="n">family</span> <span class="ow">in</span> <span class="n">OUTPUT_FAMILIES_WITH_OUTFNAMES_ARG</span><span class="p">:</span>
@@ -1478,7 +2008,7 @@ window.addEventListener("load", () => mermaid.run());
 
     <span class="c1"># Always pad TC sectors, and if &quot;force_pad=True&quot; is passed into the function</span>
     <span class="k">if</span> <span class="n">is_sector_type</span><span class="p">(</span><span class="n">area_def</span><span class="p">,</span> <span class="s2">&quot;tc&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">force_pad</span><span class="p">:</span>
-        <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Trying area_def </span><span class="si">%s</span><span class="s2">, </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">area_def</span><span class="o">.</span><span class="n">description</span><span class="p">,</span> <span class="n">area_def</span><span class="o">.</span><span class="n">sector_info</span><span class="p">)</span>
+        <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Trying area_def </span><span class="si">%s</span><span class="s2">, </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">area_def</span><span class="o">.</span><span class="n">area_id</span><span class="p">,</span> <span class="n">area_def</span><span class="o">.</span><span class="n">sector_info</span><span class="p">)</span>
         <span class="c1"># Get an extra 50% size for TCs so we can handle recentering and not have</span>
         <span class="c1"># missing data. --larger area for possibly moved center for vis/ir backgrounds</span>
         <span class="c1"># Default to 1.5x padding</span>
@@ -1500,11 +2030,9 @@ window.addEventListener("load", () => mermaid.run());
             <span class="n">clat</span> <span class="o">=</span> <span class="n">area_def</span><span class="o">.</span><span class="n">proj_dict</span><span class="p">[</span><span class="s2">&quot;lat_0&quot;</span><span class="p">]</span>
             <span class="n">clon</span> <span class="o">=</span> <span class="n">area_def</span><span class="o">.</span><span class="n">proj_dict</span><span class="p">[</span><span class="s2">&quot;lon_0&quot;</span><span class="p">]</span>
 
-        <span class="kn">from</span><span class="w"> </span><span class="nn">geoips.plugins.modules.sector_spec_generators.center_coordinates</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
-            <span class="n">call</span><span class="p">,</span>
-        <span class="p">)</span>
+        <span class="n">center_coords</span> <span class="o">=</span> <span class="n">sector_spec_generators</span><span class="o">.</span><span class="n">get_plugin</span><span class="p">(</span><span class="s2">&quot;center_coordinates&quot;</span><span class="p">)</span>
 
-        <span class="n">pad_area_def</span> <span class="o">=</span> <span class="n">call</span><span class="p">(</span>
+        <span class="n">pad_area_def</span> <span class="o">=</span> <span class="n">center_coords</span><span class="p">(</span>
             <span class="n">area_id</span><span class="o">=</span><span class="n">area_def</span><span class="o">.</span><span class="n">area_id</span><span class="p">,</span>
             <span class="n">long_description</span><span class="o">=</span><span class="n">area_def</span><span class="o">.</span><span class="n">description</span><span class="p">,</span>
             <span class="n">clat</span><span class="o">=</span><span class="n">clat</span><span class="p">,</span>
@@ -1754,6 +2282,8 @@ window.addEventListener("load", () => mermaid.run());
                 <span class="n">output_plugin</span><span class="o">.</span><span class="n">family</span><span class="p">,</span>
                 <span class="n">output_plugin</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
             <span class="p">)</span>
+            <span class="k">if</span> <span class="s2">&quot;feature_annotator&quot;</span> <span class="ow">in</span> <span class="n">output_kwargs</span><span class="p">:</span>
+                <span class="n">output_kwargs</span><span class="p">[</span><span class="s2">&quot;feature_annotator&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">output_kwargs</span><span class="p">[</span><span class="s2">&quot;feature_annotator&quot;</span><span class="p">]</span>
             <span class="n">output_products</span> <span class="o">=</span> <span class="n">output_plugin</span><span class="p">(</span>
                 <span class="n">area_def</span><span class="p">,</span>
                 <span class="n">xarray_obj</span><span class="o">=</span><span class="n">alg_xarray</span><span class="p">,</span>
@@ -1984,7 +2514,6 @@ window.addEventListener("load", () => mermaid.run());
             <span class="n">tcdb_sector_list</span><span class="o">=</span><span class="n">tcdb_sector_list</span><span class="p">,</span>
             <span class="n">tc_spec_template</span><span class="o">=</span><span class="n">tc_spec_template</span><span class="p">,</span>
             <span class="n">trackfile_parser</span><span class="o">=</span><span class="n">trackfile_parser</span><span class="p">,</span>
-            <span class="n">aid_type</span><span class="o">=</span><span class="s2">&quot;BEST&quot;</span><span class="p">,</span>
         <span class="p">)</span>
     <span class="k">if</span> <span class="n">trackfiles</span><span class="p">:</span>
         <span class="n">area_defs</span> <span class="o">+=</span> <span class="n">get_trackfile_area_defs</span><span class="p">(</span>
@@ -1992,7 +2521,6 @@ window.addEventListener("load", () => mermaid.run());
             <span class="n">trackfile_parser</span><span class="p">,</span>
             <span class="n">trackfile_sector_list</span><span class="p">,</span>
             <span class="n">tc_spec_template</span><span class="p">,</span>
-            <span class="n">aid_type</span><span class="o">=</span><span class="s2">&quot;BEST&quot;</span><span class="p">,</span>
             <span class="n">start_datetime</span><span class="o">=</span><span class="n">xobjs</span><span class="p">[</span><span class="s2">&quot;METADATA&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">start_datetime</span> <span class="o">-</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">hours</span><span class="o">=</span><span class="mi">8</span><span class="p">),</span>
             <span class="n">end_datetime</span><span class="o">=</span><span class="n">xobjs</span><span class="p">[</span><span class="s2">&quot;METADATA&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">end_datetime</span> <span class="o">+</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">hours</span><span class="o">=</span><span class="mi">3</span><span class="p">),</span>
         <span class="p">)</span>
@@ -2010,7 +2538,7 @@ window.addEventListener("load", () => mermaid.run());
             <span class="n">area_defs</span><span class="p">,</span> <span class="n">xobjs</span><span class="p">[</span><span class="s2">&quot;METADATA&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">start_datetime</span>
         <span class="p">)</span>
 
-    <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Allowed area_defs: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">ad</span><span class="o">.</span><span class="n">description</span> <span class="k">for</span> <span class="n">ad</span> <span class="ow">in</span> <span class="n">area_defs</span><span class="p">])</span>
+    <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Allowed area_defs: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">ad</span><span class="o">.</span><span class="n">area_id</span> <span class="k">for</span> <span class="n">ad</span> <span class="ow">in</span> <span class="n">area_defs</span><span class="p">])</span>
     <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">area_defs</span><span class="p">)</span></div>
 
 
@@ -2024,6 +2552,7 @@ window.addEventListener("load", () => mermaid.run());
     <span class="n">variable_names</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="n">window_start_time</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="n">window_end_time</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">pid_track</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Get alg xarray.</span>
 
@@ -2054,6 +2583,7 @@ window.addEventListener("load", () => mermaid.run());
 <span class="sd">        xarray Dataset containing the final data after interpolation, algorithm,</span>
 <span class="sd">        resectoring, etc have been applied.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">LOG</span><span class="o">.</span><span class="n">interactive</span><span class="p">(</span><span class="s2">&quot;Applying algorithms and interpolation...&quot;</span><span class="p">)</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">variable_names</span><span class="p">:</span>
         <span class="c1"># original input variables from sensor.py (i.e., abi.py)</span>
         <span class="n">variables</span> <span class="o">=</span> <span class="n">get_required_variables</span><span class="p">(</span><span class="n">prod_plugin</span><span class="p">)</span>
@@ -2063,20 +2593,27 @@ window.addEventListener("load", () => mermaid.run());
         <span class="c1"># sectored xarray.</span>
         <span class="n">variables</span> <span class="o">=</span> <span class="n">variable_names</span>
 
-    <span class="n">LOG</span><span class="o">.</span><span class="n">interactive</span><span class="p">(</span><span class="s2">&quot;Applying algorithms and interpolation...&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">pid_track</span><span class="p">:</span>
+        <span class="n">pid_track</span><span class="o">.</span><span class="n">print_mem_usg</span><span class="p">(</span><span class="n">logstr</span><span class="o">=</span><span class="s2">&quot;AFTER GET_REQUIRED_VARIABLES&quot;</span><span class="p">)</span>
 
     <span class="n">datasets_for_vars</span> <span class="o">=</span> <span class="n">get_requested_datasets_for_variables</span><span class="p">(</span><span class="n">prod_plugin</span><span class="p">)</span>
 
+    <span class="k">if</span> <span class="n">pid_track</span><span class="p">:</span>
+        <span class="n">pid_track</span><span class="o">.</span><span class="n">print_mem_usg</span><span class="p">(</span><span class="n">logstr</span><span class="o">=</span><span class="s2">&quot;AFTER GET_REQUESTED_DATASETS_FOR_VARIABLES&quot;</span><span class="p">)</span>
     <span class="c1"># Get the algorithm and interpolator plugins we need to use, based</span>
     <span class="c1"># on the contents of prod_plugin.</span>
     <span class="n">alg_plugin</span><span class="p">,</span> <span class="n">alg_args</span><span class="p">,</span> <span class="n">interp_plugin</span><span class="p">,</span> <span class="n">interp_args</span> <span class="o">=</span> <span class="n">get_alg_and_interp_plugins</span><span class="p">(</span>
         <span class="n">prod_plugin</span>
     <span class="p">)</span>
 
+    <span class="k">if</span> <span class="n">pid_track</span><span class="p">:</span>
+        <span class="n">pid_track</span><span class="o">.</span><span class="n">print_mem_usg</span><span class="p">(</span><span class="n">logstr</span><span class="o">=</span><span class="s2">&quot;BEFORE RESECTOR_XARRAYS&quot;</span><span class="p">)</span>
     <span class="c1"># Re-sector the xarrays if requested.</span>
     <span class="n">curr_sect_xarrays</span> <span class="o">=</span> <span class="n">resector_xarrays</span><span class="p">(</span>
         <span class="n">resector</span><span class="p">,</span> <span class="n">sect_xarrays</span><span class="p">,</span> <span class="n">area_def</span><span class="p">,</span> <span class="n">variables</span><span class="p">,</span> <span class="n">window_start_time</span><span class="p">,</span> <span class="n">window_end_time</span>
     <span class="p">)</span>
+    <span class="k">if</span> <span class="n">pid_track</span><span class="p">:</span>
+        <span class="n">pid_track</span><span class="o">.</span><span class="n">print_mem_usg</span><span class="p">(</span><span class="n">logstr</span><span class="o">=</span><span class="s2">&quot;AFTER RESECTOR_XARRAYS&quot;</span><span class="p">)</span>
 
     <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;get_alg_xarray required variables: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">variables</span><span class="p">)</span>
     <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;get_alg_xarray requested datasets for variables: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">datasets_for_vars</span><span class="p">)</span>
@@ -2108,9 +2645,11 @@ window.addEventListener("load", () => mermaid.run());
             <span class="n">variable_names</span><span class="p">,</span>
             <span class="n">area_def</span><span class="p">,</span>
         <span class="p">)</span>
+        <span class="k">if</span> <span class="n">pid_track</span><span class="p">:</span>
+            <span class="n">pid_track</span><span class="o">.</span><span class="n">print_mem_usg</span><span class="p">(</span><span class="n">logstr</span><span class="o">=</span><span class="s2">&quot;AFTER APPLY_ALG_FIRST&quot;</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">prod_plugin</span><span class="o">.</span><span class="n">family</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;algorithm_interpolator_colormapper&quot;</span><span class="p">]:</span>
-            <span class="c1"># Now apply the intepolator after applying the algorithm.</span>
+            <span class="c1"># Now apply the interpolator after applying the algorithm.</span>
             <span class="n">final_xarray</span> <span class="o">=</span> <span class="n">apply_interp_after_alg</span><span class="p">(</span>
                 <span class="n">alg_xarray</span><span class="p">,</span>
                 <span class="n">interp_plugin</span><span class="p">,</span>
@@ -2121,6 +2660,8 @@ window.addEventListener("load", () => mermaid.run());
             <span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">final_xarray</span> <span class="o">=</span> <span class="n">alg_xarray</span>
+        <span class="k">if</span> <span class="n">pid_track</span><span class="p">:</span>
+            <span class="n">pid_track</span><span class="o">.</span><span class="n">print_mem_usg</span><span class="p">(</span><span class="n">logstr</span><span class="o">=</span><span class="s2">&quot;AFTER APPLY_INTERP_AFTER_ALG&quot;</span><span class="p">)</span>
 
         <span class="c1"># MLS This appears to update alg_xarray, not final_xarray, with the</span>
         <span class="c1"># area_def information.  So this might not be right..</span>
@@ -2144,6 +2685,8 @@ window.addEventListener("load", () => mermaid.run());
         <span class="n">area_def</span><span class="p">,</span>
         <span class="n">processed_xarrays</span><span class="p">,</span>
     <span class="p">)</span>
+    <span class="k">if</span> <span class="n">pid_track</span><span class="p">:</span>
+        <span class="n">pid_track</span><span class="o">.</span><span class="n">print_mem_usg</span><span class="p">(</span><span class="n">logstr</span><span class="o">=</span><span class="s2">&quot;AFTER APPLY_INTERP_FIRST&quot;</span><span class="p">)</span>
 
     <span class="c1"># Make sure we have all the appropriate attributes attached to the current</span>
     <span class="c1"># interp_xarray.</span>
@@ -2166,6 +2709,8 @@ window.addEventListener("load", () => mermaid.run());
         <span class="n">variables</span><span class="p">,</span>
         <span class="n">processed_xarrays</span><span class="p">,</span>
     <span class="p">)</span>
+    <span class="k">if</span> <span class="n">pid_track</span><span class="p">:</span>
+        <span class="n">pid_track</span><span class="o">.</span><span class="n">print_mem_usg</span><span class="p">(</span><span class="n">logstr</span><span class="o">=</span><span class="s2">&quot;AFTER APPLY_ALG_AFTER_INTERP&quot;</span><span class="p">)</span>
 
     <span class="c1"># Make sure we have all the appropriate attributes attached to the current</span>
     <span class="c1"># interp_xarray.</span>
@@ -2234,8 +2779,8 @@ window.addEventListener("load", () => mermaid.run());
     <span class="c1"># because it may be ambiguous which area definition is actually the &quot;closest&quot;.</span>
     <span class="k">elif</span> <span class="n">data_end_datetime</span> <span class="o">-</span> <span class="n">data_start_datetime</span> <span class="o">&lt;</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">hours</span><span class="o">=</span><span class="n">time_range_hours</span><span class="p">):</span>
         <span class="n">new_area_defs</span> <span class="o">=</span> <span class="n">filter_area_defs_actual_time</span><span class="p">(</span><span class="n">area_defs</span><span class="p">,</span> <span class="n">data_start_datetime</span><span class="p">)</span>
-        <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Allowed area_defs: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">ad</span><span class="o">.</span><span class="n">description</span> <span class="k">for</span> <span class="n">ad</span> <span class="ow">in</span> <span class="n">new_area_defs</span><span class="p">])</span>
-        <span class="k">if</span> <span class="n">check_area_def</span><span class="o">.</span><span class="n">description</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="n">ad</span><span class="o">.</span><span class="n">description</span> <span class="k">for</span> <span class="n">ad</span> <span class="ow">in</span> <span class="n">new_area_defs</span><span class="p">]:</span>
+        <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Allowed area_defs: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">ad</span><span class="o">.</span><span class="n">area_id</span> <span class="k">for</span> <span class="n">ad</span> <span class="ow">in</span> <span class="n">new_area_defs</span><span class="p">])</span>
+        <span class="k">if</span> <span class="n">check_area_def</span><span class="o">.</span><span class="n">area_id</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="n">ad</span><span class="o">.</span><span class="n">area_id</span> <span class="k">for</span> <span class="n">ad</span> <span class="ow">in</span> <span class="n">new_area_defs</span><span class="p">]:</span>
             <span class="n">retval</span> <span class="o">=</span> <span class="kc">False</span>
 
     <span class="k">return</span> <span class="n">retval</span></div>
@@ -2267,6 +2812,7 @@ window.addEventListener("load", () => mermaid.run());
     <span class="n">process_datetimes</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="n">process_datetimes</span><span class="p">[</span><span class="s2">&quot;overall_start&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">utcnow</span><span class="p">()</span>
     <span class="n">final_products</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">sector_adj_products</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="n">removed_products</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="n">saved_products</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="n">database_writes</span> <span class="o">=</span> <span class="p">[]</span>
@@ -2362,7 +2908,7 @@ window.addEventListener("load", () => mermaid.run());
     <span class="c1"># Load plugins</span>
     <span class="n">reader_plugin</span> <span class="o">=</span> <span class="n">readers</span><span class="o">.</span><span class="n">get_plugin</span><span class="p">(</span><span class="n">reader_name</span><span class="p">)</span>
 
-    <span class="n">pid_track</span><span class="o">.</span><span class="n">print_mem_usg</span><span class="p">()</span>
+    <span class="n">pid_track</span><span class="o">.</span><span class="n">print_mem_usg</span><span class="p">(</span><span class="n">logstr</span><span class="o">=</span><span class="s2">&quot;AFTER GET READER PLUGIN&quot;</span><span class="p">)</span>
 
     <span class="n">num_jobs</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="n">LOG</span><span class="o">.</span><span class="n">interactive</span><span class="p">(</span>
@@ -2370,7 +2916,7 @@ window.addEventListener("load", () => mermaid.run());
     <span class="p">)</span>
     <span class="n">xobjs</span> <span class="o">=</span> <span class="n">reader_plugin</span><span class="p">(</span><span class="n">fnames</span><span class="p">,</span> <span class="n">metadata_only</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">reader_kwargs</span><span class="p">)</span>
     <span class="n">source_name</span> <span class="o">=</span> <span class="n">xobjs</span><span class="p">[</span><span class="s2">&quot;METADATA&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">source_name</span>
-    <span class="n">pid_track</span><span class="o">.</span><span class="n">print_mem_usg</span><span class="p">()</span>
+    <span class="n">pid_track</span><span class="o">.</span><span class="n">print_mem_usg</span><span class="p">(</span><span class="n">logstr</span><span class="o">=</span><span class="s2">&quot;AFTER GET READER METADATA&quot;</span><span class="p">)</span>
 
     <span class="n">prod_plugin</span> <span class="o">=</span> <span class="n">products</span><span class="o">.</span><span class="n">get_plugin</span><span class="p">(</span>
         <span class="n">source_name</span><span class="p">,</span> <span class="n">product_name</span><span class="p">,</span> <span class="n">command_line_args</span><span class="p">[</span><span class="s2">&quot;product_spec_override&quot;</span><span class="p">]</span>
@@ -2394,7 +2940,7 @@ window.addEventListener("load", () => mermaid.run());
         <span class="p">)</span>
 
     <span class="c1"># Use the xarray objects and command line args to determine required area_defs</span>
-    <span class="n">pid_track</span><span class="o">.</span><span class="n">print_mem_usg</span><span class="p">()</span>
+    <span class="n">pid_track</span><span class="o">.</span><span class="n">print_mem_usg</span><span class="p">(</span><span class="n">logstr</span><span class="o">=</span><span class="s2">&quot;AFTER SELF REGISTERED DATA READ&quot;</span><span class="p">)</span>
     <span class="n">area_defs</span> <span class="o">=</span> <span class="n">get_area_defs_from_command_line_args</span><span class="p">(</span>
         <span class="n">command_line_args</span><span class="p">,</span> <span class="n">xobjs</span><span class="p">,</span> <span class="n">variables</span><span class="p">,</span> <span class="n">filter_time</span><span class="o">=</span><span class="kc">True</span>
     <span class="p">)</span>
@@ -2407,13 +2953,13 @@ window.addEventListener("load", () => mermaid.run());
         <span class="ow">and</span> <span class="ow">not</span> <span class="n">sectored_read</span>
         <span class="ow">and</span> <span class="ow">not</span> <span class="n">resampled_read</span>
     <span class="p">):</span>
-        <span class="n">pid_track</span><span class="o">.</span><span class="n">print_mem_usg</span><span class="p">()</span>
+        <span class="n">pid_track</span><span class="o">.</span><span class="n">print_mem_usg</span><span class="p">(</span><span class="n">logstr</span><span class="o">=</span><span class="s2">&quot;START AREA_DEF_LOOP&quot;</span><span class="p">)</span>
         <span class="n">LOG</span><span class="o">.</span><span class="n">interactive</span><span class="p">(</span><span class="s2">&quot;Reading full dataset with reader &#39;</span><span class="si">%s</span><span class="s2">&#39;...&quot;</span><span class="p">,</span> <span class="n">reader_plugin</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
         <span class="n">xobjs</span> <span class="o">=</span> <span class="n">reader_plugin</span><span class="p">(</span>
             <span class="n">fnames</span><span class="p">,</span> <span class="n">metadata_only</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">chans</span><span class="o">=</span><span class="n">variables</span><span class="p">,</span> <span class="o">**</span><span class="n">reader_kwargs</span>
         <span class="p">)</span>
 
-    <span class="n">pid_track</span><span class="o">.</span><span class="n">print_mem_usg</span><span class="p">()</span>
+    <span class="n">pid_track</span><span class="o">.</span><span class="n">print_mem_usg</span><span class="p">(</span><span class="n">logstr</span><span class="o">=</span><span class="s2">&quot;AFTER SECTORED READ&quot;</span><span class="p">)</span>
     <span class="c1"># If we have a product of a family that does not require an area definition,</span>
     <span class="c1"># and operates on dictionaries of xarrays, process it here.</span>
     <span class="c1"># This will not have any required area_defs, so will never make it into</span>
@@ -2437,6 +2983,7 @@ window.addEventListener("load", () => mermaid.run());
                 <span class="n">resampled_read</span><span class="o">=</span><span class="n">resampled_read</span><span class="p">,</span>
                 <span class="n">window_start_time</span><span class="o">=</span><span class="n">window_start_time</span><span class="p">,</span>
                 <span class="n">window_end_time</span><span class="o">=</span><span class="n">window_end_time</span><span class="p">,</span>
+                <span class="n">pid_track</span><span class="o">=</span><span class="n">pid_track</span><span class="p">,</span>
             <span class="p">)</span>
         <span class="c1"># This is a workaround so these products can use single source and other</span>
         <span class="c1"># algorithms which don&#39;t return a dictionary of xarrays. Just convert this back</span>
@@ -2470,7 +3017,7 @@ window.addEventListener("load", () => mermaid.run());
         <span class="c1"># loop through all area defs below.</span>
         <span class="n">xdict</span> <span class="o">=</span> <span class="n">reader_plugin</span><span class="p">(</span><span class="n">fnames</span><span class="p">,</span> <span class="n">metadata_only</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">reader_kwargs</span><span class="p">)</span>
 
-    <span class="n">pid_track</span><span class="o">.</span><span class="n">print_mem_usg</span><span class="p">()</span>
+    <span class="n">pid_track</span><span class="o">.</span><span class="n">print_mem_usg</span><span class="p">(</span><span class="n">logstr</span><span class="o">=</span><span class="s2">&quot;AFTER UNSECTORED AREA_DEF READ&quot;</span><span class="p">)</span>
 
     <span class="n">new_attrs</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;filename_extra_fields&quot;</span><span class="p">:</span> <span class="p">{}}</span>
     <span class="c1"># This is the main loop over all area defs - used for any processing that</span>
@@ -2522,7 +3069,7 @@ window.addEventListener("load", () => mermaid.run());
             <span class="c1"># now skip IndexErrors.</span>
             <span class="k">except</span> <span class="ne">IndexError</span> <span class="k">as</span> <span class="n">resp</span><span class="p">:</span>
                 <span class="n">LOG</span><span class="o">.</span><span class="n">error</span><span class="p">(</span>
-                    <span class="s2">&quot;SKIPPING no coverage for </span><span class="si">%s</span><span class="s2">, </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">area_def</span><span class="o">.</span><span class="n">description</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">resp</span><span class="p">)</span>
+                    <span class="s2">&quot;SKIPPING no coverage for </span><span class="si">%s</span><span class="s2">, </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">area_def</span><span class="o">.</span><span class="n">area_id</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">resp</span><span class="p">)</span>
                 <span class="p">)</span>
                 <span class="k">continue</span>
 
@@ -2552,10 +3099,10 @@ window.addEventListener("load", () => mermaid.run());
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">pad_sect_xarrays</span> <span class="o">=</span> <span class="n">xobjs</span>
 
-        <span class="n">pid_track</span><span class="o">.</span><span class="n">print_mem_usg</span><span class="p">()</span>
+        <span class="n">pid_track</span><span class="o">.</span><span class="n">print_mem_usg</span><span class="p">(</span><span class="n">logstr</span><span class="o">=</span><span class="s2">&quot;AFTER PRE-SECTOR_XARRAYS&quot;</span><span class="p">)</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">pad_sect_xarrays</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
             <span class="n">LOG</span><span class="o">.</span><span class="n">interactive</span><span class="p">(</span>
-                <span class="s2">&quot;SKIPPING no sectored xarrays returned for </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">area_def</span><span class="o">.</span><span class="n">description</span>
+                <span class="s2">&quot;SKIPPING no sectored xarrays returned for </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">area_def</span><span class="o">.</span><span class="n">area_id</span>
             <span class="p">)</span>
             <span class="k">continue</span>
 
@@ -2573,7 +3120,7 @@ window.addEventListener("load", () => mermaid.run());
         <span class="p">):</span>
             <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
                 <span class="s2">&quot;SKIPPING duplicate area_def, out of time range, for </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span>
-                <span class="n">area_def</span><span class="o">.</span><span class="n">description</span><span class="p">,</span>
+                <span class="n">area_def</span><span class="o">.</span><span class="n">area_id</span><span class="p">,</span>
             <span class="p">)</span>
             <span class="k">continue</span>
 
@@ -2584,9 +3131,10 @@ window.addEventListener("load", () => mermaid.run());
             <span class="n">prod_plugin</span><span class="p">,</span>
             <span class="n">command_line_args</span><span class="p">,</span>
             <span class="n">area_def</span><span class="o">=</span><span class="n">area_def</span><span class="p">,</span>
+            <span class="n">pid_track</span><span class="o">=</span><span class="n">pid_track</span><span class="p">,</span>
         <span class="p">)</span>
 
-        <span class="n">pid_track</span><span class="o">.</span><span class="n">print_mem_usg</span><span class="p">()</span>
+        <span class="n">pid_track</span><span class="o">.</span><span class="n">print_mem_usg</span><span class="p">(</span><span class="s2">&quot;AFTER PROCESS_SECTORED_DATA_OUTPUT&quot;</span><span class="p">)</span>
         <span class="c1"># If we had a request for sectored data processing, skip the rest of the loop</span>
         <span class="k">if</span> <span class="n">curr_output_products</span><span class="p">:</span>
             <span class="n">final_products</span> <span class="o">+=</span> <span class="n">curr_output_products</span>
@@ -2635,6 +3183,7 @@ window.addEventListener("load", () => mermaid.run());
                     <span class="p">)</span>
                 <span class="k">else</span><span class="p">:</span>
                     <span class="n">LOG</span><span class="o">.</span><span class="n">interactive</span><span class="p">(</span><span class="s2">&quot;Adjusting sectors with </span><span class="si">%s</span><span class="s2">...&quot;</span><span class="p">,</span> <span class="n">sector_adjuster</span><span class="p">)</span>
+                    <span class="n">adadj_fnames</span> <span class="o">=</span> <span class="kc">None</span>
                     <span class="n">area_def</span> <span class="o">=</span> <span class="n">sect_adj_plugin</span><span class="p">(</span>
                         <span class="nb">list</span><span class="p">(</span><span class="n">sect_xarrays</span><span class="o">.</span><span class="n">values</span><span class="p">()),</span>
                         <span class="n">area_def</span><span class="p">,</span>
@@ -2654,14 +3203,19 @@ window.addEventListener("load", () => mermaid.run());
                         <span class="n">variables</span><span class="p">,</span>
                         <span class="o">**</span><span class="n">sector_adjuster_kwargs</span><span class="p">,</span>
                     <span class="p">)</span>
+
                 <span class="k">else</span><span class="p">:</span>
                     <span class="n">LOG</span><span class="o">.</span><span class="n">interactive</span><span class="p">(</span><span class="s2">&quot;Adjusting sectors with </span><span class="si">%s</span><span class="s2">...&quot;</span><span class="p">,</span> <span class="n">sector_adjuster</span><span class="p">)</span>
+                    <span class="n">adadj_fnames</span> <span class="o">=</span> <span class="kc">None</span>
                     <span class="n">area_def</span> <span class="o">=</span> <span class="n">sect_adj_plugin</span><span class="p">(</span>
                         <span class="nb">list</span><span class="p">(</span><span class="n">pad_sect_xarrays</span><span class="o">.</span><span class="n">values</span><span class="p">()),</span>
                         <span class="n">area_def</span><span class="p">,</span>
                         <span class="n">variables</span><span class="p">,</span>
                         <span class="o">**</span><span class="n">sector_adjuster_kwargs</span><span class="p">,</span>
                     <span class="p">)</span>
+            <span class="k">if</span> <span class="n">adadj_fnames</span><span class="p">:</span>
+                <span class="c1"># This list gets printed at the end</span>
+                <span class="n">sector_adj_products</span> <span class="o">+=</span> <span class="p">[</span><span class="n">x</span><span class="p">[</span><span class="s2">&quot;sect_adj_output_file&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">adadj_fnames</span><span class="p">]</span>
             <span class="c1"># These will be added to the alg_xarray</span>
             <span class="c1"># new_attrs[&#39;area_definition&#39;] = area_def</span>
             <span class="k">if</span> <span class="s2">&quot;adjustment_id&quot;</span> <span class="ow">in</span> <span class="n">area_def</span><span class="o">.</span><span class="n">sector_info</span><span class="p">:</span>
@@ -2669,13 +3223,30 @@ window.addEventListener("load", () => mermaid.run());
                     <span class="n">area_def</span><span class="o">.</span><span class="n">sector_info</span><span class="p">[</span><span class="s2">&quot;adjustment_id&quot;</span><span class="p">]</span>
                 <span class="p">)</span>
 
-        <span class="n">pid_track</span><span class="o">.</span><span class="n">print_mem_usg</span><span class="p">()</span>
-        <span class="n">all_vars</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">xobj</span> <span class="ow">in</span> <span class="n">pad_sect_xarrays</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-            <span class="c1"># Double check the xarray object actually contains data</span>
-            <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">xobj</span><span class="o">.</span><span class="n">variables</span><span class="o">.</span><span class="n">keys</span><span class="p">()):</span>
-                <span class="k">if</span> <span class="n">xobj</span><span class="p">[</span><span class="n">var</span><span class="p">]</span><span class="o">.</span><span class="n">count</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-                    <span class="n">all_vars</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">var</span><span class="p">)</span>
+        <span class="n">pid_track</span><span class="o">.</span><span class="n">print_mem_usg</span><span class="p">(</span><span class="n">logstr</span><span class="o">=</span><span class="s2">&quot;AFTER SECTOR ADJUSTERS&quot;</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">command_line_args</span><span class="p">[</span><span class="s2">&quot;disable_nan_array_removal&quot;</span><span class="p">]:</span>
+            <span class="n">all_vars</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">xobj</span> <span class="ow">in</span> <span class="n">pad_sect_xarrays</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="c1"># Double check the xarray object actually contains data. Could lose</span>
+                <span class="c1"># some due to day/night masking, etc.</span>
+                <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">xobj</span><span class="o">.</span><span class="n">variables</span><span class="o">.</span><span class="n">keys</span><span class="p">()):</span>
+                    <span class="c1"># NOTE this is very resource intensive for very large arrays.</span>
+                    <span class="k">if</span> <span class="n">xobj</span><span class="p">[</span><span class="n">var</span><span class="p">]</span><span class="o">.</span><span class="n">count</span><span class="p">():</span>
+                        <span class="n">all_vars</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">var</span><span class="p">)</span>
+                    <span class="n">pid_track</span><span class="o">.</span><span class="n">print_mem_usg</span><span class="p">(</span>
+                        <span class="n">logstr</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;AFTER CHECKING VAR </span><span class="si">{</span><span class="n">var</span><span class="si">}</span><span class="s2"> FOR ALL NAN&quot;</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span>
+                    <span class="p">)</span>
+            <span class="n">pid_track</span><span class="o">.</span><span class="n">print_mem_usg</span><span class="p">(</span>
+                <span class="n">logstr</span><span class="o">=</span><span class="s2">&quot;AFTER CHECKING ALL VARS FOR ALL NAN&quot;</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;SKIPPING array validation!  Disabled at command line!&quot;</span><span class="p">)</span>
+            <span class="n">all_vars</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">xobj</span> <span class="ow">in</span> <span class="n">pad_sect_xarrays</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="n">curr_vars</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">xobj</span><span class="o">.</span><span class="n">variables</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+                <span class="n">all_vars</span> <span class="o">+=</span> <span class="n">curr_vars</span>
+                <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Adding all variables from dataset &#39;</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">&#39;: &#39;</span><span class="si">{</span><span class="n">curr_vars</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
         <span class="c1"># If the required variables are not contained within the xarray objects, do not</span>
         <span class="c1"># attempt to process (variables in product algorithm are not available)</span>
         <span class="k">if</span> <span class="nb">set</span><span class="p">(</span><span class="n">variables</span><span class="p">)</span><span class="o">.</span><span class="n">issubset</span><span class="p">(</span><span class="n">all_vars</span><span class="p">):</span>
@@ -2691,6 +3262,7 @@ window.addEventListener("load", () => mermaid.run());
                     <span class="n">resampled_read</span><span class="o">=</span><span class="n">resampled_read</span><span class="p">,</span>
                     <span class="n">window_start_time</span><span class="o">=</span><span class="n">window_start_time</span><span class="p">,</span>
                     <span class="n">window_end_time</span><span class="o">=</span><span class="n">window_end_time</span><span class="p">,</span>
+                    <span class="n">pid_track</span><span class="o">=</span><span class="n">pid_track</span><span class="p">,</span>
                 <span class="p">)</span>
             <span class="k">elif</span> <span class="n">area_def</span><span class="o">.</span><span class="n">sector_type</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;reader_defined&quot;</span><span class="p">,</span> <span class="s2">&quot;self_register&quot;</span><span class="p">]:</span>
                 <span class="n">alg_xarray</span> <span class="o">=</span> <span class="n">get_alg_xarray</span><span class="p">(</span>
@@ -2702,6 +3274,7 @@ window.addEventListener("load", () => mermaid.run());
                     <span class="n">variable_names</span><span class="o">=</span><span class="n">variables</span><span class="p">,</span>
                     <span class="n">window_start_time</span><span class="o">=</span><span class="n">window_start_time</span><span class="p">,</span>
                     <span class="n">window_end_time</span><span class="o">=</span><span class="n">window_end_time</span><span class="p">,</span>
+                    <span class="n">pid_track</span><span class="o">=</span><span class="n">pid_track</span><span class="p">,</span>
                 <span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">alg_xarray</span> <span class="o">=</span> <span class="n">get_alg_xarray</span><span class="p">(</span>
@@ -2712,9 +3285,10 @@ window.addEventListener("load", () => mermaid.run());
                     <span class="n">resampled_read</span><span class="o">=</span><span class="n">resampled_read</span><span class="p">,</span>
                     <span class="n">window_start_time</span><span class="o">=</span><span class="n">window_start_time</span><span class="p">,</span>
                     <span class="n">window_end_time</span><span class="o">=</span><span class="n">window_end_time</span><span class="p">,</span>
+                    <span class="n">pid_track</span><span class="o">=</span><span class="n">pid_track</span><span class="p">,</span>
                 <span class="p">)</span>
 
-            <span class="n">pid_track</span><span class="o">.</span><span class="n">print_mem_usg</span><span class="p">()</span>
+            <span class="n">pid_track</span><span class="o">.</span><span class="n">print_mem_usg</span><span class="p">(</span><span class="n">logstr</span><span class="o">=</span><span class="s2">&quot;AFTER GET_ALG_XARRAY&quot;</span><span class="p">)</span>
 
             <span class="c1"># This defaults to &quot;covg_func&quot; and &quot;covg_args&quot; - if</span>
             <span class="c1"># image_production_covg_* exist, it will use those.</span>
@@ -2806,7 +3380,7 @@ window.addEventListener("load", () => mermaid.run());
                     <span class="s2">&quot;data products for </span><span class="si">%s</span><span class="s2">, </span><span class="si">%s</span><span class="s2"> required&quot;</span><span class="p">,</span>
                     <span class="n">covg</span><span class="p">,</span>
                     <span class="n">fname_covg</span><span class="p">,</span>
-                    <span class="n">area_def</span><span class="o">.</span><span class="n">description</span><span class="p">,</span>
+                    <span class="n">area_def</span><span class="o">.</span><span class="n">area_id</span><span class="p">,</span>
                     <span class="n">minimum_coverage</span><span class="p">,</span>
                 <span class="p">)</span>
                 <span class="k">continue</span>
@@ -2825,7 +3399,7 @@ window.addEventListener("load", () => mermaid.run());
             <span class="k">if</span> <span class="ow">not</span> <span class="n">curr_products</span><span class="p">:</span>
                 <span class="k">continue</span>
 
-            <span class="n">pid_track</span><span class="o">.</span><span class="n">print_mem_usg</span><span class="p">()</span>
+            <span class="n">pid_track</span><span class="o">.</span><span class="n">print_mem_usg</span><span class="p">(</span><span class="n">logstr</span><span class="o">=</span><span class="s2">&quot;AFTER PLOT_DATA&quot;</span><span class="p">)</span>
             <span class="n">final_products</span> <span class="o">+=</span> <span class="n">curr_products</span>
             <span class="n">curr_removed_products</span><span class="p">,</span> <span class="n">curr_saved_products</span> <span class="o">=</span> <span class="n">remove_duplicates</span><span class="p">(</span>
                 <span class="n">curr_products</span><span class="p">,</span> <span class="n">remove_files</span><span class="o">=</span><span class="kc">True</span>
@@ -2875,7 +3449,7 @@ window.addEventListener("load", () => mermaid.run());
                 <span class="s1">&#39;SKIPPING No coverage or required variables &quot;</span><span class="si">%s</span><span class="s1">&quot; for </span><span class="si">%s</span><span class="s1"> </span><span class="si">%s</span><span class="s1">&#39;</span><span class="p">,</span>
                 <span class="n">variables</span><span class="p">,</span>
                 <span class="n">xobjs</span><span class="p">[</span><span class="s2">&quot;METADATA&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">source_name</span><span class="p">,</span>
-                <span class="n">area_def</span><span class="o">.</span><span class="n">description</span><span class="p">,</span>
+                <span class="n">area_def</span><span class="o">.</span><span class="n">area_id</span><span class="p">,</span>
             <span class="p">)</span>
 
     <span class="n">LOG</span><span class="o">.</span><span class="n">interactive</span><span class="p">(</span>
@@ -2896,16 +3470,18 @@ window.addEventListener("load", () => mermaid.run());
 
     <span class="n">retval</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="k">if</span> <span class="n">compare_path</span><span class="p">:</span>
-        <span class="kn">from</span><span class="w"> </span><span class="nn">geoips.interfaces.module_based.output_checkers</span><span class="w"> </span><span class="kn">import</span> <span class="n">output_checkers</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">geoips.interfaces.class_based.output_checkers</span><span class="w"> </span><span class="kn">import</span> <span class="n">output_checkers</span>
 
+        <span class="n">checker_override</span> <span class="o">=</span> <span class="n">command_line_args</span><span class="p">[</span><span class="s2">&quot;output_checker_name&quot;</span><span class="p">]</span>
         <span class="k">for</span> <span class="n">output_product</span> <span class="ow">in</span> <span class="n">final_products</span><span class="p">:</span>
-            <span class="n">plugin_name</span> <span class="o">=</span> <span class="n">output_checkers</span><span class="o">.</span><span class="n">identify_checker</span><span class="p">(</span><span class="n">output_product</span><span class="p">)</span>
+            <span class="n">plugin_name</span> <span class="o">=</span> <span class="n">output_checkers</span><span class="o">.</span><span class="n">identify_checker</span><span class="p">(</span>
+                <span class="n">output_product</span><span class="p">,</span> <span class="n">checker_override</span>
+            <span class="p">)</span>
             <span class="n">output_checker</span> <span class="o">=</span> <span class="n">output_checkers</span><span class="o">.</span><span class="n">get_plugin</span><span class="p">(</span><span class="n">plugin_name</span><span class="p">)</span>
             <span class="n">kwargs</span> <span class="o">=</span> <span class="p">{}</span>
             <span class="k">if</span> <span class="n">output_checker</span><span class="o">.</span><span class="n">name</span> <span class="ow">in</span> <span class="n">output_checker_kwargs</span><span class="p">:</span>
                 <span class="n">kwargs</span> <span class="o">=</span> <span class="n">output_checker_kwargs</span><span class="p">[</span><span class="n">output_checker</span><span class="o">.</span><span class="n">name</span><span class="p">]</span>
             <span class="n">retval</span> <span class="o">+=</span> <span class="n">output_checker</span><span class="p">(</span>
-                <span class="n">output_checker</span><span class="p">,</span>
                 <span class="n">compare_path</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;&lt;product&gt;&quot;</span><span class="p">,</span> <span class="n">product_name</span><span class="p">)</span>
                 <span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;&lt;procflow&gt;&quot;</span><span class="p">,</span> <span class="s2">&quot;single_source&quot;</span><span class="p">)</span>
                 <span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;&lt;output&gt;&quot;</span><span class="p">,</span> <span class="n">output_formatter</span><span class="p">),</span>
@@ -2917,6 +3493,11 @@ window.addEventListener("load", () => mermaid.run());
         <span class="s2">&quot;</span><span class="se">\n\n\n</span><span class="s2">The following products were produced from procflow </span><span class="si">%s</span><span class="se">\n\n</span><span class="s2">&quot;</span><span class="p">,</span>
         <span class="n">basename</span><span class="p">(</span><span class="vm">__file__</span><span class="p">),</span>
     <span class="p">)</span>
+    <span class="c1"># Add sector_adj_products to the final_products list after running comparisons.</span>
+    <span class="c1"># We might want to eventually compare/check the products output by the sector</span>
+    <span class="c1"># adjuster, but we cannot guarantee the sector adjuster will create a product in a</span>
+    <span class="c1"># supported format.</span>
+    <span class="n">final_products</span> <span class="o">+=</span> <span class="n">sector_adj_products</span>
     <span class="k">for</span> <span class="n">output_product</span> <span class="ow">in</span> <span class="n">final_products</span><span class="p">:</span>
         <span class="n">LOG</span><span class="o">.</span><span class="n">interactive</span><span class="p">(</span>
             <span class="s2">&quot;    </span><span class="se">\u001b</span><span class="s2">[34mSINGLESOURCESUCCESS</span><span class="se">\033</span><span class="s2">[0m </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span>
@@ -2927,7 +3508,7 @@ window.addEventListener("load", () => mermaid.run());
     <span class="k">for</span> <span class="n">removed_product</span> <span class="ow">in</span> <span class="n">removed_products</span><span class="p">:</span>
         <span class="n">LOG</span><span class="o">.</span><span class="n">interactive</span><span class="p">(</span><span class="s2">&quot;    DELETEDPRODUCT </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">removed_product</span><span class="p">)</span>
 
-    <span class="n">pid_track</span><span class="o">.</span><span class="n">print_mem_usg</span><span class="p">(</span><span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">pid_track</span><span class="o">.</span><span class="n">print_mem_usg</span><span class="p">(</span><span class="n">logstr</span><span class="o">=</span><span class="s2">&quot;END&quot;</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
     <span class="n">LOG</span><span class="o">.</span><span class="n">interactive</span><span class="p">(</span><span class="s2">&quot;READER_NAME: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">reader_name</span><span class="p">)</span>
     <span class="n">LOG</span><span class="o">.</span><span class="n">interactive</span><span class="p">(</span><span class="s2">&quot;PRODUCT_NAME: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">product_name</span><span class="p">)</span>
@@ -2965,8 +3546,8 @@ window.addEventListener("load", () => mermaid.run());
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script defer src="../../../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
-<script defer src="../../../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+  <script defer src="../../../../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb"></script>
+<script defer src="../../../../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb"></script>
 
   <footer class="bd-footer">
 <div class="bd-footer__inner bd-page-width">

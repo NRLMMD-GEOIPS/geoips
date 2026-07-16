@@ -8,6 +8,7 @@ Subpackages
    :maxdepth: 4
 
    geoips.commandline
+   geoips.config
    geoips.data_manipulations
    geoips.dev
    geoips.filenames
@@ -30,10 +31,10 @@ geoips.cli module
    :undoc-members:
    :show-inheritance:
 
-geoips.create\_plugin\_registries module
-----------------------------------------
+geoips.constants module
+-----------------------
 
-.. automodule:: geoips.create_plugin_registries
+.. automodule:: geoips.constants
    :members:
    :undoc-members:
    :show-inheritance:
@@ -50,14 +51,6 @@ geoips.geoips\_utils module
 ---------------------------
 
 .. automodule:: geoips.geoips_utils
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-geoips.plugin\_registry module
-------------------------------
-
-.. automodule:: geoips.plugin_registry
    :members:
    :undoc-members:
    :show-inheritance:

@@ -1,0 +1,10 @@
+geoips.utils.coverage\_checkers package
+=======================================
+
+Module contents
+---------------
+
+.. automodule:: geoips.utils.coverage_checkers
+   :members:
+   :undoc-members:
+   :show-inheritance:

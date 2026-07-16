@@ -66,7 +66,7 @@ GeoIPS |reg| geoips Documentation
         The reference describes how the methods work and which parameters can
         be used. It assumes that you have an understanding of the key concepts.
 
-        .. button-link:: api/index.html
+        .. button-link:: geoips_api/index.html
             :ref-type: ref
             :color: secondary
             :expand:
@@ -102,6 +102,7 @@ GeoIPS |reg| geoips Documentation
     tutorials/index
     
     concepts/index
+    
     
     
     

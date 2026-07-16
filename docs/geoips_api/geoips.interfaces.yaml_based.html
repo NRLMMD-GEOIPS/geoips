@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>geoips.interfaces.yaml_based package &#8212; GeoIPS, Geolocated Information Processing System 1.17.0a0 documentation</title>
+    <title>geoips.interfaces.yaml_based package &#8212; GeoIPS, Geolocated Information Processing System 1.19.0.post776.dev0 documentation</title>
   
   
   
@@ -27,47 +27,54 @@
   </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
-<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+  <link href="../_static/styles/theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
     <link rel="stylesheet" type="text/css" href="../_static/set_width.css?v=d4af5e1e" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
   
   <!-- So that users can add custom icons -->
-  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <script defer src="../_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
-<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
 
-    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=c5be8013"></script>
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=1e4423a0"></script>
     <script src="../_static/doctools.js?v=888ff710"></script>
     <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'geoips_api/geoips.interfaces.yaml_based';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
     <link rel="icon" href="../_static/nrlicon.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="geoips.plugins package" href="geoips.plugins.html" />
-    <link rel="prev" title="geoips.interfaces.module_based package" href="geoips.interfaces.module_based.html" />
+    <link rel="prev" title="geoips.interfaces.class_based package" href="geoips.interfaces.class_based.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="1.1" />
-    <meta name="docbuild:last-update" content="Oct 14, 2025 20:03:48"/>
+    <meta name="docbuild:last-update" content="Jul 16, 2026 04:57:54"/>
+  
+    
+    <script src="../_static/searchtools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <script src="../searchindex.js"></script>
+  
   </head>
-  
-  
-  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
-
+  <body data-default-mode="">
   
   
   <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
   
   <div id="pst-scroll-pixel-helper"></div>
   
   <button type="button" class="btn rounded-pill" id="pst-back-to-top">
     <i class="fa-solid fa-arrow-up"></i>Back to top</button>
-
+  
+  
+  
   
   <dialog id="pst-search-dialog">
     
@@ -93,7 +100,7 @@
 </div>
 
   
-    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
 <div class="bd-header__inner bd-page-width">
   <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
     <span class="fa-solid fa-bars"></span>
@@ -119,8 +126,8 @@
       
     
     
-    <img src="../_static/NRL_logo_RGB.jpg" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 1.17.0a0 documentation - Home"/>
-    <img src="../_static/NRL_logo_sidebar_Reverse.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 1.17.0a0 documentation - Home"/>
+    <img src="../_static/NRL_logo_RGB.jpg" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 1.19.0.post776.dev0 documentation - Home"/>
+    <img src="../_static/NRL_logo_sidebar_Reverse.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 1.19.0.post776.dev0 documentation - Home"/>
   
   
 </a></div>
@@ -369,7 +376,14 @@
   </div>
   
     <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item pst-sidebar-collapse"><button id="pst-collapse-sidebar-button" aria-expanded="true" aria-controls="pst-primary-sidebar"><svg class="pst-icon svg-inline--fa" role="img" aria-hidden="true" focusable="false" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+    <path fill="currentColor" d="M3 15.5C2.36232 15.5 1.74874 15.2564 1.28478 14.8189C0.820828 14.3815 0.541576 13.7832 0.504167 13.1467L0.5 13L0.5 3C0.499965 2.36232 0.743605 1.74874 1.18107 1.28478C1.61854 0.820828 2.21676 0.541576 2.85333 0.504167L3 0.5L13 0.5C13.6377 0.499965 14.2513 0.743605 14.7152 1.18107C15.1792 1.61854 15.4584 2.21676 15.4958 2.85333L15.5 3L15.5 13C15.5 13.6377 15.2564 14.2513 14.8189 14.7152C14.3815 15.1792 13.7832 15.4584 13.1467 15.4958L13 15.5L3 15.5ZM3 13.8333L10.5 13.8333L10.5 2.16667L3 2.16667C2.79589 2.16669 2.59889 2.24163 2.44636 2.37726C2.29383 2.5129 2.19638 2.69979 2.1725 2.9025L2.16667 3L2.16667 13C2.16669 13.2041 2.24163 13.4011 2.37726 13.5536C2.5129 13.7062 2.69979 13.8036 2.9025 13.8275L3 13.8333ZM6.65583 10.325L6.5775 10.2558L4.91083 8.58917C4.76735 8.44567 4.68116 8.25476 4.66843 8.05223C4.65569 7.84971 4.71729 7.6495 4.84167 7.48917L4.91083 7.41083L6.5775 5.74417C6.72747 5.59471 6.9287 5.50794 7.14032 5.50148C7.35194 5.49502 7.55809 5.56935 7.7169 5.70937C7.8757 5.8494 7.97525 6.04463 7.99533 6.25539C8.01541 6.46616 7.95451 6.67667 7.825 6.84417L7.75583 6.9225L6.67917 8L7.75583 9.0775C7.89931 9.22099 7.98551 9.41191 7.99824 9.61443C8.01097 9.81695 7.94938 10.0172 7.825 10.1775L7.75583 10.2558C7.61234 10.3993 7.42142 10.4855 7.2189 10.4982C7.01638 10.511 6.81617 10.4494 6.65583 10.325Z"/>
+  </svg>
+  <span class="pst-collapse-sidebar-label">Collapse Sidebar</span>
+  <span class="pst-expand-sidebar-label">Expand Sidebar</span>
+</button></div>
         <div class="sidebar-primary-item">
+
 <nav class="bd-docs-nav bd-links"
      aria-label="Section Navigation">
   <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
@@ -379,39 +393,47 @@
 <li class="toctree-l3"><a class="reference internal" href="geoips.commandline.ancillary_info.html">geoips.commandline.ancillary_info package</a></li>
 </ul>
 </details></li>
+<li class="toctree-l2"><a class="reference internal" href="geoips.config.html">geoips.config package</a></li>
 <li class="toctree-l2"><a class="reference internal" href="geoips.data_manipulations.html">geoips.data_manipulations package</a></li>
 <li class="toctree-l2"><a class="reference internal" href="geoips.dev.html">geoips.dev package</a></li>
 <li class="toctree-l2"><a class="reference internal" href="geoips.filenames.html">geoips.filenames package</a></li>
 <li class="toctree-l2"><a class="reference internal" href="geoips.image_utils.html">geoips.image_utils package</a></li>
 <li class="toctree-l2 current active has-children"><a class="reference internal" href="geoips.interfaces.html">geoips.interfaces package</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="geoips.interfaces.module_based.html">geoips.interfaces.module_based package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.interfaces.class_based.html">geoips.interfaces.class_based package</a></li>
 <li class="toctree-l3 current active"><a class="current reference internal" href="#">geoips.interfaces.yaml_based package</a></li>
 </ul>
 </details></li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="geoips.plugins.html">geoips.plugins package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="geoips.plugins.classes.html">geoips.plugins.classes package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.classes.algorithms.html">geoips.plugins.classes.algorithms package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.classes.colormappers.html">geoips.plugins.classes.colormappers package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.classes.coverage_checkers.html">geoips.plugins.classes.coverage_checkers package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.classes.filename_formatters.html">geoips.plugins.classes.filename_formatters package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.classes.interpolators.html">geoips.plugins.classes.interpolators package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.classes.output_formatters.html">geoips.plugins.classes.output_formatters package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.classes.readers.html">geoips.plugins.classes.readers package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.classes.sector_metadata_generators.html">geoips.plugins.classes.sector_metadata_generators package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.classes.sector_spec_generators.html">geoips.plugins.classes.sector_spec_generators package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.classes.title_formatters.html">geoips.plugins.classes.title_formatters package</a></li>
+</ul>
+</details></li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="geoips.plugins.modules.html">geoips.plugins.modules package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.algorithms.html">geoips.plugins.modules.algorithms package</a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.colormappers.html">geoips.plugins.modules.colormappers package</a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.coverage_checkers.html">geoips.plugins.modules.coverage_checkers package</a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.filename_formatters.html">geoips.plugins.modules.filename_formatters package</a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.interpolators.html">geoips.plugins.modules.interpolators package</a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.output_formatters.html">geoips.plugins.modules.output_formatters package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.procflows.html">geoips.plugins.modules.procflows package</a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.readers.html">geoips.plugins.modules.readers package</a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.sector_metadata_generators.html">geoips.plugins.modules.sector_metadata_generators package</a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.sector_spec_generators.html">geoips.plugins.modules.sector_spec_generators package</a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.title_formatters.html">geoips.plugins.modules.title_formatters package</a></li>
 </ul>
 </details></li>
 </ul>
 </details></li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="geoips.pydantic_models.html">geoips.pydantic_models package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l3"><a class="reference internal" href="geoips.pydantic_models.v1.html">geoips.pydantic_models.v1 package</a></li>
-<li class="toctree-l3"><a class="reference internal" href="geoips.pydantic_models.v2alpha1.html">geoips.pydantic_models.v2alpha1 package</a></li>
 </ul>
 </details></li>
 <li class="toctree-l2"><a class="reference internal" href="geoips.sector_utils.html">geoips.sector_utils package</a></li>
-<li class="toctree-l2"><a class="reference internal" href="geoips.utils.html">geoips.utils package</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="geoips.utils.html">geoips.utils package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="geoips.utils.coverage_checkers.html">geoips.utils.coverage_checkers package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.utils.memusg.html">geoips.utils.memusg package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.utils.types.html">geoips.utils.types package</a></li>
+</ul>
+</details></li>
 <li class="toctree-l2"><a class="reference internal" href="geoips.xarray_utils.html">geoips.xarray_utils package</a></li>
 </ul>
 </details></li>
@@ -525,6 +547,11 @@
 <span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'gridline_annotators'</span></em><a class="headerlink" href="#geoips.interfaces.yaml_based.gridline_annotators.GridlineAnnotatorsInterface.name" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
+<dl class="py attribute">
+<dt class="sig sig-object py" id="geoips.interfaces.yaml_based.gridline_annotators.GridlineAnnotatorsInterface.use_pydantic">
+<span class="sig-name descname"><span class="pre">use_pydantic</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">False</span></em><a class="headerlink" href="#geoips.interfaces.yaml_based.gridline_annotators.GridlineAnnotatorsInterface.use_pydantic" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
 </dd></dl>
 
 </section>
@@ -539,6 +566,11 @@
 <dl class="py attribute">
 <dt class="sig sig-object py" id="geoips.interfaces.yaml_based.product_defaults.ProductDefaultsInterface.name">
 <span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'product_defaults'</span></em><a class="headerlink" href="#geoips.interfaces.yaml_based.product_defaults.ProductDefaultsInterface.name" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="geoips.interfaces.yaml_based.product_defaults.ProductDefaultsInterface.use_pydantic">
+<span class="sig-name descname"><span class="pre">use_pydantic</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">False</span></em><a class="headerlink" href="#geoips.interfaces.yaml_based.product_defaults.ProductDefaultsInterface.use_pydantic" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -650,6 +682,11 @@ plugin registry.</p>
 </dd></dl>
 
 <dl class="py attribute">
+<dt class="sig sig-object py" id="geoips.interfaces.yaml_based.products.ProductsInterface.use_pydantic">
+<span class="sig-name descname"><span class="pre">use_pydantic</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">False</span></em><a class="headerlink" href="#geoips.interfaces.yaml_based.products.ProductsInterface.use_pydantic" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
 <dt class="sig sig-object py" id="geoips.interfaces.yaml_based.products.ProductsInterface.validator">
 <span class="sig-name descname"><span class="pre">validator</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;geoips.interfaces.yaml_based.products.ProductsPluginValidator</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#geoips.interfaces.yaml_based.products.ProductsInterface.validator" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
@@ -693,7 +730,7 @@ plugin.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="geoips.interfaces.yaml_based.sectors.SectorPluginBase">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">geoips.interfaces.yaml_based.sectors.</span></span><span class="sig-name descname"><span class="pre">SectorPluginBase</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/interfaces/yaml_based/sectors.html#SectorPluginBase"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.interfaces.yaml_based.sectors.SectorPluginBase" title="Permalink to this definition">#</a></dt>
-<dd><p>Bases: <a class="reference internal" href="geoips.interfaces.html#geoips.interfaces.base.BaseYamlPlugin" title="geoips.interfaces.base.BaseYamlPlugin"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseYamlPlugin</span></code></a></p>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseYamlPlugin</span></code></p>
 <p>The base class for all sector plugins.</p>
 <p>This class provides the functionality specific to sector plugin classes. It should
 not be instantiated directly. To access sector plugins, use
@@ -705,8 +742,32 @@ not be instantiated directly. To access sector plugins, use
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="geoips.interfaces.yaml_based.sectors.SectorPluginBase.call">
+<span class="sig-name descname"><span class="pre">call</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/interfaces/yaml_based/sectors.html#SectorPluginBase.call"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.interfaces.yaml_based.sectors.SectorPluginBase.call" title="Permalink to this definition">#</a></dt>
+<dd><p>Return a DataTree with the sector’s area-definition metadata.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> (<em>xr.DataTree</em><em> or </em><em>None</em>) – Upstream DataTree (unused for sectors).</p></li>
+<li><p><strong>\*\*kwargs</strong> – Step arguments (unused).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A <code class="docutils literal notranslate"><span class="pre">DataTreeDitto</span></code> whose <code class="docutils literal notranslate"><span class="pre">ds.attrs</span></code> carry <code class="docutils literal notranslate"><span class="pre">area_id</span></code>,
+<code class="docutils literal notranslate"><span class="pre">area_extent</span></code>, <code class="docutils literal notranslate"><span class="pre">shape</span></code>, and <code class="docutils literal notranslate"><span class="pre">projection</span></code> for downstream
+consumers (e.g. interpolator, filename formatter). Per the
+DataTree spec, this metadata lives in the step node’s <code class="docutils literal notranslate"><span class="pre">attrs</span></code>
+(there is no separate <code class="docutils literal notranslate"><span class="pre">/metadata</span></code> node).</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>xr.DataTree</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="geoips.interfaces.yaml_based.sectors.SectorPluginBase.create_test_plot">
-<span class="sig-name descname"><span class="pre">create_test_plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fname</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_fig_ax_map</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">overlay</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/interfaces/yaml_based/sectors.html#SectorPluginBase.create_test_plot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.interfaces.yaml_based.sectors.SectorPluginBase.create_test_plot" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">create_test_plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fname</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_fig_ax_map</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">overlay</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gridlines</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gridline_labels</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">noborder</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/interfaces/yaml_based/sectors.html#SectorPluginBase.create_test_plot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.interfaces.yaml_based.sectors.SectorPluginBase.create_test_plot" title="Permalink to this definition">#</a></dt>
 <dd><p>Create a test PNG image for this sector.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -726,10 +787,29 @@ transparent. Useful for projecting tiny sectors on the global grid to get
 a sense of where they’ll end up and what they’ll look like.</p></li>
 </ul>
 </p></li>
+<li><p><strong>gridlines</strong> (<em>bool</em><em>, </em><em>default=False</em>) – <ul>
+<li><p>If true, add latitude longitude gridlines to the sector image.</p></li>
+</ul>
+</p></li>
+<li><p><strong>gridline_labels</strong> (<em>list</em><em>[</em><em>constants</em><em>]</em><em>, </em><em>default=</em><em>[</em><em>]</em>) – <ul>
+<li><p>A list of constants (strings) that refer to which gridline labels to turn
+on.</p></li>
+</ul>
+</p></li>
+<li><p><strong>noborder</strong> (<em>bool</em><em>, </em><em>default=True</em>) – <ul>
+<li><p>If true, no border will be added to the axes instance. Otherwise, add
+a simple border (useful for gridline labels).</p></li>
+</ul>
+</p></li>
 </ul>
 </dd>
 </dl>
 </dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="geoips.interfaces.yaml_based.sectors.SectorPluginBase.data_tree">
+<span class="sig-name descname"><span class="pre">data_tree</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">True</span></em><a class="headerlink" href="#geoips.interfaces.yaml_based.sectors.SectorPluginBase.data_tree" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
 
 </dd></dl>
 
@@ -749,6 +829,11 @@ a sense of where they’ll end up and what they’ll look like.</p></li>
 <dd><p>alias of <a class="reference internal" href="#geoips.interfaces.yaml_based.sectors.SectorPluginBase" title="geoips.interfaces.yaml_based.sectors.SectorPluginBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">SectorPluginBase</span></code></a></p>
 </dd></dl>
 
+<dl class="py attribute">
+<dt class="sig sig-object py" id="geoips.interfaces.yaml_based.sectors.SectorsInterface.use_pydantic">
+<span class="sig-name descname"><span class="pre">use_pydantic</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">False</span></em><a class="headerlink" href="#geoips.interfaces.yaml_based.sectors.SectorsInterface.use_pydantic" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
 </dd></dl>
 
 </section>
@@ -760,10 +845,107 @@ a sense of where they’ll end up and what they’ll look like.</p></li>
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">geoips.interfaces.yaml_based.workflows.</span></span><span class="sig-name descname"><span class="pre">WorkflowsInterface</span></span><a class="reference internal" href="../_modules/geoips/interfaces/yaml_based/workflows.html#WorkflowsInterface"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.interfaces.yaml_based.workflows.WorkflowsInterface" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases: <a class="reference internal" href="geoips.interfaces.html#geoips.interfaces.base.BaseYamlInterface" title="geoips.interfaces.base.BaseYamlInterface"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseYamlInterface</span></code></a></p>
 <p>Interface for workflow plugins.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="geoips.interfaces.yaml_based.workflows.WorkflowsInterface.get_plugin">
+<span class="sig-name descname"><span class="pre">get_plugin</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rebuild_registries</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_expand</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/interfaces/yaml_based/workflows.html#WorkflowsInterface.get_plugin"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.interfaces.yaml_based.workflows.WorkflowsInterface.get_plugin" title="Permalink to this definition">#</a></dt>
+<dd><p>Get a workflow plugin by its name.</p>
+<p>This overrides BaseYamlInterface:get_plugin as we need to support ‘expand’
+functionality for the CLI command ‘geoips expand &lt;workflow&gt;’.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<em>str</em>) – The name of the workflow plugin.</p></li>
+<li><p><strong>rebuild_registries</strong> (<em>bool</em><em> (</em><em>default=None</em><em>)</em>) – Whether or not to rebuild the registries if get_plugin fails. If set to
+None, default to what we have set in geoips.filenames.base_paths, which
+defaults to True. If specified, use the input value of rebuild_registries,
+which should be a boolean value. If rebuild registries is true and
+get_plugin fails, rebuild the plugin registry, call then call
+get_plugin once more with rebuild_registries toggled off, so it only gets
+rebuilt once.</p></li>
+<li><p><strong>_expand</strong> (<em>private bool</em><em> (</em><em>default=False</em><em>)</em>) – If true, fully expand the workflow plugin in place. Otherwise, load as is
+done usually. This should only be used for the ‘geoips expand &lt;workflow&gt;’
+command.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="geoips.interfaces.yaml_based.workflows.WorkflowsInterface.global_override_type">
+<span class="sig-name descname"><span class="pre">global_override_type</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/interfaces/yaml_based/workflows.html#WorkflowsInterface.global_override_type"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.interfaces.yaml_based.workflows.WorkflowsInterface.global_override_type" title="Permalink to this definition">#</a></dt>
+<dd><p>Ensure an override string fits the following format.</p>
+<section id="expected-format">
+<h3>Expected Format<a class="headerlink" href="#expected-format" title="Permalink to this heading">#</a></h3>
+<p>‘&lt;global_variable_name&gt;=&lt;some_value&gt;’</p>
+<dl class="field-list simple">
+<dt class="field-odd">param value<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The full global override string for a geoips run order_based command.</p>
+</dd>
+<dt class="field-even">type value<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
+</dd>
+<dt class="field-odd">returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>override_dict</strong> – The validated contents of an override string in a dictionary.</p>
+</dd>
+<dt class="field-even">rtype<span class="colon">:</span></dt>
+<dd class="field-even"><p>dict</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="geoips.interfaces.yaml_based.workflows.WorkflowsInterface.kind_override_type">
+<span class="sig-name descname"><span class="pre">kind_override_type</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/interfaces/yaml_based/workflows.html#WorkflowsInterface.kind_override_type"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.interfaces.yaml_based.workflows.WorkflowsInterface.kind_override_type" title="Permalink to this definition">#</a></dt>
+<dd><p>Ensure an override string fits the following format.</p>
+<section id="id1">
+<h3>Expected Format<a class="headerlink" href="#id1" title="Permalink to this heading">#</a></h3>
+<p>‘&lt;kind&gt;.&lt;argument_name&gt;=&lt;some_value&gt;’</p>
+<dl class="field-list simple">
+<dt class="field-odd">param value<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The full kind override string for a geoips run order_based command.</p>
+</dd>
+<dt class="field-even">type value<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
+</dd>
+<dt class="field-odd">returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>override_dict</strong> – The validated contents of an override string in a dictionary.</p>
+</dd>
+<dt class="field-even">rtype<span class="colon">:</span></dt>
+<dd class="field-even"><p>dict</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
 <dl class="py attribute">
 <dt class="sig sig-object py" id="geoips.interfaces.yaml_based.workflows.WorkflowsInterface.name">
 <span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'workflows'</span></em><a class="headerlink" href="#geoips.interfaces.yaml_based.workflows.WorkflowsInterface.name" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="geoips.interfaces.yaml_based.workflows.WorkflowsInterface.step_override_type">
+<span class="sig-name descname"><span class="pre">step_override_type</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/interfaces/yaml_based/workflows.html#WorkflowsInterface.step_override_type"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.interfaces.yaml_based.workflows.WorkflowsInterface.step_override_type" title="Permalink to this definition">#</a></dt>
+<dd><p>Ensure an override string fits the following format.</p>
+<section id="id2">
+<h3>Expected Format<a class="headerlink" href="#id2" title="Permalink to this heading">#</a></h3>
+<p>‘&lt;step_id&gt;.&lt;string1&gt;.&lt;optional_string2&gt;.&lt;optional_string3&gt;…=&lt;some_value&gt;’</p>
+<dl class="field-list simple">
+<dt class="field-odd">param value<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The full step override string for a geoips run order_based command.</p>
+</dd>
+<dt class="field-even">type value<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
+</dd>
+<dt class="field-odd">returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>override_dict</strong> – The validated contents of an override string in a dictionary.</p>
+</dd>
+<dt class="field-even">rtype<span class="colon">:</span></dt>
+<dd class="field-even"><p>dict</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="geoips.interfaces.yaml_based.workflows.WorkflowsInterface.use_pydantic">
@@ -790,12 +972,12 @@ a sense of where they’ll end up and what they’ll look like.</p></li>
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="geoips.interfaces.module_based.html"
+       href="geoips.interfaces.class_based.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">geoips.interfaces.module_based package</p>
+        <p class="prev-next-title">geoips.interfaces.class_based package</p>
       </div>
     </a>
     <a class="right-next"
@@ -824,8 +1006,8 @@ a sense of where they’ll end up and what they’ll look like.</p></li>
     class="page-toc tocsection onthispage">
     <i class="fa-solid fa-list"></i> On this page
   </div>
-  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
-    <ul class="visible nav section-nav flex-column">
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#submodules">Submodules</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-geoips.interfaces.yaml_based.feature_annotators">geoips.interfaces.yaml_based.feature_annotators module</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.interfaces.yaml_based.feature_annotators.FeatureAnnotatorsInterface"><code class="docutils literal notranslate"><span class="pre">FeatureAnnotatorsInterface</span></code></a><ul class="nav section-nav flex-column">
@@ -839,6 +1021,7 @@ a sense of where they’ll end up and what they’ll look like.</p></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.interfaces.yaml_based.gridline_annotators.GridlineAnnotatorsInterface"><code class="docutils literal notranslate"><span class="pre">GridlineAnnotatorsInterface</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.interfaces.yaml_based.gridline_annotators.GridlineAnnotatorsInterface.label_kwargs"><code class="docutils literal notranslate"><span class="pre">GridlineAnnotatorsInterface.label_kwargs</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.interfaces.yaml_based.gridline_annotators.GridlineAnnotatorsInterface.name"><code class="docutils literal notranslate"><span class="pre">GridlineAnnotatorsInterface.name</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.interfaces.yaml_based.gridline_annotators.GridlineAnnotatorsInterface.use_pydantic"><code class="docutils literal notranslate"><span class="pre">GridlineAnnotatorsInterface.use_pydantic</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -846,6 +1029,7 @@ a sense of where they’ll end up and what they’ll look like.</p></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-geoips.interfaces.yaml_based.product_defaults">geoips.interfaces.yaml_based.product_defaults module</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.interfaces.yaml_based.product_defaults.ProductDefaultsInterface"><code class="docutils literal notranslate"><span class="pre">ProductDefaultsInterface</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.interfaces.yaml_based.product_defaults.ProductDefaultsInterface.name"><code class="docutils literal notranslate"><span class="pre">ProductDefaultsInterface.name</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.interfaces.yaml_based.product_defaults.ProductDefaultsInterface.use_pydantic"><code class="docutils literal notranslate"><span class="pre">ProductDefaultsInterface.use_pydantic</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -858,6 +1042,7 @@ a sense of where they’ll end up and what they’ll look like.</p></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.interfaces.yaml_based.products.ProductsInterface.name"><code class="docutils literal notranslate"><span class="pre">ProductsInterface.name</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.interfaces.yaml_based.products.ProductsInterface.plugin_is_valid"><code class="docutils literal notranslate"><span class="pre">ProductsInterface.plugin_is_valid()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.interfaces.yaml_based.products.ProductsInterface.test_interface"><code class="docutils literal notranslate"><span class="pre">ProductsInterface.test_interface()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.interfaces.yaml_based.products.ProductsInterface.use_pydantic"><code class="docutils literal notranslate"><span class="pre">ProductsInterface.use_pydantic</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.interfaces.yaml_based.products.ProductsInterface.validator"><code class="docutils literal notranslate"><span class="pre">ProductsInterface.validator</span></code></a></li>
 </ul>
 </li>
@@ -871,19 +1056,26 @@ a sense of where they’ll end up and what they’ll look like.</p></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-geoips.interfaces.yaml_based.sectors">geoips.interfaces.yaml_based.sectors module</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.interfaces.yaml_based.sectors.SectorPluginBase"><code class="docutils literal notranslate"><span class="pre">SectorPluginBase</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.interfaces.yaml_based.sectors.SectorPluginBase.area_definition"><code class="docutils literal notranslate"><span class="pre">SectorPluginBase.area_definition</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.interfaces.yaml_based.sectors.SectorPluginBase.call"><code class="docutils literal notranslate"><span class="pre">SectorPluginBase.call()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.interfaces.yaml_based.sectors.SectorPluginBase.create_test_plot"><code class="docutils literal notranslate"><span class="pre">SectorPluginBase.create_test_plot()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.interfaces.yaml_based.sectors.SectorPluginBase.data_tree"><code class="docutils literal notranslate"><span class="pre">SectorPluginBase.data_tree</span></code></a></li>
 </ul>
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.interfaces.yaml_based.sectors.SectorsInterface"><code class="docutils literal notranslate"><span class="pre">SectorsInterface</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.interfaces.yaml_based.sectors.SectorsInterface.name"><code class="docutils literal notranslate"><span class="pre">SectorsInterface.name</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.interfaces.yaml_based.sectors.SectorsInterface.plugin_class"><code class="docutils literal notranslate"><span class="pre">SectorsInterface.plugin_class</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.interfaces.yaml_based.sectors.SectorsInterface.use_pydantic"><code class="docutils literal notranslate"><span class="pre">SectorsInterface.use_pydantic</span></code></a></li>
 </ul>
 </li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-geoips.interfaces.yaml_based.workflows">geoips.interfaces.yaml_based.workflows module</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.interfaces.yaml_based.workflows.WorkflowsInterface"><code class="docutils literal notranslate"><span class="pre">WorkflowsInterface</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.interfaces.yaml_based.workflows.WorkflowsInterface.get_plugin"><code class="docutils literal notranslate"><span class="pre">WorkflowsInterface.get_plugin()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.interfaces.yaml_based.workflows.WorkflowsInterface.global_override_type"><code class="docutils literal notranslate"><span class="pre">WorkflowsInterface.global_override_type()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.interfaces.yaml_based.workflows.WorkflowsInterface.kind_override_type"><code class="docutils literal notranslate"><span class="pre">WorkflowsInterface.kind_override_type()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.interfaces.yaml_based.workflows.WorkflowsInterface.name"><code class="docutils literal notranslate"><span class="pre">WorkflowsInterface.name</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.interfaces.yaml_based.workflows.WorkflowsInterface.step_override_type"><code class="docutils literal notranslate"><span class="pre">WorkflowsInterface.step_override_type()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.interfaces.yaml_based.workflows.WorkflowsInterface.use_pydantic"><code class="docutils literal notranslate"><span class="pre">WorkflowsInterface.use_pydantic</span></code></a></li>
 </ul>
 </li>
@@ -894,13 +1086,13 @@ a sense of where they’ll end up and what they’ll look like.</p></li>
   </nav></div>
 
   <div class="sidebar-secondary-item">
-  <div role="note" aria-label="source link">
-    <h3>This Page</h3>
-    <ul class="this-page-menu">
-      <li><a href="../_sources/geoips_api/geoips.interfaces.yaml_based.rst.txt"
-            rel="nofollow">Show Source</a></li>
-    </ul>
-   </div></div>
+
+  <div class="tocsection sourcelink">
+    <a href="../_sources/geoips_api/geoips.interfaces.yaml_based.rst.txt">
+      <i class="fa-solid fa-file-lines"></i> Show Source
+    </a>
+  </div>
+</div>
 
 </div></div>
               
@@ -915,8 +1107,8 @@ a sense of where they’ll end up and what they’ll look like.</p></li>
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
-<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+  <script defer src="../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb"></script>
 
   <footer class="bd-footer">
 <div class="bd-footer__inner bd-page-width">

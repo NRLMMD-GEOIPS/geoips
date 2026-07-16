@@ -1,0 +1,34 @@
+Version 1.17.0 (2026-07-16)
+***************************
+
+ * *Release process*: Add 1.17.0 release note
+ * *Release process*: Update internal and github.com 'upcoming_version' and 'tagged_version'
+
+Release process
+===============
+
+Add 1.17.0 release note
+-----------------------
+
+Currently tagged internal version 1.16.3.
+
+::
+
+     added: docs/source/releases/1.17.0/1.17.0-internal-release.yaml
+
+Release process
+===============
+
+Update internal and github.com 'upcoming_version' and 'tagged_version'
+----------------------------------------------------------------------
+
+Updated 'update_this_release_note' file in geoips repo for the
+next internal version-
+1.17.1
+next github.com version-
+1.18.0
+
+::
+
+     modified: .github/versions/upcoming_version
+     modified: .github/versions/tagged_version

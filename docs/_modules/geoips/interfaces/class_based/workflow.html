@@ -1,0 +1,1824 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>geoips.interfaces.class_based.workflow &#8212; GeoIPS, Geolocated Information Processing System 1.19.0.post776.dev0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../../_static/styles/theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+<link href="../../../../_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/set_width.css?v=d4af5e1e" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../../../../_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
+<link rel="preload" as="script" href="../../../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
+
+    <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js?v=1e4423a0"></script>
+    <script src="../../../../_static/doctools.js?v=888ff710"></script>
+    <script src="../../../../_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="../../../../_static/design-tabs.js?v=f930bc37"></script>
+    <script src="https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js"></script>
+    <script type="module">import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.12.1/dist/mermaid.esm.min.mjs";
+
+
+
+
+
+const initStyles = () => {
+    const defaultStyle = document.createElement('style');
+    defaultStyle.textContent = `pre.mermaid {
+    /* Same as .mermaid-container > pre */
+    display: block;
+    width: 100%;
+}
+
+pre.mermaid > svg {
+    /* Same as .mermaid-container > pre > svg */
+    height: 500px;
+    width: 100%;
+    max-width: 100% !important;
+}`;
+    document.head.appendChild(defaultStyle);
+
+    const fullscreenStyle = document.createElement('style');
+    fullscreenStyle.textContent = `.mermaid-container {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+}
+
+.mermaid-container > pre {
+    display: block;
+    width: 100%;
+}
+
+.mermaid-container > pre > svg {
+    height: 500px;
+    width: 100%;
+    max-width: 100% !important;
+}
+
+.mermaid-fullscreen-btn {
+    width: 28px;
+    height: 28px;
+    background: rgba(255, 255, 255, 0.95);
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    border-radius: 4px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+    font-size: 14px;
+    line-height: 1;
+    padding: 0;
+    color: #333;
+}
+
+.mermaid-fullscreen-btn:hover {
+    opacity: 100% !important;
+    background: rgba(255, 255, 255, 1);
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
+    transform: scale(1.1);
+}
+
+.mermaid-fullscreen-btn.dark-theme {
+    background: rgba(50, 50, 50, 0.95);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: #e0e0e0;
+}
+
+.mermaid-fullscreen-btn.dark-theme:hover {
+    background: rgba(60, 60, 60, 1);
+    box-shadow: 0 3px 10px rgba(255, 255, 255, 0.2);
+}
+
+.mermaid-fullscreen-modal {
+    display: none;
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 95vw;
+    height: 100vh;
+    background: rgba(255, 255, 255, 0.98);
+    z-index: 9999;
+    padding: 20px;
+    overflow: auto;
+}
+
+.mermaid-fullscreen-modal.dark-theme {
+    background: rgba(0, 0, 0, 0.98);
+}
+
+.mermaid-fullscreen-modal.active {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.mermaid-container-fullscreen {
+    position: relative;
+    width: 95vw;
+    height: 90vh;
+    max-width: 95vw;
+    max-height: 90vh;
+    background: white;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+    overflow: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.mermaid-container-fullscreen.dark-theme {
+    background: #1a1a1a;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8);
+}
+
+.mermaid-container-fullscreen pre.mermaid {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.mermaid-container-fullscreen .mermaid svg {
+    height: 100% !important;
+    width: 100% !important;
+    cursor: grab;
+}
+
+.mermaid-fullscreen-close {
+    position: fixed !important;
+    top: 20px !important;
+    right: 20px !important;
+    width: 40px;
+    height: 40px;
+    background: rgba(255, 255, 255, 0.95);
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-radius: 50%;
+    cursor: pointer;
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    transition: all 0.2s;
+    font-size: 24px;
+    line-height: 1;
+    color: #333;
+}
+
+.mermaid-fullscreen-close:hover {
+    background: white;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+    transform: scale(1.1);
+}
+
+.mermaid-fullscreen-close.dark-theme {
+    background: rgba(50, 50, 50, 0.95);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #e0e0e0;
+}
+
+.mermaid-fullscreen-close.dark-theme:hover {
+    background: rgba(60, 60, 60, 1);
+    box-shadow: 0 6px 16px rgba(255, 255, 255, 0.2);
+}
+
+.mermaid-fullscreen-modal .mermaid-fullscreen-btn {
+    display: none !important;
+}`;
+    document.head.appendChild(fullscreenStyle);
+}
+
+// Detect if page has dark background
+const isDarkTheme = () => {
+    // We use a set of heuristics:
+    // 1. Check for common dark mode classes or attributes
+    // 2. Check computed background color brightness
+    if (document.documentElement.classList.contains('dark') ||
+        document.documentElement.getAttribute('data-theme') === 'dark' ||
+        document.body.classList.contains('dark') ||
+        document.body.getAttribute('data-theme') === 'dark') {
+        // console.log("Dark theme detected via class/attribute");
+        return true;
+    }
+    if (document.documentElement.classList.contains('light') ||
+        document.documentElement.getAttribute('data-theme') === 'light' ||
+        document.body.classList.contains('light') ||
+        document.body.getAttribute('data-theme') === 'light') {
+        // console.log("Light theme detected via class/attribute");
+        return false;
+    }
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        // console.log("Dark theme detected via prefers-color-scheme");
+        return true;
+    }
+    const bgColor = window.getComputedStyle(document.body).backgroundColor;
+    const match = bgColor.match(/rgb\((\d+),\s*(\d+),\s*(\d+)/);
+    if (match) {
+        const r = parseInt(match[1]);
+        const g = parseInt(match[2]);
+        const b = parseInt(match[3]);
+        const brightness = (r * 299 + g * 587 + b * 114) / 1000;
+        // console.log("Background color brightness:", brightness);
+        return brightness < 128;
+    }
+    // console.log("No dark or light theme detected, defaulting to light theme");
+    return false;
+};
+
+let darkTheme = isDarkTheme();
+let modal = null;
+let modalContent = null;
+let previousScrollOffset = [window.scrollX, window.scrollY];
+let _lazyObserver = null;
+let _renderQueue = Promise.resolve();
+
+// Apply d3 zoom to each SVG. Idempotent: an SVG already wrapped is skipped,
+// so this is safe to call both for the initial batch and for diagrams that
+// render lazily once they become visible.
+const addZoomToSvgs = (svgs) => {
+    svgs.each(function() {
+        if (this.getAttribute('data-zoom-applied') === 'true') return;
+        var svg = d3.select(this);
+        svg.html("<g class='wrapper'>" + svg.html() + "</g>");
+        var inner = svg.select("g");
+        var zoom = d3.zoom().on("zoom", function(event) {
+            inner.attr("transform", event.transform);
+        });
+        svg.call(zoom);
+        this.setAttribute('data-zoom-applied', 'true');
+    });
+};
+
+const runMermaid = async (rerun) => {
+    console.log("Running mermaid diagrams, rerun =", rerun);
+    // clear all existing mermaid charts
+    let all_mermaids = document.querySelectorAll(".mermaid");
+
+    if (rerun) {
+        // Disconnect any previous lazy rendering observer
+        if (_lazyObserver) {
+            _lazyObserver.disconnect();
+            _lazyObserver = null;
+        }
+
+        all_mermaids.forEach((el) => {
+            el.removeAttribute('data-mermaid-deferred');
+            el.removeAttribute('data-mermaid-render-failed');
+            if(!el.hasAttribute("data-original-code")) {
+                // store original code
+                // console.log(`Storing original code for first run: `, el.innerHTML);
+                el.setAttribute('data-original-code', el.innerHTML);
+            }
+            if(el.getAttribute("data-processed") === "true") {
+                // remove and restore original
+                el.removeAttribute("data-processed");
+                // console.log(`Restoring original code for re-run: `, el.getAttribute('data-original-code'));
+                el.innerHTML = el.getAttribute('data-original-code');
+            } else {
+                // store original code
+                // console.log(`Storing original code for re-run: `, el.innerHTML);
+                el.setAttribute('data-original-code', el.innerHTML);
+            }
+        });
+
+        // Separate visible and hidden elements. Mermaid's layout engine measures
+        // text dimensions via the DOM, which fails for elements hidden by a parent
+        // (e.g., Reveal.js non-active slides, sphinx-design unopened tabs),
+        // producing broken SVGs. Render visible elements now, defer hidden ones.
+        const visible = [];
+        const hidden = [];
+        all_mermaids.forEach((el) => {
+            // offsetParent is null for display:none ancestors.
+            // getClientRects().length > 0 catches position:fixed elements
+            // (which also have null offsetParent but are still visible).
+            if (el.offsetParent !== null || el.getClientRects().length > 0) {
+                visible.push(el);
+            } else {
+                hidden.push(el);
+                el.setAttribute('data-mermaid-deferred', 'true');
+            }
+        });
+
+        if (visible.length > 0) {
+            try {
+                await mermaid.run({ nodes: visible });
+            } catch (e) {
+                console.error("Mermaid rendering failed:", e);
+            }
+        }
+
+        // Lazily render hidden elements when they become visible.
+        // Uses a promise chain (_renderQueue) to serialize rendering,
+        // since IntersectionObserver may report multiple entries at once
+        // and mermaid.run() is not safe to call concurrently.
+        if (hidden.length > 0) {
+            if (typeof IntersectionObserver === 'undefined') {
+                console.warn("IntersectionObserver not available; hidden mermaid diagrams will not render.");
+            } else {
+                _renderQueue = Promise.resolve();
+                _lazyObserver = new IntersectionObserver((entries) => {
+                    for (const entry of entries) {
+                        if (entry.isIntersecting && entry.target.getAttribute("data-processed") !== "true") {
+                            _lazyObserver.unobserve(entry.target);
+                            const el = entry.target;
+                            _renderQueue = _renderQueue.then(async () => {
+                                try {
+                                    await mermaid.run({ nodes: [el] });
+                                    el.removeAttribute('data-mermaid-deferred');
+                                    // Apply zoom to the now-rendered diagram, matching
+                                    // the decoration visible diagrams receive.
+                                    if ("False" === "True") {
+                                        addZoomToSvgs(d3.selectAll(""));
+                                    }
+                                } catch (e) {
+                                    console.error("Mermaid deferred rendering failed:", e);
+                                    el.removeAttribute('data-mermaid-deferred');
+                                    el.setAttribute('data-mermaid-render-failed', 'true');
+                                }
+                            });
+                        }
+                    }
+                });
+                hidden.forEach((el) => _lazyObserver.observe(el));
+            }
+        }
+    }
+
+    all_mermaids = document.querySelectorAll(".mermaid");
+    // Exclude deferred (hidden) and render-failed elements from completion checks
+    const mermaids_active = document.querySelectorAll(".mermaid:not([data-mermaid-deferred]):not([data-mermaid-render-failed])");
+    const mermaids_processed = document.querySelectorAll(".mermaid:not([data-mermaid-deferred]):not([data-mermaid-render-failed])[data-processed='true']");
+
+    if ("False" === "True") {
+        const mermaids_to_add_zoom = -1 === -1 ? mermaids_active.length : -1;
+        if(mermaids_to_add_zoom > 0) {
+            var svgs = d3.selectAll("");
+            // Wait until every active (visible) diagram has rendered. Deferred
+            // diagrams are excluded, so a fixed d3_node_count that counts a
+            // hidden diagram no longer loops forever waiting for its SVG.
+            if(mermaids_active.length !== mermaids_processed.length) {
+                setTimeout(() => runMermaid(false), 200);
+                return;
+            }
+            addZoomToSvgs(svgs);
+        }
+    } else if(mermaids_active.length !== mermaids_processed.length) {
+        // Wait for mermaid to process all diagrams
+        setTimeout(() => runMermaid(false), 200);
+        return;
+    }
+
+    // Stop here if not adding fullscreen capability
+    if ("True" !== "True") return;
+
+    if (modal !== null ) {
+        // Destroy existing modal
+        modal.remove();
+        modal = null;
+        modalContent = null;
+    }
+
+    modal = document.createElement('div');
+    modal.className = 'mermaid-fullscreen-modal' + (darkTheme ? ' dark-theme' : '');
+    modal.setAttribute('role', 'dialog');
+    modal.setAttribute('aria-modal', 'true');
+    modal.setAttribute('aria-label', 'Fullscreen diagram viewer');
+    modal.innerHTML = `
+        <button class="mermaid-fullscreen-close${darkTheme ? ' dark-theme' : ''}" aria-label="Close fullscreen">✕</button>
+        <div class="mermaid-container-fullscreen${darkTheme ? ' dark-theme' : ''}"></div>
+    `;
+    document.body.appendChild(modal);
+
+    modalContent = modal.querySelector('.mermaid-container-fullscreen');
+    const closeBtn = modal.querySelector('.mermaid-fullscreen-close');
+
+    const closeModal = () => {
+        modal.classList.remove('active');
+        modalContent.innerHTML = '';
+        document.body.style.overflow = ''
+        window.scrollTo({left: previousScrollOffset[0], top: previousScrollOffset[1], behavior: 'instant'});
+    };
+
+    closeBtn.addEventListener('click', closeModal);
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) closeModal();
+    });
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && modal.classList.contains('active')) {
+            closeModal();
+        }
+    });
+
+    document.querySelectorAll('.mermaid').forEach((mermaidDiv) => {
+        if (mermaidDiv.parentNode.classList.contains('mermaid-container') ||
+            mermaidDiv.closest('.mermaid-fullscreen-modal')) {
+            // Already processed, adjust button class if needed
+            const existingBtn = mermaidDiv.parentNode.querySelector('.mermaid-fullscreen-btn');
+            if (existingBtn) {
+                existingBtn.className = 'mermaid-fullscreen-btn' + (darkTheme ? ' dark-theme' : '');
+            }
+            return;
+        }
+
+        const container = document.createElement('div');
+        container.className = 'mermaid-container';
+        mermaidDiv.parentNode.insertBefore(container, mermaidDiv);
+        container.appendChild(mermaidDiv);
+
+        const fullscreenBtn = document.createElement('button');
+        fullscreenBtn.className = 'mermaid-fullscreen-btn' + (darkTheme ? ' dark-theme' : '');
+        fullscreenBtn.setAttribute('aria-label', 'View diagram in fullscreen');
+        fullscreenBtn.textContent = '⛶';
+        fullscreenBtn.style.opacity = '50%';
+
+        // Calculate dynamic position based on diagram's margin and padding
+        const diagramStyle = window.getComputedStyle(mermaidDiv);
+        const marginTop = parseFloat(diagramStyle.marginTop) || 0;
+        const marginRight = parseFloat(diagramStyle.marginRight) || 0;
+        const paddingTop = parseFloat(diagramStyle.paddingTop) || 0;
+        const paddingRight = parseFloat(diagramStyle.paddingRight) || 0;
+        fullscreenBtn.style.top = `${marginTop + paddingTop + 4}px`;
+        fullscreenBtn.style.right = `${marginRight + paddingRight + 4}px`;
+
+        fullscreenBtn.addEventListener('click', () => {
+            previousScrollOffset = [window.scroll, window.scrollY];
+            const clone = mermaidDiv.cloneNode(true);
+            modalContent.innerHTML = '';
+            modalContent.appendChild(clone);
+
+            const svg = clone.querySelector('svg');
+            if (svg) {
+                svg.removeAttribute('width');
+                svg.removeAttribute('height');
+                svg.style.width = '100%';
+                svg.style.height = 'auto';
+                svg.style.maxWidth = '100%';
+                svg.style.sdisplay = 'block';
+
+                if ("False" === "True") {
+                    setTimeout(() => {
+                        const g = svg.querySelector('g');
+                        if (g) {
+                            var svgD3 = d3.select(svg);
+                            svgD3.html("<g class='wrapper'>" + svgD3.html() + "</g>");
+                            var inner = svgD3.select("g");
+                            var zoom = d3.zoom().on("zoom", function(event) {
+                                inner.attr("transform", event.transform);
+                            });
+                            svgD3.call(zoom);
+                        }
+                    }, 100);
+                }
+            }
+
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        });
+        container.appendChild(fullscreenBtn);
+    });
+};
+
+const load = async () => {
+    initStyles();
+
+    await runMermaid(true);
+
+    const reRunIfThemeChanges = async () => {
+        const newDarkTheme = isDarkTheme();
+        if (newDarkTheme !== darkTheme) {
+            darkTheme = newDarkTheme;
+            console.log("Theme change detected, re-running mermaid with", darkTheme ? "dark" : "default", "theme");
+            await mermaid.initialize(
+                {...JSON.parse(
+                    `{"startOnLoad": false}`
+                ),
+                ...{ darkMode: darkTheme, theme: darkTheme ? 'dark' : 'default' },
+                }
+            );
+            await runMermaid(true);
+        }
+    };
+
+    // Update theme classes when theme changes
+    const themeObserver = new MutationObserver(reRunIfThemeChanges);
+    themeObserver.observe(document.documentElement, {
+        attributes: true,
+        attributeFilter: ['class', 'style', 'data-theme']
+    });
+    themeObserver.observe(document.body, {
+        attributes: true,
+        attributeFilter: ['class', 'style', 'data-theme']
+    });
+};
+
+
+
+
+
+console.log("Initializing mermaid with", darkTheme ? "dark" : "default", "theme");
+mermaid.initialize(
+    {...JSON.parse(
+        `{"startOnLoad": false}`
+    ),
+    ...{ darkMode: darkTheme, theme: darkTheme ? 'dark' : 'default' },
+    }
+);
+
+window.addEventListener("load", load);
+window.runMermaid = runMermaid;</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/geoips/interfaces/class_based/workflow';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <link rel="icon" href="../../../../_static/nrlicon.ico"/>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="1.1" />
+    <meta name="docbuild:last-update" content="Jul 16, 2026 04:57:54"/>
+  
+    
+    <script src="../../../../_static/searchtools.js"></script>
+    <script src="../../../../_static/language_data.js"></script>
+    <script src="../../../../searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../../../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../../../_static/NRL_logo_RGB.jpg" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 1.19.0.post776.dev0 documentation - Home"/>
+    <img src="../../../../_static/NRL_logo_sidebar_Reverse.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 1.19.0.post776.dev0 documentation - Home"/>
+  
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../getting-started/index.html">
+    Getting Started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../tutorials/index.html">
+    Tutorials
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../concepts/index.html">
+    Concepts
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../contribute/index.html">
+    Contribute
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../geoips_api/index.html">
+    API
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../../releases/index.html">
+    Release Notes
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../../contact/index.html">
+    About Us
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/NRLMMD-GEOIPS/geoips" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../getting-started/index.html">
+    Getting Started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../tutorials/index.html">
+    Tutorials
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../concepts/index.html">
+    Concepts
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../contribute/index.html">
+    Contribute
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../geoips_api/index.html">
+    API
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../releases/index.html">
+    Release Notes
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../contact/index.html">
+    About Us
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/NRLMMD-GEOIPS/geoips" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../../../index.html" class="nav-link">Module code</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">geoips.interfaces.class_based.workflow</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <h1>Source code for geoips.interfaces.class_based.workflow</h1><div class="highlight"><pre>
+<span></span><span class="c1"># # # This source code is subject to the license referenced at</span>
+<span class="c1"># # # https://github.com/NRLMMD-GEOIPS.</span>
+
+<span class="sd">&quot;&quot;&quot;DataTree-spec Workflow composite executor.</span>
+
+<span class="sd">The ``Workflow`` class is a non-registered runtime executor that loads a validated</span>
+<span class="sd">:class:`~geoips.pydantic_models.v1.workflows.WorkflowSpecModel` resolves plugins, builds</span>
+<span class="sd">a topological step order, and walks through the steps collecting downstream provenance</span>
+<span class="sd">into an ``xr.DataTree``.  Retention is governed by the Strategy pattern so the execution</span>
+<span class="sd">loop never branches on the policy name.</span>
+
+<span class="sd">``split`` steps fan a workflow out into one branch per scope (e.g. one per</span>
+<span class="sd">static sector in ``globals.sector_list``), running an inline body sub-workflow</span>
+<span class="sd">per branch; ``join`` steps re-collect those branches.  Conditional execution</span>
+<span class="sd">(``when``) is accepted by the schema but not yet implemented and raises</span>
+<span class="sd">``NotImplementedError`` at runtime.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">ABC</span><span class="p">,</span> <span class="n">abstractmethod</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">dataclasses</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">deque</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">datetime</span><span class="p">,</span> <span class="n">timezone</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">xarray</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">xr</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">geoips.commandline.log_setup</span><span class="w"> </span><span class="kn">import</span> <span class="n">setup_logging</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">geoips.pydantic_models.v1.workflows</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">DEFAULT_RETENTION</span><span class="p">,</span>
+    <span class="n">INPUT_REF</span><span class="p">,</span>
+    <span class="n">WorkflowSpecModel</span><span class="p">,</span>
+    <span class="n">WorkflowStepDefinitionModel</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">geoips.errors</span><span class="w"> </span><span class="kn">import</span> <span class="n">PluginResolutionError</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">geoips.utils.types.datatree_ditto</span><span class="w"> </span><span class="kn">import</span> <span class="n">DataTreeDitto</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">geoips.utils.types.partial_lexeme</span><span class="w"> </span><span class="kn">import</span> <span class="n">Lexeme</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">geoips.utils.types.yaml_plugin_callable</span><span class="w"> </span><span class="kn">import</span> <span class="n">YamlPluginCallable</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">geoips.utils.types.tokenization</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">compute_arguments_hash</span><span class="p">,</span>
+    <span class="n">compute_step_output_token</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">geoips.sector_utils.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_sectors_from_yamls</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">geoips</span>
+
+<span class="c1"># LOG = logging.getLogger(__name__)</span>
+
+<span class="n">LOG</span> <span class="o">=</span> <span class="n">setup_logging</span><span class="p">(</span><span class="n">logging_level</span><span class="o">=</span><span class="s2">&quot;info&quot;</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_dep_head</span><span class="p">(</span><span class="n">dep</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the top-level step id of a (possibly dotted) ``depends_on`` ref.</span>
+
+<span class="sd">    A dotted reference such as ``&quot;subwf.algo&quot;`` or ``&quot;split.scope.algo&quot;``</span>
+<span class="sd">    depends, at the top-level DAG, on its container step (``&quot;subwf&quot;`` /</span>
+<span class="sd">    ``&quot;split&quot;``). Plain references are returned unchanged.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">dep</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_resolve_ref_node</span><span class="p">(</span><span class="n">tree</span><span class="p">:</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataTree</span><span class="p">,</span> <span class="n">ref</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the node at a (possibly dotted) ``depends_on`` ref, or None.</span>
+
+<span class="sd">    Dotted references are translated to node paths (``&quot;subwf.algo&quot;`` -&gt;</span>
+<span class="sd">    ``&quot;subwf/algo&quot;``). ``DataTree.get`` only performs single-level lookups, so</span>
+<span class="sd">    path indexing (``tree[path]``) is used and ``KeyError`` is caught to signal</span>
+<span class="sd">    an unresolved reference.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">path</span> <span class="o">=</span> <span class="n">ref</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">,</span> <span class="s2">&quot;/&quot;</span><span class="p">)</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">tree</span><span class="p">[</span><span class="n">path</span><span class="p">]</span>
+    <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">None</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_summarize_arguments</span><span class="p">(</span><span class="n">arguments</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return a concise, log-friendly summary of plugin call arguments.&quot;&quot;&quot;</span>
+    <span class="n">simple_types</span> <span class="o">=</span> <span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">bool</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="kc">None</span><span class="p">))</span>
+    <span class="n">summary</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">arguments</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">simple_types</span><span class="p">):</span>
+            <span class="n">summary</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="nb">repr</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">,</span> <span class="nb">set</span><span class="p">)):</span>
+            <span class="n">summary</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">val</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">[</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">val</span><span class="p">)</span><span class="si">}</span><span class="s2">]&quot;</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+            <span class="n">summary</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;dict[</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">val</span><span class="p">)</span><span class="si">}</span><span class="s2">]&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">summary</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="n">val</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span>
+    <span class="k">return</span> <span class="n">summary</span>
+
+
+<div class="viewcode-block" id="StepProvenance"><a class="viewcode-back" href="../../../../geoips_api/geoips.interfaces.class_based.html#geoips.interfaces.class_based.workflow.StepProvenance">[docs]</a><span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">slots</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">StepProvenance</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Per-step provenance bundle stamped into a step node&#39;s ``attrs``.&quot;&quot;&quot;</span>
+
+    <span class="n">plugin_name</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">plugin_kind</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">start_time</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">end_time</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">arguments_hash</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">output_token</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">gc_status</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;kept&quot;</span>
+
+<div class="viewcode-block" id="StepProvenance.from_attrs"><a class="viewcode-back" href="../../../../geoips_api/geoips.interfaces.class_based.html#geoips.interfaces.class_based.workflow.StepProvenance.from_attrs">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">from_attrs</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">attrs</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;StepProvenance&quot;</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Reconstruct from a node&#39;s ``ds.attrs`` dict.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span>
+            <span class="n">plugin_name</span><span class="o">=</span><span class="n">attrs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;plugin_name&quot;</span><span class="p">,</span> <span class="s2">&quot;unknown&quot;</span><span class="p">),</span>
+            <span class="n">plugin_kind</span><span class="o">=</span><span class="n">attrs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;plugin_kind&quot;</span><span class="p">,</span> <span class="s2">&quot;unknown&quot;</span><span class="p">),</span>
+            <span class="n">start_time</span><span class="o">=</span><span class="n">attrs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;start_time&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">),</span>
+            <span class="n">end_time</span><span class="o">=</span><span class="n">attrs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;end_time&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">),</span>
+            <span class="n">arguments_hash</span><span class="o">=</span><span class="n">attrs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;arguments_hash&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">),</span>
+            <span class="n">output_token</span><span class="o">=</span><span class="n">attrs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;output_token&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">),</span>
+            <span class="n">gc_status</span><span class="o">=</span><span class="n">attrs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;gc_status&quot;</span><span class="p">,</span> <span class="s2">&quot;kept&quot;</span><span class="p">),</span>
+        <span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="RetentionPolicy"><a class="viewcode-back" href="../../../../geoips_api/geoips.interfaces.class_based.html#geoips.interfaces.class_based.workflow.RetentionPolicy">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">RetentionPolicy</span><span class="p">(</span><span class="n">ABC</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Decides whether a step&#39;s data variables may be garbage-collected.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    spec : :class:`~geoips.pydantic_models.v1.workflows.WorkflowSpecModel`</span>
+<span class="sd">        The workflow specification.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spec</span><span class="p">:</span> <span class="n">WorkflowSpecModel</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_spec</span> <span class="o">=</span> <span class="n">spec</span>
+
+<div class="viewcode-block" id="RetentionPolicy.can_gc"><a class="viewcode-back" href="../../../../geoips_api/geoips.interfaces.class_based.html#geoips.interfaces.class_based.workflow.RetentionPolicy.can_gc">[docs]</a>    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">can_gc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">step_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">executed</span><span class="p">:</span> <span class="nb">set</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return True if the step&#39;s ``data_vars`` can be dropped.&quot;&quot;&quot;</span></div>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_is_kept</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">step_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_spec</span><span class="o">.</span><span class="n">steps</span><span class="p">[</span><span class="n">step_id</span><span class="p">]</span><span class="o">.</span><span class="n">keep</span> <span class="ow">is</span> <span class="kc">True</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_has_pending_consumers</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">step_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">executed</span><span class="p">:</span> <span class="nb">set</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">any</span><span class="p">(</span>
+            <span class="n">step_id</span> <span class="ow">in</span> <span class="p">{</span><span class="n">_dep_head</span><span class="p">(</span><span class="n">dep</span><span class="p">)</span> <span class="k">for</span> <span class="n">dep</span> <span class="ow">in</span> <span class="p">(</span><span class="n">other_step</span><span class="o">.</span><span class="n">depends_on</span> <span class="ow">or</span> <span class="p">())}</span>
+            <span class="k">for</span> <span class="n">other_id</span><span class="p">,</span> <span class="n">other_step</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_spec</span><span class="o">.</span><span class="n">steps</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">other_id</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">executed</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="KeepAllPolicy"><a class="viewcode-back" href="../../../../geoips_api/geoips.interfaces.class_based.html#geoips.interfaces.class_based.workflow.KeepAllPolicy">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">KeepAllPolicy</span><span class="p">(</span><span class="n">RetentionPolicy</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Never GC any step data.&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="KeepAllPolicy.can_gc"><a class="viewcode-back" href="../../../../geoips_api/geoips.interfaces.class_based.html#geoips.interfaces.class_based.workflow.KeepAllPolicy.can_gc">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">can_gc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">step_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">executed</span><span class="p">:</span> <span class="nb">set</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return True if the step&#39;s data_vars can be dropped.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="kc">False</span></div></div>
+
+
+<div class="viewcode-block" id="KeepReferencedPolicy"><a class="viewcode-back" href="../../../../geoips_api/geoips.interfaces.class_based.html#geoips.interfaces.class_based.workflow.KeepReferencedPolicy">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">KeepReferencedPolicy</span><span class="p">(</span><span class="n">RetentionPolicy</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;GC when no remaining downstream step references this step.&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="KeepReferencedPolicy.can_gc"><a class="viewcode-back" href="../../../../geoips_api/geoips.interfaces.class_based.html#geoips.interfaces.class_based.workflow.KeepReferencedPolicy.can_gc">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">can_gc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">step_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">executed</span><span class="p">:</span> <span class="nb">set</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return True if the step&#39;s data_vars can be dropped.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_is_kept</span><span class="p">(</span><span class="n">step_id</span><span class="p">):</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_has_pending_consumers</span><span class="p">(</span><span class="n">step_id</span><span class="p">,</span> <span class="n">executed</span><span class="p">)</span></div></div>
+
+
+<span class="n">_POLICIES</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">type</span><span class="p">[</span><span class="n">RetentionPolicy</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;keep_all&quot;</span><span class="p">:</span> <span class="n">KeepAllPolicy</span><span class="p">,</span>
+    <span class="s2">&quot;keep_referenced&quot;</span><span class="p">:</span> <span class="n">KeepReferencedPolicy</span><span class="p">,</span>
+<span class="p">}</span>
+
+<span class="n">GENERATED_WORKFLOW</span> <span class="o">=</span> <span class="s2">&quot;GENERATED_WORKFLOW&quot;</span>
+
+
+<div class="viewcode-block" id="Workflow"><a class="viewcode-back" href="../../../../geoips_api/geoips.interfaces.class_based.html#geoips.interfaces.class_based.workflow.Workflow">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">Workflow</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Non-registered runtime executor for a validated workflow spec.</span>
+
+<span class="sd">    This is an *orchestrator* that co-ordinates registered plugins — it does</span>
+<span class="sd">    not inherit from ``BaseClassPlugin`` and is not itself registerable.</span>
+<span class="sd">    Plugins are resolved via ``geoips.interfaces`` at runtime.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    spec : :class:`~geoips.pydantic_models.v1.workflows.WorkflowSpecModel`</span>
+<span class="sd">        A pydantic-validated workflow specification.</span>
+<span class="sd">    workflow_name : str</span>
+<span class="sd">        The workflow name (used as the root DataTree node name).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">spec</span><span class="p">:</span> <span class="n">WorkflowSpecModel</span><span class="p">,</span>
+        <span class="n">workflow_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_spec</span> <span class="o">=</span> <span class="n">spec</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_wf_name</span> <span class="o">=</span> <span class="n">workflow_name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_order</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_topological_order</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_entry_steps</span><span class="p">:</span> <span class="nb">set</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_resolve_entry_steps</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_retention</span><span class="p">:</span> <span class="n">RetentionPolicy</span> <span class="o">=</span> <span class="n">_POLICIES</span><span class="p">[</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_spec</span><span class="o">.</span><span class="n">retention</span> <span class="ow">or</span> <span class="n">DEFAULT_RETENTION</span>
+        <span class="p">](</span><span class="bp">self</span><span class="o">.</span><span class="n">_spec</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_resolve_entry_steps</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">set</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the step ids that receive externally-injected data.</span>
+
+<span class="sd">        An *entry step* is any step whose ``depends_on`` contains the magic</span>
+<span class="sd">        ``_input`` token. When no step declares ``_input``, the first step (by</span>
+<span class="sd">        insertion order) is the implicit entry step — a backward-compatible</span>
+<span class="sd">        fallback matching the pre-``_input`` behavior where a sub-workflow&#39;s</span>
+<span class="sd">        first step consumed the seeded input tree.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">explicit</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="n">sid</span>
+            <span class="k">for</span> <span class="n">sid</span><span class="p">,</span> <span class="n">step</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_spec</span><span class="o">.</span><span class="n">steps</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">INPUT_REF</span> <span class="ow">in</span> <span class="p">(</span><span class="n">step</span><span class="o">.</span><span class="n">depends_on</span> <span class="ow">or</span> <span class="p">())</span>
+        <span class="p">}</span>
+        <span class="k">if</span> <span class="n">explicit</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">explicit</span>
+        <span class="n">step_ids</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_spec</span><span class="o">.</span><span class="n">steps</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+        <span class="k">return</span> <span class="p">{</span><span class="n">step_ids</span><span class="p">[</span><span class="mi">0</span><span class="p">]}</span> <span class="k">if</span> <span class="n">step_ids</span> <span class="k">else</span> <span class="nb">set</span><span class="p">()</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_topological_order</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return step ids in a valid execution order.</span>
+
+<span class="sd">        Uses Kahn&#39;s algorithm.  Cyclicity is enforced at pydantic validation</span>
+<span class="sd">        time by ``_validate_dependencies``; this function assumes a DAG.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">step_ids</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_spec</span><span class="o">.</span><span class="n">steps</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+        <span class="c1"># Collapse dotted references to their top-level head so ordering is by</span>
+        <span class="c1"># container step; use a set per step so multiple references into the</span>
+        <span class="c1"># same container count as a single incoming edge.</span>
+        <span class="n">dep_heads</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="n">sid</span><span class="p">:</span> <span class="p">{</span><span class="n">_dep_head</span><span class="p">(</span><span class="n">d</span><span class="p">)</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="p">(</span><span class="n">step</span><span class="o">.</span><span class="n">depends_on</span> <span class="ow">or</span> <span class="p">())</span> <span class="k">if</span> <span class="n">d</span> <span class="o">!=</span> <span class="n">INPUT_REF</span><span class="p">}</span>
+            <span class="k">for</span> <span class="n">sid</span><span class="p">,</span> <span class="n">step</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_spec</span><span class="o">.</span><span class="n">steps</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+        <span class="p">}</span>
+        <span class="n">indegree</span> <span class="o">=</span> <span class="p">{</span><span class="n">sid</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">dep_heads</span><span class="p">[</span><span class="n">sid</span><span class="p">])</span> <span class="k">for</span> <span class="n">sid</span> <span class="ow">in</span> <span class="n">step_ids</span><span class="p">}</span>
+
+        <span class="n">queue</span> <span class="o">=</span> <span class="n">deque</span><span class="p">(</span><span class="n">sid</span> <span class="k">for</span> <span class="n">sid</span> <span class="ow">in</span> <span class="n">step_ids</span> <span class="k">if</span> <span class="n">indegree</span><span class="p">[</span><span class="n">sid</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="n">order</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">while</span> <span class="n">queue</span><span class="p">:</span>
+            <span class="n">sid</span> <span class="o">=</span> <span class="n">queue</span><span class="o">.</span><span class="n">popleft</span><span class="p">()</span>
+            <span class="n">order</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">sid</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">other_sid</span> <span class="ow">in</span> <span class="n">step_ids</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">sid</span> <span class="ow">in</span> <span class="n">dep_heads</span><span class="p">[</span><span class="n">other_sid</span><span class="p">]:</span>
+                    <span class="n">indegree</span><span class="p">[</span><span class="n">other_sid</span><span class="p">]</span> <span class="o">-=</span> <span class="mi">1</span>
+                    <span class="k">if</span> <span class="n">indegree</span><span class="p">[</span><span class="n">other_sid</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                        <span class="n">queue</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">other_sid</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">order</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_collect_upstream_data</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">tree</span><span class="p">:</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataTree</span><span class="p">,</span>
+        <span class="n">depends_on</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
+        <span class="n">injected</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataTree</span><span class="p">],</span>
+        <span class="n">is_entry</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataTree</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Collect a step&#39;s input data into a single ``multi_input`` DataTree.</span>
+
+<span class="sd">        Two sources are merged:</span>
+
+<span class="sd">        * **Real dependencies** — each ``depends_on`` reference (excluding the</span>
+<span class="sd">          magic ``_input`` token) is resolved to its node in *tree* and added</span>
+<span class="sd">          under its (sanitized) reference.</span>
+<span class="sd">        * **Injected data** — when *is_entry* is True, the *injected* children</span>
+<span class="sd">          (the parent&#39;s upstream tree for a sub-workflow/branch, or ``{}`` at</span>
+<span class="sd">          top level) are merged in. A real dependency of the same key is never</span>
+<span class="sd">          clobbered.</span>
+
+<span class="sd">        The result is always an ``xr.DataTree`` named ``multi_input`` (possibly</span>
+<span class="sd">        empty, e.g. a top-level entry step, which is passed through as the</span>
+<span class="sd">        &quot;empty dataset&quot;).</span>
+
+<span class="sd">        Dotted references (e.g. ``&quot;subwf.algo&quot;``) are resolved as node paths</span>
+<span class="sd">        (``tree.get(&quot;subwf/algo&quot;)``); the ``.`` is replaced with ``__`` for the</span>
+<span class="sd">        child key because ``/`` is illegal in a DataTree node name. Plain</span>
+<span class="sd">        references are unaffected (no dot to translate).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataTree</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;multi_input&quot;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">dep_id</span> <span class="ow">in</span> <span class="n">depends_on</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">dep_id</span> <span class="o">==</span> <span class="n">INPUT_REF</span><span class="p">:</span>
+                <span class="k">continue</span>
+            <span class="n">dep_node</span> <span class="o">=</span> <span class="n">_resolve_ref_node</span><span class="p">(</span><span class="n">tree</span><span class="p">,</span> <span class="n">dep_id</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">dep_node</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">result</span><span class="p">[</span><span class="n">dep_id</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">,</span> <span class="s2">&quot;__&quot;</span><span class="p">)]</span> <span class="o">=</span> <span class="n">dep_node</span>
+        <span class="k">if</span> <span class="n">is_entry</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">child_name</span><span class="p">,</span> <span class="n">child</span> <span class="ow">in</span> <span class="n">injected</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="k">if</span> <span class="n">child_name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">result</span><span class="o">.</span><span class="n">children</span><span class="p">:</span>
+                    <span class="n">result</span><span class="p">[</span><span class="n">child_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">child</span>
+        <span class="k">return</span> <span class="n">result</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_attach_step_node</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">tree</span><span class="p">:</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataTree</span><span class="p">,</span>
+        <span class="n">step_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">step_data</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Attach a step&#39;s output as a child node in the DataTree.</span>
+
+<span class="sd">        The step output is normalized to a ``DataTreeDitto`` so every node in</span>
+<span class="sd">        the workflow tree is the same type. The node name is *not* forced on</span>
+<span class="sd">        construction; assigning it under ``step_id`` sets the name. Plugins</span>
+<span class="sd">        routinely name their output node after themselves (e.g. ``single_channel``)</span>
+<span class="sd">        and it is then renamed to the ``step_id`` (e.g. ``algorithm``); this is</span>
+<span class="sd">        normal, so the rename is logged at ``debug`` level rather than warned —</span>
+<span class="sd">        warning on every step proved far too noisy in practice.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        tree : xr.DataTree</span>
+<span class="sd">            The workflow&#39;s root DataTree.</span>
+<span class="sd">        step_id : str</span>
+<span class="sd">            Step identifier used as the child node name.</span>
+<span class="sd">        step_data : Any</span>
+<span class="sd">            The return value of calling the plugin, ``plugin(...)``.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">step_data</span><span class="p">,</span> <span class="n">DataTreeDitto</span><span class="p">):</span>
+            <span class="n">node</span> <span class="o">=</span> <span class="n">step_data</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">step_data</span><span class="p">,</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataTree</span><span class="p">):</span>
+            <span class="n">node</span> <span class="o">=</span> <span class="n">DataTreeDitto</span><span class="o">.</span><span class="n">from_datatree</span><span class="p">(</span><span class="n">step_data</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">node</span> <span class="o">=</span> <span class="n">DataTreeDitto</span><span class="p">(</span><span class="n">step_data</span><span class="p">)</span>
+
+        <span class="n">existing_name</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="s2">&quot;name&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">existing_name</span> <span class="ow">and</span> <span class="n">existing_name</span> <span class="o">!=</span> <span class="n">step_id</span><span class="p">:</span>
+            <span class="n">LOG</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
+                <span class="s2">&quot;Renaming DataTree node &#39;</span><span class="si">%s</span><span class="s2">&#39; to step id &#39;</span><span class="si">%s</span><span class="s2">&#39;.&quot;</span><span class="p">,</span>
+                <span class="n">existing_name</span><span class="p">,</span>
+                <span class="n">step_id</span><span class="p">,</span>
+            <span class="p">)</span>
+
+        <span class="n">tree</span><span class="p">[</span><span class="n">step_id</span><span class="p">]</span> <span class="o">=</span> <span class="n">node</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_record_provenance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">:</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataTree</span><span class="p">,</span> <span class="n">prov</span><span class="p">:</span> <span class="n">StepProvenance</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Stamp provenance fields into the step node&#39;s ``attrs``.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        node : xr.DataTree</span>
+<span class="sd">            The step&#39;s output DataTree node (in-place).</span>
+<span class="sd">        prov : StepProvenance</span>
+<span class="sd">            Provenance bundle to record.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">node</span><span class="o">.</span><span class="n">ds</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">node</span><span class="o">.</span><span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">dataclasses</span><span class="o">.</span><span class="n">asdict</span><span class="p">(</span><span class="n">prov</span><span class="p">))</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_gc_step_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tree</span><span class="p">:</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataTree</span><span class="p">,</span> <span class="n">step_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Drop ``data_vars`` from a step node and re-stamp provenance.</span>
+
+<span class="sd">        Reads the existing provenance from attrs, creates a fresh</span>
+<span class="sd">        ``StepProvenance`` with ``gc_status=&quot;data_dropped&quot;``, then</span>
+<span class="sd">        drops data variables and re-writes provenance attrs.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">node</span> <span class="o">=</span> <span class="n">tree</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">step_id</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">node</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">node</span><span class="o">.</span><span class="n">ds</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span>
+
+        <span class="c1"># Drop data_vars from the underlying dataset</span>
+        <span class="k">for</span> <span class="n">var_name</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">ds</span><span class="o">.</span><span class="n">data_vars</span><span class="p">):</span>
+            <span class="k">del</span> <span class="n">node</span><span class="o">.</span><span class="n">ds</span><span class="p">[</span><span class="n">var_name</span><span class="p">]</span>
+
+        <span class="c1"># Reconstruct provenance from existing attrs; mark as GC&#39;d</span>
+        <span class="n">prov</span> <span class="o">=</span> <span class="n">StepProvenance</span><span class="o">.</span><span class="n">from_attrs</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="p">)</span>
+        <span class="n">prov</span> <span class="o">=</span> <span class="n">dataclasses</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">prov</span><span class="p">,</span> <span class="n">gc_status</span><span class="o">=</span><span class="s2">&quot;data_dropped&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_record_provenance</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">prov</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_apply_retention</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tree</span><span class="p">:</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataTree</span><span class="p">,</span> <span class="n">executed</span><span class="p">:</span> <span class="nb">set</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Run garbage collection over the completed step set.</span>
+
+<span class="sd">        For each executed step, check the retention policy and drop</span>
+<span class="sd">        ``data_vars`` if the policy permits it.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">sid</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">executed</span><span class="p">):</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_retention</span><span class="o">.</span><span class="n">can_gc</span><span class="p">(</span><span class="n">sid</span><span class="p">,</span> <span class="n">executed</span><span class="o">=</span><span class="n">executed</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_gc_step_data</span><span class="p">(</span><span class="n">tree</span><span class="p">,</span> <span class="n">sid</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_resolve_area_defs</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Resolve ``globals.sector_list`` sector names to AreaDefinition objects.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        list of pyresample.AreaDefinition</span>
+<span class="sd">            Empty list if ``sector_list`` is absent or resolution fails.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">_globals</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_spec</span><span class="o">.</span><span class="n">globals</span>
+        <span class="k">if</span> <span class="n">_globals</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">sector_list</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">elif</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">_globals</span><span class="p">,</span> <span class="s2">&quot;sector_list&quot;</span><span class="p">):</span>
+            <span class="n">sector_list</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="n">_globals</span><span class="p">,</span> <span class="s2">&quot;sector_list&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="p">[])</span>
+        <span class="k">elif</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">_globals</span><span class="p">,</span> <span class="s2">&quot;get&quot;</span><span class="p">):</span>  <span class="c1"># plain dict fallback</span>
+            <span class="n">sector_list</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">_globals</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;sector_list&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="p">[])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">sector_list</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">sector_list</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">[]</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">area_defs</span> <span class="o">=</span> <span class="n">get_sectors_from_yamls</span><span class="p">(</span><span class="n">sector_list</span><span class="p">)</span>
+            <span class="n">LOG</span><span class="o">.</span><span class="n">interactive</span><span class="p">(</span>
+                <span class="s2">&quot;Resolved </span><span class="si">%d</span><span class="s2"> area_def(s) from sector_list </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span>
+                <span class="nb">len</span><span class="p">(</span><span class="n">area_defs</span><span class="p">),</span>
+                <span class="n">sector_list</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="k">return</span> <span class="n">area_defs</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
+            <span class="n">LOG</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Could not resolve sector_list </span><span class="si">%s</span><span class="s2">: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">sector_list</span><span class="p">,</span> <span class="n">exc</span><span class="p">)</span>
+            <span class="k">return</span> <span class="p">[]</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_set_root_attrs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tree</span><span class="p">:</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataTree</span><span class="p">,</span> <span class="n">start_time</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Stamp minimum-viable root provenance on the workflow DataTree.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        tree : xr.DataTree</span>
+<span class="sd">            The workflow&#39;s root DataTree.</span>
+<span class="sd">        start_time : str</span>
+<span class="sd">            ISO-8601 UTC timestamp captured immediately before the step loop.</span>
+<span class="sd">            Recorded as the workflow&#39;s ``start_time`` (the matching</span>
+<span class="sd">            ``end_time`` is stamped by ``call`` after the loop). Uses the</span>
+<span class="sd">            same attr keys as ``StepProvenance`` so every node — steps and</span>
+<span class="sd">            (sub-)workflow roots alike — carries start/end times.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">tree</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;workflow_name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_wf_name</span>
+        <span class="n">tree</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;retention_policy&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_spec</span><span class="o">.</span><span class="n">retention</span> <span class="ow">or</span> <span class="s2">&quot;keep_referenced&quot;</span>
+        <span class="n">tree</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;geoips_version&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">geoips</span><span class="p">,</span> <span class="s2">&quot;__version__&quot;</span><span class="p">,</span> <span class="s2">&quot;unknown&quot;</span><span class="p">)</span>
+        <span class="n">tree</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;api_version&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;geoips/v1&quot;</span>
+        <span class="n">tree</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;start_time&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">start_time</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_global_arguments</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return workflow globals as invocation kwargs.</span>
+
+<span class="sd">        ``None`` values are omitted so placeholder globals do not override plugin</span>
+<span class="sd">        defaults or conduit-provided runtime values.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_spec</span><span class="o">.</span><span class="n">globals</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">{}</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_spec</span><span class="o">.</span><span class="n">globals</span><span class="p">,</span> <span class="s2">&quot;model_dump&quot;</span><span class="p">):</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_spec</span><span class="o">.</span><span class="n">globals</span><span class="o">.</span><span class="n">model_dump</span><span class="p">(</span><span class="n">exclude_none</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_spec</span><span class="o">.</span><span class="n">globals</span><span class="p">,</span> <span class="s2">&quot;items&quot;</span><span class="p">):</span>
+            <span class="k">return</span> <span class="p">{</span>
+                <span class="n">key</span><span class="p">:</span> <span class="n">val</span> <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_spec</span><span class="o">.</span><span class="n">globals</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">val</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+            <span class="p">}</span>
+        <span class="k">return</span> <span class="p">{}</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_step_arguments</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">step_def</span><span class="p">:</span> <span class="n">WorkflowStepDefinitionModel</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Merge workflow globals with step-specific arguments.</span>
+
+<span class="sd">        Step-specific arguments take precedence over workflow globals. Unsupported</span>
+<span class="sd">        kwargs are still filtered by the class-based plugin invocation layer.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">_global_arguments</span><span class="p">(),</span>
+            <span class="o">**</span><span class="nb">dict</span><span class="p">(</span><span class="n">step_def</span><span class="o">.</span><span class="n">arguments</span> <span class="ow">or</span> <span class="p">{}),</span>
+        <span class="p">}</span>
+
+<div class="viewcode-block" id="Workflow.call"><a class="viewcode-back" href="../../../../geoips_api/geoips.interfaces.class_based.html#geoips.interfaces.class_based.workflow.Workflow.call">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">call</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">workflow_tree</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="o">*</span><span class="p">,</span>
+        <span class="n">filenames</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Execute the workflow steps in topological order.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        workflow_tree : xr.DataTree or None</span>
+<span class="sd">            A DataTree to execute into. If None, a new root is created.</span>
+<span class="sd">        filenames : list[str] or None</span>
+<span class="sd">            Input filenames for reader steps.</span>
+<span class="sd">        ``**kwargs``</span>
+<span class="sd">            Additional keyword arguments forwarded to plugins.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        xr.DataTree</span>
+<span class="sd">            The fully-populated workflow DataTree.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Externally-injected data: the parent&#39;s upstream tree for a</span>
+        <span class="c1"># sub-workflow / split branch, or ``{}`` for a top-level run. It is</span>
+        <span class="c1"># snapshotted here (before any step runs) and routed to this workflow&#39;s</span>
+        <span class="c1"># entry step(s) via ``_collect_upstream_data``. The root ``tree`` is</span>
+        <span class="c1"># always fresh so injected data flows only through entry steps rather</span>
+        <span class="c1"># than living alongside step outputs at the root.</span>
+        <span class="n">injected</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataTree</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="nb">dict</span><span class="p">(</span><span class="n">workflow_tree</span><span class="o">.</span><span class="n">children</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">workflow_tree</span><span class="p">,</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataTree</span><span class="p">)</span>
+            <span class="k">else</span> <span class="p">{}</span>
+        <span class="p">)</span>
+        <span class="n">tree</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataTree</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_wf_name</span><span class="p">)</span>
+        <span class="n">wf_start_iso</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">(</span><span class="n">timezone</span><span class="o">.</span><span class="n">utc</span><span class="p">)</span><span class="o">.</span><span class="n">isoformat</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_set_root_attrs</span><span class="p">(</span><span class="n">tree</span><span class="p">,</span> <span class="n">start_time</span><span class="o">=</span><span class="n">wf_start_iso</span><span class="p">)</span>
+        <span class="n">executed</span><span class="p">:</span> <span class="nb">set</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+
+        <span class="k">for</span> <span class="n">sid</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_order</span><span class="p">:</span>
+            <span class="n">step_def</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_spec</span><span class="o">.</span><span class="n">steps</span><span class="p">[</span><span class="n">sid</span><span class="p">]</span>
+
+            <span class="k">if</span> <span class="n">step_def</span><span class="o">.</span><span class="n">when</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;conditional execution (&#39;when&#39;) is not yet implemented &quot;</span>
+                    <span class="sa">f</span><span class="s2">&quot;(encountered at step &#39;</span><span class="si">{</span><span class="n">sid</span><span class="si">}</span><span class="s2">&#39;)&quot;</span>
+                <span class="p">)</span>
+
+            <span class="n">step_arguments</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_step_arguments</span><span class="p">(</span><span class="n">step_def</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">step_def</span><span class="o">.</span><span class="n">kind</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;split&quot;</span><span class="p">,</span> <span class="s2">&quot;join&quot;</span><span class="p">,</span> <span class="s2">&quot;workflow&quot;</span><span class="p">)</span>
+                <span class="k">else</span> <span class="nb">dict</span><span class="p">(</span><span class="n">step_def</span><span class="o">.</span><span class="n">arguments</span> <span class="ow">or</span> <span class="p">{})</span>
+            <span class="p">)</span>
+            <span class="n">arg_hash</span> <span class="o">=</span> <span class="n">compute_arguments_hash</span><span class="p">(</span><span class="n">step_arguments</span><span class="p">)</span>
+            <span class="n">start_iso</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">(</span><span class="n">timezone</span><span class="o">.</span><span class="n">utc</span><span class="p">)</span><span class="o">.</span><span class="n">isoformat</span><span class="p">()</span>
+
+            <span class="n">is_entry</span> <span class="o">=</span> <span class="n">sid</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_entry_steps</span>
+            <span class="n">upstream</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_collect_upstream_data</span><span class="p">(</span>
+                <span class="n">tree</span><span class="p">,</span> <span class="n">step_def</span><span class="o">.</span><span class="n">depends_on</span> <span class="ow">or</span> <span class="p">[],</span> <span class="n">injected</span><span class="p">,</span> <span class="n">is_entry</span>
+            <span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">step_def</span><span class="o">.</span><span class="n">kind</span> <span class="o">==</span> <span class="s2">&quot;split&quot;</span><span class="p">:</span>
+                <span class="n">step_result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_run_split</span><span class="p">(</span>
+                    <span class="n">upstream</span><span class="p">,</span> <span class="n">step_def</span><span class="p">,</span> <span class="n">sid</span><span class="p">,</span> <span class="n">filenames</span><span class="o">=</span><span class="n">filenames</span>
+                <span class="p">)</span>
+            <span class="k">elif</span> <span class="n">step_def</span><span class="o">.</span><span class="n">kind</span> <span class="o">==</span> <span class="s2">&quot;join&quot;</span><span class="p">:</span>
+                <span class="n">step_result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_run_join</span><span class="p">(</span><span class="n">tree</span><span class="p">,</span> <span class="n">step_def</span><span class="p">,</span> <span class="n">sid</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">step_def</span><span class="o">.</span><span class="n">kind</span> <span class="o">==</span> <span class="s2">&quot;workflow&quot;</span><span class="p">:</span>
+                <span class="n">sub_spec</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_resolve_workflow_spec</span><span class="p">(</span><span class="n">step_def</span><span class="p">)</span>
+                <span class="n">step_result</span> <span class="o">=</span> <span class="n">Workflow</span><span class="p">(</span><span class="n">sub_spec</span><span class="p">,</span> <span class="n">workflow_name</span><span class="o">=</span><span class="n">sid</span><span class="p">)</span><span class="o">.</span><span class="n">call</span><span class="p">(</span>
+                    <span class="n">workflow_tree</span><span class="o">=</span><span class="n">upstream</span><span class="p">,</span> <span class="n">filenames</span><span class="o">=</span><span class="n">filenames</span>
+                <span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">step_result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_invoke_plugin_step</span><span class="p">(</span>
+                    <span class="n">sid</span><span class="p">,</span>
+                    <span class="n">step_def</span><span class="p">,</span>
+                    <span class="n">upstream</span><span class="p">,</span>
+                    <span class="n">is_entry</span><span class="o">=</span><span class="n">is_entry</span><span class="p">,</span>
+                    <span class="n">filenames</span><span class="o">=</span><span class="n">filenames</span><span class="p">,</span>
+                    <span class="n">arguments</span><span class="o">=</span><span class="n">step_arguments</span><span class="p">,</span>
+                <span class="p">)</span>
+
+            <span class="n">end_iso</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">(</span><span class="n">timezone</span><span class="o">.</span><span class="n">utc</span><span class="p">)</span><span class="o">.</span><span class="n">isoformat</span><span class="p">()</span>
+
+            <span class="c1"># A step may depend on more than one upstream step (e.g. an</span>
+            <span class="c1"># output_formatter that consumes an algorithm, colormapper, and</span>
+            <span class="c1"># sector), so collect one output token per dependency. These feed</span>
+            <span class="c1"># into this step&#39;s own token, making it content-addressable on the</span>
+            <span class="c1"># full set of inputs that produced it.</span>
+            <span class="n">upstream_tokens</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="k">for</span> <span class="n">dep</span> <span class="ow">in</span> <span class="n">step_def</span><span class="o">.</span><span class="n">depends_on</span> <span class="ow">or</span> <span class="p">():</span>
+                <span class="k">if</span> <span class="n">dep</span> <span class="o">==</span> <span class="n">INPUT_REF</span><span class="p">:</span>
+                    <span class="k">continue</span>
+                <span class="n">dep_node</span> <span class="o">=</span> <span class="n">_resolve_ref_node</span><span class="p">(</span><span class="n">tree</span><span class="p">,</span> <span class="n">dep</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">dep_node</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">dep_node</span><span class="o">.</span><span class="n">attrs</span><span class="p">:</span>
+                    <span class="n">token</span> <span class="o">=</span> <span class="n">dep_node</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;output_token&quot;</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">token</span><span class="p">:</span>
+                        <span class="n">upstream_tokens</span><span class="p">[</span><span class="n">dep</span><span class="p">]</span> <span class="o">=</span> <span class="n">token</span>
+
+            <span class="n">output_token</span> <span class="o">=</span> <span class="n">compute_step_output_token</span><span class="p">(</span>
+                <span class="n">step_result</span><span class="p">,</span>
+                <span class="n">plugin_name</span><span class="o">=</span><span class="n">step_def</span><span class="o">.</span><span class="n">name</span> <span class="ow">or</span> <span class="n">sid</span><span class="p">,</span>
+                <span class="n">plugin_kind</span><span class="o">=</span><span class="n">step_def</span><span class="o">.</span><span class="n">kind</span><span class="p">,</span>
+                <span class="n">arguments</span><span class="o">=</span><span class="n">step_arguments</span><span class="p">,</span>
+                <span class="n">upstream_tokens</span><span class="o">=</span><span class="n">upstream_tokens</span> <span class="ow">or</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="p">)</span>
+
+            <span class="n">prov</span> <span class="o">=</span> <span class="n">StepProvenance</span><span class="p">(</span>
+                <span class="n">plugin_name</span><span class="o">=</span><span class="n">step_def</span><span class="o">.</span><span class="n">name</span> <span class="ow">or</span> <span class="n">sid</span><span class="p">,</span>
+                <span class="n">plugin_kind</span><span class="o">=</span><span class="n">step_def</span><span class="o">.</span><span class="n">kind</span><span class="p">,</span>
+                <span class="n">start_time</span><span class="o">=</span><span class="n">start_iso</span><span class="p">,</span>
+                <span class="n">end_time</span><span class="o">=</span><span class="n">end_iso</span><span class="p">,</span>
+                <span class="n">arguments_hash</span><span class="o">=</span><span class="n">arg_hash</span><span class="p">,</span>
+                <span class="n">output_token</span><span class="o">=</span><span class="n">output_token</span><span class="p">,</span>
+            <span class="p">)</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">_attach_step_node</span><span class="p">(</span><span class="n">tree</span><span class="p">,</span> <span class="n">sid</span><span class="p">,</span> <span class="n">step_result</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_record_provenance</span><span class="p">(</span><span class="n">tree</span><span class="p">[</span><span class="n">sid</span><span class="p">],</span> <span class="n">prov</span><span class="p">)</span>
+            <span class="n">executed</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">sid</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_apply_retention</span><span class="p">(</span><span class="n">tree</span><span class="p">,</span> <span class="n">executed</span><span class="p">)</span>
+
+        <span class="c1"># Stamp the root workflow end time once all steps have completed. Nested</span>
+        <span class="c1"># sub-workflows and split branches run their own ``call`` and therefore</span>
+        <span class="c1"># get their own start/end times on their respective root nodes.</span>
+        <span class="n">tree</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;end_time&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">(</span><span class="n">timezone</span><span class="o">.</span><span class="n">utc</span><span class="p">)</span><span class="o">.</span><span class="n">isoformat</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="n">tree</span></div>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_invoke_plugin_step</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">sid</span><span class="p">,</span> <span class="n">step_def</span><span class="p">,</span> <span class="n">upstream</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">is_entry</span><span class="p">,</span> <span class="n">filenames</span><span class="p">,</span> <span class="n">arguments</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Resolve and call a single plugin step (not split/join/workflow).</span>
+
+<span class="sd">        All steps are called uniformly with ``data`` as a keyword</span>
+<span class="sd">        argument.  The only exception is ``reader`` steps, which</span>
+<span class="sd">        additionally receive ``filenames`` before ``data``; legacy readers</span>
+<span class="sd">        strip the ``data`` tree in their ``_pre_call`` and operate on</span>
+<span class="sd">        ``filenames`` alone.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">plg</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_resolve_plugin</span><span class="p">(</span><span class="n">step_def</span><span class="o">.</span><span class="n">kind</span><span class="p">,</span> <span class="n">step_def</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+
+        <span class="n">LOG</span><span class="o">.</span><span class="n">interactive</span><span class="p">(</span>
+            <span class="s2">&quot;Running step &#39;</span><span class="si">%s</span><span class="s2">&#39;: </span><span class="si">%s</span><span class="s2"> plugin &#39;</span><span class="si">%s</span><span class="s2">&#39;&quot;</span><span class="p">,</span>
+            <span class="n">sid</span><span class="p">,</span>
+            <span class="n">step_def</span><span class="o">.</span><span class="n">kind</span><span class="p">,</span>
+            <span class="n">step_def</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+            <span class="s2">&quot;Calling step &#39;</span><span class="si">%s</span><span class="s2">&#39; with arguments: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span>
+            <span class="n">sid</span><span class="p">,</span>
+            <span class="n">_summarize_arguments</span><span class="p">(</span><span class="n">arguments</span><span class="p">),</span>
+        <span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">step_def</span><span class="o">.</span><span class="n">kind</span> <span class="o">==</span> <span class="s2">&quot;reader&quot;</span><span class="p">:</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="n">plg</span><span class="p">(</span>
+                <span class="n">filenames</span><span class="o">=</span><span class="n">filenames</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">upstream</span><span class="p">,</span> <span class="n">_obp_initiated</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">arguments</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="n">plg</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">upstream</span><span class="p">,</span> <span class="n">_obp_initiated</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">arguments</span><span class="p">)</span>
+
+        <span class="n">LOG</span><span class="o">.</span><span class="n">interactive</span><span class="p">(</span>
+            <span class="s2">&quot;Completed step &#39;</span><span class="si">%s</span><span class="s2">&#39;: </span><span class="si">%s</span><span class="s2"> plugin &#39;</span><span class="si">%s</span><span class="s2">&#39;&quot;</span><span class="p">,</span>
+            <span class="n">sid</span><span class="p">,</span>
+            <span class="n">step_def</span><span class="o">.</span><span class="n">kind</span><span class="p">,</span>
+            <span class="n">step_def</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">result</span>
+
+    <span class="c1"># ------------------------------------------------------------------</span>
+    <span class="c1"># split / join (per-branch fan-out, e.g. one branch per static sector)</span>
+    <span class="c1"># ------------------------------------------------------------------</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_run_split</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">upstream</span><span class="p">,</span> <span class="n">step_def</span><span class="p">,</span> <span class="n">sid</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">filenames</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Run a ``split`` step&#39;s inline body sub-workflow once per branch.</span>
+
+<span class="sd">        Branches come from the step&#39;s ``arguments``:</span>
+
+<span class="sd">        * ``scopes: [k1, k2, ...]`` — explicit branch keys (no sector context).</span>
+<span class="sd">        * ``over: sector_list`` — one branch per static sector resolved from</span>
+<span class="sd">          ``globals.sector_list``; each branch&#39;s ``AreaDefinition`` is seeded</span>
+<span class="sd">          into the branch input tree as a ``sector`` node so the body&#39;s steps</span>
+<span class="sd">          receive it as ``area_def`` via the standard conduit mechanism.</span>
+
+<span class="sd">        Each branch result is nested under ``/&lt;sid&gt;/&lt;scope&gt;``.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        upstream : xr.DataTree</span>
+<span class="sd">            Collected upstream data for the split step.</span>
+<span class="sd">        step_def : WorkflowStepDefinitionModel</span>
+<span class="sd">            The ``kind=&quot;split&quot;`` step definition (carries the inline body spec).</span>
+<span class="sd">        sid : str</span>
+<span class="sd">            The split step id (root node name for the branch subtree).</span>
+<span class="sd">        filenames : list[str] or None</span>
+<span class="sd">            Input filenames forwarded to each branch sub-workflow.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        xr.DataTree</span>
+<span class="sd">            A node named *sid* with one child per branch scope.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">body_spec</span> <span class="o">=</span> <span class="n">step_def</span><span class="o">.</span><span class="n">spec</span>
+        <span class="k">if</span> <span class="n">body_spec</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">PluginResolutionError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;split step &#39;</span><span class="si">{</span><span class="n">sid</span><span class="si">}</span><span class="s2">&#39; has no inline body spec&quot;</span><span class="p">)</span>
+
+        <span class="n">branches</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_resolve_branches</span><span class="p">(</span><span class="n">step_def</span><span class="p">,</span> <span class="n">sid</span><span class="p">)</span>
+        <span class="n">split_node</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataTree</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">sid</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">scope</span><span class="p">,</span> <span class="n">area_def</span> <span class="ow">in</span> <span class="n">branches</span><span class="p">:</span>
+            <span class="n">seed</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_seed_branch_tree</span><span class="p">(</span><span class="n">upstream</span><span class="p">,</span> <span class="n">area_def</span><span class="p">)</span>
+            <span class="n">branch_wf</span> <span class="o">=</span> <span class="n">Workflow</span><span class="p">(</span><span class="n">body_spec</span><span class="p">,</span> <span class="n">workflow_name</span><span class="o">=</span><span class="n">scope</span><span class="p">)</span>
+            <span class="n">branch_result</span> <span class="o">=</span> <span class="n">branch_wf</span><span class="o">.</span><span class="n">call</span><span class="p">(</span><span class="n">workflow_tree</span><span class="o">=</span><span class="n">seed</span><span class="p">,</span> <span class="n">filenames</span><span class="o">=</span><span class="n">filenames</span><span class="p">)</span>
+            <span class="n">split_node</span><span class="p">[</span><span class="n">scope</span><span class="p">]</span> <span class="o">=</span> <span class="n">branch_result</span>
+
+        <span class="n">split_node</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;split_scopes&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">scope</span> <span class="k">for</span> <span class="n">scope</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">branches</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">split_node</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_resolve_branches</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">step_def</span><span class="p">,</span> <span class="n">sid</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return ``[(scope_name, AreaDefinition | None), ...]`` for a split step.&quot;&quot;&quot;</span>
+        <span class="n">args</span> <span class="o">=</span> <span class="n">step_def</span><span class="o">.</span><span class="n">arguments</span> <span class="ow">or</span> <span class="p">{}</span>
+        <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;scopes&quot;</span><span class="p">):</span>
+            <span class="k">return</span> <span class="p">[(</span><span class="nb">str</span><span class="p">(</span><span class="n">scope</span><span class="p">),</span> <span class="kc">None</span><span class="p">)</span> <span class="k">for</span> <span class="n">scope</span> <span class="ow">in</span> <span class="n">args</span><span class="p">[</span><span class="s2">&quot;scopes&quot;</span><span class="p">]]</span>
+        <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;over&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;sector_list&quot;</span><span class="p">:</span>
+            <span class="n">branches</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_resolve_sector_branches</span><span class="p">()</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">branches</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">PluginResolutionError</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;split step &#39;</span><span class="si">{</span><span class="n">sid</span><span class="si">}</span><span class="s2">&#39; uses &#39;over: sector_list&#39; but no sectors &quot;</span>
+                    <span class="sa">f</span><span class="s2">&quot;could be resolved from globals.sector_list&quot;</span>
+                <span class="p">)</span>
+            <span class="k">return</span> <span class="n">branches</span>
+        <span class="k">raise</span> <span class="n">PluginResolutionError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;split step &#39;</span><span class="si">{</span><span class="n">sid</span><span class="si">}</span><span class="s2">&#39; must define arguments with either &#39;scopes&#39; &quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;(explicit branch keys) or &#39;over: sector_list&#39;&quot;</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_resolve_sector_branches</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return ``[(scope_name, AreaDefinition)]`` from ``globals.sector_list``.&quot;&quot;&quot;</span>
+        <span class="n">branches</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">area_def</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_resolve_area_defs</span><span class="p">():</span>
+            <span class="n">name</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="nb">getattr</span><span class="p">(</span><span class="n">area_def</span><span class="p">,</span> <span class="s2">&quot;area_id&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+                <span class="ow">or</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">area_def</span><span class="p">,</span> <span class="s2">&quot;name&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+                <span class="ow">or</span> <span class="sa">f</span><span class="s2">&quot;sector_</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">branches</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="p">)</span>
+            <span class="n">branches</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="nb">str</span><span class="p">(</span><span class="n">name</span><span class="p">),</span> <span class="n">area_def</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">branches</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_seed_branch_tree</span><span class="p">(</span><span class="n">upstream</span><span class="p">,</span> <span class="n">area_def</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Build a branch input tree: upstream data + an optional sector node.</span>
+
+<span class="sd">        The branch body&#39;s entry step — the step whose ``depends_on`` contains</span>
+<span class="sd">        ``_input``, or the first step if none declares it — receives this tree</span>
+<span class="sd">        (see ``_collect_upstream_data``), so seeding a ``sector`` node here</span>
+<span class="sd">        makes the per-branch ``area_def`` available to the body&#39;s steps through</span>
+<span class="sd">        the normal conduit extraction.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">seed</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataTree</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;branch_input&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">upstream</span><span class="p">,</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataTree</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">child_name</span><span class="p">,</span> <span class="n">child</span> <span class="ow">in</span> <span class="nb">dict</span><span class="p">(</span><span class="n">upstream</span><span class="o">.</span><span class="n">children</span><span class="p">)</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="n">seed</span><span class="p">[</span><span class="n">child_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">child</span>
+        <span class="k">if</span> <span class="n">area_def</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">sector_ds</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">(</span>
+                <span class="n">attrs</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;area_definition&quot;</span><span class="p">:</span> <span class="n">area_def</span><span class="p">,</span> <span class="s2">&quot;plugin_kind&quot;</span><span class="p">:</span> <span class="s2">&quot;sector&quot;</span><span class="p">}</span>
+            <span class="p">)</span>
+            <span class="n">seed</span><span class="p">[</span><span class="s2">&quot;_sector&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">DataTreeDitto</span><span class="p">(</span><span class="n">sector_ds</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;_sector&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">seed</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_run_join</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tree</span><span class="p">,</span> <span class="n">step_def</span><span class="p">,</span> <span class="n">sid</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Collect a split&#39;s per-branch outputs into a single node.</span>
+
+<span class="sd">        Re-nests each branch subtree under ``/&lt;sid&gt;/&lt;scope&gt;`` and records the</span>
+<span class="sd">        joined scopes in ``joined_scopes``.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">join_node</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataTree</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">sid</span><span class="p">)</span>
+        <span class="n">joined_scopes</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="k">for</span> <span class="n">dep</span> <span class="ow">in</span> <span class="n">step_def</span><span class="o">.</span><span class="n">depends_on</span> <span class="ow">or</span> <span class="p">():</span>
+            <span class="n">split_node</span> <span class="o">=</span> <span class="n">tree</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">dep</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">split_node</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">continue</span>
+            <span class="k">for</span> <span class="n">scope</span><span class="p">,</span> <span class="n">branch</span> <span class="ow">in</span> <span class="nb">dict</span><span class="p">(</span><span class="n">split_node</span><span class="o">.</span><span class="n">children</span><span class="p">)</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="n">joined_scopes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">scope</span><span class="p">)</span>
+                <span class="n">join_node</span><span class="p">[</span><span class="n">scope</span><span class="p">]</span> <span class="o">=</span> <span class="n">branch</span>
+
+        <span class="n">join_node</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;joined_scopes&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">joined_scopes</span>
+        <span class="k">return</span> <span class="n">join_node</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_resolve_workflow_spec</span><span class="p">(</span>
+        <span class="n">step_def</span><span class="p">:</span> <span class="n">WorkflowStepDefinitionModel</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">WorkflowSpecModel</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Resolve the sub-workflow spec from an expanded workflow step.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        step_def : WorkflowStepDefinitionModel</span>
+<span class="sd">            A step definition with ``kind=&quot;workflow&quot;``.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        :class:`~geoips.pydantic_models.v1.workflows.WorkflowSpecModel`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">step_def</span><span class="o">.</span><span class="n">spec</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">step_def</span><span class="o">.</span><span class="n">spec</span>
+
+        <span class="n">plg</span> <span class="o">=</span> <span class="n">Workflow</span><span class="o">.</span><span class="n">_resolve_plugin</span><span class="p">(</span><span class="n">step_def</span><span class="o">.</span><span class="n">kind</span><span class="p">,</span> <span class="n">step_def</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">plg</span><span class="p">,</span> <span class="n">YamlPluginCallable</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">WorkflowSpecModel</span><span class="o">.</span><span class="n">model_validate</span><span class="p">(</span><span class="n">plg</span><span class="o">.</span><span class="n">spec</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">plg</span><span class="p">,</span> <span class="s2">&quot;spec&quot;</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">plg</span><span class="o">.</span><span class="n">spec</span>
+
+        <span class="k">raise</span> <span class="n">PluginResolutionError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Could not extract workflow spec for step &quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;&#39;</span><span class="si">{</span><span class="n">step_def</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&#39; (kind=</span><span class="si">{</span><span class="n">step_def</span><span class="o">.</span><span class="n">kind</span><span class="si">}</span><span class="s2">)&quot;</span>
+        <span class="p">)</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_resolve_plugin</span><span class="p">(</span><span class="n">kind</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Resolve a registered plugin by (kind, name).</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        kind : str</span>
+<span class="sd">            Plugin kind (e.g. ``&quot;reader&quot;``).</span>
+<span class="sd">        name : str</span>
+<span class="sd">            Plugin name (e.g. ``&quot;abi_netcdf&quot;``).</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        BaseClassPlugin</span>
+<span class="sd">            An instantiated plugin.</span>
+
+<span class="sd">        Raises</span>
+<span class="sd">        ------</span>
+<span class="sd">        PluginResolutionError</span>
+<span class="sd">            If the interface or plugin cannot be resolved.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># ``geoips.interfaces`` is imported locally on purpose: this module</span>
+        <span class="c1"># lives *inside* the ``geoips.interfaces`` package, and importing the</span>
+        <span class="c1"># heavy parent package at module load time risks a circular import.</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">geoips</span><span class="w"> </span><span class="kn">import</span> <span class="n">interfaces</span>
+
+        <span class="n">interface_name</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">Lexeme</span><span class="p">(</span><span class="n">kind</span><span class="p">)</span><span class="o">.</span><span class="n">plural</span><span class="p">)</span>
+        <span class="n">iface</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">interfaces</span><span class="p">,</span> <span class="n">interface_name</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">iface</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">PluginResolutionError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Kind &#39;</span><span class="si">{</span><span class="n">kind</span><span class="si">}</span><span class="s2">&#39; -&gt; interface &#39;</span><span class="si">{</span><span class="n">interface_name</span><span class="si">}</span><span class="s2">&#39;: &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;no such interface found&quot;</span>
+            <span class="p">)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="n">iface</span><span class="o">.</span><span class="n">get_plugin</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">interface_name</span> <span class="o">==</span> <span class="s2">&quot;workflows&quot;</span> <span class="ow">and</span> <span class="n">name</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="c1"># occurs for workflow &#39;plugins&#39; generated at runtimes for product /</span>
+                <span class="c1"># product default plugins.</span>
+                <span class="k">return</span> <span class="n">GENERATED_WORKFLOW</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">PluginResolutionError</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;Kind &#39;</span><span class="si">{</span><span class="n">kind</span><span class="si">}</span><span class="s2">&#39; -&gt; interface &#39;</span><span class="si">{</span><span class="n">interface_name</span><span class="si">}</span><span class="s2">&#39;: &quot;</span>
+                    <span class="sa">f</span><span class="s2">&quot;cannot resolve plugin &#39;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">&#39;: </span><span class="si">{</span><span class="n">exc</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">exc</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="nb">dict</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">callable</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="s2">&quot;call&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)):</span>
+            <span class="k">return</span> <span class="n">YamlPluginCallable</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">result</span></div>
+</pre></div>
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb"></script>
+<script defer src="../../../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item"><div class="footer">
+    <a href="http://www.navy.mil">Official US Navy Website</a>
+    <a href="http://www.navy.com/navy/">US Navy Recruiting</a>
+    <a href="http://www.nrlmry.navy.mil">NRL</a>
+    <a href="http://foia.navy.mil">Accessibility</a>
+    <a href="http://foia.navy.mil">Freedom of Information Act</a>
+    <a href="http://www.nrlmry.navy.mil/privacypolicy.htm">Security & Policy</a>
+    <a href="http://www.nrlmry.navy.mil/linknotice.html">Hyperlink Notice</a>
+    <a href="mailto:webmaster@nrlmry.navy.mil">webmaster@nrlmry.navy.mil</a><br>
+    <a href="http://www.nrlmry.navy.mil">
+    Naval Research Laboratory Marine Meteorology Division Monterey, CA</a><br>
+    7 Grace Hopper Avenue, STOP 2, Monterey, CA 93943-5502
+</div></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

@@ -1,0 +1,1644 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>geoips.utils.types package &#8212; GeoIPS, Geolocated Information Processing System 1.19.0.post776.dev0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/set_width.css?v=d4af5e1e" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=1e4423a0"></script>
+    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'geoips_api/geoips.utils.types';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <link rel="icon" href="../_static/nrlicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="geoips.xarray_utils package" href="geoips.xarray_utils.html" />
+    <link rel="prev" title="geoips.utils.memusg package" href="geoips.utils.memusg.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="1.1" />
+    <meta name="docbuild:last-update" content="Jul 16, 2026 04:57:54"/>
+  
+    
+    <script src="../_static/searchtools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <script src="../searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/NRL_logo_RGB.jpg" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 1.19.0.post776.dev0 documentation - Home"/>
+    <img src="../_static/NRL_logo_sidebar_Reverse.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 1.19.0.post776.dev0 documentation - Home"/>
+  
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../getting-started/index.html">
+    Getting Started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../tutorials/index.html">
+    Tutorials
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../concepts/index.html">
+    Concepts
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../contribute/index.html">
+    Contribute
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    API
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../releases/index.html">
+    Release Notes
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../contact/index.html">
+    About Us
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/NRLMMD-GEOIPS/geoips" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../getting-started/index.html">
+    Getting Started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../tutorials/index.html">
+    Tutorials
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../concepts/index.html">
+    Concepts
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../contribute/index.html">
+    Contribute
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    API
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../releases/index.html">
+    Release Notes
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../contact/index.html">
+    About Us
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/NRLMMD-GEOIPS/geoips" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item pst-sidebar-collapse"><button id="pst-collapse-sidebar-button" aria-expanded="true" aria-controls="pst-primary-sidebar"><svg class="pst-icon svg-inline--fa" role="img" aria-hidden="true" focusable="false" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+    <path fill="currentColor" d="M3 15.5C2.36232 15.5 1.74874 15.2564 1.28478 14.8189C0.820828 14.3815 0.541576 13.7832 0.504167 13.1467L0.5 13L0.5 3C0.499965 2.36232 0.743605 1.74874 1.18107 1.28478C1.61854 0.820828 2.21676 0.541576 2.85333 0.504167L3 0.5L13 0.5C13.6377 0.499965 14.2513 0.743605 14.7152 1.18107C15.1792 1.61854 15.4584 2.21676 15.4958 2.85333L15.5 3L15.5 13C15.5 13.6377 15.2564 14.2513 14.8189 14.7152C14.3815 15.1792 13.7832 15.4584 13.1467 15.4958L13 15.5L3 15.5ZM3 13.8333L10.5 13.8333L10.5 2.16667L3 2.16667C2.79589 2.16669 2.59889 2.24163 2.44636 2.37726C2.29383 2.5129 2.19638 2.69979 2.1725 2.9025L2.16667 3L2.16667 13C2.16669 13.2041 2.24163 13.4011 2.37726 13.5536C2.5129 13.7062 2.69979 13.8036 2.9025 13.8275L3 13.8333ZM6.65583 10.325L6.5775 10.2558L4.91083 8.58917C4.76735 8.44567 4.68116 8.25476 4.66843 8.05223C4.65569 7.84971 4.71729 7.6495 4.84167 7.48917L4.91083 7.41083L6.5775 5.74417C6.72747 5.59471 6.9287 5.50794 7.14032 5.50148C7.35194 5.49502 7.55809 5.56935 7.7169 5.70937C7.8757 5.8494 7.97525 6.04463 7.99533 6.25539C8.01541 6.46616 7.95451 6.67667 7.825 6.84417L7.75583 6.9225L6.67917 8L7.75583 9.0775C7.89931 9.22099 7.98551 9.41191 7.99824 9.61443C8.01097 9.81695 7.94938 10.0172 7.825 10.1775L7.75583 10.2558C7.61234 10.3993 7.42142 10.4855 7.2189 10.4982C7.01638 10.511 6.81617 10.4494 6.65583 10.325Z"/>
+  </svg>
+  <span class="pst-collapse-sidebar-label">Collapse Sidebar</span>
+  <span class="pst-expand-sidebar-label">Expand Sidebar</span>
+</button></div>
+        <div class="sidebar-primary-item">
+
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="geoips.html">geoips package</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2 has-children"><a class="reference internal" href="geoips.commandline.html">geoips.commandline package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="geoips.commandline.ancillary_info.html">geoips.commandline.ancillary_info package</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2"><a class="reference internal" href="geoips.config.html">geoips.config package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="geoips.data_manipulations.html">geoips.data_manipulations package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="geoips.dev.html">geoips.dev package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="geoips.filenames.html">geoips.filenames package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="geoips.image_utils.html">geoips.image_utils package</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="geoips.interfaces.html">geoips.interfaces package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="geoips.interfaces.class_based.html">geoips.interfaces.class_based package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.interfaces.yaml_based.html">geoips.interfaces.yaml_based package</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="geoips.plugins.html">geoips.plugins package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="geoips.plugins.classes.html">geoips.plugins.classes package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.classes.algorithms.html">geoips.plugins.classes.algorithms package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.classes.colormappers.html">geoips.plugins.classes.colormappers package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.classes.coverage_checkers.html">geoips.plugins.classes.coverage_checkers package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.classes.filename_formatters.html">geoips.plugins.classes.filename_formatters package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.classes.interpolators.html">geoips.plugins.classes.interpolators package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.classes.output_formatters.html">geoips.plugins.classes.output_formatters package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.classes.readers.html">geoips.plugins.classes.readers package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.classes.sector_metadata_generators.html">geoips.plugins.classes.sector_metadata_generators package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.classes.sector_spec_generators.html">geoips.plugins.classes.sector_spec_generators package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.classes.title_formatters.html">geoips.plugins.classes.title_formatters package</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="geoips.plugins.modules.html">geoips.plugins.modules package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.procflows.html">geoips.plugins.modules.procflows package</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="geoips.pydantic_models.html">geoips.pydantic_models package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="geoips.pydantic_models.v1.html">geoips.pydantic_models.v1 package</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2"><a class="reference internal" href="geoips.sector_utils.html">geoips.sector_utils package</a></li>
+<li class="toctree-l2 current active has-children"><a class="reference internal" href="geoips.utils.html">geoips.utils package</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="geoips.utils.coverage_checkers.html">geoips.utils.coverage_checkers package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.utils.memusg.html">geoips.utils.memusg package</a></li>
+<li class="toctree-l3 current active"><a class="current reference internal" href="#">geoips.utils.types package</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2"><a class="reference internal" href="geoips.xarray_utils.html">geoips.xarray_utils package</a></li>
+</ul>
+</details></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">API</a></li>
+    
+    
+    <li class="breadcrumb-item"><a href="geoips.html" class="nav-link">geoips package</a></li>
+    
+    
+    <li class="breadcrumb-item"><a href="geoips.utils.html" class="nav-link">geoips.utils package</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">geoips.utils.types package</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="geoips-utils-types-package">
+<h1>geoips.utils.types package<a class="headerlink" href="#geoips-utils-types-package" title="Permalink to this heading">#</a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading">#</a></h2>
+</section>
+<section id="module-geoips.utils.types.converter_registry">
+<span id="geoips-utils-types-converter-registry-module"></span><h2>geoips.utils.types.converter_registry module<a class="headerlink" href="#module-geoips.utils.types.converter_registry" title="Permalink to this heading">#</a></h2>
+<p>Generalised bidirectional type-converter registry.</p>
+<p><code class="docutils literal notranslate"><span class="pre">TypeConverterRegistry</span></code> stores one-way converters keyed by
+<code class="docutils literal notranslate"><span class="pre">(source_type,</span> <span class="pre">target_type)</span></code> tuples and dispatches with
+priority-matching (exact type, then <code class="docutils literal notranslate"><span class="pre">isinstance</span></code> MRO-ordered).</p>
+<p>It is independent of <code class="docutils literal notranslate"><span class="pre">DataTreeDitto</span></code> so that both the tree-storage
+layer and the plugin-lifecycle hooks can share the same converters.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="geoips.utils.types.converter_registry.TypeConverterRegistry">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">geoips.utils.types.converter_registry.</span></span><span class="sig-name descname"><span class="pre">TypeConverterRegistry</span></span><a class="reference internal" href="../_modules/geoips/utils/types/converter_registry.html#TypeConverterRegistry"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.utils.types.converter_registry.TypeConverterRegistry" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Bidirectional type converter registry with priority dispatch.</p>
+<p>Stores one-way (source → target) converters and dispatches calls
+using exact-type matching first, falling back to
+<code class="docutils literal notranslate"><span class="pre">isinstance</span></code>-based matching with MRO ordering (most specific
+registered type wins).</p>
+<p>A module-level singleton <code class="docutils literal notranslate"><span class="pre">converter_registry</span></code> is created at
+import time for use throughout the framework.</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">registry</span> <span class="o">=</span> <span class="n">TypeConverterRegistry</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">registry</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">,</span> <span class="n">numpy_to_dataset</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ds</span> <span class="o">=</span> <span class="n">registry</span><span class="o">.</span><span class="n">convert</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]),</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">isinstance</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">)</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="geoips.utils.types.converter_registry.TypeConverterRegistry.can_convert">
+<span class="sig-name descname"><span class="pre">can_convert</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">type</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="../_modules/geoips/utils/types/converter_registry.html#TypeConverterRegistry.can_convert"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.utils.types.converter_registry.TypeConverterRegistry.can_convert" title="Permalink to this definition">#</a></dt>
+<dd><p>Return <code class="docutils literal notranslate"><span class="pre">True</span></code> if a conversion path exists for <em>obj</em> → <em>target</em>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="geoips.utils.types.converter_registry.TypeConverterRegistry.convert">
+<span class="sig-name descname"><span class="pre">convert</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">type</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Any</span></span></span><a class="reference internal" href="../_modules/geoips/utils/types/converter_registry.html#TypeConverterRegistry.convert"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.utils.types.converter_registry.TypeConverterRegistry.convert" title="Permalink to this definition">#</a></dt>
+<dd><p>Convert <em>obj</em> to <em>target</em> using a registered converter.</p>
+<p>Matching order:</p>
+<ol class="arabic simple">
+<li><p>Exact <code class="docutils literal notranslate"><span class="pre">type(obj)</span></code> → <em>target</em> entry.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">isinstance</span></code>-based match, ordered by the object’s Method
+Resolution Order (MRO) so the most specific registered base class
+wins. The MRO is the linearized order Python searches an object’s
+class hierarchy (<code class="docutils literal notranslate"><span class="pre">type(obj).__mro__</span></code>); see
+<a class="reference external" href="https://docs.python.org/3/howto/mro.html">https://docs.python.org/3/howto/mro.html</a>. For example, a
+<code class="docutils literal notranslate"><span class="pre">MaskedArray</span></code> (a subclass of <code class="docutils literal notranslate"><span class="pre">ndarray</span></code>) prefers a registered
+<code class="docutils literal notranslate"><span class="pre">MaskedArray</span></code> converter over an <code class="docutils literal notranslate"><span class="pre">ndarray</span></code> one.</p></li>
+</ol>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>obj</strong> (<em>Any</em>) – Object to convert.</p></li>
+<li><p><strong>target</strong> (<em>type</em>) – Desired target type.</p></li>
+<li><p><strong>kwargs</strong> – Forwarded to the converter function.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Converted object (guaranteed to be an instance of <em>target</em>
+when a converter is found).</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Any</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>TypeError</strong> – If no converter is registered for the requested path.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="geoips.utils.types.converter_registry.TypeConverterRegistry.register">
+<span class="sig-name descname"><span class="pre">register</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">converter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/geoips/utils/types/converter_registry.html#TypeConverterRegistry.register"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.utils.types.converter_registry.TypeConverterRegistry.register" title="Permalink to this definition">#</a></dt>
+<dd><p>Register a one-way converter from <em>source</em> to <em>target</em>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>source</strong> (<em>type</em>) – Source type.</p></li>
+<li><p><strong>target</strong> (<em>type</em>) – Target type.</p></li>
+<li><p><strong>converter</strong> (<em>callable</em>) – <code class="docutils literal notranslate"><span class="pre">converter(obj,</span> <span class="pre">**kwargs)</span></code> must return an instance of
+<em>target</em>.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="geoips.utils.types.converter_registry.TypeConverterRegistry.register_bidirectional">
+<span class="sig-name descname"><span class="pre">register_bidirectional</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">type_a</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type_b</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a_to_b</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b_to_a</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/geoips/utils/types/converter_registry.html#TypeConverterRegistry.register_bidirectional"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.utils.types.converter_registry.TypeConverterRegistry.register_bidirectional" title="Permalink to this definition">#</a></dt>
+<dd><p>Register a pair of converters for round-trip conversion.</p>
+<p>Convenience wrapper around two <code class="docutils literal notranslate"><span class="pre">register()</span></code> calls.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>type_a</strong> (<em>type</em>) – First type.</p></li>
+<li><p><strong>type_b</strong> (<em>type</em>) – Second type.</p></li>
+<li><p><strong>a_to_b</strong> (<em>callable</em>) – Convert <em>type_a</em> → <em>type_b</em>.</p></li>
+<li><p><strong>b_to_a</strong> (<em>callable</em>) – Convert <em>type_b</em> → <em>type_a</em>.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="geoips.utils.types.converter_registry.TypeConverterRegistry.registered_types">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">registered_types</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">type</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">set</span><span class="p"><span class="pre">[</span></span><span class="pre">type</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#geoips.utils.types.converter_registry.TypeConverterRegistry.registered_types" title="Permalink to this definition">#</a></dt>
+<dd><p>{target_type, …}} summary.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Return {source_type</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-geoips.utils.types.converters">
+<span id="geoips-utils-types-converters-module"></span><h2>geoips.utils.types.converters module<a class="headerlink" href="#module-geoips.utils.types.converters" title="Permalink to this heading">#</a></h2>
+<p>Pure type-conversion functions and <code class="docutils literal notranslate"><span class="pre">FamilyConversionSpec</span></code>.</p>
+<p>Every converter here is a standalone function with no side effects,
+independently testable, and reusable by <code class="docutils literal notranslate"><span class="pre">DataTreeDitto</span></code>, the
+<code class="docutils literal notranslate"><span class="pre">TypeConverterRegistry</span></code>, and the plugin-lifecycle hooks.</p>
+<section id="metadata-policy">
+<h3>Metadata policy<a class="headerlink" href="#metadata-policy" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">_ditto_*</span></code> keys in <code class="docutils literal notranslate"><span class="pre">attrs</span></code> — storage-layer metadata used by
+<code class="docutils literal notranslate"><span class="pre">DataTreeDitto</span></code> for round-trip recovery (original type, shape,
+dtype, …).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">_conv_*</span></code> keys in <code class="docutils literal notranslate"><span class="pre">attrs</span></code> — semantic-conversion metadata used
+by the plugin-lifecycle hooks to record context (e.g. variable
+ordering, mask presence).</p></li>
+</ul>
+</section>
+<dl class="py class">
+<dt class="sig sig-object py" id="geoips.utils.types.converters.FamilyConversionSpec">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">geoips.utils.types.converters.</span></span><span class="sig-name descname"><span class="pre">FamilyConversionSpec</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">type</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_converter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">type</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_converter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/utils/types/converters.html#FamilyConversionSpec"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.utils.types.converters.FamilyConversionSpec" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Defines the type conversions needed for a single plugin family.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>input_type</strong> (<em>type</em><em> or </em><em>None</em>) – The type expected by the plugin’s <code class="docutils literal notranslate"><span class="pre">call()</span></code> after the input
+converter has been applied.  <code class="docutils literal notranslate"><span class="pre">None</span></code> means “no conversion”.</p></li>
+<li><p><strong>input_converter</strong> (<em>callable</em><em> or </em><em>None</em>) – <code class="docutils literal notranslate"><span class="pre">converter(dataset)</span> <span class="pre">→</span> <span class="pre">input_type</span></code>.  Called by <code class="docutils literal notranslate"><span class="pre">_pre_call</span></code>.</p></li>
+<li><p><strong>output_type</strong> (<em>type</em><em> or </em><em>None</em>) – The type produced by the plugin’s <code class="docutils literal notranslate"><span class="pre">call()</span></code>.</p></li>
+<li><p><strong>output_converter</strong> (<em>callable</em><em> or </em><em>None</em>) – <code class="docutils literal notranslate"><span class="pre">converter(plugin_result)</span> <span class="pre">→</span> <span class="pre">xr.Dataset</span></code>.  Called by
+<code class="docutils literal notranslate"><span class="pre">_post_call</span></code>.  <code class="docutils literal notranslate"><span class="pre">None</span></code> means the plugin already returns a
+<code class="docutils literal notranslate"><span class="pre">Dataset</span></code>.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="geoips.utils.types.converters.FamilyConversionSpec.input_converter">
+<span class="sig-name descname"><span class="pre">input_converter</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Callable</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#geoips.utils.types.converters.FamilyConversionSpec.input_converter" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="geoips.utils.types.converters.FamilyConversionSpec.input_type">
+<span class="sig-name descname"><span class="pre">input_type</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">type</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#geoips.utils.types.converters.FamilyConversionSpec.input_type" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="geoips.utils.types.converters.FamilyConversionSpec.output_converter">
+<span class="sig-name descname"><span class="pre">output_converter</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Callable</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#geoips.utils.types.converters.FamilyConversionSpec.output_converter" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="geoips.utils.types.converters.FamilyConversionSpec.output_type">
+<span class="sig-name descname"><span class="pre">output_type</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">type</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#geoips.utils.types.converters.FamilyConversionSpec.output_type" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.utils.types.converters.dataarray_to_dataset">
+<span class="sig-prename descclassname"><span class="pre">geoips.utils.types.converters.</span></span><span class="sig-name descname"><span class="pre">dataarray_to_dataset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataArray</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dataset</span></span></span><a class="reference internal" href="../_modules/geoips/utils/types/converters.html#dataarray_to_dataset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.utils.types.converters.dataarray_to_dataset" title="Permalink to this definition">#</a></dt>
+<dd><p>Convert a <code class="docutils literal notranslate"><span class="pre">DataArray</span></code> to a <code class="docutils literal notranslate"><span class="pre">Dataset</span></code> for DataTreeDitto storage.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>obj</strong> (<em>xr.DataArray</em>) – </p></li>
+<li><p><strong>kwargs</strong> (<em>Ignored.</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>xr.Dataset</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.utils.types.converters.dataset_dict_to_dataset">
+<span class="sig-prename descclassname"><span class="pre">geoips.utils.types.converters.</span></span><span class="sig-name descname"><span class="pre">dataset_dict_to_dataset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dct</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">xarray.core.dataset.Dataset</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dataset</span></span></span><a class="reference internal" href="../_modules/geoips/utils/types/converters.html#dataset_dict_to_dataset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.utils.types.converters.dataset_dict_to_dataset" title="Permalink to this definition">#</a></dt>
+<dd><p>Merge a dict of datasets into a single <code class="docutils literal notranslate"><span class="pre">xr.Dataset</span></code>.</p>
+<p>Uses <code class="docutils literal notranslate"><span class="pre">xarray.merge</span></code> for alignment.  The dict insertion order is
+preserved via a <code class="docutils literal notranslate"><span class="pre">_conv_var_order</span></code> attribute.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dct</strong> (<em>dict</em><em>[</em><em>str</em><em>, </em><em>xr.Dataset</em><em>]</em>) – </p></li>
+<li><p><strong>kwargs</strong> (<em>Ignored.</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>xr.Dataset</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.utils.types.converters.dataset_to_dataarray">
+<span class="sig-prename descclassname"><span class="pre">geoips.utils.types.converters.</span></span><span class="sig-name descname"><span class="pre">dataset_to_dataarray</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataset</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dataset</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataArray</span></span></span><a class="reference internal" href="../_modules/geoips/utils/types/converters.html#dataset_to_dataarray"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.utils.types.converters.dataset_to_dataarray" title="Permalink to this definition">#</a></dt>
+<dd><p>Recover an <code class="docutils literal notranslate"><span class="pre">xr.DataArray</span></code> from a DataArray-origin <code class="docutils literal notranslate"><span class="pre">xr.Dataset</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dataset</strong> (<em>xr.Dataset</em>) – </p></li>
+<li><p><strong>kwargs</strong> (<em>Ignored.</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>xr.DataArray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.utils.types.converters.dataset_to_dataset_dict">
+<span class="sig-prename descclassname"><span class="pre">geoips.utils.types.converters.</span></span><span class="sig-name descname"><span class="pre">dataset_to_dataset_dict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataset</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dataset</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">xarray.core.dataset.Dataset</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/geoips/utils/types/converters.html#dataset_to_dataset_dict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.utils.types.converters.dataset_to_dataset_dict" title="Permalink to this definition">#</a></dt>
+<dd><p>Split a multi-variable <code class="docutils literal notranslate"><span class="pre">Dataset</span></code> into a dict of single-variable datasets.</p>
+<p>Keys are the data-variable names; each value is a <code class="docutils literal notranslate"><span class="pre">Dataset</span></code>
+containing exactly one data variable (plus shared coordinates).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dataset</strong> (<em>xr.Dataset</em>) – </p></li>
+<li><p><strong>kwargs</strong> (<em>Ignored.</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>dict[str, xr.Dataset]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.utils.types.converters.dataset_to_dict">
+<span class="sig-prename descclassname"><span class="pre">geoips.utils.types.converters.</span></span><span class="sig-name descname"><span class="pre">dataset_to_dict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataset</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dataset</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="reference internal" href="../_modules/geoips/utils/types/converters.html#dataset_to_dict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.utils.types.converters.dataset_to_dict" title="Permalink to this definition">#</a></dt>
+<dd><p>Recover a plain <code class="docutils literal notranslate"><span class="pre">dict</span></code> from a dict-origin <code class="docutils literal notranslate"><span class="pre">xr.Dataset</span></code>.</p>
+<p>Walks <code class="docutils literal notranslate"><span class="pre">_ditto_keys</span></code> to preserve original insertion order.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dataset</strong> (<em>xr.Dataset</em>) – </p></li>
+<li><p><strong>kwargs</strong> (<em>Ignored.</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.utils.types.converters.dataset_to_list">
+<span class="sig-prename descclassname"><span class="pre">geoips.utils.types.converters.</span></span><span class="sig-name descname"><span class="pre">dataset_to_list</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataset</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dataset</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span></span></span><a class="reference internal" href="../_modules/geoips/utils/types/converters.html#dataset_to_list"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.utils.types.converters.dataset_to_list" title="Permalink to this definition">#</a></dt>
+<dd><p>Recover a list from attrs.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dataset</strong> (<em>xr.Dataset</em>) – </p></li>
+<li><p><strong>kwargs</strong> (<em>Ignored.</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The stored list value.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.utils.types.converters.dataset_to_masked_array">
+<span class="sig-prename descclassname"><span class="pre">geoips.utils.types.converters.</span></span><span class="sig-name descname"><span class="pre">dataset_to_masked_array</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataset</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dataset</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">MaskedArray</span></span></span><a class="reference internal" href="../_modules/geoips/utils/types/converters.html#dataset_to_masked_array"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.utils.types.converters.dataset_to_masked_array" title="Permalink to this definition">#</a></dt>
+<dd><p>Reconstruct a <code class="docutils literal notranslate"><span class="pre">numpy.ma.MaskedArray</span></code> from a dataset.</p>
+<p>Uses <code class="docutils literal notranslate"><span class="pre">_conv_mask_var</span></code> and <code class="docutils literal notranslate"><span class="pre">_conv_fill_value</span></code> metadata written
+by <code class="docutils literal notranslate"><span class="pre">masked_array_to_dataset</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dataset</strong> (<em>xr.Dataset</em>) – </p></li>
+<li><p><strong>kwargs</strong> (<em>Ignored.</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>np.ma.MaskedArray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.utils.types.converters.dataset_to_numpy">
+<span class="sig-prename descclassname"><span class="pre">geoips.utils.types.converters.</span></span><span class="sig-name descname"><span class="pre">dataset_to_numpy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataset</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dataset</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="reference internal" href="../_modules/geoips/utils/types/converters.html#dataset_to_numpy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.utils.types.converters.dataset_to_numpy" title="Permalink to this definition">#</a></dt>
+<dd><p>Extract a numpy array from a dataset produced by <code class="docutils literal notranslate"><span class="pre">numpy_to_dataset</span></code>.</p>
+<p>Uses <code class="docutils literal notranslate"><span class="pre">_ditto_var_name</span></code> metadata to locate the correct data
+variable; falls back to the first data variable.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dataset</strong> (<em>xr.Dataset</em>) – </p></li>
+<li><p><strong>kwargs</strong> (<em>Ignored.</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.utils.types.converters.dataset_vars_to_numpy_list">
+<span class="sig-prename descclassname"><span class="pre">geoips.utils.types.converters.</span></span><span class="sig-name descname"><span class="pre">dataset_vars_to_numpy_list</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataset</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dataset</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/geoips/utils/types/converters.html#dataset_vars_to_numpy_list"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.utils.types.converters.dataset_vars_to_numpy_list" title="Permalink to this definition">#</a></dt>
+<dd><p>Extract every data variable as a list of arrays.</p>
+<p>Arrays are returned in insertion order (the order they appear when
+iterating <code class="docutils literal notranslate"><span class="pre">dataset.data_vars</span></code>).  This is stable for a given
+dataset but callers that need a specific ordering should sort or
+filter the list themselves.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dataset</strong> (<em>xr.Dataset</em>) – </p></li>
+<li><p><strong>kwargs</strong> (Ignored — future slot for <code class="docutils literal notranslate"><span class="pre">variables</span></code> subset / ordering context.) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>One array per data variable, in insertion order.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list[np.ndarray]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.utils.types.converters.dict_to_dataset">
+<span class="sig-prename descclassname"><span class="pre">geoips.utils.types.converters.</span></span><span class="sig-name descname"><span class="pre">dict_to_dataset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dataset</span></span></span><a class="reference internal" href="../_modules/geoips/utils/types/converters.html#dict_to_dataset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.utils.types.converters.dict_to_dataset" title="Permalink to this definition">#</a></dt>
+<dd><p>Convert a plain <code class="docutils literal notranslate"><span class="pre">dict</span></code> to an <code class="docutils literal notranslate"><span class="pre">xr.Dataset</span></code> for DataTreeDitto storage.</p>
+<p>Numpy-array values become data variables (each with synthetic dim
+names of the form <code class="docutils literal notranslate"><span class="pre">&lt;key&gt;_dim_&lt;i&gt;</span></code>); scalar values (<code class="docutils literal notranslate"><span class="pre">int</span></code>,
+<code class="docutils literal notranslate"><span class="pre">float</span></code>, <code class="docutils literal notranslate"><span class="pre">str</span></code>, <code class="docutils literal notranslate"><span class="pre">bool</span></code>, <code class="docutils literal notranslate"><span class="pre">None</span></code>) become <code class="docutils literal notranslate"><span class="pre">attrs</span></code> under a
+<code class="docutils literal notranslate"><span class="pre">_ditto_attr_&lt;key&gt;</span></code> namespace; any other value type raises
+<code class="docutils literal notranslate"><span class="pre">TypeError</span></code>. Original insertion order is preserved in <code class="docutils literal notranslate"><span class="pre">_ditto_keys</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>obj</strong> (<em>dict Dictionary</em><em> of </em><em>numpy arrays and/or scalars.</em>) – </p></li>
+<li><p><strong>kwargs</strong> (<em>Ignored.</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>xr.Dataset</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.utils.types.converters.list_to_dataset">
+<span class="sig-prename descclassname"><span class="pre">geoips.utils.types.converters.</span></span><span class="sig-name descname"><span class="pre">list_to_dataset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dataset</span></span></span><a class="reference internal" href="../_modules/geoips/utils/types/converters.html#list_to_dataset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.utils.types.converters.list_to_dataset" title="Permalink to this definition">#</a></dt>
+<dd><p>Store a plain list as attrs in a Dataset.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>obj</strong> (<em>list List</em><em> of </em><em>any JSON-serializable values</em><em> (</em><em>e.g. filenames</em><em>)</em><em>.</em>) – </p></li>
+<li><p><strong>kwargs</strong> (<em>Ignored.</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Dataset with <code class="docutils literal notranslate"><span class="pre">_ditto_list_value</span></code> in attrs.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>xr.Dataset</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.utils.types.converters.masked_array_to_dataset">
+<span class="sig-prename descclassname"><span class="pre">geoips.utils.types.converters.</span></span><span class="sig-name descname"><span class="pre">masked_array_to_dataset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">MaskedArray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'data'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dims</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dataset</span></span></span><a class="reference internal" href="../_modules/geoips/utils/types/converters.html#masked_array_to_dataset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.utils.types.converters.masked_array_to_dataset" title="Permalink to this definition">#</a></dt>
+<dd><p>Convert a <code class="docutils literal notranslate"><span class="pre">numpy.ma.MaskedArray</span></code> to <code class="docutils literal notranslate"><span class="pre">xr.Dataset</span></code>.</p>
+<p>Stores the mask as a companion data variable (<code class="docutils literal notranslate"><span class="pre">{name}_mask</span></code>) and
+the <code class="docutils literal notranslate"><span class="pre">fill_value</span></code> in <code class="docutils literal notranslate"><span class="pre">attrs</span></code> so that <code class="docutils literal notranslate"><span class="pre">dataset_to_masked_array</span></code>
+can reconstruct the original MaskedArray faithfully.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>obj</strong> (<em>np.ma.MaskedArray</em>) – </p></li>
+<li><p><strong>name</strong> (<em>str Base data-variable name.</em>) – </p></li>
+<li><p><strong>dims</strong> (<em>list</em><em>[</em><em>str</em><em>] or </em><em>None</em>) – </p></li>
+<li><p><strong>kwargs</strong> (<em>Ignored.</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>xr.Dataset</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.utils.types.converters.numpy_to_dataset">
+<span class="sig-prename descclassname"><span class="pre">geoips.utils.types.converters.</span></span><span class="sig-name descname"><span class="pre">numpy_to_dataset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'data'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dims</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dataset</span></span></span><a class="reference internal" href="../_modules/geoips/utils/types/converters.html#numpy_to_dataset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.utils.types.converters.numpy_to_dataset" title="Permalink to this definition">#</a></dt>
+<dd><p>Convert a numpy array to an <code class="docutils literal notranslate"><span class="pre">xr.Dataset</span></code> with <code class="docutils literal notranslate"><span class="pre">_ditto_*</span></code> metadata.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>obj</strong> (<em>np.ndarray</em>) – Input array (may be a regular ndarray or MaskedArray).</p></li>
+<li><p><strong>name</strong> (<em>str</em>) – Data-variable name in the resulting dataset.</p></li>
+<li><p><strong>dims</strong> (<em>list</em><em>[</em><em>str</em><em>] or </em><em>None</em>) – Dimension names.  Auto-generated (<code class="docutils literal notranslate"><span class="pre">dim_0</span></code>, <code class="docutils literal notranslate"><span class="pre">dim_1</span></code>, …) when
+<code class="docutils literal notranslate"><span class="pre">None</span></code>.</p></li>
+<li><p><strong>kwargs</strong> (<em>Ignored — forward-compatibility slot.</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>xr.Dataset</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-geoips.utils.types.datatree_converters">
+<span id="geoips-utils-types-datatree-converters-module"></span><h2>geoips.utils.types.datatree_converters module<a class="headerlink" href="#module-geoips.utils.types.datatree_converters" title="Permalink to this heading">#</a></h2>
+<p>Converter registration for the shared type-converter registry.</p>
+<p>Registers converters for <code class="docutils literal notranslate"><span class="pre">dict</span></code>, <code class="docutils literal notranslate"><span class="pre">xr.DataArray</span></code>, <code class="docutils literal notranslate"><span class="pre">np.ndarray</span></code>,
+<code class="docutils literal notranslate"><span class="pre">np.ma.MaskedArray</span></code>, and <code class="docutils literal notranslate"><span class="pre">list</span></code> on the shared <code class="docutils literal notranslate"><span class="pre">TypeConverterRegistry</span></code>
+singleton – the live dispatch path used by the plugin-lifecycle hooks and by
+<code class="docutils literal notranslate"><span class="pre">DataTreeDitto</span></code> conversions.</p>
+<p>This module contains <em>only wiring</em> – every converter function lives in the
+single canonical module <code class="docutils literal notranslate"><span class="pre">geoips.utils.types.converters</span></code>. This module
+imports those functions and registers them.</p>
+<p>Registration is idempotent – calling this module twice (e.g. via reload) will
+not produce duplicate entries.</p>
+</section>
+<section id="module-geoips.utils.types.datatree_ditto">
+<span id="geoips-utils-types-datatree-ditto-module"></span><h2>geoips.utils.types.datatree_ditto module<a class="headerlink" href="#module-geoips.utils.types.datatree_ditto" title="Permalink to this heading">#</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">DataTreeDitto</span></code>: a <code class="docutils literal notranslate"><span class="pre">DataTree</span></code> that auto-converts non-xarray payloads.</p>
+<p>Extends <code class="docutils literal notranslate"><span class="pre">xarray.DataTree</span></code> so that non-xarray objects (numpy arrays, dicts,
+etc.) assigned into the tree are converted to <code class="docutils literal notranslate"><span class="pre">Dataset</span></code> objects on the way in
+and recovered to their original type on the way out, using the shared
+<code class="docutils literal notranslate"><span class="pre">converter_registry</span></code>.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="geoips.utils.types.datatree_ditto.DataTreeDitto">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">geoips.utils.types.datatree_ditto.</span></span><span class="sig-name descname"><span class="pre">DataTreeDitto</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataset</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">children</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/utils/types/datatree_ditto.html#DataTreeDitto"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.utils.types.datatree_ditto.DataTreeDitto" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">DataTree</span></code></p>
+<p>A DataTree subclass that automatically converts non-xarray objects to datasets.</p>
+<p>DataTreeDitto extends xarray’s DataTree to automatically handle conversion of
+various data types (numpy arrays, etc.) to xarray Datasets while preserving
+metadata needed for round-trip conversion back to original types.</p>
+<p>Pokemon, the world’s most valuable intellectual property,
+has a pokemon named “ditto” that duplicates its opponents behavior and structure
+with only slight difference. This class - DataTreeDitto - behaves like to xarray
+DataTrees with slight differences to accommodate a wider variety of data types.</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">arr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">]])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dt</span> <span class="o">=</span> <span class="n">DataTreeDitto</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dt</span><span class="o">.</span><span class="n">ds</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+<span class="go">[[1, 2], [3, 4]]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dt</span><span class="o">.</span><span class="n">get_original</span><span class="p">()</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+<span class="go">[[1, 2], [3, 4]]</span>
+</pre></div>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="geoips.utils.types.datatree_ditto.DataTreeDitto.filter">
+<span class="sig-name descname"><span class="pre">filter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filterfunc</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="pre">DataTree</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">bool</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataTree</span></span></span><a class="reference internal" href="../_modules/geoips/utils/types/datatree_ditto.html#DataTreeDitto.filter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.utils.types.datatree_ditto.DataTreeDitto.filter" title="Permalink to this definition">#</a></dt>
+<dd><p>Filter nodes according to a specified condition.</p>
+<p>Returns a new tree containing only the nodes in the original tree for which <cite>fitlerfunc(node)</cite> is True.
+Will also contain empty nodes at intermediate positions if required to support leaves.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>filterfunc</strong> (<em>function</em>) – A function which accepts only one DataTree - the node on which filterfunc will be called.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>DataTree</p>
+</dd>
+</dl>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#geoips.utils.types.datatree_ditto.DataTreeDitto.match" title="geoips.utils.types.datatree_ditto.DataTreeDitto.match"><code class="xref py py-obj docutils literal notranslate"><span class="pre">match</span></code></a>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">pipe</span></code>, <a class="reference internal" href="#geoips.utils.types.datatree_ditto.DataTreeDitto.map_over_datasets" title="geoips.utils.types.datatree_ditto.DataTreeDitto.map_over_datasets"><code class="xref py py-obj docutils literal notranslate"><span class="pre">map_over_datasets</span></code></a></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="geoips.utils.types.datatree_ditto.DataTreeDitto.from_datatree">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_datatree</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dt</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataTree</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#geoips.utils.types.datatree_ditto.DataTreeDitto" title="geoips.utils.types.datatree_ditto.DataTreeDitto"><span class="pre">DataTreeDitto</span></a></span></span><a class="reference internal" href="../_modules/geoips/utils/types/datatree_ditto.html#DataTreeDitto.from_datatree"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.utils.types.datatree_ditto.DataTreeDitto.from_datatree" title="Permalink to this definition">#</a></dt>
+<dd><p>Convert a plain DataTree to DataTreeDitto recursively.</p>
+<p>Public API for converting standard <code class="docutils literal notranslate"><span class="pre">DataTree</span></code> instances returned by
+xarray operations back to <code class="docutils literal notranslate"><span class="pre">DataTreeDitto</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>dt</strong> (<em>DataTree</em>) – DataTree instance to convert.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Converted DataTreeDitto with all children also converted.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#geoips.utils.types.datatree_ditto.DataTreeDitto" title="geoips.utils.types.datatree_ditto.DataTreeDitto">DataTreeDitto</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="geoips.utils.types.datatree_ditto.DataTreeDitto.get">
+<span class="sig-name descname"><span class="pre">get</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/utils/types/datatree_ditto.html#DataTreeDitto.get"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.utils.types.datatree_ditto.DataTreeDitto.get" title="Permalink to this definition">#</a></dt>
+<dd><p>Mapping-style <code class="docutils literal notranslate"><span class="pre">get</span></code>.</p>
+<p>Dict-origin nodes return the wrapped dict’s value (or <em>default</em>); all
+other nodes delegate to <code class="docutils literal notranslate"><span class="pre">DataTree.get</span></code>. This deliberately does <em>not</em>
+route through <code class="docutils literal notranslate"><span class="pre">__getitem__</span></code> so it stays safe for xarray’s internal
+tree traversal (which calls <code class="docutils literal notranslate"><span class="pre">node.get(part)</span></code>).</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="geoips.utils.types.datatree_ditto.DataTreeDitto.get_original">
+<span class="sig-name descname"><span class="pre">get_original</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'.'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Any</span></span></span><a class="reference internal" href="../_modules/geoips/utils/types/datatree_ditto.html#DataTreeDitto.get_original"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.utils.types.datatree_ditto.DataTreeDitto.get_original" title="Permalink to this definition">#</a></dt>
+<dd><p>Get the original object (before conversion) at the specified path.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>path</strong> (<em>str</em><em>, </em><em>default &quot;.&quot;</em>) – Path to the node. Use “.” for current node, or child names
+separated by “/” for nested nodes.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Original object if conversion metadata exists, otherwise the dataset.
+Returns None if the node contains no data.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Any</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>Performance and memory behavior depend on the registered converter:
+some converters duplicate data while others reuse the underlying array
+via views. The returned object shares shallow-copy semantics with the
+stored data — modifying mutable elements of the returned object may
+affect the data inside the tree.</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">arr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dt</span> <span class="o">=</span> <span class="n">DataTreeDitto</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">original</span> <span class="o">=</span> <span class="n">dt</span><span class="o">.</span><span class="n">get_original</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">original</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+<span class="go">[1, 2, 3]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dt</span><span class="p">[</span><span class="s2">&quot;child&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dt</span><span class="o">.</span><span class="n">get_original</span><span class="p">(</span><span class="s2">&quot;child&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+<span class="go">[4, 5, 6]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="geoips.utils.types.datatree_ditto.DataTreeDitto.items">
+<span class="sig-name descname"><span class="pre">items</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/utils/types/datatree_ditto.html#DataTreeDitto.items"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.utils.types.datatree_ditto.DataTreeDitto.items" title="Permalink to this definition">#</a></dt>
+<dd><p>Return wrapped-dict items for dict-origin nodes, else child items.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="geoips.utils.types.datatree_ditto.DataTreeDitto.keys">
+<span class="sig-name descname"><span class="pre">keys</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/utils/types/datatree_ditto.html#DataTreeDitto.keys"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.utils.types.datatree_ditto.DataTreeDitto.keys" title="Permalink to this definition">#</a></dt>
+<dd><p>Return wrapped-dict keys for dict-origin nodes, else child names.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="geoips.utils.types.datatree_ditto.DataTreeDitto.list_converted_nodes">
+<span class="sig-name descname"><span class="pre">list_converted_nodes</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/geoips/utils/types/datatree_ditto.html#DataTreeDitto.list_converted_nodes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.utils.types.datatree_ditto.DataTreeDitto.list_converted_nodes" title="Permalink to this definition">#</a></dt>
+<dd><p>List all nodes that contain converted objects and their original types.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Mapping of node paths to original object type names. Paths use “/”
+as separator, with “/” representing the root node.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>dict of str to str</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">dt</span> <span class="o">=</span> <span class="n">DataTreeDitto</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dt</span><span class="p">[</span><span class="s2">&quot;child&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">converted</span> <span class="o">=</span> <span class="n">dt</span><span class="o">.</span><span class="n">list_converted_nodes</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="s2">&quot;/&quot;</span> <span class="ow">in</span> <span class="n">converted</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="s2">&quot;child&quot;</span> <span class="ow">in</span> <span class="n">converted</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">converted</span><span class="p">[</span><span class="s2">&quot;/&quot;</span><span class="p">]</span>
+<span class="go">&#39;numpy.ndarray&#39;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="geoips.utils.types.datatree_ditto.DataTreeDitto.map_over_datasets">
+<span class="sig-name descname"><span class="pre">map_over_datasets</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">func</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Mapping</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataTree</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">xarray.core.datatree.DataTree</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../_modules/geoips/utils/types/datatree_ditto.html#DataTreeDitto.map_over_datasets"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.utils.types.datatree_ditto.DataTreeDitto.map_over_datasets" title="Permalink to this definition">#</a></dt>
+<dd><p>Map a function over datasets, returning <code class="docutils literal notranslate"><span class="pre">DataTreeDitto</span></code> output.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="geoips.utils.types.datatree_ditto.DataTreeDitto.match">
+<span class="sig-name descname"><span class="pre">match</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pattern</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataTree</span></span></span><a class="reference internal" href="../_modules/geoips/utils/types/datatree_ditto.html#DataTreeDitto.match"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.utils.types.datatree_ditto.DataTreeDitto.match" title="Permalink to this definition">#</a></dt>
+<dd><p>Return nodes with paths matching pattern.</p>
+<p>Uses unix glob-like syntax for pattern-matching.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>pattern</strong> (<em>str</em>) – A pattern to match each node path against.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>DataTree</p>
+</dd>
+</dl>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference internal" href="#geoips.utils.types.datatree_ditto.DataTreeDitto.filter" title="geoips.utils.types.datatree_ditto.DataTreeDitto.filter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">filter</span></code></a>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">pipe</span></code>, <a class="reference internal" href="#geoips.utils.types.datatree_ditto.DataTreeDitto.map_over_datasets" title="geoips.utils.types.datatree_ditto.DataTreeDitto.map_over_datasets"><code class="xref py py-obj docutils literal notranslate"><span class="pre">map_over_datasets</span></code></a></p>
+</div>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">dt</span> <span class="o">=</span> <span class="n">DataTree</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="p">{</span>
+<span class="gp">... </span>        <span class="s2">&quot;/a/A&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+<span class="gp">... </span>        <span class="s2">&quot;/a/B&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+<span class="gp">... </span>        <span class="s2">&quot;/b/A&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+<span class="gp">... </span>        <span class="s2">&quot;/b/B&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="p">}</span>
+<span class="gp">... </span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dt</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s2">&quot;*/B&quot;</span><span class="p">)</span>
+<span class="go">&lt;xarray.DataTree&gt;</span>
+<span class="go">Group: /</span>
+<span class="go">├── Group: /a</span>
+<span class="go">│   └── Group: /a/B</span>
+<span class="go">└── Group: /b</span>
+<span class="go">    └── Group: /b/B</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="geoips.utils.types.datatree_ditto.DataTreeDitto.mean">
+<span class="sig-name descname"><span class="pre">mean</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">skipna</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">keep_attrs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/utils/types/datatree_ditto.html#DataTreeDitto.mean"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.utils.types.datatree_ditto.DataTreeDitto.mean" title="Permalink to this definition">#</a></dt>
+<dd><p>Reduce this tree by mean, returning <code class="docutils literal notranslate"><span class="pre">DataTreeDitto</span></code> output.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="geoips.utils.types.datatree_ditto.DataTreeDitto.to_datatree">
+<span class="sig-name descname"><span class="pre">to_datatree</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataTree</span></span></span><a class="reference internal" href="../_modules/geoips/utils/types/datatree_ditto.html#DataTreeDitto.to_datatree"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.utils.types.datatree_ditto.DataTreeDitto.to_datatree" title="Permalink to this definition">#</a></dt>
+<dd><p>Convert to a standard DataTree with all nodes as xarray objects.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A standard DataTree instance with all converted objects as datasets.
+Conversion metadata is preserved in dataset attributes.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>DataTree</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">arr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dt</span> <span class="o">=</span> <span class="n">DataTreeDitto</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;test&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">standard_dt</span> <span class="o">=</span> <span class="n">dt</span><span class="o">.</span><span class="n">to_datatree</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">isinstance</span><span class="p">(</span><span class="n">standard_dt</span><span class="p">,</span> <span class="n">DataTree</span><span class="p">)</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">standard_dt</span><span class="o">.</span><span class="n">ds</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+<span class="go">[1, 2, 3]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="geoips.utils.types.datatree_ditto.DataTreeDitto.values">
+<span class="sig-name descname"><span class="pre">values</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/utils/types/datatree_ditto.html#DataTreeDitto.values"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.utils.types.datatree_ditto.DataTreeDitto.values" title="Permalink to this definition">#</a></dt>
+<dd><p>Return wrapped-dict values for dict-origin nodes, else children.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-geoips.utils.types.family_conversions">
+<span id="geoips-utils-types-family-conversions-module"></span><h2>geoips.utils.types.family_conversions module<a class="headerlink" href="#module-geoips.utils.types.family_conversions" title="Permalink to this heading">#</a></h2>
+<p>Family-to-converter mappings for the plugin-lifecycle hooks.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>These mappings exist purely for <strong>backwards compatibility</strong>. They let the
+DataTree-based order-based procflow drive <em>legacy</em> family-based plugins by
+converting the shared DataTree payload into the concrete type each legacy
+family expects (and back again). They are keyed by <em>family</em> only and do not
+describe per-plugin argument/keyword-argument signatures — those legacy
+call-signature bindings live in <code class="docutils literal notranslate"><span class="pre">geoips.utils.types.obp_conduits</span></code>.</p>
+<p>New plugins are expected to be DataTree-native (declare <code class="docutils literal notranslate"><span class="pre">data_tree</span> <span class="pre">=</span> <span class="pre">True</span></code>)
+and therefore need no entry here. As legacy families are migrated, their
+entries should be removed; this module is expected to shrink over time and
+is a candidate for eventual deletion.</p>
+</div>
+<p>Each mapping entry is a <code class="docutils literal notranslate"><span class="pre">FamilyConversionSpec</span></code> that tells the
+<code class="docutils literal notranslate"><span class="pre">_pre_call</span></code> / <code class="docutils literal notranslate"><span class="pre">_post_call</span></code> hooks what type the plugin’s family
+expects as input, what type it returns, and which converter functions
+to use for the forward and reverse transformations.</p>
+<p>These mappings are imported by the interface-level base classes
+(<code class="docutils literal notranslate"><span class="pre">BaseAlgorithmPlugin</span></code>, <code class="docutils literal notranslate"><span class="pre">BaseOutputFormatterPlugin</span></code>, …) via
+their <code class="docutils literal notranslate"><span class="pre">_family_conversion_map</span></code> class attribute.</p>
+</section>
+<section id="module-geoips.utils.types.obp_conduits">
+<span id="geoips-utils-types-obp-conduits-module"></span><h2>geoips.utils.types.obp_conduits module<a class="headerlink" href="#module-geoips.utils.types.obp_conduits" title="Permalink to this heading">#</a></h2>
+<p>The Order-Based Procflow (OBP) conduit binding registry.</p>
+<p><code class="docutils literal notranslate"><span class="pre">OBP_CONDUITS</span></code> maps an upstream node’s plugin <em>kind</em> to the
+keyword-argument name and extractor a downstream plugin expects.  This
+previously lived inside <code class="docutils literal notranslate"><span class="pre">class_based_plugin</span></code> (as <code class="docutils literal notranslate"><span class="pre">_OBP_CONDUITS</span></code>) and was
+reached back into by <code class="docutils literal notranslate"><span class="pre">YamlPluginCallable</span></code>; it now has one home, so new plugin
+kinds are wired in exactly one place.</p>
+<p>This registry holds the <strong>bespoke, per-kind call-signature bindings</strong> for
+legacy plugins — i.e. the specific keyword-argument name each legacy plugin
+family expects and how to pull that value out of an upstream DataTree node.
+It is the companion to <code class="docutils literal notranslate"><span class="pre">geoips.utils.types.family_conversions</span></code>, which
+handles <em>type</em> conversions; this module handles <em>argument wiring</em>. Together
+they let the DataTree-based OBP drive legacy plugins.</p>
+<p>Like <code class="docutils literal notranslate"><span class="pre">family_conversions</span></code>, these bindings are a backwards-compatibility
+layer: DataTree-native plugins (<code class="docutils literal notranslate"><span class="pre">data_tree</span> <span class="pre">=</span> <span class="pre">True</span></code>) consume the DataTree
+directly and need no conduit entry, so this registry is expected to shrink as
+plugins are migrated. (Originally adapted from &#64;srikanth-kumar’s work.)</p>
+<dl class="py data">
+<dt class="sig sig-object py" id="geoips.utils.types.obp_conduits.OBP_CONDUITS">
+<span class="sig-prename descclassname"><span class="pre">geoips.utils.types.obp_conduits.</span></span><span class="sig-name descname"><span class="pre">OBP_CONDUITS</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'algorithm':</span> <span class="pre">{'extract':</span> <span class="pre">&lt;function</span> <span class="pre">_extract_ds&gt;,</span> <span class="pre">'kwarg':</span> <span class="pre">'xarray_obj'},</span> <span class="pre">'colormapper':</span> <span class="pre">{'extract':</span> <span class="pre">&lt;function</span> <span class="pre">&lt;lambda&gt;&gt;,</span> <span class="pre">'kwarg':</span> <span class="pre">'mpl_colors_info'},</span> <span class="pre">'coverage_checker':</span> <span class="pre">{'extract':</span> <span class="pre">&lt;function</span> <span class="pre">&lt;lambda&gt;&gt;,</span> <span class="pre">'kwarg':</span> <span class="pre">'coverage'},</span> <span class="pre">'feature_annotator':</span> <span class="pre">{'extract':</span> <span class="pre">&lt;function</span> <span class="pre">_extract_annotator_spec&gt;,</span> <span class="pre">'kwarg':</span> <span class="pre">'feature_annotator'},</span> <span class="pre">'filename_formatter':</span> <span class="pre">{'extract':</span> <span class="pre">&lt;function</span> <span class="pre">&lt;lambda&gt;&gt;,</span> <span class="pre">'kwarg':</span> <span class="pre">'output_filenames'},</span> <span class="pre">'gridline_annotator':</span> <span class="pre">{'extract':</span> <span class="pre">&lt;function</span> <span class="pre">_extract_annotator_spec&gt;,</span> <span class="pre">'kwarg':</span> <span class="pre">'gridline_annotator'},</span> <span class="pre">'interpolator':</span> <span class="pre">{'extract':</span> <span class="pre">&lt;function</span> <span class="pre">_extract_ds&gt;,</span> <span class="pre">'kwarg':</span> <span class="pre">'xarray_obj'},</span> <span class="pre">'output_formatter':</span> <span class="pre">{'extract':</span> <span class="pre">&lt;function</span> <span class="pre">&lt;lambda&gt;&gt;,</span> <span class="pre">'kwarg':</span> <span class="pre">'output_products'},</span> <span class="pre">'product':</span> <span class="pre">{'extract':</span> <span class="pre">&lt;function</span> <span class="pre">_extract_product_name&gt;,</span> <span class="pre">'kwarg':</span> <span class="pre">'product_name'},</span> <span class="pre">'product_default':</span> <span class="pre">{'extract':</span> <span class="pre">&lt;function</span> <span class="pre">_extract_attrs_dict&gt;,</span> <span class="pre">'kwarg':</span> <span class="pre">'product_default_info'},</span> <span class="pre">'reader':</span> <span class="pre">{'extract':</span> <span class="pre">&lt;function</span> <span class="pre">_extract_ds&gt;,</span> <span class="pre">'kwarg':</span> <span class="pre">'xarray_obj'},</span> <span class="pre">'sector':</span> <span class="pre">{'extract':</span> <span class="pre">&lt;function</span> <span class="pre">&lt;lambda&gt;&gt;,</span> <span class="pre">'kwarg':</span> <span class="pre">'area_def'}}</span></em><a class="headerlink" href="#geoips.utils.types.obp_conduits.OBP_CONDUITS" title="Permalink to this definition">#</a></dt>
+<dd><p>Maps an upstream node’s plugin <em>kind</em> to the downstream kwarg name it feeds
+and the extractor that pulls the value out of the node.  Add a new plugin
+kind’s wiring here (single location).</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.utils.types.obp_conduits.kwarg_name_for_kind">
+<span class="sig-prename descclassname"><span class="pre">geoips.utils.types.obp_conduits.</span></span><span class="sig-name descname"><span class="pre">kwarg_name_for_kind</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">kind</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="../_modules/geoips/utils/types/obp_conduits.html#kwarg_name_for_kind"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.utils.types.obp_conduits.kwarg_name_for_kind" title="Permalink to this definition">#</a></dt>
+<dd><p>Return the downstream kwarg name an upstream <em>kind</em> feeds.</p>
+<p>Falls back to <em>kind</em> itself when the kind has no registered conduit.</p>
+</dd></dl>
+
+</section>
+<section id="module-geoips.utils.types.partial_lexeme">
+<span id="geoips-utils-types-partial-lexeme-module"></span><h2>geoips.utils.types.partial_lexeme module<a class="headerlink" href="#module-geoips.utils.types.partial_lexeme" title="Permalink to this heading">#</a></h2>
+<p>Lightweight helper for treating singular and plural spellings as equivalent.</p>
+<p>A drop‑in str subclass that normalizes English nouns so that their
+singular and plural forms compare as equal, hash to the same key, and work
+inside Pydantic v2 models. Ignores capitalization.</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">partial_lexeme</span><span class="w"> </span><span class="kn">import</span> <span class="n">Lexeme</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Lexeme</span><span class="p">(</span><span class="s2">&quot;reader&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;readers&quot;</span> <span class="o">==</span> <span class="n">Lexeme</span><span class="p">(</span><span class="s2">&quot;readers&quot;</span><span class="p">)</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">{</span><span class="n">Lexeme</span><span class="p">(</span><span class="s2">&quot;analyses&quot;</span><span class="p">):</span> <span class="mi">1</span><span class="p">}</span> <span class="o">==</span> <span class="p">{</span><span class="s2">&quot;analysis&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">}</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">pydantic</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseModel</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">class</span><span class="w"> </span><span class="nc">_Plugin</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="n">kind</span><span class="p">:</span> <span class="n">Lexeme</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="n">interface</span><span class="p">:</span> <span class="n">Lexeme</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span> <span class="o">=</span> <span class="n">_Plugin</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="s2">&quot;reader&quot;</span><span class="p">,</span> <span class="n">interface</span><span class="o">=</span><span class="s2">&quot;readers&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">assert</span> <span class="n">model</span><span class="o">.</span><span class="n">kind</span> <span class="o">==</span> <span class="n">model</span><span class="o">.</span><span class="n">interface</span> <span class="o">==</span> <span class="s2">&quot;reader&quot;</span>
+</pre></div>
+</div>
+<dl class="py class">
+<dt class="sig sig-object py" id="geoips.utils.types.partial_lexeme.Lexeme">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">geoips.utils.types.partial_lexeme.</span></span><span class="sig-name descname"><span class="pre">Lexeme</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/utils/types/partial_lexeme.html#Lexeme"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.utils.types.partial_lexeme.Lexeme" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></p>
+<p>A string that treats singular and plural spellings as equal.</p>
+<p>It behaves exactly like a built‑in <code class="docutils literal notranslate"><span class="pre">str</span></code> but overrides equality and
+hashing to use the canonical singular form.  This makes singular and
+plural spellings interchangeable as dict keys, set members, CLI options,
+etc.</p>
+<dl class="py property">
+<dt class="sig sig-object py" id="geoips.utils.types.partial_lexeme.Lexeme.plural">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">plural</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#geoips.utils.types.partial_lexeme.Lexeme" title="geoips.utils.types.partial_lexeme.Lexeme"><span class="pre">Lexeme</span></a></em><a class="headerlink" href="#geoips.utils.types.partial_lexeme.Lexeme.plural" title="Permalink to this definition">#</a></dt>
+<dd><p>Return a plural spelling.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="geoips.utils.types.partial_lexeme.Lexeme.singular">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">singular</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#geoips.utils.types.partial_lexeme.Lexeme" title="geoips.utils.types.partial_lexeme.Lexeme"><span class="pre">Lexeme</span></a></em><a class="headerlink" href="#geoips.utils.types.partial_lexeme.Lexeme.singular" title="Permalink to this definition">#</a></dt>
+<dd><p>Return the singular spelling.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-geoips.utils.types.tokenization">
+<span id="geoips-utils-types-tokenization-module"></span><h2>geoips.utils.types.tokenization module<a class="headerlink" href="#module-geoips.utils.types.tokenization" title="Permalink to this heading">#</a></h2>
+<p>Stable tokenization helpers for DataTree provenance.</p>
+<p>Wraps <code class="docutils literal notranslate"><span class="pre">dask.base.tokenize</span></code> to produce deterministic, content-addressed
+tokens for step outputs, argument dictionaries, and step provenance chains.
+Tokens are prefixed with <code class="docutils literal notranslate"><span class="pre">&quot;dask:&quot;</span></code> so future migrations to a different
+hash provider remain detectable and safe to compare by full-string equality.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.utils.types.tokenization.compute_arguments_hash">
+<span class="sig-prename descclassname"><span class="pre">geoips.utils.types.tokenization.</span></span><span class="sig-name descname"><span class="pre">compute_arguments_hash</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">arguments</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="../_modules/geoips/utils/types/tokenization.html#compute_arguments_hash"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.utils.types.tokenization.compute_arguments_hash" title="Permalink to this definition">#</a></dt>
+<dd><p>Tokenize a step’s arguments dictionary.</p>
+<p>The hash covers keys and values in a stable order so that semantically
+identical argument dicts produce identical tokens even when supplied
+via different code paths.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>arguments</strong> (<em>dict</em>) – The step’s <code class="docutils literal notranslate"><span class="pre">arguments</span></code> dictionary from the workflow spec.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A <code class="docutils literal notranslate"><span class="pre">&quot;dask:&quot;</span></code>-prefixed token string.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.utils.types.tokenization.compute_step_output_token">
+<span class="sig-prename descclassname"><span class="pre">geoips.utils.types.tokenization.</span></span><span class="sig-name descname"><span class="pre">compute_step_output_token</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">step_output</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plugin_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plugin_kind</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arguments</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">upstream_tokens</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="../_modules/geoips/utils/types/tokenization.html#compute_step_output_token"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.utils.types.tokenization.compute_step_output_token" title="Permalink to this definition">#</a></dt>
+<dd><p>Compute a step’s <code class="docutils literal notranslate"><span class="pre">output_token</span></code> for provenance attrs.</p>
+<p>The token MUST change when any of <em>plugin identity</em>, <em>arguments</em>, or
+<em>upstream tokens</em> change.  It MUST NOT change for cosmetic refactors
+that produce the same data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>step_output</strong> (<em>Any</em>) – The return value of a step’s <code class="docutils literal notranslate"><span class="pre">call()</span></code> method (a Dataset, DataTree,
+numpy array, dict, etc.).</p></li>
+<li><p><strong>plugin_name</strong> (<em>str</em>) – Plugin name (e.g. <code class="docutils literal notranslate"><span class="pre">&quot;abi_netcdf&quot;</span></code>).</p></li>
+<li><p><strong>plugin_kind</strong> (<em>str</em>) – Plugin kind (e.g. <code class="docutils literal notranslate"><span class="pre">&quot;reader&quot;</span></code>).</p></li>
+<li><p><strong>arguments</strong> (<em>dict</em>) – The step’s <code class="docutils literal notranslate"><span class="pre">arguments</span></code> dictionary.</p></li>
+<li><p><strong>upstream_tokens</strong> (<em>dict</em><em>[</em><em>str</em><em>, </em><em>str</em><em>] or </em><em>None</em>) – Mapping of upstream step-id → output_token, or <code class="docutils literal notranslate"><span class="pre">None</span></code> for
+reader steps with no dependencies.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A <code class="docutils literal notranslate"><span class="pre">&quot;dask:&quot;</span></code>-prefixed token, or <code class="docutils literal notranslate"><span class="pre">&quot;untokenizable:&lt;exc&gt;&quot;</span></code> if
+tokenization raises an exception.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.utils.types.tokenization.compute_token">
+<span class="sig-prename descclassname"><span class="pre">geoips.utils.types.tokenization.</span></span><span class="sig-name descname"><span class="pre">compute_token</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">objs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="../_modules/geoips/utils/types/tokenization.html#compute_token"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.utils.types.tokenization.compute_token" title="Permalink to this definition">#</a></dt>
+<dd><p>Compute a stable, deterministic token over the given objects.</p>
+<p>Wraps <code class="docutils literal notranslate"><span class="pre">dask.base.tokenize</span></code> and prefixes its output so that future
+migrations to a different hash provider remain forward-compatible in
+stored <code class="docutils literal notranslate"><span class="pre">attrs</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>*objs</strong> (<em>Any</em>) – Objects to include in the token. The call is positional so that
+callers cannot accidentally pass the same objects in a different
+order and get the same token.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A <code class="docutils literal notranslate"><span class="pre">&quot;dask:&lt;hex&gt;&quot;</span></code> token string.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">compute_token</span><span class="p">(</span><span class="s2">&quot;hello&quot;</span><span class="p">,</span> <span class="mi">42</span><span class="p">)</span>
+<span class="go">&#39;dask:...&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">compute_token</span><span class="p">(</span><span class="s2">&quot;hello&quot;</span><span class="p">,</span> <span class="mi">42</span><span class="p">)</span> <span class="o">==</span> <span class="n">compute_token</span><span class="p">(</span><span class="s2">&quot;hello&quot;</span><span class="p">,</span> <span class="mi">42</span><span class="p">)</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</section>
+<section id="module-geoips.utils.types.yaml_plugin_callable">
+<span id="geoips-utils-types-yaml-plugin-callable-module"></span><h2>geoips.utils.types.yaml_plugin_callable module<a class="headerlink" href="#module-geoips.utils.types.yaml_plugin_callable" title="Permalink to this heading">#</a></h2>
+<p>Adapter wrapping any YAML plugin dict into a callable DataTree participant.</p>
+<p>Every YAML-defined plugin (feature_annotator, gridline_annotator, product,
+product_default, sector, …) becomes a first-class DAG step that adds its
+configuration / metadata to the step DataTree.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">Workflow._resolve_plugin</span></code> static method automatically wraps <code class="docutils literal notranslate"><span class="pre">dict</span></code>
+results (from YAML-based interfaces) in a <code class="docutils literal notranslate"><span class="pre">YamlPluginCallable</span></code> so that
+the workflow executor can call them uniformly.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="geoips.utils.types.yaml_plugin_callable.YamlPluginCallable">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">geoips.utils.types.yaml_plugin_callable.</span></span><span class="sig-name descname"><span class="pre">YamlPluginCallable</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">yaml_plugin</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/utils/types/yaml_plugin_callable.html#YamlPluginCallable"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.utils.types.yaml_plugin_callable.YamlPluginCallable" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Wraps a YAML plugin dict into a callable DataTree participant.</p>
+<p>The adapter satisfies the informal protocol that
+<code class="docutils literal notranslate"><span class="pre">Workflow.call()</span></code> expects:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">plg</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">upstream</span><span class="p">,</span> <span class="o">**</span><span class="n">arguments</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataTree</span>
+</pre></div>
+</div>
+<p>It stores the YAML plugin’s <code class="docutils literal notranslate"><span class="pre">spec</span></code> in the returned DataTree’s
+<code class="docutils literal notranslate"><span class="pre">ds.attrs</span></code> together with metadata keys (<code class="docutils literal notranslate"><span class="pre">plugin_kind</span></code>,
+<code class="docutils literal notranslate"><span class="pre">output_key</span></code>) that downstream hooks use to map the child node
+to the correct keyword argument.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>yaml_plugin</strong> (<em>dict</em>) – The raw YAML plugin dict as returned by a YAML-based interface’s
+<code class="docutils literal notranslate"><span class="pre">get_plugin(name)</span></code>.  Must contain at least <code class="docutils literal notranslate"><span class="pre">&quot;interface&quot;</span></code> and
+<code class="docutils literal notranslate"><span class="pre">&quot;spec&quot;</span></code>; <code class="docutils literal notranslate"><span class="pre">&quot;name&quot;</span></code> and <code class="docutils literal notranslate"><span class="pre">&quot;family&quot;</span></code> are optional.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="geoips.utils.types.yaml_plugin_callable.YamlPluginCallable.call">
+<span class="sig-name descname"><span class="pre">call</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataTree</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataTree</span></span></span><a class="reference internal" href="../_modules/geoips/utils/types/yaml_plugin_callable.html#YamlPluginCallable.call"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.utils.types.yaml_plugin_callable.YamlPluginCallable.call" title="Permalink to this definition">#</a></dt>
+<dd><p>Produce a DataTree node carrying the YAML plugin’s specification.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> (<em>xr.DataTree</em><em> or </em><em>None</em>) – Upstream DataTree (ignored for most YAML plugins; gridline
+annotators may use it for automatic spacing computation).</p></li>
+<li><p><strong>kwargs</strong> – Step arguments from the workflow specification.  Currently
+forwarded for interface-specific post-processing.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A <code class="docutils literal notranslate"><span class="pre">DataTreeDitto</span></code> whose <code class="docutils literal notranslate"><span class="pre">ds.attrs</span></code> contain the plugin’s
+<code class="docutils literal notranslate"><span class="pre">spec</span></code> dictionary and the standard routing metadata.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>xr.DataTree</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="geoips.utils.types.yaml_plugin_callable.YamlPluginCallable.spec">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">spec</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#geoips.utils.types.yaml_plugin_callable.YamlPluginCallable.spec" title="Permalink to this definition">#</a></dt>
+<dd><p>The <code class="docutils literal notranslate"><span class="pre">spec</span></code> section of the wrapped YAML plugin dict.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-geoips.utils.types">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-geoips.utils.types" title="Permalink to this heading">#</a></h2>
+<p>Types subpackage init file.</p>
+<p>The imports below trigger registration of the shared
+<code class="docutils literal notranslate"><span class="pre">TypeConverterRegistry</span></code> and all built-in / extended converters
+at import time so that both <code class="docutils literal notranslate"><span class="pre">DataTreeDitto</span></code> and the
+plugin-lifecycle hooks can discover them.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>In a future version the import-time side-effects should be
+replaced with explicit <code class="docutils literal notranslate"><span class="pre">register_converters()</span></code> calls from the
+framework bootstrap entry point.</p>
+</div>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="geoips.utils.memusg.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">geoips.utils.memusg package</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="geoips.xarray_utils.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">geoips.xarray_utils package</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#submodules">Submodules</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-geoips.utils.types.converter_registry">geoips.utils.types.converter_registry module</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.utils.types.converter_registry.TypeConverterRegistry"><code class="docutils literal notranslate"><span class="pre">TypeConverterRegistry</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.utils.types.converter_registry.TypeConverterRegistry.can_convert"><code class="docutils literal notranslate"><span class="pre">TypeConverterRegistry.can_convert()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.utils.types.converter_registry.TypeConverterRegistry.convert"><code class="docutils literal notranslate"><span class="pre">TypeConverterRegistry.convert()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.utils.types.converter_registry.TypeConverterRegistry.register"><code class="docutils literal notranslate"><span class="pre">TypeConverterRegistry.register()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.utils.types.converter_registry.TypeConverterRegistry.register_bidirectional"><code class="docutils literal notranslate"><span class="pre">TypeConverterRegistry.register_bidirectional()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.utils.types.converter_registry.TypeConverterRegistry.registered_types"><code class="docutils literal notranslate"><span class="pre">TypeConverterRegistry.registered_types</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-geoips.utils.types.converters">geoips.utils.types.converters module</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#metadata-policy">Metadata policy</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.utils.types.converters.FamilyConversionSpec"><code class="docutils literal notranslate"><span class="pre">FamilyConversionSpec</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.utils.types.converters.FamilyConversionSpec.input_converter"><code class="docutils literal notranslate"><span class="pre">FamilyConversionSpec.input_converter</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.utils.types.converters.FamilyConversionSpec.input_type"><code class="docutils literal notranslate"><span class="pre">FamilyConversionSpec.input_type</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.utils.types.converters.FamilyConversionSpec.output_converter"><code class="docutils literal notranslate"><span class="pre">FamilyConversionSpec.output_converter</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.utils.types.converters.FamilyConversionSpec.output_type"><code class="docutils literal notranslate"><span class="pre">FamilyConversionSpec.output_type</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.utils.types.converters.dataarray_to_dataset"><code class="docutils literal notranslate"><span class="pre">dataarray_to_dataset()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.utils.types.converters.dataset_dict_to_dataset"><code class="docutils literal notranslate"><span class="pre">dataset_dict_to_dataset()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.utils.types.converters.dataset_to_dataarray"><code class="docutils literal notranslate"><span class="pre">dataset_to_dataarray()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.utils.types.converters.dataset_to_dataset_dict"><code class="docutils literal notranslate"><span class="pre">dataset_to_dataset_dict()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.utils.types.converters.dataset_to_dict"><code class="docutils literal notranslate"><span class="pre">dataset_to_dict()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.utils.types.converters.dataset_to_list"><code class="docutils literal notranslate"><span class="pre">dataset_to_list()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.utils.types.converters.dataset_to_masked_array"><code class="docutils literal notranslate"><span class="pre">dataset_to_masked_array()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.utils.types.converters.dataset_to_numpy"><code class="docutils literal notranslate"><span class="pre">dataset_to_numpy()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.utils.types.converters.dataset_vars_to_numpy_list"><code class="docutils literal notranslate"><span class="pre">dataset_vars_to_numpy_list()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.utils.types.converters.dict_to_dataset"><code class="docutils literal notranslate"><span class="pre">dict_to_dataset()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.utils.types.converters.list_to_dataset"><code class="docutils literal notranslate"><span class="pre">list_to_dataset()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.utils.types.converters.masked_array_to_dataset"><code class="docutils literal notranslate"><span class="pre">masked_array_to_dataset()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.utils.types.converters.numpy_to_dataset"><code class="docutils literal notranslate"><span class="pre">numpy_to_dataset()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-geoips.utils.types.datatree_converters">geoips.utils.types.datatree_converters module</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-geoips.utils.types.datatree_ditto">geoips.utils.types.datatree_ditto module</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.utils.types.datatree_ditto.DataTreeDitto"><code class="docutils literal notranslate"><span class="pre">DataTreeDitto</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.utils.types.datatree_ditto.DataTreeDitto.filter"><code class="docutils literal notranslate"><span class="pre">DataTreeDitto.filter()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.utils.types.datatree_ditto.DataTreeDitto.from_datatree"><code class="docutils literal notranslate"><span class="pre">DataTreeDitto.from_datatree()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.utils.types.datatree_ditto.DataTreeDitto.get"><code class="docutils literal notranslate"><span class="pre">DataTreeDitto.get()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.utils.types.datatree_ditto.DataTreeDitto.get_original"><code class="docutils literal notranslate"><span class="pre">DataTreeDitto.get_original()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.utils.types.datatree_ditto.DataTreeDitto.items"><code class="docutils literal notranslate"><span class="pre">DataTreeDitto.items()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.utils.types.datatree_ditto.DataTreeDitto.keys"><code class="docutils literal notranslate"><span class="pre">DataTreeDitto.keys()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.utils.types.datatree_ditto.DataTreeDitto.list_converted_nodes"><code class="docutils literal notranslate"><span class="pre">DataTreeDitto.list_converted_nodes()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.utils.types.datatree_ditto.DataTreeDitto.map_over_datasets"><code class="docutils literal notranslate"><span class="pre">DataTreeDitto.map_over_datasets()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.utils.types.datatree_ditto.DataTreeDitto.match"><code class="docutils literal notranslate"><span class="pre">DataTreeDitto.match()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.utils.types.datatree_ditto.DataTreeDitto.mean"><code class="docutils literal notranslate"><span class="pre">DataTreeDitto.mean()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.utils.types.datatree_ditto.DataTreeDitto.to_datatree"><code class="docutils literal notranslate"><span class="pre">DataTreeDitto.to_datatree()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.utils.types.datatree_ditto.DataTreeDitto.values"><code class="docutils literal notranslate"><span class="pre">DataTreeDitto.values()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-geoips.utils.types.family_conversions">geoips.utils.types.family_conversions module</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-geoips.utils.types.obp_conduits">geoips.utils.types.obp_conduits module</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.utils.types.obp_conduits.OBP_CONDUITS"><code class="docutils literal notranslate"><span class="pre">OBP_CONDUITS</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.utils.types.obp_conduits.kwarg_name_for_kind"><code class="docutils literal notranslate"><span class="pre">kwarg_name_for_kind()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-geoips.utils.types.partial_lexeme">geoips.utils.types.partial_lexeme module</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.utils.types.partial_lexeme.Lexeme"><code class="docutils literal notranslate"><span class="pre">Lexeme</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.utils.types.partial_lexeme.Lexeme.plural"><code class="docutils literal notranslate"><span class="pre">Lexeme.plural</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.utils.types.partial_lexeme.Lexeme.singular"><code class="docutils literal notranslate"><span class="pre">Lexeme.singular</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-geoips.utils.types.tokenization">geoips.utils.types.tokenization module</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.utils.types.tokenization.compute_arguments_hash"><code class="docutils literal notranslate"><span class="pre">compute_arguments_hash()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.utils.types.tokenization.compute_step_output_token"><code class="docutils literal notranslate"><span class="pre">compute_step_output_token()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.utils.types.tokenization.compute_token"><code class="docutils literal notranslate"><span class="pre">compute_token()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-geoips.utils.types.yaml_plugin_callable">geoips.utils.types.yaml_plugin_callable module</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.utils.types.yaml_plugin_callable.YamlPluginCallable"><code class="docutils literal notranslate"><span class="pre">YamlPluginCallable</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.utils.types.yaml_plugin_callable.YamlPluginCallable.call"><code class="docutils literal notranslate"><span class="pre">YamlPluginCallable.call()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.utils.types.yaml_plugin_callable.YamlPluginCallable.spec"><code class="docutils literal notranslate"><span class="pre">YamlPluginCallable.spec</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-geoips.utils.types">Module contents</a></li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+
+  <div class="tocsection sourcelink">
+    <a href="../_sources/geoips_api/geoips.utils.types.rst.txt">
+      <i class="fa-solid fa-file-lines"></i> Show Source
+    </a>
+  </div>
+</div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item"><div class="footer">
+    <a href="http://www.navy.mil">Official US Navy Website</a>
+    <a href="http://www.navy.com/navy/">US Navy Recruiting</a>
+    <a href="http://www.nrlmry.navy.mil">NRL</a>
+    <a href="http://foia.navy.mil">Accessibility</a>
+    <a href="http://foia.navy.mil">Freedom of Information Act</a>
+    <a href="http://www.nrlmry.navy.mil/privacypolicy.htm">Security & Policy</a>
+    <a href="http://www.nrlmry.navy.mil/linknotice.html">Hyperlink Notice</a>
+    <a href="mailto:webmaster@nrlmry.navy.mil">webmaster@nrlmry.navy.mil</a><br>
+    <a href="http://www.nrlmry.navy.mil">
+    Naval Research Laboratory Marine Meteorology Division Monterey, CA</a><br>
+    7 Grace Hopper Avenue, STOP 2, Monterey, CA 93943-5502
+</div></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

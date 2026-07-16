@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>geoips.filenames.base_paths &#8212; GeoIPS, Geolocated Information Processing System 1.17.0a0 documentation</title>
+    <title>geoips.filenames.base_paths &#8212; GeoIPS, Geolocated Information Processing System 1.19.0.post776.dev0 documentation</title>
   
   
   
@@ -26,53 +26,569 @@
   </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
-<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+  <link href="../../../_static/styles/theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
     <link rel="stylesheet" type="text/css" href="../../../_static/set_width.css?v=d4af5e1e" />
     <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
   
   <!-- So that users can add custom icons -->
-  <script src="../../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <script defer src="../../../_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
-<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
 
-    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=c5be8013"></script>
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=1e4423a0"></script>
     <script src="../../../_static/doctools.js?v=888ff710"></script>
     <script src="../../../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
-    <script type="module" src="https://cdn.jsdelivr.net/npm/mermaid@11.2.0/dist/mermaid.esm.min.mjs"></script>
-    <script type="module" src="https://cdn.jsdelivr.net/npm/@mermaid-js/layout-elk@0.1.4/dist/mermaid-layout-elk.esm.min.mjs"></script>
-    <script type="module">import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.2.0/dist/mermaid.esm.min.mjs";import elkLayouts from "https://cdn.jsdelivr.net/npm/@mermaid-js/layout-elk@0.1.4/dist/mermaid-layout-elk.esm.min.mjs";mermaid.registerLayoutLoaders(elkLayouts);mermaid.initialize({startOnLoad:false});</script>
     <script src="https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js"></script>
-    <script type="module">
-import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.2.0/dist/mermaid.esm.min.mjs";
-window.addEventListener("load", () => mermaid.run());
-</script>
+    <script type="module">import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.12.1/dist/mermaid.esm.min.mjs";
+
+
+
+
+
+const initStyles = () => {
+    const defaultStyle = document.createElement('style');
+    defaultStyle.textContent = `pre.mermaid {
+    /* Same as .mermaid-container > pre */
+    display: block;
+    width: 100%;
+}
+
+pre.mermaid > svg {
+    /* Same as .mermaid-container > pre > svg */
+    height: 500px;
+    width: 100%;
+    max-width: 100% !important;
+}`;
+    document.head.appendChild(defaultStyle);
+
+    const fullscreenStyle = document.createElement('style');
+    fullscreenStyle.textContent = `.mermaid-container {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+}
+
+.mermaid-container > pre {
+    display: block;
+    width: 100%;
+}
+
+.mermaid-container > pre > svg {
+    height: 500px;
+    width: 100%;
+    max-width: 100% !important;
+}
+
+.mermaid-fullscreen-btn {
+    width: 28px;
+    height: 28px;
+    background: rgba(255, 255, 255, 0.95);
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    border-radius: 4px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+    font-size: 14px;
+    line-height: 1;
+    padding: 0;
+    color: #333;
+}
+
+.mermaid-fullscreen-btn:hover {
+    opacity: 100% !important;
+    background: rgba(255, 255, 255, 1);
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
+    transform: scale(1.1);
+}
+
+.mermaid-fullscreen-btn.dark-theme {
+    background: rgba(50, 50, 50, 0.95);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: #e0e0e0;
+}
+
+.mermaid-fullscreen-btn.dark-theme:hover {
+    background: rgba(60, 60, 60, 1);
+    box-shadow: 0 3px 10px rgba(255, 255, 255, 0.2);
+}
+
+.mermaid-fullscreen-modal {
+    display: none;
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 95vw;
+    height: 100vh;
+    background: rgba(255, 255, 255, 0.98);
+    z-index: 9999;
+    padding: 20px;
+    overflow: auto;
+}
+
+.mermaid-fullscreen-modal.dark-theme {
+    background: rgba(0, 0, 0, 0.98);
+}
+
+.mermaid-fullscreen-modal.active {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.mermaid-container-fullscreen {
+    position: relative;
+    width: 95vw;
+    height: 90vh;
+    max-width: 95vw;
+    max-height: 90vh;
+    background: white;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+    overflow: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.mermaid-container-fullscreen.dark-theme {
+    background: #1a1a1a;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8);
+}
+
+.mermaid-container-fullscreen pre.mermaid {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.mermaid-container-fullscreen .mermaid svg {
+    height: 100% !important;
+    width: 100% !important;
+    cursor: grab;
+}
+
+.mermaid-fullscreen-close {
+    position: fixed !important;
+    top: 20px !important;
+    right: 20px !important;
+    width: 40px;
+    height: 40px;
+    background: rgba(255, 255, 255, 0.95);
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-radius: 50%;
+    cursor: pointer;
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    transition: all 0.2s;
+    font-size: 24px;
+    line-height: 1;
+    color: #333;
+}
+
+.mermaid-fullscreen-close:hover {
+    background: white;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+    transform: scale(1.1);
+}
+
+.mermaid-fullscreen-close.dark-theme {
+    background: rgba(50, 50, 50, 0.95);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #e0e0e0;
+}
+
+.mermaid-fullscreen-close.dark-theme:hover {
+    background: rgba(60, 60, 60, 1);
+    box-shadow: 0 6px 16px rgba(255, 255, 255, 0.2);
+}
+
+.mermaid-fullscreen-modal .mermaid-fullscreen-btn {
+    display: none !important;
+}`;
+    document.head.appendChild(fullscreenStyle);
+}
+
+// Detect if page has dark background
+const isDarkTheme = () => {
+    // We use a set of heuristics:
+    // 1. Check for common dark mode classes or attributes
+    // 2. Check computed background color brightness
+    if (document.documentElement.classList.contains('dark') ||
+        document.documentElement.getAttribute('data-theme') === 'dark' ||
+        document.body.classList.contains('dark') ||
+        document.body.getAttribute('data-theme') === 'dark') {
+        // console.log("Dark theme detected via class/attribute");
+        return true;
+    }
+    if (document.documentElement.classList.contains('light') ||
+        document.documentElement.getAttribute('data-theme') === 'light' ||
+        document.body.classList.contains('light') ||
+        document.body.getAttribute('data-theme') === 'light') {
+        // console.log("Light theme detected via class/attribute");
+        return false;
+    }
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        // console.log("Dark theme detected via prefers-color-scheme");
+        return true;
+    }
+    const bgColor = window.getComputedStyle(document.body).backgroundColor;
+    const match = bgColor.match(/rgb\((\d+),\s*(\d+),\s*(\d+)/);
+    if (match) {
+        const r = parseInt(match[1]);
+        const g = parseInt(match[2]);
+        const b = parseInt(match[3]);
+        const brightness = (r * 299 + g * 587 + b * 114) / 1000;
+        // console.log("Background color brightness:", brightness);
+        return brightness < 128;
+    }
+    // console.log("No dark or light theme detected, defaulting to light theme");
+    return false;
+};
+
+let darkTheme = isDarkTheme();
+let modal = null;
+let modalContent = null;
+let previousScrollOffset = [window.scrollX, window.scrollY];
+let _lazyObserver = null;
+let _renderQueue = Promise.resolve();
+
+// Apply d3 zoom to each SVG. Idempotent: an SVG already wrapped is skipped,
+// so this is safe to call both for the initial batch and for diagrams that
+// render lazily once they become visible.
+const addZoomToSvgs = (svgs) => {
+    svgs.each(function() {
+        if (this.getAttribute('data-zoom-applied') === 'true') return;
+        var svg = d3.select(this);
+        svg.html("<g class='wrapper'>" + svg.html() + "</g>");
+        var inner = svg.select("g");
+        var zoom = d3.zoom().on("zoom", function(event) {
+            inner.attr("transform", event.transform);
+        });
+        svg.call(zoom);
+        this.setAttribute('data-zoom-applied', 'true');
+    });
+};
+
+const runMermaid = async (rerun) => {
+    console.log("Running mermaid diagrams, rerun =", rerun);
+    // clear all existing mermaid charts
+    let all_mermaids = document.querySelectorAll(".mermaid");
+
+    if (rerun) {
+        // Disconnect any previous lazy rendering observer
+        if (_lazyObserver) {
+            _lazyObserver.disconnect();
+            _lazyObserver = null;
+        }
+
+        all_mermaids.forEach((el) => {
+            el.removeAttribute('data-mermaid-deferred');
+            el.removeAttribute('data-mermaid-render-failed');
+            if(!el.hasAttribute("data-original-code")) {
+                // store original code
+                // console.log(`Storing original code for first run: `, el.innerHTML);
+                el.setAttribute('data-original-code', el.innerHTML);
+            }
+            if(el.getAttribute("data-processed") === "true") {
+                // remove and restore original
+                el.removeAttribute("data-processed");
+                // console.log(`Restoring original code for re-run: `, el.getAttribute('data-original-code'));
+                el.innerHTML = el.getAttribute('data-original-code');
+            } else {
+                // store original code
+                // console.log(`Storing original code for re-run: `, el.innerHTML);
+                el.setAttribute('data-original-code', el.innerHTML);
+            }
+        });
+
+        // Separate visible and hidden elements. Mermaid's layout engine measures
+        // text dimensions via the DOM, which fails for elements hidden by a parent
+        // (e.g., Reveal.js non-active slides, sphinx-design unopened tabs),
+        // producing broken SVGs. Render visible elements now, defer hidden ones.
+        const visible = [];
+        const hidden = [];
+        all_mermaids.forEach((el) => {
+            // offsetParent is null for display:none ancestors.
+            // getClientRects().length > 0 catches position:fixed elements
+            // (which also have null offsetParent but are still visible).
+            if (el.offsetParent !== null || el.getClientRects().length > 0) {
+                visible.push(el);
+            } else {
+                hidden.push(el);
+                el.setAttribute('data-mermaid-deferred', 'true');
+            }
+        });
+
+        if (visible.length > 0) {
+            try {
+                await mermaid.run({ nodes: visible });
+            } catch (e) {
+                console.error("Mermaid rendering failed:", e);
+            }
+        }
+
+        // Lazily render hidden elements when they become visible.
+        // Uses a promise chain (_renderQueue) to serialize rendering,
+        // since IntersectionObserver may report multiple entries at once
+        // and mermaid.run() is not safe to call concurrently.
+        if (hidden.length > 0) {
+            if (typeof IntersectionObserver === 'undefined') {
+                console.warn("IntersectionObserver not available; hidden mermaid diagrams will not render.");
+            } else {
+                _renderQueue = Promise.resolve();
+                _lazyObserver = new IntersectionObserver((entries) => {
+                    for (const entry of entries) {
+                        if (entry.isIntersecting && entry.target.getAttribute("data-processed") !== "true") {
+                            _lazyObserver.unobserve(entry.target);
+                            const el = entry.target;
+                            _renderQueue = _renderQueue.then(async () => {
+                                try {
+                                    await mermaid.run({ nodes: [el] });
+                                    el.removeAttribute('data-mermaid-deferred');
+                                    // Apply zoom to the now-rendered diagram, matching
+                                    // the decoration visible diagrams receive.
+                                    if ("False" === "True") {
+                                        addZoomToSvgs(d3.selectAll(""));
+                                    }
+                                } catch (e) {
+                                    console.error("Mermaid deferred rendering failed:", e);
+                                    el.removeAttribute('data-mermaid-deferred');
+                                    el.setAttribute('data-mermaid-render-failed', 'true');
+                                }
+                            });
+                        }
+                    }
+                });
+                hidden.forEach((el) => _lazyObserver.observe(el));
+            }
+        }
+    }
+
+    all_mermaids = document.querySelectorAll(".mermaid");
+    // Exclude deferred (hidden) and render-failed elements from completion checks
+    const mermaids_active = document.querySelectorAll(".mermaid:not([data-mermaid-deferred]):not([data-mermaid-render-failed])");
+    const mermaids_processed = document.querySelectorAll(".mermaid:not([data-mermaid-deferred]):not([data-mermaid-render-failed])[data-processed='true']");
+
+    if ("False" === "True") {
+        const mermaids_to_add_zoom = -1 === -1 ? mermaids_active.length : -1;
+        if(mermaids_to_add_zoom > 0) {
+            var svgs = d3.selectAll("");
+            // Wait until every active (visible) diagram has rendered. Deferred
+            // diagrams are excluded, so a fixed d3_node_count that counts a
+            // hidden diagram no longer loops forever waiting for its SVG.
+            if(mermaids_active.length !== mermaids_processed.length) {
+                setTimeout(() => runMermaid(false), 200);
+                return;
+            }
+            addZoomToSvgs(svgs);
+        }
+    } else if(mermaids_active.length !== mermaids_processed.length) {
+        // Wait for mermaid to process all diagrams
+        setTimeout(() => runMermaid(false), 200);
+        return;
+    }
+
+    // Stop here if not adding fullscreen capability
+    if ("True" !== "True") return;
+
+    if (modal !== null ) {
+        // Destroy existing modal
+        modal.remove();
+        modal = null;
+        modalContent = null;
+    }
+
+    modal = document.createElement('div');
+    modal.className = 'mermaid-fullscreen-modal' + (darkTheme ? ' dark-theme' : '');
+    modal.setAttribute('role', 'dialog');
+    modal.setAttribute('aria-modal', 'true');
+    modal.setAttribute('aria-label', 'Fullscreen diagram viewer');
+    modal.innerHTML = `
+        <button class="mermaid-fullscreen-close${darkTheme ? ' dark-theme' : ''}" aria-label="Close fullscreen">✕</button>
+        <div class="mermaid-container-fullscreen${darkTheme ? ' dark-theme' : ''}"></div>
+    `;
+    document.body.appendChild(modal);
+
+    modalContent = modal.querySelector('.mermaid-container-fullscreen');
+    const closeBtn = modal.querySelector('.mermaid-fullscreen-close');
+
+    const closeModal = () => {
+        modal.classList.remove('active');
+        modalContent.innerHTML = '';
+        document.body.style.overflow = ''
+        window.scrollTo({left: previousScrollOffset[0], top: previousScrollOffset[1], behavior: 'instant'});
+    };
+
+    closeBtn.addEventListener('click', closeModal);
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) closeModal();
+    });
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && modal.classList.contains('active')) {
+            closeModal();
+        }
+    });
+
+    document.querySelectorAll('.mermaid').forEach((mermaidDiv) => {
+        if (mermaidDiv.parentNode.classList.contains('mermaid-container') ||
+            mermaidDiv.closest('.mermaid-fullscreen-modal')) {
+            // Already processed, adjust button class if needed
+            const existingBtn = mermaidDiv.parentNode.querySelector('.mermaid-fullscreen-btn');
+            if (existingBtn) {
+                existingBtn.className = 'mermaid-fullscreen-btn' + (darkTheme ? ' dark-theme' : '');
+            }
+            return;
+        }
+
+        const container = document.createElement('div');
+        container.className = 'mermaid-container';
+        mermaidDiv.parentNode.insertBefore(container, mermaidDiv);
+        container.appendChild(mermaidDiv);
+
+        const fullscreenBtn = document.createElement('button');
+        fullscreenBtn.className = 'mermaid-fullscreen-btn' + (darkTheme ? ' dark-theme' : '');
+        fullscreenBtn.setAttribute('aria-label', 'View diagram in fullscreen');
+        fullscreenBtn.textContent = '⛶';
+        fullscreenBtn.style.opacity = '50%';
+
+        // Calculate dynamic position based on diagram's margin and padding
+        const diagramStyle = window.getComputedStyle(mermaidDiv);
+        const marginTop = parseFloat(diagramStyle.marginTop) || 0;
+        const marginRight = parseFloat(diagramStyle.marginRight) || 0;
+        const paddingTop = parseFloat(diagramStyle.paddingTop) || 0;
+        const paddingRight = parseFloat(diagramStyle.paddingRight) || 0;
+        fullscreenBtn.style.top = `${marginTop + paddingTop + 4}px`;
+        fullscreenBtn.style.right = `${marginRight + paddingRight + 4}px`;
+
+        fullscreenBtn.addEventListener('click', () => {
+            previousScrollOffset = [window.scroll, window.scrollY];
+            const clone = mermaidDiv.cloneNode(true);
+            modalContent.innerHTML = '';
+            modalContent.appendChild(clone);
+
+            const svg = clone.querySelector('svg');
+            if (svg) {
+                svg.removeAttribute('width');
+                svg.removeAttribute('height');
+                svg.style.width = '100%';
+                svg.style.height = 'auto';
+                svg.style.maxWidth = '100%';
+                svg.style.sdisplay = 'block';
+
+                if ("False" === "True") {
+                    setTimeout(() => {
+                        const g = svg.querySelector('g');
+                        if (g) {
+                            var svgD3 = d3.select(svg);
+                            svgD3.html("<g class='wrapper'>" + svgD3.html() + "</g>");
+                            var inner = svgD3.select("g");
+                            var zoom = d3.zoom().on("zoom", function(event) {
+                                inner.attr("transform", event.transform);
+                            });
+                            svgD3.call(zoom);
+                        }
+                    }, 100);
+                }
+            }
+
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        });
+        container.appendChild(fullscreenBtn);
+    });
+};
+
+const load = async () => {
+    initStyles();
+
+    await runMermaid(true);
+
+    const reRunIfThemeChanges = async () => {
+        const newDarkTheme = isDarkTheme();
+        if (newDarkTheme !== darkTheme) {
+            darkTheme = newDarkTheme;
+            console.log("Theme change detected, re-running mermaid with", darkTheme ? "dark" : "default", "theme");
+            await mermaid.initialize(
+                {...JSON.parse(
+                    `{"startOnLoad": false}`
+                ),
+                ...{ darkMode: darkTheme, theme: darkTheme ? 'dark' : 'default' },
+                }
+            );
+            await runMermaid(true);
+        }
+    };
+
+    // Update theme classes when theme changes
+    const themeObserver = new MutationObserver(reRunIfThemeChanges);
+    themeObserver.observe(document.documentElement, {
+        attributes: true,
+        attributeFilter: ['class', 'style', 'data-theme']
+    });
+    themeObserver.observe(document.body, {
+        attributes: true,
+        attributeFilter: ['class', 'style', 'data-theme']
+    });
+};
+
+
+
+
+
+console.log("Initializing mermaid with", darkTheme ? "dark" : "default", "theme");
+mermaid.initialize(
+    {...JSON.parse(
+        `{"startOnLoad": false}`
+    ),
+    ...{ darkMode: darkTheme, theme: darkTheme ? 'dark' : 'default' },
+    }
+);
+
+window.addEventListener("load", load);
+window.runMermaid = runMermaid;</script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_modules/geoips/filenames/base_paths';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
     <link rel="icon" href="../../../_static/nrlicon.ico"/>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="1.1" />
-    <meta name="docbuild:last-update" content="Oct 14, 2025 20:03:48"/>
+    <meta name="docbuild:last-update" content="Jul 16, 2026 04:57:54"/>
+  
+    
+    <script src="../../../_static/searchtools.js"></script>
+    <script src="../../../_static/language_data.js"></script>
+    <script src="../../../searchindex.js"></script>
+  
   </head>
-  
-  
-  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
-
+  <body data-default-mode="">
   
   
   <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
   
   <div id="pst-scroll-pixel-helper"></div>
   
   <button type="button" class="btn rounded-pill" id="pst-back-to-top">
     <i class="fa-solid fa-arrow-up"></i>Back to top</button>
-
+  
+  
+  
   
   <dialog id="pst-search-dialog">
     
@@ -98,7 +614,7 @@ window.addEventListener("load", () => mermaid.run());
 </div>
 
   
-    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
 <div class="bd-header__inner bd-page-width">
   <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
     <span class="fa-solid fa-bars"></span>
@@ -124,8 +640,8 @@ window.addEventListener("load", () => mermaid.run());
       
     
     
-    <img src="../../../_static/NRL_logo_RGB.jpg" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 1.17.0a0 documentation - Home"/>
-    <img src="../../../_static/NRL_logo_sidebar_Reverse.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 1.17.0a0 documentation - Home"/>
+    <img src="../../../_static/NRL_logo_RGB.jpg" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 1.19.0.post776.dev0 documentation - Home"/>
+    <img src="../../../_static/NRL_logo_sidebar_Reverse.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 1.19.0.post776.dev0 documentation - Home"/>
   
   
 </a></div>
@@ -430,303 +946,77 @@ window.addEventListener("load", () => mermaid.run());
 <span></span><span class="c1"># # # This source code is subject to the license referenced at</span>
 <span class="c1"># # # https://github.com/NRLMMD-GEOIPS.</span>
 
-<span class="sd">&quot;&quot;&quot;Module for setting paths used throughout GeoIPS.</span>
+<span class="sd">&quot;&quot;&quot;Deprecated -- use ``geoips.config`` instead.</span>
 
-<span class="sd">This module sets various directory paths required for GeoIPS.</span>
-<span class="sd">Setting these variables here keeps geoips code and outputs consolidated.</span>
-<span class="sd">Eventually, we aim to supplant this method of setting variables with a config file.</span>
-<span class="sd">`GEOIPS_OUTDIRS` serves as the base reference for all other variables and defaults</span>
-<span class="sd">to the current directory.</span>
-
-<span class="sd">The module defaults to the values set in environment variables for all other variables.</span>
-<span class="sd">It also provides a function for creating directories.</span>
-
-<span class="sd">Functions</span>
-<span class="sd">---------</span>
-<span class="sd">- get_env_var: Retrieve an environment variable or a provided default value.</span>
-<span class="sd">- initialize_paths: Returns a dictionary with GeoIPS directories and variables.</span>
-<span class="sd">- make_dirs: Create directories if they don&#39;t already exist.</span>
-
-<span class="sd">Attributes</span>
-<span class="sd">----------</span>
-<span class="sd">- PATHS: Dictionary with initialized paths for various GeoIPS directories and URLs.</span>
-
-<span class="sd">Environment Variables:</span>
-<span class="sd">- GEOIPS_OUTDIRS (required): Base output directory for GeoIPS.</span>
+<span class="sd">This module exists for backward compatibility and will be removed in</span>
+<span class="sd">a future release. The ``PATHS`` dictionary is now populated from the</span>
+<span class="sd">new ``geoips.config.GeoIPSConfig`` singleton.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">socket</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">platformdirs</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">warnings</span><span class="w"> </span><span class="kn">import</span> <span class="n">warn</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">geoips.config</span><span class="w"> </span><span class="kn">import</span> <span class="n">config</span><span class="p">,</span> <span class="n">make_dirs</span> <span class="k">as</span> <span class="n">_make_dirs</span>
 
 <span class="n">LOG</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
+<span class="n">warn</span><span class="p">(</span>
+    <span class="s2">&quot;geoips.filenames.base_paths is deprecated; use geoips.config instead.&quot;</span><span class="p">,</span>
+    <span class="ne">DeprecationWarning</span><span class="p">,</span>
+    <span class="n">stacklevel</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+<span class="p">)</span>
 
-<div class="viewcode-block" id="get_env_var"><a class="viewcode-back" href="../../../geoips_api/geoips.filenames.html#geoips.filenames.base_paths.get_env_var">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">get_env_var</span><span class="p">(</span><span class="n">var_name</span><span class="p">,</span> <span class="n">default</span><span class="p">,</span> <span class="n">rstrip_path</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Retrieve environment variable or provided default, optionally rstrip a &#39;/&#39;.</span>
-
-<span class="sd">    Parameters</span>
-<span class="sd">    ----------</span>
-<span class="sd">    var_name : str</span>
-<span class="sd">        The name of the environment variable.</span>
-<span class="sd">    default : str</span>
-<span class="sd">        The default value to return if the environment variable is not set.</span>
-<span class="sd">    rstrip_path : bool, optional</span>
-<span class="sd">        If True, strip trailing slashes from the returned path (default is True).</span>
-
-<span class="sd">    Returns</span>
-<span class="sd">    -------</span>
-<span class="sd">    str</span>
-<span class="sd">        The value of the environment variable or the default value if not set.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">env_value</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="n">var_name</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">env_value</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">rstrip_path</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">env_value</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">env_value</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">default</span></div>
-
-
-<div class="viewcode-block" id="initialize_paths"><a class="viewcode-back" href="../../../geoips_api/geoips.filenames.html#geoips.filenames.base_paths.initialize_paths">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">initialize_paths</span><span class="p">():</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Initialize and return a dictionary of paths used throughout GeoIPS.</span>
-
-<span class="sd">    Returns</span>
-<span class="sd">    -------</span>
-<span class="sd">    dict</span>
-<span class="sd">        A dictionary containing various paths used by GeoIPS.</span>
-
-<span class="sd">    Raises</span>
-<span class="sd">    ------</span>
-<span class="sd">    KeyError</span>
-<span class="sd">        If the required environment variable GEOIPS_OUTDIRS is not set.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">paths</span> <span class="o">=</span> <span class="p">{}</span>
-
-    <span class="c1"># Base and Documentation Paths</span>
-    <span class="n">paths</span><span class="p">[</span><span class="s2">&quot;BASE_PATH&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span>
-        <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="vm">__file__</span><span class="p">),</span> <span class="n">os</span><span class="o">.</span><span class="n">pardir</span><span class="p">)</span>
-    <span class="p">)</span>
-
-    <span class="c1"># Output Directories</span>
-    <span class="k">try</span><span class="p">:</span>
-        <span class="n">paths</span><span class="p">[</span><span class="s2">&quot;GEOIPS_OUTDIRS&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;GEOIPS_OUTDIRS&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)</span>
-    <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
-        <span class="n">LOG</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
-            <span class="s2">&quot;GEOIPS_OUTDIRS is not set in your environment. &quot;</span>
-            <span class="s2">&quot;Defaulting to $HOME/GEOIPS_OUTDIRS as output dir. &quot;</span>
-            <span class="s2">&quot;Please set GEOIPS_OUTDIRS if you want to write to a &quot;</span>
-            <span class="s2">&quot;different directory by default.&quot;</span>
-        <span class="p">)</span>
-        <span class="k">try</span><span class="p">:</span>
-            <span class="n">home_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;HOME&quot;</span><span class="p">]</span>
-        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
-            <span class="n">LOG</span><span class="o">.</span><span class="n">error</span><span class="p">(</span>
-                <span class="s2">&quot;Could not resolve enviorment variable &quot;</span> <span class="s2">&quot;&#39;$HOME&#39;, using &#39;/&#39; as default&quot;</span>
-            <span class="p">)</span>
-            <span class="n">home_dir</span> <span class="o">=</span> <span class="s2">&quot;/&quot;</span>
-        <span class="n">paths</span><span class="p">[</span><span class="s2">&quot;GEOIPS_OUTDIRS&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">home_dir</span><span class="p">,</span> <span class="s2">&quot;GEOIPS_OUTDIRS&quot;</span><span class="p">)</span>
-    <span class="n">paths</span><span class="p">[</span><span class="s2">&quot;GEOIPS_PACKAGES_DIR&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span>
-        <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">paths</span><span class="p">[</span><span class="s2">&quot;BASE_PATH&quot;</span><span class="p">],</span> <span class="n">os</span><span class="o">.</span><span class="n">pardir</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">pardir</span><span class="p">)</span>
-    <span class="p">)</span>
-    <span class="n">paths</span><span class="p">[</span><span class="s2">&quot;GEOIPS_BASEDIR&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">get_env_var</span><span class="p">(</span>
-        <span class="s2">&quot;GEOIPS_BASEDIR&quot;</span><span class="p">,</span>
-        <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">paths</span><span class="p">[</span><span class="s2">&quot;GEOIPS_PACKAGES_DIR&quot;</span><span class="p">],</span> <span class="n">os</span><span class="o">.</span><span class="n">pardir</span><span class="p">)),</span>
-    <span class="p">)</span>
-    <span class="n">paths</span><span class="p">[</span><span class="s2">&quot;GEOIPS_REBUILD_REGISTRIES&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">get_env_var</span><span class="p">(</span>
-        <span class="s2">&quot;GEOIPS_REBUILD_REGISTRIES&quot;</span><span class="p">,</span>
-        <span class="kc">True</span><span class="p">,</span>
-    <span class="p">)</span>
-    <span class="n">paths</span><span class="p">[</span><span class="s2">&quot;GEOIPS_DATA_CACHE_DIR&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">get_env_var</span><span class="p">(</span>
-        <span class="s2">&quot;GEOIPS_DATA_CACHE_DIR&quot;</span><span class="p">,</span>
-        <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">paths</span><span class="p">[</span><span class="s2">&quot;GEOIPS_OUTDIRS&quot;</span><span class="p">],</span> <span class="s2">&quot;cache&quot;</span><span class="p">,</span> <span class="s2">&quot;geoips&quot;</span><span class="p">),</span>
-    <span class="p">)</span>
-    <span class="n">paths</span><span class="p">[</span><span class="s2">&quot;SATPY_DATA_CACHE_DIR&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">get_env_var</span><span class="p">(</span>
-        <span class="s2">&quot;SATPY_DATA_CACHE_DIR&quot;</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">paths</span><span class="p">[</span><span class="s2">&quot;GEOIPS_OUTDIRS&quot;</span><span class="p">],</span> <span class="s2">&quot;cache&quot;</span><span class="p">,</span> <span class="s2">&quot;satpy&quot;</span><span class="p">)</span>
-    <span class="p">)</span>
-    <span class="c1"># Convert the string to a bool</span>
-    <span class="k">if</span> <span class="n">paths</span><span class="p">[</span><span class="s2">&quot;GEOIPS_REBUILD_REGISTRIES&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;0&quot;</span><span class="p">:</span>
-        <span class="n">paths</span><span class="p">[</span><span class="s2">&quot;GEOIPS_REBUILD_REGISTRIES&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
-    <span class="k">if</span> <span class="n">paths</span><span class="p">[</span><span class="s2">&quot;GEOIPS_REBUILD_REGISTRIES&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;False&quot;</span><span class="p">:</span>
-        <span class="n">paths</span><span class="p">[</span><span class="s2">&quot;GEOIPS_REBUILD_REGISTRIES&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
-    <span class="k">if</span> <span class="n">paths</span><span class="p">[</span><span class="s2">&quot;GEOIPS_REBUILD_REGISTRIES&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;false&quot;</span><span class="p">:</span>
-        <span class="n">paths</span><span class="p">[</span><span class="s2">&quot;GEOIPS_REBUILD_REGISTRIES&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
-
-    <span class="c1"># Identify defaults for global GeoIPS variables.  The actual values for</span>
-    <span class="c1"># these variables will be set using get_env_var below.</span>
-    <span class="n">geoips_global_variable_defaults</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="c1"># GeoIPS Documentation URL</span>
-        <span class="s2">&quot;GEOIPS_DOCS_URL&quot;</span><span class="p">:</span> <span class="sa">r</span><span class="s2">&quot;https://nrlmmd-geoips.github.io/geoips/&quot;</span><span class="p">,</span>
-        <span class="c1"># Version</span>
-        <span class="s2">&quot;GEOIPS_VERS&quot;</span><span class="p">:</span> <span class="s2">&quot;0.0.0&quot;</span><span class="p">,</span>
-        <span class="c1"># Operational User</span>
-        <span class="s2">&quot;GEOIPS_OPERATIONAL_USER&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
-        <span class="c1"># Copyright Information</span>
-        <span class="s2">&quot;GEOIPS_COPYRIGHT&quot;</span><span class="p">:</span> <span class="s2">&quot;NRL-Monterey&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;GEOIPS_COPYRIGHT_ABBREVIATED&quot;</span><span class="p">:</span> <span class="s2">&quot;NRLMRY&quot;</span><span class="p">,</span>
-        <span class="c1"># Configuration and Queue</span>
-        <span class="c1"># Note: platformdirs provides functions to retrieve appropriate directory paths</span>
-        <span class="c1"># for different use types on different operating systems. GEOIPS_CACHE_DIR will</span>
-        <span class="c1"># resolve to a different path on Linux/WSL, OSX, and Windows.</span>
-        <span class="s2">&quot;GEOIPS_CACHE_DIR&quot;</span><span class="p">:</span> <span class="n">platformdirs</span><span class="o">.</span><span class="n">user_cache_dir</span><span class="p">(</span><span class="s2">&quot;geoips&quot;</span><span class="p">),</span>
-        <span class="s2">&quot;GEOIPS_RCFILE&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;DEFAULT_QUEUE&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="c1"># Computer Identifier</span>
-        <span class="s2">&quot;BOXNAME&quot;</span><span class="p">:</span> <span class="n">socket</span><span class="o">.</span><span class="n">gethostname</span><span class="p">(),</span>
-        <span class="c1"># Threshold for image-based output checks.  This will be cast to float below.</span>
-        <span class="s2">&quot;OUTPUT_CHECKER_THRESHOLD_IMAGE&quot;</span><span class="p">:</span> <span class="mf">0.05</span><span class="p">,</span>
-        <span class="c1"># Minimal default</span>
-        <span class="c1"># &quot;GEOIPS_LOG_FMT_STRING&quot;: &quot;%(asctime)s: %(message)s&quot;</span>
-        <span class="c1"># &quot;GEOIPS_LOG_DATEFMT_STRING&quot;: &quot;%d_%H%M%S&quot;</span>
-        <span class="c1"># More informative default</span>
-        <span class="s2">&quot;GEOIPS_LOGGING_FMT_STRING&quot;</span><span class="p">:</span> <span class="s2">&quot;</span><span class="si">%(asctime)s</span><span class="s2"> </span><span class="si">%(module)12s</span><span class="s2">.py:</span><span class="si">%(lineno)-4d</span><span class="s2"> &quot;</span>
-        <span class="s2">&quot;</span><span class="si">%(levelname)7s</span><span class="s2">: </span><span class="si">%(message)s</span><span class="s2">&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;GEOIPS_LOGGING_DATEFMT_STRING&quot;</span><span class="p">:</span> <span class="s2">&quot;</span><span class="si">%d</span><span class="s2">_%H%M%S&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;GEOIPS_LOGGING_LEVEL&quot;</span><span class="p">:</span> <span class="s2">&quot;interactive&quot;</span><span class="p">,</span>
-        <span class="c1"># Changes the warning level used for warnings.simplefilter</span>
-        <span class="c1"># Valid options are &quot;ignore&quot;, &quot;default&quot;, &quot;error&quot;, &quot;always&quot;, &quot;module&quot;, &quot;once&quot;</span>
-        <span class="c1"># See https://docs.python.org/3/library/warnings.html#the-warnings-filter</span>
-        <span class="c1"># for details on each option.</span>
-        <span class="s2">&quot;GEOIPS_WARNING_LEVEL&quot;</span><span class="p">:</span> <span class="s2">&quot;default&quot;</span><span class="p">,</span>
-    <span class="p">}</span>
-
-    <span class="c1"># Long variables names to avoid black and flake8 conflicts.</span>
-    <span class="c1"># flake8 was flagging for long lines, but black was not correcting them.</span>
-    <span class="c1"># If someone can figure out how to get flake8 and black to play nicely with that</span>
-    <span class="c1"># line, please resolve!</span>
-    <span class="n">dyn_geo_var</span> <span class="o">=</span> <span class="s2">&quot;GEOIPS_PREGENERATED_DYNAMIC_GEOLOCATION&quot;</span>
-    <span class="c1"># Identify the defaults for relative path-based environment variables,</span>
-    <span class="c1"># these paths default to locations under base paths set above.</span>
-    <span class="c1"># The actual variables will be set using get_env_var below.</span>
-    <span class="n">default_derivative_directory_path_defaults</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="n">paths</span><span class="p">[</span><span class="s2">&quot;GEOIPS_BASEDIR&quot;</span><span class="p">]:</span> <span class="p">{</span>
-            <span class="s2">&quot;GEOIPS_TESTDATA_DIR&quot;</span><span class="p">:</span> <span class="s2">&quot;test_data&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;GEOIPS_DEPENDENCIES_DIR&quot;</span><span class="p">:</span> <span class="s2">&quot;geoips_dependencies&quot;</span><span class="p">,</span>
-        <span class="p">},</span>
-        <span class="n">paths</span><span class="p">[</span><span class="s2">&quot;GEOIPS_OUTDIRS&quot;</span><span class="p">]:</span> <span class="p">{</span>
-            <span class="c1"># Data Output Paths</span>
-            <span class="s2">&quot;PRESECTORED_DATA_PATH&quot;</span><span class="p">:</span> <span class="s2">&quot;preprocessed/sectored&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;PREREAD_DATA_PATH&quot;</span><span class="p">:</span> <span class="s2">&quot;preprocessed/unsectored&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;PREREGISTERED_DATA_PATH&quot;</span><span class="p">:</span> <span class="s2">&quot;preprocessed/registered&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;PRECALCULATED_DATA_PATH&quot;</span><span class="p">:</span> <span class="s2">&quot;preprocessed/algorithms&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;CLEAN_IMAGERY_PATH&quot;</span><span class="p">:</span> <span class="s2">&quot;preprocessed/clean_imagery&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;ANNOTATED_IMAGERY_PATH&quot;</span><span class="p">:</span> <span class="s2">&quot;preprocessed/annotated_imagery&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;GEOTIFF_IMAGERY_PATH&quot;</span><span class="p">:</span> <span class="s2">&quot;preprocessed/geotiff_imagery&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;FINAL_DATA_PATH&quot;</span><span class="p">:</span> <span class="s2">&quot;preprocessed/final&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;PREGENERATED_GEOLOCATION_PATH&quot;</span><span class="p">:</span> <span class="s2">&quot;preprocessed/geolocation&quot;</span><span class="p">,</span>
-            <span class="c1"># Used in geostationary_geolocation - use longterm_files</span>
-            <span class="c1"># for now to maintain backwards compatibility</span>
-            <span class="s2">&quot;GEOIPS_PREGENERATED_STATIC_GEOLOCATION&quot;</span><span class="p">:</span> <span class="s2">&quot;longterm_files/geolocation&quot;</span><span class="p">,</span>
-            <span class="n">dyn_geo_var</span><span class="p">:</span> <span class="s2">&quot;longterm_files/geolocation_dynamic&quot;</span><span class="p">,</span>
-            <span class="c1"># Scratch Directories</span>
-            <span class="s2">&quot;SCRATCH&quot;</span><span class="p">:</span> <span class="s2">&quot;scratch&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;LOCALSCRATCH&quot;</span><span class="p">:</span> <span class="s2">&quot;scratch&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;SHAREDSCRATCH&quot;</span><span class="p">:</span> <span class="s2">&quot;scratch&quot;</span><span class="p">,</span>
-            <span class="c1"># Log and Data Directories</span>
-            <span class="s2">&quot;LOGDIR&quot;</span><span class="p">:</span> <span class="s2">&quot;logs&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;GEOIPSDATA&quot;</span><span class="p">:</span> <span class="s2">&quot;geoipsdata&quot;</span><span class="p">,</span>
-            <span class="c1"># Ancillary Data Directories</span>
-            <span class="s2">&quot;GEOIPS_ANCILDAT_AUTOGEN&quot;</span><span class="p">:</span> <span class="s2">&quot;ancildat_autogen&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;GEOIPS_ANCILDAT&quot;</span><span class="p">:</span> <span class="s2">&quot;ancildat&quot;</span><span class="p">,</span>
-            <span class="c1"># WWW Paths</span>
-            <span class="s2">&quot;TCWWW&quot;</span><span class="p">:</span> <span class="s2">&quot;preprocessed/tcwww&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;PUBLICWWW&quot;</span><span class="p">:</span> <span class="s2">&quot;preprocessed/publicwww&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;PRIVATEWWW&quot;</span><span class="p">:</span> <span class="s2">&quot;preprocessed/privatewww&quot;</span><span class="p">,</span>
-            <span class="c1"># Tropical Cyclone Paths</span>
-            <span class="s2">&quot;TC_DECKS_DB&quot;</span><span class="p">:</span> <span class="s2">&quot;longterm_files/tc/tc_decks.db&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;TC_DECKS_DIR&quot;</span><span class="p">:</span> <span class="s2">&quot;longterm_files/tc/decks&quot;</span><span class="p">,</span>
-        <span class="p">},</span>
-        <span class="n">paths</span><span class="p">[</span><span class="s2">&quot;GEOIPS_DATA_CACHE_DIR&quot;</span><span class="p">]:</span> <span class="p">{</span>
-            <span class="s2">&quot;GEOIPS_DATA_CACHE_DIR_LONGTERM_GEOLOCATION_DYNAMIC&quot;</span><span class="p">:</span> <span class="p">(</span>
-                <span class="s2">&quot;longterm/geolocation/dynamic&quot;</span>
-            <span class="p">),</span>
-            <span class="s2">&quot;GEOIPS_DATA_CACHE_DIR_LONGTERM_GEOLOCATION_STATIC&quot;</span><span class="p">:</span> <span class="p">(</span>
-                <span class="s2">&quot;longterm/geolocation/static&quot;</span>
-            <span class="p">),</span>
-            <span class="s2">&quot;GEOIPS_DATA_CACHE_DIR_SHORTTERM_GEOLOCATION_SOLAR_ANGLES&quot;</span><span class="p">:</span> <span class="p">(</span>
-                <span class="s2">&quot;shortterm/geolocation/solar&quot;</span>
-            <span class="p">),</span>
-            <span class="s2">&quot;GEOIPS_DATA_CACHE_DIR_SHORTTERM_CALIBRATED_DATA&quot;</span><span class="p">:</span> <span class="p">(</span>
-                <span class="s2">&quot;shortterm/calibrated_data&quot;</span>
-            <span class="p">),</span>
-        <span class="p">},</span>
-        <span class="n">paths</span><span class="p">[</span><span class="s2">&quot;SATPY_DATA_CACHE_DIR&quot;</span><span class="p">]:</span> <span class="p">{</span>
-            <span class="s2">&quot;SATPY_DATA_CACHE_DIR_SHORTTERM_CALIBRATED_DATA&quot;</span><span class="p">:</span> <span class="p">(</span>
-                <span class="s2">&quot;shortterm/calibrated_data&quot;</span>
-            <span class="p">),</span>
-            <span class="s2">&quot;SATPY_DATA_CACHE_DIR_SHORTTERM_GEOLOCATION_SOLAR_ANGLES&quot;</span><span class="p">:</span> <span class="p">(</span>
-                <span class="s2">&quot;shortterm/geolocation/solar&quot;</span>
-            <span class="p">),</span>
-        <span class="p">},</span>
-        <span class="n">paths</span><span class="p">[</span><span class="s2">&quot;BASE_PATH&quot;</span><span class="p">]:</span> <span class="p">{</span>
-            <span class="s2">&quot;TC_TEMPLATE&quot;</span><span class="p">:</span> <span class="s2">&quot;plugins/yaml/sectors/dynamic/tc_web_template.yaml&quot;</span><span class="p">,</span>
-        <span class="p">},</span>
-        <span class="n">paths</span><span class="p">[</span><span class="s2">&quot;GEOIPS_REBUILD_REGISTRIES&quot;</span><span class="p">]:</span> <span class="p">{</span>
-            <span class="s2">&quot;GEOIPS_REBUILD_REGISTRIES_TRUE&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
-            <span class="s2">&quot;GEOIPS_REBUILD_REGISTRIES_FALSE&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
-        <span class="p">},</span>
-    <span class="p">}</span>
-
-    <span class="c1"># looping through all the directory-based paths and global variables set above</span>
-    <span class="c1"># using &quot;get_env_var&quot; function to set the variables to the environment variable</span>
-    <span class="c1"># specified option (when defined via the first argument)</span>
-    <span class="c1"># else defaulting to the passed-in default (second argument)</span>
-    <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">geoips_global_variable_defaults</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-        <span class="n">paths</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">get_env_var</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
-
-    <span class="k">for</span> <span class="p">(</span>
-        <span class="n">top_directory</span><span class="p">,</span>
-        <span class="n">sub_directories</span><span class="p">,</span>
-    <span class="p">)</span> <span class="ow">in</span> <span class="n">default_derivative_directory_path_defaults</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-        <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">sub_path</span> <span class="ow">in</span> <span class="n">sub_directories</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-            <span class="k">if</span> <span class="s2">&quot;GEOIPS_REBUILD_REGISTRIES&quot;</span> <span class="ow">in</span> <span class="n">key</span><span class="p">:</span>
-                <span class="n">paths</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">get_env_var</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">sub_path</span><span class="p">,</span> <span class="n">rstrip_path</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="n">paths</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">get_env_var</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">top_directory</span><span class="p">,</span> <span class="n">sub_path</span><span class="p">))</span>
-
-    <span class="c1"># Handling special cases now: home for linux/windows</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;HOME&quot;</span><span class="p">):</span>
-        <span class="c1"># need home drive default for windows</span>
-        <span class="n">paths</span><span class="p">[</span><span class="s2">&quot;HOME&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;HOMEDRIVE&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;HOMEPATH&quot;</span><span class="p">)</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="n">paths</span><span class="p">[</span><span class="s2">&quot;HOME&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;HOME&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)</span>
-
-    <span class="c1"># Setting links for WWW Paths</span>
-    <span class="n">www_paths</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;TCWWW&quot;</span><span class="p">,</span> <span class="s2">&quot;PUBLICWWW&quot;</span><span class="p">,</span> <span class="s2">&quot;PRIVATEWWW&quot;</span><span class="p">]</span>
-    <span class="k">for</span> <span class="n">path</span> <span class="ow">in</span> <span class="n">www_paths</span><span class="p">:</span>
-        <span class="n">paths</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">path</span><span class="si">}</span><span class="s2">_URL&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">get_env_var</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">path</span><span class="si">}</span><span class="s2">_URL&quot;</span><span class="p">,</span> <span class="n">paths</span><span class="p">[</span><span class="n">path</span><span class="p">])</span>
-
-    <span class="c1"># This needs to be a float</span>
-    <span class="n">paths</span><span class="p">[</span><span class="s2">&quot;OUTPUT_CHECKER_THRESHOLD_IMAGE&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span>
-        <span class="n">paths</span><span class="p">[</span><span class="s2">&quot;OUTPUT_CHECKER_THRESHOLD_IMAGE&quot;</span><span class="p">]</span>
-    <span class="p">)</span>
-
-    <span class="k">return</span> <span class="n">paths</span></div>
+<span class="c1"># This module already emits its own DeprecationWarning above, so build PATHS</span>
+<span class="c1"># directly from the config&#39;s cached legacy dict to avoid a redundant warning</span>
+<span class="c1"># from ``to_legacy_dict()`` on every import.</span>
+<span class="n">PATHS</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">_legacy_dict</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="make_dirs"><a class="viewcode-back" href="../../../geoips_api/geoips.filenames.html#geoips.filenames.base_paths.make_dirs">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">make_dirs</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Make directories, catching exceptions if directory already exists.</span>
 
-<span class="sd">    Parameters</span>
-<span class="sd">    ----------</span>
-<span class="sd">    path : str</span>
-<span class="sd">        Path to directory to create</span>
-
-<span class="sd">    Returns</span>
-<span class="sd">    -------</span>
-<span class="sd">    str</span>
-<span class="sd">        Path if successfully created</span>
+<span class="sd">    Deprecated: Use ``geoips.config.make_dirs`` instead.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Creating directory </span><span class="si">%s</span><span class="s2"> if it doesn&#39;t already exist.&quot;</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span>
-    <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="mo">0o755</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">path</span></div>
+    <span class="k">return</span> <span class="n">_make_dirs</span><span class="p">(</span><span class="n">path</span><span class="p">)</span></div>
 
 
-<span class="c1"># Initialize the PATHS dictionary</span>
-<span class="n">PATHS</span> <span class="o">=</span> <span class="n">initialize_paths</span><span class="p">()</span>
+<div class="viewcode-block" id="cast_string_to_bool_or_none"><a class="viewcode-back" href="../../../geoips_api/geoips.filenames.html#geoips.filenames.base_paths.cast_string_to_bool_or_none">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">cast_string_to_bool_or_none</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Cast string environment variables to True, False, or None.</span>
+
+<span class="sd">    Deprecated: Handled automatically by ``geoips.config.GeoIPSConfig``.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">value</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;false&quot;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span>
+    <span class="k">elif</span> <span class="n">value</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;true&quot;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">True</span>
+    <span class="k">elif</span> <span class="n">value</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;none&quot;</span><span class="p">,</span> <span class="s2">&quot;null&quot;</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="kc">None</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">value</span></div>
+
+
+<div class="viewcode-block" id="get_env_var"><a class="viewcode-back" href="../../../geoips_api/geoips.filenames.html#geoips.filenames.base_paths.get_env_var">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">get_env_var</span><span class="p">(</span><span class="n">var_name</span><span class="p">,</span> <span class="n">default</span><span class="p">,</span> <span class="n">rstrip_path</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Retrieve environment variable or provided default.</span>
+
+<span class="sd">    Deprecated: Use ``geoips.config.GeoIPSConfig`` instead.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">env_value</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="n">var_name</span><span class="p">)</span>
+    <span class="n">retval</span> <span class="o">=</span> <span class="n">default</span>
+    <span class="k">if</span> <span class="n">env_value</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">rstrip_path</span><span class="p">:</span>
+            <span class="n">env_value</span> <span class="o">=</span> <span class="n">env_value</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)</span>
+        <span class="n">env_value</span> <span class="o">=</span> <span class="n">cast_string_to_bool_or_none</span><span class="p">(</span><span class="n">env_value</span><span class="p">)</span>
+        <span class="n">retval</span> <span class="o">=</span> <span class="n">env_value</span>
+    <span class="k">return</span> <span class="n">retval</span></div>
+
+
+<div class="viewcode-block" id="initialize_paths"><a class="viewcode-back" href="../../../geoips_api/geoips.filenames.html#geoips.filenames.base_paths.initialize_paths">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">initialize_paths</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Initialize and return a dictionary of paths used throughout GeoIPS.</span>
+
+<span class="sd">    Deprecated: Use ``geoips.config.GeoIPSConfig.to_legacy_dict`` instead.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">config</span><span class="o">.</span><span class="n">to_legacy_dict</span><span class="p">()</span></div>
 </pre></div>
 
                 </article>
@@ -756,8 +1046,8 @@ window.addEventListener("load", () => mermaid.run());
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script defer src="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
-<script defer src="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+  <script defer src="../../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb"></script>
+<script defer src="../../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb"></script>
 
   <footer class="bd-footer">
 <div class="bd-footer__inner bd-page-width">

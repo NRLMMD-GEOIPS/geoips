@@ -1,0 +1,1277 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Configuring GeoIPS &#8212; GeoIPS, Geolocated Information Processing System 1.19.0.post776.dev0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../_static/set_width.css?v=d4af5e1e" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../../_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
+
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=1e4423a0"></script>
+    <script src="../../_static/doctools.js?v=888ff710"></script>
+    <script src="../../_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'concepts/configuration/index';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <link rel="icon" href="../../_static/nrlicon.ico"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Contribute" href="../../contribute/index.html" />
+    <link rel="prev" title="DataTreeDitto" href="../architecture/custom-types/datatree-ditto.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="1.1" />
+    <meta name="docbuild:last-update" content="Jul 16, 2026 04:57:54"/>
+  
+    
+    <script src="../../_static/searchtools.js"></script>
+    <script src="../../_static/language_data.js"></script>
+    <script src="../../searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/NRL_logo_RGB.jpg" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 1.19.0.post776.dev0 documentation - Home"/>
+    <img src="../../_static/NRL_logo_sidebar_Reverse.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 1.19.0.post776.dev0 documentation - Home"/>
+  
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../getting-started/index.html">
+    Getting Started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../tutorials/index.html">
+    Tutorials
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../index.html">
+    Concepts
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../contribute/index.html">
+    Contribute
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../geoips_api/index.html">
+    API
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../releases/index.html">
+    Release Notes
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../contact/index.html">
+    About Us
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/NRLMMD-GEOIPS/geoips" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../getting-started/index.html">
+    Getting Started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../tutorials/index.html">
+    Tutorials
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../index.html">
+    Concepts
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../contribute/index.html">
+    Contribute
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../geoips_api/index.html">
+    API
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../releases/index.html">
+    Release Notes
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../contact/index.html">
+    About Us
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/NRLMMD-GEOIPS/geoips" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item pst-sidebar-collapse"><button id="pst-collapse-sidebar-button" aria-expanded="true" aria-controls="pst-primary-sidebar"><svg class="pst-icon svg-inline--fa" role="img" aria-hidden="true" focusable="false" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+    <path fill="currentColor" d="M3 15.5C2.36232 15.5 1.74874 15.2564 1.28478 14.8189C0.820828 14.3815 0.541576 13.7832 0.504167 13.1467L0.5 13L0.5 3C0.499965 2.36232 0.743605 1.74874 1.18107 1.28478C1.61854 0.820828 2.21676 0.541576 2.85333 0.504167L3 0.5L13 0.5C13.6377 0.499965 14.2513 0.743605 14.7152 1.18107C15.1792 1.61854 15.4584 2.21676 15.4958 2.85333L15.5 3L15.5 13C15.5 13.6377 15.2564 14.2513 14.8189 14.7152C14.3815 15.1792 13.7832 15.4584 13.1467 15.4958L13 15.5L3 15.5ZM3 13.8333L10.5 13.8333L10.5 2.16667L3 2.16667C2.79589 2.16669 2.59889 2.24163 2.44636 2.37726C2.29383 2.5129 2.19638 2.69979 2.1725 2.9025L2.16667 3L2.16667 13C2.16669 13.2041 2.24163 13.4011 2.37726 13.5536C2.5129 13.7062 2.69979 13.8036 2.9025 13.8275L3 13.8333ZM6.65583 10.325L6.5775 10.2558L4.91083 8.58917C4.76735 8.44567 4.68116 8.25476 4.66843 8.05223C4.65569 7.84971 4.71729 7.6495 4.84167 7.48917L4.91083 7.41083L6.5775 5.74417C6.72747 5.59471 6.9287 5.50794 7.14032 5.50148C7.35194 5.49502 7.55809 5.56935 7.7169 5.70937C7.8757 5.8494 7.97525 6.04463 7.99533 6.25539C8.01541 6.46616 7.95451 6.67667 7.825 6.84417L7.75583 6.9225L6.67917 8L7.75583 9.0775C7.89931 9.22099 7.98551 9.41191 7.99824 9.61443C8.01097 9.81695 7.94938 10.0172 7.825 10.1775L7.75583 10.2558C7.61234 10.3993 7.42142 10.4855 7.2189 10.4982C7.01638 10.511 6.81617 10.4494 6.65583 10.325Z"/>
+  </svg>
+  <span class="pst-collapse-sidebar-label">Collapse Sidebar</span>
+  <span class="pst-expand-sidebar-label">Expand Sidebar</span>
+</button></div>
+        <div class="sidebar-primary-item">
+
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../functionality/index.html">Functionality</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../functionality/command-line/index.html">Command Line Interface (CLI)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../functionality/documentation-building.html">Documentation Building</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../functionality/examples/index.html">Examples</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../functionality/examples/integration-tests.html">Integration Tests</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../functionality/interfaces/index.html">Interfaces</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../functionality/interfaces/module_based/algorithm.html">Algorithms in GeoIPS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../functionality/interfaces/module_based/colormapper.html">Colormaps in GeoIPS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../functionality/interfaces/module_based/filename_formats.html">Filename Formatters in GeoIPS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../functionality/interfaces/module_based/interpolators.html">Interpolators in GeoIPS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../functionality/interfaces/module_based/output_formats.html">Output Formatters in GeoIPS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../functionality/interfaces/module_based/procflows.html">Processing Workflows (Procflows) in GeoIPS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../functionality/interfaces/module_based/readers.html">Readers in GeoIPS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../functionality/interfaces/module_based/title_formats.html">Title Formatters in GeoIPS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../functionality/interfaces/module_based/validators.html">Validators in GeoIPS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../functionality/interfaces/yaml_based/dynamic_sectors.html">Dynamic Sectors in GeoIPS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../functionality/interfaces/yaml_based/feature_annotators.html">Feature Annotators Interface</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../functionality/interfaces/yaml_based/gridline_annotators.html">Gridline Annotators Interface</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../functionality/interfaces/yaml_based/product_defaults.html">Product Templates (Defaults) in GeoIPS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../functionality/interfaces/yaml_based/products.html">Products in GeoIPS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../functionality/interfaces/yaml_based/static_sectors.html">Static Sectors in GeoIPS</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../architecture/index.html">Architecture</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../architecture/extend-with-plugins.html">Extend GeoIPS with Plugins</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../architecture/interfaces/module_based/output-checkers/index.html">What Are Output Checkers?</a></li>
+
+
+<li class="toctree-l2"><a class="reference internal" href="../architecture/structure-of-geoips/index.html">The Structure of GeoIPS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../architecture/xarray-standards.html">Xarray and NetCDF Metadata Standards</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../architecture/geoips-specification.html">Software Requirements Specification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../architecture/cached-files.html">Cache Files Managed by GeoIPS</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../architecture/tests/index.html">Testing Suite</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../architecture/tests/unit-tests.html">Unit Testing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../architecture/tests/test-sectors.html">Test Sectors for GeoIPS</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2"><a class="reference internal" href="../architecture/ci-infrastructure.html">CI and Installation Infrastructure</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../architecture/documentation/index.html">Documentation</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../architecture/documentation/documentation-builder.html">Documentation Builder</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../architecture/documentation/where-to-put.html">Where to Put Documentation</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2"><a class="reference internal" href="../architecture/command_line_interface.html">Command Line Interface</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../architecture/custom-types/index.html">Custom Types</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../architecture/custom-types/datatree-ditto.html">DataTreeDitto</a></li>
+
+
+
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Configuring GeoIPS</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../index.html" class="nav-link">Concepts</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Configuring GeoIPS</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-text">Distribution Statement</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<div class="line-block">
+<div class="line"># # # This source code is subject to the license referenced at</div>
+<div class="line"># # # <a class="github reference external" href="https://github.com/NRLMMD-GEOIPS">NRLMMD-GEOIPS</a>.</div>
+</div>
+<p class="sd-card-text">This source code is subject to the license referenced at
+<a class="github reference external" href="https://github.com/NRLMMD-GEOIPS">NRLMMD-GEOIPS</a>.</p>
+</div>
+</details><section id="configuring-geoips">
+<span id="configuration"></span><h1>Configuring GeoIPS<a class="headerlink" href="#configuring-geoips" title="Permalink to this heading">#</a></h1>
+<p>GeoIPS supports configuring your environment through two complementary mechanisms:</p>
+<ol class="arabic simple">
+<li><p><strong>Configuration file</strong> (<code class="docutils literal notranslate"><span class="pre">.geoips.yaml</span></code>) — A project-level YAML file that
+defines all settings in one place. This is the recommended approach.</p></li>
+<li><p><strong>Environment variables</strong> — Individual <code class="docutils literal notranslate"><span class="pre">GEOIPS_*</span></code> variables that override
+specific settings. Ideal for CI/CD, containers, or temporary overrides.</p></li>
+</ol>
+<p>When both are used, environment variables always take precedence over the
+configuration file.</p>
+<section id="configuration-file">
+<h2>Configuration File<a class="headerlink" href="#configuration-file" title="Permalink to this heading">#</a></h2>
+<p>GeoIPS ships with sensible defaults for every setting. You can override any
+of these defaults by creating a project-level <code class="docutils literal notranslate"><span class="pre">.geoips.yaml</span></code> file.</p>
+<section id="file-format">
+<h3>File format<a class="headerlink" href="#file-format" title="Permalink to this heading">#</a></h3>
+<p>The configuration file uses a nested YAML structure under the top-level
+<code class="docutils literal notranslate"><span class="pre">geoips:</span></code> key:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="c1"># .geoips.yaml</span>
+<span class="nt">geoips</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">outdirs</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/data/geoips_output</span>
+<span class="w">  </span><span class="nt">features</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">no_color</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">    </span><span class="nt">rebuild_registries</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+<span class="w">  </span><span class="nt">cache</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">geolocation_cache_backend</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">zarr</span>
+<span class="w">  </span><span class="nt">logging</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">level</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">debug</span>
+<span class="w">  </span><span class="nt">test</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">output_checker_threshold_image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.10</span>
+</pre></div>
+</div>
+<p>Most keys are optional — only specify the ones you want to override. The one
+setting you should provide is <code class="docutils literal notranslate"><span class="pre">outdirs</span></code> (equivalently <code class="docutils literal notranslate"><span class="pre">GEOIPS_OUTDIRS</span></code>),
+which controls where GeoIPS writes output. If it is not set via the environment
+or the configuration file, GeoIPS logs a warning and falls back to
+<code class="docutils literal notranslate"><span class="pre">$HOME/geoips_outdirs</span></code>.</p>
+</section>
+<section id="search-locations">
+<h3>Search locations<a class="headerlink" href="#search-locations" title="Permalink to this heading">#</a></h3>
+<p>GeoIPS searches for a project configuration file in the following order,
+using the first file found:</p>
+<ol class="arabic simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">$GEOIPS_RCFILE</span></code> — Path set by the environment variable (if defined
+and the file exists).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">./.geoips.yaml</span></code> — In the current working directory.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">~/.config/geoips/config.yaml</span></code> — In the user’s XDG-compliant
+configuration directory.</p></li>
+</ol>
+</section>
+<section id="configuration-priority">
+<h3>Configuration priority<a class="headerlink" href="#configuration-priority" title="Permalink to this heading">#</a></h3>
+<p>Settings are resolved with this priority (highest wins):</p>
+<ol class="arabic simple">
+<li><p><strong>Environment variables</strong> — <code class="docutils literal notranslate"><span class="pre">GEOIPS_*</span></code> and unprefixed aliases
+(<code class="docutils literal notranslate"><span class="pre">NO_COLOR</span></code>, <code class="docutils literal notranslate"><span class="pre">BOXNAME</span></code>, <code class="docutils literal notranslate"><span class="pre">DEFAULT_QUEUE</span></code>).</p></li>
+<li><p><strong>Project ``.geoips.yaml`` file</strong> — Found via the search locations above.</p></li>
+<li><p><strong>Built-in defaults</strong> — Sensible values shipped with the code.</p></li>
+</ol>
+<p>For example, setting <code class="docutils literal notranslate"><span class="pre">GEOIPS_LOGGING_LEVEL=debug</span></code> in your environment
+will override whatever is set in your <code class="docutils literal notranslate"><span class="pre">.geoips.yaml</span></code> file.</p>
+</section>
+<section id="accessing-configuration-in-python">
+<h3>Accessing configuration in Python<a class="headerlink" href="#accessing-configuration-in-python" title="Permalink to this heading">#</a></h3>
+<p>The configuration is available as a singleton via <code class="docutils literal notranslate"><span class="pre">geoips.config</span></code>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">geoips.config</span><span class="w"> </span><span class="kn">import</span> <span class="n">config</span>
+
+<span class="c1"># Dot-attribute access (recommended)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">outdirs</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">features</span><span class="o">.</span><span class="n">no_color</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">cache</span><span class="o">.</span><span class="n">geolocation_cache_backend</span><span class="p">)</span>
+
+<span class="c1"># Dict-style access (backward compatible, deprecated)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">config</span><span class="p">[</span><span class="s2">&quot;GEOIPS_OUTDIRS&quot;</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">config</span><span class="p">[</span><span class="s2">&quot;NO_COLOR&quot;</span><span class="p">])</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The legacy <code class="docutils literal notranslate"><span class="pre">geoips.filenames.base_paths.PATHS</span></code> dictionary is
+deprecated but still functional. It forwards to the new configuration
+system and emits a <code class="docutils literal notranslate"><span class="pre">DeprecationWarning</span></code> on import. Update existing
+code to use <code class="docutils literal notranslate"><span class="pre">from</span> <span class="pre">geoips.config</span> <span class="pre">import</span> <span class="pre">config</span></code> instead.</p>
+</div>
+</section>
+<section id="settings-reference">
+<h3>Settings reference<a class="headerlink" href="#settings-reference" title="Permalink to this heading">#</a></h3>
+<p>The table below lists all configurable settings, their YAML paths, and
+their corresponding environment variable names.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><a class="reference internal" href="../../geoips_api/geoips.config.html#geoips.config.schema.GEOIPS_ENV_MAP" title="geoips.config.schema.GEOIPS_ENV_MAP"><code class="xref py py-data docutils literal notranslate"><span class="pre">geoips.config.schema.GEOIPS_ENV_MAP</span></code></a> is the authoritative,
+canonical mapping of every supported environment variable to its
+configuration setting. The tables below are a human-readable reference
+generated from that map. A unit test
+(<code class="docutils literal notranslate"><span class="pre">tests/unit_tests/config/test_env_map_sync.py</span></code>) enforces that the
+map, the schema, and the legacy <code class="docutils literal notranslate"><span class="pre">base_paths.py</span></code> variables stay in
+sync, so any newly added setting must be registered in <code class="docutils literal notranslate"><span class="pre">GEOIPS_ENV_MAP</span></code>.</p>
+</div>
+<div class="pst-scrollable-table-container"><table class="table" id="id1">
+<caption><span class="caption-text">Configuration Settings Reference</span><a class="headerlink" href="#id1" title="Permalink to this table">#</a></caption>
+<colgroup>
+<col style="width: 30.0%" />
+<col style="width: 35.0%" />
+<col style="width: 20.0%" />
+<col style="width: 15.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Setting</p></th>
+<th class="head"><p>YAML Path</p></th>
+<th class="head"><p>Env Variable</p></th>
+<th class="head"><p>Default</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Output directory</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">geoips.outdirs</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">GEOIPS_OUTDIRS</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">$HOME/geoips_outdirs</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>Packages directory</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">geoips.packages_dir</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">GEOIPS_PACKAGES_DIR</span></code></p></td>
+<td><p>auto (source tree)</p></td>
+</tr>
+<tr class="row-even"><td><p>Base directory</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">geoips.basedir</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">GEOIPS_BASEDIR</span></code></p></td>
+<td><p>auto (source tree)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Test data directory</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">geoips.testdata_dir</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">GEOIPS_TESTDATA_DIR</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">$basedir/test_data</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>Dependencies directory</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">geoips.dependencies_dir</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">GEOIPS_DEPENDENCIES_DIR</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">$basedir/geoips_dependencies</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>Cache directory</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">geoips.cache.cache_dir</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">GEOIPS_CACHE_DIR</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">platformdirs.user_cache_dir</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>Data cache directory</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">geoips.cache.data_cache_dir</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">GEOIPS_DATA_CACHE_DIR</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">$outdirs/cache/geoips</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>Satpy cache directory</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">geoips.cache.satpy_data_cache_dir</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">SATPY_DATA_CACHE_DIR</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">$outdirs/cache/satpy</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>Cache backend</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">geoips.cache.geolocation_cache_backend</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">GEOIPS_GEOLOCATION_CACHE_BACKEND</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">memmap</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>Disable color output</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">geoips.features.no_color</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">NO_COLOR</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">false</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>Use pydantic validation</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">geoips.features.use_pydantic</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">GEOIPS_USE_PYDANTIC</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">false</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>Rebuild registries</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">geoips.features.rebuild_registries</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">GEOIPS_REBUILD_REGISTRIES</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">true</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>Operational user mode</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">geoips.features.operational_user</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">GEOIPS_OPERATIONAL_USER</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">false</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>Rich console output</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">geoips.features.rich_console_output</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">GEOIPS_RICH_CONSOLE_OUTPUT</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">false</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>Logging level</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">geoips.logging.level</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">GEOIPS_LOGGING_LEVEL</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">interactive</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>Logging format</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">geoips.logging.fmt_string</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">GEOIPS_LOGGING_FMT_STRING</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">%(asctime)s</span> <span class="pre">...</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>Logging date format</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">geoips.logging.datefmt_string</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">GEOIPS_LOGGING_DATEFMT_STRING</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">%d_%H%M%S</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>Warning level</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">geoips.warning_level</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">GEOIPS_WARNING_LEVEL</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">default</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>Image threshold</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">geoips.test.output_checker_threshold_image</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">GEOIPS_TEST_OUTPUT_CHECKER_THRESHOLD_IMAGE</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0.05</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>Print text checker output</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">geoips.test.print_text_output_checker_to_console</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">GEOIPS_TEST_PRINT_TEXT_OUTPUT_CHECKER_TO_CONSOLE</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">true</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>Prompt on mismatch</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">geoips.test.prompt_to_overwrite_comparison_file_if_mismatch</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">GEOIPS_TEST_PROMPT_TO_OVERWRITE_COMPARISON_FILE_IF_MISMATCH</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">false</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>Version</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">geoips.version</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">GEOIPS_VERSION</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0.0.0</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>Documentation URL</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">geoips.docs_url</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">GEOIPS_DOCS_URL</span></code></p></td>
+<td><p>GeoIPS docs URL</p></td>
+</tr>
+<tr class="row-odd"><td><p>Copyright</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">geoips.copyright</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">GEOIPS_COPYRIGHT</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">NRL-Monterey</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>Abbreviated copyright</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">geoips.copyright_abbreviated</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">GEOIPS_COPYRIGHT_ABBREVIATED</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">NRLMRY</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>Hostname</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">geoips.boxname</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">BOXNAME</span></code></p></td>
+<td><p>auto (hostname)</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="output-path-settings">
+<h3>Output path settings<a class="headerlink" href="#output-path-settings" title="Permalink to this heading">#</a></h3>
+<p>The following settings define sub-paths under <code class="docutils literal notranslate"><span class="pre">geoips.outdirs</span></code>. Each
+defaults to a relative path that is resolved against the output directory
+at startup. You can override any of them with an absolute path.</p>
+<div class="pst-scrollable-table-container"><table class="table" id="id2">
+<caption><span class="caption-text">Output Path Settings</span><a class="headerlink" href="#id2" title="Permalink to this table">#</a></caption>
+<colgroup>
+<col style="width: 35.3%" />
+<col style="width: 41.2%" />
+<col style="width: 23.5%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Setting</p></th>
+<th class="head"><p>YAML Path</p></th>
+<th class="head"><p>Env Variable</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Presectored data</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">geoips.output_paths.presectored_data</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">PRESECTORED_DATA_PATH</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>Preread data</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">geoips.output_paths.preread_data</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">PREREAD_DATA_PATH</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>Preregistered data</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">geoips.output_paths.preregistered_data</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">PREREGISTERED_DATA_PATH</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>Precalculated data</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">geoips.output_paths.precalculated_data</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">PRECALCULATED_DATA_PATH</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>Clean imagery</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">geoips.output_paths.clean_imagery</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">CLEAN_IMAGERY_PATH</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>Annotated imagery</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">geoips.output_paths.annotated_imagery</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">ANNOTATED_IMAGERY_PATH</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>GeoTIFF imagery</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">geoips.output_paths.geotiff_imagery</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">GEOTIFF_IMAGERY_PATH</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>Final data</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">geoips.output_paths.final_data</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">FINAL_DATA_PATH</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>Pregenerated geolocation</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">geoips.output_paths.pregenerated_geolocation</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">PREGENERATED_GEOLOCATION_PATH</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>Scratch</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">geoips.output_paths.scratch</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">SCRATCH</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>Local scratch</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">geoips.output_paths.localscratch</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">LOCALSCRATCH</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>Shared scratch</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">geoips.output_paths.sharedscratch</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">SHAREDSCRATCH</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>Log directory</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">geoips.output_paths.logdir</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">LOGDIR</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>GeoIPS data</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">geoips.output_paths.geoipsdata</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">GEOIPSDATA</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>Ancillary data autogen</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">geoips.output_paths.ancildat_autogen</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">GEOIPS_ANCILDAT_AUTOGEN</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>Ancillary data</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">geoips.output_paths.ancildat</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">GEOIPS_ANCILDAT</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>TC WWW</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">geoips.output_paths.tcwww</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">TCWWW</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>TC Private WWW</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">geoips.output_paths.tcprivatewww</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">TCPRIVATEWWW</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>Public WWW</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">geoips.output_paths.publicwww</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">PUBLICWWW</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>Private WWW</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">geoips.output_paths.privatewww</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">PRIVATEWWW</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>TC decks DB</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">geoips.output_paths.tc_decks_db</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">GEOIPS_TC_DECKS_DB</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>TC decks directory</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">geoips.output_paths.tc_decks_dir</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">GEOIPS_TC_DECKS_DIR</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>TC decks type</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">geoips.tc_decks_type</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">GEOIPS_TC_DECKS_TYPE</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>TC template</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">geoips.tc_template</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">TC_TEMPLATE</span></code></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+</section>
+<section id="configuration-from-plugin-packages">
+<h2>Configuration from plugin packages<a class="headerlink" href="#configuration-from-plugin-packages" title="Permalink to this heading">#</a></h2>
+<p>External plugin packages can register their own configuration settings with
+GeoIPS. Once a plugin is installed, its settings participate in the same
+layered system (defaults → <code class="docutils literal notranslate"><span class="pre">.geoips.yaml</span></code> → environment variables), are
+accessible in Python, and are included by <code class="docutils literal notranslate"><span class="pre">geoips</span> <span class="pre">config</span> <span class="pre">create</span></code>.</p>
+<section id="registering-settings">
+<h3>Registering settings<a class="headerlink" href="#registering-settings" title="Permalink to this heading">#</a></h3>
+<p>A plugin package defines a pydantic model for its settings and exposes a
+<a class="reference internal" href="../../geoips_api/geoips.config.html#geoips.config.plugins.ConfigPlugin" title="geoips.config.plugins.ConfigPlugin"><code class="xref py py-class docutils literal notranslate"><span class="pre">ConfigPlugin</span></code></a> object:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># my_pkg/config.py</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pydantic</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">Field</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">geoips.config</span><span class="w"> </span><span class="kn">import</span> <span class="n">ConfigPlugin</span>
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">MyPkgSettings</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">max_workers</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Max parallel workers.&quot;</span><span class="p">)</span>
+    <span class="n">tile_cache</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+
+
+<span class="n">CONFIG_PLUGIN</span> <span class="o">=</span> <span class="n">ConfigPlugin</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;my_pkg&quot;</span><span class="p">,</span> <span class="n">settings_model</span><span class="o">=</span><span class="n">MyPkgSettings</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>It then advertises this object through the <code class="docutils literal notranslate"><span class="pre">geoips.config_plugins</span></code>
+entry-point group in its <code class="docutils literal notranslate"><span class="pre">pyproject.toml</span></code>:</p>
+<div class="highlight-toml notranslate"><div class="highlight"><pre><span></span><span class="k">[project.entry-points.</span><span class="s2">&quot;geoips.config_plugins&quot;</span><span class="k">]</span>
+<span class="n">my_pkg</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;my_pkg.config:CONFIG_PLUGIN&quot;</span>
+</pre></div>
+</div>
+<p>The entry-point name (<code class="docutils literal notranslate"><span class="pre">my_pkg</span></code>) must match <code class="docutils literal notranslate"><span class="pre">ConfigPlugin.name</span></code>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Plugin settings models should provide a default (or be <code class="docutils literal notranslate"><span class="pre">Optional</span></code>) for
+every field. Settings are validated lazily on first access, so a plugin
+with an unset required field only raises when that plugin is accessed —
+but providing defaults avoids surprising failures entirely.</p>
+</div>
+</section>
+<section id="accessing-plugin-settings">
+<h3>Accessing plugin settings<a class="headerlink" href="#accessing-plugin-settings" title="Permalink to this heading">#</a></h3>
+<p>Plugin settings live under the <code class="docutils literal notranslate"><span class="pre">plugins</span></code> namespace, keyed by plugin name:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">geoips.config</span><span class="w"> </span><span class="kn">import</span> <span class="n">config</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">plugins</span><span class="o">.</span><span class="n">my_pkg</span><span class="o">.</span><span class="n">max_workers</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">plugins</span><span class="p">[</span><span class="s2">&quot;my_pkg&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">tile_cache</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>In <code class="docutils literal notranslate"><span class="pre">.geoips.yaml</span></code> they are set under <code class="docutils literal notranslate"><span class="pre">geoips.plugins.&lt;name&gt;</span></code>:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">geoips</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">plugins</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">my_pkg</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">max_workers</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">8</span>
+<span class="w">      </span><span class="nt">tile_cache</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/fast/disk/tiles</span>
+</pre></div>
+</div>
+</section>
+<section id="environment-variables">
+<h3>Environment variables<a class="headerlink" href="#environment-variables" title="Permalink to this heading">#</a></h3>
+<p>Each plugin field is overridable via an auto-generated environment variable of
+the form <code class="docutils literal notranslate"><span class="pre">GEOIPS_PLUGIN_&lt;PKG&gt;_&lt;FIELD&gt;</span></code> (uppercased, with <code class="docutils literal notranslate"><span class="pre">.</span></code> in nested
+field paths replaced by <code class="docutils literal notranslate"><span class="pre">_</span></code>). For the example above:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">GEOIPS_PLUGIN_MY_PKG_MAX_WORKERS</span><span class="o">=</span><span class="m">16</span>
+</pre></div>
+</div>
+<p>Environment variables take precedence over the YAML file, which takes
+precedence over the model defaults — identical to core settings. Auto-generated
+names cannot collide with core GeoIPS variables; if a plugin declares explicit
+<code class="docutils literal notranslate"><span class="pre">env_overrides</span></code> aliases, GeoIPS raises a <code class="docutils literal notranslate"><span class="pre">ConfigError</span></code> on any collision.</p>
+</section>
+<section id="generation-and-validation">
+<h3>Generation and validation<a class="headerlink" href="#generation-and-validation" title="Permalink to this heading">#</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">geoips</span> <span class="pre">config</span> <span class="pre">create</span> <span class="pre">--all</span></code> includes each installed plugin’s settings under
+<code class="docutils literal notranslate"><span class="pre">geoips.plugins.&lt;name&gt;</span></code>, with a per-plugin header comment and per-field
+<code class="docutils literal notranslate"><span class="pre">#</span> <span class="pre">default:</span> <span class="pre">...</span></code> comments. <code class="docutils literal notranslate"><span class="pre">geoips</span> <span class="pre">config</span> <span class="pre">validate</span></code> validates each plugin
+section against its registered model and warns about unknown plugins or
+settings.</p>
+</section>
+</section>
+<section id="environment-variable-overrides">
+<h2>Environment Variable Overrides<a class="headerlink" href="#environment-variable-overrides" title="Permalink to this heading">#</a></h2>
+<p>While the <code class="docutils literal notranslate"><span class="pre">.geoips.yaml</span></code> file is the recommended way to configure GeoIPS,
+environment variables remain fully supported and take the highest priority.
+Setting an environment variable will override any corresponding YAML value or
+default.</p>
+<section id="core-environment-variables">
+<h3>Core environment variables<a class="headerlink" href="#core-environment-variables" title="Permalink to this heading">#</a></h3>
+<p>The following environment variables cover the most commonly customized paths:</p>
+<section id="geoips-outdirs">
+<h4>GEOIPS_OUTDIRS<a class="headerlink" href="#geoips-outdirs" title="Permalink to this heading">#</a></h4>
+<p><code class="docutils literal notranslate"><span class="pre">GEOIPS_OUTDIRS</span></code> specifies the base directory where GeoIPS will write
+output files. This includes processed imagery, data products, and any
+other output generated by GeoIPS processing workflows. The directory
+structure within <code class="docutils literal notranslate"><span class="pre">GEOIPS_OUTDIRS</span></code> is typically organized by product
+type, date, and sensor.</p>
+<p>If not set, this variable defaults to <code class="docutils literal notranslate"><span class="pre">$HOME/GEOIPS_OUTDIRS</span></code>.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">GEOIPS_OUTDIRS</span><span class="o">=</span><span class="nv">$HOME</span>/geoips_outdirs
+</pre></div>
+</div>
+</section>
+<section id="geoips-packages-dir">
+<h4>GEOIPS_PACKAGES_DIR<a class="headerlink" href="#geoips-packages-dir" title="Permalink to this heading">#</a></h4>
+<p><code class="docutils literal notranslate"><span class="pre">GEOIPS_PACKAGES_DIR</span></code> specifies the directory that contains GeoIPS
+plugin packages. This is the parent directory where all GeoIPS-related
+packages are installed, including the core GeoIPS package and any
+additional plugin packages.</p>
+<p>If you have multiple plugin packages (e.g., <code class="docutils literal notranslate"><span class="pre">geoips</span></code>, <code class="docutils literal notranslate"><span class="pre">data_fusion</span></code>,
+<code class="docutils literal notranslate"><span class="pre">recenter_tc</span></code>) and you would like to make use of our testing scripts,
+they should all be subdirectories of the path specified by
+<code class="docutils literal notranslate"><span class="pre">GEOIPS_PACKAGES_DIR</span></code>.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">GEOIPS_PACKAGES_DIR</span><span class="o">=</span><span class="nv">$HOME</span>/geoips_packages
+</pre></div>
+</div>
+</section>
+<section id="geoips-testdata-dir">
+<h4>GEOIPS_TESTDATA_DIR<a class="headerlink" href="#geoips-testdata-dir" title="Permalink to this heading">#</a></h4>
+<p><code class="docutils literal notranslate"><span class="pre">GEOIPS_TESTDATA_DIR</span></code> specifies the directory where GeoIPS test data
+is stored. This directory contains data used for testing and validating
+GeoIPS functionality. The test data is typically organized by sensor
+type and data format.</p>
+<p>This variable must be set when running GeoIPS tests and producing example
+or tutorial imagery.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">GEOIPS_TESTDATA_DIR</span><span class="o">=</span><span class="nv">$HOME</span>/geoips_testdata
+</pre></div>
+</div>
+</section>
+</section>
+<section id="setting-up-environment-variables">
+<h3>Setting up environment variables<a class="headerlink" href="#setting-up-environment-variables" title="Permalink to this heading">#</a></h3>
+<p>Below are examples of how to set these GeoIPS environment variables for
+different shells and environments.</p>
+<p><strong>Bash:</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Edit your ~/.bashrc</span>
+vim<span class="w"> </span>~/.bashrc
+<span class="c1"># Add the following lines to your .bashrc</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">GEOIPS_TESTDATA_DIR</span><span class="o">=</span><span class="nv">$HOME</span>/geoips_testdata
+<span class="nb">export</span><span class="w"> </span><span class="nv">GEOIPS_PACKAGES_DIR</span><span class="o">=</span><span class="nv">$HOME</span>/geoips_packages
+<span class="nb">export</span><span class="w"> </span><span class="nv">GEOIPS_OUTDIRS</span><span class="o">=</span><span class="nv">$HOME</span>/geoips_outdirs
+<span class="c1"># Reload your configuration</span>
+<span class="nb">source</span><span class="w"> </span>~/.bashrc
+</pre></div>
+</div>
+<p><strong>Zsh:</strong></p>
+<div class="highlight-zsh notranslate"><div class="highlight"><pre><span></span><span class="c1"># Edit your ~/.zshrc</span>
+vim<span class="w"> </span>~/.zshrc
+<span class="c1"># Add the following lines to your .zshrc</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">GEOIPS_TESTDATA_DIR</span><span class="o">=</span><span class="nv">$HOME</span>/geoips_testdata
+<span class="nb">export</span><span class="w"> </span><span class="nv">GEOIPS_PACKAGES_DIR</span><span class="o">=</span><span class="nv">$HOME</span>/geoips_packages
+<span class="nb">export</span><span class="w"> </span><span class="nv">GEOIPS_OUTDIRS</span><span class="o">=</span><span class="nv">$HOME</span>/geoips_outdirs
+<span class="c1"># Reload your configuration</span>
+<span class="nb">source</span><span class="w"> </span>~/.zshrc
+</pre></div>
+</div>
+<p><strong>Fish:</strong></p>
+<div class="highlight-fish notranslate"><div class="highlight"><pre><span></span><span class="c"># Edit your ~/.config/fish/config.fish</span>
+vim ~/.config/fish/config.fish
+<span class="c"># Add the following lines to your config.fish</span>
+<span class="k">set</span> -x GEOIPS_TESTDATA_DIR <span class="nv">$HOME</span>/geoips_testdata
+<span class="k">set</span> -x GEOIPS_PACKAGES_DIR <span class="nv">$HOME</span>/geoips_packages
+<span class="k">set</span> -x GEOIPS_OUTDIRS <span class="nv">$HOME</span>/geoips_outdirs
+<span class="c"># Reload your configuration</span>
+<span class="nb">source</span> ~/.config/fish/config.fish
+</pre></div>
+</div>
+<p><strong>Nix:</strong></p>
+<div class="highlight-nix notranslate"><div class="highlight"><pre><span></span><span class="c1"># In your home.nix, configuration.nix or in a flake:</span>
+home<span class="o">.</span><span class="ss">sessionVariables</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="ss">GEOIPS_TESTDATA_DIR</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">${</span>config<span class="o">.</span>home<span class="o">.</span>homeDirectory<span class="si">}</span><span class="s2">/geoips_testdata&quot;</span><span class="p">;</span>
+  <span class="ss">GEOIPS_PACKAGES_DIR</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">${</span>config<span class="o">.</span>home<span class="o">.</span>homeDirectory<span class="si">}</span><span class="s2">/geoips_packages&quot;</span><span class="p">;</span>
+  <span class="ss">GEOIPS_OUTDIRS</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">${</span>config<span class="o">.</span>home<span class="o">.</span>homeDirectory<span class="si">}</span><span class="s2">/geoips_outdirs&quot;</span><span class="p">;</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+<p><strong>Conda:</strong></p>
+<p>For Conda environments, it’s recommended to use conda config vars to set
+environment variables when you activate your environment. This means the
+variables are only set when the GeoIPS environment is active.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Set PACKAGES_DIR first</span>
+conda<span class="w"> </span>env<span class="w"> </span>config<span class="w"> </span>vars<span class="w"> </span><span class="nb">set</span><span class="w"> </span><span class="nv">GEOIPS_PACKAGES_DIR</span><span class="o">=</span><span class="nv">$HOME</span>/geoips
+
+<span class="c1"># Reactivate environment for variables to take effect</span>
+conda<span class="w"> </span>deactivate<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>conda<span class="w"> </span>activate<span class="w"> </span>geoips
+conda<span class="w"> </span>env<span class="w"> </span>config<span class="w"> </span>vars<span class="w"> </span><span class="nb">set</span><span class="w"> </span><span class="nv">GEOIPS_TESTDATA_DIR</span><span class="o">=</span><span class="nv">$GEOIPS_PACKAGES_DIR</span>/test_data
+conda<span class="w"> </span>env<span class="w"> </span>config<span class="w"> </span>vars<span class="w"> </span><span class="nb">set</span><span class="w"> </span><span class="nv">GEOIPS_OUTDIRS</span><span class="o">=</span><span class="nv">$GEOIPS_PACKAGES_DIR</span>/outdirs
+conda<span class="w"> </span>deactivate<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>conda<span class="w"> </span>activate<span class="w"> </span>geoips
+</pre></div>
+</div>
+</section>
+</section>
+<section id="system-wide-environment-variables">
+<h2>System-Wide Environment Variables<a class="headerlink" href="#system-wide-environment-variables" title="Permalink to this heading">#</a></h2>
+<p>GeoIPS recognizes a subset of system-wide environment variables.</p>
+<section id="no-color">
+<h3>NO_COLOR<a class="headerlink" href="#no-color" title="Permalink to this heading">#</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">NO_COLOR</span></code> disables any colored output from your operating terminal.
+Many software packages, including GeoIPS, may have commands that color
+certain portions of their terminal output. Some users may not prefer
+this, and in that case, you can set this variable to <code class="docutils literal notranslate"><span class="pre">True</span></code> in your
+<code class="docutils literal notranslate"><span class="pre">.bashrc</span></code> or comparable settings file.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Environment variable <code class="docutils literal notranslate"><span class="pre">NO_COLOR</span></code> will disable any colored output
+from the terminal, even if it’s not produced via GeoIPS. For
+example, if this is set to <code class="docutils literal notranslate"><span class="pre">True</span></code> in your shell configuration,
+even pytest output will be monochrome. We chose this variable name
+as it is consistent with the settings that other software packages
+use.</p>
+</div>
+<p>Enabling this to <code class="docutils literal notranslate"><span class="pre">True</span></code> will prevent the GeoIPS command-line interface
+(CLI) from coloring any of its terminal output.</p>
+<p>By default, if not set in your shell configuration, GeoIPS will not
+color any of its terminal output.</p>
+<p>To set this environment variable, there are two options:</p>
+<section id="temporary">
+<h4>Temporary<a class="headerlink" href="#temporary" title="Permalink to this heading">#</a></h4>
+<p>Running the appropriate command below will disable colored terminal
+output for a single session.</p>
+<p><strong>Bash/Zsh:</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">NO_COLOR</span><span class="o">=</span><span class="s1">&#39;True&#39;</span>
+</pre></div>
+</div>
+<p><strong>Fish:</strong></p>
+<div class="highlight-fish notranslate"><div class="highlight"><pre><span></span><span class="k">set</span> -x NO_COLOR <span class="s1">&#39;True&#39;</span>
+</pre></div>
+</div>
+<p><strong>Nix:</strong></p>
+<div class="highlight-nix notranslate"><div class="highlight"><pre><span></span><span class="c1"># In a nix-shell or shell.nix</span>
+<span class="ss">shellHook</span> <span class="o">=</span> <span class="s s-Multiline">&#39;&#39;</span>
+<span class="s s-Multiline">  export NO_COLOR=&#39;True&#39;</span>
+<span class="s s-Multiline">&#39;&#39;</span><span class="p">;</span>
+</pre></div>
+</div>
+<p><strong>Conda:</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># With your conda environment activated</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">NO_COLOR</span><span class="o">=</span><span class="s1">&#39;True&#39;</span>
+</pre></div>
+</div>
+</section>
+<section id="persistent">
+<h4>Persistent<a class="headerlink" href="#persistent" title="Permalink to this heading">#</a></h4>
+<p>Add <code class="docutils literal notranslate"><span class="pre">NO_COLOR</span></code> to your <code class="docutils literal notranslate"><span class="pre">.geoips.yaml</span></code> file or use the environment
+variable as described above to make the setting persistent.</p>
+<p>To persist via configuration file:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">geoips</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">features</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">no_color</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="../architecture/custom-types/datatree-ditto.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">DataTreeDitto</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="../../contribute/index.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Contribute</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#configuration-file">Configuration File</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#file-format">File format</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#search-locations">Search locations</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#configuration-priority">Configuration priority</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#accessing-configuration-in-python">Accessing configuration in Python</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#settings-reference">Settings reference</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#output-path-settings">Output path settings</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#configuration-from-plugin-packages">Configuration from plugin packages</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#registering-settings">Registering settings</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#accessing-plugin-settings">Accessing plugin settings</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#environment-variables">Environment variables</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#generation-and-validation">Generation and validation</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#environment-variable-overrides">Environment Variable Overrides</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#core-environment-variables">Core environment variables</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips-outdirs">GEOIPS_OUTDIRS</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips-packages-dir">GEOIPS_PACKAGES_DIR</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips-testdata-dir">GEOIPS_TESTDATA_DIR</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#setting-up-environment-variables">Setting up environment variables</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#system-wide-environment-variables">System-Wide Environment Variables</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#no-color">NO_COLOR</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#temporary">Temporary</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#persistent">Persistent</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+
+  <div class="tocsection sourcelink">
+    <a href="../../_sources/concepts/configuration/index.rst.txt">
+      <i class="fa-solid fa-file-lines"></i> Show Source
+    </a>
+  </div>
+</div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item"><div class="footer">
+    <a href="http://www.navy.mil">Official US Navy Website</a>
+    <a href="http://www.navy.com/navy/">US Navy Recruiting</a>
+    <a href="http://www.nrlmry.navy.mil">NRL</a>
+    <a href="http://foia.navy.mil">Accessibility</a>
+    <a href="http://foia.navy.mil">Freedom of Information Act</a>
+    <a href="http://www.nrlmry.navy.mil/privacypolicy.htm">Security & Policy</a>
+    <a href="http://www.nrlmry.navy.mil/linknotice.html">Hyperlink Notice</a>
+    <a href="mailto:webmaster@nrlmry.navy.mil">webmaster@nrlmry.navy.mil</a><br>
+    <a href="http://www.nrlmry.navy.mil">
+    Naval Research Laboratory Marine Meteorology Division Monterey, CA</a><br>
+    7 Grace Hopper Avenue, STOP 2, Monterey, CA 93943-5502
+</div></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

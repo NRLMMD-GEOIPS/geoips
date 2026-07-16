@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>geoips.plugins package &#8212; GeoIPS, Geolocated Information Processing System 1.17.0a0 documentation</title>
+    <title>geoips.plugins package &#8212; GeoIPS, Geolocated Information Processing System 1.19.0.post776.dev0 documentation</title>
   
   
   
@@ -27,47 +27,54 @@
   </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
-<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+  <link href="../_static/styles/theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
     <link rel="stylesheet" type="text/css" href="../_static/set_width.css?v=d4af5e1e" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
   
   <!-- So that users can add custom icons -->
-  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <script defer src="../_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
-<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
 
-    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=c5be8013"></script>
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=1e4423a0"></script>
     <script src="../_static/doctools.js?v=888ff710"></script>
     <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'geoips_api/geoips.plugins';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
     <link rel="icon" href="../_static/nrlicon.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="geoips.plugins.modules package" href="geoips.plugins.modules.html" />
+    <link rel="next" title="geoips.plugins.classes package" href="geoips.plugins.classes.html" />
     <link rel="prev" title="geoips.interfaces.yaml_based package" href="geoips.interfaces.yaml_based.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="1.1" />
-    <meta name="docbuild:last-update" content="Oct 14, 2025 20:03:48"/>
+    <meta name="docbuild:last-update" content="Jul 16, 2026 04:57:54"/>
+  
+    
+    <script src="../_static/searchtools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <script src="../searchindex.js"></script>
+  
   </head>
-  
-  
-  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
-
+  <body data-default-mode="">
   
   
   <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
   
   <div id="pst-scroll-pixel-helper"></div>
   
   <button type="button" class="btn rounded-pill" id="pst-back-to-top">
     <i class="fa-solid fa-arrow-up"></i>Back to top</button>
-
+  
+  
+  
   
   <dialog id="pst-search-dialog">
     
@@ -93,7 +100,7 @@
 </div>
 
   
-    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
 <div class="bd-header__inner bd-page-width">
   <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
     <span class="fa-solid fa-bars"></span>
@@ -119,8 +126,8 @@
       
     
     
-    <img src="../_static/NRL_logo_RGB.jpg" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 1.17.0a0 documentation - Home"/>
-    <img src="../_static/NRL_logo_sidebar_Reverse.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 1.17.0a0 documentation - Home"/>
+    <img src="../_static/NRL_logo_RGB.jpg" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 1.19.0.post776.dev0 documentation - Home"/>
+    <img src="../_static/NRL_logo_sidebar_Reverse.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 1.19.0.post776.dev0 documentation - Home"/>
   
   
 </a></div>
@@ -369,7 +376,14 @@
   </div>
   
     <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item pst-sidebar-collapse"><button id="pst-collapse-sidebar-button" aria-expanded="true" aria-controls="pst-primary-sidebar"><svg class="pst-icon svg-inline--fa" role="img" aria-hidden="true" focusable="false" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+    <path fill="currentColor" d="M3 15.5C2.36232 15.5 1.74874 15.2564 1.28478 14.8189C0.820828 14.3815 0.541576 13.7832 0.504167 13.1467L0.5 13L0.5 3C0.499965 2.36232 0.743605 1.74874 1.18107 1.28478C1.61854 0.820828 2.21676 0.541576 2.85333 0.504167L3 0.5L13 0.5C13.6377 0.499965 14.2513 0.743605 14.7152 1.18107C15.1792 1.61854 15.4584 2.21676 15.4958 2.85333L15.5 3L15.5 13C15.5 13.6377 15.2564 14.2513 14.8189 14.7152C14.3815 15.1792 13.7832 15.4584 13.1467 15.4958L13 15.5L3 15.5ZM3 13.8333L10.5 13.8333L10.5 2.16667L3 2.16667C2.79589 2.16669 2.59889 2.24163 2.44636 2.37726C2.29383 2.5129 2.19638 2.69979 2.1725 2.9025L2.16667 3L2.16667 13C2.16669 13.2041 2.24163 13.4011 2.37726 13.5536C2.5129 13.7062 2.69979 13.8036 2.9025 13.8275L3 13.8333ZM6.65583 10.325L6.5775 10.2558L4.91083 8.58917C4.76735 8.44567 4.68116 8.25476 4.66843 8.05223C4.65569 7.84971 4.71729 7.6495 4.84167 7.48917L4.91083 7.41083L6.5775 5.74417C6.72747 5.59471 6.9287 5.50794 7.14032 5.50148C7.35194 5.49502 7.55809 5.56935 7.7169 5.70937C7.8757 5.8494 7.97525 6.04463 7.99533 6.25539C8.01541 6.46616 7.95451 6.67667 7.825 6.84417L7.75583 6.9225L6.67917 8L7.75583 9.0775C7.89931 9.22099 7.98551 9.41191 7.99824 9.61443C8.01097 9.81695 7.94938 10.0172 7.825 10.1775L7.75583 10.2558C7.61234 10.3993 7.42142 10.4855 7.2189 10.4982C7.01638 10.511 6.81617 10.4494 6.65583 10.325Z"/>
+  </svg>
+  <span class="pst-collapse-sidebar-label">Collapse Sidebar</span>
+  <span class="pst-expand-sidebar-label">Expand Sidebar</span>
+</button></div>
         <div class="sidebar-primary-item">
+
 <nav class="bd-docs-nav bd-links"
      aria-label="Section Navigation">
   <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
@@ -379,39 +393,47 @@
 <li class="toctree-l3"><a class="reference internal" href="geoips.commandline.ancillary_info.html">geoips.commandline.ancillary_info package</a></li>
 </ul>
 </details></li>
+<li class="toctree-l2"><a class="reference internal" href="geoips.config.html">geoips.config package</a></li>
 <li class="toctree-l2"><a class="reference internal" href="geoips.data_manipulations.html">geoips.data_manipulations package</a></li>
 <li class="toctree-l2"><a class="reference internal" href="geoips.dev.html">geoips.dev package</a></li>
 <li class="toctree-l2"><a class="reference internal" href="geoips.filenames.html">geoips.filenames package</a></li>
 <li class="toctree-l2"><a class="reference internal" href="geoips.image_utils.html">geoips.image_utils package</a></li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="geoips.interfaces.html">geoips.interfaces package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l3"><a class="reference internal" href="geoips.interfaces.module_based.html">geoips.interfaces.module_based package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.interfaces.class_based.html">geoips.interfaces.class_based package</a></li>
 <li class="toctree-l3"><a class="reference internal" href="geoips.interfaces.yaml_based.html">geoips.interfaces.yaml_based package</a></li>
 </ul>
 </details></li>
 <li class="toctree-l2 current active has-children"><a class="current reference internal" href="#">geoips.plugins package</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="geoips.plugins.classes.html">geoips.plugins.classes package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.classes.algorithms.html">geoips.plugins.classes.algorithms package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.classes.colormappers.html">geoips.plugins.classes.colormappers package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.classes.coverage_checkers.html">geoips.plugins.classes.coverage_checkers package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.classes.filename_formatters.html">geoips.plugins.classes.filename_formatters package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.classes.interpolators.html">geoips.plugins.classes.interpolators package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.classes.output_formatters.html">geoips.plugins.classes.output_formatters package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.classes.readers.html">geoips.plugins.classes.readers package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.classes.sector_metadata_generators.html">geoips.plugins.classes.sector_metadata_generators package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.classes.sector_spec_generators.html">geoips.plugins.classes.sector_spec_generators package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.classes.title_formatters.html">geoips.plugins.classes.title_formatters package</a></li>
+</ul>
+</details></li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="geoips.plugins.modules.html">geoips.plugins.modules package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.algorithms.html">geoips.plugins.modules.algorithms package</a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.colormappers.html">geoips.plugins.modules.colormappers package</a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.coverage_checkers.html">geoips.plugins.modules.coverage_checkers package</a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.filename_formatters.html">geoips.plugins.modules.filename_formatters package</a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.interpolators.html">geoips.plugins.modules.interpolators package</a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.output_formatters.html">geoips.plugins.modules.output_formatters package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.procflows.html">geoips.plugins.modules.procflows package</a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.readers.html">geoips.plugins.modules.readers package</a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.sector_metadata_generators.html">geoips.plugins.modules.sector_metadata_generators package</a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.sector_spec_generators.html">geoips.plugins.modules.sector_spec_generators package</a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.title_formatters.html">geoips.plugins.modules.title_formatters package</a></li>
 </ul>
 </details></li>
 </ul>
 </details></li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="geoips.pydantic_models.html">geoips.pydantic_models package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l3"><a class="reference internal" href="geoips.pydantic_models.v1.html">geoips.pydantic_models.v1 package</a></li>
-<li class="toctree-l3"><a class="reference internal" href="geoips.pydantic_models.v2alpha1.html">geoips.pydantic_models.v2alpha1 package</a></li>
 </ul>
 </details></li>
 <li class="toctree-l2"><a class="reference internal" href="geoips.sector_utils.html">geoips.sector_utils package</a></li>
-<li class="toctree-l2"><a class="reference internal" href="geoips.utils.html">geoips.utils package</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="geoips.utils.html">geoips.utils package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="geoips.utils.coverage_checkers.html">geoips.utils.coverage_checkers package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.utils.memusg.html">geoips.utils.memusg package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.utils.types.html">geoips.utils.types package</a></li>
+</ul>
+</details></li>
 <li class="toctree-l2"><a class="reference internal" href="geoips.xarray_utils.html">geoips.xarray_utils package</a></li>
 </ul>
 </details></li>
@@ -484,151 +506,164 @@
 <h2>Subpackages<a class="headerlink" href="#subpackages" title="Permalink to this heading">#</a></h2>
 <div class="toctree-wrapper compound">
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="geoips.plugins.classes.html">geoips.plugins.classes package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="geoips.plugins.classes.html#subpackages">Subpackages</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="geoips.plugins.classes.algorithms.html">geoips.plugins.classes.algorithms package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.classes.algorithms.html#subpackages">Subpackages</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.classes.algorithms.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.classes.algorithms.html#module-geoips.plugins.classes.algorithms.RGB_Default">geoips.plugins.classes.algorithms.RGB_Default module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.classes.algorithms.html#module-geoips.plugins.classes.algorithms.absdiff_mst">geoips.plugins.classes.algorithms.absdiff_mst module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.classes.algorithms.html#module-geoips.plugins.classes.algorithms.single_channel">geoips.plugins.classes.algorithms.single_channel module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.classes.algorithms.html#module-geoips.plugins.classes.algorithms">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.plugins.classes.colormappers.html">geoips.plugins.classes.colormappers package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.classes.colormappers.html#subpackages">Subpackages</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.classes.colormappers.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.classes.colormappers.html#module-geoips.plugins.classes.colormappers.cmap_rgb">geoips.plugins.classes.colormappers.cmap_rgb module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.classes.colormappers.html#module-geoips.plugins.classes.colormappers.matplotlib_linear_norm">geoips.plugins.classes.colormappers.matplotlib_linear_norm module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.classes.colormappers.html#module-geoips.plugins.classes.colormappers.matplotlib_log_norm">geoips.plugins.classes.colormappers.matplotlib_log_norm module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.classes.colormappers.html#module-geoips.plugins.classes.colormappers">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.plugins.classes.coverage_checkers.html">geoips.plugins.classes.coverage_checkers package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.classes.coverage_checkers.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.classes.coverage_checkers.html#module-geoips.plugins.classes.coverage_checkers.center_radius">geoips.plugins.classes.coverage_checkers.center_radius module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.classes.coverage_checkers.html#module-geoips.plugins.classes.coverage_checkers.center_radius_rgba">geoips.plugins.classes.coverage_checkers.center_radius_rgba module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.classes.coverage_checkers.html#module-geoips.plugins.classes.coverage_checkers.masked_arrays">geoips.plugins.classes.coverage_checkers.masked_arrays module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.classes.coverage_checkers.html#module-geoips.plugins.classes.coverage_checkers.numpy_arrays_nan">geoips.plugins.classes.coverage_checkers.numpy_arrays_nan module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.classes.coverage_checkers.html#module-geoips.plugins.classes.coverage_checkers.rgba">geoips.plugins.classes.coverage_checkers.rgba module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.classes.coverage_checkers.html#module-geoips.plugins.classes.coverage_checkers.windbarbs">geoips.plugins.classes.coverage_checkers.windbarbs module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.classes.coverage_checkers.html#module-geoips.plugins.classes.coverage_checkers">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.plugins.classes.filename_formatters.html">geoips.plugins.classes.filename_formatters package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.classes.filename_formatters.html#subpackages">Subpackages</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.classes.filename_formatters.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.classes.filename_formatters.html#module-geoips.plugins.classes.filename_formatters.basic_fname">geoips.plugins.classes.filename_formatters.basic_fname module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.classes.filename_formatters.html#module-geoips.plugins.classes.filename_formatters.geoips_fname">geoips.plugins.classes.filename_formatters.geoips_fname module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.classes.filename_formatters.html#module-geoips.plugins.classes.filename_formatters.geoips_netcdf_fname">geoips.plugins.classes.filename_formatters.geoips_netcdf_fname module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.classes.filename_formatters.html#module-geoips.plugins.classes.filename_formatters.geotiff_fname">geoips.plugins.classes.filename_formatters.geotiff_fname module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.classes.filename_formatters.html#module-geoips.plugins.classes.filename_formatters.metadata_default_fname">geoips.plugins.classes.filename_formatters.metadata_default_fname module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.classes.filename_formatters.html#module-geoips.plugins.classes.filename_formatters.tc_clean_fname">geoips.plugins.classes.filename_formatters.tc_clean_fname module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.classes.filename_formatters.html#module-geoips.plugins.classes.filename_formatters.tc_fname">geoips.plugins.classes.filename_formatters.tc_fname module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.classes.filename_formatters.html#module-geoips.plugins.classes.filename_formatters.text_winds_day_fname">geoips.plugins.classes.filename_formatters.text_winds_day_fname module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.classes.filename_formatters.html#module-geoips.plugins.classes.filename_formatters.text_winds_full_fname">geoips.plugins.classes.filename_formatters.text_winds_full_fname module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.classes.filename_formatters.html#module-geoips.plugins.classes.filename_formatters.text_winds_tc_fname">geoips.plugins.classes.filename_formatters.text_winds_tc_fname module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.classes.filename_formatters.html#module-geoips.plugins.classes.filename_formatters">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.plugins.classes.interpolators.html">geoips.plugins.classes.interpolators package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.classes.interpolators.html#subpackages">Subpackages</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.classes.interpolators.html#module-geoips.plugins.classes.interpolators">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.plugins.classes.output_formatters.html">geoips.plugins.classes.output_formatters package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.classes.output_formatters.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.classes.output_formatters.html#module-geoips.plugins.classes.output_formatters.cogeotiff">geoips.plugins.classes.output_formatters.cogeotiff module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.classes.output_formatters.html#module-geoips.plugins.classes.output_formatters.cogeotiff_rgba">geoips.plugins.classes.output_formatters.cogeotiff_rgba module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.classes.output_formatters.html#module-geoips.plugins.classes.output_formatters.full_disk_image">geoips.plugins.classes.output_formatters.full_disk_image module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.classes.output_formatters.html#module-geoips.plugins.classes.output_formatters.geotiff_standard">geoips.plugins.classes.output_formatters.geotiff_standard module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.classes.output_formatters.html#module-geoips.plugins.classes.output_formatters.histogram_csv">geoips.plugins.classes.output_formatters.histogram_csv module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.classes.output_formatters.html#module-geoips.plugins.classes.output_formatters.histogram_netcdf">geoips.plugins.classes.output_formatters.histogram_netcdf module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.classes.output_formatters.html#module-geoips.plugins.classes.output_formatters.imagery_annotated">geoips.plugins.classes.output_formatters.imagery_annotated module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.classes.output_formatters.html#module-geoips.plugins.classes.output_formatters.imagery_clean">geoips.plugins.classes.output_formatters.imagery_clean module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.classes.output_formatters.html#module-geoips.plugins.classes.output_formatters.imagery_windbarbs">geoips.plugins.classes.output_formatters.imagery_windbarbs module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.classes.output_formatters.html#module-geoips.plugins.classes.output_formatters.imagery_windbarbs_clean">geoips.plugins.classes.output_formatters.imagery_windbarbs_clean module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.classes.output_formatters.html#module-geoips.plugins.classes.output_formatters.imagery_windbarbs_multi_level">geoips.plugins.classes.output_formatters.imagery_windbarbs_multi_level module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.classes.output_formatters.html#module-geoips.plugins.classes.output_formatters.imagery_windbarbs_multi_level_clean">geoips.plugins.classes.output_formatters.imagery_windbarbs_multi_level_clean module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.classes.output_formatters.html#module-geoips.plugins.classes.output_formatters.metadata_default">geoips.plugins.classes.output_formatters.metadata_default module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.classes.output_formatters.html#module-geoips.plugins.classes.output_formatters.metadata_tc">geoips.plugins.classes.output_formatters.metadata_tc module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.classes.output_formatters.html#module-geoips.plugins.classes.output_formatters.netcdf_full">geoips.plugins.classes.output_formatters.netcdf_full module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.classes.output_formatters.html#module-geoips.plugins.classes.output_formatters.netcdf_geoips">geoips.plugins.classes.output_formatters.netcdf_geoips module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.classes.output_formatters.html#module-geoips.plugins.classes.output_formatters.netcdf_xarray">geoips.plugins.classes.output_formatters.netcdf_xarray module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.classes.output_formatters.html#module-geoips.plugins.classes.output_formatters.text_winds">geoips.plugins.classes.output_formatters.text_winds module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.classes.output_formatters.html#module-geoips.plugins.classes.output_formatters.unprojected_image">geoips.plugins.classes.output_formatters.unprojected_image module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.classes.output_formatters.html#module-geoips.plugins.classes.output_formatters.windspeed_awips2_formatter">geoips.plugins.classes.output_formatters.windspeed_awips2_formatter module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.classes.output_formatters.html#module-geoips.plugins.classes.output_formatters">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.plugins.classes.readers.html">geoips.plugins.classes.readers package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.classes.readers.html#subpackages">Subpackages</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.classes.readers.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.classes.readers.html#module-geoips.plugins.classes.readers.abi_l2_netcdf">geoips.plugins.classes.readers.abi_l2_netcdf module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.classes.readers.html#module-geoips.plugins.classes.readers.abi_netcdf">geoips.plugins.classes.readers.abi_netcdf module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.classes.readers.html#module-geoips.plugins.classes.readers.ahi_hsd">geoips.plugins.classes.readers.ahi_hsd module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.classes.readers.html#module-geoips.plugins.classes.readers.ami_netcdf">geoips.plugins.classes.readers.ami_netcdf module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.classes.readers.html#module-geoips.plugins.classes.readers.amsr2_netcdf">geoips.plugins.classes.readers.amsr2_netcdf module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.classes.readers.html#module-geoips.plugins.classes.readers.amsr2_remss_winds_netcdf">geoips.plugins.classes.readers.amsr2_remss_winds_netcdf module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.classes.readers.html#module-geoips.plugins.classes.readers.amsua_mhs_mirs">geoips.plugins.classes.readers.amsua_mhs_mirs module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.classes.readers.html#module-geoips.plugins.classes.readers.amsub_hdf">geoips.plugins.classes.readers.amsub_hdf module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.classes.readers.html#module-geoips.plugins.classes.readers.ascat_uhr_netcdf">geoips.plugins.classes.readers.ascat_uhr_netcdf module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.classes.readers.html#module-geoips.plugins.classes.readers.atms_hdf5">geoips.plugins.classes.readers.atms_hdf5 module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.classes.readers.html#module-geoips.plugins.classes.readers.aws_netcdf">geoips.plugins.classes.readers.aws_netcdf module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.classes.readers.html#module-geoips.plugins.classes.readers.cygnss_netcdf">geoips.plugins.classes.readers.cygnss_netcdf module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.classes.readers.html#module-geoips.plugins.classes.readers.ewsg_netcdf">geoips.plugins.classes.readers.ewsg_netcdf module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.classes.readers.html#module-geoips.plugins.classes.readers.fci_netcdf">geoips.plugins.classes.readers.fci_netcdf module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.classes.readers.html#module-geoips.plugins.classes.readers.geoips_netcdf">geoips.plugins.classes.readers.geoips_netcdf module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.classes.readers.html#module-geoips.plugins.classes.readers.gfs_grib">geoips.plugins.classes.readers.gfs_grib module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.classes.readers.html#module-geoips.plugins.classes.readers.gmi_hdf5">geoips.plugins.classes.readers.gmi_hdf5 module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.classes.readers.html#module-geoips.plugins.classes.readers.imerg_hdf5">geoips.plugins.classes.readers.imerg_hdf5 module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.classes.readers.html#module-geoips.plugins.classes.readers.mimic_netcdf">geoips.plugins.classes.readers.mimic_netcdf module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.classes.readers.html#module-geoips.plugins.classes.readers.modis_hdf4">geoips.plugins.classes.readers.modis_hdf4 module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.classes.readers.html#module-geoips.plugins.classes.readers.saphir_hdf5">geoips.plugins.classes.readers.saphir_hdf5 module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.classes.readers.html#module-geoips.plugins.classes.readers.sar_winds_netcdf">geoips.plugins.classes.readers.sar_winds_netcdf module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.classes.readers.html#module-geoips.plugins.classes.readers.scat_knmi_winds_netcdf">geoips.plugins.classes.readers.scat_knmi_winds_netcdf module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.classes.readers.html#module-geoips.plugins.classes.readers.scat_noaa_winds_netcdf">geoips.plugins.classes.readers.scat_noaa_winds_netcdf module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.classes.readers.html#module-geoips.plugins.classes.readers.seviri_hrit">geoips.plugins.classes.readers.seviri_hrit module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.classes.readers.html#module-geoips.plugins.classes.readers.sfc_winds_text">geoips.plugins.classes.readers.sfc_winds_text module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.classes.readers.html#module-geoips.plugins.classes.readers.sgli_l1b_hdf5">geoips.plugins.classes.readers.sgli_l1b_hdf5 module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.classes.readers.html#module-geoips.plugins.classes.readers.smap_remss_winds_netcdf">geoips.plugins.classes.readers.smap_remss_winds_netcdf module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.classes.readers.html#module-geoips.plugins.classes.readers.smos_winds_netcdf">geoips.plugins.classes.readers.smos_winds_netcdf module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.classes.readers.html#module-geoips.plugins.classes.readers.ssmi_binary">geoips.plugins.classes.readers.ssmi_binary module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.classes.readers.html#module-geoips.plugins.classes.readers.ssmis_binary">geoips.plugins.classes.readers.ssmis_binary module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.classes.readers.html#module-geoips.plugins.classes.readers.viirs_l2_netcdf">geoips.plugins.classes.readers.viirs_l2_netcdf module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.classes.readers.html#module-geoips.plugins.classes.readers.viirs_netcdf">geoips.plugins.classes.readers.viirs_netcdf module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.classes.readers.html#module-geoips.plugins.classes.readers.viirs_sdr_hdf5">geoips.plugins.classes.readers.viirs_sdr_hdf5 module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.classes.readers.html#module-geoips.plugins.classes.readers.viirs_sdr_satpy_hdf5">geoips.plugins.classes.readers.viirs_sdr_satpy_hdf5 module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.classes.readers.html#module-geoips.plugins.classes.readers.wfabba_ascii">geoips.plugins.classes.readers.wfabba_ascii module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.classes.readers.html#module-geoips.plugins.classes.readers.windsat_idr37_binary">geoips.plugins.classes.readers.windsat_idr37_binary module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.classes.readers.html#module-geoips.plugins.classes.readers.windsat_remss_winds_netcdf">geoips.plugins.classes.readers.windsat_remss_winds_netcdf module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.classes.readers.html#module-geoips.plugins.classes.readers">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.plugins.classes.sector_metadata_generators.html">geoips.plugins.classes.sector_metadata_generators package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.classes.sector_metadata_generators.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.classes.sector_metadata_generators.html#module-geoips.plugins.classes.sector_metadata_generators.bdeck_parser">geoips.plugins.classes.sector_metadata_generators.bdeck_parser module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.classes.sector_metadata_generators.html#module-geoips.plugins.classes.sector_metadata_generators.fdeck_parser">geoips.plugins.classes.sector_metadata_generators.fdeck_parser module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.classes.sector_metadata_generators.html#module-geoips.plugins.classes.sector_metadata_generators.tc_sector_file_parser">geoips.plugins.classes.sector_metadata_generators.tc_sector_file_parser module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.classes.sector_metadata_generators.html#module-geoips.plugins.classes.sector_metadata_generators.volc_parser">geoips.plugins.classes.sector_metadata_generators.volc_parser module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.classes.sector_metadata_generators.html#module-geoips.plugins.classes.sector_metadata_generators">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.plugins.classes.sector_spec_generators.html">geoips.plugins.classes.sector_spec_generators package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.classes.sector_spec_generators.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.classes.sector_spec_generators.html#module-geoips.plugins.classes.sector_spec_generators.center_coordinates">geoips.plugins.classes.sector_spec_generators.center_coordinates module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.classes.sector_spec_generators.html#module-geoips.plugins.classes.sector_spec_generators">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.plugins.classes.title_formatters.html">geoips.plugins.classes.title_formatters package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.classes.title_formatters.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.classes.title_formatters.html#module-geoips.plugins.classes.title_formatters.static_standard">geoips.plugins.classes.title_formatters.static_standard module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.classes.title_formatters.html#module-geoips.plugins.classes.title_formatters.tc_copyright">geoips.plugins.classes.title_formatters.tc_copyright module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.classes.title_formatters.html#module-geoips.plugins.classes.title_formatters.tc_standard">geoips.plugins.classes.title_formatters.tc_standard module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.classes.title_formatters.html#module-geoips.plugins.classes.title_formatters">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="geoips.plugins.classes.html#module-geoips.plugins.classes">Module contents</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="geoips.plugins.modules.html">geoips.plugins.modules package</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="geoips.plugins.modules.html#subpackages">Subpackages</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="geoips.plugins.modules.algorithms.html">geoips.plugins.modules.algorithms package</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.algorithms.html#subpackages">Subpackages</a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.algorithms.html#submodules">Submodules</a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.algorithms.html#module-geoips.plugins.modules.algorithms.RGB_Default">geoips.plugins.modules.algorithms.RGB_Default module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.algorithms.html#module-geoips.plugins.modules.algorithms.absdiff_mst">geoips.plugins.modules.algorithms.absdiff_mst module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.algorithms.html#module-geoips.plugins.modules.algorithms.single_channel">geoips.plugins.modules.algorithms.single_channel module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.algorithms.html#module-geoips.plugins.modules.algorithms">Module contents</a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="geoips.plugins.modules.colormappers.html">geoips.plugins.modules.colormappers package</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.colormappers.html#subpackages">Subpackages</a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.colormappers.html#submodules">Submodules</a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.colormappers.html#module-geoips.plugins.modules.colormappers.cmap_rgb">geoips.plugins.modules.colormappers.cmap_rgb module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.colormappers.html#module-geoips.plugins.modules.colormappers.matplotlib_linear_norm">geoips.plugins.modules.colormappers.matplotlib_linear_norm module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.colormappers.html#module-geoips.plugins.modules.colormappers">Module contents</a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="geoips.plugins.modules.coverage_checkers.html">geoips.plugins.modules.coverage_checkers package</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.coverage_checkers.html#submodules">Submodules</a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.coverage_checkers.html#module-geoips.plugins.modules.coverage_checkers.center_radius">geoips.plugins.modules.coverage_checkers.center_radius module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.coverage_checkers.html#module-geoips.plugins.modules.coverage_checkers.center_radius_rgba">geoips.plugins.modules.coverage_checkers.center_radius_rgba module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.coverage_checkers.html#module-geoips.plugins.modules.coverage_checkers.masked_arrays">geoips.plugins.modules.coverage_checkers.masked_arrays module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.coverage_checkers.html#module-geoips.plugins.modules.coverage_checkers.numpy_arrays_nan">geoips.plugins.modules.coverage_checkers.numpy_arrays_nan module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.coverage_checkers.html#module-geoips.plugins.modules.coverage_checkers.rgba">geoips.plugins.modules.coverage_checkers.rgba module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.coverage_checkers.html#module-geoips.plugins.modules.coverage_checkers.windbarbs">geoips.plugins.modules.coverage_checkers.windbarbs module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.coverage_checkers.html#module-geoips.plugins.modules.coverage_checkers">Module contents</a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="geoips.plugins.modules.filename_formatters.html">geoips.plugins.modules.filename_formatters package</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.filename_formatters.html#subpackages">Subpackages</a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.filename_formatters.html#submodules">Submodules</a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.filename_formatters.html#module-geoips.plugins.modules.filename_formatters.basic_fname">geoips.plugins.modules.filename_formatters.basic_fname module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.filename_formatters.html#module-geoips.plugins.modules.filename_formatters.geoips_fname">geoips.plugins.modules.filename_formatters.geoips_fname module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.filename_formatters.html#module-geoips.plugins.modules.filename_formatters.geoips_netcdf_fname">geoips.plugins.modules.filename_formatters.geoips_netcdf_fname module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.filename_formatters.html#module-geoips.plugins.modules.filename_formatters.geotiff_fname">geoips.plugins.modules.filename_formatters.geotiff_fname module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.filename_formatters.html#module-geoips.plugins.modules.filename_formatters.metadata_default_fname">geoips.plugins.modules.filename_formatters.metadata_default_fname module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.filename_formatters.html#module-geoips.plugins.modules.filename_formatters.tc_clean_fname">geoips.plugins.modules.filename_formatters.tc_clean_fname module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.filename_formatters.html#module-geoips.plugins.modules.filename_formatters.tc_fname">geoips.plugins.modules.filename_formatters.tc_fname module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.filename_formatters.html#module-geoips.plugins.modules.filename_formatters.text_winds_day_fname">geoips.plugins.modules.filename_formatters.text_winds_day_fname module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.filename_formatters.html#module-geoips.plugins.modules.filename_formatters.text_winds_full_fname">geoips.plugins.modules.filename_formatters.text_winds_full_fname module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.filename_formatters.html#module-geoips.plugins.modules.filename_formatters.text_winds_tc_fname">geoips.plugins.modules.filename_formatters.text_winds_tc_fname module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.filename_formatters.html#module-geoips.plugins.modules.filename_formatters">Module contents</a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="geoips.plugins.modules.interpolators.html">geoips.plugins.modules.interpolators package</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.interpolators.html#subpackages">Subpackages</a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.interpolators.html#module-geoips.plugins.modules.interpolators">Module contents</a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="geoips.plugins.modules.output_formatters.html">geoips.plugins.modules.output_formatters package</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.output_formatters.html#submodules">Submodules</a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.output_formatters.html#module-geoips.plugins.modules.output_formatters.cogeotiff">geoips.plugins.modules.output_formatters.cogeotiff module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.output_formatters.html#module-geoips.plugins.modules.output_formatters.cogeotiff_rgba">geoips.plugins.modules.output_formatters.cogeotiff_rgba module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.output_formatters.html#module-geoips.plugins.modules.output_formatters.full_disk_image">geoips.plugins.modules.output_formatters.full_disk_image module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.output_formatters.html#module-geoips.plugins.modules.output_formatters.geotiff_standard">geoips.plugins.modules.output_formatters.geotiff_standard module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.output_formatters.html#module-geoips.plugins.modules.output_formatters.histogram_csv">geoips.plugins.modules.output_formatters.histogram_csv module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.output_formatters.html#module-geoips.plugins.modules.output_formatters.histogram_netcdf">geoips.plugins.modules.output_formatters.histogram_netcdf module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.output_formatters.html#module-geoips.plugins.modules.output_formatters.imagery_annotated">geoips.plugins.modules.output_formatters.imagery_annotated module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.output_formatters.html#module-geoips.plugins.modules.output_formatters.imagery_clean">geoips.plugins.modules.output_formatters.imagery_clean module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.output_formatters.html#module-geoips.plugins.modules.output_formatters.imagery_windbarbs">geoips.plugins.modules.output_formatters.imagery_windbarbs module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.output_formatters.html#module-geoips.plugins.modules.output_formatters.imagery_windbarbs_clean">geoips.plugins.modules.output_formatters.imagery_windbarbs_clean module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.output_formatters.html#module-geoips.plugins.modules.output_formatters.imagery_windbarbs_multi_level">geoips.plugins.modules.output_formatters.imagery_windbarbs_multi_level module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.output_formatters.html#module-geoips.plugins.modules.output_formatters.imagery_windbarbs_multi_level_clean">geoips.plugins.modules.output_formatters.imagery_windbarbs_multi_level_clean module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.output_formatters.html#module-geoips.plugins.modules.output_formatters.metadata_default">geoips.plugins.modules.output_formatters.metadata_default module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.output_formatters.html#module-geoips.plugins.modules.output_formatters.metadata_tc">geoips.plugins.modules.output_formatters.metadata_tc module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.output_formatters.html#module-geoips.plugins.modules.output_formatters.netcdf_full">geoips.plugins.modules.output_formatters.netcdf_full module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.output_formatters.html#module-geoips.plugins.modules.output_formatters.netcdf_geoips">geoips.plugins.modules.output_formatters.netcdf_geoips module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.output_formatters.html#module-geoips.plugins.modules.output_formatters.netcdf_xarray">geoips.plugins.modules.output_formatters.netcdf_xarray module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.output_formatters.html#module-geoips.plugins.modules.output_formatters.text_winds">geoips.plugins.modules.output_formatters.text_winds module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.output_formatters.html#module-geoips.plugins.modules.output_formatters.unprojected_image">geoips.plugins.modules.output_formatters.unprojected_image module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.output_formatters.html#module-geoips.plugins.modules.output_formatters.windspeed_awips2_formatter">geoips.plugins.modules.output_formatters.windspeed_awips2_formatter module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.output_formatters.html#module-geoips.plugins.modules.output_formatters">Module contents</a></li>
-</ul>
-</li>
 <li class="toctree-l3"><a class="reference internal" href="geoips.plugins.modules.procflows.html">geoips.plugins.modules.procflows package</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.procflows.html#submodules">Submodules</a></li>
 <li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.procflows.html#module-geoips.plugins.modules.procflows.config_based">geoips.plugins.modules.procflows.config_based module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.procflows.html#module-geoips.plugins.modules.procflows.obp_utils">geoips.plugins.modules.procflows.obp_utils module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.procflows.html#module-geoips.plugins.modules.procflows.order_based">geoips.plugins.modules.procflows.order_based module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.procflows.html#module-geoips.plugins.modules.procflows.single_source">geoips.plugins.modules.procflows.single_source module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.procflows.html#module-geoips.plugins.modules.procflows">Module contents</a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="geoips.plugins.modules.readers.html">geoips.plugins.modules.readers package</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.readers.html#subpackages">Subpackages</a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.readers.html#submodules">Submodules</a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.readers.html#module-geoips.plugins.modules.readers.abi_l2_netcdf">geoips.plugins.modules.readers.abi_l2_netcdf module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.readers.html#module-geoips.plugins.modules.readers.abi_netcdf">geoips.plugins.modules.readers.abi_netcdf module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.readers.html#module-geoips.plugins.modules.readers.ahi_hsd">geoips.plugins.modules.readers.ahi_hsd module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.readers.html#module-geoips.plugins.modules.readers.ami_netcdf">geoips.plugins.modules.readers.ami_netcdf module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.readers.html#module-geoips.plugins.modules.readers.amsr2_netcdf">geoips.plugins.modules.readers.amsr2_netcdf module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.readers.html#module-geoips.plugins.modules.readers.amsr2_remss_winds_netcdf">geoips.plugins.modules.readers.amsr2_remss_winds_netcdf module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.readers.html#module-geoips.plugins.modules.readers.amsua_mhs_mirs">geoips.plugins.modules.readers.amsua_mhs_mirs module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.readers.html#module-geoips.plugins.modules.readers.amsub_hdf">geoips.plugins.modules.readers.amsub_hdf module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.readers.html#module-geoips.plugins.modules.readers.ascat_uhr_netcdf">geoips.plugins.modules.readers.ascat_uhr_netcdf module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.readers.html#module-geoips.plugins.modules.readers.atms_hdf5">geoips.plugins.modules.readers.atms_hdf5 module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.readers.html#module-geoips.plugins.modules.readers.aws_netcdf">geoips.plugins.modules.readers.aws_netcdf module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.readers.html#module-geoips.plugins.modules.readers.cygnss_netcdf">geoips.plugins.modules.readers.cygnss_netcdf module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.readers.html#module-geoips.plugins.modules.readers.ewsg_netcdf">geoips.plugins.modules.readers.ewsg_netcdf module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.readers.html#module-geoips.plugins.modules.readers.fci_netcdf">geoips.plugins.modules.readers.fci_netcdf module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.readers.html#module-geoips.plugins.modules.readers.geoips_netcdf">geoips.plugins.modules.readers.geoips_netcdf module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.readers.html#module-geoips.plugins.modules.readers.gfs_grib">geoips.plugins.modules.readers.gfs_grib module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.readers.html#module-geoips.plugins.modules.readers.gmi_hdf5">geoips.plugins.modules.readers.gmi_hdf5 module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.readers.html#module-geoips.plugins.modules.readers.imerg_hdf5">geoips.plugins.modules.readers.imerg_hdf5 module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.readers.html#module-geoips.plugins.modules.readers.mimic_netcdf">geoips.plugins.modules.readers.mimic_netcdf module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.readers.html#module-geoips.plugins.modules.readers.modis_hdf4">geoips.plugins.modules.readers.modis_hdf4 module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.readers.html#module-geoips.plugins.modules.readers.saphir_hdf5">geoips.plugins.modules.readers.saphir_hdf5 module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.readers.html#module-geoips.plugins.modules.readers.sar_winds_netcdf">geoips.plugins.modules.readers.sar_winds_netcdf module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.readers.html#module-geoips.plugins.modules.readers.scat_knmi_winds_netcdf">geoips.plugins.modules.readers.scat_knmi_winds_netcdf module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.readers.html#module-geoips.plugins.modules.readers.scat_noaa_winds_netcdf">geoips.plugins.modules.readers.scat_noaa_winds_netcdf module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.readers.html#module-geoips.plugins.modules.readers.seviri_hrit">geoips.plugins.modules.readers.seviri_hrit module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.readers.html#module-geoips.plugins.modules.readers.sfc_winds_text">geoips.plugins.modules.readers.sfc_winds_text module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.readers.html#module-geoips.plugins.modules.readers.smap_remss_winds_netcdf">geoips.plugins.modules.readers.smap_remss_winds_netcdf module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.readers.html#module-geoips.plugins.modules.readers.smos_winds_netcdf">geoips.plugins.modules.readers.smos_winds_netcdf module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.readers.html#module-geoips.plugins.modules.readers.ssmi_binary">geoips.plugins.modules.readers.ssmi_binary module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.readers.html#module-geoips.plugins.modules.readers.ssmis_binary">geoips.plugins.modules.readers.ssmis_binary module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.readers.html#module-geoips.plugins.modules.readers.viirs_l2_netcdf">geoips.plugins.modules.readers.viirs_l2_netcdf module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.readers.html#module-geoips.plugins.modules.readers.viirs_netcdf">geoips.plugins.modules.readers.viirs_netcdf module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.readers.html#module-geoips.plugins.modules.readers.viirs_sdr_hdf5">geoips.plugins.modules.readers.viirs_sdr_hdf5 module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.readers.html#module-geoips.plugins.modules.readers.wfabba_ascii">geoips.plugins.modules.readers.wfabba_ascii module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.readers.html#module-geoips.plugins.modules.readers.windsat_idr37_binary">geoips.plugins.modules.readers.windsat_idr37_binary module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.readers.html#module-geoips.plugins.modules.readers.windsat_remss_winds_netcdf">geoips.plugins.modules.readers.windsat_remss_winds_netcdf module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.readers.html#module-geoips.plugins.modules.readers">Module contents</a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="geoips.plugins.modules.sector_metadata_generators.html">geoips.plugins.modules.sector_metadata_generators package</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.sector_metadata_generators.html#submodules">Submodules</a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.sector_metadata_generators.html#module-geoips.plugins.modules.sector_metadata_generators.bdeck_parser">geoips.plugins.modules.sector_metadata_generators.bdeck_parser module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.sector_metadata_generators.html#module-geoips.plugins.modules.sector_metadata_generators.tc_sector_file_parser">geoips.plugins.modules.sector_metadata_generators.tc_sector_file_parser module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.sector_metadata_generators.html#module-geoips.plugins.modules.sector_metadata_generators">Module contents</a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="geoips.plugins.modules.sector_spec_generators.html">geoips.plugins.modules.sector_spec_generators package</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.sector_spec_generators.html#submodules">Submodules</a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.sector_spec_generators.html#module-geoips.plugins.modules.sector_spec_generators.center_coordinates">geoips.plugins.modules.sector_spec_generators.center_coordinates module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.sector_spec_generators.html#module-geoips.plugins.modules.sector_spec_generators">Module contents</a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="geoips.plugins.modules.title_formatters.html">geoips.plugins.modules.title_formatters package</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.title_formatters.html#submodules">Submodules</a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.title_formatters.html#module-geoips.plugins.modules.title_formatters.static_standard">geoips.plugins.modules.title_formatters.static_standard module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.title_formatters.html#module-geoips.plugins.modules.title_formatters.tc_copyright">geoips.plugins.modules.title_formatters.tc_copyright module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.title_formatters.html#module-geoips.plugins.modules.title_formatters.tc_standard">geoips.plugins.modules.title_formatters.tc_standard module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.title_formatters.html#module-geoips.plugins.modules.title_formatters">Module contents</a></li>
 </ul>
 </li>
 </ul>
@@ -665,11 +700,11 @@
       </div>
     </a>
     <a class="right-next"
-       href="geoips.plugins.modules.html"
+       href="geoips.plugins.classes.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">geoips.plugins.modules package</p>
+        <p class="prev-next-title">geoips.plugins.classes package</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -690,21 +725,21 @@
     class="page-toc tocsection onthispage">
     <i class="fa-solid fa-list"></i> On this page
   </div>
-  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
-    <ul class="visible nav section-nav flex-column">
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#subpackages">Subpackages</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-geoips.plugins">Module contents</a></li>
 </ul>
   </nav></div>
 
   <div class="sidebar-secondary-item">
-  <div role="note" aria-label="source link">
-    <h3>This Page</h3>
-    <ul class="this-page-menu">
-      <li><a href="../_sources/geoips_api/geoips.plugins.rst.txt"
-            rel="nofollow">Show Source</a></li>
-    </ul>
-   </div></div>
+
+  <div class="tocsection sourcelink">
+    <a href="../_sources/geoips_api/geoips.plugins.rst.txt">
+      <i class="fa-solid fa-file-lines"></i> Show Source
+    </a>
+  </div>
+</div>
 
 </div></div>
               
@@ -719,8 +754,8 @@
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
-<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+  <script defer src="../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb"></script>
 
   <footer class="bd-footer">
 <div class="bd-footer__inner bd-page-width">

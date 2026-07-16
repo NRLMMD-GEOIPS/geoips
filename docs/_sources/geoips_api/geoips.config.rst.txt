@@ -1,0 +1,45 @@
+geoips.config package
+=====================
+
+Submodules
+----------
+
+geoips.config.config module
+---------------------------
+
+.. automodule:: geoips.config.config
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+geoips.config.plugins module
+----------------------------
+
+.. automodule:: geoips.config.plugins
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+geoips.config.schema module
+---------------------------
+
+.. automodule:: geoips.config.schema
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+geoips.config.yaml\_loader module
+---------------------------------
+
+.. automodule:: geoips.config.yaml_loader
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: geoips.config
+   :members:
+   :undoc-members:
+   :show-inheritance:

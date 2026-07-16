@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>geoips.interfaces.yaml_based.workflows &#8212; GeoIPS, Geolocated Information Processing System 1.17.0a0 documentation</title>
+    <title>geoips.interfaces.yaml_based.workflows &#8212; GeoIPS, Geolocated Information Processing System 1.19.0.post776.dev0 documentation</title>
   
   
   
@@ -26,53 +26,569 @@
   </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
-<link href="../../../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+  <link href="../../../../_static/styles/theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+<link href="../../../../_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=03e43079" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/set_width.css?v=d4af5e1e" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/sphinx-design.min.css?v=95c83b7e" />
   
   <!-- So that users can add custom icons -->
-  <script src="../../../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <script defer src="../../../../_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
-<link rel="preload" as="script" href="../../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+  <link rel="preload" as="script" href="../../../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
+<link rel="preload" as="script" href="../../../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
 
-    <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js?v=c5be8013"></script>
+    <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js?v=1e4423a0"></script>
     <script src="../../../../_static/doctools.js?v=888ff710"></script>
     <script src="../../../../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../../_static/design-tabs.js?v=f930bc37"></script>
-    <script type="module" src="https://cdn.jsdelivr.net/npm/mermaid@11.2.0/dist/mermaid.esm.min.mjs"></script>
-    <script type="module" src="https://cdn.jsdelivr.net/npm/@mermaid-js/layout-elk@0.1.4/dist/mermaid-layout-elk.esm.min.mjs"></script>
-    <script type="module">import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.2.0/dist/mermaid.esm.min.mjs";import elkLayouts from "https://cdn.jsdelivr.net/npm/@mermaid-js/layout-elk@0.1.4/dist/mermaid-layout-elk.esm.min.mjs";mermaid.registerLayoutLoaders(elkLayouts);mermaid.initialize({startOnLoad:false});</script>
     <script src="https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js"></script>
-    <script type="module">
-import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.2.0/dist/mermaid.esm.min.mjs";
-window.addEventListener("load", () => mermaid.run());
-</script>
+    <script type="module">import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.12.1/dist/mermaid.esm.min.mjs";
+
+
+
+
+
+const initStyles = () => {
+    const defaultStyle = document.createElement('style');
+    defaultStyle.textContent = `pre.mermaid {
+    /* Same as .mermaid-container > pre */
+    display: block;
+    width: 100%;
+}
+
+pre.mermaid > svg {
+    /* Same as .mermaid-container > pre > svg */
+    height: 500px;
+    width: 100%;
+    max-width: 100% !important;
+}`;
+    document.head.appendChild(defaultStyle);
+
+    const fullscreenStyle = document.createElement('style');
+    fullscreenStyle.textContent = `.mermaid-container {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+}
+
+.mermaid-container > pre {
+    display: block;
+    width: 100%;
+}
+
+.mermaid-container > pre > svg {
+    height: 500px;
+    width: 100%;
+    max-width: 100% !important;
+}
+
+.mermaid-fullscreen-btn {
+    width: 28px;
+    height: 28px;
+    background: rgba(255, 255, 255, 0.95);
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    border-radius: 4px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+    font-size: 14px;
+    line-height: 1;
+    padding: 0;
+    color: #333;
+}
+
+.mermaid-fullscreen-btn:hover {
+    opacity: 100% !important;
+    background: rgba(255, 255, 255, 1);
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
+    transform: scale(1.1);
+}
+
+.mermaid-fullscreen-btn.dark-theme {
+    background: rgba(50, 50, 50, 0.95);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: #e0e0e0;
+}
+
+.mermaid-fullscreen-btn.dark-theme:hover {
+    background: rgba(60, 60, 60, 1);
+    box-shadow: 0 3px 10px rgba(255, 255, 255, 0.2);
+}
+
+.mermaid-fullscreen-modal {
+    display: none;
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 95vw;
+    height: 100vh;
+    background: rgba(255, 255, 255, 0.98);
+    z-index: 9999;
+    padding: 20px;
+    overflow: auto;
+}
+
+.mermaid-fullscreen-modal.dark-theme {
+    background: rgba(0, 0, 0, 0.98);
+}
+
+.mermaid-fullscreen-modal.active {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.mermaid-container-fullscreen {
+    position: relative;
+    width: 95vw;
+    height: 90vh;
+    max-width: 95vw;
+    max-height: 90vh;
+    background: white;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+    overflow: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.mermaid-container-fullscreen.dark-theme {
+    background: #1a1a1a;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8);
+}
+
+.mermaid-container-fullscreen pre.mermaid {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.mermaid-container-fullscreen .mermaid svg {
+    height: 100% !important;
+    width: 100% !important;
+    cursor: grab;
+}
+
+.mermaid-fullscreen-close {
+    position: fixed !important;
+    top: 20px !important;
+    right: 20px !important;
+    width: 40px;
+    height: 40px;
+    background: rgba(255, 255, 255, 0.95);
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-radius: 50%;
+    cursor: pointer;
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    transition: all 0.2s;
+    font-size: 24px;
+    line-height: 1;
+    color: #333;
+}
+
+.mermaid-fullscreen-close:hover {
+    background: white;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+    transform: scale(1.1);
+}
+
+.mermaid-fullscreen-close.dark-theme {
+    background: rgba(50, 50, 50, 0.95);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #e0e0e0;
+}
+
+.mermaid-fullscreen-close.dark-theme:hover {
+    background: rgba(60, 60, 60, 1);
+    box-shadow: 0 6px 16px rgba(255, 255, 255, 0.2);
+}
+
+.mermaid-fullscreen-modal .mermaid-fullscreen-btn {
+    display: none !important;
+}`;
+    document.head.appendChild(fullscreenStyle);
+}
+
+// Detect if page has dark background
+const isDarkTheme = () => {
+    // We use a set of heuristics:
+    // 1. Check for common dark mode classes or attributes
+    // 2. Check computed background color brightness
+    if (document.documentElement.classList.contains('dark') ||
+        document.documentElement.getAttribute('data-theme') === 'dark' ||
+        document.body.classList.contains('dark') ||
+        document.body.getAttribute('data-theme') === 'dark') {
+        // console.log("Dark theme detected via class/attribute");
+        return true;
+    }
+    if (document.documentElement.classList.contains('light') ||
+        document.documentElement.getAttribute('data-theme') === 'light' ||
+        document.body.classList.contains('light') ||
+        document.body.getAttribute('data-theme') === 'light') {
+        // console.log("Light theme detected via class/attribute");
+        return false;
+    }
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        // console.log("Dark theme detected via prefers-color-scheme");
+        return true;
+    }
+    const bgColor = window.getComputedStyle(document.body).backgroundColor;
+    const match = bgColor.match(/rgb\((\d+),\s*(\d+),\s*(\d+)/);
+    if (match) {
+        const r = parseInt(match[1]);
+        const g = parseInt(match[2]);
+        const b = parseInt(match[3]);
+        const brightness = (r * 299 + g * 587 + b * 114) / 1000;
+        // console.log("Background color brightness:", brightness);
+        return brightness < 128;
+    }
+    // console.log("No dark or light theme detected, defaulting to light theme");
+    return false;
+};
+
+let darkTheme = isDarkTheme();
+let modal = null;
+let modalContent = null;
+let previousScrollOffset = [window.scrollX, window.scrollY];
+let _lazyObserver = null;
+let _renderQueue = Promise.resolve();
+
+// Apply d3 zoom to each SVG. Idempotent: an SVG already wrapped is skipped,
+// so this is safe to call both for the initial batch and for diagrams that
+// render lazily once they become visible.
+const addZoomToSvgs = (svgs) => {
+    svgs.each(function() {
+        if (this.getAttribute('data-zoom-applied') === 'true') return;
+        var svg = d3.select(this);
+        svg.html("<g class='wrapper'>" + svg.html() + "</g>");
+        var inner = svg.select("g");
+        var zoom = d3.zoom().on("zoom", function(event) {
+            inner.attr("transform", event.transform);
+        });
+        svg.call(zoom);
+        this.setAttribute('data-zoom-applied', 'true');
+    });
+};
+
+const runMermaid = async (rerun) => {
+    console.log("Running mermaid diagrams, rerun =", rerun);
+    // clear all existing mermaid charts
+    let all_mermaids = document.querySelectorAll(".mermaid");
+
+    if (rerun) {
+        // Disconnect any previous lazy rendering observer
+        if (_lazyObserver) {
+            _lazyObserver.disconnect();
+            _lazyObserver = null;
+        }
+
+        all_mermaids.forEach((el) => {
+            el.removeAttribute('data-mermaid-deferred');
+            el.removeAttribute('data-mermaid-render-failed');
+            if(!el.hasAttribute("data-original-code")) {
+                // store original code
+                // console.log(`Storing original code for first run: `, el.innerHTML);
+                el.setAttribute('data-original-code', el.innerHTML);
+            }
+            if(el.getAttribute("data-processed") === "true") {
+                // remove and restore original
+                el.removeAttribute("data-processed");
+                // console.log(`Restoring original code for re-run: `, el.getAttribute('data-original-code'));
+                el.innerHTML = el.getAttribute('data-original-code');
+            } else {
+                // store original code
+                // console.log(`Storing original code for re-run: `, el.innerHTML);
+                el.setAttribute('data-original-code', el.innerHTML);
+            }
+        });
+
+        // Separate visible and hidden elements. Mermaid's layout engine measures
+        // text dimensions via the DOM, which fails for elements hidden by a parent
+        // (e.g., Reveal.js non-active slides, sphinx-design unopened tabs),
+        // producing broken SVGs. Render visible elements now, defer hidden ones.
+        const visible = [];
+        const hidden = [];
+        all_mermaids.forEach((el) => {
+            // offsetParent is null for display:none ancestors.
+            // getClientRects().length > 0 catches position:fixed elements
+            // (which also have null offsetParent but are still visible).
+            if (el.offsetParent !== null || el.getClientRects().length > 0) {
+                visible.push(el);
+            } else {
+                hidden.push(el);
+                el.setAttribute('data-mermaid-deferred', 'true');
+            }
+        });
+
+        if (visible.length > 0) {
+            try {
+                await mermaid.run({ nodes: visible });
+            } catch (e) {
+                console.error("Mermaid rendering failed:", e);
+            }
+        }
+
+        // Lazily render hidden elements when they become visible.
+        // Uses a promise chain (_renderQueue) to serialize rendering,
+        // since IntersectionObserver may report multiple entries at once
+        // and mermaid.run() is not safe to call concurrently.
+        if (hidden.length > 0) {
+            if (typeof IntersectionObserver === 'undefined') {
+                console.warn("IntersectionObserver not available; hidden mermaid diagrams will not render.");
+            } else {
+                _renderQueue = Promise.resolve();
+                _lazyObserver = new IntersectionObserver((entries) => {
+                    for (const entry of entries) {
+                        if (entry.isIntersecting && entry.target.getAttribute("data-processed") !== "true") {
+                            _lazyObserver.unobserve(entry.target);
+                            const el = entry.target;
+                            _renderQueue = _renderQueue.then(async () => {
+                                try {
+                                    await mermaid.run({ nodes: [el] });
+                                    el.removeAttribute('data-mermaid-deferred');
+                                    // Apply zoom to the now-rendered diagram, matching
+                                    // the decoration visible diagrams receive.
+                                    if ("False" === "True") {
+                                        addZoomToSvgs(d3.selectAll(""));
+                                    }
+                                } catch (e) {
+                                    console.error("Mermaid deferred rendering failed:", e);
+                                    el.removeAttribute('data-mermaid-deferred');
+                                    el.setAttribute('data-mermaid-render-failed', 'true');
+                                }
+                            });
+                        }
+                    }
+                });
+                hidden.forEach((el) => _lazyObserver.observe(el));
+            }
+        }
+    }
+
+    all_mermaids = document.querySelectorAll(".mermaid");
+    // Exclude deferred (hidden) and render-failed elements from completion checks
+    const mermaids_active = document.querySelectorAll(".mermaid:not([data-mermaid-deferred]):not([data-mermaid-render-failed])");
+    const mermaids_processed = document.querySelectorAll(".mermaid:not([data-mermaid-deferred]):not([data-mermaid-render-failed])[data-processed='true']");
+
+    if ("False" === "True") {
+        const mermaids_to_add_zoom = -1 === -1 ? mermaids_active.length : -1;
+        if(mermaids_to_add_zoom > 0) {
+            var svgs = d3.selectAll("");
+            // Wait until every active (visible) diagram has rendered. Deferred
+            // diagrams are excluded, so a fixed d3_node_count that counts a
+            // hidden diagram no longer loops forever waiting for its SVG.
+            if(mermaids_active.length !== mermaids_processed.length) {
+                setTimeout(() => runMermaid(false), 200);
+                return;
+            }
+            addZoomToSvgs(svgs);
+        }
+    } else if(mermaids_active.length !== mermaids_processed.length) {
+        // Wait for mermaid to process all diagrams
+        setTimeout(() => runMermaid(false), 200);
+        return;
+    }
+
+    // Stop here if not adding fullscreen capability
+    if ("True" !== "True") return;
+
+    if (modal !== null ) {
+        // Destroy existing modal
+        modal.remove();
+        modal = null;
+        modalContent = null;
+    }
+
+    modal = document.createElement('div');
+    modal.className = 'mermaid-fullscreen-modal' + (darkTheme ? ' dark-theme' : '');
+    modal.setAttribute('role', 'dialog');
+    modal.setAttribute('aria-modal', 'true');
+    modal.setAttribute('aria-label', 'Fullscreen diagram viewer');
+    modal.innerHTML = `
+        <button class="mermaid-fullscreen-close${darkTheme ? ' dark-theme' : ''}" aria-label="Close fullscreen">✕</button>
+        <div class="mermaid-container-fullscreen${darkTheme ? ' dark-theme' : ''}"></div>
+    `;
+    document.body.appendChild(modal);
+
+    modalContent = modal.querySelector('.mermaid-container-fullscreen');
+    const closeBtn = modal.querySelector('.mermaid-fullscreen-close');
+
+    const closeModal = () => {
+        modal.classList.remove('active');
+        modalContent.innerHTML = '';
+        document.body.style.overflow = ''
+        window.scrollTo({left: previousScrollOffset[0], top: previousScrollOffset[1], behavior: 'instant'});
+    };
+
+    closeBtn.addEventListener('click', closeModal);
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) closeModal();
+    });
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && modal.classList.contains('active')) {
+            closeModal();
+        }
+    });
+
+    document.querySelectorAll('.mermaid').forEach((mermaidDiv) => {
+        if (mermaidDiv.parentNode.classList.contains('mermaid-container') ||
+            mermaidDiv.closest('.mermaid-fullscreen-modal')) {
+            // Already processed, adjust button class if needed
+            const existingBtn = mermaidDiv.parentNode.querySelector('.mermaid-fullscreen-btn');
+            if (existingBtn) {
+                existingBtn.className = 'mermaid-fullscreen-btn' + (darkTheme ? ' dark-theme' : '');
+            }
+            return;
+        }
+
+        const container = document.createElement('div');
+        container.className = 'mermaid-container';
+        mermaidDiv.parentNode.insertBefore(container, mermaidDiv);
+        container.appendChild(mermaidDiv);
+
+        const fullscreenBtn = document.createElement('button');
+        fullscreenBtn.className = 'mermaid-fullscreen-btn' + (darkTheme ? ' dark-theme' : '');
+        fullscreenBtn.setAttribute('aria-label', 'View diagram in fullscreen');
+        fullscreenBtn.textContent = '⛶';
+        fullscreenBtn.style.opacity = '50%';
+
+        // Calculate dynamic position based on diagram's margin and padding
+        const diagramStyle = window.getComputedStyle(mermaidDiv);
+        const marginTop = parseFloat(diagramStyle.marginTop) || 0;
+        const marginRight = parseFloat(diagramStyle.marginRight) || 0;
+        const paddingTop = parseFloat(diagramStyle.paddingTop) || 0;
+        const paddingRight = parseFloat(diagramStyle.paddingRight) || 0;
+        fullscreenBtn.style.top = `${marginTop + paddingTop + 4}px`;
+        fullscreenBtn.style.right = `${marginRight + paddingRight + 4}px`;
+
+        fullscreenBtn.addEventListener('click', () => {
+            previousScrollOffset = [window.scroll, window.scrollY];
+            const clone = mermaidDiv.cloneNode(true);
+            modalContent.innerHTML = '';
+            modalContent.appendChild(clone);
+
+            const svg = clone.querySelector('svg');
+            if (svg) {
+                svg.removeAttribute('width');
+                svg.removeAttribute('height');
+                svg.style.width = '100%';
+                svg.style.height = 'auto';
+                svg.style.maxWidth = '100%';
+                svg.style.sdisplay = 'block';
+
+                if ("False" === "True") {
+                    setTimeout(() => {
+                        const g = svg.querySelector('g');
+                        if (g) {
+                            var svgD3 = d3.select(svg);
+                            svgD3.html("<g class='wrapper'>" + svgD3.html() + "</g>");
+                            var inner = svgD3.select("g");
+                            var zoom = d3.zoom().on("zoom", function(event) {
+                                inner.attr("transform", event.transform);
+                            });
+                            svgD3.call(zoom);
+                        }
+                    }, 100);
+                }
+            }
+
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        });
+        container.appendChild(fullscreenBtn);
+    });
+};
+
+const load = async () => {
+    initStyles();
+
+    await runMermaid(true);
+
+    const reRunIfThemeChanges = async () => {
+        const newDarkTheme = isDarkTheme();
+        if (newDarkTheme !== darkTheme) {
+            darkTheme = newDarkTheme;
+            console.log("Theme change detected, re-running mermaid with", darkTheme ? "dark" : "default", "theme");
+            await mermaid.initialize(
+                {...JSON.parse(
+                    `{"startOnLoad": false}`
+                ),
+                ...{ darkMode: darkTheme, theme: darkTheme ? 'dark' : 'default' },
+                }
+            );
+            await runMermaid(true);
+        }
+    };
+
+    // Update theme classes when theme changes
+    const themeObserver = new MutationObserver(reRunIfThemeChanges);
+    themeObserver.observe(document.documentElement, {
+        attributes: true,
+        attributeFilter: ['class', 'style', 'data-theme']
+    });
+    themeObserver.observe(document.body, {
+        attributes: true,
+        attributeFilter: ['class', 'style', 'data-theme']
+    });
+};
+
+
+
+
+
+console.log("Initializing mermaid with", darkTheme ? "dark" : "default", "theme");
+mermaid.initialize(
+    {...JSON.parse(
+        `{"startOnLoad": false}`
+    ),
+    ...{ darkMode: darkTheme, theme: darkTheme ? 'dark' : 'default' },
+    }
+);
+
+window.addEventListener("load", load);
+window.runMermaid = runMermaid;</script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_modules/geoips/interfaces/yaml_based/workflows';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
     <link rel="icon" href="../../../../_static/nrlicon.ico"/>
     <link rel="index" title="Index" href="../../../../genindex.html" />
     <link rel="search" title="Search" href="../../../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="1.1" />
-    <meta name="docbuild:last-update" content="Oct 14, 2025 20:03:48"/>
+    <meta name="docbuild:last-update" content="Jul 16, 2026 04:57:54"/>
+  
+    
+    <script src="../../../../_static/searchtools.js"></script>
+    <script src="../../../../_static/language_data.js"></script>
+    <script src="../../../../searchindex.js"></script>
+  
   </head>
-  
-  
-  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
-
+  <body data-default-mode="">
   
   
   <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
   
   <div id="pst-scroll-pixel-helper"></div>
   
   <button type="button" class="btn rounded-pill" id="pst-back-to-top">
     <i class="fa-solid fa-arrow-up"></i>Back to top</button>
-
+  
+  
+  
   
   <dialog id="pst-search-dialog">
     
@@ -98,7 +614,7 @@ window.addEventListener("load", () => mermaid.run());
 </div>
 
   
-    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
 <div class="bd-header__inner bd-page-width">
   <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
     <span class="fa-solid fa-bars"></span>
@@ -124,8 +640,8 @@ window.addEventListener("load", () => mermaid.run());
       
     
     
-    <img src="../../../../_static/NRL_logo_RGB.jpg" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 1.17.0a0 documentation - Home"/>
-    <img src="../../../../_static/NRL_logo_sidebar_Reverse.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 1.17.0a0 documentation - Home"/>
+    <img src="../../../../_static/NRL_logo_RGB.jpg" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 1.19.0.post776.dev0 documentation - Home"/>
+    <img src="../../../../_static/NRL_logo_sidebar_Reverse.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 1.19.0.post776.dev0 documentation - Home"/>
   
   
 </a></div>
@@ -432,9 +948,17 @@ window.addEventListener("load", () => mermaid.run());
 
 <span class="sd">&quot;&quot;&quot;Workflow interface module.&quot;&quot;&quot;</span>
 
+<span class="c1"># cspell: ignore koverrides soverrides</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">collections.abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">Mapping</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">copy</span><span class="w"> </span><span class="kn">import</span> <span class="n">deepcopy</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
 
+<span class="kn">from</span><span class="w"> </span><span class="nn">lexeme_type.lexeme</span><span class="w"> </span><span class="kn">import</span> <span class="n">Lexeme</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">yaml</span>
+
 <span class="kn">from</span><span class="w"> </span><span class="nn">geoips.interfaces.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseYamlInterface</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">geoips.interfaces</span><span class="w"> </span><span class="kn">import</span> <span class="n">output_checkers</span>
 
 <span class="n">LOG</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
@@ -443,7 +967,655 @@ window.addEventListener("load", () => mermaid.run());
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Interface for workflow plugins.&quot;&quot;&quot;</span>
 
     <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;workflows&quot;</span>
-    <span class="n">use_pydantic</span> <span class="o">=</span> <span class="kc">True</span></div>
+    <span class="n">use_pydantic</span> <span class="o">=</span> <span class="kc">True</span>  <span class="c1"># Always use pydantic for workflows.</span>
+
+    <span class="c1">##########################################</span>
+    <span class="c1">#                                        #</span>
+    <span class="c1">#  START STRING-BASED OVERRIDES SECTION  #</span>
+    <span class="c1">#                                        #</span>
+    <span class="c1">##########################################</span>
+
+<div class="viewcode-block" id="WorkflowsInterface.global_override_type"><a class="viewcode-back" href="../../../../geoips_api/geoips.interfaces.yaml_based.html#geoips.interfaces.yaml_based.workflows.WorkflowsInterface.global_override_type">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">global_override_type</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Ensure an override string fits the following format.</span>
+
+<span class="sd">        Expected Format</span>
+<span class="sd">        ---------------</span>
+<span class="sd">        &#39;&lt;global_variable_name&gt;=&lt;some_value&gt;&#39;</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value: str</span>
+<span class="sd">            The full global override string for a geoips run order_based command.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        override_dict: dict</span>
+<span class="sd">            The validated contents of an override string in a dictionary.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">lhs</span><span class="p">,</span> <span class="n">rhs</span> <span class="o">=</span> <span class="n">value</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;=&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Invalid format &#39;</span><span class="si">{</span><span class="n">value</span><span class="si">}</span><span class="s2">&#39;. Expected &#39;&lt;global_variable_name&gt;=&lt;value&gt;&#39;&quot;</span>
+            <span class="p">)</span>
+
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s2">&quot;argument&quot;</span><span class="p">:</span> <span class="n">lhs</span><span class="p">,</span>
+            <span class="c1"># doing a yaml.safe_load attempts to cast the value into its correct type</span>
+            <span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="n">yaml</span><span class="o">.</span><span class="n">safe_load</span><span class="p">(</span><span class="n">rhs</span><span class="p">),</span>
+        <span class="p">}</span></div>
+
+<div class="viewcode-block" id="WorkflowsInterface.kind_override_type"><a class="viewcode-back" href="../../../../geoips_api/geoips.interfaces.yaml_based.html#geoips.interfaces.yaml_based.workflows.WorkflowsInterface.kind_override_type">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">kind_override_type</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Ensure an override string fits the following format.</span>
+
+<span class="sd">        Expected Format</span>
+<span class="sd">        ---------------</span>
+<span class="sd">        &#39;&lt;kind&gt;.&lt;argument_name&gt;=&lt;some_value&gt;&#39;</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value: str</span>
+<span class="sd">            The full kind override string for a geoips run order_based command.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        override_dict: dict</span>
+<span class="sd">            The validated contents of an override string in a dictionary.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">lhs</span><span class="p">,</span> <span class="n">rhs</span> <span class="o">=</span> <span class="n">value</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;=&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Invalid format &#39;</span><span class="si">{</span><span class="n">value</span><span class="si">}</span><span class="s2">&#39;. Expected &#39;&lt;kind&gt;.&lt;argument_name&gt;=&lt;value&gt;&#39;&quot;</span>
+            <span class="p">)</span>
+
+        <span class="n">parts</span> <span class="o">=</span> <span class="n">lhs</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">parts</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Invalid key &#39;</span><span class="si">{</span><span class="n">lhs</span><span class="si">}</span><span class="s2">&#39;. Must be in the format of &quot;</span>
+                <span class="s2">&quot;&#39;&lt;kind&gt;.&lt;argument_name&gt;&#39;&quot;</span>
+            <span class="p">)</span>
+
+        <span class="n">kind</span> <span class="o">=</span> <span class="n">parts</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">argument</span> <span class="o">=</span> <span class="n">parts</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s2">&quot;kind&quot;</span><span class="p">:</span> <span class="n">kind</span><span class="p">,</span>
+            <span class="s2">&quot;argument&quot;</span><span class="p">:</span> <span class="n">argument</span><span class="p">,</span>
+            <span class="c1"># doing a yaml.safe_load attempts to cast the value into its correct type</span>
+            <span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="n">yaml</span><span class="o">.</span><span class="n">safe_load</span><span class="p">(</span><span class="n">rhs</span><span class="p">),</span>
+        <span class="p">}</span></div>
+
+<div class="viewcode-block" id="WorkflowsInterface.step_override_type"><a class="viewcode-back" href="../../../../geoips_api/geoips.interfaces.yaml_based.html#geoips.interfaces.yaml_based.workflows.WorkflowsInterface.step_override_type">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">step_override_type</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Ensure an override string fits the following format.</span>
+
+<span class="sd">        Expected Format</span>
+<span class="sd">        ---------------</span>
+<span class="sd">        &#39;&lt;step_id&gt;.&lt;string1&gt;.&lt;optional_string2&gt;.&lt;optional_string3&gt;...=&lt;some_value&gt;&#39;</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        value: str</span>
+<span class="sd">            The full step override string for a geoips run order_based command.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        override_dict: dict</span>
+<span class="sd">            The validated contents of an override string in a dictionary.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">lhs</span><span class="p">,</span> <span class="n">rhs</span> <span class="o">=</span> <span class="n">value</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;=&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Invalid format &#39;</span><span class="si">{</span><span class="n">value</span><span class="si">}</span><span class="s2">&#39;. Expected &#39;&lt;step_id&gt;.&lt;...&gt;=&lt;value&gt;&#39;&quot;</span>
+            <span class="p">)</span>
+
+        <span class="n">parts</span> <span class="o">=</span> <span class="n">lhs</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">parts</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Invalid key &#39;</span><span class="si">{</span><span class="n">lhs</span><span class="si">}</span><span class="s2">&#39;. Must have at least &#39;&lt;step_id&gt;.&lt;string&gt;&#39;&quot;</span>
+            <span class="p">)</span>
+
+        <span class="n">step_id</span> <span class="o">=</span> <span class="n">parts</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">keys</span> <span class="o">=</span> <span class="n">parts</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">argument</span> <span class="o">=</span> <span class="n">parts</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s2">&quot;step_id&quot;</span><span class="p">:</span> <span class="n">step_id</span><span class="p">,</span>
+            <span class="s2">&quot;keys&quot;</span><span class="p">:</span> <span class="n">keys</span><span class="p">,</span>
+            <span class="s2">&quot;argument&quot;</span><span class="p">:</span> <span class="n">argument</span><span class="p">,</span>
+            <span class="c1"># doing a yaml.safe_load attempts to cast the value into its correct type</span>
+            <span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="n">yaml</span><span class="o">.</span><span class="n">safe_load</span><span class="p">(</span><span class="n">rhs</span><span class="p">),</span>
+        <span class="p">}</span></div>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_set_nested</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">step_id</span><span class="p">,</span> <span class="n">keys</span><span class="p">,</span> <span class="n">argument</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set a key value pair in a nested dictionary.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        d: dict[dict]</span>
+<span class="sd">            The nested dictionary to set a key, value pair in.</span>
+<span class="sd">        keys: list[str]</span>
+<span class="sd">            A list of keys to access the nested dictionaries.</span>
+<span class="sd">        argument: str</span>
+<span class="sd">            The final key to set value to.</span>
+<span class="sd">        value: Any</span>
+<span class="sd">            The value to assign to a key that&#39;s in a nested dictionary.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        d: dict[dict]</span>
+<span class="sd">            A nested dictionary.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">current</span> <span class="o">=</span> <span class="n">d</span>
+        <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="p">[</span><span class="n">step_id</span><span class="p">]</span> <span class="o">+</span> <span class="n">keys</span><span class="p">:</span>
+            <span class="n">current</span> <span class="o">=</span> <span class="n">current</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="p">{})</span>
+        <span class="n">current</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">&quot;arguments&quot;</span><span class="p">,</span> <span class="p">{})[</span><span class="n">argument</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+
+        <span class="k">return</span> <span class="n">d</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_override_step</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">steps</span><span class="p">,</span> <span class="n">override</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Override an argument of a given step.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        steps: dict[dict]</span>
+<span class="sd">            An ordered dictionary of steps to apply in a given workflow.</span>
+<span class="sd">        override: Any</span>
+<span class="sd">            The value of the override.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        steps: dict[dict]</span>
+<span class="sd">            An overridden representation of &#39;steps&#39;.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">steps</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set_nested</span><span class="p">(</span>
+            <span class="n">steps</span><span class="p">,</span>
+            <span class="n">override</span><span class="p">[</span><span class="s2">&quot;step_id&quot;</span><span class="p">],</span>
+            <span class="n">override</span><span class="p">[</span><span class="s2">&quot;keys&quot;</span><span class="p">],</span>
+            <span class="n">override</span><span class="p">[</span><span class="s2">&quot;argument&quot;</span><span class="p">],</span>
+            <span class="n">override</span><span class="p">[</span><span class="s2">&quot;value&quot;</span><span class="p">],</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">steps</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_override_kind</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">steps</span><span class="p">,</span> <span class="n">override</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Override an argument of a given kind.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        steps: dict[dict]</span>
+<span class="sd">            An ordered dictionary of steps to apply in a given workflow.</span>
+<span class="sd">        override: Any</span>
+<span class="sd">            The value of the override.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        steps: dict[dict]</span>
+<span class="sd">            An overridden representation of &#39;steps&#39;.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="nb">id</span><span class="p">,</span> <span class="n">step</span> <span class="ow">in</span> <span class="n">steps</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">Lexeme</span><span class="p">(</span><span class="n">step</span><span class="p">[</span><span class="s2">&quot;kind&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">singular</span> <span class="o">==</span> <span class="n">Lexeme</span><span class="p">(</span><span class="n">override</span><span class="p">[</span><span class="s2">&quot;kind&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">singular</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">step</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;arguments&quot;</span><span class="p">):</span>
+                    <span class="n">steps</span><span class="p">[</span><span class="nb">id</span><span class="p">][</span><span class="s2">&quot;arguments&quot;</span><span class="p">][</span><span class="n">override</span><span class="p">[</span><span class="s2">&quot;argument&quot;</span><span class="p">]]</span> <span class="o">=</span> <span class="n">override</span><span class="p">[</span><span class="s2">&quot;value&quot;</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">steps</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_override_global</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">steps</span><span class="p">,</span> <span class="n">override</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Override an argument of a given global.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        steps: dict[dict]</span>
+<span class="sd">            An ordered dictionary of steps to apply in a given workflow.</span>
+<span class="sd">        override: Any</span>
+<span class="sd">            The value of the override.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        steps: dict[dict]</span>
+<span class="sd">            An overridden representation of &#39;steps&#39;.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="nb">id</span><span class="p">,</span> <span class="n">step</span> <span class="ow">in</span> <span class="n">steps</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">step</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;arguments&quot;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">override</span><span class="p">[</span><span class="s2">&quot;argument&quot;</span><span class="p">]</span> <span class="ow">in</span> <span class="n">step</span><span class="p">[</span><span class="s2">&quot;arguments&quot;</span><span class="p">]:</span>
+                <span class="n">steps</span><span class="p">[</span><span class="nb">id</span><span class="p">][</span><span class="s2">&quot;arguments&quot;</span><span class="p">][</span><span class="n">override</span><span class="p">[</span><span class="s2">&quot;argument&quot;</span><span class="p">]]</span> <span class="o">=</span> <span class="n">override</span><span class="p">[</span><span class="s2">&quot;value&quot;</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">steps</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_override_workflow_string_format</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">workflow</span><span class="p">,</span>
+        <span class="n">goverrides</span><span class="o">=</span><span class="p">[],</span>
+        <span class="n">koverrides</span><span class="o">=</span><span class="p">[],</span>
+        <span class="n">soverrides</span><span class="o">=</span><span class="p">[],</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Override a workflow plugin where applicable.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        workflow: dict</span>
+<span class="sd">            A dictionary representation of a workflow plugin.</span>
+<span class="sd">        goverrides: list[str], optional</span>
+<span class="sd">            A list of string global overrides.</span>
+<span class="sd">        koverrides: list[str], optional</span>
+<span class="sd">            A list of string kind overrides.</span>
+<span class="sd">        soverrides: list[str], optional</span>
+<span class="sd">            A list of string step overrides.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        overridden: dict</span>
+<span class="sd">            The overridden representation of &#39;workflow&#39;.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">steps</span> <span class="o">=</span> <span class="n">workflow</span><span class="p">[</span><span class="s2">&quot;spec&quot;</span><span class="p">][</span><span class="s2">&quot;steps&quot;</span><span class="p">]</span>
+
+        <span class="n">wf_overrides</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;globals&quot;</span><span class="p">:</span> <span class="n">goverrides</span><span class="p">,</span> <span class="s2">&quot;kinds&quot;</span><span class="p">:</span> <span class="n">koverrides</span><span class="p">,</span> <span class="s2">&quot;steps&quot;</span><span class="p">:</span> <span class="n">soverrides</span><span class="p">}</span>
+
+        <span class="k">for</span> <span class="n">override_type</span><span class="p">,</span> <span class="n">overrides</span> <span class="ow">in</span> <span class="n">wf_overrides</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">type_singular</span> <span class="o">=</span> <span class="n">Lexeme</span><span class="p">(</span><span class="n">override_type</span><span class="p">)</span><span class="o">.</span><span class="n">singular</span>
+            <span class="k">for</span> <span class="n">override</span> <span class="ow">in</span> <span class="n">overrides</span><span class="p">:</span>
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">override</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+                    <span class="n">steps</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;_override_</span><span class="si">{</span><span class="n">type_singular</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)(</span>
+                        <span class="n">steps</span><span class="p">,</span>
+                        <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">type_singular</span><span class="si">}</span><span class="s2">_override_type&quot;</span><span class="p">)(</span><span class="n">override</span><span class="p">),</span>
+                    <span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">steps</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;_override_</span><span class="si">{</span><span class="n">type_singular</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)(</span><span class="n">steps</span><span class="p">,</span> <span class="n">override</span><span class="p">)</span>
+
+        <span class="n">workflow</span><span class="p">[</span><span class="s2">&quot;spec&quot;</span><span class="p">][</span><span class="s2">&quot;steps&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">steps</span>
+
+        <span class="k">return</span> <span class="n">workflow</span>
+
+    <span class="c1">########################################</span>
+    <span class="c1">#                                      #</span>
+    <span class="c1">#  END STRING-BASED OVERRIDES SECTION  #</span>
+    <span class="c1">#                                      #</span>
+    <span class="c1">########################################</span>
+
+    <span class="c1">########################################</span>
+    <span class="c1">#                                      #</span>
+    <span class="c1">#  START DICT-BASED OVERRIDES SECTION  #</span>
+    <span class="c1">#                                      #</span>
+    <span class="c1">########################################</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_insert_after_key</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">steps</span><span class="p">,</span> <span class="n">target_key</span><span class="p">,</span> <span class="n">new_key</span><span class="p">,</span> <span class="n">new_value</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Insert a key/value pair immediately after an existing key.</span>
+
+<span class="sd">        This helper only preserves ordering. Callers are responsible for</span>
+<span class="sd">        constructing and validating ``new_value`` before insertion.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        steps : dict</span>
+<span class="sd">            Workflow steps dictionary.</span>
+<span class="sd">        target_key : str</span>
+<span class="sd">            Existing step id to insert after.</span>
+<span class="sd">        new_key : str</span>
+<span class="sd">            New step id to insert.</span>
+<span class="sd">        new_value : dict</span>
+<span class="sd">            New step definition to insert.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        dict</span>
+<span class="sd">            Workflow steps dictionary with the new key/value pair inserted.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">new_steps</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">inserted</span> <span class="o">=</span> <span class="kc">False</span>
+
+        <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">steps</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">new_steps</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+
+            <span class="k">if</span> <span class="n">key</span> <span class="o">==</span> <span class="n">target_key</span><span class="p">:</span>
+                <span class="n">new_steps</span><span class="p">[</span><span class="n">new_key</span><span class="p">]</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">new_value</span><span class="p">)</span>
+                <span class="n">inserted</span> <span class="o">=</span> <span class="kc">True</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">inserted</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Could not find key &#39;</span><span class="si">{</span><span class="n">target_key</span><span class="si">}</span><span class="s2">&#39; for insertion.&quot;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">new_steps</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_build_output_checker_step</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target_key</span><span class="p">,</span> <span class="n">target_step</span><span class="p">,</span> <span class="n">override</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Build an output checker step from a workflow test override.</span>
+
+<span class="sd">        Output checker overrides target an existing output formatter step. The</span>
+<span class="sd">        generated checker depends on that formatter and receives ``compare_path``</span>
+<span class="sd">        and ``threshold`` as call arguments.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        target_key : str</span>
+<span class="sd">            Step id of the output formatter being checked.</span>
+<span class="sd">        target_step : dict</span>
+<span class="sd">            Workflow step definition identified by ``target_key``.</span>
+<span class="sd">        override : dict</span>
+<span class="sd">            Output checker override from a workflow ``test.outputs`` section.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        dict or None</span>
+<span class="sd">            Output checker step definition, or ``None`` when no compare path was</span>
+<span class="sd">            supplied and the checker should not be inserted.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">target_step</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;kind&quot;</span><span class="p">)</span> <span class="o">!=</span> <span class="s2">&quot;output_formatter&quot;</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;Output checker overrides must target an output_formatter &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;step. Step &#39;</span><span class="si">{</span><span class="n">target_key</span><span class="si">}</span><span class="s2">&#39; has kind &#39;</span><span class="si">{</span><span class="n">target_step</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;kind&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">&#39;.&quot;</span>
+            <span class="p">)</span>
+
+        <span class="n">checker_step</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">override</span><span class="p">)</span>
+        <span class="n">compare_path</span> <span class="o">=</span> <span class="n">checker_step</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;compare_path&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="n">threshold</span> <span class="o">=</span> <span class="n">checker_step</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;threshold&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">compare_path</span><span class="p">:</span>
+            <span class="n">LOG</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
+                <span class="s2">&quot;WARNING: NO COMPARE PATH PROVIDED, NOT ADDING OUTPUT CHECKER &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;STEP AFTER STEP &#39;</span><span class="si">{</span><span class="n">target_key</span><span class="si">}</span><span class="s2">&#39;.&quot;</span>
+            <span class="p">)</span>
+            <span class="k">return</span> <span class="kc">None</span>
+
+        <span class="k">if</span> <span class="s2">&quot;name&quot;</span> <span class="ow">in</span> <span class="n">checker_step</span> <span class="ow">and</span> <span class="s2">&quot;output_checker_name&quot;</span> <span class="ow">in</span> <span class="n">checker_step</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Specify only one of &#39;name&#39; or &#39;output_checker_name&#39;.&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s2">&quot;output_checker_name&quot;</span> <span class="ow">in</span> <span class="n">checker_step</span><span class="p">:</span>
+            <span class="n">checker_step</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">checker_step</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;output_checker_name&quot;</span><span class="p">)</span>
+
+        <span class="n">checker_step</span><span class="p">[</span><span class="s2">&quot;arguments&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;compare_path&quot;</span><span class="p">:</span> <span class="n">compare_path</span><span class="p">}</span>
+        <span class="k">if</span> <span class="n">threshold</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">checker_step</span><span class="p">[</span><span class="s2">&quot;arguments&quot;</span><span class="p">][</span><span class="s2">&quot;threshold&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">threshold</span>
+        <span class="n">checker_step</span><span class="p">[</span><span class="s2">&quot;depends_on&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">target_key</span><span class="p">]</span>
+        <span class="n">checker_step</span><span class="p">[</span><span class="s2">&quot;kind&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;output_checker&quot;</span>
+
+        <span class="k">if</span> <span class="s2">&quot;name&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">checker_step</span><span class="p">:</span>
+            <span class="n">checker_step</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">output_checkers</span><span class="o">.</span><span class="n">identify_checker</span><span class="p">(</span><span class="n">compare_path</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">checker_step</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_apply_output_checker_override</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">steps</span><span class="p">,</span> <span class="n">override</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Recursively apply output checker overrides.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        steps : dict</span>
+<span class="sd">            Workflow steps dictionary.</span>
+<span class="sd">        override : dict</span>
+<span class="sd">            Override structure that mirrors the workflow hierarchy.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        dict</span>
+<span class="sd">            Updated workflow steps.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">override</span><span class="p">,</span> <span class="n">Mapping</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">steps</span>
+
+        <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">override</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="c1"># Detected leaf output checker override. Overriding. &#39;full_test_policy&#39; is a</span>
+            <span class="c1"># field that is unique to output checker overrides and step definitions</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">Mapping</span><span class="p">)</span> <span class="ow">and</span> <span class="s2">&quot;full_test_policy&quot;</span> <span class="ow">in</span> <span class="n">value</span><span class="p">:</span>
+                <span class="c1"># Generate a unique step id based on how many output checker step ids</span>
+                <span class="c1"># were encountered previously</span>
+                <span class="n">count</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span>
+                    <span class="n">step_name</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;output_checker&quot;</span><span class="p">)</span> <span class="k">for</span> <span class="n">step_name</span> <span class="ow">in</span> <span class="n">steps</span>
+                <span class="p">)</span>
+                <span class="n">oc_step_name</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;output_checker</span><span class="si">{</span><span class="n">count</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="si">}</span><span class="s2">&quot;</span>
+
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">target_step</span> <span class="o">=</span> <span class="n">steps</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+                <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Could not find key &#39;</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">&#39; for insertion.&quot;</span><span class="p">)</span>
+
+                <span class="n">checker_step</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_build_output_checker_step</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">target_step</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">checker_step</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="n">steps</span>
+
+                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_insert_after_key</span><span class="p">(</span>
+                    <span class="n">steps</span><span class="p">,</span>
+                    <span class="n">target_key</span><span class="o">=</span><span class="n">key</span><span class="p">,</span>
+                    <span class="n">new_key</span><span class="o">=</span><span class="n">oc_step_name</span><span class="p">,</span>
+                    <span class="n">new_value</span><span class="o">=</span><span class="n">checker_step</span><span class="p">,</span>
+                <span class="p">)</span>
+
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">Mapping</span><span class="p">):</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">step</span> <span class="o">=</span> <span class="n">steps</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+                <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span>
+                        <span class="s2">&quot;Error: the requested override cannot access a given key, value&quot;</span>
+                        <span class="sa">f</span><span class="s2">&quot; pair because it does not exist. Missing key = &#39;</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">&#39;.&quot;</span>
+                    <span class="p">)</span>
+
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">step</span><span class="p">,</span> <span class="n">Mapping</span><span class="p">):</span>
+                    <span class="n">updated</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_apply_output_checker_override</span><span class="p">(</span>
+                        <span class="n">step</span><span class="p">,</span>
+                        <span class="n">value</span><span class="p">,</span>
+                    <span class="p">)</span>
+                    <span class="c1"># Child recursion may have rebuilt an ordered mapping</span>
+                    <span class="c1"># (specifically when inserting an output checker).</span>
+                    <span class="k">if</span> <span class="n">updated</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">step</span><span class="p">:</span>
+                        <span class="n">steps</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">updated</span>
+
+        <span class="k">return</span> <span class="n">steps</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_convert_override_dict_to_string_format</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">workflow</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Convert a workflow&#39;s test section overrides to string-based overrides.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        workflow: dict</span>
+<span class="sd">            A dictionary representation of a workflow plugin.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        goverrides: list[str]</span>
+<span class="sd">            A list of global override strings.</span>
+<span class="sd">        koverrides: list[str]</span>
+<span class="sd">            A list of kind override strings.</span>
+<span class="sd">        soverrides: list[str]</span>
+<span class="sd">            A list of step override strings.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">def</span><span class="w"> </span><span class="nf">_iterate_over_nested</span><span class="p">(</span><span class="n">current</span><span class="p">):</span>
+<span class="w">            </span><span class="sd">&quot;&quot;&quot;Iterate over the keys of a nested dictionary.</span>
+
+<span class="sd">            Expected format of the nested dictionary is a single key, value pair in</span>
+<span class="sd">            each nested dictionary.</span>
+
+<span class="sd">            Parameters</span>
+<span class="sd">            ----------</span>
+<span class="sd">            current: dict</span>
+<span class="sd">                The current instance of a dictionary in a nested dictionary.</span>
+
+<span class="sd">            Returns</span>
+<span class="sd">            -------</span>
+<span class="sd">            key: str</span>
+<span class="sd">                The key of the leaf nested dictionary. One the final iteration is hit,</span>
+<span class="sd">                balloon back up and return the name of the key in each parent</span>
+<span class="sd">                dictionary.</span>
+<span class="sd">            value: Any</span>
+<span class="sd">                The override value being applied.</span>
+<span class="sd">            &quot;&quot;&quot;</span>
+            <span class="n">key</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">current</span><span class="o">.</span><span class="n">keys</span><span class="p">())[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">current</span><span class="p">[</span><span class="n">key</span><span class="p">],</span> <span class="n">Mapping</span><span class="p">):</span>
+                <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">=</span><span class="si">{</span><span class="n">current</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">_iterate_over_nested</span><span class="p">(</span><span class="n">current</span><span class="p">[</span><span class="n">key</span><span class="p">])</span><span class="si">}</span><span class="s2">&quot;</span>
+
+        <span class="n">override_types</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;globals&quot;</span><span class="p">,</span> <span class="s2">&quot;kinds&quot;</span><span class="p">,</span> <span class="s2">&quot;steps&quot;</span><span class="p">]</span>
+        <span class="n">goverrides</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">koverrides</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">soverrides</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">override_type</span> <span class="ow">in</span> <span class="n">override_types</span><span class="p">:</span>
+            <span class="n">overrides</span> <span class="o">=</span> <span class="n">workflow</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;test&quot;</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">override_type</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">overrides</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">override_key</span><span class="p">,</span> <span class="n">override</span> <span class="ow">in</span> <span class="n">overrides</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">override</span><span class="p">,</span> <span class="n">Mapping</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">override</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                        <span class="k">continue</span>
+                    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">override</span><span class="p">,</span> <span class="n">Mapping</span><span class="p">):</span>
+                        <span class="n">str_override</span> <span class="o">=</span> <span class="p">(</span>
+                            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">override_key</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">_iterate_over_nested</span><span class="p">(</span><span class="n">override</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+                        <span class="p">)</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">str_override</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">override_key</span><span class="si">}</span><span class="s2">=</span><span class="si">{</span><span class="n">override</span><span class="si">}</span><span class="s2">&quot;</span>
+
+                    <span class="k">if</span> <span class="n">override_type</span> <span class="o">==</span> <span class="s2">&quot;globals&quot;</span><span class="p">:</span>
+                        <span class="n">goverrides</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">str_override</span><span class="p">)</span>
+                    <span class="k">elif</span> <span class="n">override_type</span> <span class="o">==</span> <span class="s2">&quot;kinds&quot;</span><span class="p">:</span>
+                        <span class="n">koverrides</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">str_override</span><span class="p">)</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">soverrides</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">str_override</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">goverrides</span><span class="p">,</span> <span class="n">koverrides</span><span class="p">,</span> <span class="n">soverrides</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_override_workflow_dict_format</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">workflow</span><span class="p">,</span>
+        <span class="n">goverrides</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">koverrides</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">soverrides</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">oc_overrides</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">use_test</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Override a workflow plugin where applicable.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        workflow: dict</span>
+<span class="sd">            A dictionary representation of a workflow plugin.</span>
+<span class="sd">        goverrides: dict, optional</span>
+<span class="sd">            A dictionary of global overrides.</span>
+<span class="sd">        koverrides: dict, optional</span>
+<span class="sd">            A dictionary of kind overrides.</span>
+<span class="sd">        soverrides: dict, optional</span>
+<span class="sd">            A dictionary for step overrides.</span>
+<span class="sd">        oc_overrides: dict, optional</span>
+<span class="sd">            A dictionary for output_checker overrides.</span>
+<span class="sd">        use_test: bool, optional</span>
+<span class="sd">            Whether or not to use the overrides specified in a workflow&#39;s &#39;test&#39; section</span>
+<span class="sd">            or to use the overrides provided as arguments to this function.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        overridden: dict</span>
+<span class="sd">            The overridden representation of &#39;workflow&#39;.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">use_test</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">override_type</span><span class="p">,</span> <span class="n">overrides</span> <span class="ow">in</span> <span class="p">{</span>
+                <span class="s2">&quot;globals&quot;</span><span class="p">:</span> <span class="n">goverrides</span><span class="p">,</span>
+                <span class="s2">&quot;kinds&quot;</span><span class="p">:</span> <span class="n">koverrides</span><span class="p">,</span>
+                <span class="s2">&quot;steps&quot;</span><span class="p">:</span> <span class="n">soverrides</span><span class="p">,</span>
+            <span class="p">}</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="k">if</span> <span class="n">overrides</span><span class="p">:</span>
+                    <span class="n">workflow</span><span class="p">[</span><span class="s2">&quot;test&quot;</span><span class="p">][</span><span class="n">override_type</span><span class="p">]</span> <span class="o">=</span> <span class="n">overrides</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">workflow</span><span class="p">[</span><span class="s2">&quot;test&quot;</span><span class="p">][</span><span class="n">override_type</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="n">goverrides</span><span class="p">,</span> <span class="n">koverrides</span><span class="p">,</span> <span class="n">soverrides</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_convert_override_dict_to_string_format</span><span class="p">(</span><span class="n">workflow</span><span class="p">)</span>
+        <span class="p">)</span>
+
+        <span class="n">workflow</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_override_workflow_string_format</span><span class="p">(</span>
+            <span class="n">workflow</span><span class="p">,</span> <span class="n">goverrides</span><span class="p">,</span> <span class="n">koverrides</span><span class="p">,</span> <span class="n">soverrides</span>
+        <span class="p">)</span>
+
+        <span class="n">steps</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="n">workflow</span><span class="p">[</span><span class="s2">&quot;spec&quot;</span><span class="p">][</span><span class="s2">&quot;steps&quot;</span><span class="p">])</span>
+
+        <span class="n">output_overrides</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">oc_overrides</span>
+            <span class="k">if</span> <span class="n">oc_overrides</span>
+            <span class="k">else</span> <span class="n">workflow</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;test&quot;</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;outputs&quot;</span><span class="p">,</span> <span class="p">{})</span>
+        <span class="p">)</span>
+
+        <span class="c1"># override with output_checker steps</span>
+        <span class="k">for</span> <span class="n">step_id</span><span class="p">,</span> <span class="n">override</span> <span class="ow">in</span> <span class="n">output_overrides</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">steps</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_apply_output_checker_override</span><span class="p">(</span><span class="n">steps</span><span class="p">,</span> <span class="p">{</span><span class="n">step_id</span><span class="p">:</span> <span class="n">override</span><span class="p">})</span>
+
+        <span class="n">workflow</span><span class="p">[</span><span class="s2">&quot;spec&quot;</span><span class="p">][</span><span class="s2">&quot;steps&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">steps</span>
+
+        <span class="k">return</span> <span class="n">workflow</span>
+
+    <span class="c1">######################################</span>
+    <span class="c1">#                                    #</span>
+    <span class="c1">#  END DICT-BASED OVERRIDES SECTION  #</span>
+    <span class="c1">#                                    #</span>
+    <span class="c1">######################################</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_override_expanded_workflow</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">expanded_workflow</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Override the contents of an expanded workflow.</span>
+
+<span class="sd">        During this process, if the plugin is found to have a test section, replace all</span>
+<span class="sd">        relevant portions of the workflow plugin with the contents of the test section,</span>
+<span class="sd">        revalidate the result of that replacement, then return the validated results.</span>
+
+<span class="sd">        This overrides WorkflowsInterface:get_plugin as we need to support the</span>
+<span class="sd">        replacement of select variables with the contents of the test section of a given</span>
+<span class="sd">        workflow plugin.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        expanded_workflow: WorkflowPlugin type</span>
+<span class="sd">            A dictionary representation of an expanded workflow plugin. Expanding means</span>
+<span class="sd">            nested workflows and/or products have been fully generated and everything</span>
+<span class="sd">            has been specified in a single workflow plugin.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">expanded_workflow</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;test&quot;</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Error: attemping to test workflow plugin </span><span class="si">{</span><span class="n">expanded_workflow</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2"> &quot;</span>
+                <span class="s2">&quot;but the plugin is missing a top level &#39;test&#39; section.&quot;</span>
+            <span class="p">)</span>
+
+        <span class="n">expanded_workflow</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_override_workflow_dict_format</span><span class="p">(</span>
+            <span class="n">expanded_workflow</span><span class="p">,</span> <span class="n">use_test</span><span class="o">=</span><span class="kc">True</span>
+        <span class="p">)</span>
+
+        <span class="c1"># Import buried in order to avoid circular import error</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">geoips.pydantic_models.v1.workflows</span><span class="w"> </span><span class="kn">import</span> <span class="n">WorkflowPluginModel</span>
+
+        <span class="c1"># omit adding &#39;test&#39; section as that has already been validated. All we care</span>
+        <span class="c1"># about is validating the overridden &#39;steps&#39; section.</span>
+        <span class="n">plugin_subset</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="n">expanded_workflow</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">],</span>
+            <span class="s2">&quot;interface&quot;</span><span class="p">:</span> <span class="n">expanded_workflow</span><span class="p">[</span><span class="s2">&quot;interface&quot;</span><span class="p">],</span>
+            <span class="s2">&quot;family&quot;</span><span class="p">:</span> <span class="n">expanded_workflow</span><span class="p">[</span><span class="s2">&quot;family&quot;</span><span class="p">],</span>
+            <span class="s2">&quot;docstring&quot;</span><span class="p">:</span> <span class="n">expanded_workflow</span><span class="p">[</span><span class="s2">&quot;docstring&quot;</span><span class="p">],</span>
+            <span class="s2">&quot;package&quot;</span><span class="p">:</span> <span class="n">expanded_workflow</span><span class="p">[</span><span class="s2">&quot;package&quot;</span><span class="p">],</span>
+            <span class="s2">&quot;relpath&quot;</span><span class="p">:</span> <span class="n">expanded_workflow</span><span class="p">[</span><span class="s2">&quot;relpath&quot;</span><span class="p">],</span>
+            <span class="s2">&quot;spec&quot;</span><span class="p">:</span> <span class="n">expanded_workflow</span><span class="p">[</span><span class="s2">&quot;spec&quot;</span><span class="p">],</span>
+        <span class="p">}</span>
+
+        <span class="n">WorkflowPluginModel</span><span class="p">(</span><span class="o">**</span><span class="n">plugin_subset</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">expanded_workflow</span>
+
+<div class="viewcode-block" id="WorkflowsInterface.get_plugin"><a class="viewcode-back" href="../../../../geoips_api/geoips.interfaces.yaml_based.html#geoips.interfaces.yaml_based.workflows.WorkflowsInterface.get_plugin">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_plugin</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">rebuild_registries</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">_expand</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get a workflow plugin by its name.</span>
+
+<span class="sd">        This overrides BaseYamlInterface:get_plugin as we need to support &#39;expand&#39;</span>
+<span class="sd">        functionality for the CLI command &#39;geoips expand &lt;workflow&gt;&#39;.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        name: str</span>
+<span class="sd">            The name of the workflow plugin.</span>
+<span class="sd">        rebuild_registries: bool (default=None)</span>
+<span class="sd">            Whether or not to rebuild the registries if get_plugin fails. If set to</span>
+<span class="sd">            None, default to what we have set in geoips.filenames.base_paths, which</span>
+<span class="sd">            defaults to True. If specified, use the input value of rebuild_registries,</span>
+<span class="sd">            which should be a boolean value. If rebuild registries is true and</span>
+<span class="sd">            get_plugin fails, rebuild the plugin registry, call then call</span>
+<span class="sd">            get_plugin once more with rebuild_registries toggled off, so it only gets</span>
+<span class="sd">            rebuilt once.</span>
+<span class="sd">        _expand: private bool (default=False)</span>
+<span class="sd">            If true, fully expand the workflow plugin in place. Otherwise, load as is</span>
+<span class="sd">            done usually. This should only be used for the &#39;geoips expand &lt;workflow&gt;&#39;</span>
+<span class="sd">            command.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">plugin_registry</span><span class="o">.</span><span class="n">get_yaml_plugin</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="n">name</span><span class="p">,</span>
+            <span class="n">rebuild_registries</span><span class="o">=</span><span class="n">rebuild_registries</span><span class="p">,</span>
+            <span class="n">_expand</span><span class="o">=</span><span class="n">_expand</span><span class="p">,</span>
+        <span class="p">)</span></div></div>
 
 
 <span class="n">workflows</span> <span class="o">=</span> <span class="n">WorkflowsInterface</span><span class="p">()</span>
@@ -476,8 +1648,8 @@ window.addEventListener("load", () => mermaid.run());
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script defer src="../../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
-<script defer src="../../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+  <script defer src="../../../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb"></script>
+<script defer src="../../../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb"></script>
 
   <footer class="bd-footer">
 <div class="bd-footer__inner bd-page-width">

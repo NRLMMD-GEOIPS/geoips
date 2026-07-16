@@ -24,9 +24,11 @@ Resources for Contributors
 
    code-of-conduct
    coding-standards
+   linters
    dev-assisted-package-creation
    git-workflow
    dev_linux_with_conda
    dev_mac_with_conda
    dev-install
    testing/index
+   ../concepts/architecture/ci-infrastructure

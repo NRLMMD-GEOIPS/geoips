@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>geoips.commandline package &#8212; GeoIPS, Geolocated Information Processing System 1.17.0a0 documentation</title>
+    <title>geoips.commandline package &#8212; GeoIPS, Geolocated Information Processing System 1.19.0.post776.dev0 documentation</title>
   
   
   
@@ -27,24 +27,25 @@
   </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
-<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+  <link href="../_static/styles/theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
     <link rel="stylesheet" type="text/css" href="../_static/set_width.css?v=d4af5e1e" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
   
   <!-- So that users can add custom icons -->
-  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <script defer src="../_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
-<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
 
-    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=c5be8013"></script>
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=1e4423a0"></script>
     <script src="../_static/doctools.js?v=888ff710"></script>
     <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'geoips_api/geoips.commandline';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
     <link rel="icon" href="../_static/nrlicon.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -53,21 +54,27 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="1.1" />
-    <meta name="docbuild:last-update" content="Oct 14, 2025 20:03:48"/>
+    <meta name="docbuild:last-update" content="Jul 16, 2026 04:57:54"/>
+  
+    
+    <script src="../_static/searchtools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <script src="../searchindex.js"></script>
+  
   </head>
-  
-  
-  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
-
+  <body data-default-mode="">
   
   
   <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
   
   <div id="pst-scroll-pixel-helper"></div>
   
   <button type="button" class="btn rounded-pill" id="pst-back-to-top">
     <i class="fa-solid fa-arrow-up"></i>Back to top</button>
-
+  
+  
+  
   
   <dialog id="pst-search-dialog">
     
@@ -93,7 +100,7 @@
 </div>
 
   
-    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
 <div class="bd-header__inner bd-page-width">
   <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
     <span class="fa-solid fa-bars"></span>
@@ -119,8 +126,8 @@
       
     
     
-    <img src="../_static/NRL_logo_RGB.jpg" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 1.17.0a0 documentation - Home"/>
-    <img src="../_static/NRL_logo_sidebar_Reverse.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 1.17.0a0 documentation - Home"/>
+    <img src="../_static/NRL_logo_RGB.jpg" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 1.19.0.post776.dev0 documentation - Home"/>
+    <img src="../_static/NRL_logo_sidebar_Reverse.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 1.19.0.post776.dev0 documentation - Home"/>
   
   
 </a></div>
@@ -369,7 +376,14 @@
   </div>
   
     <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item pst-sidebar-collapse"><button id="pst-collapse-sidebar-button" aria-expanded="true" aria-controls="pst-primary-sidebar"><svg class="pst-icon svg-inline--fa" role="img" aria-hidden="true" focusable="false" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+    <path fill="currentColor" d="M3 15.5C2.36232 15.5 1.74874 15.2564 1.28478 14.8189C0.820828 14.3815 0.541576 13.7832 0.504167 13.1467L0.5 13L0.5 3C0.499965 2.36232 0.743605 1.74874 1.18107 1.28478C1.61854 0.820828 2.21676 0.541576 2.85333 0.504167L3 0.5L13 0.5C13.6377 0.499965 14.2513 0.743605 14.7152 1.18107C15.1792 1.61854 15.4584 2.21676 15.4958 2.85333L15.5 3L15.5 13C15.5 13.6377 15.2564 14.2513 14.8189 14.7152C14.3815 15.1792 13.7832 15.4584 13.1467 15.4958L13 15.5L3 15.5ZM3 13.8333L10.5 13.8333L10.5 2.16667L3 2.16667C2.79589 2.16669 2.59889 2.24163 2.44636 2.37726C2.29383 2.5129 2.19638 2.69979 2.1725 2.9025L2.16667 3L2.16667 13C2.16669 13.2041 2.24163 13.4011 2.37726 13.5536C2.5129 13.7062 2.69979 13.8036 2.9025 13.8275L3 13.8333ZM6.65583 10.325L6.5775 10.2558L4.91083 8.58917C4.76735 8.44567 4.68116 8.25476 4.66843 8.05223C4.65569 7.84971 4.71729 7.6495 4.84167 7.48917L4.91083 7.41083L6.5775 5.74417C6.72747 5.59471 6.9287 5.50794 7.14032 5.50148C7.35194 5.49502 7.55809 5.56935 7.7169 5.70937C7.8757 5.8494 7.97525 6.04463 7.99533 6.25539C8.01541 6.46616 7.95451 6.67667 7.825 6.84417L7.75583 6.9225L6.67917 8L7.75583 9.0775C7.89931 9.22099 7.98551 9.41191 7.99824 9.61443C8.01097 9.81695 7.94938 10.0172 7.825 10.1775L7.75583 10.2558C7.61234 10.3993 7.42142 10.4855 7.2189 10.4982C7.01638 10.511 6.81617 10.4494 6.65583 10.325Z"/>
+  </svg>
+  <span class="pst-collapse-sidebar-label">Collapse Sidebar</span>
+  <span class="pst-expand-sidebar-label">Expand Sidebar</span>
+</button></div>
         <div class="sidebar-primary-item">
+
 <nav class="bd-docs-nav bd-links"
      aria-label="Section Navigation">
   <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
@@ -379,39 +393,47 @@
 <li class="toctree-l3"><a class="reference internal" href="geoips.commandline.ancillary_info.html">geoips.commandline.ancillary_info package</a></li>
 </ul>
 </details></li>
+<li class="toctree-l2"><a class="reference internal" href="geoips.config.html">geoips.config package</a></li>
 <li class="toctree-l2"><a class="reference internal" href="geoips.data_manipulations.html">geoips.data_manipulations package</a></li>
 <li class="toctree-l2"><a class="reference internal" href="geoips.dev.html">geoips.dev package</a></li>
 <li class="toctree-l2"><a class="reference internal" href="geoips.filenames.html">geoips.filenames package</a></li>
 <li class="toctree-l2"><a class="reference internal" href="geoips.image_utils.html">geoips.image_utils package</a></li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="geoips.interfaces.html">geoips.interfaces package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l3"><a class="reference internal" href="geoips.interfaces.module_based.html">geoips.interfaces.module_based package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.interfaces.class_based.html">geoips.interfaces.class_based package</a></li>
 <li class="toctree-l3"><a class="reference internal" href="geoips.interfaces.yaml_based.html">geoips.interfaces.yaml_based package</a></li>
 </ul>
 </details></li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="geoips.plugins.html">geoips.plugins package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="geoips.plugins.classes.html">geoips.plugins.classes package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.classes.algorithms.html">geoips.plugins.classes.algorithms package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.classes.colormappers.html">geoips.plugins.classes.colormappers package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.classes.coverage_checkers.html">geoips.plugins.classes.coverage_checkers package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.classes.filename_formatters.html">geoips.plugins.classes.filename_formatters package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.classes.interpolators.html">geoips.plugins.classes.interpolators package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.classes.output_formatters.html">geoips.plugins.classes.output_formatters package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.classes.readers.html">geoips.plugins.classes.readers package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.classes.sector_metadata_generators.html">geoips.plugins.classes.sector_metadata_generators package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.classes.sector_spec_generators.html">geoips.plugins.classes.sector_spec_generators package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.classes.title_formatters.html">geoips.plugins.classes.title_formatters package</a></li>
+</ul>
+</details></li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="geoips.plugins.modules.html">geoips.plugins.modules package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.algorithms.html">geoips.plugins.modules.algorithms package</a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.colormappers.html">geoips.plugins.modules.colormappers package</a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.coverage_checkers.html">geoips.plugins.modules.coverage_checkers package</a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.filename_formatters.html">geoips.plugins.modules.filename_formatters package</a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.interpolators.html">geoips.plugins.modules.interpolators package</a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.output_formatters.html">geoips.plugins.modules.output_formatters package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.procflows.html">geoips.plugins.modules.procflows package</a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.readers.html">geoips.plugins.modules.readers package</a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.sector_metadata_generators.html">geoips.plugins.modules.sector_metadata_generators package</a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.sector_spec_generators.html">geoips.plugins.modules.sector_spec_generators package</a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.title_formatters.html">geoips.plugins.modules.title_formatters package</a></li>
 </ul>
 </details></li>
 </ul>
 </details></li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="geoips.pydantic_models.html">geoips.pydantic_models package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l3"><a class="reference internal" href="geoips.pydantic_models.v1.html">geoips.pydantic_models.v1 package</a></li>
-<li class="toctree-l3"><a class="reference internal" href="geoips.pydantic_models.v2alpha1.html">geoips.pydantic_models.v2alpha1 package</a></li>
 </ul>
 </details></li>
 <li class="toctree-l2"><a class="reference internal" href="geoips.sector_utils.html">geoips.sector_utils package</a></li>
-<li class="toctree-l2"><a class="reference internal" href="geoips.utils.html">geoips.utils package</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="geoips.utils.html">geoips.utils package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="geoips.utils.coverage_checkers.html">geoips.utils.coverage_checkers package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.utils.memusg.html">geoips.utils.memusg package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.utils.types.html">geoips.utils.types package</a></li>
+</ul>
+</details></li>
 <li class="toctree-l2"><a class="reference internal" href="geoips.xarray_utils.html">geoips.xarray_utils package</a></li>
 </ul>
 </details></li>
@@ -695,7 +717,7 @@ functionality of the CLI. This includes the following as of right now:
 - [GeoipsConfig, GeoipsGet, GeoipsList, GeoipsRun, GeoipsTest, GeoipsValidate]</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="geoips.commandline.commandline_interface.GeoipsCLI.command_classes">
-<span class="sig-name descname"><span class="pre">command_classes</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[&lt;class</span> <span class="pre">'geoips.commandline.geoips_config.GeoipsConfig'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'geoips.commandline.geoips_describe.GeoipsDescribe'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'geoips.commandline.geoips_list.GeoipsList'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'geoips.commandline.geoips_run.GeoipsRun'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'geoips.commandline.geoips_test.GeoipsTest'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'geoips.commandline.geoips_tree.GeoipsTree'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'geoips.commandline.geoips_validate.GeoipsValidate'&gt;]</span></em><a class="headerlink" href="#geoips.commandline.commandline_interface.GeoipsCLI.command_classes" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">command_classes</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[&lt;class</span> <span class="pre">'geoips.commandline.geoips_config.GeoipsConfig'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'geoips.commandline.geoips_describe.GeoipsDescribe'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'geoips.commandline.geoips_expand.GeoipsExpand'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'geoips.commandline.geoips_list.GeoipsList'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'geoips.commandline.geoips_run.GeoipsRun'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'geoips.commandline.geoips_test.GeoipsTest'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'geoips.commandline.geoips_tree.GeoipsTree'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'geoips.commandline.geoips_validate.GeoipsValidate'&gt;]</span></em><a class="headerlink" href="#geoips.commandline.commandline_interface.GeoipsCLI.command_classes" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
@@ -916,6 +938,73 @@ added for each class at this moment.</p>
 </dd></dl>
 
 <dl class="py class">
+<dt class="sig sig-object py" id="geoips.commandline.geoips_command.GeoipsWorkflowCommand">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">geoips.commandline.geoips_command.</span></span><span class="sig-name descname"><span class="pre">GeoipsWorkflowCommand</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">LOG</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parent</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">legacy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/commandline/geoips_command.html#GeoipsWorkflowCommand"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.commandline.geoips_command.GeoipsWorkflowCommand" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#geoips.commandline.geoips_command.GeoipsExecutableCommand" title="geoips.commandline.geoips_command.GeoipsExecutableCommand"><code class="xref py py-class docutils literal notranslate"><span class="pre">GeoipsExecutableCommand</span></code></a></p>
+<p>Executable command class used for two workflow-specific commands.</p>
+<p>Those commands include <code class="docutils literal notranslate"><span class="pre">geoips</span> <span class="pre">test</span> <span class="pre">workflow</span></code> and <code class="docutils literal notranslate"><span class="pre">geoips</span> <span class="pre">run</span> <span class="pre">order_based</span></code>.
+This class has been created to share functionality for detecting input workflows
+and casting them to the validating that their input matches one of three types.</p>
+<p>Accepted inputs include the name of a registered workflow plugin, a .json or .yaml
+filepath to an unregistered workflow plugin, or a dictionary representing a
+workflow that will be literally evaluated as such.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="geoips.commandline.geoips_command.GeoipsWorkflowCommand.ensure_valid_json_or_yaml_path">
+<span class="sig-name descname"><span class="pre">ensure_valid_json_or_yaml_path</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Path</span></span></span><a class="reference internal" href="../_modules/geoips/commandline/geoips_command.html#GeoipsWorkflowCommand.ensure_valid_json_or_yaml_path"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.commandline.geoips_command.GeoipsWorkflowCommand.ensure_valid_json_or_yaml_path" title="Permalink to this definition">#</a></dt>
+<dd><p>Ensure ‘value’ is a valid path to a json/yaml file and convert to a Path object.  # NOQA</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>value</strong> (<em>str</em>) – <ul class="simple">
+<li><p>The input value for the filepath to typecheck against.</p></li>
+</ul>
+</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><p><strong>path</strong> –</p>
+<ul class="simple">
+<li><p>A json or yaml pathlib.Path object.</p></li>
+</ul>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Path</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="geoips.commandline.geoips_command.GeoipsWorkflowCommand.workflow_type">
+<span class="sig-name descname"><span class="pre">workflow_type</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Path</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">dict</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/commandline/geoips_command.html#GeoipsWorkflowCommand.workflow_type"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.commandline.geoips_command.GeoipsWorkflowCommand.workflow_type" title="Permalink to this definition">#</a></dt>
+<dd><p>Cast input value to a workflow type.</p>
+<p>If value cannot be cast to an accepted workflow type, argparse will raise an
+error denoting that your argument value could not be associated with an
+accepted type.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>value</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>List</em><em>[</em><em>Path</em><em>]</em><em>, </em><em>dict</em><em>]</em>) – <ul class="simple">
+<li><p>The input value of a potential workflow.</p></li>
+</ul>
+</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><p><strong>workflow</strong> –</p>
+<ul class="simple">
+<li><p>The same input value as long as it could be cast to any of the accepted
+workflow types. Workflow has been automatically expanded in the case that
+we need to apply overrides to it. Doesn’t change the functionality of the
+OBP if overrides don’t occur.</p></li>
+</ul>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>WorkflowPlugin-like</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
 <dt class="sig sig-object py" id="geoips.commandline.geoips_command.ParentParsers">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">geoips.commandline.geoips_command.</span></span><span class="sig-name descname"><span class="pre">ParentParsers</span></span><a class="reference internal" href="../_modules/geoips/commandline/geoips_command.html#ParentParsers"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.commandline.geoips_command.ParentParsers" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
@@ -967,18 +1056,138 @@ the user.</p>
 <p>GeoIPS CLI “config” command.</p>
 <p>Various configuration-based commands for setting up your geoips environment.</p>
 <dl class="py class">
+<dt class="sig sig-object py" id="geoips.commandline.geoips_config.ChunkCheckOutcome">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">geoips.commandline.geoips_config.</span></span><span class="sig-name descname"><span class="pre">ChunkCheckOutcome</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">record</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#geoips.commandline.geoips_config.ChunkCheckRecord" title="geoips.commandline.geoips_config.ChunkCheckRecord"><span class="pre">ChunkCheckRecord</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">disposition</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reason</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/commandline/geoips_config.html#ChunkCheckOutcome"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.commandline.geoips_config.ChunkCheckOutcome" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">NamedTuple</span></code></p>
+<p>Result of a chunk-hash check for one dataset.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="geoips.commandline.geoips_config.ChunkCheckOutcome.disposition">
+<span class="sig-name descname"><span class="pre">disposition</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#geoips.commandline.geoips_config.ChunkCheckOutcome.disposition" title="Permalink to this definition">#</a></dt>
+<dd><p>Alias for field number 1</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="geoips.commandline.geoips_config.ChunkCheckOutcome.reason">
+<span class="sig-name descname"><span class="pre">reason</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#geoips.commandline.geoips_config.ChunkCheckOutcome.reason" title="Permalink to this definition">#</a></dt>
+<dd><p>Alias for field number 2</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="geoips.commandline.geoips_config.ChunkCheckOutcome.record">
+<span class="sig-name descname"><span class="pre">record</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#geoips.commandline.geoips_config.ChunkCheckRecord" title="geoips.commandline.geoips_config.ChunkCheckRecord"><span class="pre">ChunkCheckRecord</span></a></em><a class="headerlink" href="#geoips.commandline.geoips_config.ChunkCheckOutcome.record" title="Permalink to this definition">#</a></dt>
+<dd><p>Alias for field number 0</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="geoips.commandline.geoips_config.ChunkCheckRecord">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">geoips.commandline.geoips_config.</span></span><span class="sig-name descname"><span class="pre">ChunkCheckRecord</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">url</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">version_file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">existing_dir</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/commandline/geoips_config.html#ChunkCheckRecord"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.commandline.geoips_config.ChunkCheckRecord" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">NamedTuple</span></code></p>
+<p>Immutable record passed through the chunk-check pipeline.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="geoips.commandline.geoips_config.ChunkCheckRecord.existing_dir">
+<span class="sig-name descname"><span class="pre">existing_dir</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#geoips.commandline.geoips_config.ChunkCheckRecord.existing_dir" title="Permalink to this definition">#</a></dt>
+<dd><p>Alias for field number 3</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="geoips.commandline.geoips_config.ChunkCheckRecord.name">
+<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#geoips.commandline.geoips_config.ChunkCheckRecord.name" title="Permalink to this definition">#</a></dt>
+<dd><p>Alias for field number 0</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="geoips.commandline.geoips_config.ChunkCheckRecord.url">
+<span class="sig-name descname"><span class="pre">url</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#geoips.commandline.geoips_config.ChunkCheckRecord.url" title="Permalink to this definition">#</a></dt>
+<dd><p>Alias for field number 1</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="geoips.commandline.geoips_config.ChunkCheckRecord.version_file">
+<span class="sig-name descname"><span class="pre">version_file</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#geoips.commandline.geoips_config.ChunkCheckRecord.version_file" title="Permalink to this definition">#</a></dt>
+<dd><p>Alias for field number 2</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="geoips.commandline.geoips_config.DownloadResult">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">geoips.commandline.geoips_config.</span></span><span class="sig-name descname"><span class="pre">DownloadResult</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">full_hash</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chunk_hash</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">temp_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">total_bytes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/commandline/geoips_config.html#DownloadResult"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.commandline.geoips_config.DownloadResult" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">NamedTuple</span></code></p>
+<p>Result of a full dataset download.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="geoips.commandline.geoips_config.DownloadResult.chunk_hash">
+<span class="sig-name descname"><span class="pre">chunk_hash</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#geoips.commandline.geoips_config.DownloadResult.chunk_hash" title="Permalink to this definition">#</a></dt>
+<dd><p>Alias for field number 2</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="geoips.commandline.geoips_config.DownloadResult.full_hash">
+<span class="sig-name descname"><span class="pre">full_hash</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#geoips.commandline.geoips_config.DownloadResult.full_hash" title="Permalink to this definition">#</a></dt>
+<dd><p>Alias for field number 1</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="geoips.commandline.geoips_config.DownloadResult.name">
+<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#geoips.commandline.geoips_config.DownloadResult.name" title="Permalink to this definition">#</a></dt>
+<dd><p>Alias for field number 0</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="geoips.commandline.geoips_config.DownloadResult.temp_path">
+<span class="sig-name descname"><span class="pre">temp_path</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#geoips.commandline.geoips_config.DownloadResult.temp_path" title="Permalink to this definition">#</a></dt>
+<dd><p>Alias for field number 3</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="geoips.commandline.geoips_config.DownloadResult.total_bytes">
+<span class="sig-name descname"><span class="pre">total_bytes</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#geoips.commandline.geoips_config.DownloadResult.total_bytes" title="Permalink to this definition">#</a></dt>
+<dd><p>Alias for field number 4</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
 <dt class="sig sig-object py" id="geoips.commandline.geoips_config.GeoipsConfig">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">geoips.commandline.geoips_config.</span></span><span class="sig-name descname"><span class="pre">GeoipsConfig</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">LOG</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parent</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">legacy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/commandline/geoips_config.html#GeoipsConfig"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.commandline.geoips_config.GeoipsConfig" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#geoips.commandline.geoips_command.GeoipsCommand" title="geoips.commandline.geoips_command.GeoipsCommand"><code class="xref py py-class docutils literal notranslate"><span class="pre">GeoipsCommand</span></code></a></p>
 <p>Config top-level command for configuring your GeoIPS environment.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="geoips.commandline.geoips_config.GeoipsConfig.command_classes">
-<span class="sig-name descname"><span class="pre">command_classes</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[&lt;class</span> <span class="pre">'geoips.commandline.geoips_config.GeoipsConfigInstall'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'geoips.commandline.geoips_config.GeoipsConfigInstallGithub'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'geoips.commandline.geoips_config.GeoipsConfigCreateRegistries'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'geoips.commandline.geoips_config.GeoipsConfigDeleteRegistries'&gt;]</span></em><a class="headerlink" href="#geoips.commandline.geoips_config.GeoipsConfig.command_classes" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">command_classes</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[&lt;class</span> <span class="pre">'geoips.commandline.geoips_config.GeoipsConfigCreate'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'geoips.commandline.geoips_config.GeoipsConfigCreateRegistries'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'geoips.commandline.geoips_config.GeoipsConfigDeleteRegistries'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'geoips.commandline.geoips_config.GeoipsConfigInstall'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'geoips.commandline.geoips_config.GeoipsConfigInstallGithub'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'geoips.commandline.geoips_config.GeoipsConfigValidate'&gt;]</span></em><a class="headerlink" href="#geoips.commandline.geoips_config.GeoipsConfig.command_classes" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="geoips.commandline.geoips_config.GeoipsConfig.name">
 <span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'config'</span></em><a class="headerlink" href="#geoips.commandline.geoips_config.GeoipsConfig.name" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="geoips.commandline.geoips_config.GeoipsConfigCreate">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">geoips.commandline.geoips_config.</span></span><span class="sig-name descname"><span class="pre">GeoipsConfigCreate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">LOG</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parent</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">legacy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/commandline/geoips_config.html#GeoipsConfigCreate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.commandline.geoips_config.GeoipsConfigCreate" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#geoips.commandline.geoips_command.GeoipsExecutableCommand" title="geoips.commandline.geoips_command.GeoipsExecutableCommand"><code class="xref py py-class docutils literal notranslate"><span class="pre">GeoipsExecutableCommand</span></code></a></p>
+<p>Generate a .geoips.yaml config file from environment variables.</p>
+<p>Scans <code class="docutils literal notranslate"><span class="pre">GEOIPS_*</span></code> and unprefixed environment variables and writes
+them as a structured YAML configuration file. Interactively prompts
+for key variables (GEOIPS_OUTDIRS, GEOIPS_TESTDATA_DIR,
+GEOIPS_PACKAGES_DIR) that are not set in the environment.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="geoips.commandline.geoips_config.GeoipsConfigCreate.add_arguments">
+<span class="sig-name descname"><span class="pre">add_arguments</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/commandline/geoips_config.html#GeoipsConfigCreate.add_arguments"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.commandline.geoips_config.GeoipsConfigCreate.add_arguments" title="Permalink to this definition">#</a></dt>
+<dd><p>Add arguments to the config-subparser for the create command.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="geoips.commandline.geoips_config.GeoipsConfigCreate.command_classes">
+<span class="sig-name descname"><span class="pre">command_classes</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[]</span></em><a class="headerlink" href="#geoips.commandline.geoips_config.GeoipsConfigCreate.command_classes" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="geoips.commandline.geoips_config.GeoipsConfigCreate.name">
+<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'create'</span></em><a class="headerlink" href="#geoips.commandline.geoips_config.GeoipsConfigCreate.name" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -1047,53 +1256,6 @@ your GeoIPS environment.</p>
 <span class="sig-name descname"><span class="pre">command_classes</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[]</span></em><a class="headerlink" href="#geoips.commandline.geoips_config.GeoipsConfigInstall.command_classes" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
-<dl class="py method">
-<dt class="sig sig-object py" id="geoips.commandline.geoips_config.GeoipsConfigInstall.download_extract_test_data">
-<span class="sig-name descname"><span class="pre">download_extract_test_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">url</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">download_dir</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/commandline/geoips_config.html#GeoipsConfigInstall.download_extract_test_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.commandline.geoips_config.GeoipsConfigInstall.download_extract_test_data" title="Permalink to this definition">#</a></dt>
-<dd><p>Download the specified URL and write it to the corresponding download_dir.</p>
-<p>Will extract the data using tarfile and create an archive by bundling the
-associated files and directories together.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>url</strong> (<em>str</em>) – <ul>
-<li><p>The url of the test dataset to download</p></li>
-</ul>
-</p></li>
-<li><p><strong>download_dir</strong> (<em>pathlib.Path</em>) – <ul>
-<li><p>The directory in which to download and extract the data into</p></li>
-</ul>
-</p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="geoips.commandline.geoips_config.GeoipsConfigInstall.extract_data_cautiously">
-<span class="sig-name descname"><span class="pre">extract_data_cautiously</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filepath</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">download_dir</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/commandline/geoips_config.html#GeoipsConfigInstall.extract_data_cautiously"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.commandline.geoips_config.GeoipsConfigInstall.extract_data_cautiously" title="Permalink to this definition">#</a></dt>
-<dd><p>Extract the GET Response cautiously and skip any dangerous members.</p>
-<p>Iterate through a Response and check that each member is not dangerous to
-extract to your machine. If it is, skip it.</p>
-<p>Where ‘dangerous’ is a filepath that is not part of ‘download_dir’. File path
-maneuvering characters could be invoked (‘../’, …), which we will not allow
-when downloading test data.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>filepath</strong> (<em>str</em>) – <ul>
-<li><p>The path to the temporary file to extract from.</p></li>
-</ul>
-</p></li>
-<li><p><strong>download_dir</strong> (<em>pathlib.Path</em>) – <ul>
-<li><p>The directory in which to download and extract the data into</p></li>
-</ul>
-</p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-
 <dl class="py attribute">
 <dt class="sig sig-object py" id="geoips.commandline.geoips_config.GeoipsConfigInstall.name">
 <span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'install'</span></em><a class="headerlink" href="#geoips.commandline.geoips_config.GeoipsConfigInstall.name" title="Permalink to this definition">#</a></dt>
@@ -1126,6 +1288,31 @@ your GeoIPS environment via github repositories.</p>
 
 </dd></dl>
 
+<dl class="py class">
+<dt class="sig sig-object py" id="geoips.commandline.geoips_config.GeoipsConfigValidate">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">geoips.commandline.geoips_config.</span></span><span class="sig-name descname"><span class="pre">GeoipsConfigValidate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">LOG</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parent</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">legacy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/commandline/geoips_config.html#GeoipsConfigValidate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.commandline.geoips_config.GeoipsConfigValidate" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#geoips.commandline.geoips_command.GeoipsExecutableCommand" title="geoips.commandline.geoips_command.GeoipsExecutableCommand"><code class="xref py py-class docutils literal notranslate"><span class="pre">GeoipsExecutableCommand</span></code></a></p>
+<p>Validate a GeoIPS .geoips.yaml configuration file.</p>
+<p>Checks YAML syntax, verifies the structure against the GeoIPS
+configuration schema, and reports all errors found.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="geoips.commandline.geoips_config.GeoipsConfigValidate.add_arguments">
+<span class="sig-name descname"><span class="pre">add_arguments</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/commandline/geoips_config.html#GeoipsConfigValidate.add_arguments"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.commandline.geoips_config.GeoipsConfigValidate.add_arguments" title="Permalink to this definition">#</a></dt>
+<dd><p>Add arguments to the config-subparser for the validate command.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="geoips.commandline.geoips_config.GeoipsConfigValidate.command_classes">
+<span class="sig-name descname"><span class="pre">command_classes</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[]</span></em><a class="headerlink" href="#geoips.commandline.geoips_config.GeoipsConfigValidate.command_classes" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="geoips.commandline.geoips_config.GeoipsConfigValidate.name">
+<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'validate'</span></em><a class="headerlink" href="#geoips.commandline.geoips_config.GeoipsConfigValidate.name" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
 </section>
 <section id="module-geoips.commandline.geoips_describe">
 <span id="geoips-commandline-geoips-describe-module"></span><h2>geoips.commandline.geoips_describe module<a class="headerlink" href="#module-geoips.commandline.geoips_describe" title="Permalink to this heading">#</a></h2>
@@ -1138,12 +1325,12 @@ your GeoIPS environment via github repositories.</p>
 <p>Top-Level Describe Command Class for retrieving info about GeoIPS Artifacts.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="geoips.commandline.geoips_describe.GeoipsDescribe.command_classes">
-<span class="sig-name descname"><span class="pre">command_classes</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[&lt;class</span> <span class="pre">'abc.GeoipsDescribeArtifactAlgorithms'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsDescribeArtifactColormappers'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsDescribeArtifactCoverage-Checkers'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsDescribeArtifactDatabases'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsDescribeArtifactFeature-Annotators'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsDescribeArtifactFilename-Formatters'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsDescribeArtifactGridline-Annotators'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsDescribeArtifactInterpolators'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsDescribeArtifactOutput-Checkers'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsDescribeArtifactOutput-Formatters'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsDescribeArtifactProcflows'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsDescribeArtifactProduct-Defaults'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsDescribeArtifactProducts'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsDescribeArtifactReaders'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsDescribeArtifactSector-Adjusters'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsDescribeArtifactSector-Metadata-Generators'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsDescribeArtifactSector-Spec-Generators'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsDescribeArtifactSectors'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsDescribeArtifactTitle-Formatters'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsDescribeArtifactWorkflows'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'geoips.commandline.geoips_describe.GeoipsDescribePackage'&gt;]</span></em><a class="headerlink" href="#geoips.commandline.geoips_describe.GeoipsDescribe.command_classes" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">command_classes</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[&lt;class</span> <span class="pre">'abc.GeoipsDescribeArtifactAlgorithms'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsDescribeArtifactColormappers'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsDescribeArtifactCoverage-Checkers'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsDescribeArtifactDatabases'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsDescribeArtifactFeature-Annotators'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsDescribeArtifactFilename-Formatters'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsDescribeArtifactGridline-Annotators'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsDescribeArtifactInterpolators'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsDescribeArtifactOutput-Checkers'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsDescribeArtifactOutput-Formatters'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsDescribeArtifactProcflows'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsDescribeArtifactProduct-Defaults'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsDescribeArtifactProducts'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsDescribeArtifactReaders'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsDescribeArtifactSector-Adjusters'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsDescribeArtifactSector-Metadata-Generators'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsDescribeArtifactSector-Spec-Generators'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsDescribeArtifactSectors'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsDescribeArtifactTitle-Formatters'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsDescribeArtifactValidators'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsDescribeArtifactWorkflows'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'geoips.commandline.geoips_describe.GeoipsDescribePackage'&gt;]</span></em><a class="headerlink" href="#geoips.commandline.geoips_describe.GeoipsDescribe.command_classes" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="geoips.commandline.geoips_describe.GeoipsDescribe.generated_classes">
-<span class="sig-name descname"><span class="pre">generated_classes</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[&lt;class</span> <span class="pre">'abc.GeoipsDescribeArtifactAlgorithms'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsDescribeArtifactColormappers'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsDescribeArtifactCoverage-Checkers'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsDescribeArtifactDatabases'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsDescribeArtifactFeature-Annotators'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsDescribeArtifactFilename-Formatters'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsDescribeArtifactGridline-Annotators'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsDescribeArtifactInterpolators'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsDescribeArtifactOutput-Checkers'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsDescribeArtifactOutput-Formatters'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsDescribeArtifactProcflows'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsDescribeArtifactProduct-Defaults'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsDescribeArtifactProducts'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsDescribeArtifactReaders'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsDescribeArtifactSector-Adjusters'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsDescribeArtifactSector-Metadata-Generators'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsDescribeArtifactSector-Spec-Generators'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsDescribeArtifactSectors'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsDescribeArtifactTitle-Formatters'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsDescribeArtifactWorkflows'&gt;]</span></em><a class="headerlink" href="#geoips.commandline.geoips_describe.GeoipsDescribe.generated_classes" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">generated_classes</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[&lt;class</span> <span class="pre">'abc.GeoipsDescribeArtifactAlgorithms'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsDescribeArtifactColormappers'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsDescribeArtifactCoverage-Checkers'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsDescribeArtifactDatabases'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsDescribeArtifactFeature-Annotators'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsDescribeArtifactFilename-Formatters'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsDescribeArtifactGridline-Annotators'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsDescribeArtifactInterpolators'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsDescribeArtifactOutput-Checkers'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsDescribeArtifactOutput-Formatters'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsDescribeArtifactProcflows'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsDescribeArtifactProduct-Defaults'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsDescribeArtifactProducts'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsDescribeArtifactReaders'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsDescribeArtifactSector-Adjusters'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsDescribeArtifactSector-Metadata-Generators'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsDescribeArtifactSector-Spec-Generators'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsDescribeArtifactSectors'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsDescribeArtifactTitle-Formatters'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsDescribeArtifactValidators'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsDescribeArtifactWorkflows'&gt;]</span></em><a class="headerlink" href="#geoips.commandline.geoips_describe.GeoipsDescribe.generated_classes" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
@@ -1280,7 +1467,7 @@ calling this command is shown below, outputted in a yaml-based format.</p>
 <span class="sig-name descname"><span class="pre">describe_family</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/commandline/geoips_describe.html#GeoipsDescribeArtifact.describe_family"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.commandline.geoips_describe.GeoipsDescribeArtifact.describe_family" title="Permalink to this definition">#</a></dt>
 <dd><p>CLI ‘geoips describe &lt;interface_name&gt; family &lt;family_name&gt;’ command.</p>
 <p>This occurs when a user has requested a family in the manner shown above.
-Outputs to the teriminal the following data in a dictionary format if available.</p>
+Outputs to the terminal the following data in a dictionary format if available.</p>
 <section id="printed-to-terminal">
 <h3>Printed to Terminal<a class="headerlink" href="#printed-to-terminal" title="Permalink to this heading">#</a></h3>
 <dl class="simple">
@@ -1312,7 +1499,7 @@ Outputs to the teriminal the following data in a dictionary format if available.
 <span class="sig-name descname"><span class="pre">describe_interface</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/commandline/geoips_describe.html#GeoipsDescribeArtifact.describe_interface"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.commandline.geoips_describe.GeoipsDescribeArtifact.describe_interface" title="Permalink to this definition">#</a></dt>
 <dd><p>CLI ‘geoips describe &lt;interface_name&gt;’ command.</p>
 <p>This occurs when a user has requested a interface in the manner shown above.
-Outputs to the teriminal the following data in a dictionary format if available.</p>
+Outputs to the terminal the following data in a dictionary format if available.</p>
 <section id="id1">
 <h3>Printed to Terminal<a class="headerlink" href="#id1" title="Permalink to this heading">#</a></h3>
 <dl class="simple">
@@ -1333,7 +1520,7 @@ Outputs to the teriminal the following data in a dictionary format if available.
 <span class="sig-name descname"><span class="pre">describe_plugin</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/commandline/geoips_describe.html#GeoipsDescribeArtifact.describe_plugin"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.commandline.geoips_describe.GeoipsDescribeArtifact.describe_plugin" title="Permalink to this definition">#</a></dt>
 <dd><p>CLI ‘geoips describe &lt;interface_name&gt; &lt;plugin_name&gt;’ command.</p>
 <p>This occurs when a user has requested a plugin in the manner shown above.
-Outputs to the teriminal the following data in a dictionary format if available.</p>
+Outputs to the terminal the following data in a dictionary format if available.</p>
 <section id="id2">
 <h3>Printed to Terminal<a class="headerlink" href="#id2" title="Permalink to this heading">#</a></h3>
 <dl class="simple">
@@ -1420,6 +1607,39 @@ calling this command is shown below, outputted in a yaml-based format.</p>
 </dd></dl>
 
 </section>
+<section id="module-geoips.commandline.geoips_expand">
+<span id="geoips-commandline-geoips-expand-module"></span><h2>geoips.commandline.geoips_expand module<a class="headerlink" href="#module-geoips.commandline.geoips_expand" title="Permalink to this heading">#</a></h2>
+<p>GeoIPS CLI “expand” command.</p>
+<p>Single ‘geoips expand &lt;workflow_name&gt;’ command which will fully expand a workflow in the
+case it has embedded workflows or products included in its steps.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="geoips.commandline.geoips_expand.GeoipsExpand">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">geoips.commandline.geoips_expand.</span></span><span class="sig-name descname"><span class="pre">GeoipsExpand</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">LOG</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parent</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">legacy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/commandline/geoips_expand.html#GeoipsExpand"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.commandline.geoips_expand.GeoipsExpand" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#geoips.commandline.geoips_command.GeoipsExecutableCommand" title="geoips.commandline.geoips_command.GeoipsExecutableCommand"><code class="xref py py-class docutils literal notranslate"><span class="pre">GeoipsExecutableCommand</span></code></a></p>
+<p>Expand command class for fully dumping a workflow plugin to the terminal.</p>
+<p>This should be used to confirm the order of steps applied in a workflow plugin.
+Since embedded workflows and products can be included in workflow plugins, it’s not
+always easy to see the order of operations that will be applied from a top-level
+workflow plugin. This is an easy way to mitigate that.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="geoips.commandline.geoips_expand.GeoipsExpand.add_arguments">
+<span class="sig-name descname"><span class="pre">add_arguments</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/commandline/geoips_expand.html#GeoipsExpand.add_arguments"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.commandline.geoips_expand.GeoipsExpand.add_arguments" title="Permalink to this definition">#</a></dt>
+<dd><p>Add arguments to the expand-subparser for the Expand Command.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="geoips.commandline.geoips_expand.GeoipsExpand.command_classes">
+<span class="sig-name descname"><span class="pre">command_classes</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[]</span></em><a class="headerlink" href="#geoips.commandline.geoips_expand.GeoipsExpand.command_classes" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="geoips.commandline.geoips_expand.GeoipsExpand.name">
+<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'expand'</span></em><a class="headerlink" href="#geoips.commandline.geoips_expand.GeoipsExpand.name" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
 <section id="module-geoips.commandline.geoips_list">
 <span id="geoips-commandline-geoips-list-module"></span><h2>geoips.commandline.geoips_list module<a class="headerlink" href="#module-geoips.commandline.geoips_list" title="Permalink to this heading">#</a></h2>
 <p>GeoIPS CLI “list” command.</p>
@@ -1431,12 +1651,12 @@ calling this command is shown below, outputted in a yaml-based format.</p>
 <p>Top-Level List Command for listing off GeoIPS Artifacts.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="geoips.commandline.geoips_list.GeoipsList.command_classes">
-<span class="sig-name descname"><span class="pre">command_classes</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[&lt;class</span> <span class="pre">'abc.GeoipsListSingleInterfaceAlgorithms'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsListSingleInterfaceColormappers'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsListSingleInterfaceCoverage-Checkers'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsListSingleInterfaceDatabases'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsListSingleInterfaceFeature-Annotators'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsListSingleInterfaceFilename-Formatters'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsListSingleInterfaceGridline-Annotators'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsListSingleInterfaceInterpolators'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsListSingleInterfaceOutput-Checkers'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsListSingleInterfaceOutput-Formatters'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsListSingleInterfaceProcflows'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsListSingleInterfaceProduct-Defaults'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsListSingleInterfaceProducts'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsListSingleInterfaceReaders'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsListSingleInterfaceSector-Adjusters'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsListSingleInterfaceSector-Metadata-Generators'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsListSingleInterfaceSector-Spec-Generators'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsListSingleInterfaceSectors'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsListSingleInterfaceTitle-Formatters'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsListSingleInterfaceWorkflows'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'geoips.commandline.geoips_list.GeoipsListInterfaces'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'geoips.commandline.geoips_list.GeoipsListPackages'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'geoips.commandline.geoips_list.GeoipsListPlugins'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'geoips.commandline.geoips_list.GeoipsListRegistries'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'geoips.commandline.geoips_list.GeoipsListScripts'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'geoips.commandline.geoips_list.GeoipsListSourceNames'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'geoips.commandline.geoips_list.GeoipsListTestDatasets'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'geoips.commandline.geoips_list.GeoipsListUnitTests'&gt;]</span></em><a class="headerlink" href="#geoips.commandline.geoips_list.GeoipsList.command_classes" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">command_classes</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[&lt;class</span> <span class="pre">'abc.GeoipsListSingleInterfaceAlgorithms'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsListSingleInterfaceColormappers'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsListSingleInterfaceCoverage-Checkers'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsListSingleInterfaceDatabases'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsListSingleInterfaceFeature-Annotators'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsListSingleInterfaceFilename-Formatters'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsListSingleInterfaceGridline-Annotators'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsListSingleInterfaceInterpolators'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsListSingleInterfaceOutput-Checkers'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsListSingleInterfaceOutput-Formatters'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsListSingleInterfaceProcflows'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsListSingleInterfaceProduct-Defaults'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsListSingleInterfaceProducts'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsListSingleInterfaceReaders'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsListSingleInterfaceSector-Adjusters'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsListSingleInterfaceSector-Metadata-Generators'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsListSingleInterfaceSector-Spec-Generators'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsListSingleInterfaceSectors'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsListSingleInterfaceTitle-Formatters'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsListSingleInterfaceValidators'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsListSingleInterfaceWorkflows'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'geoips.commandline.geoips_list.GeoipsListInterfaces'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'geoips.commandline.geoips_list.GeoipsListPackages'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'geoips.commandline.geoips_list.GeoipsListPlugins'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'geoips.commandline.geoips_list.GeoipsListRegistries'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'geoips.commandline.geoips_list.GeoipsListScripts'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'geoips.commandline.geoips_list.GeoipsListSourceNames'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'geoips.commandline.geoips_list.GeoipsListTestDatasets'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'geoips.commandline.geoips_list.GeoipsListUnitTests'&gt;]</span></em><a class="headerlink" href="#geoips.commandline.geoips_list.GeoipsList.command_classes" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="geoips.commandline.geoips_list.GeoipsList.generated_classes">
-<span class="sig-name descname"><span class="pre">generated_classes</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[&lt;class</span> <span class="pre">'abc.GeoipsListSingleInterfaceAlgorithms'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsListSingleInterfaceColormappers'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsListSingleInterfaceCoverage-Checkers'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsListSingleInterfaceDatabases'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsListSingleInterfaceFeature-Annotators'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsListSingleInterfaceFilename-Formatters'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsListSingleInterfaceGridline-Annotators'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsListSingleInterfaceInterpolators'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsListSingleInterfaceOutput-Checkers'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsListSingleInterfaceOutput-Formatters'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsListSingleInterfaceProcflows'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsListSingleInterfaceProduct-Defaults'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsListSingleInterfaceProducts'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsListSingleInterfaceReaders'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsListSingleInterfaceSector-Adjusters'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsListSingleInterfaceSector-Metadata-Generators'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsListSingleInterfaceSector-Spec-Generators'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsListSingleInterfaceSectors'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsListSingleInterfaceTitle-Formatters'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsListSingleInterfaceWorkflows'&gt;]</span></em><a class="headerlink" href="#geoips.commandline.geoips_list.GeoipsList.generated_classes" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">generated_classes</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[&lt;class</span> <span class="pre">'abc.GeoipsListSingleInterfaceAlgorithms'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsListSingleInterfaceColormappers'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsListSingleInterfaceCoverage-Checkers'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsListSingleInterfaceDatabases'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsListSingleInterfaceFeature-Annotators'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsListSingleInterfaceFilename-Formatters'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsListSingleInterfaceGridline-Annotators'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsListSingleInterfaceInterpolators'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsListSingleInterfaceOutput-Checkers'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsListSingleInterfaceOutput-Formatters'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsListSingleInterfaceProcflows'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsListSingleInterfaceProduct-Defaults'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsListSingleInterfaceProducts'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsListSingleInterfaceReaders'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsListSingleInterfaceSector-Adjusters'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsListSingleInterfaceSector-Metadata-Generators'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsListSingleInterfaceSector-Spec-Generators'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsListSingleInterfaceSectors'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsListSingleInterfaceTitle-Formatters'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsListSingleInterfaceValidators'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsListSingleInterfaceWorkflows'&gt;]</span></em><a class="headerlink" href="#geoips.commandline.geoips_list.GeoipsList.generated_classes" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
@@ -1853,7 +2073,7 @@ unique source_name which they support.</p></li>
 <dl class="py class">
 <dt class="sig sig-object py" id="geoips.commandline.geoips_run.GeoipsRunOrderBased">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">geoips.commandline.geoips_run.</span></span><span class="sig-name descname"><span class="pre">GeoipsRunOrderBased</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">LOG</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parent</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">legacy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/commandline/geoips_run.html#GeoipsRunOrderBased"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.commandline.geoips_run.GeoipsRunOrderBased" title="Permalink to this definition">#</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#geoips.commandline.geoips_command.GeoipsExecutableCommand" title="geoips.commandline.geoips_command.GeoipsExecutableCommand"><code class="xref py py-class docutils literal notranslate"><span class="pre">GeoipsExecutableCommand</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="#geoips.commandline.geoips_command.GeoipsWorkflowCommand" title="geoips.commandline.geoips_command.GeoipsWorkflowCommand"><code class="xref py py-class docutils literal notranslate"><span class="pre">GeoipsWorkflowCommand</span></code></a></p>
 <p>Run command for executing an order based process-workflow (procflow).</p>
 <p>Makes use of workflow plugins and additional commandline arguments that single
 source would use.</p>
@@ -1868,14 +2088,103 @@ source would use.</p>
 <span class="sig-name descname"><span class="pre">command_classes</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[]</span></em><a class="headerlink" href="#geoips.commandline.geoips_run.GeoipsRunOrderBased.command_classes" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
+<dl class="py method">
+<dt class="sig sig-object py" id="geoips.commandline.geoips_run.GeoipsRunOrderBased.dict_type">
+<span class="sig-name descname"><span class="pre">dict_type</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/commandline/geoips_run.html#GeoipsRunOrderBased.dict_type"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.commandline.geoips_run.GeoipsRunOrderBased.dict_type" title="Permalink to this definition">#</a></dt>
+<dd><p>Ensure an dictionary-based override can be cast as a dictionary.</p>
+<p>This is used to validate the input of -S, -K, and -G flags.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>value</strong> (<em>str</em>) – The full global override string for a geoips run order_based command.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="geoips.commandline.geoips_run.GeoipsRunOrderBased.global_override_type">
+<span class="sig-name descname"><span class="pre">global_override_type</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/commandline/geoips_run.html#GeoipsRunOrderBased.global_override_type"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.commandline.geoips_run.GeoipsRunOrderBased.global_override_type" title="Permalink to this definition">#</a></dt>
+<dd><p>Ensure an override string fits the following format.</p>
+<section id="expected-format">
+<h3>Expected Format<a class="headerlink" href="#expected-format" title="Permalink to this heading">#</a></h3>
+<p>‘&lt;global_variable_name&gt;=&lt;some_value&gt;’</p>
+<dl class="field-list simple">
+<dt class="field-odd">param value<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The full global override string for a geoips run order_based command.</p>
+</dd>
+<dt class="field-even">type value<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
+</dd>
+<dt class="field-odd">returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>override_dict</strong> – The validated contents of an override string in a dictionary.</p>
+</dd>
+<dt class="field-even">rtype<span class="colon">:</span></dt>
+<dd class="field-even"><p>dict</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="geoips.commandline.geoips_run.GeoipsRunOrderBased.kind_override_type">
+<span class="sig-name descname"><span class="pre">kind_override_type</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/commandline/geoips_run.html#GeoipsRunOrderBased.kind_override_type"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.commandline.geoips_run.GeoipsRunOrderBased.kind_override_type" title="Permalink to this definition">#</a></dt>
+<dd><p>Ensure an override string fits the following format.</p>
+<section id="id5">
+<h3>Expected Format<a class="headerlink" href="#id5" title="Permalink to this heading">#</a></h3>
+<p>‘&lt;kind&gt;.&lt;argument_name&gt;=&lt;some_value&gt;’</p>
+<dl class="field-list simple">
+<dt class="field-odd">param value<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The full kind override string for a geoips run order_based command.</p>
+</dd>
+<dt class="field-even">type value<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
+</dd>
+<dt class="field-odd">returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>override_dict</strong> – The validated contents of an override string in a dictionary.</p>
+</dd>
+<dt class="field-even">rtype<span class="colon">:</span></dt>
+<dd class="field-even"><p>dict</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
 <dl class="py attribute">
 <dt class="sig sig-object py" id="geoips.commandline.geoips_run.GeoipsRunOrderBased.name">
 <span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'order_based'</span></em><a class="headerlink" href="#geoips.commandline.geoips_run.GeoipsRunOrderBased.name" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
+<dl class="py method">
+<dt class="sig sig-object py" id="geoips.commandline.geoips_run.GeoipsRunOrderBased.step_override_type">
+<span class="sig-name descname"><span class="pre">step_override_type</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/commandline/geoips_run.html#GeoipsRunOrderBased.step_override_type"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.commandline.geoips_run.GeoipsRunOrderBased.step_override_type" title="Permalink to this definition">#</a></dt>
+<dd><p>Ensure an override string fits the following format.</p>
+<section id="id6">
+<h3>Expected Format<a class="headerlink" href="#id6" title="Permalink to this heading">#</a></h3>
+<p>‘&lt;step_id&gt;.&lt;string1&gt;.&lt;optional_string2&gt;.&lt;optional_string3&gt;…=&lt;some_value&gt;’</p>
+<dl class="field-list simple">
+<dt class="field-odd">param value<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The full step override string for a geoips run order_based command.</p>
+</dd>
+<dt class="field-even">type value<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
+</dd>
+<dt class="field-odd">returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>override_dict</strong> – The validated contents of an override string in a dictionary.</p>
+</dd>
+<dt class="field-even">rtype<span class="colon">:</span></dt>
+<dd class="field-even"><p>dict</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
 <dl class="py attribute">
-<dt class="sig sig-object py" id="geoips.commandline.geoips_run.GeoipsRunOrderBased.warning">
-<span class="sig-name descname"><span class="pre">warning</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'\x1b[31m\nWARNING:</span> <span class="pre">\x1b[33m`geoips</span> <span class="pre">run</span> <span class="pre">order_based`</span> <span class="pre">is</span> <span class="pre">experimental</span> <span class="pre">and</span> <span class="pre">is</span> <span class="pre">subject</span> <span class="pre">to</span> <span class="pre">change.</span> <span class="pre">This</span> <span class="pre">warning</span> <span class="pre">will</span> <span class="pre">be</span> <span class="pre">removed</span> <span class="pre">once</span> <span class="pre">this</span> <span class="pre">command</span> <span class="pre">is</span> <span class="pre">stable.\n\x1b[0m'</span></em><a class="headerlink" href="#geoips.commandline.geoips_run.GeoipsRunOrderBased.warning" title="Permalink to this definition">#</a></dt>
+<dt class="sig sig-object py" id="geoips.commandline.geoips_run.GeoipsRunOrderBased.warning_no_color">
+<span class="sig-name descname"><span class="pre">warning_no_color</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'\nWARNING:</span> <span class="pre">`geoips</span> <span class="pre">run</span> <span class="pre">order_based`</span> <span class="pre">is</span> <span class="pre">experimental</span> <span class="pre">and</span> <span class="pre">is</span> <span class="pre">subject</span> <span class="pre">to</span> <span class="pre">change.</span> <span class="pre">This</span> <span class="pre">warning</span> <span class="pre">will</span> <span class="pre">be</span> <span class="pre">removed</span> <span class="pre">once</span> <span class="pre">this</span> <span class="pre">command</span> <span class="pre">is</span> <span class="pre">stable.\n'</span></em><a class="headerlink" href="#geoips.commandline.geoips_run.GeoipsRunOrderBased.warning_no_color" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="geoips.commandline.geoips_run.GeoipsRunOrderBased.warning_with_color">
+<span class="sig-name descname"><span class="pre">warning_with_color</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'\x1b[31m\nWARNING:</span> <span class="pre">\x1b[33m`geoips</span> <span class="pre">run</span> <span class="pre">order_based`</span> <span class="pre">is</span> <span class="pre">experimental</span> <span class="pre">and</span> <span class="pre">is</span> <span class="pre">subject</span> <span class="pre">to</span> <span class="pre">change.</span> <span class="pre">This</span> <span class="pre">warning</span> <span class="pre">will</span> <span class="pre">be</span> <span class="pre">removed</span> <span class="pre">once</span> <span class="pre">this</span> <span class="pre">command</span> <span class="pre">is</span> <span class="pre">stable.\n\x1b[0m'</span></em><a class="headerlink" href="#geoips.commandline.geoips_run.GeoipsRunOrderBased.warning_with_color" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -1915,7 +2224,7 @@ source would use.</p>
 <p>Top-Level test command for testing GeoIPS and its corresponding packages.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="geoips.commandline.geoips_test.GeoipsTest.command_classes">
-<span class="sig-name descname"><span class="pre">command_classes</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[&lt;class</span> <span class="pre">'geoips.commandline.geoips_test.GeoipsTestLinting'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'geoips.commandline.geoips_test.GeoipsTestScript'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'geoips.commandline.geoips_test.GeoipsTestSector'&gt;]</span></em><a class="headerlink" href="#geoips.commandline.geoips_test.GeoipsTest.command_classes" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">command_classes</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[&lt;class</span> <span class="pre">'geoips.commandline.geoips_test.GeoipsTestLinting'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'geoips.commandline.geoips_test.GeoipsTestScript'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'geoips.commandline.geoips_test.GeoipsTestSector'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'geoips.commandline.geoips_test.GeoipsTestWorkflow'&gt;]</span></em><a class="headerlink" href="#geoips.commandline.geoips_test.GeoipsTest.command_classes" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
@@ -2020,6 +2329,33 @@ the sector image.</p></li>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="geoips.commandline.geoips_test.GeoipsTestSector.name">
 <span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'sector'</span></em><a class="headerlink" href="#geoips.commandline.geoips_test.GeoipsTestSector.name" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="geoips.commandline.geoips_test.GeoipsTestWorkflow">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">geoips.commandline.geoips_test.</span></span><span class="sig-name descname"><span class="pre">GeoipsTestWorkflow</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">LOG</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parent</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">legacy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/commandline/geoips_test.html#GeoipsTestWorkflow"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.commandline.geoips_test.GeoipsTestWorkflow" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#geoips.commandline.geoips_command.GeoipsWorkflowCommand" title="geoips.commandline.geoips_command.GeoipsWorkflowCommand"><code class="xref py py-class docutils literal notranslate"><span class="pre">GeoipsWorkflowCommand</span></code></a></p>
+<p>Command class for testing a workflow plugin.</p>
+<p>If a workflow plugin has a <code class="docutils literal notranslate"><span class="pre">test</span></code> section at the same level as <code class="docutils literal notranslate"><span class="pre">spec</span></code>, then this
+command can be ran to test the output of a workflow plugin. The <code class="docutils literal notranslate"><span class="pre">test</span></code> section
+should include all parameters needed to produce a replicable output which can be
+created by executing all the steps listed in the given workflow.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="geoips.commandline.geoips_test.GeoipsTestWorkflow.add_arguments">
+<span class="sig-name descname"><span class="pre">add_arguments</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/commandline/geoips_test.html#GeoipsTestWorkflow.add_arguments"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.commandline.geoips_test.GeoipsTestWorkflow.add_arguments" title="Permalink to this definition">#</a></dt>
+<dd><p>Add arguments to the describe-subparser for the describe Interface cmd.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="geoips.commandline.geoips_test.GeoipsTestWorkflow.command_classes">
+<span class="sig-name descname"><span class="pre">command_classes</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[]</span></em><a class="headerlink" href="#geoips.commandline.geoips_test.GeoipsTestWorkflow.command_classes" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="geoips.commandline.geoips_test.GeoipsTestWorkflow.name">
+<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'workflow'</span></em><a class="headerlink" href="#geoips.commandline.geoips_test.GeoipsTestWorkflow.name" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -2272,6 +2608,180 @@ means that at least a single sub-plugin was invalid.</p></li>
 </dd></dl>
 
 </section>
+<section id="module-geoips.commandline.install_progress">
+<span id="geoips-commandline-install-progress-module"></span><h2>geoips.commandline.install_progress module<a class="headerlink" href="#module-geoips.commandline.install_progress" title="Permalink to this heading">#</a></h2>
+<p>Progress display for parallel test-data downloads.</p>
+<p>Provides two implementations — rich live display (docker-like) and plain-text
+logging — behind a shared duck-typed protocol.  The factory
+<a class="reference internal" href="#geoips.commandline.install_progress.create_progress_display" title="geoips.commandline.install_progress.create_progress_display"><code class="xref py py-func docutils literal notranslate"><span class="pre">create_progress_display()</span></code></a> selects the appropriate implementation based
+on user preference and TTY detection.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="geoips.commandline.install_progress.PlainProgressDisplay">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">geoips.commandline.install_progress.</span></span><span class="sig-name descname"><span class="pre">PlainProgressDisplay</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">total</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/commandline/install_progress.html#PlainProgressDisplay"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.commandline.install_progress.PlainProgressDisplay" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Line-by-line progress for CI logs and <code class="docutils literal notranslate"><span class="pre">--no-rich</span></code> mode.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="geoips.commandline.install_progress.PlainProgressDisplay.add_cached">
+<span class="sig-name descname"><span class="pre">add_cached</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/geoips/commandline/install_progress.html#PlainProgressDisplay.add_cached"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.commandline.install_progress.PlainProgressDisplay.add_cached" title="Permalink to this definition">#</a></dt>
+<dd><p>Log a dataset as already cached and up to date.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="geoips.commandline.install_progress.PlainProgressDisplay.add_download">
+<span class="sig-name descname"><span class="pre">add_download</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">total_bytes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/geoips/commandline/install_progress.html#PlainProgressDisplay.add_download"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.commandline.install_progress.PlainProgressDisplay.add_download" title="Permalink to this definition">#</a></dt>
+<dd><p>Begin tracking a download (byte progress via update_download).</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="geoips.commandline.install_progress.PlainProgressDisplay.add_extract">
+<span class="sig-name descname"><span class="pre">add_extract</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">total_files</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/geoips/commandline/install_progress.html#PlainProgressDisplay.add_extract"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.commandline.install_progress.PlainProgressDisplay.add_extract" title="Permalink to this definition">#</a></dt>
+<dd><p>Begin tracking an archive extraction.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="geoips.commandline.install_progress.PlainProgressDisplay.log_stale">
+<span class="sig-name descname"><span class="pre">log_stale</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reason</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/geoips/commandline/install_progress.html#PlainProgressDisplay.log_stale"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.commandline.install_progress.PlainProgressDisplay.log_stale" title="Permalink to this definition">#</a></dt>
+<dd><p>Log a stale dataset that needs to be re-downloaded.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="geoips.commandline.install_progress.PlainProgressDisplay.mark_complete">
+<span class="sig-name descname"><span class="pre">mark_complete</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/geoips/commandline/install_progress.html#PlainProgressDisplay.mark_complete"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.commandline.install_progress.PlainProgressDisplay.mark_complete" title="Permalink to this definition">#</a></dt>
+<dd><p>Mark a dataset as fully downloaded and extracted.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="geoips.commandline.install_progress.PlainProgressDisplay.mark_download_done">
+<span class="sig-name descname"><span class="pre">mark_download_done</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/geoips/commandline/install_progress.html#PlainProgressDisplay.mark_download_done"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.commandline.install_progress.PlainProgressDisplay.mark_download_done" title="Permalink to this definition">#</a></dt>
+<dd><p>Mark a download as finished (no-op in plain mode).</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="geoips.commandline.install_progress.PlainProgressDisplay.mark_failed">
+<span class="sig-name descname"><span class="pre">mark_failed</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reason</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/geoips/commandline/install_progress.html#PlainProgressDisplay.mark_failed"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.commandline.install_progress.PlainProgressDisplay.mark_failed" title="Permalink to this definition">#</a></dt>
+<dd><p>Mark a dataset as failed.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="geoips.commandline.install_progress.PlainProgressDisplay.start">
+<span class="sig-name descname"><span class="pre">start</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/geoips/commandline/install_progress.html#PlainProgressDisplay.start"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.commandline.install_progress.PlainProgressDisplay.start" title="Permalink to this definition">#</a></dt>
+<dd><p>Begin the display (no-op for plain mode).</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="geoips.commandline.install_progress.PlainProgressDisplay.stop">
+<span class="sig-name descname"><span class="pre">stop</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/geoips/commandline/install_progress.html#PlainProgressDisplay.stop"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.commandline.install_progress.PlainProgressDisplay.stop" title="Permalink to this definition">#</a></dt>
+<dd><p>End the display.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="geoips.commandline.install_progress.PlainProgressDisplay.update_download">
+<span class="sig-name descname"><span class="pre">update_download</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bytes_done</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">total</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/geoips/commandline/install_progress.html#PlainProgressDisplay.update_download"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.commandline.install_progress.PlainProgressDisplay.update_download" title="Permalink to this definition">#</a></dt>
+<dd><p>Update download progress for a dataset being fetched.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="geoips.commandline.install_progress.PlainProgressDisplay.update_extract">
+<span class="sig-name descname"><span class="pre">update_extract</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">files_done</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">total</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/geoips/commandline/install_progress.html#PlainProgressDisplay.update_extract"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.commandline.install_progress.PlainProgressDisplay.update_extract" title="Permalink to this definition">#</a></dt>
+<dd><p>Update extraction progress for a dataset archive.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="geoips.commandline.install_progress.RichProgressDisplay">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">geoips.commandline.install_progress.</span></span><span class="sig-name descname"><span class="pre">RichProgressDisplay</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">total</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_tty</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/commandline/install_progress.html#RichProgressDisplay"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.commandline.install_progress.RichProgressDisplay" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Docker-like live progress display powered by Rich.</p>
+<p>Shows a header with totals, active download/extraction bars with
+spinners, and a scrollable log of completed / failed entries.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="geoips.commandline.install_progress.RichProgressDisplay.add_cached">
+<span class="sig-name descname"><span class="pre">add_cached</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/geoips/commandline/install_progress.html#RichProgressDisplay.add_cached"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.commandline.install_progress.RichProgressDisplay.add_cached" title="Permalink to this definition">#</a></dt>
+<dd><p>Log a dataset as already cached and up to date.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="geoips.commandline.install_progress.RichProgressDisplay.add_download">
+<span class="sig-name descname"><span class="pre">add_download</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">total_bytes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/geoips/commandline/install_progress.html#RichProgressDisplay.add_download"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.commandline.install_progress.RichProgressDisplay.add_download" title="Permalink to this definition">#</a></dt>
+<dd><p>Begin tracking a download with a progress bar.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="geoips.commandline.install_progress.RichProgressDisplay.add_extract">
+<span class="sig-name descname"><span class="pre">add_extract</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">total_files</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/geoips/commandline/install_progress.html#RichProgressDisplay.add_extract"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.commandline.install_progress.RichProgressDisplay.add_extract" title="Permalink to this definition">#</a></dt>
+<dd><p>Begin tracking an extraction with a progress bar.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="geoips.commandline.install_progress.RichProgressDisplay.log_stale">
+<span class="sig-name descname"><span class="pre">log_stale</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reason</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/geoips/commandline/install_progress.html#RichProgressDisplay.log_stale"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.commandline.install_progress.RichProgressDisplay.log_stale" title="Permalink to this definition">#</a></dt>
+<dd><p>Log a stale dataset that needs to be re-downloaded.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="geoips.commandline.install_progress.RichProgressDisplay.mark_complete">
+<span class="sig-name descname"><span class="pre">mark_complete</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/geoips/commandline/install_progress.html#RichProgressDisplay.mark_complete"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.commandline.install_progress.RichProgressDisplay.mark_complete" title="Permalink to this definition">#</a></dt>
+<dd><p>Mark a dataset as fully downloaded and extracted.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="geoips.commandline.install_progress.RichProgressDisplay.mark_download_done">
+<span class="sig-name descname"><span class="pre">mark_download_done</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/geoips/commandline/install_progress.html#RichProgressDisplay.mark_download_done"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.commandline.install_progress.RichProgressDisplay.mark_download_done" title="Permalink to this definition">#</a></dt>
+<dd><p>Mark a download as finished; remove the progress bar.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="geoips.commandline.install_progress.RichProgressDisplay.mark_failed">
+<span class="sig-name descname"><span class="pre">mark_failed</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reason</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/geoips/commandline/install_progress.html#RichProgressDisplay.mark_failed"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.commandline.install_progress.RichProgressDisplay.mark_failed" title="Permalink to this definition">#</a></dt>
+<dd><p>Mark a dataset as failed; clean up any active progress bars.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="geoips.commandline.install_progress.RichProgressDisplay.start">
+<span class="sig-name descname"><span class="pre">start</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/geoips/commandline/install_progress.html#RichProgressDisplay.start"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.commandline.install_progress.RichProgressDisplay.start" title="Permalink to this definition">#</a></dt>
+<dd><p>Start the live progress display.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="geoips.commandline.install_progress.RichProgressDisplay.stop">
+<span class="sig-name descname"><span class="pre">stop</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/geoips/commandline/install_progress.html#RichProgressDisplay.stop"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.commandline.install_progress.RichProgressDisplay.stop" title="Permalink to this definition">#</a></dt>
+<dd><p>Stop the live display and print final summary.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="geoips.commandline.install_progress.RichProgressDisplay.update_download">
+<span class="sig-name descname"><span class="pre">update_download</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bytes_done</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">total</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/geoips/commandline/install_progress.html#RichProgressDisplay.update_download"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.commandline.install_progress.RichProgressDisplay.update_download" title="Permalink to this definition">#</a></dt>
+<dd><p>Update the download progress bar for a dataset.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="geoips.commandline.install_progress.RichProgressDisplay.update_extract">
+<span class="sig-name descname"><span class="pre">update_extract</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">files_done</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">total</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="../_modules/geoips/commandline/install_progress.html#RichProgressDisplay.update_extract"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.commandline.install_progress.RichProgressDisplay.update_extract" title="Permalink to this definition">#</a></dt>
+<dd><p>Update the extraction progress bar for a dataset.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.commandline.install_progress.create_progress_display">
+<span class="sig-prename descclassname"><span class="pre">geoips.commandline.install_progress.</span></span><span class="sig-name descname"><span class="pre">create_progress_display</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">total</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_rich</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_tty</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/commandline/install_progress.html#create_progress_display"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.commandline.install_progress.create_progress_display" title="Permalink to this definition">#</a></dt>
+<dd><p>Return a progress display appropriate for the current environment.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>total</strong> (<em>int</em>) – Total number of datasets being processed.</p></li>
+<li><p><strong>use_rich</strong> (<em>bool</em>) – User preference (may be overridden by TTY detection).</p></li>
+<li><p><strong>is_tty</strong> (<em>bool</em><em> or </em><em>None</em>) – If None, auto-detected via <code class="docutils literal notranslate"><span class="pre">sys.stdout.isatty()</span></code>.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="#geoips.commandline.install_progress.RichProgressDisplay" title="geoips.commandline.install_progress.RichProgressDisplay">RichProgressDisplay</a> or <a class="reference internal" href="#geoips.commandline.install_progress.PlainProgressDisplay" title="geoips.commandline.install_progress.PlainProgressDisplay">PlainProgressDisplay</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
 <section id="module-geoips.commandline.list_available_plugins">
 <span id="geoips-commandline-list-available-plugins-module"></span><h2>geoips.commandline.list_available_plugins module<a class="headerlink" href="#module-geoips.commandline.list_available_plugins" title="Permalink to this heading">#</a></h2>
 <p>Simple script to list available plugins for each interface.</p>
@@ -2434,8 +2944,8 @@ For more info, see geoips.commandline.geoips_run.GeoipsRun:add_arguments</p></li
     class="page-toc tocsection onthispage">
     <i class="fa-solid fa-list"></i> On this page
   </div>
-  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
-    <ul class="visible nav section-nav flex-column">
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#subpackages">Subpackages</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#submodules">Submodules</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-geoips.commandline.args">geoips.commandline.args module</a><ul class="nav section-nav flex-column">
@@ -2482,6 +2992,11 @@ For more info, see geoips.commandline.geoips_run.GeoipsRun:add_arguments</p></li
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.commandline.geoips_command.GeoipsExecutableCommand.terminal_width"><code class="docutils literal notranslate"><span class="pre">GeoipsExecutableCommand.terminal_width</span></code></a></li>
 </ul>
 </li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.commandline.geoips_command.GeoipsWorkflowCommand"><code class="docutils literal notranslate"><span class="pre">GeoipsWorkflowCommand</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.commandline.geoips_command.GeoipsWorkflowCommand.ensure_valid_json_or_yaml_path"><code class="docutils literal notranslate"><span class="pre">GeoipsWorkflowCommand.ensure_valid_json_or_yaml_path()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.commandline.geoips_command.GeoipsWorkflowCommand.workflow_type"><code class="docutils literal notranslate"><span class="pre">GeoipsWorkflowCommand.workflow_type()</span></code></a></li>
+</ul>
+</li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.commandline.geoips_command.ParentParsers"><code class="docutils literal notranslate"><span class="pre">ParentParsers</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.commandline.geoips_command.ParentParsers.config_parser"><code class="docutils literal notranslate"><span class="pre">ParentParsers.config_parser</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.commandline.geoips_command.ParentParsers.geoips_parser"><code class="docutils literal notranslate"><span class="pre">ParentParsers.geoips_parser</span></code></a></li>
@@ -2493,9 +3008,36 @@ For more info, see geoips.commandline.geoips_run.GeoipsRun:add_arguments</p></li
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-geoips.commandline.geoips_config">geoips.commandline.geoips_config module</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.commandline.geoips_config.ChunkCheckOutcome"><code class="docutils literal notranslate"><span class="pre">ChunkCheckOutcome</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.commandline.geoips_config.ChunkCheckOutcome.disposition"><code class="docutils literal notranslate"><span class="pre">ChunkCheckOutcome.disposition</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.commandline.geoips_config.ChunkCheckOutcome.reason"><code class="docutils literal notranslate"><span class="pre">ChunkCheckOutcome.reason</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.commandline.geoips_config.ChunkCheckOutcome.record"><code class="docutils literal notranslate"><span class="pre">ChunkCheckOutcome.record</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.commandline.geoips_config.ChunkCheckRecord"><code class="docutils literal notranslate"><span class="pre">ChunkCheckRecord</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.commandline.geoips_config.ChunkCheckRecord.existing_dir"><code class="docutils literal notranslate"><span class="pre">ChunkCheckRecord.existing_dir</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.commandline.geoips_config.ChunkCheckRecord.name"><code class="docutils literal notranslate"><span class="pre">ChunkCheckRecord.name</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.commandline.geoips_config.ChunkCheckRecord.url"><code class="docutils literal notranslate"><span class="pre">ChunkCheckRecord.url</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.commandline.geoips_config.ChunkCheckRecord.version_file"><code class="docutils literal notranslate"><span class="pre">ChunkCheckRecord.version_file</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.commandline.geoips_config.DownloadResult"><code class="docutils literal notranslate"><span class="pre">DownloadResult</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.commandline.geoips_config.DownloadResult.chunk_hash"><code class="docutils literal notranslate"><span class="pre">DownloadResult.chunk_hash</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.commandline.geoips_config.DownloadResult.full_hash"><code class="docutils literal notranslate"><span class="pre">DownloadResult.full_hash</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.commandline.geoips_config.DownloadResult.name"><code class="docutils literal notranslate"><span class="pre">DownloadResult.name</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.commandline.geoips_config.DownloadResult.temp_path"><code class="docutils literal notranslate"><span class="pre">DownloadResult.temp_path</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.commandline.geoips_config.DownloadResult.total_bytes"><code class="docutils literal notranslate"><span class="pre">DownloadResult.total_bytes</span></code></a></li>
+</ul>
+</li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.commandline.geoips_config.GeoipsConfig"><code class="docutils literal notranslate"><span class="pre">GeoipsConfig</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.commandline.geoips_config.GeoipsConfig.command_classes"><code class="docutils literal notranslate"><span class="pre">GeoipsConfig.command_classes</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.commandline.geoips_config.GeoipsConfig.name"><code class="docutils literal notranslate"><span class="pre">GeoipsConfig.name</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.commandline.geoips_config.GeoipsConfigCreate"><code class="docutils literal notranslate"><span class="pre">GeoipsConfigCreate</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.commandline.geoips_config.GeoipsConfigCreate.add_arguments"><code class="docutils literal notranslate"><span class="pre">GeoipsConfigCreate.add_arguments()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.commandline.geoips_config.GeoipsConfigCreate.command_classes"><code class="docutils literal notranslate"><span class="pre">GeoipsConfigCreate.command_classes</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.commandline.geoips_config.GeoipsConfigCreate.name"><code class="docutils literal notranslate"><span class="pre">GeoipsConfigCreate.name</span></code></a></li>
 </ul>
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.commandline.geoips_config.GeoipsConfigCreateRegistries"><code class="docutils literal notranslate"><span class="pre">GeoipsConfigCreateRegistries</span></code></a><ul class="nav section-nav flex-column">
@@ -2513,8 +3055,6 @@ For more info, see geoips.commandline.geoips_run.GeoipsRun:add_arguments</p></li
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.commandline.geoips_config.GeoipsConfigInstall"><code class="docutils literal notranslate"><span class="pre">GeoipsConfigInstall</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.commandline.geoips_config.GeoipsConfigInstall.add_arguments"><code class="docutils literal notranslate"><span class="pre">GeoipsConfigInstall.add_arguments()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.commandline.geoips_config.GeoipsConfigInstall.command_classes"><code class="docutils literal notranslate"><span class="pre">GeoipsConfigInstall.command_classes</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.commandline.geoips_config.GeoipsConfigInstall.download_extract_test_data"><code class="docutils literal notranslate"><span class="pre">GeoipsConfigInstall.download_extract_test_data()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.commandline.geoips_config.GeoipsConfigInstall.extract_data_cautiously"><code class="docutils literal notranslate"><span class="pre">GeoipsConfigInstall.extract_data_cautiously()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.commandline.geoips_config.GeoipsConfigInstall.name"><code class="docutils literal notranslate"><span class="pre">GeoipsConfigInstall.name</span></code></a></li>
 </ul>
 </li>
@@ -2522,6 +3062,12 @@ For more info, see geoips.commandline.geoips_run.GeoipsRun:add_arguments</p></li
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.commandline.geoips_config.GeoipsConfigInstallGithub.add_arguments"><code class="docutils literal notranslate"><span class="pre">GeoipsConfigInstallGithub.add_arguments()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.commandline.geoips_config.GeoipsConfigInstallGithub.command_classes"><code class="docutils literal notranslate"><span class="pre">GeoipsConfigInstallGithub.command_classes</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.commandline.geoips_config.GeoipsConfigInstallGithub.name"><code class="docutils literal notranslate"><span class="pre">GeoipsConfigInstallGithub.name</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.commandline.geoips_config.GeoipsConfigValidate"><code class="docutils literal notranslate"><span class="pre">GeoipsConfigValidate</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.commandline.geoips_config.GeoipsConfigValidate.add_arguments"><code class="docutils literal notranslate"><span class="pre">GeoipsConfigValidate.add_arguments()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.commandline.geoips_config.GeoipsConfigValidate.command_classes"><code class="docutils literal notranslate"><span class="pre">GeoipsConfigValidate.command_classes</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.commandline.geoips_config.GeoipsConfigValidate.name"><code class="docutils literal notranslate"><span class="pre">GeoipsConfigValidate.name</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -2548,6 +3094,15 @@ For more info, see geoips.commandline.geoips_run.GeoipsRun:add_arguments</p></li
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.commandline.geoips_describe.GeoipsDescribePackage.add_arguments"><code class="docutils literal notranslate"><span class="pre">GeoipsDescribePackage.add_arguments()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.commandline.geoips_describe.GeoipsDescribePackage.command_classes"><code class="docutils literal notranslate"><span class="pre">GeoipsDescribePackage.command_classes</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.commandline.geoips_describe.GeoipsDescribePackage.name"><code class="docutils literal notranslate"><span class="pre">GeoipsDescribePackage.name</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-geoips.commandline.geoips_expand">geoips.commandline.geoips_expand module</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.commandline.geoips_expand.GeoipsExpand"><code class="docutils literal notranslate"><span class="pre">GeoipsExpand</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.commandline.geoips_expand.GeoipsExpand.add_arguments"><code class="docutils literal notranslate"><span class="pre">GeoipsExpand.add_arguments()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.commandline.geoips_expand.GeoipsExpand.command_classes"><code class="docutils literal notranslate"><span class="pre">GeoipsExpand.command_classes</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.commandline.geoips_expand.GeoipsExpand.name"><code class="docutils literal notranslate"><span class="pre">GeoipsExpand.name</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -2640,8 +3195,13 @@ For more info, see geoips.commandline.geoips_run.GeoipsRun:add_arguments</p></li
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.commandline.geoips_run.GeoipsRunOrderBased"><code class="docutils literal notranslate"><span class="pre">GeoipsRunOrderBased</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.commandline.geoips_run.GeoipsRunOrderBased.add_arguments"><code class="docutils literal notranslate"><span class="pre">GeoipsRunOrderBased.add_arguments()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.commandline.geoips_run.GeoipsRunOrderBased.command_classes"><code class="docutils literal notranslate"><span class="pre">GeoipsRunOrderBased.command_classes</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.commandline.geoips_run.GeoipsRunOrderBased.dict_type"><code class="docutils literal notranslate"><span class="pre">GeoipsRunOrderBased.dict_type()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.commandline.geoips_run.GeoipsRunOrderBased.global_override_type"><code class="docutils literal notranslate"><span class="pre">GeoipsRunOrderBased.global_override_type()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.commandline.geoips_run.GeoipsRunOrderBased.kind_override_type"><code class="docutils literal notranslate"><span class="pre">GeoipsRunOrderBased.kind_override_type()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.commandline.geoips_run.GeoipsRunOrderBased.name"><code class="docutils literal notranslate"><span class="pre">GeoipsRunOrderBased.name</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.commandline.geoips_run.GeoipsRunOrderBased.warning"><code class="docutils literal notranslate"><span class="pre">GeoipsRunOrderBased.warning</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.commandline.geoips_run.GeoipsRunOrderBased.step_override_type"><code class="docutils literal notranslate"><span class="pre">GeoipsRunOrderBased.step_override_type()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.commandline.geoips_run.GeoipsRunOrderBased.warning_no_color"><code class="docutils literal notranslate"><span class="pre">GeoipsRunOrderBased.warning_no_color</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.commandline.geoips_run.GeoipsRunOrderBased.warning_with_color"><code class="docutils literal notranslate"><span class="pre">GeoipsRunOrderBased.warning_with_color</span></code></a></li>
 </ul>
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.commandline.geoips_run.GeoipsRunSingleSource"><code class="docutils literal notranslate"><span class="pre">GeoipsRunSingleSource</span></code></a><ul class="nav section-nav flex-column">
@@ -2676,6 +3236,12 @@ For more info, see geoips.commandline.geoips_run.GeoipsRun:add_arguments</p></li
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.commandline.geoips_test.GeoipsTestSector.name"><code class="docutils literal notranslate"><span class="pre">GeoipsTestSector.name</span></code></a></li>
 </ul>
 </li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.commandline.geoips_test.GeoipsTestWorkflow"><code class="docutils literal notranslate"><span class="pre">GeoipsTestWorkflow</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.commandline.geoips_test.GeoipsTestWorkflow.add_arguments"><code class="docutils literal notranslate"><span class="pre">GeoipsTestWorkflow.add_arguments()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.commandline.geoips_test.GeoipsTestWorkflow.command_classes"><code class="docutils literal notranslate"><span class="pre">GeoipsTestWorkflow.command_classes</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.commandline.geoips_test.GeoipsTestWorkflow.name"><code class="docutils literal notranslate"><span class="pre">GeoipsTestWorkflow.name</span></code></a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-geoips.commandline.geoips_tree">geoips.commandline.geoips_tree module</a><ul class="nav section-nav flex-column">
@@ -2706,6 +3272,38 @@ For more info, see geoips.commandline.geoips_run.GeoipsRun:add_arguments</p></li
 </li>
 </ul>
 </li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-geoips.commandline.install_progress">geoips.commandline.install_progress module</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.commandline.install_progress.PlainProgressDisplay"><code class="docutils literal notranslate"><span class="pre">PlainProgressDisplay</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.commandline.install_progress.PlainProgressDisplay.add_cached"><code class="docutils literal notranslate"><span class="pre">PlainProgressDisplay.add_cached()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.commandline.install_progress.PlainProgressDisplay.add_download"><code class="docutils literal notranslate"><span class="pre">PlainProgressDisplay.add_download()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.commandline.install_progress.PlainProgressDisplay.add_extract"><code class="docutils literal notranslate"><span class="pre">PlainProgressDisplay.add_extract()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.commandline.install_progress.PlainProgressDisplay.log_stale"><code class="docutils literal notranslate"><span class="pre">PlainProgressDisplay.log_stale()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.commandline.install_progress.PlainProgressDisplay.mark_complete"><code class="docutils literal notranslate"><span class="pre">PlainProgressDisplay.mark_complete()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.commandline.install_progress.PlainProgressDisplay.mark_download_done"><code class="docutils literal notranslate"><span class="pre">PlainProgressDisplay.mark_download_done()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.commandline.install_progress.PlainProgressDisplay.mark_failed"><code class="docutils literal notranslate"><span class="pre">PlainProgressDisplay.mark_failed()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.commandline.install_progress.PlainProgressDisplay.start"><code class="docutils literal notranslate"><span class="pre">PlainProgressDisplay.start()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.commandline.install_progress.PlainProgressDisplay.stop"><code class="docutils literal notranslate"><span class="pre">PlainProgressDisplay.stop()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.commandline.install_progress.PlainProgressDisplay.update_download"><code class="docutils literal notranslate"><span class="pre">PlainProgressDisplay.update_download()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.commandline.install_progress.PlainProgressDisplay.update_extract"><code class="docutils literal notranslate"><span class="pre">PlainProgressDisplay.update_extract()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.commandline.install_progress.RichProgressDisplay"><code class="docutils literal notranslate"><span class="pre">RichProgressDisplay</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.commandline.install_progress.RichProgressDisplay.add_cached"><code class="docutils literal notranslate"><span class="pre">RichProgressDisplay.add_cached()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.commandline.install_progress.RichProgressDisplay.add_download"><code class="docutils literal notranslate"><span class="pre">RichProgressDisplay.add_download()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.commandline.install_progress.RichProgressDisplay.add_extract"><code class="docutils literal notranslate"><span class="pre">RichProgressDisplay.add_extract()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.commandline.install_progress.RichProgressDisplay.log_stale"><code class="docutils literal notranslate"><span class="pre">RichProgressDisplay.log_stale()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.commandline.install_progress.RichProgressDisplay.mark_complete"><code class="docutils literal notranslate"><span class="pre">RichProgressDisplay.mark_complete()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.commandline.install_progress.RichProgressDisplay.mark_download_done"><code class="docutils literal notranslate"><span class="pre">RichProgressDisplay.mark_download_done()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.commandline.install_progress.RichProgressDisplay.mark_failed"><code class="docutils literal notranslate"><span class="pre">RichProgressDisplay.mark_failed()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.commandline.install_progress.RichProgressDisplay.start"><code class="docutils literal notranslate"><span class="pre">RichProgressDisplay.start()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.commandline.install_progress.RichProgressDisplay.stop"><code class="docutils literal notranslate"><span class="pre">RichProgressDisplay.stop()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.commandline.install_progress.RichProgressDisplay.update_download"><code class="docutils literal notranslate"><span class="pre">RichProgressDisplay.update_download()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.commandline.install_progress.RichProgressDisplay.update_extract"><code class="docutils literal notranslate"><span class="pre">RichProgressDisplay.update_extract()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.commandline.install_progress.create_progress_display"><code class="docutils literal notranslate"><span class="pre">create_progress_display()</span></code></a></li>
+</ul>
+</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-geoips.commandline.list_available_plugins">geoips.commandline.list_available_plugins module</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.commandline.list_available_plugins.main"><code class="docutils literal notranslate"><span class="pre">main()</span></code></a></li>
 </ul>
@@ -2729,13 +3327,13 @@ For more info, see geoips.commandline.geoips_run.GeoipsRun:add_arguments</p></li
   </nav></div>
 
   <div class="sidebar-secondary-item">
-  <div role="note" aria-label="source link">
-    <h3>This Page</h3>
-    <ul class="this-page-menu">
-      <li><a href="../_sources/geoips_api/geoips.commandline.rst.txt"
-            rel="nofollow">Show Source</a></li>
-    </ul>
-   </div></div>
+
+  <div class="tocsection sourcelink">
+    <a href="../_sources/geoips_api/geoips.commandline.rst.txt">
+      <i class="fa-solid fa-file-lines"></i> Show Source
+    </a>
+  </div>
+</div>
 
 </div></div>
               
@@ -2750,8 +3348,8 @@ For more info, see geoips.commandline.geoips_run.GeoipsRun:add_arguments</p></li
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
-<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+  <script defer src="../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb"></script>
 
   <footer class="bd-footer">
 <div class="bd-footer__inner bd-page-width">

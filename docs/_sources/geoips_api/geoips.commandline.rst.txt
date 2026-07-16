@@ -60,6 +60,14 @@ geoips.commandline.geoips\_describe module
    :undoc-members:
    :show-inheritance:
 
+geoips.commandline.geoips\_expand module
+----------------------------------------
+
+.. automodule:: geoips.commandline.geoips_expand
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 geoips.commandline.geoips\_list module
 --------------------------------------
 
@@ -96,6 +104,14 @@ geoips.commandline.geoips\_validate module
 ------------------------------------------
 
 .. automodule:: geoips.commandline.geoips_validate
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+geoips.commandline.install\_progress module
+-------------------------------------------
+
+.. automodule:: geoips.commandline.install_progress
    :members:
    :undoc-members:
    :show-inheritance:

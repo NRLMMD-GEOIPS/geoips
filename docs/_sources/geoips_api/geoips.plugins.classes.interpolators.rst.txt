@@ -1,0 +1,20 @@
+geoips.plugins.classes.interpolators package
+============================================
+
+Subpackages
+-----------
+
+.. toctree::
+   :maxdepth: 4
+
+   geoips.plugins.classes.interpolators.pyresample_wrappers
+   geoips.plugins.classes.interpolators.scipy_wrappers
+   geoips.plugins.classes.interpolators.utils
+
+Module contents
+---------------
+
+.. automodule:: geoips.plugins.classes.interpolators
+   :members:
+   :undoc-members:
+   :show-inheritance:

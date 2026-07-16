@@ -1,0 +1,45 @@
+geoips.plugins.classes.sector\_metadata\_generators package
+===========================================================
+
+Submodules
+----------
+
+geoips.plugins.classes.sector\_metadata\_generators.bdeck\_parser module
+------------------------------------------------------------------------
+
+.. automodule:: geoips.plugins.classes.sector_metadata_generators.bdeck_parser
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+geoips.plugins.classes.sector\_metadata\_generators.fdeck\_parser module
+------------------------------------------------------------------------
+
+.. automodule:: geoips.plugins.classes.sector_metadata_generators.fdeck_parser
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+geoips.plugins.classes.sector\_metadata\_generators.tc\_sector\_file\_parser module
+-----------------------------------------------------------------------------------
+
+.. automodule:: geoips.plugins.classes.sector_metadata_generators.tc_sector_file_parser
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+geoips.plugins.classes.sector\_metadata\_generators.volc\_parser module
+-----------------------------------------------------------------------
+
+.. automodule:: geoips.plugins.classes.sector_metadata_generators.volc_parser
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: geoips.plugins.classes.sector_metadata_generators
+   :members:
+   :undoc-members:
+   :show-inheritance:

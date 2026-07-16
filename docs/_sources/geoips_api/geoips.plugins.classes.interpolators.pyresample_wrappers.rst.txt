@@ -1,0 +1,29 @@
+geoips.plugins.classes.interpolators.pyresample\_wrappers package
+=================================================================
+
+Submodules
+----------
+
+geoips.plugins.classes.interpolators.pyresample\_wrappers.interp\_gauss module
+------------------------------------------------------------------------------
+
+.. automodule:: geoips.plugins.classes.interpolators.pyresample_wrappers.interp_gauss
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+geoips.plugins.classes.interpolators.pyresample\_wrappers.interp\_nearest module
+--------------------------------------------------------------------------------
+
+.. automodule:: geoips.plugins.classes.interpolators.pyresample_wrappers.interp_nearest
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: geoips.plugins.classes.interpolators.pyresample_wrappers
+   :members:
+   :undoc-members:
+   :show-inheritance:

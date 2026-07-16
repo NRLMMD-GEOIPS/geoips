@@ -1,0 +1,1403 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Version 1.17.3 (2026-07-16) &#8212; GeoIPS, Geolocated Information Processing System 1.19.0.post776.dev0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/set_width.css?v=d4af5e1e" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=1e4423a0"></script>
+    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'releases/1.17.3';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <link rel="icon" href="../_static/nrlicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Version 1.17.2 (2026-07-16)" href="1.17.2.html" />
+    <link rel="prev" title="Version 1.18.0 (2026-07-16)" href="1.18.0.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="1.1" />
+    <meta name="docbuild:last-update" content="Jul 16, 2026 04:57:54"/>
+  
+    
+    <script src="../_static/searchtools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <script src="../searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/NRL_logo_RGB.jpg" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 1.19.0.post776.dev0 documentation - Home"/>
+    <img src="../_static/NRL_logo_sidebar_Reverse.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 1.19.0.post776.dev0 documentation - Home"/>
+  
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../getting-started/index.html">
+    Getting Started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../tutorials/index.html">
+    Tutorials
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../concepts/index.html">
+    Concepts
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../contribute/index.html">
+    Contribute
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../geoips_api/index.html">
+    API
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" current active">
+  <a class="nav-link dropdown-item nav-internal" href="index.html">
+    Release Notes
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../contact/index.html">
+    About Us
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/NRLMMD-GEOIPS/geoips" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../getting-started/index.html">
+    Getting Started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../tutorials/index.html">
+    Tutorials
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../concepts/index.html">
+    Concepts
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../contribute/index.html">
+    Contribute
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../geoips_api/index.html">
+    API
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    Release Notes
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../contact/index.html">
+    About Us
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/NRLMMD-GEOIPS/geoips" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item pst-sidebar-collapse"><button id="pst-collapse-sidebar-button" aria-expanded="true" aria-controls="pst-primary-sidebar"><svg class="pst-icon svg-inline--fa" role="img" aria-hidden="true" focusable="false" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+    <path fill="currentColor" d="M3 15.5C2.36232 15.5 1.74874 15.2564 1.28478 14.8189C0.820828 14.3815 0.541576 13.7832 0.504167 13.1467L0.5 13L0.5 3C0.499965 2.36232 0.743605 1.74874 1.18107 1.28478C1.61854 0.820828 2.21676 0.541576 2.85333 0.504167L3 0.5L13 0.5C13.6377 0.499965 14.2513 0.743605 14.7152 1.18107C15.1792 1.61854 15.4584 2.21676 15.4958 2.85333L15.5 3L15.5 13C15.5 13.6377 15.2564 14.2513 14.8189 14.7152C14.3815 15.1792 13.7832 15.4584 13.1467 15.4958L13 15.5L3 15.5ZM3 13.8333L10.5 13.8333L10.5 2.16667L3 2.16667C2.79589 2.16669 2.59889 2.24163 2.44636 2.37726C2.29383 2.5129 2.19638 2.69979 2.1725 2.9025L2.16667 3L2.16667 13C2.16669 13.2041 2.24163 13.4011 2.37726 13.5536C2.5129 13.7062 2.69979 13.8036 2.9025 13.8275L3 13.8333ZM6.65583 10.325L6.5775 10.2558L4.91083 8.58917C4.76735 8.44567 4.68116 8.25476 4.66843 8.05223C4.65569 7.84971 4.71729 7.6495 4.84167 7.48917L4.91083 7.41083L6.5775 5.74417C6.72747 5.59471 6.9287 5.50794 7.14032 5.50148C7.35194 5.49502 7.55809 5.56935 7.7169 5.70937C7.8757 5.8494 7.97525 6.04463 7.99533 6.25539C8.01541 6.46616 7.95451 6.67667 7.825 6.84417L7.75583 6.9225L6.67917 8L7.75583 9.0775C7.89931 9.22099 7.98551 9.41191 7.99824 9.61443C8.01097 9.81695 7.94938 10.0172 7.825 10.1775L7.75583 10.2558C7.61234 10.3993 7.42142 10.4855 7.2189 10.4982C7.01638 10.511 6.81617 10.4494 6.65583 10.325Z"/>
+  </svg>
+  <span class="pst-collapse-sidebar-label">Collapse Sidebar</span>
+  <span class="pst-expand-sidebar-label">Expand Sidebar</span>
+</button></div>
+        <div class="sidebar-primary-item">
+
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="latest.html">Version latest (2026-07-16)</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="upcoming.html">Version upcoming (2026-07-16)</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="1.19.0.html">Version 1.19.0 (2026-07-16)</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="1.18.2.html">Version 1.18.2 (2026-07-16)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="1.18.1.html">Version 1.18.1 (2026-07-16)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="1.18.0.html">Version 1.18.0 (2026-07-16)</a></li>
+</ul>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Version 1.17.3 (2026-07-16)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="1.17.2.html">Version 1.17.2 (2026-07-16)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="1.17.1.html">Version 1.17.1 (2026-07-16)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="1.17.0.html">Version 1.17.0 (2026-07-16)</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="1.16.3.html">Version 1.16.3 (2026-07-16)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="1.16.2.html">Version 1.16.2 (2026-07-16)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="1.16.1.html">Version 1.16.1 (2026-07-16)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="1.16.0.html">Version 1.16.0 (2026-07-16)</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="1.15.3.html">Version 1.15.3 (2026-07-16)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="1.15.2.html">Version 1.15.2 (2026-07-16)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="1.15.1.html">Version 1.15.1 (2026-07-16)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="1.15.0.html">Version 1.15.0 (2026-07-16)</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="1.14.5.html">Version 1.14.5 (2026-07-16)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="1.14.4.html">Version 1.14.4 (2026-07-16)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="1.14.3.html">Version 1.14.3 (2026-07-16)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="1.14.2.html">Version 1.14.2 (2026-07-16)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="1.14.1.html">Version 1.14.1 (2026-07-16)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="1.14.0.html">Version 1.14.0 (2026-07-16)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_14_0a0.html">Version 1.14.0a0 (2024-08-16)</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="v1_13_1.html">Version 1.13.1 (2024-07-07)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_13_0.html">Version 1.13.0 (2024-06-08)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_13_0a0.html">Version 1.13.0a0 (2024-04-24)</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="v1_12_4.html">Version 1.12.4 (2024-05-15)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_12_3.html">Version 1.12.3 (2024-05-15)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_12_2.html">Version 1.12.2 (2024-04-24)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_12_2a0.html">Version 1.12.2a0 (2024-02-21)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_12_1.html">Version 1.12.1 (2024-02-16)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_12_0.html">Version 1.12.0 (2023-12-07)</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="v1_11_7.html">Version 1.11.7 (2023-11-16)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_11_7a0.html">Version 1.11.7a0 (2023-10-26)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_11_6.html">Version 1.11.6 (2023-10-30)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_11_5.html">Version 1.11.5 (2023-10-02)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_11_5a0.html">Version 1.11.5a0 (2023-09-27)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_11_3.html">Version 1.11.3 (2023-09-21)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_11_3a0.html">Version 1.11.3a0 (2023-09-20)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_11_2.html">Version 1.11.2 (2023-09-06)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_11_1.html">Version 1.11.1 (2023-08-16)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_11_1a0.html">Version 1.11.1a0 (2023-08-15)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_11_0.html">Version 1.11.0 (2023-08-02)</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="v1_10_3.html">Version 1.10.3 (2023-06-23)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_2.html">Version 1.10.2 (2023-06-01)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_1.html">Version 1.10.1 (2023-05-23)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_0.html">Version 1.10.0 (2023-05-17)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_0a13.html">Version 1.10.0a13 (2023-05-11)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_0a12.html">Version 1.10.0a12 (2023-05-09)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_0a11.html">Version 1.10.0a11 (2023-04-30)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_0a10.html">Version 1.10.0a10 (2023-04-29)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_0a9.html">Version 1.10.0a9 (2023-04-27)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_0a8.html">Version 1.10.0a8 (2023-04-28)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_0a7.html">Version 1.10.0a7 (2023-04-26)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_0a6.html">Version 1.10.0a6 (2023-04-26)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_0a5.html">Version 1.10.0a5 (2023-04-25)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_0a4.html">Version 1.10.0a4 (2023-04-25)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_0a3.html">Version 1.10.0a3 (2023-04-25)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_0a2.html">Version 1.10.0a2 (2023-04-25)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_0a1.html">Version 1.10.0a1 (2023-04-25)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_0a0.html">Version 1.10.0a0 (2023-04-04)</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="v1_9_2.html">Version 1.9.2 (2023-05-10)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_9_1.html">Version 1.9.1 (2023-04-03)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_9_0.html">Version 1.9.0 (2023-03-23)</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="v1_8_1.html">Version 1.8.1 (2023-03-22)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_8_0.html">Version 1.8.0 (2023-03-12)</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="v1_7_0.html">Version 1.7.0 (2023-02-15)</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="v1_6_3.html">Version 1.6.3 (2023-02-02)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_6_1.html">Version 1.6.1 (2023-01-04)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_6_0.html">Version 1.6.0 (2022-11-28)</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="v1_5_3.html">Version 1.5.3 (2022-11-07)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_5_2.html">Version 1.5.2 (2022-09-26)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_5_1.html">Version 1.5.1 (2022-07-13)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_5_0.html">Version 1.5.0 (2022-06-09)</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="v1_4_8.html">Version 1.4.8 (2022-05-15)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_4_7.html">Version 1.4.7 (2022-05-06)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_4_6.html">Version 1.4.6 (2022-04-18)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_4_5.html">Version 1.4.5 (2022-03-18)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_4_4.html">Version 1.4.4 (2022-03-06)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_4_3.html">Version 1.4.3 (2022-02-17)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_4_2.html">Version 1.4.2 (2022-02-05)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_4_1.html">Version 1.4.1 (2022-01-21)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_4_0.html">Version 1.4.0 (2022-01-10)</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="v1_3_2.html">Version 1.3.2 (2021-12-21)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_3_1.html">Version 1.3.1 (2021-12-07)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_3_0.html">Version 1.3.0 (2021-11-24)</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="v1_2_5.html">Version 1.2.5 (2021-11-18)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_2_4.html">Version 1.2.4 (2021-11-12)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_2_3.html">Version 1.2.3 (2021-11-05)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_2_2.html">Version 1.2.2 (2021-10-25)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_2_1.html">Version 1.2.1 (2021-10-04)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_2_0.html">Version 1.2.0 (2021-09-15)</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="v1_1_17.html">Version 1.1.17 (2021-03-03)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_1_16.html">Version 1.1.16 (2021-03-03)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_1_15.html">Version 1.1.15 (2021-02-15)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_1_14.html">Version 1.1.14 (2021-02-07)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_1_13.html">Version 1.1.13 (2021-01-29)</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">Release Notes</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Version 1.17.3 (2026-07-16)</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="version-1-17-3-2026-07-16">
+<h1>Version 1.17.3 (2026-07-16)<a class="headerlink" href="#version-1-17-3-2026-07-16" title="Permalink to this heading">#</a></h1>
+<blockquote>
+<div><ul class="simple">
+<li><p><em>Bug fix</em>: Put the delimiter back in the tc invest file name paths</p></li>
+<li><p><em>Bug fix</em>: Bug fix in setting ahi_hsd metadata</p></li>
+<li><p><em>Bug fix</em>: Add archer_fdeck to metadata_default.py output formatter</p></li>
+<li><p><em>Bug fix</em>: Update metadata_tc output formatter to include area_id and area_description fields</p></li>
+<li><p><em>Bug fix</em>: Update aws tc165/180/325-1, amsr2 ocean, and sar tests to include metadata output for invest and numbered
+storm id testing</p></li>
+<li><p><em>Bug fix</em>: Add invest_storm_id field to bdeck parser, and update invest_storm_id to include storm start datetime</p></li>
+<li><p><em>Bug fix</em>: Store storm_start_datetime_from_filename_of_current_deck_file and
+storm_start_datetime_from_first_line_of_current_deck_file separately, and use
+storm_start_datetime_from_filename_of_current_deck_file as overall storm_start_datetime if it exists (otherwise fall
+back to storm_start_datetime_from_first_line_of_current_deck_file)</p></li>
+<li><p><em>Bug fix</em>: Store storm_ids and area_ids lower case internally, display in filenames / titles upper case</p></li>
+<li><p><em>Bug fix</em>: Update sector_utils tc_tracks.py to inclue tc position time in area id and not include storm name</p></li>
+<li><p><em>Bug fix</em>: Allow output_type_dir for tc_fname.py, to support tc_clean_fname.py and tc_fname.py going to separate
+directories.</p></li>
+<li><p><em>Bug fix</em>: Standardize storm ids used in filenames vs file paths for tc_fname and tc_clean_fname, etc</p></li>
+<li><p><em>Bug fix</em>: Do not require output_type_dir, product_dir, product_subdir, or source_dir for standard filename
+formatters</p></li>
+<li><p><em>Bug fix</em>: Remove unnecessary product_dir, product_subdir, and source_dir call signature args, retain
+output_type_dir.</p></li>
+<li><p><em>Bug fix</em>: Remove hard coded tc_year, tc_basin, tc_stormnum, and output_dict from tc_storm_basedir calls</p></li>
+<li><p><em>Bug fix</em>: Remove support for file_path_modifications</p></li>
+<li><p><em>Bug fix</em>: Fix build_docs errors</p></li>
+<li><p><em>Bug fix</em>: Allow 28 field bdeck lines in bdeck_parser.</p></li>
+<li><p><em>Bug fix</em>: Link to persistent_data_dirs ancildat and test_data paths, remove astropy dependency</p></li>
+<li><p><em>Bug fix</em>: Add gdal to nrl_install.rst</p></li>
+<li><p><em>Bug fix</em>: Do not include requirements in pip requirements files for archival purposes</p></li>
+<li><p><em>Bug fix</em>: Move dynamic geolocation and ancildat_autogen caches to shortterm location</p></li>
+<li><p><em>Bug fix</em>: Minor bug fixes to overpass_predictor and tc_tracks_database</p></li>
+<li><p><em>Bug fix</em>: Removed astropy usage in readers.</p></li>
+<li><p><em>Bug fix</em>: Properly filter ingested tles using a satellite prediction list</p></li>
+<li><p><em>Testing</em>: Meteosat 10 &amp; 12 terminator tiny test sectors</p></li>
+<li><p><em>Testing</em>: Update tiny sector test scripts to copy both global dataset images, and tiny sector images to
+example_test_imagery_output</p></li>
+<li><p><em>Testing</em>: Update tiny sector test script to produce annotated tiny sector image outputs on request</p></li>
+<li><p><em>Documentation</em>: Update upcoming and tagged versions</p></li>
+</ul>
+</div></blockquote>
+<section id="bug-fix">
+<h2>Bug fix<a class="headerlink" href="#bug-fix" title="Permalink to this heading">#</a></h2>
+<section id="put-the-delimiter-back-in-the-tc-invest-file-name-paths">
+<h3>Put the delimiter back in the tc invest file name paths<a class="headerlink" href="#put-the-delimiter-back-in-the-tc-invest-file-name-paths" title="Permalink to this heading">#</a></h3>
+<p>When updating the TC file naming conventions to use storm_id rather than
+manually compiling the path, it resulted in removing the delimiter from the
+TC invest file paths. This update restores the delimiter to ensure proper
+formatting of TC invest file names for consistency, clarity, and backwards
+compatibility.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">filename_formatters</span><span class="o">/</span><span class="n">utils</span><span class="o">/</span><span class="n">tc_file_naming</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span>
+<span class="n">tests</span><span class="o">/</span><span class="n">outputs</span><span class="o">/</span><span class="n">aws</span><span class="o">.</span><span class="n">tc</span><span class="o">.</span><span class="n">TB165</span><span class="o">.</span><span class="n">imagery_clean</span><span class="o">/</span><span class="mi">20250428_114913</span><span class="n">_WP992025_mwr_aws_TB165_15kts_43p06_1p0</span><span class="o">-</span><span class="n">clean</span><span class="o">.</span><span class="n">png</span><span class="o">.</span><span class="n">yaml</span>
+<span class="n">modified</span><span class="p">:</span>
+<span class="n">tests</span><span class="o">/</span><span class="n">outputs</span><span class="o">/</span><span class="n">aws</span><span class="o">.</span><span class="n">tc</span><span class="o">.</span><span class="n">TB180</span><span class="o">.</span><span class="n">imagery_clean</span><span class="o">/</span><span class="mi">20250428_114913</span><span class="n">_WP992025_mwr_aws_TB180_15kts_43p06_1p0</span><span class="o">-</span><span class="n">clean</span><span class="o">.</span><span class="n">png</span><span class="o">.</span><span class="n">yaml</span>
+<span class="n">modified</span><span class="p">:</span>
+<span class="n">tests</span><span class="o">/</span><span class="n">outputs</span><span class="o">/</span><span class="n">aws</span><span class="o">.</span><span class="n">tc</span><span class="o">.</span><span class="n">TB325</span><span class="o">-</span><span class="mf">1.</span><span class="n">imagery_clean</span><span class="o">/</span><span class="mi">20250428_114913</span><span class="n">_WP992025_mwr_aws_TB325</span><span class="o">-</span><span class="mi">1_15</span><span class="n">kts_48p36_1p0</span><span class="o">-</span><span class="n">clean</span><span class="o">.</span><span class="n">png</span><span class="o">.</span><span class="n">yaml</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id1">
+<h2>Bug fix<a class="headerlink" href="#id1" title="Permalink to this heading">#</a></h2>
+<section id="bug-fix-in-setting-ahi-hsd-metadata">
+<h3>Bug fix in setting ahi_hsd metadata<a class="headerlink" href="#bug-fix-in-setting-ahi-hsd-metadata" title="Permalink to this heading">#</a></h3>
+<p>Need to slice first dimension of array returned from numpy.frombuffer when storing
+the ‘scan_shift_amount’ and ‘ob_time_line_number’</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">readers</span><span class="o">/</span><span class="n">ahi_hsd</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id2">
+<h2>Bug fix<a class="headerlink" href="#id2" title="Permalink to this heading">#</a></h2>
+<section id="add-archer-fdeck-to-metadata-default-py-output-formatter">
+<h3>Add archer_fdeck to metadata_default.py output formatter<a class="headerlink" href="#add-archer-fdeck-to-metadata-default-py-output-formatter" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Need basic information in metadata_default, which includes the archer_fdeck output for recenter_tc.</p></li>
+<li><p>No easy way to specify additional required fields, besides creating a separate metadata_default.py in recenter_tc.</p></li>
+<li><p>I don’t want to do that, so I’m going to just add archer_fdeck to the default fields.</p></li>
+<li><p>If archer_fdeck doesn’t exist, it just doesn’t get added, so still works with all other tests.</p></li>
+<li><p>I have no idea when this broke. I feel like we added the default set of fields a long time ago….</p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">output_formatters</span><span class="o">/</span><span class="n">metadata_default</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id3">
+<h2>Bug fix<a class="headerlink" href="#id3" title="Permalink to this heading">#</a></h2>
+<section id="update-metadata-tc-output-formatter-to-include-area-id-and-area-description-fields">
+<h3>Update metadata_tc output formatter to include area_id and area_description fields<a class="headerlink" href="#update-metadata-tc-output-formatter-to-include-area-id-and-area-description-fields" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>To allow complete testing of the TC storm naming, ensure area_id and area_description
+fields are included in the metadata_tc output formatter.</p></li>
+<li><p>Add area_id and area_description to the SAR TC test output.</p></li>
+<li><p>Update storm_id to NOT include storm name or ‘tc’ in the SAR metadata TC output.</p></li>
+<li><p>Add storm_start_datetime_from_filename_of_current_deck_file and
+storm_start_datetime_from_first_line_of_current_deck_file fields.</p></li>
+<li><p>Add invest_storm_id</p></li>
+<li><p>Update storm_start_datetime field to just be id001, since storm_start_datetime and
+storm_start_datetime_from_first_line_of_current_deck_file
+are now separate fields, but identical values (storm_start_datetime is just a reference to
+storm_start_datetime_from_first_line_of_current_deck_file).</p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span>
+<span class="n">tests</span><span class="o">/</span><span class="n">outputs</span><span class="o">/</span><span class="n">sar</span><span class="o">.</span><span class="n">tc</span><span class="o">.</span><span class="n">nrcs</span><span class="o">.</span><span class="n">imagery_annotated</span><span class="o">/</span><span class="mi">20181025_203206</span><span class="n">_WP312018_sar</span><span class="o">-</span><span class="n">spd_sentinel</span><span class="o">-</span><span class="mi">1</span><span class="n">_nrcs_130kts_58p51_res1p0</span><span class="o">-</span><span class="n">cr300</span><span class="o">.</span><span class="n">png</span><span class="o">.</span><span class="n">yaml</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">scripts</span><span class="o">/</span><span class="n">sar</span><span class="o">.</span><span class="n">tc</span><span class="o">.</span><span class="n">nrcs</span><span class="o">.</span><span class="n">imagery_annotated</span><span class="o">.</span><span class="n">sh</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">output_formatters</span><span class="o">/</span><span class="n">metadata_tc</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id4">
+<h2>Bug fix<a class="headerlink" href="#id4" title="Permalink to this heading">#</a></h2>
+<p>Update aws tc165/180/325-1, amsr2 ocean, and sar tests to include metadata output for invest and numbered storm id
+testing
+——-</p>
+<ul class="simple">
+<li><p>Update AWS TC165 test to include metadata default output for invest storm ID output filename testing, add metadata
+output.</p></li>
+<li><p>Update AWS TC180 test to include metadata tc output for complete metadata testing for invest processing, add metadata
+output.</p></li>
+<li><p>Update AWS TC325-1 test to include metadata TC output using an invest deck file including the storm start datetime in
+the filename!</p>
+<ul>
+<li><p>Add bwp992025.2025042712.dat deck file, which is a copy of bwp992025.dat but with storm start datetime in the
+filename.</p></li>
+</ul>
+</li>
+<li><p>Update AMSR2 Ocean TC test to use numbered storm bdeck file including storm start datetime, and metadata_tc output
+formatter.
+update test outputs accordingly.</p>
+<ul>
+<li><p>Add bio012020.2020051518.dat deck file, which is a copy of bio012020.dat but with storm start datetime in the
+filename.</p></li>
+</ul>
+</li>
+<li><p>Update SAR TC output for updated metadata_tc output information.</p>
+<ul>
+<li><p>AWS are the only test scripts that use an invest (so add both metadata_default and metadata_tc test outputs, as well
+as
+invest deck file with no storm datetime in the filename and invest deck file WITH storm start datetime in the
+filename).</p></li>
+<li><p>SAR is the only numbered storm test that uses metadata_tc (so update test outputs accordingly).</p></li>
+<li><p>Added AMSR2 ocean as an additional test using metadata_tc (since we are testing specific metadata fields
+with different TC configurations now, we need metadata_tc output for multiple tests.)</p></li>
+</ul>
+</li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">added</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">sectors</span><span class="o">/</span><span class="n">tc_bdecks</span><span class="o">/</span><span class="n">bio012020</span><span class="mf">.2020051518</span><span class="o">.</span><span class="n">dat</span>
+<span class="n">added</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">sectors</span><span class="o">/</span><span class="n">tc_bdecks</span><span class="o">/</span><span class="n">bwp992025</span><span class="mf">.2025042712</span><span class="o">.</span><span class="n">dat</span>
+<span class="n">added</span><span class="p">:</span>
+<span class="n">tests</span><span class="o">/</span><span class="n">outputs</span><span class="o">/</span><span class="n">aws</span><span class="o">.</span><span class="n">tc</span><span class="o">.</span><span class="n">TB165</span><span class="o">.</span><span class="n">imagery_clean</span><span class="o">/</span><span class="mi">20250428_114913</span><span class="n">_WP992025_mwr_aws_TB165_15kts_43p06_1p0</span><span class="o">-</span><span class="n">clean</span><span class="o">.</span><span class="n">png</span><span class="o">.</span><span class="n">yaml</span>
+<span class="n">added</span><span class="p">:</span>
+<span class="n">tests</span><span class="o">/</span><span class="n">outputs</span><span class="o">/</span><span class="n">aws</span><span class="o">.</span><span class="n">tc</span><span class="o">.</span><span class="n">TB180</span><span class="o">.</span><span class="n">imagery_clean</span><span class="o">/</span><span class="mi">20250428_114913</span><span class="n">_WP992025_mwr_aws_TB180_15kts_43p06_1p0</span><span class="o">-</span><span class="n">clean</span><span class="o">.</span><span class="n">png</span><span class="o">.</span><span class="n">yaml</span>
+<span class="n">added</span><span class="p">:</span>
+<span class="n">tests</span><span class="o">/</span><span class="n">outputs</span><span class="o">/</span><span class="n">aws</span><span class="o">.</span><span class="n">tc</span><span class="o">.</span><span class="n">TB325</span><span class="o">-</span><span class="mf">1.</span><span class="n">imagery_clean</span><span class="o">/</span><span class="mi">20250428_114913</span><span class="n">_WP992025_mwr_aws_TB325</span><span class="o">-</span><span class="mi">1_15</span><span class="n">kts_48p36_1p0</span><span class="o">-</span><span class="n">clean</span><span class="o">.</span><span class="n">png</span><span class="o">.</span><span class="n">yaml</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">scripts</span><span class="o">/</span><span class="n">aws_tc_TB165</span><span class="o">.</span><span class="n">imagery_clean</span><span class="o">.</span><span class="n">sh</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">scripts</span><span class="o">/</span><span class="n">aws_tc_TB180</span><span class="o">.</span><span class="n">imagery_clean</span><span class="o">.</span><span class="n">sh</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">scripts</span><span class="o">/</span><span class="n">aws_tc_TB325</span><span class="o">-</span><span class="mf">1.</span><span class="n">imagery_clean</span><span class="o">.</span><span class="n">sh</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">scripts</span><span class="o">/</span><span class="n">amsr2_ocean</span><span class="o">.</span><span class="n">tc</span><span class="o">.</span><span class="n">windspeed</span><span class="o">.</span><span class="n">imagery_clean</span><span class="o">.</span><span class="n">sh</span>
+<span class="n">modified</span><span class="p">:</span>
+<span class="n">tests</span><span class="o">/</span><span class="n">outputs</span><span class="o">/</span><span class="n">sar</span><span class="o">.</span><span class="n">tc</span><span class="o">.</span><span class="n">nrcs</span><span class="o">.</span><span class="n">imagery_annotated</span><span class="o">/</span><span class="mi">20181025_203206</span><span class="n">_WP312018_sar</span><span class="o">-</span><span class="n">spd_sentinel</span><span class="o">-</span><span class="mi">1</span><span class="n">_nrcs_130kts_58p51_res1p0</span><span class="o">-</span><span class="n">cr300</span><span class="o">.</span><span class="n">png</span><span class="o">.</span><span class="n">yaml</span>
+<span class="n">modified</span><span class="p">:</span>
+<span class="n">tests</span><span class="o">/</span><span class="n">outputs</span><span class="o">/</span><span class="n">amsr2_ocean</span><span class="o">.</span><span class="n">tc</span><span class="o">.</span><span class="n">windspeed</span><span class="o">.</span><span class="n">imagery_clean</span><span class="o">/</span><span class="mi">20200518_073601</span><span class="n">_IO012020_amsr2_gcom</span><span class="o">-</span><span class="n">w1_windspeed_140kts_85p45_1p0</span><span class="o">-</span><span class="n">clean</span><span class="o">.</span><span class="n">png</span><span class="o">.</span><span class="n">yaml</span>
+</pre></div>
+</div>
+</section>
+<section id="id5">
+<h2>Bug fix<a class="headerlink" href="#id5" title="Permalink to this heading">#</a></h2>
+<section id="add-invest-storm-id-field-to-bdeck-parser-and-update-invest-storm-id-to-include-storm-start-datetime">
+<h3>Add invest_storm_id field to bdeck parser, and update invest_storm_id to include storm start datetime<a class="headerlink" href="#add-invest-storm-id-field-to-bdeck-parser-and-update-invest-storm-id-to-include-storm-start-datetime" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Rather than just storing invest_number with bdeck parser, also store invest_storm_id
+to be consistent with other storm id handling.</p></li>
+<li><p>This allows consistent handling of invest storm ids across different data sources.</p></li>
+<li><p>invest_storm_id of format bbNNyyyyYYYYMMDDHH, e.g. al9020262026080106,
+where bb is basin, NN is storm number, yyyyYYYYMMDDHHMM is year and
+storm start datetime.  Storm start datetime is pulled from the filename
+if it is defined there, otherwise it pulls from the first entry in the
+bdeck file.</p></li>
+<li><p>NOTE previously invest storm id would just be bbNNyyyy. This change adds
+the storm start datetime to ensure uniqueness across invests with the
+same basin and number but different start times.</p></li>
+<li><p>NOTE we do not include delimiter in invest storm id so it is clear that it is
+a single id when appending the current storm synoptic/fix time to assemble a
+specific TC area_id.</p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">sector_metadata_generators</span><span class="o">/</span><span class="n">bdeck_parser</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">sector_utils</span><span class="o">/</span><span class="n">tc_tracks</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id6">
+<h2>Bug fix<a class="headerlink" href="#id6" title="Permalink to this heading">#</a></h2>
+<p>Store storm_start_datetime_from_filename_of_current_deck_file and
+storm_start_datetime_from_first_line_of_current_deck_file separately, and use
+storm_start_datetime_from_filename_of_current_deck_file as overall storm_start_datetime if it exists (otherwise fall
+back to storm_start_datetime_from_first_line_of_current_deck_file)
+——————————————————————</p>
+<ul class="simple">
+<li><p>If storm start datetime is defined in the filename, use that as the overall storm_start_datetime.
+This allows consistent storm ids across files even if individual bdeck files have different storm start datetimes.</p></li>
+<li><p>If storm start datetime is not defined in the filename, fall back to using the storm start datetime
+from the first bdeck file processed (storm_start_datetime_from_first_line_of_current_deck_file). We must ALWAYS have a
+storm start datetime defined.</p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">sector_metadata_generators</span><span class="o">/</span><span class="n">bdeck_parser</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+</section>
+<section id="id7">
+<h2>Bug fix<a class="headerlink" href="#id7" title="Permalink to this heading">#</a></h2>
+<section id="store-storm-ids-and-area-ids-lower-case-internally-display-in-filenames-titles-upper-case">
+<h3>Store storm_ids and area_ids lower case internally, display in filenames / titles upper case<a class="headerlink" href="#store-storm-ids-and-area-ids-lower-case-internally-display-in-filenames-titles-upper-case" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Ensure storm ids are stored lower case internally, but maintain upper case in filenames and titles for consistency
+with historical data.</p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">filename_formatters</span><span class="o">/</span><span class="n">utils</span><span class="o">/</span><span class="n">tc_file_naming</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id8">
+<h2>Bug fix<a class="headerlink" href="#id8" title="Permalink to this heading">#</a></h2>
+<section id="update-sector-utils-tc-tracks-py-to-inclue-tc-position-time-in-area-id-and-not-include-storm-name">
+<h3>Update sector_utils tc_tracks.py to inclue tc position time in area id and not include storm name<a class="headerlink" href="#update-sector-utils-tc-tracks-py-to-inclue-tc-position-time-in-area-id-and-not-include-storm-name" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>No longer include storm name in area id for simplicity and to avoid issues with name changes.</p></li>
+<li><p>Include TC position time in area id to ensure uniqueness for each storm location.</p></li>
+<li><p>Note storm_id still does not include storm position time, so we have a single id for the entire storm.</p></li>
+<li><p>Also note area_id includes both storm start datetime and position time for invests,
+to ensure uniqueness across multiple invests with same basin/number but different start times,
+as well as multiple positions for the same invest.</p></li>
+<li><p>area_ids of format</p>
+<ul>
+<li><p>bbNNyyyy-YYYYMMDDHH for numbered storm (no storm start datetime)</p></li>
+<li><p>bbNNyyyyYYYYMMDDHH-YYY2M2D2H2 for invest (with storm start datetime)</p></li>
+<li><p>E.g., stormid-YYYYMMDDHH for either invest or numbered storm, where stormid
+has no delimiters, either for invests or numbered storms</p></li>
+</ul>
+</li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">sector_utils</span><span class="o">/</span><span class="n">tc_tracks</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id9">
+<h2>Bug fix<a class="headerlink" href="#id9" title="Permalink to this heading">#</a></h2>
+<section id="allow-output-type-dir-for-tc-fname-py-to-support-tc-clean-fname-py-and-tc-fname-py-going-to-separate-directories">
+<h3>Allow output_type_dir for tc_fname.py, to support tc_clean_fname.py and tc_fname.py going to separate directories.<a class="headerlink" href="#allow-output-type-dir-for-tc-fname-py-to-support-tc-clean-fname-py-and-tc-fname-py-going-to-separate-directories" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>No longer requiring output_type_dir for all filename formatters, but allow passing
+output_type_dir to tc_fname.py to support tc_clean_fname.py and tc_fname.py going to separate directories.</p></li>
+<li><p>Since tc_clean_fname.py is a derivative of tc_fname.py, it makes sense to allow
+output_type_dir to be passed to tc_fname.py to support this use case.</p></li>
+<li><p>tc_clean_fname.py calls tc_fname.py internally to generate the base filename,
+and passes in output_type_dir output_type+”_clean” to ensure separate output directories.</p></li>
+<li><p>Alternatively, we could have created a separate function within tc_file_naming.py and
+have both tc_fname.py and tc_clean_fname.py call that function rather than
+having tc_clean_fname.py calling tc_fname directly, but this approach is simpler.</p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">filename_formatters</span><span class="o">/</span><span class="n">tc_clean_fname</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">filename_formatters</span><span class="o">/</span><span class="n">tc_fname</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id10">
+<h2>Bug fix<a class="headerlink" href="#id10" title="Permalink to this heading">#</a></h2>
+<section id="standardize-storm-ids-used-in-filenames-vs-file-paths-for-tc-fname-and-tc-clean-fname-etc">
+<h3>Standardize storm ids used in filenames vs file paths for tc_fname and tc_clean_fname, etc<a class="headerlink" href="#standardize-storm-ids-used-in-filenames-vs-file-paths-for-tc-fname-and-tc-clean-fname-etc" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>General standard will be to use the full storm_id (including storm start
+datetime for invests) for TC file paths using the tc_file_naming.py
+tc_storm_basedir function.</p></li>
+<li><p>TC file names will typically use a simplified storm ID, not including the
+storm start datetime.</p></li>
+<li><p>Typically we will want to use the default storm_id or area_id whenever possible
+(in file paths or generic geoips_fname outputs, where people are not “used”,
+to anything and we want consistency more than anything),
+and only use special cases (upper case, remove storm start datetime, etc) for
+specific purposes (people are used to the filenames just having WP992023, not
+the inscrutable WP9920232023071900)</p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">filename_formatters</span><span class="o">/</span><span class="n">tc_clean_fname</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">filename_formatters</span><span class="o">/</span><span class="n">tc_fname</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id11">
+<h2>Bug fix<a class="headerlink" href="#id11" title="Permalink to this heading">#</a></h2>
+<section id="do-not-require-output-type-dir-product-dir-product-subdir-or-source-dir-for-standard-filename-formatters">
+<h3>Do not require output_type_dir, product_dir, product_subdir, or source_dir for standard filename formatters<a class="headerlink" href="#do-not-require-output-type-dir-product-dir-product-subdir-or-source-dir-for-standard-filename-formatters" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Do not require allowing overrides for output_type_dir, product_dir, product_subdir, or source_dir in order to create
+a standard filename formatter.</p></li>
+<li><p>Generally, if we want to override those fields, we would want to create a new filename formatter instead of trying to
+shoehorn it into a standard formatter.</p></li>
+<li><p>Had to remove unsupported kwargs from geotiff_fname.</p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">interfaces</span><span class="o">/</span><span class="n">module_based</span><span class="o">/</span><span class="n">filename_formatters</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">filename_formatters</span><span class="o">/</span><span class="n">geotiff_fname</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id12">
+<h2>Bug fix<a class="headerlink" href="#id12" title="Permalink to this heading">#</a></h2>
+<section id="remove-unnecessary-product-dir-product-subdir-and-source-dir-call-signature-args-retain-output-type-dir">
+<h3>Remove unnecessary product_dir, product_subdir, and source_dir call signature args, retain output_type_dir.<a class="headerlink" href="#remove-unnecessary-product-dir-product-subdir-and-source-dir-call-signature-args-retain-output-type-dir" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>No longer support alternative product_dir, product_subdir, and source_dir args in filename formatter call signatures.</p></li>
+<li><p>Typically we would want to define a separate filename formatter if we wanted to override these values.</p></li>
+<li><p>Note we retain output_type_dir, since it is used by tc_clean_fname.</p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">filename_formatters</span><span class="o">/</span><span class="n">tc_clean_fname</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">filename_formatters</span><span class="o">/</span><span class="n">tc_fname</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id13">
+<h2>Bug fix<a class="headerlink" href="#id13" title="Permalink to this heading">#</a></h2>
+<section id="remove-hard-coded-tc-year-tc-basin-tc-stormnum-and-output-dict-from-tc-storm-basedir-calls">
+<h3>Remove hard coded tc_year, tc_basin, tc_stormnum, and output_dict from tc_storm_basedir calls<a class="headerlink" href="#remove-hard-coded-tc-year-tc-basin-tc-stormnum-and-output-dict-from-tc-storm-basedir-calls" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Use information in the sector_info dictionary to populate the tc_storm_basedir.</p></li>
+<li><p>No longer explicitly pass tc_year/basin/stormnum.</p></li>
+<li><p>Note output_dict was previously used within tc_file_naming get_storm_subdir to
+ONLY get the file_path_modifiations (existing_invest_dirs_allowable_time_diff,
+and unique_invest_dirs). These are no longer supported)</p></li>
+<li><p>Also note text_winds_tc_fname uses storm_id in filename, so updated test output.</p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>moved:
+tests/outputs/smos.tc.sectored.text_winds/smos-spd_surface_winds_esa_smos_tc2020sh16gabekile_202002161242.txt -&gt;
+tests/outputs/smos.tc.sectored.text_winds/smos-spd_surface_winds_esa_smos_sh162020_202002161242.txt
+modified: tc_storm_basedir Pass through: geoips/plugins/modules/filename_formatters/metadata_default_fname.py
+modified: update filename with new storm id! geoips/plugins/modules/filename_formatters/text_winds_tc_fname.py
+modified: tc_storm_basedir Pass through: geoips/plugins/modules/filename_formatters/tc_fname.py
+modified: tc_storm_basedir Implementation: geoips/plugins/modules/filename_formatters/utils/tc_file_naming.py
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id14">
+<h2>Bug fix<a class="headerlink" href="#id14" title="Permalink to this heading">#</a></h2>
+<section id="remove-support-for-file-path-modifications">
+<h3>Remove support for file_path_modifications<a class="headerlink" href="#remove-support-for-file-path-modifications" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Simplify invest storm id setting, so we now always write to unique invest dirs.</p></li>
+<li><p>No longer explicitly request file_path_modifications for unique_invest_dirs and allowable_time_diff</p></li>
+<li><p>Note output_dict was previously used within tc_file_naming get_storm_subdir to
+ONLY get the file_path_modifiations (existing_invest_dirs_allowable_time_diff,
+and unique_invest_dirs). These are no longer supported, so remove from both
+tc_file_naming and the sample procflow configs.</p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">filename_formatters</span><span class="o">/</span><span class="n">utils</span><span class="o">/</span><span class="n">tc_file_naming</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">yaml_configs</span><span class="o">/</span><span class="n">amsr2_no_compare_full</span><span class="o">.</span><span class="n">yaml</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">yaml_configs</span><span class="o">/</span><span class="n">updated_format</span><span class="o">.</span><span class="n">yaml</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id15">
+<h2>Bug fix<a class="headerlink" href="#id15" title="Permalink to this heading">#</a></h2>
+<section id="fix-build-docs-errors">
+<h3>Fix build_docs errors<a class="headerlink" href="#fix-build-docs-errors" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Fix poorly formatted release note YAMLs</p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">releases</span><span class="o">/</span><span class="mf">1.16.0</span><span class="o">/</span><span class="mi">1085</span><span class="o">-</span><span class="n">cached</span><span class="o">-</span><span class="n">data</span><span class="o">-</span><span class="n">check</span><span class="o">-</span><span class="ow">is</span><span class="o">-</span><span class="n">causing</span><span class="o">-</span><span class="n">error</span><span class="o">-</span><span class="ow">in</span><span class="o">-</span><span class="n">readers</span><span class="o">.</span><span class="n">yaml</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">releases</span><span class="o">/</span><span class="n">latest</span><span class="o">/</span><span class="n">remove</span><span class="o">-</span><span class="n">requirements</span><span class="o">-</span><span class="n">from</span><span class="o">-</span><span class="n">archived</span><span class="o">-</span><span class="n">pip</span><span class="o">-</span><span class="n">env</span><span class="o">-</span><span class="n">filenames</span><span class="o">.</span><span class="n">yaml</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">releases</span><span class="o">/</span><span class="n">latest</span><span class="o">/</span><span class="mi">1008</span><span class="o">-</span><span class="n">minor</span><span class="o">-</span><span class="n">bug</span><span class="o">-</span><span class="n">fixes</span><span class="o">-</span><span class="n">to</span><span class="o">-</span><span class="n">overpass_predictor</span><span class="o">-</span><span class="ow">and</span><span class="o">-</span><span class="n">tc_tracks_database</span><span class="o">.</span><span class="n">yaml</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id16">
+<h2>Bug fix<a class="headerlink" href="#id16" title="Permalink to this heading">#</a></h2>
+<section id="allow-28-field-bdeck-lines-in-bdeck-parser">
+<h3>Allow 28 field bdeck lines in bdeck_parser.<a class="headerlink" href="#allow-28-field-bdeck-lines-in-bdeck-parser" title="Permalink to this heading">#</a></h3>
+<p>Some of the archived best tracks do NOT include a storm name. Set storm name to
+unknown if not defined in line</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">sector_metadata_generators</span><span class="o">/</span><span class="n">bdeck_parser</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id17">
+<h2>Bug fix<a class="headerlink" href="#id17" title="Permalink to this heading">#</a></h2>
+<section id="link-to-persistent-data-dirs-ancildat-and-test-data-paths-remove-astropy-dependency">
+<h3>Link to persistent_data_dirs ancildat and test_data paths, remove astropy dependency<a class="headerlink" href="#link-to-persistent-data-dirs-ancildat-and-test-data-paths-remove-astropy-dependency" title="Permalink to this heading">#</a></h3>
+<p>Make astropy imports optional in atms_hdf5 and scat_noaa_winds_netcdf readers. Readers
+will not be functional until astropy is replaced, but will allow us to install geoips
+under a clean build.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">getting</span><span class="o">-</span><span class="n">started</span><span class="o">/</span><span class="n">installing</span><span class="o">/</span><span class="n">nrl_install</span><span class="o">.</span><span class="n">rst</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">readers</span><span class="o">/</span><span class="n">atms_hdf5</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">readers</span><span class="o">/</span><span class="n">scat_noaa_winds_netcdf</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">pyproject</span><span class="o">.</span><span class="n">toml</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id18">
+<h2>Bug fix<a class="headerlink" href="#id18" title="Permalink to this heading">#</a></h2>
+<section id="add-gdal-to-nrl-install-rst">
+<h3>Add gdal to nrl_install.rst<a class="headerlink" href="#add-gdal-to-nrl-install-rst" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Add gdal to nrl_install.rst.</p></li>
+<li><p>Note reo-cogeo may be required, but we’ve had mixed results so far.</p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">getting</span><span class="o">-</span><span class="n">started</span><span class="o">/</span><span class="n">installing</span><span class="o">/</span><span class="n">nrl_install</span><span class="o">.</span><span class="n">rst</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id19">
+<h2>Bug fix<a class="headerlink" href="#id19" title="Permalink to this heading">#</a></h2>
+<section id="do-not-include-requirements-in-pip-requirements-files-for-archival-purposes">
+<h3>Do not include requirements in pip requirements files for archival purposes<a class="headerlink" href="#do-not-include-requirements-in-pip-requirements-files-for-archival-purposes" title="Permalink to this heading">#</a></h3>
+<p>Clean up environment file directory. Ensure old pip requirements files are not
+identified as valid current requirements files - we only want to keep them for
+archival purposes, and not actually use them.</p>
+<p>Also, always copy to requirements_envtag.txt in create_environment_files so
+we are tracking the most recent versions of everything for various installation
+methods.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">environments</span><span class="o">/</span><span class="nb">all</span> <span class="n">files</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">setup</span><span class="o">/</span><span class="n">check_system_requirements</span><span class="o">.</span><span class="n">sh</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id20">
+<h2>Bug fix<a class="headerlink" href="#id20" title="Permalink to this heading">#</a></h2>
+<section id="move-dynamic-geolocation-and-ancildat-autogen-caches-to-shortterm-location">
+<h3>Move dynamic geolocation and ancildat_autogen caches to shortterm location<a class="headerlink" href="#move-dynamic-geolocation-and-ancildat-autogen-caches-to-shortterm-location" title="Permalink to this heading">#</a></h3>
+<p>Originally dynamic geolocation was stored with the longterm cache, which is
+explicitly forbidden from ever being scrubbed.  Since dynamic geolocation
+data can be regenerated as needed, it makes more sense to store it in the
+shortterm cache, which can be scrubbed as needed to free up space.</p>
+<p>Note shortterm cache is still persistent between runs, so dynamic geolocation
+data will still be reused as needed, just not indefinitely.</p>
+<p>This involved renaming GEOIPS_DATA_CACHE_DIR_LONGTERM_GEOLOCATION_DYNAMIC
+to GEOIPS_DATA_CACHE_DIR_SHORTTERM_GEOLOCATION_DYNAMIC in
+base_paths.py, and updating the reference to it in geostationary_geolocation.py
+util.  Additionally the default path for the shortterm dynamic geolocation cache
+was updated in base_paths.py to point to the shortterm subdirectory in cache/geoips.</p>
+<p>Additionally ancildat_autogen cache location was moved from the top level
+cache/geoips/ancildat_autogen directory to cache/geoips/shortterm/ancildat_autogen
+to better reflect its intended usage.  This involved updating the
+GEOIPS_ANCILDAT_AUTOGEN path in config_geoips to point to the new location.</p>
+<p>Note the shortterm cache may contain data with vastly different retention periods,
+so scrubbing must be handled appropriately to avoid deleting data that is still needed.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">filenames</span><span class="o">/</span><span class="n">base_paths</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">readers</span><span class="o">/</span><span class="n">utils</span><span class="o">/</span><span class="n">geostationary_geolocation</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">setup</span><span class="o">/</span><span class="n">config_geoips</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id21">
+<h2>Bug fix<a class="headerlink" href="#id21" title="Permalink to this heading">#</a></h2>
+<section id="minor-bug-fixes-to-overpass-predictor-and-tc-tracks-database">
+<h3>Minor bug fixes to overpass_predictor and tc_tracks_database<a class="headerlink" href="#minor-bug-fixes-to-overpass-predictor-and-tc-tracks-database" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Use area_def.sector_info[“storm_id”] instead of area_def.area_id in the overpass
+predictor, which does not include the storm_start_datetime.</p></li>
+<li><p>Support parsing database timstamps that include a “.%f” field.</p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">sector_utils</span><span class="o">/</span><span class="n">overpass_predictor</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">sector_utils</span><span class="o">/</span><span class="n">tc_tracks_database</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id22">
+<h2>Bug fix<a class="headerlink" href="#id22" title="Permalink to this heading">#</a></h2>
+<section id="removed-astropy-usage-in-readers">
+<h3>Removed astropy usage in readers.<a class="headerlink" href="#removed-astropy-usage-in-readers" title="Permalink to this heading">#</a></h3>
+<p>Removed astropy dependencies in readers to simplify installation. Usage of astropy was mainly for converting TAI time to
+UTC, now readers adjust manually. Astropy also relied on pulling external ancillary data for converting the time.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">deleted</span><span class="p">:</span>
+<span class="n">tests</span><span class="o">/</span><span class="n">outputs</span><span class="o">/</span><span class="n">ascat_noaa_50km</span><span class="o">.</span><span class="n">tc</span><span class="o">.</span><span class="n">wind</span><span class="o">-</span><span class="n">ambiguities</span><span class="o">.</span><span class="n">imagery_windbarbs</span><span class="o">/</span><span class="mi">20230524_235200</span><span class="n">_WP022023_ascat_metop</span><span class="o">-</span><span class="n">c_wind</span><span class="o">-</span><span class="n">ambiguities_135kts_50p08_1p1</span><span class="o">.</span><span class="n">png</span>
+<span class="n">deleted</span><span class="p">:</span>
+<span class="n">tests</span><span class="o">/</span><span class="n">outputs</span><span class="o">/</span><span class="n">ascat_noaa_25km</span><span class="o">.</span><span class="n">tc</span><span class="o">.</span><span class="n">windbarbs</span><span class="o">.</span><span class="n">imagery_windbarbs</span><span class="o">/</span><span class="mi">20230524_235304</span><span class="n">_WP022023_ascat_metop</span><span class="o">-</span><span class="n">c_windbarbs_135kts_39p90_0p7</span><span class="o">.</span><span class="n">png</span>
+<span class="n">moved</span><span class="p">:</span>
+<span class="n">tests</span><span class="o">/</span><span class="n">outputs</span><span class="o">/</span><span class="n">ascat_noaa_50km</span><span class="o">.</span><span class="n">tc</span><span class="o">.</span><span class="n">wind</span><span class="o">-</span><span class="n">ambiguities</span><span class="o">.</span><span class="n">imagery_windbarbs</span><span class="o">/</span><span class="mi">20230524_235051</span><span class="n">_WP022023_ascat_metop</span><span class="o">-</span><span class="n">c_wind</span><span class="o">-</span><span class="n">ambiguities_135kts_50p08_1p1</span><span class="o">.</span><span class="n">png</span><span class="o">.</span><span class="n">yaml</span>
+<span class="n">moved</span><span class="p">:</span>
+<span class="n">tests</span><span class="o">/</span><span class="n">outputs</span><span class="o">/</span><span class="n">ascat_noaa_25km</span><span class="o">.</span><span class="n">tc</span><span class="o">.</span><span class="n">windbarbs</span><span class="o">.</span><span class="n">imagery_windbarbs</span><span class="o">/</span><span class="mi">20230524_235259</span><span class="n">_WP022023_ascat_metop</span><span class="o">-</span><span class="n">c_windbarbs_135kts_39p90_0p7</span><span class="o">.</span><span class="n">png</span><span class="o">.</span><span class="n">yaml</span>
+<span class="n">added</span><span class="p">:</span>
+<span class="n">tests</span><span class="o">/</span><span class="n">outputs</span><span class="o">/</span><span class="n">ascat_noaa_25km</span><span class="o">.</span><span class="n">tc</span><span class="o">.</span><span class="n">windbarbs</span><span class="o">.</span><span class="n">imagery_windbarbs</span><span class="o">/</span><span class="mi">20230524_235259</span><span class="n">_WP022023_ascat_metop</span><span class="o">-</span><span class="n">c_windbarbs_135kts_39p90_0p7</span><span class="o">.</span><span class="n">png</span>
+<span class="n">added</span><span class="p">:</span>
+<span class="n">tests</span><span class="o">/</span><span class="n">outputs</span><span class="o">/</span><span class="n">ascat_noaa_50km</span><span class="o">.</span><span class="n">tc</span><span class="o">.</span><span class="n">wind</span><span class="o">-</span><span class="n">ambiguities</span><span class="o">.</span><span class="n">imagery_windbarbs</span><span class="o">/</span><span class="mi">20230524_235051</span><span class="n">_WP022023_ascat_metop</span><span class="o">-</span><span class="n">c_wind</span><span class="o">-</span><span class="n">ambiguities_135kts_50p08_1p1</span><span class="o">.</span><span class="n">png</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">readers</span><span class="o">/</span><span class="n">atms_hdf5</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">readers</span><span class="o">/</span><span class="n">scat_noaa_winds_netcdf</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">pyproject</span><span class="o">.</span><span class="n">toml</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id23">
+<h2>Bug fix<a class="headerlink" href="#id23" title="Permalink to this heading">#</a></h2>
+<section id="properly-filter-ingested-tles-using-a-satellite-prediction-list">
+<h3>Properly filter ingested tles using a satellite prediction list<a class="headerlink" href="#properly-filter-ingested-tles-using-a-satellite-prediction-list" title="Permalink to this heading">#</a></h3>
+<p>The check_tle_name_to_passed_names function under geoips.sector_utils.overpass_predictor
+checks if a given satellite TLE is in the list of satellites that we want to predict
+an overpass. If the check is true the TLEs are loaded into memory for use downstream.
+The logic in the function was too simple and simply checked if a TLE name contained a
+matching string from the list of satellites we want to predict. This resulted in false
+positives. For example,
+check_tle_name_to_passed_names(tle_name=”COSMOS 2586”, satellite_names_list=[“SMOS”])
+would return True, since “COSMOS 2586” contained the string “SMOS”. The logic has been
+updated to ensure full string matching, so the above example now returns False.</p>
+<p>For every TLE and satellite name, we split the strings by “ (”, and remove
+the right parenthesis (if present). This allows us to check two satellite names
+if provided in the TLE file. For example, take OCEANSAT-3, which has the following
+name in the file downloaded from celestrak: “EOS-6 (OCEANSAT-3)”. Splitting the
+names allows us to check if “EOS-6” OR “OCEANSAT-3” are in the satellite_names_list.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">sector_utils</span><span class="o">/</span><span class="n">overpass_predictor</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="testing">
+<h2>Testing<a class="headerlink" href="#testing" title="Permalink to this heading">#</a></h2>
+<section id="meteosat-10-12-terminator-tiny-test-sectors">
+<h3>Meteosat 10 &amp; 12 terminator tiny test sectors<a class="headerlink" href="#meteosat-10-12-terminator-tiny-test-sectors" title="Permalink to this heading">#</a></h3>
+<p>Same location for both Meteosat 10 &amp; 12, off the coast of Argentina and
+the Falkland Islands.</p>
+<ul class="simple">
+<li><p>Add meteosat12 and meteosat10 terminator 10km tiny sector, off the coast of
+Argentina and the Falkland Islands for datasets 20250623T1200Z and 20250624T1200Z respectively</p></li>
+<li><p>Minor corrections in sector areas</p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">added</span><span class="p">:</span>
+<span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">yaml</span><span class="o">/</span><span class="n">sectors</span><span class="o">/</span><span class="n">integration_tests</span><span class="o">/</span><span class="n">geostationary</span><span class="o">/</span><span class="n">meteo_sectors</span><span class="o">/</span><span class="n">meteosat12_20250623T1200Z</span><span class="o">/</span><span class="n">test_meteosat12_eqc_10km_terminator_20250623T1200Z</span><span class="o">.</span><span class="n">yaml</span>
+<span class="n">added</span><span class="p">:</span>
+<span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">yaml</span><span class="o">/</span><span class="n">sectors</span><span class="o">/</span><span class="n">integration_tests</span><span class="o">/</span><span class="n">geostationary</span><span class="o">/</span><span class="n">meteo_sectors</span><span class="o">/</span><span class="n">meteosat10_20250623T1200Z</span><span class="o">/</span><span class="n">test_meteosat10_eqc_10km_terminator_20250624T1200Z</span><span class="o">.</span><span class="n">yaml</span>
+<span class="n">added</span><span class="p">:</span>
+<span class="n">tests</span><span class="o">/</span><span class="n">integration_tests</span><span class="o">/</span><span class="n">tiny_sectors</span><span class="o">/</span><span class="n">outputs</span><span class="o">/</span><span class="n">test_meteosat12_eqc_10km_terminator_20250623T1200Z_Test</span><span class="o">-</span><span class="n">FCI</span><span class="o">-</span><span class="n">B14</span><span class="o">-</span><span class="n">Night</span><span class="o">-</span><span class="n">Only</span><span class="o">/</span><span class="mf">20250623.120000</span><span class="o">.</span><span class="n">MTG</span><span class="o">-</span><span class="n">I1</span><span class="o">.</span><span class="n">fci</span><span class="o">.</span><span class="n">Test</span><span class="o">-</span><span class="n">FCI</span><span class="o">-</span><span class="n">B14</span><span class="o">-</span><span class="n">Night</span><span class="o">-</span><span class="n">Only</span><span class="o">.</span><span class="n">test_meteosat12_eqc_10km_terminator_20250623T1200Z</span><span class="mf">.18</span><span class="n">p33</span><span class="o">.</span><span class="n">EUMETSAT</span><span class="mf">.10</span><span class="n">p0</span><span class="o">.</span><span class="n">png</span>
+<span class="n">added</span><span class="p">:</span>
+<span class="n">tests</span><span class="o">/</span><span class="n">integration_tests</span><span class="o">/</span><span class="n">tiny_sectors</span><span class="o">/</span><span class="n">outputs</span><span class="o">/</span><span class="n">test_meteosat12_eqc_10km_terminator_20250623T1200Z_Test</span><span class="o">-</span><span class="n">FCI</span><span class="o">-</span><span class="n">B14</span><span class="o">-</span><span class="n">Night</span><span class="o">-</span><span class="n">Only</span><span class="o">/</span><span class="mf">20250623.120000</span><span class="o">.</span><span class="n">MTG</span><span class="o">-</span><span class="n">I1</span><span class="o">.</span><span class="n">fci</span><span class="o">.</span><span class="n">Test</span><span class="o">-</span><span class="n">FCI</span><span class="o">-</span><span class="n">B14</span><span class="o">-</span><span class="n">Night</span><span class="o">-</span><span class="n">Only</span><span class="o">.</span><span class="n">test_meteosat12_eqc_10km_terminator_20250623T1200Z</span><span class="mf">.18</span><span class="n">p33</span><span class="o">.</span><span class="n">EUMETSAT</span><span class="mf">.10</span><span class="n">p0</span><span class="o">.</span><span class="n">png</span>
+<span class="n">modified</span><span class="p">:</span>
+<span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">yaml</span><span class="o">/</span><span class="n">sectors</span><span class="o">/</span><span class="n">integration_tests</span><span class="o">/</span><span class="n">geostationary</span><span class="o">/</span><span class="n">himawari_sectors</span><span class="o">/</span><span class="n">himawari8_20200405T0000Z</span><span class="o">/</span><span class="n">test_himawari8_eqc_10km_terminator_20200405T0000Z</span><span class="o">.</span><span class="n">yaml</span>
+<span class="n">modified</span><span class="p">:</span>
+<span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">yaml</span><span class="o">/</span><span class="n">sectors</span><span class="o">/</span><span class="n">integration_tests</span><span class="o">/</span><span class="n">geostationary</span><span class="o">/</span><span class="n">meteo_sectors</span><span class="o">/</span><span class="n">test_meteoeu_longlat_50km_fulldisk</span><span class="o">.</span><span class="n">yaml</span>
+<span class="n">modified</span><span class="p">:</span>
+<span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">yaml</span><span class="o">/</span><span class="n">sectors</span><span class="o">/</span><span class="n">integration_tests</span><span class="o">/</span><span class="n">geostationary</span><span class="o">/</span><span class="n">meteo_sectors</span><span class="o">/</span><span class="n">test_meteoio_longlat_50km_fulldisk</span><span class="o">.</span><span class="n">yaml</span>
+<span class="n">modified</span><span class="p">:</span>
+<span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">yaml</span><span class="o">/</span><span class="n">sectors</span><span class="o">/</span><span class="n">integration_tests</span><span class="o">/</span><span class="n">geostationary</span><span class="o">/</span><span class="n">meteo_sectors</span><span class="o">/</span><span class="n">test_meteoio_longlat_50km_fulldisk</span><span class="o">.</span><span class="n">yaml</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">integration_tests</span><span class="o">/</span><span class="n">test_tiny_sectors_geoips</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id24">
+<h2>Testing<a class="headerlink" href="#id24" title="Permalink to this heading">#</a></h2>
+<p>Update tiny sector test scripts to copy both global dataset images, and tiny sector images to
+example_test_imagery_output
+—————————</p>
+<p>For easier evaluation, copy all tiny sector outputs to example_test_imagery_output.
+Also, only copy files if they exist, to avoid IO Errors in the output.
+Test scripts still do not fail for missing output images (the geoips return
+should catch it appropriately), but only attempt to copy if they exist.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">example_scripts</span><span class="o">/</span><span class="n">global_terminator_satzen</span><span class="o">.</span><span class="n">sh</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">integration_tests</span><span class="o">/</span><span class="n">tiny_sectors</span><span class="o">/</span><span class="n">tiny_sectors_geostationary</span><span class="o">.</span><span class="n">sh</span>
+</pre></div>
+</div>
+</section>
+<section id="id25">
+<h2>Testing<a class="headerlink" href="#id25" title="Permalink to this heading">#</a></h2>
+<section id="update-tiny-sector-test-script-to-produce-annotated-tiny-sector-image-outputs-on-request">
+<h3>Update tiny sector test script to produce annotated tiny sector image outputs on request<a class="headerlink" href="#update-tiny-sector-test-script-to-produce-annotated-tiny-sector-image-outputs-on-request" title="Permalink to this heading">#</a></h3>
+<p>If GEOIPS_CREATE_TINY_SECTOR_TEST_ANNOTATED_OUTPUTS=True, then produce annotated
+image outputs for both Day-Only and Night-Only test products for reference.
+By default DO NOT run these annotated outputs, to avoid duplicate processing.</p>
+<p>To ensure unique filenames, updated geoips_fname to allow extra kwarg, so it
+can be passed in command line to add an orig flag to the original passed in
+product and opposite for the other product (Day vs Night).</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">filename_formatters</span><span class="o">/</span><span class="n">geoips_fname</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">integration_tests</span><span class="o">/</span><span class="n">tiny_sectors</span><span class="o">/</span><span class="n">tiny_sectors_geostationary</span><span class="o">.</span><span class="n">sh</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="documentation">
+<h2>Documentation<a class="headerlink" href="#documentation" title="Permalink to this heading">#</a></h2>
+<section id="update-upcoming-and-tagged-versions">
+<h3>Update upcoming and tagged versions<a class="headerlink" href="#update-upcoming-and-tagged-versions" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Tagged version: 1.17.3</p></li>
+<li><p>Upcoming version: 1.18.1</p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="o">.</span><span class="n">github</span><span class="o">/</span><span class="n">versions</span><span class="o">/</span><span class="n">tagged_version</span>
+<span class="n">modified</span><span class="p">:</span> <span class="o">.</span><span class="n">github</span><span class="o">/</span><span class="n">versions</span><span class="o">/</span><span class="n">upcoming_version</span>
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="1.18.0.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Version 1.18.0 (2026-07-16)</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="1.17.2.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Version 1.17.2 (2026-07-16)</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bug-fix">Bug fix</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#put-the-delimiter-back-in-the-tc-invest-file-name-paths">Put the delimiter back in the tc invest file name paths</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Bug fix</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#bug-fix-in-setting-ahi-hsd-metadata">Bug fix in setting ahi_hsd metadata</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Bug fix</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#add-archer-fdeck-to-metadata-default-py-output-formatter">Add archer_fdeck to metadata_default.py output formatter</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">Bug fix</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#update-metadata-tc-output-formatter-to-include-area-id-and-area-description-fields">Update metadata_tc output formatter to include area_id and area_description fields</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">Bug fix</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">Bug fix</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#add-invest-storm-id-field-to-bdeck-parser-and-update-invest-storm-id-to-include-storm-start-datetime">Add invest_storm_id field to bdeck parser, and update invest_storm_id to include storm start datetime</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">Bug fix</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">Bug fix</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#store-storm-ids-and-area-ids-lower-case-internally-display-in-filenames-titles-upper-case">Store storm_ids and area_ids lower case internally, display in filenames / titles upper case</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id8">Bug fix</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#update-sector-utils-tc-tracks-py-to-inclue-tc-position-time-in-area-id-and-not-include-storm-name">Update sector_utils tc_tracks.py to inclue tc position time in area id and not include storm name</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id9">Bug fix</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#allow-output-type-dir-for-tc-fname-py-to-support-tc-clean-fname-py-and-tc-fname-py-going-to-separate-directories">Allow output_type_dir for tc_fname.py, to support tc_clean_fname.py and tc_fname.py going to separate directories.</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id10">Bug fix</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#standardize-storm-ids-used-in-filenames-vs-file-paths-for-tc-fname-and-tc-clean-fname-etc">Standardize storm ids used in filenames vs file paths for tc_fname and tc_clean_fname, etc</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id11">Bug fix</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#do-not-require-output-type-dir-product-dir-product-subdir-or-source-dir-for-standard-filename-formatters">Do not require output_type_dir, product_dir, product_subdir, or source_dir for standard filename formatters</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id12">Bug fix</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#remove-unnecessary-product-dir-product-subdir-and-source-dir-call-signature-args-retain-output-type-dir">Remove unnecessary product_dir, product_subdir, and source_dir call signature args, retain output_type_dir.</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id13">Bug fix</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#remove-hard-coded-tc-year-tc-basin-tc-stormnum-and-output-dict-from-tc-storm-basedir-calls">Remove hard coded tc_year, tc_basin, tc_stormnum, and output_dict from tc_storm_basedir calls</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id14">Bug fix</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#remove-support-for-file-path-modifications">Remove support for file_path_modifications</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id15">Bug fix</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fix-build-docs-errors">Fix build_docs errors</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id16">Bug fix</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#allow-28-field-bdeck-lines-in-bdeck-parser">Allow 28 field bdeck lines in bdeck_parser.</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id17">Bug fix</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#link-to-persistent-data-dirs-ancildat-and-test-data-paths-remove-astropy-dependency">Link to persistent_data_dirs ancildat and test_data paths, remove astropy dependency</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id18">Bug fix</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#add-gdal-to-nrl-install-rst">Add gdal to nrl_install.rst</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id19">Bug fix</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#do-not-include-requirements-in-pip-requirements-files-for-archival-purposes">Do not include requirements in pip requirements files for archival purposes</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id20">Bug fix</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#move-dynamic-geolocation-and-ancildat-autogen-caches-to-shortterm-location">Move dynamic geolocation and ancildat_autogen caches to shortterm location</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id21">Bug fix</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#minor-bug-fixes-to-overpass-predictor-and-tc-tracks-database">Minor bug fixes to overpass_predictor and tc_tracks_database</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id22">Bug fix</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#removed-astropy-usage-in-readers">Removed astropy usage in readers.</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id23">Bug fix</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#properly-filter-ingested-tles-using-a-satellite-prediction-list">Properly filter ingested tles using a satellite prediction list</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#testing">Testing</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#meteosat-10-12-terminator-tiny-test-sectors">Meteosat 10 &amp; 12 terminator tiny test sectors</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id24">Testing</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id25">Testing</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#update-tiny-sector-test-script-to-produce-annotated-tiny-sector-image-outputs-on-request">Update tiny sector test script to produce annotated tiny sector image outputs on request</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#documentation">Documentation</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#update-upcoming-and-tagged-versions">Update upcoming and tagged versions</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+
+  <div class="tocsection sourcelink">
+    <a href="../_sources/releases/1.17.3.rst.txt">
+      <i class="fa-solid fa-file-lines"></i> Show Source
+    </a>
+  </div>
+</div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item"><div class="footer">
+    <a href="http://www.navy.mil">Official US Navy Website</a>
+    <a href="http://www.navy.com/navy/">US Navy Recruiting</a>
+    <a href="http://www.nrlmry.navy.mil">NRL</a>
+    <a href="http://foia.navy.mil">Accessibility</a>
+    <a href="http://foia.navy.mil">Freedom of Information Act</a>
+    <a href="http://www.nrlmry.navy.mil/privacypolicy.htm">Security & Policy</a>
+    <a href="http://www.nrlmry.navy.mil/linknotice.html">Hyperlink Notice</a>
+    <a href="mailto:webmaster@nrlmry.navy.mil">webmaster@nrlmry.navy.mil</a><br>
+    <a href="http://www.nrlmry.navy.mil">
+    Naval Research Laboratory Marine Meteorology Division Monterey, CA</a><br>
+    7 Grace Hopper Avenue, STOP 2, Monterey, CA 93943-5502
+</div></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

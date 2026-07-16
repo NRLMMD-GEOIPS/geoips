@@ -1,0 +1,913 @@
+Version 1.17.2 (2026-07-16)
+***************************
+
+ * *Bug fix*: Use pkgname version in sphinx template rather than geoips version
+ * *Bug fix*: Do not attempt to list output comparison directory if it does not exist.
+ * *Bug fix*: Use area_def.area_id rather than description as the unique identifier
+ * *Bug fix*: Include synoptic time in tc area_def area_ids, and filter sector list based on parsed storm_id
+ * *Bug fix*: Use storm_id rather than area_id in text_winds_tc_fname
+ * *Bug fix*: Do not fail if processing stats cannot be written to database
+ * *Bug fix*: 1.17.2 ami_netcdf bug fix patch
+ * *Bug fix*: Fixed a typo
+ * *Bug fix*: Allow interactive pytest to make better use of defaults in pytest.ini
+ * *Bug fix*: Separate build_docs and check_code into a lint pytest marker
+ * *Bug fix*: For test output consistency, unset all www output location env vars from test_integration.py
+   setup_environment
+ * *Bug fix*: Fix brassy release note validation errors
+ * *Bug fix*: Pin astropy to 7.1.0 and numpy to <2.4.0 for compatibility
+ * *Bug fix*: Improve ami_netcdf error handling for missing files
+ * *Bug fix*: Fix netcdf4 import order issues
+ * *Bug fix*: Update test data urls to include ami data
+ * *Bug fix*: Updating imerg version changes
+ * *Bug fix*: Assorted minor bug fixes.
+ * *Enhancement*: Set the default tc metadata for metadata_default output formatter to current list of tc sector_info
+ * *Enhancement*: Sgli reader, products, and cloud phase rgb
+ * *Enhancement*: Update docker documentation and configuration
+ * *Enhancement*: Rewrite geotiff output checker
+ * *Enhancement*: Add environment variable for private plugin installation
+ * *Enhancement*: Add regex checks to integration test outputs
+ * *Enhancement*: Add --no-fail-on-missing-data flag to pytest
+ * *Enhancement*: Add x_size and y_size kwargs to imagery_annotated output formatter.
+ * *Testing*: Rename tiny sector products
+ * *Testing*: Update global_terminator_satzen.sh to only take arguments and not run a fixed list with no arguments.
+ * *Testing*: Meteosat eu and io general land ocean tiny test sector
+ * *Testing*: Himawari-8 20200405t0000z terminator tiny test sector
+ * *Testing*: Himawari general land ocean tiny test sector
+ * *Testing*: Allow producing geotiff tiny sector output along with imagery_clean by env var request
+ * *Testing*: Update test_data_seviri for 1.17.2 release
+ * *Release updates - open source upload*: Open source upload
+ * *Installation*: Update to geoips_tc_decks_dir, geoips_tc_decks_db, and add geoips_tc_decks_type
+ * *Documentation*: Update upcoming and tagged versions
+ * *Documentation*: Allow specifying geoips_replace_output_paths in the environment
+ * *Bug fixes*: Correct logs for pre-sectoring data in config-based procflow.
+ * *Bug fixes*: Add numpy representer to yaml.safe_load to ensure numpy types can be written to yaml outputs
+ * *Bug fixes*: Use pandas to_pydatetime on return from to_datetime for numpy 2.3 upgrade
+ * *Bug fixes*: Update indexing in fci reader for numpy 2.3
+ * *Bug fixes*: Fix numpy 2.3 attribute serialization in xarray.to_netcdf
+ * *Continuous integration*: Update docker ignore and git ignore configurations
+ * *Continuous integration*: Update release note documentation
+
+Bug fix
+=======
+
+Use pkgname version in sphinx template rather than geoips version
+-----------------------------------------------------------------
+
+Previously the geoips version was used for all package documentation builds.
+Update sphinx template to use PKGNAME when importing the version to ensure the
+correct current version is used.
+
+::
+
+     modified: docs/source/_templates/sphinx_conf.template.py
+
+Bug fix
+=======
+
+Do not attempt to list output comparison directory if it does not exist.
+------------------------------------------------------------------------
+
+This was preventing new test scripts from running with a comparison path
+that did not already have an existing output directory.  Update so log is
+printed noting that the output directory does not exist if it does not yet
+exist, else list the directory.
+
+::
+
+     modified: geoips/interfaces/module_based/output_checkers.py
+
+Bug fix
+=======
+
+Use area_def.area_id rather than description as the unique identifier
+---------------------------------------------------------------------
+
+Description is not guaranteed to be unique between sectors (it is not validated
+in any way), but area_id is expected to match the sector plugin name, which
+explicitly must be unique. Also, descriptions can be very long and unwieldy (many
+lines) when used as an identifier in logs... area_id is more appropriate.
+
+Update all instances of area_def.description to area_def.area_id.
+
+Additionally, this required the below update to include the synoptic time in the
+TC area ids, to ensure uniqueness, and using the storm_id in the sector_info
+for filtering command line requested TC sector list (so we do not have to include
+a specific time in the command line sector list request, but just the storm ID
+and geoips will find the closest time).
+
+::
+
+     modified: geoips/plugins/modules/procflows/config_based.py
+     modified: geoips/plugins/modules/procflows/single_source.py
+
+Bug fix
+=======
+
+Include synoptic time in tc area_def area_ids, and filter sector list based on parsed storm_id
+----------------------------------------------------------------------------------------------
+
+Update the TC area defs to include the synoptic time in the area_id,
+to ensure uniqueness for each storm location (since they are each unique sectors),
+and update the tc sector_list filtering to use the sector_info storm_id rather than
+the area_def.area_id when determining which sectors to process, allowing us to
+only request the storm id command line and allow geoips to determine the appropriate
+time programmatically.
+
+This required adding the storm_id field to the bdeck_parser to ensure the
+geoips-style storm id is included in the output fields.
+
+There is also one test output that uses metadata_tc vs metadata_default.  Update
+sar nrcs test output metadata YAML with new storm_id field, since metadata_tc
+includes ALL sector_info fields in the output (metadata_default includes only
+a specific list of fields, new fields are not included, to avoid unnecessary
+updates to test outputs).
+
+::
+
+     modified: add storm_id: geoips/plugins/modules/sector_metadata_generators/bdeck_parser.py
+     modified: get_tc_area_id: geoips/sector_utils/tc_tracks.py
+     modified: get_tc/trackfile_area_defs: geoips/sector_utils/utils.py
+     modified: add storm_id:
+     tests/outputs/sar.tc.nrcs.imagery_annotated/20181025_203206_WP312018_sar-spd_sentinel-1_nrcs_130kts_58p51_res1p0-cr300.png.yaml
+
+Bug fix
+=======
+
+Use storm_id rather than area_id in text_winds_tc_fname
+-------------------------------------------------------
+
+So the text_winds_tc_fname filenames do not change, update to use storm_id rather
+than area_id.
+
+::
+
+     modified: geoips/plugins/modules/filename_formatters/text_winds_tc_fname.py
+
+Bug fix
+=======
+
+Do not fail if processing stats cannot be written to database
+-------------------------------------------------------------
+
+Sometimes the METADATA key from xobjs is dropped during processing, which causes
+the procflow to fail at the very end when writing processing statistics to the
+database. We should properly fix this, but for now catch the error and log as an
+error rather than failing.
+
+::
+
+     modified: geoips/plugins/modules/procflows/config_based.py
+
+Bug fix
+=======
+
+1.17.2 ami_netcdf bug fix patch
+-------------------------------
+
+The 1.17.2 release introduced a small bug which made the
+tests/unit_tests_long/plugins/modules/readers/test_readers.py ami_netcdf reader test
+fail. This was caused by the new implementation of satellite zenith angle masking.
+Reverting to the previous mechanics solved this. This still supports dynamic
+satzen masking which the new release implemented. Also, updated the 'get_test_files'
+function to use the new test_data_ami dataset rather than the ami data found in the
+test_data_noaa_aws dataset. The data is the exact same.
+
+Additionally, added registered_plugins.yaml to the .gitignore.
+
+::
+
+     modified: .gitignore
+     modified: geoips/plugins/modules/readers/ami_netcdf.py
+     modified: tests/integration_tests/full_install.sh
+
+Bug fix
+=======
+
+Fixed a typo
+------------
+
+Fixed a typo within single_source.
+
+::
+
+     modified: geoips/plugins/modules/procflows/single_source.py
+
+Bug fix
+=======
+
+Allow interactive pytest to make better use of defaults in pytest.ini
+---------------------------------------------------------------------
+
+* cd to directory when running pytest, do NOT pass path (otherwise,
+  it does not limit itself to unit_tests and integration_tests directories)
+* Pass "$@" directly to pytest call, so arguments are preserved.
+* Remove args and geoips-system commands, just use all.
+* Add -k as well as -m default args for individual commands, to allow filtering
+  with both -k and -m for short, long, required, optional, etc.
+
+::
+
+     modified: tests/utils/interactive_pytest.sh
+
+Bug fix
+=======
+
+Separate build_docs and check_code into a lint pytest marker
+------------------------------------------------------------
+
+Still include build_docs and check_code in integration pytest marker, but add
+a new 'lint' pytest marker for calling linting directly.
+
+::
+
+     modified: tests/integration_tests/test_integration.py
+     modified: pytest.ini
+
+Bug fix
+=======
+
+For test output consistency, unset all www output location env vars from test_integration.py setup_environment
+--------------------------------------------------------------------------------------------------------------
+
+For consistency in tests, ensure the output env vars are not set by default in the
+geoips test_integration.py setup_environment. Add argument to setup_environment
+requesting the WWW env vars should NOT be unset.  This ensures consistent
+testing by default, but allows you to explicitly test specific output locations
+if needed.
+
+::
+
+     modified: tests/integration_tests/test_integration.py
+     modified: geoips/geoips_utils.py
+
+Bug fix
+=======
+
+Fix brassy release note validation errors
+-----------------------------------------
+
+Corrected date validation where finish date was before start date.
+Fixed internal field format and removed invalid repo_url fields
+when internal field is used.
+
+::
+
+     modified: docs/source/releases/1.16.0/946-handle-singular-and-plural-forms-of-plugins-cleanly.yaml
+     modified: docs/source/releases/1.14.5/770-ingest-amsu-a-datasets-from-mirs-files.yaml
+     modified: docs/source/releases/1.14.5/775-fix-which-version-of-geoips-is-displayed-at-the-command-line.yaml
+     modified: docs/source/releases/1.14.5/759-update-tc_decks_database-to-support-b-deck-files-1.yaml
+     modified:
+     docs/source/releases/1.14.5/773-revert-naming-of-mhs-variables-in-mhs-product-config-and-amsua_mhs_mirs-reader.yaml
+
+Bug fix
+=======
+
+Pin astropy to 7.1.0 and numpy to <2.4.0 for compatibility
+----------------------------------------------------------
+
+Pinned AstroPy to version 7.1.0 and numpy to versions below 2.4.0 to prevent incompatibility issues with numpy 2.4.0
+
+::
+
+     modified: environments/1.17.1_siteinstall_pip_requirements_20251022.txt
+     modified: pyproject.toml
+
+Bug fix
+=======
+
+Improve ami_netcdf error handling for missing files
+---------------------------------------------------
+
+Updated ami_netcdf reader to provide comprehensible error messages when no files are passed, rather than failing with
+esoteric errors later in the process. Also removed empty log statements.
+
+::
+
+     modified: geoips/plugins/modules/readers/ami_netcdf.py
+
+Bug fix
+=======
+
+Fix netcdf4 import order issues
+-------------------------------
+
+Added netcdf4 import to geoips-init.py to fix issues with XArray and netcdf import orders, resolving conflicts between
+different netcdf4 readers used by XArray and netcdf4
+
+::
+
+     modified: geoips/__init__.py
+
+Bug fix
+=======
+
+Update test data urls to include ami data
+-----------------------------------------
+
+The test data URLs for ancillary information have been updated to include the
+AMI dataset for version 1.15.1. This ensures that tests relying on AMI data
+can now access the correct resources.
+
+::
+
+     modified: geoips/geoips/commandline/ancillary_info/test-data-urls.yaml
+
+Bug fix
+=======
+
+Updating imerg version changes
+------------------------------
+
+There are some variable changes between V06B and V07B in IMERG data. This includes:
+V06B                     V07B
+Grid/precipitationCal -> Grid/precipitation
+Grid/HQprecipitation -> Grid/Intermediate/MWprecipitation
+Grid/HQprecipSource -> Grid/Intermediate/MWprecipSource
+Grid/HQobservationTime -> Grid/Intermediate/MWobservationTime
+Grid/IRprecipitation -> Grid/Intermediate/IRprecipitation
+Grid/IRkalmanFilterWeight -> Grid/Intermediate/IRinfluence
+Grid/precipitationUncal -> Grid/Intermediate/precipitationUncal
+
+The epoch time has also changed from 1970-01-01 to 1980-01-06.
+
+::
+
+     added: tests/outputs/imerg.tc.Rain.imagery_clean/20251028_193000_AL132025_imerg_GPM_Rain_145kts_60p11_1p0.png
+     added: tests/sectors/tc_bdecks/bal132025.dat
+     modified: geoips/plugins/modules/readers/abi_netcdf.py
+     modified: geoips/plugins/modules/readers/imerg_hdf5.py
+     modified: tests/scripts/imerg.tc.Rain.imagery_clean.sh
+
+Bug fix
+=======
+
+Assorted minor bug fixes.
+-------------------------
+
+* 1.16.0 release note had start after finish date, broke build_docs.sh.
+* sector resolution should be number not integer in jsonschema
+* Include 'not disabled' by default in all interactive_pytest.sh commands
+
+  * Explicitly request 'disabled' tests.
+* Minor change to the 3 geotiff outputs (not visible to the naked eye, amsr2, ami,
+  viirs)
+
+::
+
+     modified: docs/source/releases/1.16.0/946-handle-singular-and-plural-forms-of-plugins-cleanly.yaml
+     modified: geoips/schema/sectors/specs/area_definition.yaml
+     modified: tests/utils/interactive_pytest.sh
+     modified:
+     tests/outputs/amsr2.global_20km_longlat.89H-Physical.cogeotiff/20200518.062048.gcom-w1.amsr2.89H-Physical.global_20km_longlat.18p37.star.20p0.tif
+     modified: tests/outputs/ami.tc.WV.geotiff/20231208_030032_SH032024_ami_GK-2A_WV_115kts_100p00_1p0.tif
+     modified:
+     tests/outputs/viirsday.global.Night-Vis-IR.cogeotiff_rgba/20210209.074210.noaa-20.viirs.Night-Vis-IR.global_cylindrical.2p00.NASA.20p0.tif
+
+Enhancement
+===========
+
+Set the default tc metadata for metadata_default output formatter to current list of tc sector_info
+---------------------------------------------------------------------------------------------------
+
+To prevent updating every single TC metadata YAML output when a field is added to
+the trackfile parsers / TC sector_info dictionary, have an explicit list of fields
+to include in the metadata_default.py output formatter.  Any new fields will NOT
+be written to the YAML metadata_default output.
+
+This allows us to test the metadata_tc output formatter (which includes ALL
+metadata fields) separately from the metadata_default, but still allow outputting
+metadata_default for any product when desired.
+
+metadata_default fields will validate that standard fields like final_storm_name,
+invest_number, deck_line, vmax etc do not change, without adding new fields.
+
+::
+
+     modified: geoips/plugins/modules/output_formatters/metadata_default.py
+
+Enhancement
+===========
+
+Sgli reader, products, and cloud phase rgb
+------------------------------------------
+
+SGLI readers, and nominal products. Added EUMETSAT based Cloud Phase RGB product for both VIIRS and SGLI. Upgraded
+RGB-Default algorithm to better handle kwargs and data manipulation steps. Fixed west pac sector to have clean region
+name for output, removed spacing. Modified data.py to catch a case for accepting all variables from a product yaml file.
+
+::
+
+     added: docs/source/releases/latest/977-gcomc1-sgli.yaml
+     added: geoips/plugins/modules/readers/sgli_l1b_hdf5.py
+     added: geoips/plugins/yaml/products/sgli.yaml
+     added: tests/outputs/sgli.static.IR-RGB.imagery_clean/20251018.000200.GCOM-C1.sgli.IR-RGB.korea.76p68.JAXA.1p0.png
+     added: tests/scripts/sgli.static.IR-RGB.imagery_clean.sh
+     modified: geoips/plugins/modules/algorithms/RGB_Default.py
+     modified: geoips/plugins/yaml/products/viirs.yaml
+     modified: geoips/plugins/yaml/sectors/static/w_pacific.yaml
+     modified: geoips/xarray_utils/data.py
+     modified: tests/integration_tests/test_integration.py
+
+Enhancement
+===========
+
+Update docker documentation and configuration
+---------------------------------------------
+
+Updated Dockerfile with improvements for developer usability and build process. Added geoips_user to sudo group,
+installed vim, ssh, wget, and sudo. Opened permissions on output and packages to prevent permission errors in dev build
+stage.
+
+::
+
+     modified: Dockerfile
+
+Enhancement
+===========
+
+Rewrite geotiff output checker
+------------------------------
+
+Completely rewrote the GeoTIFF output checker to actually check test data information inside the GeoTIFF files rather
+than just diffing files directly
+
+::
+
+     modified: geoips/plugins/modules/output_checkers/geotiff.py
+
+Enhancement
+===========
+
+Add environment variable for private plugin installation
+--------------------------------------------------------
+
+Added GEOIPS_USE_PRIVATE_PLUGINS environment variable to site install - if not set, private plugins wont be installed;
+if set to true, private plugins will be installed. This allows Dockerfile to build correctly in different contexts.
+
+::
+
+     modified: tests/integration_tests/site_install.sh
+
+Enhancement
+===========
+
+Add regex checks to integration test outputs
+--------------------------------------------
+
+Added regex checks to output logs from integration tests to identify if tests failed because files were missing (e.g.,
+"no files found on disk" or "blank file was not found") and error in a clearer way. Also logged pytest contents to
+pytest log.
+
+::
+
+     modified: tests/integration_tests/test_integration.py
+
+Enhancement
+===========
+
+Add --no-fail-on-missing-data flag to pytest
+--------------------------------------------
+
+Added optional --no-fail-on-missing-data flag to integration pytest. When passed, tests will xfail if data is missing;
+when not passed, tests will fail normally. Updated test reader script to provide more comprehensible log outputs when
+mean differs from expected.
+
+::
+
+     modified: tests/conftest.py
+     modified: tests/integration_tests/test_integration.py
+     modified: tests/unit_tests_long/plugins/modules/readers/test_readers.py
+
+Enhancement
+===========
+
+Add x_size and y_size kwargs to imagery_annotated output formatter.
+-------------------------------------------------------------------
+
+Allows specifying x_size and y_size separately from the area definition shape.
+This is useful if you are producing multiple output formats for a single sector,
+and you do not need as high resolution output for the annotated image as other
+potential outputs.  This prevents reprocessing the data for multiple sized sectors,
+but still allows outputting a lower resolution / smaller annotated image.
+
+This reduced the time to write an 8250x8000 sector from 42s for the full size
+to 20s for 515x500, plus MUCH less space on disk.
+
+::
+
+     modified: geoips/plugins/modules/output_formatters/imagery_annotated.py
+
+Testing
+=======
+
+Rename tiny sector products
+---------------------------
+
+Just channel based, not Infrared. Had to update all the tiny sector test outputs,
+update the tiny sector pytest script for variable names, as well as update the
+product names in the integration test product YAMLs.
+
+Additionally, the tiny_sectors_geostationary.sh script required an update ONLY to
+the comment identifying a possible product_name.  Added detailed usage and
+explanation of the tiny_sectors_geostationary.sh script while I was at it.
+
+::
+
+     renamed: geoips/plugins/yaml/products/integration_tests/Test-Day-Night.yaml
+     renamed: geoips/plugins/yaml/products/integration_tests/Test-Day-Only.yaml
+     renamed: geoips/plugins/yaml/products/integration_tests/Test-Night-Only.yaml
+     renamed:
+     tests/integration_tests/tiny_sectors/outputs/test_goes*Test-ABI-B14-*/*.goes*.abi.Test-ABI-B14-*.test_goes*.png
+     modified: geoips/plugins/yaml/products/integration_tests/Test-Infrared-Day-Night.yaml
+     modified: geoips/plugins/yaml/products/integration_tests/Test-Infrared-Day-Only.yaml
+     modified: geoips/plugins/yaml/products/integration_tests/Test-Infrared-Night-Only.yaml
+     modified: setup/bash_setup/screenrc_standard
+     modified: tests/integration_tests/test_tiny_sectors_geoips.py
+     modified: tests/integration_tests/tiny_sectors/tiny_sectors_geostationary.sh
+
+Testing
+=======
+
+Update global_terminator_satzen.sh to only take arguments and not run a fixed list with no arguments.
+-----------------------------------------------------------------------------------------------------
+
+Now we can call pytest -m tiny_sector_global_example and it will run them all,
+so just specify explicitly in the test_tiny_sectors_geoips.py script.
+
+Also add comments to the test script and procflow config and pytest script
+explaining what it is for
+
+::
+
+     modified: tests/example_scripts/global_terminator_satzen.sh
+     modified: tests/example_scripts/satzen.yaml
+     modified: tests/integration_tests/test_tiny_sectors_geoips.py
+
+Testing
+=======
+
+Meteosat eu and io general land ocean tiny test sector
+------------------------------------------------------
+
+Same location for both Meteosat EU and IO, off the coast of Spain, over
+the Mediterranean.
+
+* Add meteoeu and meteoio landocean 3km tiny sector, off the coast of
+  Spain, over the Mediterranean
+* Add meteoeu and meteoio full disk tiny sectors
+* Added meteoeu tiny sector outputs (no available meteoio dataset right now).
+  landocean using fci, full disk using seviri.
+* Update test_tiny_sectors_geoips.py with the global image evaluation for
+  the 20250624 MSG-3 (METEOEU) dataset (remove unused 2020 MSG-1 METEO-IO
+  dataset example).
+* Update all seviri global sector test scripts to use new meteoeu
+  landocean tiny sector, and update test outputs accordingly.
+* Update all seviri unprojected image outputs to output the standard
+  300x300 test output image size, vs previous 1000x1000, and update
+  test outputs accordingly.  Note we can't use tiny sectors for the
+  self register / unprojected image outputs.
+
+This update saved only about 15% processing time improvement for the seviri
+sectored test scripts, but about 85% file size improvement (~1MB for full disk
+outputs, <100KB for tiny sector outputs).
+
+::
+
+     deleted:
+     tests/outputs/seviri.Convective_Storms.imagery_clean/20250624.120000.msg-3.seviri.Convective_Storms.global_cylindrical.22p84.nesdisstar.20p0.png
+     deleted:
+     tests/outputs/seviri.Day_Microphys_Summer.imagery_clean/20250624.120000.msg-3.seviri.Day_Microphys_Summer.global_cylindrical.22p84.nesdisstar.20p0.png
+     deleted:
+     tests/outputs/seviri.Day_Microphys_Winter.imagery_clean/20250624.120000.msg-3.seviri.Day_Microphys_Winter.global_cylindrical.22p84.nesdisstar.20p0.png
+     deleted:
+     tests/outputs/seviri.Day_Solar.imagery_clean/20250624.120000.msg-3.seviri.Day_Solar.global_cylindrical.22p84.nesdisstar.20p0.png
+     deleted:
+     tests/outputs/seviri.Dust-RGB.imagery_clean/20250624.120000.msg-3.seviri.Dust_RGB.global_cylindrical.22p84.nesdisstar.20p0.png
+     deleted:
+     tests/outputs/seviri.Natural-Color.imagery_clean/20250624.120000.msg-3.seviri.Natural_Color.global_cylindrical.22p84.nesdisstar.20p0.png
+     deleted:
+     tests/outputs/seviri.Night_Microphys.imagery_clean/20250624.120000.msg-3.seviri.Night_Microphys.global_cylindrical.22p84.nesdisstar.20p0.png
+     deleted:
+     tests/outputs/seviri.Volcanic_Ash.imagery_clean/20250624.120000.msg-3.seviri.Volcanic_Ash.global_cylindrical.22p84.nesdisstar.20p0.png
+     deleted:
+     tests/outputs/seviri.airmass.imagery_clean/20250624.120000.msg-3.seviri.airmass.global_cylindrical.22p84.nesdisstar.20p0.png
+     added:
+     tests/integration_tests/tiny_sectors/outputs/test_meteoeu_eqc_3km_landocean_Test-FCI-B14-Day-Only/20250623.120000.MTG-I1.fci.Test-FCI-B14-Day-Only.test_meteoeu_eqc_3km_landocean.100p00.EUMETSAT.3p0.png
+     added:
+     tests/integration_tests/tiny_sectors/outputs/test_meteoeu_longlat_50km_fulldisk_Test-SEVIRI-B9-Day-Only/20250624.120000.msg-3.seviri.Test-SEVIRI-B9-Day-Only.test_meteoeu_longlat_50km_fulldisk.86p42.nesdisstar.53p7.png
+     added:
+     tests/outputs/seviri.Convective_Storms.imagery_clean/20250624.120000.msg-3.seviri.Convective_Storms.test_meteoeu_eqc_3km_landocean.100p00.nesdisstar.3p0.png
+     added:
+     tests/outputs/seviri.Day_Microphys_Summer.imagery_clean/20250624.120000.msg-3.seviri.Day_Microphys_Summer.test_meteoeu_eqc_3km_landocean.100p00.nesdisstar.3p0.png
+     added:
+     tests/outputs/seviri.Day_Microphys_Winter.imagery_clean/20250624.120000.msg-3.seviri.Day_Microphys_Winter.test_meteoeu_eqc_3km_landocean.100p00.nesdisstar.3p0.png
+     added:
+     tests/outputs/seviri.Day_Solar.imagery_clean/20250624.120000.msg-3.seviri.Day_Solar.test_meteoeu_eqc_3km_landocean.100p00.nesdisstar.3p0.png
+     added:
+     tests/outputs/seviri.Dust-RGB.imagery_clean/20250624.120000.msg-3.seviri.Dust_RGB.test_meteoeu_eqc_3km_landocean.100p00.nesdisstar.3p0.png
+     added:
+     tests/outputs/seviri.Natural-Color.imagery_clean/20250624.120000.msg-3.seviri.Natural_Color.test_meteoeu_eqc_3km_landocean.100p00.nesdisstar.3p0.png
+     added:
+     tests/outputs/seviri.Night_Microphys.imagery_clean/20250624.120000.msg-3.seviri.Night_Microphys.test_meteoeu_eqc_3km_landocean.100p00.nesdisstar.3p0.png
+     added:
+     tests/outputs/seviri.Volcanic_Ash.imagery_clean/20250624.120000.msg-3.seviri.Volcanic_Ash.test_meteoeu_eqc_3km_landocean.100p00.nesdisstar.3p0.png
+     added:
+     tests/outputs/seviri.airmass.imagery_clean/20250624.120000.msg-3.seviri.airmass.test_meteoeu_eqc_3km_landocean.100p00.nesdisstar.3p0.png
+     added:
+     geoips/plugins/yaml/sectors/integration_tests/geostationary/meteo_sectors/test_meteoeu_eqc_3km_landocean.yaml
+     added:
+     geoips/plugins/yaml/sectors/integration_tests/geostationary/meteo_sectors/test_meteoio_eqc_3km_landocean.yaml
+     added:
+     geoips/plugins/yaml/sectors/integration_tests/geostationary/meteo_sectors/test_meteoeu_longlat_50km_fulldisk.yaml
+     added:
+     geoips/plugins/yaml/sectors/integration_tests/geostationary/meteo_sectors/test_meteoio_longlat_50km_fulldisk.yaml
+     modified:
+     tests/outputs/seviri.WV-Upper.no_self_register.unprojected_image/20250624.120000.msg-3.seviri.WV-Upper-No-SR.unk.nesdisstar..png
+     modified: tests/integration_tests/test_tiny_sectors_geoips.py
+     modified: tests/scripts/seviri.Convective_Storms.imagery_clean.sh
+     modified: tests/scripts/seviri.Day_Microphys_Summer.imagery_clean.sh
+     modified: tests/scripts/seviri.Day_Microphys_Winter.imagery_clean.sh
+     modified: tests/scripts/seviri.Day_Solar.imagery_clean.sh
+     modified: tests/scripts/seviri.Dust_RGB.imagery_clean.sh
+     modified: tests/scripts/seviri.Natural_Color.imagery_clean.sh
+     modified: tests/scripts/seviri.Night_Microphys.imagery_clean.sh
+     modified: tests/scripts/seviri.Volcanic_Ash.imagery_clean.sh
+     modified: tests/scripts/seviri.WV-Upper.no_self_register.unprojected_image.sh
+     modified: tests/scripts/seviri.WV-Upper.unprojected_image.sh
+     modified: tests/scripts/seviri.airmass.imagery_clean.sh
+
+Testing
+=======
+
+Himawari-8 20200405t0000z terminator tiny test sector
+-----------------------------------------------------
+
+Create terminator tiny sector for himawari-8 20200405T0000Z test dataset.
+Used for potential test scripts that are dependent on day/night data.
+
+::
+
+     added:
+     geoips/plugins/yaml/sectors/integration_tests/geostationary/himawari_sectors/himawari8_20200405T0000Z/test_himawari8_eqc_10km_terminator_20200405T0000Z.yaml
+     added:
+     tests/integration_tests/tiny_sectors/outputs/test_himawari8_eqc_10km_terminator_20200405T0000Z_Test-AHI-B13-Day-Only/20200405.000000.himawari-8.ahi.Test-AHI-B13-Day-Only.test_himawari8_eqc_10km_terminator_20200405T0000Z.75p94.jma.10p0.png
+     modified: tests/integration_tests/test_tiny_sectors_geoips.py
+
+Testing
+=======
+
+Himawari general land ocean tiny test sector
+--------------------------------------------
+
+Use the standard geoips tiny test sector test_himawari_eqc_3km_landocean
+for the geoips tiny test scripts.
+
+::
+
+     added: geoips/plugins/yaml/sectors/integration_tests/geostationary/ahi_sectors/test_himawari_eqc_3km_landocean.yaml
+     added:
+     tests/integration_tests/tiny_sectors/outputs/test_himawari_eqc_3km_landocean_Test-AHI-B13-Day-Only/20200405.000000.himawari-8.ahi.Test-AHI-B13-Day-Only.test_himawari_eqc_3km_landocean.100p00.jma.3p0.png
+     modified: tests/integration_tests/test_tiny_sectors_geoips.py
+
+Testing
+=======
+
+Allow producing geotiff tiny sector output along with imagery_clean by env var request
+--------------------------------------------------------------------------------------
+
+If GEOIPS_CREATE_TINY_SECTOR_TEST_GEOTIFF_OUTPUTS is set, create a geotiff
+tiny sector output as well as the imagery_clean comparison output. This is
+for reference only, and not generally required for regular integration tests.
+
+Remove the old un-referenced test_geoips_run.sh script, since you can
+now produce the geotiff outputs from the tiny_sectors_geostationary.sh
+script.
+
+::
+
+     moved: geoips/plugins/yaml/sectors/integration_tests/test_geoips_run.sh
+     modified: tests/integration_tests/tiny_sectors/tiny_sectors_geostationary.sh
+     modified: tests/integration_tests/test_tiny_sectors_geoips.py
+
+Testing
+=======
+
+Update test_data_seviri for 1.17.2 release
+------------------------------------------
+
+This update adds MSG2 (Meteosat-09) data to the test_data_seviri test dataset. This
+data includes a terminator and will make use of tiny sectors for applicable plugin
+packages. This dataset replaces the previous 1.16.1 test_data_seviri dataset.
+
+::
+
+     modified: geoips/commandline/ancillary_info/test-data-urls.yaml
+
+Release updates - open source upload
+====================================
+
+Open source upload
+------------------
+
+This repo updated with current geoips version release
+
+::
+
+     modified: standard sync files
+     modified: release notes
+
+Installation
+============
+
+Update to geoips_tc_decks_dir, geoips_tc_decks_db, and add geoips_tc_decks_type
+-------------------------------------------------------------------------------
+
+* Standardize to GEOIPS prefix env vars for TC_DECKS_DIR and TC_DECKS_DB, update in
+  both base_paths.py and tc_decks_database.py.
+* Add GEOIPS_TC_DECKS_TYPE, which we can use when querying the TC decks database.
+
+::
+
+     modified: geoips/filenames/base_paths.py
+     modified: geoips/sector_utils/tc_tracks_database.py
+
+Documentation
+=============
+
+Update upcoming and tagged versions
+-----------------------------------
+
+* Tagged version: 1.17.2
+* Upcoming version: 1.17.3
+
+::
+
+     modified: .github/versions/tagged_version
+     modified: .github/versions/upcoming_version
+
+Documentation
+=============
+
+Allow specifying geoips_replace_output_paths in the environment
+---------------------------------------------------------------
+
+To allow specifying different environment variables for output path replacement,
+allow an environment variable override in geoips/filenames/base_paths.py allowing
+passing in other than the default TCWWW, PUBLICWWW, TCPRIVATEWWW, PRIVATEWWW env
+vars.
+
+* Add GEOIPS_REPLACE_OUTPUT_PATHS to filenames/base_paths.py. It should be a space
+  delimited list of env vars WITHOUT \$ in env var, with the \$ added in the split
+  list in geoips.
+* Loop through GEOIPS_REPLACE_OUTPUT_PATHS in geoips_utils for replacing variables,
+  rather than explicit list of env vars. Note we still must loop through the
+  standard non-output-path env vars explicitly (GEOIPS_OUTDIRS, GEOIPS_PACKAGES_DIR,
+  etc), since these are env vars that are needed/used for other thigns, not
+  just the output paths.
+* Do NOT setup_environment from the full_setup, etc fixtures, call setup environment
+  from each individual test script function with markers.  This allows individual
+  groups of tests to request NOT unsetting the env vars found in GEOIPS_REPLACE_OUTPUT_PATHS,
+  by passing in the requested argument.
+* Add unset_output_path_env_var argument to test_integration.py, unsetting the
+  output path env vars for consistency by default, but allowing maintaining them
+  if we need to test the output env vars themselves.
+* Loop through GEOIPS_REPLCE_OUTPUT_PATHS in check_output_file_list rather than
+  hard coded list.
+* Don't include all REALTIME_OUTPUT_ARGS options in interactive_pytest.sh (since
+  we include them in the realtime tests), just note that it defaults to writing
+  output file list to temp location, comparing output, and copying output files.
+* Also remove apparently unsupported arguments to geoips_utils... This would have
+  provided unexpected results (ie, asking for specific variables to replace,
+  then not actually replacing them), so removing to make sure it breaks catastrophically
+  if it was attempted to be used somewhere, so we can re-add and fix so it works.
+  But perhaps it is not needed (just use the GEOIPS_REPLACE_OUTPUT_PATHS)
+* Also, remove create registries call from calls to full_install, etc from the
+  integration tests (takes MUCH longer to start up the pytests with the create
+  registries).
+
+::
+
+     modified: geoips/filenames/base_paths.py
+     modified: geoips/geoips_utils.py
+     modified: tests/integration_tests/test_integration.py
+     modified: tests/utils/check_output_file_list.sh
+     modified: tests/utils/interactive_pytest.sh
+     modified: tests/integration_tests/base_install.sh
+     modified: tests/integration_tests/full_install.sh
+     modified: tests/integration_tests/site_install.sh
+
+Bug fixes
+=========
+
+Correct logs for pre-sectoring data in config-based procflow.
+-------------------------------------------------------------
+
+Previously the logs identified the pre-sectoring option within config-based
+procflow as "SELF REGISTERED". Update logs to include a log statement for cases
+of no pre-sectoring, as well as updating the pre-sectoring logs to indicate
+SECTOR AREA_DEF rather than SECTOR SELF REGISTER (since self registering actually
+uses NO pre-sectoring).
+
+No actual change to the logic, just clarifying the log outputs and simplifying
+the conditional.
+
+::
+
+     modified: geoips/plugins/modules/procflows/config_based.py
+
+Bug fixes
+=========
+
+Add numpy representer to yaml.safe_load to ensure numpy types can be written to yaml outputs
+--------------------------------------------------------------------------------------------
+
+As of NumPy 2.3, NumPy scalar types (e.g., np.float64, np.int64) are no longer
+automatically treated as native Python types by yaml.safe_dump, since numpy
+types are no longer subclasses of native Python types as of 2.3. This code
+explicitly registers custom representers to convert numpy types to standard Python
+types for YAML serialization.
+
+::
+
+     modified: geoips/sector_utils/yaml_utils.py
+
+Bug fixes
+=========
+
+Use pandas to_pydatetime on return from to_datetime for numpy 2.3 upgrade
+-------------------------------------------------------------------------
+
+* EWS-G pandas to_pydatetime vs to_datetime
+
+::
+
+     modified: geoips/plugins/modules/readers/ewsg_netcdf.py
+
+Bug fixes
+=========
+
+Update indexing in fci reader for numpy 2.3
+-------------------------------------------
+
+Updated indexing for NumPy 2.3 compatibility in FCI reader.
+Old code `Lv[line_inds, sample_inds]` fails with 2D indexers.
+Use xarray's `.isel()` with labeled DataArrays to preserve elementwise indexing
+and maintain xarray structure (dims, coordinates, and methods) under NumPy 2.3+.
+
+::
+
+     modified: geoips/plugins/modules/readers/fci_netcdf.py
+
+Bug fixes
+=========
+
+Fix numpy 2.3 attribute serialization in xarray.to_netcdf
+---------------------------------------------------------
+
+Resolved a TypeError caused by NumPy 2.3’s stricter dtype enforcement when writing
+Dataset and Variable attributes to NetCDF files. Attributes containing non-primitive
+types such as dicts, lists, NumPy scalars, or datetimes are now automatically converted
+to JSON-safe strings prior to serialization. This prevents errors such as
+"TypeError: illegal data type for attribute ... got O" and
+"TypeError: Object of type int32 is not JSON serializable" when calling
+`xarray.to_netcdf()` with metadata containing Python or NumPy objects.
+
+Maintained custom handling for area_definitions.
+
+Additionally, logging updates to both config based and xarray_utils/data.py,
+printing additional information for composited datasets (including coverage
+for each file included in the composite, as well as the currently merged
+data).
+
+::
+
+     modified: geoips/plugins/modules/output_formatters/netcdf_xarray.py
+     modified: geoips/plugins/modules/procflows/config_based.py
+     modified: geoips/xarray_utils/data.py
+
+Continuous integration
+======================
+
+Update docker ignore and git ignore configurations
+--------------------------------------------------
+
+Updated .dockerignore and .gitignore files to allow GIPS test data build mount. Updated Dockerfile to use this build
+mount when building, adding new options in dev step for improved developer usability.
+
+::
+
+     modified: .dockerignore
+     modified: .gitignore
+
+Continuous integration
+======================
+
+Update release note documentation
+---------------------------------
+
+Updated release note names
+
+::
+
+     modified: docs/source/releases/1.17.2/1.17.2-os-patches-bsl5.yaml
+     modified: docs/source/releases/1.17.2/1.17.2-os-patches-jsolbrig.yaml

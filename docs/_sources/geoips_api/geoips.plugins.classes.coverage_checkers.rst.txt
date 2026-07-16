@@ -1,0 +1,61 @@
+geoips.plugins.classes.coverage\_checkers package
+=================================================
+
+Submodules
+----------
+
+geoips.plugins.classes.coverage\_checkers.center\_radius module
+---------------------------------------------------------------
+
+.. automodule:: geoips.plugins.classes.coverage_checkers.center_radius
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+geoips.plugins.classes.coverage\_checkers.center\_radius\_rgba module
+---------------------------------------------------------------------
+
+.. automodule:: geoips.plugins.classes.coverage_checkers.center_radius_rgba
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+geoips.plugins.classes.coverage\_checkers.masked\_arrays module
+---------------------------------------------------------------
+
+.. automodule:: geoips.plugins.classes.coverage_checkers.masked_arrays
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+geoips.plugins.classes.coverage\_checkers.numpy\_arrays\_nan module
+-------------------------------------------------------------------
+
+.. automodule:: geoips.plugins.classes.coverage_checkers.numpy_arrays_nan
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+geoips.plugins.classes.coverage\_checkers.rgba module
+-----------------------------------------------------
+
+.. automodule:: geoips.plugins.classes.coverage_checkers.rgba
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+geoips.plugins.classes.coverage\_checkers.windbarbs module
+----------------------------------------------------------
+
+.. automodule:: geoips.plugins.classes.coverage_checkers.windbarbs
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: geoips.plugins.classes.coverage_checkers
+   :members:
+   :undoc-members:
+   :show-inheritance:

@@ -24,12 +24,43 @@ Upcoming (version AHEAD OF the cutting edge of git)
 
    upcoming
 
+Version 1.19
+------------
+
+.. toctree::
+   :maxdepth: 1
+
+   1.19.0
+
+Version 1.18
+------------
+
+.. toctree::
+   :maxdepth: 1
+
+   1.18.2
+   1.18.1
+   1.18.0
+
+Version 1.17
+------------
+
+.. toctree::
+   :maxdepth: 1
+
+   1.17.3
+   1.17.2
+   1.17.1
+   1.17.0
+
 Version 1.16
 ------------
 
 .. toctree::
    :maxdepth: 1
 
+   1.16.3
+   1.16.2
    1.16.1
    1.16.0
 

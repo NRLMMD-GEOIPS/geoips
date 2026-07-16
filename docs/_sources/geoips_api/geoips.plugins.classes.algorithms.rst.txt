@@ -1,0 +1,47 @@
+geoips.plugins.classes.algorithms package
+=========================================
+
+Subpackages
+-----------
+
+.. toctree::
+   :maxdepth: 4
+
+   geoips.plugins.classes.algorithms.pmw_tb
+   geoips.plugins.classes.algorithms.sfc_winds
+   geoips.plugins.classes.algorithms.visir
+
+Submodules
+----------
+
+geoips.plugins.classes.algorithms.RGB\_Default module
+-----------------------------------------------------
+
+.. automodule:: geoips.plugins.classes.algorithms.RGB_Default
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+geoips.plugins.classes.algorithms.absdiff\_mst module
+-----------------------------------------------------
+
+.. automodule:: geoips.plugins.classes.algorithms.absdiff_mst
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+geoips.plugins.classes.algorithms.single\_channel module
+--------------------------------------------------------
+
+.. automodule:: geoips.plugins.classes.algorithms.single_channel
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: geoips.plugins.classes.algorithms
+   :members:
+   :undoc-members:
+   :show-inheritance:

@@ -1,0 +1,27 @@
+geoips.plugins.classes package
+==============================
+
+Subpackages
+-----------
+
+.. toctree::
+   :maxdepth: 4
+
+   geoips.plugins.classes.algorithms
+   geoips.plugins.classes.colormappers
+   geoips.plugins.classes.coverage_checkers
+   geoips.plugins.classes.filename_formatters
+   geoips.plugins.classes.interpolators
+   geoips.plugins.classes.output_formatters
+   geoips.plugins.classes.readers
+   geoips.plugins.classes.sector_metadata_generators
+   geoips.plugins.classes.sector_spec_generators
+   geoips.plugins.classes.title_formatters
+
+Module contents
+---------------
+
+.. automodule:: geoips.plugins.classes
+   :members:
+   :undoc-members:
+   :show-inheritance:

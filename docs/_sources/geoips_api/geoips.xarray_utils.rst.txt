@@ -4,6 +4,14 @@ geoips.xarray\_utils package
 Submodules
 ----------
 
+geoips.xarray\_utils.coords module
+----------------------------------
+
+.. automodule:: geoips.xarray_utils.coords
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 geoips.xarray\_utils.data module
 --------------------------------
 

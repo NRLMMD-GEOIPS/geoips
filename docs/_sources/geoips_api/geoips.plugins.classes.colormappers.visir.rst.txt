@@ -1,0 +1,37 @@
+geoips.plugins.classes.colormappers.visir package
+=================================================
+
+Submodules
+----------
+
+geoips.plugins.classes.colormappers.visir.IR\_BD module
+-------------------------------------------------------
+
+.. automodule:: geoips.plugins.classes.colormappers.visir.IR_BD
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+geoips.plugins.classes.colormappers.visir.Infrared module
+---------------------------------------------------------
+
+.. automodule:: geoips.plugins.classes.colormappers.visir.Infrared
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+geoips.plugins.classes.colormappers.visir.WV module
+---------------------------------------------------
+
+.. automodule:: geoips.plugins.classes.colormappers.visir.WV
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: geoips.plugins.classes.colormappers.visir
+   :members:
+   :undoc-members:
+   :show-inheritance:

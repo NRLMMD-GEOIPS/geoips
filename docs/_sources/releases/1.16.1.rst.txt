@@ -1,18 +1,18 @@
-Version 1.16.1 (2025-10-14)
+Version 1.16.1 (2026-07-16)
 ***************************
 
  * *Bug fix*: Update arctic weather satellite sector path and test data repo path
- * *Bug fix*: Update geostationary readers for appropriate python 3.11 zarr usage
- * *Bug fix*: Rmdir latest folder before running build docs
  * *Bug fix*: Add site-nrlmmd-geoips option to interactive pytest
+ * *Bug fix*: Use geoips_testdata_dir vs geoips_packages_dir in viirs test script call.
+ * *Bug fix*: Rmdir latest folder before running build docs
+ * *Bug fix*: Update tc tracks database when passing one deck file at commandline
+ * *Bug fix*: Update geostationary readers for appropriate python 3.11 zarr usage
  * *Bug fix*: Renamed all remaining test scripts and output from global to global-cylindrical
+ * *Bug fix*: Update test image output with minor differences
  * *Bug fix*: Use realpath for repopath in build_docs.sh
  * *Bug fix*: Do not include trailing underscore in release notes
  * *Bug fix*: Combine and remove errant leading space in arctic weather satellite docstrings
  * *Bug fix*: Add modified file to auto-populate brassy changelog release note
- * *Bug fix*: Update tc tracks database when passing one deck file at commandline
- * *Bug fix*: Update test image output with minor differences
- * *Bug fix*: Use geoips_testdata_dir vs geoips_packages_dir in viirs test script call.
  * *Release updates*: Ensure check_code.sh calls flake8 from the current repository
  * *Release updates*: Bug fixes on the open source github.com geoips site integration tests.
  * *Release updates*: Update tagged_version and upcoming_version
@@ -43,20 +43,33 @@ Update arctic weather satellite sector path and test data repo path
 Bug fix
 =======
 
-Update geostationary readers for appropriate python 3.11 zarr usage
--------------------------------------------------------------------
+Add site-nrlmmd-geoips option to interactive pytest
+---------------------------------------------------
 
-* Remove with context - zarr no longer has a "close" method, so you can't use with
-* Only pass chunks in if not None - create_dataset method fails if chunks is passed in as None
+This should be all encompassing for everything required to test a complete
+github.com NRLMMD-GEOIPS installation. This includes all integration tests, as
+well as all short and long pytests.
+
+Additionally, ensure markers are passed properly to the pytest command from
+within interactive_pytest.sh - we can't include the quotes in the
+pytest_marker_arg variable, so include ONLY the markers in pytest_marker_arg,
+and include the -m within the actual call to pytest.
 
 ::
 
-     modified: geoips/plugins/modules/readers/abi_netcdf.py
-     modified: geoips/plugins/modules/readers/ahi_hsd.py
-     modified: geoips/plugins/modules/readers/ami_netcdf.py
-     modified: geoips/plugins/modules/readers/fci_netcdf.py
-     modified: geoips/plugins/modules/readers/seviri_hrit.py
-     modified: geoips/plugins/modules/readers/utils/geostationary_geolocation.py
+     modified: tests/utils/interactive_pytest.sh
+
+Bug fix
+=======
+
+Use geoips_testdata_dir vs geoips_packages_dir in viirs test script call.
+-------------------------------------------------------------------------
+
+How did we not catch this earlier?
+
+::
+
+     modified: tests/scripts/viirs.static.visible.imagery_clean.sh
 
 Bug fix
 =======
@@ -74,21 +87,33 @@ Just remove the latest folder if it is empty.
 Bug fix
 =======
 
-Add site-nrlmmd-geoips option to interactive pytest
----------------------------------------------------
+Update tc tracks database when passing one deck file at commandline
+-------------------------------------------------------------------
 
-This should be all encompassing for everything required to test a complete
-github.com NRLMMD-GEOIPS installation. This includes all integration tests, as
-well as all short and long pytests.
-
-Additionally, ensure markers are passed properly to the pytest command from
-within interactive_pytest.sh - we can't include the quotes in the
-pytest_marker_arg variable, so include ONLY the markers in pytest_marker_arg,
-and include the -m within the actual call to pytest.
+Check if length of sys.argv is greater than OR equal to two. Otherwise
+script would ignore a single deck file if passed at the commandline.
 
 ::
 
-     modified: tests/utils/interactive_pytest.sh
+     modified: geoips/commandline/update_tc_tracks_database.py
+
+Bug fix
+=======
+
+Update geostationary readers for appropriate python 3.11 zarr usage
+-------------------------------------------------------------------
+
+* Remove with context - zarr no longer has a "close" method, so you can't use with
+* Only pass chunks in if not None - create_dataset method fails if chunks is passed in as None
+
+::
+
+     modified: geoips/plugins/modules/readers/abi_netcdf.py
+     modified: geoips/plugins/modules/readers/ahi_hsd.py
+     modified: geoips/plugins/modules/readers/ami_netcdf.py
+     modified: geoips/plugins/modules/readers/fci_netcdf.py
+     modified: geoips/plugins/modules/readers/seviri_hrit.py
+     modified: geoips/plugins/modules/readers/utils/geostationary_geolocation.py
 
 Bug fix
 =======
@@ -157,6 +182,24 @@ Missed these.
 Bug fix
 =======
 
+Update test image output with minor differences
+-----------------------------------------------
+
+* VIIRS has minor differences throughout image (speckled)
+* DMW and MIMIC image edge differences
+
+::
+
+     modified:
+     tests/outputs/abi.static.DMW-LowMidHigh.imagery_windbarbs_multi_level/20210929.000020.goes-16.abi.DMW-LowMidHigh.w_atlantic.10p48.noaa.3p0.png
+     modified:
+     tests/outputs/viirs.static.visible.imagery_clean/20240925.043006.NOAA-21.viirs.Visible.se_asia.7p30.NOAA.1p0.png
+     modified:
+     tests/outputs/mimic_coarse.static.TPW-CIMSS.imagery_annotated/20210723.000000.tpw.mimic.TPW-CIMSS.global_cylindrical.83p60.cimss.20p0.png
+
+Bug fix
+=======
+
 Use realpath for repopath in build_docs.sh
 ------------------------------------------
 
@@ -172,7 +215,7 @@ Bug fix
 Do not include trailing underscore in release notes
 ---------------------------------------------------
 
-Remove trailing underscore from GEOIPS in release note.
+Remove trailing underscore from geoips in release note.
 sphinx thinks the trailing underscore is a link, and fails
 because it is not defined.
 
@@ -205,49 +248,6 @@ If all file lists are empty, sphinx will fail.
 ::
 
      modified: docs/source/releases/1.16.0/865-auto-populate-repo-url-and-start-date-for-brassy-changelogs.yaml
-
-Bug fix
-=======
-
-Update tc tracks database when passing one deck file at commandline
--------------------------------------------------------------------
-
-Check if length of sys.argv is greater than OR equal to two. Otherwise
-script would ignore a single deck file if passed at the commandline.
-
-::
-
-     modified: geoips/commandline/update_tc_tracks_database.py
-
-Bug fix
-=======
-
-Update test image output with minor differences
------------------------------------------------
-
-* VIIRS has minor differences throughout image (speckled)
-* DMW and MIMIC image edge differences
-
-::
-
-     modified:
-     tests/outputs/abi.static.DMW-LowMidHigh.imagery_windbarbs_multi_level/20210929.000020.goes-16.abi.DMW-LowMidHigh.w_atlantic.10p48.noaa.3p0.png
-     modified:
-     tests/outputs/viirs.static.visible.imagery_clean/20240925.043006.NOAA-21.viirs.Visible.se_asia.7p30.NOAA.1p0.png
-     modified:
-     tests/outputs/mimic_coarse.static.TPW-CIMSS.imagery_annotated/20210723.000000.tpw.mimic.TPW-CIMSS.global_cylindrical.83p60.cimss.20p0.png
-
-Bug fix
-=======
-
-Use geoips_testdata_dir vs geoips_packages_dir in viirs test script call.
--------------------------------------------------------------------------
-
-How did we not catch this earlier?
-
-::
-
-     modified: tests/scripts/viirs.static.visible.imagery_clean.sh
 
 Release updates
 ===============

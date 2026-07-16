@@ -1,16 +1,16 @@
-Version 1.14.4 (2025-10-14)
+Version 1.14.4 (2026-07-16)
 ***************************
 
  * *Enhancement*: Viirs l2 netcdf reader
  * *Enhancement*: Create mtg fci reader
- * *Bug fix*: Changed plaformdirs version in requirements.txt
- * *Bug fix*: Make code_of_conduct.md optional in build_docs.py
- * *Bug fix*: Resolve string-based output_checker_threshold_image return
  * *Bug fix*: Bug fix abi_l2_netcdf reader
+ * *Bug fix*: Allow seviri hrit reader to complete when hrv files present
  * *Bug fix*: Force brassy version >=0.0.3 in pyproject.toml, required by build_docs.py
  * *Bug fix*: Clean up log output for output checkers
+ * *Bug fix*: Changed plaformdirs version in requirements.txt
  * *Bug fix*: Bug fix atms reader - only crop to valid indices when key exists
- * *Bug fix*: Allow seviri hrit reader to complete when hrv files present
+ * *Bug fix*: Make code_of_conduct.md optional in build_docs.py
+ * *Bug fix*: Resolve string-based output_checker_threshold_image return
  * *Documentation*: Update upcoming and tagged versions
  * *Release process*: Add 1.14.4 release note
  * *Installation*: Update full install to include all packages available on github.com
@@ -75,44 +75,6 @@ data_manipulations.corrections module.
 Bug fix
 =======
 
-Changed plaformdirs version in requirements.txt
------------------------------------------------
-
-The previous platformdir version caused a circular dependency error, this updates the version number to allow
-installation from requirements.txt.
-
-::
-
-     modified: environments/requirements.txt
-
-Bug fix
-=======
-
-Make code_of_conduct.md optional in build_docs.py
--------------------------------------------------
-
-Allow documentation to build successfully if CODE_OF_CONDUCT does not exist.
-
-::
-
-     modified: docs/build_docs.py
-
-Bug fix
-=======
-
-Resolve string-based output_checker_threshold_image return
-----------------------------------------------------------
-
-We must ensure OUTPUT_CHECKER_THRESHOLD_IMAGE is stored as a float, not a string.
-Set it explicitly, rather than using get_env_var.
-
-::
-
-     modified: geoips/filenames/base_paths.py
-
-Bug fix
-=======
-
 Bug fix abi_l2_netcdf reader
 ----------------------------
 
@@ -124,6 +86,25 @@ for a single scan time is currently only supported with 1D xarray datasets.
 ::
 
      modified: geoips/plugins/modules/readers/abi_l2_netcdf.py
+
+Bug fix
+=======
+
+Allow seviri hrit reader to complete when hrv files present
+-----------------------------------------------------------
+
+SEVIRI HRIT reader does not support the High Res Vis (HRV) files currently,
+so skips over *HRV* files.  When multi-scan-time support was added, files
+were read one at a time, so HRV files were filtered out and the reader
+subsequently failed on the empty list of filenames.  Raise NoValidFilesError
+on empty list, to allow catching from the reader read_data_to_xarray_dict
+method and skipping over missing files.
+
+::
+
+     modified: geoips/errors.py
+     modified: geoips/interfaces/module_based/readers.py
+     modified: geoips/plugins/modules/readers/seviri_hrit.py
 
 Bug fix
 =======
@@ -165,6 +146,19 @@ to the file)
 Bug fix
 =======
 
+Changed plaformdirs version in requirements.txt
+-----------------------------------------------
+
+The previous platformdir version caused a circular dependency error, this updates the version number to allow
+installation from requirements.txt.
+
+::
+
+     modified: environments/requirements.txt
+
+Bug fix
+=======
+
 Bug fix atms reader - only crop to valid indices when key exists
 ----------------------------------------------------------------
 
@@ -179,21 +173,27 @@ the reader will error when only reading in SDR files.
 Bug fix
 =======
 
-Allow seviri hrit reader to complete when hrv files present
------------------------------------------------------------
+Make code_of_conduct.md optional in build_docs.py
+-------------------------------------------------
 
-SEVIRI HRIT reader does not support the High Res Vis (HRV) files currently,
-so skips over *HRV* files.  When multi-scan-time support was added, files
-were read one at a time, so HRV files were filtered out and the reader
-subsequently failed on the empty list of filenames.  Raise NoValidFilesError
-on empty list, to allow catching from the reader read_data_to_xarray_dict
-method and skipping over missing files.
+Allow documentation to build successfully if CODE_OF_CONDUCT does not exist.
 
 ::
 
-     modified: geoips/errors.py
-     modified: geoips/interfaces/module_based/readers.py
-     modified: geoips/plugins/modules/readers/seviri_hrit.py
+     modified: docs/build_docs.py
+
+Bug fix
+=======
+
+Resolve string-based output_checker_threshold_image return
+----------------------------------------------------------
+
+We must ensure OUTPUT_CHECKER_THRESHOLD_IMAGE is stored as a float, not a string.
+Set it explicitly, rather than using get_env_var.
+
+::
+
+     modified: geoips/filenames/base_paths.py
 
 Documentation
 =============

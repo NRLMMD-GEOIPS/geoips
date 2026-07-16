@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>geoips.pydantic_models.v1.workflows &#8212; GeoIPS, Geolocated Information Processing System 1.17.0a0 documentation</title>
+    <title>geoips.pydantic_models.v1.workflows &#8212; GeoIPS, Geolocated Information Processing System 1.19.0.post776.dev0 documentation</title>
   
   
   
@@ -26,53 +26,569 @@
   </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
-<link href="../../../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+  <link href="../../../../_static/styles/theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+<link href="../../../../_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=03e43079" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/set_width.css?v=d4af5e1e" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/sphinx-design.min.css?v=95c83b7e" />
   
   <!-- So that users can add custom icons -->
-  <script src="../../../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <script defer src="../../../../_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
-<link rel="preload" as="script" href="../../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+  <link rel="preload" as="script" href="../../../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
+<link rel="preload" as="script" href="../../../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
 
-    <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js?v=c5be8013"></script>
+    <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js?v=1e4423a0"></script>
     <script src="../../../../_static/doctools.js?v=888ff710"></script>
     <script src="../../../../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../../_static/design-tabs.js?v=f930bc37"></script>
-    <script type="module" src="https://cdn.jsdelivr.net/npm/mermaid@11.2.0/dist/mermaid.esm.min.mjs"></script>
-    <script type="module" src="https://cdn.jsdelivr.net/npm/@mermaid-js/layout-elk@0.1.4/dist/mermaid-layout-elk.esm.min.mjs"></script>
-    <script type="module">import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.2.0/dist/mermaid.esm.min.mjs";import elkLayouts from "https://cdn.jsdelivr.net/npm/@mermaid-js/layout-elk@0.1.4/dist/mermaid-layout-elk.esm.min.mjs";mermaid.registerLayoutLoaders(elkLayouts);mermaid.initialize({startOnLoad:false});</script>
     <script src="https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js"></script>
-    <script type="module">
-import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.2.0/dist/mermaid.esm.min.mjs";
-window.addEventListener("load", () => mermaid.run());
-</script>
+    <script type="module">import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.12.1/dist/mermaid.esm.min.mjs";
+
+
+
+
+
+const initStyles = () => {
+    const defaultStyle = document.createElement('style');
+    defaultStyle.textContent = `pre.mermaid {
+    /* Same as .mermaid-container > pre */
+    display: block;
+    width: 100%;
+}
+
+pre.mermaid > svg {
+    /* Same as .mermaid-container > pre > svg */
+    height: 500px;
+    width: 100%;
+    max-width: 100% !important;
+}`;
+    document.head.appendChild(defaultStyle);
+
+    const fullscreenStyle = document.createElement('style');
+    fullscreenStyle.textContent = `.mermaid-container {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+}
+
+.mermaid-container > pre {
+    display: block;
+    width: 100%;
+}
+
+.mermaid-container > pre > svg {
+    height: 500px;
+    width: 100%;
+    max-width: 100% !important;
+}
+
+.mermaid-fullscreen-btn {
+    width: 28px;
+    height: 28px;
+    background: rgba(255, 255, 255, 0.95);
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    border-radius: 4px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+    font-size: 14px;
+    line-height: 1;
+    padding: 0;
+    color: #333;
+}
+
+.mermaid-fullscreen-btn:hover {
+    opacity: 100% !important;
+    background: rgba(255, 255, 255, 1);
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
+    transform: scale(1.1);
+}
+
+.mermaid-fullscreen-btn.dark-theme {
+    background: rgba(50, 50, 50, 0.95);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: #e0e0e0;
+}
+
+.mermaid-fullscreen-btn.dark-theme:hover {
+    background: rgba(60, 60, 60, 1);
+    box-shadow: 0 3px 10px rgba(255, 255, 255, 0.2);
+}
+
+.mermaid-fullscreen-modal {
+    display: none;
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 95vw;
+    height: 100vh;
+    background: rgba(255, 255, 255, 0.98);
+    z-index: 9999;
+    padding: 20px;
+    overflow: auto;
+}
+
+.mermaid-fullscreen-modal.dark-theme {
+    background: rgba(0, 0, 0, 0.98);
+}
+
+.mermaid-fullscreen-modal.active {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.mermaid-container-fullscreen {
+    position: relative;
+    width: 95vw;
+    height: 90vh;
+    max-width: 95vw;
+    max-height: 90vh;
+    background: white;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+    overflow: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.mermaid-container-fullscreen.dark-theme {
+    background: #1a1a1a;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8);
+}
+
+.mermaid-container-fullscreen pre.mermaid {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.mermaid-container-fullscreen .mermaid svg {
+    height: 100% !important;
+    width: 100% !important;
+    cursor: grab;
+}
+
+.mermaid-fullscreen-close {
+    position: fixed !important;
+    top: 20px !important;
+    right: 20px !important;
+    width: 40px;
+    height: 40px;
+    background: rgba(255, 255, 255, 0.95);
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-radius: 50%;
+    cursor: pointer;
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    transition: all 0.2s;
+    font-size: 24px;
+    line-height: 1;
+    color: #333;
+}
+
+.mermaid-fullscreen-close:hover {
+    background: white;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+    transform: scale(1.1);
+}
+
+.mermaid-fullscreen-close.dark-theme {
+    background: rgba(50, 50, 50, 0.95);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #e0e0e0;
+}
+
+.mermaid-fullscreen-close.dark-theme:hover {
+    background: rgba(60, 60, 60, 1);
+    box-shadow: 0 6px 16px rgba(255, 255, 255, 0.2);
+}
+
+.mermaid-fullscreen-modal .mermaid-fullscreen-btn {
+    display: none !important;
+}`;
+    document.head.appendChild(fullscreenStyle);
+}
+
+// Detect if page has dark background
+const isDarkTheme = () => {
+    // We use a set of heuristics:
+    // 1. Check for common dark mode classes or attributes
+    // 2. Check computed background color brightness
+    if (document.documentElement.classList.contains('dark') ||
+        document.documentElement.getAttribute('data-theme') === 'dark' ||
+        document.body.classList.contains('dark') ||
+        document.body.getAttribute('data-theme') === 'dark') {
+        // console.log("Dark theme detected via class/attribute");
+        return true;
+    }
+    if (document.documentElement.classList.contains('light') ||
+        document.documentElement.getAttribute('data-theme') === 'light' ||
+        document.body.classList.contains('light') ||
+        document.body.getAttribute('data-theme') === 'light') {
+        // console.log("Light theme detected via class/attribute");
+        return false;
+    }
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        // console.log("Dark theme detected via prefers-color-scheme");
+        return true;
+    }
+    const bgColor = window.getComputedStyle(document.body).backgroundColor;
+    const match = bgColor.match(/rgb\((\d+),\s*(\d+),\s*(\d+)/);
+    if (match) {
+        const r = parseInt(match[1]);
+        const g = parseInt(match[2]);
+        const b = parseInt(match[3]);
+        const brightness = (r * 299 + g * 587 + b * 114) / 1000;
+        // console.log("Background color brightness:", brightness);
+        return brightness < 128;
+    }
+    // console.log("No dark or light theme detected, defaulting to light theme");
+    return false;
+};
+
+let darkTheme = isDarkTheme();
+let modal = null;
+let modalContent = null;
+let previousScrollOffset = [window.scrollX, window.scrollY];
+let _lazyObserver = null;
+let _renderQueue = Promise.resolve();
+
+// Apply d3 zoom to each SVG. Idempotent: an SVG already wrapped is skipped,
+// so this is safe to call both for the initial batch and for diagrams that
+// render lazily once they become visible.
+const addZoomToSvgs = (svgs) => {
+    svgs.each(function() {
+        if (this.getAttribute('data-zoom-applied') === 'true') return;
+        var svg = d3.select(this);
+        svg.html("<g class='wrapper'>" + svg.html() + "</g>");
+        var inner = svg.select("g");
+        var zoom = d3.zoom().on("zoom", function(event) {
+            inner.attr("transform", event.transform);
+        });
+        svg.call(zoom);
+        this.setAttribute('data-zoom-applied', 'true');
+    });
+};
+
+const runMermaid = async (rerun) => {
+    console.log("Running mermaid diagrams, rerun =", rerun);
+    // clear all existing mermaid charts
+    let all_mermaids = document.querySelectorAll(".mermaid");
+
+    if (rerun) {
+        // Disconnect any previous lazy rendering observer
+        if (_lazyObserver) {
+            _lazyObserver.disconnect();
+            _lazyObserver = null;
+        }
+
+        all_mermaids.forEach((el) => {
+            el.removeAttribute('data-mermaid-deferred');
+            el.removeAttribute('data-mermaid-render-failed');
+            if(!el.hasAttribute("data-original-code")) {
+                // store original code
+                // console.log(`Storing original code for first run: `, el.innerHTML);
+                el.setAttribute('data-original-code', el.innerHTML);
+            }
+            if(el.getAttribute("data-processed") === "true") {
+                // remove and restore original
+                el.removeAttribute("data-processed");
+                // console.log(`Restoring original code for re-run: `, el.getAttribute('data-original-code'));
+                el.innerHTML = el.getAttribute('data-original-code');
+            } else {
+                // store original code
+                // console.log(`Storing original code for re-run: `, el.innerHTML);
+                el.setAttribute('data-original-code', el.innerHTML);
+            }
+        });
+
+        // Separate visible and hidden elements. Mermaid's layout engine measures
+        // text dimensions via the DOM, which fails for elements hidden by a parent
+        // (e.g., Reveal.js non-active slides, sphinx-design unopened tabs),
+        // producing broken SVGs. Render visible elements now, defer hidden ones.
+        const visible = [];
+        const hidden = [];
+        all_mermaids.forEach((el) => {
+            // offsetParent is null for display:none ancestors.
+            // getClientRects().length > 0 catches position:fixed elements
+            // (which also have null offsetParent but are still visible).
+            if (el.offsetParent !== null || el.getClientRects().length > 0) {
+                visible.push(el);
+            } else {
+                hidden.push(el);
+                el.setAttribute('data-mermaid-deferred', 'true');
+            }
+        });
+
+        if (visible.length > 0) {
+            try {
+                await mermaid.run({ nodes: visible });
+            } catch (e) {
+                console.error("Mermaid rendering failed:", e);
+            }
+        }
+
+        // Lazily render hidden elements when they become visible.
+        // Uses a promise chain (_renderQueue) to serialize rendering,
+        // since IntersectionObserver may report multiple entries at once
+        // and mermaid.run() is not safe to call concurrently.
+        if (hidden.length > 0) {
+            if (typeof IntersectionObserver === 'undefined') {
+                console.warn("IntersectionObserver not available; hidden mermaid diagrams will not render.");
+            } else {
+                _renderQueue = Promise.resolve();
+                _lazyObserver = new IntersectionObserver((entries) => {
+                    for (const entry of entries) {
+                        if (entry.isIntersecting && entry.target.getAttribute("data-processed") !== "true") {
+                            _lazyObserver.unobserve(entry.target);
+                            const el = entry.target;
+                            _renderQueue = _renderQueue.then(async () => {
+                                try {
+                                    await mermaid.run({ nodes: [el] });
+                                    el.removeAttribute('data-mermaid-deferred');
+                                    // Apply zoom to the now-rendered diagram, matching
+                                    // the decoration visible diagrams receive.
+                                    if ("False" === "True") {
+                                        addZoomToSvgs(d3.selectAll(""));
+                                    }
+                                } catch (e) {
+                                    console.error("Mermaid deferred rendering failed:", e);
+                                    el.removeAttribute('data-mermaid-deferred');
+                                    el.setAttribute('data-mermaid-render-failed', 'true');
+                                }
+                            });
+                        }
+                    }
+                });
+                hidden.forEach((el) => _lazyObserver.observe(el));
+            }
+        }
+    }
+
+    all_mermaids = document.querySelectorAll(".mermaid");
+    // Exclude deferred (hidden) and render-failed elements from completion checks
+    const mermaids_active = document.querySelectorAll(".mermaid:not([data-mermaid-deferred]):not([data-mermaid-render-failed])");
+    const mermaids_processed = document.querySelectorAll(".mermaid:not([data-mermaid-deferred]):not([data-mermaid-render-failed])[data-processed='true']");
+
+    if ("False" === "True") {
+        const mermaids_to_add_zoom = -1 === -1 ? mermaids_active.length : -1;
+        if(mermaids_to_add_zoom > 0) {
+            var svgs = d3.selectAll("");
+            // Wait until every active (visible) diagram has rendered. Deferred
+            // diagrams are excluded, so a fixed d3_node_count that counts a
+            // hidden diagram no longer loops forever waiting for its SVG.
+            if(mermaids_active.length !== mermaids_processed.length) {
+                setTimeout(() => runMermaid(false), 200);
+                return;
+            }
+            addZoomToSvgs(svgs);
+        }
+    } else if(mermaids_active.length !== mermaids_processed.length) {
+        // Wait for mermaid to process all diagrams
+        setTimeout(() => runMermaid(false), 200);
+        return;
+    }
+
+    // Stop here if not adding fullscreen capability
+    if ("True" !== "True") return;
+
+    if (modal !== null ) {
+        // Destroy existing modal
+        modal.remove();
+        modal = null;
+        modalContent = null;
+    }
+
+    modal = document.createElement('div');
+    modal.className = 'mermaid-fullscreen-modal' + (darkTheme ? ' dark-theme' : '');
+    modal.setAttribute('role', 'dialog');
+    modal.setAttribute('aria-modal', 'true');
+    modal.setAttribute('aria-label', 'Fullscreen diagram viewer');
+    modal.innerHTML = `
+        <button class="mermaid-fullscreen-close${darkTheme ? ' dark-theme' : ''}" aria-label="Close fullscreen">✕</button>
+        <div class="mermaid-container-fullscreen${darkTheme ? ' dark-theme' : ''}"></div>
+    `;
+    document.body.appendChild(modal);
+
+    modalContent = modal.querySelector('.mermaid-container-fullscreen');
+    const closeBtn = modal.querySelector('.mermaid-fullscreen-close');
+
+    const closeModal = () => {
+        modal.classList.remove('active');
+        modalContent.innerHTML = '';
+        document.body.style.overflow = ''
+        window.scrollTo({left: previousScrollOffset[0], top: previousScrollOffset[1], behavior: 'instant'});
+    };
+
+    closeBtn.addEventListener('click', closeModal);
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) closeModal();
+    });
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && modal.classList.contains('active')) {
+            closeModal();
+        }
+    });
+
+    document.querySelectorAll('.mermaid').forEach((mermaidDiv) => {
+        if (mermaidDiv.parentNode.classList.contains('mermaid-container') ||
+            mermaidDiv.closest('.mermaid-fullscreen-modal')) {
+            // Already processed, adjust button class if needed
+            const existingBtn = mermaidDiv.parentNode.querySelector('.mermaid-fullscreen-btn');
+            if (existingBtn) {
+                existingBtn.className = 'mermaid-fullscreen-btn' + (darkTheme ? ' dark-theme' : '');
+            }
+            return;
+        }
+
+        const container = document.createElement('div');
+        container.className = 'mermaid-container';
+        mermaidDiv.parentNode.insertBefore(container, mermaidDiv);
+        container.appendChild(mermaidDiv);
+
+        const fullscreenBtn = document.createElement('button');
+        fullscreenBtn.className = 'mermaid-fullscreen-btn' + (darkTheme ? ' dark-theme' : '');
+        fullscreenBtn.setAttribute('aria-label', 'View diagram in fullscreen');
+        fullscreenBtn.textContent = '⛶';
+        fullscreenBtn.style.opacity = '50%';
+
+        // Calculate dynamic position based on diagram's margin and padding
+        const diagramStyle = window.getComputedStyle(mermaidDiv);
+        const marginTop = parseFloat(diagramStyle.marginTop) || 0;
+        const marginRight = parseFloat(diagramStyle.marginRight) || 0;
+        const paddingTop = parseFloat(diagramStyle.paddingTop) || 0;
+        const paddingRight = parseFloat(diagramStyle.paddingRight) || 0;
+        fullscreenBtn.style.top = `${marginTop + paddingTop + 4}px`;
+        fullscreenBtn.style.right = `${marginRight + paddingRight + 4}px`;
+
+        fullscreenBtn.addEventListener('click', () => {
+            previousScrollOffset = [window.scroll, window.scrollY];
+            const clone = mermaidDiv.cloneNode(true);
+            modalContent.innerHTML = '';
+            modalContent.appendChild(clone);
+
+            const svg = clone.querySelector('svg');
+            if (svg) {
+                svg.removeAttribute('width');
+                svg.removeAttribute('height');
+                svg.style.width = '100%';
+                svg.style.height = 'auto';
+                svg.style.maxWidth = '100%';
+                svg.style.sdisplay = 'block';
+
+                if ("False" === "True") {
+                    setTimeout(() => {
+                        const g = svg.querySelector('g');
+                        if (g) {
+                            var svgD3 = d3.select(svg);
+                            svgD3.html("<g class='wrapper'>" + svgD3.html() + "</g>");
+                            var inner = svgD3.select("g");
+                            var zoom = d3.zoom().on("zoom", function(event) {
+                                inner.attr("transform", event.transform);
+                            });
+                            svgD3.call(zoom);
+                        }
+                    }, 100);
+                }
+            }
+
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        });
+        container.appendChild(fullscreenBtn);
+    });
+};
+
+const load = async () => {
+    initStyles();
+
+    await runMermaid(true);
+
+    const reRunIfThemeChanges = async () => {
+        const newDarkTheme = isDarkTheme();
+        if (newDarkTheme !== darkTheme) {
+            darkTheme = newDarkTheme;
+            console.log("Theme change detected, re-running mermaid with", darkTheme ? "dark" : "default", "theme");
+            await mermaid.initialize(
+                {...JSON.parse(
+                    `{"startOnLoad": false}`
+                ),
+                ...{ darkMode: darkTheme, theme: darkTheme ? 'dark' : 'default' },
+                }
+            );
+            await runMermaid(true);
+        }
+    };
+
+    // Update theme classes when theme changes
+    const themeObserver = new MutationObserver(reRunIfThemeChanges);
+    themeObserver.observe(document.documentElement, {
+        attributes: true,
+        attributeFilter: ['class', 'style', 'data-theme']
+    });
+    themeObserver.observe(document.body, {
+        attributes: true,
+        attributeFilter: ['class', 'style', 'data-theme']
+    });
+};
+
+
+
+
+
+console.log("Initializing mermaid with", darkTheme ? "dark" : "default", "theme");
+mermaid.initialize(
+    {...JSON.parse(
+        `{"startOnLoad": false}`
+    ),
+    ...{ darkMode: darkTheme, theme: darkTheme ? 'dark' : 'default' },
+    }
+);
+
+window.addEventListener("load", load);
+window.runMermaid = runMermaid;</script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_modules/geoips/pydantic_models/v1/workflows';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
     <link rel="icon" href="../../../../_static/nrlicon.ico"/>
     <link rel="index" title="Index" href="../../../../genindex.html" />
     <link rel="search" title="Search" href="../../../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="1.1" />
-    <meta name="docbuild:last-update" content="Oct 14, 2025 20:03:48"/>
+    <meta name="docbuild:last-update" content="Jul 16, 2026 04:57:54"/>
+  
+    
+    <script src="../../../../_static/searchtools.js"></script>
+    <script src="../../../../_static/language_data.js"></script>
+    <script src="../../../../searchindex.js"></script>
+  
   </head>
-  
-  
-  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
-
+  <body data-default-mode="">
   
   
   <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
   
   <div id="pst-scroll-pixel-helper"></div>
   
   <button type="button" class="btn rounded-pill" id="pst-back-to-top">
     <i class="fa-solid fa-arrow-up"></i>Back to top</button>
-
+  
+  
+  
   
   <dialog id="pst-search-dialog">
     
@@ -98,7 +614,7 @@ window.addEventListener("load", () => mermaid.run());
 </div>
 
   
-    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
 <div class="bd-header__inner bd-page-width">
   <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
     <span class="fa-solid fa-bars"></span>
@@ -124,8 +640,8 @@ window.addEventListener("load", () => mermaid.run());
       
     
     
-    <img src="../../../../_static/NRL_logo_RGB.jpg" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 1.17.0a0 documentation - Home"/>
-    <img src="../../../../_static/NRL_logo_sidebar_Reverse.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 1.17.0a0 documentation - Home"/>
+    <img src="../../../../_static/NRL_logo_RGB.jpg" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 1.19.0.post776.dev0 documentation - Home"/>
+    <img src="../../../../_static/NRL_logo_sidebar_Reverse.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 1.19.0.post776.dev0 documentation - Home"/>
   
   
 </a></div>
@@ -449,23 +965,80 @@ window.addEventListener("load", () => mermaid.run());
 <span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
 <span class="c1"># Python Standard Libraries</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">copy</span><span class="w"> </span><span class="kn">import</span> <span class="n">deepcopy</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">dt</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">glob</span><span class="w"> </span><span class="kn">import</span> <span class="n">glob</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Literal</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span>
 
 <span class="c1"># Third-Party Libraries</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">pydantic</span><span class="w"> </span><span class="kn">import</span> <span class="n">ConfigDict</span><span class="p">,</span> <span class="n">Field</span><span class="p">,</span> <span class="n">field_validator</span><span class="p">,</span> <span class="n">model_validator</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pydantic</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">AliasChoices</span><span class="p">,</span>
+    <span class="n">ConfigDict</span><span class="p">,</span>
+    <span class="n">Field</span><span class="p">,</span>
+    <span class="n">FilePath</span><span class="p">,</span>
+    <span class="n">field_validator</span><span class="p">,</span>
+    <span class="n">model_validator</span><span class="p">,</span>
+    <span class="n">ValidationInfo</span><span class="p">,</span>
+<span class="p">)</span>
 
 <span class="c1"># GeoIPS imports</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">geoips.constants</span><span class="w"> </span><span class="kn">import</span> <span class="n">PLUGIN_PROVIDED</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">geoips</span><span class="w"> </span><span class="kn">import</span> <span class="n">interfaces</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">geoips.config</span><span class="w"> </span><span class="kn">import</span> <span class="n">config</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">geoips.errors</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">DependencyCycleError</span><span class="p">,</span>
+    <span class="n">PluginResolutionError</span><span class="p">,</span>
+<span class="p">)</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">geoips.pydantic_models.v1.bases</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
-    <span class="n">PythonIdentifier</span><span class="p">,</span>
     <span class="n">PluginModel</span><span class="p">,</span>
     <span class="n">FrozenModel</span><span class="p">,</span>
     <span class="n">PermissiveFrozenModel</span><span class="p">,</span>
+    <span class="n">PythonIdentifier</span><span class="p">,</span>
+    <span class="n">StepReference</span><span class="p">,</span>
 <span class="p">)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">geoips.pydantic_models.v1.algorithms</span><span class="w"> </span><span class="kn">import</span> <span class="n">AlgorithmArgumentsModel</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">geoips.pydantic_models.v1.coverage_checkers</span><span class="w"> </span><span class="kn">import</span> <span class="n">CoverageCheckerArgumentsModel</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">geoips.pydantic_models.v1.filename_formatters</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">FilenameFormatterArgumentsModel</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">geoips.pydantic_models.v1.interpolators</span><span class="w"> </span><span class="kn">import</span> <span class="n">InterpolatorArgumentsModel</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">geoips.pydantic_models.v1.output_checkers</span><span class="w"> </span><span class="kn">import</span> <span class="n">OutputCheckerArgumentsModel</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">geoips.pydantic_models.v1.readers</span><span class="w"> </span><span class="kn">import</span> <span class="n">ReaderArgumentsModel</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">geoips.utils.types.partial_lexeme</span><span class="w"> </span><span class="kn">import</span> <span class="n">Lexeme</span>
 
 <span class="n">LOG</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+<span class="n">SCAFFOLD_KINDS</span> <span class="o">=</span> <span class="nb">frozenset</span><span class="p">({</span><span class="s2">&quot;split&quot;</span><span class="p">,</span> <span class="s2">&quot;join&quot;</span><span class="p">})</span>
+<span class="sd">&quot;&quot;&quot;Kinds reserved as scaffolding markers.</span>
+
+<span class="sd">Steps with these kinds are accepted by schema validation and executed by</span>
+<span class="sd">workflow orchestration rather than plugin resolution.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="n">INPUT_REF</span> <span class="o">=</span> <span class="s2">&quot;_input&quot;</span>
+<span class="sd">&quot;&quot;&quot;Magic ``depends_on`` token marking a workflow&#39;s data-injection entry step.</span>
+
+<span class="sd">A step whose ``depends_on`` contains ``_input`` receives the data injected into</span>
+<span class="sd">the workflow from the outside: the parent&#39;s upstream tree for a sub-workflow (or</span>
+<span class="sd">split branch), or an empty ``DataTree`` for a top-level workflow. It is a virtual</span>
+<span class="sd">source (not a real step), so it is skipped by dependency-reference validation,</span>
+<span class="sd">cycle detection, and topological ordering. If no step declares ``_input``, the</span>
+<span class="sd">first step receives the injected data (backward-compatible fallback).</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="n">DEFAULT_RETENTION</span> <span class="o">=</span> <span class="s2">&quot;keep_referenced&quot;</span>
+<span class="sd">&quot;&quot;&quot;Default retention policy when ``retention`` is not specified in the YAML.&quot;&quot;&quot;</span>
+
+
+<span class="n">ORDERED_PRODUCT_FAMILIES</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;algorithm&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;algorithm_colormapper&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;algorithm_interpolator_colormapper&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;interpolator&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;interpolator_algorithm&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;interpolator_algorithm_colormapper&quot;</span><span class="p">,</span>
+<span class="p">]</span>
 
 
 <div class="viewcode-block" id="get_plugin_names"><a class="viewcode-back" href="../../../../geoips_api/geoips.pydantic_models.v1.html#geoips.pydantic_models.v1.workflows.get_plugin_names">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">get_plugin_names</span><span class="p">(</span><span class="n">plugin_kind</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
@@ -494,7 +1067,20 @@ window.addEventListener("load", () => mermaid.run());
         <span class="n">error_message</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">plugin_kind</span><span class="si">}</span><span class="s2"> is not a recognized plugin kind.&quot;</span>
         <span class="n">LOG</span><span class="o">.</span><span class="n">critical</span><span class="p">(</span><span class="n">error_message</span><span class="p">,</span> <span class="n">exc_info</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="n">error_message</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span>
-    <span class="k">return</span> <span class="p">[</span><span class="n">plugin</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">plugin</span> <span class="ow">in</span> <span class="n">interface</span><span class="o">.</span><span class="n">get_plugins</span><span class="p">()</span> <span class="ow">or</span> <span class="p">[]]</span></div>
+
+    <span class="n">interface_entry</span> <span class="o">=</span> <span class="n">interface</span><span class="o">.</span><span class="n">plugin_registry</span><span class="o">.</span><span class="n">registered_plugins</span><span class="p">[</span>
+        <span class="n">interface</span><span class="o">.</span><span class="n">interface_type</span>
+    <span class="p">][</span><span class="n">interface_name</span><span class="p">]</span>
+
+    <span class="k">if</span> <span class="n">interface_name</span> <span class="o">==</span> <span class="s2">&quot;products&quot;</span><span class="p">:</span>
+        <span class="n">plugin_names</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">source_name</span> <span class="ow">in</span> <span class="n">interface_entry</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">plugin_name</span> <span class="ow">in</span> <span class="n">interface_entry</span><span class="p">[</span><span class="n">source_name</span><span class="p">]:</span>
+                <span class="n">plugin_names</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">source_name</span><span class="p">,</span> <span class="n">plugin_name</span><span class="p">))</span>
+
+        <span class="k">return</span> <span class="n">plugin_names</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">interface_entry</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span></div>
 
 
 <div class="viewcode-block" id="get_plugin_kinds"><a class="viewcode-back" href="../../../../geoips_api/geoips.pydantic_models.v1.html#geoips.pydantic_models.v1.workflows.get_plugin_kinds">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">get_plugin_kinds</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">set</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
@@ -512,32 +1098,63 @@ window.addEventListener("load", () => mermaid.run());
     <span class="p">}</span></div>
 
 
+<span class="c1"># NOTE: We need to move all of the argument models to their own module once implemented</span>
+<span class="c1"># and supported by the OBP. geoips.plugins.modules.procflows.order_based:validate_arguments  # NOQA</span>
+<span class="c1"># will not work otherwise</span>
+
+
 <div class="viewcode-block" id="OutputFormatterArgumentsModel"><a class="viewcode-back" href="../../../../geoips_api/geoips.pydantic_models.v1.html#geoips.pydantic_models.v1.workflows.OutputFormatterArgumentsModel">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">OutputFormatterArgumentsModel</span><span class="p">(</span><span class="n">PermissiveFrozenModel</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Validate Output Formatter arguments.&quot;&quot;&quot;</span>
 
     <span class="k">pass</span></div>
 
 
-<div class="viewcode-block" id="CoverageCheckerArgumentsModel"><a class="viewcode-back" href="../../../../geoips_api/geoips.pydantic_models.v1.html#geoips.pydantic_models.v1.workflows.CoverageCheckerArgumentsModel">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">CoverageCheckerArgumentsModel</span><span class="p">(</span><span class="n">PermissiveFrozenModel</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Validate Coverage Checker arguments.&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="AlgorithmStepValidationModel"><a class="viewcode-back" href="../../../../geoips_api/geoips.pydantic_models.v1.html#geoips.pydantic_models.v1.workflows.AlgorithmStepValidationModel">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">AlgorithmStepValidationModel</span><span class="p">(</span><span class="n">PermissiveFrozenModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Validate step-level requirements for algorithm plugins.&quot;&quot;&quot;</span>
+
+    <span class="nd">@model_validator</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s2">&quot;after&quot;</span><span class="p">)</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_variables_required_algorithm_plugins</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Validate that ``variables`` field is present when required.</span>
+
+<span class="sd">        Ensures that input for the ``variables`` argument is provided for specific</span>
+<span class="sd">        algorithm plugins and is not None.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        Self</span>
+<span class="sd">            The validated model instance, ensuring ``variables`` field is not empty.</span>
+
+<span class="sd">        Raises</span>
+<span class="sd">        ------</span>
+<span class="sd">        ValueError</span>
+<span class="sd">            If the ``variables`` argument is required but nor provided.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="ow">in</span> <span class="p">[</span>
+            <span class="s2">&quot;model_channel&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;absdiff_mst&quot;</span><span class="p">,</span>
+        <span class="p">]</span> <span class="ow">and</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">arguments</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;variables&quot;</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;input for &#39;variables&#39; must be provided and non-empty for </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="s2">&quot; algorithm plugin.&quot;</span>
+            <span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+
+<div class="viewcode-block" id="ColormapperArgumentsModel"><a class="viewcode-back" href="../../../../geoips_api/geoips.pydantic_models.v1.html#geoips.pydantic_models.v1.workflows.ColormapperArgumentsModel">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">ColormapperArgumentsModel</span><span class="p">(</span><span class="n">PermissiveFrozenModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Validate Colormapper arguments.&quot;&quot;&quot;</span>
 
     <span class="k">pass</span></div>
 
 
-<div class="viewcode-block" id="FilenameFormatterArgumentsModel"><a class="viewcode-back" href="../../../../geoips_api/geoips.pydantic_models.v1.html#geoips.pydantic_models.v1.workflows.FilenameFormatterArgumentsModel">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">FilenameFormatterArgumentsModel</span><span class="p">(</span><span class="n">PermissiveFrozenModel</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Validate FilenameFormatter arguments.&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="ProductDefaultArgumentsModel"><a class="viewcode-back" href="../../../../geoips_api/geoips.pydantic_models.v1.html#geoips.pydantic_models.v1.workflows.ProductDefaultArgumentsModel">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">ProductDefaultArgumentsModel</span><span class="p">(</span><span class="n">PermissiveFrozenModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Validate product default arguments.&quot;&quot;&quot;</span>
 
     <span class="k">pass</span></div>
 
 
-<div class="viewcode-block" id="AlgorithmArgumentsModel"><a class="viewcode-back" href="../../../../geoips_api/geoips.pydantic_models.v1.html#geoips.pydantic_models.v1.workflows.AlgorithmArgumentsModel">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">AlgorithmArgumentsModel</span><span class="p">(</span><span class="n">PermissiveFrozenModel</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Validate Algorithm arguments.&quot;&quot;&quot;</span>
-
-    <span class="k">pass</span></div>
-
-
-<div class="viewcode-block" id="InterpolatorArgumentsModel"><a class="viewcode-back" href="../../../../geoips_api/geoips.pydantic_models.v1.html#geoips.pydantic_models.v1.workflows.InterpolatorArgumentsModel">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">InterpolatorArgumentsModel</span><span class="p">(</span><span class="n">PermissiveFrozenModel</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Validate Interpolator arguments.&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="ProductArgumentsModel"><a class="viewcode-back" href="../../../../geoips_api/geoips.pydantic_models.v1.html#geoips.pydantic_models.v1.workflows.ProductArgumentsModel">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">ProductArgumentsModel</span><span class="p">(</span><span class="n">PermissiveFrozenModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Validate product arguments.&quot;&quot;&quot;</span>
 
     <span class="k">pass</span></div>
 
@@ -549,58 +1166,198 @@ window.addEventListener("load", () => mermaid.run());
     <span class="k">pass</span></div>
 
 
-<div class="viewcode-block" id="ReaderArgumentsModel"><a class="viewcode-back" href="../../../../geoips_api/geoips.pydantic_models.v1.html#geoips.pydantic_models.v1.workflows.ReaderArgumentsModel">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">ReaderArgumentsModel</span><span class="p">(</span><span class="n">PermissiveFrozenModel</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Reader step argument definition.</span>
+<div class="viewcode-block" id="GridlineAnnotatorArgumentsModel"><a class="viewcode-back" href="../../../../geoips_api/geoips.pydantic_models.v1.html#geoips.pydantic_models.v1.workflows.GridlineAnnotatorArgumentsModel">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">GridlineAnnotatorArgumentsModel</span><span class="p">(</span><span class="n">PermissiveFrozenModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Validate Gridline Annotator arguments (YAML plugin).&quot;&quot;&quot;</span>
 
-<span class="sd">    Pydantic model defining and validating Reader step arguments.</span>
+    <span class="k">pass</span></div>
+
+
+<div class="viewcode-block" id="FeatureAnnotatorArgumentsModel"><a class="viewcode-back" href="../../../../geoips_api/geoips.pydantic_models.v1.html#geoips.pydantic_models.v1.workflows.FeatureAnnotatorArgumentsModel">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">FeatureAnnotatorArgumentsModel</span><span class="p">(</span><span class="n">PermissiveFrozenModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Validate Feature Annotator arguments (YAML plugin).&quot;&quot;&quot;</span>
+
+    <span class="k">pass</span></div>
+
+
+<div class="viewcode-block" id="SectorArgumentsModel"><a class="viewcode-back" href="../../../../geoips_api/geoips.pydantic_models.v1.html#geoips.pydantic_models.v1.workflows.SectorArgumentsModel">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">SectorArgumentsModel</span><span class="p">(</span><span class="n">PermissiveFrozenModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Validate Sector arguments (YAML plugin).&quot;&quot;&quot;</span>
+
+    <span class="k">pass</span></div>
+
+
+<span class="n">_PLUGIN_ARGUMENTS_MODELS</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">type</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;AlgorithmArgumentsModel&quot;</span><span class="p">:</span> <span class="n">AlgorithmArgumentsModel</span><span class="p">,</span>
+    <span class="s2">&quot;ColormapperArgumentsModel&quot;</span><span class="p">:</span> <span class="n">ColormapperArgumentsModel</span><span class="p">,</span>
+    <span class="s2">&quot;CoverageCheckerArgumentsModel&quot;</span><span class="p">:</span> <span class="n">CoverageCheckerArgumentsModel</span><span class="p">,</span>
+    <span class="s2">&quot;FeatureAnnotatorArgumentsModel&quot;</span><span class="p">:</span> <span class="n">FeatureAnnotatorArgumentsModel</span><span class="p">,</span>
+    <span class="s2">&quot;FilenameFormatterArgumentsModel&quot;</span><span class="p">:</span> <span class="n">FilenameFormatterArgumentsModel</span><span class="p">,</span>
+    <span class="s2">&quot;GridlineAnnotatorArgumentsModel&quot;</span><span class="p">:</span> <span class="n">GridlineAnnotatorArgumentsModel</span><span class="p">,</span>
+    <span class="s2">&quot;InterpolatorArgumentsModel&quot;</span><span class="p">:</span> <span class="n">InterpolatorArgumentsModel</span><span class="p">,</span>
+    <span class="s2">&quot;OutputCheckerArgumentsModel&quot;</span><span class="p">:</span> <span class="n">OutputCheckerArgumentsModel</span><span class="p">,</span>
+    <span class="s2">&quot;OutputFormatterArgumentsModel&quot;</span><span class="p">:</span> <span class="n">OutputFormatterArgumentsModel</span><span class="p">,</span>
+    <span class="s2">&quot;ProductDefaultArgumentsModel&quot;</span><span class="p">:</span> <span class="n">ProductDefaultArgumentsModel</span><span class="p">,</span>
+    <span class="s2">&quot;ProductArgumentsModel&quot;</span><span class="p">:</span> <span class="n">ProductArgumentsModel</span><span class="p">,</span>
+    <span class="s2">&quot;ReaderArgumentsModel&quot;</span><span class="p">:</span> <span class="n">ReaderArgumentsModel</span><span class="p">,</span>
+    <span class="s2">&quot;SectorArgumentsModel&quot;</span><span class="p">:</span> <span class="n">SectorArgumentsModel</span><span class="p">,</span>
+    <span class="s2">&quot;WorkflowArgumentsModel&quot;</span><span class="p">:</span> <span class="n">WorkflowArgumentsModel</span><span class="p">,</span>
+<span class="p">}</span>
+
+
+<div class="viewcode-block" id="GlobalVariablesModel"><a class="viewcode-back" href="../../../../geoips_api/geoips.pydantic_models.v1.html#geoips.pydantic_models.v1.workflows.GlobalVariablesModel">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">GlobalVariablesModel</span><span class="p">(</span><span class="n">PermissiveFrozenModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Workflow-level global variables shared across all steps.</span>
+
+<span class="sd">    Carries fields that apply uniformly to every step of an</span>
+<span class="sd">    Order-Based Procflow workflow rather than belonging to a</span>
+<span class="sd">    single step&#39;s arguments. (e.g. temporal windowing, product</span>
+<span class="sd">    identification, product DB output configuration, and the</span>
+<span class="sd">    presectoring toggle)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">area_def</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Area definition identifier.&quot;</span><span class="p">)</span>
-    <span class="n">variables</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+    <span class="n">minimum_coverage</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="n">PLUGIN_PROVIDED</span><span class="p">)</span>
+    <span class="n">presector</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="kc">False</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Specify whether to presector the data prior to applying &quot;</span>
+        <span class="s2">&quot;the algorithm&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">product_db</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">product_db_writer</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
+    <span class="n">product_db_writer_kwargs</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
+    <span class="n">product_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
+    <span class="n">reader_defined_area_def</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">sector_list</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
+    <span class="n">window_start_time</span><span class="p">:</span> <span class="n">dt</span><span class="o">.</span><span class="n">datetime</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
         <span class="kc">None</span><span class="p">,</span>
-        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;List of channels to process&quot;</span><span class="p">,</span>
-        <span class="n">alias</span><span class="o">=</span><span class="s2">&quot;chans&quot;</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;If specified, sector temporally between window_start_time &quot;</span>
+        <span class="s2">&quot;and window_end_time.&quot;</span><span class="p">,</span>
     <span class="p">)</span>
-    <span class="n">metadata_only</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="kc">False</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Read metadata only.&quot;</span><span class="p">)</span>
-    <span class="n">self_register</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Enable self-registration.&quot;</span><span class="p">)</span>
-    <span class="n">fnames</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
-        <span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;full path to the file(s) for static dataset inputs.&quot;</span>
+    <span class="n">window_end_time</span><span class="p">:</span> <span class="n">dt</span><span class="o">.</span><span class="n">datetime</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="kc">None</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;If specified, sector temporally between window_start_time &quot;</span>
+        <span class="s2">&quot;and window_end_time.&quot;</span><span class="p">,</span>
     <span class="p">)</span>
 
-    <span class="nd">@model_validator</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s2">&quot;before&quot;</span><span class="p">)</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">_handle_deprecated_chans</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">values</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Check for the deprecated &#39;chans&#39; field and issue a warning.</span>
+    <span class="nd">@model_validator</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s2">&quot;after&quot;</span><span class="p">)</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_validate_product_db_requires_writer</span><span class="p">(</span>
+        <span class="bp">cls</span><span class="p">,</span> <span class="n">model</span><span class="p">:</span> <span class="n">GlobalVariablesModel</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">GlobalVariablesModel</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Validate that product_db is fully defined.</span>
 
-<span class="sd">        This method detects if `chans` is present in the input values and issues a</span>
-<span class="sd">        deprecation warning, recommending the use of &#39;variable&#39; instead.</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        values : dict</span>
-<span class="sd">            Input values to the model.</span>
-
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        dict</span>
-<span class="sd">            The original input values.</span>
+<span class="sd">        If product_db is defined, then a corresponding product must be specified</span>
+<span class="sd">        as a string in product_db_writer. Also check the opposite case, where</span>
+<span class="sd">        product_db_writer is defined, but product_db is false.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="s2">&quot;chans&quot;</span> <span class="ow">in</span> <span class="n">values</span><span class="p">:</span>
-            <span class="n">LOG</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
-                <span class="s2">&quot;&#39;chans&#39; is deprecated and will be removed in GeoIPS 2.0. Use&quot;</span>
-                <span class="s2">&quot;&#39;variables&#39; instead.&quot;</span>
+        <span class="k">if</span> <span class="n">model</span><span class="o">.</span><span class="n">product_db</span> <span class="ow">and</span> <span class="n">model</span><span class="o">.</span><span class="n">product_db_writer</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;product_db is set while product_db_writer is not defined. &quot;</span>
+                <span class="s2">&quot;Please specify a valid product_db_writer.&quot;</span>
             <span class="p">)</span>
-        <span class="k">return</span> <span class="n">values</span></div>
+        <span class="k">if</span> <span class="n">model</span><span class="o">.</span><span class="n">product_db_writer</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">model</span><span class="o">.</span><span class="n">product_db</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;product_db_writer is defined as: `</span><span class="si">{</span><span class="n">model</span><span class="o">.</span><span class="n">product_db_writer</span><span class="si">}</span><span class="s2">` &quot;</span>
+                <span class="s2">&quot;but product_db is False or unspecified.</span><span class="se">\n</span><span class="s2">Please explicitly &quot;</span>
+                <span class="s2">&quot;invoke &#39;product_db = True&#39; or drop product_db_writer.&quot;</span>
+            <span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">model</span>
+
+    <span class="nd">@model_validator</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s2">&quot;after&quot;</span><span class="p">)</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_validate_window_start_requires_end</span><span class="p">(</span>
+        <span class="bp">cls</span><span class="p">,</span> <span class="n">model</span><span class="p">:</span> <span class="n">GlobalVariablesModel</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">GlobalVariablesModel</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Validate the specified time range.</span>
+
+<span class="sd">        If window_start_time is defined, then window_end_time must also be</span>
+<span class="sd">        defined. The reverse situation is also checked.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">model</span><span class="o">.</span><span class="n">window_start_time</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">model</span><span class="o">.</span><span class="n">window_end_time</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;window_start_time is defined as `</span><span class="si">{</span><span class="n">model</span><span class="o">.</span><span class="n">window_start_time</span><span class="si">}</span><span class="s2">` &quot;</span>
+                <span class="s2">&quot;but there is no defined window_end_time. Please specify a &quot;</span>
+                <span class="s2">&quot;window_end_time.&quot;</span>
+            <span class="p">)</span>
+        <span class="k">if</span> <span class="n">model</span><span class="o">.</span><span class="n">window_end_time</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">model</span><span class="o">.</span><span class="n">window_start_time</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;window_end_time is defined as `</span><span class="si">{</span><span class="n">model</span><span class="o">.</span><span class="n">window_end_time</span><span class="si">}</span><span class="s2">` &quot;</span>
+                <span class="s2">&quot;but there is no defined window_start_time. Please specify a &quot;</span>
+                <span class="s2">&quot;window_start_time.&quot;</span>
+            <span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">model</span></div>
 
 
 <div class="viewcode-block" id="WorkflowStepDefinitionModel"><a class="viewcode-back" href="../../../../geoips_api/geoips.pydantic_models.v1.html#geoips.pydantic_models.v1.workflows.WorkflowStepDefinitionModel">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">WorkflowStepDefinitionModel</span><span class="p">(</span><span class="n">FrozenModel</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Validate step definition : kind, name, and arguments.&quot;&quot;&quot;</span>
 
+    <span class="n">model_config</span> <span class="o">=</span> <span class="n">ConfigDict</span><span class="p">()</span>
+
     <span class="n">kind</span><span class="p">:</span> <span class="n">Lexeme</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;plugin kind&quot;</span><span class="p">)</span>
-    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;plugin name&quot;</span><span class="p">,</span> <span class="n">init</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-    <span class="n">arguments</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">dict</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;step args&quot;</span><span class="p">)</span>
+    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="kc">None</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="p">(</span>
+            <span class="s2">&quot;Plugin name. Required for plugin-backed steps, but not for &quot;</span>
+            <span class="s2">&quot;scaffold steps such as ``split`` or ``join`` or steps with &quot;</span>
+            <span class="s2">&quot;``kind: workflow`` that supply an inline ``spec``.&quot;</span>
+        <span class="p">),</span>
+    <span class="p">)</span>
+    <span class="n">spec</span><span class="p">:</span> <span class="n">WorkflowSpecModel</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;The workflow specification&quot;</span>
+    <span class="p">)</span>
+    <span class="n">arguments</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="n">default_factory</span><span class="o">=</span><span class="nb">dict</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;step args&quot;</span>
+    <span class="p">)</span>
+    <span class="n">depends_on</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">StepReference</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="kc">None</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="p">(</span>
+            <span class="s2">&quot;Step references this step depends on. Each reference is either a &quot;</span>
+            <span class="s2">&quot;top-level step id (e.g. &#39;reader&#39;) or a dot-separated path into a &quot;</span>
+            <span class="s2">&quot;&#39;workflow&#39;/&#39;split&#39; container step (e.g. &#39;subwf.algo&#39; or &quot;</span>
+            <span class="s2">&quot;&#39;split.scope.algo&#39;), or the magic token &#39;_input&#39; marking this step &quot;</span>
+            <span class="s2">&quot;as the workflow&#39;s data-injection entry point (parent data for a &quot;</span>
+            <span class="s2">&quot;sub-workflow/branch, or an empty DataTree at top level). &#39;_input&#39; &quot;</span>
+            <span class="s2">&quot;may be combined with real references and may appear on any number &quot;</span>
+            <span class="s2">&quot;of steps (fan-out). If None, defaults to [previous_step_id] for &quot;</span>
+            <span class="s2">&quot;non-first steps, [] for the first step; when no step declares &quot;</span>
+            <span class="s2">&quot;&#39;_input&#39; the first step receives the injected data. The runner &quot;</span>
+            <span class="s2">&quot;validates all references exist (recursing into sub-workflows) and &quot;</span>
+            <span class="s2">&quot;that no cycles exist.&quot;</span>
+        <span class="p">),</span>
+    <span class="p">)</span>
+    <span class="n">keep</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="kc">False</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="p">(</span>
+            <span class="s2">&quot;If True, this step&#39;s output data dataset survives garbage &quot;</span>
+            <span class="s2">&quot;collection regardless of the workflow-level retention policy. &quot;</span>
+            <span class="s2">&quot;Metadata (attrs, tokens) always survive.&quot;</span>
+        <span class="p">),</span>
+    <span class="p">)</span>
+    <span class="n">scope</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="kc">None</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="p">(</span>
+            <span class="s2">&quot;For steps following a ``split``: which branch to operate on. &quot;</span>
+            <span class="s2">&quot;When set, this step&#39;s output node nests at &quot;</span>
+            <span class="s2">&quot;``/&lt;split_id&gt;/&lt;scope&gt;/&lt;step_id&gt;``. &quot;</span>
+            <span class="s2">&quot;Explicit step-level scope routing is not yet implemented.&quot;</span>
+        <span class="p">),</span>
+    <span class="p">)</span>
+    <span class="n">when</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="kc">None</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="p">(</span>
+            <span class="s2">&quot;Conditional expression. If set and evaluates to false, this &quot;</span>
+            <span class="s2">&quot;step is skipped. Expressions are pandas-style filter expressions. &quot;</span>
+            <span class="s2">&quot;Runtime evaluation is not yet implemented.&quot;</span>
+        <span class="p">),</span>
+    <span class="p">)</span>
+    <span class="n">full_test_policy</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;on_token_mismatch&quot;</span><span class="p">,</span> <span class="s2">&quot;always&quot;</span><span class="p">,</span> <span class="s2">&quot;never&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="kc">None</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="p">(</span>
+            <span class="s2">&quot;Tells GeoIPS in what circumstances an output checker should run based on &quot;</span>
+            <span class="s2">&quot;the result of the token comparison. Defaults to only running the specified&quot;</span>
+            <span class="s2">&quot; (or detected) output checker on failed token comparison.&quot;</span>
+            <span class="s2">&quot;Should only EVER exist for an output checker step.&quot;</span>
+        <span class="p">),</span>
+    <span class="p">)</span>
 
     <span class="nd">@field_validator</span><span class="p">(</span><span class="s2">&quot;kind&quot;</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;before&quot;</span><span class="p">)</span>
+    <span class="nd">@classmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">_validate_plugin_kind</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Validate that &#39;kind&#39; is a known plugin kind.</span>
@@ -628,6 +1385,9 @@ window.addEventListener("load", () => mermaid.run());
 
         <span class="n">valid_kinds</span> <span class="o">=</span> <span class="n">get_plugin_kinds</span><span class="p">()</span>
 
+        <span class="c1"># Allow split/join as scaffolding (runtime raises NotImplementedError)</span>
+        <span class="n">valid_kinds</span> <span class="o">=</span> <span class="n">valid_kinds</span> <span class="o">|</span> <span class="n">SCAFFOLD_KINDS</span>
+
         <span class="c1"># raise error if the plugin kind is not valid</span>
         <span class="k">if</span> <span class="n">value</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">valid_kinds</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
@@ -636,9 +1396,85 @@ window.addEventListener("load", () => mermaid.run());
 
         <span class="k">return</span> <span class="n">value</span>
 
+    <span class="nd">@field_validator</span><span class="p">(</span><span class="s2">&quot;scope&quot;</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;before&quot;</span><span class="p">)</span>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_reject_scope</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Reject non-None ``scope`` — explicit step-level scoping not implemented.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">value</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;scope is not yet implemented — remove this field from the YAML&quot;</span>
+            <span class="p">)</span>
+        <span class="k">return</span> <span class="n">value</span>
+
+    <span class="nd">@field_validator</span><span class="p">(</span><span class="s2">&quot;when&quot;</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;before&quot;</span><span class="p">)</span>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_reject_when</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Reject non-None ``when`` — conditional execution is not yet implemented.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">value</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;when is not yet implemented — remove this field from the YAML&quot;</span>
+            <span class="p">)</span>
+        <span class="k">return</span> <span class="n">value</span>
+
+    <span class="nd">@model_validator</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s2">&quot;before&quot;</span><span class="p">)</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_ensure_xor_name_spec</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">values</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Ensure that fields &#39;spec&#39; and &#39;name&#39; are mutually exclusive.</span>
+
+<span class="sd">        Additionally, ensure that only workflow and split steps can define ``spec``.</span>
+<span class="sd">        Plugin-backed steps must reference a name and provide arguments as usual.</span>
+<span class="sd">        Join steps are scaffold steps and do not resolve a plugin by name.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        values: dict</span>
+<span class="sd">            Input values to the model.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        values: dict</span>
+<span class="sd">            Input values to the model.</span>
+
+<span class="sd">        Raises</span>
+<span class="sd">        ------</span>
+<span class="sd">        ValueError</span>
+<span class="sd">            If the plugin name is not valid for the specified plugin kind.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">values</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">values</span>
+
+        <span class="k">if</span> <span class="n">values</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;kind&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;workflow&quot;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">values</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">)</span> <span class="o">==</span> <span class="p">(</span><span class="n">values</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;spec&quot;</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Exactly one of name or spec must be provided.&quot;</span><span class="p">)</span>
+            <span class="n">values</span><span class="p">[</span><span class="s2">&quot;arguments&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">elif</span> <span class="n">values</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;kind&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;split&quot;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">values</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Split steps cannot define a plugin name.&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">values</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;spec&quot;</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Split steps must define an inline spec.&quot;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">values</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;kind&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;join&quot;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">values</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Join steps cannot define a plugin name.&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">values</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;spec&quot;</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Join steps cannot define an inline spec.&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">values</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;spec&quot;</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="s2">&quot;You cannot implement a spec field for any step other than &quot;</span>
+                    <span class="s2">&quot;one which is a workflow or split.&quot;</span>
+                <span class="p">)</span>
+            <span class="k">if</span> <span class="n">values</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="s2">&quot;You must specify a name field for every plugin step that is not a &quot;</span>
+                    <span class="s2">&quot;workflow, split, or join step.&quot;</span>
+                <span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">values</span>
+
     <span class="nd">@model_validator</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s2">&quot;after&quot;</span><span class="p">)</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">_validate_plugin_name</span><span class="p">(</span>
-        <span class="bp">cls</span><span class="p">,</span> <span class="n">model</span><span class="p">:</span> <span class="n">WorkflowStepDefinitionModel</span>
+        <span class="bp">cls</span><span class="p">,</span>
+        <span class="n">model</span><span class="p">:</span> <span class="n">WorkflowStepDefinitionModel</span><span class="p">,</span>
+        <span class="n">info</span><span class="p">:</span> <span class="n">ValidationInfo</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">WorkflowStepDefinitionModel</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Validate that a plugin with this name exists for the specified plugin kind.</span>
@@ -647,6 +1483,8 @@ window.addEventListener("load", () => mermaid.run());
 <span class="sd">        ----------</span>
 <span class="sd">        model: WorkflowStepDefinitionModel</span>
 <span class="sd">            The WorkflowStepDefinitionModel instance to validate.</span>
+<span class="sd">        info: ValidationInfo</span>
+<span class="sd">            ValidationInfo object, providing access to context flags.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
@@ -657,10 +1495,21 @@ window.addEventListener("load", () => mermaid.run());
 <span class="sd">        ------</span>
 <span class="sd">        ValueError</span>
 <span class="sd">            If the plugin name is not valid for the specified plugin kind.</span>
-
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">plugin_name</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">name</span>
         <span class="n">plugin_kind</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">kind</span>
+
+        <span class="k">if</span> <span class="n">plugin_kind</span> <span class="o">==</span> <span class="s2">&quot;workflow&quot;</span> <span class="ow">and</span> <span class="n">model</span><span class="o">.</span><span class="n">spec</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="c1"># This occurs when we&#39;ve converted a product or product default step to</span>
+            <span class="c1"># an embedded workflow with a spec/steps section. No name is required.</span>
+            <span class="k">return</span> <span class="n">model</span>
+
+        <span class="k">if</span> <span class="n">plugin_kind</span> <span class="ow">in</span> <span class="n">SCAFFOLD_KINDS</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">model</span>
+
+        <span class="n">context</span> <span class="o">=</span> <span class="n">info</span><span class="o">.</span><span class="n">context</span> <span class="ow">or</span> <span class="p">{}</span>
+        <span class="k">if</span> <span class="n">context</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;skip_plugin_name_validation&quot;</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">model</span>
 
         <span class="n">valid_plugin_names</span> <span class="o">=</span> <span class="n">get_plugin_names</span><span class="p">(</span><span class="n">plugin_kind</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">plugin_name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">valid_plugin_names</span><span class="p">:</span>
@@ -692,42 +1541,72 @@ window.addEventListener("load", () => mermaid.run());
 <span class="sd">        WorkflowStepDefinitionModel</span>
 <span class="sd">            The validated instance of WorkflowStepDefinitionModel</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">model</span><span class="o">.</span><span class="n">arguments</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="c1"># model.arguments is set to None when a workflow has been specified in place</span>
+            <span class="c1"># I.e. an expanded product or a workflow with a spec section (no name)</span>
+            <span class="k">return</span> <span class="n">model</span>
         <span class="c1"># Delegate arguments validation to each plugin kind argument class</span>
         <span class="n">plugin_kind</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">kind</span>
+
+        <span class="k">if</span> <span class="n">plugin_kind</span> <span class="ow">in</span> <span class="p">(</span><span class="n">SCAFFOLD_KINDS</span> <span class="o">|</span> <span class="p">{</span><span class="s2">&quot;workflow&quot;</span><span class="p">}):</span>
+            <span class="k">return</span> <span class="n">model</span>
+
         <span class="n">plugin_kind_pascal_case</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
             <span class="p">[</span><span class="n">word</span><span class="o">.</span><span class="n">capitalize</span><span class="p">()</span> <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">plugin_kind</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">)]</span>
         <span class="p">)</span>
         <span class="n">plugin_arguments_model_name</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">plugin_kind_pascal_case</span><span class="si">}</span><span class="s2">ArgumentsModel&quot;</span>
-        <span class="c1"># Dictionary listing all plugin arguments models</span>
-        <span class="n">plugin_arguments_models</span> <span class="o">=</span> <span class="p">{</span>
-            <span class="s2">&quot;AlgorithmArgumentsModel&quot;</span><span class="p">:</span> <span class="n">AlgorithmArgumentsModel</span><span class="p">,</span>
-            <span class="s2">&quot;CoverageCheckerArgumentsModel&quot;</span><span class="p">:</span> <span class="n">CoverageCheckerArgumentsModel</span><span class="p">,</span>
-            <span class="s2">&quot;FilenameFormatterArgumentsModel&quot;</span><span class="p">:</span> <span class="n">FilenameFormatterArgumentsModel</span><span class="p">,</span>
-            <span class="s2">&quot;InterpolatorArgumentsModel&quot;</span><span class="p">:</span> <span class="n">InterpolatorArgumentsModel</span><span class="p">,</span>
-            <span class="s2">&quot;OutputFormatterArgumentsModel&quot;</span><span class="p">:</span> <span class="n">OutputFormatterArgumentsModel</span><span class="p">,</span>
-            <span class="s2">&quot;CoverageCheckerArgumentsModel&quot;</span><span class="p">:</span> <span class="n">CoverageCheckerArgumentsModel</span><span class="p">,</span>
-            <span class="s2">&quot;ReaderArgumentsModel&quot;</span><span class="p">:</span> <span class="n">ReaderArgumentsModel</span><span class="p">,</span>
-            <span class="s2">&quot;WorkflowArgumentsModel&quot;</span><span class="p">:</span> <span class="n">WorkflowArgumentsModel</span><span class="p">,</span>
-        <span class="p">}</span>
 
         <span class="k">try</span><span class="p">:</span>
-            <span class="n">plugin_arguments_model</span> <span class="o">=</span> <span class="n">plugin_arguments_models</span><span class="p">[</span>
+            <span class="n">plugin_arguments_model</span> <span class="o">=</span> <span class="n">_PLUGIN_ARGUMENTS_MODELS</span><span class="p">[</span>
                 <span class="n">plugin_arguments_model_name</span>
             <span class="p">]</span>
         <span class="k">except</span> <span class="ne">KeyError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-            <span class="n">valid_models</span> <span class="o">=</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">plugin_arguments_models</span><span class="p">)</span>
+            <span class="n">valid_models</span> <span class="o">=</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">_PLUGIN_ARGUMENTS_MODELS</span><span class="p">)</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s1">&#39;The argument class/model &quot;</span><span class="si">{</span><span class="n">plugin_arguments_model_name</span><span class="si">}</span><span class="s1">&quot; for&#39;</span>
-                <span class="sa">f</span><span class="s1">&#39;the plugin kind &quot;</span><span class="si">{</span><span class="n">plugin_kind</span><span class="si">}</span><span class="s1">&quot; is not defined. Valid available&#39;</span>
+                <span class="sa">f</span><span class="s1">&#39;The argument class/model &quot;</span><span class="si">{</span><span class="n">plugin_arguments_model_name</span><span class="si">}</span><span class="s1">&quot; for &#39;</span>
+                <span class="sa">f</span><span class="s1">&#39;the plugin kind &quot;</span><span class="si">{</span><span class="n">plugin_kind</span><span class="si">}</span><span class="s1">&quot; is not defined. Valid available &#39;</span>
                 <span class="sa">f</span><span class="s2">&quot;models are </span><span class="si">{</span><span class="n">valid_models</span><span class="si">}</span><span class="s2">.&quot;</span>
             <span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span>
-            <span class="n">LOG</span><span class="o">.</span><span class="n">interactive</span><span class="p">(</span>
-                <span class="s2">&quot;Plugin kind &#39;</span><span class="si">%s</span><span class="s2">&#39; was already validated, yet PluginArgumentsModel &quot;</span>
-                <span class="s2">&quot;lookup failed. Please report this to the GeoIPS development team&quot;</span><span class="p">,</span>
-                <span class="n">plugin_kind</span><span class="p">,</span>
-            <span class="p">)</span>
 
         <span class="n">plugin_arguments_model</span><span class="p">(</span><span class="o">**</span><span class="n">model</span><span class="o">.</span><span class="n">arguments</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">model</span>
+
+    <span class="nd">@model_validator</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s2">&quot;after&quot;</span><span class="p">)</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_validate_interpolator_step_depends_on_two</span><span class="p">(</span>
+        <span class="bp">cls</span><span class="p">,</span> <span class="n">model</span><span class="p">:</span> <span class="n">WorkflowStepDefinitionModel</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">WorkflowStepDefinitionModel</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Validate that if the step is an an interpolator, that it depends on two steps.</span>
+
+<span class="sd">        This validator is called after the model is initialized. It ensures that the</span>
+<span class="sd">        entire workflow is valid before perforing this validation. This is a corner</span>
+<span class="sd">        case as it is one of few plugins that require exactly two steps to process</span>
+<span class="sd">        correctly.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        model: WorkflowStepDefinitionModel</span>
+<span class="sd">            The WorkflowStepDefinitionModel instance to validate.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        WorkflowStepDefinitionModel</span>
+<span class="sd">            The validated instance of WorkflowStepDefinitionModel</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">model</span><span class="o">.</span><span class="n">kind</span> <span class="o">!=</span> <span class="s2">&quot;interpolator&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">model</span>
+
+        <span class="n">dependencies</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">depends_on</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">dependencies</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">model</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">dependencies</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">dependencies</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;Error: &#39;depends_on&#39; field must be specified for any interpolator step &quot;</span>
+                <span class="s2">&quot;and it must depend on at least one step.&quot;</span>
+            <span class="p">)</span>
 
         <span class="k">return</span> <span class="n">model</span></div>
 
@@ -736,16 +1615,678 @@ window.addEventListener("load", () => mermaid.run());
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;The specification for a workflow.&quot;&quot;&quot;</span>
 
     <span class="c1"># list of steps</span>
+    <span class="nb">globals</span><span class="p">:</span> <span class="n">GlobalVariablesModel</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="kc">None</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Arguments shared across workflow steps&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
     <span class="n">steps</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="n">PythonIdentifier</span><span class="p">,</span> <span class="n">WorkflowStepDefinitionModel</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
         <span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Steps to produce the workflow.&quot;</span>
+    <span class="p">)</span>
+
+    <span class="n">retention</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;keep_all&quot;</span><span class="p">,</span> <span class="s2">&quot;keep_referenced&quot;</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="n">DEFAULT_RETENTION</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="p">(</span>
+            <span class="s2">&quot;Workflow-level data retention policy. &quot;</span>
+            <span class="s2">&quot;- keep_all: never GC any step data. &quot;</span>
+            <span class="s2">&quot;- keep_referenced: GC a step&#39;s data when no remaining &quot;</span>
+            <span class="s2">&quot;  downstream step references it.&quot;</span>
+        <span class="p">),</span>
+    <span class="p">)</span>
+    <span class="n">retention_by_kind</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;keep_all&quot;</span><span class="p">,</span> <span class="s2">&quot;keep_referenced&quot;</span><span class="p">]]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="kc">None</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="p">(</span>
+            <span class="s2">&quot;Per-kind retention overrides. Keys are plugin kind names &quot;</span>
+            <span class="s2">&quot;(e.g. &#39;reader&#39;, &#39;algorithm&#39;). If None, no per-kind override. &quot;</span>
+            <span class="s2">&quot;This is a v2 feature; field exists but is not wired in v1.&quot;</span>
+        <span class="p">),</span>
+    <span class="p">)</span>
+    <span class="n">defaults</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="kc">None</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="p">(</span>
+            <span class="s2">&quot;Per-kind argument defaults applied to every step of that kind. &quot;</span>
+            <span class="s2">&quot;Keys are plugin kind names. Step-level arguments override these.&quot;</span>
+        <span class="p">),</span>
+    <span class="p">)</span>
+
+    <span class="nd">@model_validator</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s2">&quot;after&quot;</span><span class="p">)</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_reject_retention_by_kind</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">retention_by_kind</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;retention_by_kind is not yet implemented. &quot;</span>
+                <span class="s2">&quot;Remove it from the YAML or set it to null.&quot;</span>
+            <span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span>
+
+    <span class="nd">@model_validator</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s2">&quot;after&quot;</span><span class="p">)</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_reject_defaults</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Reject ``defaults`` until the runtime wires it in.</span>
+
+<span class="sd">        The field is accepted by the schema but never consumed by</span>
+<span class="sd">        ``Workflow.call``; rejecting at validation prevents a spec from</span>
+<span class="sd">        silently ignoring per-kind defaults.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">defaults</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;defaults (per-kind argument defaults) is not yet implemented. &quot;</span>
+                <span class="s2">&quot;Remove it from the YAML or set it to null.&quot;</span>
+            <span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span>
+
+<div class="viewcode-block" id="WorkflowSpecModel.extend_dict"><a class="viewcode-back" href="../../../../geoips_api/geoips.pydantic_models.v1.html#geoips.pydantic_models.v1.workflows.WorkflowSpecModel.extend_dict">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">extend_dict</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">base</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">new</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Extend a dictionary with the contents of another dictionary.</span>
+
+<span class="sd">        Do this extension while avoiding key collisions by automatically renaming</span>
+<span class="sd">        conflicting keys.</span>
+
+<span class="sd">        Keys from ``new`` are added to ``base``. If a key from ``new`` already</span>
+<span class="sd">        exists in ``base``, a numeric suffix is appended to the key name</span>
+<span class="sd">        (e.g., ``key1``, ``key2``, etc.) until a unique key is found. The original</span>
+<span class="sd">        dictionaries are not modified.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        base: dict</span>
+<span class="sd">            - The original dictionary whose contents will be preserved. Keys from</span>
+<span class="sd">              ``new`` will be added to a copy of this dictionary.</span>
+<span class="sd">        new: dict</span>
+<span class="sd">            - The dictionary whose key-value pairs will be added to ``base``. If a</span>
+<span class="sd">              key already exists in ``base`` (or was added earlier during the merge),</span>
+<span class="sd">              it will be renamed with an incrementing numeric suffix to ensure</span>
+<span class="sd">              uniqueness.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        dict</span>
+<span class="sd">            - A new dictionary containing all key-value pairs from ``base`` and</span>
+<span class="sd">              ``new``. Any conflicting keys from ``new`` will be renamed with a</span>
+<span class="sd">              numeric suffix (``key1``, ``key2``, etc.) so that no keys are overwritten.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="n">base</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">new</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">result</span><span class="p">:</span>
+                <span class="n">result</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+                <span class="k">continue</span>
+
+            <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span>
+            <span class="k">while</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">key</span><span class="si">}{</span><span class="n">i</span><span class="si">}</span><span class="s2">&quot;</span> <span class="ow">in</span> <span class="n">result</span><span class="p">:</span>
+                <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+
+            <span class="n">result</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">key</span><span class="si">}{</span><span class="n">i</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+
+        <span class="k">return</span> <span class="n">result</span></div>
+
+<div class="viewcode-block" id="WorkflowSpecModel.product_to_steps"><a class="viewcode-back" href="../../../../geoips_api/geoips.pydantic_models.v1.html#geoips.pydantic_models.v1.workflows.WorkflowSpecModel.product_to_steps">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">product_to_steps</span><span class="p">(</span>
+        <span class="bp">cls</span><span class="p">,</span> <span class="n">plugin</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">_inputs</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">dict</span><span class="p">[</span><span class="nb">dict</span><span class="p">],</span> <span class="nb">dict</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Define a product or product default plugin as a series of workflow steps.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        plugin: dict</span>
+<span class="sd">            A dictionary representation of a product or product default plugin.</span>
+<span class="sd">        _inputs: list[str], optional</span>
+<span class="sd">            One or more step ids that are providing input data to this step. Optional.</span>
+<span class="sd">            If None, assume no input data is available or needed.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        steps: dict[dict]</span>
+<span class="sd">            - An ordered dictionary representing the expanded version of the input</span>
+<span class="sd">              plugin.</span>
+<span class="sd">        global_vars: dict</span>
+<span class="sd">            - A dictionary of global variables found in this plugin.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">steps</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">family</span> <span class="o">=</span> <span class="n">plugin</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;family&quot;</span><span class="p">)</span>
+        <span class="n">spec</span> <span class="o">=</span> <span class="n">plugin</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;spec&quot;</span><span class="p">,</span> <span class="p">{})</span>
+        <span class="n">global_vars</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;variables&quot;</span><span class="p">:</span> <span class="n">spec</span><span class="p">[</span><span class="s2">&quot;variables&quot;</span><span class="p">]}</span> <span class="k">if</span> <span class="n">spec</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;variables&quot;</span><span class="p">)</span> <span class="k">else</span> <span class="p">{}</span>
+
+        <span class="k">if</span> <span class="n">family</span> <span class="ow">in</span> <span class="n">ORDERED_PRODUCT_FAMILIES</span><span class="p">:</span>
+            <span class="n">step_order</span> <span class="o">=</span> <span class="n">family</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">)</span>
+            <span class="n">last_data_step</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">plugin_name</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">step_order</span><span class="p">):</span>
+                <span class="n">steps</span><span class="p">[</span><span class="n">plugin_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">spec</span><span class="p">[</span><span class="n">plugin_name</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;plugin&quot;</span><span class="p">)</span>
+                <span class="n">steps</span><span class="p">[</span><span class="n">plugin_name</span><span class="p">][</span><span class="s2">&quot;kind&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">plugin_name</span>
+
+                <span class="k">if</span> <span class="n">plugin_name</span> <span class="o">==</span> <span class="s2">&quot;colormapper&quot;</span><span class="p">:</span>
+                    <span class="n">steps</span><span class="p">[</span><span class="n">plugin_name</span><span class="p">][</span><span class="s2">&quot;depends_on&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+                <span class="k">elif</span> <span class="n">idx</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">_inputs</span><span class="p">:</span>
+                    <span class="n">steps</span><span class="p">[</span><span class="n">plugin_name</span><span class="p">][</span><span class="s2">&quot;depends_on&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;_input&quot;</span><span class="p">]</span>
+                    <span class="n">last_data_step</span> <span class="o">=</span> <span class="p">[</span><span class="n">plugin_name</span><span class="p">]</span>
+                <span class="k">elif</span> <span class="n">idx</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">_inputs</span><span class="p">:</span>
+                    <span class="n">steps</span><span class="p">[</span><span class="n">plugin_name</span><span class="p">][</span><span class="s2">&quot;depends_on&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+                    <span class="n">last_data_step</span> <span class="o">=</span> <span class="p">[</span><span class="n">plugin_name</span><span class="p">]</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">steps</span><span class="p">[</span><span class="n">plugin_name</span><span class="p">][</span><span class="s2">&quot;depends_on&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">last_data_step</span>
+                    <span class="n">last_data_step</span> <span class="o">=</span> <span class="p">[</span><span class="n">plugin_name</span><span class="p">]</span>
+
+            <span class="k">if</span> <span class="s2">&quot;coverage_checker&quot;</span> <span class="ow">in</span> <span class="n">spec</span><span class="p">:</span>
+                <span class="n">steps</span><span class="p">[</span><span class="s2">&quot;coverage_checker&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">spec</span><span class="p">[</span><span class="s2">&quot;coverage_checker&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;plugin&quot;</span><span class="p">)</span>
+                <span class="n">steps</span><span class="p">[</span><span class="s2">&quot;coverage_checker&quot;</span><span class="p">][</span><span class="s2">&quot;kind&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;coverage_checker&quot;</span>
+                <span class="n">steps</span><span class="p">[</span><span class="s2">&quot;coverage_checker&quot;</span><span class="p">][</span><span class="s2">&quot;depends_on&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">last_data_step</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">spec</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;mtif_type&quot;</span><span class="p">,</span> <span class="s2">&quot;variables&quot;</span><span class="p">]:</span>
+                    <span class="k">continue</span>
+                <span class="k">elif</span> <span class="n">key</span> <span class="o">==</span> <span class="s2">&quot;windbarb_plotter&quot;</span><span class="p">:</span>
+                    <span class="n">kind</span> <span class="o">=</span> <span class="s2">&quot;output_formatter&quot;</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">kind</span> <span class="o">=</span> <span class="n">key</span>
+
+                <span class="n">steps</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;plugin&quot;</span><span class="p">)</span>
+                <span class="n">steps</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="s2">&quot;kind&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">kind</span>
+
+        <span class="k">return</span> <span class="n">steps</span><span class="p">,</span> <span class="n">global_vars</span></div>
+
+<div class="viewcode-block" id="WorkflowSpecModel.expand_step"><a class="viewcode-back" href="../../../../geoips_api/geoips.pydantic_models.v1.html#geoips.pydantic_models.v1.workflows.WorkflowSpecModel.expand_step">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">expand_step</span><span class="p">(</span>
+        <span class="bp">cls</span><span class="p">,</span> <span class="n">step</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">info</span><span class="p">:</span> <span class="n">ValidationInfo</span><span class="p">,</span> <span class="n">_inputs</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">dict</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Expand the definition of this step if it is a select plugin type.</span>
+
+<span class="sd">        Plugin types this function will expand include</span>
+<span class="sd">        [&#39;products&#39;, &#39;product_defaults&#39;, &#39;workflows&#39;].</span>
+
+<span class="sd">        This function will fully expand this step if it is one of the mentioned types</span>
+<span class="sd">        before any validation occurs.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        step: dict</span>
+<span class="sd">            A dictionary representation of a workflow step.</span>
+<span class="sd">        info: ValidationInfo</span>
+<span class="sd">            An object representing the context in which this model was instantiated.</span>
+<span class="sd">        _inputs: list[str], optional</span>
+<span class="sd">            One or more step ids that are providing input data to this step. Optional.</span>
+<span class="sd">            If None, assume no input data is available or needed.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        steps: dict[dict]</span>
+<span class="sd">            - An ordered dictionary representing the expanded version of the input step.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">context</span> <span class="o">=</span> <span class="n">info</span><span class="o">.</span><span class="n">context</span> <span class="ow">or</span> <span class="p">{}</span>
+        <span class="n">expand</span> <span class="o">=</span> <span class="n">context</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;expand&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+
+        <span class="n">kind</span> <span class="o">=</span> <span class="n">step</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;kind&quot;</span><span class="p">)</span>
+        <span class="n">interface</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">interfaces</span><span class="p">,</span> <span class="n">Lexeme</span><span class="p">(</span><span class="n">kind</span><span class="p">)</span><span class="o">.</span><span class="n">plural</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">kind</span> <span class="o">==</span> <span class="s2">&quot;product&quot;</span><span class="p">:</span>
+            <span class="n">plugin</span> <span class="o">=</span> <span class="n">interface</span><span class="o">.</span><span class="n">get_plugin</span><span class="p">(</span><span class="o">*</span><span class="n">step</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">))</span>
+        <span class="k">elif</span> <span class="n">kind</span> <span class="o">==</span> <span class="s2">&quot;product_default&quot;</span><span class="p">:</span>
+            <span class="n">plugin</span> <span class="o">=</span> <span class="n">interface</span><span class="o">.</span><span class="n">get_plugin</span><span class="p">(</span><span class="n">step</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># workflow plugins</span>
+            <span class="n">plugin</span> <span class="o">=</span> <span class="n">interface</span><span class="o">.</span><span class="n">get_plugin</span><span class="p">(</span><span class="n">step</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">),</span> <span class="n">_expand</span><span class="o">=</span><span class="n">expand</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">kind</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;product&quot;</span><span class="p">,</span> <span class="s2">&quot;product_default&quot;</span><span class="p">]:</span>
+            <span class="n">steps</span><span class="p">,</span> <span class="n">global_vars</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">product_to_steps</span><span class="p">(</span><span class="n">plugin</span><span class="p">,</span> <span class="n">_inputs</span><span class="p">)</span>  <span class="c1"># NOQA</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">steps</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">expand_steps</span><span class="p">(</span><span class="n">plugin</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;spec&quot;</span><span class="p">),</span> <span class="n">info</span><span class="p">)[</span><span class="s2">&quot;steps&quot;</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">steps</span></div>
+
+<div class="viewcode-block" id="WorkflowSpecModel.expand_steps"><a class="viewcode-back" href="../../../../geoips_api/geoips.pydantic_models.v1.html#geoips.pydantic_models.v1.workflows.WorkflowSpecModel.expand_steps">[docs]</a>    <span class="nd">@model_validator</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s2">&quot;before&quot;</span><span class="p">)</span>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">expand_steps</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">info</span><span class="p">:</span> <span class="n">ValidationInfo</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Expand each step of a workflow if it is a select plugin type.</span>
+
+<span class="sd">        Plugin types this function will expand include</span>
+<span class="sd">        [&#39;products&#39;, &#39;product_defaults&#39;, &#39;workflows&#39;].</span>
+
+<span class="sd">        This function will fully expand each step of the mentioned types before any</span>
+<span class="sd">        validation occurs. This way workflows can support nested workflows, of which all</span>
+<span class="sd">        of the mentioned types produce.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">data</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">data</span>
+
+        <span class="n">context</span> <span class="o">=</span> <span class="n">info</span><span class="o">.</span><span class="n">context</span> <span class="ow">or</span> <span class="p">{}</span>
+        <span class="n">expand</span> <span class="o">=</span> <span class="n">context</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;expand&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+
+        <span class="n">steps</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;steps&quot;</span><span class="p">,</span> <span class="p">{})</span>
+        <span class="n">expanded_steps</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="n">_inputs</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">step</span> <span class="ow">in</span> <span class="n">steps</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">step</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+                <span class="n">expanded_steps</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">step</span>
+                <span class="n">_inputs</span> <span class="o">=</span> <span class="p">[</span><span class="n">name</span><span class="p">]</span>
+                <span class="k">continue</span>
+            <span class="c1"># Default</span>
+            <span class="k">if</span> <span class="n">step</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;kind&quot;</span><span class="p">)</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;product&quot;</span><span class="p">,</span> <span class="s2">&quot;product_default&quot;</span><span class="p">]:</span>
+                <span class="k">if</span> <span class="n">step</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;depends_on&quot;</span><span class="p">):</span>
+                    <span class="n">_inputs</span> <span class="o">=</span> <span class="n">step</span><span class="p">[</span><span class="s2">&quot;depends_on&quot;</span><span class="p">]</span>
+                <span class="n">spec</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;steps&quot;</span><span class="p">:</span> <span class="bp">cls</span><span class="o">.</span><span class="n">expand_step</span><span class="p">(</span><span class="n">step</span><span class="p">,</span> <span class="n">info</span><span class="p">,</span> <span class="n">_inputs</span><span class="p">)}</span>
+                <span class="n">new_step</span> <span class="o">=</span> <span class="p">{</span>
+                    <span class="s2">&quot;kind&quot;</span><span class="p">:</span> <span class="s2">&quot;workflow&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;spec&quot;</span><span class="p">:</span> <span class="n">spec</span><span class="p">,</span>
+                <span class="p">}</span>
+                <span class="k">if</span> <span class="n">step</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;depends_on&quot;</span><span class="p">):</span>
+                    <span class="n">new_step</span><span class="p">[</span><span class="s2">&quot;depends_on&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">step</span><span class="p">[</span><span class="s2">&quot;depends_on&quot;</span><span class="p">]</span>
+                <span class="c1"># Generate a step ID based off the current step&#39;s plugin name.</span>
+                <span class="c1"># For products, join the name tuple with &quot;_&quot; and replace any</span>
+                <span class="c1"># remaining non-identifier characters so the result is always</span>
+                <span class="c1"># a valid PythonIdentifier (required by depends_on validation).</span>
+                <span class="n">step_id</span> <span class="o">=</span> <span class="p">(</span>
+                    <span class="s2">&quot;_&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">step</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">))</span>
+                    <span class="k">if</span> <span class="n">step</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;kind&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;product&quot;</span>
+                    <span class="k">else</span> <span class="n">step</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">)</span>
+                <span class="p">)</span>
+                <span class="n">expanded_steps</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">extend_dict</span><span class="p">(</span><span class="n">expanded_steps</span><span class="p">,</span> <span class="p">{</span><span class="n">step_id</span><span class="p">:</span> <span class="n">new_step</span><span class="p">})</span>
+            <span class="c1"># Done for CLI calls to fully expand a workflow plugin</span>
+            <span class="k">elif</span> <span class="p">(</span>
+                <span class="n">step</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;kind&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;workflow&quot;</span>
+                <span class="ow">and</span> <span class="n">expand</span>
+                <span class="ow">and</span> <span class="p">(</span><span class="n">step</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;spec&quot;</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">step</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">))</span>
+            <span class="p">):</span>
+                <span class="n">expanded_steps</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">extend_dict</span><span class="p">(</span>
+                    <span class="n">expanded_steps</span><span class="p">,</span> <span class="bp">cls</span><span class="o">.</span><span class="n">expand_step</span><span class="p">(</span><span class="n">step</span><span class="p">,</span> <span class="n">info</span><span class="p">)</span>
+                <span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="c1"># Not a workflow or product-based plugin, just keep the step as it is</span>
+                <span class="n">expanded_steps</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">step</span>
+
+            <span class="n">_inputs</span> <span class="o">=</span> <span class="p">[</span><span class="n">name</span><span class="p">]</span>
+
+        <span class="n">data</span><span class="p">[</span><span class="s2">&quot;steps&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">expanded_steps</span>
+
+        <span class="n">mapping</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">step</span> <span class="ow">in</span> <span class="n">steps</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">step</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+                <span class="k">continue</span>
+            <span class="k">if</span> <span class="n">step</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;kind&quot;</span><span class="p">)</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;product&quot;</span><span class="p">,</span> <span class="s2">&quot;product_default&quot;</span><span class="p">):</span>
+                <span class="n">step_id</span> <span class="o">=</span> <span class="p">(</span>
+                    <span class="s2">&quot;_&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">step</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">))</span>
+                    <span class="k">if</span> <span class="n">step</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;kind&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;product&quot;</span>
+                    <span class="k">else</span> <span class="n">step</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">)</span>
+                <span class="p">)</span>
+                <span class="n">mapping</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">step_id</span><span class="p">]</span>
+            <span class="k">elif</span> <span class="p">(</span>
+                <span class="n">step</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;kind&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;workflow&quot;</span>
+                <span class="ow">and</span> <span class="n">expand</span>
+                <span class="ow">and</span> <span class="p">(</span><span class="n">step</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;spec&quot;</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">step</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">))</span>
+            <span class="p">):</span>
+                <span class="n">expanded</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">expand_step</span><span class="p">(</span><span class="n">step</span><span class="p">,</span> <span class="n">info</span><span class="p">)</span>
+                <span class="n">mapping</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">expanded</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+
+        <span class="k">return</span> <span class="n">data</span></div>
+
+    <span class="nd">@model_validator</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s2">&quot;before&quot;</span><span class="p">)</span>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_inject_defaults</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">info</span><span class="p">:</span> <span class="n">ValidationInfo</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Inject implicit defaults for ``depends_on``.</span>
+
+<span class="sd">        Runs after ``expand_steps`` so the step dict is fully resolved.</span>
+<span class="sd">        All defaults are baked into the raw dict *before* freezing, so no</span>
+<span class="sd">        ``object.__setattr__`` is needed.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">data</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">data</span>
+        <span class="n">steps</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;steps&quot;</span><span class="p">,</span> <span class="p">{})</span>
+        <span class="n">step_ids</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">steps</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">step_ids</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">data</span>
+
+        <span class="k">if</span> <span class="n">INPUT_REF</span> <span class="ow">in</span> <span class="n">steps</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;step id &#39;</span><span class="si">{</span><span class="n">INPUT_REF</span><span class="si">}</span><span class="s2">&#39; is reserved: it is the magic &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;data-injection dependency token and cannot name a step&quot;</span>
+            <span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">sid</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">step_ids</span><span class="p">):</span>
+            <span class="n">step</span> <span class="o">=</span> <span class="n">steps</span><span class="p">[</span><span class="n">sid</span><span class="p">]</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">step</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+                <span class="k">continue</span>
+            <span class="k">if</span> <span class="n">step</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;depends_on&quot;</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">step</span><span class="p">[</span><span class="s2">&quot;depends_on&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span> <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">else</span> <span class="p">[</span><span class="n">step_ids</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]]</span>
+
+        <span class="k">return</span> <span class="n">data</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_validate_reference_in_spec</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span> <span class="n">segments</span><span class="p">,</span> <span class="n">dep</span><span class="p">,</span> <span class="n">cur</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Recursively validate a dotted ``depends_on`` reference.</span>
+
+<span class="sd">        Walks *segments* through *spec*&#39;s steps, descending into ``workflow``</span>
+<span class="sd">        and ``split`` container steps. ``split`` references must include a scope</span>
+<span class="sd">        segment (``split.&lt;scope&gt;.&lt;step&gt;``) because a split nests its body once</span>
+<span class="sd">        per branch (``/&lt;split&gt;/&lt;scope&gt;/&lt;step&gt;``); a bare ``split.&lt;step&gt;`` is</span>
+<span class="sd">        ambiguous and rejected.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        spec : WorkflowSpecModel</span>
+<span class="sd">            The (sub-)workflow spec to resolve *segments* against.</span>
+<span class="sd">        segments : list[str]</span>
+<span class="sd">            Remaining dot-split reference segments.</span>
+<span class="sd">        dep : str</span>
+<span class="sd">            The full original reference (for error messages).</span>
+<span class="sd">        cur : str</span>
+<span class="sd">            The referencing step id (for error messages).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">seg</span> <span class="o">=</span> <span class="n">segments</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">seg</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">spec</span><span class="o">.</span><span class="n">steps</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">PluginResolutionError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;step &#39;</span><span class="si">{</span><span class="n">cur</span><span class="si">}</span><span class="s2">&#39; depends_on &#39;</span><span class="si">{</span><span class="n">dep</span><span class="si">}</span><span class="s2">&#39;: &#39;</span><span class="si">{</span><span class="n">seg</span><span class="si">}</span><span class="s2">&#39; is not a step in the &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;referenced workflow; valid steps: </span><span class="si">{</span><span class="nb">sorted</span><span class="p">(</span><span class="n">spec</span><span class="o">.</span><span class="n">steps</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="p">)</span>
+        <span class="n">remaining</span> <span class="o">=</span> <span class="n">segments</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">remaining</span><span class="p">:</span>
+            <span class="k">return</span>
+
+        <span class="n">step</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">steps</span><span class="p">[</span><span class="n">seg</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">step</span><span class="o">.</span><span class="n">kind</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;workflow&quot;</span><span class="p">,</span> <span class="s2">&quot;split&quot;</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="n">PluginResolutionError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;step &#39;</span><span class="si">{</span><span class="n">cur</span><span class="si">}</span><span class="s2">&#39; depends_on &#39;</span><span class="si">{</span><span class="n">dep</span><span class="si">}</span><span class="s2">&#39;: &#39;</span><span class="si">{</span><span class="n">seg</span><span class="si">}</span><span class="s2">&#39; is a &#39;</span><span class="si">{</span><span class="n">step</span><span class="o">.</span><span class="n">kind</span><span class="si">}</span><span class="s2">&#39; &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;step and has no nested steps; only &#39;workflow&#39; and &#39;split&#39; &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;steps can be referenced with a dotted path&quot;</span>
+            <span class="p">)</span>
+        <span class="k">if</span> <span class="n">step</span><span class="o">.</span><span class="n">spec</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">PluginResolutionError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;step &#39;</span><span class="si">{</span><span class="n">cur</span><span class="si">}</span><span class="s2">&#39; depends_on &#39;</span><span class="si">{</span><span class="n">dep</span><span class="si">}</span><span class="s2">&#39;: container step &#39;</span><span class="si">{</span><span class="n">seg</span><span class="si">}</span><span class="s2">&#39; has &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;no inline spec to resolve nested steps&quot;</span>
+            <span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">step</span><span class="o">.</span><span class="n">kind</span> <span class="o">==</span> <span class="s2">&quot;split&quot;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">remaining</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">PluginResolutionError</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;step &#39;</span><span class="si">{</span><span class="n">cur</span><span class="si">}</span><span class="s2">&#39; depends_on &#39;</span><span class="si">{</span><span class="n">dep</span><span class="si">}</span><span class="s2">&#39;: references into a &#39;split&#39; &quot;</span>
+                    <span class="sa">f</span><span class="s2">&quot;step must include a scope, e.g. &#39;</span><span class="si">{</span><span class="n">seg</span><span class="si">}</span><span class="s2">.&lt;scope&gt;.&lt;step&gt;&#39;&quot;</span>
+                <span class="p">)</span>
+            <span class="n">scope</span><span class="p">,</span> <span class="n">remaining</span> <span class="o">=</span> <span class="n">remaining</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">remaining</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
+            <span class="n">explicit_scopes</span> <span class="o">=</span> <span class="p">(</span><span class="n">step</span><span class="o">.</span><span class="n">arguments</span> <span class="ow">or</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;scopes&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">explicit_scopes</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">scope</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">explicit_scopes</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">PluginResolutionError</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;step &#39;</span><span class="si">{</span><span class="n">cur</span><span class="si">}</span><span class="s2">&#39; depends_on &#39;</span><span class="si">{</span><span class="n">dep</span><span class="si">}</span><span class="s2">&#39;: scope &#39;</span><span class="si">{</span><span class="n">scope</span><span class="si">}</span><span class="s2">&#39; is not a &quot;</span>
+                    <span class="sa">f</span><span class="s2">&quot;declared scope of split &#39;</span><span class="si">{</span><span class="n">seg</span><span class="si">}</span><span class="s2">&#39;; valid scopes: &quot;</span>
+                    <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">sorted</span><span class="p">(</span><span class="n">explicit_scopes</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="p">)</span>
+
+        <span class="n">WorkflowSpecModel</span><span class="o">.</span><span class="n">_validate_reference_in_spec</span><span class="p">(</span><span class="n">step</span><span class="o">.</span><span class="n">spec</span><span class="p">,</span> <span class="n">remaining</span><span class="p">,</span> <span class="n">dep</span><span class="p">,</span> <span class="n">cur</span><span class="p">)</span>
+
+    <span class="nd">@model_validator</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s2">&quot;after&quot;</span><span class="p">)</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_validate_dependencies</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Validate ``depends_on`` refs and detect cycles.</span>
+
+<span class="sd">        This is a read-only validator — all defaults have already been</span>
+<span class="sd">        injected by ``_inject_defaults`` at mode=&quot;before&quot;.</span>
+
+<span class="sd">        ``depends_on`` references may be dotted paths into ``workflow``/``split``</span>
+<span class="sd">        container steps (e.g. ``subwf.algo``); these are validated by recursing</span>
+<span class="sd">        into the container&#39;s inline spec. Cycle detection operates on the</span>
+<span class="sd">        top-level *head* of each reference (the segment before the first dot).</span>
+
+<span class="sd">        Raises</span>
+<span class="sd">        ------</span>
+<span class="sd">        PluginResolutionError</span>
+<span class="sd">            If a ``depends_on`` reference (or nested segment) does not resolve.</span>
+<span class="sd">        DependencyCycleError</span>
+<span class="sd">            If the ``depends_on`` graph contains a directed cycle.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">step_ids</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">steps</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">step_ids</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span>
+
+        <span class="c1"># --- deep-validate every depends_on reference (incl. dotted paths) ---</span>
+        <span class="c1"># The magic ``_input`` token is a virtual source, not a real step, so it</span>
+        <span class="c1"># is exempt from reference resolution.</span>
+        <span class="k">for</span> <span class="n">cur</span><span class="p">,</span> <span class="n">step</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">steps</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">for</span> <span class="n">dep</span> <span class="ow">in</span> <span class="n">step</span><span class="o">.</span><span class="n">depends_on</span> <span class="ow">or</span> <span class="p">[]:</span>
+                <span class="k">if</span> <span class="n">dep</span> <span class="o">==</span> <span class="n">INPUT_REF</span><span class="p">:</span>
+                    <span class="k">continue</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_validate_reference_in_spec</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dep</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">),</span> <span class="n">dep</span><span class="p">,</span> <span class="n">cur</span><span class="p">)</span>
+
+        <span class="c1"># --- detect cycles on the top-level heads of each reference ---</span>
+        <span class="c1"># Iterative three-color DFS (no recursion — safe for large workflows).</span>
+        <span class="c1"># ``_input`` is a virtual source and never a graph node, so it is</span>
+        <span class="c1"># dropped from the head set below.</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">_head</span><span class="p">(</span><span class="n">dep</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">dep</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="n">WHITE</span><span class="p">,</span> <span class="n">GRAY</span><span class="p">,</span> <span class="n">BLACK</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span>
+        <span class="n">color</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="n">sid</span><span class="p">:</span> <span class="n">WHITE</span> <span class="k">for</span> <span class="n">sid</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">steps</span><span class="p">}</span>
+
+        <span class="k">for</span> <span class="n">sid</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">steps</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">color</span><span class="p">[</span><span class="n">sid</span><span class="p">]</span> <span class="o">!=</span> <span class="n">WHITE</span><span class="p">:</span>
+                <span class="k">continue</span>
+            <span class="n">color</span><span class="p">[</span><span class="n">sid</span><span class="p">]</span> <span class="o">=</span> <span class="n">GRAY</span>
+            <span class="n">stack</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[(</span><span class="n">sid</span><span class="p">,</span> <span class="mi">0</span><span class="p">)]</span>
+            <span class="k">while</span> <span class="n">stack</span><span class="p">:</span>
+                <span class="n">cur</span><span class="p">,</span> <span class="n">idx</span> <span class="o">=</span> <span class="n">stack</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+                <span class="n">deps</span> <span class="o">=</span> <span class="p">[</span>
+                    <span class="n">_head</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
+                    <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">steps</span><span class="p">[</span><span class="n">cur</span><span class="p">]</span><span class="o">.</span><span class="n">depends_on</span> <span class="ow">or</span> <span class="p">[])</span>
+                    <span class="k">if</span> <span class="n">d</span> <span class="o">!=</span> <span class="n">INPUT_REF</span>
+                <span class="p">]</span>
+                <span class="k">if</span> <span class="n">idx</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">deps</span><span class="p">):</span>
+                    <span class="n">stack</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">cur</span><span class="p">,</span> <span class="n">idx</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+                    <span class="n">dep</span> <span class="o">=</span> <span class="n">deps</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
+                    <span class="k">if</span> <span class="n">color</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">dep</span><span class="p">)</span> <span class="o">==</span> <span class="n">GRAY</span><span class="p">:</span>
+                        <span class="k">raise</span> <span class="n">DependencyCycleError</span><span class="p">(</span>
+                            <span class="sa">f</span><span class="s2">&quot;dependency cycle detected involving &quot;</span>
+                            <span class="sa">f</span><span class="s2">&quot;&#39;</span><span class="si">{</span><span class="n">cur</span><span class="si">}</span><span class="s2">&#39; -&gt; &#39;</span><span class="si">{</span><span class="n">dep</span><span class="si">}</span><span class="s2">&#39;&quot;</span>
+                        <span class="p">)</span>
+                    <span class="k">if</span> <span class="n">color</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">dep</span><span class="p">)</span> <span class="o">==</span> <span class="n">WHITE</span><span class="p">:</span>
+                        <span class="n">color</span><span class="p">[</span><span class="n">dep</span><span class="p">]</span> <span class="o">=</span> <span class="n">GRAY</span>
+                        <span class="n">stack</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">dep</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">color</span><span class="p">[</span><span class="n">cur</span><span class="p">]</span> <span class="o">=</span> <span class="n">BLACK</span>
+                    <span class="n">stack</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+
+<div class="viewcode-block" id="OutputCheckerOverrideModel"><a class="viewcode-back" href="../../../../geoips_api/geoips.pydantic_models.v1.html#geoips.pydantic_models.v1.workflows.OutputCheckerOverrideModel">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">OutputCheckerOverrideModel</span><span class="p">(</span><span class="n">PermissiveFrozenModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Model for output checker step definitions / overrides in a workflow test / steps section.  # NOQA</span>
+
+<span class="sd">    Takes the form of:</span>
+
+<span class="sd">    output_checker:</span>
+<span class="sd">        name: my_oc</span>
+<span class="sd">        full_test_policy: &quot;on_token_mismatch&quot; | &quot;always&quot; | &quot;never&quot;</span>
+<span class="sd">        arguments:</span>
+<span class="sd">        ...</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="kc">None</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="p">(</span>
+            <span class="s2">&quot;The name of the output checker plugin to use. If None, use a default &quot;</span>
+            <span class="s2">&quot;output checker plugin associated with the produced file type(s).&quot;</span>
+        <span class="p">),</span>
+        <span class="n">alias</span><span class="o">=</span><span class="s2">&quot;output_checker_name&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">compare_path</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">FilePath</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="kc">None</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;The path to the comparison file.&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">threshold</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="kc">None</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="p">(</span>
+            <span class="s2">&quot;Threshold for the image comparison. Argument to pixelmatch. Between &quot;</span>
+            <span class="s2">&quot;0 and 1, with 0 the most strict comparison, and 1 the most lenient.&quot;</span>
+        <span class="p">),</span>
+        <span class="n">alias</span><span class="o">=</span><span class="s2">&quot;output_checker_threshold&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">full_test_policy</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;on_token_mismatch&quot;</span><span class="p">,</span> <span class="s2">&quot;always&quot;</span><span class="p">,</span> <span class="s2">&quot;never&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="s2">&quot;on_token_mismatch&quot;</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="p">(</span>
+            <span class="s2">&quot;Tells GeoIPS in what circumstances an output checker should run based on &quot;</span>
+            <span class="s2">&quot;the result of the token comparison. Defaults to only running the specified&quot;</span>
+            <span class="s2">&quot; (or detected) output checker on failed token comparison.&quot;</span>
+        <span class="p">),</span>
     <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="NestedSpecOverride"><a class="viewcode-back" href="../../../../geoips_api/geoips.pydantic_models.v1.html#geoips.pydantic_models.v1.workflows.NestedSpecOverride">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">NestedSpecOverride</span><span class="p">(</span><span class="n">PermissiveFrozenModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Spec definition allowing for recursive overrides.&quot;&quot;&quot;</span>
+
+    <span class="n">steps</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">StepOverrideType</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">dict</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="StepOverrideType"><a class="viewcode-back" href="../../../../geoips_api/geoips.pydantic_models.v1.html#geoips.pydantic_models.v1.workflows.StepOverrideType">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">StepOverrideType</span><span class="p">(</span><span class="n">PermissiveFrozenModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A workflow step override.</span>
+
+<span class="sd">    Either:</span>
+<span class="sd">    - arbitrary arguments</span>
+<span class="sd">    OR</span>
+<span class="sd">    - a nested spec containing additional steps</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">spec</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">NestedSpecOverride</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span></div>
+
+
+<span class="c1"># Required for recursive references</span>
+<span class="n">NestedSpecOverride</span><span class="o">.</span><span class="n">model_rebuild</span><span class="p">()</span>
+<span class="n">StepOverrideType</span><span class="o">.</span><span class="n">model_rebuild</span><span class="p">()</span>
+
+
+<div class="viewcode-block" id="WorkflowTestModel"><a class="viewcode-back" href="../../../../geoips_api/geoips.pydantic_models.v1.html#geoips.pydantic_models.v1.workflows.WorkflowTestModel">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">WorkflowTestModel</span><span class="p">(</span><span class="n">FrozenModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Model for the test section of GeoIPS workflow plugins.&quot;&quot;&quot;</span>
+
+    <span class="c1"># Not pathlib.Path objects as readers only expect a list of strings</span>
+    <span class="n">filenames</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="o">...</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;A list of one or more filepaths to the data used for this test.&quot;</span><span class="p">,</span>
+        <span class="n">validation_alias</span><span class="o">=</span><span class="n">AliasChoices</span><span class="p">(</span><span class="s2">&quot;fnames&quot;</span><span class="p">,</span> <span class="s2">&quot;filenames&quot;</span><span class="p">),</span>
+    <span class="p">)</span>
+    <span class="c1">#</span>
+    <span class="c1"># globals:</span>
+    <span class="c1">#   argument: value</span>
+    <span class="c1">#</span>
+    <span class="nb">globals</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="n">default_factory</span><span class="o">=</span><span class="nb">dict</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Override dictionary for global arguments.&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="c1">#</span>
+    <span class="c1"># kinds:</span>
+    <span class="c1">#     readers:</span>
+    <span class="c1">#         argument: value</span>
+    <span class="c1">#</span>
+    <span class="c1"># Keys must match interfaces.__all__</span>
+    <span class="c1">#</span>
+    <span class="n">kinds</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="n">default_factory</span><span class="o">=</span><span class="nb">dict</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Override dictionary for plugins matching a certain &#39;kind&#39;.&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="c1">#</span>
+    <span class="c1"># steps:</span>
+    <span class="c1">#     step_id:</span>
+    <span class="c1">#         argument: value</span>
+    <span class="c1">#</span>
+    <span class="c1"># or recursive nested specs</span>
+    <span class="c1">#</span>
+    <span class="n">steps</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">StepOverrideType</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="n">default_factory</span><span class="o">=</span><span class="nb">dict</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Override dictionary for individual steps.&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="c1">#</span>
+    <span class="c1"># outputs:</span>
+    <span class="c1">#     step_id:</span>
+    <span class="c1">#         # name: optional, default=None, derived from &#39;compare_path&#39; if not provided  # NOQA</span>
+    <span class="c1">#         # full_test_policy: optional, default=&quot;on_token_mismatch&quot;</span>
+    <span class="c1">#         output_checker_arguments:</span>
+    <span class="c1">#             compare_path: &lt;path_to_compare_file&gt;</span>
+    <span class="c1">#             optional_arg1: &lt;x&gt;</span>
+    <span class="c1">#             optional_arg2: &lt;z&gt;</span>
+
+    <span class="n">outputs</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">OutputCheckerOverrideModel</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="n">default_factory</span><span class="o">=</span><span class="nb">dict</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="p">(</span>
+            <span class="s2">&quot;Override dictionary for output checker steps or every instance of&quot;</span>
+            <span class="s2">&quot; an output checker.&quot;</span>
+        <span class="p">),</span>
+    <span class="p">)</span>
+
+<div class="viewcode-block" id="WorkflowTestModel.validate_kind_keys"><a class="viewcode-back" href="../../../../geoips_api/geoips.pydantic_models.v1.html#geoips.pydantic_models.v1.workflows.WorkflowTestModel.validate_kind_keys">[docs]</a>    <span class="nd">@model_validator</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s2">&quot;after&quot;</span><span class="p">)</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">validate_kind_keys</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">WorkflowTestModel</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Ensure kinds keys are valid GeoIPS interfaces.&quot;&quot;&quot;</span>
+        <span class="c1"># Make sure any element of kinds are a valid interface</span>
+        <span class="n">invalid</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">kinds</span><span class="p">)</span> <span class="o">-</span> <span class="nb">set</span><span class="p">(</span><span class="n">interfaces</span><span class="o">.</span><span class="n">__all__</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">invalid</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Invalid kinds keys: </span><span class="si">{</span><span class="nb">sorted</span><span class="p">(</span><span class="n">invalid</span><span class="p">)</span><span class="si">}</span><span class="s2">. &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;Valid interfaces are: </span><span class="si">{</span><span class="nb">sorted</span><span class="p">(</span><span class="n">interfaces</span><span class="o">.</span><span class="n">__all__</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="p">)</span>
+
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+<div class="viewcode-block" id="WorkflowTestModel.generate_filepaths"><a class="viewcode-back" href="../../../../geoips_api/geoips.pydantic_models.v1.html#geoips.pydantic_models.v1.workflows.WorkflowTestModel.generate_filepaths">[docs]</a>    <span class="nd">@field_validator</span><span class="p">(</span><span class="s2">&quot;filenames&quot;</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;before&quot;</span><span class="p">)</span>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">generate_filepaths</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">v</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Convert a single string or list of strings to pathlib.Path objects.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="p">(</span>
+            <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span>
+            <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span>
+            <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)</span>
+        <span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Error, got </span><span class="si">{</span><span class="n">v</span><span class="si">}</span><span class="s2"> but expected a single string or list of strings.&quot;</span>
+            <span class="p">)</span>
+
+        <span class="n">filepaths</span> <span class="o">=</span> <span class="n">v</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span> <span class="k">else</span> <span class="p">[</span><span class="n">v</span><span class="p">]</span>
+        <span class="n">final_paths</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="c1"># cspell:ignore ipath, jpath, jpaths</span>
+        <span class="k">for</span> <span class="n">ipath</span> <span class="ow">in</span> <span class="n">filepaths</span><span class="p">:</span>
+            <span class="n">jpaths</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">glob</span><span class="p">(</span><span class="n">ipath</span><span class="p">))</span>
+            <span class="k">for</span> <span class="n">jpath</span> <span class="ow">in</span> <span class="n">jpaths</span><span class="p">:</span>
+                <span class="c1"># Don&#39;t do pathlib.Path as readers don&#39;t expect that.</span>
+                <span class="n">final_paths</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">jpath</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">final_paths</span></div></div>
 
 
 <div class="viewcode-block" id="WorkflowPluginModel"><a class="viewcode-back" href="../../../../geoips_api/geoips.pydantic_models.v1.html#geoips.pydantic_models.v1.workflows.WorkflowPluginModel">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">WorkflowPluginModel</span><span class="p">(</span><span class="n">PluginModel</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;A plugin that produces a workflow.&quot;&quot;&quot;</span>
 
     <span class="n">model_config</span> <span class="o">=</span> <span class="n">ConfigDict</span><span class="p">(</span><span class="n">extra</span><span class="o">=</span><span class="s2">&quot;allow&quot;</span><span class="p">)</span>
-    <span class="n">spec</span><span class="p">:</span> <span class="n">WorkflowSpecModel</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;The workflow specification&quot;</span><span class="p">)</span></div>
+    <span class="n">test</span><span class="p">:</span> <span class="n">WorkflowTestModel</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="kc">None</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="p">(</span>
+            <span class="s2">&quot;An optional dictionary of parameters used to test this workflow.&quot;</span><span class="p">,</span>
+        <span class="p">),</span>
+        <span class="n">examples</span><span class="o">=</span><span class="p">[</span>
+            <span class="p">{</span>
+                <span class="s2">&quot;fnames&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">config</span><span class="o">.</span><span class="n">testdata_dir</span><span class="si">}</span><span class="s2">/test_data_abi/data/goes16_20200918_1950/*&quot;</span><span class="p">,</span>  <span class="c1"># NOQA</span>
+                <span class="s2">&quot;command_line_args&quot;</span><span class="p">:</span> <span class="p">{</span>
+                    <span class="s2">&quot;compare_path&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">config</span><span class="o">.</span><span class="n">packages_dir</span><span class="si">}</span><span class="s2">/geoips/tests/outputs/abi.static.&lt;product&gt;.imagery_clean&quot;</span><span class="p">,</span>  <span class="c1"># NOQA</span>
+                    <span class="s2">&quot;logging_level&quot;</span><span class="p">:</span> <span class="s2">&quot;info&quot;</span><span class="p">,</span>
+                <span class="p">},</span>
+            <span class="p">},</span>
+        <span class="p">],</span>
+    <span class="p">)</span>
+    <span class="n">spec</span><span class="p">:</span> <span class="n">WorkflowSpecModel</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;The workflow specification&quot;</span><span class="p">)</span>
+
+<div class="viewcode-block" id="WorkflowPluginModel.propagate_context"><a class="viewcode-back" href="../../../../geoips_api/geoips.pydantic_models.v1.html#geoips.pydantic_models.v1.workflows.WorkflowPluginModel.propagate_context">[docs]</a>    <span class="nd">@model_validator</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s2">&quot;before&quot;</span><span class="p">)</span>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">propagate_context</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">info</span><span class="p">:</span> <span class="n">ValidationInfo</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Propagate context to the spec model if it exists.</span>
+
+<span class="sd">        This should only occur for &#39;geoips expand &lt;workflow&gt;&#39; calls.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">context</span> <span class="o">=</span> <span class="n">info</span><span class="o">.</span><span class="n">context</span> <span class="ow">or</span> <span class="p">{}</span>
+
+        <span class="n">spec_data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;spec&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">spec_data</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">context</span><span class="o">.</span><span class="n">keys</span><span class="p">())):</span>
+            <span class="c1"># Re-validate spec WITH context</span>
+            <span class="n">data</span><span class="p">[</span><span class="s2">&quot;spec&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">WorkflowSpecModel</span><span class="o">.</span><span class="n">model_validate</span><span class="p">(</span>
+                <span class="n">spec_data</span><span class="p">,</span>
+                <span class="n">context</span><span class="o">=</span><span class="n">context</span><span class="p">,</span>
+            <span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">data</span></div></div>
 </pre></div>
 
                 </article>
@@ -775,8 +2316,8 @@ window.addEventListener("load", () => mermaid.run());
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script defer src="../../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
-<script defer src="../../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+  <script defer src="../../../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb"></script>
+<script defer src="../../../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb"></script>
 
   <footer class="bd-footer">
 <div class="bd-footer__inner bd-page-width">

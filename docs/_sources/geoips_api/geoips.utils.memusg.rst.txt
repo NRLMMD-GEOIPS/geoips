@@ -1,0 +1,45 @@
+geoips.utils.memusg package
+===========================
+
+Submodules
+----------
+
+geoips.utils.memusg.boxplots module
+-----------------------------------
+
+.. automodule:: geoips.utils.memusg.boxplots
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+geoips.utils.memusg.dataframe\_utils module
+-------------------------------------------
+
+.. automodule:: geoips.utils.memusg.dataframe_utils
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+geoips.utils.memusg.memusg\_tracker module
+------------------------------------------
+
+.. automodule:: geoips.utils.memusg.memusg_tracker
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+geoips.utils.memusg.plot\_json\_files module
+--------------------------------------------
+
+.. automodule:: geoips.utils.memusg.plot_json_files
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: geoips.utils.memusg
+   :members:
+   :undoc-members:
+   :show-inheritance:

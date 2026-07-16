@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>geoips.commandline.geoips_config &#8212; GeoIPS, Geolocated Information Processing System 1.17.0a0 documentation</title>
+    <title>geoips.commandline.geoips_config &#8212; GeoIPS, Geolocated Information Processing System 1.19.0.post776.dev0 documentation</title>
   
   
   
@@ -26,53 +26,569 @@
   </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
-<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+  <link href="../../../_static/styles/theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
     <link rel="stylesheet" type="text/css" href="../../../_static/set_width.css?v=d4af5e1e" />
     <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
   
   <!-- So that users can add custom icons -->
-  <script src="../../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <script defer src="../../../_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
-<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
 
-    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=c5be8013"></script>
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=1e4423a0"></script>
     <script src="../../../_static/doctools.js?v=888ff710"></script>
     <script src="../../../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
-    <script type="module" src="https://cdn.jsdelivr.net/npm/mermaid@11.2.0/dist/mermaid.esm.min.mjs"></script>
-    <script type="module" src="https://cdn.jsdelivr.net/npm/@mermaid-js/layout-elk@0.1.4/dist/mermaid-layout-elk.esm.min.mjs"></script>
-    <script type="module">import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.2.0/dist/mermaid.esm.min.mjs";import elkLayouts from "https://cdn.jsdelivr.net/npm/@mermaid-js/layout-elk@0.1.4/dist/mermaid-layout-elk.esm.min.mjs";mermaid.registerLayoutLoaders(elkLayouts);mermaid.initialize({startOnLoad:false});</script>
     <script src="https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js"></script>
-    <script type="module">
-import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.2.0/dist/mermaid.esm.min.mjs";
-window.addEventListener("load", () => mermaid.run());
-</script>
+    <script type="module">import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.12.1/dist/mermaid.esm.min.mjs";
+
+
+
+
+
+const initStyles = () => {
+    const defaultStyle = document.createElement('style');
+    defaultStyle.textContent = `pre.mermaid {
+    /* Same as .mermaid-container > pre */
+    display: block;
+    width: 100%;
+}
+
+pre.mermaid > svg {
+    /* Same as .mermaid-container > pre > svg */
+    height: 500px;
+    width: 100%;
+    max-width: 100% !important;
+}`;
+    document.head.appendChild(defaultStyle);
+
+    const fullscreenStyle = document.createElement('style');
+    fullscreenStyle.textContent = `.mermaid-container {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+}
+
+.mermaid-container > pre {
+    display: block;
+    width: 100%;
+}
+
+.mermaid-container > pre > svg {
+    height: 500px;
+    width: 100%;
+    max-width: 100% !important;
+}
+
+.mermaid-fullscreen-btn {
+    width: 28px;
+    height: 28px;
+    background: rgba(255, 255, 255, 0.95);
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    border-radius: 4px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+    font-size: 14px;
+    line-height: 1;
+    padding: 0;
+    color: #333;
+}
+
+.mermaid-fullscreen-btn:hover {
+    opacity: 100% !important;
+    background: rgba(255, 255, 255, 1);
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
+    transform: scale(1.1);
+}
+
+.mermaid-fullscreen-btn.dark-theme {
+    background: rgba(50, 50, 50, 0.95);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: #e0e0e0;
+}
+
+.mermaid-fullscreen-btn.dark-theme:hover {
+    background: rgba(60, 60, 60, 1);
+    box-shadow: 0 3px 10px rgba(255, 255, 255, 0.2);
+}
+
+.mermaid-fullscreen-modal {
+    display: none;
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 95vw;
+    height: 100vh;
+    background: rgba(255, 255, 255, 0.98);
+    z-index: 9999;
+    padding: 20px;
+    overflow: auto;
+}
+
+.mermaid-fullscreen-modal.dark-theme {
+    background: rgba(0, 0, 0, 0.98);
+}
+
+.mermaid-fullscreen-modal.active {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.mermaid-container-fullscreen {
+    position: relative;
+    width: 95vw;
+    height: 90vh;
+    max-width: 95vw;
+    max-height: 90vh;
+    background: white;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+    overflow: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.mermaid-container-fullscreen.dark-theme {
+    background: #1a1a1a;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8);
+}
+
+.mermaid-container-fullscreen pre.mermaid {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.mermaid-container-fullscreen .mermaid svg {
+    height: 100% !important;
+    width: 100% !important;
+    cursor: grab;
+}
+
+.mermaid-fullscreen-close {
+    position: fixed !important;
+    top: 20px !important;
+    right: 20px !important;
+    width: 40px;
+    height: 40px;
+    background: rgba(255, 255, 255, 0.95);
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-radius: 50%;
+    cursor: pointer;
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    transition: all 0.2s;
+    font-size: 24px;
+    line-height: 1;
+    color: #333;
+}
+
+.mermaid-fullscreen-close:hover {
+    background: white;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+    transform: scale(1.1);
+}
+
+.mermaid-fullscreen-close.dark-theme {
+    background: rgba(50, 50, 50, 0.95);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #e0e0e0;
+}
+
+.mermaid-fullscreen-close.dark-theme:hover {
+    background: rgba(60, 60, 60, 1);
+    box-shadow: 0 6px 16px rgba(255, 255, 255, 0.2);
+}
+
+.mermaid-fullscreen-modal .mermaid-fullscreen-btn {
+    display: none !important;
+}`;
+    document.head.appendChild(fullscreenStyle);
+}
+
+// Detect if page has dark background
+const isDarkTheme = () => {
+    // We use a set of heuristics:
+    // 1. Check for common dark mode classes or attributes
+    // 2. Check computed background color brightness
+    if (document.documentElement.classList.contains('dark') ||
+        document.documentElement.getAttribute('data-theme') === 'dark' ||
+        document.body.classList.contains('dark') ||
+        document.body.getAttribute('data-theme') === 'dark') {
+        // console.log("Dark theme detected via class/attribute");
+        return true;
+    }
+    if (document.documentElement.classList.contains('light') ||
+        document.documentElement.getAttribute('data-theme') === 'light' ||
+        document.body.classList.contains('light') ||
+        document.body.getAttribute('data-theme') === 'light') {
+        // console.log("Light theme detected via class/attribute");
+        return false;
+    }
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        // console.log("Dark theme detected via prefers-color-scheme");
+        return true;
+    }
+    const bgColor = window.getComputedStyle(document.body).backgroundColor;
+    const match = bgColor.match(/rgb\((\d+),\s*(\d+),\s*(\d+)/);
+    if (match) {
+        const r = parseInt(match[1]);
+        const g = parseInt(match[2]);
+        const b = parseInt(match[3]);
+        const brightness = (r * 299 + g * 587 + b * 114) / 1000;
+        // console.log("Background color brightness:", brightness);
+        return brightness < 128;
+    }
+    // console.log("No dark or light theme detected, defaulting to light theme");
+    return false;
+};
+
+let darkTheme = isDarkTheme();
+let modal = null;
+let modalContent = null;
+let previousScrollOffset = [window.scrollX, window.scrollY];
+let _lazyObserver = null;
+let _renderQueue = Promise.resolve();
+
+// Apply d3 zoom to each SVG. Idempotent: an SVG already wrapped is skipped,
+// so this is safe to call both for the initial batch and for diagrams that
+// render lazily once they become visible.
+const addZoomToSvgs = (svgs) => {
+    svgs.each(function() {
+        if (this.getAttribute('data-zoom-applied') === 'true') return;
+        var svg = d3.select(this);
+        svg.html("<g class='wrapper'>" + svg.html() + "</g>");
+        var inner = svg.select("g");
+        var zoom = d3.zoom().on("zoom", function(event) {
+            inner.attr("transform", event.transform);
+        });
+        svg.call(zoom);
+        this.setAttribute('data-zoom-applied', 'true');
+    });
+};
+
+const runMermaid = async (rerun) => {
+    console.log("Running mermaid diagrams, rerun =", rerun);
+    // clear all existing mermaid charts
+    let all_mermaids = document.querySelectorAll(".mermaid");
+
+    if (rerun) {
+        // Disconnect any previous lazy rendering observer
+        if (_lazyObserver) {
+            _lazyObserver.disconnect();
+            _lazyObserver = null;
+        }
+
+        all_mermaids.forEach((el) => {
+            el.removeAttribute('data-mermaid-deferred');
+            el.removeAttribute('data-mermaid-render-failed');
+            if(!el.hasAttribute("data-original-code")) {
+                // store original code
+                // console.log(`Storing original code for first run: `, el.innerHTML);
+                el.setAttribute('data-original-code', el.innerHTML);
+            }
+            if(el.getAttribute("data-processed") === "true") {
+                // remove and restore original
+                el.removeAttribute("data-processed");
+                // console.log(`Restoring original code for re-run: `, el.getAttribute('data-original-code'));
+                el.innerHTML = el.getAttribute('data-original-code');
+            } else {
+                // store original code
+                // console.log(`Storing original code for re-run: `, el.innerHTML);
+                el.setAttribute('data-original-code', el.innerHTML);
+            }
+        });
+
+        // Separate visible and hidden elements. Mermaid's layout engine measures
+        // text dimensions via the DOM, which fails for elements hidden by a parent
+        // (e.g., Reveal.js non-active slides, sphinx-design unopened tabs),
+        // producing broken SVGs. Render visible elements now, defer hidden ones.
+        const visible = [];
+        const hidden = [];
+        all_mermaids.forEach((el) => {
+            // offsetParent is null for display:none ancestors.
+            // getClientRects().length > 0 catches position:fixed elements
+            // (which also have null offsetParent but are still visible).
+            if (el.offsetParent !== null || el.getClientRects().length > 0) {
+                visible.push(el);
+            } else {
+                hidden.push(el);
+                el.setAttribute('data-mermaid-deferred', 'true');
+            }
+        });
+
+        if (visible.length > 0) {
+            try {
+                await mermaid.run({ nodes: visible });
+            } catch (e) {
+                console.error("Mermaid rendering failed:", e);
+            }
+        }
+
+        // Lazily render hidden elements when they become visible.
+        // Uses a promise chain (_renderQueue) to serialize rendering,
+        // since IntersectionObserver may report multiple entries at once
+        // and mermaid.run() is not safe to call concurrently.
+        if (hidden.length > 0) {
+            if (typeof IntersectionObserver === 'undefined') {
+                console.warn("IntersectionObserver not available; hidden mermaid diagrams will not render.");
+            } else {
+                _renderQueue = Promise.resolve();
+                _lazyObserver = new IntersectionObserver((entries) => {
+                    for (const entry of entries) {
+                        if (entry.isIntersecting && entry.target.getAttribute("data-processed") !== "true") {
+                            _lazyObserver.unobserve(entry.target);
+                            const el = entry.target;
+                            _renderQueue = _renderQueue.then(async () => {
+                                try {
+                                    await mermaid.run({ nodes: [el] });
+                                    el.removeAttribute('data-mermaid-deferred');
+                                    // Apply zoom to the now-rendered diagram, matching
+                                    // the decoration visible diagrams receive.
+                                    if ("False" === "True") {
+                                        addZoomToSvgs(d3.selectAll(""));
+                                    }
+                                } catch (e) {
+                                    console.error("Mermaid deferred rendering failed:", e);
+                                    el.removeAttribute('data-mermaid-deferred');
+                                    el.setAttribute('data-mermaid-render-failed', 'true');
+                                }
+                            });
+                        }
+                    }
+                });
+                hidden.forEach((el) => _lazyObserver.observe(el));
+            }
+        }
+    }
+
+    all_mermaids = document.querySelectorAll(".mermaid");
+    // Exclude deferred (hidden) and render-failed elements from completion checks
+    const mermaids_active = document.querySelectorAll(".mermaid:not([data-mermaid-deferred]):not([data-mermaid-render-failed])");
+    const mermaids_processed = document.querySelectorAll(".mermaid:not([data-mermaid-deferred]):not([data-mermaid-render-failed])[data-processed='true']");
+
+    if ("False" === "True") {
+        const mermaids_to_add_zoom = -1 === -1 ? mermaids_active.length : -1;
+        if(mermaids_to_add_zoom > 0) {
+            var svgs = d3.selectAll("");
+            // Wait until every active (visible) diagram has rendered. Deferred
+            // diagrams are excluded, so a fixed d3_node_count that counts a
+            // hidden diagram no longer loops forever waiting for its SVG.
+            if(mermaids_active.length !== mermaids_processed.length) {
+                setTimeout(() => runMermaid(false), 200);
+                return;
+            }
+            addZoomToSvgs(svgs);
+        }
+    } else if(mermaids_active.length !== mermaids_processed.length) {
+        // Wait for mermaid to process all diagrams
+        setTimeout(() => runMermaid(false), 200);
+        return;
+    }
+
+    // Stop here if not adding fullscreen capability
+    if ("True" !== "True") return;
+
+    if (modal !== null ) {
+        // Destroy existing modal
+        modal.remove();
+        modal = null;
+        modalContent = null;
+    }
+
+    modal = document.createElement('div');
+    modal.className = 'mermaid-fullscreen-modal' + (darkTheme ? ' dark-theme' : '');
+    modal.setAttribute('role', 'dialog');
+    modal.setAttribute('aria-modal', 'true');
+    modal.setAttribute('aria-label', 'Fullscreen diagram viewer');
+    modal.innerHTML = `
+        <button class="mermaid-fullscreen-close${darkTheme ? ' dark-theme' : ''}" aria-label="Close fullscreen">✕</button>
+        <div class="mermaid-container-fullscreen${darkTheme ? ' dark-theme' : ''}"></div>
+    `;
+    document.body.appendChild(modal);
+
+    modalContent = modal.querySelector('.mermaid-container-fullscreen');
+    const closeBtn = modal.querySelector('.mermaid-fullscreen-close');
+
+    const closeModal = () => {
+        modal.classList.remove('active');
+        modalContent.innerHTML = '';
+        document.body.style.overflow = ''
+        window.scrollTo({left: previousScrollOffset[0], top: previousScrollOffset[1], behavior: 'instant'});
+    };
+
+    closeBtn.addEventListener('click', closeModal);
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) closeModal();
+    });
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && modal.classList.contains('active')) {
+            closeModal();
+        }
+    });
+
+    document.querySelectorAll('.mermaid').forEach((mermaidDiv) => {
+        if (mermaidDiv.parentNode.classList.contains('mermaid-container') ||
+            mermaidDiv.closest('.mermaid-fullscreen-modal')) {
+            // Already processed, adjust button class if needed
+            const existingBtn = mermaidDiv.parentNode.querySelector('.mermaid-fullscreen-btn');
+            if (existingBtn) {
+                existingBtn.className = 'mermaid-fullscreen-btn' + (darkTheme ? ' dark-theme' : '');
+            }
+            return;
+        }
+
+        const container = document.createElement('div');
+        container.className = 'mermaid-container';
+        mermaidDiv.parentNode.insertBefore(container, mermaidDiv);
+        container.appendChild(mermaidDiv);
+
+        const fullscreenBtn = document.createElement('button');
+        fullscreenBtn.className = 'mermaid-fullscreen-btn' + (darkTheme ? ' dark-theme' : '');
+        fullscreenBtn.setAttribute('aria-label', 'View diagram in fullscreen');
+        fullscreenBtn.textContent = '⛶';
+        fullscreenBtn.style.opacity = '50%';
+
+        // Calculate dynamic position based on diagram's margin and padding
+        const diagramStyle = window.getComputedStyle(mermaidDiv);
+        const marginTop = parseFloat(diagramStyle.marginTop) || 0;
+        const marginRight = parseFloat(diagramStyle.marginRight) || 0;
+        const paddingTop = parseFloat(diagramStyle.paddingTop) || 0;
+        const paddingRight = parseFloat(diagramStyle.paddingRight) || 0;
+        fullscreenBtn.style.top = `${marginTop + paddingTop + 4}px`;
+        fullscreenBtn.style.right = `${marginRight + paddingRight + 4}px`;
+
+        fullscreenBtn.addEventListener('click', () => {
+            previousScrollOffset = [window.scroll, window.scrollY];
+            const clone = mermaidDiv.cloneNode(true);
+            modalContent.innerHTML = '';
+            modalContent.appendChild(clone);
+
+            const svg = clone.querySelector('svg');
+            if (svg) {
+                svg.removeAttribute('width');
+                svg.removeAttribute('height');
+                svg.style.width = '100%';
+                svg.style.height = 'auto';
+                svg.style.maxWidth = '100%';
+                svg.style.sdisplay = 'block';
+
+                if ("False" === "True") {
+                    setTimeout(() => {
+                        const g = svg.querySelector('g');
+                        if (g) {
+                            var svgD3 = d3.select(svg);
+                            svgD3.html("<g class='wrapper'>" + svgD3.html() + "</g>");
+                            var inner = svgD3.select("g");
+                            var zoom = d3.zoom().on("zoom", function(event) {
+                                inner.attr("transform", event.transform);
+                            });
+                            svgD3.call(zoom);
+                        }
+                    }, 100);
+                }
+            }
+
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        });
+        container.appendChild(fullscreenBtn);
+    });
+};
+
+const load = async () => {
+    initStyles();
+
+    await runMermaid(true);
+
+    const reRunIfThemeChanges = async () => {
+        const newDarkTheme = isDarkTheme();
+        if (newDarkTheme !== darkTheme) {
+            darkTheme = newDarkTheme;
+            console.log("Theme change detected, re-running mermaid with", darkTheme ? "dark" : "default", "theme");
+            await mermaid.initialize(
+                {...JSON.parse(
+                    `{"startOnLoad": false}`
+                ),
+                ...{ darkMode: darkTheme, theme: darkTheme ? 'dark' : 'default' },
+                }
+            );
+            await runMermaid(true);
+        }
+    };
+
+    // Update theme classes when theme changes
+    const themeObserver = new MutationObserver(reRunIfThemeChanges);
+    themeObserver.observe(document.documentElement, {
+        attributes: true,
+        attributeFilter: ['class', 'style', 'data-theme']
+    });
+    themeObserver.observe(document.body, {
+        attributes: true,
+        attributeFilter: ['class', 'style', 'data-theme']
+    });
+};
+
+
+
+
+
+console.log("Initializing mermaid with", darkTheme ? "dark" : "default", "theme");
+mermaid.initialize(
+    {...JSON.parse(
+        `{"startOnLoad": false}`
+    ),
+    ...{ darkMode: darkTheme, theme: darkTheme ? 'dark' : 'default' },
+    }
+);
+
+window.addEventListener("load", load);
+window.runMermaid = runMermaid;</script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_modules/geoips/commandline/geoips_config';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
     <link rel="icon" href="../../../_static/nrlicon.ico"/>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="1.1" />
-    <meta name="docbuild:last-update" content="Oct 14, 2025 20:03:48"/>
+    <meta name="docbuild:last-update" content="Jul 16, 2026 04:57:54"/>
+  
+    
+    <script src="../../../_static/searchtools.js"></script>
+    <script src="../../../_static/language_data.js"></script>
+    <script src="../../../searchindex.js"></script>
+  
   </head>
-  
-  
-  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
-
+  <body data-default-mode="">
   
   
   <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
   
   <div id="pst-scroll-pixel-helper"></div>
   
   <button type="button" class="btn rounded-pill" id="pst-back-to-top">
     <i class="fa-solid fa-arrow-up"></i>Back to top</button>
-
+  
+  
+  
   
   <dialog id="pst-search-dialog">
     
@@ -98,7 +614,7 @@ window.addEventListener("load", () => mermaid.run());
 </div>
 
   
-    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
 <div class="bd-header__inner bd-page-width">
   <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
     <span class="fa-solid fa-bars"></span>
@@ -124,8 +640,8 @@ window.addEventListener("load", () => mermaid.run());
       
     
     
-    <img src="../../../_static/NRL_logo_RGB.jpg" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 1.17.0a0 documentation - Home"/>
-    <img src="../../../_static/NRL_logo_sidebar_Reverse.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 1.17.0a0 documentation - Home"/>
+    <img src="../../../_static/NRL_logo_RGB.jpg" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 1.19.0.post776.dev0 documentation - Home"/>
+    <img src="../../../_static/NRL_logo_sidebar_Reverse.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 1.19.0.post776.dev0 documentation - Home"/>
   
   
 </a></div>
@@ -435,21 +951,535 @@ window.addEventListener("load", () => mermaid.run());
 <span class="sd">Various configuration-based commands for setting up your geoips environment.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
+<span class="kn">import</span><span class="w"> </span><span class="nn">hashlib</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">pathlib</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">shutil</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">concurrent.futures</span><span class="w"> </span><span class="kn">import</span> <span class="n">ThreadPoolExecutor</span><span class="p">,</span> <span class="n">as_completed</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">datetime</span><span class="p">,</span> <span class="n">timezone</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">importlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">metadata</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">os</span><span class="w"> </span><span class="kn">import</span> <span class="n">listdir</span><span class="p">,</span> <span class="n">remove</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">os.path</span><span class="w"> </span><span class="kn">import</span> <span class="n">join</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">subprocess</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">requests</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">tempfile</span>
-
-<span class="kn">from</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="kn">import</span> <span class="nb">any</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">tarfile</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">tqdm</span><span class="w"> </span><span class="kn">import</span> <span class="n">tqdm</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">tempfile</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">NamedTuple</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">requests</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">yaml</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pydantic</span><span class="w"> </span><span class="kn">import</span> <span class="n">ValidationError</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">geoips</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">geoips.commandline.ancillary_info.test_data</span><span class="w"> </span><span class="kn">import</span> <span class="n">test_dataset_dict</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">geoips.commandline.geoips_command</span><span class="w"> </span><span class="kn">import</span> <span class="n">GeoipsCommand</span><span class="p">,</span> <span class="n">GeoipsExecutableCommand</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">geoips.plugin_registry</span><span class="w"> </span><span class="kn">import</span> <span class="n">PluginRegistry</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">geoips.commandline.install_progress</span><span class="w"> </span><span class="kn">import</span> <span class="n">create_progress_display</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">geoips.config.config</span><span class="w"> </span><span class="kn">import</span> <span class="n">GeoIPSConfig</span><span class="p">,</span> <span class="n">_cast_env_value</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">geoips.config.plugins</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">CONFIG_PLUGIN_GROUP</span><span class="p">,</span>
+    <span class="n">build_plugin_env_map</span><span class="p">,</span>
+    <span class="n">cast_plugin_target</span><span class="p">,</span>
+    <span class="n">discover_config_plugins</span><span class="p">,</span>
+    <span class="n">field_comment</span><span class="p">,</span>
+    <span class="n">full_model_defaults</span><span class="p">,</span>
+    <span class="n">is_nested_model</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">geoips.config.schema</span><span class="w"> </span><span class="kn">import</span> <span class="n">GEOIPS_ENV_MAP</span><span class="p">,</span> <span class="n">GeoSettings</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">geoips.config.yaml_loader</span><span class="w"> </span><span class="kn">import</span> <span class="n">find_project_config</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pluginify.commandline_typer</span><span class="w"> </span><span class="kn">import</span> <span class="n">configure_logging</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pluginify.plugin_registry</span><span class="w"> </span><span class="kn">import</span> <span class="n">PluginRegistry</span>
+
+
+<div class="viewcode-block" id="ChunkCheckRecord"><a class="viewcode-back" href="../../../geoips_api/geoips.commandline.html#geoips.commandline.geoips_config.ChunkCheckRecord">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">ChunkCheckRecord</span><span class="p">(</span><span class="n">NamedTuple</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Immutable record passed through the chunk-check pipeline.&quot;&quot;&quot;</span>
+
+    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">url</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">version_file</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">existing_dir</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span></div>
+
+
+<div class="viewcode-block" id="ChunkCheckOutcome"><a class="viewcode-back" href="../../../geoips_api/geoips.commandline.html#geoips.commandline.geoips_config.ChunkCheckOutcome">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">ChunkCheckOutcome</span><span class="p">(</span><span class="n">NamedTuple</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Result of a chunk-hash check for one dataset.&quot;&quot;&quot;</span>
+
+    <span class="n">record</span><span class="p">:</span> <span class="n">ChunkCheckRecord</span>
+    <span class="n">disposition</span><span class="p">:</span> <span class="nb">str</span>  <span class="c1"># &quot;cached&quot; | &quot;needs_download&quot; | &quot;stale&quot;</span>
+    <span class="n">reason</span><span class="p">:</span> <span class="nb">str</span></div>
+
+
+<div class="viewcode-block" id="DownloadResult"><a class="viewcode-back" href="../../../geoips_api/geoips.commandline.html#geoips.commandline.geoips_config.DownloadResult">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">DownloadResult</span><span class="p">(</span><span class="n">NamedTuple</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Result of a full dataset download.&quot;&quot;&quot;</span>
+
+    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">full_hash</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">chunk_hash</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">temp_path</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">total_bytes</span><span class="p">:</span> <span class="nb">int</span></div>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_chunk_check_parallel</span><span class="p">(</span>
+    <span class="n">verify_version</span><span class="p">,</span> <span class="n">fetch_chunk</span><span class="p">,</span> <span class="n">read_stored</span><span class="p">,</span> <span class="n">infos</span><span class="p">,</span> <span class="n">max_workers</span><span class="p">,</span> <span class="n">chunk_size</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Run chunk-hash verification for *infos* in parallel.&quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">check_one</span><span class="p">(</span><span class="n">info</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Pure function: classify a single dataset from its record.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">info</span><span class="o">.</span><span class="n">existing_dir</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">ChunkCheckOutcome</span><span class="p">(</span><span class="n">info</span><span class="p">,</span> <span class="s2">&quot;needs_download&quot;</span><span class="p">,</span> <span class="s2">&quot;not installed&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">verify_version</span><span class="p">(</span><span class="n">info</span><span class="o">.</span><span class="n">version_file</span><span class="p">,</span> <span class="n">info</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">info</span><span class="o">.</span><span class="n">url</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">ChunkCheckOutcome</span><span class="p">(</span>
+                <span class="n">info</span><span class="p">,</span> <span class="s2">&quot;stale&quot;</span><span class="p">,</span> <span class="s2">&quot;version file invalid or incomplete&quot;</span>
+            <span class="p">)</span>
+
+        <span class="n">live_hash</span> <span class="o">=</span> <span class="n">fetch_chunk</span><span class="p">(</span><span class="n">info</span><span class="o">.</span><span class="n">url</span><span class="p">,</span> <span class="n">chunk_size</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">live_hash</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">stored</span> <span class="o">=</span> <span class="n">read_stored</span><span class="p">(</span><span class="n">info</span><span class="o">.</span><span class="n">version_file</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">stored</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">ChunkCheckOutcome</span><span class="p">(</span><span class="n">info</span><span class="p">,</span> <span class="s2">&quot;cached&quot;</span><span class="p">,</span> <span class="s2">&quot;trusted (server unreachable)&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">ChunkCheckOutcome</span><span class="p">(</span>
+                <span class="n">info</span><span class="p">,</span> <span class="s2">&quot;stale&quot;</span><span class="p">,</span> <span class="s2">&quot;no chunk hash + server unreachable&quot;</span>
+            <span class="p">)</span>
+
+        <span class="n">stored</span> <span class="o">=</span> <span class="n">read_stored</span><span class="p">(</span><span class="n">info</span><span class="o">.</span><span class="n">version_file</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">stored</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">live_hash</span> <span class="o">==</span> <span class="n">stored</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">ChunkCheckOutcome</span><span class="p">(</span><span class="n">info</span><span class="p">,</span> <span class="s2">&quot;cached&quot;</span><span class="p">,</span> <span class="s2">&quot;chunk verified&quot;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">ChunkCheckOutcome</span><span class="p">(</span>
+            <span class="n">info</span><span class="p">,</span> <span class="s2">&quot;stale&quot;</span><span class="p">,</span> <span class="s2">&quot;upstream changed (chunk hash mismatch)&quot;</span>
+        <span class="p">)</span>
+
+    <span class="k">with</span> <span class="n">ThreadPoolExecutor</span><span class="p">(</span><span class="n">max_workers</span><span class="o">=</span><span class="n">max_workers</span><span class="p">)</span> <span class="k">as</span> <span class="n">pool</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">pool</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">check_one</span><span class="p">,</span> <span class="n">infos</span><span class="p">))</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_download_parallel</span><span class="p">(</span>
+    <span class="n">download_to_temp</span><span class="p">,</span> <span class="n">first_chunk_size</span><span class="p">,</span> <span class="n">targets</span><span class="p">,</span> <span class="n">outdir</span><span class="p">,</span> <span class="n">temp_dir</span><span class="p">,</span> <span class="n">max_workers</span><span class="p">,</span> <span class="n">display</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Download *targets* in parallel, extract sequentially on main thread.&quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">run_one</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="n">chunk_size</span><span class="p">):</span>
+        <span class="n">name</span> <span class="o">=</span> <span class="n">target</span><span class="o">.</span><span class="n">record</span><span class="o">.</span><span class="n">name</span>
+        <span class="n">display</span><span class="o">.</span><span class="n">add_download</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="n">download_to_temp</span><span class="p">(</span><span class="n">target</span><span class="o">.</span><span class="n">record</span><span class="o">.</span><span class="n">url</span><span class="p">,</span> <span class="n">temp_dir</span><span class="p">,</span> <span class="n">chunk_size</span><span class="p">)</span>
+            <span class="n">display</span><span class="o">.</span><span class="n">mark_download_done</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">result</span><span class="o">.</span><span class="n">_replace</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
+            <span class="n">display</span><span class="o">.</span><span class="n">mark_failed</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">exc</span><span class="p">))</span>
+            <span class="k">return</span> <span class="kc">None</span>
+
+    <span class="k">with</span> <span class="n">ThreadPoolExecutor</span><span class="p">(</span><span class="n">max_workers</span><span class="o">=</span><span class="n">max_workers</span><span class="p">)</span> <span class="k">as</span> <span class="n">pool</span><span class="p">:</span>
+        <span class="n">futures</span> <span class="o">=</span> <span class="p">{</span><span class="n">pool</span><span class="o">.</span><span class="n">submit</span><span class="p">(</span><span class="n">run_one</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">first_chunk_size</span><span class="p">):</span> <span class="n">t</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">targets</span><span class="p">}</span>
+        <span class="k">for</span> <span class="n">future</span> <span class="ow">in</span> <span class="n">as_completed</span><span class="p">(</span><span class="n">futures</span><span class="p">):</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="n">future</span><span class="o">.</span><span class="n">result</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">result</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">continue</span>
+            <span class="n">_extract_and_finalize</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">outdir</span><span class="p">,</span> <span class="n">display</span><span class="p">,</span> <span class="n">first_chunk_size</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_extract_and_finalize</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">outdir</span><span class="p">,</span> <span class="n">display</span><span class="p">,</span> <span class="n">chunk_size</span><span class="p">):</span>  <span class="c1"># noqa: ARG001</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Extract a downloaded archive and write its version file.&quot;&quot;&quot;</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">name</span>
+    <span class="n">total</span> <span class="o">=</span> <span class="n">_count_tar_members</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">temp_path</span><span class="p">)</span>
+    <span class="n">display</span><span class="o">.</span><span class="n">add_extract</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">total</span><span class="p">)</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">_extract_from_temp</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">temp_path</span><span class="p">,</span> <span class="n">outdir</span><span class="p">)</span>
+        <span class="n">display</span><span class="o">.</span><span class="n">update_extract</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">total</span><span class="p">,</span> <span class="n">total</span><span class="p">)</span>
+        <span class="n">_write_version_file</span><span class="p">(</span>
+            <span class="n">join</span><span class="p">(</span><span class="n">outdir</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;.</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">_version&quot;</span><span class="p">),</span>
+            <span class="n">name</span><span class="p">,</span>
+            <span class="n">test_dataset_dict</span><span class="p">[</span><span class="n">name</span><span class="p">],</span>
+            <span class="n">result</span><span class="o">.</span><span class="n">full_hash</span><span class="p">,</span>
+            <span class="n">result</span><span class="o">.</span><span class="n">chunk_hash</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">display</span><span class="o">.</span><span class="n">mark_complete</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
+        <span class="n">display</span><span class="o">.</span><span class="n">mark_failed</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">exc</span><span class="p">))</span>
+    <span class="k">finally</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">remove</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">temp_path</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">OSError</span><span class="p">:</span>
+            <span class="k">pass</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_count_tar_members</span><span class="p">(</span><span class="n">temp_path</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the file-count of a tar archive for progress display.&quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">with</span> <span class="n">tarfile</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">temp_path</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;r:gz&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">tar</span><span class="p">:</span>
+            <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="n">tar</span><span class="o">.</span><span class="n">getmembers</span><span class="p">())</span>
+    <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mi">1</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_extract_from_temp</span><span class="p">(</span><span class="n">temp_path</span><span class="p">,</span> <span class="n">outdir</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Extract a tar archive to *outdir*, validating paths.&quot;&quot;&quot;</span>
+    <span class="k">with</span> <span class="n">tarfile</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">temp_path</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;r:gz&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">tar</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">tar</span><span class="p">:</span>
+            <span class="n">member_path</span> <span class="o">=</span> <span class="p">(</span><span class="n">outdir</span> <span class="o">/</span> <span class="n">m</span><span class="o">.</span><span class="n">name</span><span class="p">)</span><span class="o">.</span><span class="n">resolve</span><span class="p">()</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">str</span><span class="p">(</span><span class="n">member_path</span><span class="p">)</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">outdir</span><span class="o">.</span><span class="n">resolve</span><span class="p">())):</span>
+                <span class="k">raise</span> <span class="ne">SystemExit</span><span class="p">(</span><span class="s2">&quot;Found unsafe filepath in tar, exiting now.&quot;</span><span class="p">)</span>
+            <span class="n">tar</span><span class="o">.</span><span class="n">extract</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="n">outdir</span><span class="p">,</span> <span class="nb">filter</span><span class="o">=</span><span class="s2">&quot;tar&quot;</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_write_version_file</span><span class="p">(</span>
+    <span class="n">version_file</span><span class="p">,</span> <span class="n">dataset_name</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> <span class="n">sha256_hash</span><span class="p">,</span> <span class="n">chunk_sha256</span><span class="o">=</span><span class="kc">None</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Write a ``.geoips_testdata_version`` file recording the download.&quot;&quot;&quot;</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;dataset&quot;</span><span class="p">:</span> <span class="n">dataset_name</span><span class="p">,</span>
+        <span class="s2">&quot;url&quot;</span><span class="p">:</span> <span class="n">url</span><span class="p">,</span>
+        <span class="s2">&quot;sha256&quot;</span><span class="p">:</span> <span class="n">sha256_hash</span><span class="p">,</span>
+        <span class="s2">&quot;downloaded_at&quot;</span><span class="p">:</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">(</span><span class="n">timezone</span><span class="o">.</span><span class="n">utc</span><span class="p">)</span><span class="o">.</span><span class="n">isoformat</span><span class="p">(),</span>
+    <span class="p">}</span>
+    <span class="k">if</span> <span class="n">chunk_sha256</span><span class="p">:</span>
+        <span class="n">data</span><span class="p">[</span><span class="s2">&quot;chunk_sha256&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">chunk_sha256</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">version_file</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fh</span><span class="p">:</span>
+        <span class="n">yaml</span><span class="o">.</span><span class="n">safe_dump</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">fh</span><span class="p">,</span> <span class="n">default_flow_style</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_combined_env_map</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the core env map merged with all plugin-contributed env vars.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="p">{</span><span class="o">**</span><span class="n">GEOIPS_ENV_MAP</span><span class="p">,</span> <span class="o">**</span><span class="n">build_plugin_env_map</span><span class="p">()}</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_collect_env_overrides</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Collect GeoIPS configuration values from environment variables.</span>
+
+<span class="sd">    Iterates the combined core + plugin env map and returns a mapping of</span>
+<span class="sd">    environment variable name to value for every variable that is set.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    dict[str, str]</span>
+<span class="sd">        Mapping of environment variable name to raw string environment values.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">overrides</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">env_var</span> <span class="ow">in</span> <span class="n">_combined_env_map</span><span class="p">():</span>
+        <span class="n">raw</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">env_var</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">raw</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">overrides</span><span class="p">[</span><span class="n">env_var</span><span class="p">]</span> <span class="o">=</span> <span class="n">raw</span>
+    <span class="k">return</span> <span class="n">overrides</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_prompt_for_missing</span><span class="p">(</span>
+    <span class="n">overrides</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">],</span> <span class="n">keys_to_prompt</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Interactively prompt the user for missing configuration values.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    overrides : dict[str, str]</span>
+<span class="sd">        Existing overrides keyed by environment variable name.</span>
+<span class="sd">    keys_to_prompt : list[str]</span>
+<span class="sd">        Environment variable names to prompt for if absent from *overrides*.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    dict[str, str]</span>
+<span class="sd">        New overrides from user input, keyed by environment variable name.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">prompted</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">defaults</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;GEOIPS_OUTDIRS&quot;</span><span class="p">:</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;HOME&quot;</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="s2">&quot;~&quot;</span><span class="p">)),</span> <span class="s2">&quot;geoips_outdirs&quot;</span>
+        <span class="p">),</span>
+        <span class="s2">&quot;GEOIPS_TESTDATA_DIR&quot;</span><span class="p">:</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;HOME&quot;</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="s2">&quot;~&quot;</span><span class="p">)),</span> <span class="s2">&quot;geoips_testdata&quot;</span>
+        <span class="p">),</span>
+        <span class="s2">&quot;GEOIPS_PACKAGES_DIR&quot;</span><span class="p">:</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;HOME&quot;</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="s2">&quot;~&quot;</span><span class="p">)),</span> <span class="s2">&quot;geoips_packages&quot;</span>
+        <span class="p">),</span>
+    <span class="p">}</span>
+
+    <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">keys_to_prompt</span><span class="p">:</span>
+        <span class="n">env_val</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">env_val</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">continue</span>
+
+        <span class="n">default</span> <span class="o">=</span> <span class="n">defaults</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">  </span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2"> [default: </span><span class="si">{</span><span class="n">default</span><span class="si">}</span><span class="s2">]: &quot;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+        <span class="n">prompted</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span> <span class="k">if</span> <span class="n">value</span> <span class="k">else</span> <span class="n">default</span>
+
+    <span class="k">return</span> <span class="n">prompted</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_build_nested_config</span><span class="p">(</span><span class="n">overrides</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert flat env-var overrides into a nested YAML-ready dictionary.</span>
+
+<span class="sd">    Uses the combined core + plugin env map to translate environment variable</span>
+<span class="sd">    names into dot-separated field paths, then nests them. Plugin values</span>
+<span class="sd">    (``plugins.&lt;pkg&gt;.&lt;field&gt;``) are cast against their plugin model&#39;s field</span>
+<span class="sd">    type; core values use the core caster.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    overrides : dict[str, str]</span>
+<span class="sd">        Mapping of environment variable names to raw string values.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    dict</span>
+<span class="sd">        Nested dictionary suitable for ``yaml.dump``.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">combined</span> <span class="o">=</span> <span class="n">_combined_env_map</span><span class="p">()</span>
+
+    <span class="n">result</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">env_var</span><span class="p">,</span> <span class="n">raw_value</span> <span class="ow">in</span> <span class="n">overrides</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">field_path</span> <span class="o">=</span> <span class="n">combined</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">env_var</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">field_path</span><span class="p">:</span>
+            <span class="k">continue</span>
+        <span class="k">if</span> <span class="n">field_path</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;plugins.&quot;</span><span class="p">):</span>
+            <span class="n">cast</span> <span class="o">=</span> <span class="n">cast_plugin_target</span><span class="p">(</span><span class="n">field_path</span><span class="p">,</span> <span class="n">raw_value</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">cast</span> <span class="o">=</span> <span class="n">_cast_env_value</span><span class="p">(</span><span class="n">raw_value</span><span class="p">,</span> <span class="n">field_path</span><span class="p">)</span>
+        <span class="n">parts</span> <span class="o">=</span> <span class="n">field_path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)</span>
+        <span class="n">node</span> <span class="o">=</span> <span class="n">result</span>
+        <span class="k">for</span> <span class="n">part</span> <span class="ow">in</span> <span class="n">parts</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
+            <span class="n">node</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="n">part</span><span class="p">,</span> <span class="p">{})</span>
+        <span class="n">node</span><span class="p">[</span><span class="n">parts</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]]</span> <span class="o">=</span> <span class="n">cast</span>
+    <span class="k">return</span> <span class="n">result</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_deep_merge</span><span class="p">(</span><span class="n">base</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">override</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Recursively merge *override* into *base* in-place.</span>
+
+<span class="sd">    Nested dictionaries are merged; scalar values are replaced.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    base : dict</span>
+<span class="sd">        Target dictionary updated in-place.</span>
+<span class="sd">    override : dict</span>
+<span class="sd">        Source dictionary whose values take precedence.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">override</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">base</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">base</span><span class="p">[</span><span class="n">key</span><span class="p">],</span> <span class="nb">dict</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+            <span class="n">_deep_merge</span><span class="p">(</span><span class="n">base</span><span class="p">[</span><span class="n">key</span><span class="p">],</span> <span class="n">value</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">base</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_indent_lines</span><span class="p">(</span><span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">indent</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Indent every non-empty line of *text* by *indent* spaces.&quot;&quot;&quot;</span>
+    <span class="n">pad</span> <span class="o">=</span> <span class="s2">&quot; &quot;</span> <span class="o">*</span> <span class="n">indent</span>
+    <span class="k">return</span> <span class="p">[</span><span class="n">pad</span> <span class="o">+</span> <span class="n">line</span> <span class="k">if</span> <span class="n">line</span> <span class="k">else</span> <span class="n">line</span> <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">text</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)]</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_format_scalar</span><span class="p">(</span><span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Render ``key: value`` for a scalar/list using flow style (single line).&quot;&quot;&quot;</span>
+    <span class="n">dumped</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">safe_dump</span><span class="p">({</span><span class="n">key</span><span class="p">:</span> <span class="n">value</span><span class="p">},</span> <span class="n">default_flow_style</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">sort_keys</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">dumped</span><span class="o">.</span><span class="n">strip</span><span class="p">()[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_dump_annotated</span><span class="p">(</span><span class="n">values</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">model_cls</span><span class="p">,</span> <span class="n">indent</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Render a plugin&#39;s values as YAML lines with per-field default comments.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    values : dict</span>
+<span class="sd">        The plugin field values to render (in declared order).</span>
+<span class="sd">    model_cls : type[pydantic.BaseModel]</span>
+<span class="sd">        The plugin settings model, used for comments and nested structure.</span>
+<span class="sd">    indent : int</span>
+<span class="sd">        Number of leading spaces for this level.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    list[str]</span>
+<span class="sd">        YAML lines, each scalar annotated with a ``# default: ...`` comment.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">pad</span> <span class="o">=</span> <span class="s2">&quot; &quot;</span> <span class="o">*</span> <span class="n">indent</span>
+    <span class="n">lines</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">fields</span> <span class="o">=</span> <span class="n">model_cls</span><span class="o">.</span><span class="n">model_fields</span>
+    <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">values</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">field_info</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+        <span class="n">nested_cls</span> <span class="o">=</span> <span class="n">is_nested_model</span><span class="p">(</span><span class="n">field_info</span><span class="o">.</span><span class="n">annotation</span><span class="p">)</span> <span class="k">if</span> <span class="n">field_info</span> <span class="k">else</span> <span class="kc">None</span>
+        <span class="n">comment</span> <span class="o">=</span> <span class="n">field_comment</span><span class="p">(</span><span class="n">model_cls</span><span class="p">,</span> <span class="n">key</span><span class="p">)</span> <span class="k">if</span> <span class="n">field_info</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">dict</span><span class="p">)</span> <span class="ow">and</span> <span class="n">nested_cls</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">header</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">pad</span><span class="si">}{</span><span class="n">key</span><span class="si">}</span><span class="s2">:&quot;</span>
+            <span class="k">if</span> <span class="n">comment</span><span class="p">:</span>
+                <span class="n">header</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;  # </span><span class="si">{</span><span class="n">comment</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">header</span><span class="p">)</span>
+            <span class="n">lines</span> <span class="o">+=</span> <span class="n">_dump_annotated</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">nested_cls</span><span class="p">,</span> <span class="n">indent</span> <span class="o">+</span> <span class="mi">2</span><span class="p">)</span>
+            <span class="k">continue</span>
+        <span class="n">line</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">pad</span><span class="si">}{</span><span class="n">_format_scalar</span><span class="p">(</span><span class="n">key</span><span class="p">,</span><span class="w"> </span><span class="n">value</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="k">if</span> <span class="n">comment</span><span class="p">:</span>
+            <span class="n">line</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;  # </span><span class="si">{</span><span class="n">comment</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">lines</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_plugin_dist_names</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return a mapping of config-plugin name to its distribution name.&quot;&quot;&quot;</span>
+    <span class="n">names</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">entry</span> <span class="ow">in</span> <span class="n">metadata</span><span class="o">.</span><span class="n">entry_points</span><span class="p">(</span><span class="n">group</span><span class="o">=</span><span class="n">CONFIG_PLUGIN_GROUP</span><span class="p">):</span>
+        <span class="n">dist</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">entry</span><span class="p">,</span> <span class="s2">&quot;dist&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="n">names</span><span class="p">[</span><span class="n">entry</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">dist</span><span class="o">.</span><span class="n">name</span> <span class="k">if</span> <span class="n">dist</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="kc">None</span>
+    <span class="k">return</span> <span class="n">names</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_render_config</span><span class="p">(</span><span class="n">core_nested</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">plugin_values</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">plugins</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Render the full ``geoips:`` YAML document with annotated plugin blocks.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    core_nested : dict</span>
+<span class="sd">        Core (non-plugin) settings to render under ``geoips:``.</span>
+<span class="sd">    plugin_values : dict</span>
+<span class="sd">        Mapping of plugin name to its field-value dict.</span>
+<span class="sd">    plugins : dict</span>
+<span class="sd">        Registered ``ConfigPlugin`` objects keyed by name (for models/comments).</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    str</span>
+<span class="sd">        The complete YAML file content.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">lines</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;geoips:&quot;</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">core_nested</span><span class="p">:</span>
+        <span class="n">lines</span> <span class="o">+=</span> <span class="n">_dump_annotated</span><span class="p">(</span><span class="n">core_nested</span><span class="p">,</span> <span class="n">GeoSettings</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">plugin_values</span><span class="p">:</span>
+        <span class="n">dist_names</span> <span class="o">=</span> <span class="n">_plugin_dist_names</span><span class="p">()</span>
+        <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;  plugins:&quot;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">plugin_values</span><span class="p">):</span>
+            <span class="n">dist</span> <span class="o">=</span> <span class="n">dist_names</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+            <span class="n">header</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;    # Plugin: </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="p">(</span><span class="sa">f</span><span class="s2">&quot; (</span><span class="si">{</span><span class="n">dist</span><span class="si">}</span><span class="s2">)&quot;</span> <span class="k">if</span> <span class="n">dist</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+            <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">header</span><span class="p">)</span>
+            <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;    </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">:&quot;</span><span class="p">)</span>
+            <span class="n">plugin</span> <span class="o">=</span> <span class="n">plugins</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">plugin</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">lines</span> <span class="o">+=</span> <span class="n">_dump_annotated</span><span class="p">(</span><span class="n">plugin_values</span><span class="p">[</span><span class="n">name</span><span class="p">],</span> <span class="n">plugin</span><span class="o">.</span><span class="n">settings_model</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">sub</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span>
+                    <span class="n">plugin_values</span><span class="p">[</span><span class="n">name</span><span class="p">],</span> <span class="n">default_flow_style</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">sort_keys</span><span class="o">=</span><span class="kc">False</span>
+                <span class="p">)</span>
+                <span class="n">lines</span> <span class="o">+=</span> <span class="n">_indent_lines</span><span class="p">(</span><span class="n">sub</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">lines</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_resolve_config_path</span><span class="p">(</span><span class="n">file_arg</span><span class="p">:</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span> <span class="o">|</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Resolve the config file path from an optional argument.</span>
+
+<span class="sd">    If *file_arg* is provided, returns it. Otherwise searches standard</span>
+<span class="sd">    locations via ``geoips.config.yaml_loader.find_project_config``.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    file_arg : pathlib.Path or None</span>
+<span class="sd">        User-supplied file path, or ``None`` to auto-search.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    pathlib.Path or None</span>
+<span class="sd">        Resolved path, or ``None`` if no config file was found.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">file_arg</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">file_arg</span>
+
+    <span class="n">found</span> <span class="o">=</span> <span class="n">find_project_config</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="n">found</span><span class="p">)</span> <span class="k">if</span> <span class="n">found</span> <span class="k">else</span> <span class="kc">None</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_validate_config_file</span><span class="p">(</span><span class="n">file_path</span><span class="p">:</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Validate a GeoIPS YAML configuration file.</span>
+
+<span class="sd">    Checks YAML syntax, validates core settings against the GeoIPS</span>
+<span class="sd">    configuration model, and validates each ``geoips.plugins.&lt;pkg&gt;`` section</span>
+<span class="sd">    against its registered plugin model. Unknown top-level settings and</span>
+<span class="sd">    unknown plugin names are reported as warnings, since they are silently</span>
+<span class="sd">    ignored at load time.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    file_path : pathlib.Path</span>
+<span class="sd">        Path to the ``.geoips.yaml`` file to validate.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    tuple[list[str], list[str]]</span>
+<span class="sd">        A ``(errors, warnings)`` pair of human-readable messages. An empty</span>
+<span class="sd">        *errors* list means the file is valid.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">errors</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">warnings</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fh</span><span class="p">:</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">safe_load</span><span class="p">(</span><span class="n">fh</span><span class="p">)</span>
+    <span class="k">except</span> <span class="n">yaml</span><span class="o">.</span><span class="n">YAMLError</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;YAML syntax error: </span><span class="si">{</span><span class="n">exc</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">],</span> <span class="n">warnings</span>
+    <span class="k">except</span> <span class="ne">OSError</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;Cannot read file: </span><span class="si">{</span><span class="n">exc</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">],</span> <span class="n">warnings</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">[</span><span class="s2">&quot;File must contain a YAML mapping (dictionary).&quot;</span><span class="p">],</span> <span class="n">warnings</span>
+
+    <span class="n">geoips_data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;geoips&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">geoips_data</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">[</span><span class="s2">&quot;Missing top-level &#39;geoips&#39; key.&quot;</span><span class="p">],</span> <span class="n">warnings</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">geoips_data</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">[</span><span class="s2">&quot;The &#39;geoips&#39; key must contain a mapping (dictionary).&quot;</span><span class="p">],</span> <span class="n">warnings</span>
+
+    <span class="n">known_keys</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">GeoSettings</span><span class="o">.</span><span class="n">model_fields</span><span class="p">)</span> <span class="o">|</span> <span class="p">{</span><span class="s2">&quot;plugins&quot;</span><span class="p">}</span>
+    <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">geoips_data</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">known_keys</span><span class="p">:</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;geoips.</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">: unknown setting (ignored)&quot;</span><span class="p">)</span>
+
+    <span class="n">core_data</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">geoips_data</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">k</span> <span class="o">!=</span> <span class="s2">&quot;plugins&quot;</span><span class="p">}</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">GeoSettings</span><span class="o">.</span><span class="n">model_validate</span><span class="p">(</span><span class="n">core_data</span><span class="p">)</span>
+    <span class="k">except</span> <span class="n">ValidationError</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">err</span> <span class="ow">in</span> <span class="n">exc</span><span class="o">.</span><span class="n">errors</span><span class="p">():</span>
+            <span class="n">loc</span> <span class="o">=</span> <span class="s2">&quot;.&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">p</span><span class="p">)</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">err</span><span class="p">[</span><span class="s2">&quot;loc&quot;</span><span class="p">])</span>
+            <span class="n">errors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;geoips.</span><span class="si">{</span><span class="n">loc</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">err</span><span class="p">[</span><span class="s1">&#39;msg&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="n">errors</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">_validate_plugins_section</span><span class="p">(</span><span class="n">geoips_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;plugins&quot;</span><span class="p">),</span> <span class="n">warnings</span><span class="p">))</span>
+
+    <span class="k">return</span> <span class="n">errors</span><span class="p">,</span> <span class="n">warnings</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_validate_plugins_section</span><span class="p">(</span><span class="n">plugins_data</span><span class="p">,</span> <span class="n">warnings</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Validate the ``geoips.plugins`` mapping against registered plugins.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    plugins_data : Any</span>
+<span class="sd">        The value of ``geoips.plugins`` from the config file (or ``None``).</span>
+<span class="sd">    warnings : list[str]</span>
+<span class="sd">        List appended to in-place with warnings for unknown plugins.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    list[str]</span>
+<span class="sd">        Error messages for invalid plugin sections.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">plugins_data</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">[]</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">plugins_data</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">[</span><span class="s2">&quot;geoips.plugins: must be a mapping (dictionary).&quot;</span><span class="p">]</span>
+
+    <span class="n">errors</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">registered</span> <span class="o">=</span> <span class="n">discover_config_plugins</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">pkg</span><span class="p">,</span> <span class="n">pkg_data</span> <span class="ow">in</span> <span class="n">plugins_data</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">plugin</span> <span class="o">=</span> <span class="n">registered</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">pkg</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">plugin</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;geoips.plugins.</span><span class="si">{</span><span class="n">pkg</span><span class="si">}</span><span class="s2">: unknown plugin (ignored)&quot;</span><span class="p">)</span>
+            <span class="k">continue</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">pkg_data</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+            <span class="n">errors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;geoips.plugins.</span><span class="si">{</span><span class="n">pkg</span><span class="si">}</span><span class="s2">: must be a mapping (dictionary).&quot;</span><span class="p">)</span>
+            <span class="k">continue</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">plugin</span><span class="o">.</span><span class="n">settings_model</span><span class="o">.</span><span class="n">model_validate</span><span class="p">(</span><span class="n">pkg_data</span><span class="p">)</span>
+        <span class="k">except</span> <span class="n">ValidationError</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">err</span> <span class="ow">in</span> <span class="n">exc</span><span class="o">.</span><span class="n">errors</span><span class="p">():</span>
+                <span class="n">loc</span> <span class="o">=</span> <span class="s2">&quot;.&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">p</span><span class="p">)</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">err</span><span class="p">[</span><span class="s2">&quot;loc&quot;</span><span class="p">])</span>
+                <span class="n">errors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;geoips.plugins.</span><span class="si">{</span><span class="n">pkg</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">loc</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">err</span><span class="p">[</span><span class="s1">&#39;msg&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">errors</span>
 
 
 <div class="viewcode-block" id="GeoipsConfigCreateRegistries"><a class="viewcode-back" href="../../../geoips_api/geoips.commandline.html#geoips.commandline.geoips_config.GeoipsConfigCreateRegistries">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">GeoipsConfigCreateRegistries</span><span class="p">(</span><span class="n">GeoipsExecutableCommand</span><span class="p">):</span>
@@ -484,8 +1514,10 @@ window.addEventListener("load", () => mermaid.run());
         <span class="n">packages</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">packages</span>
         <span class="n">namespace</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">namespace</span>
         <span class="n">save_type</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">save_type</span>
+        <span class="c1"># This is needed to ensure that we capture the logs from pluginify</span>
+        <span class="n">configure_logging</span><span class="p">()</span>
         <span class="n">plugin_registry</span> <span class="o">=</span> <span class="n">PluginRegistry</span><span class="p">(</span><span class="n">namespace</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="n">plugin_registry</span><span class="o">.</span><span class="n">create_registries</span><span class="p">(</span><span class="n">packages</span><span class="p">,</span> <span class="n">save_type</span><span class="p">))</span></div>
+        <span class="n">plugin_registry</span><span class="o">.</span><span class="n">create_registries</span><span class="p">(</span><span class="n">packages</span><span class="p">,</span> <span class="n">save_type</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="GeoipsConfigDeleteRegistries"><a class="viewcode-back" href="../../../geoips_api/geoips.commandline.html#geoips.commandline.geoips_config.GeoipsConfigDeleteRegistries">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">GeoipsConfigDeleteRegistries</span><span class="p">(</span><span class="n">GeoipsExecutableCommand</span><span class="p">):</span>
@@ -508,8 +1540,10 @@ window.addEventListener("load", () => mermaid.run());
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">packages</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">packages</span>
         <span class="n">namespace</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">namespace</span>
+        <span class="c1"># This is needed to ensure that we capture the logs from pluginify</span>
+        <span class="n">configure_logging</span><span class="p">()</span>
         <span class="n">plugin_registry</span> <span class="o">=</span> <span class="n">PluginRegistry</span><span class="p">(</span><span class="n">namespace</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="n">plugin_registry</span><span class="o">.</span><span class="n">delete_registries</span><span class="p">(</span><span class="n">packages</span><span class="p">))</span></div>
+        <span class="n">plugin_registry</span><span class="o">.</span><span class="n">delete_registries</span><span class="p">(</span><span class="n">packages</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="GeoipsConfigInstall"><a class="viewcode-back" href="../../../geoips_api/geoips.commandline.html#geoips.commandline.geoips_config.GeoipsConfigInstall">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">GeoipsConfigInstall</span><span class="p">(</span><span class="n">GeoipsExecutableCommand</span><span class="p">):</span>
@@ -521,6 +1555,8 @@ window.addEventListener("load", () => mermaid.run());
 
     <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;install&quot;</span>
     <span class="n">command_classes</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="n">_FIRST_CHUNK_SIZE</span> <span class="o">=</span> <span class="mi">5</span> <span class="o">*</span> <span class="mi">1024</span> <span class="o">*</span> <span class="mi">1024</span>  <span class="c1"># 5 MB</span>
 
 <div class="viewcode-block" id="GeoipsConfigInstall.add_arguments"><a class="viewcode-back" href="../../../geoips_api/geoips.commandline.html#geoips.commandline.geoips_config.GeoipsConfigInstall.add_arguments">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">add_arguments</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Add arguments to the config-subparser for the Config Command.&quot;&quot;&quot;</span>
@@ -546,138 +1582,281 @@ window.addEventListener("load", () => mermaid.run());
                 <span class="s2">&quot;If not provided, this command will default to $GEOIPS_TESTDATA_DIR&quot;</span>
                 <span class="s2">&quot;if set else will default to the current working directory.&quot;</span>
             <span class="p">),</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+            <span class="s2">&quot;-j&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;--parallel&quot;</span><span class="p">,</span>
+            <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span>
+            <span class="n">default</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;GEOIPS_DOWNLOAD_WORKERS&quot;</span><span class="p">,</span> <span class="s2">&quot;6&quot;</span><span class="p">)),</span>
+            <span class="n">metavar</span><span class="o">=</span><span class="s2">&quot;N&quot;</span><span class="p">,</span>
+            <span class="n">help</span><span class="o">=</span><span class="p">(</span>
+                <span class="s2">&quot;Number of concurrent downloads (env: GEOIPS_DOWNLOAD_WORKERS, &quot;</span>
+                <span class="s2">&quot;default: 6).&quot;</span>
+            <span class="p">),</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+            <span class="s2">&quot;--no-rich&quot;</span><span class="p">,</span>
+            <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_true&quot;</span><span class="p">,</span>
+            <span class="n">help</span><span class="o">=</span><span class="p">(</span>
+                <span class="s2">&quot;Disable rich live progress display.  Plain text output &quot;</span>
+                <span class="s2">&quot;suitable for CI logs or redirected stdout.&quot;</span>
+            <span class="p">),</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+            <span class="s2">&quot;--temp-dir&quot;</span><span class="p">,</span>
+            <span class="nb">type</span><span class="o">=</span><span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">,</span>
+            <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="n">help</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;Directory for temporary download files (default: system /tmp).&quot;</span><span class="p">),</span>
         <span class="p">)</span></div>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Run the `geoips config install &lt;test_dataset_names&gt; -o &lt;outdir&gt;` command.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Run the ``geoips config install &lt;test_dataset_names&gt; -o &lt;outdir&gt;`` command.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        args: Namespace()</span>
-<span class="sd">            - The argument namespace to parse through</span>
+<span class="sd">            The argument namespace to parse through.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">test_dataset_names</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">test_dataset_names</span>
         <span class="n">outdir</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">outdir</span>
-
         <span class="k">if</span> <span class="ow">not</span> <span class="n">outdir</span><span class="o">.</span><span class="n">is_dir</span><span class="p">():</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">parser</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Specified output directory </span><span class="si">{</span><span class="n">outdir</span><span class="si">}</span><span class="s2"> doesn&#39;t exist.&quot;</span><span class="p">)</span>
             <span class="k">raise</span> <span class="ne">FileNotFoundError</span><span class="p">(</span><span class="n">outdir</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">test_dataset_names</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="ow">and</span> <span class="s2">&quot;all&quot;</span> <span class="ow">in</span> <span class="n">test_dataset_names</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">parser</span><span class="o">.</span><span class="n">error</span><span class="p">(</span>
-                <span class="s2">&quot;You cannot specify &#39;all&#39; alongside other test dataset names. &quot;</span>
-                <span class="s2">&quot;If &#39;all&#39; is specified, that must be the only argument provided.&quot;</span>
-            <span class="p">)</span>
+        <span class="n">names</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_resolve_dataset_names</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">test_dataset_names</span><span class="p">)</span>
+        <span class="n">display</span> <span class="o">=</span> <span class="n">create_progress_display</span><span class="p">(</span>
+            <span class="n">total</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">names</span><span class="p">),</span>
+            <span class="n">use_rich</span><span class="o">=</span><span class="ow">not</span> <span class="n">args</span><span class="o">.</span><span class="n">no_rich</span><span class="p">,</span>
+            <span class="n">is_tty</span><span class="o">=</span><span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">isatty</span><span class="p">(),</span>
+        <span class="p">)</span>
+        <span class="n">display</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_install_pipeline</span><span class="p">(</span><span class="n">names</span><span class="p">,</span> <span class="n">outdir</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">display</span><span class="p">)</span>
+        <span class="k">finally</span><span class="p">:</span>
+            <span class="n">display</span><span class="o">.</span><span class="n">stop</span><span class="p">()</span>
 
-        <span class="n">all_datasets</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">test_dataset_names</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">and</span> <span class="n">test_dataset_names</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;all&quot;</span>
+    <span class="c1"># ------------------------------------------------------------------</span>
+    <span class="c1"># Pipeline orchestration</span>
+    <span class="c1"># ------------------------------------------------------------------</span>
 
-        <span class="n">install_dataset_names</span> <span class="o">=</span> <span class="p">(</span>
-            <span class="nb">list</span><span class="p">(</span><span class="n">test_dataset_dict</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span> <span class="k">if</span> <span class="n">all_datasets</span> <span class="k">else</span> <span class="n">test_dataset_names</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_install_pipeline</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">names</span><span class="p">,</span> <span class="n">outdir</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">display</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Orchestrate the full install pipeline.&quot;&quot;&quot;</span>
+        <span class="n">infos</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_build_dataset_infos</span><span class="p">(</span><span class="n">names</span><span class="p">,</span> <span class="n">outdir</span><span class="p">)</span>
+
+        <span class="n">results</span> <span class="o">=</span> <span class="n">_chunk_check_parallel</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_verify_version_file</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_fetch_first_chunk_hash</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_read_stored_chunk_hash</span><span class="p">,</span>
+            <span class="n">infos</span><span class="p">,</span>
+            <span class="n">args</span><span class="o">.</span><span class="n">parallel</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_FIRST_CHUNK_SIZE</span><span class="p">,</span>
         <span class="p">)</span>
 
-        <span class="k">for</span> <span class="n">test_dataset_name</span> <span class="ow">in</span> <span class="n">install_dataset_names</span><span class="p">:</span>
-            <span class="n">test_dataset_url</span> <span class="o">=</span> <span class="n">test_dataset_dict</span><span class="p">[</span><span class="n">test_dataset_name</span><span class="p">]</span>
-            <span class="k">if</span> <span class="nb">any</span><span class="p">([</span><span class="n">test_dataset_name</span> <span class="ow">in</span> <span class="n">fol</span> <span class="k">for</span> <span class="n">fol</span> <span class="ow">in</span> <span class="n">listdir</span><span class="p">(</span><span class="n">outdir</span><span class="p">)]):</span>
-                <span class="nb">print</span><span class="p">(</span>
-                    <span class="sa">f</span><span class="s2">&quot;Test dataset &#39;</span><span class="si">{</span><span class="n">test_dataset_name</span><span class="si">}</span><span class="s2">&#39; already exists under &quot;</span>
-                    <span class="sa">f</span><span class="s2">&quot;&#39;</span><span class="si">{</span><span class="n">join</span><span class="p">(</span><span class="n">outdir</span><span class="p">,</span><span class="w"> </span><span class="n">test_dataset_name</span><span class="p">)</span><span class="si">}</span><span class="s2">*/&#39;. See that &quot;</span>
-                    <span class="s2">&quot;location for the contents of the test dataset.&quot;</span>
-                <span class="p">)</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="nb">print</span><span class="p">(</span>
-                    <span class="sa">f</span><span class="s2">&quot;Installing </span><span class="si">{</span><span class="n">test_dataset_name</span><span class="si">}</span><span class="s2"> test dataset. This may take a &quot;</span>
-                    <span class="s2">&quot;while...&quot;</span>
-                <span class="p">)</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">download_extract_test_data</span><span class="p">(</span><span class="n">test_dataset_url</span><span class="p">,</span> <span class="n">outdir</span><span class="p">)</span>
-                <span class="n">out_str</span> <span class="o">=</span> <span class="p">(</span>
-                    <span class="sa">f</span><span class="s2">&quot;Test dataset &#39;</span><span class="si">{</span><span class="n">test_dataset_name</span><span class="si">}</span><span class="s2">&#39; has been installed under &quot;</span>
-                    <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">outdir</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">test_dataset_name</span><span class="si">}</span><span class="s2">/&quot;</span>
-                <span class="p">)</span>
-                <span class="c1"># Print the output of the command.</span>
-                <span class="nb">print</span><span class="p">(</span><span class="n">out_str</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">results</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">r</span><span class="o">.</span><span class="n">disposition</span> <span class="o">==</span> <span class="s2">&quot;cached&quot;</span><span class="p">:</span>
+                <span class="n">display</span><span class="o">.</span><span class="n">add_cached</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">record</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">r</span><span class="o">.</span><span class="n">disposition</span> <span class="o">==</span> <span class="s2">&quot;stale&quot;</span><span class="p">:</span>
+                <span class="n">display</span><span class="o">.</span><span class="n">log_stale</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">record</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">r</span><span class="o">.</span><span class="n">reason</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_cleanup_dataset_dir</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">record</span><span class="o">.</span><span class="n">existing_dir</span><span class="p">,</span> <span class="n">r</span><span class="o">.</span><span class="n">record</span><span class="o">.</span><span class="n">version_file</span><span class="p">)</span>
 
-<div class="viewcode-block" id="GeoipsConfigInstall.download_extract_test_data"><a class="viewcode-back" href="../../../geoips_api/geoips.commandline.html#geoips.commandline.geoips_config.GeoipsConfigInstall.download_extract_test_data">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">download_extract_test_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> <span class="n">download_dir</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Download the specified URL and write it to the corresponding download_dir.</span>
+        <span class="n">targets</span> <span class="o">=</span> <span class="p">[</span><span class="n">r</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">results</span> <span class="k">if</span> <span class="n">r</span><span class="o">.</span><span class="n">disposition</span> <span class="o">!=</span> <span class="s2">&quot;cached&quot;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">targets</span><span class="p">:</span>
+            <span class="k">return</span>
 
-<span class="sd">        Will extract the data using tarfile and create an archive by bundling the</span>
-<span class="sd">        associated files and directories together.</span>
+        <span class="n">temp_dir</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">temp_dir</span><span class="p">)</span> <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">temp_dir</span> <span class="k">else</span> <span class="kc">None</span>
+        <span class="n">_download_parallel</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_download_to_temp</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_FIRST_CHUNK_SIZE</span><span class="p">,</span>
+            <span class="n">targets</span><span class="p">,</span>
+            <span class="n">outdir</span><span class="p">,</span>
+            <span class="n">temp_dir</span><span class="p">,</span>
+            <span class="n">args</span><span class="o">.</span><span class="n">parallel</span><span class="p">,</span>
+            <span class="n">display</span><span class="p">,</span>
+        <span class="p">)</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_resolve_dataset_names</span><span class="p">(</span><span class="n">test_dataset_names</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Resolve ``all`` into the full list of known dataset names.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="s2">&quot;all&quot;</span> <span class="ow">in</span> <span class="n">test_dataset_names</span><span class="p">:</span>
+            <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">test_dataset_dict</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+        <span class="k">return</span> <span class="n">test_dataset_names</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_build_dataset_infos</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">names</span><span class="p">,</span> <span class="n">outdir</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create internal :class:`ChunkCheckRecord` entries for each dataset.&quot;&quot;&quot;</span>
+        <span class="n">infos</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">names</span><span class="p">:</span>
+            <span class="n">url</span> <span class="o">=</span> <span class="n">test_dataset_dict</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
+            <span class="n">version_file</span> <span class="o">=</span> <span class="n">join</span><span class="p">(</span><span class="n">outdir</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;.</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">_version&quot;</span><span class="p">)</span>
+            <span class="n">existing_dir</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_find_existing_dataset_dir</span><span class="p">(</span><span class="n">outdir</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
+            <span class="n">infos</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                <span class="n">ChunkCheckRecord</span><span class="p">(</span>
+                    <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span>
+                    <span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span>
+                    <span class="n">version_file</span><span class="o">=</span><span class="n">version_file</span><span class="p">,</span>
+                    <span class="n">existing_dir</span><span class="o">=</span><span class="n">existing_dir</span><span class="p">,</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+        <span class="k">return</span> <span class="n">infos</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_read_stored_chunk_hash</span><span class="p">(</span><span class="n">version_file</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Read the stored *chunk_sha256* from a version file.</span>
+
+<span class="sd">        Returns the hex string or None if the field is missing or unreadable.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">version_file</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fh</span><span class="p">:</span>
+                <span class="n">data</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">safe_load</span><span class="p">(</span><span class="n">fh</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;chunk_sha256&quot;</span><span class="p">)</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="nb">dict</span><span class="p">)</span> <span class="k">else</span> <span class="kc">None</span>
+        <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_fetch_first_chunk_hash</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">chunk_size</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Download the first *chunk_size* bytes of *url* and return its SHA256.</span>
+
+<span class="sd">        Uses an HTTP Range request (``bytes=0-{chunk_size-1}``).  If the server</span>
+<span class="sd">        does not support ranges this method still works — the response body is</span>
+<span class="sd">        just truncated in the hash loop.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        url: str</span>
-<span class="sd">            - The url of the test dataset to download</span>
-<span class="sd">        download_dir: pathlib.Path</span>
-<span class="sd">            - The directory in which to download and extract the data into</span>
+<span class="sd">        url : str</span>
+<span class="sd">            The test dataset URL.</span>
+<span class="sd">        chunk_size : int</span>
+<span class="sd">            Number of bytes to download.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        str or None</span>
+<span class="sd">            Hex digest of the first *chunk_size* bytes, or None on any failure</span>
+<span class="sd">            (network error, non-2xx status, timeout, etc.).</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">resp</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">stream</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">resp</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">200</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">headers</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;Range&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;bytes=0-</span><span class="si">{</span><span class="n">chunk_size</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">}</span>
+            <span class="n">resp</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">,</span> <span class="n">stream</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">resp</span><span class="o">.</span><span class="n">status_code</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="mi">200</span><span class="p">,</span> <span class="mi">206</span><span class="p">):</span>
+                <span class="k">return</span> <span class="kc">None</span>
 
-            <span class="n">total_size</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">resp</span><span class="o">.</span><span class="n">headers</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;Content-Length&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
-            <span class="n">chunk_size</span> <span class="o">=</span> <span class="mi">1024</span> <span class="o">*</span> <span class="mi">1024</span>  <span class="c1"># 1MB</span>
+            <span class="n">hasher</span> <span class="o">=</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">sha256</span><span class="p">()</span>
+            <span class="n">received</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="k">for</span> <span class="n">chunk</span> <span class="ow">in</span> <span class="n">resp</span><span class="o">.</span><span class="n">iter_content</span><span class="p">(</span><span class="n">chunk_size</span><span class="o">=</span><span class="mi">1024</span> <span class="o">*</span> <span class="mi">1024</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">chunk</span><span class="p">:</span>
+                    <span class="n">remaining</span> <span class="o">=</span> <span class="n">chunk_size</span> <span class="o">-</span> <span class="n">received</span>
+                    <span class="k">if</span> <span class="n">remaining</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+                        <span class="k">break</span>
+                    <span class="n">to_hash</span> <span class="o">=</span> <span class="n">chunk</span><span class="p">[:</span><span class="n">remaining</span><span class="p">]</span>
+                    <span class="n">hasher</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">to_hash</span><span class="p">)</span>
+                    <span class="n">received</span> <span class="o">+=</span> <span class="nb">len</span><span class="p">(</span><span class="n">to_hash</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">hasher</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">()</span>
+        <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
 
-            <span class="c1"># Write the data to a temp file on disk. This is needed as files larger than</span>
-            <span class="c1"># 1-2Gb might not fit in memory for some machines. Delete the temp file</span>
-            <span class="c1"># after extraction has finished.</span>
-            <span class="k">with</span> <span class="n">tempfile</span><span class="o">.</span><span class="n">NamedTemporaryFile</span><span class="p">(</span><span class="n">delete</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="k">as</span> <span class="n">tmp_file</span><span class="p">:</span>
-                <span class="c1"># Progress bar setup</span>
-                <span class="n">progress</span> <span class="o">=</span> <span class="n">tqdm</span><span class="p">(</span>
-                    <span class="n">total</span><span class="o">=</span><span class="n">total_size</span><span class="p">,</span>
-                    <span class="n">unit</span><span class="o">=</span><span class="s2">&quot;B&quot;</span><span class="p">,</span>
-                    <span class="n">unit_scale</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-                    <span class="n">unit_divisor</span><span class="o">=</span><span class="mi">1024</span><span class="p">,</span>
-                    <span class="n">desc</span><span class="o">=</span><span class="s2">&quot;Downloading&quot;</span><span class="p">,</span>
-                <span class="p">)</span>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_find_existing_dataset_dir</span><span class="p">(</span><span class="n">outdir</span><span class="p">,</span> <span class="n">dataset_name</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Find an existing dataset directory matching *dataset_name* under *outdir*.</span>
 
-                <span class="k">for</span> <span class="n">chunk</span> <span class="ow">in</span> <span class="n">resp</span><span class="o">.</span><span class="n">iter_content</span><span class="p">(</span><span class="n">chunk_size</span><span class="o">=</span><span class="n">chunk_size</span><span class="p">):</span>
-                    <span class="k">if</span> <span class="n">chunk</span><span class="p">:</span>
-                        <span class="n">tmp_file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">chunk</span><span class="p">)</span>
-                        <span class="n">progress</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">chunk</span><span class="p">))</span>
+<span class="sd">        Returns the path to the dataset directory if found, else None.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">entry</span> <span class="ow">in</span> <span class="n">listdir</span><span class="p">(</span><span class="n">outdir</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">dataset_name</span> <span class="ow">in</span> <span class="n">entry</span><span class="p">:</span>
+                    <span class="n">full_path</span> <span class="o">=</span> <span class="n">join</span><span class="p">(</span><span class="n">outdir</span><span class="p">,</span> <span class="n">entry</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="n">full_path</span><span class="p">)</span><span class="o">.</span><span class="n">is_dir</span><span class="p">():</span>
+                        <span class="k">return</span> <span class="n">full_path</span>
+        <span class="k">except</span> <span class="ne">FileNotFoundError</span><span class="p">:</span>
+            <span class="k">pass</span>
+        <span class="k">return</span> <span class="kc">None</span>
 
-                <span class="n">progress</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
-                <span class="n">tmp_file</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_verify_version_file</span><span class="p">(</span><span class="n">version_file</span><span class="p">,</span> <span class="n">dataset_name</span><span class="p">,</span> <span class="n">expected_url</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Verify that *version_file* exists, is valid, and matches *expected_url*.</span>
 
-                <span class="c1"># Seek back to the start of the file for extraction</span>
-                <span class="n">tmp_file</span><span class="o">.</span><span class="n">seek</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="sd">        Also checks that the dataset directory is non-empty to guard against</span>
+<span class="sd">        partially extracted archives.</span>
 
-            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Beginning data extraction...&quot;</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">extract_data_cautiously</span><span class="p">(</span><span class="n">tmp_file</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">download_dir</span><span class="p">)</span>
-            <span class="c1"># Delete the temp file!</span>
-            <span class="n">remove</span><span class="p">(</span><span class="n">tmp_file</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">parser</span><span class="o">.</span><span class="n">error</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;Error retrieving data from </span><span class="si">{</span><span class="n">url</span><span class="si">}</span><span class="s2">; Status Code </span><span class="si">{</span><span class="n">resp</span><span class="o">.</span><span class="n">status_code</span><span class="si">}</span><span class="s2">.&quot;</span>
-            <span class="p">)</span></div>
+<span class="sd">        Returns True if the cached dataset appears valid, False otherwise.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="n">version_file</span><span class="p">)</span><span class="o">.</span><span class="n">is_file</span><span class="p">():</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">version_file</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fh</span><span class="p">:</span>
+                <span class="n">data</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">safe_load</span><span class="p">(</span><span class="n">fh</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+                <span class="k">return</span> <span class="kc">False</span>
+            <span class="k">if</span> <span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;dataset&quot;</span><span class="p">)</span> <span class="o">!=</span> <span class="n">dataset_name</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">False</span>
+            <span class="k">if</span> <span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;url&quot;</span><span class="p">)</span> <span class="o">!=</span> <span class="n">expected_url</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">False</span>
+            <span class="k">if</span> <span class="s2">&quot;chunk_sha256&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">False</span>
+            <span class="k">if</span> <span class="s2">&quot;sha256&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">False</span>
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
 
-<div class="viewcode-block" id="GeoipsConfigInstall.extract_data_cautiously"><a class="viewcode-back" href="../../../geoips_api/geoips.commandline.html#geoips.commandline.geoips_config.GeoipsConfigInstall.extract_data_cautiously">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">extract_data_cautiously</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filepath</span><span class="p">,</span> <span class="n">download_dir</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Extract the GET Response cautiously and skip any dangerous members.</span>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_cleanup_dataset_dir</span><span class="p">(</span><span class="n">dataset_dir</span><span class="p">,</span> <span class="n">version_file</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Remove the dataset directory and its version file.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">dataset_dir</span> <span class="ow">and</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="n">dataset_dir</span><span class="p">)</span><span class="o">.</span><span class="n">is_dir</span><span class="p">():</span>
+            <span class="n">shutil</span><span class="o">.</span><span class="n">rmtree</span><span class="p">(</span><span class="n">dataset_dir</span><span class="p">,</span> <span class="n">ignore_errors</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="n">version_file</span><span class="p">)</span><span class="o">.</span><span class="n">is_file</span><span class="p">():</span>
+            <span class="n">remove</span><span class="p">(</span><span class="n">version_file</span><span class="p">)</span>
 
-<span class="sd">        Iterate through a Response and check that each member is not dangerous to</span>
-<span class="sd">        extract to your machine. If it is, skip it.</span>
+    <span class="c1"># ------------------------------------------------------------------</span>
+    <span class="c1"># Download to temp (functional, called from worker threads)</span>
+    <span class="c1"># ------------------------------------------------------------------</span>
 
-<span class="sd">        Where &#39;dangerous&#39; is a filepath that is not part of &#39;download_dir&#39;. File path</span>
-<span class="sd">        maneuvering characters could be invoked (&#39;../&#39;, ...), which we will not allow</span>
-<span class="sd">        when downloading test data.</span>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_download_to_temp</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">temp_dir</span><span class="p">,</span> <span class="n">chunk_size</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Download *url* to a temporary file and return hashes + path.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        filepath: str</span>
-<span class="sd">            - The path to the temporary file to extract from.</span>
-<span class="sd">        download_dir: pathlib.Path</span>
-<span class="sd">            - The directory in which to download and extract the data into</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">with</span> <span class="n">tarfile</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;r:gz&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">tar</span><span class="p">:</span>
-            <span class="n">members</span> <span class="o">=</span> <span class="n">tar</span><span class="o">.</span><span class="n">getmembers</span><span class="p">()</span>
+<span class="sd">        url : str</span>
+<span class="sd">            URL of the dataset archive to download.</span>
+<span class="sd">        temp_dir : str or None</span>
+<span class="sd">            Directory for the temporary file (None for system default).</span>
+<span class="sd">        chunk_size : int</span>
+<span class="sd">            Bytes to capture for the chunk hash.</span>
 
-            <span class="c1"># Validate and extract each member of the archive</span>
-            <span class="k">with</span> <span class="n">tqdm</span><span class="p">(</span>
-                <span class="n">total</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">members</span><span class="p">),</span> <span class="n">unit</span><span class="o">=</span><span class="s2">&quot;file&quot;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s2">&quot;Extracting&quot;</span><span class="p">,</span> <span class="n">ncols</span><span class="o">=</span><span class="mi">80</span>
-            <span class="p">)</span> <span class="k">as</span> <span class="n">progress</span><span class="p">:</span>
-                <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">tar</span><span class="p">:</span>
-                    <span class="n">member_path</span> <span class="o">=</span> <span class="p">(</span><span class="n">download_dir</span> <span class="o">/</span> <span class="n">m</span><span class="o">.</span><span class="n">name</span><span class="p">)</span><span class="o">.</span><span class="n">resolve</span><span class="p">()</span>
-                    <span class="k">if</span> <span class="ow">not</span> <span class="nb">str</span><span class="p">(</span><span class="n">member_path</span><span class="p">)</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">download_dir</span><span class="o">.</span><span class="n">resolve</span><span class="p">())):</span>
-                        <span class="k">raise</span> <span class="ne">SystemExit</span><span class="p">(</span><span class="s2">&quot;Found unsafe filepath in tar, exiting now.&quot;</span><span class="p">)</span>
-                    <span class="n">tar</span><span class="o">.</span><span class="n">extract</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="n">download_dir</span><span class="p">,</span> <span class="nb">filter</span><span class="o">=</span><span class="s2">&quot;tar&quot;</span><span class="p">)</span>
-                    <span class="n">progress</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span></div></div>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        DownloadResult</span>
+<span class="sd">            Populated with ``full_hash``, ``chunk_hash``, ``temp_path``.</span>
+<span class="sd">            The ``name`` field is not set (caller fills it).</span>
+
+<span class="sd">        Raises</span>
+<span class="sd">        ------</span>
+<span class="sd">        requests.HTTPError</span>
+<span class="sd">            On non-2xx status.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">sha256</span> <span class="o">=</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">sha256</span><span class="p">()</span>
+        <span class="n">chunk_hash</span> <span class="o">=</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">sha256</span><span class="p">()</span>
+        <span class="n">accumulated</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="n">resp</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">stream</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="mi">300</span><span class="p">))</span>
+        <span class="n">resp</span><span class="o">.</span><span class="n">raise_for_status</span><span class="p">()</span>
+        <span class="n">total_size</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">resp</span><span class="o">.</span><span class="n">headers</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;Content-Length&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+
+        <span class="k">with</span> <span class="n">tempfile</span><span class="o">.</span><span class="n">NamedTemporaryFile</span><span class="p">(</span><span class="nb">dir</span><span class="o">=</span><span class="n">temp_dir</span><span class="p">,</span> <span class="n">delete</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="k">as</span> <span class="n">tmp</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">data</span> <span class="ow">in</span> <span class="n">resp</span><span class="o">.</span><span class="n">iter_content</span><span class="p">(</span><span class="n">chunk_size</span><span class="o">=</span><span class="mi">1024</span> <span class="o">*</span> <span class="mi">1024</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">data</span><span class="p">:</span>
+                    <span class="n">tmp</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+                    <span class="n">sha256</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">accumulated</span> <span class="o">&lt;</span> <span class="n">chunk_size</span><span class="p">:</span>
+                        <span class="n">to_add</span> <span class="o">=</span> <span class="n">data</span><span class="p">[:</span> <span class="n">chunk_size</span> <span class="o">-</span> <span class="n">accumulated</span><span class="p">]</span>
+                        <span class="n">chunk_hash</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">to_add</span><span class="p">)</span>
+                        <span class="n">accumulated</span> <span class="o">+=</span> <span class="nb">len</span><span class="p">(</span><span class="n">to_add</span><span class="p">)</span>
+            <span class="n">temp_path</span> <span class="o">=</span> <span class="n">tmp</span><span class="o">.</span><span class="n">name</span>
+
+        <span class="k">return</span> <span class="n">DownloadResult</span><span class="p">(</span>
+            <span class="n">name</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+            <span class="n">full_hash</span><span class="o">=</span><span class="n">sha256</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">(),</span>
+            <span class="n">chunk_hash</span><span class="o">=</span><span class="n">chunk_hash</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">(),</span>
+            <span class="n">temp_path</span><span class="o">=</span><span class="n">temp_path</span><span class="p">,</span>
+            <span class="n">total_bytes</span><span class="o">=</span><span class="n">total_size</span><span class="p">,</span>
+        <span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="GeoipsConfigInstallGithub"><a class="viewcode-back" href="../../../geoips_api/geoips.commandline.html#geoips.commandline.geoips_config.GeoipsConfigInstallGithub">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">GeoipsConfigInstallGithub</span><span class="p">(</span><span class="n">GeoipsExecutableCommand</span><span class="p">):</span>
@@ -713,7 +1892,7 @@ window.addEventListener("load", () => mermaid.run());
         <span class="n">call_list</span> <span class="o">=</span> <span class="p">[</span>
             <span class="s2">&quot;bash&quot;</span><span class="p">,</span>
             <span class="n">join</span><span class="p">(</span>
-                <span class="n">geoips</span><span class="o">.</span><span class="n">filenames</span><span class="o">.</span><span class="n">base_paths</span><span class="o">.</span><span class="n">PATHS</span><span class="p">[</span><span class="s2">&quot;GEOIPS_TESTDATA_DIR&quot;</span><span class="p">],</span>
+                <span class="n">geoips</span><span class="o">.</span><span class="n">filenames</span><span class="o">.</span><span class="n">base_paths</span><span class="o">.</span><span class="n">PATHS</span><span class="p">[</span><span class="s2">&quot;GEOIPS_PACKAGES_DIR&quot;</span><span class="p">],</span>
                 <span class="s2">&quot;geoips&quot;</span><span class="p">,</span>
                 <span class="s2">&quot;setup&quot;</span><span class="p">,</span>
                 <span class="s2">&quot;check_system_requirements.sh&quot;</span><span class="p">,</span>
@@ -721,7 +1900,189 @@ window.addEventListener("load", () => mermaid.run());
             <span class="s2">&quot;test_data_github&quot;</span><span class="p">,</span>
             <span class="n">test_dataset_name</span><span class="p">,</span>
         <span class="p">]</span>
-        <span class="n">subprocess</span><span class="o">.</span><span class="n">call</span><span class="p">(</span><span class="n">call_list</span><span class="p">)</span></div>
+        <span class="n">retval</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">call</span><span class="p">(</span><span class="n">call_list</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">retval</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">IOError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;FAILED Did not successfully install &#39;</span><span class="si">{</span><span class="n">test_dataset_name</span><span class="si">}</span><span class="s2">&#39;&quot;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="GeoipsConfigCreate"><a class="viewcode-back" href="../../../geoips_api/geoips.commandline.html#geoips.commandline.geoips_config.GeoipsConfigCreate">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">GeoipsConfigCreate</span><span class="p">(</span><span class="n">GeoipsExecutableCommand</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Generate a .geoips.yaml config file from environment variables.</span>
+
+<span class="sd">    Scans ``GEOIPS_*`` and unprefixed environment variables and writes</span>
+<span class="sd">    them as a structured YAML configuration file. Interactively prompts</span>
+<span class="sd">    for key variables (GEOIPS_OUTDIRS, GEOIPS_TESTDATA_DIR,</span>
+<span class="sd">    GEOIPS_PACKAGES_DIR) that are not set in the environment.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;create&quot;</span>
+    <span class="n">command_classes</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="n">_KEYS_TO_PROMPT</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="s2">&quot;GEOIPS_OUTDIRS&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;GEOIPS_TESTDATA_DIR&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;GEOIPS_PACKAGES_DIR&quot;</span><span class="p">,</span>
+    <span class="p">]</span>
+
+<div class="viewcode-block" id="GeoipsConfigCreate.add_arguments"><a class="viewcode-back" href="../../../geoips_api/geoips.commandline.html#geoips.commandline.geoips_config.GeoipsConfigCreate.add_arguments">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">add_arguments</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add arguments to the config-subparser for the create command.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+            <span class="s2">&quot;-o&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;--output&quot;</span><span class="p">,</span>
+            <span class="nb">type</span><span class="o">=</span><span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">,</span>
+            <span class="n">default</span><span class="o">=</span><span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="s2">&quot;.geoips.yaml&quot;</span><span class="p">),</span>
+            <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Output path for the generated config file.&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+            <span class="s2">&quot;-f&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;--force&quot;</span><span class="p">,</span>
+            <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_true&quot;</span><span class="p">,</span>
+            <span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+            <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Overwrite the output file if it already exists.&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+            <span class="s2">&quot;-a&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;--all&quot;</span><span class="p">,</span>
+            <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_true&quot;</span><span class="p">,</span>
+            <span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+            <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Include all default settings, not just env overrides.&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+            <span class="s2">&quot;--no-prompt&quot;</span><span class="p">,</span>
+            <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_true&quot;</span><span class="p">,</span>
+            <span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+            <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Skip interactive prompts; generate only from environment variables.&quot;</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Run ``geoips config create``.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        args : Namespace</span>
+<span class="sd">            Parsed command-line arguments.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">overrides</span> <span class="o">=</span> <span class="n">_collect_env_overrides</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">args</span><span class="o">.</span><span class="n">no_prompt</span><span class="p">:</span>
+            <span class="n">prompted</span> <span class="o">=</span> <span class="n">_prompt_for_missing</span><span class="p">(</span><span class="n">overrides</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_KEYS_TO_PROMPT</span><span class="p">)</span>
+            <span class="n">overrides</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">prompted</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">overrides</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">args</span><span class="o">.</span><span class="n">all</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span>
+                <span class="s2">&quot;No GEOIPS environment variables found. &quot;</span>
+                <span class="s2">&quot;Use --all to generate a complete config file with defaults, &quot;</span>
+                <span class="s2">&quot;or remove --no-prompt for interactive setup.&quot;</span>
+            <span class="p">)</span>
+            <span class="k">return</span>
+
+        <span class="n">nested</span> <span class="o">=</span> <span class="n">_build_nested_config</span><span class="p">(</span><span class="n">overrides</span><span class="p">)</span>
+        <span class="n">plugin_values</span> <span class="o">=</span> <span class="n">nested</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;plugins&quot;</span><span class="p">,</span> <span class="p">{})</span>
+        <span class="n">core_nested</span> <span class="o">=</span> <span class="n">nested</span>
+
+        <span class="n">plugins</span> <span class="o">=</span> <span class="n">discover_config_plugins</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">all</span><span class="p">:</span>
+            <span class="c1"># Dump the fully-resolved config (auto-derived paths filled in) so</span>
+            <span class="c1"># the generated file is complete and valid on reload — raw model</span>
+            <span class="c1"># defaults contain nulls (e.g. cache_dir) that break reloading.</span>
+            <span class="n">resolved</span> <span class="o">=</span> <span class="n">GeoIPSConfig</span><span class="p">()</span><span class="o">.</span><span class="n">model_dump</span><span class="p">()</span>
+            <span class="n">_deep_merge</span><span class="p">(</span><span class="n">resolved</span><span class="p">,</span> <span class="n">core_nested</span><span class="p">)</span>
+            <span class="n">core_nested</span> <span class="o">=</span> <span class="n">resolved</span>
+
+            <span class="n">full_plugins</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">plugin</span> <span class="ow">in</span> <span class="n">plugins</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="n">plugin_defaults</span> <span class="o">=</span> <span class="n">full_model_defaults</span><span class="p">(</span><span class="n">plugin</span><span class="o">.</span><span class="n">settings_model</span><span class="p">)</span>
+                <span class="n">_deep_merge</span><span class="p">(</span><span class="n">plugin_defaults</span><span class="p">,</span> <span class="n">plugin_values</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="p">{}))</span>
+                <span class="n">full_plugins</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">plugin_defaults</span>
+            <span class="n">plugin_values</span> <span class="o">=</span> <span class="n">full_plugins</span>
+
+        <span class="n">content</span> <span class="o">=</span> <span class="n">_render_config</span><span class="p">(</span><span class="n">core_nested</span><span class="p">,</span> <span class="n">plugin_values</span><span class="p">,</span> <span class="n">plugins</span><span class="p">)</span>
+
+        <span class="n">output_path</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">output</span><span class="o">.</span><span class="n">resolve</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">output_path</span><span class="o">.</span><span class="n">exists</span><span class="p">()</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">args</span><span class="o">.</span><span class="n">force</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">parser</span><span class="o">.</span><span class="n">error</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;File &#39;</span><span class="si">{</span><span class="n">output_path</span><span class="si">}</span><span class="s2">&#39; already exists. Use --force to overwrite.&quot;</span>
+            <span class="p">)</span>
+
+        <span class="n">output_path</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">parents</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">output_path</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fh</span><span class="p">:</span>
+            <span class="n">fh</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">content</span><span class="p">)</span>
+
+        <span class="n">num_env</span> <span class="o">=</span> <span class="nb">len</span><span class="p">([</span><span class="n">k</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">overrides</span> <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">k</span><span class="p">)])</span>
+        <span class="n">num_prompted</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">overrides</span><span class="p">)</span> <span class="o">-</span> <span class="n">num_env</span>
+
+        <span class="n">parts</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">if</span> <span class="n">num_env</span><span class="p">:</span>
+            <span class="n">parts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">num_env</span><span class="si">}</span><span class="s2"> environment variable</span><span class="si">{</span><span class="s1">&#39;s&#39;</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">num_env</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s1">&#39;&#39;</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">num_prompted</span><span class="p">:</span>
+            <span class="n">parts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">num_prompted</span><span class="si">}</span><span class="s2"> prompted value</span><span class="si">{</span><span class="s1">&#39;s&#39;</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">num_prompted</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s1">&#39;&#39;</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="p">)</span>
+        <span class="n">source</span> <span class="o">=</span> <span class="s2">&quot; and &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">parts</span><span class="p">)</span> <span class="k">if</span> <span class="n">parts</span> <span class="k">else</span> <span class="s2">&quot;default settings&quot;</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Generated </span><span class="si">{</span><span class="n">output_path</span><span class="si">}</span><span class="s2"> from </span><span class="si">{</span><span class="n">source</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="GeoipsConfigValidate"><a class="viewcode-back" href="../../../geoips_api/geoips.commandline.html#geoips.commandline.geoips_config.GeoipsConfigValidate">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">GeoipsConfigValidate</span><span class="p">(</span><span class="n">GeoipsExecutableCommand</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Validate a GeoIPS .geoips.yaml configuration file.</span>
+
+<span class="sd">    Checks YAML syntax, verifies the structure against the GeoIPS</span>
+<span class="sd">    configuration schema, and reports all errors found.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;validate&quot;</span>
+    <span class="n">command_classes</span> <span class="o">=</span> <span class="p">[]</span>
+
+<div class="viewcode-block" id="GeoipsConfigValidate.add_arguments"><a class="viewcode-back" href="../../../geoips_api/geoips.commandline.html#geoips.commandline.geoips_config.GeoipsConfigValidate.add_arguments">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">add_arguments</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add arguments to the config-subparser for the validate command.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+            <span class="s2">&quot;-f&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;--file&quot;</span><span class="p">,</span>
+            <span class="nb">type</span><span class="o">=</span><span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">,</span>
+            <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Path to the config file to validate. If not given, &quot;</span>
+            <span class="s2">&quot;searches standard locations.&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+            <span class="s2">&quot;-q&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;--quiet&quot;</span><span class="p">,</span>
+            <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_true&quot;</span><span class="p">,</span>
+            <span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+            <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Only set the exit code; produce no output.&quot;</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Run ``geoips config validate``.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        args : Namespace</span>
+<span class="sd">            Parsed command-line arguments.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">file_path</span> <span class="o">=</span> <span class="n">_resolve_config_path</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">file</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">file_path</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">parser</span><span class="o">.</span><span class="n">error</span><span class="p">(</span>
+                <span class="s2">&quot;No config file found. Specify --file or place a .geoips.yaml &quot;</span>
+                <span class="s2">&quot;in the current directory.&quot;</span>
+            <span class="p">)</span>
+
+        <span class="n">errors</span><span class="p">,</span> <span class="n">warnings</span> <span class="o">=</span> <span class="n">_validate_config_file</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">warnings</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">args</span><span class="o">.</span><span class="n">quiet</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">warning</span> <span class="ow">in</span> <span class="n">warnings</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  warning: </span><span class="si">{</span><span class="n">warning</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">errors</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">args</span><span class="o">.</span><span class="n">quiet</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Config file &#39;</span><span class="si">{</span><span class="n">file_path</span><span class="si">}</span><span class="s2">&#39; is invalid:</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">err</span> <span class="ow">in</span> <span class="n">errors</span><span class="p">:</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  </span><span class="si">{</span><span class="n">err</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">parser</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;Validation failed.&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">args</span><span class="o">.</span><span class="n">quiet</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Config file &#39;</span><span class="si">{</span><span class="n">file_path</span><span class="si">}</span><span class="s2">&#39; is valid.&quot;</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="GeoipsConfig"><a class="viewcode-back" href="../../../geoips_api/geoips.commandline.html#geoips.commandline.geoips_config.GeoipsConfig">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">GeoipsConfig</span><span class="p">(</span><span class="n">GeoipsCommand</span><span class="p">):</span>
@@ -729,10 +2090,12 @@ window.addEventListener("load", () => mermaid.run());
 
     <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;config&quot;</span>
     <span class="n">command_classes</span> <span class="o">=</span> <span class="p">[</span>
-        <span class="n">GeoipsConfigInstall</span><span class="p">,</span>
-        <span class="n">GeoipsConfigInstallGithub</span><span class="p">,</span>
+        <span class="n">GeoipsConfigCreate</span><span class="p">,</span>
         <span class="n">GeoipsConfigCreateRegistries</span><span class="p">,</span>
         <span class="n">GeoipsConfigDeleteRegistries</span><span class="p">,</span>
+        <span class="n">GeoipsConfigInstall</span><span class="p">,</span>
+        <span class="n">GeoipsConfigInstallGithub</span><span class="p">,</span>
+        <span class="n">GeoipsConfigValidate</span><span class="p">,</span>
     <span class="p">]</span></div>
 </pre></div>
 
@@ -763,8 +2126,8 @@ window.addEventListener("load", () => mermaid.run());
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script defer src="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
-<script defer src="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+  <script defer src="../../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb"></script>
+<script defer src="../../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb"></script>
 
   <footer class="bd-footer">
 <div class="bd-footer__inner bd-page-width">
