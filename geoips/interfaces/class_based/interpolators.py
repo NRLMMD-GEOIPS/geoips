@@ -44,7 +44,11 @@ class BaseInterpolatorPlugin(BaseClassPlugin, abstract=True):
     def _prepare_obp_interpolator_kwargs(self, data, kwargs):
         """Populate legacy interpolator call kwargs from OBP inputs."""
         input_xarray = kwargs.pop("xarray_obj", None)
-        sector_found = kwargs.get("area_def") is not None
+        # ``area_def`` means the target area was resolved, but it is not by
+        # itself proof that the interpolator step depends on a sector. Keep
+        # sector detection tied to upstream DataTree metadata so OBP workflows
+        # still fail clearly when the sector dependency is missing.
+        sector_found = False
 
         if input_xarray is None or not sector_found:
             input_xarray, sector_found = self._collect_interpolator_inputs(
