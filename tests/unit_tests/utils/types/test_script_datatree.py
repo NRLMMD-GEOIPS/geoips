@@ -899,6 +899,7 @@ class TestCurrentDataHelpers:
         with pytest.raises(ValueError, match="unique step_id"):
             add_data_step(tree, data, step_id="modify_data")
 
+
 class TestGetOutputProducts:
     """Test extracting output products from script trees."""
 
@@ -987,4 +988,3 @@ class TestGetOutputProducts:
 
         with pytest.raises(ValueError, match="initialize_script_tree"):
             get_output_products(tree)
-

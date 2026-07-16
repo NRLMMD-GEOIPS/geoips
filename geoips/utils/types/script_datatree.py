@@ -373,17 +373,14 @@ def _remove_step(tree, step_id):
     del tree[step_id]
 
 
-_XARRAY_DATA_PLUGIN_KINDS = frozenset(
-    ("algorithm", "interpolator", "manual", "reader")
-)
+_XARRAY_DATA_PLUGIN_KINDS = frozenset(("algorithm", "interpolator", "manual", "reader"))
 
 
 def _is_xarray_data_step(node):
     """Return whether *node* should provide xarray input to later plugins."""
-    return (
-        node.attrs.get("plugin_kind") in _XARRAY_DATA_PLUGIN_KINDS
-        and _has_data_vars(node)
-    )
+    return node.attrs.get(
+        "plugin_kind"
+    ) in _XARRAY_DATA_PLUGIN_KINDS and _has_data_vars(node)
 
 
 def _latest_xarray_data_step_id(tree, current_step_id):

@@ -28,7 +28,6 @@ from geoips.scripting import (
     initialize_script_tree,
 )
 
-
 SECTOR_NAME = "test_goes16_eqc_3km_day_20200918T1950Z"
 DEFAULT_COMPARE_PATH = (
     Path(gpaths["GEOIPS_PACKAGES_DIR"])
@@ -75,11 +74,7 @@ def _summarize_dataset(dataset):
 
 def _summarize_attrs(attrs):
     """Return selected attrs useful for following script execution."""
-    return {
-        key: _short_value(attrs[key])
-        for key in INTERESTING_ATTRS
-        if key in attrs
-    }
+    return {key: _short_value(attrs[key]) for key in INTERESTING_ATTRS if key in attrs}
 
 
 def _print_step(tree, step_id):

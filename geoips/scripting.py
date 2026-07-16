@@ -13,7 +13,6 @@ from geoips.utils.types.script_datatree import (
     initialize_script_tree,
 )
 
-
 __all__ = [
     "RETENTION_POLICIES",
     "RetentionPolicy",
