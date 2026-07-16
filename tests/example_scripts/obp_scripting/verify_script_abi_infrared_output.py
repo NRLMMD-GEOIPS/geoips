@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import argparse
 import glob
 import os
 from pathlib import Path
@@ -94,8 +95,23 @@ def _print_checkpoint(tree, label, step_id=None):
         print(f"current_data={_summarize_dataset(current)}")
 
 
+def _parse_args():
+    """Parse command line arguments for the verification script."""
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument(
+        "--retention-policy",
+        choices=[policy.value for policy in RetentionPolicy],
+        default=RetentionPolicy.keep_all.value,
+        help="Script DataTree retention policy to use.",
+    )
+    return parser.parse_args()
+
+
 def main():
     """Run ABI infrared processing from reader through output formatter."""
+    args = _parse_args()
+    retention_policy = RetentionPolicy(args.retention_policy)
+
     fnames = sorted(
         glob.glob(
             os.path.join(
@@ -108,10 +124,11 @@ def main():
     print(f"input_file_count={len(fnames)}")
     print(f"first_input_file={fnames[0] if fnames else None}")
     print("GEOIPS_OUTDIRS=" + repr(os.environ.get("GEOIPS_OUTDIRS")))
+    print(f"retention_policy={retention_policy.value}")
 
     tree = initialize_script_tree(
         "abi_infrared_script_verify",
-        retention_policy=RetentionPolicy.keep_all,
+        retention_policy=retention_policy,
     )
     _print_checkpoint(tree, "initialized script tree")
 

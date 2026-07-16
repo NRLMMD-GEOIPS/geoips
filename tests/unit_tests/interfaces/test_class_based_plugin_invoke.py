@@ -192,6 +192,26 @@ class TestConduitKwargExtraction:
 
         assert kwargs["output_filenames"] == ["explicit.png"]
 
+    def test_manual_step_feeds_xarray_obj(self):
+        """Manual data steps can feed downstream xarray_obj inputs."""
+        data = xr.DataTree(name="multi_input")
+        data["read_data"] = xr.DataTree(
+            xr.Dataset(
+                {"data": ("x", [1, 2, 3])},
+                attrs={"plugin_kind": "reader"},
+            )
+        )
+        data["calculate_difference"] = xr.DataTree(
+            xr.Dataset(
+                {"data": ("x", [10, 20, 30])},
+                attrs={"plugin_kind": "manual"},
+            )
+        )
+
+        kwargs = BaseClassPlugin._extract_child_kwargs(data, {})
+
+        assert kwargs["xarray_obj"]["data"].values.tolist() == [10, 20, 30]
+
 
 class TestScriptModeInvocation:
     """Tests for direct plugin calls using initialized script DataTrees."""

@@ -359,7 +359,8 @@ def _attrs_only_node(node):
 
 def _older_step_ids(tree, current_step_id):
     """Return top-level step ids older than *current_step_id*."""
-    return [step_id for step_id in list(tree.children) if step_id != current_step_id]
+    step_ids = list(tree.children)
+    return step_ids[: step_ids.index(current_step_id)]
 
 
 def _reduce_step_to_attrs_only(tree, step_id):
@@ -370,6 +371,40 @@ def _reduce_step_to_attrs_only(tree, step_id):
 def _remove_step(tree, step_id):
     """Remove a top-level script step node."""
     del tree[step_id]
+
+
+_XARRAY_DATA_PLUGIN_KINDS = frozenset(
+    ("algorithm", "interpolator", "manual", "reader")
+)
+
+
+def _is_xarray_data_step(node):
+    """Return whether *node* should provide xarray input to later plugins."""
+    return (
+        node.attrs.get("plugin_kind") in _XARRAY_DATA_PLUGIN_KINDS
+        and _has_data_vars(node)
+    )
+
+
+def _latest_xarray_data_step_id(tree, current_step_id):
+    """Return the newest xarray-data step at or before *current_step_id*."""
+    candidate_step_ids = [
+        *_older_step_ids(tree, current_step_id),
+        current_step_id,
+    ]
+    for step_id in reversed(candidate_step_ids):
+        if _is_xarray_data_step(tree[step_id]):
+            return step_id
+    return None
+
+
+def _metadata_only_preserved_step_ids(tree, current_step_id):
+    """Return step ids that must remain intact for metadata_only retention."""
+    preserved = {current_step_id}
+    latest_data_step_id = _latest_xarray_data_step_id(tree, current_step_id)
+    if latest_data_step_id is not None:
+        preserved.add(latest_data_step_id)
+    return preserved
 
 
 def _has_data_vars(node):
@@ -409,8 +444,9 @@ def get_current_data(tree):
     Returns
     -------
     xarray.Dataset
-        Dataset from the most recent top-level step containing data variables,
-        including data stored in child nodes such as reader outputs. The
+        Dataset from the most recent top-level reader, interpolator, algorithm,
+        or manual step containing data variables, including data stored in child
+        nodes such as reader outputs. The
         returned object is a mutable dataset copy intended for inspection,
         modification, and reinsertion with ``add_data_step``.
 
@@ -424,7 +460,7 @@ def get_current_data(tree):
 
     for step_id in reversed(list(tree.children)):
         node = tree[step_id]
-        if _has_data_vars(node):
+        if _is_xarray_data_step(node):
             return _to_mutable_dataset(node)
 
     raise ValueError(
@@ -505,8 +541,10 @@ def apply_script_retention(tree, current_step_id, retention_policy=None):
     older_step_ids = _older_step_ids(tree, current_step_id)
 
     if retention_policy is RetentionPolicy.metadata_only:
+        preserved_step_ids = _metadata_only_preserved_step_ids(tree, current_step_id)
         for step_id in older_step_ids:
-            _reduce_step_to_attrs_only(tree, step_id)
+            if step_id not in preserved_step_ids:
+                _reduce_step_to_attrs_only(tree, step_id)
         return tree
 
     if retention_policy is RetentionPolicy.current_only:

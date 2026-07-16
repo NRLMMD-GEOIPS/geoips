@@ -228,7 +228,7 @@ tree = reader(
     data=tree,
     filenames=fnames,
     step_id="read_b14_b15",
-    varnames=["B14BT", "B15BT"],
+    variables=["B14BT", "B15BT"],
 )
 
 xobj = get_current_data(tree)
@@ -252,6 +252,56 @@ plt.title("ABI B14BT - B15BT")
 plt.tight_layout()
 plt.show()
 ```
+
+## Bringing Your Own Data
+
+Scripts can also start from data that was not read by a GeoIPS reader. For now,
+that data must be provided as an xarray object, such as an `xarray.Dataset`,
+`xarray.DataArray`, or `xarray.DataTree`, and inserted into the script tree with
+`add_data_step()`. Downstream plugins still expect the dataset to contain the
+variables, coordinates, and metadata attributes required by those plugins.
+
+```python
+import xarray as xr
+
+from geoips.scripting import (
+    RetentionPolicy,
+    add_data_step,
+    initialize_script_tree,
+)
+
+tree = initialize_script_tree(
+    name="external_data_example",
+    retention_policy=RetentionPolicy.metadata_only,
+)
+
+xobj = xr.Dataset(
+    data_vars={
+        "my_variable": (("y", "x"), data_values),
+    },
+    coords={
+        "latitude": (("y", "x"), latitude_values),
+        "longitude": (("y", "x"), longitude_values),
+    },
+    attrs={
+        "source_name": "my_source",
+        "platform_name": "my_platform",
+        "data_provider": "my_provider",
+        "start_datetime": start_datetime,
+        "end_datetime": end_datetime,
+    },
+)
+
+tree = add_data_step(
+    tree,
+    xobj,
+    step_id="load_external_data",
+)
+```
+
+This is intentionally a low-level contract. Scripters are responsible for making
+the xarray object look enough like a GeoIPS plugin result for the next plugin
+they call.
 
 ## Step Names
 
@@ -288,39 +338,37 @@ Unknown or irrelevant nodes are ignored.
 
 ## Data Conflicts
 
-If multiple upstream nodes can provide the primary data input, GeoIPS uses the
-most recently produced data node and raises a warning.
-
-"Most recently produced" is determined from the insertion order of the top-level
-child nodes in the script tree.
+If multiple upstream nodes can provide the same conduit-derived input, the most
+recent matching node wins. "Most recent" is determined from the insertion order
+of the top-level child nodes in the script tree.
 
 For example, if a tree contains both reader output and interpolator output, an
 algorithm will use the interpolator output because it was produced later.
 
-The warning identifies both the accepted node and the ignored nodes.
+GeoIPS does not yet warn when older candidate nodes are ignored. Better conflict
+diagnostics are planned for a later update.
 
 ## Non-Data Conflicts
 
-If multiple upstream nodes provide the same non-data input, GeoIPS raises an
-error.
+Non-data conduit inputs currently follow the same latest-value behavior as data
+inputs. For example, if a tree contains two filename formatter outputs and an
+output formatter needs filenames, GeoIPS uses the later filename formatter
+result.
 
-For example, if a tree contains two filename formatter outputs and an output
-formatter needs filenames, GeoIPS will not guess which one to use. The script
-must ensure that only the intended filename formatter result is present in the
-tree.
+Scripts should avoid keeping ambiguous non-data nodes in the tree until stricter
+conflict handling is implemented.
 
 ## Explicit Keyword Arguments
 
-Data must be provided through the `data` tree, not through legacy data keywords
-such as `xarray_obj`.
+Explicit keyword arguments provided by the script take precedence over values
+found in the accumulated tree. This is useful for ordinary plugin configuration
+arguments such as `product_name`, `product_name_title`, `varlist`, or
+`data_range`.
 
-GeoIPS should reject explicit data-related keywords that are part of the OBP
-conduit bridge. This prevents scripts from depending on legacy argument names
-that are expected to disappear.
-
-Other plugin arguments may still be supplied explicitly. For example, an output
-formatter may receive `product_name`, `product_name_title`, or other
-configuration arguments directly.
+Scripts should still prefer passing data through the accumulated `data` tree
+rather than through legacy data keywords such as `xarray_obj`. A future update
+may reject explicit data-related conduit keywords in script mode to prevent new
+scripts from depending on legacy argument names.
 
 ## Retention Policies
 
@@ -366,13 +414,17 @@ interpolation changed geolocation or variable values.
 
 `RetentionPolicy.metadata_only`
 
-Keep the current plugin result intact, but reduce older results to attrs only.
-This is useful for normal processing where downstream plugins need context but
-not full copies of every previous dataset.
+Keep the current plugin result intact and keep the latest xarray-data provider
+(reader, interpolator, algorithm, or manual data step) intact. Older results are
+reduced to attrs only. This is useful for normal processing where downstream
+plugins need metadata from earlier steps, but only need one full science-data
+object available for later plugin calls.
 
 Example: after interpolation, keep the interpolated data but reduce the original
 reader output to metadata so the script preserves provenance without carrying a
-second large data array.
+second large data array. Later metadata-only steps such as sectors,
+colormappers, coverage checkers, and filename formatters do not cause the latest
+algorithm/interpolator data to be reduced before an output formatter can use it.
 
 `RetentionPolicy.current_only`
 
@@ -397,7 +449,7 @@ tree = reader(
     data=tree,
     filenames=fnames,
     step_id="read_data",
-    varnames=["B14BT"],
+    variables=["B14BT"],
 )
 
 tree = interpolator(
@@ -525,5 +577,11 @@ Future improvements may include:
 - Functions for graphing useful runtime information such as elapsed time, CPU
   usage, and memory usage.
 - A cleaner public scripting API for common scripted processing patterns.
+- A formal external-data contract, plus helper functions for validating or
+  standardizing user-provided xarray objects before they are passed to GeoIPS
+  plugins.
+- Better conflict diagnostics that warn when older data candidates are ignored
+  and raise useful errors when ambiguous non-data conduit inputs are present.
+- Stricter handling for explicit data-related conduit keywords in script mode.
 - Better visualization of the script execution tree and retained intermediate
   results.

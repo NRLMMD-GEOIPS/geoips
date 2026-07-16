@@ -45,6 +45,9 @@ When adding or changing retention policy behavior:
   inspect and serialize.
 - Apply retention at the attachment boundary so each scripted plugin call
   returns a tree that already reflects the effective policy.
+- For `metadata_only`, preserve the current step and the latest xarray-data
+  provider step (`reader`, `interpolator`, `algorithm`, or `manual`) so
+  metadata-only steps do not remove data needed by later plugins.
 - Add tests for enum values and string values.
 - Add tests for interactive descriptions on each policy member.
 

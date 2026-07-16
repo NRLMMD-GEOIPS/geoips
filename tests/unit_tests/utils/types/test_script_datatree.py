@@ -590,6 +590,57 @@ class TestApplyScriptRetention:
         assert not tree["read_data"].ds.coords
         assert "data" in tree["apply_algorithm"].ds.data_vars
 
+    def test_metadata_only_keeps_latest_data_for_metadata_step(self):
+        """Test metadata_only keeps latest xarray data after metadata-only steps."""
+        tree = initialize_script_tree("test_script", RetentionPolicy.metadata_only)
+        data = xr.Dataset({"data": ("x", [1, 2, 3])})
+        metadata = xr.Dataset(attrs={"area_id": "conus"})
+
+        attach_plugin_result(
+            tree,
+            data,
+            step_id="read_data",
+            plugin_kind="reader",
+            plugin_name="abi_netcdf",
+        )
+        attach_plugin_result(
+            tree,
+            metadata,
+            step_id="load_sector",
+            plugin_kind="sector",
+            plugin_name="conus",
+        )
+
+        assert "data" in tree["read_data"].ds.data_vars
+        assert not tree["load_sector"].ds.data_vars
+
+    def test_metadata_only_keeps_latest_data_after_filename_formatter(self):
+        """Test filename output data does not replace the latest xarray data."""
+        tree = initialize_script_tree("test_script", RetentionPolicy.metadata_only)
+        algorithm_data = xr.Dataset({"data": ("x", [1, 2, 3])})
+        filename_data = xr.Dataset(
+            {"output_path": ("path", ["out.png"])},
+            attrs={"output_filenames": ["out.png"]},
+        )
+
+        attach_plugin_result(
+            tree,
+            algorithm_data,
+            step_id="apply_algorithm",
+            plugin_kind="algorithm",
+            plugin_name="single_channel",
+        )
+        attach_plugin_result(
+            tree,
+            filename_data,
+            step_id="format_filename",
+            plugin_kind="filename_formatter",
+            plugin_name="geoips_fname",
+        )
+
+        assert "data" in tree["apply_algorithm"].ds.data_vars
+        assert "output_path" in tree["format_filename"].ds.data_vars
+
     def test_current_only_removes_older_steps(self):
         """Test current_only removes older step nodes."""
         tree = self._build_tree(RetentionPolicy.current_only)
@@ -729,6 +780,32 @@ class TestCurrentDataHelpers:
         current = get_current_data(tree)
 
         assert current["data"].values.tolist() == [1, 2, 3]
+
+    def test_get_current_data_skips_formatter_payloads(self):
+        """Test current data ignores non-science formatter payload nodes."""
+        tree = initialize_script_tree("test_script", RetentionPolicy.keep_all)
+        data = xr.Dataset({"data": ("x", [1, 2, 3])})
+        filename_payload = xr.Dataset({"output_path": ("path", ["out.png"])})
+
+        attach_plugin_result(
+            tree,
+            data,
+            step_id="read_data",
+            plugin_kind="reader",
+            plugin_name="abi_netcdf",
+        )
+        attach_plugin_result(
+            tree,
+            filename_payload,
+            step_id="format_filename",
+            plugin_kind="filename_formatter",
+            plugin_name="geoips_fname",
+        )
+
+        current = get_current_data(tree)
+
+        assert current["data"].values.tolist() == [1, 2, 3]
+        assert "output_path" not in current.data_vars
 
     def test_get_current_data_rejects_empty_tree(self):
         """Test current data extraction rejects trees with no data steps."""
