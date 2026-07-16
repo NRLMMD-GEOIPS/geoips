@@ -1,0 +1,63 @@
+enhancement:
+- title: 'OBP-Style Scripting Interface'
+  description: |
+    Add an OBP-Style scripting interface. This provides a number of user-facing convenience
+    functions and updates the plugins to handle appropriate data retention policies.
+
+    Also added new tests as well as some example scripts.
+  files:
+    added:
+    - 'docs/dev/obp_script_plugin_calls.md'
+    - 'docs/dev/script_datatree_developer_notes.md'
+    - 'docs/source/releases/latest/obp-interpolators-update.yaml'
+    - 'geoips/plugins/yaml/workflows/unit_tests/Infrared.yaml'
+    - 'geoips/plugins/yaml/workflows/unit_tests/Visible.yaml'
+    - 'geoips/plugins/yaml/workflows/unit_tests/abi-static-infrared-imagery-annotated-enhanced.yaml'
+    - 'geoips/plugins/yaml/workflows/unit_tests/dmw_high.yaml'
+    - 'geoips/plugins/yaml/workflows/unit_tests/output_checker.yaml'
+    - 'geoips/scripting.py'
+    - 'geoips/utils/types/script_datatree.py'
+    - 'geoips/xarray_utils/coords.py'
+    - 'tests/example_scripts/obp_scripting/verify_script_abi_infrared_output.py'
+    - 'tests/example_scripts/obp_scripting/verify_script_manual_difference_output.py'
+    - 'tests/example_scripts/obp_scripting/verify_script_reader.py'
+    - 'tests/example_scripts/obp_scripting/verify_script_reader_manipulation.py'
+    - 'tests/unit_tests/commandline/test_geoips_workflow_type.py'
+    - 'tests/unit_tests/interfaces/class_based/test_interpolator.py'
+    - 'tests/unit_tests/test_scripting.py'
+    - 'tests/unit_tests/utils/types/test_script_datatree.py'
+    - 'tests/unit_tests/xarray_utils/test_coords.py'
+    modified:
+    - 'docs/build_docs.py'
+    - 'geoips/commandline/geoips_command.py'
+    - 'geoips/commandline/geoips_test.py'
+    - 'geoips/interfaces/class_based/interpolators.py'
+    - 'geoips/interfaces/class_based/output_formatters.py'
+    - 'geoips/interfaces/class_based/readers.py'
+    - 'geoips/interfaces/class_based/workflow.py'
+    - 'geoips/interfaces/class_based_plugin.py'
+    - 'geoips/interfaces/yaml_based/workflows.py'
+    - 'geoips/plugins/classes/interpolators/pyresample_wrappers/interp_nearest.py'
+    - 'geoips/plugins/classes/output_checkers/image.py'
+    - 'geoips/plugins/modules/procflows/single_source.py'
+    - 'geoips/plugins/yaml/workflows/unit_tests/test_product.yaml'
+    - 'geoips/plugins/yaml/workflows/unit_tests/test_workflow.yaml'
+    - 'geoips/pydantic_models/v1/bases.py'
+    - 'geoips/pydantic_models/v1/workflows.py'
+    - 'geoips/utils/types/converters.py'
+    - 'geoips/utils/types/obp_conduits.py'
+    - 'tests/integration_tests/test_integration.py'
+    - 'tests/unit_tests/commandline/test_geoips_test_workflow.py'
+    - 'tests/unit_tests/interfaces/test_class_based_plugin_invoke.py'
+    - 'tests/unit_tests/interfaces/test_output_formatter_call_order.py'
+    - 'tests/unit_tests/plugins/yaml/workflows/test_workflow_overrides.py'
+    - 'tests/unit_tests/pydantic_models/v1/test_workflow_spec_model.py'
+    deleted:
+    - 'geoips/plugins/yaml/workflows/unit_tests/full_run.yaml'
+    moved: []
+  related-issue:
+    number: null
+    repo_url: ''
+  date:
+    start: 2026-07-16
+    finish: 2026-07-16
