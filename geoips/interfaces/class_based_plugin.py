@@ -38,10 +38,10 @@ import xarray as xr
 from geoips import interfaces
 from geoips.utils.types.datatree_ditto import DataTreeDitto
 from geoips.utils.types.obp_conduits import OBP_CONDUITS
-from geoips.utils.types.partial_lexeme import Lexeme
 from geoips.utils.types.script_datatree import (
-    SCRIPT_EXECUTION_MODE,
-    attach_plugin_result,
+    attach_script_result,
+    is_script_tree,
+    script_call_data,
 )
 from geoips.xarray_utils.coords import normalize_geoips_dataset_coords
 
@@ -346,68 +346,6 @@ class BaseClassPlugin(ABC):
             ) from exc
 
     @staticmethod
-    def _to_mutable_dataset(data):
-        """Convert a DataTree with children into a mutable ``xr.Dataset``.
-
-        ``DataTree.ds`` returns an immutable ``DatasetView``.  Plugins
-        that need to write into the dataset must call this helper first.
-
-        * Single child with its own data_vars → ``children[0].to_dataset()``
-        * Single child whose data lives in *its* children (reader-style
-          multi-dataset output: root is attrs-only, sub-children hold each
-          variable group) -> ``xr.merge(sub-children)`` with root attrs preserved
-        * Multiple children -> ``xr.merge(...)``
-        * Not a DataTree -> returned unchanged.
-        """
-        # if not isinstance(data, xr.DataTree):
-        #     return data
-        # children = list(data.children.values())
-        # if len(children) == 1:
-        #     child = children[0]
-        #     child_ds = child.ds
-        #     if child_ds is not None and not child_ds.data_vars and child.children:
-        #         sub_children = list(child.children.values())
-        #         if len(sub_children) == 1:
-        #             merged = sub_children[0].to_dataset()
-        #         else:
-        #             merged = xr.merge([c.to_dataset() for c in sub_children])
-        #         for k, v in child_ds.attrs.items():
-        #             merged.attrs.setdefault(k, v)
-        #         return merged
-        #     return child.to_dataset()
-        # if len(children) > 1:
-        #     return xr.merge([c.to_dataset() for c in children])
-        # return data
-
-        if not isinstance(data, xr.DataTree):
-            return data
-
-        children = list(data.children.values())
-
-        if not children:
-            return data
-
-        if len(children) > 1:
-            data = xr.merge(child.to_dataset() for child in children)
-            return normalize_geoips_dataset_coords(data)
-
-        child = children[0]
-        child_ds = child.ds
-
-        if child_ds is None or child_ds.data_vars or not child.children:
-            return normalize_geoips_dataset_coords(child.to_dataset())
-
-        sub_children = list(child.children.values())
-
-        if len(sub_children) == 1:
-            data = sub_children[0].to_dataset()
-        else:
-            data = xr.merge(sub_child.to_dataset() for sub_child in sub_children)
-
-        data.attrs = {**child_ds.attrs, **data.attrs}
-        return normalize_geoips_dataset_coords(data)
-
-    @staticmethod
     def _extract_child_kwargs(data, kwargs):
         """Inject conduit-mapped keyword arguments from upstream DataTree children.
 
@@ -521,23 +459,6 @@ class BaseClassPlugin(ABC):
         """
         return data, args, kwargs
 
-    @staticmethod
-    def _is_script_tree(data):
-        """Return whether *data* is an initialized script DataTree."""
-        return (
-            isinstance(data, xr.DataTree)
-            and data.attrs.get("execution_mode") == SCRIPT_EXECUTION_MODE
-        )
-
-    def _plugin_kind(self):
-        """Return the singular plugin kind for script step metadata."""
-        return str(Lexeme(self.interface).singular)
-
-    @staticmethod
-    def _script_call_data(data, kwargs):
-        """Return the data object to pass through plugin preprocessing."""
-        return kwargs.get("xarray_obj", data)
-
     def _invoke(self, data=None, *args, _obp_initiated=False, **kwargs):
         """Call the main plugin method.
 
@@ -559,25 +480,19 @@ class BaseClassPlugin(ABC):
         """
         new_kwargs = kwargs
 
-        # Script calls pass the accumulated script tree as ``data``. Treat that
-        # execution context as OBP-initiated so the existing conduit extraction,
-        # kwarg filtering, conversion, and wrapping paths are reused.
-        script_tree = data if self._is_script_tree(data) else None
-        script_mode = script_tree is not None
-        if script_mode:
-            _obp_initiated = True
-
         # Interface subclasses may normalize public calling conventions before
         # any OBP/script routing decisions are finalized.
         data, args, new_kwargs = self._normalize_call_args(
             data, args, new_kwargs, _obp_initiated=_obp_initiated
         )
-        if self._is_script_tree(data):
-            script_tree = data
-            script_mode = True
-            _obp_initiated = True
 
+        # Script calls pass the accumulated script tree as ``data``. Treat that
+        # execution context as OBP-initiated so the existing conduit extraction,
+        # kwarg filtering, conversion, and wrapping paths are reused.
+        script_tree = data if is_script_tree(data) else None
+        script_mode = script_tree is not None
         if script_mode:
+            _obp_initiated = True
             step_id = new_kwargs.pop("step_id", None)
             step_retention_policy = new_kwargs.pop("retention_policy", None)
             step_start_time = datetime.now(timezone.utc)
@@ -607,7 +522,7 @@ class BaseClassPlugin(ABC):
             # Script trees keep history. The plugin call itself should operate
             # on the current data input when one was discovered, while the
             # original tree is retained for attaching the new step result.
-            data = self._script_call_data(data, new_kwargs)
+            data = script_call_data(data, new_kwargs)
 
         # Hooks own interface-level preprocessing and postprocessing. Some hooks
         # currently return ``(data, kwargs)`` while the contract is migrating;
@@ -643,15 +558,13 @@ class BaseClassPlugin(ABC):
                 # Legacy readers and other hooks may strip the positional input
                 # before calling ``call``. They still produce a script step, so
                 # attach the post-processed result before returning.
-                return attach_plugin_result(
+                return attach_script_result(
                     script_tree,
                     data,
+                    plugin=self,
                     step_id=step_id,
-                    plugin_kind=self._plugin_kind(),
-                    plugin_name=self.name,
-                    start_time=step_start_time,
-                    end_time=datetime.now(timezone.utc),
-                    retention_policy=step_retention_policy,
+                    step_start_time=step_start_time,
+                    step_retention_policy=step_retention_policy,
                 )
             return data
 
@@ -692,15 +605,13 @@ class BaseClassPlugin(ABC):
             # Workflows return the plugin result and let ``Workflow.call`` attach
             # it. Scripts own their accumulated tree, so attach the result here
             # and return the updated script tree for the next plugin call.
-            return attach_plugin_result(
+            return attach_script_result(
                 script_tree,
                 data,
+                plugin=self,
                 step_id=step_id,
-                plugin_kind=self._plugin_kind(),
-                plugin_name=self.name,
-                start_time=step_start_time,
-                end_time=datetime.now(timezone.utc),
-                retention_policy=step_retention_policy,
+                step_start_time=step_start_time,
+                step_retention_policy=step_retention_policy,
             )
         return data
 
