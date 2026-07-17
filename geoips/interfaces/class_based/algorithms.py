@@ -22,38 +22,19 @@ class BaseAlgorithmPlugin(BaseClassPlugin, abstract=True):
     _family_conversion_map = ALGORITHM_FAMILY_CONVERSIONS
 
     def _pre_call(self, data=None, *args, _obp_initiated=False, **kwargs):
-        r"""Normalize ``DataTreeDitto`` input into a mutable ``xr.Dataset``.
+        """Flatten OBP DataTree input into a mutable Dataset before base hooks.
 
-        :func:`_collect_upstream_data` wraps upstream outputs in an :class:xr.DataTree`
-        whose child nodes expose immutable ``DatasetView`` objects via ``.ds``.
-        Algorithms that write back to ``xobj`` (e.g. ``xobj[product_name] = ...``)
-        need a mutable ``xr.Dataset``.  This override converts the DataTreeDitto to a
-        mutable Dataset before the base-class hook applies family converters.
-
-        * Single upstream dep -> ``children[0].to_dataset()``
-        * Multiple upstream deps -> ``xr.merge([c.to_dataset() for c in children])``
-
-        Parameters
-        ----------
-        data : DataTreeDitto | xr.DataTree | xr.Dataset | None, optional
-            Upstream input passed into the algorithm. When the runtime procflow in OBP,
-            this will be ``DataTreeDitto`` containing one or more dependency nodes.
-        \*args : tuple
-            Additional positional arguments forwarded to the base ``_pre_call``.
-        _obp_initiated : bool, default=False
-            Indicates whether the call originated from the OBP workflow. When
-            ``True``, ``DataTreeDitto`` inputs are converted into mutable datasets.
-        \*\*kwargs : dict
-            Additional keyword arguments forwarded to the base ``_pre_call``.
-
-        Returns
-        -------
-        xr.Dataset | Any
-            A mutable ``xr.Dataset`` when upstream input is normalized from
-            ``DataTree``; otherwise whatever the base ``_pre_call`` returns.
+        Algorithms that write back to ``xobj`` (e.g.
+        ``xobj[product_name] = ...``) need a mutable ``xr.Dataset``. Under OBP
+        upstream outputs arrive as a ``DataTree`` whose child nodes expose
+        immutable ``DatasetView`` objects via ``.ds``; this override flattens
+        that tree into a mutable Dataset before the base-class hook applies
+        family converters. Legacy (non-OBP) inputs pass through unchanged.
         """
         if _obp_initiated and isinstance(data, xr.DataTree):
-            data = self._to_mutable_dataset(data)
+            from geoips.utils.types.datatree_helpers import to_mutable_dataset
+
+            data = to_mutable_dataset(data)
         return super()._pre_call(data, *args, _obp_initiated=_obp_initiated, **kwargs)
 
     def _post_call(self, data=None, *args, _obp_initiated=False, **kwargs):
