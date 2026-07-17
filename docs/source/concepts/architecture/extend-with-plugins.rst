@@ -39,15 +39,21 @@ Plugins are stored in installable Python packages that register their payload wi
 GeoIPS through the use of
 `entrypoints <https://packaging.python.org/en/latest/specifications/entry-points/>`_.
 
-Module-based Plugin
--------------------
-A module-based plugin is a plugin that extends GeoIPS by adding new
+Class-based Plugin
+------------------
+A class-based plugin is a plugin that extends GeoIPS by adding new
 functionality that is capable of performing an action (e.g. apply an algorithm,
-read data, apply formatting, etc.).  Module-based plugins are defined as a
-single python module that contains a handful of required top-level variables and
-a single function that performs the action of the plugin. Examples of
-module-based plugins include ``algorithms``, ``readers``, and various types of
-formatters.
+read data, apply formatting, etc.). A class-based plugin is a Python class that
+subclasses its interface base class, sets the required ``interface``/``family``/``name``
+class attributes, and implements a ``call`` method that performs the action of the plugin
+(the module also declares ``PLUGIN_CLASS`` so the registry knows which class to register).
+Examples of class-based plugins include ``algorithms``, ``readers``, and various types of
+formatters. See :ref:`writing-class-based-plugins`.
+
+.. note::
+
+   In GeoIPS 1.x these were *module-based* plugins (a module with top-level variables and a
+   ``call`` function). See :ref:`converting-module-to-class` to migrate a 1.x plugin.
 
 YAML-based Plugin
 -----------------
@@ -68,7 +74,7 @@ Family
 ------
 
 A ``family`` is a subset of an interface's plugins which accept specific sets of
-arguments/properties. Module-based plugins of the same ``family`` have similar call
+arguments/properties. Class-based plugins of the same ``family`` have similar call
 signatures. YAML-based plugins of the same ``family`` are validated against the same
 schema (i.e. they contain the same properties).
 
@@ -76,7 +82,7 @@ Docstring
 ---------
 
 A ``docstring`` is a chunk of documentation which describes what your plugin does. This
-property is required for every GeoIPS plugin created, module-based or YAML-based. We
+property is required for every GeoIPS plugin created, class-based or YAML-based. We
 require this property for proper documentation of created plugins, and it will also be
 a useful feature later on when the GeoIPS Command Line Interface (CLI) is created, as
 you will be able to see what each plugin does provided the ``docstring`` for that plugin
