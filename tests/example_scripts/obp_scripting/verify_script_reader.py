@@ -6,11 +6,7 @@ import glob
 import os
 
 from geoips.interfaces import readers
-from geoips.scripting import (
-    RetentionPolicy,
-    get_current_data,
-    initialize_script_tree,
-)
+from geoips.scripting import RetentionPolicy, get_current_data, initialize_script_tree
 
 
 def main():
