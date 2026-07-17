@@ -10,6 +10,7 @@ from functools import cache
 import xarray as xr
 
 from geoips.utils.types.datatree_ditto import DataTreeDitto
+from geoips.utils.types.datatree_helpers import has_data_vars, to_mutable_dataset
 
 
 class RetentionPolicy(StrEnum):
@@ -115,12 +116,33 @@ def _format_timestamp(timestamp, field_name):
     return timestamp.isoformat()
 
 
-def _is_script_tree(tree):
+def is_script_tree(tree):
     """Return whether *tree* is an initialized script DataTree."""
     return (
         isinstance(tree, xr.DataTree)
         and tree.attrs.get("execution_mode") == SCRIPT_EXECUTION_MODE
     )
+
+
+def plugin_kind(plugin):
+    """Return the singular plugin kind for script step metadata.
+
+    Uses the plugin's ``interface`` attribute (e.g. ``"filename_formatters"``)
+    and returns its singular form (e.g. ``"filename_formatter"``).
+    """
+    from geoips.utils.types.partial_lexeme import Lexeme
+
+    return str(Lexeme(plugin.interface).singular)
+
+
+def script_call_data(data, kwargs):
+    """Return the data object to pass through plugin preprocessing.
+
+    Script calls keep the accumulated script tree in ``data``; the plugin's
+    own call should operate on the current data input (``xarray_obj`` kwarg
+    when a conduit injected one, otherwise the tree itself).
+    """
+    return kwargs.get("xarray_obj", data)
 
 
 @cache
@@ -272,11 +294,8 @@ def _require_script_tree(tree):
             "Script DataTree helpers may only operate on a DataTree created "
             "by initialize_script_tree()."
         )
-    missing_attrs = [
-        attr
-        for attr in ("retention_policy", "start_time", "end_time")
-        if attr not in tree.attrs
-    ]
+    required_attrs = _RESERVED_ROOT_ATTRS - {"execution_mode"}
+    missing_attrs = [attr for attr in required_attrs if attr not in tree.attrs]
     if missing_attrs:
         missing_attr_names = ", ".join(missing_attrs)
         raise ValueError(
@@ -338,11 +357,11 @@ def get_output_products(tree, step_id=None):
             )
         return output_products
 
-    output_products = []
-    for child in tree.children.values():
-        output_products.extend(
-            _normalize_output_products(child.attrs.get("output_products"))
-        )
+    output_products = [
+        product
+        for child in tree.children.values()
+        for product in _normalize_output_products(child.attrs.get("output_products"))
+    ]
 
     if not output_products:
         raise ValueError(
@@ -363,6 +382,18 @@ def _older_step_ids(tree, current_step_id):
     return step_ids[: step_ids.index(current_step_id)]
 
 
+def _iter_steps_newest_first(tree, up_to=None):
+    """Yield top-level step ids newest-first, optionally capped at *up_to*.
+
+    When *up_to* is given, only steps up to and including *up_to* are yielded
+    (in newest-first order). Otherwise all steps are yielded newest-first.
+    """
+    step_ids = list(tree.children)
+    if up_to is not None:
+        step_ids = step_ids[: step_ids.index(up_to) + 1]
+    yield from reversed(step_ids)
+
+
 def _reduce_step_to_attrs_only(tree, step_id):
     """Reduce a top-level script step node to attrs-only metadata."""
     tree[step_id] = _attrs_only_node(tree[step_id])
@@ -378,18 +409,14 @@ _XARRAY_DATA_PLUGIN_KINDS = frozenset(("algorithm", "interpolator", "manual", "r
 
 def _is_xarray_data_step(node):
     """Return whether *node* should provide xarray input to later plugins."""
-    return node.attrs.get(
-        "plugin_kind"
-    ) in _XARRAY_DATA_PLUGIN_KINDS and _has_data_vars(node)
+    return node.attrs.get("plugin_kind") in _XARRAY_DATA_PLUGIN_KINDS and has_data_vars(
+        node
+    )
 
 
 def _latest_xarray_data_step_id(tree, current_step_id):
     """Return the newest xarray-data step at or before *current_step_id*."""
-    candidate_step_ids = [
-        *_older_step_ids(tree, current_step_id),
-        current_step_id,
-    ]
-    for step_id in reversed(candidate_step_ids):
+    for step_id in _iter_steps_newest_first(tree, up_to=current_step_id):
         if _is_xarray_data_step(tree[step_id]):
             return step_id
     return None
@@ -402,32 +429,6 @@ def _metadata_only_preserved_step_ids(tree, current_step_id):
     if latest_data_step_id is not None:
         preserved.add(latest_data_step_id)
     return preserved
-
-
-def _has_data_vars(node):
-    """Return whether a script step node or its children contain data vars."""
-    if node.ds is not None and bool(node.ds.data_vars):
-        return True
-    return any(_has_data_vars(child) for child in node.children.values())
-
-
-def _to_mutable_dataset(node):
-    """Return a mutable Dataset containing data from *node* and children."""
-    datasets = []
-    if node.ds is not None and bool(node.ds.data_vars):
-        datasets.append(node.to_dataset())
-    for child in node.children.values():
-        if _has_data_vars(child):
-            datasets.append(_to_mutable_dataset(child))
-
-    if not datasets:
-        return xr.Dataset(attrs=dict(node.attrs))
-    if len(datasets) == 1:
-        dataset = datasets[0].copy(deep=True)
-    else:
-        dataset = xr.merge(datasets).copy(deep=True)
-    dataset.attrs = {**dict(node.attrs), **dict(dataset.attrs)}
-    return dataset
 
 
 def get_current_data(tree):
@@ -443,9 +444,9 @@ def get_current_data(tree):
     xarray.Dataset
         Dataset from the most recent top-level reader, interpolator, algorithm,
         or manual step containing data variables, including data stored in child
-        nodes such as reader outputs. The
-        returned object is a mutable dataset copy intended for inspection,
-        modification, and reinsertion with ``add_data_step``.
+        nodes such as reader outputs. The returned object is a mutable,
+        coord-normalized dataset copy intended for inspection, modification,
+        and reinsertion with ``add_data_step``.
 
     Raises
     ------
@@ -455,10 +456,10 @@ def get_current_data(tree):
     """
     _require_script_tree(tree)
 
-    for step_id in reversed(list(tree.children)):
+    for step_id in _iter_steps_newest_first(tree):
         node = tree[step_id]
         if _is_xarray_data_step(node):
-            return _to_mutable_dataset(node)
+            return to_mutable_dataset(node)
 
     raise ValueError(
         "No data-containing script steps are available. Attach a plugin result "
@@ -659,3 +660,32 @@ def attach_plugin_result(
     )
     apply_script_retention(tree, step_name, retention_policy=retention_policy)
     return tree
+
+
+def attach_script_result(
+    script_tree,
+    result,
+    *,
+    plugin,
+    step_id=None,
+    step_start_time=None,
+    step_retention_policy=None,
+):
+    """Attach a scripted plugin result and return the updated script tree.
+
+    Thin convenience wrapper around ``attach_plugin_result`` that derives
+    ``plugin_kind`` from *plugin*'s interface and ``plugin_name`` from
+    ``plugin.name``, and defaults the end time to the current UTC time.
+    Used by ``BaseClassPlugin._invoke`` so the two script-mode attach sites do
+    not duplicate the metadata-derivation logic.
+    """
+    return attach_plugin_result(
+        script_tree,
+        result,
+        step_id=step_id,
+        plugin_kind=plugin_kind(plugin),
+        plugin_name=plugin.name,
+        start_time=step_start_time,
+        end_time=_utc_now(),
+        retention_policy=step_retention_policy,
+    )
