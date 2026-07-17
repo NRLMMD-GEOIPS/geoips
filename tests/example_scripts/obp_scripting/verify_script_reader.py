@@ -1,4 +1,4 @@
-"""Scratch verification for script-mode reader invocation."""
+"""Verify script-mode reader invocation produces the expected ABI channels."""
 
 from __future__ import annotations
 
@@ -6,11 +6,15 @@ import glob
 import os
 
 from geoips.interfaces import readers
-from geoips.scripting import RetentionPolicy, get_current_data, initialize_script_tree
+from geoips.scripting import (
+    RetentionPolicy,
+    get_current_data,
+    initialize_script_tree,
+)
 
 
 def main():
-    """Call a real reader using an initialized script tree."""
+    """Read two ABI channels via a script DataTree and verify the result."""
     fnames = sorted(
         glob.glob(
             os.path.join(
@@ -19,7 +23,9 @@ def main():
             )
         )
     )
+    print("=== ABI reader script-mode verification ===")
     print(f"input_file_count={len(fnames)}")
+    print(f"first_input_file={fnames[0] if fnames else None}")
 
     tree = initialize_script_tree(
         "reader_verify",

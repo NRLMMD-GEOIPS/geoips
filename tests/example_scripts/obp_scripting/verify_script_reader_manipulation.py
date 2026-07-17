@@ -1,4 +1,4 @@
-"""Scratch verification for script-mode data extraction and reinsertion."""
+"""Verify script-mode data extraction, manipulation, and reinsertion."""
 
 from __future__ import annotations
 
@@ -15,7 +15,7 @@ from geoips.scripting import (
 
 
 def main():
-    """Read ABI channels, compute a difference, and reinsert the result."""
+    """Read two ABI channels, compute a difference, and reinsert the result."""
     fnames = sorted(
         glob.glob(
             os.path.join(
@@ -24,7 +24,9 @@ def main():
             )
         )
     )
+    print("=== ABI reader manipulation script-mode verification ===")
     print(f"input_file_count={len(fnames)}")
+    print(f"first_input_file={fnames[0] if fnames else None}")
 
     tree = initialize_script_tree(
         "reader_manipulation_verify",

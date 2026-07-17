@@ -87,6 +87,14 @@ full_integ_test_calls = [
         "python $geoips_repopath/tests/example_scripts/obp_scripting/"
         "verify_script_abi_infrared_output.py"
     ),
+    (
+        "python $geoips_repopath/tests/example_scripts/obp_scripting/"
+        "verify_script_reader.py"
+    ),
+    (
+        "python $geoips_repopath/tests/example_scripts/obp_scripting/"
+        "verify_script_reader_manipulation.py"
+    ),
     "$geoips_repopath/tests/scripts/abi.static.Infrared.imagery_annotated_enhanced.sh",
     "$geoips_repopath/tests/scripts/console_script_create_sector_image.sh",
     "$geoips_repopath/tests/scripts/abi.static.dmw.imagery_windbarbs_high.sh",
