@@ -17,6 +17,13 @@ attribute), and values to be passed to the arguments for those plugins.
 Products are a key plugin for GeoIPS, as they define much of the information
 GeoIPS needs to determine how to produce an output.
 
+.. note::
+
+   In :ref:`Order-Based Processing <order-based-processing>`, a product is referenced from
+   a workflow as a ``kind: product`` step (``name: [source_name, product_name]``). GeoIPS
+   expands that step into the ordered plugin steps its ``family`` implies (for example,
+   interpolator → algorithm → colormapper). See :ref:`workflows`.
+
 See the
 :ref:`products tutorial <create-a-product>`
 for instruction on setting up a new product.
