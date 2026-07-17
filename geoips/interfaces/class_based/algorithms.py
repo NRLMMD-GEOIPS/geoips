@@ -5,8 +5,9 @@
 
 import xarray as xr
 
-from geoips.interfaces.class_based_plugin import BaseClassPlugin
 from geoips.interfaces.base import BaseClassInterface
+from geoips.interfaces.class_based_plugin import BaseClassPlugin
+from geoips.utils.types.datatree_helpers import to_mutable_dataset
 from geoips.utils.types.family_conversions import ALGORITHM_FAMILY_CONVERSIONS
 
 
@@ -32,8 +33,6 @@ class BaseAlgorithmPlugin(BaseClassPlugin, abstract=True):
         family converters. Legacy (non-OBP) inputs pass through unchanged.
         """
         if _obp_initiated and isinstance(data, xr.DataTree):
-            from geoips.utils.types.datatree_helpers import to_mutable_dataset
-
             data = to_mutable_dataset(data)
         return super()._pre_call(data, *args, _obp_initiated=_obp_initiated, **kwargs)
 

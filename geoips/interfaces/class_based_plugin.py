@@ -27,11 +27,12 @@ IDE, static analysis tools, and other type checkers correctly.
 """
 
 from __future__ import annotations
-from abc import ABC, abstractmethod
-from datetime import datetime, timezone
+
 import functools
 import inspect
 import logging
+from abc import ABC, abstractmethod
+from datetime import datetime, timezone
 
 import xarray as xr
 
