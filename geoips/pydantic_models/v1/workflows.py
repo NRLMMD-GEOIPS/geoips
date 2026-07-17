@@ -832,8 +832,7 @@ class WorkflowSpecModel(FrozenModel):
                 steps[key]["kind"] = kind
 
         if "coverage_checker" not in list(steps.keys()):
-            # add an argument to coverage checkers where in the post call performs
-            # coverage checkers and adds minimum_coverage = 10.
+            # Add default coverage checker step if one doesn't already exist
             steps["coverage_checker"] = {
                 "kind": "coverage_checker",
                 "name": "masked_arrays",
