@@ -669,7 +669,7 @@ def attach_script_result(
     plugin,
     step_id=None,
     step_start_time=None,
-    step_retention_policy=None,
+    retention_policy=None,
 ):
     """Attach a scripted plugin result and return the updated script tree.
 
@@ -687,5 +687,5 @@ def attach_script_result(
         plugin_name=plugin.name,
         start_time=step_start_time,
         end_time=_utc_now(),
-        retention_policy=step_retention_policy,
+        retention_policy=retention_policy,
     )

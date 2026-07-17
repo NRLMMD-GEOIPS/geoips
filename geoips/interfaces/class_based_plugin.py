@@ -495,7 +495,7 @@ class BaseClassPlugin(ABC):
         if script_mode:
             _obp_initiated = True
             step_id = new_kwargs.pop("step_id", None)
-            step_retention_policy = new_kwargs.pop("retention_policy", None)
+            retention_policy = new_kwargs.pop("retention_policy", None)
             step_start_time = datetime.now(timezone.utc)
 
         # Reader-like calls and direct calls with no upstream payload bypass
@@ -565,7 +565,7 @@ class BaseClassPlugin(ABC):
                     plugin=self,
                     step_id=step_id,
                     step_start_time=step_start_time,
-                    step_retention_policy=step_retention_policy,
+                    retention_policy=retention_policy,
                 )
             return data
 
@@ -612,7 +612,7 @@ class BaseClassPlugin(ABC):
                 plugin=self,
                 step_id=step_id,
                 step_start_time=step_start_time,
-                step_retention_policy=step_retention_policy,
+                retention_policy=retention_policy,
             )
         return data
 
