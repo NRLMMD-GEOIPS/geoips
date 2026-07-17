@@ -38,7 +38,6 @@ spec:
     seviri_Day_Microphys_Winter:
       kind: product
       name: [seviri, Day_Microphys_Winter]
-      arguments: {}
       depends_on: [sector, reader]
     filename_formatter:
       kind: filename_formatter
@@ -47,4 +46,3 @@ spec:
     output_formatter:
       kind: output_formatter
       name: imagery_clean
-      arguments: {}
