@@ -1,0 +1,50 @@
+# # # This source code is subject to the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
+
+# script migration = done
+# product testing = ongoing
+
+# Default values - if you do not have this exact test case available, call with available data files / sectors.
+# This exact test case required for valid comparisons - remove "compare_path" argument if running a different
+# set of arguments.
+
+apiVersion: geoips/v1
+interface: workflows
+family: order_based
+name: ami_static_infrared_imagery_clean
+docstring: ADD THIS.
+package: geoips
+test:
+  fnames: !ENV ${GEOIPS_TESTDATA_DIR}/test_data_ami/data/20231208_0300_daytime/gk2a_ami_le1b_*.nc
+  outputs:
+    output_formatter:
+      full_test_policy: on_token_mismatch # always | never
+      compare_path: !ENV ${GEOIPS_PACKAGES_DIR}/geoips/tests/outputs/ami.static.<product>.imagery_clean
+      output_checker_name: ADD THIS
+spec:
+  globals:
+    product_name: Infrared
+    reader_defined_area_def: False
+    # sector_list: ["geokompsat"]
+  steps:
+    sector:
+      kind: sector
+      name: geokompsat
+      depends_on: []
+    reader:
+      kind: reader
+      name: ami_netcdf
+      arguments: 
+        resampled_read: True
+      depends_on: [sector]
+    ami_Infrared:
+      kind: product
+      name: [ami, Infrared]
+      depends_on: [sector, reader]
+    filename_formatter:
+      kind: filename_formatter
+      name: geoips_fname
+      depends_on: [ami_Infrared.algorithm, sector]
+    output_formatter:
+      kind: output_formatter
+      name: imagery_clean
