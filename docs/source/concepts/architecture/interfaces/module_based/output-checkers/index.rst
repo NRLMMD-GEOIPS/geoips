@@ -60,20 +60,17 @@ To use an output checker in your GeoIPS workflow:
 2. Specify the path to your reference output files
 3. GeoIPS will automatically select the appropriate output checker based on the file type
 
-Example command:
+In :ref:`Order-Based Processing <order-based-processing>`, output checkers run as part of a
+workflow: either as an explicit ``output_checker`` step, or via the ``outputs`` block in a
+workflow's ``test`` section (which sets the ``compare_path`` and inserts the checker
+automatically). Run a workflow's test section — including its output checks — with:
 
 .. code-block:: bash
 
-    run_procflow $GEOIPS_TESTDATA_DIR/test_data_noaa_aws/data/goes16/20200918/1950/* \
-                 --procflow single_source \
-                 --reader_name abi_netcdf \
-                 --product_name Infrared \
-                 --compare_path "$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/abi.static.<product>.imagery_annotated" \
-                 --output_formatter imagery_annotated \
-                 --filename_formatter geoips_fname \
-                 --resampled_read \
-                 --logging_level info \
-                 --sector_list goes_east
+    geoips test workflow abi_static_infrared_imagery_clean
+
+You can also add output-checker overrides on the command line with the ``-S`` outputs
+override; see :ref:`running-obp`.
 
 Step 4: Interpreting Output Checker Results
 -------------------------------------------

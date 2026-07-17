@@ -6,9 +6,9 @@
 Test Sectors for GeoIPS
 =======================
 
-We use small, pre-determined test sectors for testing. 
-These sectors provide a variety of scene components 
-including coast and land, edge of geostationary disk, day/night/terminator features etc. 
+We use small, pre-determined test sectors for testing.
+These sectors provide a variety of scene components
+including coast and land, edge of geostationary disk, day/night/terminator features etc.
 
 Naming Convention
 -----------------

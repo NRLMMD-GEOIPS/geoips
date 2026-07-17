@@ -10,6 +10,7 @@ Architecture
     :maxdepth: 1
 
     extend-with-plugins
+    plugin-registry
     interfaces/module_based/output-checkers/index.rst
     structure-of-geoips/index
     xarray-standards
