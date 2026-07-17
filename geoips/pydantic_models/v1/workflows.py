@@ -825,6 +825,7 @@ class WorkflowSpecModel(FrozenModel):
                 steps["coverage_checker"] = {
                     "kind": "coverage_checker",
                     "name": "masked_arrays",
+                    "depends_on": last_data_step,
                     "arguments": {"minimum_coverage": 10},
                 }
         else:
