@@ -12,8 +12,8 @@ apiVersion: geoips/v1
 interface: workflows
 family: order_based
 name: seviri_dust_rgb_imagery_clean
-docstring: ADD THIS.
-package: geoips
+docstring: |
+  SEVIRI Dust RGB imagery over a European equidistant cylindrical sector.
 test:
   fnames: !ENV ${GEOIPS_TESTDATA_DIR}/test_data_seviri/data/20250624/1200/H-000-MSG3*
   outputs:
