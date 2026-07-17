@@ -1,0 +1,49 @@
+# # # This source code is subject to the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
+
+# script migration = done
+# product testing = ongoing
+
+# Default values - if you do not have this exact test case available, call with available data files / sectors.
+# This exact test case required for valid comparisons - remove "compare_path" argument if running a different
+# set of arguments.
+
+apiVersion: geoips/v1
+interface: workflows
+family: order_based
+name: viirs_static_visible_imagery_clean
+docstring: ADD THIS.
+package: geoips
+test:
+  fnames: !ENV ${GEOIPS_TESTDATA_DIR}/test_data_viirs/data/j02_sdr_20240925/*.h5
+  outputs:
+    output_formatter:
+      full_test_policy: on_token_mismatch # always | never
+      compare_path: !ENV ${GEOIPS_PACKAGES_DIR}/geoips/tests/outputs/viirs.static.visible.imagery_clean
+      output_checker_name: ADD THIS
+spec:
+  globals:
+    product_name: Visible
+    reader_defined_area_def: False
+    # sector_list: ["se_asia"]
+    minimum_coverage: 0 
+  steps:
+    sector:
+      kind: sector
+      name: se_asia
+      depends_on: []
+    reader:
+      kind: reader
+      name: viirs_sdr_hdf5
+      depends_on: [sector]
+    viirs_Visible:
+      kind: product
+      name: [viirs, Visible]
+      depends_on: [sector, reader]
+    filename_formatter:
+      kind: filename_formatter
+      name: geoips_fname
+      depends_on: [viirs_Visible.algorithm, sector, check_coverage]
+    output_formatter:
+      kind: output_formatter
+      name: imagery_clean
