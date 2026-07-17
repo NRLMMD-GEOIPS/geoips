@@ -6,8 +6,16 @@
 from __future__ import annotations
 
 import xarray as xr
+from typing import Final
 
-GEOIPS_COORD_NAMES = ("latitude", "longitude")
+GEOIPS_COORD_NAMES: Final = (
+    "latitude",
+    "longitude",
+    "satellite_zenith_angle",
+    "satellite_azimuth_angle",
+    "solar_zenith_angle",
+    "solar_azimuth_angle",
+)
 
 
 def normalize_geoips_dataset_coords(dataset):

@@ -137,9 +137,6 @@ class RetentionPolicy(ABC):
     def _is_kept(self, step_id: str) -> bool:
         return self._spec.steps[step_id].keep is True
 
-    def _is_output(self, step_id: str) -> bool:
-        return step_id in (self._spec.outputs or ())
-
     def _has_pending_consumers(self, step_id: str, executed: set[str]) -> bool:
         return any(
             step_id in {_dep_head(dep) for dep in (other_step.depends_on or ())}
@@ -620,6 +617,7 @@ class Workflow:
             step_def.kind,
             step_def.name,
         )
+
         return result
 
     # ------------------------------------------------------------------

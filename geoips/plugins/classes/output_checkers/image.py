@@ -272,7 +272,7 @@ class ImageOutputCheckerPlugin(BaseOutputCheckerPlugin):
         self,
         compare_path,
         output_products,
-        threshold=gpaths["GEOIPS_TEST_OUTPUT_CHECKER_THRESHOLD_IMAGE"],
+        threshold=gpaths.get("GEOIPS_TEST_OUTPUT_CHECKER_THRESHOLD_IMAGE", 0.05),
     ):
         """Compare the "correct" imagery found the list of current output_products.
 

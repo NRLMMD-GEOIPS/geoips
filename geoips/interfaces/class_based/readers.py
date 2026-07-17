@@ -5,6 +5,7 @@
 
 import collections
 import logging
+import warnings
 from datetime import datetime
 from os.path import basename
 from pathlib import Path
@@ -58,17 +59,33 @@ class BaseReaderPlugin(BaseClassPlugin, abstract=True):
         return super()._pre_call(data, *args, _obp_initiated=_obp_initiated, **kwargs)
 
     def _normalize_obp_kwargs(self, kwargs):
-        """Rename ``filenames`` → ``fnames`` for legacy readers.
+        """Rename OBP reader kwargs for legacy readers.
 
         Legacy (family-bearing) reader plugins expect ``fnames`` in their
         ``call`` signature, but the OBP workflow interface uses ``filenames``.
-        This hook renames the kwarg so ``_obp_filter_kwargs`` does not drop
-        it and ``call`` receives the expected argument name.
+        They also still expect ``chans`` while the OBP workflow interface uses
+        ``variables``. This hook renames those kwargs so ``_obp_filter_kwargs``
+        does not drop them and ``call`` receives the expected argument names.
 
         Datatree-native readers (no ``family``) pass through unchanged.
         """
-        if hasattr(self.__class__, "family") and "filenames" in kwargs:
+        if not hasattr(self.__class__, "family"):
+            return kwargs
+
+        if "filenames" in kwargs:
             kwargs["fnames"] = kwargs.pop("filenames")
+
+        if "chans" in kwargs:
+            chans_message = (
+                "'chans' is deprecated and will be removed in GeoIPS 2.0. Use"
+                " 'variables' instead."
+            )
+            LOG.warning(chans_message)
+            warnings.warn(chans_message, DeprecationWarning, stacklevel=2)
+            kwargs.pop("variables", None)
+        elif "variables" in kwargs:
+            kwargs["chans"] = kwargs.pop("variables")
+
         return kwargs
 
     def _post_call(self, data=None, *args, _obp_initiated=False, **kwargs):
