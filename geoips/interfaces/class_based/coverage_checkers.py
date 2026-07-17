@@ -55,7 +55,7 @@ class BaseCoverageCheckerPlugin(BaseClassPlugin, abstract=True):
         if not _obp_initiated or not isinstance(variables, list):
             return super()._invoke(data, *args, _obp_initiated=_obp_initiated, **kwargs)
 
-        minimum_coverage = kwargs.pop("minimum_coverage", 0.0)
+        minimum_coverage = kwargs.pop("minimum_coverage", 10.0)
         kwargs.pop("variables")
 
         min_cov = 100.0

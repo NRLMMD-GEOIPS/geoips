@@ -819,6 +819,14 @@ class WorkflowSpecModel(FrozenModel):
                 steps["coverage_checker"] = spec["coverage_checker"].get("plugin")
                 steps["coverage_checker"]["kind"] = "coverage_checker"
                 steps["coverage_checker"]["depends_on"] = last_data_step
+            else:
+                # add an argument to coverage checkers where in the post call performs
+                # coverage checkers and adds minimum_coverage = 10.
+                steps["coverage_checker"] = {
+                    "kind": "coverage_checker",
+                    "name": "masked_arrays",
+                    "arguments": {"minimum_coverage": 10},
+                }
         else:
             for key, value in spec.items():
                 if key in ["mtif_type", "variables"]:
