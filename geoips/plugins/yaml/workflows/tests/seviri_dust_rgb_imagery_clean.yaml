@@ -12,15 +12,15 @@ apiVersion: geoips/v1
 interface: workflows
 family: order_based
 name: seviri_dust_rgb_imagery_clean
-docstring: ADD THIS.
-package: geoips
+docstring: |
+  SEVIRI Dust RGB imagery over a European equidistant cylindrical sector.
 test:
   fnames: !ENV ${GEOIPS_TESTDATA_DIR}/test_data_seviri/data/20250624/1200/H-000-MSG3*
   outputs:
     output_formatter:
       full_test_policy: on_token_mismatch # always | never
       compare_path: !ENV ${GEOIPS_PACKAGES_DIR}/geoips/tests/outputs/seviri.Dust_RGB.imagery_clean
-      output_checker_name: ADD THIS
+      output_checker_name: image
 spec:
   globals:
     product_name: Dust_RGB
