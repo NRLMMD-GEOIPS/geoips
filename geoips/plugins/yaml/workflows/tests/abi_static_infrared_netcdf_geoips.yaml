@@ -41,7 +41,6 @@ spec:
     abi_Infrared:
       kind: product
       name: [abi, Infrared]
-      arguments: {}
       depends_on: [sector, reader]
     filename_formatter:
       kind: filename_formatter
@@ -50,4 +49,3 @@ spec:
     output_formatter:
       kind: output_formatter
       name: netcdf_geoips
-      arguments: {}
