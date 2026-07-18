@@ -11,9 +11,9 @@
 apiVersion: geoips/v1
 interface: workflows
 family: order_based
-name: |
-  The VIIRS Day/Night Band (DNB) clean-night visible/IR imagery workflow.
-docstring: .
+name: viirsclearnight_night_vis_ir_geoips1_imagery_annotated
+docstring: |
+  VIIRS Day/Night Band (DNB) clean-night visible/IR imagery workflow.
 package: geoips
 test:
   fnames: !ENV ${GEOIPS_TESTDATA_DIR}/test_data_viirs/data/npp/20240117/172400/VNP02DNB.A2024017.1724.002.2024018012054.nc
