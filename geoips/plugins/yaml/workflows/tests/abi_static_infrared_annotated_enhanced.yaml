@@ -11,7 +11,7 @@
 apiVersion: geoips/v1
 interface: workflows
 family: order_based
-name: abi.static.Infrared.imagery_annotated_enhanced
+name: abi_static_infrared_annotated_enhanced
 docstring: |
   11.2 µm Infrared.  This product utilizes channel 14 (11.2 µm) and highlights areas of deep convection within a Tropical Cyclone.
 package: geoips
@@ -19,7 +19,7 @@ test:
   fnames: !ENV ${GEOIPS_TESTDATA_DIR}/test_data_abi/data/goes16_20200918_1950/*
   outputs:
     output_formatter:
-      compare_path: $GEOIPS_PACKAGES_DIR/geoips/tests/outputs/abi.static.<product>.imagery_annotated_enhanced
+      compare_path: !ENV ${GEOIPS_PACKAGES_DIR}/geoips/tests/outputs/abi.static.<product>.imagery_annotated_enhanced
       output_checker_name: image
 spec:
   globals:
