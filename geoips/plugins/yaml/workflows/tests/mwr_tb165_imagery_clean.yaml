@@ -11,7 +11,7 @@
 apiVersion: geoips/v1
 interface: workflows
 family: order_based
-name: aws_tb165_imagery_clean
+name: mwr_tb165_imagery_clean
 docstring: |
   AWS MWR 165.5 GHz brightness temperature orbital imagery over global cylindrical sector.
 package: geoips
@@ -35,9 +35,9 @@ spec:
       kind: reader
       name: aws_netcdf
       depends_on: [sector]
-    aws_TB165:
+    mwr_TB165:
       kind: product
-      name: [aws, TB165]
+      name: [mwr, TB165]
       depends_on: [sector, reader]
     filename_formatter:
       kind: filename_formatter

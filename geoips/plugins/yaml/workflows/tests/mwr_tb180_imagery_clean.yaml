@@ -11,7 +11,7 @@
 apiVersion: geoips/v1
 interface: workflows
 family: order_based
-name: aws_tb180_imagery_clean
+name: mwr_tb180_imagery_clean
 docstring: |
   AWS MWR 165.5 GHz brightness temperature orbital imagery over global cylindrical sector.
 package: geoips
