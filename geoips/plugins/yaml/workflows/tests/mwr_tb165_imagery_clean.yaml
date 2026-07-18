@@ -12,7 +12,8 @@ apiVersion: geoips/v1
 interface: workflows
 family: order_based
 name: aws_tb165_imagery_clean
-docstring: AWS MWR 165.5 GHz brightness temperature orbital imagery over global cylindrical sector.
+docstring: |
+  AWS MWR 165.5 GHz brightness temperature orbital imagery over global cylindrical sector.
 package: geoips
 test:
   fnames: !ENV ${GEOIPS_TESTDATA_DIR}/test_data_arctic_weather_satellite/data/20250416/W_NO-KSAT-Tromso%2CSAT%2CAWS1-MWR-1B-RAD_C_OHB__20250416161751_G_O_20250416142833_20250416160447*.nc
