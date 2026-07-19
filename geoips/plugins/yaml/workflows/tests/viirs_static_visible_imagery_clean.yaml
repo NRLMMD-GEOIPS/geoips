@@ -12,7 +12,8 @@ apiVersion: geoips/v1
 interface: workflows
 family: order_based
 name: viirs_static_visible_imagery_clean
-docstring: ADD THIS.
+docstring: |
+  OBP workflow for generating clean static VIIRS visible imagery.
 package: geoips
 test:
   fnames: !ENV ${GEOIPS_TESTDATA_DIR}/test_data_viirs/data/j02_sdr_20240925/*.h5
