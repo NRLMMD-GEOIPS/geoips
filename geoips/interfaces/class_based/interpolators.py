@@ -44,15 +44,11 @@ class BaseInterpolatorPlugin(BaseClassPlugin, abstract=True):
     def _prepare_obp_interpolator_kwargs(self, data, kwargs):
         """Populate legacy interpolator call kwargs from OBP inputs."""
         input_xarray = kwargs.pop("xarray_obj", None)
-        # ``area_def`` means the target area was resolved, but it is not by
-        # itself proof that the interpolator step depends on a sector. Keep
-        # sector detection tied to upstream DataTree metadata so OBP workflows
-        # still fail clearly when the sector dependency is missing.
-        sector_found = False
+        area_def_found = kwargs.get("area_def") is not None
 
-        if input_xarray is None or not sector_found:
-            input_xarray, sector_found = self._collect_interpolator_inputs(
-                data, input_xarray, sector_found
+        if input_xarray is None or not area_def_found:
+            input_xarray, area_def_found = self._collect_interpolator_inputs(
+                data, input_xarray, area_def_found
             )
 
         if input_xarray is None:
@@ -61,10 +57,11 @@ class BaseInterpolatorPlugin(BaseClassPlugin, abstract=True):
                 f"interpolator plugin '{self.name}'."
             )
 
-        if not sector_found:
+        if not area_def_found:
             raise RuntimeError(
-                "Error: Could not find an appropriate sector step to interpolate to for"
-                f" interpolator plugin '{self.name}'."
+                "Error: Could not determine an area definition for interpolator "
+                f"plugin '{self.name}'. Provide an area_def directly, or include "
+                "a sector step or sector input that can supply an area definition."
             )
 
         if kwargs.get("area_def") is None:
@@ -82,21 +79,21 @@ class BaseInterpolatorPlugin(BaseClassPlugin, abstract=True):
         return kwargs
 
     @staticmethod
-    def _collect_interpolator_inputs(data, input_xarray=None, sector_found=False):
-        """Find interpolation input data and sector dependency markers."""
+    def _collect_interpolator_inputs(data, input_xarray=None, area_def_found=False):
+        """Find interpolation input data and sector-derived area definitions."""
         if not isinstance(data, xr.DataTree):
-            return input_xarray, sector_found
+            return input_xarray, area_def_found
 
         for group in data.groups:
             ds = data[group]
             if not hasattr(ds, "attrs") or not ds.attrs:
                 continue
             if ds.attrs.get("plugin_kind") == "sector":
-                sector_found = True
+                area_def_found = True
             elif input_xarray is None:
                 input_xarray = ds.to_dataset()
 
-        return input_xarray, sector_found
+        return input_xarray, area_def_found
 
 
 class InterpolatorsInterface(BaseClassInterface):
