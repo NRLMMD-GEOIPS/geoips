@@ -23,7 +23,16 @@ class BaseInterpolatorPlugin(BaseClassPlugin, abstract=True):
         Normalize them here so ``BaseClassPlugin._invoke`` can remain generic and
         still be the only method that calls ``call``.
         """
-        if _obp_initiated and self._use_positional_unpacking(data, _obp_initiated):
+        # Workflow mode usually arrives here with a multi-input tree. Script
+        # mode keeps the accumulated script tree in ``data``, then _invoke
+        # extracts upstream reader/interpolator and sector nodes into conduit
+        # kwargs such as ``xarray_obj`` and ``area_def``. Either shape needs
+        # normalization to the legacy interpolator call signature.
+        has_extracted_conduit_inputs = "xarray_obj" in kwargs or "area_def" in kwargs
+        if _obp_initiated and (
+            self._use_positional_unpacking(data, _obp_initiated)
+            or has_extracted_conduit_inputs
+        ):
             kwargs = self._prepare_obp_interpolator_kwargs(data, kwargs)
             data = super()._pre_call(
                 data, *args, _obp_initiated=_obp_initiated, **kwargs
@@ -35,11 +44,11 @@ class BaseInterpolatorPlugin(BaseClassPlugin, abstract=True):
     def _prepare_obp_interpolator_kwargs(self, data, kwargs):
         """Populate legacy interpolator call kwargs from OBP inputs."""
         input_xarray = kwargs.pop("xarray_obj", None)
-        sector_found = False
+        area_def_found = kwargs.get("area_def") is not None
 
-        if input_xarray is None or not sector_found:
-            input_xarray, sector_found = self._collect_interpolator_inputs(
-                data, input_xarray, sector_found
+        if input_xarray is None or not area_def_found:
+            input_xarray, area_def_found = self._collect_interpolator_inputs(
+                data, input_xarray, area_def_found
             )
 
         if input_xarray is None:
@@ -48,10 +57,11 @@ class BaseInterpolatorPlugin(BaseClassPlugin, abstract=True):
                 f"interpolator plugin '{self.name}'."
             )
 
-        if not sector_found:
+        if not area_def_found:
             raise RuntimeError(
-                "Error: Could not find an appropriate sector step to interpolate to for"
-                f" interpolator plugin '{self.name}'."
+                "Error: Could not determine an area definition for interpolator "
+                f"plugin '{self.name}'. Provide an area_def directly, or include "
+                "a sector step or sector input that can supply an area definition."
             )
 
         if kwargs.get("area_def") is None:
@@ -69,21 +79,21 @@ class BaseInterpolatorPlugin(BaseClassPlugin, abstract=True):
         return kwargs
 
     @staticmethod
-    def _collect_interpolator_inputs(data, input_xarray=None, sector_found=False):
-        """Find interpolation input data and sector dependency markers."""
+    def _collect_interpolator_inputs(data, input_xarray=None, area_def_found=False):
+        """Find interpolation input data and sector-derived area definitions."""
         if not isinstance(data, xr.DataTree):
-            return input_xarray, sector_found
+            return input_xarray, area_def_found
 
         for group in data.groups:
             ds = data[group]
             if not hasattr(ds, "attrs") or not ds.attrs:
                 continue
             if ds.attrs.get("plugin_kind") == "sector":
-                sector_found = True
+                area_def_found = True
             elif input_xarray is None:
                 input_xarray = ds.to_dataset()
 
-        return input_xarray, sector_found
+        return input_xarray, area_def_found
 
 
 class InterpolatorsInterface(BaseClassInterface):

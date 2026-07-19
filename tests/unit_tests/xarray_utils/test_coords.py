@@ -5,11 +5,11 @@
 
 import xarray as xr
 
-from geoips.interfaces.class_based_plugin import BaseClassPlugin
 from geoips.utils.types.converters import (
     dataset_dict_to_dataset,
     dataset_to_dataset_dict,
 )
+from geoips.utils.types.datatree_helpers import to_mutable_dataset
 from geoips.utils.types.obp_conduits import _extract_ds
 from geoips.xarray_utils.coords import normalize_geoips_dataset_coords
 
@@ -73,7 +73,7 @@ def test_to_mutable_dataset_normalizes_coords():
     root = xr.DataTree(name="multi_input")
     root["reader"] = xr.DataTree(_dataset_with_lat_lon_data_vars(), name="reader")
 
-    converted = BaseClassPlugin._to_mutable_dataset(root)
+    converted = to_mutable_dataset(root)
 
     assert "temperature" in converted.data_vars
     assert "latitude" in converted.coords
