@@ -40,9 +40,23 @@ spec:
       kind: product
       name: [ami, Visible]
       depends_on: [sector, reader]
+    coverage_checker:
+      kind: coverage_checker
+      name: masked_arrays
+      depends_on: [ami_Visible.algorithm, sector]
+      arguments:
+        variable_name: Visible
     filename_formatter:
       kind: filename_formatter
       name: geoips_fname
+      depends_on: [ami_Visible.algorithm, sector, coverage_checker]
+      arguments:
+        product_name: Visible
     output_formatter:
       kind: output_formatter
       name: imagery_clean
+      depends_on:
+        - ami_Visible.algorithm
+        - ami_Visible.colormapper
+        - filename_formatter
+        - sector
