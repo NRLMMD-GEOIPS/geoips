@@ -20,7 +20,7 @@ test:
     output_formatter:
       full_test_policy: on_token_mismatch # always | never
       compare_path: !ENV ${GEOIPS_PACKAGES_DIR}/geoips/tests/outputs/ewsg.static.<product>.imagery_clean
-      output_checker_name: ADD THIS
+      output_checker_name: image
 spec:
   globals:
     product_name: Infrared
@@ -30,19 +30,18 @@ spec:
     sector:
       kind: sector
       name: ewsg
-      depends_on: []
     reader:
       kind: reader
       name: ewsg_netcdf
       depends_on: [sector]
-    ewsg_Infrared:
+    gvar_Infrared:
       kind: product
-      name: [ewsg, Infrared]
+      name: [gvar, Infrared]
       depends_on: [sector, reader]
     filename_formatter:
       kind: filename_formatter
       name: geoips_fname
-      depends_on: [ewsg_Infrared.algorithm, sector]
+      depends_on: [gvar_Infrared.algorithm, sector]
     output_formatter:
       kind: output_formatter
       name: imagery_clean
