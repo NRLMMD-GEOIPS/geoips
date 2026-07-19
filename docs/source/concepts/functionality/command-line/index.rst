@@ -555,36 +555,39 @@ If no registry files are found, nothing occurs. For example:
 run
 ---
 
-GeoIPS creates outputs (as defined by products)
-via a processing workflow, aka a procflow.
+``geoips run`` executes a GeoIPS processing workflow (a "procflow") to produce outputs.
 
-.. warning::
+Order-Based Processing (recommended)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-    We are actively changing the way procflows work.
+The recommended procflow in GeoIPS 2.0 is the :ref:`Order-Based Procflow
+<order-based-processing>` (OBP). Run a :ref:`workflow <workflows>` by name — or by path to
+an unregistered ``.yaml``/``.json`` workflow — passing the input data files:
 
-    This approach is problematic,
-    and we are refactoring GeoIPS's procflows into an order-based framework.
+.. code-block:: bash
 
-    The new framework will allow users to specify the order in which a procflow
-    executes via a ``steps`` attribute.
+    geoips run order_based abi_static_infrared_imagery_clean \
+        $GEOIPS_TESTDATA_DIR/test_data_abi/data/goes16_20200918_1950/*
 
-.. warning::
+OBP supports step (``-s``/``-S``), kind (``-k``/``-K``), and global (``-g``/``-G``)
+overrides, plus output-checker overrides. For the workflow structure and the full override
+syntax, see :ref:`running-obp`. To run a workflow's built-in ``test`` section, use
+:ref:`geoips test workflow <geoips_test>`.
 
-    ``run`` replaces ``run_procflow`` and ``data_fusion_procflow``.
+Legacy procflows (deprecated, still supported)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-    ``legacy run`` provides backwards compatibility with
-    these commands by wrapping ``geoips run``
+The ``single_source``, ``config_based``, and ``data_fusion`` procflows still run, but they
+are **deprecated** in GeoIPS 2.0 and receive no new features. OBP can produce everything
+they can, so prefer OBP for new work.
 
-    We recommend transitioning your scripts to use ``run``
-    as backwards compatibility may be removed in the future.
+.. note::
 
-``run`` follows the procflow defined by a bash script and produces the same output of
-such bash script if it were ran ``./<script_name>``.
-
-Here is an example of the new CLI-based procflow,
-and how it compares to the - now legacy - procflows of old.
-
-New CLI-based Procflow (abi.static.Infrared.imagery_annotated)
+    ``geoips run`` replaces the older ``run_procflow`` / ``data_fusion_procflow`` scripts.
+    ``geoips legacy run`` wraps them for backwards compatibility, which may be removed in a
+    future release. To migrate a legacy call, replace ``run_procflow`` /
+    ``data_fusion_procflow`` with ``geoips run <procflow_name>`` and drop the
+    ``--procflow`` argument.
 
 .. code-block:: bash
 
@@ -598,25 +601,7 @@ New CLI-based Procflow (abi.static.Infrared.imagery_annotated)
         --logging_level info \
         --sector_list goes_east
 
-Legacy Procflow (abi.static.Infrared.imagery_annotated)
-
-.. code-block:: bash
-
-    run_procflow $GEOIPS_TESTDATA_DIR/test_data_noaa_aws/data/goes16/20200918/1950/* \
-        --procflow single_source \
-        --reader_name abi_netcdf \
-        --product_name Infrared \
-        --compare_path "$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/abi.static.<product>.imagery_annotated" \
-        --output_formatter imagery_annotated \
-        --filename_formatter geoips_fname \
-        --resampled_read \
-        --logging_level info \
-        --sector_list goes_east
-
-The only difference between the two examples above are the first line and the
-``--procflow`` line. With the new format, all you need to do update is replace
-``run_procflow`` / ``data_fusion_procflow`` with ``geoips run <procflow_name>`` and
-remove the ``--procflow`` line. That's it!
+.. _geoips_test:
 
 test
 ----
@@ -822,6 +807,7 @@ For example, running ``geoips tree`` returns:
             geoips list test-datasets
             geoips list unit-tests
         geoips run
+            geoips run order_based
             geoips run single_source
             geoips run data_fusion
             geoips run config_based
@@ -829,6 +815,7 @@ For example, running ``geoips tree`` returns:
             geoips test linting
             geoips test script
             geoips test sector
+            geoips test workflow
         geoips tree
         geoips validate
 
