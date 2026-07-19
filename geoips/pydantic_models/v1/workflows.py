@@ -831,6 +831,15 @@ class WorkflowSpecModel(FrozenModel):
                 steps[key] = value.get("plugin")
                 steps[key]["kind"] = kind
 
+        if "coverage_checker" not in list(steps.keys()):
+            # Add default coverage checker step if one doesn't already exist
+            steps["coverage_checker"] = {
+                "kind": "coverage_checker",
+                "name": "masked_arrays",
+                "depends_on": last_data_step,
+                "arguments": {"minimum_coverage": 10},
+            }
+
         return steps, global_vars
 
     @classmethod
@@ -864,7 +873,6 @@ class WorkflowSpecModel(FrozenModel):
         expand = context.get("expand", False)
 
         kind = step.get("kind")
-        override_args = step.get("arguments", {})
         interface = getattr(interfaces, Lexeme(kind).plural)
 
         if kind == "product":
@@ -879,30 +887,6 @@ class WorkflowSpecModel(FrozenModel):
             steps, global_vars = cls.product_to_steps(plugin, _inputs)  # NOQA
         else:
             steps = cls.expand_steps(plugin.get("spec"), info)["steps"]
-
-        for key, value in override_args.items():
-            if isinstance(value, dict):
-                # occurs for override arguments formatted like such
-                # step_id:
-                #   argument_name: value
-                for argument_name, argument_value in value.items():
-                    steps[key]["arguments"][argument_name] = argument_value
-            else:
-                # dot-notation overrides
-                # I.e. arguments:
-                #        step_id.argument_name: value
-                step_id, argument_name = key.split(".")
-                steps[step_id]["arguments"][argument_name] = value
-
-        if _inputs and kind == "workflow":
-            for step_id, step in steps.items():
-                if step.get("kind") not in [
-                    "feature_annotator",
-                    "gridline_annotator",
-                    "colormapper",
-                ]:
-                    steps[step_id]["depends_on"] = _inputs
-                    break
 
         return steps
 
@@ -961,10 +945,8 @@ class WorkflowSpecModel(FrozenModel):
                 and expand
                 and (step.get("spec") is None or step.get("name"))
             ):
-                if step.get("depends_on"):
-                    _inputs = step["depends_on"]
                 expanded_steps = cls.extend_dict(
-                    expanded_steps, cls.expand_step(step, info, _inputs)
+                    expanded_steps, cls.expand_step(step, info)
                 )
             else:
                 # Not a workflow or product-based plugin, just keep the step as it is
