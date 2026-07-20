@@ -21,6 +21,7 @@ from copy import deepcopy
 import datetime as dt
 from glob import glob
 import logging
+import re
 from typing import Any, Dict, List, Literal, Optional, Union
 
 # Third-Party Libraries
@@ -148,6 +149,16 @@ def get_plugin_kinds() -> set[str]:
         for ifs in interfaces.list_available_interfaces().values()
         for plugin_kinds in ifs
     }
+
+
+def _product_step_id(name: list[str]) -> str:
+    """Build a valid PythonIdentifier step ID from a product name tuple.
+
+    Joins the name segments with ``"_"`` then replaces any remaining
+    non-identifier characters with ``"_"``, ensuring the result satisfies
+    ``str.isidentifier()``.
+    """
+    return re.sub(r"[^a-zA-Z0-9_]", "_", "_".join(name))
 
 
 # NOTE: We need to move all of the argument models to their own module once implemented
@@ -873,6 +884,7 @@ class WorkflowSpecModel(FrozenModel):
         expand = context.get("expand", False)
 
         kind = step.get("kind")
+        override_args = step.get("arguments", {})
         interface = getattr(interfaces, Lexeme(kind).plural)
 
         if kind == "product":
@@ -887,6 +899,30 @@ class WorkflowSpecModel(FrozenModel):
             steps, global_vars = cls.product_to_steps(plugin, _inputs)  # NOQA
         else:
             steps = cls.expand_steps(plugin.get("spec"), info)["steps"]
+
+        for key, value in override_args.items():
+            if isinstance(value, dict):
+                # occurs for override arguments formatted like such
+                # step_id:
+                #   argument_name: value
+                for argument_name, argument_value in value.items():
+                    steps[key]["arguments"][argument_name] = argument_value
+            else:
+                # dot-notation overrides
+                # I.e. arguments:
+                #        step_id.argument_name: value
+                step_id, argument_name = key.split(".")
+                steps[step_id]["arguments"][argument_name] = value
+
+        if _inputs and kind == "workflow":
+            for step_id, step in steps.items():
+                if step.get("kind") not in [
+                    "feature_annotator",
+                    "gridline_annotator",
+                    "colormapper",
+                ]:
+                    steps[step_id]["depends_on"] = _inputs
+                    break
 
         return steps
 
@@ -934,7 +970,7 @@ class WorkflowSpecModel(FrozenModel):
                 # remaining non-identifier characters so the result is always
                 # a valid PythonIdentifier (required by depends_on validation).
                 step_id = (
-                    "_".join(step.get("name"))
+                    _product_step_id(step.get("name"))
                     if step.get("kind") == "product"
                     else step.get("name")
                 )
@@ -945,8 +981,10 @@ class WorkflowSpecModel(FrozenModel):
                 and expand
                 and (step.get("spec") is None or step.get("name"))
             ):
+                if step.get("depends_on"):
+                    _inputs = step["depends_on"]
                 expanded_steps = cls.extend_dict(
-                    expanded_steps, cls.expand_step(step, info)
+                    expanded_steps, cls.expand_step(step, info, _inputs)
                 )
             else:
                 # Not a workflow or product-based plugin, just keep the step as it is
@@ -962,7 +1000,7 @@ class WorkflowSpecModel(FrozenModel):
                 continue
             if step.get("kind") in ("product", "product_default"):
                 step_id = (
-                    "_".join(step.get("name"))
+                    _product_step_id(step.get("name"))
                     if step.get("kind") == "product"
                     else step.get("name")
                 )

@@ -1,0 +1,38 @@
+apiVersion: geoips/v1
+kind: Workflow
+# In SSP can specify product without specifying source, then rely on the SSP to find the
+# correct product. We can't easily do that in the OBP...
+name: VIIRS-Infrared
+family: order_based
+interface: workflows
+docstring: |
+  Infrared product for the VIIRS sensor.
+test:
+  fnames: !ENV ${GEOIPS_TESTDATA_DIR}/test_data_viirs/data/jpss/20210525/191200/*
+spec:
+  steps:
+    reader:
+      kind: reader
+      name: viirs_netcdf
+      arguments:
+        chans: ["I05BT"]
+    sector:
+      kind: sector
+      name: global_cylindrical
+    infrared_workflow:
+      kind: workflow
+      name: Infrared-Base
+      depends_on: [reader, sector]
+      arguments:
+        interpolator.varlist: ["I05BT"]
+        apply_single_channel.output_data_range: [-90, 30]
+        infrared_colormap.data_range: [-90, 30]
+    apply_imagery_annotated:
+      kind: workflow
+      name: output-imagery-annotated
+      depends_on: [infrared_workflow, sector]
+      arguments:
+        apply_imagery_annotated:
+          product_name: Infrared
+          product_name_title: JPSS-VIIRS Infrared @ 11.2 um
+          output_fnames: [!ENV $GEOIPS_OUTDIRS/jpss_viirs_infrared_full_run.png]
