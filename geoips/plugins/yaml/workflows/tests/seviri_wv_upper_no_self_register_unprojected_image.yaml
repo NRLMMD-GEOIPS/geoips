@@ -1,0 +1,45 @@
+# # # This source code is subject to the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
+
+# script migration = done
+# product testing = ongoing
+
+# Default values - if you do not have this exact test case available, call with available data files / sectors.
+# This exact test case required for valid comparisons - remove "compare_path" argument if running a different
+# set of arguments.
+
+apiVersion: geoips/v1
+interface: workflows
+family: order_based
+name: seviri_wv_upper_no_self_register_unprojected_image
+docstring: |
+  SEVIRI Water Vapor Upper (no self-registration) unprojected image using MSG-3 HRIT
+  data.
+package: geoips
+test:
+  fnames: !ENV ${GEOIPS_TESTDATA_DIR}/test_data_seviri/data/20250624/1200/H-000-MSG3*
+  outputs:
+    output_formatter:
+      full_test_policy: on_token_mismatch # always | never
+      compare_path: !ENV ${GEOIPS_PACKAGES_DIR}/geoips/tests/outputs/seviri.WV-Upper.no_self_register.unprojected_image
+      # verify this
+      output_checker_name: image
+spec:
+  globals:
+    product_name: WV-Upper-No-SR
+    reader_defined_area_def: False
+  steps:
+    reader:
+      kind: reader
+      name: seviri_hrit
+      depends_on: [sector]
+    seviri_WV-Upper-No-SR:
+      kind: product
+      name: [seviri, WV-Upper-No-SR]
+      depends_on: [sector, reader]
+    filename_formatter:
+      kind: filename_formatter
+      name: basic_fname
+    output_formatter:
+      kind: output_formatter
+      name: unprojected_image
