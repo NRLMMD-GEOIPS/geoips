@@ -6,7 +6,7 @@ name: VIIRS-Infrared
 family: order_based
 interface: workflows
 docstring: |
-  Infrared product for the VIIRS sensor
+  Infrared product for the VIIRS sensor.
 test:
   fnames: !ENV ${GEOIPS_TESTDATA_DIR}/test_data_viirs/data/jpss/20210525/191200/*
 spec:
@@ -19,9 +19,7 @@ spec:
     sector:
       kind: sector
       name: global_cylindrical
-      depends_on: []
-      arguments: {}
-    infarared_workflow:
+    infrared_workflow:
       kind: workflow
       name: Infrared-Base
       depends_on: [reader, sector]
@@ -32,7 +30,7 @@ spec:
     apply_imagery_annotated:
       kind: workflow
       name: output-imagery-annotated
-      depends_on: [apply_single_channel, gridlines, features, infrared_colormap, sector]
+      depends_on: [infrared_workflow, sector]
       arguments:
         apply_imagery_annotated:
           product_name: Infrared
