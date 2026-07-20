@@ -7,9 +7,10 @@ from os.path import join as pathjoin
 
 import xarray as xr
 
-from geoips.interfaces.class_based_plugin import BaseClassPlugin
 from geoips.interfaces.base import BaseClassInterface
+from geoips.interfaces.class_based_plugin import BaseClassPlugin
 from geoips.utils.types.datatree_ditto import DataTreeDitto
+from geoips.utils.types.datatree_helpers import to_mutable_dataset
 
 
 class BaseFilenameFormatterPlugin(BaseClassPlugin, abstract=True):
@@ -18,36 +19,15 @@ class BaseFilenameFormatterPlugin(BaseClassPlugin, abstract=True):
     data_tree = False
 
     def _pre_call(self, data=None, *args, _obp_initiated=False, **kwargs):
-        r"""Normalize ``DataTreeDitto`` input into a mutable ``xr.Dataset``.
+        """Flatten OBP DataTree input into a mutable Dataset before base hooks.
 
-        When invoked by OBP, upstream dependency outputs are collected into a
-        multi-input ``xr.DataTree``. This hook converts the child node datasets into a
-        writable ``xr.Dataset`` so ``call()`` receives the expected ``xarray_obj``
-        input.
-
-        A single upstream dependency is converted directly. Multiple upstream
-        dependencies are merged into one dataset.
-
-        Parameters
-        ----------
-        data : xr.DataTree | xr.Dataset | None, optional
-            Upstream input passed into the plugin. In OBP, this is typically a
-            multi-input ``xr.DataTree`` containing dependency nodes.
-        \*args : tuple
-            Additional positional arguments forwarded to the base ``_pre_call``.
-        _obp_initiated : bool, default=False
-            Indicates whether the call originated from OBP.
-        \*\*kwargs : dict
-            Additional keyword arguments forwarded to the base ``_pre_call``.
-
-        Returns
-        -------
-        xr.Dataset | Any
-            A mutable ``xr.Dataset`` when upstream ``xr.DataTree`` input is
-            normalized; otherwise the result returned by the base ``_pre_call``.
+        Under OBP, upstream dependency outputs are collected into a multi-input
+        ``xr.DataTree``. This override flattens the child node datasets into a
+        writable ``xr.Dataset`` so ``call()`` receives the expected
+        ``xarray_obj`` input. Legacy (non-OBP) inputs pass through unchanged.
         """
         if _obp_initiated and isinstance(data, xr.DataTree):
-            data = self._to_mutable_dataset(data)
+            data = to_mutable_dataset(data)
         return super()._pre_call(data, *args, _obp_initiated=_obp_initiated, **kwargs)
 
     def _post_call(self, data=None, *args, _obp_initiated=False, **kwargs):
