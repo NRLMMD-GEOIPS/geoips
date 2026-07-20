@@ -37,7 +37,6 @@ spec:
     mwr_TB50:
       kind: product
       name: [mwr, TB50]
-      arguments: {}
       depends_on: [sector, reader]
     filename_formatter:
       kind: filename_formatter
