@@ -45,3 +45,23 @@ configurable data formats (imagery, NetCDF, etc).
 
 Data collection, data transfers, and product dissemination are all site specific implementations for driving
 GeoIPS® processing, and fall outside the scope of the GeoIPS® "core" processing system.
+
+How GeoIPS processes data
+=========================
+
+GeoIPS functionality is provided by **plugins** — small, composable units that each do one
+job: read a data type, interpolate to a grid, apply an algorithm, colorize a product, or
+write an output. Plugins come in two forms: :ref:`class-based (Python) plugins
+<writing-class-based-plugins>` and YAML plugins (products, sectors, annotators).
+
+In GeoIPS 2.0, plugins are orchestrated by :ref:`Order-Based Processing (OBP)
+<order-based-processing>`. You describe the exact, ordered sequence of plugin steps for a
+product in a YAML *workflow*, and GeoIPS runs it — reading data, transforming it, computing
+the product, and writing output. The same plugins can also be driven directly from Python
+with the :ref:`scripting API <scripting-guide>`.
+
+.. note::
+
+   The GeoIPS 1.x fixed procflows (``single_source``, ``config_based``, ``data_fusion``)
+   still run but are deprecated. New processing should use OBP. See
+   :ref:`migrating-1x-to-2x`.
