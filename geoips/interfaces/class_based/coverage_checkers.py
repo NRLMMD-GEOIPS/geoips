@@ -87,7 +87,7 @@ class BaseCoverageCheckerPlugin(BaseClassPlugin, abstract=True):
         name the algorithm output variable. Use the actual upstream dataset at call
         time to infer the variable only when exactly one data variable is available.
         """
-        dataset = self._to_mutable_dataset(data)
+        dataset = to_mutable_dataset(data)
         data_vars = list(getattr(dataset, "data_vars", []))
 
         if len(data_vars) == 1:

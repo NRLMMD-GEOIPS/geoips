@@ -416,14 +416,14 @@ class BaseCliTest(abc.ABC):
             output, error = prc.communicate()
             output, error = output.decode(), error.decode()
             prc.terminate()
-        # If caplog was provided and logging statements were caught, add those to
-        # output before asserting that the command produced output.
-        if caplog and len(caplog.text):
-            output += caplog.text
         assert len(output) or len(error)  # assert that some output was created
         # Extract log statements
         if len(error) and (not len(output) or output == "\n"):
             self.check_error(args, error)
         else:
             print(output)
+            # If caplog was provided and logging statements were caught, add those to
+            # output.
+            if caplog and len(caplog.text):
+                output += caplog.text
             self.check_output(args, output)
