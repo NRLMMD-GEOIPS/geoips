@@ -806,10 +806,10 @@ class WorkflowSpecModel(FrozenModel):
         family = plugin.get("family")
         spec = plugin.get("spec", {})
         global_vars = {"variables": spec["variables"]} if spec.get("variables") else {}
+        last_data_step = []
 
         if family in ORDERED_PRODUCT_FAMILIES:
             step_order = family.split("_")
-            last_data_step = []
             for idx, plugin_name in enumerate(step_order):
                 steps[plugin_name] = spec[plugin_name].get("plugin")
                 steps[plugin_name]["kind"] = plugin_name
