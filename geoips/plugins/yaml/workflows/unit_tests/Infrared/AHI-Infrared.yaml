@@ -21,7 +21,7 @@ spec:
       name: japan
       depends_on: []
       arguments: {}
-    infarared_workflow:
+    infrared_workflow:
       kind: workflow
       name: Infrared-Base
       depends_on: [reader, sector]
