@@ -42,8 +42,6 @@ spec:
     filename_formatter:
       kind: filename_formatter
       name: geoips_fname
-      # depends_on: [sgli_IR_RGB.algorithm, sector, check_coverage]
-      depends_on: [sgli_IR_RGB.algorithm, sector]
     output_formatter:
       kind: output_formatter
       name: imagery_clean
