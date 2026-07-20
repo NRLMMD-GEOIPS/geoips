@@ -11,16 +11,14 @@ test:
   fnames: !ENV ${GEOIPS_TESTDATA_DIR}/test_data_ahi/data/20200405_0000/*
 spec:
   steps:
+    sector:
+      kind: sector
+      name: japan
     reader:
       kind: reader
       name: ahi_hsd
       arguments:
         chans: ["B13BT"]
-    sector:
-      kind: sector
-      name: japan
-      depends_on: []
-      arguments: {}
     infrared_workflow:
       kind: workflow
       name: Infrared-Base
@@ -32,7 +30,7 @@ spec:
     apply_imagery_annotated:
       kind: workflow
       name: output-imagery-annotated
-      depends_on: [apply_single_channel, gridlines, features, infrared_colormap, sector]
+      depends_on: [infrared_workflow.apply_single_channel, infrared_workflow.infrared_colormap, sector]
       arguments:
         apply_imagery_annotated:
           product_name: Infrared
