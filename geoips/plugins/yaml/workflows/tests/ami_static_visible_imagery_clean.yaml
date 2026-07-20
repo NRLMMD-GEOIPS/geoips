@@ -12,7 +12,8 @@ apiVersion: geoips/v1
 interface: workflows
 family: order_based
 name: ami_static_visible_imagery_clean
-docstring: ADD THIS.
+docstring: |
+  AMI Visible clean imagery over the static GEO-KOMPSAT sector using daytime data.
 package: geoips
 test:
   fnames: !ENV ${GEOIPS_TESTDATA_DIR}/test_data_ami/data/20231208_0300_daytime/*.nc
