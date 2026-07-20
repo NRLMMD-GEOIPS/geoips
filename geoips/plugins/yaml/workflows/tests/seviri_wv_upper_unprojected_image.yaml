@@ -31,14 +31,13 @@ spec:
     reader:
       kind: reader
       name: seviri_hrit
-      arguments: 
+      arguments:
         self_register_dataset: FULL_DISK
         self_register_source: seviri
-      depends_on: [sector]
-    seviri_WV-Upper:
+    seviri_WV_Upper:
       kind: product
       name: [seviri, WV-Upper]
-      depends_on: [sector, reader]
+      depends_on: [reader]
     filename_formatter:
       kind: filename_formatter
       name: geoips_fname

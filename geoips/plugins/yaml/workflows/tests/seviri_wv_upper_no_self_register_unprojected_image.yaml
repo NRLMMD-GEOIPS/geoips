@@ -33,10 +33,10 @@ spec:
       kind: reader
       name: seviri_hrit
       depends_on: [sector]
-    seviri_WV-Upper-No-SR:
+    seviri_WV_Upper_No_SR:
       kind: product
       name: [seviri, WV-Upper-No-SR]
-      depends_on: [sector, reader]
+      depends_on: [reader]
     filename_formatter:
       kind: filename_formatter
       name: basic_fname

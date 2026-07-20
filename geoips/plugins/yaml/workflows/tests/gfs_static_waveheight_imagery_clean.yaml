@@ -37,7 +37,7 @@ spec:
       kind: reader
       name: gfs_grib
       depends_on: [sector]
-    gfs_Model-WaveHeight:
+    gfs_Model_WaveHeight:
       kind: product
       name: [gfs, Model-WaveHeight]
       depends_on: [sector, reader]

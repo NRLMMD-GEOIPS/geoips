@@ -38,14 +38,14 @@ spec:
       arguments: 
         resampled_read: True
       depends_on: [sector]
-    abi_Test-Visible-Logarithmic:
+    abi_Test_Visible_Logarithmic:
       kind: product
       name: [abi, Test-Visible-Logarithmic]
       depends_on: [sector, reader]
     filename_formatter:
       kind: filename_formatter
       name: geoips_fname
-      depends_on: [abi_Test-Visible-Logarithmic.algorithm, sector]
+      depends_on: [abi_Test_Visible_Logarithmic.algorithm, sector]
     output_formatter:
       kind: output_formatter
       name: imagery_clean

@@ -36,7 +36,7 @@ spec:
       kind: reader
       name: mimic_netcdf
       depends_on: [sector]
-    mimic_TPW-CIMSS:
+    mimic_TPW_CIMSS:
       kind: product
       name: [mimic, TPW-CIMSS]
       depends_on: [sector, reader]
