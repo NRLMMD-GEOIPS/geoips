@@ -1,3 +1,5 @@
+.. _datatree-ditto:
+
 DataTreeDitto
 =============
 
