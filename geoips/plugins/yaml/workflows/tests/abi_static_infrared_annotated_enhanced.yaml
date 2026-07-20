@@ -19,6 +19,7 @@ test:
   fnames: !ENV ${GEOIPS_TESTDATA_DIR}/test_data_abi/data/goes16_20200918_1950/*
   outputs:
     output_formatter:
+      # commented in the corresponding SSP workflow
       compare_path: !ENV ${GEOIPS_PACKAGES_DIR}/geoips/tests/outputs/abi.static.<product>.imagery_annotated_enhanced
       output_checker_name: image
 spec:
@@ -67,10 +68,3 @@ spec:
     output_formatter:
       kind: output_formatter
       name: imagery_clean
-    # output_checker:
-    #   kind: output_checker
-    #   name: PLUGIN_PROVIDED
-    #   arguments: {
-    #     # commented in the corresponding SSP workflow
-    #     # compare_path: $GEOIPS_PACKAGES_DIR/geoips/tests/outputs/abi.static.<product>.imagery_annotated_enhanced,
-    #   }
