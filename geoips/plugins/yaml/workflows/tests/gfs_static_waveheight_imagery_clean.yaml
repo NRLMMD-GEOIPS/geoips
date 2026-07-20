@@ -33,7 +33,6 @@ spec:
     sector:
       kind: sector
       name: conus
-      depends_on: []
     reader:
       kind: reader
       name: gfs_grib
