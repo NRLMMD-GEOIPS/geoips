@@ -7,7 +7,8 @@ bug fix:
     moved:
     - ''
     added:
-    - ''
+    - 'docs/source/releases/latest/1452-fix-expand-steps-python-idnetifer-processing.yaml'
+    - 'geoips/plugins/yaml/workflows/tests/sgli_static_ir_rgb_imagery_clean.yaml'
     modified:
     - 'geoips/pydantic_models/v1/workflows.py'
     - 'tests/unit_tests/pydantic_models/v1/workflows/test_workflows.py'
