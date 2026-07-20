@@ -11,19 +11,21 @@
 apiVersion: geoips/v1
 interface: workflows
 family: order_based
-name: seviri_dust_rgb_imagery_clean
+name: seviri_day_microphys_summer_imagery_clean
 docstring: |
-  SEVIRI Dust RGB imagery over a European equidistant cylindrical sector.
+  SEVIRI Day Microphysics Summer RGB clean imagery over a static European
+  equirectangular land-ocean sector using MSG-3 HRIT data.
+package: geoips
 test:
   fnames: !ENV ${GEOIPS_TESTDATA_DIR}/test_data_seviri/data/20250624/1200/H-000-MSG3*
   outputs:
     output_formatter:
       full_test_policy: on_token_mismatch # always | never
-      compare_path: !ENV ${GEOIPS_PACKAGES_DIR}/geoips/tests/outputs/seviri.Dust_RGB.imagery_clean
+      compare_path: !ENV ${GEOIPS_PACKAGES_DIR}/geoips/tests/outputs/seviri.Day_Microphys_Summer.imagery_clean
       output_checker_name: image
 spec:
   globals:
-    product_name: Dust_RGB
+    product_name: Day_Microphys_Summer
     reader_defined_area_def: False
     # sector_list: ["test_meteoeu_eqc_3km_landocean"]
   steps:
@@ -34,9 +36,9 @@ spec:
       kind: reader
       name: seviri_hrit
       depends_on: [sector]
-    seviri_Dust_RGB:
+    seviri_Day_Microphys_Summer:
       kind: product
-      name: [seviri, Dust_RGB]
+      name: [seviri, Day_Microphys_Summer]
       depends_on: [sector, reader]
     filename_formatter:
       kind: filename_formatter
