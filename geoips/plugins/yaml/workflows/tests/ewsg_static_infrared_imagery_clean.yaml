@@ -12,7 +12,9 @@ apiVersion: geoips/v1
 interface: workflows
 family: order_based
 name: ewsg_static_infrared_imagery_clean
-docstring: ADD THIS.
+docstring: |
+  GOES-13 GVAR Infrared brightness temperature clean imagery over the static EWSG
+  sector.
 package: geoips
 test:
   fnames: !ENV ${GEOIPS_TESTDATA_DIR}/test_data_ewsg/data/2020.1211.2312.goes-13.gvar.nc
@@ -41,7 +43,6 @@ spec:
     filename_formatter:
       kind: filename_formatter
       name: geoips_fname
-      depends_on: [gvar_Infrared.algorithm, sector]
     output_formatter:
       kind: output_formatter
       name: imagery_clean
