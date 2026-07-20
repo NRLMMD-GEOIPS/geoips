@@ -52,11 +52,14 @@ class BaseCoverageCheckerPlugin(BaseClassPlugin, abstract=True):
             When ``minimum_coverage`` is set and any variable's
             coverage percentage falls below it.
         """
+        if _obp_initiated and "variable_name" not in kwargs:
+            kwargs["variable_name"] = self._infer_variable_name(data)
+
         variables = kwargs.get("variables")
         if not _obp_initiated or not isinstance(variables, list):
             return super()._invoke(data, *args, _obp_initiated=_obp_initiated, **kwargs)
 
-        minimum_coverage = kwargs.pop("minimum_coverage", 0.0)
+        minimum_coverage = kwargs.pop("minimum_coverage", 10.0)
         kwargs.pop("variables")
 
         min_cov = 100.0
@@ -75,6 +78,32 @@ class BaseCoverageCheckerPlugin(BaseClassPlugin, abstract=True):
                 min_cov = cov
                 result = res
         return result
+
+    def _infer_variable_name(self, data):
+        """Infer the coverage-checker variable from upstream data when unambiguous.
+
+        Coverage checker steps may be inserted automatically while expanding legacy
+        product definitions. In those cases, the product configuration often does not
+        name the algorithm output variable. Use the actual upstream dataset at call
+        time to infer the variable only when exactly one data variable is available.
+        """
+        dataset = to_mutable_dataset(data)
+        data_vars = list(getattr(dataset, "data_vars", []))
+
+        if len(data_vars) == 1:
+            return data_vars[0]
+
+        if not data_vars:
+            raise ValueError(
+                f"Coverage checker plugin '{self.name}' requires 'variable_name', "
+                "but no data variables were found in the upstream data."
+            )
+
+        raise ValueError(
+            f"Coverage checker plugin '{self.name}' requires 'variable_name' when "
+            "upstream data contains multiple data variables. Available variables: "
+            f"{data_vars}."
+        )
 
     def _pre_call(self, data=None, *args, _obp_initiated=False, **kwargs):
         """Flatten OBP DataTree input into a mutable Dataset before base hooks.
