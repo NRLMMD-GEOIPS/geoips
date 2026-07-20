@@ -12,7 +12,9 @@ apiVersion: geoips/v1
 interface: workflows
 family: order_based
 name: seviri_volcanic_ash_imagery_clean
-docstring: ADD THIS.
+docstring: |
+  SEVIRI Volcanic Ash RGB clean imagery over a static European equirectangular
+  land-ocean sector using MSG-3 HRIT data.
 package: geoips
 test:
   fnames: !ENV ${GEOIPS_TESTDATA_DIR}/test_data_seviri/data/20250624/1200/H-000-MSG3*
@@ -30,7 +32,6 @@ spec:
     sector:
       kind: sector
       name: test_meteoeu_eqc_3km_landocean
-      depends_on: []
     reader:
       kind: reader
       name: seviri_hrit
@@ -42,7 +43,6 @@ spec:
     filename_formatter:
       kind: filename_formatter
       name: geoips_fname
-      depends_on: [seviri_Volcanic_Ash.algorithm, sector]
     output_formatter:
       kind: output_formatter
       name: imagery_clean
