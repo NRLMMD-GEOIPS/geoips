@@ -9,4 +9,5 @@ Custom Types
 .. toctree::
     :maxdepth: 1
 
+    datatree
     datatree-ditto
