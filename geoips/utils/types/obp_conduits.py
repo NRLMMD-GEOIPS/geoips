@@ -134,6 +134,7 @@ OBP_CONDUITS: dict[str, dict] = {
         "extract": _extract_annotator_spec,
     },
     "interpolator": {"kwarg": "xarray_obj", "extract": _extract_ds},
+    "manual": {"kwarg": "xarray_obj", "extract": _extract_ds},
     "product": {"kwarg": "product_name", "extract": _extract_product_name},
     "output_formatter": {
         "kwarg": "output_products",
