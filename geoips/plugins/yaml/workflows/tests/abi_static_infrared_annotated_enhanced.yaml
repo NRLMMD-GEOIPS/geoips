@@ -25,9 +25,12 @@ test:
 spec:
   globals:
     product_name: Infrared
-    sector_list: ["test_goes16_eqc_3km_night_20200918T1950Z"]
+    # sector_list: ["test_goes16_eqc_3km_night_20200918T1950Z"]
     variables: ["B14BT"]
   steps:
+    sector:
+      kind: sector
+      name: test_goes16_eqc_3km_night_20200918T1950Z
     reader:
       kind: reader
       name: abi_netcdf
