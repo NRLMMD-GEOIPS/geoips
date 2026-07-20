@@ -8,9 +8,12 @@
 Developer Installation
 **********************
 
-This guide is for developers who need the full GeoIPS development environment with source code access, testing capabilities, and all plugins.
+This guide is for developers who need the full GeoIPS development environment
+with source code access, testing capabilities, and all plugins.
 
-**For the fully supported user installation with all dependencies managed automatically, use the** :ref:`Complete Local conda-based GeoIPS Installation<linux-installation>`.
+**For the fully supported user installation with all dependencies managed
+automatically, use the** :ref:`Complete Local conda-based GeoIPS
+Installation<linux-installation>`.
 
 System Dependencies
 -------------------
@@ -44,13 +47,13 @@ Installation Steps
 
     # Clone the repository
     git clone $GEOIPS_REPO_URL/geoips.git $GEOIPS_PACKAGES_DIR/geoips
-    
+
     # Install in editable mode
     pip install -e $GEOIPS_PACKAGES_DIR/geoips[doc,lint,test,debug]
-    
+
     # Install additional plugins and test data
     $GEOIPS_PACKAGES_DIR/geoips/tests/integration_tests/base_install.sh
-    
+
     # Run tests to verify installation
     $GEOIPS_PACKAGES_DIR/geoips/tests/integration_tests/base_test.sh
 
@@ -72,7 +75,7 @@ For containerized plugin development:
 
     # Pull the development image
     docker pull geoips/geoips:doclinttest-latest
-    
+
     # Or build from source for specific stages
     docker build --target dev -t geoips:dev .
     docker build --target test_full -t geoips:test_full .
@@ -89,6 +92,8 @@ Available Docker stages:
 Test Data Requirements
 ======================
 
-Developers need test data repositories in $GEOIPS_TESTDATA_DIR for tests to pass. This is automatically handled by the installation scripts but requires significant disk space and download time.
+Developers need test data repositories in $GEOIPS_TESTDATA_DIR for tests to
+pass. This is automatically handled by the installation scripts but requires
+significant disk space and download time.
 
 **Important**: Test data is only required for development. Users installing via pip do not need test data.
