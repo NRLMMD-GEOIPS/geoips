@@ -12,7 +12,9 @@ apiVersion: geoips/v1
 interface: workflows
 family: order_based
 name: ami_static_mst_absdiff_ir_bd_imagery_clean
-docstring: ADD THIS.
+docstring: |
+  AMI absdiff-IR-BD multi-scan-time absolute difference clean imagery over the static
+  GEO-KOMPSAT sector.
 package: geoips
 test:
   fnames: !ENV ${GEOIPS_TESTDATA_DIR}/test_data_multi_scan_times/data/geokompsat-ami/LA/*ir112*.nc
@@ -20,7 +22,7 @@ test:
     output_formatter:
       full_test_policy: on_token_mismatch # always | never
       compare_path: !ENV ${GEOIPS_PACKAGES_DIR}/geoips/tests/outputs/ami.static.mst.<product>.imagery_clean
-      output_checker_name: ADD THIS
+      output_checker_name: image
 spec:
   globals:
     product_name: absdiff-IR-BD
@@ -31,7 +33,6 @@ spec:
     sector:
       kind: sector
       name: geokompsat
-      depends_on: []
     reader:
       kind: reader
       name: ami_netcdf
