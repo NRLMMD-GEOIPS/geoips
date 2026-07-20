@@ -21,6 +21,7 @@ from copy import deepcopy
 import datetime as dt
 from glob import glob
 import logging
+import re
 from typing import Any, Dict, List, Literal, Optional, Union
 
 # Third-Party Libraries
@@ -148,6 +149,16 @@ def get_plugin_kinds() -> set[str]:
         for ifs in interfaces.list_available_interfaces().values()
         for plugin_kinds in ifs
     }
+
+
+def _product_step_id(name: list[str]) -> str:
+    """Build a valid PythonIdentifier step ID from a product name tuple.
+
+    Joins the name segments with ``"_"`` then replaces any remaining
+    non-identifier characters with ``"_"``, ensuring the result satisfies
+    ``str.isidentifier()``.
+    """
+    return re.sub(r"[^a-zA-Z0-9_]", "_", "_".join(name))
 
 
 # NOTE: We need to move all of the argument models to their own module once implemented
@@ -934,7 +945,7 @@ class WorkflowSpecModel(FrozenModel):
                 # remaining non-identifier characters so the result is always
                 # a valid PythonIdentifier (required by depends_on validation).
                 step_id = (
-                    "_".join(step.get("name"))
+                    _product_step_id(step.get("name"))
                     if step.get("kind") == "product"
                     else step.get("name")
                 )
@@ -962,7 +973,7 @@ class WorkflowSpecModel(FrozenModel):
                 continue
             if step.get("kind") in ("product", "product_default"):
                 step_id = (
-                    "_".join(step.get("name"))
+                    _product_step_id(step.get("name"))
                     if step.get("kind") == "product"
                     else step.get("name")
                 )
