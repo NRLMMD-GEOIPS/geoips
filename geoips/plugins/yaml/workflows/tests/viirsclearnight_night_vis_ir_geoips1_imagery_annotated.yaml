@@ -1,0 +1,49 @@
+# # # This source code is subject to the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
+
+# script migration = done
+# product testing = ongoing
+
+# Default values - if you do not have this exact test case available, call with available data files / sectors.
+# This exact test case required for valid comparisons - remove "compare_path" argument if running a different
+# set of arguments.
+
+apiVersion: geoips/v1
+interface: workflows
+family: order_based
+name: viirsclearnight_night_vis_ir_geoips1_imagery_annotated
+docstring: |
+  VIIRS Day/Night Band (DNB) clean-night visible/IR imagery workflow.
+package: geoips
+test:
+  fnames: !ENV ${GEOIPS_TESTDATA_DIR}/test_data_viirs/data/npp/20240117/172400/VNP02DNB.A2024017.1724.002.2024018012054.nc
+spec:
+  globals:
+    product_name: Night-Vis-IR-GeoIPS1
+    reader_defined_area_def: False
+    # sector_list: ["north_pole"]
+    minimum_coverage: 0 
+  steps:
+    sector:
+      kind: sector
+      name: north_pole
+    reader:
+      kind: reader
+      name: viirs_netcdf
+      arguments: 
+        self_register_dataset: DNB
+        self_register_source: viirs
+      depends_on: [sector]
+    viirs_Night_Vis_IR_GeoIPS1:
+      kind: product
+      name: [viirs, Night-Vis-IR-GeoIPS1]
+      depends_on: [sector, reader]
+    filename_formatter:
+      kind: filename_formatter
+      name: geoips_fname
+    gridline_annotator:
+      kind: gridline_annotator
+      name: north_pole
+    output_formatter:
+      kind: output_formatter
+      name: imagery_annotated
