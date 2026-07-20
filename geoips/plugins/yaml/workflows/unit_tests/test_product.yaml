@@ -15,18 +15,6 @@ test:
       full_test_policy: on_token_mismatch
       compare_path: !ENV ${GEOIPS_PACKAGES_DIR}/geoips/tests/outputs/abi.static.Infrared.imagery_clean
       output_checker_name: image
-  steps:
-    abi_Infrared:
-      spec:
-        steps:
-          algorithm:
-            output_units: Kelvin
-  kinds:
-    readers:
-      satellite_zenith_angle_cutoff: 80
-  globals:
-    sector_list: global_cylindrical
-    logging_level: info
 
 spec:
   steps:
@@ -56,17 +44,10 @@ spec:
       name: default
       depends_on: []
 
-    check_coverage:
-      kind: coverage_checker
-      name: masked_arrays
-      depends_on: [abi_Infrared.algorithm, sector]
-      arguments:
-        variable_name: data
-
     create_filenames:
       kind: filename_formatter
       name: geoips_fname
-      depends_on: [abi_Infrared.algorithm, sector, check_coverage]
+      depends_on: [abi_Infrared.algorithm, sector, abi_Infrared.coverage_checker]
       arguments:
         product_name: Infrared
 
