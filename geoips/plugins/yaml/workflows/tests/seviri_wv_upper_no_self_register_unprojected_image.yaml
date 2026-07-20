@@ -32,7 +32,6 @@ spec:
     reader:
       kind: reader
       name: seviri_hrit
-      depends_on: [sector]
     seviri_WV_Upper_No_SR:
       kind: product
       name: [seviri, WV-Upper-No-SR]
