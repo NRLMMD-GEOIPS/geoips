@@ -6,7 +6,7 @@ name: ABI-Infrared
 family: order_based
 interface: workflows
 docstring: |
-  Infrared product for the ABI sensor
+  Infrared product for the ABI sensor.
 test:
   fnames: !ENV ${GEOIPS_TESTDATA_DIR}/test_data_abi/data/goes16_20200918_1950/*
 spec:
@@ -32,7 +32,7 @@ spec:
     apply_imagery_annotated:
       kind: workflow
       name: output-imagery-annotated
-      depends_on: [infrared_workflow.apply_single_channel, infrared_workflow.infrared_colormap, sector]
+      depends_on: [infrared_workflow, sector]
       arguments:
         apply_imagery_annotated:
           product_name: Infrared
