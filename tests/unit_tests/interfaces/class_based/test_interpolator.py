@@ -47,15 +47,22 @@ dt_with_sector = xr.DataTree.from_dict(
 interp_plg = interpolators.get_plugin("interp_nearest")
 
 
-def test_pre_call_interpolator_no_sector():
-    """Interpolator pre-call requires a sector dependency under OBP."""
-    with pytest.raises(RuntimeError):
-        interp_plg._pre_call(dt_no_sector, _obp_initiated=True, area_def="area")
+def test_pre_call_interpolator_accepts_explicit_area_def():
+    """Interpolator pre-call accepts an explicitly supplied area definition."""
+    data, kwargs = interp_plg._pre_call(
+        dt_no_sector, _obp_initiated=True, area_def="area"
+    )
+
+    assert data is dt_no_sector
+    assert kwargs["area_def"] == "area"
+    assert kwargs["input_xarray"].attrs["plugin_kind"] == "reader"
+    assert isinstance(kwargs["output_xarray"], xr.Dataset)
+    assert kwargs["varlist"] == ["temperature", "salinity", "time"]
 
 
 def test_pre_call_interpolator_no_area_def():
     """Interpolator pre-call requires a resolved area definition."""
-    with pytest.raises(RuntimeError):
+    with pytest.raises(RuntimeError, match="area definition.*sector"):
         interp_plg._pre_call(dt_with_sector, _obp_initiated=True)
 
 

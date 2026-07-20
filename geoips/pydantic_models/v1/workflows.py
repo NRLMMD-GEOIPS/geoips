@@ -831,6 +831,15 @@ class WorkflowSpecModel(FrozenModel):
                 steps[key] = value.get("plugin")
                 steps[key]["kind"] = kind
 
+        if "coverage_checker" not in list(steps.keys()):
+            # Add default coverage checker step if one doesn't already exist
+            steps["coverage_checker"] = {
+                "kind": "coverage_checker",
+                "name": "masked_arrays",
+                "depends_on": last_data_step,
+                "arguments": {"minimum_coverage": 10},
+            }
+
         return steps, global_vars
 
     @classmethod
