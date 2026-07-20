@@ -30,7 +30,6 @@ spec:
     sector:
       kind: sector
       name: test_goes16_eqc_3km_day_20200918T1950Z
-      depends_on: []
     reader:
       kind: reader
       name: abi_netcdf
@@ -41,10 +40,6 @@ spec:
       kind: product
       name: [abi, Infrared]
       depends_on: [reader, sector]
-    # create_filenames:
-    #   kind: filename_formatter
-    #   name: geoips_fname
-    #   depends_on: [abi_Infrared.algorithm, sector]
     coverage_checker:
       kind: coverage_checker
       name: masked_arrays
@@ -54,7 +49,7 @@ spec:
     filename_formatter:
       kind: filename_formatter
       name: geoips_fname
-      depends_on: [abi_Infrared, sector, coverage_checker]
+      depends_on: [abi_Infrared.algorithm, sector, coverage_checker]
       arguments:
         product_name: Infrared
     output_formatter:
