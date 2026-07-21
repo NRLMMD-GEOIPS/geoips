@@ -124,3 +124,8 @@ from source.
 
 If you continue having difficulties, please open an issue on the [GEOIPS
 GitHub repository][geoips_github].
+
+[geoips_github]: https://github.com/NRLMMD-GEOIPS/geoips
+[mamba]: https://mamba.readthedocs.io/en/latest/
+[miniconda]: https://docs.conda.io/en/latest/miniconda.html
+[anaconda]: https://www.anaconda.com/products/distribution
