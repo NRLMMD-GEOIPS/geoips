@@ -108,3 +108,8 @@ pass. This is automatically handled by the installation scripts but requires
 significant disk space and download time.
 
 **Important**: Test data is only required for development. Users installing via pip do not need test data.
+
+[geoips_github]: https://github.com/NRLMMD-GEOIPS/geoips
+[mamba]: https://mamba.readthedocs.io/en/latest/
+[miniconda]: https://docs.conda.io/en/latest/miniconda.html
+[anaconda]: https://www.anaconda.com/products/distribution
