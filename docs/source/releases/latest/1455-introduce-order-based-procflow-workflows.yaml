@@ -45,6 +45,7 @@ feature:
     - 'geoips/plugins/yaml/workflows/tests/viirsclearnight_night_vis_ir_geoips1_unprojected_image.yaml'
     - 'geoips/plugins/yaml/workflows/tests/viirsday_global_night_vis_ir_cogeotiff_rgba.yaml'
     modified:
+    - 'docs/dev/order_based_procflow.rst'
     - 'geoips/plugins/yaml/products/ami.yaml'
     - 'geoips/plugins/yaml/products/seviri.yaml'
     - 'geoips/pydantic_models/v1/workflows.py'
