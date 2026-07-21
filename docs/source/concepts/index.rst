@@ -13,6 +13,6 @@ Concepts
 .. toctree::
    :maxdepth: 2
 
-   functionality/index
-   architecture/index
+   ../functionality/index
+   ../architecture/index
    configuration/index
