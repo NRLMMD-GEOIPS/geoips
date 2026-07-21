@@ -41,8 +41,8 @@ used variables like geostationary geolocation data.
 `GEOIPS_TESTDATA_DIR` tells GeoIPS where to download and look for test data.
 
 It is important to choose a location that has sufficient space. Unfortunately,
-"sufficient" differs based on your use case. Please see [system requirements
-](system-requirements) for more information.
+"sufficient" differs based on your use case. Please see the
+{ref}`system requirements <system-requirements>` for more information.
 
 ```{code-block} bash
 
@@ -79,7 +79,7 @@ produce an infrared imagery over the continental United States.
 The end of the output should appear as below. The final line should display
 `Return value: 0`.
 
-```{code-block}:
+```{code-block} text
 
    # Truncated log output from the script run
    .......

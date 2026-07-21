@@ -1,3 +1,7 @@
+---
+orphan: true
+---
+
 # Interfaces
 
 GeoIPS plugins are managed, validated, and accessed via plugin interfaces.

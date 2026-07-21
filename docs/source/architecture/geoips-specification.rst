@@ -158,7 +158,7 @@ development will lead to increased efficiency and functionality of the final pro
 2.2 Product Functions
 ---------------------
 
-.. image:: ../../getting-started/what-is-geoips/GeoIPS_Structure_Overview.png
+.. image:: ../getting-started/what-is-geoips/GeoIPS_Structure_Overview.png
    :width: 800
 
 2.3 User Classes and Characteristics

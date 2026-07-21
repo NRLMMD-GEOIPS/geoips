@@ -416,7 +416,7 @@ The playbooks are designed to be re-run safely at any point:
   overwrite uncommitted changes.
 - ``pip install`` with ``state: present`` is a no-op when the package is already installed
   at the correct version.
-- The ``test_data`` role uses ``creates: "{{ geoips_testdata_dir }}/{{ item }}"`` so
+- The ``test_data`` role uses ``creates: "{% raw %}{{ geoips_testdata_dir }}/{{ item }}{% endraw %}"`` so
   Ansible skips the ``geoips config install`` call entirely when the dataset directory
   already exists.
 - ``geoips config create-registries`` is idempotent by design.
