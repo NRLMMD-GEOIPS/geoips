@@ -15,7 +15,6 @@ documentation:
     finish: 2024-12-16
   related-issue:
     internal: GEOIPS#715 - 1.14.4 updates
-documentation:
 - title: Update upcoming and tagged versions
   description: |
 
