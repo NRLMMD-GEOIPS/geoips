@@ -9,7 +9,7 @@
 
 This quickstart takes you from a fresh install to a rendered satellite product using
 {ref}`Order-Based Processing <order-based-processing>` (OBP) — the GeoIPS 2.0 way of
-producing outputs. It assumes you have already {ref}`installed GeoIPS <installing>`.
+producing outputs. It assumes you have already {ref}`installed GeoIPS <installation>`.
 
 ## 1. Get some data
 

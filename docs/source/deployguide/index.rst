@@ -10,7 +10,7 @@ Deploying and Operating GeoIPS
 
 This guide covers running GeoIPS beyond a single interactive command — in batch, in
 near-real-time, and in operational deployments. It builds on the
-:ref:`installation instructions <installing>` and the
+:ref:`installation instructions <installation>` and the
 :ref:`Order-Based Processing <order-based-processing>` model.
 
 .. note::

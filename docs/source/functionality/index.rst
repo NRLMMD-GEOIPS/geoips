@@ -15,9 +15,13 @@ Architecture and Tutorials sections of the documentation.
     :maxdepth: 2
 
     plugins/index
+    interfaces/index
+    order-based-processing/index
     scripting/index
     workflows-for-iac
     extending-geoips
     cli
+    command-line/index
+    examples/index
     plugin-registries
     documentation-building

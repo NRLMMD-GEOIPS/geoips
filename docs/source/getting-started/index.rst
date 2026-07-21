@@ -14,9 +14,8 @@ Getting Started
 
    what-is-geoips/index
    system-requirements
-   installing/index
+   installation
    first-workflow
    migrating-to-2.0
-   installation
    best-practices/research-and-ops
 

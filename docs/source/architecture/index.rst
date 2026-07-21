@@ -26,8 +26,8 @@ integration test structure, documentation standards, code standards, and more.
     data-structures
     geoips-specification
     cached-files
-    test-infrastructure
+    test-infrastructure/index
     ci-infrastructure
-    documentation
+    documentation/index
     command_line_interface
     custom-types/index
