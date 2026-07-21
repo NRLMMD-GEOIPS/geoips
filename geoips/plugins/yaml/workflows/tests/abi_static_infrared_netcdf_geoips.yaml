@@ -49,3 +49,4 @@ spec:
     output_formatter:
       kind: output_formatter
       name: netcdf_geoips
+      depends_on: [abi_Infrared.algorithm, filename_formatter, sector]
