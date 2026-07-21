@@ -15,7 +15,7 @@ Architecture and Tutorials sections of the documentation.
     :maxdepth: 2
 
     plugins/index
-    scripting
+    scripting/index
     workflows-for-iac
     extending-geoips
     cli
