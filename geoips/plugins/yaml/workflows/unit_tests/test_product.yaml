@@ -21,36 +21,29 @@ spec:
     sector:
       kind: sector
       name: test_goes16_eqc_3km_day_20200918T1950Z
-      depends_on: []
-
     reader:
       kind: reader
       name: abi_netcdf
       arguments:
         variables: ["B14BT"]
-
     abi_Infrared:
       kind: product
       name: [abi, Infrared]
       depends_on: [reader, sector]
-
     gridlines:
       kind: gridline_annotator
       name: default
       depends_on: []
-
     features:
       kind: feature_annotator
       name: default
       depends_on: []
-
     create_filenames:
       kind: filename_formatter
       name: geoips_fname
       depends_on: [abi_Infrared.algorithm, sector, abi_Infrared.coverage_checker]
       arguments:
         product_name: Infrared
-
     output_formatter:
       kind: output_formatter
       name: imagery_clean

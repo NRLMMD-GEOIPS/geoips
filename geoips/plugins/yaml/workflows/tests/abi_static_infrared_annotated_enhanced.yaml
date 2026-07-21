@@ -11,10 +11,8 @@
 apiVersion: geoips/v1
 interface: workflows
 family: order_based
-name: abi-static-infrared-imagery-annotated-enhanced
+name: abi_static_infrared_annotated_enhanced
 docstring: |
-  11.2 µm Infrared.
-
   This product utilizes channel 14 (11.2 µm) and highlights areas of deep convection within a Tropical Cyclone.
 description: 11.2 µm Infrared.
 test:
@@ -36,6 +34,7 @@ test:
   #   readers:
   #     satellite_zenith_angle_cutoff: 80
   globals:
+    # will be uncommented after split operation is implemented
     # sector_list: test_goes16_eqc_3km_night_20200918T1950Z
     logging_level: info
 spec:
@@ -89,4 +88,3 @@ spec:
       arguments:
         product_name: Infrared
         product_name_title: G16 Infrared @ 11.2 um
-

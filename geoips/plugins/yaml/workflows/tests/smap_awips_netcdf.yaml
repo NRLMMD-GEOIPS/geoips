@@ -1,0 +1,34 @@
+# # # This source code is subject to the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
+
+# script migration = done
+# product testing = ongoing
+
+# Default values - if you do not have this exact test case available, call with available data files / sectors.
+# This exact test case required for valid comparisons - remove "compare_path" argument if running a different
+# set of arguments.
+
+apiVersion: geoips/v1
+interface: workflows
+family: order_based
+name: smap_awips_netcdf
+docstring: SMAP unsectored wind speed data.
+package: geoips
+test:
+  fnames: !ENV ${GEOIPS_TESTDATA_DIR}/test_data_awips_windspeed/RSS_smap_wind_daily_2024_02_20_NRT_v01.0.nc
+spec:
+  globals:
+    product_name: unsectored
+    reader_defined_area_def: False
+  steps:
+    reader:
+      kind: reader
+      name: smap_remss_winds_netcdf
+    # product step is not needed for this workflow.
+    # smap_unsectored:
+    #   kind: product
+    #   name: [smap, unsectored]
+    #   depends_on: [sector, reader]
+    output_formatter:
+      kind: output_formatter
+      name: windspeed_awips2_formatter

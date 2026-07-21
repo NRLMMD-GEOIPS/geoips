@@ -11,40 +11,39 @@
 apiVersion: geoips/v1
 interface: workflows
 family: order_based
-name: sgli_static_ir_rgb_imagery_clean
-docstring: SGLI L1B infrared RGB (IR-RGB) clean imagery over the static Korea sector.
+name: viirs_static_visible_imagery_clean
+docstring: |
+  OBP workflow for generating clean static VIIRS visible imagery.
 package: geoips
 test:
-  fnames: !ENV ${GEOIPS_TESTDATA_DIR}/test_data_sgli/data/20251018T0233/*DL*.h5
+  fnames: !ENV ${GEOIPS_TESTDATA_DIR}/test_data_viirs/data/j02_sdr_20240925/*.h5
   outputs:
     output_formatter:
       full_test_policy: on_token_mismatch # always | never
-      compare_path: !ENV ${GEOIPS_PACKAGES_DIR}/geoips/tests/outputs/sgli.static.<product>.imagery_clean
+      compare_path: !ENV ${GEOIPS_PACKAGES_DIR}/geoips/tests/outputs/viirs.static.visible.imagery_clean
       output_checker_name: image
 spec:
   globals:
-    product_name: IR-RGB
+    product_name: Visible
     reader_defined_area_def: False
     # will be uncommented after split operation is implemented
-    # sector_list: ["korea"]
+    # sector_list: ["se_asia"]
     minimum_coverage: 0 
   steps:
     sector:
       kind: sector
-      name: korea
+      name: se_asia
     reader:
       kind: reader
-      name: sgli_l1b_hdf5
+      name: viirs_sdr_hdf5
       depends_on: [sector]
-    sgli_IR_RGB:
+    viirs_Visible:
       kind: product
-      name: [sgli, IR-RGB]
+      name: [viirs, Visible]
       depends_on: [sector, reader]
     filename_formatter:
       kind: filename_formatter
       name: geoips_fname
-      # depends_on: [sgli_IR_RGB.algorithm, sector, check_coverage]
-      depends_on: [sgli_IR_RGB.algorithm, sector]
     output_formatter:
       kind: output_formatter
       name: imagery_clean
