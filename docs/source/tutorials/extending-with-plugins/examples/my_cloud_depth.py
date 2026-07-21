@@ -6,8 +6,8 @@
 Difference of cloud top height and cloud base height.
 
 This is the doc-owned example used by the :ref:`algorithm tutorial <add-an-algorithm>`.
-It is imported and executed by ``tests/unit_tests/docs/test_tutorial_examples.py`` so the
-code shown in the tutorial is exercised in CI.
+It is imported and executed by ``tests/unit_tests/docs/test_tutorial_examples.py``
+so the code shown in the tutorial is exercised in CI.
 """
 
 import logging
