@@ -125,10 +125,11 @@ Output Formatter step in the code block below includes two additional plugins,
     test:
       fnames: !ENV ${GEOIPS_TESTDATA_DIR}/test_data_abi/data/goes16_20200918_1950/*
       outputs:
-        abi:Infrared:
-          policy: on_failure # | always
+        apply_imagery_annotated_output_formatter:
+          full_test_policy: on_token_mismatch # always | never
           output_checker_arguments:
             compare_path: !ENV ${GEOIPS_PACKAGES_DIR}/geoips/tests/outputs/abi.static.Infrared.imagery_clean/20200918.195020.goes-16.abi.Infrared.test_goes16_eqc_3km_day_20200918T1950Z.100p00.noaa.3p0.png
+            output_checker_name: image
       steps:
         reader:
           area_def: null
@@ -155,6 +156,9 @@ Output Formatter step in the code block below includes two additional plugins,
         window_end_time: None
         sector_list: ["windspeed"]
       steps:
+        sector:
+          kind: sector
+          name: windspeed
         read_abi_L1_data:
           kind: reader
           name: abi_netcdf
@@ -172,34 +176,24 @@ Output Formatter step in the code block below includes two additional plugins,
           kind: algorithm
           name: single_channel
           arguments:
-          output_data_range: [-90.0, 30.0]
+            output_data_range: [-90.0, 30.0]
         apply_interpolator:
           kind: interpolator
           name: interp_nearest
-        output_checker_1:
-          kind: output_checker
-          name: image
+        apply_colormapper:
+          kind: colormapper
+          name: Infrared
           arguments:
-            checker_name: image
-            compare_path: "path/to/comparison/file.png"
-            output_products: [
-              "path/to/output/product.png",
-            ]
+            data_range: PLUGIN_PROVIDED
+        apply_geoips_fname_filename_formatter:
+          kind: filename_formatter
+          name: geoips_fname
+          arguments:
+            suffix: ".png"
         apply_imagery_annotated_output_formatter:
           kind: output_formatter
           name: imagery_annotated
-          arguments:
-            apply_colormapper:
-                kind: colormapper
-                name: Infrared
-                arguments:
-                  data_range: PLUGIN_PROVIDED
-            apply_geoips_fname_filename_formatter:
-                kind: filename_formatter
-                name: geoips_fname
-                arguments:
-                  suffix: ".png"
+            
 
 The code block above demonstrates a valid example of a product definition for
 an Order-Based Procflow.
-
