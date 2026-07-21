@@ -3,10 +3,13 @@
 
 """Scripting example: compute cloud depth from synthetic data.
 
-This is the doc-owned example used by the :ref:`scripting tutorial <scripting-tutorial>`.
+This is the doc-owned example used by the
+:ref:`scripting tutorial <scripting-tutorial>`.
 It uses the :mod:`geoips.scripting` DataTree API with *synthetic* input data (the
-"bring your own data" pattern), so it runs without any external data files. It is executed
-by ``tests/unit_tests/docs/test_tutorial_examples.py`` so the tutorial code stays runnable.
+"bring your own data" pattern), so it runs without any external data files.
+It is executed
+by ``tests/unit_tests/docs/test_tutorial_examples.py``
+so the tutorial code stays runnable.
 """
 
 import numpy as np
