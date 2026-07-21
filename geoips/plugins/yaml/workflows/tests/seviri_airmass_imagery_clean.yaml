@@ -21,6 +21,7 @@ spec:
   globals:
     product_name: airmass
     reader_defined_area_def: False
+    # will be uncommented after split operation is implemented
     # sector_list: ["test_meteoeu_eqc_3km_landocean"]
   steps:
     sector:
