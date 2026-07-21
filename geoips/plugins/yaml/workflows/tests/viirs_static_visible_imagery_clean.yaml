@@ -26,6 +26,7 @@ spec:
   globals:
     product_name: Visible
     reader_defined_area_def: False
+    # will be uncommented after split operation is implemented
     # sector_list: ["se_asia"]
     minimum_coverage: 0 
   steps:
