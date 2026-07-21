@@ -40,16 +40,16 @@ spec:
       kind: product
       name: [abi, Infrared]
       depends_on: [reader, sector]
-    coverage_checker:
-      kind: coverage_checker
-      name: masked_arrays
-      depends_on: [abi_Infrared.algorithm, sector]
-      arguments:
-        variable_name: data
+    # coverage_checker:
+    #   kind: coverage_checker
+    #   name: masked_arrays
+    #   depends_on: [abi_Infrared.algorithm, sector]
+    #   arguments:
+    #     variable_name: data
     filename_formatter:
       kind: filename_formatter
       name: geoips_fname
-      depends_on: [abi_Infrared.algorithm, sector, coverage_checker]
+      depends_on: [abi_Infrared.algorithm, sector, abi_Infrared.coverage_checker]
       arguments:
         product_name: Infrared
     output_formatter:
