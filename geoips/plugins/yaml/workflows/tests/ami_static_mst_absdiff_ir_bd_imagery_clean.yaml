@@ -27,6 +27,7 @@ spec:
   globals:
     product_name: absdiff-IR-BD
     reader_defined_area_def: False
+    # will be uncommented after split operation is implemented
     # sector_list: ["geokompsat"]
     minimum_coverage: 0 
   steps:

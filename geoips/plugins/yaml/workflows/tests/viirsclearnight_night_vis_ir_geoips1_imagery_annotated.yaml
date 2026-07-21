@@ -21,6 +21,7 @@ spec:
   globals:
     product_name: Night-Vis-IR-GeoIPS1
     reader_defined_area_def: False
+    # will be uncommented after split operation is implemented
     # sector_list: ["north_pole"]
     minimum_coverage: 0 
   steps:
