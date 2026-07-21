@@ -51,7 +51,7 @@ class OrderBased(BaseProcflowPlugin):
 
         Parameters
         ----------
-        workflow_spec : WorkflowPluginModel | WorkflowSpecModel | dict
+        workflow_spec : ~geoips.pydantic_models.v1.workflows.WorkflowPluginModel | ~geoips.pydantic_models.v1.workflows.WorkflowSpecModel | dict
             The workflow specification to execute.  May be a pre-validated
             :class:`~geoips.pydantic_models.v1.workflows.WorkflowSpecModel` model, a
             raw dictionary that will be validated on entry, or a that wraps a ``@spec:``
