@@ -25,6 +25,7 @@ spec:
   globals:
     product_name: IR-RGB
     reader_defined_area_def: False
+    # will be uncommented after split operation is implemented
     # sector_list: ["korea"]
     minimum_coverage: 0 
   steps:
