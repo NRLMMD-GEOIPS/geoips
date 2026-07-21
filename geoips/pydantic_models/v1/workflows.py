@@ -1327,7 +1327,7 @@ class WorkflowPluginModel(PluginModel):
     test: WorkflowTestModel = Field(
         None,
         description=(
-            "An optional dictionary of parameters used to test this workflow.",
+            "An optional dictionary of parameters used to test this workflow."
         ),
         examples=[
             {
