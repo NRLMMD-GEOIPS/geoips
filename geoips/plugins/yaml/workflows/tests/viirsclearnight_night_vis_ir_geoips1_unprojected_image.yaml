@@ -39,6 +39,13 @@ spec:
     filename_formatter:
       kind: filename_formatter
       name: geoips_fname
+      depends_on:
+        - viirs_Night_Vis_IR_GeoIPS1.algorithm
+        - viirs_Night_Vis_IR_GeoIPS1.coverage_checker
     output_formatter:
       kind: output_formatter
       name: unprojected_image
+      depends_on:
+        - viirs_Night_Vis_IR_GeoIPS1.algorithm
+        - viirs_Night_Vis_IR_GeoIPS1.colormapper
+        - filename_formatter
