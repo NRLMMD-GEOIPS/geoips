@@ -180,9 +180,15 @@ class BaseOutputFormatterPlugin(BaseClassPlugin, abstract=True):
         Under OBP, bridges the singular ``product_name`` global to the
         ``product_names`` list expected by output formatter ``call()`` methods.
         """
-        if _obp_initiated and "product_names" not in kwargs and "product_name" in kwargs:
+        if (
+            _obp_initiated
+            and "product_names" not in kwargs
+            and "product_name" in kwargs
+        ):
             kwargs["product_names"] = [kwargs["product_name"]]
-            result = super()._pre_call(data, *args, _obp_initiated=_obp_initiated, **kwargs)
+            result = super()._pre_call(
+                data, *args, _obp_initiated=_obp_initiated, **kwargs
+            )
             return result, kwargs
         return super()._pre_call(data, *args, _obp_initiated=_obp_initiated, **kwargs)
 
