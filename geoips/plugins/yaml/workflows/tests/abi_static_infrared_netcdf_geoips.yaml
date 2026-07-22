@@ -46,8 +46,12 @@ spec:
     filename_formatter:
       kind: filename_formatter
       name: geoips_netcdf_fname
-      depends_on: [abi_Infrared.algorithm, sector]
+      depends_on: [abi_Infrared.algorithm, sector, abi_Infrared.coverage_checker]
     output_formatter:
       kind: output_formatter
       name: netcdf_geoips
-      depends_on: [abi_Infrared.algorithm, filename_formatter, sector]
+      depends_on:
+        - abi_Infrared.algorithm
+        - abi_Infrared.colormapper
+        - filename_formatter
+        - sector
