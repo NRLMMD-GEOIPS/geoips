@@ -841,6 +841,8 @@ class WorkflowSpecModel(FrozenModel):
 
                 steps[key] = value.get("plugin")
                 steps[key]["kind"] = kind
+                if kind not in ("colormapper", "output_formatter"):
+                    last_data_step = [key]
 
         if "coverage_checker" not in list(steps.keys()):
             # Add default coverage checker step if one doesn't already exist

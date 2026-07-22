@@ -18,6 +18,19 @@ class BaseFilenameFormatterPlugin(BaseClassPlugin, abstract=True):
 
     data_tree = False
 
+    def _normalize_obp_kwargs(self, kwargs):
+        """Default ``area_def`` to ``None`` when no sector step is upstream.
+
+        Filename formatters that accept ``area_def`` (e.g. ``basic_fname``)
+        guard against ``None`` with an ``if area_def:`` check, so ``None`` is
+        a valid sentinel meaning "no area definition available". When no sector
+        step is listed in ``depends_on`` the conduit never injects ``area_def``,
+        so we default it here rather than requiring every unsectored workflow to
+        repeat ``arguments: {area_def: null}``.
+        """
+        kwargs.setdefault("area_def", None)
+        return kwargs
+
     def _pre_call(self, data=None, *args, _obp_initiated=False, **kwargs):
         """Flatten OBP DataTree input into a mutable Dataset before base hooks.
 
