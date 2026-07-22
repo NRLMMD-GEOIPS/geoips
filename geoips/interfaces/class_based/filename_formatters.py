@@ -19,7 +19,7 @@ class BaseFilenameFormatterPlugin(BaseClassPlugin, abstract=True):
     data_tree = False
 
     def _normalize_obp_kwargs(self, kwargs):
-        """Default ``area_def`` to ``None`` when no sector step is upstream.
+        """Assign None to area_def when no sector step is upstream.
 
         Filename formatters that accept ``area_def`` (e.g. ``basic_fname``)
         guard against ``None`` with an ``if area_def:`` check, so ``None`` is
