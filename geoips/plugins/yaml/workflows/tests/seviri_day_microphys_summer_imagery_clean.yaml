@@ -44,6 +44,12 @@ spec:
     filename_formatter:
       kind: filename_formatter
       name: geoips_fname
+      depends_on: [seviri_Day_Microphys_Summer.algorithm, sector, seviri_Day_Microphys_Summer.coverage_checker]
     output_formatter:
       kind: output_formatter
       name: imagery_clean
+      depends_on:
+        - seviri_Day_Microphys_Summer.algorithm
+        - seviri_Day_Microphys_Summer.colormapper
+        - filename_formatter
+        - sector

@@ -27,7 +27,6 @@ spec:
     sector:
       kind: sector
       name: test_meteoeu_eqc_3km_landocean
-      depends_on: []
     reader:
       kind: reader
       name: seviri_hrit
@@ -39,6 +38,12 @@ spec:
     filename_formatter:
       kind: filename_formatter
       name: geoips_fname
+      depends_on: [seviri_airmass.algorithm, sector, seviri_airmass.coverage_checker]
     output_formatter:
       kind: output_formatter
       name: imagery_clean
+      depends_on: 
+        - seviri_airmass.algorithm
+        - seviri_airmass.colormapper
+        - filename_formatter
+        - sector
