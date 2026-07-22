@@ -33,11 +33,10 @@ spec:
     sector:
       kind: sector
       name: global_cylindrical
-      depends_on: []
     reader:
       kind: reader
       name: fci_netcdf
-      depends_on: [sector]
+      depends_on: []
     fci_Visible:
       kind: product
       name: [fci, Visible]
@@ -45,7 +44,12 @@ spec:
     filename_formatter:
       kind: filename_formatter
       name: geoips_fname
-      depends_on: [fci_Visible.algorithm, sector]
+      depends_on: [fci_Visible.algorithm, sector, fci_Visible.coverage_checker]
     output_formatter:
       kind: output_formatter
       name: imagery_annotated
+      depends_on:
+        - fci_Visible.algorithm
+        - fci_Visible.colormapper
+        - filename_formatter
+        - sector

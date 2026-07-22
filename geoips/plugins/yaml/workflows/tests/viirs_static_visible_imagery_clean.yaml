@@ -44,6 +44,8 @@ spec:
     filename_formatter:
       kind: filename_formatter
       name: geoips_fname
+      depends_on: [viirs_Visible.algorithm, sector, viirs_Visible.coverage_checker]
     output_formatter:
       kind: output_formatter
       name: imagery_clean
+      depends_on: [viirs_Visible, filename_formatter]

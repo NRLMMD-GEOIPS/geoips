@@ -43,6 +43,15 @@ spec:
     filename_formatter:
       kind: filename_formatter
       name: geotiff_fname
+      depends_on:
+        - viirs_Night_Vis_IR.algorithm
+        - sector
+        - viirs_Night_Vis_IR.coverage_checker
     output_formatter:
       kind: output_formatter
       name: cogeotiff_rgba
+      depends_on:
+        - viirs_Night_Vis_IR.algorithm
+        - viirs_Night_Vis_IR.colormapper
+        - filename_formatter
+        - sector

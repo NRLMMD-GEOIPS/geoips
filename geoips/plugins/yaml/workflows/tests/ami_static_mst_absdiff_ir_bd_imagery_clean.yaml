@@ -37,7 +37,7 @@ spec:
     reader:
       kind: reader
       name: ami_netcdf
-      depends_on: [sector]
+      depends_on: []
     ami_absdiff_IR_BD:
       kind: product
       name: [ami, absdiff-IR-BD]
