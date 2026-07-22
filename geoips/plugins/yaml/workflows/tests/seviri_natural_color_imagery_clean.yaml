@@ -44,6 +44,12 @@ spec:
     filename_formatter:
       kind: filename_formatter
       name: geoips_fname
+      depends_on: [seviri_Natural_Color.algorithm, sector, seviri_Natural_Color.coverage_checker]
     output_formatter:
       kind: output_formatter
       name: imagery_clean
+      depends_on:
+        - seviri_Natural_Color.algorithm
+        - seviri_Natural_Color.colormapper
+        - filename_formatter
+        - sector
