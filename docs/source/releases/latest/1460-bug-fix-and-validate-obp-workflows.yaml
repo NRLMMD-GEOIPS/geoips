@@ -1,6 +1,6 @@
 bug fix:
 - title: 'OBP Workflow Implementation and Validation Improvements'
-  description: 'Resolves OBP workflow step errors and ensures correct data flow between workflow steps.''
+  description: 'Resolves OBP workflow step errors and ensures correct data flow between workflow steps.'
   files:
     deleted:
     - 'geoips/plugins/yaml/workflows/tests/abi_static_infrared_annotated_enhanced.yaml'
