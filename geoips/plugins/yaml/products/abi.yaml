@@ -19,6 +19,17 @@ spec:
       product_defaults: Infrared
       spec:
         variables: ["B14BT"]
+    - name: edc-Infrared
+      source_names: [abi]
+      docstring: |
+        11.2 µm Infrared.  This product utilizes channel 14 (11.2 µm) and highlights areas of deep convection within a Tropical Cyclone.
+      product_defaults: Infrared
+      spec:
+        variables: ["B14BT"]
+        colormapper:
+          plugin:
+            name: edc
+            arguments: {}
     - name: Infrared-Gray
       source_names: [abi]
       docstring: |
