@@ -154,7 +154,7 @@ USER root
 RUN uv pip install --system --no-cache ${GEOIPS_PACKAGES_DIR}/geoips[doc,lint,test] \
     && chown -R ${USER_ID}:${GROUP_ID} ${GEOIPS_PACKAGES_DIR} /home/${USER}
 
-USER ${USER}
+#USER ${USER}
 
 ###############################################################################
 # Stage 4: geoips-full — settings repos, doc/test extras
