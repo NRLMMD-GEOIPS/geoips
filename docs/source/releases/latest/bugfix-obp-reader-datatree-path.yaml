@@ -1,7 +1,7 @@
 bug fix:
 - title: 'Fix order-based procflow reader path (dict -> DataTree)'
   description: |
-    Readers return the standard GeoIPS ``{{key: xr.Dataset}}`` dict, but this most
+    Readers return the standard GeoIPS ``{key: xr.Dataset}`` dict, but this most
     common OBP path was broken in two ways that no test exercised. First,
     ``BaseReaderPlugin._post_call`` used ``xr.*`` without importing xarray.
     Second, ``BaseClassPlugin._invoke`` early-returned when ``data is None`` (the

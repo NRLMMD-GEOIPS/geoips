@@ -741,6 +741,7 @@ def build_release_notes_with_brassy(
                     f"Skipping release dir {release_dir}"
                     "because it's version is 'upcoming'"
                 )
+                continue
             log.debug(f"Setting version of {release_filename} to {release_version}")
             build_release_note_from_dir_with_brassy(
                 release_dir, release_filename, release_version, header_file.name

@@ -135,17 +135,17 @@ class GeoipsRunOrderBased(GeoipsWorkflowCommand):
     name = "order_based"
     command_classes = []
     warning_with_color = (
-        Fore.RED
-        + "\nWARNING: "
-        + Fore.YELLOW
-        + "`geoips run order_based` is experimental and is subject to "
-        + "change. This warning will be removed once this command is "
-        + "stable.\n"
+        Fore.YELLOW
+        + "\nNote: "
         + Style.RESET_ALL
+        + "`geoips run order_based` (Order-Based Processing) is the recommended "
+        + "processing path in GeoIPS 2.0. It is still stabilizing, so some interfaces "
+        + "may change between releases.\n"
     )
     warning_no_color = (
-        "\nWARNING: `geoips run order_based` is experimental and is subject to change. "
-        "This warning will be removed once this command is stable.\n"
+        "\nNote: `geoips run order_based` (Order-Based Processing) is the recommended "
+        "processing path in GeoIPS 2.0. It is still stabilizing, so some interfaces "
+        "may change between releases.\n"
     )
 
     def dict_type(self, value):
