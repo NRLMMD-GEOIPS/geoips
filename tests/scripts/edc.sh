@@ -7,11 +7,12 @@
 
 # This exact test case required for valid comparisons - remove "compare_path" argument if running a different
 # set of arguments.
-geoips run single_source $GEOIPS_TESTDATA_DIR/hurricane_mindy/* \
+geoips run single_source $GEOIPS_TESTDATA_DIR/hurricane_mindy/data/20210909.1200/OR_ABI-L1b* \
     --reader_name abi_netcdf \
     --product_name edc-Infrared \
     --output_formatter imagery_annotated \
     --filename_formatter geoips_fname \
+    --compare_path "$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/edc.imagery_annotated" \
     --resampled_read \
     --logging_level info \
     --sector_list goes_east
