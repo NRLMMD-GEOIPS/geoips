@@ -1,3 +1,12 @@
+:mod:`PKGNAME` is a free software program, using the NRL Open License Agreement.
+
+::
+
+    Distribution Statement A. Approved for public release. Distribution is unlimited.
+
+    This source code is protected under the license referenced at
+    https://github.com/NRLMMD-GEOIPS.
+
 .. dropdown:: Distribution Statement
 
  | # # # This source code is subject to the license referenced at
