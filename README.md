@@ -1,28 +1,77 @@
 GeoIPS Base Package
 ====================
 
+[![Documentation](https://img.shields.io/badge/docs-latest-brightgreen.svg)](https://nrlmmd-geoips.github.io/geoips/)
+[![Python](https://img.shields.io/badge/python-3.11%20%7C%203.12-blue.svg)](https://www.python.org/)
+[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+
 The GeoIPS Base Package provides a Python 3 based architecture supporting a wide variety of
-satellite and weather data processing. The modular nature of the GeoIPS base infrastructure also allows
-plug-and-play capability for user-specified custom functionality.
+satellite and weather data processing. Processing is driven by composable **plugins** —
+readers, algorithms, colormappers, output formatters, and more — orchestrated through
+[Order-Based Processing (OBP)](https://nrlmmd-geoips.github.io/geoips/concepts/functionality/order-based-processing/index.html).
+The modular nature of the GeoIPS base infrastructure also allows plug-and-play capability
+for user-specified custom functionality.
+
+GeoIPS is jointly developed and maintained by the Cooperative Institute for
+Research in the Atmosphere (CIRA) at Colorado State University and the Naval
+Research Laboratory (NRL) Marine Meteorology Division.
+
+Full documentation is available at
+[nrlmmd-geoips.github.io/geoips](https://nrlmmd-geoips.github.io/geoips/).
 
 Installation
 ------------
 
-See the
-installation guide ([linux](./docs/source/getting-started/installing/linux_with_conda.rst),
+GeoIPS supports Python 3.11 and 3.12. Install with whichever tool you prefer:
+
+**pip**
+
+```bash
+pip install geoips
+```
+
+**uv**
+
+```bash
+uv pip install geoips
+```
+
+**nix**
+
+The repository ships a flake with a ready-to-use development shell (Python 3.12
+plus the native libraries the scientific stack needs). Clone the repo and run:
+
+```bash
+nix develop
+```
+
+This drops you into a shell with GeoIPS installed. To use it without cloning:
+
+```bash
+nix develop github:NRLMMD-GEOIPS/geoips
+```
+
+After installing, verify the CLI is available:
+
+```bash
+geoips --help
+```
+
+For the fully supported, exhaustive installation — including a complete conda
+environment with all optional dependencies — see the installation guide
+([linux](./docs/source/getting-started/installing/linux_with_conda.rst),
 [mac](./docs/source/getting-started/installing/mac_with_conda.rst),
-[windows](./docs/source/getting-started/installing/windows_with_conda.rst))
-within the source code documentation for installation instructions. GeoIPS has a fully supported
-exhaustive installation process, including a full conda environment, as well as a more basic
-pip based installation for "expert" users.
+[windows](./docs/source/getting-started/installing/windows_with_conda.rst)).
+The quick installs above are a more basic, pip-based path intended for "expert" users.
 
 Creating your own GeoIPS Plugin
 -------------------------------
 
 See the instructions to
-[setup a new plugin](./docs/source/devguide/dev_setup.rst)
+[set up a new plugin](./docs/source/tutorials/setting-up-for-plugin-development.rst)
 if you are interested in creating your own functionality using the GeoIPS
-infrastructure.
+infrastructure, then follow the
+[extending-with-plugins tutorials](./docs/source/tutorials/extending-with-plugins/index.rst).
 
 Contributing
 -------------
@@ -35,7 +84,7 @@ Are you interested in
 We welcome all feedback and contributions!
 
 Please review our
-[contributors guide](./docs/source/devguide/contributors.rst)
+[contributing guide](./docs/source/contribute/index.rst)
 for more information.
 
 Contact
@@ -56,8 +105,9 @@ Acknowledgments and Citations
 Please display the following acknowledgment within all published research using this software:
 
     "This work uses the GeoIPS(R) software package written and
-    developed by the Naval Research Laboratory Marine Meteorology Division
-    and our partners.
+    developed by the Cooperative Institute for Research in the Atmosphere
+    (CIRA) at Colorado State University and the Naval Research Laboratory
+    Marine Meteorology Division.
     https://github.com/NRLMMD-GEOIPS/"
 
 See [GeoIPS LICENSE](https://github.com/NRLMMD-GEOIPS/geoips/blob/main/LICENSE) for
@@ -68,8 +118,9 @@ more information.
 If using imagery generated using the GeoIPS software package, please include the following acknowledgment:
 
     "This work includes imagery generated using the GeoIPS(R) software package,
-    written and developed by the Naval Research Laboratory Marine Meteorology Division
-    and our partners.
+    written and developed by the Cooperative Institute for Research in the
+    Atmosphere (CIRA) at Colorado State University and the Naval Research
+    Laboratory Marine Meteorology Division.
     https://github.com/NRLMMD-GEOIPS/"
 
 If using imagery downloaded from the www.nrlmry.navy.mil websites, please include the following acknowledgment:

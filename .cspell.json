@@ -4,6 +4,34 @@
     // --- Custom Words ---
     // Words considered correct for THIS project specifically
     "words": [
+        // GeoIPS 2.0 / OBP documentation terminology
+        "OBP",
+        "ETCVO",
+        "DataTree",
+        "DataTrees",
+        "Ditto",
+        "MyST",
+        "myst",
+        "autodoc",
+        "pydantic",
+        "procflow",
+        "procflows",
+        "pluginify",
+        "RetentionPolicy",
+        // Terms/identifiers used in the 2.0 documentation and code examples
+        "cbar",
+        "ncdf",
+        "npix",
+        "nscan",
+        "objs",
+        "plinko",
+        "tokenizable",
+        "sectorizer",
+        "UDUNITS",
+        "Finestra",
+        "cylc",
+        "fswatch",
+        "coordict",
         // Project Specific / Acronyms / People / Orgs
         "libopenblas",
         "ryglickicane",
@@ -525,6 +553,9 @@
     // --- File/Folder Exclusions ---
     // Glob patterns for files and folders to ignore globally
     "ignorePaths": [
+        // Nix flake (nix-ecosystem vocabulary)
+        "flake.nix",
+        "flake.lock",
         // GeoIPS Stored environment files (pip and mamba)
         "**/environments/pip_*.txt",
         "**/environments/mamba_*.yml",

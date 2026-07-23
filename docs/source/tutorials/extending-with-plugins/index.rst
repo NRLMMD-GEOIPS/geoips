@@ -19,3 +19,4 @@ Extending GeoIPS with New Plugins
     static_sector/index
     dynamic_sector/index
     reader
+    reader-walkthrough

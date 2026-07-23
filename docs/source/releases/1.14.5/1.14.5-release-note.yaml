@@ -16,7 +16,6 @@ documentation:
   related-issue:
     number: 753
     internal: GEOIPS#753 - 1.14.5 updates
-documentation:
 - title: Update upcoming and tagged versions
   description: |
 
@@ -31,7 +30,6 @@ documentation:
     finish: 2025-03-21
   related-issue:
     internal: GEOIPS#753 - 1.14.5 updates
-documentation:
 - title: Add release note for version 1.14.5
   description: |
     Release note on release branch to force tag/release, package/publish,
@@ -48,7 +46,6 @@ documentation:
     finish: 2025-03-21
   related-issue:
     internal: GEOIPS#753 - 1.14.5 updates
-documentation:
 - title: Update upcoming and tagged versions
   description: |
 

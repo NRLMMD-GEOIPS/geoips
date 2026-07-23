@@ -1,0 +1,53 @@
+# # # This source code is subject to the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
+
+# script migration = done
+# product testing = ongoing
+
+# Default values - if you do not have this exact test case available, call with available data files / sectors.
+# This exact test case required for valid comparisons - remove "compare_path" argument if running a different
+# set of arguments.
+
+apiVersion: geoips/v1
+interface: workflows
+family: order_based
+name: mwr_tb50_imagery_clean
+docstring: |
+  AWS MWR 325.15 GHz brightness temperature orbital imagery over global cylindrical sector.
+package: geoips
+test:
+  fnames: !ENV ${GEOIPS_TESTDATA_DIR}/test_data_arctic_weather_satellite/data/20250416/W_NO-KSAT-Tromso%2CSAT%2CAWS1-MWR-1B-RAD_C_OHB__20250416161751_G_O_20250416142833_20250416160447*.nc
+  outputs:
+    output_formatter:
+      full_test_policy: on_token_mismatch # always | never
+      compare_path: !ENV ${GEOIPS_PACKAGES_DIR}/geoips/tests/outputs/aws.orbital.imagery_clean
+      output_checker_name: image
+spec:
+  globals:
+    product_name: TB50
+    reader_defined_area_def: False
+    # will be uncommented after split operation is implemented
+    # sector_list: ["global_cylindrical"]
+  steps:
+    sector:
+      kind: sector
+      name: global_cylindrical
+    reader:
+      kind: reader
+      name: aws_netcdf
+    mwr_TB50:
+      kind: product
+      name: [mwr, TB50]
+      depends_on: [sector, reader]
+    filename_formatter:
+      kind: filename_formatter
+      name: geoips_fname
+      depends_on: [mwr_TB50.algorithm, sector, mwr_TB50.coverage_checker]
+    output_formatter:
+      kind: output_formatter
+      name: imagery_clean
+      depends_on:
+        - mwr_TB50.algorithm
+        - mwr_TB50.colormapper
+        - filename_formatter
+        - sector
