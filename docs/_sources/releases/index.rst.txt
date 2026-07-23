@@ -16,14 +16,6 @@ Latest (version on cutting edge of git)
 
    latest
 
-Upcoming (version AHEAD OF the cutting edge of git)
----------------------------------------------------
-
-.. toctree::
-   :maxdepth: 1
-
-   upcoming
-
 Version 1.19
 ------------
 

@@ -1,26 +1,246 @@
-Version 1.18.2 (2026-07-16)
+Version 1.18.2 (2026-07-23)
 ***************************
 
- * *Efficiency*: Add more informative print_mem_usg statements
- * *Efficiency*: Add disable_nan_array_removal argument
- * *Realtime*: Add product_spec_override command line support to config-based procflow
- * *Realtime*: Default product_spec_override command line argument to none
- * *Testing*: Do not wrap console script names during unit tests for geoips expose
  * *Testing*: Add additional information on geoips testing / log output control.
  * *Testing*: Clarify informative log statements.
  * *Testing*: Add product paths to interactive_pytest output
- * *Installation*: Always set geoips_repo_url to github
- * *Installation*: Disable git prompts by default in config_geoips
- * *Installation*: Add gitall command to fully update all repos to  specified branch, if it exists
- * *Installation*: Allow writing install logs to specified path
- * *Installation*: Allow piped calls to run_command
+ * *Testing*: Do not wrap console script names during unit tests for geoips expose
+ * *Bug fix*: Decrease length of time for validating bdeck formatting from 2 years to 6 months
  * *Bug fix*: Use relative imports for boxplots and dataframe_utils in memusg/plot_json_files.py
  * *Bug fix*: Include a better error message if partial zarr geolocation file exists
  * *Bug fix*: Skip undefined sectors in product_database_writer_kwargs
  * *Bug fix*: Update rich console import for build_docs.py
- * *Bug fix*: Decrease length of time for validating bdeck formatting from 2 years to 6 months
  * *Refactor*: Update geoips platform name map in viirs_l2_netcdf reader
+ * *Installation*: Allow piped calls to run_command
+ * *Installation*: Always set geoips_repo_url to github
+ * *Installation*: Disable git prompts by default in config_geoips
+ * *Installation*: Add gitall command to fully update all repos to  specified branch, if it exists
+ * *Installation*: Allow writing install logs to specified path
+ * *Efficiency*: Add more informative print_mem_usg statements
+ * *Efficiency*: Add disable_nan_array_removal argument
  * *Breaking change*: Update handling of sector adjuster output
+ * *Realtime*: Add product_spec_override command line support to config-based procflow
+ * *Realtime*: Default product_spec_override command line argument to none
+
+Testing
+=======
+
+Add additional information on geoips testing / log output control.
+------------------------------------------------------------------
+
+Note that GEOIPS_TEST_SUPPRESS_FAILED_LOG_CONTENTS env var can be used to display
+more or less information to the terminal during pytests.
+
+geoips#1029 - 1.18.2 updates
+
+::
+
+     modified: docs/source/contribute/testing/running_tests.rst
+
+Clarify informative log statements.
+-----------------------------------
+
+Update some print statements to make it clear they are informative only, and not
+indicating current status. E.g.
+
+* FAILING ON MISSING DATA to WILL FAIL ON MISSING DATA
+* DUMPING ALL BAD LOG CONTENTS TO TERMINAL to WILL DUMP ALL BAD LOG CONTENTS TO TERMINAL
+
+Add clarifying outputs to interactive_pytest.sh as well.
+
+* Print "Final return value: " at the very end.
+* Replace "Complete" with "Testing complete, summarized interactive_pytest output:"
+* Note that we typically just always pass 'all' to interactive_pytest, with pytest arguments.
+
+geoips#1029 - 1.18.2 updates
+
+::
+
+     modified: tests/integration_tests/test_integration.py
+     modified: tests/utils/interactive_pytest.sh
+
+Add product paths to interactive_pytest output
+----------------------------------------------
+
+grep both PASSED and FAILED log files for PRODUCTPATH to print all full product
+paths in the interactive_pytest summary.  This provides a complete list of log
+files as well as a complete list of produced files at the end of the
+interactive_pytest.
+
+geoips#1029 - 1.18.2 updates
+
+::
+
+     modified: tests/utils/interactive_pytest.sh
+
+Do not wrap console script names during unit tests for geoips expose
+--------------------------------------------------------------------
+
+If console script names wrap in the table output, the tests will fail because
+it can't find the expected console script.
+
+Add column_width argument to expose_geoips_commands, and pass in the max len of
+all console script names from the unit test, to ensure each console script name
+is included in the output, and not wrapped.
+
+Note we will later move this from geoips/geoips_utils.py to
+geoips/commandline/geoips_expose.py, but for now just ensure the tests pass as is.
+
+geoips#1029 - 1.18.2 updates
+
+::
+
+     modified: geoips/geoips_utils.py
+     modified: tests/unit_tests/commandline/test_expose.py
+
+Bug fix
+=======
+
+Decrease length of time for validating bdeck formatting from 2 years to 6 months
+--------------------------------------------------------------------------------
+
+To avoid test failures for relatively new test scripts, consider any deck files
+older than 6 months as "archived" (allowing tests to skip bad lines, while
+real-time processing will fail to ensure we resolve formatting errors on new
+deck files).
+
+geoips#1029 - 1.18.2 updates
+
+::
+
+     modified: geoips/plugins/modules/sector_metadata_generators/bdeck_parser.py
+
+Use relative imports for boxplots and dataframe_utils in memusg/plot_json_files.py
+----------------------------------------------------------------------------------
+
+This import fails for build_docs.py
+
+geoips#1029 - 1.18.2 updates
+
+::
+
+     modified: geoips/utils/memusg/plot_json_files.py
+
+Include a better error message if partial zarr geolocation file exists
+----------------------------------------------------------------------
+
+If the partial cache file exists, include suggested rm command to remove it before attempting to run again.
+This allows more easily resolving the error.
+
+geoips#1029 - 1.18.2 updates
+
+::
+
+     modified: geoips/plugins/modules/readers/utils/geostationary_geolocation.py
+
+Skip undefined sectors in product_database_writer_kwargs
+--------------------------------------------------------
+
+Allow specifying sectors from multiple procflow configs available_sectors in
+product_db_writer_override, so if you specify a sector that does NOT exist in
+a given procflow config at the command line, it will just skip that sector
+when looping through all command line specified sectors.
+
+geoips#1029 - 1.18.2 updates
+
+::
+
+     modified: geoips/plugins/modules/procflows/config_based.py
+
+Update rich console import for build_docs.py
+--------------------------------------------
+
+rich.logging import now rich.console. rich.logging has been deprecated since
+May 2020, so not providing backwards compatible support.
+
+geoips#1029 - 1.18.2 updates
+
+::
+
+     modified: docs/build_docs.py
+
+Refactor
+========
+
+Update geoips platform name map in viirs_l2_netcdf reader
+---------------------------------------------------------
+
+Add support for JP2VIIRS (n21), and change name for JPSS/JP1VIIRS from noaa20 to n20
+
+geoips#1049
+
+::
+
+     modified: geoips/plugins/modules/readers/viirs_l2_netcdf.py
+
+Installation
+============
+
+Allow piped calls to run_command
+--------------------------------
+
+If there is a pipe character in the passed command, call with bash -c and set -o pipefail.
+This should not change operation of non-piped commands, and piped commands did not
+previously work at all.
+
+geoips#1029 - 1.18.2 updates
+
+::
+
+     modified: setup/check_system_requirements.sh
+
+Always set geoips_repo_url to github
+------------------------------------
+
+Remove path-based special cases.
+
+geoips#1029 - 1.18.2 updates
+
+::
+
+     modified: setup/config_geoips
+
+Disable git prompts by default in config_geoips
+-----------------------------------------------
+
+GIT_ASKPASS="", SSH_ASKPASS="", GIT_TERMINAL_PROMPT=1
+
+geoips#1029 - 1.18.2 updates
+
+::
+
+     modified: setup/config_geoips
+
+Add gitall command to fully update all repos to  specified branch, if it exists
+-------------------------------------------------------------------------------
+
+If specified branch does not exist, update to latest on default branch.
+End on a command that *should* pass for all repos, and print information at the
+end indicating such, and suggesting a follow on gitall status command to review the
+final status of all repos (ensure the final gitall pull -p is the final output seen
+on all repos, since if that fails, it indicates you have modified files locally,
+so prompt user to check that the gitall pull -p's passed, and to go fix the individual
+repos if any of the gitall pull's failed.)
+
+Additionally, redirect all output from gitall commands to logs for reference.
+
+geoips#1029 - 1.18.2 updates
+
+::
+
+     modified: setup/bash_setup/gitall
+
+Allow writing install logs to specified path
+--------------------------------------------
+
+If $GEOIPS_INSTALL_LOG_BASEDIR is specified, write install logs there rather than
+default $GEOIPS_OUTDIRS/logs/install.
+
+geoips#1029 - 1.18.2 updates
+
+::
+
+     modified: setup/bash_setup/gitall
 
 Efficiency
 ==========
@@ -37,13 +257,12 @@ Pass pid_track to
 as well as add additional specific more informative log strings to all the
 pid_track.print_memusg calls (identifying where in the code the print statement is).
 
+geoips#1029 - 1.18.2 updates
+
 ::
 
      modified: geoips/plugins/modules/procflows/single_source.py
      modified: geoips/utils/memusg/memusg_tracker.py
-
-Efficiency
-==========
 
 Add disable_nan_array_removal argument
 --------------------------------------
@@ -61,9 +280,34 @@ We will want to improve the efficiency of the nan array removal step as well,
 but still allow disabling it as it always has the potential to be resource
 intensive.
 
+geoips#1029 - 1.18.2 updates
+
 ::
 
      modified: geoips/commandline/args.py
+     modified: geoips/plugins/modules/procflows/config_based.py
+     modified: geoips/plugins/modules/procflows/single_source.py
+
+Breaking change
+===============
+
+Update handling of sector adjuster output
+-----------------------------------------
+
+The recenter_tc sector adjuster was updated to return a list of meta dicts instead of a
+list of output file names. The dictionaries contain a key named "sect_adj_output_file",
+which is the full file path for any products produced by recenter_tc (i.e. ARCHER).
+Need to update config_based and single_source procflows to handle this update.
+
+The updated output also enables the ability to write sector_adjuster products to the product
+database. The required hooks were added to the config_based procflow, but not single_source.
+The single_source procflow was updated to include the list of sector_adjuster products
+to the final list of products shown at the end of the log.
+
+geoips#1047
+
+::
+
      modified: geoips/plugins/modules/procflows/config_based.py
      modified: geoips/plugins/modules/procflows/single_source.py
 
@@ -85,9 +329,6 @@ request.
 
      modified: geoips/plugins/modules/procflows/config_based.py
 
-Realtime
-========
-
 Default product_spec_override command line argument to none
 -----------------------------------------------------------
 
@@ -98,247 +339,3 @@ replaced with nothing!
 ::
 
      modified: geoips/commandline/args.py
-
-Testing
-=======
-
-Do not wrap console script names during unit tests for geoips expose
---------------------------------------------------------------------
-
-If console script names wrap in the table output, the tests will fail because
-it can't find the expected console script.
-
-Add column_width argument to expose_geoips_commands, and pass in the max len of
-all console script names from the unit test, to ensure each console script name
-is included in the output, and not wrapped.
-
-Note we will later move this from geoips/geoips_utils.py to
-geoips/commandline/geoips_expose.py, but for now just ensure the tests pass as is.
-
-::
-
-     modified: geoips/geoips_utils.py
-     modified: tests/unit_tests/commandline/test_expose.py
-
-Testing
-=======
-
-Add additional information on geoips testing / log output control.
-------------------------------------------------------------------
-
-Note that GEOIPS_TEST_SUPPRESS_FAILED_LOG_CONTENTS env var can be used to display
-more or less information to the terminal during pytests.
-
-::
-
-     modified: docs/source/contribute/testing/running_tests.rst
-
-Testing
-=======
-
-Clarify informative log statements.
------------------------------------
-
-Update some print statements to make it clear they are informative only, and not
-indicating current status. E.g.
-
-* FAILING ON MISSING DATA to WILL FAIL ON MISSING DATA
-* DUMPING ALL BAD LOG CONTENTS TO TERMINAL to WILL DUMP ALL BAD LOG CONTENTS TO TERMINAL
-
-Add clarifying outputs to interactive_pytest.sh as well.
-
-* Print "Final return value: " at the very end.
-* Replace "Complete" with "Testing complete, summarized interactive_pytest output:"
-* Note that we typically just always pass 'all' to interactive_pytest, with pytest arguments.
-
-::
-
-     modified: tests/integration_tests/test_integration.py
-     modified: tests/utils/interactive_pytest.sh
-
-Testing
-=======
-
-Add product paths to interactive_pytest output
-----------------------------------------------
-
-grep both PASSED and FAILED log files for PRODUCTPATH to print all full product
-paths in the interactive_pytest summary.  This provides a complete list of log
-files as well as a complete list of produced files at the end of the
-interactive_pytest.
-
-::
-
-     modified: tests/utils/interactive_pytest.sh
-
-Installation
-============
-
-Always set geoips_repo_url to github
-------------------------------------
-
-Remove path-based special cases.
-
-::
-
-     modified: setup/config_geoips
-
-Installation
-============
-
-Disable git prompts by default in config_geoips
------------------------------------------------
-
-GIT_ASKPASS="", SSH_ASKPASS="", GIT_TERMINAL_PROMPT=1
-
-::
-
-     modified: setup/config_geoips
-
-Installation
-============
-
-Add gitall command to fully update all repos to  specified branch, if it exists
--------------------------------------------------------------------------------
-
-If specified branch does not exist, update to latest on default branch.
-End on a command that *should* pass for all repos, and print information at the
-end indicating such, and suggesting a follow on gitall status command to review the
-final status of all repos (ensure the final gitall pull -p is the final output seen
-on all repos, since if that fails, it indicates you have modified files locally,
-so prompt user to check that the gitall pull -p's passed, and to go fix the individual
-repos if any of the gitall pull's failed.)
-
-Additionally, redirect all output from gitall commands to logs for reference.
-
-::
-
-     modified: setup/bash_setup/gitall
-
-Installation
-============
-
-Allow writing install logs to specified path
---------------------------------------------
-
-If $GEOIPS_INSTALL_LOG_BASEDIR is specified, write install logs there rather than
-default $GEOIPS_OUTDIRS/logs/install.
-
-::
-
-     modified: setup/bash_setup/gitall
-
-Installation
-============
-
-Allow piped calls to run_command
---------------------------------
-
-If there is a pipe character in the passed command, call with bash -c and set -o pipefail.
-This should not change operation of non-piped commands, and piped commands did not
-previously work at all.
-
-::
-
-     modified: setup/check_system_requirements.sh
-
-Bug fix
-=======
-
-Use relative imports for boxplots and dataframe_utils in memusg/plot_json_files.py
-----------------------------------------------------------------------------------
-
-This import fails for build_docs.py
-
-::
-
-     modified: geoips/utils/memusg/plot_json_files.py
-
-Bug fix
-=======
-
-Include a better error message if partial zarr geolocation file exists
-----------------------------------------------------------------------
-
-If the partial cache file exists, include suggested rm command to remove it before attempting to run again.
-This allows more easily resolving the error.
-
-::
-
-     modified: geoips/plugins/modules/readers/utils/geostationary_geolocation.py
-
-Bug fix
-=======
-
-Skip undefined sectors in product_database_writer_kwargs
---------------------------------------------------------
-
-Allow specifying sectors from multiple procflow configs available_sectors in
-product_db_writer_override, so if you specify a sector that does NOT exist in
-a given procflow config at the command line, it will just skip that sector
-when looping through all command line specified sectors.
-
-::
-
-     modified: geoips/plugins/modules/procflows/config_based.py
-
-Bug fix
-=======
-
-Update rich console import for build_docs.py
---------------------------------------------
-
-rich.logging import now rich.console. rich.logging has been deprecated since
-May 2020, so not providing backwards compatible support.
-
-::
-
-     modified: docs/build_docs.py
-
-Bug fix
-=======
-
-Decrease length of time for validating bdeck formatting from 2 years to 6 months
---------------------------------------------------------------------------------
-
-To avoid test failures for relatively new test scripts, consider any deck files
-older than 6 months as "archived" (allowing tests to skip bad lines, while
-real-time processing will fail to ensure we resolve formatting errors on new
-deck files).
-
-::
-
-     modified: geoips/plugins/modules/sector_metadata_generators/bdeck_parser.py
-
-Refactor
-========
-
-Update geoips platform name map in viirs_l2_netcdf reader
----------------------------------------------------------
-
-Add support for JP2VIIRS (n21), and change name for JPSS/JP1VIIRS from noaa20 to n20
-
-::
-
-     modified: geoips/plugins/modules/readers/viirs_l2_netcdf.py
-
-Breaking change
-===============
-
-Update handling of sector adjuster output
------------------------------------------
-
-The recenter_tc sector adjuster was updated to return a list of meta dicts instead of a
-list of output file names. The dictionaries contain a key named "sect_adj_output_file",
-which is the full file path for any products produced by recenter_tc (i.e. ARCHER).
-Need to update config_based and single_source procflows to handle this update.
-
-The updated output also enables the ability to write sector_adjuster products to the product
-database. The required hooks were added to the config_based procflow, but not single_source.
-The single_source procflow was updated to include the list of sector_adjuster products
-to the final list of products shown at the end of the log.
-
-::
-
-     modified: geoips/plugins/modules/procflows/config_based.py
-     modified: geoips/plugins/modules/procflows/single_source.py

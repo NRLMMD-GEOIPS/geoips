@@ -1,0 +1,1471 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Command Line Interface (CLI) &#8212; GeoIPS, Geolocated Information Processing System 1.19.0.post1200.dev0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../_static/autodoc_pydantic.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/set_width.css?v=d4af5e1e" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../../_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
+
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=ba503b0a"></script>
+    <script src="../../_static/doctools.js?v=888ff710"></script>
+    <script src="../../_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'functionality/command-line/index';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <link rel="icon" href="../../_static/nrlicon.ico"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Examples" href="../examples/index.html" />
+    <link rel="prev" title="Command Line Interface" href="../cli.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="1.1" />
+    <meta name="docbuild:last-update" content="Jul 23, 2026 15:25:48"/>
+  
+    
+    <script src="../../_static/searchtools.js"></script>
+    <script src="../../_static/language_data.js"></script>
+    <script src="../../searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 1.19.0.post1200.dev0 documentation - Home"/>
+    <img src="../../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 1.19.0.post1200.dev0 documentation - Home"/>
+  
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../getting-started/index.html">
+    Getting Started
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../index.html">
+    Functionality
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../tutorials/index.html">
+    Tutorials
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../devguide/index.html">
+    Developer Guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../deployguide/index.html">
+    Deploying and Operating GeoIPS
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../architecture/index.html">
+    Architecture
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../contribute/index.html">
+    Contribute
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../contact/index.html">
+    About Us
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../geoips_api/index.html">
+    API
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../releases/index.html">
+    Release Notes
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/NRLMMD-GEOIPS/geoips" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../getting-started/index.html">
+    Getting Started
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../index.html">
+    Functionality
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../tutorials/index.html">
+    Tutorials
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../devguide/index.html">
+    Developer Guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../deployguide/index.html">
+    Deploying and Operating GeoIPS
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../architecture/index.html">
+    Architecture
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../contribute/index.html">
+    Contribute
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../contact/index.html">
+    About Us
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../geoips_api/index.html">
+    API
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../releases/index.html">
+    Release Notes
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/NRLMMD-GEOIPS/geoips" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item pst-sidebar-collapse"><button id="pst-collapse-sidebar-button" aria-expanded="true" aria-controls="pst-primary-sidebar"><svg class="pst-icon svg-inline--fa" role="img" aria-hidden="true" focusable="false" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+    <path fill="currentColor" d="M3 15.5C2.36232 15.5 1.74874 15.2564 1.28478 14.8189C0.820828 14.3815 0.541576 13.7832 0.504167 13.1467L0.5 13L0.5 3C0.499965 2.36232 0.743605 1.74874 1.18107 1.28478C1.61854 0.820828 2.21676 0.541576 2.85333 0.504167L3 0.5L13 0.5C13.6377 0.499965 14.2513 0.743605 14.7152 1.18107C15.1792 1.61854 15.4584 2.21676 15.4958 2.85333L15.5 3L15.5 13C15.5 13.6377 15.2564 14.2513 14.8189 14.7152C14.3815 15.1792 13.7832 15.4584 13.1467 15.4958L13 15.5L3 15.5ZM3 13.8333L10.5 13.8333L10.5 2.16667L3 2.16667C2.79589 2.16669 2.59889 2.24163 2.44636 2.37726C2.29383 2.5129 2.19638 2.69979 2.1725 2.9025L2.16667 3L2.16667 13C2.16669 13.2041 2.24163 13.4011 2.37726 13.5536C2.5129 13.7062 2.69979 13.8036 2.9025 13.8275L3 13.8333ZM6.65583 10.325L6.5775 10.2558L4.91083 8.58917C4.76735 8.44567 4.68116 8.25476 4.66843 8.05223C4.65569 7.84971 4.71729 7.6495 4.84167 7.48917L4.91083 7.41083L6.5775 5.74417C6.72747 5.59471 6.9287 5.50794 7.14032 5.50148C7.35194 5.49502 7.55809 5.56935 7.7169 5.70937C7.8757 5.8494 7.97525 6.04463 7.99533 6.25539C8.01541 6.46616 7.95451 6.67667 7.825 6.84417L7.75583 6.9225L6.67917 8L7.75583 9.0775C7.89931 9.22099 7.98551 9.41191 7.99824 9.61443C8.01097 9.81695 7.94938 10.0172 7.825 10.1775L7.75583 10.2558C7.61234 10.3993 7.42142 10.4855 7.2189 10.4982C7.01638 10.511 6.81617 10.4494 6.65583 10.325Z"/>
+  </svg>
+  <span class="pst-collapse-sidebar-label">Collapse Sidebar</span>
+  <span class="pst-expand-sidebar-label">Expand Sidebar</span>
+</button></div>
+        <div class="sidebar-primary-item">
+
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../plugins/index.html">Plugins</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../plugins/class-based/index.html">Class-based Plugins</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../plugins/yaml-based/index.html">Yaml-based Plugins</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../plugins/module-based.html">Module-based Plugins (Deprecated)</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../interfaces/index.html">Interfaces</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../interfaces/writing-class-based-plugins.html">Writing a class-based plugin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../interfaces/class_based/readers.html">Readers in GeoIPS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../interfaces/class_based/algorithm.html">Algorithms in GeoIPS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../interfaces/class_based/interpolators.html">Interpolators in GeoIPS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../interfaces/class_based/colormapper.html">Colormaps in GeoIPS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../interfaces/class_based/coverage_checkers.html">Coverage Checkers in GeoIPS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../interfaces/class_based/output_formats.html">Output Formatters in GeoIPS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../interfaces/class_based/filename_formats.html">Filename Formatters in GeoIPS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../interfaces/class_based/title_formats.html">Title Formatters in GeoIPS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../interfaces/class_based/output_checkers.html">Output Checkers in GeoIPS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../interfaces/class_based/sector_adjusters.html">Sector Adjusters in GeoIPS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../interfaces/class_based/sector_metadata_generators.html">Sector Metadata Generators in GeoIPS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../interfaces/class_based/sector_spec_generators.html">Sector Spec Generators in GeoIPS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../interfaces/class_based/databases.html">Databases in GeoIPS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../interfaces/class_based/procflows.html">Processing Workflows (Procflows) in GeoIPS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../interfaces/class_based/validators.html">Validators in GeoIPS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../interfaces/yaml_based/products.html">Products in GeoIPS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../interfaces/yaml_based/product_defaults.html">Product Templates (Defaults) in GeoIPS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../interfaces/yaml_based/static_sectors.html">Static Sectors in GeoIPS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../interfaces/yaml_based/dynamic_sectors.html">Dynamic Sectors in GeoIPS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../interfaces/yaml_based/feature_annotators.html">Feature Annotators Interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../interfaces/yaml_based/gridline_annotators.html">Gridline Annotators Interface</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../order-based-processing/index.html">Order-Based Processing (OBP)</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../order-based-processing/workflows.html">The <code class="docutils literal notranslate"><span class="pre">workflows</span></code> interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../order-based-processing/running.html">Running workflows</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../order-based-processing/best-practices.html">OBP-native best practices</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../scripting/index.html">Scripting with GeoIPS plugins</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../scripting/retention-policies.html">Retention policies</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../workflows-for-iac.html">Workflows for Infrastructure-as-Code</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../extending-geoips.html">Extending GeoIPS with Plugins</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cli.html">Command Line Interface</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Command Line Interface (CLI)</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../examples/index.html">Examples</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../examples/integration-tests.html">Integration Tests</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../plugin-registries.html">Plugin Registries</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../documentation-building.html">Documentation Building</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../index.html" class="nav-link">Functionality</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Command Line Interface (CLI)</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-text">Distribution Statement</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<div class="line-block">
+<div class="line"># # # This source code is subject to the license referenced at</div>
+<div class="line"># # # <a class="github reference external" href="https://github.com/NRLMMD-GEOIPS">NRLMMD-GEOIPS</a>.</div>
+</div>
+</div>
+</details><section id="command-line-interface-cli">
+<span id="command-line"></span><h1>Command Line Interface (CLI)<a class="headerlink" href="#command-line-interface-cli" title="Permalink to this heading">#</a></h1>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>The CLI is currently under development.
+The CLI may change without warning!
+Please consult this documentation for up-to-date info on the CLI.</p>
+</div>
+<p>The CLI can be used to run, configure, and test GeoIPS. It can also print lists or descriptions of available data or
+functionality.</p>
+<p>CLI commands are split up into two groups by their functionality:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><a class="reference internal" href="#discovery-commands">Discovery commands</a> help you discover available GeoIPS functionality
+(e.g. interfaces, plugins, etc.)</p></li>
+<li><p><a class="reference internal" href="#action-commands">Action commands</a> perform actions using GeoIPS functionality (e.g.
+configure GeoIPS, run a procflow, install test datasets, run tests, etc.))</p></li>
+</ul>
+</div></blockquote>
+<nav class="contents local" id="table-of-contents">
+<p class="topic-title">Table of Contents</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#getting-help" id="id3">Getting Help</a></p></li>
+<li><p><a class="reference internal" href="#command-aliases" id="id4">Command Aliases</a></p></li>
+<li><p><a class="reference internal" href="#discovery-commands" id="id5">Discovery Commands</a></p>
+<ul>
+<li><p><a class="reference internal" href="#list" id="id6">list</a></p>
+<ul>
+<li><p><a class="reference internal" href="#list-interface" id="id7">list interface</a></p>
+<ul>
+<li><p><a class="reference internal" href="#implemented-mode" id="id8">Implemented Mode</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#id1" id="id9">list interface</a></p></li>
+<li><p><a class="reference internal" href="#list-packages" id="id10">list packages</a></p></li>
+<li><p><a class="reference internal" href="#list-plugins" id="id11">list plugins</a></p></li>
+<li><p><a class="reference internal" href="#list-scripts" id="id12">list scripts</a></p></li>
+<li><p><a class="reference internal" href="#list-source-names" id="id13">list source-names</a></p></li>
+<li><p><a class="reference internal" href="#list-test-datasets" id="id14">list test-datasets</a></p></li>
+<li><p><a class="reference internal" href="#list-unit-tests" id="id15">list unit-tests</a></p>
+<ul>
+<li><p><a class="reference internal" href="#output-formatting" id="id16">Output Formatting</a></p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#describe" id="id17">describe</a></p>
+<ul>
+<li><p><a class="reference internal" href="#describe-interface" id="id18">describe interface</a></p></li>
+<li><p><a class="reference internal" href="#describe-family" id="id19">describe family</a></p></li>
+<li><p><a class="reference internal" href="#describe-package" id="id20">describe package</a></p></li>
+<li><p><a class="reference internal" href="#describe-plugin" id="id21">describe plugin</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#expand" id="id22">expand</a></p></li>
+<li><p><a class="reference internal" href="#expand-workflow" id="id23">expand workflow</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#action-commands" id="id24">Action Commands</a></p>
+<ul>
+<li><p><a class="reference internal" href="#config" id="id25">config</a></p>
+<ul>
+<li><p><a class="reference internal" href="#config-install" id="id26">config install</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#run" id="id27">run</a></p>
+<ul>
+<li><p><a class="reference internal" href="#order-based-processing-recommended" id="id28">Order-Based Processing (recommended)</a></p></li>
+<li><p><a class="reference internal" href="#legacy-procflows-deprecated-still-supported" id="id29">Legacy procflows (deprecated, still supported)</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#test" id="id30">test</a></p>
+<ul>
+<li><p><a class="reference internal" href="#test-linting" id="id31">test linting</a></p></li>
+<li><p><a class="reference internal" href="#test-sector" id="id32">test sector</a></p></li>
+<li><p><a class="reference internal" href="#test-script" id="id33">test script</a></p></li>
+<li><p><a class="reference internal" href="#test-workflow" id="id34">test workflow</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#tree" id="id35">tree</a></p></li>
+<li><p><a class="reference internal" href="#validate" id="id36">validate</a></p></li>
+</ul>
+</li>
+</ul>
+</nav>
+<section id="getting-help">
+<h2>Getting Help<a class="headerlink" href="#getting-help" title="Permalink to this heading">#</a></h2>
+<p>To retrieve information about the CLI’s commands and arguments, use the <code class="docutils literal notranslate"><span class="pre">-h/--help</span></code> argument.
+For example, each of the following will return different, context dependent, help information:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">geoips</span> <span class="pre">-h</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">geoips</span> <span class="pre">list</span> <span class="pre">-h</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">geoips</span> <span class="pre">list</span> <span class="pre">algorithms</span> <span class="pre">-h</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">geoips</span> <span class="pre">run</span> <span class="pre">-h</span></code></p></li>
+</ul>
+</section>
+<section id="command-aliases">
+<h2>Command Aliases<a class="headerlink" href="#command-aliases" title="Permalink to this heading">#</a></h2>
+<p>Many GeoIPS commands and subcommands have aliases for convenience. Common aliases include:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">ls</span></code> for <code class="docutils literal notranslate"><span class="pre">list</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">alg</span></code> or <code class="docutils literal notranslate"><span class="pre">algs</span></code> for <code class="docutils literal notranslate"><span class="pre">algorithms</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pkg</span></code> or <code class="docutils literal notranslate"><span class="pre">pkgs</span></code> for <code class="docutils literal notranslate"><span class="pre">packages</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">fam</span></code> for <code class="docutils literal notranslate"><span class="pre">family</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">cfg</span></code> for <code class="docutils literal notranslate"><span class="pre">config</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">val</span></code> for <code class="docutils literal notranslate"><span class="pre">validate</span></code></p></li>
+</ul>
+<p>These aliases can be used interchangeably with their full command names
+throughout the CLI and can be seen in the output from <code class="docutils literal notranslate"><span class="pre">-h/--help</span></code>.</p>
+</section>
+<section id="discovery-commands">
+<h2>Discovery Commands<a class="headerlink" href="#discovery-commands" title="Permalink to this heading">#</a></h2>
+<p>The CLI Implements three top-level discovery commands that retrieve information
+about GeoIPS artifacts: <code class="docutils literal notranslate"><span class="pre">list</span></code>, <code class="docutils literal notranslate"><span class="pre">describe</span></code>, and <code class="docutils literal notranslate"><span class="pre">expand</span></code>.</p>
+<section id="list">
+<h3>list<a class="headerlink" href="#list" title="Permalink to this heading">#</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">list</span></code> returns information about a GeoIPS artifact, such as:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Lists of existing artifacts</p></li>
+<li><p>Artifact locations</p></li>
+<li><p>Artifact functionality</p></li>
+</ul>
+</div></blockquote>
+<section id="list-interface">
+<h4>list interface<a class="headerlink" href="#list-interface" title="Permalink to this heading">#</a></h4>
+<p><code class="docutils literal notranslate"><span class="pre">list</span> <span class="pre">interfaces</span></code> returns a list of GeoIPS interfaces.</p>
+<p>By default it returns the following for native interfaces:</p>
+<ul class="simple">
+<li><p>GeoIPS Package</p></li>
+<li><p>Interface Type</p></li>
+<li><p>Interface Name</p></li>
+<li><p>Supported Families</p></li>
+<li><p>Docstring</p></li>
+<li><p>Absolute Path</p></li>
+</ul>
+<section id="implemented-mode">
+<h5>Implemented Mode<a class="headerlink" href="#implemented-mode" title="Permalink to this heading">#</a></h5>
+<p>The <code class="docutils literal notranslate"><span class="pre">list</span> <span class="pre">interfaces</span></code> command has an “implemented” mode.</p>
+<p>Implemented mode searches for plugins of each
+interface which have been created throughout GeoIPS
+packages, or a certain package.</p>
+<p>When running in implemented mode, it returns:</p>
+<ul class="simple">
+<li><p>GeoIPS Package</p></li>
+<li><p>Interface Type</p></li>
+<li><p>Interface Name</p></li>
+</ul>
+<p>For example:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>geoips<span class="w"> </span>list<span class="w"> </span>interfaces<span class="w"> </span>-i
+</pre></div>
+</div>
+<p>Both the general and implemented outputs can
+be filtered by package with <code class="docutils literal notranslate"><span class="pre">--package_name</span></code> or <code class="docutils literal notranslate"><span class="pre">-p</span></code>.</p>
+<p>For example:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>geoips<span class="w"> </span>list<span class="w"> </span>interfaces
+</pre></div>
+</div>
+<p>or</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>geoips<span class="w"> </span>list<span class="w"> </span>interfaces<span class="w"> </span>-i<span class="w"> </span>--package_name<span class="w"> </span>&lt;package_name&gt;
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id1">
+<h4>list interface<a class="headerlink" href="#id1" title="Permalink to this heading">#</a></h4>
+<p><code class="docutils literal notranslate"><span class="pre">list</span> <span class="pre">&lt;interface_name&gt;</span></code> returns a list of an interface’s plugins with the following plugin information:</p>
+<ul class="simple">
+<li><p>GeoIPS Package</p></li>
+<li><p>Interface Name</p></li>
+<li><p>Interface Type</p></li>
+<li><p>Family</p></li>
+<li><p>Plugin Name</p></li>
+<li><p>Source Names (if applicable)</p></li>
+<li><p>Relative Path</p></li>
+</ul>
+<p>For example:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>geoips<span class="w"> </span>list<span class="w"> </span>algorithms
+</pre></div>
+</div>
+<p>You can also filter by package name with <code class="docutils literal notranslate"><span class="pre">--package_name</span></code> or <code class="docutils literal notranslate"><span class="pre">-p</span></code>. For example:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>geoips<span class="w"> </span>list<span class="w"> </span>interfaces<span class="w"> </span>--package_name<span class="w"> </span>geoips
+geoips<span class="w"> </span>list<span class="w"> </span>&lt;interface_name&gt;<span class="w"> </span>-p<span class="w"> </span>&lt;package_name&gt;
+</pre></div>
+</div>
+</section>
+<section id="list-packages">
+<h4>list packages<a class="headerlink" href="#list-packages" title="Permalink to this heading">#</a></h4>
+<p><code class="docutils literal notranslate"><span class="pre">list</span> <span class="pre">packages</span></code> returns a list of GeoIPS Packages with the following package information:</p>
+<ul class="simple">
+<li><p>Package Name</p></li>
+<li><p>Docstring</p></li>
+<li><p>Package Path</p></li>
+<li><p>Version Number</p></li>
+</ul>
+<p>For example:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>geoips<span class="w"> </span>list<span class="w"> </span>packages
+</pre></div>
+</div>
+</section>
+<section id="list-plugins">
+<h4>list plugins<a class="headerlink" href="#list-plugins" title="Permalink to this heading">#</a></h4>
+<p><code class="docutils literal notranslate"><span class="pre">list</span> <span class="pre">plugins</span></code> returns the following information about plugins:</p>
+<ul class="simple">
+<li><p>GeoIPS Package</p></li>
+<li><p>Interface Name</p></li>
+<li><p>Interface Type</p></li>
+<li><p>Family</p></li>
+<li><p>Plugin Name</p></li>
+<li><p>Source Names</p></li>
+<li><p>Relative Path</p></li>
+</ul>
+<p>For example:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>geoips<span class="w"> </span>list<span class="w"> </span>plugins
+</pre></div>
+</div>
+<p>You can filter by package with <code class="docutils literal notranslate"><span class="pre">--package-name</span></code> or <code class="docutils literal notranslate"><span class="pre">-p</span></code>. For example:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>geoips<span class="w"> </span>list<span class="w"> </span>plugins<span class="w"> </span>-p<span class="w"> </span>&lt;package_name&gt;
+</pre></div>
+</div>
+</section>
+<section id="list-scripts">
+<span id="geoips-list-scripts"></span><h4>list scripts<a class="headerlink" href="#list-scripts" title="Permalink to this heading">#</a></h4>
+<p><code class="docutils literal notranslate"><span class="pre">list</span> <span class="pre">scripts</span></code> returns a list of test scripts implemented in GeoIPS plugin packages that are installed in editable
+mode.</p>
+<p>For each test script, this command returns:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>GeoIPS Package</p></li>
+<li><p>Filename</p></li>
+</ul>
+</div></blockquote>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>For this command to find test scripts,
+they must be <cite>.sh</cite> files located at <code class="docutils literal notranslate"><span class="pre">&lt;package_install_location&gt;/tests/scripts/</span></code>.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Test scripts can be run with the <a class="reference internal" href="#run">run</a> command</p>
+</div>
+<p>For example:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>geoips<span class="w"> </span>list<span class="w"> </span>scripts
+</pre></div>
+</div>
+<p>You can filter by package with <code class="docutils literal notranslate"><span class="pre">--package-name</span></code> or <code class="docutils literal notranslate"><span class="pre">-p</span></code>. For example:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>geoips<span class="w"> </span>list<span class="w"> </span>scripts<span class="w"> </span>-p<span class="w"> </span>&lt;package_name&gt;
+</pre></div>
+</div>
+<p id="geoips-list-registries"><a class="reference internal" href="#geoips-list-registries"><span class="std std-ref">geoips list registries</span></a></p>
+<p><code class="docutils literal notranslate"><span class="pre">list</span> <span class="pre">registries</span></code> lists plugin registries for each package
+returns:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>GeoIPS Package</p></li>
+<li><p>JSON Path</p></li>
+<li><p>YAML Path</p></li>
+</ul>
+</div></blockquote>
+<p>This outputs absolute paths by default.
+If passed a <code class="docutils literal notranslate"><span class="pre">--relpath</span></code> flag it will output relative paths.</p>
+<p>By default, this only lists plugin registries for
+packages in the <code class="docutils literal notranslate"><span class="pre">geoips.plugin_packages</span></code> namespace.
+You may pass <code class="docutils literal notranslate"><span class="pre">--namespace</span> <span class="pre">&lt;different_namespace&gt;</span></code>
+to list plugin registries in a different namespace.
+It is unlikely that you will need to do this.</p>
+<p>For example:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>geoips<span class="w"> </span>list<span class="w"> </span>registries
+geoips<span class="w"> </span>list<span class="w"> </span>registries<span class="w"> </span>--relpath
+geoips<span class="w"> </span>list<span class="w"> </span>registries<span class="w"> </span>--namespace<span class="w"> </span>&lt;different_namespace&gt;
+</pre></div>
+</div>
+</section>
+<section id="list-source-names">
+<h4>list source-names<a class="headerlink" href="#list-source-names" title="Permalink to this heading">#</a></h4>
+<p><code class="docutils literal notranslate"><span class="pre">list</span> <span class="pre">source-names</span></code> (or <code class="docutils literal notranslate"><span class="pre">list</span> <span class="pre">src-names</span></code>) retrieves a listing of source_names
+from all, or a certain GeoIPS Package. For this command to find a listing of
+source_names, you must add a module-level <code class="docutils literal notranslate"><span class="pre">source_names</span></code> attribute to your reader
+plugin. Every core GeoIPS reader plugin has this attribute set. We recommend following
+the same method of implementation as core GeoIPS readers, as reader plugins without this
+attribute will be deprecated when GeoIPS v2.0.0 is released.</p>
+<p>Information included when calling this command is:</p>
+<ul class="simple">
+<li><p>Source Name</p></li>
+<li><p>Reader Names</p></li>
+</ul>
+<p>For example:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>geoips<span class="w"> </span>ls<span class="w"> </span>source-names
+geoips<span class="w"> </span>ls<span class="w"> </span>src-names
+geoips<span class="w"> </span>list<span class="w"> </span>source-names
+geoips<span class="w"> </span>list<span class="w"> </span>source-names<span class="w"> </span>-p<span class="w"> </span>&lt;package_name&gt;
+</pre></div>
+</div>
+</section>
+<section id="list-test-datasets">
+<h4>list test-datasets<a class="headerlink" href="#list-test-datasets" title="Permalink to this heading">#</a></h4>
+<p><code class="docutils literal notranslate"><span class="pre">list</span> <span class="pre">test-datasets</span></code> returns:</p>
+<ul class="simple">
+<li><p>Data Host</p></li>
+<li><p>Dataset Name</p></li>
+</ul>
+<p>We require these datasets for testing GeoIPS:</p>
+<ul class="simple">
+<li><p>test_data_amsr2</p></li>
+<li><p>test_data_clavrx</p></li>
+<li><p>test_data_fusion</p></li>
+<li><p>test_data_gpm</p></li>
+<li><p>test_data_noaa_aws</p></li>
+<li><p>test_data_sar</p></li>
+<li><p>test_data_scat</p></li>
+<li><p>test_data_smap</p></li>
+<li><p>test_data_viirs</p></li>
+</ul>
+<p>For example:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>geoips<span class="w"> </span>list<span class="w"> </span>test-datasets
+</pre></div>
+</div>
+</section>
+<section id="list-unit-tests">
+<h4>list unit-tests<a class="headerlink" href="#list-unit-tests" title="Permalink to this heading">#</a></h4>
+<p><code class="docutils literal notranslate"><span class="pre">list</span> <span class="pre">unit-tests</span></code> returns a list of unit-tests from plugin packages that are installed in editable mode.</p>
+<p>For each unit-test, the following information is returned:</p>
+<ul class="simple">
+<li><p>GeoIPS Package</p></li>
+<li><p>Unit Test Directory</p></li>
+<li><p>Unit Test Name</p></li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>For this command to find your unit tests, you must
+place the unit tests under <code class="docutils literal notranslate"><span class="pre">&lt;package_install_location&gt;/tests/unit_tests/</span></code>.</p>
+</div>
+<p>For example:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>geoips<span class="w"> </span>list<span class="w"> </span>unit-tests<span class="w"> </span>-p<span class="w"> </span>&lt;package_name&gt;
+</pre></div>
+</div>
+<p>The output can be filtered by package with <code class="docutils literal notranslate"><span class="pre">--package_name</span></code> or <code class="docutils literal notranslate"><span class="pre">-p</span></code>.
+The specified plugin package(s) must be installed in editable mode.</p>
+<p>For example, to display only the <code class="docutils literal notranslate"><span class="pre">package</span></code> and <code class="docutils literal notranslate"><span class="pre">docstring</span></code>
+columns from the <code class="docutils literal notranslate"><span class="pre">geoips</span> <span class="pre">list</span> <span class="pre">packages</span></code> command:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>geoips<span class="w"> </span>list<span class="w"> </span>packages<span class="w"> </span>--columns<span class="w"> </span>package<span class="w"> </span>docstring
+</pre></div>
+</div>
+<section id="output-formatting">
+<h5>Output Formatting<a class="headerlink" href="#output-formatting" title="Permalink to this heading">#</a></h5>
+<p>The output format can be configured with the following arguments:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">--long</span></code> or <code class="docutils literal notranslate"><span class="pre">-l</span></code> (the default format, a long table)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--columns</span></code> or <code class="docutils literal notranslate"><span class="pre">-c</span></code> (pass column(s) to display)</p></li>
+</ul>
+</div></blockquote>
+<p>For a list of what columns you can filter by,
+pass <code class="docutils literal notranslate"><span class="pre">help</span></code> to the <code class="docutils literal notranslate"><span class="pre">--columns</span></code> argument.</p>
+<p>For example:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>geoips<span class="w"> </span>list<span class="w"> </span>&lt;cmd_name&gt;<span class="w"> </span>--columns<span class="w"> </span><span class="nb">help</span>
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+<section id="describe">
+<h3>describe<a class="headerlink" href="#describe" title="Permalink to this heading">#</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">describe</span></code> retrieves detailed information about a single GeoIPS artifact. It can be used to retrieve information about
+<code class="docutils literal notranslate"><span class="pre">interfaces</span></code>, <code class="docutils literal notranslate"><span class="pre">families</span></code>, <code class="docutils literal notranslate"><span class="pre">packages</span></code>, and <code class="docutils literal notranslate"><span class="pre">plugins</span></code>. To provide information that is relevant and useful for each
+artifact type, the information retrieved differs for different types of artifacts.</p>
+<section id="describe-interface">
+<h4>describe interface<a class="headerlink" href="#describe-interface" title="Permalink to this heading">#</a></h4>
+<p><code class="docutils literal notranslate"><span class="pre">describe</span> <span class="pre">&lt;interface_name&gt;</span></code> retrieves information about an interface.
+It returns:</p>
+<ul class="simple">
+<li><p>Absolute Path</p></li>
+<li><p>Docstring</p></li>
+<li><p>Interface</p></li>
+<li><p>Interface Type</p></li>
+<li><p>Supported Families</p></li>
+</ul>
+<p>For more information about available GeoIPS Interfaces,
+see the <a class="reference external" href="#list">list</a> command.</p>
+</section>
+<section id="describe-family">
+<h4>describe family<a class="headerlink" href="#describe-family" title="Permalink to this heading">#</a></h4>
+<p><code class="docutils literal notranslate"><span class="pre">describe</span> <span class="pre">&lt;interface_name&gt;</span> <span class="pre">family</span> <span class="pre">&lt;family_name&gt;</span></code> (or <code class="docutils literal notranslate"><span class="pre">fam</span></code>) retrieves information about a family.</p>
+<p>It returns the following information about an interface’s family:</p>
+<ul class="simple">
+<li><p>Docstring</p></li>
+<li><p>Family Name</p></li>
+<li><p>Family Path</p></li>
+<li><p>Interface Name</p></li>
+<li><p>Interface Type</p></li>
+<li><p>Required Args / Schema</p></li>
+</ul>
+<p>For example:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>geoips<span class="w"> </span>describe<span class="w"> </span>prod-def<span class="w"> </span>fam<span class="w"> </span>interpolator_algorithm_colormapper
+</pre></div>
+</div>
+</section>
+<section id="describe-package">
+<h4>describe package<a class="headerlink" href="#describe-package" title="Permalink to this heading">#</a></h4>
+<p><code class="docutils literal notranslate"><span class="pre">describe</span> <span class="pre">package</span></code> retrieves information about a registered plugin package.
+It returns the following information about a Package:</p>
+<ul class="simple">
+<li><p>Docstring</p></li>
+<li><p>GeoIPS Package</p></li>
+<li><p>Package Path</p></li>
+<li><p>Source Code</p></li>
+<li><p>Version Number</p></li>
+</ul>
+<p>For example:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>geoips<span class="w"> </span>describe<span class="w"> </span>pkg<span class="w"> </span>geoips_clavrx
+</pre></div>
+</div>
+</section>
+<section id="describe-plugin">
+<h4>describe plugin<a class="headerlink" href="#describe-plugin" title="Permalink to this heading">#</a></h4>
+<p><code class="docutils literal notranslate"><span class="pre">describe</span> <span class="pre">plugin</span></code> retrieves information about a specific plugin.
+It returns the following information about a Plugin:</p>
+<ul class="simple">
+<li><p>Docstring</p></li>
+<li><p>Family Name</p></li>
+<li><p>Interface Name</p></li>
+<li><p>Interface Type</p></li>
+<li><p>GeoIPS Package</p></li>
+<li><p>Plugin Type</p></li>
+<li><p>Product Defaults (if applicable)</p></li>
+<li><p>Relative Path</p></li>
+<li><p>Signature (if applicable)</p></li>
+<li><p>Source Names (if applicable)</p></li>
+</ul>
+<p>For example:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>geoips<span class="w"> </span>describe<span class="w"> </span>alg<span class="w"> </span>single_channel
+</pre></div>
+</div>
+</section>
+</section>
+<section id="expand">
+<h3>expand<a class="headerlink" href="#expand" title="Permalink to this heading">#</a></h3>
+<p>Expand commands are currently beta and in development. They are targeted towards
+workflow plugins and are intended to visualize the order of steps applied for a workflow
+plugin via the order based procflow (OBP).</p>
+</section>
+<section id="expand-workflow">
+<h3>expand workflow<a class="headerlink" href="#expand-workflow" title="Permalink to this heading">#</a></h3>
+<p>This command expands a workflow plugin to its full YAML representation. Since workflows
+can specify products and/or workflows as steps, it is not easy to see the exact order
+of steps that will be applied via the OBP at runtime. For example, a product may
+reference an <code class="docutils literal notranslate"><span class="pre">algorithm</span></code>, <code class="docutils literal notranslate"><span class="pre">interpolator</span></code>, and <code class="docutils literal notranslate"><span class="pre">colormapper</span></code> as its series of
+plugin steps, but these are not present in the original workflow file. Same goes for
+an embedded workflow as a step.</p>
+<p>This command loads the steps of all of the embedded plugins in place and prints them
+out in the order that the OBP would receive them. This way a user or developer knows
+the exact order of steps that will be applied by running a given workflow.</p>
+<p>By default, this command doesn’t highlight its output. To see highlighted YAML output,
+add the <code class="docutils literal notranslate"><span class="pre">--color</span></code> flag. The default format to run this command is as follows:</p>
+<p><code class="docutils literal notranslate"><span class="pre">geoips</span> <span class="pre">expand</span> <span class="pre">&lt;workflow_name&gt;</span></code></p>
+<p>The following code snippet presents some command examples which currently work in
+GeoIPS.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>geoips<span class="w"> </span>expand<span class="w"> </span>test_product
+geoips<span class="w"> </span>expand<span class="w"> </span>test_product<span class="w"> </span>--color
+</pre></div>
+</div>
+</section>
+</section>
+<section id="action-commands">
+<h2>Action Commands<a class="headerlink" href="#action-commands" title="Permalink to this heading">#</a></h2>
+<p>The CLI can kick off functionality built into GeoIPS. Below, we describe commands that
+do this.</p>
+<section id="config">
+<h3>config<a class="headerlink" href="#config" title="Permalink to this heading">#</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">geoips</span> <span class="pre">config</span></code> (or <code class="docutils literal notranslate"><span class="pre">geoips</span> <span class="pre">cfg</span></code>) makes testing easier by providing easy access to
+configuration options.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>As we continue to develop the GeoIPS CLI,
+we expect the functionality of this command to grow.</p>
+</div>
+<section id="config-install">
+<h4>config install<a class="headerlink" href="#config-install" title="Permalink to this heading">#</a></h4>
+<p>GeoIPS relies on test datasets to test its processing workflows.
+Test datasets must be installed before tests can be run.</p>
+<p><code class="docutils literal notranslate"><span class="pre">config</span> <span class="pre">install</span></code> installs test datasets hosted on CIRA’s NextCloud instance for
+testing processing workflows.</p>
+<p>For example:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>geoips<span class="w"> </span>cfg<span class="w"> </span>install<span class="w"> </span>test_data_clavrx
+geoips<span class="w"> </span>config<span class="w"> </span>install<span class="w"> </span>test_data_clavrx
+geoips<span class="w"> </span>config<span class="w"> </span>install<span class="w"> </span>test_data_clavrx<span class="w"> </span>test_data_noaa_aws
+geoips<span class="w"> </span>config<span class="w"> </span>install<span class="w"> </span>all
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>To list installable test datasets,
+see <code class="docutils literal notranslate"><span class="pre">geoips</span> <span class="pre">list</span> <span class="pre">test-datasets</span></code>.</p>
+</div>
+<p id="geoips-config-create-registries"><a class="reference internal" href="#geoips-config-create-registries"><span class="std std-ref">geoips config create-registries</span></a></p>
+<p><code class="docutils literal notranslate"><span class="pre">config</span> <span class="pre">create-registries</span></code> creates plugin registry files.
+These files for GeoIPS to locate and use plugins.
+You should never edit these files.</p>
+<p>This occurs in the <code class="docutils literal notranslate"><span class="pre">geoips.plugin_packages</span></code> namespace by default.
+It contains all plugin packages registered under GeoIPS.
+You may specify a different name space.</p>
+<p>You can pass <code class="docutils literal notranslate"><span class="pre">--packages</span></code> to limit the plugins processed.</p>
+<p>JSON files are output by default.
+You may also output yaml files for ease of viewing by passing <code class="docutils literal notranslate"><span class="pre">--save-type</span> <span class="pre">yaml</span></code>.</p>
+<p>For example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">geoips</span> <span class="n">config</span> <span class="n">create</span><span class="o">-</span><span class="n">registries</span>
+<span class="n">geoips</span> <span class="n">config</span> <span class="n">create</span><span class="o">-</span><span class="n">registries</span> <span class="o">--</span><span class="n">packages</span> <span class="n">geoips</span> <span class="n">geoips_clavrx</span>
+<span class="n">geoips</span> <span class="n">config</span> <span class="n">create</span><span class="o">-</span><span class="n">registries</span> <span class="o">--</span><span class="n">save</span><span class="o">-</span><span class="nb">type</span> <span class="n">yaml</span>
+<span class="n">geoips</span> <span class="n">config</span> <span class="n">create</span><span class="o">-</span><span class="n">registries</span> <span class="o">--</span><span class="n">namespace</span> <span class="o">&lt;</span><span class="n">different_namespace</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+<p id="geoips-config-delete-registries"><a class="reference internal" href="#geoips-config-delete-registries"><span class="std std-ref">geoips config delete-registries</span></a></p>
+<p><code class="docutils literal notranslate"><span class="pre">config</span> <span class="pre">delete-registries</span></code> removes the plugin registry files.
+If no registry files are found, nothing occurs. For example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">geoips</span> <span class="n">config</span> <span class="n">delete</span><span class="o">-</span><span class="n">registries</span>
+<span class="n">geoips</span> <span class="n">config</span> <span class="n">delete</span><span class="o">-</span><span class="n">registries</span> <span class="o">--</span><span class="n">packages</span> <span class="n">geoips</span> <span class="n">geoips_clavrx</span>
+<span class="n">geoips</span> <span class="n">config</span> <span class="n">delete</span><span class="o">-</span><span class="n">registries</span> <span class="o">--</span><span class="n">namespace</span> <span class="o">&lt;</span><span class="n">different_namespace</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="run">
+<span id="geoips-run"></span><h3>run<a class="headerlink" href="#run" title="Permalink to this heading">#</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">geoips</span> <span class="pre">run</span></code> executes a GeoIPS processing workflow (a “procflow”) to produce outputs.</p>
+<section id="order-based-processing-recommended">
+<h4>Order-Based Processing (recommended)<a class="headerlink" href="#order-based-processing-recommended" title="Permalink to this heading">#</a></h4>
+<p>The recommended procflow in GeoIPS 2.0 is the <a class="reference internal" href="../order-based-processing/index.html#order-based-processing"><span class="std std-ref">Order-Based Procflow</span></a> (OBP). Run a <a class="reference internal" href="../order-based-processing/workflows.html#workflows"><span class="std std-ref">workflow</span></a> by name — or by path to
+an unregistered <code class="docutils literal notranslate"><span class="pre">.yaml</span></code>/<code class="docutils literal notranslate"><span class="pre">.json</span></code> workflow — passing the input data files:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>geoips<span class="w"> </span>run<span class="w"> </span>order_based<span class="w"> </span>abi_static_infrared_imagery_clean<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span><span class="nv">$GEOIPS_TESTDATA_DIR</span>/test_data_abi/data/goes16_20200918_1950/*
+</pre></div>
+</div>
+<p>OBP supports step (<code class="docutils literal notranslate"><span class="pre">-s</span></code>/<code class="docutils literal notranslate"><span class="pre">-S</span></code>), kind (<code class="docutils literal notranslate"><span class="pre">-k</span></code>/<code class="docutils literal notranslate"><span class="pre">-K</span></code>), and global (<code class="docutils literal notranslate"><span class="pre">-g</span></code>/<code class="docutils literal notranslate"><span class="pre">-G</span></code>)
+overrides, plus output-checker overrides. For the workflow structure and the full override
+syntax, see <a class="reference internal" href="../order-based-processing/running.html#running-obp"><span class="std std-ref">Running workflows</span></a>. To run a workflow’s built-in <code class="docutils literal notranslate"><span class="pre">test</span></code> section, use
+<a class="reference internal" href="#geoips-test"><span class="std std-ref">geoips test workflow</span></a>.</p>
+</section>
+<section id="legacy-procflows-deprecated-still-supported">
+<h4>Legacy procflows (deprecated, still supported)<a class="headerlink" href="#legacy-procflows-deprecated-still-supported" title="Permalink to this heading">#</a></h4>
+<p>The <code class="docutils literal notranslate"><span class="pre">single_source</span></code>, <code class="docutils literal notranslate"><span class="pre">config_based</span></code>, and <code class="docutils literal notranslate"><span class="pre">data_fusion</span></code> procflows still run, but they
+are <strong>deprecated</strong> in GeoIPS 2.0 and receive no new features. OBP can produce everything
+they can, so prefer OBP for new work.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><code class="docutils literal notranslate"><span class="pre">geoips</span> <span class="pre">run</span></code> replaces the older <code class="docutils literal notranslate"><span class="pre">run_procflow</span></code> / <code class="docutils literal notranslate"><span class="pre">data_fusion_procflow</span></code> scripts.
+<code class="docutils literal notranslate"><span class="pre">geoips</span> <span class="pre">legacy</span> <span class="pre">run</span></code> wraps them for backwards compatibility, which may be removed in a
+future release. To migrate a legacy call, replace <code class="docutils literal notranslate"><span class="pre">run_procflow</span></code> /
+<code class="docutils literal notranslate"><span class="pre">data_fusion_procflow</span></code> with <code class="docutils literal notranslate"><span class="pre">geoips</span> <span class="pre">run</span> <span class="pre">&lt;procflow_name&gt;</span></code> and drop the
+<code class="docutils literal notranslate"><span class="pre">--procflow</span></code> argument.</p>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>geoips<span class="w"> </span>run<span class="w"> </span>single_source<span class="w"> </span><span class="nv">$GEOIPS_TESTDATA_DIR</span>/test_data_noaa_aws/data/goes16/20200918/1950/*<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--reader_name<span class="w"> </span>abi_netcdf<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--product_name<span class="w"> </span>Infrared<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--compare_path<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$GEOIPS_PACKAGES_DIR</span><span class="s2">/geoips/tests/outputs/abi.static.&lt;product&gt;.imagery_annotated&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--output_formatter<span class="w"> </span>imagery_annotated<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--filename_formatter<span class="w"> </span>geoips_fname<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--resampled_read<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--logging_level<span class="w"> </span>info<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--sector_list<span class="w"> </span>goes_east
+</pre></div>
+</div>
+</section>
+</section>
+<section id="test">
+<span id="geoips-test"></span><h3>test<a class="headerlink" href="#test" title="Permalink to this heading">#</a></h3>
+<p>GeoIPS and GeoIPS packages implement tests and linters to
+confirm functionality, uniform syntax and interoperability.</p>
+<p><code class="docutils literal notranslate"><span class="pre">geoips</span> <span class="pre">test</span></code> can execute linting, and output / integration test scripts.</p>
+<p>Checking code often is a good practice.</p>
+<section id="test-linting">
+<h4>test linting<a class="headerlink" href="#test-linting" title="Permalink to this heading">#</a></h4>
+<p>This command runs <code class="docutils literal notranslate"><span class="pre">bandit</span></code>, <code class="docutils literal notranslate"><span class="pre">black</span></code>, and <code class="docutils literal notranslate"><span class="pre">flake8</span></code>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>We may support more linters in the future.</p>
+</div>
+<p>For example:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>geoips<span class="w"> </span><span class="nb">test</span><span class="w"> </span>linting<span class="w"> </span><span class="c1"># (defaults to &#39;geoips&#39; package)</span>
+geoips<span class="w"> </span><span class="nb">test</span><span class="w"> </span>linting<span class="w"> </span>-p<span class="w"> </span>&lt;package_name&gt;<span class="w"> </span><span class="c1"># only runs tests in provided plugin package</span>
+</pre></div>
+</div>
+</section>
+<section id="test-sector">
+<h4>test sector<a class="headerlink" href="#test-sector" title="Permalink to this heading">#</a></h4>
+<p>This command produces a .png image depicting the area of interest covered by the sector
+including any coastlines contained in the sector.</p>
+<p>For example:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>geoips<span class="w"> </span><span class="nb">test</span><span class="w"> </span>sector<span class="w"> </span>&lt;sector_name&gt;
+</pre></div>
+</div>
+<p>An additional output directory can be specified with <code class="docutils literal notranslate"><span class="pre">--outdir</span></code>. For example:
+.. code-block:: bash</p>
+<blockquote>
+<div><p>geoips test sector &lt;sector_name&gt; –outdir &lt;output_directory_path&gt;</p>
+</div></blockquote>
+<p>After creating a new sector plugin, run <code class="docutils literal notranslate"><span class="pre">create_plugin_registries</span></code>
+to add the sector to your registry.</p>
+<p>Once added, this command can produce an image to
+help confirm the region and resolution of that sector.</p>
+<p>You can overlay a sector on the <code class="docutils literal notranslate"><span class="pre">global_cylindrical</span></code> grid if desired.
+This is useful for small sectors. For example:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>geoips<span class="w"> </span><span class="nb">test</span><span class="w"> </span>sector<span class="w"> </span>canada<span class="w"> </span>--overlay
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="../../_images/canada.png"><img alt="../../_images/canada.png" src="../../_images/canada.png" style="width: 800px;" /></a>
+<p>Additionally, you can display latitude / longitude gridlines on the generated sector
+image if desired. To add gridlines, add the <code class="docutils literal notranslate"><span class="pre">--gridlines</span></code> or <code class="docutils literal notranslate"><span class="pre">-g</span></code> flag to your
+command. This can be applied with the <code class="docutils literal notranslate"><span class="pre">--overlay</span></code> flag as well. For example:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>geoips<span class="w"> </span><span class="nb">test</span><span class="w"> </span>sector<span class="w"> </span>australia<span class="w"> </span>--gridlines
+geoips<span class="w"> </span><span class="nb">test</span><span class="w"> </span>sector<span class="w"> </span>australia<span class="w"> </span>--gridlines<span class="w"> </span>--overlay
+</pre></div>
+</div>
+<p>By default, latitude / longitude labels are added to the sector if gridlines are
+requested. To disable this, or change the location of where the labels are added, use
+the <code class="docutils literal notranslate"><span class="pre">--labels</span></code> or <code class="docutils literal notranslate"><span class="pre">-l</span></code> flag. By default, labels are added to the bottom and left
+sides of the sector.</p>
+<p>You can add a <code class="docutils literal notranslate"><span class="pre">--labels</span></code> flag with no arguments to disable labels. Otherwise,
+choose one or more of the following options [‘left’, ‘right’, ‘top’, ‘bottom’].
+For example:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>geoips<span class="w"> </span><span class="nb">test</span><span class="w"> </span>sector<span class="w"> </span>australia<span class="w"> </span>--gridlines<span class="w"> </span>--labels<span class="w"> </span>top<span class="w"> </span>right
+geoips<span class="w"> </span><span class="nb">test</span><span class="w"> </span>sector<span class="w"> </span>australia<span class="w"> </span>--gridlines<span class="w"> </span>--labels
+geoips<span class="w"> </span><span class="nb">test</span><span class="w"> </span>sector<span class="w"> </span>australia<span class="w"> </span>--gridlines<span class="w"> </span>--overlay<span class="w"> </span>--labels<span class="w"> </span>bottom
+</pre></div>
+</div>
+</section>
+<section id="test-script">
+<h4>test script<a class="headerlink" href="#test-script" title="Permalink to this heading">#</a></h4>
+<p><code class="docutils literal notranslate"><span class="pre">script</span></code> executes an output-based test script which will return a numerical value
+based on the output of the test.</p>
+<p>A 0 is a success. Any non-zero number indicate a failure,
+and sometimes provide information on what kind of failure occurred.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><code class="docutils literal notranslate"><span class="pre">script</span></code> only supports bash scripts ending in <code class="docutils literal notranslate"><span class="pre">.sh</span></code></p>
+</div>
+<p>For example:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>geoips<span class="w"> </span><span class="nb">test</span><span class="w"> </span>script<span class="w"> </span>&lt;script_name&gt;<span class="w"> </span><span class="c1"># (defaults to &#39;geoips&#39; package)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">script</span></code> can execute integration tests in the ‘geoips’ package.</p>
+<p>For example:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>geoips<span class="w"> </span><span class="nb">test</span><span class="w"> </span>script<span class="w"> </span>--integration<span class="w"> </span>&lt;script_name&gt;
+</pre></div>
+</div>
+<p>To run a test script, or run your integration tests, you must first place your
+integration / normal test scripts in one of these file locations:</p>
+<ul class="simple">
+<li><p>Output Test scripts: <code class="docutils literal notranslate"><span class="pre">&lt;package_name&gt;/tests/scripts/&lt;script_name&gt;</span></code></p></li>
+<li><p>Integration Tests: <code class="docutils literal notranslate"><span class="pre">&lt;package_name&gt;/tests/integration_tests/&lt;script_name&gt;</span></code></p></li>
+</ul>
+<p>You can run test scripts in plugin packages by specifying the
+plugin package with <code class="docutils literal notranslate"><span class="pre">-p</span></code> or <code class="docutils literal notranslate"><span class="pre">--package_name</span></code>. For example:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>geoips<span class="w"> </span><span class="nb">test</span><span class="w"> </span>script<span class="w"> </span>--package_name<span class="w"> </span>&lt;package_name&gt;<span class="w"> </span>&lt;script_name&gt;
+geoips<span class="w"> </span><span class="nb">test</span><span class="w"> </span>script<span class="w"> </span>-p<span class="w"> </span>&lt;package_name&gt;<span class="w"> </span>&lt;script_name&gt;
+</pre></div>
+</div>
+</section>
+<section id="test-workflow">
+<h4>test workflow<a class="headerlink" href="#test-workflow" title="Permalink to this heading">#</a></h4>
+<p>This command runs the series of steps in the order specified by a workflow plugin. It
+will only work if the referenced workflow plugin has a <code class="docutils literal notranslate"><span class="pre">test</span></code> section containing
+parameters needed to execute that workflow. No additional arguments can be supplied for
+this command.</p>
+<p>For example:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>geoips<span class="w"> </span><span class="nb">test</span><span class="w"> </span>workflow<span class="w"> </span>&lt;workflow_name&gt;
+</pre></div>
+</div>
+<p>This command should be used only for testing workflow plugins in a simple, reproducible
+manner.</p>
+</section>
+</section>
+<section id="tree">
+<h3>tree<a class="headerlink" href="#tree" title="Permalink to this heading">#</a></h3>
+<p>Only some GeoIPS CLI commands are exposed via <code class="docutils literal notranslate"><span class="pre">geoips</span> <span class="pre">-h</span></code>.</p>
+<p><code class="docutils literal notranslate"><span class="pre">geoips</span> <span class="pre">tree</span></code> lists all GeoIPS CLI commands in a tree-like fashion.</p>
+<p>For example, running <code class="docutils literal notranslate"><span class="pre">geoips</span> <span class="pre">tree</span></code> returns:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>geoips<span class="w"> </span>tree
+
+geoips
+<span class="w">    </span>geoips<span class="w"> </span>config
+<span class="w">        </span>geoips<span class="w"> </span>config<span class="w"> </span>install
+<span class="w">    </span>geoips<span class="w"> </span>describe
+<span class="w">        </span>geoips<span class="w"> </span>describe<span class="w"> </span>algorithms
+<span class="w">        </span>geoips<span class="w"> </span>describe<span class="w"> </span>colormappers
+<span class="w">        </span>geoips<span class="w"> </span>describe<span class="w"> </span>coverage-checkers
+<span class="w">        </span>geoips<span class="w"> </span>describe<span class="w"> </span>feature-annotators
+<span class="w">        </span>geoips<span class="w"> </span>describe<span class="w"> </span>filename-formatters
+<span class="w">        </span>geoips<span class="w"> </span>describe<span class="w"> </span>gridline-annotators
+<span class="w">        </span>geoips<span class="w"> </span>describe<span class="w"> </span>interpolators
+<span class="w">        </span>geoips<span class="w"> </span>describe<span class="w"> </span>output-checkers
+<span class="w">        </span>geoips<span class="w"> </span>describe<span class="w"> </span>output-formatters
+<span class="w">        </span>geoips<span class="w"> </span>describe<span class="w"> </span>procflows
+<span class="w">        </span>geoips<span class="w"> </span>describe<span class="w"> </span>product-defaults
+<span class="w">        </span>geoips<span class="w"> </span>describe<span class="w"> </span>products
+<span class="w">        </span>geoips<span class="w"> </span>describe<span class="w"> </span>readers
+<span class="w">        </span>geoips<span class="w"> </span>describe<span class="w"> </span>sector-adjusters
+<span class="w">        </span>geoips<span class="w"> </span>describe<span class="w"> </span>sector-metadata-generators
+<span class="w">        </span>geoips<span class="w"> </span>describe<span class="w"> </span>sector-spec-generators
+<span class="w">        </span>geoips<span class="w"> </span>describe<span class="w"> </span>sectors
+<span class="w">        </span>geoips<span class="w"> </span>describe<span class="w"> </span>title-formatters
+<span class="w">        </span>geoips<span class="w"> </span>describe<span class="w"> </span>package
+<span class="w">    </span>geoips<span class="w"> </span>list
+<span class="w">        </span>geoips<span class="w"> </span>list<span class="w"> </span>algorithms
+<span class="w">        </span>geoips<span class="w"> </span>list<span class="w"> </span>colormappers
+<span class="w">        </span>geoips<span class="w"> </span>list<span class="w"> </span>coverage-checkers
+<span class="w">        </span>geoips<span class="w"> </span>list<span class="w"> </span>feature-annotators
+<span class="w">        </span>geoips<span class="w"> </span>list<span class="w"> </span>filename-formatters
+<span class="w">        </span>geoips<span class="w"> </span>list<span class="w"> </span>gridline-annotators
+<span class="w">        </span>geoips<span class="w"> </span>list<span class="w"> </span>interpolators
+<span class="w">        </span>geoips<span class="w"> </span>list<span class="w"> </span>output-checkers
+<span class="w">        </span>geoips<span class="w"> </span>list<span class="w"> </span>output-formatters
+<span class="w">        </span>geoips<span class="w"> </span>list<span class="w"> </span>procflows
+<span class="w">        </span>geoips<span class="w"> </span>list<span class="w"> </span>product-defaults
+<span class="w">        </span>geoips<span class="w"> </span>list<span class="w"> </span>products
+<span class="w">        </span>geoips<span class="w"> </span>list<span class="w"> </span>readers
+<span class="w">        </span>geoips<span class="w"> </span>list<span class="w"> </span>sector-adjusters
+<span class="w">        </span>geoips<span class="w"> </span>list<span class="w"> </span>sector-metadata-generators
+<span class="w">        </span>geoips<span class="w"> </span>list<span class="w"> </span>sector-spec-generators
+<span class="w">        </span>geoips<span class="w"> </span>list<span class="w"> </span>sectors
+<span class="w">        </span>geoips<span class="w"> </span>list<span class="w"> </span>title-formatters
+<span class="w">        </span>geoips<span class="w"> </span>list<span class="w"> </span>interfaces
+<span class="w">        </span>geoips<span class="w"> </span>list<span class="w"> </span>packages
+<span class="w">        </span>geoips<span class="w"> </span>list<span class="w"> </span>plugins
+<span class="w">        </span>geoips<span class="w"> </span>list<span class="w"> </span>scripts
+<span class="w">        </span>geoips<span class="w"> </span>list<span class="w"> </span>test-datasets
+<span class="w">        </span>geoips<span class="w"> </span>list<span class="w"> </span>unit-tests
+<span class="w">    </span>geoips<span class="w"> </span>run
+<span class="w">        </span>geoips<span class="w"> </span>run<span class="w"> </span>order_based
+<span class="w">        </span>geoips<span class="w"> </span>run<span class="w"> </span>single_source
+<span class="w">        </span>geoips<span class="w"> </span>run<span class="w"> </span>data_fusion
+<span class="w">        </span>geoips<span class="w"> </span>run<span class="w"> </span>config_based
+<span class="w">    </span>geoips<span class="w"> </span><span class="nb">test</span>
+<span class="w">        </span>geoips<span class="w"> </span><span class="nb">test</span><span class="w"> </span>linting
+<span class="w">        </span>geoips<span class="w"> </span><span class="nb">test</span><span class="w"> </span>script
+<span class="w">        </span>geoips<span class="w"> </span><span class="nb">test</span><span class="w"> </span>sector
+<span class="w">        </span>geoips<span class="w"> </span><span class="nb">test</span><span class="w"> </span>workflow
+<span class="w">    </span>geoips<span class="w"> </span>tree
+<span class="w">    </span>geoips<span class="w"> </span>validate
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">geoips</span> <span class="pre">tree</span></code> provides arguments to filter its output.</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">--color</span></code>: highlights output by depth (Environment variable ‘NO_COLOR’ must be disabled)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--max-depth</span></code>: limits tree levels outputted. Defaults to two levels.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--short-name</span></code>: return only literal command names</p></li>
+</ul>
+</section>
+<section id="validate">
+<h3>validate<a class="headerlink" href="#validate" title="Permalink to this heading">#</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">validate</span></code> (or <code class="docutils literal notranslate"><span class="pre">val</span></code>) runs interface defined validation-protocols on plugins.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>To list plugins available for validation, see <code class="docutils literal notranslate"><span class="pre">geoips</span> <span class="pre">list</span> <span class="pre">plugins</span></code> above.</p>
+</div>
+<p>A plugin’s full location path is needed to validate it.</p>
+<p>For example:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>geoips<span class="w"> </span>validate<span class="w"> </span>/full/path/to/geoips/geoips/plugins/yaml/products/abi.yaml
+geoips<span class="w"> </span>validate<span class="w"> </span>/full/path/to/&lt;pkg_name&gt;/&lt;pkg_name&gt;/plugins/&lt;plugin_type&gt;/&lt;interface&gt;/plugin.&lt;ext&gt;
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="../cli.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Command Line Interface</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="../examples/index.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Examples</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#getting-help">Getting Help</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#command-aliases">Command Aliases</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#discovery-commands">Discovery Commands</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#list">list</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#list-interface">list interface</a><ul class="nav section-nav flex-column">
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#implemented-mode">Implemented Mode</a></li>
+</ul>
+</li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">list interface</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#list-packages">list packages</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#list-plugins">list plugins</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#list-scripts">list scripts</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#list-source-names">list source-names</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#list-test-datasets">list test-datasets</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#list-unit-tests">list unit-tests</a><ul class="nav section-nav flex-column">
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#output-formatting">Output Formatting</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#describe">describe</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#describe-interface">describe interface</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#describe-family">describe family</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#describe-package">describe package</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#describe-plugin">describe plugin</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#expand">expand</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#expand-workflow">expand workflow</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#action-commands">Action Commands</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#config">config</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#config-install">config install</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#run">run</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#order-based-processing-recommended">Order-Based Processing (recommended)</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#legacy-procflows-deprecated-still-supported">Legacy procflows (deprecated, still supported)</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#test">test</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#test-linting">test linting</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#test-sector">test sector</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#test-script">test script</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#test-workflow">test workflow</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#tree">tree</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validate">validate</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+
+  <div class="tocsection sourcelink">
+    <a href="../../_sources/functionality/command-line/index.rst.txt">
+      <i class="fa-solid fa-file-lines"></i> Show Source
+    </a>
+  </div>
+</div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item"><div class="footer">
+    <a href="http://www.navy.mil">Official US Navy Website</a>
+    <a href="http://www.navy.com/navy/">US Navy Recruiting</a>
+    <a href="http://www.nrlmry.navy.mil">NRL</a>
+    <a href="http://foia.navy.mil">Accessibility</a>
+    <a href="http://foia.navy.mil">Freedom of Information Act</a>
+    <a href="http://www.nrlmry.navy.mil/privacypolicy.htm">Security & Policy</a>
+    <a href="http://www.nrlmry.navy.mil/linknotice.html">Hyperlink Notice</a>
+    <a href="mailto:webmaster@nrlmry.navy.mil">webmaster@nrlmry.navy.mil</a><br>
+    <a href="http://www.nrlmry.navy.mil">
+    Naval Research Laboratory Marine Meteorology Division Monterey, CA</a><br>
+    7 Grace Hopper Avenue, STOP 2, Monterey, CA 93943-5502
+</div></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

@@ -36,6 +36,14 @@ geoips.utils.types.datatree\_ditto module
    :undoc-members:
    :show-inheritance:
 
+geoips.utils.types.datatree\_helpers module
+-------------------------------------------
+
+.. automodule:: geoips.utils.types.datatree_helpers
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 geoips.utils.types.family\_conversions module
 ---------------------------------------------
 
@@ -56,6 +64,14 @@ geoips.utils.types.partial\_lexeme module
 -----------------------------------------
 
 .. automodule:: geoips.utils.types.partial_lexeme
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+geoips.utils.types.script\_datatree module
+------------------------------------------
+
+.. automodule:: geoips.utils.types.script_datatree
    :members:
    :undoc-members:
    :show-inheritance:

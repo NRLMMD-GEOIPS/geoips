@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Get to know the GeoIPS Readers &#8212; GeoIPS, Geolocated Information Processing System 1.19.0.post776.dev0 documentation</title>
+    <title>Get to know the GeoIPS Readers &#8212; GeoIPS, Geolocated Information Processing System 1.19.0.post1200.dev0 documentation</title>
   
   
   
@@ -31,6 +31,7 @@
 <link href="../../_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../_static/autodoc_pydantic.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/set_width.css?v=d4af5e1e" />
     <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
   
@@ -40,7 +41,7 @@
   <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
 
-    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=1e4423a0"></script>
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=ba503b0a"></script>
     <script src="../../_static/doctools.js?v=888ff710"></script>
     <script src="../../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../_static/design-tabs.js?v=f930bc37"></script>
@@ -49,12 +50,12 @@
     <link rel="icon" href="../../_static/nrlicon.ico"/>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="Near Real-Time Processing" href="../nrtp-examples/index.html" />
+    <link rel="next" title="Build a Reader: a hands-on walkthrough" href="reader-walkthrough.html" />
     <link rel="prev" title="Extend GeoIPS with a new Dynamic Sector" href="dynamic_sector/index.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="1.1" />
-    <meta name="docbuild:last-update" content="Jul 16, 2026 04:57:54"/>
+    <meta name="docbuild:last-update" content="Jul 23, 2026 15:25:48"/>
   
     
     <script src="../../_static/searchtools.js"></script>
@@ -126,8 +127,8 @@
       
     
     
-    <img src="../../_static/NRL_logo_RGB.jpg" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 1.19.0.post776.dev0 documentation - Home"/>
-    <img src="../../_static/NRL_logo_sidebar_Reverse.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 1.19.0.post776.dev0 documentation - Home"/>
+    <img src="../../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 1.19.0.post1200.dev0 documentation - Home"/>
+    <img src="../../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 1.19.0.post1200.dev0 documentation - Home"/>
   
   
 </a></div>
@@ -149,6 +150,13 @@
 </li>
 
 
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../functionality/index.html">
+    Functionality
+  </a>
+</li>
+
+
 <li class="nav-item current active">
   <a class="nav-link nav-internal" href="../index.html">
     Tutorials
@@ -157,22 +165,15 @@
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../concepts/index.html">
-    Concepts
+  <a class="nav-link nav-internal" href="../../devguide/index.html">
+    Developer Guide
   </a>
 </li>
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../contribute/index.html">
-    Contribute
-  </a>
-</li>
-
-
-<li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../geoips_api/index.html">
-    API
+  <a class="nav-link nav-internal" href="../../deployguide/index.html">
+    Deploying and Operating GeoIPS
   </a>
 </li>
 
@@ -185,8 +186,15 @@
                 <ul id="pst-nav-more-links" class="dropdown-menu">
                     
 <li class=" ">
-  <a class="nav-link dropdown-item nav-internal" href="../../releases/index.html">
-    Release Notes
+  <a class="nav-link dropdown-item nav-internal" href="../../architecture/index.html">
+    Architecture
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../contribute/index.html">
+    Contribute
   </a>
 </li>
 
@@ -194,6 +202,20 @@
 <li class=" ">
   <a class="nav-link dropdown-item nav-internal" href="../../contact/index.html">
     About Us
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../geoips_api/index.html">
+    API
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../releases/index.html">
+    Release Notes
   </a>
 </li>
 
@@ -296,6 +318,13 @@
 </li>
 
 
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../functionality/index.html">
+    Functionality
+  </a>
+</li>
+
+
 <li class="nav-item current active">
   <a class="nav-link nav-internal" href="../index.html">
     Tutorials
@@ -304,8 +333,22 @@
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../concepts/index.html">
-    Concepts
+  <a class="nav-link nav-internal" href="../../devguide/index.html">
+    Developer Guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../deployguide/index.html">
+    Deploying and Operating GeoIPS
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../architecture/index.html">
+    Architecture
   </a>
 </li>
 
@@ -313,6 +356,13 @@
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../../contribute/index.html">
     Contribute
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../contact/index.html">
+    About Us
   </a>
 </li>
 
@@ -327,13 +377,6 @@
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../../releases/index.html">
     Release Notes
-  </a>
-</li>
-
-
-<li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../contact/index.html">
-    About Us
   </a>
 </li>
 
@@ -400,8 +443,10 @@
 <li class="toctree-l2"><a class="reference internal" href="static_sector/index.html">Extend GeoIPS with a new Static Sector</a></li>
 <li class="toctree-l2"><a class="reference internal" href="dynamic_sector/index.html">Extend GeoIPS with a new Dynamic Sector</a></li>
 <li class="toctree-l2 current active"><a class="current reference internal" href="#">Get to know the GeoIPS Readers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reader-walkthrough.html">Build a Reader: a hands-on walkthrough</a></li>
 </ul>
 </details></li>
+<li class="toctree-l1"><a class="reference internal" href="../scripting-with-geoips.html">Scripting with GeoIPS</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../nrtp-examples/index.html">Near Real-Time Processing</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="../nrtp-examples/using-inotifywait-for-basic-near-real-time-processing.html">Using <code class="docutils literal notranslate"><span class="pre">inotifywait</span></code> for Near Real-Time Processing</a></li>
 </ul>
@@ -480,9 +525,9 @@
 </div>
 </details><section id="get-to-know-the-geoips-readers">
 <span id="describe-readers"></span><h1>Get to know the GeoIPS Readers<a class="headerlink" href="#get-to-know-the-geoips-readers" title="Permalink to this heading">#</a></h1>
-<p>GeoIPS readers are module-based plugins that create a method of reading in many types of
+<p>GeoIPS readers are class-based plugins that create a method of reading in many types of
 satellite derived data. This doesn’t mean you cannot create other types of data readers
-too, such as .csv, .xls, etc. GeoIPS is primarly used as a package for Geo-informational
+too, such as .csv, .xls, etc. GeoIPS is primarily used as a package for Geo-informational
 data, however if you purpose in a plugin that reads different types of data, the world
 is your oyster.</p>
 <p>GeoIPS readers return a dictionary of xarrays minimally containing the following
@@ -543,23 +588,24 @@ an example of that.</p>
 <p>The variables defined in the product above directly correlate to the variables contained
 in the Xarray after being processed by the reader. If you changed those variables name
 in your product, it wouldn’t work!</p>
-<p>As with any GeoIPS plugin, a reader is required to define the top level attributes
-<code class="docutils literal notranslate"><span class="pre">interface</span></code>, <code class="docutils literal notranslate"><span class="pre">family</span></code>, and <code class="docutils literal notranslate"><span class="pre">docstring</span></code>.</p>
+<p>As with any class-based GeoIPS plugin, a reader is required to define the class attributes
+<code class="docutils literal notranslate"><span class="pre">interface</span></code>, <code class="docutils literal notranslate"><span class="pre">family</span></code>, and <code class="docutils literal notranslate"><span class="pre">name</span></code> (and a class <code class="docutils literal notranslate"><span class="pre">docstring</span></code>). See
+<a class="reference internal" href="../../functionality/interfaces/writing-class-based-plugins.html#writing-class-based-plugins"><span class="std std-ref">Writing a class-based plugin</span></a> for the full contract.</p>
 <p>Please see documentation for
-<a class="reference internal" href="../../concepts/architecture/extend-with-plugins.html#required-attributes"><span class="std std-ref">additional info on GeoIPS required attributes</span></a>,</p>
+<a class="reference internal" href="../../architecture/extend-with-plugins.html#required-attributes"><span class="std std-ref">additional info on GeoIPS required attributes</span></a>,</p>
 <section id="reader-structure-overview">
 <h2>Reader Structure Overview<a class="headerlink" href="#reader-structure-overview" title="Permalink to this heading">#</a></h2>
-<p>A GeoIPS reader is module-based, and therefore must have a <code class="docutils literal notranslate"><span class="pre">call</span></code> function, as do all
-other module-based plugins. Readers generallly also have one or several <code class="docutils literal notranslate"><span class="pre">read</span> <span class="pre">functions</span></code>,
-that exist outside of the call function. Optionally, a reader can also include <code class="docutils literal notranslate"><span class="pre">utility</span>
-<span class="pre">functions</span></code> that perform some kind of operation on inputs. We will discuss each of each
+<p>A GeoIPS reader is a class-based plugin, and therefore must have a <code class="docutils literal notranslate"><span class="pre">call</span></code> method, as do
+all other class-based plugins. Readers generally also have one or several <code class="docutils literal notranslate"><span class="pre">read</span>
+<span class="pre">functions</span></code>, defined as methods on the reader class. Optionally, a reader can also include
+<code class="docutils literal notranslate"><span class="pre">utility</span> <span class="pre">functions</span></code> that perform some kind of operation on inputs. We will discuss each
 of these in further detail now.</p>
 <ul class="simple">
 <li><dl class="simple">
-<dt>The <code class="docutils literal notranslate"><span class="pre">call</span></code> function.</dt><dd><ul>
-<li><p>The call function is the main driver of a GeoIPS reader. It accepts the keyword
+<dt>The <code class="docutils literal notranslate"><span class="pre">call</span></code> method.</dt><dd><ul>
+<li><p>The call method is the main driver of a GeoIPS reader. It accepts the keyword
 arguments (kwargs) that contain the list of files to be read, and a handful of
-instructions that adust how the reader functions.</p></li>
+instructions that adjust how the reader functions.</p></li>
 </ul>
 </dd>
 </dl>
@@ -585,19 +631,38 @@ create a 2D array of latitude and longitude, or whatever else you envision.</p><
 <li><dl class="simple">
 <dt>Unit tests</dt><dd><ul>
 <li><p>Unit testing to help test conformity and validity of the reader and test data.
-For more details see <a class="reference internal" href="../../concepts/architecture/tests/unit-tests.html#unit-tests"><span class="std std-ref">Unit Testing</span></a>.</p></li>
+For more details see <a class="reference internal" href="../../architecture/test-infrastructure/unit-tests.html#unit-tests"><span class="std std-ref">Unit Testing</span></a>.</p></li>
 </ul>
 </dd>
 </dl>
 </li>
 </ul>
-<p>See below for an example of all three functions signatures in action.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">convert_epoch_to_datetime64</span><span class="p">(</span><span class="n">time_array</span><span class="p">,</span> <span class="n">use_shape</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>  <span class="c1"># Utility Function</span>
+<p>See below for the class structure with all three kinds of functions in action. The reader
+subclasses <code class="docutils literal notranslate"><span class="pre">BaseReaderPlugin</span></code>, sets <code class="docutils literal notranslate"><span class="pre">interface</span></code>/<code class="docutils literal notranslate"><span class="pre">family</span></code>/<code class="docutils literal notranslate"><span class="pre">name</span></code>, implements
+<code class="docutils literal notranslate"><span class="pre">call</span></code> and its read functions as methods, and declares <code class="docutils literal notranslate"><span class="pre">PLUGIN_CLASS</span></code> at the bottom.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">geoips.interfaces.class_based.readers</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseReaderPlugin</span>
 
-<span class="k">def</span><span class="w"> </span><span class="nf">read_atms_file</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="n">xarray_atms</span><span class="p">):</span>  <span class="c1"># Read Function</span>
 
-<span class="k">def</span><span class="w"> </span><span class="nf">call</span><span class="p">(</span><span class="n">fnames</span><span class="p">,</span> <span class="n">metadata_only</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">chans</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">area_def</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">self_register</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>  <span class="c1"># Call Function, with</span>
-<span class="n">important</span> <span class="n">kwargs</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">convert_epoch_to_datetime64</span><span class="p">(</span><span class="n">time_array</span><span class="p">,</span> <span class="n">use_shape</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>  <span class="c1"># Utility function (module-level)</span>
+    <span class="o">...</span>
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">MyAtmsReaderPlugin</span><span class="p">(</span><span class="n">BaseReaderPlugin</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Read My ATMS data.&quot;&quot;&quot;</span>
+
+    <span class="n">interface</span> <span class="o">=</span> <span class="s2">&quot;readers&quot;</span>
+    <span class="n">family</span> <span class="o">=</span> <span class="s2">&quot;standard&quot;</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;my_atms&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">call</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fnames</span><span class="p">,</span> <span class="n">metadata_only</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">chans</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">area_def</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+             <span class="n">self_register</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>  <span class="c1"># main entry point, with important kwargs</span>
+        <span class="o">...</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">read_atms_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fname</span><span class="p">,</span> <span class="n">xarray_atms</span><span class="p">):</span>  <span class="c1"># read function (method)</span>
+        <span class="o">...</span>
+
+
+<span class="n">PLUGIN_CLASS</span> <span class="o">=</span> <span class="n">MyAtmsReaderPlugin</span>
 </pre></div>
 </div>
 <p>There are a few keypoints of the call function that should be talked about. First off,
@@ -625,7 +690,7 @@ it is best practice to separate your read function from the call function, for c
 and ease of use in the future. See below for an example of invoking a read function.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">xarray_objs</span> <span class="o">=</span> <span class="p">{}</span>
 <span class="k">for</span> <span class="n">fname</span> <span class="ow">in</span> <span class="n">fnames</span><span class="p">:</span>
-    <span class="n">xarray_objs</span><span class="p">[</span><span class="n">basename</span><span class="p">(</span><span class="n">fname</span><span class="p">)]</span> <span class="o">=</span> <span class="n">read_xarray_netcdf</span><span class="p">(</span><span class="n">fname</span><span class="p">)</span>  <span class="c1"># The read function is invoked here</span>
+    <span class="n">xarray_objs</span><span class="p">[</span><span class="n">basename</span><span class="p">(</span><span class="n">fname</span><span class="p">)]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">read_xarray_netcdf</span><span class="p">(</span><span class="n">fname</span><span class="p">)</span>  <span class="c1"># read function invoked via self</span>
 
 <span class="n">xarray_objs</span><span class="p">[</span><span class="s2">&quot;METADATA&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">xarray_objs</span><span class="o">.</span><span class="n">vallues</span><span class="p">())[</span><span class="mi">0</span><span class="p">][[]]</span>
 <span class="sd">&quot;&quot;&quot;Different approach to the above code section that reads data and then sets the metadata afterward&quot;&quot;&quot;</span>
@@ -642,7 +707,7 @@ Minimum Contents Table</span></a>) into a dictionary of xarrays to be passed
 along to GeoIPS. However, as with any piece of code, there are some challenges that you
 should be aware of.</p>
 <p>The first challenge are 1-Dimensional (1D) Variables. It’s ok if your variables are 1D,
-so long as <em>all of them</em> are 1D. You may need to do some array manipulatoin to get
+so long as <em>all of them</em> are 1D. You may need to do some array manipulation to get
 everthing even! This is a common issue particularly with time arrays.</p>
 <p>Another issue is time formatting. For example <code class="docutils literal notranslate"><span class="pre">TAI93</span></code>, <code class="docutils literal notranslate"><span class="pre">UTC</span></code>, <code class="docutils literal notranslate"><span class="pre">binary</span> <span class="pre">string</span></code>,
 <code class="docutils literal notranslate"><span class="pre">seconds</span> <span class="pre">since</span> <span class="pre">epoch</span></code>… there are a lot of ways time is reported in data formats.
@@ -829,11 +894,11 @@ with the 2D latitude, longitude, and tb data.</p>
       </div>
     </a>
     <a class="right-next"
-       href="../nrtp-examples/index.html"
+       href="reader-walkthrough.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Near Real-Time Processing</p>
+        <p class="prev-next-title">Build a Reader: a hands-on walkthrough</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>

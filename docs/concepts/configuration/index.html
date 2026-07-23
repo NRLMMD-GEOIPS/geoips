@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Configuring GeoIPS &#8212; GeoIPS, Geolocated Information Processing System 1.19.0.post776.dev0 documentation</title>
+    <title>Configuring GeoIPS &#8212; GeoIPS, Geolocated Information Processing System 1.19.0.post1200.dev0 documentation</title>
   
   
   
@@ -31,6 +31,7 @@
 <link href="../../_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../_static/autodoc_pydantic.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/set_width.css?v=d4af5e1e" />
     <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
   
@@ -40,7 +41,7 @@
   <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
 
-    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=1e4423a0"></script>
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=ba503b0a"></script>
     <script src="../../_static/doctools.js?v=888ff710"></script>
     <script src="../../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../_static/design-tabs.js?v=f930bc37"></script>
@@ -49,12 +50,10 @@
     <link rel="icon" href="../../_static/nrlicon.ico"/>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="Contribute" href="../../contribute/index.html" />
-    <link rel="prev" title="DataTreeDitto" href="../architecture/custom-types/datatree-ditto.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="1.1" />
-    <meta name="docbuild:last-update" content="Jul 16, 2026 04:57:54"/>
+    <meta name="docbuild:last-update" content="Jul 23, 2026 15:25:48"/>
   
     
     <script src="../../_static/searchtools.js"></script>
@@ -126,8 +125,8 @@
       
     
     
-    <img src="../../_static/NRL_logo_RGB.jpg" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 1.19.0.post776.dev0 documentation - Home"/>
-    <img src="../../_static/NRL_logo_sidebar_Reverse.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 1.19.0.post776.dev0 documentation - Home"/>
+    <img src="../../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 1.19.0.post1200.dev0 documentation - Home"/>
+    <img src="../../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 1.19.0.post1200.dev0 documentation - Home"/>
   
   
 </a></div>
@@ -150,29 +149,29 @@
 
 
 <li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../functionality/index.html">
+    Functionality
+  </a>
+</li>
+
+
+<li class="nav-item ">
   <a class="nav-link nav-internal" href="../../tutorials/index.html">
     Tutorials
   </a>
 </li>
 
 
-<li class="nav-item current active">
-  <a class="nav-link nav-internal" href="../index.html">
-    Concepts
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../devguide/index.html">
+    Developer Guide
   </a>
 </li>
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../contribute/index.html">
-    Contribute
-  </a>
-</li>
-
-
-<li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../geoips_api/index.html">
-    API
+  <a class="nav-link nav-internal" href="../../deployguide/index.html">
+    Deploying and Operating GeoIPS
   </a>
 </li>
 
@@ -185,8 +184,15 @@
                 <ul id="pst-nav-more-links" class="dropdown-menu">
                     
 <li class=" ">
-  <a class="nav-link dropdown-item nav-internal" href="../../releases/index.html">
-    Release Notes
+  <a class="nav-link dropdown-item nav-internal" href="../../architecture/index.html">
+    Architecture
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../contribute/index.html">
+    Contribute
   </a>
 </li>
 
@@ -194,6 +200,20 @@
 <li class=" ">
   <a class="nav-link dropdown-item nav-internal" href="../../contact/index.html">
     About Us
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../geoips_api/index.html">
+    API
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../releases/index.html">
+    Release Notes
   </a>
 </li>
 
@@ -297,15 +317,36 @@
 
 
 <li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../functionality/index.html">
+    Functionality
+  </a>
+</li>
+
+
+<li class="nav-item ">
   <a class="nav-link nav-internal" href="../../tutorials/index.html">
     Tutorials
   </a>
 </li>
 
 
-<li class="nav-item current active">
-  <a class="nav-link nav-internal" href="../index.html">
-    Concepts
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../devguide/index.html">
+    Developer Guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../deployguide/index.html">
+    Deploying and Operating GeoIPS
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../architecture/index.html">
+    Architecture
   </a>
 </li>
 
@@ -313,6 +354,13 @@
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../../contribute/index.html">
     Contribute
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../contact/index.html">
+    About Us
   </a>
 </li>
 
@@ -327,13 +375,6 @@
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../../releases/index.html">
     Release Notes
-  </a>
-</li>
-
-
-<li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../contact/index.html">
-    About Us
   </a>
 </li>
 
@@ -387,67 +428,7 @@
 <nav class="bd-docs-nav bd-links"
      aria-label="Section Navigation">
   <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
-  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
-<li class="toctree-l1 has-children"><a class="reference internal" href="../functionality/index.html">Functionality</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2"><a class="reference internal" href="../functionality/command-line/index.html">Command Line Interface (CLI)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../functionality/documentation-building.html">Documentation Building</a></li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="../functionality/examples/index.html">Examples</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l3"><a class="reference internal" href="../functionality/examples/integration-tests.html">Integration Tests</a></li>
-</ul>
-</details></li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="../functionality/interfaces/index.html">Interfaces</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l3"><a class="reference internal" href="../functionality/interfaces/module_based/algorithm.html">Algorithms in GeoIPS</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../functionality/interfaces/module_based/colormapper.html">Colormaps in GeoIPS</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../functionality/interfaces/module_based/filename_formats.html">Filename Formatters in GeoIPS</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../functionality/interfaces/module_based/interpolators.html">Interpolators in GeoIPS</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../functionality/interfaces/module_based/output_formats.html">Output Formatters in GeoIPS</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../functionality/interfaces/module_based/procflows.html">Processing Workflows (Procflows) in GeoIPS</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../functionality/interfaces/module_based/readers.html">Readers in GeoIPS</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../functionality/interfaces/module_based/title_formats.html">Title Formatters in GeoIPS</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../functionality/interfaces/module_based/validators.html">Validators in GeoIPS</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../functionality/interfaces/yaml_based/dynamic_sectors.html">Dynamic Sectors in GeoIPS</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../functionality/interfaces/yaml_based/feature_annotators.html">Feature Annotators Interface</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../functionality/interfaces/yaml_based/gridline_annotators.html">Gridline Annotators Interface</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../functionality/interfaces/yaml_based/product_defaults.html">Product Templates (Defaults) in GeoIPS</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../functionality/interfaces/yaml_based/products.html">Products in GeoIPS</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../functionality/interfaces/yaml_based/static_sectors.html">Static Sectors in GeoIPS</a></li>
-</ul>
-</details></li>
-</ul>
-</details></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../architecture/index.html">Architecture</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2"><a class="reference internal" href="../architecture/extend-with-plugins.html">Extend GeoIPS with Plugins</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../architecture/interfaces/module_based/output-checkers/index.html">What Are Output Checkers?</a></li>
-
-
-<li class="toctree-l2"><a class="reference internal" href="../architecture/structure-of-geoips/index.html">The Structure of GeoIPS</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../architecture/xarray-standards.html">Xarray and NetCDF Metadata Standards</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../architecture/geoips-specification.html">Software Requirements Specification</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../architecture/cached-files.html">Cache Files Managed by GeoIPS</a></li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="../architecture/tests/index.html">Testing Suite</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l3"><a class="reference internal" href="../architecture/tests/unit-tests.html">Unit Testing</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../architecture/tests/test-sectors.html">Test Sectors for GeoIPS</a></li>
-</ul>
-</details></li>
-<li class="toctree-l2"><a class="reference internal" href="../architecture/ci-infrastructure.html">CI and Installation Infrastructure</a></li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="../architecture/documentation/index.html">Documentation</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l3"><a class="reference internal" href="../architecture/documentation/documentation-builder.html">Documentation Builder</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../architecture/documentation/where-to-put.html">Where to Put Documentation</a></li>
-</ul>
-</details></li>
-<li class="toctree-l2"><a class="reference internal" href="../architecture/command_line_interface.html">Command Line Interface</a></li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="../architecture/custom-types/index.html">Custom Types</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l3"><a class="reference internal" href="../architecture/custom-types/datatree-ditto.html">DataTreeDitto</a></li>
-
-
-
-</ul>
-</details></li>
-</ul>
-</details></li>
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">Configuring GeoIPS</a></li>
-</ul>
-</div>
+  <div class="bd-toc-item navbar-nav"></div>
 </nav></div>
     </div>
   
@@ -486,9 +467,6 @@
         <i class="fa-solid fa-home"></i>
       </a>
     </li>
-    
-    <li class="breadcrumb-item"><a href="../index.html" class="nav-link">Concepts</a></li>
-    
     <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Configuring GeoIPS</span></li>
   </ul>
 </nav>
@@ -517,7 +495,7 @@
 <a class="github reference external" href="https://github.com/NRLMMD-GEOIPS">NRLMMD-GEOIPS</a>.</p>
 </div>
 </details><section id="configuring-geoips">
-<span id="configuration"></span><h1>Configuring GeoIPS<a class="headerlink" href="#configuring-geoips" title="Permalink to this heading">#</a></h1>
+<span id="geoips-config"></span><span id="configuration"></span><h1>Configuring GeoIPS<a class="headerlink" href="#configuring-geoips" title="Permalink to this heading">#</a></h1>
 <p>GeoIPS supports configuring your environment through two complementary mechanisms:</p>
 <ol class="arabic simple">
 <li><p><strong>Configuration file</strong> (<code class="docutils literal notranslate"><span class="pre">.geoips.yaml</span></code>) — A project-level YAML file that
@@ -1136,6 +1114,618 @@ variable as described above to make the setting persistent.</p>
 </section>
 </section>
 </section>
+<section id="schema-models-developer-reference">
+<h2>Schema models (developer reference)<a class="headerlink" href="#schema-models-developer-reference" title="Permalink to this heading">#</a></h2>
+<p>The configuration schema is defined by pydantic models in
+<a class="reference internal" href="../../geoips_api/geoips.config.html#module-geoips.config.schema" title="geoips.config.schema"><code class="xref py py-mod docutils literal notranslate"><span class="pre">geoips.config.schema</span></code></a>. The tables above are the human-readable reference; the models
+below are generated from the code and show the exact fields, types, and defaults that the
+schema validates. <code class="docutils literal notranslate"><span class="pre">GeoSettings</span></code> is the root model; the others are its nested sections.</p>
+<dl class="py class pydantic_model">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">pydantic</span> <span class="pre">model</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">geoips.config.schema.</span></span><span class="sig-name descname"><span class="pre">GeoSettings</span></span><a class="reference internal" href="../../_modules/geoips/config/schema.html#GeoSettings"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Root configuration model for all GeoIPS settings.</p>
+<p>Frozen (immutable) after creation. All values are validated against
+the declared types. Nested models isolate related config groups.</p>
+<p>The config loader resolves auto-derived paths (<code class="docutils literal notranslate"><span class="pre">basedir</span></code>,
+<code class="docutils literal notranslate"><span class="pre">packages_dir</span></code>, <code class="docutils literal notranslate"><span class="pre">cache_dir</span></code>, <code class="docutils literal notranslate"><span class="pre">boxname</span></code>, output paths) at
+initialization time.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Fields<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><a class="reference internal" href="../../geoips_api/geoips.config.html#geoips.config.schema.GeoSettings.base_path" title="geoips.config.schema.GeoSettings.base_path"><code class="xref py py-obj docutils literal notranslate"><span class="pre">base_path</span> <span class="pre">(str</span> <span class="pre">|</span> <span class="pre">None)</span></code></a></p></li>
+<li><p><a class="reference internal" href="../../geoips_api/geoips.config.html#geoips.config.schema.GeoSettings.basedir" title="geoips.config.schema.GeoSettings.basedir"><code class="xref py py-obj docutils literal notranslate"><span class="pre">basedir</span> <span class="pre">(str</span> <span class="pre">|</span> <span class="pre">None)</span></code></a></p></li>
+<li><p><a class="reference internal" href="../../geoips_api/geoips.config.html#geoips.config.schema.GeoSettings.boxname" title="geoips.config.schema.GeoSettings.boxname"><code class="xref py py-obj docutils literal notranslate"><span class="pre">boxname</span> <span class="pre">(str</span> <span class="pre">|</span> <span class="pre">None)</span></code></a></p></li>
+<li><p><a class="reference internal" href="../../geoips_api/geoips.config.html#geoips.config.schema.GeoSettings.cache" title="geoips.config.schema.GeoSettings.cache"><code class="xref py py-obj docutils literal notranslate"><span class="pre">cache</span> <span class="pre">(geoips.config.schema.CacheSettings)</span></code></a></p></li>
+<li><p><a class="reference internal" href="../../geoips_api/geoips.config.html#geoips.config.schema.GeoSettings.copyright" title="geoips.config.schema.GeoSettings.copyright"><code class="xref py py-obj docutils literal notranslate"><span class="pre">copyright</span> <span class="pre">(str)</span></code></a></p></li>
+<li><p><a class="reference internal" href="../../geoips_api/geoips.config.html#geoips.config.schema.GeoSettings.copyright_abbreviated" title="geoips.config.schema.GeoSettings.copyright_abbreviated"><code class="xref py py-obj docutils literal notranslate"><span class="pre">copyright_abbreviated</span> <span class="pre">(str)</span></code></a></p></li>
+<li><p><a class="reference internal" href="../../geoips_api/geoips.config.html#geoips.config.schema.GeoSettings.default_queue" title="geoips.config.schema.GeoSettings.default_queue"><code class="xref py py-obj docutils literal notranslate"><span class="pre">default_queue</span> <span class="pre">(str</span> <span class="pre">|</span> <span class="pre">None)</span></code></a></p></li>
+<li><p><a class="reference internal" href="../../geoips_api/geoips.config.html#geoips.config.schema.GeoSettings.dependencies_dir" title="geoips.config.schema.GeoSettings.dependencies_dir"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dependencies_dir</span> <span class="pre">(str</span> <span class="pre">|</span> <span class="pre">None)</span></code></a></p></li>
+<li><p><a class="reference internal" href="../../geoips_api/geoips.config.html#geoips.config.schema.GeoSettings.docs_url" title="geoips.config.schema.GeoSettings.docs_url"><code class="xref py py-obj docutils literal notranslate"><span class="pre">docs_url</span> <span class="pre">(str)</span></code></a></p></li>
+<li><p><a class="reference internal" href="../../geoips_api/geoips.config.html#geoips.config.schema.GeoSettings.features" title="geoips.config.schema.GeoSettings.features"><code class="xref py py-obj docutils literal notranslate"><span class="pre">features</span> <span class="pre">(geoips.config.schema.FeatureSettings)</span></code></a></p></li>
+<li><p><a class="reference internal" href="../../geoips_api/geoips.config.html#geoips.config.schema.GeoSettings.home" title="geoips.config.schema.GeoSettings.home"><code class="xref py py-obj docutils literal notranslate"><span class="pre">home</span> <span class="pre">(str</span> <span class="pre">|</span> <span class="pre">None)</span></code></a></p></li>
+<li><p><a class="reference internal" href="../../geoips_api/geoips.config.html#geoips.config.schema.GeoSettings.logging" title="geoips.config.schema.GeoSettings.logging"><code class="xref py py-obj docutils literal notranslate"><span class="pre">logging</span> <span class="pre">(geoips.config.schema.LoggingSettings)</span></code></a></p></li>
+<li><p><a class="reference internal" href="../../geoips_api/geoips.config.html#geoips.config.schema.GeoSettings.outdirs" title="geoips.config.schema.GeoSettings.outdirs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">outdirs</span> <span class="pre">(str)</span></code></a></p></li>
+<li><p><a class="reference internal" href="../../geoips_api/geoips.config.html#geoips.config.schema.GeoSettings.output_paths" title="geoips.config.schema.GeoSettings.output_paths"><code class="xref py py-obj docutils literal notranslate"><span class="pre">output_paths</span> <span class="pre">(geoips.config.schema.OutputPathsSettings)</span></code></a></p></li>
+<li><p><a class="reference internal" href="../../geoips_api/geoips.config.html#geoips.config.schema.GeoSettings.packages_dir" title="geoips.config.schema.GeoSettings.packages_dir"><code class="xref py py-obj docutils literal notranslate"><span class="pre">packages_dir</span> <span class="pre">(str</span> <span class="pre">|</span> <span class="pre">None)</span></code></a></p></li>
+<li><p><a class="reference internal" href="../../geoips_api/geoips.config.html#geoips.config.schema.GeoSettings.pregenerated_dynamic_geolocation" title="geoips.config.schema.GeoSettings.pregenerated_dynamic_geolocation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pregenerated_dynamic_geolocation</span> <span class="pre">(str)</span></code></a></p></li>
+<li><p><a class="reference internal" href="../../geoips_api/geoips.config.html#geoips.config.schema.GeoSettings.pregenerated_static_geolocation" title="geoips.config.schema.GeoSettings.pregenerated_static_geolocation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pregenerated_static_geolocation</span> <span class="pre">(str)</span></code></a></p></li>
+<li><p><a class="reference internal" href="../../geoips_api/geoips.config.html#geoips.config.schema.GeoSettings.privatewww_url" title="geoips.config.schema.GeoSettings.privatewww_url"><code class="xref py py-obj docutils literal notranslate"><span class="pre">privatewww_url</span> <span class="pre">(str</span> <span class="pre">|</span> <span class="pre">None)</span></code></a></p></li>
+<li><p><a class="reference internal" href="../../geoips_api/geoips.config.html#geoips.config.schema.GeoSettings.publicwww_url" title="geoips.config.schema.GeoSettings.publicwww_url"><code class="xref py py-obj docutils literal notranslate"><span class="pre">publicwww_url</span> <span class="pre">(str</span> <span class="pre">|</span> <span class="pre">None)</span></code></a></p></li>
+<li><p><a class="reference internal" href="../../geoips_api/geoips.config.html#geoips.config.schema.GeoSettings.rcfile" title="geoips.config.schema.GeoSettings.rcfile"><code class="xref py py-obj docutils literal notranslate"><span class="pre">rcfile</span> <span class="pre">(str)</span></code></a></p></li>
+<li><p><a class="reference internal" href="../../geoips_api/geoips.config.html#geoips.config.schema.GeoSettings.replace_output_paths" title="geoips.config.schema.GeoSettings.replace_output_paths"><code class="xref py py-obj docutils literal notranslate"><span class="pre">replace_output_paths</span> <span class="pre">(list[str])</span></code></a></p></li>
+<li><p><a class="reference internal" href="../../geoips_api/geoips.config.html#geoips.config.schema.GeoSettings.tc_decks_type" title="geoips.config.schema.GeoSettings.tc_decks_type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tc_decks_type</span> <span class="pre">(str)</span></code></a></p></li>
+<li><p><a class="reference internal" href="../../geoips_api/geoips.config.html#geoips.config.schema.GeoSettings.tc_template" title="geoips.config.schema.GeoSettings.tc_template"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tc_template</span> <span class="pre">(str)</span></code></a></p></li>
+<li><p><a class="reference internal" href="../../geoips_api/geoips.config.html#geoips.config.schema.GeoSettings.tcprivatewww_url" title="geoips.config.schema.GeoSettings.tcprivatewww_url"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tcprivatewww_url</span> <span class="pre">(str</span> <span class="pre">|</span> <span class="pre">None)</span></code></a></p></li>
+<li><p><a class="reference internal" href="../../geoips_api/geoips.config.html#geoips.config.schema.GeoSettings.tcwww_url" title="geoips.config.schema.GeoSettings.tcwww_url"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tcwww_url</span> <span class="pre">(str</span> <span class="pre">|</span> <span class="pre">None)</span></code></a></p></li>
+<li><p><a class="reference internal" href="../../geoips_api/geoips.config.html#geoips.config.schema.GeoSettings.test" title="geoips.config.schema.GeoSettings.test"><code class="xref py py-obj docutils literal notranslate"><span class="pre">test</span> <span class="pre">(geoips.config.schema.TestSettings)</span></code></a></p></li>
+<li><p><a class="reference internal" href="../../geoips_api/geoips.config.html#geoips.config.schema.GeoSettings.testdata_dir" title="geoips.config.schema.GeoSettings.testdata_dir"><code class="xref py py-obj docutils literal notranslate"><span class="pre">testdata_dir</span> <span class="pre">(str</span> <span class="pre">|</span> <span class="pre">None)</span></code></a></p></li>
+<li><p><a class="reference internal" href="../../geoips_api/geoips.config.html#geoips.config.schema.GeoSettings.version" title="geoips.config.schema.GeoSettings.version"><code class="xref py py-obj docutils literal notranslate"><span class="pre">version</span> <span class="pre">(str)</span></code></a></p></li>
+<li><p><a class="reference internal" href="../../geoips_api/geoips.config.html#geoips.config.schema.GeoSettings.warning_level" title="geoips.config.schema.GeoSettings.warning_level"><code class="xref py py-obj docutils literal notranslate"><span class="pre">warning_level</span> <span class="pre">(str)</span></code></a></p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">base_path</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em></dt>
+<dd><p>Path to the installed geoips package (auto-derived).</p>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">basedir</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em></dt>
+<dd><p>Base directory for the GeoIPS installation/source.</p>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">boxname</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em></dt>
+<dd><p>Hostname/box identifier (auto-derived).</p>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">cache</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="../../geoips_api/geoips.config.html#geoips.config.schema.CacheSettings" title="geoips.config.schema.CacheSettings"><span class="pre">CacheSettings</span></a></em><em class="property"> <span class="pre">[Optional]</span></em></dt>
+<dd><p>Cache directories and backend.</p>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">copyright</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'NRL-Monterey'</span></em></dt>
+<dd><p>Copyright holder.</p>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">copyright_abbreviated</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'NRLMRY'</span></em></dt>
+<dd><p>Abbreviated copyright holder.</p>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">default_queue</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em></dt>
+<dd><p>Default job scheduler queue.</p>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">dependencies_dir</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em></dt>
+<dd><p>Directory for external dependencies.</p>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">docs_url</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'https://nrlmmd-geoips.github.io/geoips/'</span></em></dt>
+<dd><p>URL for the GeoIPS documentation.</p>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">features</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="../../geoips_api/geoips.config.html#geoips.config.schema.FeatureSettings" title="geoips.config.schema.FeatureSettings"><span class="pre">FeatureSettings</span></a></em><em class="property"> <span class="pre">[Optional]</span></em></dt>
+<dd><p>Boolean feature toggles.</p>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">home</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em></dt>
+<dd><p>Home directory (auto-derived).</p>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">logging</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="../../geoips_api/geoips.config.html#geoips.config.schema.LoggingSettings" title="geoips.config.schema.LoggingSettings"><span class="pre">LoggingSettings</span></a></em><em class="property"> <span class="pre">[Optional]</span></em></dt>
+<dd><p>Logging configuration.</p>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">outdirs</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"> <span class="pre">[Required]</span></em></dt>
+<dd><p>Base directory for all GeoIPS output.</p>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">output_paths</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="../../geoips_api/geoips.config.html#geoips.config.schema.OutputPathsSettings" title="geoips.config.schema.OutputPathsSettings"><span class="pre">OutputPathsSettings</span></a></em><em class="property"> <span class="pre">[Optional]</span></em></dt>
+<dd><p>Output sub-directories.</p>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">packages_dir</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em></dt>
+<dd><p>Directory containing GeoIPS plugin packages.</p>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">pregenerated_dynamic_geolocation</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'longterm_files/geolocation_dynamic'</span></em></dt>
+<dd><p>Sub-path for pre-generated dynamic geolocation.</p>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">pregenerated_static_geolocation</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'longterm_files/geolocation'</span></em></dt>
+<dd><p>Sub-path for pre-generated static geolocation.</p>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">privatewww_url</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em></dt>
+<dd><p>URL for private web output.</p>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">publicwww_url</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em></dt>
+<dd><p>URL for public web output.</p>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">rcfile</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">''</span></em></dt>
+<dd><p>Path to a GeoIPS rc file, if any.</p>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">replace_output_paths</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><em class="property"> <span class="pre">[Optional]</span></em></dt>
+<dd><p>Path names to replace when building output filenames.</p>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">tc_decks_type</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'bdecks'</span></em></dt>
+<dd><p>TC decks type (e.g. ‘bdecks’).</p>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">tc_template</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'plugins/yaml/sectors/dynamic/tc_web_template.yaml'</span></em></dt>
+<dd><p>Path to the TC web sector template.</p>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">tcprivatewww_url</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em></dt>
+<dd><p>URL for private TC web output.</p>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">tcwww_url</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em></dt>
+<dd><p>URL for TC web output.</p>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">test</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="../../geoips_api/geoips.config.html#geoips.config.schema.TestSettings" title="geoips.config.schema.TestSettings"><span class="pre">TestSettings</span></a></em><em class="property"> <span class="pre">[Optional]</span></em></dt>
+<dd><p>Test/comparison configuration.</p>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">testdata_dir</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em></dt>
+<dd><p>Directory containing GeoIPS test data.</p>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">version</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'0.0.0'</span></em></dt>
+<dd><p>GeoIPS version string.</p>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">warning_level</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'default'</span></em></dt>
+<dd><p>Python warnings filter level.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class pydantic_model">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">pydantic</span> <span class="pre">model</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">geoips.config.schema.</span></span><span class="sig-name descname"><span class="pre">OutputPathsSettings</span></span><a class="reference internal" href="../../_modules/geoips/config/schema.html#OutputPathsSettings"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Sub-paths for data output directories.</p>
+<p>Defaults are relative to <code class="docutils literal notranslate"><span class="pre">outdirs</span></code>. The config loader resolves
+relative paths to absolute at initialization time. Environment
+variables or project YAML may override with absolute paths.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Fields<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><a class="reference internal" href="../../geoips_api/geoips.config.html#geoips.config.schema.OutputPathsSettings.ancildat" title="geoips.config.schema.OutputPathsSettings.ancildat"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ancildat</span> <span class="pre">(str)</span></code></a></p></li>
+<li><p><a class="reference internal" href="../../geoips_api/geoips.config.html#geoips.config.schema.OutputPathsSettings.ancildat_autogen" title="geoips.config.schema.OutputPathsSettings.ancildat_autogen"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ancildat_autogen</span> <span class="pre">(str)</span></code></a></p></li>
+<li><p><a class="reference internal" href="../../geoips_api/geoips.config.html#geoips.config.schema.OutputPathsSettings.annotated_imagery" title="geoips.config.schema.OutputPathsSettings.annotated_imagery"><code class="xref py py-obj docutils literal notranslate"><span class="pre">annotated_imagery</span> <span class="pre">(str)</span></code></a></p></li>
+<li><p><a class="reference internal" href="../../geoips_api/geoips.config.html#geoips.config.schema.OutputPathsSettings.clean_imagery" title="geoips.config.schema.OutputPathsSettings.clean_imagery"><code class="xref py py-obj docutils literal notranslate"><span class="pre">clean_imagery</span> <span class="pre">(str)</span></code></a></p></li>
+<li><p><a class="reference internal" href="../../geoips_api/geoips.config.html#geoips.config.schema.OutputPathsSettings.final_data" title="geoips.config.schema.OutputPathsSettings.final_data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">final_data</span> <span class="pre">(str)</span></code></a></p></li>
+<li><p><a class="reference internal" href="../../geoips_api/geoips.config.html#geoips.config.schema.OutputPathsSettings.geoipsdata" title="geoips.config.schema.OutputPathsSettings.geoipsdata"><code class="xref py py-obj docutils literal notranslate"><span class="pre">geoipsdata</span> <span class="pre">(str)</span></code></a></p></li>
+<li><p><a class="reference internal" href="../../geoips_api/geoips.config.html#geoips.config.schema.OutputPathsSettings.geotiff_imagery" title="geoips.config.schema.OutputPathsSettings.geotiff_imagery"><code class="xref py py-obj docutils literal notranslate"><span class="pre">geotiff_imagery</span> <span class="pre">(str)</span></code></a></p></li>
+<li><p><a class="reference internal" href="../../geoips_api/geoips.config.html#geoips.config.schema.OutputPathsSettings.localscratch" title="geoips.config.schema.OutputPathsSettings.localscratch"><code class="xref py py-obj docutils literal notranslate"><span class="pre">localscratch</span> <span class="pre">(str)</span></code></a></p></li>
+<li><p><a class="reference internal" href="../../geoips_api/geoips.config.html#geoips.config.schema.OutputPathsSettings.logdir" title="geoips.config.schema.OutputPathsSettings.logdir"><code class="xref py py-obj docutils literal notranslate"><span class="pre">logdir</span> <span class="pre">(str)</span></code></a></p></li>
+<li><p><a class="reference internal" href="../../geoips_api/geoips.config.html#geoips.config.schema.OutputPathsSettings.precalculated_data" title="geoips.config.schema.OutputPathsSettings.precalculated_data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">precalculated_data</span> <span class="pre">(str)</span></code></a></p></li>
+<li><p><a class="reference internal" href="../../geoips_api/geoips.config.html#geoips.config.schema.OutputPathsSettings.pregenerated_geolocation" title="geoips.config.schema.OutputPathsSettings.pregenerated_geolocation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pregenerated_geolocation</span> <span class="pre">(str)</span></code></a></p></li>
+<li><p><a class="reference internal" href="../../geoips_api/geoips.config.html#geoips.config.schema.OutputPathsSettings.preread_data" title="geoips.config.schema.OutputPathsSettings.preread_data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">preread_data</span> <span class="pre">(str)</span></code></a></p></li>
+<li><p><a class="reference internal" href="../../geoips_api/geoips.config.html#geoips.config.schema.OutputPathsSettings.preregistered_data" title="geoips.config.schema.OutputPathsSettings.preregistered_data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">preregistered_data</span> <span class="pre">(str)</span></code></a></p></li>
+<li><p><a class="reference internal" href="../../geoips_api/geoips.config.html#geoips.config.schema.OutputPathsSettings.presectored_data" title="geoips.config.schema.OutputPathsSettings.presectored_data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">presectored_data</span> <span class="pre">(str)</span></code></a></p></li>
+<li><p><a class="reference internal" href="../../geoips_api/geoips.config.html#geoips.config.schema.OutputPathsSettings.privatewww" title="geoips.config.schema.OutputPathsSettings.privatewww"><code class="xref py py-obj docutils literal notranslate"><span class="pre">privatewww</span> <span class="pre">(str)</span></code></a></p></li>
+<li><p><a class="reference internal" href="../../geoips_api/geoips.config.html#geoips.config.schema.OutputPathsSettings.publicwww" title="geoips.config.schema.OutputPathsSettings.publicwww"><code class="xref py py-obj docutils literal notranslate"><span class="pre">publicwww</span> <span class="pre">(str)</span></code></a></p></li>
+<li><p><a class="reference internal" href="../../geoips_api/geoips.config.html#geoips.config.schema.OutputPathsSettings.scratch" title="geoips.config.schema.OutputPathsSettings.scratch"><code class="xref py py-obj docutils literal notranslate"><span class="pre">scratch</span> <span class="pre">(str)</span></code></a></p></li>
+<li><p><a class="reference internal" href="../../geoips_api/geoips.config.html#geoips.config.schema.OutputPathsSettings.sharedscratch" title="geoips.config.schema.OutputPathsSettings.sharedscratch"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sharedscratch</span> <span class="pre">(str)</span></code></a></p></li>
+<li><p><a class="reference internal" href="../../geoips_api/geoips.config.html#geoips.config.schema.OutputPathsSettings.tc_decks_db" title="geoips.config.schema.OutputPathsSettings.tc_decks_db"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tc_decks_db</span> <span class="pre">(str)</span></code></a></p></li>
+<li><p><a class="reference internal" href="../../geoips_api/geoips.config.html#geoips.config.schema.OutputPathsSettings.tc_decks_dir" title="geoips.config.schema.OutputPathsSettings.tc_decks_dir"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tc_decks_dir</span> <span class="pre">(str)</span></code></a></p></li>
+<li><p><a class="reference internal" href="../../geoips_api/geoips.config.html#geoips.config.schema.OutputPathsSettings.tcprivatewww" title="geoips.config.schema.OutputPathsSettings.tcprivatewww"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tcprivatewww</span> <span class="pre">(str)</span></code></a></p></li>
+<li><p><a class="reference internal" href="../../geoips_api/geoips.config.html#geoips.config.schema.OutputPathsSettings.tcwww" title="geoips.config.schema.OutputPathsSettings.tcwww"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tcwww</span> <span class="pre">(str)</span></code></a></p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ancildat</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'ancildat'</span></em></dt>
+<dd><p>Static ancillary data.</p>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ancildat_autogen</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'ancildat_autogen'</span></em></dt>
+<dd><p>Auto-generated ancillary data.</p>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">annotated_imagery</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'preprocessed/annotated_imagery'</span></em></dt>
+<dd><p>Annotated imagery output.</p>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">clean_imagery</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'preprocessed/clean_imagery'</span></em></dt>
+<dd><p>Clean (unannotated) imagery.</p>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">final_data</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'preprocessed/final'</span></em></dt>
+<dd><p>Final processed data output.</p>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">geoipsdata</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'geoipsdata'</span></em></dt>
+<dd><p>Miscellaneous GeoIPS data.</p>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">geotiff_imagery</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'preprocessed/geotiff_imagery'</span></em></dt>
+<dd><p>GeoTIFF imagery output.</p>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">localscratch</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'scratch'</span></em></dt>
+<dd><p>Node-local scratch directory.</p>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">logdir</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'logs'</span></em></dt>
+<dd><p>Log file directory.</p>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">precalculated_data</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'preprocessed/algorithms'</span></em></dt>
+<dd><p>Pre-calculated algorithm data.</p>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">pregenerated_geolocation</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'preprocessed/geolocation'</span></em></dt>
+<dd><p>Pre-generated geolocation data.</p>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">preread_data</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'preprocessed/unsectored'</span></em></dt>
+<dd><p>Pre-read (unsectored) data.</p>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">preregistered_data</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'preprocessed/registered'</span></em></dt>
+<dd><p>Pre-registered intermediate data.</p>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">presectored_data</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'preprocessed/sectored'</span></em></dt>
+<dd><p>Pre-sectored intermediate data.</p>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">privatewww</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'preprocessed/privatewww'</span></em></dt>
+<dd><p>Private web output.</p>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">publicwww</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'preprocessed/publicwww'</span></em></dt>
+<dd><p>Public web output.</p>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">scratch</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'scratch'</span></em></dt>
+<dd><p>General scratch directory.</p>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">sharedscratch</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'scratch'</span></em></dt>
+<dd><p>Shared scratch directory.</p>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">tc_decks_db</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'longterm_files/tc/tc_decks.db'</span></em></dt>
+<dd><p>TC decks database file.</p>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">tc_decks_dir</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'longterm_files/tc/decks'</span></em></dt>
+<dd><p>TC deck files directory.</p>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">tcprivatewww</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'preprocessed/tcprivatewww'</span></em></dt>
+<dd><p>Private TC web output.</p>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">tcwww</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'preprocessed/tcwww'</span></em></dt>
+<dd><p>TC web output.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class pydantic_model">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">pydantic</span> <span class="pre">model</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">geoips.config.schema.</span></span><span class="sig-name descname"><span class="pre">CacheSettings</span></span><a class="reference internal" href="../../_modules/geoips/config/schema.html#CacheSettings"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Cache directory and backend configuration.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Fields<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><a class="reference internal" href="../../geoips_api/geoips.config.html#geoips.config.schema.CacheSettings.cache_dir" title="geoips.config.schema.CacheSettings.cache_dir"><code class="xref py py-obj docutils literal notranslate"><span class="pre">cache_dir</span> <span class="pre">(str</span> <span class="pre">|</span> <span class="pre">None)</span></code></a></p></li>
+<li><p><a class="reference internal" href="../../geoips_api/geoips.config.html#geoips.config.schema.CacheSettings.data_cache_dir" title="geoips.config.schema.CacheSettings.data_cache_dir"><code class="xref py py-obj docutils literal notranslate"><span class="pre">data_cache_dir</span> <span class="pre">(str</span> <span class="pre">|</span> <span class="pre">None)</span></code></a></p></li>
+<li><p><a class="reference internal" href="../../geoips_api/geoips.config.html#geoips.config.schema.CacheSettings.data_cache_longterm_geolocation_static" title="geoips.config.schema.CacheSettings.data_cache_longterm_geolocation_static"><code class="xref py py-obj docutils literal notranslate"><span class="pre">data_cache_longterm_geolocation_static</span> <span class="pre">(str)</span></code></a></p></li>
+<li><p><a class="reference internal" href="../../geoips_api/geoips.config.html#geoips.config.schema.CacheSettings.data_cache_shortterm_calibrated_data" title="geoips.config.schema.CacheSettings.data_cache_shortterm_calibrated_data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">data_cache_shortterm_calibrated_data</span> <span class="pre">(str)</span></code></a></p></li>
+<li><p><a class="reference internal" href="../../geoips_api/geoips.config.html#geoips.config.schema.CacheSettings.data_cache_shortterm_geolocation_dynamic" title="geoips.config.schema.CacheSettings.data_cache_shortterm_geolocation_dynamic"><code class="xref py py-obj docutils literal notranslate"><span class="pre">data_cache_shortterm_geolocation_dynamic</span> <span class="pre">(str)</span></code></a></p></li>
+<li><p><a class="reference internal" href="../../geoips_api/geoips.config.html#geoips.config.schema.CacheSettings.data_cache_shortterm_geolocation_solar_angles" title="geoips.config.schema.CacheSettings.data_cache_shortterm_geolocation_solar_angles"><code class="xref py py-obj docutils literal notranslate"><span class="pre">data_cache_shortterm_geolocation_solar_angles</span> <span class="pre">(str)</span></code></a></p></li>
+<li><p><a class="reference internal" href="../../geoips_api/geoips.config.html#geoips.config.schema.CacheSettings.geolocation_cache_backend" title="geoips.config.schema.CacheSettings.geolocation_cache_backend"><code class="xref py py-obj docutils literal notranslate"><span class="pre">geolocation_cache_backend</span> <span class="pre">(str)</span></code></a></p></li>
+<li><p><a class="reference internal" href="../../geoips_api/geoips.config.html#geoips.config.schema.CacheSettings.satpy_cache_shortterm_calibrated_data" title="geoips.config.schema.CacheSettings.satpy_cache_shortterm_calibrated_data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">satpy_cache_shortterm_calibrated_data</span> <span class="pre">(str)</span></code></a></p></li>
+<li><p><a class="reference internal" href="../../geoips_api/geoips.config.html#geoips.config.schema.CacheSettings.satpy_cache_shortterm_geolocation_solar_angles" title="geoips.config.schema.CacheSettings.satpy_cache_shortterm_geolocation_solar_angles"><code class="xref py py-obj docutils literal notranslate"><span class="pre">satpy_cache_shortterm_geolocation_solar_angles</span> <span class="pre">(str)</span></code></a></p></li>
+<li><p><a class="reference internal" href="../../geoips_api/geoips.config.html#geoips.config.schema.CacheSettings.satpy_data_cache_dir" title="geoips.config.schema.CacheSettings.satpy_data_cache_dir"><code class="xref py py-obj docutils literal notranslate"><span class="pre">satpy_data_cache_dir</span> <span class="pre">(str</span> <span class="pre">|</span> <span class="pre">None)</span></code></a></p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">cache_dir</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em></dt>
+<dd><p>Base cache directory (defaults to the platform cache dir).</p>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">data_cache_dir</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em></dt>
+<dd><p>Data cache directory (defaults to cache_dir).</p>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">data_cache_longterm_geolocation_static</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'longterm/geolocation/static'</span></em></dt>
+<dd><p>Long-term static geolocation cache subpath.</p>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">data_cache_shortterm_calibrated_data</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'shortterm/calibrated_data'</span></em></dt>
+<dd><p>Short-term calibrated data cache subpath.</p>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">data_cache_shortterm_geolocation_dynamic</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'shortterm/geolocation/dynamic'</span></em></dt>
+<dd><p>Short-term dynamic geolocation cache subpath.</p>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">data_cache_shortterm_geolocation_solar_angles</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'shortterm/geolocation/solar'</span></em></dt>
+<dd><p>Short-term solar-angle geolocation cache subpath.</p>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">geolocation_cache_backend</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'memmap'</span></em></dt>
+<dd><p>Geolocation cache backend (e.g. ‘memmap’).</p>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">satpy_cache_shortterm_calibrated_data</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'shortterm/calibrated_data'</span></em></dt>
+<dd><p>Short-term Satpy calibrated data cache subpath.</p>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">satpy_cache_shortterm_geolocation_solar_angles</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'shortterm/geolocation/solar'</span></em></dt>
+<dd><p>Short-term Satpy solar-angle cache subpath.</p>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">satpy_data_cache_dir</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em></dt>
+<dd><p>Satpy data cache directory (defaults to cache_dir).</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class pydantic_model">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">pydantic</span> <span class="pre">model</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">geoips.config.schema.</span></span><span class="sig-name descname"><span class="pre">FeatureSettings</span></span><a class="reference internal" href="../../_modules/geoips/config/schema.html#FeatureSettings"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Boolean feature toggles controlling GeoIPS behavior.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Fields<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><a class="reference internal" href="../../geoips_api/geoips.config.html#geoips.config.schema.FeatureSettings.no_color" title="geoips.config.schema.FeatureSettings.no_color"><code class="xref py py-obj docutils literal notranslate"><span class="pre">no_color</span> <span class="pre">(bool)</span></code></a></p></li>
+<li><p><a class="reference internal" href="../../geoips_api/geoips.config.html#geoips.config.schema.FeatureSettings.operational_user" title="geoips.config.schema.FeatureSettings.operational_user"><code class="xref py py-obj docutils literal notranslate"><span class="pre">operational_user</span> <span class="pre">(bool)</span></code></a></p></li>
+<li><p><a class="reference internal" href="../../geoips_api/geoips.config.html#geoips.config.schema.FeatureSettings.rebuild_registries" title="geoips.config.schema.FeatureSettings.rebuild_registries"><code class="xref py py-obj docutils literal notranslate"><span class="pre">rebuild_registries</span> <span class="pre">(bool)</span></code></a></p></li>
+<li><p><a class="reference internal" href="../../geoips_api/geoips.config.html#geoips.config.schema.FeatureSettings.rich_console_output" title="geoips.config.schema.FeatureSettings.rich_console_output"><code class="xref py py-obj docutils literal notranslate"><span class="pre">rich_console_output</span> <span class="pre">(bool)</span></code></a></p></li>
+<li><p><a class="reference internal" href="../../geoips_api/geoips.config.html#geoips.config.schema.FeatureSettings.use_pydantic" title="geoips.config.schema.FeatureSettings.use_pydantic"><code class="xref py py-obj docutils literal notranslate"><span class="pre">use_pydantic</span> <span class="pre">(bool)</span></code></a></p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">no_color</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">False</span></em></dt>
+<dd><p>Disable colored console output.</p>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">operational_user</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">False</span></em></dt>
+<dd><p>Enable operational-user behavior.</p>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">rebuild_registries</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">True</span></em></dt>
+<dd><p>Rebuild plugin registries automatically when needed.</p>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">rich_console_output</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">False</span></em></dt>
+<dd><p>Enable rich-formatted console output.</p>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">use_pydantic</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">False</span></em></dt>
+<dd><p>Use pydantic-based plugin validation.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class pydantic_model">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">pydantic</span> <span class="pre">model</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">geoips.config.schema.</span></span><span class="sig-name descname"><span class="pre">LoggingSettings</span></span><a class="reference internal" href="../../_modules/geoips/config/schema.html#LoggingSettings"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Logging format and level configuration.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Fields<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><a class="reference internal" href="../../geoips_api/geoips.config.html#geoips.config.schema.LoggingSettings.datefmt_string" title="geoips.config.schema.LoggingSettings.datefmt_string"><code class="xref py py-obj docutils literal notranslate"><span class="pre">datefmt_string</span> <span class="pre">(str)</span></code></a></p></li>
+<li><p><a class="reference internal" href="../../geoips_api/geoips.config.html#geoips.config.schema.LoggingSettings.fmt_string" title="geoips.config.schema.LoggingSettings.fmt_string"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fmt_string</span> <span class="pre">(str)</span></code></a></p></li>
+<li><p><a class="reference internal" href="../../geoips_api/geoips.config.html#geoips.config.schema.LoggingSettings.level" title="geoips.config.schema.LoggingSettings.level"><code class="xref py py-obj docutils literal notranslate"><span class="pre">level</span> <span class="pre">(str)</span></code></a></p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">datefmt_string</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'%d_%H%M%S'</span></em></dt>
+<dd><p>Logging date format string.</p>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">fmt_string</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'%(asctime)s</span> <span class="pre">%(module)12s.py:%(lineno)-4d</span> <span class="pre">%(levelname)7s:</span> <span class="pre">%(message)s'</span></em></dt>
+<dd><p>Logging message format string.</p>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">level</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'interactive'</span></em></dt>
+<dd><p>Logging level (interactive, info, debug, …).</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class pydantic_model">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">pydantic</span> <span class="pre">model</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">geoips.config.schema.</span></span><span class="sig-name descname"><span class="pre">TestSettings</span></span><a class="reference internal" href="../../_modules/geoips/config/schema.html#TestSettings"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<dd><p>Test-related configuration for output checking and comparison.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Fields<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><a class="reference internal" href="../../geoips_api/geoips.config.html#geoips.config.schema.TestSettings.output_checker_threshold_image" title="geoips.config.schema.TestSettings.output_checker_threshold_image"><code class="xref py py-obj docutils literal notranslate"><span class="pre">output_checker_threshold_image</span> <span class="pre">(float)</span></code></a></p></li>
+<li><p><a class="reference internal" href="../../geoips_api/geoips.config.html#geoips.config.schema.TestSettings.print_text_output_checker_to_console" title="geoips.config.schema.TestSettings.print_text_output_checker_to_console"><code class="xref py py-obj docutils literal notranslate"><span class="pre">print_text_output_checker_to_console</span> <span class="pre">(bool)</span></code></a></p></li>
+<li><p><a class="reference internal" href="../../geoips_api/geoips.config.html#geoips.config.schema.TestSettings.prompt_to_overwrite_comparison_file_if_mismatch" title="geoips.config.schema.TestSettings.prompt_to_overwrite_comparison_file_if_mismatch"><code class="xref py py-obj docutils literal notranslate"><span class="pre">prompt_to_overwrite_comparison_file_if_mismatch</span> <span class="pre">(bool)</span></code></a></p></li>
+<li><p><a class="reference internal" href="../../geoips_api/geoips.config.html#geoips.config.schema.TestSettings.sector_create_annotated_outputs" title="geoips.config.schema.TestSettings.sector_create_annotated_outputs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sector_create_annotated_outputs</span> <span class="pre">(bool)</span></code></a></p></li>
+<li><p><a class="reference internal" href="../../geoips_api/geoips.config.html#geoips.config.schema.TestSettings.sector_create_geotiff_outputs" title="geoips.config.schema.TestSettings.sector_create_geotiff_outputs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sector_create_geotiff_outputs</span> <span class="pre">(bool)</span></code></a></p></li>
+<li><p><a class="reference internal" href="../../geoips_api/geoips.config.html#geoips.config.schema.TestSettings.suppress_pytest_failed_log_contents" title="geoips.config.schema.TestSettings.suppress_pytest_failed_log_contents"><code class="xref py py-obj docutils literal notranslate"><span class="pre">suppress_pytest_failed_log_contents</span> <span class="pre">(bool)</span></code></a></p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">output_checker_threshold_image</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0.05</span></em></dt>
+<dd><p>Image comparison difference threshold.</p>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">print_text_output_checker_to_console</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">True</span></em></dt>
+<dd><p>Print text output-checker diffs to the console.</p>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">prompt_to_overwrite_comparison_file_if_mismatch</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">False</span></em></dt>
+<dd><p>Prompt to overwrite comparison files on mismatch.</p>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">sector_create_annotated_outputs</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">False</span></em></dt>
+<dd><p>Create annotated outputs during sector tests.</p>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">sector_create_geotiff_outputs</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">False</span></em></dt>
+<dd><p>Create GeoTIFF outputs during sector tests.</p>
+</dd></dl>
+
+<dl class="py attribute pydantic_field">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">field</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">suppress_pytest_failed_log_contents</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">False</span></em></dt>
+<dd><p>Suppress log contents for failed pytest output.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
 </section>
 
 
@@ -1148,24 +1738,6 @@ variable as described above to make the setting persistent.</p>
                 <footer class="prev-next-footer d-print-none">
                   
 <div class="prev-next-area">
-    <a class="left-prev"
-       href="../architecture/custom-types/datatree-ditto.html"
-       title="previous page">
-      <i class="fa-solid fa-angle-left"></i>
-      <div class="prev-next-info">
-        <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">DataTreeDitto</p>
-      </div>
-    </a>
-    <a class="right-next"
-       href="../../contribute/index.html"
-       title="next page">
-      <div class="prev-next-info">
-        <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Contribute</p>
-      </div>
-      <i class="fa-solid fa-angle-right"></i>
-    </a>
 </div>
                 </footer>
               
@@ -1219,6 +1791,7 @@ variable as described above to make the setting persistent.</p>
 </li>
 </ul>
 </li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#schema-models-developer-reference">Schema models (developer reference)</a></li>
 </ul>
   </nav></div>
 

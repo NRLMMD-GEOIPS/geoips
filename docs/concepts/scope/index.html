@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Scope of GeoIPS &#8212; GeoIPS, Geolocated Information Processing System 1.19.0.post776.dev0 documentation</title>
+    <title>Scope of GeoIPS &#8212; GeoIPS, Geolocated Information Processing System 1.19.0.post1200.dev0 documentation</title>
   
   
   
@@ -31,6 +31,7 @@
 <link href="../../_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../_static/autodoc_pydantic.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/set_width.css?v=d4af5e1e" />
     <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
   
@@ -40,7 +41,7 @@
   <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
 
-    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=1e4423a0"></script>
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=ba503b0a"></script>
     <script src="../../_static/doctools.js?v=888ff710"></script>
     <script src="../../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../_static/design-tabs.js?v=f930bc37"></script>
@@ -52,7 +53,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="1.1" />
-    <meta name="docbuild:last-update" content="Jul 16, 2026 04:57:54"/>
+    <meta name="docbuild:last-update" content="Jul 23, 2026 15:25:48"/>
   
     
     <script src="../../_static/searchtools.js"></script>
@@ -124,8 +125,8 @@
       
     
     
-    <img src="../../_static/NRL_logo_RGB.jpg" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 1.19.0.post776.dev0 documentation - Home"/>
-    <img src="../../_static/NRL_logo_sidebar_Reverse.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 1.19.0.post776.dev0 documentation - Home"/>
+    <img src="../../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 1.19.0.post1200.dev0 documentation - Home"/>
+    <img src="../../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 1.19.0.post1200.dev0 documentation - Home"/>
   
   
 </a></div>
@@ -148,6 +149,13 @@
 
 
 <li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../functionality/index.html">
+    Functionality
+  </a>
+</li>
+
+
+<li class="nav-item ">
   <a class="nav-link nav-internal" href="../../tutorials/index.html">
     Tutorials
   </a>
@@ -155,22 +163,15 @@
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../index.html">
-    Concepts
+  <a class="nav-link nav-internal" href="../../devguide/index.html">
+    Developer Guide
   </a>
 </li>
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../contribute/index.html">
-    Contribute
-  </a>
-</li>
-
-
-<li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../geoips_api/index.html">
-    API
+  <a class="nav-link nav-internal" href="../../deployguide/index.html">
+    Deploying and Operating GeoIPS
   </a>
 </li>
 
@@ -183,8 +184,15 @@
                 <ul id="pst-nav-more-links" class="dropdown-menu">
                     
 <li class=" ">
-  <a class="nav-link dropdown-item nav-internal" href="../../releases/index.html">
-    Release Notes
+  <a class="nav-link dropdown-item nav-internal" href="../../architecture/index.html">
+    Architecture
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../contribute/index.html">
+    Contribute
   </a>
 </li>
 
@@ -192,6 +200,20 @@
 <li class=" ">
   <a class="nav-link dropdown-item nav-internal" href="../../contact/index.html">
     About Us
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../geoips_api/index.html">
+    API
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../releases/index.html">
+    Release Notes
   </a>
 </li>
 
@@ -297,6 +319,13 @@
 
 
 <li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../functionality/index.html">
+    Functionality
+  </a>
+</li>
+
+
+<li class="nav-item ">
   <a class="nav-link nav-internal" href="../../tutorials/index.html">
     Tutorials
   </a>
@@ -304,8 +333,22 @@
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../index.html">
-    Concepts
+  <a class="nav-link nav-internal" href="../../devguide/index.html">
+    Developer Guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../deployguide/index.html">
+    Deploying and Operating GeoIPS
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../architecture/index.html">
+    Architecture
   </a>
 </li>
 
@@ -313,6 +356,13 @@
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../../contribute/index.html">
     Contribute
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../contact/index.html">
+    About Us
   </a>
 </li>
 
@@ -327,13 +377,6 @@
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../../releases/index.html">
     Release Notes
-  </a>
-</li>
-
-
-<li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../contact/index.html">
-    About Us
   </a>
 </li>
 
@@ -437,7 +480,20 @@
 </div>
 </details><section id="scope-of-geoips">
 <h1>Scope of GeoIPS<a class="headerlink" href="#scope-of-geoips" title="Permalink to this heading">#</a></h1>
-<p>TODO</p>
+<p>The GeoIPS “core” package covers data processing from <strong>reading and reformatting</strong> source
+data into the common internal GeoIPS representation, through <strong>algorithm and product
+application</strong>, to <strong>writing</strong> user-configurable output formats (imagery, NetCDF, GeoTIFF,
+text, and more). This processing is orchestrated by <a class="reference internal" href="../../functionality/order-based-processing/index.html#order-based-processing"><span class="std std-ref">Order-Based Processing</span></a>.</p>
+<p>The following are intentionally <strong>outside</strong> the scope of the GeoIPS core and are treated as
+site-specific implementations:</p>
+<ul class="simple">
+<li><p>Data collection and ingest scheduling.</p></li>
+<li><p>Data transfer between systems.</p></li>
+<li><p>Product dissemination and archival.</p></li>
+<li><p>Operational job scheduling (though GeoIPS can integrate with tools such as <code class="docutils literal notranslate"><span class="pre">cylc</span></code>).</p></li>
+</ul>
+<p>See <a class="reference internal" href="../../getting-started/index.html#getting-started"><span class="std std-ref">what is GeoIPS</span></a> for the high-level overview and
+<a class="reference internal" href="../../functionality/order-based-processing/index.html#order-based-processing"><span class="std std-ref">Order-Based Processing (OBP)</span></a> for the processing model.</p>
 </section>
 
 

@@ -1,0 +1,1578 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>geoips.utils.types.script_datatree &#8212; GeoIPS, Geolocated Information Processing System 1.19.0.post1200.dev0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../../_static/styles/theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+<link href="../../../../_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/autodoc_pydantic.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/set_width.css?v=d4af5e1e" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../../../../_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
+<link rel="preload" as="script" href="../../../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
+
+    <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js?v=ba503b0a"></script>
+    <script src="../../../../_static/doctools.js?v=888ff710"></script>
+    <script src="../../../../_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="../../../../_static/design-tabs.js?v=f930bc37"></script>
+    <script type="module">import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.12.1/dist/mermaid.esm.min.mjs";
+
+
+
+const initStyles = () => {
+    const defaultStyle = document.createElement('style');
+    defaultStyle.textContent = "pre.mermaid {\n    /* Same as .mermaid-container > pre */\n    display: block;\n    width: 100%;\n}\n\npre.mermaid > svg {\n    /* Same as .mermaid-container > pre > svg */\n    height: 500px;\n    width: 100%;\n    max-width: 100% !important;\n}";
+    document.head.appendChild(defaultStyle);
+
+    const fullscreenStyle = document.createElement('style');
+    fullscreenStyle.textContent = ".mermaid-container {\n    position: relative;\n    display: flex;\n    flex-direction: row;\n    width: 100%;\n}\n\n.mermaid-container > pre {\n    display: block;\n    width: 100%;\n}\n\n.mermaid-container > pre > svg {\n    height: 500px;\n    width: 100%;\n    max-width: 100% !important;\n}\n\n.mermaid-fullscreen-btn {\n    position: absolute;\n    width: 28px;\n    height: 28px;\n    background: rgba(255, 255, 255, 0.95);\n    border: 1px solid rgba(0, 0, 0, 0.3);\n    border-radius: 4px;\n    cursor: pointer;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n    transition: all 0.2s;\n    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);\n    font-size: 14px;\n    line-height: 1;\n    padding: 0;\n    color: #333;\n}\n\n.mermaid-fullscreen-btn:hover {\n    opacity: 100% !important;\n    background: rgba(255, 255, 255, 1);\n    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);\n    transform: scale(1.1);\n}\n\n.mermaid-fullscreen-btn.dark-theme {\n    background: rgba(50, 50, 50, 0.95);\n    border: 1px solid rgba(255, 255, 255, 0.3);\n    color: #e0e0e0;\n}\n\n.mermaid-fullscreen-btn.dark-theme:hover {\n    background: rgba(60, 60, 60, 1);\n    box-shadow: 0 3px 10px rgba(255, 255, 255, 0.2);\n}\n\n.mermaid-fullscreen-modal {\n    display: none;\n    position: fixed !important;\n    top: 0 !important;\n    left: 0 !important;\n    width: 95vw;\n    height: 100vh;\n    background: rgba(255, 255, 255, 0.98);\n    z-index: 9999;\n    padding: 20px;\n    overflow: auto;\n}\n\n.mermaid-fullscreen-modal.dark-theme {\n    background: rgba(0, 0, 0, 0.98);\n}\n\n.mermaid-fullscreen-modal.active {\n    display: flex;\n    align-items: center;\n    justify-content: center;\n}\n\n.mermaid-container-fullscreen {\n    position: relative;\n    width: 95vw;\n    height: 90vh;\n    max-width: 95vw;\n    max-height: 90vh;\n    background: white;\n    border-radius: 8px;\n    padding: 20px;\n    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);\n    overflow: auto;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n}\n\n.mermaid-container-fullscreen.dark-theme {\n    background: #1a1a1a;\n    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8);\n}\n\n.mermaid-container-fullscreen pre.mermaid {\n    width: 100%;\n    height: 100%;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n}\n\n.mermaid-container-fullscreen .mermaid svg {\n    height: 100% !important;\n    width: 100% !important;\n    cursor: grab;\n}\n\n.mermaid-fullscreen-close {\n    position: fixed !important;\n    top: 20px !important;\n    right: 20px !important;\n    width: 40px;\n    height: 40px;\n    background: rgba(255, 255, 255, 0.95);\n    border: 1px solid rgba(0, 0, 0, 0.2);\n    border-radius: 50%;\n    cursor: pointer;\n    z-index: 10000;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);\n    transition: all 0.2s;\n    font-size: 24px;\n    line-height: 1;\n    color: #333;\n}\n\n.mermaid-fullscreen-close:hover {\n    background: white;\n    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);\n    transform: scale(1.1);\n}\n\n.mermaid-fullscreen-close.dark-theme {\n    background: rgba(50, 50, 50, 0.95);\n    border: 1px solid rgba(255, 255, 255, 0.2);\n    color: #e0e0e0;\n}\n\n.mermaid-fullscreen-close.dark-theme:hover {\n    background: rgba(60, 60, 60, 1);\n    box-shadow: 0 6px 16px rgba(255, 255, 255, 0.2);\n}\n\n.mermaid-fullscreen-modal .mermaid-fullscreen-btn {\n    display: none !important;\n}";
+    document.head.appendChild(fullscreenStyle);
+}
+
+// Detect if page has dark background
+const isDarkTheme = () => {
+    // We use a set of heuristics:
+    // 1. Check for common dark mode classes or attributes
+    // 2. Check computed background color brightness
+    if (document.documentElement.classList.contains('dark') ||
+        document.documentElement.getAttribute('data-theme') === 'dark' ||
+        document.body.classList.contains('dark') ||
+        document.body.getAttribute('data-theme') === 'dark') {
+        // console.log("Dark theme detected via class/attribute");
+        return true;
+    }
+    if (document.documentElement.classList.contains('light') ||
+        document.documentElement.getAttribute('data-theme') === 'light' ||
+        document.body.classList.contains('light') ||
+        document.body.getAttribute('data-theme') === 'light') {
+        // console.log("Light theme detected via class/attribute");
+        return false;
+    }
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        // console.log("Dark theme detected via prefers-color-scheme");
+        return true;
+    }
+    const bgColor = window.getComputedStyle(document.body).backgroundColor;
+    const match = bgColor.match(/rgb\((\d+),\s*(\d+),\s*(\d+)/);
+    if (match) {
+        const r = parseInt(match[1]);
+        const g = parseInt(match[2]);
+        const b = parseInt(match[3]);
+        const brightness = (r * 299 + g * 587 + b * 114) / 1000;
+        // console.log("Background color brightness:", brightness);
+        return brightness < 128;
+    }
+    // console.log("No dark or light theme detected, defaulting to light theme");
+    return false;
+};
+
+let darkTheme = isDarkTheme();
+let modal = null;
+let modalContent = null;
+let previousScrollOffset = [window.scrollX, window.scrollY];
+let _lazyObserver = null;
+let _renderQueue = Promise.resolve();
+let closeModal = () => {};
+
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && modal?.classList.contains('active')) {
+        closeModal();
+    }
+});
+
+// Apply d3 zoom to each SVG. Idempotent: an SVG already wrapped is skipped,
+// so this is safe to call both for the initial batch and for diagrams that
+// render lazily once they become visible.
+const addZoomToSvgs = (svgs) => {
+    svgs.each(function() {
+        if (this.getAttribute('data-zoom-applied') === 'true') return;
+        var svg = d3.select(this);
+        svg.html("<g class='wrapper'>" + svg.html() + "</g>");
+        var inner = svg.select("g");
+        var zoom = d3.zoom().on("zoom", function(event) {
+            inner.attr("transform", event.transform);
+        });
+        svg.call(zoom);
+        this.setAttribute('data-zoom-applied', 'true');
+    });
+};
+
+const runMermaid = async (rerun) => {
+    console.log("Running mermaid diagrams, rerun =", rerun);
+    // clear all existing mermaid charts
+    let all_mermaids = document.querySelectorAll(".mermaid");
+
+    if (rerun) {
+        // Disconnect any previous lazy rendering observer
+        if (_lazyObserver) {
+            _lazyObserver.disconnect();
+            _lazyObserver = null;
+        }
+
+        all_mermaids.forEach((el) => {
+            el.removeAttribute('data-mermaid-deferred');
+            el.removeAttribute('data-mermaid-render-failed');
+            if(!el.hasAttribute("data-original-code")) {
+                // store original code
+                // console.log(`Storing original code for first run: `, el.innerHTML);
+                el.setAttribute('data-original-code', el.innerHTML);
+            }
+            if(el.getAttribute("data-processed") === "true") {
+                // remove and restore original
+                el.removeAttribute("data-processed");
+                // console.log(`Restoring original code for re-run: `, el.getAttribute('data-original-code'));
+                el.innerHTML = el.getAttribute('data-original-code');
+            } else {
+                // store original code
+                // console.log(`Storing original code for re-run: `, el.innerHTML);
+                el.setAttribute('data-original-code', el.innerHTML);
+            }
+        });
+
+        // Separate visible and hidden elements. Mermaid's layout engine measures
+        // text dimensions via the DOM, which fails for elements hidden by a parent
+        // (e.g., Reveal.js non-active slides, sphinx-design unopened tabs),
+        // producing broken SVGs. Render visible elements now, defer hidden ones.
+        const visible = [];
+        const hidden = [];
+        all_mermaids.forEach((el) => {
+            // offsetParent is null for display:none ancestors.
+            // getClientRects().length > 0 catches position:fixed elements
+            // (which also have null offsetParent but are still visible).
+            if (el.offsetParent !== null || el.getClientRects().length > 0) {
+                visible.push(el);
+            } else {
+                hidden.push(el);
+                el.setAttribute('data-mermaid-deferred', 'true');
+            }
+        });
+
+        if (visible.length > 0) {
+            try {
+                await mermaid.run({ nodes: visible });
+            } catch (e) {
+                console.error("Mermaid rendering failed:", e);
+            }
+        }
+
+        // Lazily render hidden elements when they become visible.
+        // Uses a promise chain (_renderQueue) to serialize rendering,
+        // since IntersectionObserver may report multiple entries at once
+        // and mermaid.run() is not safe to call concurrently.
+        if (hidden.length > 0) {
+            if (typeof IntersectionObserver === 'undefined') {
+                console.warn("IntersectionObserver not available; hidden mermaid diagrams will not render.");
+            } else {
+                _renderQueue = Promise.resolve();
+                _lazyObserver = new IntersectionObserver((entries) => {
+                    for (const entry of entries) {
+                        if (entry.isIntersecting && entry.target.getAttribute("data-processed") !== "true") {
+                            _lazyObserver.unobserve(entry.target);
+                            const el = entry.target;
+                            _renderQueue = _renderQueue.then(async () => {
+                                try {
+                                    await mermaid.run({ nodes: [el] });
+                                    el.removeAttribute('data-mermaid-deferred');
+                                    // Apply zoom to the now-rendered diagram, matching
+                                    // the decoration visible diagrams receive.
+                                    if (false) {
+                                        addZoomToSvgs(d3.selectAll("").select(function() {
+                                            return this.querySelector("svg");
+                                        }));
+                                    }
+                                } catch (e) {
+                                    console.error("Mermaid deferred rendering failed:", e);
+                                    el.removeAttribute('data-mermaid-deferred');
+                                    el.setAttribute('data-mermaid-render-failed', 'true');
+                                }
+                            });
+                        }
+                    }
+                });
+                hidden.forEach((el) => _lazyObserver.observe(el));
+            }
+        }
+    }
+
+    all_mermaids = document.querySelectorAll(".mermaid");
+    // Exclude deferred (hidden) and render-failed elements from completion checks
+    const mermaids_active = document.querySelectorAll(".mermaid:not([data-mermaid-deferred]):not([data-mermaid-render-failed])");
+    const mermaids_processed = document.querySelectorAll(".mermaid:not([data-mermaid-deferred]):not([data-mermaid-render-failed])[data-processed='true']");
+
+    if (false) {
+        const mermaids_to_add_zoom = 0 === -1 ? mermaids_active.length : 0;
+        if(mermaids_to_add_zoom > 0) {
+            var svgs = d3.selectAll("").select(function() {
+                return this.querySelector("svg");
+            });
+            // Wait until every active (visible) diagram has rendered. Deferred
+            // diagrams are excluded, so a fixed d3_node_count that counts a
+            // hidden diagram no longer loops forever waiting for its SVG.
+            if(mermaids_active.length !== mermaids_processed.length) {
+                setTimeout(() => runMermaid(false), 200);
+                return;
+            }
+            addZoomToSvgs(svgs);
+        }
+    } else if(mermaids_active.length !== mermaids_processed.length) {
+        // Wait for mermaid to process all diagrams
+        setTimeout(() => runMermaid(false), 200);
+        return;
+    }
+
+    // Stop here if not adding fullscreen capability
+    if (!true) return;
+
+    if (modal !== null ) {
+        // Destroy existing modal
+        modal.remove();
+        modal = null;
+        modalContent = null;
+    }
+
+    modal = document.createElement('div');
+    modal.className = 'mermaid-fullscreen-modal' + (darkTheme ? ' dark-theme' : '');
+    modal.setAttribute('role', 'dialog');
+    modal.setAttribute('aria-modal', 'true');
+    modal.setAttribute('aria-label', 'Fullscreen diagram viewer');
+    modal.innerHTML = `
+        <button class="mermaid-fullscreen-close${darkTheme ? ' dark-theme' : ''}" aria-label="Close fullscreen">✕</button>
+        <div class="mermaid-container-fullscreen${darkTheme ? ' dark-theme' : ''}"></div>
+    `;
+    document.body.appendChild(modal);
+
+    modalContent = modal.querySelector('.mermaid-container-fullscreen');
+    const closeBtn = modal.querySelector('.mermaid-fullscreen-close');
+
+    closeModal = () => {
+        modal.classList.remove('active');
+        modalContent.innerHTML = '';
+        document.body.style.overflow = ''
+        window.scrollTo({left: previousScrollOffset[0], top: previousScrollOffset[1], behavior: 'instant'});
+    };
+
+    closeBtn.addEventListener('click', closeModal);
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) closeModal();
+    });
+    document.querySelectorAll('.mermaid').forEach((mermaidDiv) => {
+        if (mermaidDiv.parentNode.classList.contains('mermaid-container') ||
+            mermaidDiv.closest('.mermaid-fullscreen-modal')) {
+            // Already processed, adjust button class if needed
+            const existingBtn = mermaidDiv.parentNode.querySelector('.mermaid-fullscreen-btn');
+            if (existingBtn) {
+                existingBtn.className = 'mermaid-fullscreen-btn' + (darkTheme ? ' dark-theme' : '');
+            }
+            return;
+        }
+
+        const container = document.createElement('div');
+        container.className = 'mermaid-container';
+        mermaidDiv.parentNode.insertBefore(container, mermaidDiv);
+        container.appendChild(mermaidDiv);
+
+        const fullscreenBtn = document.createElement('button');
+        fullscreenBtn.className = 'mermaid-fullscreen-btn' + (darkTheme ? ' dark-theme' : '');
+        fullscreenBtn.setAttribute('aria-label', 'View diagram in fullscreen');
+        fullscreenBtn.textContent = "\u26f6";
+        fullscreenBtn.style.opacity = "50%";
+
+        // Calculate dynamic position based on diagram's margin and padding
+        const diagramStyle = window.getComputedStyle(mermaidDiv);
+        const marginTop = parseFloat(diagramStyle.marginTop) || 0;
+        const marginRight = parseFloat(diagramStyle.marginRight) || 0;
+        const paddingTop = parseFloat(diagramStyle.paddingTop) || 0;
+        const paddingRight = parseFloat(diagramStyle.paddingRight) || 0;
+        fullscreenBtn.style.top = `${marginTop + paddingTop + 4}px`;
+        fullscreenBtn.style.right = `${marginRight + paddingRight + 4}px`;
+
+        fullscreenBtn.addEventListener('click', () => {
+            previousScrollOffset = [window.scrollX, window.scrollY];
+            const clone = mermaidDiv.cloneNode(true);
+            modalContent.innerHTML = '';
+            modalContent.appendChild(clone);
+
+            const svg = clone.querySelector('svg');
+            if (svg) {
+                svg.removeAttribute('width');
+                svg.removeAttribute('height');
+                svg.style.width = '100%';
+                svg.style.height = 'auto';
+                svg.style.maxWidth = '100%';
+                svg.style.display = 'block';
+
+                if (false) {
+                    setTimeout(() => {
+                        const g = svg.querySelector('g');
+                        if (g) {
+                            var svgD3 = d3.select(svg);
+                            svgD3.html("<g class='wrapper'>" + svgD3.html() + "</g>");
+                            var inner = svgD3.select("g");
+                            var zoom = d3.zoom().on("zoom", function(event) {
+                                inner.attr("transform", event.transform);
+                            });
+                            svgD3.call(zoom);
+                        }
+                    }, 100);
+                }
+            }
+
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        });
+        container.appendChild(fullscreenBtn);
+    });
+};
+
+
+
+const load = async () => {
+    initStyles();
+
+
+    await runMermaid(true);
+
+    const reRunIfThemeChanges = async () => {
+        const newDarkTheme = isDarkTheme();
+        if (newDarkTheme !== darkTheme) {
+            darkTheme = newDarkTheme;
+            console.log("Theme change detected, re-running mermaid with", darkTheme ? "dark" : "default", "theme");
+            await mermaid.initialize(
+                {...{"startOnLoad": false},
+                ...{ darkMode: darkTheme, theme: darkTheme ? "dark" : "default" },
+                }
+            );
+            await runMermaid(true);
+        }
+    };
+
+    // Update theme classes when theme changes
+    const themeObserver = new MutationObserver(reRunIfThemeChanges);
+    themeObserver.observe(document.documentElement, {
+        attributes: true,
+        attributeFilter: ['class', 'style', 'data-theme']
+    });
+    themeObserver.observe(document.body, {
+        attributes: true,
+        attributeFilter: ['class', 'style', 'data-theme']
+    });
+};
+
+
+
+
+
+console.log("Initializing mermaid with", darkTheme ? "dark" : "default", "theme");
+mermaid.initialize(
+    {...{"startOnLoad": false},
+    ...{ darkMode: darkTheme, theme: darkTheme ? "dark" : "default" },
+    }
+);
+
+window.addEventListener("load", load);
+window.runMermaid = runMermaid;</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/geoips/utils/types/script_datatree';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <link rel="icon" href="../../../../_static/nrlicon.ico"/>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="1.1" />
+    <meta name="docbuild:last-update" content="Jul 23, 2026 15:25:48"/>
+  
+    
+    <script src="../../../../_static/searchtools.js"></script>
+    <script src="../../../../_static/language_data.js"></script>
+    <script src="../../../../searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../../../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../../../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 1.19.0.post1200.dev0 documentation - Home"/>
+    <img src="../../../../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 1.19.0.post1200.dev0 documentation - Home"/>
+  
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../getting-started/index.html">
+    Getting Started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../functionality/index.html">
+    Functionality
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../tutorials/index.html">
+    Tutorials
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../devguide/index.html">
+    Developer Guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../deployguide/index.html">
+    Deploying and Operating GeoIPS
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../../architecture/index.html">
+    Architecture
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../../contribute/index.html">
+    Contribute
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../../contact/index.html">
+    About Us
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../../geoips_api/index.html">
+    API
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../../releases/index.html">
+    Release Notes
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/NRLMMD-GEOIPS/geoips" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../getting-started/index.html">
+    Getting Started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../functionality/index.html">
+    Functionality
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../tutorials/index.html">
+    Tutorials
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../devguide/index.html">
+    Developer Guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../deployguide/index.html">
+    Deploying and Operating GeoIPS
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../architecture/index.html">
+    Architecture
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../contribute/index.html">
+    Contribute
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../contact/index.html">
+    About Us
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../geoips_api/index.html">
+    API
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../releases/index.html">
+    Release Notes
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/NRLMMD-GEOIPS/geoips" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../../../index.html" class="nav-link">Module code</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">geoips.utils.types.script_datatree</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <h1>Source code for geoips.utils.types.script_datatree</h1><div class="highlight"><pre>
+<span></span><span class="c1"># # # This source code is subject to the license referenced at</span>
+<span class="c1"># # # https://github.com/NRLMMD-GEOIPS.</span>
+
+<span class="sd">&quot;&quot;&quot;Helpers for OBP-style plugin calls from scripts.&quot;&quot;&quot;</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">datetime</span><span class="p">,</span> <span class="n">timezone</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">enum</span><span class="w"> </span><span class="kn">import</span> <span class="n">StrEnum</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">functools</span><span class="w"> </span><span class="kn">import</span> <span class="n">cache</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">xarray</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">xr</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">geoips.utils.types.datatree_ditto</span><span class="w"> </span><span class="kn">import</span> <span class="n">DataTreeDitto</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">geoips.utils.types.datatree_helpers</span><span class="w"> </span><span class="kn">import</span> <span class="n">has_data_vars</span><span class="p">,</span> <span class="n">to_mutable_dataset</span>
+
+
+<div class="viewcode-block" id="RetentionPolicy"><a class="viewcode-back" href="../../../../geoips_api/geoips.utils.types.html#geoips.scripting.RetentionPolicy">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">RetentionPolicy</span><span class="p">(</span><span class="n">StrEnum</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Retention policies for OBP-style scripted plugin calls.</span>
+
+<span class="sd">    Use these values when initializing a script DataTree or overriding</span>
+<span class="sd">    retention behavior for a single scripted plugin call. Each enum member is</span>
+<span class="sd">    string-like, so it can be compared with or serialized as its string value,</span>
+<span class="sd">    but it also carries a short interactive description.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; from geoips.scripting import RetentionPolicy, initialize_script_tree</span>
+<span class="sd">    &gt;&gt;&gt; tree = initialize_script_tree(</span>
+<span class="sd">    ...     &quot;abi_infrared_test&quot;,</span>
+<span class="sd">    ...     retention_policy=RetentionPolicy.metadata_only,</span>
+<span class="sd">    ... )</span>
+<span class="sd">    &gt;&gt;&gt; tree = reader_plugin(</span>
+<span class="sd">    ...     data=tree,</span>
+<span class="sd">    ...     filenames=fnames,</span>
+<span class="sd">    ...     step_id=&quot;read_data&quot;,</span>
+<span class="sd">    ... )</span>
+
+<span class="sd">    String values such as ``&quot;metadata_only&quot;`` are also accepted for</span>
+<span class="sd">    configuration-driven scripts.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">description</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create a string-like retention policy with a description.&quot;&quot;&quot;</span>
+        <span class="n">obj</span> <span class="o">=</span> <span class="nb">str</span><span class="o">.</span><span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+        <span class="n">obj</span><span class="o">.</span><span class="n">_value_</span> <span class="o">=</span> <span class="n">value</span>
+        <span class="n">obj</span><span class="o">.</span><span class="n">description</span> <span class="o">=</span> <span class="n">description</span>
+        <span class="k">return</span> <span class="n">obj</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">__doc__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the policy description for interactive help.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">description</span>
+
+    <span class="n">keep_all</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="s2">&quot;keep_all&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Keep every plugin result intact. Useful for debugging, exploratory &quot;</span>
+        <span class="s2">&quot;scripts, notebooks, and tests where intermediate data should remain &quot;</span>
+        <span class="s2">&quot;available for inspection.&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">metadata_only</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="s2">&quot;metadata_only&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Keep the current plugin result intact, but reduce older results to &quot;</span>
+        <span class="s2">&quot;attrs only. Useful for preserving provenance while reducing memory &quot;</span>
+        <span class="s2">&quot;used by previous datasets.&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">current_only</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="s2">&quot;current_only&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Keep only the current plugin result and discard older step nodes. &quot;</span>
+        <span class="s2">&quot;Useful for memory-sensitive processing where only the latest data &quot;</span>
+        <span class="s2">&quot;product is needed.&quot;</span><span class="p">,</span>
+    <span class="p">)</span></div>
+
+
+<span class="n">SCRIPT_EXECUTION_MODE</span> <span class="o">=</span> <span class="s2">&quot;script&quot;</span>
+<span class="n">RETENTION_POLICIES</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">RetentionPolicy</span><span class="p">)</span>
+<span class="n">_RESERVED_ROOT_ATTRS</span> <span class="o">=</span> <span class="nb">frozenset</span><span class="p">(</span>
+    <span class="p">(</span><span class="s2">&quot;execution_mode&quot;</span><span class="p">,</span> <span class="s2">&quot;retention_policy&quot;</span><span class="p">,</span> <span class="s2">&quot;start_time&quot;</span><span class="p">,</span> <span class="s2">&quot;end_time&quot;</span><span class="p">)</span>
+<span class="p">)</span>
+
+
+<div class="viewcode-block" id="normalize_retention_policy"><a class="viewcode-back" href="../../../../geoips_api/geoips.utils.types.html#geoips.scripting.normalize_retention_policy">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">normalize_retention_policy</span><span class="p">(</span><span class="n">retention_policy</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return a canonical retention policy from a string or RetentionPolicy.</span>
+
+<span class="sd">    This internal helper lets user-facing functions accept either</span>
+<span class="sd">    ``RetentionPolicy.metadata_only`` style values or equivalent string values</span>
+<span class="sd">    such as ``&quot;metadata_only&quot;``.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">RetentionPolicy</span><span class="p">(</span><span class="n">retention_policy</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">ValueError</span> <span class="k">as</span> <span class="n">resp</span><span class="p">:</span>
+        <span class="n">valid_policies</span> <span class="o">=</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">policy</span><span class="o">.</span><span class="n">value</span> <span class="k">for</span> <span class="n">policy</span> <span class="ow">in</span> <span class="n">RETENTION_POLICIES</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Invalid retention policy </span><span class="si">{</span><span class="n">retention_policy</span><span class="si">!r}</span><span class="s2">. &quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;Expected one of: </span><span class="si">{</span><span class="n">valid_policies</span><span class="si">}</span><span class="s2">.&quot;</span>
+        <span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">resp</span></div>
+
+
+<div class="viewcode-block" id="validate_retention_policy"><a class="viewcode-back" href="../../../../geoips_api/geoips.utils.types.html#geoips.scripting.validate_retention_policy">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">validate_retention_policy</span><span class="p">(</span><span class="n">retention_policy</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Validate a script DataTree retention policy.&quot;&quot;&quot;</span>
+    <span class="n">normalize_retention_policy</span><span class="p">(</span><span class="n">retention_policy</span><span class="p">)</span></div>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_utc_now</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the current UTC datetime.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">(</span><span class="n">timezone</span><span class="o">.</span><span class="n">utc</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_format_timestamp</span><span class="p">(</span><span class="n">timestamp</span><span class="p">,</span> <span class="n">field_name</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return an ISO-formatted timestamp string from a datetime or None.&quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">timestamp</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">None</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">timestamp</span><span class="p">,</span> <span class="n">datetime</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">field_name</span><span class="si">}</span><span class="s2"> must be a datetime.datetime instance or None. &quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;Got </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">timestamp</span><span class="p">)</span><span class="o">.</span><span class="vm">__module__</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">timestamp</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">.&quot;</span>
+        <span class="p">)</span>
+    <span class="k">return</span> <span class="n">timestamp</span><span class="o">.</span><span class="n">isoformat</span><span class="p">()</span>
+
+
+<div class="viewcode-block" id="is_script_tree"><a class="viewcode-back" href="../../../../geoips_api/geoips.utils.types.html#geoips.scripting.is_script_tree">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">is_script_tree</span><span class="p">(</span><span class="n">tree</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return whether *tree* is an initialized script DataTree.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="p">(</span>
+        <span class="nb">isinstance</span><span class="p">(</span><span class="n">tree</span><span class="p">,</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataTree</span><span class="p">)</span>
+        <span class="ow">and</span> <span class="n">tree</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;execution_mode&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="n">SCRIPT_EXECUTION_MODE</span>
+    <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="plugin_kind"><a class="viewcode-back" href="../../../../geoips_api/geoips.utils.types.html#geoips.scripting.plugin_kind">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">plugin_kind</span><span class="p">(</span><span class="n">plugin</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the singular plugin kind for script step metadata.</span>
+
+<span class="sd">    Uses the plugin&#39;s ``interface`` attribute (e.g. ``&quot;filename_formatters&quot;``)</span>
+<span class="sd">    and returns its singular form (e.g. ``&quot;filename_formatter&quot;``).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">geoips.utils.types.partial_lexeme</span><span class="w"> </span><span class="kn">import</span> <span class="n">Lexeme</span>
+
+    <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">Lexeme</span><span class="p">(</span><span class="n">plugin</span><span class="o">.</span><span class="n">interface</span><span class="p">)</span><span class="o">.</span><span class="n">singular</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="script_call_data"><a class="viewcode-back" href="../../../../geoips_api/geoips.utils.types.html#geoips.scripting.script_call_data">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">script_call_data</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the data object to pass through plugin preprocessing.</span>
+
+<span class="sd">    Script calls keep the accumulated script tree in ``data``; the plugin&#39;s</span>
+<span class="sd">    own call should operate on the current data input (``xarray_obj`` kwarg</span>
+<span class="sd">    when a conduit injected one, otherwise the tree itself).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;xarray_obj&quot;</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span></div>
+
+
+<span class="nd">@cache</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_valid_script_plugin_kinds</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return valid registered plugin kinds for script step metadata.</span>
+
+<span class="sd">    Interface discovery can be expensive, so this result is cached for the</span>
+<span class="sd">    lifetime of the Python process. The returned set contains registered</span>
+<span class="sd">    GeoIPS interface kinds, excluding ``product`` and ``workflow`` for now,</span>
+<span class="sd">    plus the special ``manual`` kind for user-created script data.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">geoips</span><span class="w"> </span><span class="kn">import</span> <span class="n">interfaces</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">geoips.utils.types.partial_lexeme</span><span class="w"> </span><span class="kn">import</span> <span class="n">Lexeme</span>
+
+    <span class="n">interface_names</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="n">name</span>
+        <span class="k">for</span> <span class="n">names</span> <span class="ow">in</span> <span class="n">interfaces</span><span class="o">.</span><span class="n">list_available_interfaces</span><span class="p">()</span><span class="o">.</span><span class="n">values</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">names</span>
+    <span class="p">]</span>
+    <span class="n">plugin_kinds</span> <span class="o">=</span> <span class="p">{</span><span class="nb">str</span><span class="p">(</span><span class="n">Lexeme</span><span class="p">(</span><span class="n">name</span><span class="p">)</span><span class="o">.</span><span class="n">singular</span><span class="p">)</span> <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">interface_names</span><span class="p">}</span>
+    <span class="n">plugin_kinds</span><span class="o">.</span><span class="n">difference_update</span><span class="p">({</span><span class="s2">&quot;product&quot;</span><span class="p">,</span> <span class="s2">&quot;workflow&quot;</span><span class="p">})</span>
+    <span class="n">plugin_kinds</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="s2">&quot;manual&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="nb">frozenset</span><span class="p">(</span><span class="n">plugin_kinds</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_validate_script_step_metadata</span><span class="p">(</span><span class="n">step_name</span><span class="p">,</span> <span class="n">plugin_kind</span><span class="p">,</span> <span class="n">plugin_name</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Validate script step metadata before attaching a result.&quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">step_name</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">step_name</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;A step_id or plugin_name is required to attach a result.&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">step_name</span><span class="o">.</span><span class="n">isidentifier</span><span class="p">():</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Script step id </span><span class="si">{</span><span class="n">step_name</span><span class="si">!r}</span><span class="s2"> is invalid. Step ids must be valid &quot;</span>
+            <span class="s2">&quot;Python identifiers.&quot;</span>
+        <span class="p">)</span>
+
+    <span class="n">valid_plugin_kinds</span> <span class="o">=</span> <span class="n">_valid_script_plugin_kinds</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">plugin_kind</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">valid_plugin_kinds</span><span class="p">:</span>
+        <span class="n">valid_kinds</span> <span class="o">=</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">valid_plugin_kinds</span><span class="p">))</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Invalid script plugin kind </span><span class="si">{</span><span class="n">plugin_kind</span><span class="si">!r}</span><span class="s2">. &quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;Expected one of: </span><span class="si">{</span><span class="n">valid_kinds</span><span class="si">}</span><span class="s2">.&quot;</span>
+        <span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">plugin_name</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">plugin_name</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;plugin_name must be a string when provided.&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">plugin_name</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;plugin_name must be a non-empty string when provided.&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">plugin_kind</span> <span class="o">!=</span> <span class="s2">&quot;manual&quot;</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">plugin_name</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;plugin_name must be a non-empty string.&quot;</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="initialize_script_tree"><a class="viewcode-back" href="../../../../geoips_api/geoips.utils.types.html#geoips.scripting.initialize_script_tree">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">initialize_script_tree</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">retention_policy</span><span class="p">,</span> <span class="o">**</span><span class="n">attrs</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Initialize a root DataTree for OBP-style scripted plugin calls.</span>
+
+<span class="sd">    The returned tree is intended to be passed as the ``data`` argument to</span>
+<span class="sd">    direct plugin calls. Plugins infer script-mode OBP behavior from the</span>
+<span class="sd">    tree&#39;s ``execution_mode`` metadata and attach results back onto this</span>
+<span class="sd">    script tree using ``step_id``.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    name : str</span>
+<span class="sd">        Name for the root script DataTree.</span>
+<span class="sd">    retention_policy : RetentionPolicy or str</span>
+<span class="sd">        Retention policy to apply after scripted plugin calls. May be supplied</span>
+<span class="sd">        as a ``RetentionPolicy`` value or its string value. May be overridden</span>
+<span class="sd">        on individual steps.</span>
+<span class="sd">    attrs : dict</span>
+<span class="sd">        Additional root-level metadata to store on the script DataTree.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    xarray.DataTree</span>
+<span class="sd">        Root DataTree with standard script execution metadata.</span>
+
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    ValueError</span>
+<span class="sd">        If *retention_policy* is not recognized, or if *attrs* attempts to</span>
+<span class="sd">        override reserved script metadata fields.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; from geoips.scripting import RetentionPolicy, initialize_script_tree</span>
+<span class="sd">    &gt;&gt;&gt; tree = initialize_script_tree(</span>
+<span class="sd">    ...     &quot;abi_infrared_test&quot;,</span>
+<span class="sd">    ...     retention_policy=RetentionPolicy.metadata_only,</span>
+<span class="sd">    ... )</span>
+<span class="sd">    &gt;&gt;&gt; tree = reader_plugin(</span>
+<span class="sd">    ...     data=tree,</span>
+<span class="sd">    ...     filenames=fnames,</span>
+<span class="sd">    ...     step_id=&quot;read_data&quot;,</span>
+<span class="sd">    ... )</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">retention_policy</span> <span class="o">=</span> <span class="n">normalize_retention_policy</span><span class="p">(</span><span class="n">retention_policy</span><span class="p">)</span>
+
+    <span class="n">reserved_attrs</span> <span class="o">=</span> <span class="n">_RESERVED_ROOT_ATTRS</span><span class="o">.</span><span class="n">intersection</span><span class="p">(</span><span class="n">attrs</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">reserved_attrs</span><span class="p">:</span>
+        <span class="n">reserved_names</span> <span class="o">=</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">reserved_attrs</span><span class="p">))</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="s2">&quot;Script DataTree metadata fields are reserved and may not be &quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;overridden: </span><span class="si">{</span><span class="n">reserved_names</span><span class="si">}</span><span class="s2">.&quot;</span>
+        <span class="p">)</span>
+
+    <span class="n">tree</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataTree</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">)</span>
+    <span class="n">tree</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
+        <span class="p">{</span>
+            <span class="s2">&quot;execution_mode&quot;</span><span class="p">:</span> <span class="n">SCRIPT_EXECUTION_MODE</span><span class="p">,</span>
+            <span class="s2">&quot;retention_policy&quot;</span><span class="p">:</span> <span class="n">retention_policy</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
+            <span class="s2">&quot;start_time&quot;</span><span class="p">:</span> <span class="n">_utc_now</span><span class="p">()</span><span class="o">.</span><span class="n">isoformat</span><span class="p">(),</span>
+            <span class="s2">&quot;end_time&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="o">**</span><span class="n">attrs</span><span class="p">,</span>
+        <span class="p">}</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">tree</span></div>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_normalize_script_step_result</span><span class="p">(</span><span class="n">step_data</span><span class="p">,</span> <span class="n">step_name</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Normalize a plugin result to a DataTree-compatible script node.&quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">step_data</span><span class="p">,</span> <span class="n">DataTreeDitto</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">step_data</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">step_data</span><span class="p">,</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataTree</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">DataTreeDitto</span><span class="o">.</span><span class="n">from_datatree</span><span class="p">(</span><span class="n">step_data</span><span class="p">)</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">DataTreeDitto</span><span class="p">(</span><span class="n">step_data</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">TypeError</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
+        <span class="n">step_data_type</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="n">step_data</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Cannot attach result for script step </span><span class="si">{</span><span class="n">step_name</span><span class="si">!r}</span><span class="s2">: step_data &quot;</span>
+            <span class="s2">&quot;must be an xarray DataTree, DataTreeDitto, xarray Dataset, &quot;</span>
+            <span class="s2">&quot;xarray DataArray, or another type convertible by DataTreeDitto. &quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;Got </span><span class="si">{</span><span class="n">step_data_type</span><span class="o">.</span><span class="vm">__module__</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">step_data_type</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">. &quot;</span>
+            <span class="s2">&quot;To attach a scalar or other simple value, wrap it in a Dataset, &quot;</span>
+            <span class="s2">&quot;DataArray, or supported dict, for example {&#39;value&#39;: 0}. &quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;Original conversion error: </span><span class="si">{</span><span class="n">exc</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">exc</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_require_script_tree</span><span class="p">(</span><span class="n">tree</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Raise if *tree* is not an initialized script DataTree.&quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">tree</span><span class="p">,</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataTree</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+            <span class="s2">&quot;Script DataTree helpers require an xarray.DataTree created by &quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;initialize_script_tree(). Got </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">tree</span><span class="p">)</span><span class="o">.</span><span class="vm">__module__</span><span class="si">}</span><span class="s2">.&quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">tree</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">.&quot;</span>
+        <span class="p">)</span>
+    <span class="k">if</span> <span class="n">tree</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;execution_mode&quot;</span><span class="p">)</span> <span class="o">!=</span> <span class="n">SCRIPT_EXECUTION_MODE</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="s2">&quot;Script DataTree helpers may only operate on a DataTree created &quot;</span>
+            <span class="s2">&quot;by initialize_script_tree().&quot;</span>
+        <span class="p">)</span>
+    <span class="n">required_attrs</span> <span class="o">=</span> <span class="n">_RESERVED_ROOT_ATTRS</span> <span class="o">-</span> <span class="p">{</span><span class="s2">&quot;execution_mode&quot;</span><span class="p">}</span>
+    <span class="n">missing_attrs</span> <span class="o">=</span> <span class="p">[</span><span class="n">attr</span> <span class="k">for</span> <span class="n">attr</span> <span class="ow">in</span> <span class="n">required_attrs</span> <span class="k">if</span> <span class="n">attr</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">tree</span><span class="o">.</span><span class="n">attrs</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">missing_attrs</span><span class="p">:</span>
+        <span class="n">missing_attr_names</span> <span class="o">=</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">missing_attrs</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="s2">&quot;Script DataTree is missing required metadata. Use &quot;</span>
+            <span class="s2">&quot;initialize_script_tree() to create script trees. Missing attrs: &quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">missing_attr_names</span><span class="si">}</span><span class="s2">.&quot;</span>
+        <span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_normalize_output_products</span><span class="p">(</span><span class="n">output_products</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return output products as a list of paths/products.&quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">output_products</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">[]</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">output_products</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">output_products</span><span class="p">]</span>
+    <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">output_products</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="get_output_products"><a class="viewcode-back" href="../../../../geoips_api/geoips.utils.types.html#geoips.scripting.get_output_products">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">get_output_products</span><span class="p">(</span><span class="n">tree</span><span class="p">,</span> <span class="n">step_id</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return products written by scripted output formatter steps.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    tree : xarray.DataTree</span>
+<span class="sd">        Root script DataTree created by ``initialize_script_tree``.</span>
+<span class="sd">    step_id : str, optional</span>
+<span class="sd">        Specific output formatter step to inspect. If omitted, products from</span>
+<span class="sd">        all steps with ``attrs[&quot;output_products&quot;]`` are returned in tree order.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    list</span>
+<span class="sd">        Output products recorded by output formatter steps.</span>
+
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    ValueError</span>
+<span class="sd">        If *tree* is not an initialized script tree, *step_id* is unknown, or</span>
+<span class="sd">        no output products are available.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; from geoips.scripting import get_output_products</span>
+<span class="sd">    &gt;&gt;&gt; output_products = get_output_products(tree)</span>
+<span class="sd">    &gt;&gt;&gt; output_products</span>
+<span class="sd">    [&quot;/path/to/output.png&quot;]</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">_require_script_tree</span><span class="p">(</span><span class="n">tree</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">step_id</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">step_id</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">tree</span><span class="o">.</span><span class="n">children</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Script DataTree does not contain step </span><span class="si">{</span><span class="n">step_id</span><span class="si">!r}</span><span class="s2">.&quot;</span><span class="p">)</span>
+        <span class="n">output_products</span> <span class="o">=</span> <span class="n">_normalize_output_products</span><span class="p">(</span>
+            <span class="n">tree</span><span class="p">[</span><span class="n">step_id</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;output_products&quot;</span><span class="p">)</span>
+        <span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">output_products</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Script step </span><span class="si">{</span><span class="n">step_id</span><span class="si">!r}</span><span class="s2"> does not contain output products.&quot;</span>
+            <span class="p">)</span>
+        <span class="k">return</span> <span class="n">output_products</span>
+
+    <span class="n">output_products</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="n">product</span>
+        <span class="k">for</span> <span class="n">child</span> <span class="ow">in</span> <span class="n">tree</span><span class="o">.</span><span class="n">children</span><span class="o">.</span><span class="n">values</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">product</span> <span class="ow">in</span> <span class="n">_normalize_output_products</span><span class="p">(</span><span class="n">child</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;output_products&quot;</span><span class="p">))</span>
+    <span class="p">]</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">output_products</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="s2">&quot;No output products are available. Run an output formatter step &quot;</span>
+            <span class="s2">&quot;before calling get_output_products().&quot;</span>
+        <span class="p">)</span>
+    <span class="k">return</span> <span class="n">output_products</span></div>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_attrs_only_node</span><span class="p">(</span><span class="n">node</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return a DataTree node containing only attrs from *node*.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataTree</span><span class="p">(</span><span class="n">dataset</span><span class="o">=</span><span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">(</span><span class="n">attrs</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">attrs</span><span class="p">)))</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_older_step_ids</span><span class="p">(</span><span class="n">tree</span><span class="p">,</span> <span class="n">current_step_id</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return top-level step ids older than *current_step_id*.&quot;&quot;&quot;</span>
+    <span class="n">step_ids</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">tree</span><span class="o">.</span><span class="n">children</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">step_ids</span><span class="p">[:</span> <span class="n">step_ids</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">current_step_id</span><span class="p">)]</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_iter_steps_newest_first</span><span class="p">(</span><span class="n">tree</span><span class="p">,</span> <span class="n">up_to</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Yield top-level step ids newest-first, optionally capped at *up_to*.</span>
+
+<span class="sd">    When *up_to* is given, only steps up to and including *up_to* are yielded</span>
+<span class="sd">    (in newest-first order). Otherwise all steps are yielded newest-first.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">step_ids</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">tree</span><span class="o">.</span><span class="n">children</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">up_to</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">step_ids</span> <span class="o">=</span> <span class="n">step_ids</span><span class="p">[:</span> <span class="n">step_ids</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">up_to</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span>
+    <span class="k">yield from</span> <span class="nb">reversed</span><span class="p">(</span><span class="n">step_ids</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_reduce_step_to_attrs_only</span><span class="p">(</span><span class="n">tree</span><span class="p">,</span> <span class="n">step_id</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Reduce a top-level script step node to attrs-only metadata.&quot;&quot;&quot;</span>
+    <span class="n">tree</span><span class="p">[</span><span class="n">step_id</span><span class="p">]</span> <span class="o">=</span> <span class="n">_attrs_only_node</span><span class="p">(</span><span class="n">tree</span><span class="p">[</span><span class="n">step_id</span><span class="p">])</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_remove_step</span><span class="p">(</span><span class="n">tree</span><span class="p">,</span> <span class="n">step_id</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Remove a top-level script step node.&quot;&quot;&quot;</span>
+    <span class="k">del</span> <span class="n">tree</span><span class="p">[</span><span class="n">step_id</span><span class="p">]</span>
+
+
+<span class="n">_XARRAY_DATA_PLUGIN_KINDS</span> <span class="o">=</span> <span class="nb">frozenset</span><span class="p">((</span><span class="s2">&quot;algorithm&quot;</span><span class="p">,</span> <span class="s2">&quot;interpolator&quot;</span><span class="p">,</span> <span class="s2">&quot;manual&quot;</span><span class="p">,</span> <span class="s2">&quot;reader&quot;</span><span class="p">))</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_is_xarray_data_step</span><span class="p">(</span><span class="n">node</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return whether *node* should provide xarray input to later plugins.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">node</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;plugin_kind&quot;</span><span class="p">)</span> <span class="ow">in</span> <span class="n">_XARRAY_DATA_PLUGIN_KINDS</span> <span class="ow">and</span> <span class="n">has_data_vars</span><span class="p">(</span>
+        <span class="n">node</span>
+    <span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_latest_xarray_data_step_id</span><span class="p">(</span><span class="n">tree</span><span class="p">,</span> <span class="n">current_step_id</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the newest xarray-data step at or before *current_step_id*.&quot;&quot;&quot;</span>
+    <span class="k">for</span> <span class="n">step_id</span> <span class="ow">in</span> <span class="n">_iter_steps_newest_first</span><span class="p">(</span><span class="n">tree</span><span class="p">,</span> <span class="n">up_to</span><span class="o">=</span><span class="n">current_step_id</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">_is_xarray_data_step</span><span class="p">(</span><span class="n">tree</span><span class="p">[</span><span class="n">step_id</span><span class="p">]):</span>
+            <span class="k">return</span> <span class="n">step_id</span>
+    <span class="k">return</span> <span class="kc">None</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_metadata_only_preserved_step_ids</span><span class="p">(</span><span class="n">tree</span><span class="p">,</span> <span class="n">current_step_id</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return step ids that must remain intact for metadata_only retention.&quot;&quot;&quot;</span>
+    <span class="n">preserved</span> <span class="o">=</span> <span class="p">{</span><span class="n">current_step_id</span><span class="p">}</span>
+    <span class="n">latest_data_step_id</span> <span class="o">=</span> <span class="n">_latest_xarray_data_step_id</span><span class="p">(</span><span class="n">tree</span><span class="p">,</span> <span class="n">current_step_id</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">latest_data_step_id</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">preserved</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">latest_data_step_id</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">preserved</span>
+
+
+<div class="viewcode-block" id="get_current_data"><a class="viewcode-back" href="../../../../geoips_api/geoips.utils.types.html#geoips.scripting.get_current_data">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">get_current_data</span><span class="p">(</span><span class="n">tree</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the dataset from the most recent data-containing script step.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    tree : xarray.DataTree</span>
+<span class="sd">        Root script DataTree created by ``initialize_script_tree``.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    xarray.Dataset</span>
+<span class="sd">        Dataset from the most recent top-level reader, interpolator, algorithm,</span>
+<span class="sd">        or manual step containing data variables, including data stored in child</span>
+<span class="sd">        nodes such as reader outputs. The returned object is a mutable,</span>
+<span class="sd">        coord-normalized dataset copy intended for inspection, modification,</span>
+<span class="sd">        and reinsertion with ``add_data_step``.</span>
+
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    ValueError</span>
+<span class="sd">        If *tree* is not an initialized script DataTree or no data-containing</span>
+<span class="sd">        step is available.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">_require_script_tree</span><span class="p">(</span><span class="n">tree</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">step_id</span> <span class="ow">in</span> <span class="n">_iter_steps_newest_first</span><span class="p">(</span><span class="n">tree</span><span class="p">):</span>
+        <span class="n">node</span> <span class="o">=</span> <span class="n">tree</span><span class="p">[</span><span class="n">step_id</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">_is_xarray_data_step</span><span class="p">(</span><span class="n">node</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">to_mutable_dataset</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+
+    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+        <span class="s2">&quot;No data-containing script steps are available. Attach a plugin result &quot;</span>
+        <span class="s2">&quot;or manual data step before calling get_current_data().&quot;</span>
+    <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="add_data_step"><a class="viewcode-back" href="../../../../geoips_api/geoips.utils.types.html#geoips.scripting.add_data_step">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">add_data_step</span><span class="p">(</span><span class="n">tree</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">step_id</span><span class="p">,</span> <span class="n">retention_policy</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Attach user-created or user-modified data as a manual script step.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    tree : xarray.DataTree</span>
+<span class="sd">        Root script DataTree created by ``initialize_script_tree``.</span>
+<span class="sd">    data : xarray.DataTree, DataTreeDitto, xarray.Dataset, xarray.DataArray, or</span>
+<span class="sd">        convertible object</span>
+<span class="sd">        Data to attach as the new manual step.</span>
+<span class="sd">    step_id : str</span>
+<span class="sd">        Step id for the inserted data.</span>
+<span class="sd">    retention_policy : RetentionPolicy or str, optional</span>
+<span class="sd">        Retention policy override for the inserted data step.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    xarray.DataTree</span>
+<span class="sd">        The same root script DataTree, updated in place and returned for</span>
+<span class="sd">        convenient chaining.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">attach_plugin_result</span><span class="p">(</span>
+        <span class="n">tree</span><span class="p">,</span>
+        <span class="n">data</span><span class="p">,</span>
+        <span class="n">step_id</span><span class="o">=</span><span class="n">step_id</span><span class="p">,</span>
+        <span class="n">plugin_kind</span><span class="o">=</span><span class="s2">&quot;manual&quot;</span><span class="p">,</span>
+        <span class="n">retention_policy</span><span class="o">=</span><span class="n">retention_policy</span><span class="p">,</span>
+    <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="apply_script_retention"><a class="viewcode-back" href="../../../../geoips_api/geoips.utils.types.html#geoips.scripting.apply_script_retention">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">apply_script_retention</span><span class="p">(</span><span class="n">tree</span><span class="p">,</span> <span class="n">current_step_id</span><span class="p">,</span> <span class="n">retention_policy</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Apply a retention policy to an initialized script DataTree.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    tree : xarray.DataTree</span>
+<span class="sd">        Root script DataTree created by ``initialize_script_tree``.</span>
+<span class="sd">    current_step_id : str</span>
+<span class="sd">        Step id for the current result. This step remains intact for all</span>
+<span class="sd">        retention policies.</span>
+<span class="sd">    retention_policy : RetentionPolicy or str, optional</span>
+<span class="sd">        Retention policy to apply. Defaults to the root script DataTree policy.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    xarray.DataTree</span>
+<span class="sd">        The same root script DataTree, updated in place and returned for</span>
+<span class="sd">        convenient chaining.</span>
+
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    ValueError</span>
+<span class="sd">        If *tree* is not an initialized script DataTree, if *current_step_id*</span>
+<span class="sd">        does not exist, or if the retention policy is invalid.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">_require_script_tree</span><span class="p">(</span><span class="n">tree</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">current_step_id</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">tree</span><span class="o">.</span><span class="n">children</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Cannot apply script retention for unknown step </span><span class="si">{</span><span class="n">current_step_id</span><span class="si">!r}</span><span class="s2">.&quot;</span>
+        <span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">retention_policy</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">retention_policy</span> <span class="o">=</span> <span class="n">tree</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;retention_policy&quot;</span><span class="p">)</span>
+    <span class="n">retention_policy</span> <span class="o">=</span> <span class="n">normalize_retention_policy</span><span class="p">(</span><span class="n">retention_policy</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">retention_policy</span> <span class="ow">is</span> <span class="n">RetentionPolicy</span><span class="o">.</span><span class="n">keep_all</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">tree</span>
+
+    <span class="n">older_step_ids</span> <span class="o">=</span> <span class="n">_older_step_ids</span><span class="p">(</span><span class="n">tree</span><span class="p">,</span> <span class="n">current_step_id</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">retention_policy</span> <span class="ow">is</span> <span class="n">RetentionPolicy</span><span class="o">.</span><span class="n">metadata_only</span><span class="p">:</span>
+        <span class="n">preserved_step_ids</span> <span class="o">=</span> <span class="n">_metadata_only_preserved_step_ids</span><span class="p">(</span><span class="n">tree</span><span class="p">,</span> <span class="n">current_step_id</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">step_id</span> <span class="ow">in</span> <span class="n">older_step_ids</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">step_id</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">preserved_step_ids</span><span class="p">:</span>
+                <span class="n">_reduce_step_to_attrs_only</span><span class="p">(</span><span class="n">tree</span><span class="p">,</span> <span class="n">step_id</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">tree</span>
+
+    <span class="k">if</span> <span class="n">retention_policy</span> <span class="ow">is</span> <span class="n">RetentionPolicy</span><span class="o">.</span><span class="n">current_only</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">step_id</span> <span class="ow">in</span> <span class="n">older_step_ids</span><span class="p">:</span>
+            <span class="n">_remove_step</span><span class="p">(</span><span class="n">tree</span><span class="p">,</span> <span class="n">step_id</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">tree</span>
+
+    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unhandled retention policy </span><span class="si">{</span><span class="n">retention_policy</span><span class="si">!r}</span><span class="s2">.&quot;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="attach_plugin_result"><a class="viewcode-back" href="../../../../geoips_api/geoips.utils.types.html#geoips.scripting.attach_plugin_result">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">attach_plugin_result</span><span class="p">(</span>
+    <span class="n">tree</span><span class="p">,</span>
+    <span class="n">step_data</span><span class="p">,</span>
+    <span class="o">*</span><span class="p">,</span>
+    <span class="n">step_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">plugin_kind</span><span class="p">,</span>
+    <span class="n">plugin_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">start_time</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">end_time</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">retention_policy</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Attach a scripted plugin result to an initialized script DataTree.</span>
+
+<span class="sd">    This internal helper records one plugin result under the supplied</span>
+<span class="sd">    ``step_id``. If ``step_id`` is omitted, the plugin name is used. Duplicate</span>
+<span class="sd">    step names are rejected so scripts do not accidentally clobber earlier</span>
+<span class="sd">    results.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    tree : xarray.DataTree</span>
+<span class="sd">        Root script DataTree created by ``initialize_script_tree``.</span>
+<span class="sd">    step_data : xarray.DataTree, DataTreeDitto, xarray.Dataset, xarray.DataArray, or</span>
+<span class="sd">        convertible object</span>
+<span class="sd">        Result returned by a plugin call. Values must either already be</span>
+<span class="sd">        DataTree-compatible or be convertible by ``DataTreeDitto``. Scalars and</span>
+<span class="sd">        other simple values should be wrapped in a ``Dataset``, ``DataArray``,</span>
+<span class="sd">        or supported container such as a ``dict`` before attaching.</span>
+<span class="sd">    step_id : str, optional</span>
+<span class="sd">        Name to use for the attached result node. Defaults to *plugin_name*.</span>
+<span class="sd">    plugin_kind : str</span>
+<span class="sd">        Registered plugin kind that produced *step_data*, or ``&quot;manual&quot;`` for</span>
+<span class="sd">        user-created script data. Values are validated against the cached GeoIPS</span>
+<span class="sd">        interface list plus ``&quot;manual&quot;``.</span>
+<span class="sd">    plugin_name : str, optional</span>
+<span class="sd">        Plugin name that produced *step_data*. Required for registered plugin</span>
+<span class="sd">        kinds. For ``plugin_kind=&quot;manual&quot;``, omitted plugin names are recorded</span>
+<span class="sd">        as ``&quot;manual&quot;``.</span>
+<span class="sd">    start_time : datetime.datetime, optional</span>
+<span class="sd">        Step start datetime. Defaults to the current UTC time for</span>
+<span class="sd">        registered plugin kinds. For ``plugin_kind=&quot;manual&quot;``, omitted times</span>
+<span class="sd">        are recorded as ``None``.</span>
+<span class="sd">    end_time : datetime.datetime, optional</span>
+<span class="sd">        Step end datetime. Defaults to the current UTC time for</span>
+<span class="sd">        registered plugin kinds. For ``plugin_kind=&quot;manual&quot;``, omitted times</span>
+<span class="sd">        are recorded as ``None``.</span>
+<span class="sd">    retention_policy : RetentionPolicy or str, optional</span>
+<span class="sd">        Retention policy used for this step. Defaults to the policy stored on</span>
+<span class="sd">        the root script DataTree.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    xarray.DataTree</span>
+<span class="sd">        The same root script DataTree, updated in place and returned for</span>
+<span class="sd">        convenient chaining.</span>
+
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    ValueError</span>
+<span class="sd">        If *tree* is not an initialized script DataTree, if no step name can be</span>
+<span class="sd">        determined, if the step name already exists, or if the retention policy</span>
+<span class="sd">        is invalid.</span>
+<span class="sd">    TypeError</span>
+<span class="sd">        If *step_data* cannot be converted to a script DataTree node.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">_require_script_tree</span><span class="p">(</span><span class="n">tree</span><span class="p">)</span>
+
+    <span class="n">step_name</span> <span class="o">=</span> <span class="n">step_id</span> <span class="ow">or</span> <span class="n">plugin_name</span>
+    <span class="k">if</span> <span class="n">plugin_kind</span> <span class="o">==</span> <span class="s2">&quot;manual&quot;</span> <span class="ow">and</span> <span class="n">plugin_name</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">plugin_name</span> <span class="o">=</span> <span class="s2">&quot;manual&quot;</span>
+        <span class="n">step_name</span> <span class="o">=</span> <span class="n">step_name</span> <span class="ow">or</span> <span class="n">plugin_name</span>
+    <span class="n">_validate_script_step_metadata</span><span class="p">(</span><span class="n">step_name</span><span class="p">,</span> <span class="n">plugin_kind</span><span class="p">,</span> <span class="n">plugin_name</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">step_name</span> <span class="ow">in</span> <span class="n">tree</span><span class="o">.</span><span class="n">children</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Script DataTree already contains step </span><span class="si">{</span><span class="n">step_name</span><span class="si">!r}</span><span class="s2">. &quot;</span>
+            <span class="s2">&quot;Provide a unique step_id to avoid clobbering existing results.&quot;</span>
+        <span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">retention_policy</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">retention_policy</span> <span class="o">=</span> <span class="n">tree</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;retention_policy&quot;</span><span class="p">)</span>
+    <span class="n">retention_policy</span> <span class="o">=</span> <span class="n">normalize_retention_policy</span><span class="p">(</span><span class="n">retention_policy</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">plugin_kind</span> <span class="o">==</span> <span class="s2">&quot;manual&quot;</span><span class="p">:</span>
+        <span class="n">step_start_time</span> <span class="o">=</span> <span class="n">start_time</span>
+        <span class="n">step_end_time</span> <span class="o">=</span> <span class="n">end_time</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">step_start_time</span> <span class="o">=</span> <span class="n">start_time</span> <span class="ow">or</span> <span class="n">_utc_now</span><span class="p">()</span>
+        <span class="n">step_end_time</span> <span class="o">=</span> <span class="n">end_time</span> <span class="ow">or</span> <span class="n">_utc_now</span><span class="p">()</span>
+    <span class="n">step_start_time</span> <span class="o">=</span> <span class="n">_format_timestamp</span><span class="p">(</span><span class="n">step_start_time</span><span class="p">,</span> <span class="s2">&quot;start_time&quot;</span><span class="p">)</span>
+    <span class="n">step_end_time</span> <span class="o">=</span> <span class="n">_format_timestamp</span><span class="p">(</span><span class="n">step_end_time</span><span class="p">,</span> <span class="s2">&quot;end_time&quot;</span><span class="p">)</span>
+
+    <span class="n">node</span> <span class="o">=</span> <span class="n">_normalize_script_step_result</span><span class="p">(</span><span class="n">step_data</span><span class="p">,</span> <span class="n">step_name</span><span class="p">)</span>
+    <span class="n">tree</span><span class="p">[</span><span class="n">step_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">node</span>
+
+    <span class="n">attached</span> <span class="o">=</span> <span class="n">tree</span><span class="p">[</span><span class="n">step_name</span><span class="p">]</span>
+    <span class="n">attached</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
+        <span class="p">{</span>
+            <span class="s2">&quot;step_id&quot;</span><span class="p">:</span> <span class="n">step_name</span><span class="p">,</span>
+            <span class="s2">&quot;plugin_kind&quot;</span><span class="p">:</span> <span class="n">plugin_kind</span><span class="p">,</span>
+            <span class="s2">&quot;plugin_name&quot;</span><span class="p">:</span> <span class="n">plugin_name</span><span class="p">,</span>
+            <span class="s2">&quot;start_time&quot;</span><span class="p">:</span> <span class="n">step_start_time</span><span class="p">,</span>
+            <span class="s2">&quot;end_time&quot;</span><span class="p">:</span> <span class="n">step_end_time</span><span class="p">,</span>
+            <span class="s2">&quot;retention_policy&quot;</span><span class="p">:</span> <span class="n">retention_policy</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
+        <span class="p">}</span>
+    <span class="p">)</span>
+    <span class="n">apply_script_retention</span><span class="p">(</span><span class="n">tree</span><span class="p">,</span> <span class="n">step_name</span><span class="p">,</span> <span class="n">retention_policy</span><span class="o">=</span><span class="n">retention_policy</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">tree</span></div>
+
+
+<div class="viewcode-block" id="attach_script_result"><a class="viewcode-back" href="../../../../geoips_api/geoips.utils.types.html#geoips.scripting.attach_script_result">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">attach_script_result</span><span class="p">(</span>
+    <span class="n">script_tree</span><span class="p">,</span>
+    <span class="n">result</span><span class="p">,</span>
+    <span class="o">*</span><span class="p">,</span>
+    <span class="n">plugin</span><span class="p">,</span>
+    <span class="n">step_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">step_start_time</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">retention_policy</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Attach a scripted plugin result and return the updated script tree.</span>
+
+<span class="sd">    Thin convenience wrapper around ``attach_plugin_result`` that derives</span>
+<span class="sd">    ``plugin_kind`` from *plugin*&#39;s interface and ``plugin_name`` from</span>
+<span class="sd">    ``plugin.name``, and defaults the end time to the current UTC time.</span>
+<span class="sd">    Used by ``BaseClassPlugin._invoke`` so the two script-mode attach sites do</span>
+<span class="sd">    not duplicate the metadata-derivation logic.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">attach_plugin_result</span><span class="p">(</span>
+        <span class="n">script_tree</span><span class="p">,</span>
+        <span class="n">result</span><span class="p">,</span>
+        <span class="n">step_id</span><span class="o">=</span><span class="n">step_id</span><span class="p">,</span>
+        <span class="n">plugin_kind</span><span class="o">=</span><span class="n">plugin_kind</span><span class="p">(</span><span class="n">plugin</span><span class="p">),</span>
+        <span class="n">plugin_name</span><span class="o">=</span><span class="n">plugin</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+        <span class="n">start_time</span><span class="o">=</span><span class="n">step_start_time</span><span class="p">,</span>
+        <span class="n">end_time</span><span class="o">=</span><span class="n">_utc_now</span><span class="p">(),</span>
+        <span class="n">retention_policy</span><span class="o">=</span><span class="n">retention_policy</span><span class="p">,</span>
+    <span class="p">)</span></div>
+</pre></div>
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb"></script>
+<script defer src="../../../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item"><div class="footer">
+    <a href="http://www.navy.mil">Official US Navy Website</a>
+    <a href="http://www.navy.com/navy/">US Navy Recruiting</a>
+    <a href="http://www.nrlmry.navy.mil">NRL</a>
+    <a href="http://foia.navy.mil">Accessibility</a>
+    <a href="http://foia.navy.mil">Freedom of Information Act</a>
+    <a href="http://www.nrlmry.navy.mil/privacypolicy.htm">Security & Policy</a>
+    <a href="http://www.nrlmry.navy.mil/linknotice.html">Hyperlink Notice</a>
+    <a href="mailto:webmaster@nrlmry.navy.mil">webmaster@nrlmry.navy.mil</a><br>
+    <a href="http://www.nrlmry.navy.mil">
+    Naval Research Laboratory Marine Meteorology Division Monterey, CA</a><br>
+    7 Grace Hopper Avenue, STOP 2, Monterey, CA 93943-5502
+</div></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

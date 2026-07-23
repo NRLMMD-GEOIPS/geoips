@@ -1,24 +1,9 @@
-Version 1.14.1 (2026-07-16)
+Version 1.14.1 (2026-07-23)
 ***************************
 
- * *Documentation*: Update upcoming and tagged versions
  * *Release process*: Update tagged_version and upcoming_version
-
-Documentation
-=============
-
-Update upcoming and tagged versions
------------------------------------
-
-*From GEOIPS#562: 2024-09-25, 1.14.1 updates*
-
-* Tagged version: 1.14.1
-* Upcoming version: 1.14.2
-
-::
-
-     modified: .github/versions/tagged_version
-     modified: .github/versions/upcoming_version
+ * *Documentation*: Add release note for version 1.14.1
+ * *Documentation*: Update upcoming and tagged versions
 
 Release process
 ===============
@@ -29,6 +14,35 @@ Update tagged_version and upcoming_version
 *From GEOIPS#562: 2024-08-13, 1.13.2 updates*
 
 Currently tagged version 1.14.0, upcoming version 1.14.1.
+
+`#562 <GEOIPS/geoips>`_
+
+::
+
+     modified: .github/versions/tagged_version
+     modified: .github/versions/upcoming_version
+
+Documentation
+=============
+
+Add release note for version 1.14.1
+-----------------------------------
+
+*From GEOIPS#562: 2024-09-24, 1.14.1 updates*
+Release note on release branch to force tag/release, package/publish,
+and deploy docs.
+
+::
+
+     added: docs/source/releases/latest/1.14.1-release-note.yaml
+
+Update upcoming and tagged versions
+-----------------------------------
+
+*From GEOIPS#562: 2024-09-25, 1.14.1 updates*
+
+* Tagged version: 1.14.1
+* Upcoming version: 1.14.2
 
 ::
 

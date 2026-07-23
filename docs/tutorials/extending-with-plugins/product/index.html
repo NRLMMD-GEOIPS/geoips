@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Extend GeoIPS with new Products &#8212; GeoIPS, Geolocated Information Processing System 1.19.0.post776.dev0 documentation</title>
+    <title>Extend GeoIPS with new Products &#8212; GeoIPS, Geolocated Information Processing System 1.19.0.post1200.dev0 documentation</title>
   
   
   
@@ -31,6 +31,7 @@
 <link href="../../../_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/autodoc_pydantic.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/set_width.css?v=d4af5e1e" />
     <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
   
@@ -40,7 +41,7 @@
   <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
 
-    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=1e4423a0"></script>
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=ba503b0a"></script>
     <script src="../../../_static/doctools.js?v=888ff710"></script>
     <script src="../../../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
@@ -54,7 +55,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="1.1" />
-    <meta name="docbuild:last-update" content="Jul 16, 2026 04:57:54"/>
+    <meta name="docbuild:last-update" content="Jul 23, 2026 15:25:48"/>
   
     
     <script src="../../../_static/searchtools.js"></script>
@@ -126,8 +127,8 @@
       
     
     
-    <img src="../../../_static/NRL_logo_RGB.jpg" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 1.19.0.post776.dev0 documentation - Home"/>
-    <img src="../../../_static/NRL_logo_sidebar_Reverse.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 1.19.0.post776.dev0 documentation - Home"/>
+    <img src="../../../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 1.19.0.post1200.dev0 documentation - Home"/>
+    <img src="../../../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 1.19.0.post1200.dev0 documentation - Home"/>
   
   
 </a></div>
@@ -149,6 +150,13 @@
 </li>
 
 
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../functionality/index.html">
+    Functionality
+  </a>
+</li>
+
+
 <li class="nav-item current active">
   <a class="nav-link nav-internal" href="../../index.html">
     Tutorials
@@ -157,22 +165,15 @@
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../../concepts/index.html">
-    Concepts
+  <a class="nav-link nav-internal" href="../../../devguide/index.html">
+    Developer Guide
   </a>
 </li>
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../../contribute/index.html">
-    Contribute
-  </a>
-</li>
-
-
-<li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../../geoips_api/index.html">
-    API
+  <a class="nav-link nav-internal" href="../../../deployguide/index.html">
+    Deploying and Operating GeoIPS
   </a>
 </li>
 
@@ -185,8 +186,15 @@
                 <ul id="pst-nav-more-links" class="dropdown-menu">
                     
 <li class=" ">
-  <a class="nav-link dropdown-item nav-internal" href="../../../releases/index.html">
-    Release Notes
+  <a class="nav-link dropdown-item nav-internal" href="../../../architecture/index.html">
+    Architecture
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../contribute/index.html">
+    Contribute
   </a>
 </li>
 
@@ -194,6 +202,20 @@
 <li class=" ">
   <a class="nav-link dropdown-item nav-internal" href="../../../contact/index.html">
     About Us
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../geoips_api/index.html">
+    API
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../releases/index.html">
+    Release Notes
   </a>
 </li>
 
@@ -296,6 +318,13 @@
 </li>
 
 
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../functionality/index.html">
+    Functionality
+  </a>
+</li>
+
+
 <li class="nav-item current active">
   <a class="nav-link nav-internal" href="../../index.html">
     Tutorials
@@ -304,8 +333,22 @@
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../../concepts/index.html">
-    Concepts
+  <a class="nav-link nav-internal" href="../../../devguide/index.html">
+    Developer Guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../deployguide/index.html">
+    Deploying and Operating GeoIPS
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../architecture/index.html">
+    Architecture
   </a>
 </li>
 
@@ -313,6 +356,13 @@
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../../../contribute/index.html">
     Contribute
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../contact/index.html">
+    About Us
   </a>
 </li>
 
@@ -327,13 +377,6 @@
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../../../releases/index.html">
     Release Notes
-  </a>
-</li>
-
-
-<li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../../contact/index.html">
-    About Us
   </a>
 </li>
 
@@ -400,8 +443,10 @@
 <li class="toctree-l2"><a class="reference internal" href="../static_sector/index.html">Extend GeoIPS with a new Static Sector</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../dynamic_sector/index.html">Extend GeoIPS with a new Dynamic Sector</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../reader.html">Get to know the GeoIPS Readers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../reader-walkthrough.html">Build a Reader: a hands-on walkthrough</a></li>
 </ul>
 </details></li>
+<li class="toctree-l1"><a class="reference internal" href="../../scripting-with-geoips.html">Scripting with GeoIPS</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../nrtp-examples/index.html">Near Real-Time Processing</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../nrtp-examples/using-inotifywait-for-basic-near-real-time-processing.html">Using <code class="docutils literal notranslate"><span class="pre">inotifywait</span></code> for Near Real-Time Processing</a></li>
 </ul>
@@ -498,11 +543,11 @@ required in any GeoIPS plugin:
 <code class="docutils literal notranslate"><span class="pre">interface</span></code>, <code class="docutils literal notranslate"><span class="pre">family</span></code>, and <code class="docutils literal notranslate"><span class="pre">docstring</span></code>.</p></li>
 </ol>
 <p>Please see documentation for
-<a class="reference internal" href="../../../concepts/architecture/extend-with-plugins.html#required-attributes"><span class="std std-ref">additional info on these GeoIPS required attributes</span></a></p>
+<a class="reference internal" href="../../../architecture/extend-with-plugins.html#required-attributes"><span class="std std-ref">additional info on these GeoIPS required attributes</span></a></p>
 <section id="creating-a-geoips-product-plugin">
 <h2>Creating a GeoIPS Product Plugin<a class="headerlink" href="#creating-a-geoips-product-plugin" title="Permalink to this heading">#</a></h2>
 <p>The code snippet shown below shows properties required in every GeoIPS plugin, YAML or
-Module-based. These properties help GeoIPS define what type of plugin you are developing
+Class-based. These properties help GeoIPS define what type of plugin you are developing
 and also defines what schema your plugin will be validated against.</p>
 <p>Copy and paste the code shown below into my_clavrx_products.yaml.</p>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">interface</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">products</span>
@@ -528,59 +573,78 @@ they just describe what each property does.</p>
 <span class="w">      </span><span class="nt">docstring</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span><span class="w"> </span><span class="c1"># Pipe says to YAML this will be a multiline comment, can be anything</span>
 <span class="w">        </span><span class="no">CLAVR-x Cloud Top Height</span>
 <span class="w">      </span><span class="nt">product_defaults</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Cloud-Height</span><span class="w"> </span><span class="c1"># See the Product Defaults section for more info</span>
-<span class="w">      </span><span class="nt">spec</span><span class="p">:</span><span class="w"> </span><span class="c1"># Variables are the neccessary variables which are needed to produce your product</span>
+<span class="w">      </span><span class="nt">spec</span><span class="p">:</span><span class="w"> </span><span class="c1"># Variables are the necessary variables which are needed to produce your product</span>
 <span class="w">        </span><span class="nt">variables</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;cld_height_acha&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;latitude&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;longitude&quot;</span><span class="p p-Indicator">]</span>
 </pre></div>
 </div>
-<p>To use your product that you just created, you’ll need to create a bash script that
-implements <code class="docutils literal notranslate"><span class="pre">run_procflow</span></code> (run-process-workflow). This is a script which defines the
-<em>process-workflow</em> needed to generate your product. We’ll keep this short for now, but you
-are able to strictly define how you want your product to be created, as well as what
-format you’d like it outputted as. You can also define the sector you’d like your data
-to be plotted on, as well as compare the output product to a validated product if wanted.</p>
-<p>GeoIPS is called via a command line interface (CLI). The main command that you will use is
-run_procflow which will run your data through the selected procflow using the specified
-plugins. It’s easiest to do this via a script, and scripts are stored in your plugin
-package’s <code class="docutils literal notranslate"><span class="pre">tests/</span></code> directory because they can be used later to regression test your
-package.</p>
+<p>To use the product you just created, run it through an <a class="reference internal" href="../../../functionality/order-based-processing/index.html#order-based-processing"><span class="std std-ref">Order-Based Processing
+workflow</span></a>. A workflow is a YAML plugin that lists the ordered
+steps needed to produce output. You reference your product as a <code class="docutils literal notranslate"><span class="pre">product</span></code> step, and OBP
+expands it into the interpolator/algorithm/colormapper steps its family defines. Workflows
+live in your package’s <code class="docutils literal notranslate"><span class="pre">plugins/yaml/workflows/</span></code> directory, and — when they include a
+<code class="docutils literal notranslate"><span class="pre">test</span></code> section — double as regression tests.</p>
 </section>
-<section id="creating-a-script-to-visualize-your-product">
-<h2>Creating a Script to Visualize Your Product<a class="headerlink" href="#creating-a-script-to-visualize-your-product" title="Permalink to this heading">#</a></h2>
-<p>We’ll now create a test script to generate an image for the product you just created.</p>
+<section id="creating-a-workflow-to-visualize-your-product">
+<h2>Creating a Workflow to Visualize Your Product<a class="headerlink" href="#creating-a-workflow-to-visualize-your-product" title="Permalink to this heading">#</a></h2>
+<p>We’ll now create a workflow that reads your data and runs your product.</p>
 <ol class="arabic">
-<li><p>Change directories into your scripts directory.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>cd $MY_PKG_DIR/tests/scripts
+<li><p>Change directories into your workflows directory.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>cd $MY_PKG_DIR/$MY_PKG_NAME/plugins/yaml/workflows
 </pre></div>
 </div>
 </li>
-<li><p>Create a bash file called clavrx.conus_annotated.my-cloud-top-height.sh and edit it
-to include the codeblock below.</p></li>
+<li><p>Create a file called <code class="docutils literal notranslate"><span class="pre">my_cloud_top_height.yaml</span></code> and edit it to include the code block
+below (replace <code class="docutils literal notranslate"><span class="pre">&lt;your_package&gt;</span></code> with your package name).</p></li>
 </ol>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>run_procflow<span class="w"> </span><span class="se">\</span>
-<span class="w">    </span><span class="nv">$GEOIPS_TESTDATA_DIR</span>/test_data_clavrx/data/goes16_2023101_1600/clavrx_OR_ABI-L1b-RadF-M6C01_G16_s20231011600207.level2.hdf<span class="w"> </span><span class="se">\</span>
-<span class="w">    </span>--procflow<span class="w"> </span>single_source<span class="w"> </span><span class="se">\</span>
-<span class="w">    </span>--reader_name<span class="w"> </span>clavrx_hdf4<span class="w"> </span><span class="se">\</span>
-<span class="w">    </span>--product_name<span class="w"> </span>My-Cloud-Top-Height<span class="w"> </span><span class="se">\</span>
-<span class="w">    </span>--output_formatter<span class="w"> </span>imagery_annotated<span class="w"> </span><span class="se">\</span>
-<span class="w">    </span>--filename_formatter<span class="w"> </span>geoips_fname<span class="w"> </span><span class="se">\</span>
-<span class="w">    </span>--minimum_coverage<span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="se">\</span>
-<span class="w">    </span>--sector_list<span class="w"> </span>conus
-<span class="nv">ss_retval</span><span class="o">=</span><span class="nv">$?</span>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">geoips/v1</span>
+<span class="nt">interface</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">workflows</span>
+<span class="nt">family</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">order_based</span>
+<span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">my_cloud_top_height</span>
+<span class="nt">docstring</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">CLAVR-x Cloud Top Height over CONUS.</span>
+<span class="nt">package</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;your_package&gt;</span>
+<span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">globals</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">product_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">My-Cloud-Top-Height</span>
+<span class="w">  </span><span class="nt">steps</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">sector</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">sector</span>
+<span class="w">      </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">conus</span>
+<span class="w">    </span><span class="nt">reader</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">reader</span>
+<span class="w">      </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">clavrx_hdf4</span>
+<span class="w">      </span><span class="nt">depends_on</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">sector</span><span class="p p-Indicator">]</span>
+<span class="w">    </span><span class="nt">clavrx_My_Cloud_Top_Height</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">product</span>
+<span class="w">      </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">clavrx</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">My-Cloud-Top-Height</span><span class="p p-Indicator">]</span>
+<span class="w">      </span><span class="nt">depends_on</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">reader</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">sector</span><span class="p p-Indicator">]</span>
+<span class="w">    </span><span class="nt">filename_formatter</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">filename_formatter</span>
+<span class="w">      </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">geoips_fname</span>
+<span class="w">      </span><span class="nt">depends_on</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">clavrx_My_Cloud_Top_Height.algorithm</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">sector</span><span class="p p-Indicator">]</span>
+<span class="w">      </span><span class="nt">arguments</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">product_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">My-Cloud-Top-Height</span>
+<span class="w">    </span><span class="nt">output_formatter</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">output_formatter</span>
+<span class="w">      </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">imagery_annotated</span>
+<span class="w">      </span><span class="nt">depends_on</span><span class="p">:</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">clavrx_My_Cloud_Top_Height.algorithm</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">clavrx_My_Cloud_Top_Height.colormapper</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">filename_formatter</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">sector</span>
 </pre></div>
 </div>
-<p>As shown above, we define which procflow we want to use, which reader,
-what product will be displayed, how to output it, which filename formatter will be used,
-the minimum coverage needed to create an output (% based), as well as the sector used to
-plot the data. Many more items can be added if wanted. If you’d like some examples of
-that, feel free to peruse the <a class="reference external" href="https://github.com/NRLMMD-GEOIPS/geoips/tree/main/tests/scripts">GeoIPS Scripts Directory</a>.</p>
-<p>Once these changes have been created, we can run our test script to produce Cloud Top
-Height Imagery. To do so, run your script using the line shown below.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$MY_PKG_DIR/tests/scripts/clavrx.conus_annotated.my-cloud-top-height.sh
+<p>The <code class="docutils literal notranslate"><span class="pre">product</span></code> step references your product by <code class="docutils literal notranslate"><span class="pre">[source_name,</span> <span class="pre">product_name]</span></code>. OBP loads
+the product and expands it into the ordered steps its family defines. The <code class="docutils literal notranslate"><span class="pre">sector</span></code> step
+selects the region to plot on; <code class="docutils literal notranslate"><span class="pre">depends_on</span></code> wires each step to the output it consumes.
+See <a class="reference internal" href="../../../functionality/order-based-processing/workflows.html#workflows"><span class="std std-ref">The workflows interface</span></a> for the full reference.</p>
+<p>Rebuild the plugin registries and run your workflow:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>geoips<span class="w"> </span>config<span class="w"> </span>create-registries
+geoips<span class="w"> </span>run<span class="w"> </span>order_based<span class="w"> </span>my_cloud_top_height<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span><span class="nv">$GEOIPS_TESTDATA_DIR</span>/test_data_clavrx/data/goes16_2023101_1600/*.hdf
 </pre></div>
 </div>
-<p>This will write some log output. If your script succeeded it will end with INTERACTIVE:
-Return Value 0. To view your output, look for a line that says SINGLESOURCESUCCESS. Open
-the PNG file, it should look like the image below.</p>
+<p>This will write some log output. If it succeeded it ends with a <code class="docutils literal notranslate"><span class="pre">Return</span> <span class="pre">Value</span> <span class="pre">0</span></code>. Open
+the resulting PNG file; it should look like the image below.</p>
 <a class="reference internal image-reference" href="../../../_images/my_cloud_top_height.png"><img alt="../../../_images/my_cloud_top_height.png" src="../../../_images/my_cloud_top_height.png" style="width: 800px;" /></a>
 <p>Okay! We’ve developed a plugin which produces CLAVR-x Cloud Top Height. This is nice,
 but what if we want to extend our plugin to produce Cloud Base Height? What about Cloud
@@ -733,28 +797,16 @@ creating a new test script which implements our new changes.</p>
 cp clavrx.conus_annotated.my-cloud-top-height.sh clavrx.conus_annotated.my-cloud-depth.sh
 </pre></div>
 </div>
-<p>Now we need to edit <code class="docutils literal notranslate"><span class="pre">clavrx.conus_annotated.my-cloud-depth.sh</span></code> to implement
-<code class="docutils literal notranslate"><span class="pre">My-Cloud-Depth</span></code> rather than <code class="docutils literal notranslate"><span class="pre">My-Cloud-Top-Height</span></code>. Your new test script should look
-like the code shown below.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>run_procflow<span class="w"> </span><span class="se">\</span>
-<span class="w">    </span><span class="nv">$GEOIPS_TESTDATA_DIR</span>/test_data_clavrx/data/goes16_2023101_1600/clavrx_OR_ABI-L1b-RadF-M6C01_G16_s20231011600207.level2.hdf<span class="w"> </span><span class="se">\</span>
-<span class="w">    </span>--procflow<span class="w"> </span>single_source<span class="w"> </span><span class="se">\</span>
-<span class="w">    </span>--reader_name<span class="w"> </span>clavrx_hdf4<span class="w"> </span><span class="se">\</span>
-<span class="w">    </span>--product_name<span class="w"> </span>My-Cloud-Depth<span class="w"> </span><span class="se">\</span>
-<span class="w">    </span>--output_formatter<span class="w"> </span>imagery_annotated<span class="w"> </span><span class="se">\</span>
-<span class="w">    </span>--filename_formatter<span class="w"> </span>geoips_fname<span class="w"> </span><span class="se">\</span>
-<span class="w">    </span>--minimum_coverage<span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="se">\</span>
-<span class="w">    </span>--sector_list<span class="w"> </span>conus
-<span class="nv">ss_retval</span><span class="o">=</span><span class="nv">$?</span>
+<p>Now create a workflow for <code class="docutils literal notranslate"><span class="pre">My-Cloud-Depth</span></code> just like the <code class="docutils literal notranslate"><span class="pre">my_cloud_top_height</span></code>
+workflow above — copy it to <code class="docutils literal notranslate"><span class="pre">my_cloud_depth.yaml</span></code>, change <code class="docutils literal notranslate"><span class="pre">name</span></code> to <code class="docutils literal notranslate"><span class="pre">my_cloud_depth</span></code>,
+and change <code class="docutils literal notranslate"><span class="pre">product_name</span></code> and the product step to <code class="docutils literal notranslate"><span class="pre">My-Cloud-Depth</span></code>. Then run it:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>geoips<span class="w"> </span>run<span class="w"> </span>order_based<span class="w"> </span>my_cloud_depth<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span><span class="nv">$GEOIPS_TESTDATA_DIR</span>/test_data_clavrx/data/goes16_2023101_1600/*.hdf
 </pre></div>
 </div>
-<p>Nice! Now all we need to do is run our script. This will display Cloud Depth over the
-CONUS sector. To do so, run the command below.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$MY_PKG_DIR/tests/scripts/clavrx.conus_annotated.my-cloud-depth.sh
-</pre></div>
-</div>
+<p>This will display Cloud Depth over the CONUS sector.</p>
 <p>This will output a bunch of log output. If your script succeeded it will end with INFO:
-Return Value 0. To view your output, look for a line that says SINGLESOURCESUCCESS. Open
+Return Value 0. To view your output, look for the output image path printed in the log. Open
 the PNG file to view your Cloud Depth Image! It should look like the image shown below.</p>
 <a class="reference internal image-reference" href="../../../_images/my_cloud_depth.png"><img alt="../../../_images/my_cloud_depth.png" src="../../../_images/my_cloud_depth.png" style="width: 800px;" /></a>
 </section>
@@ -808,7 +860,7 @@ the PNG file to view your Cloud Depth Image! It should look like the image shown
   <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="pst-show_toc_level nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-a-geoips-product-plugin">Creating a GeoIPS Product Plugin</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-a-script-to-visualize-your-product">Creating a Script to Visualize Your Product</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-a-workflow-to-visualize-your-product">Creating a Workflow to Visualize Your Product</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#using-your-cloud-depth-product">Using Your Cloud Depth Product</a></li>
 </ul>
   </nav></div>

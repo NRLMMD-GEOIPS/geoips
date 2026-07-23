@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Extend GeoIPS with a new Algorithm &#8212; GeoIPS, Geolocated Information Processing System 1.19.0.post776.dev0 documentation</title>
+    <title>Extend GeoIPS with a new Algorithm &#8212; GeoIPS, Geolocated Information Processing System 1.19.0.post1200.dev0 documentation</title>
   
   
   
@@ -31,6 +31,7 @@
 <link href="../../_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../_static/autodoc_pydantic.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/set_width.css?v=d4af5e1e" />
     <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
   
@@ -40,7 +41,7 @@
   <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
 
-    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=1e4423a0"></script>
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=ba503b0a"></script>
     <script src="../../_static/doctools.js?v=888ff710"></script>
     <script src="../../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../_static/design-tabs.js?v=f930bc37"></script>
@@ -54,7 +55,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="1.1" />
-    <meta name="docbuild:last-update" content="Jul 16, 2026 04:57:54"/>
+    <meta name="docbuild:last-update" content="Jul 23, 2026 15:25:48"/>
   
     
     <script src="../../_static/searchtools.js"></script>
@@ -126,8 +127,8 @@
       
     
     
-    <img src="../../_static/NRL_logo_RGB.jpg" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 1.19.0.post776.dev0 documentation - Home"/>
-    <img src="../../_static/NRL_logo_sidebar_Reverse.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 1.19.0.post776.dev0 documentation - Home"/>
+    <img src="../../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 1.19.0.post1200.dev0 documentation - Home"/>
+    <img src="../../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 1.19.0.post1200.dev0 documentation - Home"/>
   
   
 </a></div>
@@ -149,6 +150,13 @@
 </li>
 
 
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../functionality/index.html">
+    Functionality
+  </a>
+</li>
+
+
 <li class="nav-item current active">
   <a class="nav-link nav-internal" href="../index.html">
     Tutorials
@@ -157,22 +165,15 @@
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../concepts/index.html">
-    Concepts
+  <a class="nav-link nav-internal" href="../../devguide/index.html">
+    Developer Guide
   </a>
 </li>
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../contribute/index.html">
-    Contribute
-  </a>
-</li>
-
-
-<li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../geoips_api/index.html">
-    API
+  <a class="nav-link nav-internal" href="../../deployguide/index.html">
+    Deploying and Operating GeoIPS
   </a>
 </li>
 
@@ -185,8 +186,15 @@
                 <ul id="pst-nav-more-links" class="dropdown-menu">
                     
 <li class=" ">
-  <a class="nav-link dropdown-item nav-internal" href="../../releases/index.html">
-    Release Notes
+  <a class="nav-link dropdown-item nav-internal" href="../../architecture/index.html">
+    Architecture
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../contribute/index.html">
+    Contribute
   </a>
 </li>
 
@@ -194,6 +202,20 @@
 <li class=" ">
   <a class="nav-link dropdown-item nav-internal" href="../../contact/index.html">
     About Us
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../geoips_api/index.html">
+    API
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../releases/index.html">
+    Release Notes
   </a>
 </li>
 
@@ -296,6 +318,13 @@
 </li>
 
 
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../functionality/index.html">
+    Functionality
+  </a>
+</li>
+
+
 <li class="nav-item current active">
   <a class="nav-link nav-internal" href="../index.html">
     Tutorials
@@ -304,8 +333,22 @@
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../concepts/index.html">
-    Concepts
+  <a class="nav-link nav-internal" href="../../devguide/index.html">
+    Developer Guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../deployguide/index.html">
+    Deploying and Operating GeoIPS
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../architecture/index.html">
+    Architecture
   </a>
 </li>
 
@@ -313,6 +356,13 @@
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../../contribute/index.html">
     Contribute
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../contact/index.html">
+    About Us
   </a>
 </li>
 
@@ -327,13 +377,6 @@
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../../releases/index.html">
     Release Notes
-  </a>
-</li>
-
-
-<li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../contact/index.html">
-    About Us
   </a>
 </li>
 
@@ -400,8 +443,10 @@
 <li class="toctree-l2"><a class="reference internal" href="static_sector/index.html">Extend GeoIPS with a new Static Sector</a></li>
 <li class="toctree-l2"><a class="reference internal" href="dynamic_sector/index.html">Extend GeoIPS with a new Dynamic Sector</a></li>
 <li class="toctree-l2"><a class="reference internal" href="reader.html">Get to know the GeoIPS Readers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reader-walkthrough.html">Build a Reader: a hands-on walkthrough</a></li>
 </ul>
 </details></li>
+<li class="toctree-l1"><a class="reference internal" href="../scripting-with-geoips.html">Scripting with GeoIPS</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../nrtp-examples/index.html">Near Real-Time Processing</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="../nrtp-examples/using-inotifywait-for-basic-near-real-time-processing.html">Using <code class="docutils literal notranslate"><span class="pre">inotifywait</span></code> for Near Real-Time Processing</a></li>
 </ul>
@@ -482,105 +527,132 @@
 <span id="add-an-algorithm"></span><h1>Extend GeoIPS with a new Algorithm<a class="headerlink" href="#extend-geoips-with-a-new-algorithm" title="Permalink to this heading">#</a></h1>
 <p>To extend GeoIPS with a new <code class="docutils literal notranslate"><span class="pre">algorithm</span></code> plugin, first follow the <a class="reference internal" href="../setting-up-for-plugin-development.html#plugin-development-setup"><span class="std std-ref">instructions for
 setting up a plugin package</span></a>.</p>
-<dl class="simple">
-<dt>Module plugins are required to have several top-level variables:</dt><dd><ul class="simple">
-<li><p>name</p></li>
-<li><p>interface</p></li>
-<li><p>family</p></li>
-<li><p>docstring</p></li>
+<p>In GeoIPS 2.0, algorithms are <strong>class-based</strong> plugins: a Python class that subclasses the
+algorithm base class and sets three class attributes:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">interface</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">family</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">name</span></code></p></li>
 </ul>
-</dd>
-</dl>
-<p>Please see documentation for
-<a class="reference internal" href="../../concepts/architecture/extend-with-plugins.html#required-attributes"><span class="std std-ref">additional info on GeoIPS required attributes</span></a></p>
+<p>See <a class="reference internal" href="../../functionality/interfaces/writing-class-based-plugins.html#writing-class-based-plugins"><span class="std std-ref">Writing a class-based plugin</span></a> for the full class-based plugin contract, and
+<a class="reference internal" href="../../functionality/interfaces/class_based/algorithm.html#algorithm-functionality"><span class="std std-ref">the algorithm interface</span></a> for the argument model. If you are
+migrating a 1.x module-based algorithm, see <a class="reference internal" href="../../devguide/converting-module-to-class.html#converting-module-to-class"><span class="std std-ref">Converting module-based plugins to class-based</span></a>.</p>
 <section id="creating-an-algorithm">
 <h2>Creating an Algorithm<a class="headerlink" href="#creating-an-algorithm" title="Permalink to this heading">#</a></h2>
-<p>The following steps will teach you how to create a custom algorithm plugin. First off,
-change directories to your algorithms directory.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>cd $MY_PKG_DIR/$MY_PKG_NAME/plugins/modules/algorithms
+<p>The following steps teach you how to create a custom algorithm plugin. Change directories
+to your package’s <code class="docutils literal notranslate"><span class="pre">classes</span></code> algorithm directory:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>cd $MY_PKG_DIR/$MY_PKG_NAME/plugins/classes/algorithms
 </pre></div>
 </div>
-<p>Create a file called <code class="docutils literal notranslate"><span class="pre">my_cloud_depth.py</span></code> (see below). To convert this algorithm to
-my_cloud_depth you’ll need to update the <code class="docutils literal notranslate"><span class="pre">docstring</span></code> (multiline string at the top
-of the file) and update the <code class="docutils literal notranslate"><span class="pre">name</span></code> to <code class="docutils literal notranslate"><span class="pre">my_cloud_depth</span></code>.</p>
-<p>Copy and paste the code block below into <code class="docutils literal notranslate"><span class="pre">my_cloud_depth.py</span></code></p>
+<p>Create a file called <code class="docutils literal notranslate"><span class="pre">my_cloud_depth.py</span></code>. A class-based algorithm subclasses
+<code class="docutils literal notranslate"><span class="pre">BaseAlgorithmPlugin</span></code>, sets <code class="docutils literal notranslate"><span class="pre">interface</span></code>/<code class="docutils literal notranslate"><span class="pre">family</span></code>/<code class="docutils literal notranslate"><span class="pre">name</span></code>, and implements a
+<code class="docutils literal notranslate"><span class="pre">call</span></code> method. The <code class="docutils literal notranslate"><span class="pre">call</span></code> method is where the data manipulation happens; GeoIPS invokes
+it for you (directly, or as a step in an <a class="reference internal" href="../../functionality/order-based-processing/index.html#order-based-processing"><span class="std std-ref">OBP workflow</span></a>).</p>
+<p>The complete plugin looks like this:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="sd">&quot;&quot;&quot;Cloud depth product.</span>
 
 <span class="sd">Difference of cloud top height and cloud base height.</span>
+
+<span class="sd">This is the doc-owned example used by the :ref:`algorithm tutorial &lt;add-an-algorithm&gt;`.</span>
+<span class="sd">It is imported and executed by ``tests/unit_tests/docs/test_tutorial_examples.py``</span>
+<span class="sd">so the code shown in the tutorial is exercised in CI.</span>
 <span class="sd">&quot;&quot;&quot;</span>
+
 <span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+
 <span class="kn">from</span><span class="w"> </span><span class="nn">xarray</span><span class="w"> </span><span class="kn">import</span> <span class="n">DataArray</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">geoips.interfaces.class_based.algorithms</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseAlgorithmPlugin</span>
 
 <span class="n">LOG</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
-<span class="n">interface</span> <span class="o">=</span> <span class="s2">&quot;algorithms&quot;</span>
-<span class="n">family</span> <span class="o">=</span> <span class="s2">&quot;xarray_to_xarray&quot;</span>
-<span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;my_cloud_depth&quot;</span>
-<span class="c1"># Conventionally matches the name of the plugin definition file, but can be anything</span>
-<span class="c1"># that does not contain hyphens.</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">MyCloudDepthAlgorithmPlugin</span><span class="p">(</span><span class="n">BaseAlgorithmPlugin</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;My cloud depth algorithm plugin.</span>
+
+<span class="sd">    Difference of cloud top height and cloud base height, scaled to kilometers.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">interface</span> <span class="o">=</span> <span class="s2">&quot;algorithms&quot;</span>
+    <span class="n">family</span> <span class="o">=</span> <span class="s2">&quot;xarray_to_xarray&quot;</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;my_cloud_depth&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">call</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">xobj</span><span class="p">,</span>  <span class="c1"># xarray Dataset holding the input variables</span>
+        <span class="n">variables</span><span class="p">,</span>  <span class="c1"># ordered list of required input variables (see product plugin)</span>
+        <span class="n">product_name</span><span class="p">,</span>
+        <span class="n">output_data_range</span><span class="p">,</span>  <span class="c1"># range of values the algorithm will output</span>
+        <span class="n">scale_factor</span><span class="p">,</span>  <span class="c1"># converts input meters to output kilometers</span>
+        <span class="n">min_outbounds</span><span class="o">=</span><span class="s2">&quot;crop&quot;</span><span class="p">,</span>
+        <span class="n">max_outbounds</span><span class="o">=</span><span class="s2">&quot;mask&quot;</span><span class="p">,</span>
+        <span class="n">norm</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">inverse</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Apply the cloud-depth manipulation steps to the input data.&quot;&quot;&quot;</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">geoips.data_manipulations.corrections</span><span class="w"> </span><span class="kn">import</span> <span class="n">apply_data_range</span>
+
+        <span class="n">cth</span> <span class="o">=</span> <span class="n">xobj</span><span class="p">[</span><span class="n">variables</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
+        <span class="n">cbh</span> <span class="o">=</span> <span class="n">xobj</span><span class="p">[</span><span class="n">variables</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span>
+
+        <span class="n">out</span> <span class="o">=</span> <span class="p">(</span><span class="n">cth</span> <span class="o">-</span> <span class="n">cbh</span><span class="p">)</span> <span class="o">*</span> <span class="n">scale_factor</span>
+
+        <span class="n">data</span> <span class="o">=</span> <span class="n">apply_data_range</span><span class="p">(</span>
+            <span class="n">out</span><span class="p">,</span>
+            <span class="n">min_val</span><span class="o">=</span><span class="n">output_data_range</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+            <span class="n">max_val</span><span class="o">=</span><span class="n">output_data_range</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+            <span class="n">min_outbounds</span><span class="o">=</span><span class="n">min_outbounds</span><span class="p">,</span>
+            <span class="n">max_outbounds</span><span class="o">=</span><span class="n">max_outbounds</span><span class="p">,</span>
+            <span class="n">norm</span><span class="o">=</span><span class="n">norm</span><span class="p">,</span>
+            <span class="n">inverse</span><span class="o">=</span><span class="n">inverse</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">xobj</span><span class="p">[</span><span class="n">product_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">DataArray</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">xobj</span>
+
+
+<span class="c1"># Tells pluginify (the plugin registry) which object in this module is the plugin.</span>
+<span class="n">PLUGIN_CLASS</span> <span class="o">=</span> <span class="n">MyCloudDepthAlgorithmPlugin</span>
 </pre></div>
 </div>
-<p>Each module-based plugin is required to have a <code class="docutils literal notranslate"><span class="pre">call</span></code> function. This is how geoips
-will interact with the module-based plugins. See below for the call signature of the
-my_cloud_depth.py plugin. To see a list of required arguments for each algorithm family,
-see this <a class="reference external" href="https://github.com/NRLMMD-GEOIPS/geoips/blob/main/geoips/interfaces/module_based/algorithms.py">link</a>.</p>
-<p>As for keyword arguments (kwargs), you can create as many as you want provided you include
-them in your product and are needed for your algorithm.</p>
-<p>Copy and paste this code into your algorithm file (feel free to remove the comments).</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">call</span><span class="p">(</span>
-    <span class="n">xobj</span><span class="p">,</span> <span class="c1"># Xarray dataset holding xarrays</span>
-    <span class="n">variables</span><span class="p">,</span> <span class="c1"># list of required input variables for algorithm.</span>
-               <span class="c1"># Note: Python lists are ordered, so you can count on</span>
-               <span class="c1"># your list of variables being in the order in which you</span>
-               <span class="c1"># define them in your product plugin variables</span>
-    <span class="n">product_name</span><span class="p">,</span>
-    <span class="n">output_data_range</span><span class="p">,</span>  <span class="c1"># Range of values that your algorithm will output</span>
-    <span class="n">scale_factor</span><span class="p">,</span>  <span class="c1"># Adding a scale factor here for use in converting input meters to output kilometers</span>
-    <span class="n">min_outbounds</span><span class="o">=</span><span class="s2">&quot;crop&quot;</span><span class="p">,</span>
-    <span class="n">max_outbounds</span><span class="o">=</span><span class="s2">&quot;crop&quot;</span><span class="p">,</span>
-    <span class="n">norm</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-    <span class="n">inverse</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-<span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;My cloud depth product algorithm manipulation steps.&quot;&quot;&quot;</span>
+<p>A few things to note:</p>
+<ul class="simple">
+<li><p>The class name follows the <code class="docutils literal notranslate"><span class="pre">&lt;Name&gt;&lt;Interface&gt;Plugin</span></code> convention
+(<code class="docutils literal notranslate"><span class="pre">MyCloudDepthAlgorithmPlugin</span></code>).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">family</span></code> (here <code class="docutils literal notranslate"><span class="pre">xarray_to_xarray</span></code>) determines the call signature and how GeoIPS
+converts data into and out of your plugin. To see the arguments each family expects, see
+the <a class="reference external" href="https://github.com/NRLMMD-GEOIPS/geoips/blob/main/geoips/interfaces/class_based/algorithms.py">algorithm base class</a>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">variables</span></code> is ordered — it matches the order you define variables in your product
+plugin, so <code class="docutils literal notranslate"><span class="pre">variables[0]</span></code> and <code class="docutils literal notranslate"><span class="pre">variables[1]</span></code> are cloud top height and cloud base
+height respectively.</p></li>
+<li><p>You can add as many keyword arguments as you need, provided your product supplies them.</p></li>
+<li><p>The module ends with <code class="docutils literal notranslate"><span class="pre">PLUGIN_CLASS</span> <span class="pre">=</span> <span class="pre">MyCloudDepthAlgorithmPlugin</span></code>. This tells the
+plugin registry (<code class="docutils literal notranslate"><span class="pre">pluginify</span></code>) which class in the file is the plugin to register.</p></li>
+</ul>
+<p>After adding the plugin, rebuild the plugin registries so GeoIPS can find it:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>geoips<span class="w"> </span>config<span class="w"> </span>create-registries
+geoips<span class="w"> </span>list<span class="w"> </span>algorithms<span class="w">          </span><span class="c1"># confirm my_cloud_depth appears</span>
+geoips<span class="w"> </span>describe<span class="w"> </span>alg<span class="w"> </span>my_cloud_depth
 </pre></div>
 </div>
-<p>This is where the actual data manipulation occurs. Make sure to index the variable
-list to the order of the variables you defined in your product, then make the
-following changes.</p>
-<p>Add the code block below to your <code class="docutils literal notranslate"><span class="pre">call</span></code> function. This is how cloud-depth will be
-calculated.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">cth</span> <span class="o">=</span> <span class="n">xobj</span><span class="p">[</span><span class="n">variables</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
-<span class="n">cbh</span> <span class="o">=</span> <span class="n">xobj</span><span class="p">[</span><span class="n">variables</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span>
-
-<span class="n">out</span> <span class="o">=</span> <span class="p">(</span><span class="n">cth</span> <span class="o">-</span> <span class="n">cbh</span><span class="p">)</span> <span class="o">*</span> <span class="n">scale_factor</span>
-
-<span class="kn">from</span><span class="w"> </span><span class="nn">geoips.data_manipulations.corrections</span><span class="w"> </span><span class="kn">import</span> <span class="n">apply_data_range</span>
-
-<span class="n">data</span> <span class="o">=</span> <span class="n">apply_data_range</span><span class="p">(</span>
-    <span class="n">out</span><span class="p">,</span>
-    <span class="n">min_val</span><span class="o">=</span><span class="n">output_data_range</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
-    <span class="n">max_val</span><span class="o">=</span><span class="n">output_data_range</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
-    <span class="n">min_outbounds</span><span class="o">=</span><span class="n">min_outbounds</span><span class="p">,</span>
-    <span class="n">max_outbounds</span><span class="o">=</span><span class="n">max_outbounds</span><span class="p">,</span>
-    <span class="n">norm</span><span class="o">=</span><span class="n">norm</span><span class="p">,</span>
-    <span class="n">inverse</span><span class="o">=</span><span class="n">inverse</span><span class="p">,</span>
-<span class="p">)</span>
-<span class="n">xobj</span><span class="p">[</span><span class="n">product_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">DataArray</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
-
-<span class="k">return</span> <span class="n">xobj</span>
-</pre></div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The plugin above is a real, tested example. It lives at
+<code class="docutils literal notranslate"><span class="pre">docs/source/tutorials/extending-with-plugins/examples/my_cloud_depth.py</span></code> and is
+imported and executed by <code class="docutils literal notranslate"><span class="pre">tests/unit_tests/docs/test_tutorial_examples.py</span></code>, so this
+tutorial’s code stays runnable.</p>
 </div>
-<p>If you have already created a Product defined in the <a class="reference internal" href="product/index.html#create-a-product"><span class="std std-ref">Products</span></a>
-section, we should revisit our <a class="reference internal" href="product/index.html#cloud-depth-product"><span class="std std-ref">My-Cloud-Depth product definition</span></a>
-to use the algorithm we just created. Note: If you haven’t yet created this product, see the
-<a class="reference internal" href="product/index.html#create-a-product"><span class="std std-ref">Products</span></a> section.</p>
-<p>If you are using this page as more of a guideline for how to create an algorithm plugin,
-it should be noted that <em>algorithms are useless on their own</em>. This goes for other plugins
-too, like colormappers, interpolators, etc. These are just sub-components of a larger
-plugin, that being a Product, which fully defines the process of how to create a Product
-via GeoIPS.</p>
-<p>In other words, you should implement your product in a fashion similar to what is done
-in the <a class="reference internal" href="product/index.html#cloud-depth-product"><span class="std std-ref">My-Cloud-Depth product definition</span></a>.</p>
+</section>
+<section id="using-your-algorithm">
+<h2>Using your algorithm<a class="headerlink" href="#using-your-algorithm" title="Permalink to this heading">#</a></h2>
+<p>Algorithms are not used on their own — they are one step of a larger product. If you have
+already created a Product in the <a class="reference internal" href="product/index.html#create-a-product"><span class="std std-ref">Products</span></a> section, revisit your
+<a class="reference internal" href="product/index.html#cloud-depth-product"><span class="std std-ref">My-Cloud-Depth product definition</span></a> to reference the algorithm you
+just created. The product (or the workflow that includes it) supplies the <code class="docutils literal notranslate"><span class="pre">variables</span></code>,
+<code class="docutils literal notranslate"><span class="pre">output_data_range</span></code>, and <code class="docutils literal notranslate"><span class="pre">scale_factor</span></code> arguments your <code class="docutils literal notranslate"><span class="pre">call</span></code> method expects.</p>
+<p>Your algorithm then runs as part of an <a class="reference internal" href="../../functionality/order-based-processing/index.html#order-based-processing"><span class="std std-ref">Order-Based Processing workflow</span></a>, either directly (<code class="docutils literal notranslate"><span class="pre">geoips</span> <span class="pre">run</span> <span class="pre">order_based</span> <span class="pre">&lt;workflow&gt;</span> <span class="pre">&lt;files&gt;</span></code>)
+or via a product step. The same class can also be called from a Python script — see
+<a class="reference internal" href="../../functionality/scripting/index.html#scripting-guide"><span class="std std-ref">Scripting with GeoIPS plugins</span></a>.</p>
 </section>
 </section>
 
@@ -632,6 +704,7 @@ in the <a class="reference internal" href="product/index.html#cloud-depth-produc
   <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="pst-show_toc_level nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-an-algorithm">Creating an Algorithm</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#using-your-algorithm">Using your algorithm</a></li>
 </ul>
   </nav></div>
 

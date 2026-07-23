@@ -1,35 +1,27 @@
-Version 1.14.4 (2026-07-16)
+Version 1.14.4 (2026-07-23)
 ***************************
 
- * *Enhancement*: Viirs l2 netcdf reader
  * *Enhancement*: Create mtg fci reader
- * *Bug fix*: Bug fix abi_l2_netcdf reader
+ * *Enhancement*: Add nasa_dust_rgb algorithm and products
+ * *Enhancement*: Viirs l2 netcdf reader
+ * *Enhancement*: Add eumetsat rgb products
+ * *Release process*: Add 1.14.4 release note
  * *Bug fix*: Allow seviri hrit reader to complete when hrv files present
- * *Bug fix*: Force brassy version >=0.0.3 in pyproject.toml, required by build_docs.py
  * *Bug fix*: Clean up log output for output checkers
- * *Bug fix*: Changed plaformdirs version in requirements.txt
- * *Bug fix*: Bug fix atms reader - only crop to valid indices when key exists
  * *Bug fix*: Make code_of_conduct.md optional in build_docs.py
  * *Bug fix*: Resolve string-based output_checker_threshold_image return
+ * *Bug fix*: Bug fix abi_l2_netcdf reader
+ * *Bug fix*: Changed plaformdirs version in requirements.txt
+ * *Bug fix*: Bug fix atms reader - only crop to valid indices when key exists
+ * *Bug fix*: Force brassy version >=0.0.3 in pyproject.toml, required by build_docs.py
+ * *Documentation*: Add more descriptive product descriptions
+ * *Documentation*: Add release note for version 1.14.4
  * *Documentation*: Update upcoming and tagged versions
- * *Release process*: Add 1.14.4 release note
- * *Installation*: Update full install to include all packages available on github.com
+ * *Documentation*: Add option to build_docs.py allowing saving temp files
  * *Installation*: Update installation instructions to use miniforge installer
+ * *Installation*: Update full install to include all packages available on github.com
  * *Bug fixes*: Clone git test data repositories to the correct location
  * *Bug fixes*: Use autoescape=true for jinja template
-
-Enhancement
-===========
-
-Viirs l2 netcdf reader
-----------------------
-
-Add new reader for VIIRS L2 netCDF files.
-(e.g. VIIRS L2 files distributed by NASA LANCE/LAADS)
-
-::
-
-     added: geoips/plugins/modules/readers/viirs_l2_netcdf.py
 
 Enhancement
 ===========
@@ -72,20 +64,72 @@ data_manipulations.corrections module.
      modified: setup/config_geoips
      modified: tests/test_all.sh
 
-Bug fix
-=======
+Add nasa_dust_rgb algorithm and products
+----------------------------------------
 
-Bug fix abi_l2_netcdf reader
-----------------------------
+Adds a nasa_dust_rgb algorithm that creates an rgb product
+depicting dust in the atmosphere. Requires 12.3 um,
+10.3 um, 11.2 um and 8.4 um channels to use.
 
-Fix bug where the start and end datetime was not properly being tracked for each
-file ingested in the main loop. This was causing issues when attempting to
-concatenate multiple scan times with 2D arrays. Concatenation of multiple files
-for a single scan time is currently only supported with 1D xarray datasets.
+Also add test script to tests/integration_tests/full_test.sh, and remove all
+duplicate tests from tests/test_all.sh
 
 ::
 
-     modified: geoips/plugins/modules/readers/abi_l2_netcdf.py
+     added: geoips/plugins/modules/algorithms/visir/nasa_dust_rgb.py
+     added: geoips/plugins/yaml/product_defaults/visir/nasa_dust_rgb.yaml
+     added: tests/scripts/abi.static.nasa_dust_rgb.imagery_annotated.sh
+     added:
+     tests/outputs/abi.static.nasa_dust_rgb.imagery_clean/20200918.195020.goes-16.abi.nasa_dust_rgb.conus.97p06.noaa.3p0.png
+     modified: geoips/plugins/yaml/products/abi.yaml
+     modified: tests/test_all.sh
+     modified: tests/integration_tests/full_test.sh
+
+Viirs l2 netcdf reader
+----------------------
+
+Add new reader for VIIRS L2 netCDF files.
+(e.g. VIIRS L2 files distributed by NASA LANCE/LAADS)
+
+::
+
+     added: geoips/plugins/modules/readers/viirs_l2_netcdf.py
+
+Add eumetsat rgb products
+-------------------------
+
+The original XML EUMETSAT RGB specifications were pulled from GeoIPS v1.1.16, and
+ported to GeoIPS 1.13+ as a python module-based algorithm plugin.
+
+GEOIPS#682 - EUMETSAT RGB Products
+
+::
+
+     added:
+     tests/outputs/seviri.Dust-RGB.imagery_clean/20200404.080000.msg-1.seviri.Dust-RGB.global.22p76.nesdisstar.20p0.png
+     added:
+     tests/outputs/seviri.Natural-Color.imagery_clean/20200404.080000.msg-1.seviri.Natural-Color.global.22p76.nesdisstar.20p0.png
+     added: geoips/plugins/modules/algorithms/visir/Natural_Color.py
+     added: geoips/plugins/modules/algorithms/visir/Dust_RGB.py
+     added: tests/scripts/seviri.Dust-RGB.imagery_clean.sh
+     added: tests/scripts/seviri.Natural-Color.imagery_clean.sh
+     modified: geoips/plugins/yaml/products/seviri.yaml
+     modified: tests/test_all.sh
+
+Release process
+===============
+
+Add 1.14.4 release note
+-----------------------
+
+* Upcoming public version 1.15.0.
+* Upcoming internal version 1.14.4.
+
+GEOIPS#715 - 1.14.3 updates
+
+::
+
+     added: docs/source/releases/upcoming/1.14.4-internal-release.yaml
 
 Bug fix
 =======
@@ -106,22 +150,6 @@ method and skipping over missing files.
      modified: geoips/interfaces/module_based/readers.py
      modified: geoips/plugins/modules/readers/seviri_hrit.py
 
-Bug fix
-=======
-
-Force brassy version >=0.0.3 in pyproject.toml, required by build_docs.py
--------------------------------------------------------------------------
-
-Early versions of brassy did not have the brassy.actions method, force
-version >= 0.0.3 to ensure build_docs.py can complete.
-
-::
-
-     modified: pyproject.toml
-
-Bug fix
-=======
-
 Clean up log output for output checkers
 ---------------------------------------
 
@@ -139,12 +167,46 @@ output or not (that should have already been checked).  But this
 effectively does the same thing (with duplicate files getting written
 to the file)
 
+GEOIPS#715 - 1.14.4 release
+
 ::
 
      modified: geoips/interfaces/module_based/output_checkers.py
 
-Bug fix
-=======
+Make code_of_conduct.md optional in build_docs.py
+-------------------------------------------------
+
+Allow documentation to build successfully if CODE_OF_CONDUCT does not exist.
+
+GEOIPS#715 - 1.14.4 version release bug fixes
+
+::
+
+     modified: docs/build_docs.py
+
+Resolve string-based output_checker_threshold_image return
+----------------------------------------------------------
+
+We must ensure OUTPUT_CHECKER_THRESHOLD_IMAGE is stored as a float, not a string.
+Set it explicitly, rather than using get_env_var.
+
+GEOIPS#715 - 1.14.4 version release bug fixes
+
+::
+
+     modified: geoips/filenames/base_paths.py
+
+Bug fix abi_l2_netcdf reader
+----------------------------
+
+Fix bug where the start and end datetime was not properly being tracked for each
+file ingested in the main loop. This was causing issues when attempting to
+concatenate multiple scan times with 2D arrays. Concatenation of multiple files
+for a single scan time is currently only supported with 1D xarray datasets.
+
+::
+
+     modified: geoips/plugins/modules/readers/abi_l2_netcdf.py
 
 Changed plaformdirs version in requirements.txt
 -----------------------------------------------
@@ -155,9 +217,6 @@ installation from requirements.txt.
 ::
 
      modified: environments/requirements.txt
-
-Bug fix
-=======
 
 Bug fix atms reader - only crop to valid indices when key exists
 ----------------------------------------------------------------
@@ -170,33 +229,64 @@ the reader will error when only reading in SDR files.
 
      modified: geoips/plugins/modules/readers/atms_hdf5.py
 
-Bug fix
-=======
+Force brassy version >=0.0.3 in pyproject.toml, required by build_docs.py
+-------------------------------------------------------------------------
 
-Make code_of_conduct.md optional in build_docs.py
--------------------------------------------------
+Early versions of brassy did not have the brassy.actions method, force
+version >= 0.0.3 to ensure build_docs.py can complete.
 
-Allow documentation to build successfully if CODE_OF_CONDUCT does not exist.
-
-::
-
-     modified: docs/build_docs.py
-
-Bug fix
-=======
-
-Resolve string-based output_checker_threshold_image return
-----------------------------------------------------------
-
-We must ensure OUTPUT_CHECKER_THRESHOLD_IMAGE is stored as a float, not a string.
-Set it explicitly, rather than using get_env_var.
+GEOIPS#715 - 1.14.4 release
 
 ::
 
-     modified: geoips/filenames/base_paths.py
+     modified: pyproject.toml
 
 Documentation
 =============
+
+Add more descriptive product descriptions
+-----------------------------------------
+
+Update docstrings for various products to provide more information/background
+on products.
+
+Ensure no fields (ie, product_defaults) are inadvertently removed with the
+addition of product descriptions.
+
+GEOIPS#294 - TC product descriptions
+
+::
+
+     modified: geoips/plugins/yaml/products/abi.yaml
+     modified: geoips/plugins/yaml/products/ahi.yaml
+     modified: geoips/plugins/yaml/products/amsr2.yaml
+     modified: geoips/plugins/yaml/products/amsu-b.yaml
+     modified: geoips/plugins/yaml/products/ascat.yaml
+     modified: geoips/plugins/yaml/products/ascatuhr.yaml
+     modified: geoips/plugins/yaml/products/atms.yaml
+     modified: geoips/plugins/yaml/products/gmi.yaml
+     modified: geoips/plugins/yaml/products/modis.yaml
+     modified: geoips/plugins/yaml/products/sar-spd.yaml
+     modified: geoips/plugins/yaml/products/seviri.yaml
+     modified: geoips/plugins/yaml/products/smap-spd.yaml
+     modified: geoips/plugins/yaml/products/smos-spd.yaml
+     modified: geoips/plugins/yaml/products/ssmis.yaml
+     modified: geoips/plugins/yaml/products/viirs.yaml
+
+Add release note for version 1.14.4
+-----------------------------------
+
+Release note on release branch to force tag/release, package/publish,
+and deploy docs.
+
+Additionally add any updated files from geoips_ci/sync
+
+GEOIPS#715 - 1.14.4 updates
+
+::
+
+     added: docs/source/releases/latest/1.14.4-release-note.yaml
+     modified: geoips_ci/sync updated files
 
 Update upcoming and tagged versions
 -----------------------------------
@@ -204,26 +294,38 @@ Update upcoming and tagged versions
 * Tagged version: 1.14.4
 * Upcoming version: 1.14.5
 
+GEOIPS#715 - 1.14.4 updates
+
 ::
 
      modified: .github/versions/tagged_version
      modified: .github/versions/upcoming_version
 
-Release process
-===============
+Add option to build_docs.py allowing saving temp files
+------------------------------------------------------
 
-Add 1.14.4 release note
------------------------
+For debugging purposes.
 
-* Upcoming public version 1.15.0.
-* Upcoming internal version 1.14.4.
+GEOIPS/geoips#715 - 1.14.4 release
 
 ::
 
-     added: docs/source/releases/upcoming/1.14.4-internal-release.yaml
+     modified: docs/build_docs.py
+     modified: docs/build_docs.sh
 
 Installation
 ============
+
+Update installation instructions to use miniforge installer
+-----------------------------------------------------------
+
+mambaforge deprecated
+
+GEOIPS#715 - 1.14.4 version release bug fixes
+
+::
+
+     modified: docs/source/starter/installation.rst
 
 Update full install to include all packages available on github.com
 -------------------------------------------------------------------
@@ -242,18 +344,6 @@ since that is currently unused on github.com.
 
      modified: tests/integration_tests/full_install.sh
 
-Installation
-============
-
-Update installation instructions to use miniforge installer
------------------------------------------------------------
-
-mambaforge deprecated
-
-::
-
-     modified: docs/source/starter/installation.rst
-
 Bug fixes
 =========
 
@@ -268,9 +358,6 @@ repos are cloned to $GEOIPS_TESTDATA_DIR/[test_data_repo_name]
 
      modified: setup/check_system_requirements.sh
      modified: setup/download_test_data.py
-
-Bug fixes
-=========
 
 Use autoescape=true for jinja template
 --------------------------------------

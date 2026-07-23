@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Developer Installation &#8212; GeoIPS, Geolocated Information Processing System 1.19.0.post776.dev0 documentation</title>
+    <title>Developer Installation &#8212; GeoIPS, Geolocated Information Processing System 1.19.0.post1200.dev0 documentation</title>
   
   
   
@@ -31,6 +31,7 @@
 <link href="../_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/autodoc_pydantic.css" />
     <link rel="stylesheet" type="text/css" href="../_static/set_width.css?v=d4af5e1e" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
   
@@ -40,7 +41,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
 
-    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=1e4423a0"></script>
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=ba503b0a"></script>
     <script src="../_static/doctools.js?v=888ff710"></script>
     <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
@@ -54,7 +55,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="1.1" />
-    <meta name="docbuild:last-update" content="Jul 16, 2026 04:57:54"/>
+    <meta name="docbuild:last-update" content="Jul 23, 2026 15:25:48"/>
   
     
     <script src="../_static/searchtools.js"></script>
@@ -126,8 +127,8 @@
       
     
     
-    <img src="../_static/NRL_logo_RGB.jpg" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 1.19.0.post776.dev0 documentation - Home"/>
-    <img src="../_static/NRL_logo_sidebar_Reverse.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 1.19.0.post776.dev0 documentation - Home"/>
+    <img src="../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 1.19.0.post1200.dev0 documentation - Home"/>
+    <img src="../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 1.19.0.post1200.dev0 documentation - Home"/>
   
   
 </a></div>
@@ -150,6 +151,13 @@
 
 
 <li class="nav-item ">
+  <a class="nav-link nav-internal" href="../functionality/index.html">
+    Functionality
+  </a>
+</li>
+
+
+<li class="nav-item ">
   <a class="nav-link nav-internal" href="../tutorials/index.html">
     Tutorials
   </a>
@@ -157,22 +165,15 @@
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../concepts/index.html">
-    Concepts
-  </a>
-</li>
-
-
-<li class="nav-item current active">
-  <a class="nav-link nav-internal" href="index.html">
-    Contribute
+  <a class="nav-link nav-internal" href="../devguide/index.html">
+    Developer Guide
   </a>
 </li>
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../geoips_api/index.html">
-    API
+  <a class="nav-link nav-internal" href="../deployguide/index.html">
+    Deploying and Operating GeoIPS
   </a>
 </li>
 
@@ -185,8 +186,15 @@
                 <ul id="pst-nav-more-links" class="dropdown-menu">
                     
 <li class=" ">
-  <a class="nav-link dropdown-item nav-internal" href="../releases/index.html">
-    Release Notes
+  <a class="nav-link dropdown-item nav-internal" href="../architecture/index.html">
+    Architecture
+  </a>
+</li>
+
+
+<li class=" current active">
+  <a class="nav-link dropdown-item nav-internal" href="index.html">
+    Contribute
   </a>
 </li>
 
@@ -194,6 +202,20 @@
 <li class=" ">
   <a class="nav-link dropdown-item nav-internal" href="../contact/index.html">
     About Us
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../geoips_api/index.html">
+    API
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../releases/index.html">
+    Release Notes
   </a>
 </li>
 
@@ -297,6 +319,13 @@
 
 
 <li class="nav-item ">
+  <a class="nav-link nav-internal" href="../functionality/index.html">
+    Functionality
+  </a>
+</li>
+
+
+<li class="nav-item ">
   <a class="nav-link nav-internal" href="../tutorials/index.html">
     Tutorials
   </a>
@@ -304,8 +333,22 @@
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../concepts/index.html">
-    Concepts
+  <a class="nav-link nav-internal" href="../devguide/index.html">
+    Developer Guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../deployguide/index.html">
+    Deploying and Operating GeoIPS
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../architecture/index.html">
+    Architecture
   </a>
 </li>
 
@@ -313,6 +356,13 @@
 <li class="nav-item current active">
   <a class="nav-link nav-internal" href="index.html">
     Contribute
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../contact/index.html">
+    About Us
   </a>
 </li>
 
@@ -327,13 +377,6 @@
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../releases/index.html">
     Release Notes
-  </a>
-</li>
-
-
-<li class="nav-item ">
-  <a class="nav-link nav-internal" href="../contact/index.html">
-    About Us
   </a>
 </li>
 
@@ -398,11 +441,13 @@
 <li class="toctree-l1"><a class="reference internal" href="dev_linux_with_conda.html">Conda-based Installation for Linux</a></li>
 <li class="toctree-l1"><a class="reference internal" href="dev_mac_with_conda.html">Conda-based Installation for Mac</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Developer Installation</a></li>
+
+
 <li class="toctree-l1 has-children"><a class="reference internal" href="testing/index.html">Testing</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="testing/running_tests.html">Running GeoIPS Pytest Tests</a></li>
 </ul>
 </details></li>
-<li class="toctree-l1"><a class="reference internal" href="../concepts/architecture/ci-infrastructure.html">CI and Installation Infrastructure</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../architecture/ci-infrastructure.html">CI and Installation Infrastructure</a></li>
 </ul>
 </div>
 </nav></div>
@@ -463,23 +508,28 @@
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
-<summary class="sd-summary-title sd-card-header">
-<span class="sd-summary-text">Distribution Statement</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
-<div class="line-block">
-<div class="line"># # # This source code is subject to the license referenced at</div>
-<div class="line"># # # <a class="github reference external" href="https://github.com/NRLMMD-GEOIPS">NRLMMD-GEOIPS</a>.</div>
-</div>
-</div>
-</details><section id="developer-installation">
+  <section id="developer-installation">
 <span id="id1"></span><h1>Developer Installation<a class="headerlink" href="#developer-installation" title="Permalink to this heading">#</a></h1>
-<p>This guide is for developers who need the full GeoIPS development environment with source code access, testing capabilities, and all plugins.</p>
-<p><strong>For the fully supported user installation with all dependencies managed automatically, use the</strong> <a class="reference internal" href="../getting-started/installing/linux_with_conda.html#linux-installation"><span class="std std-ref">Complete Local conda-based GeoIPS Installation</span></a>.</p>
-<section id="system-dependencies">
-<h2>System Dependencies<a class="headerlink" href="#system-dependencies" title="Permalink to this heading">#</a></h2>
+<p>This guide is for developers who need the full GeoIPS development environment
+with source code access, testing capabilities, and all plugins.</p>
+<p>Following this source-based installation guide may help users who are
+having difficulty with the pip installation due to dependency, architecture,
+or OS issues.</p>
+<p><strong>For the fully supported user installation with all dependencies managed
+automatically, use the</strong> <a class="reference internal" href="../getting-started/installation.html#installation"><span class="std std-ref">GeoIPS Installation Guide</span></a>.</p>
+<section id="prerequisites">
+<h2>Prerequisites<a class="headerlink" href="#prerequisites" title="Permalink to this heading">#</a></h2>
+<p>Operating System:</p>
+<ul class="simple">
+<li><p>Linux (RedHat and Debian flavors officially supported)</p></li>
+<li><p>MacOS (Not officially supported)</p></li>
+<li><p>Windows with WSL2 (Not officially supported)</p></li>
+</ul>
+<p>Python version 3.11 or higher. We recommend using <a class="reference external" href="https://mamba.readthedocs.io/en/latest/">Mamba</a>, <a class="reference external" href="https://docs.conda.io/en/latest/miniconda.html">Miniconda</a>, or
+<a class="reference external" href="https://www.anaconda.com/products/distribution">Anaconda</a> to manage your python environment, but any Python 3.11+
+installation should work. Please see the <a class="reference internal" href="../getting-started/system-requirements.html#system-requirements"><span class="std std-ref">system requirements</span></a> for more information.</p>
 <p>Required system dependencies:</p>
 <ul class="simple">
-<li><p>Python &gt;= 3.11</p></li>
 <li><p>git &gt;= 2.19.1</p></li>
 <li><p>libopenblas-dev</p></li>
 <li><p>make</p></li>
@@ -491,26 +541,32 @@
 <section id="environment-variables">
 <h2>Environment Variables<a class="headerlink" href="#environment-variables" title="Permalink to this heading">#</a></h2>
 <p>Set these environment variables before installation:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">GEOIPS_REPO_URL</span><span class="o">=</span>https://github.com/NRLMMD-GEOIPS
-<span class="nb">export</span><span class="w"> </span><span class="nv">GEOIPS_PACKAGES_DIR</span><span class="o">=</span>&lt;installation_location&gt;
-<span class="nb">export</span><span class="w"> </span><span class="nv">GEOIPS_TESTDATA_DIR</span><span class="o">=</span>&lt;desired_test_data_location&gt;
-<span class="nb">export</span><span class="w"> </span><span class="nv">GEOIPS_OUTDIRS</span><span class="o">=</span>&lt;desired_output_file_location&gt;
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="w">    </span><span class="nb">export</span><span class="w"> </span><span class="nv">GEOIPS_REPO_URL</span><span class="o">=</span>https://github.com/NRLMMD-GEOIPS
+<span class="w">    </span><span class="nb">export</span><span class="w"> </span><span class="nv">GEOIPS_PACKAGES_DIR</span><span class="o">=</span>&lt;installation_location&gt;
+<span class="w">    </span><span class="nb">export</span><span class="w"> </span><span class="nv">GEOIPS_TESTDATA_DIR</span><span class="o">=</span>&lt;desired_test_data_location&gt;
+<span class="w">    </span><span class="nb">export</span><span class="w"> </span><span class="nv">GEOIPS_OUTDIRS</span><span class="o">=</span>&lt;desired_output_file_location&gt;
 </pre></div>
+</div>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>These environment variables can be persisted either by adding them to your
+shell environment (e.g. <code class="docutils literal notranslate"><span class="pre">.bashrc</span></code>) or by adding them to your conda
+environment using <code class="docutils literal notranslate"><span class="pre">conda</span> <span class="pre">env</span> <span class="pre">config</span> <span class="pre">vars</span> <span class="pre">set</span> <span class="pre">GEOIPS_OUTDIRS=$HOME/geoips_output</span></code>.</p>
 </div>
 </section>
 <section id="installation-steps">
 <h2>Installation Steps<a class="headerlink" href="#installation-steps" title="Permalink to this heading">#</a></h2>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Clone the repository</span>
-git<span class="w"> </span>clone<span class="w"> </span><span class="nv">$GEOIPS_REPO_URL</span>/geoips.git<span class="w"> </span><span class="nv">$GEOIPS_PACKAGES_DIR</span>/geoips
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="w">    </span><span class="c1"># Clone the repository</span>
+<span class="w">    </span>git<span class="w"> </span>clone<span class="w"> </span><span class="nv">$GEOIPS_REPO_URL</span>/geoips.git<span class="w"> </span><span class="nv">$GEOIPS_PACKAGES_DIR</span>/geoips
 
-<span class="c1"># Install in editable mode</span>
-pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span><span class="nv">$GEOIPS_PACKAGES_DIR</span>/geoips<span class="o">[</span>doc,lint,test,debug<span class="o">]</span>
+<span class="w">    </span><span class="c1"># Install in editable mode</span>
+<span class="w">    </span>pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span><span class="nv">$GEOIPS_PACKAGES_DIR</span>/geoips<span class="o">[</span>doc,lint,test,debug<span class="o">]</span>
 
-<span class="c1"># Install additional plugins and test data</span>
-<span class="nv">$GEOIPS_PACKAGES_DIR</span>/geoips/tests/integration_tests/base_install.sh
+<span class="w">    </span><span class="c1"># Install additional plugins and test data</span>
+<span class="w">    </span><span class="nv">$GEOIPS_PACKAGES_DIR</span>/geoips/tests/integration_tests/base_install.sh
 
-<span class="c1"># Run tests to verify installation</span>
-<span class="nv">$GEOIPS_PACKAGES_DIR</span>/geoips/tests/integration_tests/base_test.sh
+<span class="w">    </span><span class="c1"># Run tests to verify installation</span>
+<span class="w">    </span><span class="nv">$GEOIPS_PACKAGES_DIR</span>/geoips/tests/integration_tests/base_test.sh
 </pre></div>
 </div>
 </section>
@@ -522,16 +578,18 @@ pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </s
 <li><p><strong>Full</strong>: Extended plugin suite (base_install.sh + full_install.sh)</p></li>
 <li><p><strong>System</strong>: Complete plugin suite (base_install.sh + full_install.sh + system_install.sh)</p></li>
 </ul>
+</section>
+</section>
 <section id="docker-plugin-development-environment">
-<h3>Docker Plugin Development Environment<a class="headerlink" href="#docker-plugin-development-environment" title="Permalink to this heading">#</a></h3>
+<h1>Docker Plugin Development Environment<a class="headerlink" href="#docker-plugin-development-environment" title="Permalink to this heading">#</a></h1>
 <p>For containerized plugin development:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Pull the development image</span>
-docker<span class="w"> </span>pull<span class="w"> </span>geoips/geoips:doclinttest-latest
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="w">    </span><span class="c1"># Pull the development image</span>
+<span class="w">    </span>docker<span class="w"> </span>pull<span class="w"> </span>geoips/geoips:doclinttest-latest
 
-<span class="c1"># Or build from source for specific stages</span>
-docker<span class="w"> </span>build<span class="w"> </span>--target<span class="w"> </span>dev<span class="w"> </span>-t<span class="w"> </span>geoips:dev<span class="w"> </span>.
-docker<span class="w"> </span>build<span class="w"> </span>--target<span class="w"> </span>test_full<span class="w"> </span>-t<span class="w"> </span>geoips:test_full<span class="w"> </span>.
-docker<span class="w"> </span>build<span class="w"> </span>--target<span class="w"> </span>test_system<span class="w"> </span>-t<span class="w"> </span>geoips:test_system<span class="w"> </span>.
+<span class="w">    </span><span class="c1"># Or build from source for specific stages</span>
+<span class="w">    </span>docker<span class="w"> </span>build<span class="w"> </span>--target<span class="w"> </span>dev<span class="w"> </span>-t<span class="w"> </span>geoips:dev<span class="w"> </span>.
+<span class="w">    </span>docker<span class="w"> </span>build<span class="w"> </span>--target<span class="w"> </span>test_full<span class="w"> </span>-t<span class="w"> </span>geoips:test_full<span class="w"> </span>.
+<span class="w">    </span>docker<span class="w"> </span>build<span class="w"> </span>--target<span class="w"> </span>test_system<span class="w"> </span>-t<span class="w"> </span>geoips:test_system<span class="w"> </span>.
 </pre></div>
 </div>
 <p>Available Docker stages:</p>
@@ -544,11 +602,11 @@ docker<span class="w"> </span>build<span class="w"> </span>--target<span class="
 </ul>
 </section>
 <section id="test-data-requirements">
-<h3>Test Data Requirements<a class="headerlink" href="#test-data-requirements" title="Permalink to this heading">#</a></h3>
-<p>Developers need test data repositories in $GEOIPS_TESTDATA_DIR for tests to pass. This is automatically handled by the installation scripts but requires significant disk space and download time.</p>
+<h1>Test Data Requirements<a class="headerlink" href="#test-data-requirements" title="Permalink to this heading">#</a></h1>
+<p>Developers need test data repositories in $GEOIPS_TESTDATA_DIR for tests to
+pass. This is automatically handled by the installation scripts but requires
+significant disk space and download time.</p>
 <p><strong>Important</strong>: Test data is only required for development. Users installing via pip do not need test data.</p>
-</section>
-</section>
 </section>
 
 
@@ -598,21 +656,23 @@ docker<span class="w"> </span>build<span class="w"> </span>--target<span class="
   </div>
   <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="pst-show_toc_level nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#system-dependencies">System Dependencies</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Developer Installation</a><ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#prerequisites">Prerequisites</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#environment-variables">Environment Variables</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#installation-steps">Installation Steps</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#plugin-installation-levels">Plugin Installation Levels</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#docker-plugin-development-environment">Docker Plugin Development Environment</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#test-data-requirements">Test Data Requirements</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#plugin-installation-levels">Plugin Installation Levels</a></li>
 </ul>
 </li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#docker-plugin-development-environment">Docker Plugin Development Environment</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#test-data-requirements">Test Data Requirements</a></li>
 </ul>
+
   </nav></div>
 
   <div class="sidebar-secondary-item">
 
   <div class="tocsection sourcelink">
-    <a href="../_sources/contribute/dev-install.rst.txt">
+    <a href="../_sources/contribute/dev-install.md.txt">
       <i class="fa-solid fa-file-lines"></i> Show Source
     </a>
   </div>

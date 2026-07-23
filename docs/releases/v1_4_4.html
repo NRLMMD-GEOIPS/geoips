@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Version 1.4.4 (2022-03-06) &#8212; GeoIPS, Geolocated Information Processing System 1.19.0.post776.dev0 documentation</title>
+    <title>Version 1.4.4 (2022-03-06) &#8212; GeoIPS, Geolocated Information Processing System 1.19.0.post1200.dev0 documentation</title>
   
   
   
@@ -31,6 +31,7 @@
 <link href="../_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/autodoc_pydantic.css" />
     <link rel="stylesheet" type="text/css" href="../_static/set_width.css?v=d4af5e1e" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
   
@@ -40,7 +41,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
 
-    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=1e4423a0"></script>
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=ba503b0a"></script>
     <script src="../_static/doctools.js?v=888ff710"></script>
     <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
@@ -54,7 +55,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="1.1" />
-    <meta name="docbuild:last-update" content="Jul 16, 2026 04:57:54"/>
+    <meta name="docbuild:last-update" content="Jul 23, 2026 15:25:48"/>
   
     
     <script src="../_static/searchtools.js"></script>
@@ -126,8 +127,8 @@
       
     
     
-    <img src="../_static/NRL_logo_RGB.jpg" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 1.19.0.post776.dev0 documentation - Home"/>
-    <img src="../_static/NRL_logo_sidebar_Reverse.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 1.19.0.post776.dev0 documentation - Home"/>
+    <img src="../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 1.19.0.post1200.dev0 documentation - Home"/>
+    <img src="../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 1.19.0.post1200.dev0 documentation - Home"/>
   
   
 </a></div>
@@ -150,6 +151,13 @@
 
 
 <li class="nav-item ">
+  <a class="nav-link nav-internal" href="../functionality/index.html">
+    Functionality
+  </a>
+</li>
+
+
+<li class="nav-item ">
   <a class="nav-link nav-internal" href="../tutorials/index.html">
     Tutorials
   </a>
@@ -157,22 +165,15 @@
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../concepts/index.html">
-    Concepts
+  <a class="nav-link nav-internal" href="../devguide/index.html">
+    Developer Guide
   </a>
 </li>
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../contribute/index.html">
-    Contribute
-  </a>
-</li>
-
-
-<li class="nav-item ">
-  <a class="nav-link nav-internal" href="../geoips_api/index.html">
-    API
+  <a class="nav-link nav-internal" href="../deployguide/index.html">
+    Deploying and Operating GeoIPS
   </a>
 </li>
 
@@ -184,9 +185,16 @@
                 </button>
                 <ul id="pst-nav-more-links" class="dropdown-menu">
                     
-<li class=" current active">
-  <a class="nav-link dropdown-item nav-internal" href="index.html">
-    Release Notes
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../architecture/index.html">
+    Architecture
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../contribute/index.html">
+    Contribute
   </a>
 </li>
 
@@ -194,6 +202,20 @@
 <li class=" ">
   <a class="nav-link dropdown-item nav-internal" href="../contact/index.html">
     About Us
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../geoips_api/index.html">
+    API
+  </a>
+</li>
+
+
+<li class=" current active">
+  <a class="nav-link dropdown-item nav-internal" href="index.html">
+    Release Notes
   </a>
 </li>
 
@@ -297,6 +319,13 @@
 
 
 <li class="nav-item ">
+  <a class="nav-link nav-internal" href="../functionality/index.html">
+    Functionality
+  </a>
+</li>
+
+
+<li class="nav-item ">
   <a class="nav-link nav-internal" href="../tutorials/index.html">
     Tutorials
   </a>
@@ -304,8 +333,22 @@
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../concepts/index.html">
-    Concepts
+  <a class="nav-link nav-internal" href="../devguide/index.html">
+    Developer Guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../deployguide/index.html">
+    Deploying and Operating GeoIPS
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../architecture/index.html">
+    Architecture
   </a>
 </li>
 
@@ -313,6 +356,13 @@
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../contribute/index.html">
     Contribute
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../contact/index.html">
+    About Us
   </a>
 </li>
 
@@ -327,13 +377,6 @@
 <li class="nav-item current active">
   <a class="nav-link nav-internal" href="index.html">
     Release Notes
-  </a>
-</li>
-
-
-<li class="nav-item ">
-  <a class="nav-link nav-internal" href="../contact/index.html">
-    About Us
   </a>
 </li>
 
@@ -388,44 +431,41 @@
      aria-label="Section Navigation">
   <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
   <div class="bd-toc-item navbar-nav"><ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="latest.html">Version latest (2026-07-16)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="latest.html">Version latest (2026-07-23)</a></li>
 </ul>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="upcoming.html">Version upcoming (2026-07-16)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="1.19.0.html">Version 1.19.0 (2026-07-23)</a></li>
 </ul>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="1.19.0.html">Version 1.19.0 (2026-07-16)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="1.18.2.html">Version 1.18.2 (2026-07-23)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="1.18.1.html">Version 1.18.1 (2026-07-23)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="1.18.0.html">Version 1.18.0 (2026-07-23)</a></li>
 </ul>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="1.18.2.html">Version 1.18.2 (2026-07-16)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="1.18.1.html">Version 1.18.1 (2026-07-16)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="1.18.0.html">Version 1.18.0 (2026-07-16)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="1.17.3.html">Version 1.17.3 (2026-07-23)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="1.17.2.html">Version 1.17.2 (2026-07-23)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="1.17.1.html">Version 1.17.1 (2026-07-23)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="1.17.0.html">Version 1.17.0 (2026-07-23)</a></li>
 </ul>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="1.17.3.html">Version 1.17.3 (2026-07-16)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="1.17.2.html">Version 1.17.2 (2026-07-16)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="1.17.1.html">Version 1.17.1 (2026-07-16)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="1.17.0.html">Version 1.17.0 (2026-07-16)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="1.16.3.html">Version 1.16.3 (2026-07-23)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="1.16.2.html">Version 1.16.2 (2026-07-23)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="1.16.1.html">Version 1.16.1 (2026-07-23)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="1.16.0.html">Version 1.16.0 (2026-07-23)</a></li>
 </ul>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="1.16.3.html">Version 1.16.3 (2026-07-16)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="1.16.2.html">Version 1.16.2 (2026-07-16)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="1.16.1.html">Version 1.16.1 (2026-07-16)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="1.16.0.html">Version 1.16.0 (2026-07-16)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="1.15.3.html">Version 1.15.3 (2026-07-23)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="1.15.2.html">Version 1.15.2 (2026-07-23)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="1.15.1.html">Version 1.15.1 (2026-07-23)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="1.15.0.html">Version 1.15.0 (2026-07-23)</a></li>
 </ul>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="1.15.3.html">Version 1.15.3 (2026-07-16)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="1.15.2.html">Version 1.15.2 (2026-07-16)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="1.15.1.html">Version 1.15.1 (2026-07-16)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="1.15.0.html">Version 1.15.0 (2026-07-16)</a></li>
-</ul>
-<ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="1.14.5.html">Version 1.14.5 (2026-07-16)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="1.14.4.html">Version 1.14.4 (2026-07-16)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="1.14.3.html">Version 1.14.3 (2026-07-16)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="1.14.2.html">Version 1.14.2 (2026-07-16)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="1.14.1.html">Version 1.14.1 (2026-07-16)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="1.14.0.html">Version 1.14.0 (2026-07-16)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="1.14.5.html">Version 1.14.5 (2026-07-23)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="1.14.4.html">Version 1.14.4 (2026-07-23)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="1.14.3.html">Version 1.14.3 (2026-07-23)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="1.14.2.html">Version 1.14.2 (2026-07-23)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="1.14.1.html">Version 1.14.1 (2026-07-23)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="1.14.0.html">Version 1.14.0 (2026-07-23)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="v1_14_0a0.html">Version 1.14.0a0 (2024-08-16)</a></li>
 </ul>
 <ul class="nav bd-sidenav">

@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>geoips.utils.types package &#8212; GeoIPS, Geolocated Information Processing System 1.19.0.post776.dev0 documentation</title>
+    <title>geoips.utils.types package &#8212; GeoIPS, Geolocated Information Processing System 1.19.0.post1200.dev0 documentation</title>
   
   
   
@@ -31,6 +31,7 @@
 <link href="../_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/autodoc_pydantic.css" />
     <link rel="stylesheet" type="text/css" href="../_static/set_width.css?v=d4af5e1e" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
   
@@ -40,7 +41,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
 
-    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=1e4423a0"></script>
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=ba503b0a"></script>
     <script src="../_static/doctools.js?v=888ff710"></script>
     <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
@@ -54,7 +55,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="1.1" />
-    <meta name="docbuild:last-update" content="Jul 16, 2026 04:57:54"/>
+    <meta name="docbuild:last-update" content="Jul 23, 2026 15:25:48"/>
   
     
     <script src="../_static/searchtools.js"></script>
@@ -126,8 +127,8 @@
       
     
     
-    <img src="../_static/NRL_logo_RGB.jpg" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 1.19.0.post776.dev0 documentation - Home"/>
-    <img src="../_static/NRL_logo_sidebar_Reverse.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 1.19.0.post776.dev0 documentation - Home"/>
+    <img src="../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 1.19.0.post1200.dev0 documentation - Home"/>
+    <img src="../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 1.19.0.post1200.dev0 documentation - Home"/>
   
   
 </a></div>
@@ -150,6 +151,13 @@
 
 
 <li class="nav-item ">
+  <a class="nav-link nav-internal" href="../functionality/index.html">
+    Functionality
+  </a>
+</li>
+
+
+<li class="nav-item ">
   <a class="nav-link nav-internal" href="../tutorials/index.html">
     Tutorials
   </a>
@@ -157,22 +165,15 @@
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../concepts/index.html">
-    Concepts
+  <a class="nav-link nav-internal" href="../devguide/index.html">
+    Developer Guide
   </a>
 </li>
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../contribute/index.html">
-    Contribute
-  </a>
-</li>
-
-
-<li class="nav-item current active">
-  <a class="nav-link nav-internal" href="index.html">
-    API
+  <a class="nav-link nav-internal" href="../deployguide/index.html">
+    Deploying and Operating GeoIPS
   </a>
 </li>
 
@@ -185,8 +186,15 @@
                 <ul id="pst-nav-more-links" class="dropdown-menu">
                     
 <li class=" ">
-  <a class="nav-link dropdown-item nav-internal" href="../releases/index.html">
-    Release Notes
+  <a class="nav-link dropdown-item nav-internal" href="../architecture/index.html">
+    Architecture
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../contribute/index.html">
+    Contribute
   </a>
 </li>
 
@@ -194,6 +202,20 @@
 <li class=" ">
   <a class="nav-link dropdown-item nav-internal" href="../contact/index.html">
     About Us
+  </a>
+</li>
+
+
+<li class=" current active">
+  <a class="nav-link dropdown-item nav-internal" href="index.html">
+    API
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../releases/index.html">
+    Release Notes
   </a>
 </li>
 
@@ -297,6 +319,13 @@
 
 
 <li class="nav-item ">
+  <a class="nav-link nav-internal" href="../functionality/index.html">
+    Functionality
+  </a>
+</li>
+
+
+<li class="nav-item ">
   <a class="nav-link nav-internal" href="../tutorials/index.html">
     Tutorials
   </a>
@@ -304,8 +333,22 @@
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../concepts/index.html">
-    Concepts
+  <a class="nav-link nav-internal" href="../devguide/index.html">
+    Developer Guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../deployguide/index.html">
+    Deploying and Operating GeoIPS
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../architecture/index.html">
+    Architecture
   </a>
 </li>
 
@@ -313,6 +356,13 @@
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../contribute/index.html">
     Contribute
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../contact/index.html">
+    About Us
   </a>
 </li>
 
@@ -327,13 +377,6 @@
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../releases/index.html">
     Release Notes
-  </a>
-</li>
-
-
-<li class="nav-item ">
-  <a class="nav-link nav-internal" href="../contact/index.html">
-    About Us
   </a>
 </li>
 
@@ -1187,6 +1230,65 @@ Conversion metadata is preserved in dataset attributes.</p>
 </dd></dl>
 
 </section>
+<section id="module-geoips.utils.types.datatree_helpers">
+<span id="geoips-utils-types-datatree-helpers-module"></span><h2>geoips.utils.types.datatree_helpers module<a class="headerlink" href="#module-geoips.utils.types.datatree_helpers" title="Permalink to this heading">#</a></h2>
+<p>Neutral helpers for flattening <code class="docutils literal notranslate"><span class="pre">xr.DataTree</span></code> nodes into mutable Datasets.</p>
+<p>These helpers previously lived as duplicated methods on plugin base classes
+(<code class="docutils literal notranslate"><span class="pre">BaseClassPlugin._to_mutable_dataset</span></code>) and inside
+<code class="docutils literal notranslate"><span class="pre">geoips.utils.types.script_datatree</span></code>. They have one home now so the
+interface-level plugin classes (algorithms, coverage_checkers,
+filename_formatters) can share a single implementation without reaching back
+into the base plugin class or the scripting module.</p>
+<p>The canonical flattener is <strong>recursive</strong> and runs
+<code class="docutils literal notranslate"><span class="pre">normalize_geoips_dataset_coords</span></code> on the result, matching the behavior the
+legacy plugin <code class="docutils literal notranslate"><span class="pre">_pre_call</span></code> overrides relied on before this refactor.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.utils.types.datatree_helpers.has_data_vars">
+<span class="sig-prename descclassname"><span class="pre">geoips.utils.types.datatree_helpers.</span></span><span class="sig-name descname"><span class="pre">has_data_vars</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">node</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/utils/types/datatree_helpers.html#has_data_vars"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.utils.types.datatree_helpers.has_data_vars" title="Permalink to this definition">#</a></dt>
+<dd><p>Return whether <em>node</em> or any descendant contains data variables.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>node</strong> (<em>xarray.DataTree</em>) – DataTree node to inspect.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><code class="docutils literal notranslate"><span class="pre">True</span></code> if <em>node</em> itself carries data variables, or any of its
+descendant nodes do.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.utils.types.datatree_helpers.to_mutable_dataset">
+<span class="sig-prename descclassname"><span class="pre">geoips.utils.types.datatree_helpers.</span></span><span class="sig-name descname"><span class="pre">to_mutable_dataset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">node</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/utils/types/datatree_helpers.html#to_mutable_dataset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.utils.types.datatree_helpers.to_mutable_dataset" title="Permalink to this definition">#</a></dt>
+<dd><p>Return a mutable <code class="docutils literal notranslate"><span class="pre">xr.Dataset</span></code> flattening <em>node</em> and its descendants.</p>
+<p><code class="docutils literal notranslate"><span class="pre">DataTree.ds</span></code> returns an immutable <code class="docutils literal notranslate"><span class="pre">DatasetView</span></code>. Plugins that write
+back into the dataset (e.g. <code class="docutils literal notranslate"><span class="pre">xobj[product_name]</span> <span class="pre">=</span> <span class="pre">...</span></code>) need a mutable
+<code class="docutils literal notranslate"><span class="pre">xr.Dataset</span></code>. This helper recursively collects every descendant that
+carries data variables, merges them into a single mutable Dataset,
+propagates node attributes, and applies
+<code class="docutils literal notranslate"><span class="pre">normalize_geoips_dataset_coords</span></code> so the result matches the GeoIPS
+coordinate convention legacy <code class="docutils literal notranslate"><span class="pre">call()</span></code> methods expect.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>node</strong> (<em>xarray.DataTree</em>) – DataTree node to flatten. May be a reader-style multi-level tree
+(root attrs-only, sub-children holding each variable group) or a
+single-level multi-child tree.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A mutable, coord-normalized Dataset merging all data-bearing
+descendants of <em>node</em>. <code class="docutils literal notranslate"><span class="pre">attrs</span></code> are merged with node attrs taking
+precedence.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>xarray.Dataset</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
 <section id="module-geoips.utils.types.family_conversions">
 <span id="geoips-utils-types-family-conversions-module"></span><h2>geoips.utils.types.family_conversions module<a class="headerlink" href="#module-geoips.utils.types.family_conversions" title="Permalink to this heading">#</a></h2>
 <p>Family-to-converter mappings for the plugin-lifecycle hooks.</p>
@@ -1231,7 +1333,7 @@ directly and need no conduit entry, so this registry is expected to shrink as
 plugins are migrated. (Originally adapted from &#64;srikanth-kumar’s work.)</p>
 <dl class="py data">
 <dt class="sig sig-object py" id="geoips.utils.types.obp_conduits.OBP_CONDUITS">
-<span class="sig-prename descclassname"><span class="pre">geoips.utils.types.obp_conduits.</span></span><span class="sig-name descname"><span class="pre">OBP_CONDUITS</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'algorithm':</span> <span class="pre">{'extract':</span> <span class="pre">&lt;function</span> <span class="pre">_extract_ds&gt;,</span> <span class="pre">'kwarg':</span> <span class="pre">'xarray_obj'},</span> <span class="pre">'colormapper':</span> <span class="pre">{'extract':</span> <span class="pre">&lt;function</span> <span class="pre">&lt;lambda&gt;&gt;,</span> <span class="pre">'kwarg':</span> <span class="pre">'mpl_colors_info'},</span> <span class="pre">'coverage_checker':</span> <span class="pre">{'extract':</span> <span class="pre">&lt;function</span> <span class="pre">&lt;lambda&gt;&gt;,</span> <span class="pre">'kwarg':</span> <span class="pre">'coverage'},</span> <span class="pre">'feature_annotator':</span> <span class="pre">{'extract':</span> <span class="pre">&lt;function</span> <span class="pre">_extract_annotator_spec&gt;,</span> <span class="pre">'kwarg':</span> <span class="pre">'feature_annotator'},</span> <span class="pre">'filename_formatter':</span> <span class="pre">{'extract':</span> <span class="pre">&lt;function</span> <span class="pre">&lt;lambda&gt;&gt;,</span> <span class="pre">'kwarg':</span> <span class="pre">'output_filenames'},</span> <span class="pre">'gridline_annotator':</span> <span class="pre">{'extract':</span> <span class="pre">&lt;function</span> <span class="pre">_extract_annotator_spec&gt;,</span> <span class="pre">'kwarg':</span> <span class="pre">'gridline_annotator'},</span> <span class="pre">'interpolator':</span> <span class="pre">{'extract':</span> <span class="pre">&lt;function</span> <span class="pre">_extract_ds&gt;,</span> <span class="pre">'kwarg':</span> <span class="pre">'xarray_obj'},</span> <span class="pre">'output_formatter':</span> <span class="pre">{'extract':</span> <span class="pre">&lt;function</span> <span class="pre">&lt;lambda&gt;&gt;,</span> <span class="pre">'kwarg':</span> <span class="pre">'output_products'},</span> <span class="pre">'product':</span> <span class="pre">{'extract':</span> <span class="pre">&lt;function</span> <span class="pre">_extract_product_name&gt;,</span> <span class="pre">'kwarg':</span> <span class="pre">'product_name'},</span> <span class="pre">'product_default':</span> <span class="pre">{'extract':</span> <span class="pre">&lt;function</span> <span class="pre">_extract_attrs_dict&gt;,</span> <span class="pre">'kwarg':</span> <span class="pre">'product_default_info'},</span> <span class="pre">'reader':</span> <span class="pre">{'extract':</span> <span class="pre">&lt;function</span> <span class="pre">_extract_ds&gt;,</span> <span class="pre">'kwarg':</span> <span class="pre">'xarray_obj'},</span> <span class="pre">'sector':</span> <span class="pre">{'extract':</span> <span class="pre">&lt;function</span> <span class="pre">&lt;lambda&gt;&gt;,</span> <span class="pre">'kwarg':</span> <span class="pre">'area_def'}}</span></em><a class="headerlink" href="#geoips.utils.types.obp_conduits.OBP_CONDUITS" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">geoips.utils.types.obp_conduits.</span></span><span class="sig-name descname"><span class="pre">OBP_CONDUITS</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'algorithm':</span> <span class="pre">{'extract':</span> <span class="pre">&lt;function</span> <span class="pre">_extract_ds&gt;,</span> <span class="pre">'kwarg':</span> <span class="pre">'xarray_obj'},</span> <span class="pre">'colormapper':</span> <span class="pre">{'extract':</span> <span class="pre">&lt;function</span> <span class="pre">&lt;lambda&gt;&gt;,</span> <span class="pre">'kwarg':</span> <span class="pre">'mpl_colors_info'},</span> <span class="pre">'coverage_checker':</span> <span class="pre">{'extract':</span> <span class="pre">&lt;function</span> <span class="pre">&lt;lambda&gt;&gt;,</span> <span class="pre">'kwarg':</span> <span class="pre">'coverage'},</span> <span class="pre">'feature_annotator':</span> <span class="pre">{'extract':</span> <span class="pre">&lt;function</span> <span class="pre">_extract_annotator_spec&gt;,</span> <span class="pre">'kwarg':</span> <span class="pre">'feature_annotator'},</span> <span class="pre">'filename_formatter':</span> <span class="pre">{'extract':</span> <span class="pre">&lt;function</span> <span class="pre">&lt;lambda&gt;&gt;,</span> <span class="pre">'kwarg':</span> <span class="pre">'output_filenames'},</span> <span class="pre">'gridline_annotator':</span> <span class="pre">{'extract':</span> <span class="pre">&lt;function</span> <span class="pre">_extract_annotator_spec&gt;,</span> <span class="pre">'kwarg':</span> <span class="pre">'gridline_annotator'},</span> <span class="pre">'interpolator':</span> <span class="pre">{'extract':</span> <span class="pre">&lt;function</span> <span class="pre">_extract_ds&gt;,</span> <span class="pre">'kwarg':</span> <span class="pre">'xarray_obj'},</span> <span class="pre">'manual':</span> <span class="pre">{'extract':</span> <span class="pre">&lt;function</span> <span class="pre">_extract_ds&gt;,</span> <span class="pre">'kwarg':</span> <span class="pre">'xarray_obj'},</span> <span class="pre">'output_formatter':</span> <span class="pre">{'extract':</span> <span class="pre">&lt;function</span> <span class="pre">&lt;lambda&gt;&gt;,</span> <span class="pre">'kwarg':</span> <span class="pre">'output_products'},</span> <span class="pre">'product':</span> <span class="pre">{'extract':</span> <span class="pre">&lt;function</span> <span class="pre">_extract_product_name&gt;,</span> <span class="pre">'kwarg':</span> <span class="pre">'product_name'},</span> <span class="pre">'product_default':</span> <span class="pre">{'extract':</span> <span class="pre">&lt;function</span> <span class="pre">_extract_attrs_dict&gt;,</span> <span class="pre">'kwarg':</span> <span class="pre">'product_default_info'},</span> <span class="pre">'reader':</span> <span class="pre">{'extract':</span> <span class="pre">&lt;function</span> <span class="pre">_extract_ds&gt;,</span> <span class="pre">'kwarg':</span> <span class="pre">'xarray_obj'},</span> <span class="pre">'sector':</span> <span class="pre">{'extract':</span> <span class="pre">&lt;function</span> <span class="pre">&lt;lambda&gt;&gt;,</span> <span class="pre">'kwarg':</span> <span class="pre">'area_def'}}</span></em><a class="headerlink" href="#geoips.utils.types.obp_conduits.OBP_CONDUITS" title="Permalink to this definition">#</a></dt>
 <dd><p>Maps an upstream node’s plugin <em>kind</em> to the downstream kwarg name it feeds
 and the extractor that pulls the value out of the node.  Add a new plugin
 kind’s wiring here (single location).</p>
@@ -1288,6 +1390,284 @@ etc.</p>
 <dd><p>Return the singular spelling.</p>
 </dd></dl>
 
+</dd></dl>
+
+</section>
+<section id="module-geoips.utils.types.script_datatree">
+<span id="geoips-utils-types-script-datatree-module"></span><h2>geoips.utils.types.script_datatree module<a class="headerlink" href="#module-geoips.utils.types.script_datatree" title="Permalink to this heading">#</a></h2>
+<p>Helpers for OBP-style plugin calls from scripts.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="geoips.utils.types.script_datatree.RetentionPolicy">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">geoips.utils.types.script_datatree.</span></span><span class="sig-name descname"><span class="pre">RetentionPolicy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">names</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">module</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qualname</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">boundary</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/utils/types/script_datatree.html#RetentionPolicy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.utils.types.script_datatree.RetentionPolicy" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">StrEnum</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="geoips.utils.types.script_datatree.RetentionPolicy.current_only">
+<span class="sig-name descname"><span class="pre">current_only</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'current_only'</span></em><a class="headerlink" href="#geoips.utils.types.script_datatree.RetentionPolicy.current_only" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="geoips.utils.types.script_datatree.RetentionPolicy.keep_all">
+<span class="sig-name descname"><span class="pre">keep_all</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'keep_all'</span></em><a class="headerlink" href="#geoips.utils.types.script_datatree.RetentionPolicy.keep_all" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="geoips.utils.types.script_datatree.RetentionPolicy.metadata_only">
+<span class="sig-name descname"><span class="pre">metadata_only</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'metadata_only'</span></em><a class="headerlink" href="#geoips.utils.types.script_datatree.RetentionPolicy.metadata_only" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.utils.types.script_datatree.add_data_step">
+<span class="sig-prename descclassname"><span class="pre">geoips.utils.types.script_datatree.</span></span><span class="sig-name descname"><span class="pre">add_data_step</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tree</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">step_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">retention_policy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/utils/types/script_datatree.html#add_data_step"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.utils.types.script_datatree.add_data_step" title="Permalink to this definition">#</a></dt>
+<dd><p>Attach user-created or user-modified data as a manual script step.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>tree</strong> (<em>xarray.DataTree</em>) – Root script DataTree created by <code class="docutils literal notranslate"><span class="pre">initialize_script_tree</span></code>.</p></li>
+<li><p><strong>data</strong> (<em>xarray.DataTree</em><em>, </em><a class="reference internal" href="#geoips.utils.types.datatree_ditto.DataTreeDitto" title="geoips.utils.types.datatree_ditto.DataTreeDitto"><em>DataTreeDitto</em></a><em>, </em><em>xarray.Dataset</em><em>, </em><em>xarray.DataArray</em><em>, </em><em>or</em>) – convertible object
+Data to attach as the new manual step.</p></li>
+<li><p><strong>step_id</strong> (<em>str</em>) – Step id for the inserted data.</p></li>
+<li><p><strong>retention_policy</strong> (<a class="reference internal" href="#geoips.utils.types.script_datatree.RetentionPolicy" title="geoips.utils.types.script_datatree.RetentionPolicy"><em>RetentionPolicy</em></a><em> or </em><em>str</em><em>, </em><em>optional</em>) – Retention policy override for the inserted data step.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The same root script DataTree, updated in place and returned for
+convenient chaining.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>xarray.DataTree</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.utils.types.script_datatree.apply_script_retention">
+<span class="sig-prename descclassname"><span class="pre">geoips.utils.types.script_datatree.</span></span><span class="sig-name descname"><span class="pre">apply_script_retention</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tree</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">current_step_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">retention_policy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/utils/types/script_datatree.html#apply_script_retention"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.utils.types.script_datatree.apply_script_retention" title="Permalink to this definition">#</a></dt>
+<dd><p>Apply a retention policy to an initialized script DataTree.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>tree</strong> (<em>xarray.DataTree</em>) – Root script DataTree created by <code class="docutils literal notranslate"><span class="pre">initialize_script_tree</span></code>.</p></li>
+<li><p><strong>current_step_id</strong> (<em>str</em>) – Step id for the current result. This step remains intact for all
+retention policies.</p></li>
+<li><p><strong>retention_policy</strong> (<a class="reference internal" href="#geoips.utils.types.script_datatree.RetentionPolicy" title="geoips.utils.types.script_datatree.RetentionPolicy"><em>RetentionPolicy</em></a><em> or </em><em>str</em><em>, </em><em>optional</em>) – Retention policy to apply. Defaults to the root script DataTree policy.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The same root script DataTree, updated in place and returned for
+convenient chaining.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>xarray.DataTree</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>ValueError</strong> – If <em>tree</em> is not an initialized script DataTree, if <em>current_step_id</em>
+    does not exist, or if the retention policy is invalid.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.utils.types.script_datatree.attach_plugin_result">
+<span class="sig-prename descclassname"><span class="pre">geoips.utils.types.script_datatree.</span></span><span class="sig-name descname"><span class="pre">attach_plugin_result</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tree</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">step_data</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">step_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plugin_kind</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plugin_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start_time</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end_time</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">retention_policy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/utils/types/script_datatree.html#attach_plugin_result"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.utils.types.script_datatree.attach_plugin_result" title="Permalink to this definition">#</a></dt>
+<dd><p>Attach a scripted plugin result to an initialized script DataTree.</p>
+<p>This internal helper records one plugin result under the supplied
+<code class="docutils literal notranslate"><span class="pre">step_id</span></code>. If <code class="docutils literal notranslate"><span class="pre">step_id</span></code> is omitted, the plugin name is used. Duplicate
+step names are rejected so scripts do not accidentally clobber earlier
+results.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>tree</strong> (<em>xarray.DataTree</em>) – Root script DataTree created by <code class="docutils literal notranslate"><span class="pre">initialize_script_tree</span></code>.</p></li>
+<li><p><strong>step_data</strong> (<em>xarray.DataTree</em><em>, </em><a class="reference internal" href="#geoips.utils.types.datatree_ditto.DataTreeDitto" title="geoips.utils.types.datatree_ditto.DataTreeDitto"><em>DataTreeDitto</em></a><em>, </em><em>xarray.Dataset</em><em>, </em><em>xarray.DataArray</em><em>, </em><em>or</em>) – convertible object
+Result returned by a plugin call. Values must either already be
+DataTree-compatible or be convertible by <code class="docutils literal notranslate"><span class="pre">DataTreeDitto</span></code>. Scalars and
+other simple values should be wrapped in a <code class="docutils literal notranslate"><span class="pre">Dataset</span></code>, <code class="docutils literal notranslate"><span class="pre">DataArray</span></code>,
+or supported container such as a <code class="docutils literal notranslate"><span class="pre">dict</span></code> before attaching.</p></li>
+<li><p><strong>step_id</strong> (<em>str</em><em>, </em><em>optional</em>) – Name to use for the attached result node. Defaults to <em>plugin_name</em>.</p></li>
+<li><p><strong>plugin_kind</strong> (<em>str</em>) – Registered plugin kind that produced <em>step_data</em>, or <code class="docutils literal notranslate"><span class="pre">&quot;manual&quot;</span></code> for
+user-created script data. Values are validated against the cached GeoIPS
+interface list plus <code class="docutils literal notranslate"><span class="pre">&quot;manual&quot;</span></code>.</p></li>
+<li><p><strong>plugin_name</strong> (<em>str</em><em>, </em><em>optional</em>) – Plugin name that produced <em>step_data</em>. Required for registered plugin
+kinds. For <code class="docutils literal notranslate"><span class="pre">plugin_kind=&quot;manual&quot;</span></code>, omitted plugin names are recorded
+as <code class="docutils literal notranslate"><span class="pre">&quot;manual&quot;</span></code>.</p></li>
+<li><p><strong>start_time</strong> (<em>datetime.datetime</em><em>, </em><em>optional</em>) – Step start datetime. Defaults to the current UTC time for
+registered plugin kinds. For <code class="docutils literal notranslate"><span class="pre">plugin_kind=&quot;manual&quot;</span></code>, omitted times
+are recorded as <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p></li>
+<li><p><strong>end_time</strong> (<em>datetime.datetime</em><em>, </em><em>optional</em>) – Step end datetime. Defaults to the current UTC time for
+registered plugin kinds. For <code class="docutils literal notranslate"><span class="pre">plugin_kind=&quot;manual&quot;</span></code>, omitted times
+are recorded as <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p></li>
+<li><p><strong>retention_policy</strong> (<a class="reference internal" href="#geoips.utils.types.script_datatree.RetentionPolicy" title="geoips.utils.types.script_datatree.RetentionPolicy"><em>RetentionPolicy</em></a><em> or </em><em>str</em><em>, </em><em>optional</em>) – Retention policy used for this step. Defaults to the policy stored on
+the root script DataTree.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The same root script DataTree, updated in place and returned for
+convenient chaining.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>xarray.DataTree</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>ValueError</strong> – If <em>tree</em> is not an initialized script DataTree, if no step name can be
+    determined, if the step name already exists, or if the retention policy
+    is invalid.</p></li>
+<li><p><strong>TypeError</strong> – If <em>step_data</em> cannot be converted to a script DataTree node.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.utils.types.script_datatree.attach_script_result">
+<span class="sig-prename descclassname"><span class="pre">geoips.utils.types.script_datatree.</span></span><span class="sig-name descname"><span class="pre">attach_script_result</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">script_tree</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">result</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plugin</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">step_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">step_start_time</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">retention_policy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/utils/types/script_datatree.html#attach_script_result"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.utils.types.script_datatree.attach_script_result" title="Permalink to this definition">#</a></dt>
+<dd><p>Attach a scripted plugin result and return the updated script tree.</p>
+<p>Thin convenience wrapper around <code class="docutils literal notranslate"><span class="pre">attach_plugin_result</span></code> that derives
+<code class="docutils literal notranslate"><span class="pre">plugin_kind</span></code> from <em>plugin</em>’s interface and <code class="docutils literal notranslate"><span class="pre">plugin_name</span></code> from
+<code class="docutils literal notranslate"><span class="pre">plugin.name</span></code>, and defaults the end time to the current UTC time.
+Used by <code class="docutils literal notranslate"><span class="pre">BaseClassPlugin._invoke</span></code> so the two script-mode attach sites do
+not duplicate the metadata-derivation logic.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.utils.types.script_datatree.get_current_data">
+<span class="sig-prename descclassname"><span class="pre">geoips.utils.types.script_datatree.</span></span><span class="sig-name descname"><span class="pre">get_current_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tree</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/utils/types/script_datatree.html#get_current_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.utils.types.script_datatree.get_current_data" title="Permalink to this definition">#</a></dt>
+<dd><p>Return the dataset from the most recent data-containing script step.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>tree</strong> (<em>xarray.DataTree</em>) – Root script DataTree created by <code class="docutils literal notranslate"><span class="pre">initialize_script_tree</span></code>.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Dataset from the most recent top-level reader, interpolator, algorithm,
+or manual step containing data variables, including data stored in child
+nodes such as reader outputs. The returned object is a mutable,
+coord-normalized dataset copy intended for inspection, modification,
+and reinsertion with <code class="docutils literal notranslate"><span class="pre">add_data_step</span></code>.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>xarray.Dataset</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>ValueError</strong> – If <em>tree</em> is not an initialized script DataTree or no data-containing
+    step is available.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.utils.types.script_datatree.get_output_products">
+<span class="sig-prename descclassname"><span class="pre">geoips.utils.types.script_datatree.</span></span><span class="sig-name descname"><span class="pre">get_output_products</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tree</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">step_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/utils/types/script_datatree.html#get_output_products"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.utils.types.script_datatree.get_output_products" title="Permalink to this definition">#</a></dt>
+<dd><p>Return products written by scripted output formatter steps.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>tree</strong> (<em>xarray.DataTree</em>) – Root script DataTree created by <code class="docutils literal notranslate"><span class="pre">initialize_script_tree</span></code>.</p></li>
+<li><p><strong>step_id</strong> (<em>str</em><em>, </em><em>optional</em>) – Specific output formatter step to inspect. If omitted, products from
+all steps with <code class="docutils literal notranslate"><span class="pre">attrs[&quot;output_products&quot;]</span></code> are returned in tree order.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Output products recorded by output formatter steps.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>ValueError</strong> – If <em>tree</em> is not an initialized script tree, <em>step_id</em> is unknown, or
+    no output products are available.</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">geoips.scripting</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_output_products</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">output_products</span> <span class="o">=</span> <span class="n">get_output_products</span><span class="p">(</span><span class="n">tree</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">output_products</span>
+<span class="go">[&quot;/path/to/output.png&quot;]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.utils.types.script_datatree.initialize_script_tree">
+<span class="sig-prename descclassname"><span class="pre">geoips.utils.types.script_datatree.</span></span><span class="sig-name descname"><span class="pre">initialize_script_tree</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">retention_policy</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">attrs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/utils/types/script_datatree.html#initialize_script_tree"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.utils.types.script_datatree.initialize_script_tree" title="Permalink to this definition">#</a></dt>
+<dd><p>Initialize a root DataTree for OBP-style scripted plugin calls.</p>
+<p>The returned tree is intended to be passed as the <code class="docutils literal notranslate"><span class="pre">data</span></code> argument to
+direct plugin calls. Plugins infer script-mode OBP behavior from the
+tree’s <code class="docutils literal notranslate"><span class="pre">execution_mode</span></code> metadata and attach results back onto this
+script tree using <code class="docutils literal notranslate"><span class="pre">step_id</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<em>str</em>) – Name for the root script DataTree.</p></li>
+<li><p><strong>retention_policy</strong> (<a class="reference internal" href="#geoips.utils.types.script_datatree.RetentionPolicy" title="geoips.utils.types.script_datatree.RetentionPolicy"><em>RetentionPolicy</em></a><em> or </em><em>str</em>) – Retention policy to apply after scripted plugin calls. May be supplied
+as a <code class="docutils literal notranslate"><span class="pre">RetentionPolicy</span></code> value or its string value. May be overridden
+on individual steps.</p></li>
+<li><p><strong>attrs</strong> (<em>dict</em>) – Additional root-level metadata to store on the script DataTree.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Root DataTree with standard script execution metadata.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>xarray.DataTree</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>ValueError</strong> – If <em>retention_policy</em> is not recognized, or if <em>attrs</em> attempts to
+    override reserved script metadata fields.</p>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">geoips.scripting</span><span class="w"> </span><span class="kn">import</span> <span class="n">RetentionPolicy</span><span class="p">,</span> <span class="n">initialize_script_tree</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tree</span> <span class="o">=</span> <span class="n">initialize_script_tree</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="s2">&quot;abi_infrared_test&quot;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">retention_policy</span><span class="o">=</span><span class="n">RetentionPolicy</span><span class="o">.</span><span class="n">metadata_only</span><span class="p">,</span>
+<span class="gp">... </span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tree</span> <span class="o">=</span> <span class="n">reader_plugin</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="n">data</span><span class="o">=</span><span class="n">tree</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">filenames</span><span class="o">=</span><span class="n">fnames</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">step_id</span><span class="o">=</span><span class="s2">&quot;read_data&quot;</span><span class="p">,</span>
+<span class="gp">... </span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.utils.types.script_datatree.is_script_tree">
+<span class="sig-prename descclassname"><span class="pre">geoips.utils.types.script_datatree.</span></span><span class="sig-name descname"><span class="pre">is_script_tree</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tree</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/utils/types/script_datatree.html#is_script_tree"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.utils.types.script_datatree.is_script_tree" title="Permalink to this definition">#</a></dt>
+<dd><p>Return whether <em>tree</em> is an initialized script DataTree.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.utils.types.script_datatree.normalize_retention_policy">
+<span class="sig-prename descclassname"><span class="pre">geoips.utils.types.script_datatree.</span></span><span class="sig-name descname"><span class="pre">normalize_retention_policy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">retention_policy</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/utils/types/script_datatree.html#normalize_retention_policy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.utils.types.script_datatree.normalize_retention_policy" title="Permalink to this definition">#</a></dt>
+<dd><p>Return a canonical retention policy from a string or RetentionPolicy.</p>
+<p>This internal helper lets user-facing functions accept either
+<code class="docutils literal notranslate"><span class="pre">RetentionPolicy.metadata_only</span></code> style values or equivalent string values
+such as <code class="docutils literal notranslate"><span class="pre">&quot;metadata_only&quot;</span></code>.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.utils.types.script_datatree.plugin_kind">
+<span class="sig-prename descclassname"><span class="pre">geoips.utils.types.script_datatree.</span></span><span class="sig-name descname"><span class="pre">plugin_kind</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">plugin</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/utils/types/script_datatree.html#plugin_kind"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.utils.types.script_datatree.plugin_kind" title="Permalink to this definition">#</a></dt>
+<dd><p>Return the singular plugin kind for script step metadata.</p>
+<p>Uses the plugin’s <code class="docutils literal notranslate"><span class="pre">interface</span></code> attribute (e.g. <code class="docutils literal notranslate"><span class="pre">&quot;filename_formatters&quot;</span></code>)
+and returns its singular form (e.g. <code class="docutils literal notranslate"><span class="pre">&quot;filename_formatter&quot;</span></code>).</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.utils.types.script_datatree.script_call_data">
+<span class="sig-prename descclassname"><span class="pre">geoips.utils.types.script_datatree.</span></span><span class="sig-name descname"><span class="pre">script_call_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/utils/types/script_datatree.html#script_call_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.utils.types.script_datatree.script_call_data" title="Permalink to this definition">#</a></dt>
+<dd><p>Return the data object to pass through plugin preprocessing.</p>
+<p>Script calls keep the accumulated script tree in <code class="docutils literal notranslate"><span class="pre">data</span></code>; the plugin’s
+own call should operate on the current data input (<code class="docutils literal notranslate"><span class="pre">xarray_obj</span></code> kwarg
+when a conduit injected one, otherwise the tree itself).</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.utils.types.script_datatree.validate_retention_policy">
+<span class="sig-prename descclassname"><span class="pre">geoips.utils.types.script_datatree.</span></span><span class="sig-name descname"><span class="pre">validate_retention_policy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">retention_policy</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/utils/types/script_datatree.html#validate_retention_policy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.utils.types.script_datatree.validate_retention_policy" title="Permalink to this definition">#</a></dt>
+<dd><p>Validate a script DataTree retention policy.</p>
 </dd></dl>
 
 </section>
@@ -1557,6 +1937,11 @@ framework bootstrap entry point.</p>
 </li>
 </ul>
 </li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-geoips.utils.types.datatree_helpers">geoips.utils.types.datatree_helpers module</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.utils.types.datatree_helpers.has_data_vars"><code class="docutils literal notranslate"><span class="pre">has_data_vars()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.utils.types.datatree_helpers.to_mutable_dataset"><code class="docutils literal notranslate"><span class="pre">to_mutable_dataset()</span></code></a></li>
+</ul>
+</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-geoips.utils.types.family_conversions">geoips.utils.types.family_conversions module</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-geoips.utils.types.obp_conduits">geoips.utils.types.obp_conduits module</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.utils.types.obp_conduits.OBP_CONDUITS"><code class="docutils literal notranslate"><span class="pre">OBP_CONDUITS</span></code></a></li>
@@ -1569,6 +1954,27 @@ framework bootstrap entry point.</p>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.utils.types.partial_lexeme.Lexeme.singular"><code class="docutils literal notranslate"><span class="pre">Lexeme.singular</span></code></a></li>
 </ul>
 </li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-geoips.utils.types.script_datatree">geoips.utils.types.script_datatree module</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.utils.types.script_datatree.RetentionPolicy"><code class="docutils literal notranslate"><span class="pre">RetentionPolicy</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.utils.types.script_datatree.RetentionPolicy.current_only"><code class="docutils literal notranslate"><span class="pre">RetentionPolicy.current_only</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.utils.types.script_datatree.RetentionPolicy.keep_all"><code class="docutils literal notranslate"><span class="pre">RetentionPolicy.keep_all</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.utils.types.script_datatree.RetentionPolicy.metadata_only"><code class="docutils literal notranslate"><span class="pre">RetentionPolicy.metadata_only</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.utils.types.script_datatree.add_data_step"><code class="docutils literal notranslate"><span class="pre">add_data_step()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.utils.types.script_datatree.apply_script_retention"><code class="docutils literal notranslate"><span class="pre">apply_script_retention()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.utils.types.script_datatree.attach_plugin_result"><code class="docutils literal notranslate"><span class="pre">attach_plugin_result()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.utils.types.script_datatree.attach_script_result"><code class="docutils literal notranslate"><span class="pre">attach_script_result()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.utils.types.script_datatree.get_current_data"><code class="docutils literal notranslate"><span class="pre">get_current_data()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.utils.types.script_datatree.get_output_products"><code class="docutils literal notranslate"><span class="pre">get_output_products()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.utils.types.script_datatree.initialize_script_tree"><code class="docutils literal notranslate"><span class="pre">initialize_script_tree()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.utils.types.script_datatree.is_script_tree"><code class="docutils literal notranslate"><span class="pre">is_script_tree()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.utils.types.script_datatree.normalize_retention_policy"><code class="docutils literal notranslate"><span class="pre">normalize_retention_policy()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.utils.types.script_datatree.plugin_kind"><code class="docutils literal notranslate"><span class="pre">plugin_kind()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.utils.types.script_datatree.script_call_data"><code class="docutils literal notranslate"><span class="pre">script_call_data()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.utils.types.script_datatree.validate_retention_policy"><code class="docutils literal notranslate"><span class="pre">validate_retention_policy()</span></code></a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-geoips.utils.types.tokenization">geoips.utils.types.tokenization module</a><ul class="nav section-nav flex-column">

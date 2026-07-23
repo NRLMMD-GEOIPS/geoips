@@ -55,6 +55,14 @@ geoips.geoips\_utils module
    :undoc-members:
    :show-inheritance:
 
+geoips.scripting module
+-----------------------
+
+.. automodule:: geoips.scripting
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 Module contents
 ---------------
 

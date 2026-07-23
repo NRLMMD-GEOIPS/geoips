@@ -33,7 +33,7 @@ Creating a GeoIPS Product Plugin
 --------------------------------
 
 The code snippet shown below shows properties required in every GeoIPS plugin, YAML or
-Module-based. These properties help GeoIPS define what type of plugin you are developing
+Class-based. These properties help GeoIPS define what type of plugin you are developing
 and also defines what schema your plugin will be validated against.
 
 Copy and paste the code shown below into my_clavrx_products.yaml.
@@ -66,64 +66,82 @@ they just describe what each property does.
           docstring: | # Pipe says to YAML this will be a multiline comment, can be anything
             CLAVR-x Cloud Top Height
           product_defaults: Cloud-Height # See the Product Defaults section for more info
-          spec: # Variables are the neccessary variables which are needed to produce your product
+          spec: # Variables are the necessary variables which are needed to produce your product
             variables: ["cld_height_acha", "latitude", "longitude"]
 
-To use your product that you just created, you'll need to create a bash script that
-implements ``run_procflow`` (run-process-workflow). This is a script which defines the
-*process-workflow* needed to generate your product. We'll keep this short for now, but you
-are able to strictly define how you want your product to be created, as well as what
-format you'd like it outputted as. You can also define the sector you'd like your data
-to be plotted on, as well as compare the output product to a validated product if wanted.
+To use the product you just created, run it through an :ref:`Order-Based Processing
+workflow <order-based-processing>`. A workflow is a YAML plugin that lists the ordered
+steps needed to produce output. You reference your product as a ``product`` step, and OBP
+expands it into the interpolator/algorithm/colormapper steps its family defines. Workflows
+live in your package's ``plugins/yaml/workflows/`` directory, and — when they include a
+``test`` section — double as regression tests.
 
-GeoIPS is called via a command line interface (CLI). The main command that you will use is
-run_procflow which will run your data through the selected procflow using the specified
-plugins. It's easiest to do this via a script, and scripts are stored in your plugin
-package's ``tests/`` directory because they can be used later to regression test your
-package.
+Creating a Workflow to Visualize Your Product
+---------------------------------------------
 
-Creating a Script to Visualize Your Product
--------------------------------------------
+We'll now create a workflow that reads your data and runs your product.
 
-We'll now create a test script to generate an image for the product you just created.
-
-#. Change directories into your scripts directory.
+#. Change directories into your workflows directory.
    ::
 
-        cd $MY_PKG_DIR/tests/scripts
+        cd $MY_PKG_DIR/$MY_PKG_NAME/plugins/yaml/workflows
 
-#. Create a bash file called clavrx.conus_annotated.my-cloud-top-height.sh and edit it
-   to include the codeblock below.
+#. Create a file called ``my_cloud_top_height.yaml`` and edit it to include the code block
+   below (replace ``<your_package>`` with your package name).
+
+.. code-block:: yaml
+
+    apiVersion: geoips/v1
+    interface: workflows
+    family: order_based
+    name: my_cloud_top_height
+    docstring: CLAVR-x Cloud Top Height over CONUS.
+    package: <your_package>
+    spec:
+      globals:
+        product_name: My-Cloud-Top-Height
+      steps:
+        sector:
+          kind: sector
+          name: conus
+        reader:
+          kind: reader
+          name: clavrx_hdf4
+          depends_on: [sector]
+        clavrx_My_Cloud_Top_Height:
+          kind: product
+          name: [clavrx, My-Cloud-Top-Height]
+          depends_on: [reader, sector]
+        filename_formatter:
+          kind: filename_formatter
+          name: geoips_fname
+          depends_on: [clavrx_My_Cloud_Top_Height.algorithm, sector]
+          arguments:
+            product_name: My-Cloud-Top-Height
+        output_formatter:
+          kind: output_formatter
+          name: imagery_annotated
+          depends_on:
+            - clavrx_My_Cloud_Top_Height.algorithm
+            - clavrx_My_Cloud_Top_Height.colormapper
+            - filename_formatter
+            - sector
+
+The ``product`` step references your product by ``[source_name, product_name]``. OBP loads
+the product and expands it into the ordered steps its family defines. The ``sector`` step
+selects the region to plot on; ``depends_on`` wires each step to the output it consumes.
+See :ref:`workflows` for the full reference.
+
+Rebuild the plugin registries and run your workflow:
 
 .. code-block:: bash
 
-    run_procflow \
-        $GEOIPS_TESTDATA_DIR/test_data_clavrx/data/goes16_2023101_1600/clavrx_OR_ABI-L1b-RadF-M6C01_G16_s20231011600207.level2.hdf \
-        --procflow single_source \
-        --reader_name clavrx_hdf4 \
-        --product_name My-Cloud-Top-Height \
-        --output_formatter imagery_annotated \
-        --filename_formatter geoips_fname \
-        --minimum_coverage 0 \
-        --sector_list conus
-    ss_retval=$?
+    geoips config create-registries
+    geoips run order_based my_cloud_top_height \
+        $GEOIPS_TESTDATA_DIR/test_data_clavrx/data/goes16_2023101_1600/*.hdf
 
-As shown above, we define which procflow we want to use, which reader,
-what product will be displayed, how to output it, which filename formatter will be used,
-the minimum coverage needed to create an output (% based), as well as the sector used to
-plot the data. Many more items can be added if wanted. If you'd like some examples of
-that, feel free to peruse the `GeoIPS Scripts Directory
-<https://github.com/NRLMMD-GEOIPS/geoips/tree/main/tests/scripts>`_.
-
-Once these changes have been created, we can run our test script to produce Cloud Top
-Height Imagery. To do so, run your script using the line shown below.
-::
-
-    $MY_PKG_DIR/tests/scripts/clavrx.conus_annotated.my-cloud-top-height.sh
-
-This will write some log output. If your script succeeded it will end with INTERACTIVE:
-Return Value 0. To view your output, look for a line that says SINGLESOURCESUCCESS. Open
-the PNG file, it should look like the image below.
+This will write some log output. If it succeeded it ends with a ``Return Value 0``. Open
+the resulting PNG file; it should look like the image below.
 
 .. image:: my_cloud_top_height.png
    :width: 800
@@ -288,31 +306,19 @@ creating a new test script which implements our new changes.
     cd $MY_PKG_DIR/tests/scripts
     cp clavrx.conus_annotated.my-cloud-top-height.sh clavrx.conus_annotated.my-cloud-depth.sh
 
-Now we need to edit ``clavrx.conus_annotated.my-cloud-depth.sh`` to implement
-``My-Cloud-Depth`` rather than ``My-Cloud-Top-Height``. Your new test script should look
-like the code shown below.
+Now create a workflow for ``My-Cloud-Depth`` just like the ``my_cloud_top_height``
+workflow above — copy it to ``my_cloud_depth.yaml``, change ``name`` to ``my_cloud_depth``,
+and change ``product_name`` and the product step to ``My-Cloud-Depth``. Then run it:
 
 .. code-block:: bash
 
-  run_procflow \
-      $GEOIPS_TESTDATA_DIR/test_data_clavrx/data/goes16_2023101_1600/clavrx_OR_ABI-L1b-RadF-M6C01_G16_s20231011600207.level2.hdf \
-      --procflow single_source \
-      --reader_name clavrx_hdf4 \
-      --product_name My-Cloud-Depth \
-      --output_formatter imagery_annotated \
-      --filename_formatter geoips_fname \
-      --minimum_coverage 0 \
-      --sector_list conus
-  ss_retval=$?
+    geoips run order_based my_cloud_depth \
+        $GEOIPS_TESTDATA_DIR/test_data_clavrx/data/goes16_2023101_1600/*.hdf
 
-Nice! Now all we need to do is run our script. This will display Cloud Depth over the
-CONUS sector. To do so, run the command below.
-::
-
-    $MY_PKG_DIR/tests/scripts/clavrx.conus_annotated.my-cloud-depth.sh
+This will display Cloud Depth over the CONUS sector.
 
 This will output a bunch of log output. If your script succeeded it will end with INFO:
-Return Value 0. To view your output, look for a line that says SINGLESOURCESUCCESS. Open
+Return Value 0. To view your output, look for the output image path printed in the log. Open
 the PNG file to view your Cloud Depth Image! It should look like the image shown below.
 
 .. image:: my_cloud_depth.png

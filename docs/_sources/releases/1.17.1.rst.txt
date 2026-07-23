@@ -1,54 +1,12 @@
-Version 1.17.1 (2026-07-16)
+Version 1.17.1 (2026-07-23)
 ***************************
 
- * *Release updates*: Bug fixes on the open source github.com geoips site integration tests.
- * *Release updates*: Geoips repo - update tagged_version and upcoming_version
- * *Documentation*: Update upcoming and tagged versions
  * *Bug fix*: Minor bugfixes for readers and algorithms
  * *Bug fixes*: Bug fixes on 1.17.1
-
-Release updates
-===============
-
-Bug fixes on the open source github.com geoips site integration tests.
-----------------------------------------------------------------------
-
-Bug fixes required to get the GeoIPS Site integration tests to pass on all available
-github.com open source repositories.
-
-Also update standard sync files
-
-::
-
-     modified: docs/source/releases/
-
-Release updates
-===============
-
-Geoips repo - update tagged_version and upcoming_version
---------------------------------------------------------
-
-tagged_version 1.17.1 (site-nrlmmd bug fixes)
-upcoming_version 1.17.2 (system bug fixes)
-
-::
-
-     modified: .github/versions/upcoming_version
-     modified: .github/versions/tagged_version
-
-Documentation
-=============
-
-Update upcoming and tagged versions
------------------------------------
-
-* Tagged version: 1.17.1
-* Upcoming version: 1.17.2
-
-::
-
-     modified: .github/versions/tagged_version
-     modified: .github/versions/upcoming_version
+ * *Documentation*: Add release note for version 1.17.1
+ * *Documentation*: Update upcoming and tagged versions
+ * *Release updates*: Bug fixes on the open source github.com geoips site integration tests.
+ * *Release updates*: Geoips repo - update tagged_version and upcoming_version
 
 Bug fix
 =======
@@ -179,6 +137,8 @@ Very slight coverage change / minimal test output change
   * unprojected from 69.07 to 69.10
   * NOTE WV-Upper no_self_register unprojected_image has unk coverage, so unchnaged!
 
+geoips#959 - 1.17.0 updates*
+
 ::
 
      added: docs/source/releases/latest/1.17.1-sitetestfull-bug-fixes.yaml
@@ -268,3 +228,62 @@ Very slight coverage change / minimal test output change
      tests/outputs/abi.static.Visible.imagery_clean/20200918.195020.goes-16.abi.Visible.test_goes16_eqc_3km_subsector.100p00.noaa.3p0.png
      deleted: deleted old tiny sector name:
      tests/outputs/abi.static.Visible.imagery_clean/20200918.195020.goes-16.abi.Visible.test_goes16_eqc_3km_terminator_20200918T1950Z.79p46.noaa.3p0.png
+
+Documentation
+=============
+
+Add release note for version 1.17.1
+-----------------------------------
+
+Release note on release branch to force tag/release, package/publish,
+and deploy docs.
+
+Additionally add any updated files from geoips_ci/sync
+
+geoips#959 - 1.17.1 updates
+
+::
+
+     added: docs/source/releases/latest/1.17.1-release-note.yaml
+     modified: geoips_ci/sync updated files
+
+Update upcoming and tagged versions
+-----------------------------------
+
+* Tagged version: 1.17.1
+* Upcoming version: 1.17.2
+
+geoips#959 - 1.17.1 updates
+
+::
+
+     modified: .github/versions/tagged_version
+     modified: .github/versions/upcoming_version
+
+Release updates
+===============
+
+Bug fixes on the open source github.com geoips site integration tests.
+----------------------------------------------------------------------
+
+Bug fixes required to get the GeoIPS Site integration tests to pass on all available
+github.com open source repositories.
+
+Also update standard sync files
+
+::
+
+     modified: docs/source/releases/
+
+Geoips repo - update tagged_version and upcoming_version
+--------------------------------------------------------
+
+tagged_version 1.17.1 (site-nrlmmd bug fixes)
+upcoming_version 1.17.2 (system bug fixes)
+
+geoips#959 - 1.17.0 updates*
+
+::
+
+     modified: .github/versions/upcoming_version
+     modified: .github/versions/tagged_version

@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Extend GeoIPS with a New Gridline Annotator &#8212; GeoIPS, Geolocated Information Processing System 1.19.0.post776.dev0 documentation</title>
+    <title>Extend GeoIPS with a New Gridline Annotator &#8212; GeoIPS, Geolocated Information Processing System 1.19.0.post1200.dev0 documentation</title>
   
   
   
@@ -31,6 +31,7 @@
 <link href="../../_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../_static/autodoc_pydantic.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/set_width.css?v=d4af5e1e" />
     <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
   
@@ -40,7 +41,7 @@
   <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
 
-    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=1e4423a0"></script>
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=ba503b0a"></script>
     <script src="../../_static/doctools.js?v=888ff710"></script>
     <script src="../../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../_static/design-tabs.js?v=f930bc37"></script>
@@ -54,7 +55,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="1.1" />
-    <meta name="docbuild:last-update" content="Jul 16, 2026 04:57:54"/>
+    <meta name="docbuild:last-update" content="Jul 23, 2026 15:25:48"/>
   
     
     <script src="../../_static/searchtools.js"></script>
@@ -126,8 +127,8 @@
       
     
     
-    <img src="../../_static/NRL_logo_RGB.jpg" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 1.19.0.post776.dev0 documentation - Home"/>
-    <img src="../../_static/NRL_logo_sidebar_Reverse.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 1.19.0.post776.dev0 documentation - Home"/>
+    <img src="../../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 1.19.0.post1200.dev0 documentation - Home"/>
+    <img src="../../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 1.19.0.post1200.dev0 documentation - Home"/>
   
   
 </a></div>
@@ -149,6 +150,13 @@
 </li>
 
 
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../functionality/index.html">
+    Functionality
+  </a>
+</li>
+
+
 <li class="nav-item current active">
   <a class="nav-link nav-internal" href="../index.html">
     Tutorials
@@ -157,22 +165,15 @@
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../concepts/index.html">
-    Concepts
+  <a class="nav-link nav-internal" href="../../devguide/index.html">
+    Developer Guide
   </a>
 </li>
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../contribute/index.html">
-    Contribute
-  </a>
-</li>
-
-
-<li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../geoips_api/index.html">
-    API
+  <a class="nav-link nav-internal" href="../../deployguide/index.html">
+    Deploying and Operating GeoIPS
   </a>
 </li>
 
@@ -185,8 +186,15 @@
                 <ul id="pst-nav-more-links" class="dropdown-menu">
                     
 <li class=" ">
-  <a class="nav-link dropdown-item nav-internal" href="../../releases/index.html">
-    Release Notes
+  <a class="nav-link dropdown-item nav-internal" href="../../architecture/index.html">
+    Architecture
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../contribute/index.html">
+    Contribute
   </a>
 </li>
 
@@ -194,6 +202,20 @@
 <li class=" ">
   <a class="nav-link dropdown-item nav-internal" href="../../contact/index.html">
     About Us
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../geoips_api/index.html">
+    API
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../releases/index.html">
+    Release Notes
   </a>
 </li>
 
@@ -296,6 +318,13 @@
 </li>
 
 
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../functionality/index.html">
+    Functionality
+  </a>
+</li>
+
+
 <li class="nav-item current active">
   <a class="nav-link nav-internal" href="../index.html">
     Tutorials
@@ -304,8 +333,22 @@
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../concepts/index.html">
-    Concepts
+  <a class="nav-link nav-internal" href="../../devguide/index.html">
+    Developer Guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../deployguide/index.html">
+    Deploying and Operating GeoIPS
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../architecture/index.html">
+    Architecture
   </a>
 </li>
 
@@ -313,6 +356,13 @@
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../../contribute/index.html">
     Contribute
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../contact/index.html">
+    About Us
   </a>
 </li>
 
@@ -327,13 +377,6 @@
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../../releases/index.html">
     Release Notes
-  </a>
-</li>
-
-
-<li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../contact/index.html">
-    About Us
   </a>
 </li>
 
@@ -400,8 +443,10 @@
 <li class="toctree-l2"><a class="reference internal" href="static_sector/index.html">Extend GeoIPS with a new Static Sector</a></li>
 <li class="toctree-l2"><a class="reference internal" href="dynamic_sector/index.html">Extend GeoIPS with a new Dynamic Sector</a></li>
 <li class="toctree-l2"><a class="reference internal" href="reader.html">Get to know the GeoIPS Readers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reader-walkthrough.html">Build a Reader: a hands-on walkthrough</a></li>
 </ul>
 </details></li>
+<li class="toctree-l1"><a class="reference internal" href="../scripting-with-geoips.html">Scripting with GeoIPS</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../nrtp-examples/index.html">Near Real-Time Processing</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="../nrtp-examples/using-inotifywait-for-basic-near-real-time-processing.html">Using <code class="docutils literal notranslate"><span class="pre">inotifywait</span></code> for Near Real-Time Processing</a></li>
 </ul>
@@ -480,7 +525,7 @@
 </div>
 </details><section id="extend-geoips-with-a-new-gridline-annotator">
 <span id="create-gridline-annotator"></span><h1>Extend GeoIPS with a New Gridline Annotator<a class="headerlink" href="#extend-geoips-with-a-new-gridline-annotator" title="Permalink to this heading">#</a></h1>
-<p>GeoIPS Gridline Annotators describe the format of the grd lines shown in your imagery.
+<p>GeoIPS Gridline Annotators describe the format of the grid lines shown in your imagery.
 Every image you’ve created using GeoIPS so far has employed the default GeoIPS Gridline
 Annotator. This serves well for tutorial purposes, but may be mundane for your own
 purposes. For that reason, we allow users to create their own custom YAML-based
@@ -488,7 +533,7 @@ Gridline Annotator Plugins, which we’ll show you how to do that here.</p>
 <dl class="simple">
 <dt>Gridline Annotators control the following properties of your imagery:</dt><dd><ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">labels</span></code> and which to display</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">'ines</span></code>, such as their <code class="docutils literal notranslate"><span class="pre">color</span></code>, <code class="docutils literal notranslate"><span class="pre">linestyle</span></code>, and <code class="docutils literal notranslate"><span class="pre">linewidth</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">lines</span></code>, such as their <code class="docutils literal notranslate"><span class="pre">color</span></code>, <code class="docutils literal notranslate"><span class="pre">linestyle</span></code>, and <code class="docutils literal notranslate"><span class="pre">linewidth</span></code></p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">spacing</span></code>, such as the distance between <code class="docutils literal notranslate"><span class="pre">latitude</span></code> and <code class="docutils literal notranslate"><span class="pre">longitude</span></code> labels,
 and the gridlines that represent them.</p></li>
 </ul>
@@ -498,7 +543,7 @@ and the gridlines that represent them.</p></li>
 <code class="docutils literal notranslate"><span class="pre">interface</span></code>, <code class="docutils literal notranslate"><span class="pre">family</span></code>, and <code class="docutils literal notranslate"><span class="pre">docstring</span></code>
 are required in every GeoIPS plugin.</p>
 <p>Please see documentation for
-<a class="reference internal" href="../../concepts/architecture/extend-with-plugins.html#required-attributes"><span class="std std-ref">additional info on these GeoIPS required attributes</span></a></p>
+<a class="reference internal" href="../../architecture/extend-with-plugins.html#required-attributes"><span class="std std-ref">additional info on these GeoIPS required attributes</span></a></p>
 <section id="an-example-gridline-annotator">
 <h2>An Example Gridline Annotator<a class="headerlink" href="#an-example-gridline-annotator" title="Permalink to this heading">#</a></h2>
 <p>Shown below, is the default gridline annotator plugin that you have been using when
@@ -568,36 +613,34 @@ we will update to our own specifications. Here is an example of a new Gridline A
 </section>
 <section id="creating-a-script-to-visualize-our-gridline-annotator">
 <h2>Creating a Script to Visualize our Gridline Annotator<a class="headerlink" href="#creating-a-script-to-visualize-our-gridline-annotator" title="Permalink to this heading">#</a></h2>
-<p>Now that we have a custom gridline annotator, we can use our test script created in the
-<a class="reference internal" href="product/index.html#cloud-depth-product"><span class="std std-ref">Products/Cloud-Depth Section</span></a> to visualize our data with our
-new gridline annotator. Follow the series of commands to appropriately edit that test
-script to employ your new gridline annotator.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>cd $MY_PKG_DIR/tests/scripts
+<p>Now that we have a custom gridline annotator, use it in your <code class="docutils literal notranslate"><span class="pre">My-Cloud-Depth</span></code> workflow
+(from the <a class="reference internal" href="product/index.html#cloud-depth-product"><span class="std std-ref">Products/Cloud-Depth Section</span></a>) by adding a
+<code class="docutils literal notranslate"><span class="pre">gridline_annotator</span></code> step and depending on it from the annotated output formatter
+(replace <code class="docutils literal notranslate"><span class="pre">tutorial</span></code> with your plugin name):</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">steps</span><span class="p">:</span>
+<span class="w">  </span><span class="c1"># ... your existing sector / reader / product / filename_formatter steps ...</span>
+<span class="w">  </span><span class="nt">gridlines</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">gridline_annotator</span>
+<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">tutorial</span>
+<span class="w">  </span><span class="nt">output_formatter</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">output_formatter</span>
+<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">imagery_annotated</span>
+<span class="w">    </span><span class="nt">depends_on</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">clavrx_My_Cloud_Depth.algorithm</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">clavrx_My_Cloud_Depth.colormapper</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">gridlines</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">sector</span>
 </pre></div>
 </div>
-<p>Create a script called <code class="docutils literal notranslate"><span class="pre">clavrx.conus_annotated_features_gridlines.my-cloud-depth.sh</span></code>.w
-Copy and paste the code below into that file, which will use our new gridline annotator.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>run_procflow<span class="w"> </span><span class="se">\</span>
-<span class="w">    </span>GEOIPS_TESTDATA_DIR/test_data_clavrx/data/goes16_2023101_1600/clavrx_OR_ABI-L1b-RadF-M6C01_G16_s20231011600207.level2.hdf<span class="w"> </span><span class="se">\</span>
-<span class="w">    </span>--procflow<span class="w"> </span>single_source<span class="w"> </span><span class="se">\</span>
-<span class="w">    </span>--reader_name<span class="w"> </span>clavrx_hdf4<span class="w"> </span><span class="se">\</span>
-<span class="w">    </span>--product_name<span class="w"> </span>My-Cloud-Depth<span class="w"> </span><span class="se">\</span>
-<span class="w">    </span>--output_formatter<span class="w"> </span>imagery_annotated<span class="w"> </span><span class="se">\</span>
-<span class="w">    </span>--filename_formatter<span class="w"> </span>geoips_fname<span class="w"> </span><span class="se">\</span>
-<span class="w">    </span>--minimum_coverage<span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="se">\</span>
-<span class="w">    </span>--gridline_annotator<span class="w"> </span>tutorial<span class="w"> </span><span class="se">\</span>
-<span class="w">    </span>--sector_list<span class="w"> </span>conus
-<span class="nv">ss_retval</span><span class="o">=</span><span class="nv">$?</span>
+<p>Then run the workflow:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>geoips<span class="w"> </span>run<span class="w"> </span>order_based<span class="w"> </span>my_cloud_depth<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span><span class="nv">$GEOIPS_TESTDATA_DIR</span>/test_data_clavrx/data/goes16_2023101_1600/*.hdf
 </pre></div>
 </div>
-<p>If you named your gridline annotator with a different name, please replace <code class="docutils literal notranslate"><span class="pre">tutorial</span></code>
-with your plugin name.</p>
-<p>To produce imagery using your new gridline annotator, run the command below.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$MY_PKG_DIR/tests/scripts/clavrx.conus_annotated_features_gridlines.my-cloud-depth.sh
-</pre></div>
-</div>
+<p>Alternatively, apply your annotator at run time without editing the workflow with a global
+override: <code class="docutils literal notranslate"><span class="pre">-g</span> <span class="pre">gridline_annotator=tutorial</span></code>.</p>
 <p>This will output a series of log output. If your script succeeded it will end with INFO:
-Return Value 0. To view your output, look for a line that says SINGLESOURCESUCCESS. Open
+Return Value 0. To view your output, look for the output image path printed in the log. Open
 the PNG file to view your Cloud Depth Image! It should look like the image shown below.</p>
 <p>Note: The image shown below also makes use of the custom Feature Annotator created in
 the <a class="reference internal" href="feature_annotator/index.html#create-feature-annotator"><span class="std std-ref">Feature Annotator Section</span></a>. Feel free to complete

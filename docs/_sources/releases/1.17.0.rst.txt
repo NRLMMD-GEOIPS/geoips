@@ -1,4 +1,4 @@
-Version 1.17.0 (2026-07-16)
+Version 1.17.0 (2026-07-23)
 ***************************
 
  * *Release process*: Add 1.17.0 release note
@@ -12,12 +12,11 @@ Add 1.17.0 release note
 
 Currently tagged internal version 1.16.3.
 
+geoips#959 - 1.17.0 updates*
+
 ::
 
      added: docs/source/releases/1.17.0/1.17.0-internal-release.yaml
-
-Release process
-===============
 
 Update internal and github.com 'upcoming_version' and 'tagged_version'
 ----------------------------------------------------------------------
@@ -27,6 +26,8 @@ next internal version-
 1.17.1
 next github.com version-
 1.18.0
+
+geoips#959 - 1.17.0 updates*
 
 ::
 
