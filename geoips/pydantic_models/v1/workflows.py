@@ -58,6 +58,7 @@ from geoips.pydantic_models.v1.filename_formatters import (
 from geoips.pydantic_models.v1.interpolators import InterpolatorArgumentsModel
 from geoips.pydantic_models.v1.output_checkers import OutputCheckerArgumentsModel
 from geoips.pydantic_models.v1.readers import ReaderArgumentsModel
+from geoips.pydantic_models.v1.title_formatters import TitleFormatterArgumentsModel
 from geoips.utils.types.partial_lexeme import Lexeme
 
 LOG = logging.getLogger(__name__)
@@ -261,6 +262,7 @@ _PLUGIN_ARGUMENTS_MODELS: dict[str, type] = {
     "ProductArgumentsModel": ProductArgumentsModel,
     "ReaderArgumentsModel": ReaderArgumentsModel,
     "SectorArgumentsModel": SectorArgumentsModel,
+    "TitleFormatterArgumentsModel": TitleFormatterArgumentsModel,
     "WorkflowArgumentsModel": WorkflowArgumentsModel,
 }
 
@@ -841,6 +843,8 @@ class WorkflowSpecModel(FrozenModel):
 
                 steps[key] = value.get("plugin")
                 steps[key]["kind"] = kind
+                if kind not in ("colormapper", "output_formatter"):
+                    last_data_step = [key]
 
         if "coverage_checker" not in list(steps.keys()):
             # Add default coverage checker step if one doesn't already exist
@@ -1327,7 +1331,7 @@ class WorkflowPluginModel(PluginModel):
     test: WorkflowTestModel = Field(
         None,
         description=(
-            "An optional dictionary of parameters used to test this workflow.",
+            "An optional dictionary of parameters used to test this workflow."
         ),
         examples=[
             {

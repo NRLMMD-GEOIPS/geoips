@@ -2,7 +2,7 @@
 # # # https://github.com/NRLMMD-GEOIPS.
 
 # script migration = done
-# product testing = ongoing
+# product testing = done
 
 # Default values - if you do not have this exact test case available, call with available data files / sectors.
 # This exact test case required for valid comparisons - remove "compare_path" argument if running a different
@@ -39,6 +39,13 @@ spec:
     filename_formatter:
       kind: filename_formatter
       name: basic_fname
+      depends_on:
+        - seviri_WV_Upper_No_SR.algorithm
+        - seviri_WV_Upper_No_SR.coverage_checker
     output_formatter:
       kind: output_formatter
       name: unprojected_image
+      depends_on:
+        - seviri_WV_Upper_No_SR.algorithm
+        - seviri_WV_Upper_No_SR.colormapper
+        - filename_formatter

@@ -42,9 +42,19 @@ spec:
     filename_formatter:
       kind: filename_formatter
       name: geoips_fname
+      depends_on:
+        - viirs_Night_Vis_IR_GeoIPS1.algorithm
+        - sector
+        - viirs_Night_Vis_IR_GeoIPS1.coverage_checker
     gridline_annotator:
       kind: gridline_annotator
       name: north_pole
     output_formatter:
       kind: output_formatter
       name: imagery_annotated
+      depends_on:
+        - viirs_Night_Vis_IR_GeoIPS1.algorithm
+        - viirs_Night_Vis_IR_GeoIPS1.colormapper
+        - filename_formatter
+        - sector
+        - gridline_annotator

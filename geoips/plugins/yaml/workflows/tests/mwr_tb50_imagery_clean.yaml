@@ -42,6 +42,12 @@ spec:
     filename_formatter:
       kind: filename_formatter
       name: geoips_fname
+      depends_on: [mwr_TB50.algorithm, sector, mwr_TB50.coverage_checker]
     output_formatter:
       kind: output_formatter
       name: imagery_clean
+      depends_on:
+        - mwr_TB50.algorithm
+        - mwr_TB50.colormapper
+        - filename_formatter
+        - sector

@@ -2,7 +2,7 @@
 # # # https://github.com/NRLMMD-GEOIPS.
 
 # script migration = done
-# product testing = ongoing
+# product testing = done
 
 # Default values - if you do not have this exact test case available, call with available data files / sectors.
 # This exact test case required for valid comparisons - remove "compare_path" argument if running a different
@@ -44,6 +44,12 @@ spec:
     filename_formatter:
       kind: filename_formatter
       name: geoips_fname
+      depends_on: [seviri_Convective_Storms.algorithm, sector, seviri_Convective_Storms.coverage_checker]
     output_formatter:
       kind: output_formatter
       name: imagery_clean
+      depends_on:
+        - seviri_Convective_Storms.algorithm
+        - seviri_Convective_Storms.colormapper
+        - filename_formatter
+        - sector
