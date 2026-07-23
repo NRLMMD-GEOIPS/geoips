@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Version 1.16.1 (2026-07-23) &#8212; GeoIPS, Geolocated Information Processing System 1.19.0.post1200.dev0 documentation</title>
+    <title>Version 1.16.1 (2026-07-23) &#8212; GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation</title>
   
   
   
@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
 
-    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=ba503b0a"></script>
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=6727bded"></script>
     <script src="../_static/doctools.js?v=888ff710"></script>
     <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
@@ -54,8 +54,8 @@
     <link rel="prev" title="Version 1.16.2 (2026-07-23)" href="1.16.2.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="1.1" />
-    <meta name="docbuild:last-update" content="Jul 23, 2026 15:25:48"/>
+  <meta name="docsearch:version" content="2.0" />
+    <meta name="docbuild:last-update" content="Jul 23, 2026 17:03:57"/>
   
     
     <script src="../_static/searchtools.js"></script>
@@ -127,8 +127,8 @@
       
     
     
-    <img src="../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 1.19.0.post1200.dev0 documentation - Home"/>
-    <img src="../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 1.19.0.post1200.dev0 documentation - Home"/>
+    <img src="../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation - Home"/>
+    <img src="../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation - Home"/>
   
   
 </a></div>
@@ -431,7 +431,7 @@
      aria-label="Section Navigation">
   <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
   <div class="bd-toc-item navbar-nav"><ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="latest.html">Version latest (2026-07-23)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="2.0.0a0.html">Version 2.0.0a0 (2026-07-23)</a></li>
 </ul>
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="1.19.0.html">Version 1.19.0 (2026-07-23)</a></li>
@@ -631,18 +631,18 @@
 <h1>Version 1.16.1 (2026-07-23)<a class="headerlink" href="#version-1-16-1-2026-07-23" title="Permalink to this heading">#</a></h1>
 <blockquote>
 <div><ul class="simple">
-<li><p><em>Bug fix</em>: Add site-nrlmmd-geoips option to interactive pytest</p></li>
-<li><p><em>Bug fix</em>: Renamed all remaining test scripts and output from global to global-cylindrical</p></li>
-<li><p><em>Bug fix</em>: Update tc tracks database when passing one deck file at commandline</p></li>
-<li><p><em>Bug fix</em>: Update geostationary readers for appropriate python 3.11 zarr usage</p></li>
 <li><p><em>Bug fix</em>: Update arctic weather satellite sector path and test data repo path</p></li>
+<li><p><em>Bug fix</em>: Add site-nrlmmd-geoips option to interactive pytest</p></li>
 <li><p><em>Bug fix</em>: Use geoips_testdata_dir vs geoips_packages_dir in viirs test script call.</p></li>
 <li><p><em>Bug fix</em>: Rmdir latest folder before running build docs</p></li>
+<li><p><em>Bug fix</em>: Update tc tracks database when passing one deck file at commandline</p></li>
+<li><p><em>Bug fix</em>: Update geostationary readers for appropriate python 3.11 zarr usage</p></li>
+<li><p><em>Bug fix</em>: Renamed all remaining test scripts and output from global to global-cylindrical</p></li>
+<li><p><em>Bug fix</em>: Update test image output with minor differences</p></li>
 <li><p><em>Bug fix</em>: Use realpath for repopath in build_docs.sh</p></li>
 <li><p><em>Bug fix</em>: Do not include trailing underscore in release notes</p></li>
 <li><p><em>Bug fix</em>: Combine and remove errant leading space in arctic weather satellite docstrings</p></li>
 <li><p><em>Bug fix</em>: Add modified file to auto-populate brassy changelog release note</p></li>
-<li><p><em>Bug fix</em>: Update test image output with minor differences</p></li>
 <li><p><em>Release updates</em>: Ensure check_code.sh calls flake8 from the current repository</p></li>
 <li><p><em>Release updates</em>: Bug fixes on the open source github.com geoips site integration tests.</p></li>
 <li><p><em>Release updates</em>: Update tagged_version and upcoming_version</p></li>
@@ -650,6 +650,27 @@
 </div></blockquote>
 <section id="bug-fix">
 <h2>Bug fix<a class="headerlink" href="#bug-fix" title="Permalink to this heading">#</a></h2>
+<section id="update-arctic-weather-satellite-sector-path-and-test-data-repo-path">
+<h3>Update arctic weather satellite sector path and test data repo path<a class="headerlink" href="#update-arctic-weather-satellite-sector-path-and-test-data-repo-path" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Use test_data_arctic_weather_satellite rather than test_data_ArcticWS</p></li>
+<li><p>Use bwp992025.dat in geoips repo rather than bwp992025.2025042800.dat in test data repo.</p></li>
+</ul>
+<p>geoips#861</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">added</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">sectors</span><span class="o">/</span><span class="n">tc_bdecks</span><span class="o">/</span><span class="n">bwp992025</span><span class="o">.</span><span class="n">dat</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">scripts</span><span class="o">/</span><span class="n">aws_TB165</span><span class="o">.</span><span class="n">imagery_clean</span><span class="o">.</span><span class="n">sh</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">scripts</span><span class="o">/</span><span class="n">aws_TB180</span><span class="o">.</span><span class="n">imagery_clean</span><span class="o">.</span><span class="n">sh</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">scripts</span><span class="o">/</span><span class="n">aws_TB325</span><span class="o">-</span><span class="mf">1.</span><span class="n">imagery_clean</span><span class="o">.</span><span class="n">sh</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">scripts</span><span class="o">/</span><span class="n">aws_TB50</span><span class="o">.</span><span class="n">imagery_clean</span><span class="o">.</span><span class="n">sh</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">scripts</span><span class="o">/</span><span class="n">aws_TB89</span><span class="o">.</span><span class="n">imagery_clean</span><span class="o">.</span><span class="n">sh</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">scripts</span><span class="o">/</span><span class="n">aws_tc_TB165</span><span class="o">.</span><span class="n">imagery_clean</span><span class="o">.</span><span class="n">sh</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">scripts</span><span class="o">/</span><span class="n">aws_tc_TB180</span><span class="o">.</span><span class="n">imagery_clean</span><span class="o">.</span><span class="n">sh</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">scripts</span><span class="o">/</span><span class="n">aws_tc_TB325</span><span class="o">-</span><span class="mf">1.</span><span class="n">imagery_clean</span><span class="o">.</span><span class="n">sh</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">scripts</span><span class="o">/</span><span class="n">aws_tc_TB50</span><span class="o">.</span><span class="n">imagery_clean</span><span class="o">.</span><span class="n">sh</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">scripts</span><span class="o">/</span><span class="n">aws_tc_TB89</span><span class="o">.</span><span class="n">imagery_clean</span><span class="o">.</span><span class="n">sh</span>
+</pre></div>
+</div>
+</section>
 <section id="add-site-nrlmmd-geoips-option-to-interactive-pytest">
 <h3>Add site-nrlmmd-geoips option to interactive pytest<a class="headerlink" href="#add-site-nrlmmd-geoips-option-to-interactive-pytest" title="Permalink to this heading">#</a></h3>
 <p>This should be all encompassing for everything required to test a complete
@@ -661,6 +682,48 @@ pytest_marker_arg variable, so include ONLY the markers in pytest_marker_arg,
 and include the -m within the actual call to pytest.</p>
 <p>geoips#861</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">utils</span><span class="o">/</span><span class="n">interactive_pytest</span><span class="o">.</span><span class="n">sh</span>
+</pre></div>
+</div>
+</section>
+<section id="use-geoips-testdata-dir-vs-geoips-packages-dir-in-viirs-test-script-call">
+<h3>Use geoips_testdata_dir vs geoips_packages_dir in viirs test script call.<a class="headerlink" href="#use-geoips-testdata-dir-vs-geoips-packages-dir-in-viirs-test-script-call" title="Permalink to this heading">#</a></h3>
+<p>How did we not catch this earlier?</p>
+<p>geoips#861</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">scripts</span><span class="o">/</span><span class="n">viirs</span><span class="o">.</span><span class="n">static</span><span class="o">.</span><span class="n">visible</span><span class="o">.</span><span class="n">imagery_clean</span><span class="o">.</span><span class="n">sh</span>
+</pre></div>
+</div>
+</section>
+<section id="rmdir-latest-folder-before-running-build-docs">
+<h3>Rmdir latest folder before running build docs<a class="headerlink" href="#rmdir-latest-folder-before-running-build-docs" title="Permalink to this heading">#</a></h3>
+<p>If the latest folder is left over in a repository, build docs will fail.
+Just remove the latest folder if it is empty.</p>
+<p>geoips#861</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">build_docs</span><span class="o">.</span><span class="n">sh</span>
+</pre></div>
+</div>
+</section>
+<section id="update-tc-tracks-database-when-passing-one-deck-file-at-commandline">
+<h3>Update tc tracks database when passing one deck file at commandline<a class="headerlink" href="#update-tc-tracks-database-when-passing-one-deck-file-at-commandline" title="Permalink to this heading">#</a></h3>
+<p>Check if length of sys.argv is greater than OR equal to two. Otherwise
+script would ignore a single deck file if passed at the commandline.</p>
+<p>geoips#54</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">commandline</span><span class="o">/</span><span class="n">update_tc_tracks_database</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+</section>
+<section id="update-geostationary-readers-for-appropriate-python-3-11-zarr-usage">
+<h3>Update geostationary readers for appropriate python 3.11 zarr usage<a class="headerlink" href="#update-geostationary-readers-for-appropriate-python-3-11-zarr-usage" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Remove with context - zarr no longer has a “close” method, so you can’t use with</p></li>
+<li><p>Only pass chunks in if not None - create_dataset method fails if chunks is passed in as None</p></li>
+</ul>
+<p>geoips#861</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">readers</span><span class="o">/</span><span class="n">abi_netcdf</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">readers</span><span class="o">/</span><span class="n">ahi_hsd</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">readers</span><span class="o">/</span><span class="n">ami_netcdf</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">readers</span><span class="o">/</span><span class="n">fci_netcdf</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">readers</span><span class="o">/</span><span class="n">seviri_hrit</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">readers</span><span class="o">/</span><span class="n">utils</span><span class="o">/</span><span class="n">geostationary_geolocation</span><span class="o">.</span><span class="n">py</span>
 </pre></div>
 </div>
 </section>
@@ -724,66 +787,19 @@ and include the -m within the actual call to pytest.</p>
 </pre></div>
 </div>
 </section>
-<section id="update-tc-tracks-database-when-passing-one-deck-file-at-commandline">
-<h3>Update tc tracks database when passing one deck file at commandline<a class="headerlink" href="#update-tc-tracks-database-when-passing-one-deck-file-at-commandline" title="Permalink to this heading">#</a></h3>
-<p>Check if length of sys.argv is greater than OR equal to two. Otherwise
-script would ignore a single deck file if passed at the commandline.</p>
-<p>geoips#54</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">commandline</span><span class="o">/</span><span class="n">update_tc_tracks_database</span><span class="o">.</span><span class="n">py</span>
-</pre></div>
-</div>
-</section>
-<section id="update-geostationary-readers-for-appropriate-python-3-11-zarr-usage">
-<h3>Update geostationary readers for appropriate python 3.11 zarr usage<a class="headerlink" href="#update-geostationary-readers-for-appropriate-python-3-11-zarr-usage" title="Permalink to this heading">#</a></h3>
+<section id="update-test-image-output-with-minor-differences">
+<h3>Update test image output with minor differences<a class="headerlink" href="#update-test-image-output-with-minor-differences" title="Permalink to this heading">#</a></h3>
 <ul class="simple">
-<li><p>Remove with context - zarr no longer has a “close” method, so you can’t use with</p></li>
-<li><p>Only pass chunks in if not None - create_dataset method fails if chunks is passed in as None</p></li>
+<li><p>VIIRS has minor differences throughout image (speckled)</p></li>
+<li><p>DMW and MIMIC image edge differences</p></li>
 </ul>
 <p>geoips#861</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">readers</span><span class="o">/</span><span class="n">abi_netcdf</span><span class="o">.</span><span class="n">py</span>
-<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">readers</span><span class="o">/</span><span class="n">ahi_hsd</span><span class="o">.</span><span class="n">py</span>
-<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">readers</span><span class="o">/</span><span class="n">ami_netcdf</span><span class="o">.</span><span class="n">py</span>
-<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">readers</span><span class="o">/</span><span class="n">fci_netcdf</span><span class="o">.</span><span class="n">py</span>
-<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">readers</span><span class="o">/</span><span class="n">seviri_hrit</span><span class="o">.</span><span class="n">py</span>
-<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">readers</span><span class="o">/</span><span class="n">utils</span><span class="o">/</span><span class="n">geostationary_geolocation</span><span class="o">.</span><span class="n">py</span>
-</pre></div>
-</div>
-</section>
-<section id="update-arctic-weather-satellite-sector-path-and-test-data-repo-path">
-<h3>Update arctic weather satellite sector path and test data repo path<a class="headerlink" href="#update-arctic-weather-satellite-sector-path-and-test-data-repo-path" title="Permalink to this heading">#</a></h3>
-<ul class="simple">
-<li><p>Use test_data_arctic_weather_satellite rather than test_data_ArcticWS</p></li>
-<li><p>Use bwp992025.dat in geoips repo rather than bwp992025.2025042800.dat in test data repo.</p></li>
-</ul>
-<p>geoips#861</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">added</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">sectors</span><span class="o">/</span><span class="n">tc_bdecks</span><span class="o">/</span><span class="n">bwp992025</span><span class="o">.</span><span class="n">dat</span>
-<span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">scripts</span><span class="o">/</span><span class="n">aws_TB165</span><span class="o">.</span><span class="n">imagery_clean</span><span class="o">.</span><span class="n">sh</span>
-<span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">scripts</span><span class="o">/</span><span class="n">aws_TB180</span><span class="o">.</span><span class="n">imagery_clean</span><span class="o">.</span><span class="n">sh</span>
-<span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">scripts</span><span class="o">/</span><span class="n">aws_TB325</span><span class="o">-</span><span class="mf">1.</span><span class="n">imagery_clean</span><span class="o">.</span><span class="n">sh</span>
-<span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">scripts</span><span class="o">/</span><span class="n">aws_TB50</span><span class="o">.</span><span class="n">imagery_clean</span><span class="o">.</span><span class="n">sh</span>
-<span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">scripts</span><span class="o">/</span><span class="n">aws_TB89</span><span class="o">.</span><span class="n">imagery_clean</span><span class="o">.</span><span class="n">sh</span>
-<span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">scripts</span><span class="o">/</span><span class="n">aws_tc_TB165</span><span class="o">.</span><span class="n">imagery_clean</span><span class="o">.</span><span class="n">sh</span>
-<span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">scripts</span><span class="o">/</span><span class="n">aws_tc_TB180</span><span class="o">.</span><span class="n">imagery_clean</span><span class="o">.</span><span class="n">sh</span>
-<span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">scripts</span><span class="o">/</span><span class="n">aws_tc_TB325</span><span class="o">-</span><span class="mf">1.</span><span class="n">imagery_clean</span><span class="o">.</span><span class="n">sh</span>
-<span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">scripts</span><span class="o">/</span><span class="n">aws_tc_TB50</span><span class="o">.</span><span class="n">imagery_clean</span><span class="o">.</span><span class="n">sh</span>
-<span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">scripts</span><span class="o">/</span><span class="n">aws_tc_TB89</span><span class="o">.</span><span class="n">imagery_clean</span><span class="o">.</span><span class="n">sh</span>
-</pre></div>
-</div>
-</section>
-<section id="use-geoips-testdata-dir-vs-geoips-packages-dir-in-viirs-test-script-call">
-<h3>Use geoips_testdata_dir vs geoips_packages_dir in viirs test script call.<a class="headerlink" href="#use-geoips-testdata-dir-vs-geoips-packages-dir-in-viirs-test-script-call" title="Permalink to this heading">#</a></h3>
-<p>How did we not catch this earlier?</p>
-<p>geoips#861</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">scripts</span><span class="o">/</span><span class="n">viirs</span><span class="o">.</span><span class="n">static</span><span class="o">.</span><span class="n">visible</span><span class="o">.</span><span class="n">imagery_clean</span><span class="o">.</span><span class="n">sh</span>
-</pre></div>
-</div>
-</section>
-<section id="rmdir-latest-folder-before-running-build-docs">
-<h3>Rmdir latest folder before running build docs<a class="headerlink" href="#rmdir-latest-folder-before-running-build-docs" title="Permalink to this heading">#</a></h3>
-<p>If the latest folder is left over in a repository, build docs will fail.
-Just remove the latest folder if it is empty.</p>
-<p>geoips#861</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">build_docs</span><span class="o">.</span><span class="n">sh</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span>
+<span class="n">tests</span><span class="o">/</span><span class="n">outputs</span><span class="o">/</span><span class="n">abi</span><span class="o">.</span><span class="n">static</span><span class="o">.</span><span class="n">DMW</span><span class="o">-</span><span class="n">LowMidHigh</span><span class="o">.</span><span class="n">imagery_windbarbs_multi_level</span><span class="o">/</span><span class="mf">20210929.000020</span><span class="o">.</span><span class="n">goes</span><span class="o">-</span><span class="mf">16.</span><span class="n">abi</span><span class="o">.</span><span class="n">DMW</span><span class="o">-</span><span class="n">LowMidHigh</span><span class="o">.</span><span class="n">w_atlantic</span><span class="mf">.10</span><span class="n">p48</span><span class="o">.</span><span class="n">noaa</span><span class="mf">.3</span><span class="n">p0</span><span class="o">.</span><span class="n">png</span>
+<span class="n">modified</span><span class="p">:</span>
+<span class="n">tests</span><span class="o">/</span><span class="n">outputs</span><span class="o">/</span><span class="n">viirs</span><span class="o">.</span><span class="n">static</span><span class="o">.</span><span class="n">visible</span><span class="o">.</span><span class="n">imagery_clean</span><span class="o">/</span><span class="mf">20240925.043006</span><span class="o">.</span><span class="n">NOAA</span><span class="o">-</span><span class="mf">21.</span><span class="n">viirs</span><span class="o">.</span><span class="n">Visible</span><span class="o">.</span><span class="n">se_asia</span><span class="mf">.7</span><span class="n">p30</span><span class="o">.</span><span class="n">NOAA</span><span class="mf">.1</span><span class="n">p0</span><span class="o">.</span><span class="n">png</span>
+<span class="n">modified</span><span class="p">:</span>
+<span class="n">tests</span><span class="o">/</span><span class="n">outputs</span><span class="o">/</span><span class="n">mimic_coarse</span><span class="o">.</span><span class="n">static</span><span class="o">.</span><span class="n">TPW</span><span class="o">-</span><span class="n">CIMSS</span><span class="o">.</span><span class="n">imagery_annotated</span><span class="o">/</span><span class="mf">20210723.000000</span><span class="o">.</span><span class="n">tpw</span><span class="o">.</span><span class="n">mimic</span><span class="o">.</span><span class="n">TPW</span><span class="o">-</span><span class="n">CIMSS</span><span class="o">.</span><span class="n">global_cylindrical</span><span class="mf">.83</span><span class="n">p60</span><span class="o">.</span><span class="n">cimss</span><span class="mf">.20</span><span class="n">p0</span><span class="o">.</span><span class="n">png</span>
 </pre></div>
 </div>
 </section>
@@ -820,22 +836,6 @@ spaces.</p>
 <p>If all file lists are empty, sphinx will fail.</p>
 <p>geoips#861</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">releases</span><span class="o">/</span><span class="mf">1.16.0</span><span class="o">/</span><span class="mi">865</span><span class="o">-</span><span class="n">auto</span><span class="o">-</span><span class="n">populate</span><span class="o">-</span><span class="n">repo</span><span class="o">-</span><span class="n">url</span><span class="o">-</span><span class="ow">and</span><span class="o">-</span><span class="n">start</span><span class="o">-</span><span class="n">date</span><span class="o">-</span><span class="k">for</span><span class="o">-</span><span class="n">brassy</span><span class="o">-</span><span class="n">changelogs</span><span class="o">.</span><span class="n">yaml</span>
-</pre></div>
-</div>
-</section>
-<section id="update-test-image-output-with-minor-differences">
-<h3>Update test image output with minor differences<a class="headerlink" href="#update-test-image-output-with-minor-differences" title="Permalink to this heading">#</a></h3>
-<ul class="simple">
-<li><p>VIIRS has minor differences throughout image (speckled)</p></li>
-<li><p>DMW and MIMIC image edge differences</p></li>
-</ul>
-<p>geoips#861</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span>
-<span class="n">tests</span><span class="o">/</span><span class="n">outputs</span><span class="o">/</span><span class="n">abi</span><span class="o">.</span><span class="n">static</span><span class="o">.</span><span class="n">DMW</span><span class="o">-</span><span class="n">LowMidHigh</span><span class="o">.</span><span class="n">imagery_windbarbs_multi_level</span><span class="o">/</span><span class="mf">20210929.000020</span><span class="o">.</span><span class="n">goes</span><span class="o">-</span><span class="mf">16.</span><span class="n">abi</span><span class="o">.</span><span class="n">DMW</span><span class="o">-</span><span class="n">LowMidHigh</span><span class="o">.</span><span class="n">w_atlantic</span><span class="mf">.10</span><span class="n">p48</span><span class="o">.</span><span class="n">noaa</span><span class="mf">.3</span><span class="n">p0</span><span class="o">.</span><span class="n">png</span>
-<span class="n">modified</span><span class="p">:</span>
-<span class="n">tests</span><span class="o">/</span><span class="n">outputs</span><span class="o">/</span><span class="n">viirs</span><span class="o">.</span><span class="n">static</span><span class="o">.</span><span class="n">visible</span><span class="o">.</span><span class="n">imagery_clean</span><span class="o">/</span><span class="mf">20240925.043006</span><span class="o">.</span><span class="n">NOAA</span><span class="o">-</span><span class="mf">21.</span><span class="n">viirs</span><span class="o">.</span><span class="n">Visible</span><span class="o">.</span><span class="n">se_asia</span><span class="mf">.7</span><span class="n">p30</span><span class="o">.</span><span class="n">NOAA</span><span class="mf">.1</span><span class="n">p0</span><span class="o">.</span><span class="n">png</span>
-<span class="n">modified</span><span class="p">:</span>
-<span class="n">tests</span><span class="o">/</span><span class="n">outputs</span><span class="o">/</span><span class="n">mimic_coarse</span><span class="o">.</span><span class="n">static</span><span class="o">.</span><span class="n">TPW</span><span class="o">-</span><span class="n">CIMSS</span><span class="o">.</span><span class="n">imagery_annotated</span><span class="o">/</span><span class="mf">20210723.000000</span><span class="o">.</span><span class="n">tpw</span><span class="o">.</span><span class="n">mimic</span><span class="o">.</span><span class="n">TPW</span><span class="o">-</span><span class="n">CIMSS</span><span class="o">.</span><span class="n">global_cylindrical</span><span class="mf">.83</span><span class="n">p60</span><span class="o">.</span><span class="n">cimss</span><span class="mf">.20</span><span class="n">p0</span><span class="o">.</span><span class="n">png</span>
 </pre></div>
 </div>
 </section>
@@ -923,18 +923,18 @@ upcoming_version 1.16.2 (system-nrlmry bug fixes)</p>
   <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="pst-show_toc_level nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bug-fix">Bug fix</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#add-site-nrlmmd-geoips-option-to-interactive-pytest">Add site-nrlmmd-geoips option to interactive pytest</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#renamed-all-remaining-test-scripts-and-output-from-global-to-global-cylindrical">Renamed all remaining test scripts and output from global to global-cylindrical</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#update-tc-tracks-database-when-passing-one-deck-file-at-commandline">Update tc tracks database when passing one deck file at commandline</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#update-geostationary-readers-for-appropriate-python-3-11-zarr-usage">Update geostationary readers for appropriate python 3.11 zarr usage</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#update-arctic-weather-satellite-sector-path-and-test-data-repo-path">Update arctic weather satellite sector path and test data repo path</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#add-site-nrlmmd-geoips-option-to-interactive-pytest">Add site-nrlmmd-geoips option to interactive pytest</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#use-geoips-testdata-dir-vs-geoips-packages-dir-in-viirs-test-script-call">Use geoips_testdata_dir vs geoips_packages_dir in viirs test script call.</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rmdir-latest-folder-before-running-build-docs">Rmdir latest folder before running build docs</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#update-tc-tracks-database-when-passing-one-deck-file-at-commandline">Update tc tracks database when passing one deck file at commandline</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#update-geostationary-readers-for-appropriate-python-3-11-zarr-usage">Update geostationary readers for appropriate python 3.11 zarr usage</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#renamed-all-remaining-test-scripts-and-output-from-global-to-global-cylindrical">Renamed all remaining test scripts and output from global to global-cylindrical</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#update-test-image-output-with-minor-differences">Update test image output with minor differences</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#use-realpath-for-repopath-in-build-docs-sh">Use realpath for repopath in build_docs.sh</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#do-not-include-trailing-underscore-in-release-notes">Do not include trailing underscore in release notes</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#combine-and-remove-errant-leading-space-in-arctic-weather-satellite-docstrings">Combine and remove errant leading space in arctic weather satellite docstrings</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#add-modified-file-to-auto-populate-brassy-changelog-release-note">Add modified file to auto-populate brassy changelog release note</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#update-test-image-output-with-minor-differences">Update test image output with minor differences</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#release-updates">Release updates</a><ul class="nav section-nav flex-column">

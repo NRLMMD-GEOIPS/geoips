@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Version 1.19.0 (2026-07-23) &#8212; GeoIPS, Geolocated Information Processing System 1.19.0.post1200.dev0 documentation</title>
+    <title>Version 1.19.0 (2026-07-23) &#8212; GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation</title>
   
   
   
@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
 
-    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=ba503b0a"></script>
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=6727bded"></script>
     <script src="../_static/doctools.js?v=888ff710"></script>
     <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
@@ -51,11 +51,11 @@
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Version 1.18.2 (2026-07-23)" href="1.18.2.html" />
-    <link rel="prev" title="Version latest (2026-07-23)" href="latest.html" />
+    <link rel="prev" title="Version 2.0.0a0 (2026-07-23)" href="2.0.0a0.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="1.1" />
-    <meta name="docbuild:last-update" content="Jul 23, 2026 15:25:48"/>
+  <meta name="docsearch:version" content="2.0" />
+    <meta name="docbuild:last-update" content="Jul 23, 2026 17:03:57"/>
   
     
     <script src="../_static/searchtools.js"></script>
@@ -127,8 +127,8 @@
       
     
     
-    <img src="../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 1.19.0.post1200.dev0 documentation - Home"/>
-    <img src="../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 1.19.0.post1200.dev0 documentation - Home"/>
+    <img src="../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation - Home"/>
+    <img src="../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation - Home"/>
   
   
 </a></div>
@@ -431,7 +431,7 @@
      aria-label="Section Navigation">
   <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
   <div class="bd-toc-item navbar-nav"><ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="latest.html">Version latest (2026-07-23)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="2.0.0a0.html">Version 2.0.0a0 (2026-07-23)</a></li>
 </ul>
 <ul class="current nav bd-sidenav">
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Version 1.19.0 (2026-07-23)</a></li>
@@ -631,35 +631,33 @@
 <h1>Version 1.19.0 (2026-07-23)<a class="headerlink" href="#version-1-19-0-2026-07-23" title="Permalink to this heading">#</a></h1>
 <blockquote>
 <div><ul class="simple">
-<li><p><em>Bug fixes</em>: Add patch release note templates</p></li>
+<li><p><em>Bug fixes</em>: Fix time in text winds output formatter</p></li>
 <li><p><em>Bug fixes</em>: Fix time in smap reader due to xarray version change.</p></li>
 <li><p><em>Bug fixes</em>: Fix broken jsonschema resolution specification to allow number not just int.</p></li>
-<li><p><em>Bug fixes</em>: Fix time in text winds output formatter</p></li>
-<li><p><em>Documentation</em>: Add release note for version 1.19.0</p></li>
-<li><p><em>Documentation</em>: Update tagged versions</p></li>
+<li><p><em>Bug fixes</em>: Add patch release note templates</p></li>
 <li><p><em>Testing</em>: Remove full_setup and site_setup from integration test script</p></li>
 <li><p><em>Installation</em>: Add clavr-x orb executable install to site install.</p></li>
-<li><p><em>Bug fix</em>: Do not pad xarray datasets in config_based procflow when the output format plugin family is “xarray_data”
-and the area_definition is “self_registered”</p></li>
+<li><p><em>Documentation</em>: Add release note for version 1.19.0</p></li>
+<li><p><em>Documentation</em>: Update tagged versions</p></li>
 <li><p><em>Release process</em>: Add 1.19.0 release note</p></li>
 <li><p><em>Release process</em>: Update internal and github.com ‘tagged_version’</p></li>
+<li><p><em>Bug fix</em>: Do not pad xarray datasets in config_based procflow when the output format plugin family is “xarray_data”
+and the area_definition is “self_registered”</p></li>
 </ul>
 </div></blockquote>
 <section id="bug-fixes">
 <h2>Bug fixes<a class="headerlink" href="#bug-fixes" title="Permalink to this heading">#</a></h2>
-<section id="add-patch-release-note-templates">
-<h3>Add patch release note templates<a class="headerlink" href="#add-patch-release-note-templates" title="Permalink to this heading">#</a></h3>
-<ul class="simple">
-<li><p>Add internal and os patch release note templates</p></li>
-<li><p>Add no-bug-fixes-required-on-this-release release note template (which just needs to be copied into
-place with appropriate X.Y.Z, not edited)</p></li>
-<li><p>Add release note for patch-internal, using template!</p></li>
-</ul>
-<p>geoips#1067 - 1.19.0 updates*</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">added</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">releases</span><span class="o">/</span><span class="mf">1.19.0</span><span class="o">/</span><span class="mf">1.19.0</span><span class="o">-</span><span class="n">patch</span><span class="o">-</span><span class="n">internal</span><span class="o">-</span><span class="n">add</span><span class="o">-</span><span class="n">patch</span><span class="o">-</span><span class="n">release</span><span class="o">-</span><span class="n">note</span><span class="o">-</span><span class="n">templates</span><span class="o">.</span><span class="n">yaml</span>
-<span class="n">added</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">templates</span><span class="o">/</span><span class="n">X</span><span class="o">.</span><span class="n">Y</span><span class="o">.</span><span class="n">Z</span><span class="o">-</span><span class="n">patch</span><span class="o">-</span><span class="n">internal</span><span class="o">-</span><span class="n">name</span><span class="o">-</span><span class="n">desc</span><span class="o">.</span><span class="n">yaml</span>
-<span class="n">added</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">templates</span><span class="o">/</span><span class="n">X</span><span class="o">.</span><span class="n">Y</span><span class="o">.</span><span class="n">Z</span><span class="o">-</span><span class="n">patch</span><span class="o">-</span><span class="n">os</span><span class="o">-</span><span class="n">name</span><span class="o">-</span><span class="n">desc</span><span class="o">.</span><span class="n">yaml</span>
-<span class="n">added</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">templates</span><span class="o">/</span><span class="n">X</span><span class="o">.</span><span class="n">Y</span><span class="o">.</span><span class="n">Z</span><span class="o">-</span><span class="n">no</span><span class="o">-</span><span class="n">bug</span><span class="o">-</span><span class="n">fixes</span><span class="o">-</span><span class="n">required</span><span class="o">-</span><span class="n">on</span><span class="o">-</span><span class="n">this</span><span class="o">-</span><span class="n">release</span><span class="o">.</span><span class="n">yaml</span>
+<section id="fix-time-in-text-winds-output-formatter">
+<h3>Fix time in text winds output formatter<a class="headerlink" href="#fix-time-in-text-winds-output-formatter" title="Permalink to this heading">#</a></h3>
+<p>Ensure we properly convert timestamps in xarray object to values for print in text
+winds output formatter.  Previously manually converted by dividing by 10e-6, update
+to use pandas for conversions to avoid hard coding the units.  This works for both
+xarray 2026.2.0 and 2026.4.0 (2026.4.0 broke smap time handling)</p>
+<p>Additionally updated text output checker to limit diff output to 10k characters, to
+avoid potentially VERY large log output.</p>
+<p>geoips#1067 - 1.19.0 updates</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">classes</span><span class="o">/</span><span class="n">output_checkers</span><span class="o">/</span><span class="n">text</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">output_formatters</span><span class="o">/</span><span class="n">text_winds</span><span class="o">.</span><span class="n">py</span>
 </pre></div>
 </div>
 </section>
@@ -686,41 +684,19 @@ specifying resolution.</p></li>
 </pre></div>
 </div>
 </section>
-<section id="fix-time-in-text-winds-output-formatter">
-<h3>Fix time in text winds output formatter<a class="headerlink" href="#fix-time-in-text-winds-output-formatter" title="Permalink to this heading">#</a></h3>
-<p>Ensure we properly convert timestamps in xarray object to values for print in text
-winds output formatter.  Previously manually converted by dividing by 10e-6, update
-to use pandas for conversions to avoid hard coding the units.  This works for both
-xarray 2026.2.0 and 2026.4.0 (2026.4.0 broke smap time handling)</p>
-<p>Additionally updated text output checker to limit diff output to 10k characters, to
-avoid potentially VERY large log output.</p>
-<p>geoips#1067 - 1.19.0 updates</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">classes</span><span class="o">/</span><span class="n">output_checkers</span><span class="o">/</span><span class="n">text</span><span class="o">.</span><span class="n">py</span>
-<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">output_formatters</span><span class="o">/</span><span class="n">text_winds</span><span class="o">.</span><span class="n">py</span>
-</pre></div>
-</div>
-</section>
-</section>
-<section id="documentation">
-<h2>Documentation<a class="headerlink" href="#documentation" title="Permalink to this heading">#</a></h2>
-<section id="add-release-note-for-version-1-19-0">
-<h3>Add release note for version 1.19.0<a class="headerlink" href="#add-release-note-for-version-1-19-0" title="Permalink to this heading">#</a></h3>
-<p>Release note on release branch to force tag/release, package/publish,
-and deploy docs.</p>
-<p>Additionally add any updated files from geoips_ci/sync</p>
-<p>geoips#1067 - 1.19.0 updates</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">added</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">releases</span><span class="o">/</span><span class="n">latest</span><span class="o">/</span><span class="mf">1.19.0</span><span class="o">-</span><span class="n">release</span><span class="o">-</span><span class="n">note</span><span class="o">.</span><span class="n">yaml</span>
-<span class="n">modified</span><span class="p">:</span> <span class="n">geoips_ci</span><span class="o">/</span><span class="n">sync</span> <span class="n">updated</span> <span class="n">files</span>
-</pre></div>
-</div>
-</section>
-<section id="update-tagged-versions">
-<h3>Update tagged versions<a class="headerlink" href="#update-tagged-versions" title="Permalink to this heading">#</a></h3>
+<section id="add-patch-release-note-templates">
+<h3>Add patch release note templates<a class="headerlink" href="#add-patch-release-note-templates" title="Permalink to this heading">#</a></h3>
 <ul class="simple">
-<li><p>Tagged version: 1.19.0</p></li>
+<li><p>Add internal and os patch release note templates</p></li>
+<li><p>Add no-bug-fixes-required-on-this-release release note template (which just needs to be copied into
+place with appropriate X.Y.Z, not edited)</p></li>
+<li><p>Add release note for patch-internal, using template!</p></li>
 </ul>
-<p>geoips#1067 - 1.19.0 updates</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="o">.</span><span class="n">github</span><span class="o">/</span><span class="n">versions</span><span class="o">/</span><span class="n">tagged_version</span>
+<p>geoips#1067 - 1.19.0 updates*</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">added</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">releases</span><span class="o">/</span><span class="mf">1.19.0</span><span class="o">/</span><span class="mf">1.19.0</span><span class="o">-</span><span class="n">patch</span><span class="o">-</span><span class="n">internal</span><span class="o">-</span><span class="n">add</span><span class="o">-</span><span class="n">patch</span><span class="o">-</span><span class="n">release</span><span class="o">-</span><span class="n">note</span><span class="o">-</span><span class="n">templates</span><span class="o">.</span><span class="n">yaml</span>
+<span class="n">added</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">templates</span><span class="o">/</span><span class="n">X</span><span class="o">.</span><span class="n">Y</span><span class="o">.</span><span class="n">Z</span><span class="o">-</span><span class="n">patch</span><span class="o">-</span><span class="n">internal</span><span class="o">-</span><span class="n">name</span><span class="o">-</span><span class="n">desc</span><span class="o">.</span><span class="n">yaml</span>
+<span class="n">added</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">templates</span><span class="o">/</span><span class="n">X</span><span class="o">.</span><span class="n">Y</span><span class="o">.</span><span class="n">Z</span><span class="o">-</span><span class="n">patch</span><span class="o">-</span><span class="n">os</span><span class="o">-</span><span class="n">name</span><span class="o">-</span><span class="n">desc</span><span class="o">.</span><span class="n">yaml</span>
+<span class="n">added</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">templates</span><span class="o">/</span><span class="n">X</span><span class="o">.</span><span class="n">Y</span><span class="o">.</span><span class="n">Z</span><span class="o">-</span><span class="n">no</span><span class="o">-</span><span class="n">bug</span><span class="o">-</span><span class="n">fixes</span><span class="o">-</span><span class="n">required</span><span class="o">-</span><span class="n">on</span><span class="o">-</span><span class="n">this</span><span class="o">-</span><span class="n">release</span><span class="o">.</span><span class="n">yaml</span>
 </pre></div>
 </div>
 </section>
@@ -754,20 +730,29 @@ editable for development purposes.</p>
 </div>
 </section>
 </section>
-<section id="bug-fix">
-<h2>Bug fix<a class="headerlink" href="#bug-fix" title="Permalink to this heading">#</a></h2>
-<p>Do not pad xarray datasets in config_based procflow when the output format plugin family is “xarray_data” and the
-area_definition is “self_registered”
-————————————</p>
-<p>Check that the area_def is not “self_registered” before padding dataset in config_based procflow.
-Padding (resectoring) an xarray_dataset will not work if the area_definition is self_registered.
-Attempting to pad an xarray_dataset that is self_registered will result in an AttributeError,
-since we will have a SwathDefinition on our hands and not an AreaDefinition. SwathDefinitions
-do not have the ‘get_array_indices_from_lonlat’ attribute.</p>
-<p>geoips#1070</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">procflows</span><span class="o">/</span><span class="n">config_based</span><span class="o">.</span><span class="n">py</span>
+<section id="documentation">
+<h2>Documentation<a class="headerlink" href="#documentation" title="Permalink to this heading">#</a></h2>
+<section id="add-release-note-for-version-1-19-0">
+<h3>Add release note for version 1.19.0<a class="headerlink" href="#add-release-note-for-version-1-19-0" title="Permalink to this heading">#</a></h3>
+<p>Release note on release branch to force tag/release, package/publish,
+and deploy docs.</p>
+<p>Additionally add any updated files from geoips_ci/sync</p>
+<p>geoips#1067 - 1.19.0 updates</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">added</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">releases</span><span class="o">/</span><span class="n">latest</span><span class="o">/</span><span class="mf">1.19.0</span><span class="o">-</span><span class="n">release</span><span class="o">-</span><span class="n">note</span><span class="o">.</span><span class="n">yaml</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">geoips_ci</span><span class="o">/</span><span class="n">sync</span> <span class="n">updated</span> <span class="n">files</span>
 </pre></div>
 </div>
+</section>
+<section id="update-tagged-versions">
+<h3>Update tagged versions<a class="headerlink" href="#update-tagged-versions" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Tagged version: 1.19.0</p></li>
+</ul>
+<p>geoips#1067 - 1.19.0 updates</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="o">.</span><span class="n">github</span><span class="o">/</span><span class="n">versions</span><span class="o">/</span><span class="n">tagged_version</span>
+</pre></div>
+</div>
+</section>
 </section>
 <section id="release-process">
 <h2>Release process<a class="headerlink" href="#release-process" title="Permalink to this heading">#</a></h2>
@@ -792,6 +777,21 @@ next github.com version-
 </div>
 </section>
 </section>
+<section id="bug-fix">
+<h2>Bug fix<a class="headerlink" href="#bug-fix" title="Permalink to this heading">#</a></h2>
+<p>Do not pad xarray datasets in config_based procflow when the output format plugin family is “xarray_data” and the
+area_definition is “self_registered”
+————————————</p>
+<p>Check that the area_def is not “self_registered” before padding dataset in config_based procflow.
+Padding (resectoring) an xarray_dataset will not work if the area_definition is self_registered.
+Attempting to pad an xarray_dataset that is self_registered will result in an AttributeError,
+since we will have a SwathDefinition on our hands and not an AreaDefinition. SwathDefinitions
+do not have the ‘get_array_indices_from_lonlat’ attribute.</p>
+<p>geoips#1070</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">procflows</span><span class="o">/</span><span class="n">config_based</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+</section>
 </section>
 
 
@@ -805,12 +805,12 @@ next github.com version-
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="latest.html"
+       href="2.0.0a0.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Version latest (2026-07-23)</p>
+        <p class="prev-next-title">Version 2.0.0a0 (2026-07-23)</p>
       </div>
     </a>
     <a class="right-next"
@@ -842,15 +842,10 @@ next github.com version-
   <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="pst-show_toc_level nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bug-fixes">Bug fixes</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#add-patch-release-note-templates">Add patch release note templates</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fix-time-in-text-winds-output-formatter">Fix time in text winds output formatter</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fix-time-in-smap-reader-due-to-xarray-version-change">Fix time in smap reader due to xarray version change.</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fix-broken-jsonschema-resolution-specification-to-allow-number-not-just-int">Fix broken jsonschema resolution specification to allow number not just int.</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fix-time-in-text-winds-output-formatter">Fix time in text winds output formatter</a></li>
-</ul>
-</li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#documentation">Documentation</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#add-release-note-for-version-1-19-0">Add release note for version 1.19.0</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#update-tagged-versions">Update tagged versions</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#add-patch-release-note-templates">Add patch release note templates</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#testing">Testing</a><ul class="nav section-nav flex-column">
@@ -861,12 +856,17 @@ next github.com version-
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#add-clavr-x-orb-executable-install-to-site-install">Add clavr-x orb executable install to site install.</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bug-fix">Bug fix</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#documentation">Documentation</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#add-release-note-for-version-1-19-0">Add release note for version 1.19.0</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#update-tagged-versions">Update tagged versions</a></li>
+</ul>
+</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#release-process">Release process</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#add-1-19-0-release-note">Add 1.19.0 release note</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#update-internal-and-github-com-tagged-version">Update internal and github.com ‘tagged_version’</a></li>
 </ul>
 </li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bug-fix">Bug fix</a></li>
 </ul>
   </nav></div>
 

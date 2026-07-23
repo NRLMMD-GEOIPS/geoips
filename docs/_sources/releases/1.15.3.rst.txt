@@ -1,41 +1,10 @@
 Version 1.15.3 (2026-07-23)
 ***************************
 
- * *Documentation*: Update upcoming and tagged versions
- * *Testing*: Provide more informative integration pytest output when running with -s
  * *Cli*: Add geoips config install-github cli command
+ * *Testing*: Provide more informative integration pytest output when running with -s
+ * *Documentation*: Update upcoming and tagged versions
  * *Enhancement*: Implement additional caching options for abi geostationary reader
-
-Documentation
-=============
-
-Update upcoming and tagged versions
------------------------------------
-
-* Tagged version: 1.15.3
-* Upcoming version: 1.16.2
-
-geoips#861 - 1.15.3 updates
-
-::
-
-     modified: .github/versions/tagged_version
-     modified: .github/versions/upcoming_version
-
-Testing
-=======
-
-Provide more informative integration pytest output when running with -s
------------------------------------------------------------------------
-
-Output reference environment variables (like OUTPUT_CHECKER_THRESHOLD_IMAGE), and the full
-copy pasteable command line call for each test script. Remove some other print statements.
-Should determine if there is some concept of logging levels in pytests (using geoips
-setup_logging did not appear to immediately work with initial tests).
-
-::
-
-     modified: tests/integration_tests/test_integration.py
 
 Cli
 ===
@@ -59,6 +28,37 @@ supported.
 
      modified: geoips/commandline/ancillary_info/cmd_instructions.yaml
      modified: geoips/commandline/geoips_config.py
+
+Testing
+=======
+
+Provide more informative integration pytest output when running with -s
+-----------------------------------------------------------------------
+
+Output reference environment variables (like OUTPUT_CHECKER_THRESHOLD_IMAGE), and the full
+copy pasteable command line call for each test script. Remove some other print statements.
+Should determine if there is some concept of logging levels in pytests (using geoips
+setup_logging did not appear to immediately work with initial tests).
+
+::
+
+     modified: tests/integration_tests/test_integration.py
+
+Documentation
+=============
+
+Update upcoming and tagged versions
+-----------------------------------
+
+* Tagged version: 1.15.3
+* Upcoming version: 1.16.2
+
+geoips#861 - 1.15.3 updates
+
+::
+
+     modified: .github/versions/tagged_version
+     modified: .github/versions/upcoming_version
 
 Enhancement
 ===========

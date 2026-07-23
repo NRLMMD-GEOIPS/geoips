@@ -1,433 +1,283 @@
 Version 1.16.3 (2026-07-23)
 ***************************
 
- * *Bug fixes*: Ensure we write to fname_partial before moving it to fname
- * *Installation*: Add geoips_system_cache_dir as overrideable environment variable in geoips config
- * *Installation*: Update mamba packages in geoips base installation
- * *Installation*: Add option to realtime tests allowing both copying files and writing output file list
- * *Installation*: Add proj to conda package dependencies
- * *Bug fix*: Return correct value from check output file list
- * *Bug fix*: Print return codes from each test script in global_terminator_satzen.sh example script
- * *Bug fix*: Add newline after each error in pytest integration test output
- * *Bug fix*: Add additional tiny sectors to be used in integration tests
- * *Bug fix*: Temporarily link viirs l1b sdr hdf5 files with supported satpy name
- * *Bug fix*: Use correct end datetimes for multi-file fire datasets
- * *Bug fix*: Resolve keyerror in fci reader when reading specific channels
- * *Bug fix*: Bug fixes for tc_tracks_database and check_output_file_list utilities
- * *Bug fix*: Release note updates required to get build_docs.sh to pass.
- * *Bug fix*: Build docs updates for template_basic_plugin deploy pages.
- * *Bug fix*: Build docs bug fix for broken links on main documentation index.html
- * *Bug fix*: Skip bad lines in bdecks if storm start datetime is older than 2 years
- * *Bug fix*: Typos in config_geoips and geoips_conda_init_setup
- * *Bug fix*: Add tcprivatewww to both geoips_utils and base_paths
+ * *Enhancement*: Add compression encoding to netcdf output formatters
+ * *Enhancement*: Generalized dynamic sector using volcanos as an example.
+ * *Enhancement*: Add matplotlib_log_norm colormapper
+ * *Enhancement*: Add support to gfs_grib reader for reading atmosphere group variables
+ * *Enhancement*: Viirs sdr hdf5 native reader and hncc product
+ * *Enhancement*: Add support for dataset attribution in xarray object metadata, yaml metadata output, and imagery
+   titles
+ * *Enhancement*: Add cache_solar_angles and geolocation_only kwargs to all geostationary readers
  * *Bug fix*: Add standard non-dataset-specific tiny sectors for goes_east and goes_west
  * *Bug fix*: Replace asterisk in pytest log outputs with -
  * *Bug fix*: Separate test_integration.py and test_tiny_sectors_geoips.py
  * *Bug fix*: Pass reponame into test_geostationary_sectors.sh so we can compare test outputs in the correct repo
  * *Bug fix*: Add product-name-base argument to global_terminator_satzen script
  * *Bug fix*: Add abi b13 infrared day/night integration test products
+ * *Bug fix*: Add additional tiny sectors to be used in integration tests
+ * *Bug fix*: Add tcprivatewww to both geoips_utils and base_paths
+ * *Bug fix*: Resolve keyerror in fci reader when reading specific channels
+ * *Bug fix*: Better handle sectors with no coverage in config_based processing when using resample_read or
+   sectored_read
+ * *Bug fix*: Return correct value from check output file list
+ * *Bug fix*: Print return codes from each test script in global_terminator_satzen.sh example script
+ * *Bug fix*: Add newline after each error in pytest integration test output
+ * *Bug fix*: Typos in config_geoips and geoips_conda_init_setup
+ * *Bug fix*: Release note updates required to get build_docs.sh to pass.
+ * *Bug fix*: Build docs updates for template_basic_plugin deploy pages.
+ * *Bug fix*: Build docs bug fix for broken links on main documentation index.html
+ * *Bug fix*: Skip bad lines in bdecks if storm start datetime is older than 2 years
  * *Bug fix*: Allow passing satellite_zenith_angle_cutoff into geostationary readers.
  * *Bug fix*: Flake8 fix in amsua_mhs_mirs.py reader, white space around operator
  * *Bug fix*: Allow reader_name as command line argument, and do not require definition within procflow config
  * *Bug fix*: Add example test script and procflow config for testing satellite zenith cutoffs
  * *Bug fix*: Add diagnostic infrared day only, night only, and day/night products for geostationary sensors
  * *Bug fix*: Update a few of the test scripts to include some test data file name formatting information
- * *Bug fix*: Better handle sectors with no coverage in config_based processing when using resample_read or
-   sectored_read
+ * *Bug fix*: Temporarily link viirs l1b sdr hdf5 files with supported satpy name
+ * *Bug fix*: Use correct end datetimes for multi-file fire datasets
+ * *Bug fix*: Bug fixes for tc_tracks_database and check_output_file_list utilities
+ * *Installation*: Update mamba packages in geoips base installation
+ * *Installation*: Add option to realtime tests allowing both copying files and writing output file list
+ * *Installation*: Add proj to conda package dependencies
+ * *Installation*: Add geoips_system_cache_dir as overrideable environment variable in geoips config
  * *Testing*: Allow passing arbitrary arguments to interactive_pytest.sh
- * *Testing*: Add new optional, sample_output, and tiny_sector pytest markers, and required/optional interactive pytest
-   args
  * *Testing*: Turn off log and print output in pytest-based integration testing
  * *Testing*: Replace -s with --capture=no, make a note that i think we want -s and --tb=short for integration tests but
    not unit tests
  * *Testing*: More informative pytest-based integration test log filenames
  * *Testing*: Print the interactive log directory from interactive_pytest.sh up front
- * *Enhancement*: Add support for dataset attribution in xarray object metadata, yaml metadata output, and imagery
-   titles
- * *Enhancement*: Add compression encoding to netcdf output formatters
- * *Enhancement*: Viirs sdr hdf5 native reader and hncc product
- * *Enhancement*: Add matplotlib_log_norm colormapper
- * *Enhancement*: Add cache_solar_angles and geolocation_only kwargs to all geostationary readers
- * *Enhancement*: Generalized dynamic sector using volcanos as an example.
- * *Enhancement*: Add support to gfs_grib reader for reading atmosphere group variables
- * *Documentation*: Add release note for version 1.16.3
- * *Documentation*: Update upcoming and tagged versions
- * *Documentation*: Add realtime_setup supported doc sections, and note how to add additional optional sections to
-   documentation layout
- * *Documentation*: Add docs level in doc build directory for deploy_pages.sh
+ * *Testing*: Add new optional, sample_output, and tiny_sector pytest markers, and required/optional interactive pytest
+   args
  * *Testing and installation*: Update call_cmd to explicitly request to use_print or use_logging, rather than toggle
    with use_logging
  * *Testing and installation*: Print time and logfile in check_requirements run_command when exclusively redirecting to
    log file
  * *Bug fix testing*: Ensure we mkdir on logs/integration before attempting to run integration tests
+ * *Documentation*: Add release note for version 1.16.3
+ * *Documentation*: Update upcoming and tagged versions
+ * *Documentation*: Add realtime_setup supported doc sections, and note how to add additional optional sections to
+   documentation layout
+ * *Documentation*: Add docs level in doc build directory for deploy_pages.sh
+ * *Bug fixes*: Ensure we write to fname_partial before moving it to fname
 
-Bug fixes
-=========
+Enhancement
+===========
 
-Ensure we write to fname_partial before moving it to fname
-----------------------------------------------------------
+Add compression encoding to netcdf output formatters
+----------------------------------------------------
 
-memmap geolocation caching was initially updated correctly to
-write to fname_partial, then move fname_partial to fname, but
-zarr was still writing to fname.  Update all instances of
-partial geolocation cache files to write to the partial
-geolocation cache filename initially, then move the partial
-file to the final fname.
+Add two new kwargs (use_compression and compression_kwargs) to the netcdf output
+formatter functions for enabling compression when writing xarray datasets to a
+NetCDF file. By default, use_compression is true, and compression_kwargs is None.
+If compression_kwargs is None, the underlying write_xarray_to_netcdf function in the
+netcdf_xarray output formatter sets encoding kwargs for the to_netcdf function as
+zlib=True and compression_level=5.
+
+Update the abi.static.Infrared.netcdf_geoips and atms.tc.165H.netcdf_geoips test
+comparison outputs with new compressed NetCDF file. (Also use the 10km tiny test
+sector for the abi.static.Infrared.netcdf_geoips test, as the 3km tiny test sector
+no longer exists)
+
+The 20200918.195020.goes-16.Infrared_latitude_longitude.test_goes16_eqc_10km_edge_night_20200918T1950Z.nc
+file size decreased from 2.1M to 176K
+
+The atms.tc.165H.netcdf_geoips/20210809.083826.noaa-20.165H_latitude_longitude.tc2021ep11kevin.nc
+file size decreased from 3.5M to 860K
+
+GEOIPS#955
 
 ::
 
+     deleted:
+     tests/outputs/abi.static.Infrared.netcdf_geoips/20200918.195020.goes-16.Infrared_latitude_longitude.test_goes16_eqc_3km_edge_night_20200918T1950Z.nc
+     added:
+     tests/outputs/abi.static.Infrared.netcdf_geoips/20200918.195020.goes-16.Infrared_latitude_longitude.test_goes16_eqc_10km_edge_night_20200918T1950Z.nc
+     modified: geoips/plugins/modules/output_formatters/netcdf_full.py
+     modified: geoips/plugins/modules/output_formatters/netcdf_geoips.py
+     modified: geoips/plugins/modules/output_formatters/netcdf_xarray.py
+     modified:
+     tests/outputs/atms.tc.165H.netcdf_geoips/20210809.083826.noaa-20.165H_latitude_longitude.tc2021ep11kevin.nc
+     modified: tests/scripts/abi.static.Infrared.netcdf_geoips.sh
+
+Generalized dynamic sector using volcanos as an example.
+--------------------------------------------------------
+
+'Added docs, sample files, and examples to use within
+geoips dynamic sectoring. Used the 2022 Tonga Volcano eruption as an
+example.'
+
+::
+
+     added: docs/source/tutorials/extending-with-plugins/dynamic_sector/index.rst
+     added: tests/outputs/ahi.tonga.volcano/20220115.043000.himawari-8.ahi.Infrared.TONGA_VOLCANO.100p00.jma.1p0.png
+     added: geoips/plugins/modules/sector_metadata_generators/volc_parser.py
+     added: geoips/plugins/yaml/sectors/dynamic/volc_dyn.yaml
+     added: tests/scripts/ahi.volcano.tonga.imagery_clean.sh
+     added: tests/sectors/volc_csv/tonga_trackfile.csv
+     modified: docs/source/tutorials/extending-with-plugins/index.rst
+     modified: docs/source/tutorials/extending-with-plugins/static_sector/index.rst
+     modified: geoips/interfaces/module_based/sector_metadata_generators.py
+     modified: geoips/sector_utils/tc_tracks.py
+
+Add matplotlib_log_norm colormapper
+-----------------------------------
+
+Add new colormapper that log-normalizes the colormap, similar to the
+matplotlib_linear_norm colormapper. Add test integration tests and products to test
+the matplotlib_log_norm colormapper, which currently uses a
+"Test-Visible-Logarithmic" product for abi. Hopefully we can swap this out with an
+actual test dataset that would benefit from a log-scaled colormap.
+
+Move the ABI Infrared-Day/Night test products to products/integration_tests, and
+rename the products to start with "Test-"
+
+GEOIPS#922
+
+::
+
+     moved: geoips/plugins/yaml/product_defaults/visir/Infrared-Day-Night.yaml ->
+     geoips/plugins/yaml/product_defaults/integration_tests/Test-Infrared-Day-Night.yaml
+     moved: geoips/plugins/yaml/product_defaults/visir/Infrared-Day-Only.yaml ->
+     geoips/plugins/yaml/product_defaults/integration_tests/Test-Infrared-Day-Only.yaml
+     moved: geoips/plugins/yaml/product_defaults/visir/Infrared-Night-Only.yaml ->
+     geoips/plugins/yaml/product_defaults/integration_tests/Test-Infrared-Night-Only.yaml
+     added: geoips/plugins/modules/colormappers/matplotlib_log_norm.py
+     added: geoips/plugins/yaml/products/integration_tests/Test-Infrared-Day-Night.yaml
+     added: geoips/plugins/yaml/products/integration_tests/Test-Infrared-Day-Only.yaml
+     added: geoips/plugins/yaml/products/integration_tests/Test-Infrared-Night-Only.yaml
+     added: geoips/plugins/yaml/products/integration_tests/Test-Logarithmic-Colormap.yaml
+     added:
+     tests/outputs/abi.static.Test-Visible-Logarithmic.imagery_clean/20200918.195020.goes-16.abi.Test-Visible-Logarithmic.test_goes16_eqc_3km_terminator_20200918T1950Z.79p46.noaa.3p0.png
+     added: tests/scripts/abi.static.Test-Visible-Logarithmic.imagery_clean.sh
+     modified: geoips/plugins/yaml/product_defaults/integration_tests/Test-Infrared-Day-Night.yaml
+     modified: geoips/plugins/yaml/product_defaults/integration_tests/Test-Infrared-Day-Only.yaml
+     modified: geoips/plugins/yaml/product_defaults/integration_tests/Test-Infrared-Night-Only.yaml
+     modified: tests/example_scripts/global_terminator_satzen.sh
+     modified: tests/example_scripts/satzen.yaml
+     modified: tests/integration_tests/test_integration.py
+
+Add support to gfs_grib reader for reading atmosphere group variables
+---------------------------------------------------------------------
+
+Variables in the "atmosphere" group are 2D, such as "total_cloud_cover".
+
+Also update the download_noaa_aws.sh script to support pulling GFS from AWS.
+
+::
+
+     modified: geoips/plugins/modules/readers/gfs_grib.py
+     modified: tests/download_noaa_aws.sh
+
+Viirs sdr hdf5 native reader and hncc product
+---------------------------------------------
+
+Created a true native HDF5 reader for VIIRS SDR data, added the high near constant contrast product. Migrated the legacy
+satpy SDR reader.
+
+::
+
+     deleted:
+     tests/outputs/viirs.static.visible.imagery_clean/20240925.043006.NOAA-21.viirs.Visible.se_asia.7p30.NOAA.1p0.png
+     added: docs/source/releases/latest/941-viirs-sdr-reader-fix.yaml
+     added: geoips/plugins/modules/algorithms/visir/HNear_Constant_Contrast.py
+     added: geoips/plugins/modules/readers/viirs_sdr_satpy_hdf5.py
+     added: geoips/plugins/yaml/product_defaults/visir/HNCC.yaml
+     added:
+     tests/outputs/viirs.static.visible.imagery_clean/20240925.043043.NOAA-21.viirs.Visible.se_asia.7p33.NOAA.1p0.png
+     modified: geoips/plugins/modules/readers/viirs_sdr_hdf5.py
+     modified: geoips/plugins/yaml/products/viirs.yaml
+
+Add support for dataset attribution in xarray object metadata, yaml metadata output, and imagery titles
+-------------------------------------------------------------------------------------------------------
+
+Per data provider request, ensure we can consistently and programmatically provide
+appropriate dataset attribution in backend xarray objects as well as final
+product outputs (imagery, YAML metadata, etc).
+
+* hy2 script - Update output to remove NRL and note source data from EUMETSAT
+* xarray-standards - Add new attribution xarray attrs, and ensure all existing geoips_utils attrs are included in the
+  list.
+* geoips_utils - Add new attribution xarray attrs to copy_standard_metadata, and reorder so it's the same order as
+  xarray-standards
+* mpl_utils - DO NOT set title_copyright to gpaths GEOIPS_COPYRIGHT in mpl_utils, ensure it is set
+  in individual title_formatter plugins for better control within the title_formatters.
+* metadata_tc output formatter - add xarray_obj attribution fields (data_provider and
+  data_attribution) to the sector_info dictionary, which automatically gets included
+  in the YAML metadata output.
+* sar_winds_netcdf - add CSA (rcm/radarsat) and ESA (sentinel) and NOAA STAR attribution appropriately to SAR
+  netcdf readers (which is used in the output formatters and title formatters)
+* hy2 image output - just slightly changed the title, based on updates to the test script
+* hy2 test script - Remove NRL Imagery from title_copyright (since now included in line 1 by default),
+  and note 'Source data' copyright EUMETSAT, since no longer explicitly stating imagery is copyright NRL.
+* sar image output - Added attribution lines to title (no change to first 2 lines)
+* sar yaml output and test script - update to full metadata_tc YAML output format - which includes
+  additional fields beyond the metadata_standard output format. Previously was not
+  including metadata_tc in test outputs to avoid having to update test outputs all
+  the time if we slightly modified our desired TC metadata output fields, but including
+  a single test to minimize output updates for changes to metadata_tc, but still provide
+  consistent testing of that metadata output formatter.
+
+  * covg_info (fname, full, and image_production)
+  * start, mid, and end data_times
+  * NEW data_provider
+  * NEW data_attribution (long, short, and title)
+* sar test script - use tc_copyright title formatter (to include new data_attribution
+  information from reader / xarray attrs), also update to use metadata_tc rather than
+  metadata_standard (so data_attribution is included in YAML output also).
+
+A couple random pytest updates thrown in
+
+* interactive_pytest - Add required and optional arguments to interactive_pytest.sh
+* pytest.ini - standard sync update
+* test_tiny_sectors_geoips - add tiny_sector, sample_output, and optional markers as appropriate.
+
+geoips#969 release
+
+::
+
+     modified: tests/scripts/hy2.tc.windspeed.imagery_annotated.sh
+     modified: docs/source/concepts/architecture/xarray-standards.rst
+     modified: geoips/geoips_utils.py
+     modified: geoips/image_utils/mpl_utils.py
+     modified: geoips/plugins/modules/output_formatters/metadata_tc.py
+     modified: geoips/plugins/modules/readers/sar_winds_netcdf.py
+     modified: pytest.ini
+     modified: tests/integration_tests/test_tiny_sectors_geoips.py
+     modified:
+     tests/outputs/hy2.tc.windspeed.imagery_annotated/20211202_084039_WP272021_hscat_hy-2b_windspeed_95kts_97p06_1p0.png
+     modified:
+     tests/outputs/sar.tc.nrcs.imagery_annotated/20181025_203206_WP312018_sar-spd_sentinel-1_nrcs_130kts_58p51_res1p0-cr300.png
+     modified:
+     tests/outputs/sar.tc.nrcs.imagery_annotated/20181025_203206_WP312018_sar-spd_sentinel-1_nrcs_130kts_58p51_res1p0-cr300.png.yaml
+     modified: tests/scripts/hy2.tc.windspeed.imagery_annotated.sh
+     modified: tests/scripts/sar.tc.nrcs.imagery_annotated.sh
+     modified: tests/utils/interactive_pytest.sh
+
+Add cache_solar_angles and geolocation_only kwargs to all geostationary readers
+-------------------------------------------------------------------------------
+
+Add the cache_solar_angles kwarg to all geostationary readers - this was previously
+only supported with the abi_netcdf reader. Now have the ability to cache the solar
+angles for any supported geostationary satellite.
+
+Add new geolocation_only kwarg to all geostationary readers. This allows the user to
+only return an xarray dataset of the geolocation information for a given scan.
+
+Provide more information if a partial cache file timeout is encountered.
+
+::
+
+     modified: geoips/plugins/modules/readers/abi_netcdf.py
+     modified: geoips/plugins/modules/readers/ahi_hsd.py
+     modified: geoips/plugins/modules/readers/ami_netcdf.py
+     modified: geoips/plugins/modules/readers/ewsg_netcdf.py
+     modified: geoips/plugins/modules/readers/fci_netcdf.py
+     modified: geoips/plugins/modules/readers/seviri_hrit.py
      modified: geoips/plugins/modules/readers/utils/geostationary_geolocation.py
-
-Installation
-============
-
-Add geoips_system_cache_dir as overrideable environment variable in geoips config
----------------------------------------------------------------------------------
-
-This provides a location for all cache files (geoips, satpy, etc) to be stored in
-a single location, facilitating sharing the cache directory across installations
-or releases.
-
-GEOIPS#957
-
-::
-
-     modified: setup/config_geoips
-
-Update mamba packages in geoips base installation
--------------------------------------------------
-
-* Remove openblas, because it periodically causes seg faults
-* Add libspatialindex for alphashape missing library error (interp_scipy)
-* Added cmake and gfortran for builds.
-* Added make for cmake builds
-* Added zlib for c/fortran builds
-* Added clang for pypublicdecompwt build
-
-::
-
-     modified: docs/source/getting-started/installing/linux_with_conda.rst
-
-Add option to realtime tests allowing both copying files and writing output file list
--------------------------------------------------------------------------------------
-
-Allow both copying files and writing output file lists in the same realtime test run.
-
-::
-
-     modified: tests/utils/get_realtime_test_args.sh
-
-Add proj to conda package dependencies
---------------------------------------
-
-Required to build wheel for pyproj 3.7.2
-
-::
-
-     modified: docs/source/getting-started/installing/linux_with_conda.rst
 
 Bug fix
 =======
-
-Return correct value from check output file list
-------------------------------------------------
-
-Previously did NOT return exit code from check_output_file_list, but relied on
-exit_state being set.  exit_state did not seem to actually be set even when
-sourcing this script, so just exit appropriately
-
-::
-
-     modified: tests/utils/check_output_file_list.sh
-
-Print return codes from each test script in global_terminator_satzen.sh example script
---------------------------------------------------------------------------------------
-
-This is not actually run regularly, but to make it more useful, just print out
-all the return codes at the end so we can see what failed. Also copy all outputs
-to example_test_script_outputs
-
-::
-
-     modified: tests/utils/check_output_file_list.sh
-
-Add newline after each error in pytest integration test output
---------------------------------------------------------------
-
-Better display for log output.
-
-::
-
-     modified: tests/integration_tests/test_integration.py
-
-Add additional tiny sectors to be used in integration tests
------------------------------------------------------------
-
-To make integration tests more efficient, create a standard set of test sectors that can be used for
-specific integration test cases. This will include
-
-* general full disk test sectors (not dependent on dataset)
-
-  * By convention, all full disk sectors cover the full spatial extent of a geostationary satellite, with varying
-    height/width
-    as needed (825x800 is a good size to start, resulting in approximately 20km resolution)
-* general tiny subsector (not dependent on dataset)
-
-  * By convention, all tiny subsectors are 300x300, with varying resolution as needed (3km - 10km)
-* tiny sectors with specific meteorological / time of day features (tied to specific test dataset)
-
-  * All sectors must include some clouds, some clear sky, some land, and some ocean
-  * edge of scan
-  * daytime
-  * nighttime
-  * terminator
-  * nadir
-  * daytime edge of scan
-  * nighttime edge of scan
-
-Additionally, add a test script to facilitate producing Google-Earthable geotiff outputs for better
-evaluation of test sector contents.
-Updated test scripts to include tiny sectors.
-Add to pytests for streamlined testing.
-
-Notes on plugin names
-
-* Plugin names are of the format
-
-  *
-    test_<satellite>_<proj>_<res>_<OPTIONAL:edge|nadir>_<day|night|terminator>_<OPTIONAL:tc|ar|volc>_<YYYYMMDDTHHMMZ>.yaml
-  * E.g., test_goes16_eqc_3km_edge_day_tc_20200918T1950Z
-* Parsing sector names is not required, so optional field is fine to include only as needed within the file name.
-* If we require tracking / using the metadata included in the plugin names, we will add explicit metadata to the plugins
-  themselves
-  that can be used for sorting / searching the available test plugins
-* If we want to sort differently than the hard coded plugin name order, we will additionally implement sorting within
-  the CLI based on the plugin
-  metadata (we just picked a reasonable order for reasonable sorting)
-* Filenames for individual test sector plugins do NOT have to match the plugin names (to avoid excessively long
-  filenames on disk)
-* For now, must manually update area_id and name to match exactly, and must manually update both description and
-  docstring to match exactly.
-  Eventually plugins will be set up to automatically populate area_id and description if they are not set (name and
-  docstring are required), but for now must copy/paste.
-
-GEOIPS#900
-
-::
-
-     deleted: geoips/plugins/yaml/sectors/integration_tests/test_sectors.sh
-     added:
-     geoips/plugins/yaml/sectors/integration_tests/geostationary/goes_west_sectors/goes17_20210718T0150Z/test_goes17_eqc_10km_edge_day_20210718T0150Z.yaml
-     added:
-     geoips/plugins/yaml/sectors/integration_tests/geostationary/goes_west_sectors/goes17_20210718T0150Z/test_goes17_eqc_10km_edge_night_20210718T0150Z.yaml
-     added:
-     geoips/plugins/yaml/sectors/integration_tests/geostationary/goes_west_sectors/goes17_20210718T0150Z/test_goes17_eqc_3km_day_20210718T0150Z.yaml
-     added:
-     geoips/plugins/yaml/sectors/integration_tests/geostationary/goes_west_sectors/goes17_20210718T0150Z/test_goes17_eqc_3km_night_20210718T0150Z.yaml
-     added:
-     geoips/plugins/yaml/sectors/integration_tests/geostationary/goes_west_sectors/goes17_20210718T0150Z/test_goes17_eqc_3km_terminator_20210718T0150Z.yaml
-     added: geoips/plugins/yaml/sectors/integration_tests/geostationary/goes_west_sectors/test_goes17_eqc_3km_nadir.yaml
-     added: tests/integration_tests/tiny_sectors/tiny_sectors_geostationary.sh
-     added:
-     tests/integration_tests/tiny_sectors/outputs/test_goes16_eqc_10km_edge_day_20200918T1950Z_Test-Infrared-Day-Only/20200918.195020.goes-16.abi.Test-Infrared-Day-Only.test_goes16_eqc_10km_edge_day_20200918T1950Z.85p11.noaa.10p0.png
-     added:
-     tests/integration_tests/tiny_sectors/outputs/test_goes16_eqc_10km_edge_night_20200918T1950Z_Test-Infrared-Night-Only/20200918.195020.goes-16.abi.Test-Infrared-Night-Only.test_goes16_eqc_10km_edge_night_20200918T1950Z.81p88.noaa.10p0.png
-     added:
-     tests/integration_tests/tiny_sectors/outputs/test_goes16_eqc_3km_day_20200918T1950Z_Test-Infrared-Day-Only/20200918.195020.goes-16.abi.Test-Infrared-Day-Only.test_goes16_eqc_3km_day_20200918T1950Z.100p00.noaa.3p0.png
-     added:
-     tests/integration_tests/tiny_sectors/outputs/test_goes16_eqc_3km_nadir_Test-Infrared-Day-Night/20200918.195020.goes-16.abi.Test-Infrared-Day-Night.test_goes16_eqc_3km_nadir.100p00.noaa.3p0.png
-     added:
-     tests/integration_tests/tiny_sectors/outputs/test_goes16_eqc_3km_night_20200918T1950Z_Test-Infrared-Night-Only/20200918.195020.goes-16.abi.Test-Infrared-Night-Only.test_goes16_eqc_3km_night_20200918T1950Z.100p00.noaa.3p0.png
-     added:
-     tests/integration_tests/tiny_sectors/outputs/test_goes16_eqc_3km_terminator_20200918T1950Z_Test-Infrared-Day-Only/20200918.195020.goes-16.abi.Test-Infrared-Day-Only.test_goes16_eqc_3km_terminator_20200918T1950Z.79p45.noaa.3p0.png
-     added:
-     tests/integration_tests/tiny_sectors/outputs/test_goes17_eqc_10km_edge_day_20210718T0150Z_Test-Infrared-Day-Only/20210718.015031.goes-17.abi.Test-Infrared-Day-Only.test_goes17_eqc_10km_edge_day_20210718T0150Z.96p93.noaa.10p0.png
-     added:
-     tests/integration_tests/tiny_sectors/outputs/test_goes17_eqc_10km_edge_night_20210718T0150Z_Test-Infrared-Night-Only/20210718.015031.goes-17.abi.Test-Infrared-Night-Only.test_goes17_eqc_10km_edge_night_20210718T0150Z.81p88.noaa.10p0.png
-     added:
-     tests/integration_tests/tiny_sectors/outputs/test_goes17_eqc_3km_day_20210718T0150Z_Test-Infrared-Day-Only/20210718.015031.goes-17.abi.Test-Infrared-Day-Only.test_goes17_eqc_3km_day_20210718T0150Z.100p00.noaa.3p0.png
-     added:
-     tests/integration_tests/tiny_sectors/outputs/test_goes17_eqc_3km_nadir_Test-Infrared-Day-Night/20210718.015031.goes-17.abi.Test-Infrared-Day-Night.test_goes17_eqc_3km_nadir.100p00.noaa.3p0.png
-     added:
-     tests/integration_tests/tiny_sectors/outputs/test_goes17_eqc_3km_night_20210718T0150Z_Test-Infrared-Night-Only/20210718.015031.goes-17.abi.Test-Infrared-Night-Only.test_goes17_eqc_3km_night_20210718T0150Z.100p00.noaa.3p0.png
-     added:
-     tests/integration_tests/tiny_sectors/outputs/test_goes17_eqc_3km_terminator_20210718T0150Z_Test-Infrared-Day-Only/20210718.015031.goes-17.abi.Test-Infrared-Day-Only.test_goes17_eqc_3km_terminator_20210718T0150Z.51p15.noaa.3p0.png
-     modified:
-     geoips/plugins/yaml/sectors/integration_tests/geostationary/goes_east_sectors/goes16_20200918T1950Z/test_goes16_eqc_10km_edge_day_20200918T1950Z.yaml
-     modified:
-     geoips/plugins/yaml/sectors/integration_tests/geostationary/goes_east_sectors/goes16_20200918T1950Z/test_goes16_eqc_10km_edge_night_20200918T1950Z.yaml
-     modified: tests/example_scripts/global_terminator_satzen.sh
-     modified: tests/integration_tests/test_integration.py
-
-Temporarily link viirs l1b sdr hdf5 files with supported satpy name
--------------------------------------------------------------------
-
-The backend satpy reader in the viirs_sdr_hdf5 reader needs the creation time in the
-filename, and will not read in files if they do not include that time in the file
-name. Temporarily updated the viirs_sdr_hdf5 reader to softlink files to the cache
-directory, and use those links to read in the file. The reader uses the end time in
-the filename to create creation time. Files are unlinked at the end of the reader.
-
-For example, SVM16_j02_d20250305_t1043171_e1044418_b12004_oeac_ops.h5 will be linked
-to
-$GEOIPS_DATA_CACHE_DIR_SHORTTERM_CALIBRATED_DATA/viirs_sdr_hdf5_reader/SVM16_j02_d20250305_t1043171_e1044418_b12004_c202503051044418_oeac_ops.h5
-
-GEOIPS#916
-
-::
-
-     modified: geoips/plugins/modules/readers/viirs_sdr_hdf5.py
-
-Use correct end datetimes for multi-file fire datasets
-------------------------------------------------------
-
-Previously, the end datetime for a multi-file ABI L2 fire dataset was the
-end datetime of the first file. Updating so that it is the end datetime
-for the whole dataset.
-
-::
-
-     modified: geoips/plugins/modules/readers/abi_l2_netcdf.py
-
-Resolve keyerror in fci reader when reading specific channels
--------------------------------------------------------------
-
-Set chans to list of GeoIPS variable names if none for consistency
-
-Previous behavior set chans to the list of available FCI variables, not the GeoIPS
-variable names. This caused inconsistencies when chans was not none, and was a list of
-GeoIPS variable names (which should always be the case). This inconsistency lead to
-a KeyError when trying to create the read_geoips_chans list, as we were trying to get
-the GeoIPS variable name from the CHAN_MAP dictionary. By setting chans to the GeoIPS
-variable name for each variable found in the FCI files, we do not need to do any
-mapping when creating read_geoips_chans.
-
-Note there are still issues with the FCI reader for multi-resolution self-registered
-reads.  This was discovered when attempting to run the geocolor fci.sh test script,
-but given it was never added to the integration test list when created in March 2025
-on github.com https://github.com/NRLMMD-GEOIPS/geocolor/pull/7 there is no indication
-when it stopped working.  We opened a new issue to address this multi-resolution
-self-register error in the fci reader, and it will be addressed in a separate Issue/branch/PR.
-Likely we will add an integration test product that we can use to test various combinations
-of self-register/sectored/multi-variable-multi-resolution in a simple generalized test
-product, so we can fully test the readers, allowing simplified tiny sector tests in
-individual repos such as geocolor (so we are not relying on geocolor tests to test
-multi-resolution self-register reads...)
-
-GEOIPS#953
-
-::
-
-     modified: geoips/plugins/modules/readers/fci_netcdf.py
-
-Bug fixes for tc_tracks_database and check_output_file_list utilities
----------------------------------------------------------------------
-
-Raise the new FileFormatError if parsing a trackfile raises an IndexError due bad
-formatting. This should be uncommon, but will help with debugging.
-
-Search and replace for references to TCPRIVATEWWW in output file lists from
-real-time tests.
-
-GEOIPS#947
-
-::
-
-     modified: geoips/errors.py
-     modified: geoips/sector_utils/tc_tracks_database.py
-     modified: tests/utils/check_output_file_list.sh
-
-Release note updates required to get build_docs.sh to pass.
------------------------------------------------------------
-
-Apparently we had not run build_docs.sh in a while.
-
-geoips#959 - 1.16.3 updates
-
-::
-
-     modified: docs/source/releases/1.16.3/900-postage-stamp-sectors-windbarbs-goes17_20210718t0150z.yaml
-     modified: docs/source/releases/1.16.3/937-handle-poorly-formatted-archived-bdeck-files.yaml
-
-Build docs updates for template_basic_plugin deploy pages.
-----------------------------------------------------------
-
-* build_docs.sh Must write to repopath, not $GEOIPS_PACKAGES_DIR/pkgname. The
-  build works either way, but deploy_pages.sh does not find the html to push
-  if it is not in the repopath. Output location does not matter otherwise.
-
-geoips#959 - 1.16.3 updates
-
-::
-
-     modified: docs/build_docs.sh
-
-Build docs bug fix for broken links on main documentation index.html
---------------------------------------------------------------------
-
-* index.template.rst api link should be PKGNAME_api, not just api. The main link
-  to the api was broken in all documentation builds (geoips, template_basic_plugin,
-  and all other plugin package documentation).  The link at the top to the
-  api was correct, just not the main link in the center of the default page.
-* Note the required pages are getting-started/index.html, PKGNAME_api/index.html,
-  and releases/index.html, based on the hard coded links in index.rst.html.
-  getting-started is currently NOT listed under a required section in docs-sections,
-  but we will leave it that way for now since, while it does result in a broken
-  link in the documentation if it is not included, if we move it to the required
-  section it will break ALL plugin repo doc builds until we add
-  getting-started/index.rst to every plugin repo (currently NO plugin repos have
-  getting-started/index.rst, only PKGNAME_api and releases). We will want to
-  be entirely sure we have landed on the desired required documentation layout
-  for all plugin repos before updating the docs structure for all repos.
-
-geoips#959 - 1.16.3 updates
-
-::
-
-     modified: docs/source/_templates/index.template.rst
-     modified: docs/docs-sections.yaml
-
-Skip bad lines in bdecks if storm start datetime is older than 2 years
-----------------------------------------------------------------------
-
-Compare the storm start datetime to the current time. If the difference is more
-than 2 years with respect to the walltime, treat the deck file as an archived file.
-If we identify we are parsing an archived deck file, skip any bad lines in the file
-and log a warning rather than raising an error.
-
-GEOIPS#937
-
-::
-
-     modified: geoips/plugins/modules/sector_metadata_generators/bdeck_parser.py
-
-Typos in config_geoips and geoips_conda_init_setup
---------------------------------------------------
-
-* config_geoips - ensure GEOIPS_OUTDIRS is not re-set if set upstream
-* geoips_conda_init_setup - include then in elif statement
-
-::
-
-     modified: setup/config_geoips
-     modified: setup/geoips_conda_init_setup
-
-Add tcprivatewww to both geoips_utils and base_paths
-----------------------------------------------------
-
-Ensure TCPRIVATEWWW is a supported env var for WWW output locations.  This should
-complete the available standard WWW output locations, no others will be
-supported as a standard across the GeoIPS Ecosystem.
-
-* TCWWW
-* TCPRIVATEWWW
-* PUBLICWWW
-* PRIVATEWWW
-
-::
-
-     modified: geoips/filenames/base_paths.py
-     modified: geoips/geoips_utils.py
 
 Add standard non-dataset-specific tiny sectors for goes_east and goes_west
 --------------------------------------------------------------------------
@@ -590,6 +440,298 @@ GEOIPS#964
      modified: geoips/plugins/yaml/products/integration_tests/Test-Infrared-Day-Only.yaml
      modified: geoips/plugins/yaml/products/integration_tests/Test-Infrared-Night-Only.yaml
 
+Add additional tiny sectors to be used in integration tests
+-----------------------------------------------------------
+
+To make integration tests more efficient, create a standard set of test sectors that can be used for
+specific integration test cases. This will include
+
+* general full disk test sectors (not dependent on dataset)
+
+  * By convention, all full disk sectors cover the full spatial extent of a geostationary satellite, with varying
+    height/width
+    as needed (825x800 is a good size to start, resulting in approximately 20km resolution)
+* general tiny subsector (not dependent on dataset)
+
+  * By convention, all tiny subsectors are 300x300, with varying resolution as needed (3km - 10km)
+* tiny sectors with specific meteorological / time of day features (tied to specific test dataset)
+
+  * All sectors must include some clouds, some clear sky, some land, and some ocean
+  * edge of scan
+  * daytime
+  * nighttime
+  * terminator
+  * nadir
+  * daytime edge of scan
+  * nighttime edge of scan
+
+Additionally, add a test script to facilitate producing Google-Earthable geotiff outputs for better
+evaluation of test sector contents.
+Updated test scripts to include tiny sectors.
+Add to pytests for streamlined testing.
+
+Notes on plugin names
+
+* Plugin names are of the format
+
+  *
+    test_<satellite>_<proj>_<res>_<OPTIONAL:edge|nadir>_<day|night|terminator>_<OPTIONAL:tc|ar|volc>_<YYYYMMDDTHHMMZ>.yaml
+  * E.g., test_goes16_eqc_3km_edge_day_tc_20200918T1950Z
+* Parsing sector names is not required, so optional field is fine to include only as needed within the file name.
+* If we require tracking / using the metadata included in the plugin names, we will add explicit metadata to the plugins
+  themselves
+  that can be used for sorting / searching the available test plugins
+* If we want to sort differently than the hard coded plugin name order, we will additionally implement sorting within
+  the CLI based on the plugin
+  metadata (we just picked a reasonable order for reasonable sorting)
+* Filenames for individual test sector plugins do NOT have to match the plugin names (to avoid excessively long
+  filenames on disk)
+* For now, must manually update area_id and name to match exactly, and must manually update both description and
+  docstring to match exactly.
+  Eventually plugins will be set up to automatically populate area_id and description if they are not set (name and
+  docstring are required), but for now must copy/paste.
+
+GEOIPS#900
+
+::
+
+     deleted: geoips/plugins/yaml/sectors/integration_tests/test_sectors.sh
+     added:
+     geoips/plugins/yaml/sectors/integration_tests/geostationary/goes_west_sectors/goes17_20210718T0150Z/test_goes17_eqc_10km_edge_day_20210718T0150Z.yaml
+     added:
+     geoips/plugins/yaml/sectors/integration_tests/geostationary/goes_west_sectors/goes17_20210718T0150Z/test_goes17_eqc_10km_edge_night_20210718T0150Z.yaml
+     added:
+     geoips/plugins/yaml/sectors/integration_tests/geostationary/goes_west_sectors/goes17_20210718T0150Z/test_goes17_eqc_3km_day_20210718T0150Z.yaml
+     added:
+     geoips/plugins/yaml/sectors/integration_tests/geostationary/goes_west_sectors/goes17_20210718T0150Z/test_goes17_eqc_3km_night_20210718T0150Z.yaml
+     added:
+     geoips/plugins/yaml/sectors/integration_tests/geostationary/goes_west_sectors/goes17_20210718T0150Z/test_goes17_eqc_3km_terminator_20210718T0150Z.yaml
+     added: geoips/plugins/yaml/sectors/integration_tests/geostationary/goes_west_sectors/test_goes17_eqc_3km_nadir.yaml
+     added: tests/integration_tests/tiny_sectors/tiny_sectors_geostationary.sh
+     added:
+     tests/integration_tests/tiny_sectors/outputs/test_goes16_eqc_10km_edge_day_20200918T1950Z_Test-Infrared-Day-Only/20200918.195020.goes-16.abi.Test-Infrared-Day-Only.test_goes16_eqc_10km_edge_day_20200918T1950Z.85p11.noaa.10p0.png
+     added:
+     tests/integration_tests/tiny_sectors/outputs/test_goes16_eqc_10km_edge_night_20200918T1950Z_Test-Infrared-Night-Only/20200918.195020.goes-16.abi.Test-Infrared-Night-Only.test_goes16_eqc_10km_edge_night_20200918T1950Z.81p88.noaa.10p0.png
+     added:
+     tests/integration_tests/tiny_sectors/outputs/test_goes16_eqc_3km_day_20200918T1950Z_Test-Infrared-Day-Only/20200918.195020.goes-16.abi.Test-Infrared-Day-Only.test_goes16_eqc_3km_day_20200918T1950Z.100p00.noaa.3p0.png
+     added:
+     tests/integration_tests/tiny_sectors/outputs/test_goes16_eqc_3km_nadir_Test-Infrared-Day-Night/20200918.195020.goes-16.abi.Test-Infrared-Day-Night.test_goes16_eqc_3km_nadir.100p00.noaa.3p0.png
+     added:
+     tests/integration_tests/tiny_sectors/outputs/test_goes16_eqc_3km_night_20200918T1950Z_Test-Infrared-Night-Only/20200918.195020.goes-16.abi.Test-Infrared-Night-Only.test_goes16_eqc_3km_night_20200918T1950Z.100p00.noaa.3p0.png
+     added:
+     tests/integration_tests/tiny_sectors/outputs/test_goes16_eqc_3km_terminator_20200918T1950Z_Test-Infrared-Day-Only/20200918.195020.goes-16.abi.Test-Infrared-Day-Only.test_goes16_eqc_3km_terminator_20200918T1950Z.79p45.noaa.3p0.png
+     added:
+     tests/integration_tests/tiny_sectors/outputs/test_goes17_eqc_10km_edge_day_20210718T0150Z_Test-Infrared-Day-Only/20210718.015031.goes-17.abi.Test-Infrared-Day-Only.test_goes17_eqc_10km_edge_day_20210718T0150Z.96p93.noaa.10p0.png
+     added:
+     tests/integration_tests/tiny_sectors/outputs/test_goes17_eqc_10km_edge_night_20210718T0150Z_Test-Infrared-Night-Only/20210718.015031.goes-17.abi.Test-Infrared-Night-Only.test_goes17_eqc_10km_edge_night_20210718T0150Z.81p88.noaa.10p0.png
+     added:
+     tests/integration_tests/tiny_sectors/outputs/test_goes17_eqc_3km_day_20210718T0150Z_Test-Infrared-Day-Only/20210718.015031.goes-17.abi.Test-Infrared-Day-Only.test_goes17_eqc_3km_day_20210718T0150Z.100p00.noaa.3p0.png
+     added:
+     tests/integration_tests/tiny_sectors/outputs/test_goes17_eqc_3km_nadir_Test-Infrared-Day-Night/20210718.015031.goes-17.abi.Test-Infrared-Day-Night.test_goes17_eqc_3km_nadir.100p00.noaa.3p0.png
+     added:
+     tests/integration_tests/tiny_sectors/outputs/test_goes17_eqc_3km_night_20210718T0150Z_Test-Infrared-Night-Only/20210718.015031.goes-17.abi.Test-Infrared-Night-Only.test_goes17_eqc_3km_night_20210718T0150Z.100p00.noaa.3p0.png
+     added:
+     tests/integration_tests/tiny_sectors/outputs/test_goes17_eqc_3km_terminator_20210718T0150Z_Test-Infrared-Day-Only/20210718.015031.goes-17.abi.Test-Infrared-Day-Only.test_goes17_eqc_3km_terminator_20210718T0150Z.51p15.noaa.3p0.png
+     modified:
+     geoips/plugins/yaml/sectors/integration_tests/geostationary/goes_east_sectors/goes16_20200918T1950Z/test_goes16_eqc_10km_edge_day_20200918T1950Z.yaml
+     modified:
+     geoips/plugins/yaml/sectors/integration_tests/geostationary/goes_east_sectors/goes16_20200918T1950Z/test_goes16_eqc_10km_edge_night_20200918T1950Z.yaml
+     modified: tests/example_scripts/global_terminator_satzen.sh
+     modified: tests/integration_tests/test_integration.py
+
+Add tcprivatewww to both geoips_utils and base_paths
+----------------------------------------------------
+
+Ensure TCPRIVATEWWW is a supported env var for WWW output locations.  This should
+complete the available standard WWW output locations, no others will be
+supported as a standard across the GeoIPS Ecosystem.
+
+* TCWWW
+* TCPRIVATEWWW
+* PUBLICWWW
+* PRIVATEWWW
+
+::
+
+     modified: geoips/filenames/base_paths.py
+     modified: geoips/geoips_utils.py
+
+Resolve keyerror in fci reader when reading specific channels
+-------------------------------------------------------------
+
+Set chans to list of GeoIPS variable names if none for consistency
+
+Previous behavior set chans to the list of available FCI variables, not the GeoIPS
+variable names. This caused inconsistencies when chans was not none, and was a list of
+GeoIPS variable names (which should always be the case). This inconsistency lead to
+a KeyError when trying to create the read_geoips_chans list, as we were trying to get
+the GeoIPS variable name from the CHAN_MAP dictionary. By setting chans to the GeoIPS
+variable name for each variable found in the FCI files, we do not need to do any
+mapping when creating read_geoips_chans.
+
+Note there are still issues with the FCI reader for multi-resolution self-registered
+reads.  This was discovered when attempting to run the geocolor fci.sh test script,
+but given it was never added to the integration test list when created in March 2025
+on github.com https://github.com/NRLMMD-GEOIPS/geocolor/pull/7 there is no indication
+when it stopped working.  We opened a new issue to address this multi-resolution
+self-register error in the fci reader, and it will be addressed in a separate Issue/branch/PR.
+Likely we will add an integration test product that we can use to test various combinations
+of self-register/sectored/multi-variable-multi-resolution in a simple generalized test
+product, so we can fully test the readers, allowing simplified tiny sector tests in
+individual repos such as geocolor (so we are not relying on geocolor tests to test
+multi-resolution self-register reads...)
+
+GEOIPS#953
+
+::
+
+     modified: geoips/plugins/modules/readers/fci_netcdf.py
+
+Better handle sectors with no coverage in config_based processing when using resample_read or sectored_read
+-----------------------------------------------------------------------------------------------------------
+
+Store a copy of the xobjs metadata in config_based procflow separate from the full
+xobjs dictionary, since sectored/resampled reads will return empty xobjs dictionary
+if there is no coverage and we want to retain the original metadata.
+
+If resampled_read or sectored_read are true, and we encounter a sector with no
+coverage, the xobjs variable will be clobbered with an empty dictionary due to the
+get_sectored_read function. This will break the area defintion sector_type loop,
+since the next iteration will be unable to compile the list of all_source_names,
+since it looks at the xobjs variable. When the get_sectored_read function
+experiences a CoverageError and returns an empty dict, we will reset xobjs with
+xobjs_meta. I opted not to move the all_source_names line outside of the loop, as
+I'm unsure if that would break anything or not...
+
+When creating the geolocation cache, rename a .partial cache file as .no_coverage
+if we find there is no coverage for a given sector. This prevents concurrent
+procflow from constantly regenerating a partial cache file, and complaining/crashing
+due to the persistent .partial file. This will potentially cause an issue
+specifically for dynamic sectors with interpolated positions where the initial
+position (ie, storm location at 0Z) is outside satellite coverage, but a later
+interpolated position (e.g., interpolated location at 5Z) may have coverage.
+We are going to accept this case, because the interpolated location will likely
+still be at edge of scan. Per images below, for TCs in particular, I really don't
+think we care about this, since they don't move much in 6h and I can't imagine we
+wouldn't want something at 0Z, but then would want it at 5Z.
+
+Note there may be future cases where we would not want to accept this risk, if a
+dynamic sector moves very quickly, and intermediate interpolated locations could
+vary drastically from the reported positions at specific times.
+
+GEOIPS#950
+
+::
+
+     modified: geoips/plugins/modules/procflows/config_based.py
+     modified: geoips/plugins/modules/readers/utils/geostationary_geolocation.py
+
+Return correct value from check output file list
+------------------------------------------------
+
+Previously did NOT return exit code from check_output_file_list, but relied on
+exit_state being set.  exit_state did not seem to actually be set even when
+sourcing this script, so just exit appropriately
+
+::
+
+     modified: tests/utils/check_output_file_list.sh
+
+Print return codes from each test script in global_terminator_satzen.sh example script
+--------------------------------------------------------------------------------------
+
+This is not actually run regularly, but to make it more useful, just print out
+all the return codes at the end so we can see what failed. Also copy all outputs
+to example_test_script_outputs
+
+::
+
+     modified: tests/utils/check_output_file_list.sh
+
+Add newline after each error in pytest integration test output
+--------------------------------------------------------------
+
+Better display for log output.
+
+::
+
+     modified: tests/integration_tests/test_integration.py
+
+Typos in config_geoips and geoips_conda_init_setup
+--------------------------------------------------
+
+* config_geoips - ensure GEOIPS_OUTDIRS is not re-set if set upstream
+* geoips_conda_init_setup - include then in elif statement
+
+::
+
+     modified: setup/config_geoips
+     modified: setup/geoips_conda_init_setup
+
+Release note updates required to get build_docs.sh to pass.
+-----------------------------------------------------------
+
+Apparently we had not run build_docs.sh in a while.
+
+geoips#959 - 1.16.3 updates
+
+::
+
+     modified: docs/source/releases/1.16.3/900-postage-stamp-sectors-windbarbs-goes17_20210718t0150z.yaml
+     modified: docs/source/releases/1.16.3/937-handle-poorly-formatted-archived-bdeck-files.yaml
+
+Build docs updates for template_basic_plugin deploy pages.
+----------------------------------------------------------
+
+* build_docs.sh Must write to repopath, not $GEOIPS_PACKAGES_DIR/pkgname. The
+  build works either way, but deploy_pages.sh does not find the html to push
+  if it is not in the repopath. Output location does not matter otherwise.
+
+geoips#959 - 1.16.3 updates
+
+::
+
+     modified: docs/build_docs.sh
+
+Build docs bug fix for broken links on main documentation index.html
+--------------------------------------------------------------------
+
+* index.template.rst api link should be PKGNAME_api, not just api. The main link
+  to the api was broken in all documentation builds (geoips, template_basic_plugin,
+  and all other plugin package documentation).  The link at the top to the
+  api was correct, just not the main link in the center of the default page.
+* Note the required pages are getting-started/index.html, PKGNAME_api/index.html,
+  and releases/index.html, based on the hard coded links in index.rst.html.
+  getting-started is currently NOT listed under a required section in docs-sections,
+  but we will leave it that way for now since, while it does result in a broken
+  link in the documentation if it is not included, if we move it to the required
+  section it will break ALL plugin repo doc builds until we add
+  getting-started/index.rst to every plugin repo (currently NO plugin repos have
+  getting-started/index.rst, only PKGNAME_api and releases). We will want to
+  be entirely sure we have landed on the desired required documentation layout
+  for all plugin repos before updating the docs structure for all repos.
+
+geoips#959 - 1.16.3 updates
+
+::
+
+     modified: docs/source/_templates/index.template.rst
+     modified: docs/docs-sections.yaml
+
+Skip bad lines in bdecks if storm start datetime is older than 2 years
+----------------------------------------------------------------------
+
+Compare the storm start datetime to the current time. If the difference is more
+than 2 years with respect to the walltime, treat the deck file as an archived file.
+If we identify we are parsing an archived deck file, skip any bad lines in the file
+and log a warning rather than raising an error.
+
+GEOIPS#937
+
+::
+
+     modified: geoips/plugins/modules/sector_metadata_generators/bdeck_parser.py
+
 Allow passing satellite_zenith_angle_cutoff into geostationary readers.
 -----------------------------------------------------------------------
 
@@ -683,44 +825,100 @@ information in the wildcard string for the test data file names.
      modified: tests/scripts/ami.static.Infrared.imagery_clean.sh
      modified: tests/scripts/seviri.WV-Upper.no_self_register.unprojected_image.sh
 
-Better handle sectors with no coverage in config_based processing when using resample_read or sectored_read
------------------------------------------------------------------------------------------------------------
+Temporarily link viirs l1b sdr hdf5 files with supported satpy name
+-------------------------------------------------------------------
 
-Store a copy of the xobjs metadata in config_based procflow separate from the full
-xobjs dictionary, since sectored/resampled reads will return empty xobjs dictionary
-if there is no coverage and we want to retain the original metadata.
+The backend satpy reader in the viirs_sdr_hdf5 reader needs the creation time in the
+filename, and will not read in files if they do not include that time in the file
+name. Temporarily updated the viirs_sdr_hdf5 reader to softlink files to the cache
+directory, and use those links to read in the file. The reader uses the end time in
+the filename to create creation time. Files are unlinked at the end of the reader.
 
-If resampled_read or sectored_read are true, and we encounter a sector with no
-coverage, the xobjs variable will be clobbered with an empty dictionary due to the
-get_sectored_read function. This will break the area defintion sector_type loop,
-since the next iteration will be unable to compile the list of all_source_names,
-since it looks at the xobjs variable. When the get_sectored_read function
-experiences a CoverageError and returns an empty dict, we will reset xobjs with
-xobjs_meta. I opted not to move the all_source_names line outside of the loop, as
-I'm unsure if that would break anything or not...
+For example, SVM16_j02_d20250305_t1043171_e1044418_b12004_oeac_ops.h5 will be linked
+to
+$GEOIPS_DATA_CACHE_DIR_SHORTTERM_CALIBRATED_DATA/viirs_sdr_hdf5_reader/SVM16_j02_d20250305_t1043171_e1044418_b12004_c202503051044418_oeac_ops.h5
 
-When creating the geolocation cache, rename a .partial cache file as .no_coverage
-if we find there is no coverage for a given sector. This prevents concurrent
-procflow from constantly regenerating a partial cache file, and complaining/crashing
-due to the persistent .partial file. This will potentially cause an issue
-specifically for dynamic sectors with interpolated positions where the initial
-position (ie, storm location at 0Z) is outside satellite coverage, but a later
-interpolated position (e.g., interpolated location at 5Z) may have coverage.
-We are going to accept this case, because the interpolated location will likely
-still be at edge of scan. Per images below, for TCs in particular, I really don't
-think we care about this, since they don't move much in 6h and I can't imagine we
-wouldn't want something at 0Z, but then would want it at 5Z.
-
-Note there may be future cases where we would not want to accept this risk, if a
-dynamic sector moves very quickly, and intermediate interpolated locations could
-vary drastically from the reported positions at specific times.
-
-GEOIPS#950
+GEOIPS#916
 
 ::
 
-     modified: geoips/plugins/modules/procflows/config_based.py
-     modified: geoips/plugins/modules/readers/utils/geostationary_geolocation.py
+     modified: geoips/plugins/modules/readers/viirs_sdr_hdf5.py
+
+Use correct end datetimes for multi-file fire datasets
+------------------------------------------------------
+
+Previously, the end datetime for a multi-file ABI L2 fire dataset was the
+end datetime of the first file. Updating so that it is the end datetime
+for the whole dataset.
+
+::
+
+     modified: geoips/plugins/modules/readers/abi_l2_netcdf.py
+
+Bug fixes for tc_tracks_database and check_output_file_list utilities
+---------------------------------------------------------------------
+
+Raise the new FileFormatError if parsing a trackfile raises an IndexError due bad
+formatting. This should be uncommon, but will help with debugging.
+
+Search and replace for references to TCPRIVATEWWW in output file lists from
+real-time tests.
+
+GEOIPS#947
+
+::
+
+     modified: geoips/errors.py
+     modified: geoips/sector_utils/tc_tracks_database.py
+     modified: tests/utils/check_output_file_list.sh
+
+Installation
+============
+
+Update mamba packages in geoips base installation
+-------------------------------------------------
+
+* Remove openblas, because it periodically causes seg faults
+* Add libspatialindex for alphashape missing library error (interp_scipy)
+* Added cmake and gfortran for builds.
+* Added make for cmake builds
+* Added zlib for c/fortran builds
+* Added clang for pypublicdecompwt build
+
+::
+
+     modified: docs/source/getting-started/installing/linux_with_conda.rst
+
+Add option to realtime tests allowing both copying files and writing output file list
+-------------------------------------------------------------------------------------
+
+Allow both copying files and writing output file lists in the same realtime test run.
+
+::
+
+     modified: tests/utils/get_realtime_test_args.sh
+
+Add proj to conda package dependencies
+--------------------------------------
+
+Required to build wheel for pyproj 3.7.2
+
+::
+
+     modified: docs/source/getting-started/installing/linux_with_conda.rst
+
+Add geoips_system_cache_dir as overrideable environment variable in geoips config
+---------------------------------------------------------------------------------
+
+This provides a location for all cache files (geoips, satpy, etc) to be stored in
+a single location, facilitating sharing the cache directory across installations
+or releases.
+
+GEOIPS#957
+
+::
+
+     modified: setup/config_geoips
 
 Testing
 =======
@@ -749,21 +947,6 @@ desired arguments to pytest.
 
 ::
 
-     modified: tests/utils/interactive_pytest.sh
-
-Add new optional, sample_output, and tiny_sector pytest markers, and required/optional interactive pytest args
---------------------------------------------------------------------------------------------------------------
-
-* mark tiny_sector integration tests with tiny_sector, optional, and integration
-* mark geoips test sector --overlay integration tests with optional and tiny sector and sample_output
-* mark global example script integration tests with optional and sample_output
-
-geoips#959 - 1.16.3 updates
-
-::
-
-     modified: pytest.ini
-     modified: tests/integration_tests/test_tiny_sectors_geoips.py
      modified: tests/utils/interactive_pytest.sh
 
 Turn off log and print output in pytest-based integration testing
@@ -817,220 +1000,62 @@ the logdir up front so people can go look for the latest log.
 
      modified: tests/utils/interactive_pytest.sh
 
-Enhancement
-===========
+Add new optional, sample_output, and tiny_sector pytest markers, and required/optional interactive pytest args
+--------------------------------------------------------------------------------------------------------------
 
-Add support for dataset attribution in xarray object metadata, yaml metadata output, and imagery titles
--------------------------------------------------------------------------------------------------------
+* mark tiny_sector integration tests with tiny_sector, optional, and integration
+* mark geoips test sector --overlay integration tests with optional and tiny sector and sample_output
+* mark global example script integration tests with optional and sample_output
 
-Per data provider request, ensure we can consistently and programmatically provide
-appropriate dataset attribution in backend xarray objects as well as final
-product outputs (imagery, YAML metadata, etc).
-
-* hy2 script - Update output to remove NRL and note source data from EUMETSAT
-* xarray-standards - Add new attribution xarray attrs, and ensure all existing geoips_utils attrs are included in the
-  list.
-* geoips_utils - Add new attribution xarray attrs to copy_standard_metadata, and reorder so it's the same order as
-  xarray-standards
-* mpl_utils - DO NOT set title_copyright to gpaths GEOIPS_COPYRIGHT in mpl_utils, ensure it is set
-  in individual title_formatter plugins for better control within the title_formatters.
-* metadata_tc output formatter - add xarray_obj attribution fields (data_provider and
-  data_attribution) to the sector_info dictionary, which automatically gets included
-  in the YAML metadata output.
-* sar_winds_netcdf - add CSA (rcm/radarsat) and ESA (sentinel) and NOAA STAR attribution appropriately to SAR
-  netcdf readers (which is used in the output formatters and title formatters)
-* hy2 image output - just slightly changed the title, based on updates to the test script
-* hy2 test script - Remove NRL Imagery from title_copyright (since now included in line 1 by default),
-  and note 'Source data' copyright EUMETSAT, since no longer explicitly stating imagery is copyright NRL.
-* sar image output - Added attribution lines to title (no change to first 2 lines)
-* sar yaml output and test script - update to full metadata_tc YAML output format - which includes
-  additional fields beyond the metadata_standard output format. Previously was not
-  including metadata_tc in test outputs to avoid having to update test outputs all
-  the time if we slightly modified our desired TC metadata output fields, but including
-  a single test to minimize output updates for changes to metadata_tc, but still provide
-  consistent testing of that metadata output formatter.
-
-  * covg_info (fname, full, and image_production)
-  * start, mid, and end data_times
-  * NEW data_provider
-  * NEW data_attribution (long, short, and title)
-* sar test script - use tc_copyright title formatter (to include new data_attribution
-  information from reader / xarray attrs), also update to use metadata_tc rather than
-  metadata_standard (so data_attribution is included in YAML output also).
-
-A couple random pytest updates thrown in
-
-* interactive_pytest - Add required and optional arguments to interactive_pytest.sh
-* pytest.ini - standard sync update
-* test_tiny_sectors_geoips - add tiny_sector, sample_output, and optional markers as appropriate.
-
-geoips#969 release
+geoips#959 - 1.16.3 updates
 
 ::
 
-     modified: tests/scripts/hy2.tc.windspeed.imagery_annotated.sh
-     modified: docs/source/concepts/architecture/xarray-standards.rst
-     modified: geoips/geoips_utils.py
-     modified: geoips/image_utils/mpl_utils.py
-     modified: geoips/plugins/modules/output_formatters/metadata_tc.py
-     modified: geoips/plugins/modules/readers/sar_winds_netcdf.py
      modified: pytest.ini
      modified: tests/integration_tests/test_tiny_sectors_geoips.py
-     modified:
-     tests/outputs/hy2.tc.windspeed.imagery_annotated/20211202_084039_WP272021_hscat_hy-2b_windspeed_95kts_97p06_1p0.png
-     modified:
-     tests/outputs/sar.tc.nrcs.imagery_annotated/20181025_203206_WP312018_sar-spd_sentinel-1_nrcs_130kts_58p51_res1p0-cr300.png
-     modified:
-     tests/outputs/sar.tc.nrcs.imagery_annotated/20181025_203206_WP312018_sar-spd_sentinel-1_nrcs_130kts_58p51_res1p0-cr300.png.yaml
-     modified: tests/scripts/hy2.tc.windspeed.imagery_annotated.sh
-     modified: tests/scripts/sar.tc.nrcs.imagery_annotated.sh
      modified: tests/utils/interactive_pytest.sh
 
-Add compression encoding to netcdf output formatters
-----------------------------------------------------
+Testing and installation
+========================
 
-Add two new kwargs (use_compression and compression_kwargs) to the netcdf output
-formatter functions for enabling compression when writing xarray datasets to a
-NetCDF file. By default, use_compression is true, and compression_kwargs is None.
-If compression_kwargs is None, the underlying write_xarray_to_netcdf function in the
-netcdf_xarray output formatter sets encoding kwargs for the to_netcdf function as
-zlib=True and compression_level=5.
+Update call_cmd to explicitly request to use_print or use_logging, rather than toggle with use_logging
+------------------------------------------------------------------------------------------------------
 
-Update the abi.static.Infrared.netcdf_geoips and atms.tc.165H.netcdf_geoips test
-comparison outputs with new compressed NetCDF file. (Also use the 10km tiny test
-sector for the abi.static.Infrared.netcdf_geoips test, as the 3km tiny test sector
-no longer exists)
-
-The 20200918.195020.goes-16.Infrared_latitude_longitude.test_goes16_eqc_10km_edge_night_20200918T1950Z.nc
-file size decreased from 2.1M to 176K
-
-The atms.tc.165H.netcdf_geoips/20210809.083826.noaa-20.165H_latitude_longitude.tc2021ep11kevin.nc
-file size decreased from 3.5M to 860K
-
-GEOIPS#955
+Previously we just passed in use_logging, and if it was true we printed each line of
+the command output via LOG commands, and if it was false, we printed to the
+screen with print commands.  Sometimes we don't want to print to the screen
+at all (if we ONLY want to write to the log file), so allow requesting both
+use_print and use_logging separately so we can turn both off if we want.
+This makes for much nicer pytest output...
 
 ::
 
-     deleted:
-     tests/outputs/abi.static.Infrared.netcdf_geoips/20200918.195020.goes-16.Infrared_latitude_longitude.test_goes16_eqc_3km_edge_night_20200918T1950Z.nc
-     added:
-     tests/outputs/abi.static.Infrared.netcdf_geoips/20200918.195020.goes-16.Infrared_latitude_longitude.test_goes16_eqc_10km_edge_night_20200918T1950Z.nc
-     modified: geoips/plugins/modules/output_formatters/netcdf_full.py
-     modified: geoips/plugins/modules/output_formatters/netcdf_geoips.py
-     modified: geoips/plugins/modules/output_formatters/netcdf_xarray.py
-     modified:
-     tests/outputs/atms.tc.165H.netcdf_geoips/20210809.083826.noaa-20.165H_latitude_longitude.tc2021ep11kevin.nc
-     modified: tests/scripts/abi.static.Infrared.netcdf_geoips.sh
+     modified: geoips/geoips_utils.py
 
-Viirs sdr hdf5 native reader and hncc product
----------------------------------------------
+Print time and logfile in check_requirements run_command when exclusively redirecting to log file
+-------------------------------------------------------------------------------------------------
 
-Created a true native HDF5 reader for VIIRS SDR data, added the high near constant contrast product. Migrated the legacy
-satpy SDR reader.
+If we are only writing output to a log file and not printing or teeing
+to the terminal, include both the current time and the logfile name
+to the terminal prior to calling the command.  This allows more easily
+identifying and reviewing the current log output, as well as quickly
+seeing how long a given command has been running.
 
 ::
 
-     deleted:
-     tests/outputs/viirs.static.visible.imagery_clean/20240925.043006.NOAA-21.viirs.Visible.se_asia.7p30.NOAA.1p0.png
-     added: docs/source/releases/latest/941-viirs-sdr-reader-fix.yaml
-     added: geoips/plugins/modules/algorithms/visir/HNear_Constant_Contrast.py
-     added: geoips/plugins/modules/readers/viirs_sdr_satpy_hdf5.py
-     added: geoips/plugins/yaml/product_defaults/visir/HNCC.yaml
-     added:
-     tests/outputs/viirs.static.visible.imagery_clean/20240925.043043.NOAA-21.viirs.Visible.se_asia.7p33.NOAA.1p0.png
-     modified: geoips/plugins/modules/readers/viirs_sdr_hdf5.py
-     modified: geoips/plugins/yaml/products/viirs.yaml
+     modified: setup/check_system_requirements.sh
 
-Add matplotlib_log_norm colormapper
------------------------------------
+Bug fix testing
+===============
 
-Add new colormapper that log-normalizes the colormap, similar to the
-matplotlib_linear_norm colormapper. Add test integration tests and products to test
-the matplotlib_log_norm colormapper, which currently uses a
-"Test-Visible-Logarithmic" product for abi. Hopefully we can swap this out with an
-actual test dataset that would benefit from a log-scaled colormap.
+Ensure we mkdir on logs/integration before attempting to run integration tests
+------------------------------------------------------------------------------
 
-Move the ABI Infrared-Day/Night test products to products/integration_tests, and
-rename the products to start with "Test-"
-
-GEOIPS#922
+If the integration test log directory does not exist, pytest will never run.
 
 ::
 
-     moved: geoips/plugins/yaml/product_defaults/visir/Infrared-Day-Night.yaml ->
-     geoips/plugins/yaml/product_defaults/integration_tests/Test-Infrared-Day-Night.yaml
-     moved: geoips/plugins/yaml/product_defaults/visir/Infrared-Day-Only.yaml ->
-     geoips/plugins/yaml/product_defaults/integration_tests/Test-Infrared-Day-Only.yaml
-     moved: geoips/plugins/yaml/product_defaults/visir/Infrared-Night-Only.yaml ->
-     geoips/plugins/yaml/product_defaults/integration_tests/Test-Infrared-Night-Only.yaml
-     added: geoips/plugins/modules/colormappers/matplotlib_log_norm.py
-     added: geoips/plugins/yaml/products/integration_tests/Test-Infrared-Day-Night.yaml
-     added: geoips/plugins/yaml/products/integration_tests/Test-Infrared-Day-Only.yaml
-     added: geoips/plugins/yaml/products/integration_tests/Test-Infrared-Night-Only.yaml
-     added: geoips/plugins/yaml/products/integration_tests/Test-Logarithmic-Colormap.yaml
-     added:
-     tests/outputs/abi.static.Test-Visible-Logarithmic.imagery_clean/20200918.195020.goes-16.abi.Test-Visible-Logarithmic.test_goes16_eqc_3km_terminator_20200918T1950Z.79p46.noaa.3p0.png
-     added: tests/scripts/abi.static.Test-Visible-Logarithmic.imagery_clean.sh
-     modified: geoips/plugins/yaml/product_defaults/integration_tests/Test-Infrared-Day-Night.yaml
-     modified: geoips/plugins/yaml/product_defaults/integration_tests/Test-Infrared-Day-Only.yaml
-     modified: geoips/plugins/yaml/product_defaults/integration_tests/Test-Infrared-Night-Only.yaml
-     modified: tests/example_scripts/global_terminator_satzen.sh
-     modified: tests/example_scripts/satzen.yaml
-     modified: tests/integration_tests/test_integration.py
-
-Add cache_solar_angles and geolocation_only kwargs to all geostationary readers
--------------------------------------------------------------------------------
-
-Add the cache_solar_angles kwarg to all geostationary readers - this was previously
-only supported with the abi_netcdf reader. Now have the ability to cache the solar
-angles for any supported geostationary satellite.
-
-Add new geolocation_only kwarg to all geostationary readers. This allows the user to
-only return an xarray dataset of the geolocation information for a given scan.
-
-Provide more information if a partial cache file timeout is encountered.
-
-::
-
-     modified: geoips/plugins/modules/readers/abi_netcdf.py
-     modified: geoips/plugins/modules/readers/ahi_hsd.py
-     modified: geoips/plugins/modules/readers/ami_netcdf.py
-     modified: geoips/plugins/modules/readers/ewsg_netcdf.py
-     modified: geoips/plugins/modules/readers/fci_netcdf.py
-     modified: geoips/plugins/modules/readers/seviri_hrit.py
-     modified: geoips/plugins/modules/readers/utils/geostationary_geolocation.py
-
-Generalized dynamic sector using volcanos as an example.
---------------------------------------------------------
-
-'Added docs, sample files, and examples to use within
-geoips dynamic sectoring. Used the 2022 Tonga Volcano eruption as an
-example.'
-
-::
-
-     added: docs/source/tutorials/extending-with-plugins/dynamic_sector/index.rst
-     added: tests/outputs/ahi.tonga.volcano/20220115.043000.himawari-8.ahi.Infrared.TONGA_VOLCANO.100p00.jma.1p0.png
-     added: geoips/plugins/modules/sector_metadata_generators/volc_parser.py
-     added: geoips/plugins/yaml/sectors/dynamic/volc_dyn.yaml
-     added: tests/scripts/ahi.volcano.tonga.imagery_clean.sh
-     added: tests/sectors/volc_csv/tonga_trackfile.csv
-     modified: docs/source/tutorials/extending-with-plugins/index.rst
-     modified: docs/source/tutorials/extending-with-plugins/static_sector/index.rst
-     modified: geoips/interfaces/module_based/sector_metadata_generators.py
-     modified: geoips/sector_utils/tc_tracks.py
-
-Add support to gfs_grib reader for reading atmosphere group variables
----------------------------------------------------------------------
-
-Variables in the "atmosphere" group are 2D, such as "total_cloud_cover".
-
-Also update the download_noaa_aws.sh script to support pulling GFS from AWS.
-
-::
-
-     modified: geoips/plugins/modules/readers/gfs_grib.py
-     modified: tests/download_noaa_aws.sh
+     modified: tests/utils/interactive_pytest.sh
 
 Documentation
 =============
@@ -1085,44 +1110,19 @@ Used to write built docs to top level build directory, now write in docs directo
 
      modified: docs/deploy_pages.sh
 
-Testing and installation
-========================
+Bug fixes
+=========
 
-Update call_cmd to explicitly request to use_print or use_logging, rather than toggle with use_logging
-------------------------------------------------------------------------------------------------------
+Ensure we write to fname_partial before moving it to fname
+----------------------------------------------------------
 
-Previously we just passed in use_logging, and if it was true we printed each line of
-the command output via LOG commands, and if it was false, we printed to the
-screen with print commands.  Sometimes we don't want to print to the screen
-at all (if we ONLY want to write to the log file), so allow requesting both
-use_print and use_logging separately so we can turn both off if we want.
-This makes for much nicer pytest output...
-
-::
-
-     modified: geoips/geoips_utils.py
-
-Print time and logfile in check_requirements run_command when exclusively redirecting to log file
--------------------------------------------------------------------------------------------------
-
-If we are only writing output to a log file and not printing or teeing
-to the terminal, include both the current time and the logfile name
-to the terminal prior to calling the command.  This allows more easily
-identifying and reviewing the current log output, as well as quickly
-seeing how long a given command has been running.
+memmap geolocation caching was initially updated correctly to
+write to fname_partial, then move fname_partial to fname, but
+zarr was still writing to fname.  Update all instances of
+partial geolocation cache files to write to the partial
+geolocation cache filename initially, then move the partial
+file to the final fname.
 
 ::
 
-     modified: setup/check_system_requirements.sh
-
-Bug fix testing
-===============
-
-Ensure we mkdir on logs/integration before attempting to run integration tests
-------------------------------------------------------------------------------
-
-If the integration test log directory does not exist, pytest will never run.
-
-::
-
-     modified: tests/utils/interactive_pytest.sh
+     modified: geoips/plugins/modules/readers/utils/geostationary_geolocation.py

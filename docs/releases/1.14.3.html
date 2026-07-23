@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Version 1.14.3 (2026-07-23) &#8212; GeoIPS, Geolocated Information Processing System 1.19.0.post1200.dev0 documentation</title>
+    <title>Version 1.14.3 (2026-07-23) &#8212; GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation</title>
   
   
   
@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
 
-    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=ba503b0a"></script>
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=6727bded"></script>
     <script src="../_static/doctools.js?v=888ff710"></script>
     <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
@@ -54,8 +54,8 @@
     <link rel="prev" title="Version 1.14.4 (2026-07-23)" href="1.14.4.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="1.1" />
-    <meta name="docbuild:last-update" content="Jul 23, 2026 15:25:48"/>
+  <meta name="docsearch:version" content="2.0" />
+    <meta name="docbuild:last-update" content="Jul 23, 2026 17:03:57"/>
   
     
     <script src="../_static/searchtools.js"></script>
@@ -127,8 +127,8 @@
       
     
     
-    <img src="../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 1.19.0.post1200.dev0 documentation - Home"/>
-    <img src="../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 1.19.0.post1200.dev0 documentation - Home"/>
+    <img src="../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation - Home"/>
+    <img src="../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation - Home"/>
   
   
 </a></div>
@@ -431,7 +431,7 @@
      aria-label="Section Navigation">
   <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
   <div class="bd-toc-item navbar-nav"><ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="latest.html">Version latest (2026-07-23)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="2.0.0a0.html">Version 2.0.0a0 (2026-07-23)</a></li>
 </ul>
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="1.19.0.html">Version 1.19.0 (2026-07-23)</a></li>
@@ -632,34 +632,34 @@
 <blockquote>
 <div><ul class="simple">
 <li><p><em>Removal</em>: Remove unused geokompsat product file</p></li>
+<li><p><em>Bug fix</em>: Fix environment variable substitution</p></li>
+<li><p><em>Bug fix</em>: Add create_plugin_registries to base_test</p></li>
+<li><p><em>Bug fix</em>: Improved data download and memory management during full install</p></li>
+<li><p><em>Bug fix</em>: Fix dir creation bug on oserror</p></li>
+<li><p><em>Bug fix</em>: Update geostationary readers to support multiple scan times</p></li>
+<li><p><em>Bug fix</em>: Remove unused noaa aws dataset from base tests</p></li>
+<li><p><em>Bug fix</em>: Change fail state for unit test</p></li>
 <li><p><em>Documentation</em>: Add numpy docstrings and examples to coding standards</p></li>
-<li><p><em>Documentation</em>: Add additional info to ram system install requirements section</p></li>
 <li><p><em>Documentation</em>: Added documentation for new docs build script</p></li>
 <li><p><em>Documentation</em>: Write docstrings for base_paths</p></li>
-<li><p><em>Refactoring updates</em>: Share logger object to cli command classes</p></li>
-<li><p><em>Bug fix</em>: Remove unused noaa aws dataset from base tests</p></li>
-<li><p><em>Bug fix</em>: Update geostationary readers to support multiple scan times</p></li>
-<li><p><em>Bug fix</em>: Add create_plugin_registries to base_test</p></li>
-<li><p><em>Bug fix</em>: Fix environment variable substitution</p></li>
-<li><p><em>Bug fix</em>: Fix dir creation bug on oserror</p></li>
-<li><p><em>Bug fix</em>: Improved data download and memory management during full install</p></li>
-<li><p><em>Bug fix</em>: Change fail state for unit test</p></li>
+<li><p><em>Documentation</em>: Add additional info to ram system install requirements section</p></li>
+<li><p><em>Enhancement</em>: Organize imports</p></li>
+<li><p><em>Enhancement</em>: Added new geoips list source-names command</p></li>
+<li><p><em>Enhancement</em>: Rewrite docs build in python</p></li>
+<li><p><em>Enhancement</em>: Make repo_path optional for documentation building</p></li>
+<li><p><em>Enhancement</em>: Accept dataset names and urls in download_test_data.py</p></li>
+<li><p><em>Enhancement</em>: Enable full suite of integration tests to be run in parallel via pytest.</p></li>
+<li><p><em>Enhancement</em>: Ami ewsg multi scan time update</p></li>
+<li><p><em>Refactor</em>: Ensure consistent module aliases</p></li>
 <li><p><em>Release process</em>: Add 1.14.3 release note</p></li>
 <li><p><em>Release process</em>: Update internal and github.com ‘upcoming_version’ and ‘tagged_version’</p></li>
 <li><p><em>Release process</em>: Add pip and mamba 1.14.3 environment files</p></li>
 <li><p><em>Bug fixes</em>: Fix import for nearestndinterpolator</p></li>
 <li><p><em>Bug fixes</em>: Resolve documentation build errors for external repositories</p></li>
 <li><p><em>Bug fixes</em>: Update ami unprojected test image for slight edge of scan differences</p></li>
-<li><p><em>Enhancement</em>: Enable full suite of integration tests to be run in parallel via pytest.</p></li>
-<li><p><em>Enhancement</em>: Ami ewsg multi scan time update</p></li>
-<li><p><em>Enhancement</em>: Rewrite docs build in python</p></li>
-<li><p><em>Enhancement</em>: Organize imports</p></li>
-<li><p><em>Enhancement</em>: Added new geoips list source-names command</p></li>
-<li><p><em>Enhancement</em>: Accept dataset names and urls in download_test_data.py</p></li>
-<li><p><em>Enhancement</em>: Make repo_path optional for documentation building</p></li>
 <li><p><em>Testing</em>: Update geoips clavr-x test data</p></li>
-<li><p><em>Refactor</em>: Ensure consistent module aliases</p></li>
 <li><p><em>Refactor</em>: Refactor base_paths</p></li>
+<li><p><em>Refactoring updates</em>: Share logger object to cli command classes</p></li>
 </ul>
 </div></blockquote>
 <section id="removal">
@@ -674,73 +674,58 @@ correct source name is <code class="docutils literal notranslate"><span class="p
 </div>
 </section>
 </section>
-<section id="documentation">
-<h2>Documentation<a class="headerlink" href="#documentation" title="Permalink to this heading">#</a></h2>
-<section id="add-numpy-docstrings-and-examples-to-coding-standards">
-<h3>Add numpy docstrings and examples to coding standards<a class="headerlink" href="#add-numpy-docstrings-and-examples-to-coding-standards" title="Permalink to this heading">#</a></h3>
-<p>Throughout GeoIPS, we have inconsistent coding standards.
-The numpy docstring format is an external standard we already use,
-and so we want that to be explicit in our documentation.
-This adds explicit info on using numpy docstrings, as well as examples.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">new</span><span class="o">-</span><span class="n">docs</span><span class="o">/</span><span class="n">contribute</span><span class="o">/</span><span class="n">coding_standards</span><span class="o">.</span><span class="n">rst</span>
-</pre></div>
-</div>
-</section>
-<section id="add-additional-info-to-ram-system-install-requirements-section">
-<h3>Add additional info to ram system install requirements section<a class="headerlink" href="#add-additional-info-to-ram-system-install-requirements-section" title="Permalink to this heading">#</a></h3>
-<p>This existed elsewhere in the docs, but is more clear when included here in the install requirements.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">new</span><span class="o">-</span><span class="n">docs</span><span class="o">/</span><span class="n">getting</span><span class="o">-</span><span class="n">started</span><span class="o">/</span><span class="n">system</span><span class="o">-</span><span class="n">requirements</span><span class="o">/</span><span class="n">index</span><span class="o">.</span><span class="n">rst</span>
-</pre></div>
-</div>
-</section>
-<section id="added-documentation-for-new-docs-build-script">
-<h3>Added documentation for new docs build script<a class="headerlink" href="#added-documentation-for-new-docs-build-script" title="Permalink to this heading">#</a></h3>
-<p>The docs build script has been re-written in python. This adds documentation on how to use it and what it does.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">added</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">new</span><span class="o">-</span><span class="n">docs</span><span class="o">/</span><span class="n">concepts</span><span class="o">/</span><span class="n">functionality</span><span class="o">/</span><span class="n">documentation</span><span class="o">-</span><span class="n">building</span><span class="o">.</span><span class="n">rst</span>
-<span class="n">modified</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">devguide</span><span class="o">/</span><span class="n">index</span><span class="o">.</span><span class="n">rst</span>
-</pre></div>
-</div>
-</section>
-<section id="write-docstrings-for-base-paths">
-<h3>Write docstrings for base_paths<a class="headerlink" href="#write-docstrings-for-base-paths" title="Permalink to this heading">#</a></h3>
-<p>Docstrings for base_paths were out of date. They have now been updated.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">filenames</span><span class="o">/</span><span class="n">base_paths</span><span class="o">.</span><span class="n">py</span>
-</pre></div>
-</div>
-</section>
-</section>
-<section id="refactoring-updates">
-<h2>Refactoring updates<a class="headerlink" href="#refactoring-updates" title="Permalink to this heading">#</a></h2>
-<section id="share-logger-object-to-cli-command-classes">
-<h3>Share logger object to cli command classes<a class="headerlink" href="#share-logger-object-to-cli-command-classes" title="Permalink to this heading">#</a></h3>
-<p><em>From GEOIPS#714: 7-26-24, Discuss how to share LOG attribute in the CLI</em></p>
-<p>Since we’ve started developing the GeoIPS CLI, we’ve known that there was a need to
-have a shared logger object among all of the CLI command classes for debugging
-purposes and to output basic information to the user if requested. We can now do
-this using the ‘–log-level’ / ‘-log’ flag. Depending on the log level set, all
-levels that match or are of higher ‘order’ than the log level provided will be
-outputted. This functionality matches that used in ‘run_procflow’. Logging is now
-a supported utility throughout the CLI, and can be used in any CLI class via
-self.LOG.&lt;log_level&gt;(log_statement). Note that self.LOG.&lt;log_level&gt; does not have to
-match the provided ‘–log-level’ ran in the command. This flag is strictly just the
-LOG level filter. I.e. if ‘–log-level info’ was provided, levels
-[‘info’, ‘debug’, ‘interactive’] would be shown. The lower the level, the more
-logging channels will output.</p>
-<p><a class="reference external" href="https://github.com/NRLMMD-GEOIPS/geoips">#714</a></p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">commandline</span><span class="o">/</span><span class="n">commandline_interface</span><span class="o">.</span><span class="n">py</span>
-<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">commandline</span><span class="o">/</span><span class="n">geoips_command</span><span class="o">.</span><span class="n">py</span>
-</pre></div>
-</div>
-</section>
-</section>
 <section id="bug-fix">
 <h2>Bug fix<a class="headerlink" href="#bug-fix" title="Permalink to this heading">#</a></h2>
-<section id="remove-unused-noaa-aws-dataset-from-base-tests">
-<h3>Remove unused noaa aws dataset from base tests<a class="headerlink" href="#remove-unused-noaa-aws-dataset-from-base-tests" title="Permalink to this heading">#</a></h3>
-<p>Removed NOAA AWS dataset from the base tests
-because it was unused resulting in a ~6X faster install
-(2m 28s -&gt; 24s) and a ~4.25 smaller data footprint (3.8Gb -&gt; 894Mb).</p>
+<section id="fix-environment-variable-substitution">
+<h3>Fix environment variable substitution<a class="headerlink" href="#fix-environment-variable-substitution" title="Permalink to this heading">#</a></h3>
+<p>Change string operations on env var replacement to use pathlib to fix issue with links</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">geoips_utils</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+</section>
+<section id="add-create-plugin-registries-to-base-test">
+<h3>Add create_plugin_registries to base_test<a class="headerlink" href="#add-create-plugin-registries-to-base-test" title="Permalink to this heading">#</a></h3>
+<p>create_plugin_registries needs to be run before tests. It is included in full_test.sh, but not in base_test.sh. This
+updates base_test.sh to call create_plugin_registries just like full_test.sh</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">integration_tests</span><span class="o">/</span><span class="n">base_install</span><span class="o">.</span><span class="n">sh</span>
+</pre></div>
+</div>
+</section>
+<section id="improved-data-download-and-memory-management-during-full-install">
+<h3>Improved data download and memory management during full install<a class="headerlink" href="#improved-data-download-and-memory-management-during-full-install" title="Permalink to this heading">#</a></h3>
+<p>Fixes a memory bug by streaming download and decompression instead of storing
+in memory.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">added</span><span class="p">:</span> <span class="n">setup</span><span class="o">/</span><span class="n">test</span><span class="o">-</span><span class="n">data</span><span class="o">-</span><span class="n">urls</span><span class="o">.</span><span class="n">yaml</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">setup</span><span class="o">/</span><span class="n">check_system_requirements</span><span class="o">.</span><span class="n">sh</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">setup</span><span class="o">/</span><span class="n">download_test_data</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+</section>
+<section id="fix-dir-creation-bug-on-oserror">
+<h3>Fix dir creation bug on oserror<a class="headerlink" href="#fix-dir-creation-bug-on-oserror" title="Permalink to this heading">#</a></h3>
+<p>Fixes found issue with make_dirs. Previously, if make_dirs was passed a read only directory (eg. <code class="docutils literal notranslate"><span class="pre">/read_only</span></code>), it
+would print:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="s2">&quot;/read_only: We thought /read_only did not exist, but then it did. &quot;</span>
+<span class="s2">&quot;Not trying to make directory&quot;</span>,
+</pre></div>
+</div>
+<p>This is was for anything that could trigger any of these OS Errors:</p>
+<ul class="simple">
+<li><p>OSError</p></li>
+<li><p>BlockingIOError</p></li>
+<li><p>ChildProcessError</p></li>
+<li><p>ConnectionError</p></li>
+<li><p>BrokenPipeError</p></li>
+<li><p>FileNotFoundError</p></li>
+<li><p>InterruptedError</p></li>
+<li><p>IsADirectoryError</p></li>
+<li><p>NotADirectoryError</p></li>
+<li><p>PermissionError</p></li>
+<li><p>ProcessLookupError</p></li>
+<li><p>TimeoutError</p></li>
+</ul>
+<p>Which is far beyond the FileExistsError that was originally supposed to be caught.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">filenames</span><span class="o">/</span><span class="n">base_paths</span><span class="o">.</span><span class="n">py</span>
 </pre></div>
 </div>
 </section>
@@ -786,56 +771,12 @@ updates which have been merged into this PR.</p>
 </pre></div>
 </div>
 </section>
-<section id="add-create-plugin-registries-to-base-test">
-<h3>Add create_plugin_registries to base_test<a class="headerlink" href="#add-create-plugin-registries-to-base-test" title="Permalink to this heading">#</a></h3>
-<p>create_plugin_registries needs to be run before tests. It is included in full_test.sh, but not in base_test.sh. This
-updates base_test.sh to call create_plugin_registries just like full_test.sh</p>
+<section id="remove-unused-noaa-aws-dataset-from-base-tests">
+<h3>Remove unused noaa aws dataset from base tests<a class="headerlink" href="#remove-unused-noaa-aws-dataset-from-base-tests" title="Permalink to this heading">#</a></h3>
+<p>Removed NOAA AWS dataset from the base tests
+because it was unused resulting in a ~6X faster install
+(2m 28s -&gt; 24s) and a ~4.25 smaller data footprint (3.8Gb -&gt; 894Mb).</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">integration_tests</span><span class="o">/</span><span class="n">base_install</span><span class="o">.</span><span class="n">sh</span>
-</pre></div>
-</div>
-</section>
-<section id="fix-environment-variable-substitution">
-<h3>Fix environment variable substitution<a class="headerlink" href="#fix-environment-variable-substitution" title="Permalink to this heading">#</a></h3>
-<p>Change string operations on env var replacement to use pathlib to fix issue with links</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">geoips_utils</span><span class="o">.</span><span class="n">py</span>
-</pre></div>
-</div>
-</section>
-<section id="fix-dir-creation-bug-on-oserror">
-<h3>Fix dir creation bug on oserror<a class="headerlink" href="#fix-dir-creation-bug-on-oserror" title="Permalink to this heading">#</a></h3>
-<p>Fixes found issue with make_dirs. Previously, if make_dirs was passed a read only directory (eg. <code class="docutils literal notranslate"><span class="pre">/read_only</span></code>), it
-would print:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="s2">&quot;/read_only: We thought /read_only did not exist, but then it did. &quot;</span>
-<span class="s2">&quot;Not trying to make directory&quot;</span>,
-</pre></div>
-</div>
-<p>This is was for anything that could trigger any of these OS Errors:</p>
-<ul class="simple">
-<li><p>OSError</p></li>
-<li><p>BlockingIOError</p></li>
-<li><p>ChildProcessError</p></li>
-<li><p>ConnectionError</p></li>
-<li><p>BrokenPipeError</p></li>
-<li><p>FileNotFoundError</p></li>
-<li><p>InterruptedError</p></li>
-<li><p>IsADirectoryError</p></li>
-<li><p>NotADirectoryError</p></li>
-<li><p>PermissionError</p></li>
-<li><p>ProcessLookupError</p></li>
-<li><p>TimeoutError</p></li>
-</ul>
-<p>Which is far beyond the FileExistsError that was originally supposed to be caught.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">filenames</span><span class="o">/</span><span class="n">base_paths</span><span class="o">.</span><span class="n">py</span>
-</pre></div>
-</div>
-</section>
-<section id="improved-data-download-and-memory-management-during-full-install">
-<h3>Improved data download and memory management during full install<a class="headerlink" href="#improved-data-download-and-memory-management-during-full-install" title="Permalink to this heading">#</a></h3>
-<p>Fixes a memory bug by streaming download and decompression instead of storing
-in memory.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">added</span><span class="p">:</span> <span class="n">setup</span><span class="o">/</span><span class="n">test</span><span class="o">-</span><span class="n">data</span><span class="o">-</span><span class="n">urls</span><span class="o">.</span><span class="n">yaml</span>
-<span class="n">modified</span><span class="p">:</span> <span class="n">setup</span><span class="o">/</span><span class="n">check_system_requirements</span><span class="o">.</span><span class="n">sh</span>
-<span class="n">modified</span><span class="p">:</span> <span class="n">setup</span><span class="o">/</span><span class="n">download_test_data</span><span class="o">.</span><span class="n">py</span>
 </pre></div>
 </div>
 </section>
@@ -847,146 +788,43 @@ in memory.</p>
 </div>
 </section>
 </section>
-<section id="release-process">
-<h2>Release process<a class="headerlink" href="#release-process" title="Permalink to this heading">#</a></h2>
-<section id="add-1-14-3-release-note">
-<h3>Add 1.14.3 release note<a class="headerlink" href="#add-1-14-3-release-note" title="Permalink to this heading">#</a></h3>
-<p>Currently tagged internal version 1.14.2.</p>
-<p>GEOIPS#715 - 1.14.3 updates*</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">added</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">releases</span><span class="o">/</span><span class="n">latest</span><span class="o">/</span><span class="mf">1.14.3</span><span class="o">-</span><span class="n">internal</span><span class="o">-</span><span class="n">release</span><span class="o">.</span><span class="n">yaml</span>
+<section id="documentation">
+<h2>Documentation<a class="headerlink" href="#documentation" title="Permalink to this heading">#</a></h2>
+<section id="add-numpy-docstrings-and-examples-to-coding-standards">
+<h3>Add numpy docstrings and examples to coding standards<a class="headerlink" href="#add-numpy-docstrings-and-examples-to-coding-standards" title="Permalink to this heading">#</a></h3>
+<p>Throughout GeoIPS, we have inconsistent coding standards.
+The numpy docstring format is an external standard we already use,
+and so we want that to be explicit in our documentation.
+This adds explicit info on using numpy docstrings, as well as examples.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">new</span><span class="o">-</span><span class="n">docs</span><span class="o">/</span><span class="n">contribute</span><span class="o">/</span><span class="n">coding_standards</span><span class="o">.</span><span class="n">rst</span>
 </pre></div>
 </div>
 </section>
-<section id="update-internal-and-github-com-upcoming-version-and-tagged-version">
-<h3>Update internal and github.com ‘upcoming_version’ and ‘tagged_version’<a class="headerlink" href="#update-internal-and-github-com-upcoming-version-and-tagged-version" title="Permalink to this heading">#</a></h3>
-<p>Updated ‘update_this_release_note’ file in geoips repo for the
-next internal version -
-1.14.4
-next github.com version -
-1.15.0</p>
-<p>GEOIPS#715 - 1.14.3 updates*</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="o">.</span><span class="n">github</span><span class="o">/</span><span class="n">versions</span><span class="o">/</span><span class="n">upcoming_version</span>
-<span class="n">modified</span><span class="p">:</span> <span class="o">.</span><span class="n">github</span><span class="o">/</span><span class="n">versions</span><span class="o">/</span><span class="n">tagged_version</span>
+<section id="added-documentation-for-new-docs-build-script">
+<h3>Added documentation for new docs build script<a class="headerlink" href="#added-documentation-for-new-docs-build-script" title="Permalink to this heading">#</a></h3>
+<p>The docs build script has been re-written in python. This adds documentation on how to use it and what it does.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">added</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">new</span><span class="o">-</span><span class="n">docs</span><span class="o">/</span><span class="n">concepts</span><span class="o">/</span><span class="n">functionality</span><span class="o">/</span><span class="n">documentation</span><span class="o">-</span><span class="n">building</span><span class="o">.</span><span class="n">rst</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">devguide</span><span class="o">/</span><span class="n">index</span><span class="o">.</span><span class="n">rst</span>
 </pre></div>
 </div>
 </section>
-<section id="add-pip-and-mamba-1-14-3-environment-files">
-<h3>Add pip and mamba 1.14.3 environment files<a class="headerlink" href="#add-pip-and-mamba-1-14-3-environment-files" title="Permalink to this heading">#</a></h3>
-<p>Note AMI TC test case failed due to geolocation, updated AMI unprojected image
-output due to minor differences at edge of scan.</p>
-<p>Package geoips_full
-Total run time 2671 seconds
-Number data types run 60
-Number data types failed 1
-Tue Dec 10 19:52:45 UTC 2024</p>
-<p>Package geoips_base
-Total run time 204 seconds
-Number data types run 3
-Number data types failed 0
-Mon Dec  9 21:32:04 UTC 2024</p>
-<p>GEOIPS/geoips#715 - 1.14.3 updates</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">added</span><span class="p">:</span> <span class="n">environments</span><span class="o">/</span><span class="n">mamba_base_package_list_1</span><span class="mf">.14.3_20241209</span><span class="o">.</span><span class="n">yml</span>
-<span class="n">added</span><span class="p">:</span> <span class="n">environments</span><span class="o">/</span><span class="n">pip_base_requirements_1</span><span class="mf">.14.3_20241209</span><span class="o">.</span><span class="n">txt</span>
-<span class="n">added</span><span class="p">:</span> <span class="n">environments</span><span class="o">/</span><span class="n">mamba_full_package_list_1</span><span class="mf">.14.3_20241210</span><span class="o">.</span><span class="n">yml</span>
-<span class="n">added</span><span class="p">:</span> <span class="n">environments</span><span class="o">/</span><span class="n">pip_full_requirements_1</span><span class="mf">.14.3_20241210</span><span class="o">.</span><span class="n">txt</span>
+<section id="write-docstrings-for-base-paths">
+<h3>Write docstrings for base_paths<a class="headerlink" href="#write-docstrings-for-base-paths" title="Permalink to this heading">#</a></h3>
+<p>Docstrings for base_paths were out of date. They have now been updated.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">filenames</span><span class="o">/</span><span class="n">base_paths</span><span class="o">.</span><span class="n">py</span>
 </pre></div>
 </div>
 </section>
-</section>
-<section id="bug-fixes">
-<h2>Bug fixes<a class="headerlink" href="#bug-fixes" title="Permalink to this heading">#</a></h2>
-<section id="fix-import-for-nearestndinterpolator">
-<h3>Fix import for nearestndinterpolator<a class="headerlink" href="#fix-import-for-nearestndinterpolator" title="Permalink to this heading">#</a></h3>
-<p>This is from scipy, not pykdtree</p>
-<p>GEOIPS#715 - 1.14.3 updates*</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">readers</span><span class="o">/</span><span class="n">viirs_sdr_hdf5</span><span class="o">.</span><span class="n">py</span>
-</pre></div>
-</div>
-</section>
-<section id="resolve-documentation-build-errors-for-external-repositories">
-<h3>Resolve documentation build errors for external repositories<a class="headerlink" href="#resolve-documentation-build-errors-for-external-repositories" title="Permalink to this heading">#</a></h3>
-<ul class="simple">
-<li><p>geoips-docs-dir point to geoips repo for build_docs.sh pass through, not
-current repository (build_docs.sh).</p></li>
-<li><p>Ensure introduction/index.rst is an optional section (not currently in all repos)
-(build_docs.py and index.template.rst)</p></li>
-<li><p>Use shutil.copytree to copy geoips _static templates to
-current repo build directory (build_docs.py)</p></li>
-</ul>
-<p>GEOIPS#715 - 1.14.3 updates*</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">build_docs</span><span class="o">.</span><span class="n">py</span>
-<span class="n">modified</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">build_docs</span><span class="o">.</span><span class="n">sh</span>
-<span class="n">modified</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">_templates</span><span class="o">/</span><span class="n">index</span><span class="o">.</span><span class="n">template</span><span class="o">.</span><span class="n">rst</span>
-</pre></div>
-</div>
-</section>
-<section id="update-ami-unprojected-test-image-for-slight-edge-of-scan-differences">
-<h3>Update ami unprojected test image for slight edge of scan differences<a class="headerlink" href="#update-ami-unprojected-test-image-for-slight-edge-of-scan-differences" title="Permalink to this heading">#</a></h3>
-<p>Jeremy and Evan saw this same discrepancy with their local github.com runs,
-updating to the most recent version, likely a dependency version update.</p>
-<p>GEOIPS#715 - 1.14.3 updates*</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span>
-<span class="n">tests</span><span class="o">/</span><span class="n">outputs</span><span class="o">/</span><span class="n">ami</span><span class="o">.</span><span class="n">WV</span><span class="o">-</span><span class="n">Upper</span><span class="o">.</span><span class="n">unprojected_image</span><span class="o">/</span><span class="mf">20231208.030032</span><span class="o">.</span><span class="n">GK</span><span class="o">-</span><span class="mi">2</span><span class="n">A</span><span class="o">.</span><span class="n">ami</span><span class="o">.</span><span class="n">WV</span><span class="o">-</span><span class="n">Upper</span><span class="o">.</span><span class="n">self_register</span><span class="mf">.76</span><span class="n">p19</span><span class="o">.</span><span class="n">nmsc</span><span class="mf">.2</span><span class="n">p0</span><span class="o">.</span><span class="n">png</span>
+<section id="add-additional-info-to-ram-system-install-requirements-section">
+<h3>Add additional info to ram system install requirements section<a class="headerlink" href="#add-additional-info-to-ram-system-install-requirements-section" title="Permalink to this heading">#</a></h3>
+<p>This existed elsewhere in the docs, but is more clear when included here in the install requirements.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">new</span><span class="o">-</span><span class="n">docs</span><span class="o">/</span><span class="n">getting</span><span class="o">-</span><span class="n">started</span><span class="o">/</span><span class="n">system</span><span class="o">-</span><span class="n">requirements</span><span class="o">/</span><span class="n">index</span><span class="o">.</span><span class="n">rst</span>
 </pre></div>
 </div>
 </section>
 </section>
 <section id="enhancement">
 <h2>Enhancement<a class="headerlink" href="#enhancement" title="Permalink to this heading">#</a></h2>
-<section id="enable-full-suite-of-integration-tests-to-be-run-in-parallel-via-pytest">
-<h3>Enable full suite of integration tests to be run in parallel via pytest.<a class="headerlink" href="#enable-full-suite-of-integration-tests-to-be-run-in-parallel-via-pytest" title="Permalink to this heading">#</a></h3>
-<p>This adds a helper python file with pytest-capable tests that call the same shell scripts called by full_test.sh. This
-is helpful when combined with pytest-xdist’s ability to run pytests in parallel. It also gives developers the ability to
-run tests with an alternative CLI output format. Users should continue to run full_test.sh.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">integration_tests</span><span class="o">/</span><span class="n">test_full_test</span><span class="o">.</span><span class="n">py</span>
-<span class="n">modified</span><span class="p">:</span> <span class="n">pyproject</span><span class="o">.</span><span class="n">toml</span>
-<span class="n">modified</span><span class="p">:</span> <span class="n">pytest</span><span class="o">.</span><span class="n">ini</span>
-</pre></div>
-</div>
-</section>
-<section id="ami-ewsg-multi-scan-time-update">
-<h3>Ami ewsg multi scan time update<a class="headerlink" href="#ami-ewsg-multi-scan-time-update" title="Permalink to this heading">#</a></h3>
-<p>Related to <em>GEOIPS#312: Bug Fix: Update geostationary readers to support multiple scan times</em></p>
-<p>New updates to readers ewsg_netcdf and ami_netcdf. With the new updates, the
-aforementioned readers are now able to take in multiple scan times of files and
-output them appropriately in a xarray dictionary format. Alongside these updates,
-we refactored readers changed in PR #427 (which addressed the issue above) to reduce
-code duplication. Now all of the readers which can read in multiple scan times have
-the same logic in their call functions regardless of the data being read in or the
-operations needed to read it.</p>
-<p>Note: we have not been able to acquire ews-g1 data yet and therefore have not been
-able to test the new changes as of the time of writing this.</p>
-<p><a class="reference external" href="https://github.com/NRLMMD-GEOIPS/geoips/">#312</a></p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">interfaces</span><span class="o">/</span><span class="n">module_based</span><span class="o">/</span><span class="n">readers</span><span class="o">.</span><span class="n">py</span>
-<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">readers</span><span class="o">/</span><span class="n">abi_netcdf</span><span class="o">.</span><span class="n">py</span>
-<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">readers</span><span class="o">/</span><span class="n">ahi_hsd</span><span class="o">.</span><span class="n">py</span>
-<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">readers</span><span class="o">/</span><span class="n">ami_netcdf</span><span class="o">.</span><span class="n">py</span>
-<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">readers</span><span class="o">/</span><span class="n">ewsg_netcdf</span><span class="o">.</span><span class="n">py</span>
-<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">readers</span><span class="o">/</span><span class="n">seviri_hrit</span><span class="o">.</span><span class="n">py</span>
-<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">pluginsyaml</span><span class="o">/</span><span class="n">sectors</span><span class="o">/</span><span class="n">static</span><span class="o">/</span><span class="n">korea</span><span class="o">.</span><span class="n">yaml</span>
-</pre></div>
-</div>
-</section>
-<section id="rewrite-docs-build-in-python">
-<h3>Rewrite docs build in python<a class="headerlink" href="#rewrite-docs-build-in-python" title="Permalink to this heading">#</a></h3>
-<p>The docs build script has been re-written in Python. It now builds the docs in a temporary directory and only overwrites
-the docs on disk if the build is successful. Please start calling docs/build_docs.py instead of docs/build_docs.sh.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">added</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">build_docs</span><span class="o">.</span><span class="n">py</span>
-<span class="n">added</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">releases</span><span class="o">/</span><span class="n">latest</span><span class="o">/</span><span class="n">Add</span><span class="o">-</span><span class="n">create_plugin_regitries</span><span class="o">-</span><span class="n">to</span><span class="o">-</span><span class="n">base_install</span><span class="o">.</span><span class="n">yaml</span>
-<span class="n">added</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="fm">__init__</span><span class="o">.</span><span class="n">py</span>
-<span class="n">modified</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">build_docs</span><span class="o">.</span><span class="n">sh</span>
-<span class="n">modified</span><span class="p">:</span> <span class="n">pyproject</span><span class="o">.</span><span class="n">toml</span>
-<span class="n">modified</span><span class="p">:</span> <span class="n">pytest</span><span class="o">.</span><span class="n">ini</span>
-<span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">integration_tests</span><span class="o">/</span><span class="n">base_install</span><span class="o">.</span><span class="n">sh</span>
-<span class="n">modified</span><span class="p">:</span> <span class="o">.</span><span class="n">github</span><span class="o">/</span><span class="n">workflows</span><span class="o">/</span><span class="n">doc</span><span class="o">-</span><span class="n">test</span><span class="o">.</span><span class="n">yaml</span>
-<span class="n">modified</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">_templates</span><span class="o">/</span><span class="n">index</span><span class="o">.</span><span class="n">template</span><span class="o">.</span><span class="n">rst</span>
-<span class="n">modified</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">_templates</span><span class="o">/</span><span class="n">sphinx_conf</span><span class="o">.</span><span class="n">template</span><span class="o">.</span><span class="n">py</span>
-<span class="n">modified</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">update_release_note_index</span><span class="o">.</span><span class="n">py</span>
-<span class="n">modified</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">new</span><span class="o">-</span><span class="n">docs</span><span class="o">/</span><span class="n">contribute</span><span class="o">/</span><span class="n">code</span><span class="o">-</span><span class="n">of</span><span class="o">-</span><span class="n">conduct</span><span class="o">.</span><span class="n">rst</span>
-<span class="n">deleted</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">integration_tests</span><span class="o">/</span><span class="n">test_full_test</span><span class="o">.</span><span class="n">py</span>
-</pre></div>
-</div>
-</section>
 <section id="organize-imports">
 <h3>Organize imports<a class="headerlink" href="#organize-imports" title="Permalink to this heading">#</a></h3>
 <p>imports were scattered across most readers. They are moved to the top, except optional dependency ones</p>
@@ -1082,13 +920,23 @@ will be fully deprecated when GeoIPS v2.0.0 is released.</p>
 </pre></div>
 </div>
 </section>
-<section id="accept-dataset-names-and-urls-in-download-test-data-py">
-<h3>Accept dataset names and urls in download_test_data.py<a class="headerlink" href="#accept-dataset-names-and-urls-in-download-test-data-py" title="Permalink to this heading">#</a></h3>
-<p><code class="docutils literal notranslate"><span class="pre">download_test_data.py</span></code> now accepts dataset names and URLs, with added features
-like optional rich text output. Progress towards integrating more functionality
-into the GeoIPS CLI. Moved CIRA download URLs to a YAML file for easier management.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">added</span><span class="p">:</span> <span class="n">setup</span><span class="o">/</span><span class="n">test</span><span class="o">-</span><span class="n">data</span><span class="o">-</span><span class="n">urls</span><span class="o">.</span><span class="n">yaml</span>
-<span class="n">modified</span><span class="p">:</span> <span class="n">setup</span><span class="o">/</span><span class="n">download_test_data</span><span class="o">.</span><span class="n">py</span>
+<section id="rewrite-docs-build-in-python">
+<h3>Rewrite docs build in python<a class="headerlink" href="#rewrite-docs-build-in-python" title="Permalink to this heading">#</a></h3>
+<p>The docs build script has been re-written in Python. It now builds the docs in a temporary directory and only overwrites
+the docs on disk if the build is successful. Please start calling docs/build_docs.py instead of docs/build_docs.sh.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">added</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">build_docs</span><span class="o">.</span><span class="n">py</span>
+<span class="n">added</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">releases</span><span class="o">/</span><span class="n">latest</span><span class="o">/</span><span class="n">Add</span><span class="o">-</span><span class="n">create_plugin_regitries</span><span class="o">-</span><span class="n">to</span><span class="o">-</span><span class="n">base_install</span><span class="o">.</span><span class="n">yaml</span>
+<span class="n">added</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="fm">__init__</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">build_docs</span><span class="o">.</span><span class="n">sh</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">pyproject</span><span class="o">.</span><span class="n">toml</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">pytest</span><span class="o">.</span><span class="n">ini</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">integration_tests</span><span class="o">/</span><span class="n">base_install</span><span class="o">.</span><span class="n">sh</span>
+<span class="n">modified</span><span class="p">:</span> <span class="o">.</span><span class="n">github</span><span class="o">/</span><span class="n">workflows</span><span class="o">/</span><span class="n">doc</span><span class="o">-</span><span class="n">test</span><span class="o">.</span><span class="n">yaml</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">_templates</span><span class="o">/</span><span class="n">index</span><span class="o">.</span><span class="n">template</span><span class="o">.</span><span class="n">rst</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">_templates</span><span class="o">/</span><span class="n">sphinx_conf</span><span class="o">.</span><span class="n">template</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">update_release_note_index</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">new</span><span class="o">-</span><span class="n">docs</span><span class="o">/</span><span class="n">contribute</span><span class="o">/</span><span class="n">code</span><span class="o">-</span><span class="n">of</span><span class="o">-</span><span class="n">conduct</span><span class="o">.</span><span class="n">rst</span>
+<span class="n">deleted</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">integration_tests</span><span class="o">/</span><span class="n">test_full_test</span><span class="o">.</span><span class="n">py</span>
 </pre></div>
 </div>
 </section>
@@ -1103,16 +951,47 @@ automatically find the packages installed directory.</p>
 </pre></div>
 </div>
 </section>
+<section id="accept-dataset-names-and-urls-in-download-test-data-py">
+<h3>Accept dataset names and urls in download_test_data.py<a class="headerlink" href="#accept-dataset-names-and-urls-in-download-test-data-py" title="Permalink to this heading">#</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">download_test_data.py</span></code> now accepts dataset names and URLs, with added features
+like optional rich text output. Progress towards integrating more functionality
+into the GeoIPS CLI. Moved CIRA download URLs to a YAML file for easier management.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">added</span><span class="p">:</span> <span class="n">setup</span><span class="o">/</span><span class="n">test</span><span class="o">-</span><span class="n">data</span><span class="o">-</span><span class="n">urls</span><span class="o">.</span><span class="n">yaml</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">setup</span><span class="o">/</span><span class="n">download_test_data</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
 </section>
-<section id="testing">
-<h2>Testing<a class="headerlink" href="#testing" title="Permalink to this heading">#</a></h2>
-<section id="update-geoips-clavr-x-test-data">
-<h3>Update geoips clavr-x test data<a class="headerlink" href="#update-geoips-clavr-x-test-data" title="Permalink to this heading">#</a></h3>
-<p>New updates made to GeoIPS, and corresponding plugin packages geoips_clavrx and
-recenter tc introduced a new test script in geoips_clavrx that uses data not
-originally included in the <code class="docutils literal notranslate"><span class="pre">test_data_clavrx</span></code> dataset. We’ve updated the
-url of this dataset and the tar file to include this new test data.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">setup</span><span class="o">/</span><span class="n">test</span><span class="o">-</span><span class="n">data</span><span class="o">-</span><span class="n">urls</span><span class="o">.</span><span class="n">yaml</span>
+<section id="enable-full-suite-of-integration-tests-to-be-run-in-parallel-via-pytest">
+<h3>Enable full suite of integration tests to be run in parallel via pytest.<a class="headerlink" href="#enable-full-suite-of-integration-tests-to-be-run-in-parallel-via-pytest" title="Permalink to this heading">#</a></h3>
+<p>This adds a helper python file with pytest-capable tests that call the same shell scripts called by full_test.sh. This
+is helpful when combined with pytest-xdist’s ability to run pytests in parallel. It also gives developers the ability to
+run tests with an alternative CLI output format. Users should continue to run full_test.sh.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">integration_tests</span><span class="o">/</span><span class="n">test_full_test</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">pyproject</span><span class="o">.</span><span class="n">toml</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">pytest</span><span class="o">.</span><span class="n">ini</span>
+</pre></div>
+</div>
+</section>
+<section id="ami-ewsg-multi-scan-time-update">
+<h3>Ami ewsg multi scan time update<a class="headerlink" href="#ami-ewsg-multi-scan-time-update" title="Permalink to this heading">#</a></h3>
+<p>Related to <em>GEOIPS#312: Bug Fix: Update geostationary readers to support multiple scan times</em></p>
+<p>New updates to readers ewsg_netcdf and ami_netcdf. With the new updates, the
+aforementioned readers are now able to take in multiple scan times of files and
+output them appropriately in a xarray dictionary format. Alongside these updates,
+we refactored readers changed in PR #427 (which addressed the issue above) to reduce
+code duplication. Now all of the readers which can read in multiple scan times have
+the same logic in their call functions regardless of the data being read in or the
+operations needed to read it.</p>
+<p>Note: we have not been able to acquire ews-g1 data yet and therefore have not been
+able to test the new changes as of the time of writing this.</p>
+<p><a class="reference external" href="https://github.com/NRLMMD-GEOIPS/geoips/">#312</a></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">interfaces</span><span class="o">/</span><span class="n">module_based</span><span class="o">/</span><span class="n">readers</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">readers</span><span class="o">/</span><span class="n">abi_netcdf</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">readers</span><span class="o">/</span><span class="n">ahi_hsd</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">readers</span><span class="o">/</span><span class="n">ami_netcdf</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">readers</span><span class="o">/</span><span class="n">ewsg_netcdf</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">readers</span><span class="o">/</span><span class="n">seviri_hrit</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">pluginsyaml</span><span class="o">/</span><span class="n">sectors</span><span class="o">/</span><span class="n">static</span><span class="o">/</span><span class="n">korea</span><span class="o">.</span><span class="n">yaml</span>
 </pre></div>
 </div>
 </section>
@@ -1130,13 +1009,134 @@ url of this dataset and the tar file to include this new test data.</p>
 </div>
 </section>
 </section>
-<section id="id5">
-<h2>Refactor<a class="headerlink" href="#id5" title="Permalink to this heading">#</a></h2>
+<section id="release-process">
+<h2>Release process<a class="headerlink" href="#release-process" title="Permalink to this heading">#</a></h2>
+<section id="add-1-14-3-release-note">
+<h3>Add 1.14.3 release note<a class="headerlink" href="#add-1-14-3-release-note" title="Permalink to this heading">#</a></h3>
+<p>Currently tagged internal version 1.14.2.</p>
+<p>GEOIPS#715 - 1.14.3 updates*</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">added</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">releases</span><span class="o">/</span><span class="n">latest</span><span class="o">/</span><span class="mf">1.14.3</span><span class="o">-</span><span class="n">internal</span><span class="o">-</span><span class="n">release</span><span class="o">.</span><span class="n">yaml</span>
+</pre></div>
+</div>
+</section>
+<section id="update-internal-and-github-com-upcoming-version-and-tagged-version">
+<h3>Update internal and github.com ‘upcoming_version’ and ‘tagged_version’<a class="headerlink" href="#update-internal-and-github-com-upcoming-version-and-tagged-version" title="Permalink to this heading">#</a></h3>
+<p>Updated ‘update_this_release_note’ file in geoips repo for the
+next internal version -
+1.14.4
+next github.com version -
+1.15.0</p>
+<p>GEOIPS#715 - 1.14.3 updates*</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="o">.</span><span class="n">github</span><span class="o">/</span><span class="n">versions</span><span class="o">/</span><span class="n">upcoming_version</span>
+<span class="n">modified</span><span class="p">:</span> <span class="o">.</span><span class="n">github</span><span class="o">/</span><span class="n">versions</span><span class="o">/</span><span class="n">tagged_version</span>
+</pre></div>
+</div>
+</section>
+<section id="add-pip-and-mamba-1-14-3-environment-files">
+<h3>Add pip and mamba 1.14.3 environment files<a class="headerlink" href="#add-pip-and-mamba-1-14-3-environment-files" title="Permalink to this heading">#</a></h3>
+<p>Note AMI TC test case failed due to geolocation, updated AMI unprojected image
+output due to minor differences at edge of scan.</p>
+<p>Package geoips_full
+Total run time 2671 seconds
+Number data types run 60
+Number data types failed 1
+Tue Dec 10 19:52:45 UTC 2024</p>
+<p>Package geoips_base
+Total run time 204 seconds
+Number data types run 3
+Number data types failed 0
+Mon Dec  9 21:32:04 UTC 2024</p>
+<p>GEOIPS/geoips#715 - 1.14.3 updates</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">added</span><span class="p">:</span> <span class="n">environments</span><span class="o">/</span><span class="n">mamba_base_package_list_1</span><span class="mf">.14.3_20241209</span><span class="o">.</span><span class="n">yml</span>
+<span class="n">added</span><span class="p">:</span> <span class="n">environments</span><span class="o">/</span><span class="n">pip_base_requirements_1</span><span class="mf">.14.3_20241209</span><span class="o">.</span><span class="n">txt</span>
+<span class="n">added</span><span class="p">:</span> <span class="n">environments</span><span class="o">/</span><span class="n">mamba_full_package_list_1</span><span class="mf">.14.3_20241210</span><span class="o">.</span><span class="n">yml</span>
+<span class="n">added</span><span class="p">:</span> <span class="n">environments</span><span class="o">/</span><span class="n">pip_full_requirements_1</span><span class="mf">.14.3_20241210</span><span class="o">.</span><span class="n">txt</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="bug-fixes">
+<h2>Bug fixes<a class="headerlink" href="#bug-fixes" title="Permalink to this heading">#</a></h2>
+<section id="fix-import-for-nearestndinterpolator">
+<h3>Fix import for nearestndinterpolator<a class="headerlink" href="#fix-import-for-nearestndinterpolator" title="Permalink to this heading">#</a></h3>
+<p>This is from scipy, not pykdtree</p>
+<p>GEOIPS#715 - 1.14.3 updates*</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">readers</span><span class="o">/</span><span class="n">viirs_sdr_hdf5</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+</section>
+<section id="resolve-documentation-build-errors-for-external-repositories">
+<h3>Resolve documentation build errors for external repositories<a class="headerlink" href="#resolve-documentation-build-errors-for-external-repositories" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>geoips-docs-dir point to geoips repo for build_docs.sh pass through, not
+current repository (build_docs.sh).</p></li>
+<li><p>Ensure introduction/index.rst is an optional section (not currently in all repos)
+(build_docs.py and index.template.rst)</p></li>
+<li><p>Use shutil.copytree to copy geoips _static templates to
+current repo build directory (build_docs.py)</p></li>
+</ul>
+<p>GEOIPS#715 - 1.14.3 updates*</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">build_docs</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">build_docs</span><span class="o">.</span><span class="n">sh</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">_templates</span><span class="o">/</span><span class="n">index</span><span class="o">.</span><span class="n">template</span><span class="o">.</span><span class="n">rst</span>
+</pre></div>
+</div>
+</section>
+<section id="update-ami-unprojected-test-image-for-slight-edge-of-scan-differences">
+<h3>Update ami unprojected test image for slight edge of scan differences<a class="headerlink" href="#update-ami-unprojected-test-image-for-slight-edge-of-scan-differences" title="Permalink to this heading">#</a></h3>
+<p>Jeremy and Evan saw this same discrepancy with their local github.com runs,
+updating to the most recent version, likely a dependency version update.</p>
+<p>GEOIPS#715 - 1.14.3 updates*</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span>
+<span class="n">tests</span><span class="o">/</span><span class="n">outputs</span><span class="o">/</span><span class="n">ami</span><span class="o">.</span><span class="n">WV</span><span class="o">-</span><span class="n">Upper</span><span class="o">.</span><span class="n">unprojected_image</span><span class="o">/</span><span class="mf">20231208.030032</span><span class="o">.</span><span class="n">GK</span><span class="o">-</span><span class="mi">2</span><span class="n">A</span><span class="o">.</span><span class="n">ami</span><span class="o">.</span><span class="n">WV</span><span class="o">-</span><span class="n">Upper</span><span class="o">.</span><span class="n">self_register</span><span class="mf">.76</span><span class="n">p19</span><span class="o">.</span><span class="n">nmsc</span><span class="mf">.2</span><span class="n">p0</span><span class="o">.</span><span class="n">png</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="testing">
+<h2>Testing<a class="headerlink" href="#testing" title="Permalink to this heading">#</a></h2>
+<section id="update-geoips-clavr-x-test-data">
+<h3>Update geoips clavr-x test data<a class="headerlink" href="#update-geoips-clavr-x-test-data" title="Permalink to this heading">#</a></h3>
+<p>New updates made to GeoIPS, and corresponding plugin packages geoips_clavrx and
+recenter tc introduced a new test script in geoips_clavrx that uses data not
+originally included in the <code class="docutils literal notranslate"><span class="pre">test_data_clavrx</span></code> dataset. We’ve updated the
+url of this dataset and the tar file to include this new test data.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">setup</span><span class="o">/</span><span class="n">test</span><span class="o">-</span><span class="n">data</span><span class="o">-</span><span class="n">urls</span><span class="o">.</span><span class="n">yaml</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id4">
+<h2>Refactor<a class="headerlink" href="#id4" title="Permalink to this heading">#</a></h2>
 <section id="refactor-base-paths">
 <h3>Refactor base_paths<a class="headerlink" href="#refactor-base-paths" title="Permalink to this heading">#</a></h3>
 <p>Base paths was originally very short, but has been added to over time. The original structure did not scale well. The
 file original file very difficult to read, comprehend and/or maintain. File has been refactored.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">filenames</span><span class="o">/</span><span class="n">base_paths</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="refactoring-updates">
+<h2>Refactoring updates<a class="headerlink" href="#refactoring-updates" title="Permalink to this heading">#</a></h2>
+<section id="share-logger-object-to-cli-command-classes">
+<h3>Share logger object to cli command classes<a class="headerlink" href="#share-logger-object-to-cli-command-classes" title="Permalink to this heading">#</a></h3>
+<p><em>From GEOIPS#714: 7-26-24, Discuss how to share LOG attribute in the CLI</em></p>
+<p>Since we’ve started developing the GeoIPS CLI, we’ve known that there was a need to
+have a shared logger object among all of the CLI command classes for debugging
+purposes and to output basic information to the user if requested. We can now do
+this using the ‘–log-level’ / ‘-log’ flag. Depending on the log level set, all
+levels that match or are of higher ‘order’ than the log level provided will be
+outputted. This functionality matches that used in ‘run_procflow’. Logging is now
+a supported utility throughout the CLI, and can be used in any CLI class via
+self.LOG.&lt;log_level&gt;(log_statement). Note that self.LOG.&lt;log_level&gt; does not have to
+match the provided ‘–log-level’ ran in the command. This flag is strictly just the
+LOG level filter. I.e. if ‘–log-level info’ was provided, levels
+[‘info’, ‘debug’, ‘interactive’] would be shown. The lower the level, the more
+logging channels will output.</p>
+<p><a class="reference external" href="https://github.com/NRLMMD-GEOIPS/geoips">#714</a></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">commandline</span><span class="o">/</span><span class="n">commandline_interface</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">commandline</span><span class="o">/</span><span class="n">geoips_command</span><span class="o">.</span><span class="n">py</span>
 </pre></div>
 </div>
 </section>
@@ -1194,25 +1194,35 @@ file original file very difficult to read, comprehend and/or maintain. File has 
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#remove-unused-geokompsat-product-file">Remove unused geokompsat product file</a></li>
 </ul>
 </li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bug-fix">Bug fix</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fix-environment-variable-substitution">Fix environment variable substitution</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#add-create-plugin-registries-to-base-test">Add create_plugin_registries to base_test</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#improved-data-download-and-memory-management-during-full-install">Improved data download and memory management during full install</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fix-dir-creation-bug-on-oserror">Fix dir creation bug on oserror</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#update-geostationary-readers-to-support-multiple-scan-times">Update geostationary readers to support multiple scan times</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#remove-unused-noaa-aws-dataset-from-base-tests">Remove unused noaa aws dataset from base tests</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#change-fail-state-for-unit-test">Change fail state for unit test</a></li>
+</ul>
+</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#documentation">Documentation</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#add-numpy-docstrings-and-examples-to-coding-standards">Add numpy docstrings and examples to coding standards</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#add-additional-info-to-ram-system-install-requirements-section">Add additional info to ram system install requirements section</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#added-documentation-for-new-docs-build-script">Added documentation for new docs build script</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#write-docstrings-for-base-paths">Write docstrings for base_paths</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#add-additional-info-to-ram-system-install-requirements-section">Add additional info to ram system install requirements section</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#refactoring-updates">Refactoring updates</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#share-logger-object-to-cli-command-classes">Share logger object to cli command classes</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#enhancement">Enhancement</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#organize-imports">Organize imports</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#added-new-geoips-list-source-names-command">Added new geoips list source-names command</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rewrite-docs-build-in-python">Rewrite docs build in python</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#make-repo-path-optional-for-documentation-building">Make repo_path optional for documentation building</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#accept-dataset-names-and-urls-in-download-test-data-py">Accept dataset names and urls in download_test_data.py</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#enable-full-suite-of-integration-tests-to-be-run-in-parallel-via-pytest">Enable full suite of integration tests to be run in parallel via pytest.</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ami-ewsg-multi-scan-time-update">Ami ewsg multi scan time update</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bug-fix">Bug fix</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#remove-unused-noaa-aws-dataset-from-base-tests">Remove unused noaa aws dataset from base tests</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#update-geostationary-readers-to-support-multiple-scan-times">Update geostationary readers to support multiple scan times</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#add-create-plugin-registries-to-base-test">Add create_plugin_registries to base_test</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fix-environment-variable-substitution">Fix environment variable substitution</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fix-dir-creation-bug-on-oserror">Fix dir creation bug on oserror</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#improved-data-download-and-memory-management-during-full-install">Improved data download and memory management during full install</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#change-fail-state-for-unit-test">Change fail state for unit test</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#refactor">Refactor</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ensure-consistent-module-aliases">Ensure consistent module aliases</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#release-process">Release process</a><ul class="nav section-nav flex-column">
@@ -1227,26 +1237,16 @@ file original file very difficult to read, comprehend and/or maintain. File has 
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#update-ami-unprojected-test-image-for-slight-edge-of-scan-differences">Update ami unprojected test image for slight edge of scan differences</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#enhancement">Enhancement</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#enable-full-suite-of-integration-tests-to-be-run-in-parallel-via-pytest">Enable full suite of integration tests to be run in parallel via pytest.</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ami-ewsg-multi-scan-time-update">Ami ewsg multi scan time update</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rewrite-docs-build-in-python">Rewrite docs build in python</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#organize-imports">Organize imports</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#added-new-geoips-list-source-names-command">Added new geoips list source-names command</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#accept-dataset-names-and-urls-in-download-test-data-py">Accept dataset names and urls in download_test_data.py</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#make-repo-path-optional-for-documentation-building">Make repo_path optional for documentation building</a></li>
-</ul>
-</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#testing">Testing</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#update-geoips-clavr-x-test-data">Update geoips clavr-x test data</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#refactor">Refactor</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ensure-consistent-module-aliases">Ensure consistent module aliases</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">Refactor</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#refactor-base-paths">Refactor base_paths</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">Refactor</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#refactor-base-paths">Refactor base_paths</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#refactoring-updates">Refactoring updates</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#share-logger-object-to-cli-command-classes">Share logger object to cli command classes</a></li>
 </ul>
 </li>
 </ul>

@@ -1,18 +1,8 @@
 Version 1.17.3 (2026-07-23)
 ***************************
 
- * *Documentation*: Add release note for version 1.17.3
- * *Documentation*: Update upcoming and tagged versions
- * *Testing*: Meteosat 10 & 12 terminator tiny test sectors
- * *Testing*: Update tiny sector test scripts to copy both global dataset images, and tiny sector images to
-   example_test_imagery_output
- * *Testing*: Update tiny sector test script to produce annotated tiny sector image outputs on request
- * *Bug fix*: Removed astropy usage in readers.
- * *Bug fix*: Move dynamic geolocation and ancildat_autogen caches to shortterm location
- * *Bug fix*: Properly filter ingested tles using a satellite prediction list
- * *Bug fix*: Link to persistent_data_dirs ancildat and test_data paths, remove astropy dependency
- * *Bug fix*: Add gdal to nrl_install.rst
- * *Bug fix*: Minor bug fixes to overpass_predictor and tc_tracks_database
+ * *Bug fix*: Put the delimiter back in the tc invest file name paths
+ * *Bug fix*: Bug fix in setting ahi_hsd metadata
  * *Bug fix*: Add archer_fdeck to metadata_default.py output formatter
  * *Bug fix*: Update metadata_tc output formatter to include area_id and area_description fields
  * *Bug fix*: Update aws tc165/180/325-1, amsr2 ocean, and sar tests to include metadata output for invest and numbered
@@ -35,224 +25,51 @@ Version 1.17.3 (2026-07-23)
  * *Bug fix*: Remove support for file_path_modifications
  * *Bug fix*: Fix build_docs errors
  * *Bug fix*: Allow 28 field bdeck lines in bdeck_parser.
+ * *Bug fix*: Link to persistent_data_dirs ancildat and test_data paths, remove astropy dependency
+ * *Bug fix*: Add gdal to nrl_install.rst
  * *Bug fix*: Do not include requirements in pip requirements files for archival purposes
- * *Bug fix*: Bug fix in setting ahi_hsd metadata
- * *Bug fix*: Put the delimiter back in the tc invest file name paths
-
-Documentation
-=============
-
-Add release note for version 1.17.3
------------------------------------
-
-Release note on release branch to force tag/release, package/publish,
-and deploy docs.
-
-Additionally add any updated files from geoips_ci/sync
-
-geoips#1029 - 1.17.3 updates
-
-::
-
-     added: docs/source/releases/latest/1.17.3-release-note.yaml
-     modified: geoips_ci/sync updated files
-
-Update upcoming and tagged versions
------------------------------------
-
-* Tagged version: 1.17.3
-* Upcoming version: 1.18.1
-
-geoips#1029 - 1.17.3 updates
-
-::
-
-     modified: .github/versions/tagged_version
-     modified: .github/versions/upcoming_version
-
-Testing
-=======
-
-Meteosat 10 & 12 terminator tiny test sectors
----------------------------------------------
-
-Same location for both Meteosat 10 & 12, off the coast of Argentina and
-the Falkland Islands.
-
-* Add meteosat12 and meteosat10 terminator 10km tiny sector, off the coast of
-  Argentina and the Falkland Islands for datasets 20250623T1200Z and 20250624T1200Z respectively
-* Minor corrections in sector areas
-
-::
-
-     added:
-     geoips/plugins/yaml/sectors/integration_tests/geostationary/meteo_sectors/meteosat12_20250623T1200Z/test_meteosat12_eqc_10km_terminator_20250623T1200Z.yaml
-     added:
-     geoips/plugins/yaml/sectors/integration_tests/geostationary/meteo_sectors/meteosat10_20250623T1200Z/test_meteosat10_eqc_10km_terminator_20250624T1200Z.yaml
-     added:
-     tests/integration_tests/tiny_sectors/outputs/test_meteosat12_eqc_10km_terminator_20250623T1200Z_Test-FCI-B14-Night-Only/20250623.120000.MTG-I1.fci.Test-FCI-B14-Night-Only.test_meteosat12_eqc_10km_terminator_20250623T1200Z.18p33.EUMETSAT.10p0.png
-     added:
-     tests/integration_tests/tiny_sectors/outputs/test_meteosat12_eqc_10km_terminator_20250623T1200Z_Test-FCI-B14-Night-Only/20250623.120000.MTG-I1.fci.Test-FCI-B14-Night-Only.test_meteosat12_eqc_10km_terminator_20250623T1200Z.18p33.EUMETSAT.10p0.png
-     modified:
-     geoips/plugins/yaml/sectors/integration_tests/geostationary/himawari_sectors/himawari8_20200405T0000Z/test_himawari8_eqc_10km_terminator_20200405T0000Z.yaml
-     modified:
-     geoips/plugins/yaml/sectors/integration_tests/geostationary/meteo_sectors/test_meteoeu_longlat_50km_fulldisk.yaml
-     modified:
-     geoips/plugins/yaml/sectors/integration_tests/geostationary/meteo_sectors/test_meteoio_longlat_50km_fulldisk.yaml
-     modified:
-     geoips/plugins/yaml/sectors/integration_tests/geostationary/meteo_sectors/test_meteoio_longlat_50km_fulldisk.yaml
-     modified: tests/integration_tests/test_tiny_sectors_geoips.py
-
-Update tiny sector test scripts to copy both global dataset images, and tiny sector images to
-example_test_imagery_output
----------------------------
-
-For easier evaluation, copy all tiny sector outputs to example_test_imagery_output.
-Also, only copy files if they exist, to avoid IO Errors in the output.
-Test scripts still do not fail for missing output images (the geoips return
-should catch it appropriately), but only attempt to copy if they exist.
-
-geoips#1004
-
-::
-
-     modified: tests/example_scripts/global_terminator_satzen.sh
-     modified: tests/integration_tests/tiny_sectors/tiny_sectors_geostationary.sh
-
-Update tiny sector test script to produce annotated tiny sector image outputs on request
-----------------------------------------------------------------------------------------
-
-If GEOIPS_CREATE_TINY_SECTOR_TEST_ANNOTATED_OUTPUTS=True, then produce annotated
-image outputs for both Day-Only and Night-Only test products for reference.
-By default DO NOT run these annotated outputs, to avoid duplicate processing.
-
-To ensure unique filenames, updated geoips_fname to allow extra kwarg, so it
-can be passed in command line to add an orig flag to the original passed in
-product and opposite for the other product (Day vs Night).
-
-geoips#1004
-
-::
-
-     modified: geoips/plugins/modules/filename_formatters/geoips_fname.py
-     modified: tests/integration_tests/tiny_sectors/tiny_sectors_geostationary.sh
+ * *Bug fix*: Move dynamic geolocation and ancildat_autogen caches to shortterm location
+ * *Bug fix*: Minor bug fixes to overpass_predictor and tc_tracks_database
+ * *Bug fix*: Removed astropy usage in readers.
+ * *Bug fix*: Properly filter ingested tles using a satellite prediction list
+ * *Testing*: Meteosat 10 & 12 terminator tiny test sectors
+ * *Testing*: Update tiny sector test scripts to copy both global dataset images, and tiny sector images to
+   example_test_imagery_output
+ * *Testing*: Update tiny sector test script to produce annotated tiny sector image outputs on request
+ * *Documentation*: Add release note for version 1.17.3
+ * *Documentation*: Update upcoming and tagged versions
 
 Bug fix
 =======
 
-Removed astropy usage in readers.
----------------------------------
+Put the delimiter back in the tc invest file name paths
+-------------------------------------------------------
 
-Removed astropy dependencies in readers to simplify installation. Usage of astropy was mainly for converting TAI time to
-UTC, now readers adjust manually. Astropy also relied on pulling external ancillary data for converting the time.
-
-::
-
-     deleted:
-     tests/outputs/ascat_noaa_50km.tc.wind-ambiguities.imagery_windbarbs/20230524_235200_WP022023_ascat_metop-c_wind-ambiguities_135kts_50p08_1p1.png
-     deleted:
-     tests/outputs/ascat_noaa_25km.tc.windbarbs.imagery_windbarbs/20230524_235304_WP022023_ascat_metop-c_windbarbs_135kts_39p90_0p7.png
-     moved:
-     tests/outputs/ascat_noaa_50km.tc.wind-ambiguities.imagery_windbarbs/20230524_235051_WP022023_ascat_metop-c_wind-ambiguities_135kts_50p08_1p1.png.yaml
-     moved:
-     tests/outputs/ascat_noaa_25km.tc.windbarbs.imagery_windbarbs/20230524_235259_WP022023_ascat_metop-c_windbarbs_135kts_39p90_0p7.png.yaml
-     added:
-     tests/outputs/ascat_noaa_25km.tc.windbarbs.imagery_windbarbs/20230524_235259_WP022023_ascat_metop-c_windbarbs_135kts_39p90_0p7.png
-     added:
-     tests/outputs/ascat_noaa_50km.tc.wind-ambiguities.imagery_windbarbs/20230524_235051_WP022023_ascat_metop-c_wind-ambiguities_135kts_50p08_1p1.png
-     modified: geoips/plugins/modules/readers/atms_hdf5.py
-     modified: geoips/plugins/modules/readers/scat_noaa_winds_netcdf.py
-     modified: pyproject.toml
-
-Move dynamic geolocation and ancildat_autogen caches to shortterm location
---------------------------------------------------------------------------
-
-Originally dynamic geolocation was stored with the longterm cache, which is
-explicitly forbidden from ever being scrubbed.  Since dynamic geolocation
-data can be regenerated as needed, it makes more sense to store it in the
-shortterm cache, which can be scrubbed as needed to free up space.
-
-Note shortterm cache is still persistent between runs, so dynamic geolocation
-data will still be reused as needed, just not indefinitely.
-
-This involved renaming GEOIPS_DATA_CACHE_DIR_LONGTERM_GEOLOCATION_DYNAMIC
-to GEOIPS_DATA_CACHE_DIR_SHORTTERM_GEOLOCATION_DYNAMIC in
-base_paths.py, and updating the reference to it in geostationary_geolocation.py
-util.  Additionally the default path for the shortterm dynamic geolocation cache
-was updated in base_paths.py to point to the shortterm subdirectory in cache/geoips.
-
-Additionally ancildat_autogen cache location was moved from the top level
-cache/geoips/ancildat_autogen directory to cache/geoips/shortterm/ancildat_autogen
-to better reflect its intended usage.  This involved updating the
-GEOIPS_ANCILDAT_AUTOGEN path in config_geoips to point to the new location.
-
-Note the shortterm cache may contain data with vastly different retention periods,
-so scrubbing must be handled appropriately to avoid deleting data that is still needed.
+When updating the TC file naming conventions to use storm_id rather than
+manually compiling the path, it resulted in removing the delimiter from the
+TC invest file paths. This update restores the delimiter to ensure proper
+formatting of TC invest file names for consistency, clarity, and backwards
+compatibility.
 
 ::
 
-     modified: geoips/filenames/base_paths.py
-     modified: geoips/plugins/modules/readers/utils/geostationary_geolocation.py
-     modified: setup/config_geoips
+     modified: geoips/plugins/modules/filename_formatters/utils/tc_file_naming.py
+     modified:
+     tests/outputs/aws.tc.TB165.imagery_clean/20250428_114913_WP992025_mwr_aws_TB165_15kts_43p06_1p0-clean.png.yaml
+     modified:
+     tests/outputs/aws.tc.TB180.imagery_clean/20250428_114913_WP992025_mwr_aws_TB180_15kts_43p06_1p0-clean.png.yaml
+     modified:
+     tests/outputs/aws.tc.TB325-1.imagery_clean/20250428_114913_WP992025_mwr_aws_TB325-1_15kts_48p36_1p0-clean.png.yaml
 
-Properly filter ingested tles using a satellite prediction list
----------------------------------------------------------------
+Bug fix in setting ahi_hsd metadata
+-----------------------------------
 
-The check_tle_name_to_passed_names function under geoips.sector_utils.overpass_predictor
-checks if a given satellite TLE is in the list of satellites that we want to predict
-an overpass. If the check is true the TLEs are loaded into memory for use downstream.
-The logic in the function was too simple and simply checked if a TLE name contained a
-matching string from the list of satellites we want to predict. This resulted in false
-positives. For example,
-check_tle_name_to_passed_names(tle_name="COSMOS 2586", satellite_names_list=["SMOS"])
-would return True, since "COSMOS 2586" contained the string "SMOS". The logic has been
-updated to ensure full string matching, so the above example now returns False.
-
-For every TLE and satellite name, we split the strings by " (", and remove
-the right parenthesis (if present). This allows us to check two satellite names
-if provided in the TLE file. For example, take OCEANSAT-3, which has the following
-name in the file downloaded from celestrak: "EOS-6 (OCEANSAT-3)". Splitting the
-names allows us to check if "EOS-6" OR "OCEANSAT-3" are in the satellite_names_list.
+Need to slice first dimension of array returned from numpy.frombuffer when storing
+the 'scan_shift_amount' and 'ob_time_line_number'
 
 ::
 
-     modified: geoips/sector_utils/overpass_predictor.py
-
-Link to persistent_data_dirs ancildat and test_data paths, remove astropy dependency
-------------------------------------------------------------------------------------
-
-Make astropy imports optional in atms_hdf5 and scat_noaa_winds_netcdf readers. Readers
-will not be functional until astropy is replaced, but will allow us to install geoips
-under a clean build.
-
-::
-
-     modified: docs/source/getting-started/installing/nrl_install.rst
-     modified: geoips/plugins/modules/readers/atms_hdf5.py
-     modified: geoips/plugins/modules/readers/scat_noaa_winds_netcdf.py
-     modified: pyproject.toml
-
-Add gdal to nrl_install.rst
----------------------------
-
-* Add gdal to nrl_install.rst.
-* Note reo-cogeo may be required, but we've had mixed results so far.
-
-::
-
-     modified: docs/source/getting-started/installing/nrl_install.rst
-
-Minor bug fixes to overpass_predictor and tc_tracks_database
-------------------------------------------------------------
-
-* Use area_def.sector_info["storm_id"] instead of area_def.area_id in the overpass
-  predictor, which does not include the storm_start_datetime.
-* Support parsing database timstamps that include a ".%f" field.
-
-::
-
-     modified: geoips/sector_utils/overpass_predictor.py
-     modified: geoips/sector_utils/tc_tracks_database.py
+     modified: geoips/plugins/modules/readers/ahi_hsd.py
 
 Add archer_fdeck to metadata_default.py output formatter
 --------------------------------------------------------
@@ -527,6 +344,30 @@ unknown if not defined in line
 
      modified: geoips/plugins/modules/sector_metadata_generators/bdeck_parser.py
 
+Link to persistent_data_dirs ancildat and test_data paths, remove astropy dependency
+------------------------------------------------------------------------------------
+
+Make astropy imports optional in atms_hdf5 and scat_noaa_winds_netcdf readers. Readers
+will not be functional until astropy is replaced, but will allow us to install geoips
+under a clean build.
+
+::
+
+     modified: docs/source/getting-started/installing/nrl_install.rst
+     modified: geoips/plugins/modules/readers/atms_hdf5.py
+     modified: geoips/plugins/modules/readers/scat_noaa_winds_netcdf.py
+     modified: pyproject.toml
+
+Add gdal to nrl_install.rst
+---------------------------
+
+* Add gdal to nrl_install.rst.
+* Note reo-cogeo may be required, but we've had mixed results so far.
+
+::
+
+     modified: docs/source/getting-started/installing/nrl_install.rst
+
 Do not include requirements in pip requirements files for archival purposes
 ---------------------------------------------------------------------------
 
@@ -543,31 +384,190 @@ methods.
      modified: environments/all files
      modified: setup/check_system_requirements.sh
 
-Bug fix in setting ahi_hsd metadata
+Move dynamic geolocation and ancildat_autogen caches to shortterm location
+--------------------------------------------------------------------------
+
+Originally dynamic geolocation was stored with the longterm cache, which is
+explicitly forbidden from ever being scrubbed.  Since dynamic geolocation
+data can be regenerated as needed, it makes more sense to store it in the
+shortterm cache, which can be scrubbed as needed to free up space.
+
+Note shortterm cache is still persistent between runs, so dynamic geolocation
+data will still be reused as needed, just not indefinitely.
+
+This involved renaming GEOIPS_DATA_CACHE_DIR_LONGTERM_GEOLOCATION_DYNAMIC
+to GEOIPS_DATA_CACHE_DIR_SHORTTERM_GEOLOCATION_DYNAMIC in
+base_paths.py, and updating the reference to it in geostationary_geolocation.py
+util.  Additionally the default path for the shortterm dynamic geolocation cache
+was updated in base_paths.py to point to the shortterm subdirectory in cache/geoips.
+
+Additionally ancildat_autogen cache location was moved from the top level
+cache/geoips/ancildat_autogen directory to cache/geoips/shortterm/ancildat_autogen
+to better reflect its intended usage.  This involved updating the
+GEOIPS_ANCILDAT_AUTOGEN path in config_geoips to point to the new location.
+
+Note the shortterm cache may contain data with vastly different retention periods,
+so scrubbing must be handled appropriately to avoid deleting data that is still needed.
+
+::
+
+     modified: geoips/filenames/base_paths.py
+     modified: geoips/plugins/modules/readers/utils/geostationary_geolocation.py
+     modified: setup/config_geoips
+
+Minor bug fixes to overpass_predictor and tc_tracks_database
+------------------------------------------------------------
+
+* Use area_def.sector_info["storm_id"] instead of area_def.area_id in the overpass
+  predictor, which does not include the storm_start_datetime.
+* Support parsing database timstamps that include a ".%f" field.
+
+::
+
+     modified: geoips/sector_utils/overpass_predictor.py
+     modified: geoips/sector_utils/tc_tracks_database.py
+
+Removed astropy usage in readers.
+---------------------------------
+
+Removed astropy dependencies in readers to simplify installation. Usage of astropy was mainly for converting TAI time to
+UTC, now readers adjust manually. Astropy also relied on pulling external ancillary data for converting the time.
+
+::
+
+     deleted:
+     tests/outputs/ascat_noaa_50km.tc.wind-ambiguities.imagery_windbarbs/20230524_235200_WP022023_ascat_metop-c_wind-ambiguities_135kts_50p08_1p1.png
+     deleted:
+     tests/outputs/ascat_noaa_25km.tc.windbarbs.imagery_windbarbs/20230524_235304_WP022023_ascat_metop-c_windbarbs_135kts_39p90_0p7.png
+     moved:
+     tests/outputs/ascat_noaa_50km.tc.wind-ambiguities.imagery_windbarbs/20230524_235051_WP022023_ascat_metop-c_wind-ambiguities_135kts_50p08_1p1.png.yaml
+     moved:
+     tests/outputs/ascat_noaa_25km.tc.windbarbs.imagery_windbarbs/20230524_235259_WP022023_ascat_metop-c_windbarbs_135kts_39p90_0p7.png.yaml
+     added:
+     tests/outputs/ascat_noaa_25km.tc.windbarbs.imagery_windbarbs/20230524_235259_WP022023_ascat_metop-c_windbarbs_135kts_39p90_0p7.png
+     added:
+     tests/outputs/ascat_noaa_50km.tc.wind-ambiguities.imagery_windbarbs/20230524_235051_WP022023_ascat_metop-c_wind-ambiguities_135kts_50p08_1p1.png
+     modified: geoips/plugins/modules/readers/atms_hdf5.py
+     modified: geoips/plugins/modules/readers/scat_noaa_winds_netcdf.py
+     modified: pyproject.toml
+
+Properly filter ingested tles using a satellite prediction list
+---------------------------------------------------------------
+
+The check_tle_name_to_passed_names function under geoips.sector_utils.overpass_predictor
+checks if a given satellite TLE is in the list of satellites that we want to predict
+an overpass. If the check is true the TLEs are loaded into memory for use downstream.
+The logic in the function was too simple and simply checked if a TLE name contained a
+matching string from the list of satellites we want to predict. This resulted in false
+positives. For example,
+check_tle_name_to_passed_names(tle_name="COSMOS 2586", satellite_names_list=["SMOS"])
+would return True, since "COSMOS 2586" contained the string "SMOS". The logic has been
+updated to ensure full string matching, so the above example now returns False.
+
+For every TLE and satellite name, we split the strings by " (", and remove
+the right parenthesis (if present). This allows us to check two satellite names
+if provided in the TLE file. For example, take OCEANSAT-3, which has the following
+name in the file downloaded from celestrak: "EOS-6 (OCEANSAT-3)". Splitting the
+names allows us to check if "EOS-6" OR "OCEANSAT-3" are in the satellite_names_list.
+
+::
+
+     modified: geoips/sector_utils/overpass_predictor.py
+
+Testing
+=======
+
+Meteosat 10 & 12 terminator tiny test sectors
+---------------------------------------------
+
+Same location for both Meteosat 10 & 12, off the coast of Argentina and
+the Falkland Islands.
+
+* Add meteosat12 and meteosat10 terminator 10km tiny sector, off the coast of
+  Argentina and the Falkland Islands for datasets 20250623T1200Z and 20250624T1200Z respectively
+* Minor corrections in sector areas
+
+::
+
+     added:
+     geoips/plugins/yaml/sectors/integration_tests/geostationary/meteo_sectors/meteosat12_20250623T1200Z/test_meteosat12_eqc_10km_terminator_20250623T1200Z.yaml
+     added:
+     geoips/plugins/yaml/sectors/integration_tests/geostationary/meteo_sectors/meteosat10_20250623T1200Z/test_meteosat10_eqc_10km_terminator_20250624T1200Z.yaml
+     added:
+     tests/integration_tests/tiny_sectors/outputs/test_meteosat12_eqc_10km_terminator_20250623T1200Z_Test-FCI-B14-Night-Only/20250623.120000.MTG-I1.fci.Test-FCI-B14-Night-Only.test_meteosat12_eqc_10km_terminator_20250623T1200Z.18p33.EUMETSAT.10p0.png
+     added:
+     tests/integration_tests/tiny_sectors/outputs/test_meteosat12_eqc_10km_terminator_20250623T1200Z_Test-FCI-B14-Night-Only/20250623.120000.MTG-I1.fci.Test-FCI-B14-Night-Only.test_meteosat12_eqc_10km_terminator_20250623T1200Z.18p33.EUMETSAT.10p0.png
+     modified:
+     geoips/plugins/yaml/sectors/integration_tests/geostationary/himawari_sectors/himawari8_20200405T0000Z/test_himawari8_eqc_10km_terminator_20200405T0000Z.yaml
+     modified:
+     geoips/plugins/yaml/sectors/integration_tests/geostationary/meteo_sectors/test_meteoeu_longlat_50km_fulldisk.yaml
+     modified:
+     geoips/plugins/yaml/sectors/integration_tests/geostationary/meteo_sectors/test_meteoio_longlat_50km_fulldisk.yaml
+     modified:
+     geoips/plugins/yaml/sectors/integration_tests/geostationary/meteo_sectors/test_meteoio_longlat_50km_fulldisk.yaml
+     modified: tests/integration_tests/test_tiny_sectors_geoips.py
+
+Update tiny sector test scripts to copy both global dataset images, and tiny sector images to
+example_test_imagery_output
+---------------------------
+
+For easier evaluation, copy all tiny sector outputs to example_test_imagery_output.
+Also, only copy files if they exist, to avoid IO Errors in the output.
+Test scripts still do not fail for missing output images (the geoips return
+should catch it appropriately), but only attempt to copy if they exist.
+
+geoips#1004
+
+::
+
+     modified: tests/example_scripts/global_terminator_satzen.sh
+     modified: tests/integration_tests/tiny_sectors/tiny_sectors_geostationary.sh
+
+Update tiny sector test script to produce annotated tiny sector image outputs on request
+----------------------------------------------------------------------------------------
+
+If GEOIPS_CREATE_TINY_SECTOR_TEST_ANNOTATED_OUTPUTS=True, then produce annotated
+image outputs for both Day-Only and Night-Only test products for reference.
+By default DO NOT run these annotated outputs, to avoid duplicate processing.
+
+To ensure unique filenames, updated geoips_fname to allow extra kwarg, so it
+can be passed in command line to add an orig flag to the original passed in
+product and opposite for the other product (Day vs Night).
+
+geoips#1004
+
+::
+
+     modified: geoips/plugins/modules/filename_formatters/geoips_fname.py
+     modified: tests/integration_tests/tiny_sectors/tiny_sectors_geostationary.sh
+
+Documentation
+=============
+
+Add release note for version 1.17.3
 -----------------------------------
 
-Need to slice first dimension of array returned from numpy.frombuffer when storing
-the 'scan_shift_amount' and 'ob_time_line_number'
+Release note on release branch to force tag/release, package/publish,
+and deploy docs.
+
+Additionally add any updated files from geoips_ci/sync
+
+geoips#1029 - 1.17.3 updates
 
 ::
 
-     modified: geoips/plugins/modules/readers/ahi_hsd.py
+     added: docs/source/releases/latest/1.17.3-release-note.yaml
+     modified: geoips_ci/sync updated files
 
-Put the delimiter back in the tc invest file name paths
--------------------------------------------------------
+Update upcoming and tagged versions
+-----------------------------------
 
-When updating the TC file naming conventions to use storm_id rather than
-manually compiling the path, it resulted in removing the delimiter from the
-TC invest file paths. This update restores the delimiter to ensure proper
-formatting of TC invest file names for consistency, clarity, and backwards
-compatibility.
+* Tagged version: 1.17.3
+* Upcoming version: 1.18.1
+
+geoips#1029 - 1.17.3 updates
 
 ::
 
-     modified: geoips/plugins/modules/filename_formatters/utils/tc_file_naming.py
-     modified:
-     tests/outputs/aws.tc.TB165.imagery_clean/20250428_114913_WP992025_mwr_aws_TB165_15kts_43p06_1p0-clean.png.yaml
-     modified:
-     tests/outputs/aws.tc.TB180.imagery_clean/20250428_114913_WP992025_mwr_aws_TB180_15kts_43p06_1p0-clean.png.yaml
-     modified:
-     tests/outputs/aws.tc.TB325-1.imagery_clean/20250428_114913_WP992025_mwr_aws_TB325-1_15kts_48p36_1p0-clean.png.yaml
+     modified: .github/versions/tagged_version
+     modified: .github/versions/upcoming_version

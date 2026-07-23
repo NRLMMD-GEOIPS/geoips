@@ -1,30 +1,61 @@
 Version 1.14.4 (2026-07-23)
 ***************************
 
- * *Enhancement*: Create mtg fci reader
- * *Enhancement*: Add nasa_dust_rgb algorithm and products
  * *Enhancement*: Viirs l2 netcdf reader
  * *Enhancement*: Add eumetsat rgb products
- * *Release process*: Add 1.14.4 release note
- * *Bug fix*: Allow seviri hrit reader to complete when hrv files present
- * *Bug fix*: Clean up log output for output checkers
- * *Bug fix*: Make code_of_conduct.md optional in build_docs.py
- * *Bug fix*: Resolve string-based output_checker_threshold_image return
+ * *Enhancement*: Create mtg fci reader
+ * *Enhancement*: Add nasa_dust_rgb algorithm and products
  * *Bug fix*: Bug fix abi_l2_netcdf reader
+ * *Bug fix*: Allow seviri hrit reader to complete when hrv files present
+ * *Bug fix*: Force brassy version >=0.0.3 in pyproject.toml, required by build_docs.py
+ * *Bug fix*: Clean up log output for output checkers
  * *Bug fix*: Changed plaformdirs version in requirements.txt
  * *Bug fix*: Bug fix atms reader - only crop to valid indices when key exists
- * *Bug fix*: Force brassy version >=0.0.3 in pyproject.toml, required by build_docs.py
- * *Documentation*: Add more descriptive product descriptions
+ * *Bug fix*: Make code_of_conduct.md optional in build_docs.py
+ * *Bug fix*: Resolve string-based output_checker_threshold_image return
  * *Documentation*: Add release note for version 1.14.4
  * *Documentation*: Update upcoming and tagged versions
  * *Documentation*: Add option to build_docs.py allowing saving temp files
- * *Installation*: Update installation instructions to use miniforge installer
+ * *Documentation*: Add more descriptive product descriptions
+ * *Release process*: Add 1.14.4 release note
  * *Installation*: Update full install to include all packages available on github.com
+ * *Installation*: Update installation instructions to use miniforge installer
  * *Bug fixes*: Clone git test data repositories to the correct location
  * *Bug fixes*: Use autoescape=true for jinja template
 
 Enhancement
 ===========
+
+Viirs l2 netcdf reader
+----------------------
+
+Add new reader for VIIRS L2 netCDF files.
+(e.g. VIIRS L2 files distributed by NASA LANCE/LAADS)
+
+::
+
+     added: geoips/plugins/modules/readers/viirs_l2_netcdf.py
+
+Add eumetsat rgb products
+-------------------------
+
+The original XML EUMETSAT RGB specifications were pulled from GeoIPS v1.1.16, and
+ported to GeoIPS 1.13+ as a python module-based algorithm plugin.
+
+GEOIPS#682 - EUMETSAT RGB Products
+
+::
+
+     added:
+     tests/outputs/seviri.Dust-RGB.imagery_clean/20200404.080000.msg-1.seviri.Dust-RGB.global.22p76.nesdisstar.20p0.png
+     added:
+     tests/outputs/seviri.Natural-Color.imagery_clean/20200404.080000.msg-1.seviri.Natural-Color.global.22p76.nesdisstar.20p0.png
+     added: geoips/plugins/modules/algorithms/visir/Natural_Color.py
+     added: geoips/plugins/modules/algorithms/visir/Dust_RGB.py
+     added: tests/scripts/seviri.Dust-RGB.imagery_clean.sh
+     added: tests/scripts/seviri.Natural-Color.imagery_clean.sh
+     modified: geoips/plugins/yaml/products/seviri.yaml
+     modified: tests/test_all.sh
 
 Create mtg fci reader
 ---------------------
@@ -85,54 +116,20 @@ duplicate tests from tests/test_all.sh
      modified: tests/test_all.sh
      modified: tests/integration_tests/full_test.sh
 
-Viirs l2 netcdf reader
-----------------------
-
-Add new reader for VIIRS L2 netCDF files.
-(e.g. VIIRS L2 files distributed by NASA LANCE/LAADS)
-
-::
-
-     added: geoips/plugins/modules/readers/viirs_l2_netcdf.py
-
-Add eumetsat rgb products
--------------------------
-
-The original XML EUMETSAT RGB specifications were pulled from GeoIPS v1.1.16, and
-ported to GeoIPS 1.13+ as a python module-based algorithm plugin.
-
-GEOIPS#682 - EUMETSAT RGB Products
-
-::
-
-     added:
-     tests/outputs/seviri.Dust-RGB.imagery_clean/20200404.080000.msg-1.seviri.Dust-RGB.global.22p76.nesdisstar.20p0.png
-     added:
-     tests/outputs/seviri.Natural-Color.imagery_clean/20200404.080000.msg-1.seviri.Natural-Color.global.22p76.nesdisstar.20p0.png
-     added: geoips/plugins/modules/algorithms/visir/Natural_Color.py
-     added: geoips/plugins/modules/algorithms/visir/Dust_RGB.py
-     added: tests/scripts/seviri.Dust-RGB.imagery_clean.sh
-     added: tests/scripts/seviri.Natural-Color.imagery_clean.sh
-     modified: geoips/plugins/yaml/products/seviri.yaml
-     modified: tests/test_all.sh
-
-Release process
-===============
-
-Add 1.14.4 release note
------------------------
-
-* Upcoming public version 1.15.0.
-* Upcoming internal version 1.14.4.
-
-GEOIPS#715 - 1.14.3 updates
-
-::
-
-     added: docs/source/releases/upcoming/1.14.4-internal-release.yaml
-
 Bug fix
 =======
+
+Bug fix abi_l2_netcdf reader
+----------------------------
+
+Fix bug where the start and end datetime was not properly being tracked for each
+file ingested in the main loop. This was causing issues when attempting to
+concatenate multiple scan times with 2D arrays. Concatenation of multiple files
+for a single scan time is currently only supported with 1D xarray datasets.
+
+::
+
+     modified: geoips/plugins/modules/readers/abi_l2_netcdf.py
 
 Allow seviri hrit reader to complete when hrv files present
 -----------------------------------------------------------
@@ -149,6 +146,18 @@ method and skipping over missing files.
      modified: geoips/errors.py
      modified: geoips/interfaces/module_based/readers.py
      modified: geoips/plugins/modules/readers/seviri_hrit.py
+
+Force brassy version >=0.0.3 in pyproject.toml, required by build_docs.py
+-------------------------------------------------------------------------
+
+Early versions of brassy did not have the brassy.actions method, force
+version >= 0.0.3 to ensure build_docs.py can complete.
+
+GEOIPS#715 - 1.14.4 release
+
+::
+
+     modified: pyproject.toml
 
 Clean up log output for output checkers
 ---------------------------------------
@@ -173,6 +182,27 @@ GEOIPS#715 - 1.14.4 release
 
      modified: geoips/interfaces/module_based/output_checkers.py
 
+Changed plaformdirs version in requirements.txt
+-----------------------------------------------
+
+The previous platformdir version caused a circular dependency error, this updates the version number to allow
+installation from requirements.txt.
+
+::
+
+     modified: environments/requirements.txt
+
+Bug fix atms reader - only crop to valid indices when key exists
+----------------------------------------------------------------
+
+Only crop ATMS data to valid indices when the "valid_indices" key exists in the
+xarray dataset. This key is only populated when reading in a GEO file. As a result,
+the reader will error when only reading in SDR files.
+
+::
+
+     modified: geoips/plugins/modules/readers/atms_hdf5.py
+
 Make code_of_conduct.md optional in build_docs.py
 -------------------------------------------------
 
@@ -196,82 +226,8 @@ GEOIPS#715 - 1.14.4 version release bug fixes
 
      modified: geoips/filenames/base_paths.py
 
-Bug fix abi_l2_netcdf reader
-----------------------------
-
-Fix bug where the start and end datetime was not properly being tracked for each
-file ingested in the main loop. This was causing issues when attempting to
-concatenate multiple scan times with 2D arrays. Concatenation of multiple files
-for a single scan time is currently only supported with 1D xarray datasets.
-
-::
-
-     modified: geoips/plugins/modules/readers/abi_l2_netcdf.py
-
-Changed plaformdirs version in requirements.txt
------------------------------------------------
-
-The previous platformdir version caused a circular dependency error, this updates the version number to allow
-installation from requirements.txt.
-
-::
-
-     modified: environments/requirements.txt
-
-Bug fix atms reader - only crop to valid indices when key exists
-----------------------------------------------------------------
-
-Only crop ATMS data to valid indices when the "valid_indices" key exists in the
-xarray dataset. This key is only populated when reading in a GEO file. As a result,
-the reader will error when only reading in SDR files.
-
-::
-
-     modified: geoips/plugins/modules/readers/atms_hdf5.py
-
-Force brassy version >=0.0.3 in pyproject.toml, required by build_docs.py
--------------------------------------------------------------------------
-
-Early versions of brassy did not have the brassy.actions method, force
-version >= 0.0.3 to ensure build_docs.py can complete.
-
-GEOIPS#715 - 1.14.4 release
-
-::
-
-     modified: pyproject.toml
-
 Documentation
 =============
-
-Add more descriptive product descriptions
------------------------------------------
-
-Update docstrings for various products to provide more information/background
-on products.
-
-Ensure no fields (ie, product_defaults) are inadvertently removed with the
-addition of product descriptions.
-
-GEOIPS#294 - TC product descriptions
-
-::
-
-     modified: geoips/plugins/yaml/products/abi.yaml
-     modified: geoips/plugins/yaml/products/ahi.yaml
-     modified: geoips/plugins/yaml/products/amsr2.yaml
-     modified: geoips/plugins/yaml/products/amsu-b.yaml
-     modified: geoips/plugins/yaml/products/ascat.yaml
-     modified: geoips/plugins/yaml/products/ascatuhr.yaml
-     modified: geoips/plugins/yaml/products/atms.yaml
-     modified: geoips/plugins/yaml/products/gmi.yaml
-     modified: geoips/plugins/yaml/products/modis.yaml
-     modified: geoips/plugins/yaml/products/sar-spd.yaml
-     modified: geoips/plugins/yaml/products/seviri.yaml
-     modified: geoips/plugins/yaml/products/smap-spd.yaml
-     modified: geoips/plugins/yaml/products/smos-spd.yaml
-     modified: geoips/plugins/yaml/products/ssmis.yaml
-     modified: geoips/plugins/yaml/products/viirs.yaml
 
 Add release note for version 1.14.4
 -----------------------------------
@@ -313,19 +269,52 @@ GEOIPS/geoips#715 - 1.14.4 release
      modified: docs/build_docs.py
      modified: docs/build_docs.sh
 
-Installation
-============
+Add more descriptive product descriptions
+-----------------------------------------
 
-Update installation instructions to use miniforge installer
------------------------------------------------------------
+Update docstrings for various products to provide more information/background
+on products.
 
-mambaforge deprecated
+Ensure no fields (ie, product_defaults) are inadvertently removed with the
+addition of product descriptions.
 
-GEOIPS#715 - 1.14.4 version release bug fixes
+GEOIPS#294 - TC product descriptions
 
 ::
 
-     modified: docs/source/starter/installation.rst
+     modified: geoips/plugins/yaml/products/abi.yaml
+     modified: geoips/plugins/yaml/products/ahi.yaml
+     modified: geoips/plugins/yaml/products/amsr2.yaml
+     modified: geoips/plugins/yaml/products/amsu-b.yaml
+     modified: geoips/plugins/yaml/products/ascat.yaml
+     modified: geoips/plugins/yaml/products/ascatuhr.yaml
+     modified: geoips/plugins/yaml/products/atms.yaml
+     modified: geoips/plugins/yaml/products/gmi.yaml
+     modified: geoips/plugins/yaml/products/modis.yaml
+     modified: geoips/plugins/yaml/products/sar-spd.yaml
+     modified: geoips/plugins/yaml/products/seviri.yaml
+     modified: geoips/plugins/yaml/products/smap-spd.yaml
+     modified: geoips/plugins/yaml/products/smos-spd.yaml
+     modified: geoips/plugins/yaml/products/ssmis.yaml
+     modified: geoips/plugins/yaml/products/viirs.yaml
+
+Release process
+===============
+
+Add 1.14.4 release note
+-----------------------
+
+* Upcoming public version 1.15.0.
+* Upcoming internal version 1.14.4.
+
+GEOIPS#715 - 1.14.3 updates
+
+::
+
+     added: docs/source/releases/upcoming/1.14.4-internal-release.yaml
+
+Installation
+============
 
 Update full install to include all packages available on github.com
 -------------------------------------------------------------------
@@ -343,6 +332,17 @@ since that is currently unused on github.com.
 ::
 
      modified: tests/integration_tests/full_install.sh
+
+Update installation instructions to use miniforge installer
+-----------------------------------------------------------
+
+mambaforge deprecated
+
+GEOIPS#715 - 1.14.4 version release bug fixes
+
+::
+
+     modified: docs/source/starter/installation.rst
 
 Bug fixes
 =========

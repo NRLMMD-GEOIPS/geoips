@@ -1,29 +1,124 @@
 Version 1.18.2 (2026-07-23)
 ***************************
 
+ * *Efficiency*: Add more informative print_mem_usg statements
+ * *Efficiency*: Add disable_nan_array_removal argument
+ * *Realtime*: Add product_spec_override command line support to config-based procflow
+ * *Realtime*: Default product_spec_override command line argument to none
+ * *Testing*: Do not wrap console script names during unit tests for geoips expose
  * *Testing*: Add additional information on geoips testing / log output control.
  * *Testing*: Clarify informative log statements.
  * *Testing*: Add product paths to interactive_pytest output
- * *Testing*: Do not wrap console script names during unit tests for geoips expose
- * *Bug fix*: Decrease length of time for validating bdeck formatting from 2 years to 6 months
- * *Bug fix*: Use relative imports for boxplots and dataframe_utils in memusg/plot_json_files.py
- * *Bug fix*: Include a better error message if partial zarr geolocation file exists
- * *Bug fix*: Skip undefined sectors in product_database_writer_kwargs
- * *Bug fix*: Update rich console import for build_docs.py
- * *Refactor*: Update geoips platform name map in viirs_l2_netcdf reader
- * *Installation*: Allow piped calls to run_command
  * *Installation*: Always set geoips_repo_url to github
  * *Installation*: Disable git prompts by default in config_geoips
  * *Installation*: Add gitall command to fully update all repos to  specified branch, if it exists
  * *Installation*: Allow writing install logs to specified path
- * *Efficiency*: Add more informative print_mem_usg statements
- * *Efficiency*: Add disable_nan_array_removal argument
+ * *Installation*: Allow piped calls to run_command
+ * *Bug fix*: Use relative imports for boxplots and dataframe_utils in memusg/plot_json_files.py
+ * *Bug fix*: Include a better error message if partial zarr geolocation file exists
+ * *Bug fix*: Skip undefined sectors in product_database_writer_kwargs
+ * *Bug fix*: Update rich console import for build_docs.py
+ * *Bug fix*: Decrease length of time for validating bdeck formatting from 2 years to 6 months
+ * *Refactor*: Update geoips platform name map in viirs_l2_netcdf reader
  * *Breaking change*: Update handling of sector adjuster output
- * *Realtime*: Add product_spec_override command line support to config-based procflow
- * *Realtime*: Default product_spec_override command line argument to none
+
+Efficiency
+==========
+
+Add more informative print_mem_usg statements
+---------------------------------------------
+
+Pass pid_track to
+
+* get_alg_xarray
+* process_sectored_data_output
+* process_xarray_dict_to_output_format
+
+as well as add additional specific more informative log strings to all the
+pid_track.print_memusg calls (identifying where in the code the print statement is).
+
+geoips#1029 - 1.18.2 updates
+
+::
+
+     modified: geoips/plugins/modules/procflows/single_source.py
+     modified: geoips/utils/memusg/memusg_tracker.py
+
+Add disable_nan_array_removal argument
+--------------------------------------
+
+If true, do not remove arrays of all nans before passing to
+interpolator or algorithm steps.  This process can be very slow
+and use a large amount of memory for large arrays, so allow
+turning it off if we know in advance that we do not have to worry
+about handling arrays comprised on all nans.
+
+Allow specifying both command line and in the procflow config for config based,
+and command line for single source.
+
+We will want to improve the efficiency of the nan array removal step as well,
+but still allow disabling it as it always has the potential to be resource
+intensive.
+
+geoips#1029 - 1.18.2 updates
+
+::
+
+     modified: geoips/commandline/args.py
+     modified: geoips/plugins/modules/procflows/config_based.py
+     modified: geoips/plugins/modules/procflows/single_source.py
+
+Realtime
+========
+
+Add product_spec_override command line support to config-based procflow
+-----------------------------------------------------------------------
+
+Initially product_spec_override was only supported in the actual YAML procflow
+config file, and command line product_spec_override argument was not passed
+through as well.
+
+Add product_spec_override support to the update_output_dict_from_command_line_args
+function, to ensure the product_spec_override is included in the final output
+request.
+
+::
+
+     modified: geoips/plugins/modules/procflows/config_based.py
+
+Default product_spec_override command line argument to none
+-----------------------------------------------------------
+
+Don't default product_spec_override to empty dict, default to None.
+Otherwise any procflow config defined product_spec_overrides would be automatically
+replaced with nothing!
+
+::
+
+     modified: geoips/commandline/args.py
 
 Testing
 =======
+
+Do not wrap console script names during unit tests for geoips expose
+--------------------------------------------------------------------
+
+If console script names wrap in the table output, the tests will fail because
+it can't find the expected console script.
+
+Add column_width argument to expose_geoips_commands, and pass in the max len of
+all console script names from the unit test, to ensure each console script name
+is included in the output, and not wrapped.
+
+Note we will later move this from geoips/geoips_utils.py to
+geoips/commandline/geoips_expose.py, but for now just ensure the tests pass as is.
+
+geoips#1029 - 1.18.2 updates
+
+::
+
+     modified: geoips/geoips_utils.py
+     modified: tests/unit_tests/commandline/test_expose.py
 
 Add additional information on geoips testing / log output control.
 ------------------------------------------------------------------
@@ -73,121 +168,8 @@ geoips#1029 - 1.18.2 updates
 
      modified: tests/utils/interactive_pytest.sh
 
-Do not wrap console script names during unit tests for geoips expose
---------------------------------------------------------------------
-
-If console script names wrap in the table output, the tests will fail because
-it can't find the expected console script.
-
-Add column_width argument to expose_geoips_commands, and pass in the max len of
-all console script names from the unit test, to ensure each console script name
-is included in the output, and not wrapped.
-
-Note we will later move this from geoips/geoips_utils.py to
-geoips/commandline/geoips_expose.py, but for now just ensure the tests pass as is.
-
-geoips#1029 - 1.18.2 updates
-
-::
-
-     modified: geoips/geoips_utils.py
-     modified: tests/unit_tests/commandline/test_expose.py
-
-Bug fix
-=======
-
-Decrease length of time for validating bdeck formatting from 2 years to 6 months
---------------------------------------------------------------------------------
-
-To avoid test failures for relatively new test scripts, consider any deck files
-older than 6 months as "archived" (allowing tests to skip bad lines, while
-real-time processing will fail to ensure we resolve formatting errors on new
-deck files).
-
-geoips#1029 - 1.18.2 updates
-
-::
-
-     modified: geoips/plugins/modules/sector_metadata_generators/bdeck_parser.py
-
-Use relative imports for boxplots and dataframe_utils in memusg/plot_json_files.py
-----------------------------------------------------------------------------------
-
-This import fails for build_docs.py
-
-geoips#1029 - 1.18.2 updates
-
-::
-
-     modified: geoips/utils/memusg/plot_json_files.py
-
-Include a better error message if partial zarr geolocation file exists
-----------------------------------------------------------------------
-
-If the partial cache file exists, include suggested rm command to remove it before attempting to run again.
-This allows more easily resolving the error.
-
-geoips#1029 - 1.18.2 updates
-
-::
-
-     modified: geoips/plugins/modules/readers/utils/geostationary_geolocation.py
-
-Skip undefined sectors in product_database_writer_kwargs
---------------------------------------------------------
-
-Allow specifying sectors from multiple procflow configs available_sectors in
-product_db_writer_override, so if you specify a sector that does NOT exist in
-a given procflow config at the command line, it will just skip that sector
-when looping through all command line specified sectors.
-
-geoips#1029 - 1.18.2 updates
-
-::
-
-     modified: geoips/plugins/modules/procflows/config_based.py
-
-Update rich console import for build_docs.py
---------------------------------------------
-
-rich.logging import now rich.console. rich.logging has been deprecated since
-May 2020, so not providing backwards compatible support.
-
-geoips#1029 - 1.18.2 updates
-
-::
-
-     modified: docs/build_docs.py
-
-Refactor
-========
-
-Update geoips platform name map in viirs_l2_netcdf reader
----------------------------------------------------------
-
-Add support for JP2VIIRS (n21), and change name for JPSS/JP1VIIRS from noaa20 to n20
-
-geoips#1049
-
-::
-
-     modified: geoips/plugins/modules/readers/viirs_l2_netcdf.py
-
 Installation
 ============
-
-Allow piped calls to run_command
---------------------------------
-
-If there is a pipe character in the passed command, call with bash -c and set -o pipefail.
-This should not change operation of non-piped commands, and piped commands did not
-previously work at all.
-
-geoips#1029 - 1.18.2 updates
-
-::
-
-     modified: setup/check_system_requirements.sh
 
 Always set geoips_repo_url to github
 ------------------------------------
@@ -242,51 +224,98 @@ geoips#1029 - 1.18.2 updates
 
      modified: setup/bash_setup/gitall
 
-Efficiency
-==========
+Allow piped calls to run_command
+--------------------------------
 
-Add more informative print_mem_usg statements
----------------------------------------------
-
-Pass pid_track to
-
-* get_alg_xarray
-* process_sectored_data_output
-* process_xarray_dict_to_output_format
-
-as well as add additional specific more informative log strings to all the
-pid_track.print_memusg calls (identifying where in the code the print statement is).
+If there is a pipe character in the passed command, call with bash -c and set -o pipefail.
+This should not change operation of non-piped commands, and piped commands did not
+previously work at all.
 
 geoips#1029 - 1.18.2 updates
 
 ::
 
-     modified: geoips/plugins/modules/procflows/single_source.py
-     modified: geoips/utils/memusg/memusg_tracker.py
+     modified: setup/check_system_requirements.sh
 
-Add disable_nan_array_removal argument
---------------------------------------
+Bug fix
+=======
 
-If true, do not remove arrays of all nans before passing to
-interpolator or algorithm steps.  This process can be very slow
-and use a large amount of memory for large arrays, so allow
-turning it off if we know in advance that we do not have to worry
-about handling arrays comprised on all nans.
+Use relative imports for boxplots and dataframe_utils in memusg/plot_json_files.py
+----------------------------------------------------------------------------------
 
-Allow specifying both command line and in the procflow config for config based,
-and command line for single source.
-
-We will want to improve the efficiency of the nan array removal step as well,
-but still allow disabling it as it always has the potential to be resource
-intensive.
+This import fails for build_docs.py
 
 geoips#1029 - 1.18.2 updates
 
 ::
 
-     modified: geoips/commandline/args.py
+     modified: geoips/utils/memusg/plot_json_files.py
+
+Include a better error message if partial zarr geolocation file exists
+----------------------------------------------------------------------
+
+If the partial cache file exists, include suggested rm command to remove it before attempting to run again.
+This allows more easily resolving the error.
+
+geoips#1029 - 1.18.2 updates
+
+::
+
+     modified: geoips/plugins/modules/readers/utils/geostationary_geolocation.py
+
+Skip undefined sectors in product_database_writer_kwargs
+--------------------------------------------------------
+
+Allow specifying sectors from multiple procflow configs available_sectors in
+product_db_writer_override, so if you specify a sector that does NOT exist in
+a given procflow config at the command line, it will just skip that sector
+when looping through all command line specified sectors.
+
+geoips#1029 - 1.18.2 updates
+
+::
+
      modified: geoips/plugins/modules/procflows/config_based.py
-     modified: geoips/plugins/modules/procflows/single_source.py
+
+Update rich console import for build_docs.py
+--------------------------------------------
+
+rich.logging import now rich.console. rich.logging has been deprecated since
+May 2020, so not providing backwards compatible support.
+
+geoips#1029 - 1.18.2 updates
+
+::
+
+     modified: docs/build_docs.py
+
+Decrease length of time for validating bdeck formatting from 2 years to 6 months
+--------------------------------------------------------------------------------
+
+To avoid test failures for relatively new test scripts, consider any deck files
+older than 6 months as "archived" (allowing tests to skip bad lines, while
+real-time processing will fail to ensure we resolve formatting errors on new
+deck files).
+
+geoips#1029 - 1.18.2 updates
+
+::
+
+     modified: geoips/plugins/modules/sector_metadata_generators/bdeck_parser.py
+
+Refactor
+========
+
+Update geoips platform name map in viirs_l2_netcdf reader
+---------------------------------------------------------
+
+Add support for JP2VIIRS (n21), and change name for JPSS/JP1VIIRS from noaa20 to n20
+
+geoips#1049
+
+::
+
+     modified: geoips/plugins/modules/readers/viirs_l2_netcdf.py
 
 Breaking change
 ===============
@@ -310,32 +339,3 @@ geoips#1047
 
      modified: geoips/plugins/modules/procflows/config_based.py
      modified: geoips/plugins/modules/procflows/single_source.py
-
-Realtime
-========
-
-Add product_spec_override command line support to config-based procflow
------------------------------------------------------------------------
-
-Initially product_spec_override was only supported in the actual YAML procflow
-config file, and command line product_spec_override argument was not passed
-through as well.
-
-Add product_spec_override support to the update_output_dict_from_command_line_args
-function, to ensure the product_spec_override is included in the final output
-request.
-
-::
-
-     modified: geoips/plugins/modules/procflows/config_based.py
-
-Default product_spec_override command line argument to none
------------------------------------------------------------
-
-Don't default product_spec_override to empty dict, default to None.
-Otherwise any procflow config defined product_spec_overrides would be automatically
-replaced with nothing!
-
-::
-
-     modified: geoips/commandline/args.py

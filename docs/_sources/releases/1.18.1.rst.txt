@@ -1,478 +1,87 @@
 Version 1.18.1 (2026-07-23)
 ***************************
 
- * *Enhancement*: Add doc8 linting to code testing framework
- * *Enhancement*: Adding an output checker pydantic model
- * *Enhancement*: Order based -- dealing with generated and non-registered workflow plugins
- * *Enhancement*: Consolidate yaml-based and module-based unit tests into test_pydanitc_models.py
- * *Enhancement*: Obp pydantic product / product default models
- * *Enhancement*: Add output to `geoips config delete-registries`
- * *Enhancement*: Rewrite of text output checker
- * *Enhancement*: Class based plugins -- registry updates
- * *Enhancement*: Base plugin classes
- * *Enhancement*: Add no_color environment variable to geoips
- * *Bug fix*: Fix plugin registry rebuild check
+ * *Release process*: Add 1.18.0 release note
+ * *Release process*: Update internal and github.com 'upcoming_version' and 'tagged_version'
+ * *Bug fixes*: Ensure we error appropriately if any steps in the base, full, or site install fail.
  * *Bug fixes*: Update image output checker so the diff image mode matches the input image modes
+ * *Bug fixes*: More informative error output for improperly formatted plugins
+ * *Bug fixes*: Add missing open source packages to full and site install.
+ * *Bug fixes*: Allow spec to be defined in product_defaults (not product) in pydantic model
+ * *Bug fixes*: Remove validation of text file format during output checking
  * *Bug fixes*: Updating dataframe resource usage parsing to check if the sector value is a string before taking a
    substring
- * *Bug fixes*: Add http.version http/1.1 to gitconfig
- * *Bug fixes*: Add test_data_sgli to full_install.sh
- * *Bug fixes*: Allow spec to be defined in product_defaults (not product) in pydantic model
- * *Bug fixes*: More informative error output for improperly formatted plugins
- * *Bug fixes*: Ensure we error appropriately if any steps in the base, full, or site install fail.
- * *Bug fixes*: Add additional supported text output checkers formats
- * *Bug fixes*: Remove validation of text file format during output checking
  * *Bug fixes*: Update base_paths.py so all global env vars are cast to bool/none appropriately
- * *Bug fixes*: Add missing open source packages to full and site install.
+ * *Bug fixes*: Add test_data_sgli to full_install.sh
+ * *Bug fixes*: Add http.version http/1.1 to gitconfig
+ * *Bug fixes*: Add additional supported text output checkers formats
+ * *Continuous integration*: Update code base for black 2026 style - see black 26.1.0 release notes for details.
+ * *Enhancement*: Add doc8 linting to code testing framework
+ * *Enhancement*: Class based plugins -- registry updates
+ * *Enhancement*: Rewrite of text output checker
+ * *Enhancement*: Consolidate yaml-based and module-based unit tests into test_pydanitc_models.py
+ * *Enhancement*: Adding an output checker pydantic model
+ * *Enhancement*: Add no_color environment variable to geoips
+ * *Enhancement*: Order based -- dealing with generated and non-registered workflow plugins
+ * *Enhancement*: Base plugin classes
+ * *Enhancement*: Obp pydantic product / product default models
+ * *Enhancement*: Add output to `geoips config delete-registries`
+ * *Realtime*: Update config_based procflow to pull sector_adjuster_kwargs from output config yaml
+ * *Testing*: Test data abi dataset update v1.17.1
+ * *Testing*: Cli unit tests -- test dataset name updates
  * *Testing*: Allow importing validation and lint test lists from geoips repo, and add validation pytest markers
+ * *Testing*: Creating tiny sector for testing
  * *Testing*: Have fail on missing data default to true
  * *Testing*: Allow disabling dumping all failed log contents to terminal
  * *Testing*: Consolidated env variable naming for all geoips_test env vars
  * *Testing*: Temporarily disable doc8 by default for check_code.sh
  * *Testing*: Remove print statements in unit tests
- * *Testing*: Test data abi dataset update v1.17.1
- * *Testing*: Cli unit tests -- test dataset name updates
- * *Testing*: Creating tiny sector for testing
  * *Feature*: Order-based procflow: add title formatters
  * *Feature*: Order-based procflow: add coverage checkers
+ * *Plotting*: Histogram colorbar and static sector conformity.
+ * *Documentation*: Fixed docstrings on sgli reader and on hncc algorithm.
  * *Documentation*: Add release note for version 1.18.0
  * *Documentation*: Update upcoming and tagged versions
- * *Documentation*: Fixed docstrings on sgli reader and on hncc algorithm.
  * *Temporary bug fix*: Temporary fix for incorrect solar and satellite azimuth angles
- * *Plotting*: Histogram colorbar and static sector conformity.
- * *Realtime*: Update config_based procflow to pull sector_adjuster_kwargs from output config yaml
- * *Continuous integration*: Update code base for black 2026 style - see black 26.1.0 release notes for details.
  * *Minor bug fix*: Add storm_id to fields returned by f-deck parser
+ * *Bug fix*: Fix plugin registry rebuild check
  * *Setup*: Remove geoips_vers
  * *Resource usage statistics*: Add option to write statistics for a config_based procflow write to a json file
  * *Resource usage statistics*: Move all memusg utilities to utils/memusg
  * *Resource usage statistics*: Add json based resource usage plotting capabilities
- * *Release process*: Add 1.18.0 release note
- * *Release process*: Update internal and github.com 'upcoming_version' and 'tagged_version'
 
-Enhancement
-===========
+Release process
+===============
 
-Add doc8 linting to code testing framework
-------------------------------------------
+Add 1.18.0 release note
+-----------------------
 
-Added doc8 documentation linter support to the check_code.sh.
-Check_code now supports running doc8 with a maximum line length of 120 characters (our standard)
-on documentation source files.
+Currently tagged internal version 1.17.3.
+
+geoips#1029 - 1.18.0 updates*
 
 ::
 
-     modified: tests/utils/check_code.sh
+     added: docs/source/releases/1.18.0/1.18.0-internal-release.yaml
 
-Adding an output checker pydantic model
----------------------------------------
+Update internal and github.com 'upcoming_version' and 'tagged_version'
+----------------------------------------------------------------------
 
-Creating a Pydantic model for output checkers and unit tests to ensure functionality.
-The general pydantic test flow was also modified to allow for a `test_cases_good.yaml` file.
+Updated 'update_this_release_note' file in geoips repo for the
+next internal version-
+1.18.1
+next github.com version-
+1.19.0
 
-`#1204 <https://github.com/NRLMMD-GEOIPS/geoips>`_
-
-::
-
-     deleted: tests/unit_tests/pydantic_models/v1/feature_annotators/test_cases.yaml
-     deleted: tests/unit_tests/pydantic_models/v1/sectors/test_cases.yaml
-     added: docs/source/releases/latest/1204-output-checkers-pydantic-model.yaml
-     added: pydantic_models/v1/output_checkers.py
-     added: tests/unit_tests/pydantic_models/v1/feature_annotators/test_cases_good.yaml
-     added: tests/unit_tests/pydantic_models/v1/gridline_annotators/test_cases_good.yaml
-     added: tests/unit_tests/pydantic_models/v1/sectors/test_cases_good.yaml
-     added: tests/unit_tests/pydantic_models/v1/output_checkers/test_cases_bad.yaml
-     added: tests/unit_tests/pydantic_models/v1/output_checkers/test_cases_good.yaml
-     added: tests/unit_tests/pydantic_models/v1/output_checkers/test_cases_neutral.yaml
-     added: tests/unit_tests/pydantic_models/v1/title_formatters/test_cases_good.yaml
-     modified: tests/unit_tests/pydantic_models/v1/conftest.py
-     modified: tests/unit_tests/pydantic_models/v1/test_pydantic_models.py
-     modified: tests/unit_tests/pydantic_models/v1/utils.py
-     modified: tests/unit_tests/pydantic_models/v1/feature_annotators/test_cases_neutral.yaml
-
-Order based -- dealing with generated and non-registered workflow plugins
--------------------------------------------------------------------------
-
-This PR updates how we can call the order based procflow. Instead of only being able
-to provide a registered workflow plugin name to the commandline alongside other
-procflow arguments GeoIPS supports, we've now added two additional arguments in
-which we can specify a workflow. Those arguments are '--filepath' and '--generated'.
-
-Neither of these arguments represent a 'registered' workflow plugin. Generated means
-we're passing a literal evalation of a python dictionary (representing a workflow
-plugin), and filepath means we're passing a path to an unregistered workflow plugin.
-
-WorkflowPluginModel validation occurs for both of the new arguments and will only
-send the provided workflows to the order based procflow once validation has passed.
-Otherwise, appropriate errors will be raised.
-
-Unit tests and commandline help information have been updated to reflect the changes
-made in this PR.
+geoips#1029 - 1.18.0 updates*
 
 ::
 
-     modified: geoips/commandline/ancillary_info/cmd_instructions.yaml
-     modified: geoips/commandline/geoips_run.py
-     modified: geoips/plugins/modules/procflows/order_based.py
-     modified: geoips/pydantic_models/v1/bases.py
-     modified: tests/unit_tests/commandline/test_geoips_run.py
-
-Consolidate yaml-based and module-based unit tests into test_pydanitc_models.py
--------------------------------------------------------------------------------
-
-Unifies YAML-based and module-based Pydantic unit tests into single location,
-reducing redundancy and simplifying maintenance.
-
-::
-
-     added: tests/unit_tests/pydantic_models/v1/title_formatters/test_cases_neutral.yaml
-     modified: tests/unit_tests/pydantic_models/v1/conftest.py
-     modified: tests/unit_tests/pydantic_models/v1/test_pydantic_models.py
-     deleted: tests/unit_tests/pydantic_models/v1/title_formatters/conftest.py
-     deleted: tests/unit_tests/pydantic_models/v1/title_formatters/test_title_formatters.py
-
-Obp pydantic product / product default models
----------------------------------------------
-
-Adds new pydantic models used to validate product and product_default plugins. These
-updates are intended to completely replace the JSON schema we currently use to
-validate yaml-based plugins. Minor changes were needed to be made to
-geoips/pydantic/bases.py to take into account the differences in product plugins.
-
-Additionally, this update adds unit testing for these new models, and updated the
-.gitignore file to ignore both types of our plugin registry files (.json, .yaml).
-
-::
-
-     added: geoips/pydantic/products.py
-     added: tests/unit_tests/pydantic/product_defaults/test_cases_bad.yaml
-     added: tests/unit_tests/pydantic/product_defaults/test_cases_neutral.yaml
-     added: tests/unit_tests/pydantic/products/test_cases_bad.yaml
-     added: tests/unit_tests/pydantic/products/test_cases_neutral.yaml
-     modified: .gitignore
-     modified: geoips/dev/product.py
-     modified: geoips/interfaces/yaml_based/gridline_annotators.py
-     modified: geoips/interfaces/yaml_based/product_defaults.py
-     modified: geoips/interfaces/yaml_based/products.py
-     modified: geoips/interfaces/yaml_based/sectors.py
-     modified: geoips/plugin_registry.py
-     modified: geoips/pydantic/bases.py
-     modified: tests/unit_tests/plugins/yaml/sectors/test_sectors_jsonschema.py
-     modified: tests/unit_tests/pydantic/test_pydantic_models.py
-     modified: tests/unit_tests/pydantic/utils.py
-
-Add output to `geoips config delete-registries`
------------------------------------------------
-
-Currently the command 'geoips config delete-registries' prints nothing useful. It
-just prints None, whether or not the command successfully deleted one or more
-registry files. I've updated this command to produce some useful output, which
-determines whether or not a file was deleted, and where it can be found.
-
-`#1043 <https://github.com/NRLMMD-GEOIPS/geoips/>`_
-
-::
-
-     modified: geoips/commandline/geoips_config.py
-     modified: geoips/plugin_registry.py
-
-Rewrite of text output checker
-------------------------------
-
-This is a rewrite of the text output checker. It adds QOL updates such as optional inline diff printing, optional rich
-output and optional updating of comparisons (with manual confirmation that is yes compatible). It adds options to GeoIPS
-for setting user preferences on whether to enable these new features.
-
-::
-
-     modified: geoips/filenames/base_paths.py
-     modified: geoips/plugins/modules/output_checkers/text.py
-
-Class based plugins -- registry updates
----------------------------------------
-
-In an effort to convert all of our module_based plugins to class_based plugins, we
-need to update multiple areas of the codebase. One large refactor that needs to
-occur is plugin registry related updates, which is what is handled in this PR.
-
-This update includes a refactor of the BaseModuleInterface to become
-BaseClassInterface, and updates all module_based interfaces to make use of that new
-class. Directory changes to come soon.
-
-Additionally, updated create_plugin_registries.py and plugin_registry.py to make
-use of the new updates to the BaseClassInterface, and added logic to handle the
-conversion of module_based interfaces to a true plugin class, or the omission of
-that step if a True class plugin is provided.
-
-Lastly, created a dummy class-based algorithm to test the new plugin registry
-infrastructure and updated all failing unit/integration tests to match the new
-functionality added.
-
-`#950 <https://github.com/NRLMMD-GEOIPS/geoips/>`_
-
-::
-
-     added: geoips/interfaces/class_based_plugin.py
-     added: geoips/plugins/classes/algorithms/single_channel.py
-     modified: geoips/commandline/geoips_describe.py
-     modified: geoips/commandline/list_available_plugins.py
-     modified: geoips/create_plugin_registries.py
-     modified: geoips/interfaces/__init__.py
-     modified: geoips/interfaces/base.py
-     modified: geoips/interfaces/module_based/__init__.py
-     modified: geoips/interfaces/module_based/algorithms.py
-     modified: geoips/interfaces/module_based/colormappers.py
-     modified: geoips/interfaces/module_based/coverage_checkers.py
-     modified: geoips/interfaces/module_based/databases.py
-     modified: geoips/interfaces/module_based/filename_formatters.py
-     modified: geoips/interfaces/module_based/interpolators.py
-     modified: geoips/interfaces/module_based/output_checkers.py
-     modified: geoips/interfaces/module_based/output_formatters.py
-     modified: geoips/interfaces/module_based/procflows.py
-     modified: geoips/interfaces/module_based/readers.py
-     modified: geoips/interfaces/module_based/sector_adjusters.py
-     modified: geoips/interfaces/module_based/sector_metadata_generators.py
-     modified: geoips/interfaces/module_based/sector_spec_generators.py
-     modified: geoips/interfaces/module_based/title_formatters.py
-     modified: geoips/plugin_registry.py
-     modified: geoips/plugins/modules/procflows/config_based.py
-     modified: geoips/plugins/modules/procflows/single_source.py
-     modified: tests/unit_tests/commandline/test_geoips_describe_plugin.py
-     modified: tests/unit_tests/commandline/test_geoips_list_plugins.py
-     modified: tests/unit_tests/commandline/test_geoips_list_source_names.py
-     modified: tests/unit_tests/plugin_registries/files/bad/invalid_interfaces.yaml
-     modified: tests/unit_tests/plugin_registries/files/bad/missing_lowest_keys.yaml
-     modified: tests/unit_tests/plugin_registries/files/bad/missing_plugin_types.yaml
-     modified: tests/unit_tests/plugin_registries/files/good/data_fusion.yaml
-     modified: tests/unit_tests/plugin_registries/files/good/geoips.yaml
-     modified: tests/unit_tests/plugin_registries/files/good/geoips_clavrx.yaml
-     modified: tests/unit_tests/plugin_registries/files/good/geoips_plugin_example.yaml
-     modified: tests/unit_tests/plugin_registries/files/good/overcast_package.yaml
-     modified: tests/unit_tests/plugin_registries/files/good/recenter_tc.yaml
-     modified: tests/unit_tests/plugin_registries/files/good/template_basic_plugin.yaml
-     modified: tests/unit_tests/plugin_registries/files/good/template_fusion_plugin.yaml
-     modified: tests/unit_tests/plugin_registries/test_plugin_registries.py
-     modified: tests/unit_tests/plugins/test_get_plugin.py
-     modified: tests/unit_tests/plugins/test_get_plugin_metadata.py
-     modified: tests/utils/test_interfaces.py
-     renamed: geoips/interfaces/module_based/__init__.py => geoips/interfaces/class_based/__init__.py
-     renamed: geoips/interfaces/module_based/algorithms.py => geoips/interfaces/class_based/algorithms.py
-     renamed: geoips/interfaces/module_based/colormappers.py => geoips/interfaces/class_based/colormappers.py
-     renamed: geoips/interfaces/module_based/coverage_checkers.py => geoips/interfaces/class_based/coverage_checkers.py
-     renamed: geoips/interfaces/module_based/databases.py => geoips/interfaces/class_based/databases.py
-     renamed: geoips/interfaces/module_based/filename_formatters.py =>
-     geoips/interfaces/class_based/filename_formatters.py
-     renamed: geoips/interfaces/module_based/interpolators.py => geoips/interfaces/class_based/interpolators.py
-     renamed: geoips/interfaces/module_based/output_checkers.py => geoips/interfaces/class_based/output_checkers.py
-     renamed: geoips/interfaces/module_based/output_formatters.py => geoips/interfaces/class_based/output_formatters.py
-     renamed: geoips/interfaces/module_based/procflows.py => geoips/interfaces/class_based/procflows.py
-     renamed: geoips/interfaces/module_based/readers.py => geoips/interfaces/class_based/readers.py
-     renamed: geoips/interfaces/module_based/sector_adjusters.py => geoips/interfaces/class_based/sector_adjusters.py
-     renamed: geoips/interfaces/module_based/sector_metadata_generators.py =>
-     geoips/interfaces/class_based/sector_metadata_generators.py
-     renamed: geoips/interfaces/module_based/sector_spec_generators.py =>
-     geoips/interfaces/class_based/sector_spec_generators.py
-     renamed: geoips/interfaces/module_based/title_formatters.py => geoips/interfaces/class_based/title_formatters.py
-
-Base plugin classes
--------------------
-
-This PR builds off of #1235 by implementing base plugin classes for all class-based
-interfaces (previously module-based interfaces). Additionally, this PR converts all
-output_checker plugins to class-based plugins and refactors the output_checker
-interface / base plugin code to remove any reference of ``plugin.module`` and make
-use of functionality via inheritance instead. There is an additional PR for
-recenter_tc (https://github.com/NRLMMD-GEOIPS/recenter_tc/pull/54) which converts
-the ``fdeck`` output_checker to class-based as well.
-
-Additionally, added documentation describing the purpose of class-based plugins and
-how they impact the plugin registry. There is also an example of how to convert a
-module-based plugin to a class-based plugin which also describes how the plugin
-registry can access the metadata of the true class-based plugin.
-
-Finally, refactored the long unit test ``test_readers`` by removing any reference of
-``plugin.module`` and updating logic to get all information needed for unit tests
-via a hardcoded yaml file rather than having testing logic in the module of specific
-reader plugins.
-
-::
-
-     added: docs/dev/class_based_plugins.rst
-     added: geoips/base_class_plugins/__init__.py
-     added: geoips/base_class_plugins/algorithms.py
-     added: geoips/base_class_plugins/colormappers.py
-     added: geoips/base_class_plugins/coverage_checkers.py
-     added: geoips/base_class_plugins/databases.py
-     added: geoips/base_class_plugins/filename_formatters.py
-     added: geoips/base_class_plugins/interpolators.py
-     added: geoips/base_class_plugins/output_checkers.py
-     added: geoips/base_class_plugins/output_formatters.py
-     added: geoips/base_class_plugins/procflows.py
-     added: geoips/base_class_plugins/readers.py
-     added: geoips/base_class_plugins/sector_adjusters.py
-     added: geoips/base_class_plugins/sector_metadata_adjusters.py
-     added: geoips/base_class_plugins/sector_spec_generators.py
-     added: geoips/base_class_plugins/title_formatters.py
-     added: geoips/plugins/classes/output_checkers/geotiff.py
-     added: geoips/plugins/classes/output_checkers/image.py
-     added: geoips/plugins/classes/output_checkers/netcdf.py
-     added: geoips/plugins/classes/output_checkers/text.py
-     modified: docs/dev/order_based_procflow.rst
-     modified: geoips/create_plugin_registries.py
-     modified: geoips/image_utils/maps.py
-     modified: geoips/interfaces/__init__.py
-     modified: geoips/interfaces/base.py
-     modified: geoips/interfaces/class_based/algorithms.py
-     modified: geoips/interfaces/class_based/colormappers.py
-     modified: geoips/interfaces/class_based/coverage_checkers.py
-     modified: geoips/interfaces/class_based/databases.py
-     modified: geoips/interfaces/class_based/filename_formatters.py
-     modified: geoips/interfaces/class_based/interpolators.py
-     modified: geoips/interfaces/class_based/output_checkers.py
-     modified: geoips/interfaces/class_based/output_formatters.py
-     modified: geoips/interfaces/class_based/procflows.py
-     modified: geoips/interfaces/class_based/readers.py
-     modified: geoips/interfaces/class_based/sector_adjusters.py
-     modified: geoips/interfaces/class_based/sector_metadata_generators.py
-     modified: geoips/interfaces/class_based/sector_spec_generators.py
-     modified: geoips/interfaces/class_based/title_formatters.py
-     modified: geoips/interfaces/class_based_plugin.py
-     modified: geoips/interfaces/yaml_based/gridline_annotators.py
-     modified: geoips/interfaces/yaml_based/sectors.py
-     modified: geoips/plugin_registry.py
-     modified: geoips/plugins/classes/algorithms/single_channel.py
-     modified: geoips/plugins/modules/procflows/config_based.py
-     modified: geoips/plugins/modules/procflows/single_source.py
-     modified: geoips/plugins/modules/readers/ami_netcdf.py
-     modified: geoips/plugins/modules/readers/amsr2_netcdf.py
-     modified: geoips/plugins/modules/readers/amsr2_remss_winds_netcdf.py
-     modified: geoips/plugins/modules/readers/cygnss_netcdf.py
-     modified: geoips/plugins/modules/readers/gmi_hdf5.py
-     modified: geoips/plugins/modules/readers/sar_winds_netcdf.py
-     modified: geoips/plugins/modules/readers/scat_knmi_winds_netcdf.py
-     modified: geoips/plugins/modules/readers/scat_noaa_winds_netcdf.py
-     modified: geoips/plugins/modules/readers/smap_remss_winds_netcdf.py
-     modified: tests/unit_tests/plugins/modules/output_checkers/test_output_checkers.py
-     modified: tests/unit_tests_long/plugins/modules/readers/reader_dataset_variable_mappings.yaml
-     modified: tests/unit_tests_long/plugins/modules/readers/test_readers.py
-     modified: tests/utils/test_interfaces.py
-     deleted: geoips/plugins/modules/output_checkers/geotiff.py
-     deleted: geoips/plugins/modules/output_checkers/image.py
-     deleted: geoips/plugins/modules/output_checkers/netcdf.py
-     deleted: geoips/plugins/modules/output_checkers/text.py
-
-Add no_color environment variable to geoips
--------------------------------------------
-
-The GeoIPS CLI has a few commands which can produce output that is colored
-differently than most terminal text. We do this via the 'colorama' package, however,
-we did not have a setting to disable colored terminal output if wanted. We took in
-consideration what other software packages have implemented and decided to reinforce
-that standard by implementing a new 'NO_COLOR' environment variable. If set to True,
-then GeoIPS will no longer produce colored output via the terminal. Keep in mind
-that since this variable commonly used among software packages, setting NO_COLOR to
-True may impact packages outside the scope of GeoIPS. For example, when this
-variable is enabled, pytest will no longer color its terminal output.
-
-`#1082 <https://github.com/NRLMMD-GEOIPS/geoips>`_
-
-::
-
-     modified: docs/source/concepts/configuration/index.rst
-     modified: docs/source/concepts/functionality/command-line/index.rst
-     modified: docs/source/concepts/index.rst
-     modified: geoips/commandline/commandline_interface.py
-     modified: geoips/commandline/geoips_command.py
-     modified: geoips/commandline/geoips_run.py
-     modified: geoips/commandline/geoips_tree.py
-     modified: geoips/filenames/base_paths.py
-
-Bug fix
-=======
-
-Fix plugin registry rebuild check
----------------------------------
-
-This fixes a typo in a check for if GEOIPS_REBUILD_REGISTRIES is set.
-
-::
-
-     modified: geoips/plugin_registry.py
+     modified: .github/versions/upcoming_version
+     modified: .github/versions/tagged_version
 
 Bug fixes
 =========
-
-Update image output checker so the diff image mode matches the input image modes
---------------------------------------------------------------------------------
-
-With 12.1.0 pillow version, RGB raw output image mode will fail when comparing against
-RGBA input images.  Update hard coded RGB output diff image mode to use the
-input_image.mode to ensure they are consistent for the pixelmatch call.
-
-geoips#1029 - 1.18.0 updates
-
-::
-
-     modified: geoips/plugins/classes/output_checkers/image.py
-
-Updating dataframe resource usage parsing to check if the sector value is a string before taking a substring
-------------------------------------------------------------------------------------------------------------
-
-Previously only checked "if x", now check if isinstance(x, str) to ensure it is a
-string rather than a float.  Sometimes dataframe values can be nan, which are not
-caught by if x.
-
-geoips#1029 - 1.18.0 updates
-
-::
-
-     modified: geoips/utils/memusg/dataframe_utils.py
-
-Add http.version http/1.1 to gitconfig
---------------------------------------
-
-Resolves git clone timeout issues.
-Note this setup is not executed if .gitconfig already exists, so will not impact
-existing gitconfig files.
-
-geoips#1029 - 1.18.0 updates
-
-::
-
-     modified: setup/bash_setup/gitconfigs
-
-Add test_data_sgli to full_install.sh
--------------------------------------
-
-* test_data_sgli included in geoips tests/scripts.
-
-geoips#1029 - 1.18.0 updates
-
-::
-
-     modified: tests/integration_tests/full_install.sh
-
-Allow spec to be defined in product_defaults (not product) in pydantic model
-----------------------------------------------------------------------------
-
-* Also improve error messaging when undefined.
-
-geoips#1029 - 1.18.0 updates
-
-::
-
-     modified: geoips/pydantic_models/v1/products.py
-
-More informative error output for improperly formatted plugins
---------------------------------------------------------------
-
-Ensure it is obvious which plugin is failing when validating interfaces/plugins.
-
-geoips#1029 - 1.18.0 updates
-
-::
-
-     modified: geoips/interfaces/class_based/output_checkers.py
 
 Ensure we error appropriately if any steps in the base, full, or site install fail.
 -----------------------------------------------------------------------------------
@@ -490,16 +99,58 @@ geoips#1029 - 1.18.0 updates
      modified: tests/integration_tests/site_install.sh
      modified: geoips/commandline/geoips_config.py
 
-Add additional supported text output checkers formats
------------------------------------------------------
+Update image output checker so the diff image mode matches the input image modes
+--------------------------------------------------------------------------------
 
-Add .csv, .geojson, and .json output format extensions for the text output checker.
+With 12.1.0 pillow version, RGB raw output image mode will fail when comparing against
+RGBA input images.  Update hard coded RGB output diff image mode to use the
+input_image.mode to ensure they are consistent for the pixelmatch call.
 
 geoips#1029 - 1.18.0 updates
 
 ::
 
-     modified: geoips/plugins/classes/output_checkers/text.py
+     modified: geoips/plugins/classes/output_checkers/image.py
+
+More informative error output for improperly formatted plugins
+--------------------------------------------------------------
+
+Ensure it is obvious which plugin is failing when validating interfaces/plugins.
+
+geoips#1029 - 1.18.0 updates
+
+::
+
+     modified: geoips/interfaces/class_based/output_checkers.py
+
+Add missing open source packages to full and site install.
+----------------------------------------------------------
+
+Ensure all packages are regularly installed and tested.
+
+* test_data_abi and ahi
+* geoips_proxyvis
+* geoips_nucaps
+* test_data_sgli
+* others
+
+geoips#1029 - 1.18.0 updates
+
+::
+
+     modified: tests/integration_tests/full_install.sh
+     modified: tests/integration_tests/site_install.sh
+
+Allow spec to be defined in product_defaults (not product) in pydantic model
+----------------------------------------------------------------------------
+
+* Also improve error messaging when undefined.
+
+geoips#1029 - 1.18.0 updates
+
+::
+
+     modified: geoips/pydantic_models/v1/products.py
 
 Remove validation of text file format during output checking
 ------------------------------------------------------------
@@ -516,6 +167,19 @@ geoips#1029 - 1.18.0 updates
 ::
 
      modified: geoips/plugins/classes/output_checkers/text.py
+
+Updating dataframe resource usage parsing to check if the sector value is a string before taking a substring
+------------------------------------------------------------------------------------------------------------
+
+Previously only checked "if x", now check if isinstance(x, str) to ensure it is a
+string rather than a float.  Sometimes dataframe values can be nan, which are not
+caught by if x.
+
+geoips#1029 - 1.18.0 updates
+
+::
+
+     modified: geoips/utils/memusg/dataframe_utils.py
 
 Update base_paths.py so all global env vars are cast to bool/none appropriately
 -------------------------------------------------------------------------------
@@ -544,309 +208,40 @@ geoips#1029 - 1.18.0 updates
      modified: tests/integration_tests/test_integration.py
      modified: geoips/filenames/base_paths.py
 
-Add missing open source packages to full and site install.
-----------------------------------------------------------
+Add test_data_sgli to full_install.sh
+-------------------------------------
 
-Ensure all packages are regularly installed and tested.
-
-* test_data_abi and ahi
-* geoips_proxyvis
-* geoips_nucaps
-* test_data_sgli
-* others
+* test_data_sgli included in geoips tests/scripts.
 
 geoips#1029 - 1.18.0 updates
 
 ::
 
      modified: tests/integration_tests/full_install.sh
-     modified: tests/integration_tests/site_install.sh
 
-Testing
-=======
+Add http.version http/1.1 to gitconfig
+--------------------------------------
 
-Allow importing validation and lint test lists from geoips repo, and add validation pytest markers
---------------------------------------------------------------------------------------------------
-
-* Add repopath and pkgname to geoips repo setup_environment, rather than just
-  geoips_repopath and geoips_pkgname.  Note these get overwritten in individual
-  plugin repositories after calling geoips setup_environment.
-* Update lint test list to use repopath and pkgname rather than geoips_repopath
-  and geoips_pkgname, so the same test list can be imported by all the plugin
-  repos.
-* Add validation test list, using the current repopath and pkgname as arguments
-  to list plugins and test interfaces calls.
-* Add validation pytest marker to pytest.ini
-
-::
-
-     modified: pytest.ini
-     modified: tests/integration_tests/test_reponame.py
-     modified: tests/utils/test_integration.py
-
-Have fail on missing data default to true
------------------------------------------
-
-Rather than having to update every plugin repo integration test script to add the
-required fail_on_missing_data flag, just have it default to True in the main
-run bash script function in the main geoips repo.  If the flag is supported in
-a plugin repo, it will be passed in appropriately, if it is not supported in a
-plugin repo, it will just default to True and the plugin repo integration tests
-won't break.
-
-Also print the value of fail_on_missing_data to terminal.
+Resolves git clone timeout issues.
+Note this setup is not executed if .gitconfig already exists, so will not impact
+existing gitconfig files.
 
 geoips#1029 - 1.18.0 updates
 
 ::
 
-     modified: tests/integration_tests/test_integration.py
+     modified: setup/bash_setup/gitconfigs
 
-Allow disabling dumping all failed log contents to terminal
------------------------------------------------------------
-
-Set GEOIPS_TEST_SUPPRESS_PYTEST_FAILED_LOG_CONTENTS env var to True to avoid printing
-all failed log output from integration tests to terminal.
-
-When running interactively might be nice to suppress, if running exhaustively
-don't suppress and all log output will be contained in a single log file.
-
-geoips#1029 - 1.18.0 updates
-
-::
-
-     modified: tests/integration_tests/test_integration.py
-     modified: geoips/filenames/base_paths.py
-
-Consolidated env variable naming for all geoips_test env vars
--------------------------------------------------------------
-
-Prepend all test related environment variables with GEOIPS_TEST.
-
-* GEOIPS_TEST_OUTPUT_CHECKER_THRESHOLD_IMAGE 0.05
-* GEOIPS_TEST_PRINT_TEXT_OUTPUT_CHECKER_TO_CONSOLE True
-* GEOIPS_TEST_SUPPRESS_PYTEST_FAILED_LOG_CONTENTS False
-* GEOIPS_TEST_SECTOR_CREATE_ANNOTATED_OUTPUTS False
-* GEOIPS_TEST_SECTOR_CREATE_GEOTIFF_OUTPUTS False
-* GEOIPS_TEST_PROMPT_TO_OVERWRITE_COMPARISON_FILE_IF_MISMATCH False
-
-geoips#1029 - 1.18.0 updates
-
-::
-
-     modified: tests/integration_tests/test_integration.py
-     modified: geoips/filenames/base_paths.py
-     modified: tests/integration_tests/tiny_sectors/tiny_sectors_geostationary.sh
-     modified: geoips/plugins/classes/output_checkers/image.py
-     modified: geoips/plugins/classes/output_checkers/text.py
-
-Temporarily disable doc8 by default for check_code.sh
+Add additional supported text output checkers formats
 -----------------------------------------------------
 
-Until all rst docs are updated, disable the doc8 check in check_code.sh so the
-tests pass.
+Add .csv, .geojson, and .json output format extensions for the text output checker.
 
 geoips#1029 - 1.18.0 updates
 
 ::
 
-     modified: tests/utils/check_code.sh
-
-Remove print statements in unit tests
--------------------------------------
-
-To clean up pytest output, remove extraneous print statements from unit tests.
-
-geoips#1029 - 1.18.0 updates
-
-::
-
-     modified: tests/unit_tests/pydantic_models/v1/test_pydantic_models.py
-     modified: tests/unit_tests/pydantic_models/v1/utils.py
-
-Test data abi dataset update v1.17.1
-------------------------------------
-
-This PR updates the URL used for the test_data_abi dataset. It now points to V1.17.1
-instead of our V1.15.1 dataset. This is a simple one line change to the URL of that
-dataset that is used via the CLI for test dataset installation.
-
-::
-
-     modified: geoips/commandline/ancillary_info/test-data-urls.yaml
-
-Cli unit tests -- test dataset name updates
--------------------------------------------
-
-We have unit tests for every GeoIPS CLI command and the test module for 'geoips list
-test-datasets' needs updated. This is a simple update to the hardcoded values for
-our test datasets. We now retrieve the appropriate list of test dataset names in the
-same manner we do for the actual CLI command.
-
-`#1212 <https://github.com/NRLMMD-GEOIPS/geoips/>`_
-
-::
-
-     modified: tests/unit_tests/commandline/cli_top_level_tester.py
-
-Creating tiny sector for testing
---------------------------------
-
-Add new global_200km_longlat sector for integration testing.
-
-geoips#1033 - low res global tiny sector
-
-::
-
-     added: geoips/plugins/yaml/sectors/integration_tests/global_200km_longlat.yaml
-
-Feature
-=======
-
-Order-based procflow: add title formatters
-------------------------------------------
-
-Introduce Pydantic model defining and validating OBP-v1 TitleFormatterArgumentsModel
-
-::
-
-     added: geoips/pydantic_models/v1/title_formatters.py
-     added: tests/unit_tests/pydantic_models/v1/title_formatters/conftest.py
-     added: tests/unit_tests/pydantic_models/v1/title_formatters/test_cases_bad.yaml
-     added: tests/unit_tests/pydantic_models/v1/title_formatters/test_title_formatters.py
-
-Order-based procflow: add coverage checkers
--------------------------------------------
-
-Define OBP Pydantic model for Coverage Checker plugins.
-
-`#1202 <https://github.com/NRLMMD-GEOIPS/geoips>`_
-
-::
-
-     added: docs/source/releases/latest/1180-OBP-add-coverage-checkers-pydantic-models.yaml
-     added: geoips/pydantic_models/v1/coverage_checkers.py
-     added: geoips/plugins/yaml/workflows/read_test_v1_coverage_checker.yaml
-     added: tests/unit_tests/pydantic_models/v1/coverage_checkers/conftest.py
-     added: tests/unit_tests/pydantic_models/v1/coverage_checkers/test_cases_bad.yaml
-     added: tests/unit_tests/pydantic_models/v1/coverage_checkers/test_coverage_checkers.py
-     modified: geoips/plugin_registry.py
-     modified: geoips/plugins/modules/coverage_checkers/center_radius.py
-     modified: geoips/plugins/modules/coverage_checkers/center_radius_rgba.py
-     modified: geoips/plugins/modules/coverage_checkers/masked_arrays.py
-     modified: geoips/plugins/modules/coverage_checkers/numpy_arrays_nan.py
-     modified: geoips/plugins/modules/coverage_checkers/rgba.py
-     modified: geoips/plugins/modules/coverage_checkers/windbarbs.py
-     modified: geoips/plugins/modules/procflows/order_based.py
-     modified: geoips/plugins/yaml/workflows/read_test_v1.yaml
-     modified: geoips/pydantic_models/v1/workflows.py
-
-Documentation
-=============
-
-Add release note for version 1.18.0
------------------------------------
-
-Release note on release branch to force tag/release, package/publish,
-and deploy docs.
-
-Additionally add any updated files from geoips_ci/sync
-
-geoips#1029 - 1.18.0 updates
-
-::
-
-     added: docs/source/releases/latest/1.18.0-release-note.yaml
-     modified: geoips_ci/sync updated files
-
-Update upcoming and tagged versions
------------------------------------
-
-* Tagged version: 1.18.0
-* Upcoming version: 1.18.1
-
-geoips#1029 - 1.18.0 updates
-
-::
-
-     modified: .github/versions/tagged_version
-     modified: .github/versions/upcoming_version
-
-Fixed docstrings on sgli reader and on hncc algorithm.
-------------------------------------------------------
-
-Added better description of source on High Near Constant Contrast algorithm, attributing paper the algorithm was derived
-from. Fixed several copy paste bugs within the SGLI reader.
-
-::
-
-     modified: geoips/plugins/modules/readers/sgli_l1b_hdf5.py
-     modified: geoips/plugins/modules/algorithms/visir/HNear_Constant_Contrast.py
-
-Temporary bug fix
-=================
-
-Temporary fix for incorrect solar and satellite azimuth angles
---------------------------------------------------------------
-
-This is a temporary bug fix for satellite and solar angle calculations. Proper and
-longterm fix will be to update the backend calculations.
-
-There is a bug in the satellite azimuth calculation where it is off by 180°
-It doesn't seem like it is an issue with the output being 0-360 vs -180 - 180.
-Converting to -180 - 180 will not yield the correct result.
-
-There is another bug in the solar azimuth calculation that causes the output to
-be in radians, and in 0-360. If the full disk solar azimuth angle array has
-minimum greater than zero, then we are dealing with the bugged calculation.
-Need to apply the following corrections -
-1 - Convert from radians to degrees
-2 - Convert from 0-360 to -180 - 180
-
-geoips#1045
-
-::
-
-     modified: geoips/plugins/modules/readers/utils/geostationary_geolocation.py
-
-Plotting
-========
-
-Histogram colorbar and static sector conformity.
-------------------------------------------------
-
-Created a histogram colorbar that helps visulize distribution of values for annotated imagery. Fixed static sectors that
-had non-standard formatting, this includes not having the region sub-key, or having spacing in the metadata which would
-lead to spacing in the output filepath. Added a north american static sector.
-
-::
-
-     added: tests/scripts/amsr2.tc.89H-Physical.imagery_annotated_colorhist.sh
-     added: geoips/plugins/yaml/sectors/static/north_america.yaml
-     modified: geoips/image_utils/mpl_utils.py
-     modified: geoips/plugins/modules/output_formatters/imagery_annotated.py
-     modified: geoips/plugins/yaml/sectors/static/e_pacific.yaml
-     modified: geoips/plugins/yaml/sectors/static/guam.yaml
-     modified: geoips/plugins/yaml/sectors/static/hawaii.yaml
-     modified: geoips/plugins/yaml/sectors/static/rio_de_janeiro.yaml
-     modified: geoips/plugins/yaml/sectors/static/w_atlantic.yaml
-
-Realtime
-========
-
-Update config_based procflow to pull sector_adjuster_kwargs from output config yaml
------------------------------------------------------------------------------------
-
-Supporting the use of sector_adjuster_kwargs was previously only supported by the
-single_source procflow via command line arguments. The config_based procflow was
-updated to pull sector_adjuster_kwargs from the output_config YAML, and defaults to
-an empty dictionary if none are specified in the output_config.
-
-geoips#1038
-
-::
-
-     modified: geoips/plugins/modules/procflows/config_based.py
+     modified: geoips/plugins/classes/output_checkers/text.py
 
 Continuous integration
 ======================
@@ -944,6 +339,629 @@ Please make sure you update your local Black install as old versions will produc
      modified: tests/unit_tests_long/plugins/modules/readers/test_readers.py
      modified: tests/utils/test_interfaces.py
 
+Enhancement
+===========
+
+Add doc8 linting to code testing framework
+------------------------------------------
+
+Added doc8 documentation linter support to the check_code.sh.
+Check_code now supports running doc8 with a maximum line length of 120 characters (our standard)
+on documentation source files.
+
+::
+
+     modified: tests/utils/check_code.sh
+
+Class based plugins -- registry updates
+---------------------------------------
+
+In an effort to convert all of our module_based plugins to class_based plugins, we
+need to update multiple areas of the codebase. One large refactor that needs to
+occur is plugin registry related updates, which is what is handled in this PR.
+
+This update includes a refactor of the BaseModuleInterface to become
+BaseClassInterface, and updates all module_based interfaces to make use of that new
+class. Directory changes to come soon.
+
+Additionally, updated create_plugin_registries.py and plugin_registry.py to make
+use of the new updates to the BaseClassInterface, and added logic to handle the
+conversion of module_based interfaces to a true plugin class, or the omission of
+that step if a True class plugin is provided.
+
+Lastly, created a dummy class-based algorithm to test the new plugin registry
+infrastructure and updated all failing unit/integration tests to match the new
+functionality added.
+
+`#950 <https://github.com/NRLMMD-GEOIPS/geoips/>`_
+
+::
+
+     added: geoips/interfaces/class_based_plugin.py
+     added: geoips/plugins/classes/algorithms/single_channel.py
+     modified: geoips/commandline/geoips_describe.py
+     modified: geoips/commandline/list_available_plugins.py
+     modified: geoips/create_plugin_registries.py
+     modified: geoips/interfaces/__init__.py
+     modified: geoips/interfaces/base.py
+     modified: geoips/interfaces/module_based/__init__.py
+     modified: geoips/interfaces/module_based/algorithms.py
+     modified: geoips/interfaces/module_based/colormappers.py
+     modified: geoips/interfaces/module_based/coverage_checkers.py
+     modified: geoips/interfaces/module_based/databases.py
+     modified: geoips/interfaces/module_based/filename_formatters.py
+     modified: geoips/interfaces/module_based/interpolators.py
+     modified: geoips/interfaces/module_based/output_checkers.py
+     modified: geoips/interfaces/module_based/output_formatters.py
+     modified: geoips/interfaces/module_based/procflows.py
+     modified: geoips/interfaces/module_based/readers.py
+     modified: geoips/interfaces/module_based/sector_adjusters.py
+     modified: geoips/interfaces/module_based/sector_metadata_generators.py
+     modified: geoips/interfaces/module_based/sector_spec_generators.py
+     modified: geoips/interfaces/module_based/title_formatters.py
+     modified: geoips/plugin_registry.py
+     modified: geoips/plugins/modules/procflows/config_based.py
+     modified: geoips/plugins/modules/procflows/single_source.py
+     modified: tests/unit_tests/commandline/test_geoips_describe_plugin.py
+     modified: tests/unit_tests/commandline/test_geoips_list_plugins.py
+     modified: tests/unit_tests/commandline/test_geoips_list_source_names.py
+     modified: tests/unit_tests/plugin_registries/files/bad/invalid_interfaces.yaml
+     modified: tests/unit_tests/plugin_registries/files/bad/missing_lowest_keys.yaml
+     modified: tests/unit_tests/plugin_registries/files/bad/missing_plugin_types.yaml
+     modified: tests/unit_tests/plugin_registries/files/good/data_fusion.yaml
+     modified: tests/unit_tests/plugin_registries/files/good/geoips.yaml
+     modified: tests/unit_tests/plugin_registries/files/good/geoips_clavrx.yaml
+     modified: tests/unit_tests/plugin_registries/files/good/geoips_plugin_example.yaml
+     modified: tests/unit_tests/plugin_registries/files/good/overcast_package.yaml
+     modified: tests/unit_tests/plugin_registries/files/good/recenter_tc.yaml
+     modified: tests/unit_tests/plugin_registries/files/good/template_basic_plugin.yaml
+     modified: tests/unit_tests/plugin_registries/files/good/template_fusion_plugin.yaml
+     modified: tests/unit_tests/plugin_registries/test_plugin_registries.py
+     modified: tests/unit_tests/plugins/test_get_plugin.py
+     modified: tests/unit_tests/plugins/test_get_plugin_metadata.py
+     modified: tests/utils/test_interfaces.py
+     renamed: geoips/interfaces/module_based/__init__.py => geoips/interfaces/class_based/__init__.py
+     renamed: geoips/interfaces/module_based/algorithms.py => geoips/interfaces/class_based/algorithms.py
+     renamed: geoips/interfaces/module_based/colormappers.py => geoips/interfaces/class_based/colormappers.py
+     renamed: geoips/interfaces/module_based/coverage_checkers.py => geoips/interfaces/class_based/coverage_checkers.py
+     renamed: geoips/interfaces/module_based/databases.py => geoips/interfaces/class_based/databases.py
+     renamed: geoips/interfaces/module_based/filename_formatters.py =>
+     geoips/interfaces/class_based/filename_formatters.py
+     renamed: geoips/interfaces/module_based/interpolators.py => geoips/interfaces/class_based/interpolators.py
+     renamed: geoips/interfaces/module_based/output_checkers.py => geoips/interfaces/class_based/output_checkers.py
+     renamed: geoips/interfaces/module_based/output_formatters.py => geoips/interfaces/class_based/output_formatters.py
+     renamed: geoips/interfaces/module_based/procflows.py => geoips/interfaces/class_based/procflows.py
+     renamed: geoips/interfaces/module_based/readers.py => geoips/interfaces/class_based/readers.py
+     renamed: geoips/interfaces/module_based/sector_adjusters.py => geoips/interfaces/class_based/sector_adjusters.py
+     renamed: geoips/interfaces/module_based/sector_metadata_generators.py =>
+     geoips/interfaces/class_based/sector_metadata_generators.py
+     renamed: geoips/interfaces/module_based/sector_spec_generators.py =>
+     geoips/interfaces/class_based/sector_spec_generators.py
+     renamed: geoips/interfaces/module_based/title_formatters.py => geoips/interfaces/class_based/title_formatters.py
+
+Rewrite of text output checker
+------------------------------
+
+This is a rewrite of the text output checker. It adds QOL updates such as optional inline diff printing, optional rich
+output and optional updating of comparisons (with manual confirmation that is yes compatible). It adds options to GeoIPS
+for setting user preferences on whether to enable these new features.
+
+::
+
+     modified: geoips/filenames/base_paths.py
+     modified: geoips/plugins/modules/output_checkers/text.py
+
+Consolidate yaml-based and module-based unit tests into test_pydanitc_models.py
+-------------------------------------------------------------------------------
+
+Unifies YAML-based and module-based Pydantic unit tests into single location,
+reducing redundancy and simplifying maintenance.
+
+::
+
+     added: tests/unit_tests/pydantic_models/v1/title_formatters/test_cases_neutral.yaml
+     modified: tests/unit_tests/pydantic_models/v1/conftest.py
+     modified: tests/unit_tests/pydantic_models/v1/test_pydantic_models.py
+     deleted: tests/unit_tests/pydantic_models/v1/title_formatters/conftest.py
+     deleted: tests/unit_tests/pydantic_models/v1/title_formatters/test_title_formatters.py
+
+Adding an output checker pydantic model
+---------------------------------------
+
+Creating a Pydantic model for output checkers and unit tests to ensure functionality.
+The general pydantic test flow was also modified to allow for a `test_cases_good.yaml` file.
+
+`#1204 <https://github.com/NRLMMD-GEOIPS/geoips>`_
+
+::
+
+     deleted: tests/unit_tests/pydantic_models/v1/feature_annotators/test_cases.yaml
+     deleted: tests/unit_tests/pydantic_models/v1/sectors/test_cases.yaml
+     added: docs/source/releases/latest/1204-output-checkers-pydantic-model.yaml
+     added: pydantic_models/v1/output_checkers.py
+     added: tests/unit_tests/pydantic_models/v1/feature_annotators/test_cases_good.yaml
+     added: tests/unit_tests/pydantic_models/v1/gridline_annotators/test_cases_good.yaml
+     added: tests/unit_tests/pydantic_models/v1/sectors/test_cases_good.yaml
+     added: tests/unit_tests/pydantic_models/v1/output_checkers/test_cases_bad.yaml
+     added: tests/unit_tests/pydantic_models/v1/output_checkers/test_cases_good.yaml
+     added: tests/unit_tests/pydantic_models/v1/output_checkers/test_cases_neutral.yaml
+     added: tests/unit_tests/pydantic_models/v1/title_formatters/test_cases_good.yaml
+     modified: tests/unit_tests/pydantic_models/v1/conftest.py
+     modified: tests/unit_tests/pydantic_models/v1/test_pydantic_models.py
+     modified: tests/unit_tests/pydantic_models/v1/utils.py
+     modified: tests/unit_tests/pydantic_models/v1/feature_annotators/test_cases_neutral.yaml
+
+Add no_color environment variable to geoips
+-------------------------------------------
+
+The GeoIPS CLI has a few commands which can produce output that is colored
+differently than most terminal text. We do this via the 'colorama' package, however,
+we did not have a setting to disable colored terminal output if wanted. We took in
+consideration what other software packages have implemented and decided to reinforce
+that standard by implementing a new 'NO_COLOR' environment variable. If set to True,
+then GeoIPS will no longer produce colored output via the terminal. Keep in mind
+that since this variable commonly used among software packages, setting NO_COLOR to
+True may impact packages outside the scope of GeoIPS. For example, when this
+variable is enabled, pytest will no longer color its terminal output.
+
+`#1082 <https://github.com/NRLMMD-GEOIPS/geoips>`_
+
+::
+
+     modified: docs/source/concepts/configuration/index.rst
+     modified: docs/source/concepts/functionality/command-line/index.rst
+     modified: docs/source/concepts/index.rst
+     modified: geoips/commandline/commandline_interface.py
+     modified: geoips/commandline/geoips_command.py
+     modified: geoips/commandline/geoips_run.py
+     modified: geoips/commandline/geoips_tree.py
+     modified: geoips/filenames/base_paths.py
+
+Order based -- dealing with generated and non-registered workflow plugins
+-------------------------------------------------------------------------
+
+This PR updates how we can call the order based procflow. Instead of only being able
+to provide a registered workflow plugin name to the commandline alongside other
+procflow arguments GeoIPS supports, we've now added two additional arguments in
+which we can specify a workflow. Those arguments are '--filepath' and '--generated'.
+
+Neither of these arguments represent a 'registered' workflow plugin. Generated means
+we're passing a literal evalation of a python dictionary (representing a workflow
+plugin), and filepath means we're passing a path to an unregistered workflow plugin.
+
+WorkflowPluginModel validation occurs for both of the new arguments and will only
+send the provided workflows to the order based procflow once validation has passed.
+Otherwise, appropriate errors will be raised.
+
+Unit tests and commandline help information have been updated to reflect the changes
+made in this PR.
+
+::
+
+     modified: geoips/commandline/ancillary_info/cmd_instructions.yaml
+     modified: geoips/commandline/geoips_run.py
+     modified: geoips/plugins/modules/procflows/order_based.py
+     modified: geoips/pydantic_models/v1/bases.py
+     modified: tests/unit_tests/commandline/test_geoips_run.py
+
+Base plugin classes
+-------------------
+
+This PR builds off of #1235 by implementing base plugin classes for all class-based
+interfaces (previously module-based interfaces). Additionally, this PR converts all
+output_checker plugins to class-based plugins and refactors the output_checker
+interface / base plugin code to remove any reference of ``plugin.module`` and make
+use of functionality via inheritance instead. There is an additional PR for
+recenter_tc (https://github.com/NRLMMD-GEOIPS/recenter_tc/pull/54) which converts
+the ``fdeck`` output_checker to class-based as well.
+
+Additionally, added documentation describing the purpose of class-based plugins and
+how they impact the plugin registry. There is also an example of how to convert a
+module-based plugin to a class-based plugin which also describes how the plugin
+registry can access the metadata of the true class-based plugin.
+
+Finally, refactored the long unit test ``test_readers`` by removing any reference of
+``plugin.module`` and updating logic to get all information needed for unit tests
+via a hardcoded yaml file rather than having testing logic in the module of specific
+reader plugins.
+
+::
+
+     added: docs/dev/class_based_plugins.rst
+     added: geoips/base_class_plugins/__init__.py
+     added: geoips/base_class_plugins/algorithms.py
+     added: geoips/base_class_plugins/colormappers.py
+     added: geoips/base_class_plugins/coverage_checkers.py
+     added: geoips/base_class_plugins/databases.py
+     added: geoips/base_class_plugins/filename_formatters.py
+     added: geoips/base_class_plugins/interpolators.py
+     added: geoips/base_class_plugins/output_checkers.py
+     added: geoips/base_class_plugins/output_formatters.py
+     added: geoips/base_class_plugins/procflows.py
+     added: geoips/base_class_plugins/readers.py
+     added: geoips/base_class_plugins/sector_adjusters.py
+     added: geoips/base_class_plugins/sector_metadata_adjusters.py
+     added: geoips/base_class_plugins/sector_spec_generators.py
+     added: geoips/base_class_plugins/title_formatters.py
+     added: geoips/plugins/classes/output_checkers/geotiff.py
+     added: geoips/plugins/classes/output_checkers/image.py
+     added: geoips/plugins/classes/output_checkers/netcdf.py
+     added: geoips/plugins/classes/output_checkers/text.py
+     modified: docs/dev/order_based_procflow.rst
+     modified: geoips/create_plugin_registries.py
+     modified: geoips/image_utils/maps.py
+     modified: geoips/interfaces/__init__.py
+     modified: geoips/interfaces/base.py
+     modified: geoips/interfaces/class_based/algorithms.py
+     modified: geoips/interfaces/class_based/colormappers.py
+     modified: geoips/interfaces/class_based/coverage_checkers.py
+     modified: geoips/interfaces/class_based/databases.py
+     modified: geoips/interfaces/class_based/filename_formatters.py
+     modified: geoips/interfaces/class_based/interpolators.py
+     modified: geoips/interfaces/class_based/output_checkers.py
+     modified: geoips/interfaces/class_based/output_formatters.py
+     modified: geoips/interfaces/class_based/procflows.py
+     modified: geoips/interfaces/class_based/readers.py
+     modified: geoips/interfaces/class_based/sector_adjusters.py
+     modified: geoips/interfaces/class_based/sector_metadata_generators.py
+     modified: geoips/interfaces/class_based/sector_spec_generators.py
+     modified: geoips/interfaces/class_based/title_formatters.py
+     modified: geoips/interfaces/class_based_plugin.py
+     modified: geoips/interfaces/yaml_based/gridline_annotators.py
+     modified: geoips/interfaces/yaml_based/sectors.py
+     modified: geoips/plugin_registry.py
+     modified: geoips/plugins/classes/algorithms/single_channel.py
+     modified: geoips/plugins/modules/procflows/config_based.py
+     modified: geoips/plugins/modules/procflows/single_source.py
+     modified: geoips/plugins/modules/readers/ami_netcdf.py
+     modified: geoips/plugins/modules/readers/amsr2_netcdf.py
+     modified: geoips/plugins/modules/readers/amsr2_remss_winds_netcdf.py
+     modified: geoips/plugins/modules/readers/cygnss_netcdf.py
+     modified: geoips/plugins/modules/readers/gmi_hdf5.py
+     modified: geoips/plugins/modules/readers/sar_winds_netcdf.py
+     modified: geoips/plugins/modules/readers/scat_knmi_winds_netcdf.py
+     modified: geoips/plugins/modules/readers/scat_noaa_winds_netcdf.py
+     modified: geoips/plugins/modules/readers/smap_remss_winds_netcdf.py
+     modified: tests/unit_tests/plugins/modules/output_checkers/test_output_checkers.py
+     modified: tests/unit_tests_long/plugins/modules/readers/reader_dataset_variable_mappings.yaml
+     modified: tests/unit_tests_long/plugins/modules/readers/test_readers.py
+     modified: tests/utils/test_interfaces.py
+     deleted: geoips/plugins/modules/output_checkers/geotiff.py
+     deleted: geoips/plugins/modules/output_checkers/image.py
+     deleted: geoips/plugins/modules/output_checkers/netcdf.py
+     deleted: geoips/plugins/modules/output_checkers/text.py
+
+Obp pydantic product / product default models
+---------------------------------------------
+
+Adds new pydantic models used to validate product and product_default plugins. These
+updates are intended to completely replace the JSON schema we currently use to
+validate yaml-based plugins. Minor changes were needed to be made to
+geoips/pydantic/bases.py to take into account the differences in product plugins.
+
+Additionally, this update adds unit testing for these new models, and updated the
+.gitignore file to ignore both types of our plugin registry files (.json, .yaml).
+
+::
+
+     added: geoips/pydantic/products.py
+     added: tests/unit_tests/pydantic/product_defaults/test_cases_bad.yaml
+     added: tests/unit_tests/pydantic/product_defaults/test_cases_neutral.yaml
+     added: tests/unit_tests/pydantic/products/test_cases_bad.yaml
+     added: tests/unit_tests/pydantic/products/test_cases_neutral.yaml
+     modified: .gitignore
+     modified: geoips/dev/product.py
+     modified: geoips/interfaces/yaml_based/gridline_annotators.py
+     modified: geoips/interfaces/yaml_based/product_defaults.py
+     modified: geoips/interfaces/yaml_based/products.py
+     modified: geoips/interfaces/yaml_based/sectors.py
+     modified: geoips/plugin_registry.py
+     modified: geoips/pydantic/bases.py
+     modified: tests/unit_tests/plugins/yaml/sectors/test_sectors_jsonschema.py
+     modified: tests/unit_tests/pydantic/test_pydantic_models.py
+     modified: tests/unit_tests/pydantic/utils.py
+
+Add output to `geoips config delete-registries`
+-----------------------------------------------
+
+Currently the command 'geoips config delete-registries' prints nothing useful. It
+just prints None, whether or not the command successfully deleted one or more
+registry files. I've updated this command to produce some useful output, which
+determines whether or not a file was deleted, and where it can be found.
+
+`#1043 <https://github.com/NRLMMD-GEOIPS/geoips/>`_
+
+::
+
+     modified: geoips/commandline/geoips_config.py
+     modified: geoips/plugin_registry.py
+
+Realtime
+========
+
+Update config_based procflow to pull sector_adjuster_kwargs from output config yaml
+-----------------------------------------------------------------------------------
+
+Supporting the use of sector_adjuster_kwargs was previously only supported by the
+single_source procflow via command line arguments. The config_based procflow was
+updated to pull sector_adjuster_kwargs from the output_config YAML, and defaults to
+an empty dictionary if none are specified in the output_config.
+
+geoips#1038
+
+::
+
+     modified: geoips/plugins/modules/procflows/config_based.py
+
+Testing
+=======
+
+Test data abi dataset update v1.17.1
+------------------------------------
+
+This PR updates the URL used for the test_data_abi dataset. It now points to V1.17.1
+instead of our V1.15.1 dataset. This is a simple one line change to the URL of that
+dataset that is used via the CLI for test dataset installation.
+
+::
+
+     modified: geoips/commandline/ancillary_info/test-data-urls.yaml
+
+Cli unit tests -- test dataset name updates
+-------------------------------------------
+
+We have unit tests for every GeoIPS CLI command and the test module for 'geoips list
+test-datasets' needs updated. This is a simple update to the hardcoded values for
+our test datasets. We now retrieve the appropriate list of test dataset names in the
+same manner we do for the actual CLI command.
+
+`#1212 <https://github.com/NRLMMD-GEOIPS/geoips/>`_
+
+::
+
+     modified: tests/unit_tests/commandline/cli_top_level_tester.py
+
+Allow importing validation and lint test lists from geoips repo, and add validation pytest markers
+--------------------------------------------------------------------------------------------------
+
+* Add repopath and pkgname to geoips repo setup_environment, rather than just
+  geoips_repopath and geoips_pkgname.  Note these get overwritten in individual
+  plugin repositories after calling geoips setup_environment.
+* Update lint test list to use repopath and pkgname rather than geoips_repopath
+  and geoips_pkgname, so the same test list can be imported by all the plugin
+  repos.
+* Add validation test list, using the current repopath and pkgname as arguments
+  to list plugins and test interfaces calls.
+* Add validation pytest marker to pytest.ini
+
+::
+
+     modified: pytest.ini
+     modified: tests/integration_tests/test_reponame.py
+     modified: tests/utils/test_integration.py
+
+Creating tiny sector for testing
+--------------------------------
+
+Add new global_200km_longlat sector for integration testing.
+
+geoips#1033 - low res global tiny sector
+
+::
+
+     added: geoips/plugins/yaml/sectors/integration_tests/global_200km_longlat.yaml
+
+Have fail on missing data default to true
+-----------------------------------------
+
+Rather than having to update every plugin repo integration test script to add the
+required fail_on_missing_data flag, just have it default to True in the main
+run bash script function in the main geoips repo.  If the flag is supported in
+a plugin repo, it will be passed in appropriately, if it is not supported in a
+plugin repo, it will just default to True and the plugin repo integration tests
+won't break.
+
+Also print the value of fail_on_missing_data to terminal.
+
+geoips#1029 - 1.18.0 updates
+
+::
+
+     modified: tests/integration_tests/test_integration.py
+
+Allow disabling dumping all failed log contents to terminal
+-----------------------------------------------------------
+
+Set GEOIPS_TEST_SUPPRESS_PYTEST_FAILED_LOG_CONTENTS env var to True to avoid printing
+all failed log output from integration tests to terminal.
+
+When running interactively might be nice to suppress, if running exhaustively
+don't suppress and all log output will be contained in a single log file.
+
+geoips#1029 - 1.18.0 updates
+
+::
+
+     modified: tests/integration_tests/test_integration.py
+     modified: geoips/filenames/base_paths.py
+
+Consolidated env variable naming for all geoips_test env vars
+-------------------------------------------------------------
+
+Prepend all test related environment variables with GEOIPS_TEST.
+
+* GEOIPS_TEST_OUTPUT_CHECKER_THRESHOLD_IMAGE 0.05
+* GEOIPS_TEST_PRINT_TEXT_OUTPUT_CHECKER_TO_CONSOLE True
+* GEOIPS_TEST_SUPPRESS_PYTEST_FAILED_LOG_CONTENTS False
+* GEOIPS_TEST_SECTOR_CREATE_ANNOTATED_OUTPUTS False
+* GEOIPS_TEST_SECTOR_CREATE_GEOTIFF_OUTPUTS False
+* GEOIPS_TEST_PROMPT_TO_OVERWRITE_COMPARISON_FILE_IF_MISMATCH False
+
+geoips#1029 - 1.18.0 updates
+
+::
+
+     modified: tests/integration_tests/test_integration.py
+     modified: geoips/filenames/base_paths.py
+     modified: tests/integration_tests/tiny_sectors/tiny_sectors_geostationary.sh
+     modified: geoips/plugins/classes/output_checkers/image.py
+     modified: geoips/plugins/classes/output_checkers/text.py
+
+Temporarily disable doc8 by default for check_code.sh
+-----------------------------------------------------
+
+Until all rst docs are updated, disable the doc8 check in check_code.sh so the
+tests pass.
+
+geoips#1029 - 1.18.0 updates
+
+::
+
+     modified: tests/utils/check_code.sh
+
+Remove print statements in unit tests
+-------------------------------------
+
+To clean up pytest output, remove extraneous print statements from unit tests.
+
+geoips#1029 - 1.18.0 updates
+
+::
+
+     modified: tests/unit_tests/pydantic_models/v1/test_pydantic_models.py
+     modified: tests/unit_tests/pydantic_models/v1/utils.py
+
+Feature
+=======
+
+Order-based procflow: add title formatters
+------------------------------------------
+
+Introduce Pydantic model defining and validating OBP-v1 TitleFormatterArgumentsModel
+
+::
+
+     added: geoips/pydantic_models/v1/title_formatters.py
+     added: tests/unit_tests/pydantic_models/v1/title_formatters/conftest.py
+     added: tests/unit_tests/pydantic_models/v1/title_formatters/test_cases_bad.yaml
+     added: tests/unit_tests/pydantic_models/v1/title_formatters/test_title_formatters.py
+
+Order-based procflow: add coverage checkers
+-------------------------------------------
+
+Define OBP Pydantic model for Coverage Checker plugins.
+
+`#1202 <https://github.com/NRLMMD-GEOIPS/geoips>`_
+
+::
+
+     added: docs/source/releases/latest/1180-OBP-add-coverage-checkers-pydantic-models.yaml
+     added: geoips/pydantic_models/v1/coverage_checkers.py
+     added: geoips/plugins/yaml/workflows/read_test_v1_coverage_checker.yaml
+     added: tests/unit_tests/pydantic_models/v1/coverage_checkers/conftest.py
+     added: tests/unit_tests/pydantic_models/v1/coverage_checkers/test_cases_bad.yaml
+     added: tests/unit_tests/pydantic_models/v1/coverage_checkers/test_coverage_checkers.py
+     modified: geoips/plugin_registry.py
+     modified: geoips/plugins/modules/coverage_checkers/center_radius.py
+     modified: geoips/plugins/modules/coverage_checkers/center_radius_rgba.py
+     modified: geoips/plugins/modules/coverage_checkers/masked_arrays.py
+     modified: geoips/plugins/modules/coverage_checkers/numpy_arrays_nan.py
+     modified: geoips/plugins/modules/coverage_checkers/rgba.py
+     modified: geoips/plugins/modules/coverage_checkers/windbarbs.py
+     modified: geoips/plugins/modules/procflows/order_based.py
+     modified: geoips/plugins/yaml/workflows/read_test_v1.yaml
+     modified: geoips/pydantic_models/v1/workflows.py
+
+Plotting
+========
+
+Histogram colorbar and static sector conformity.
+------------------------------------------------
+
+Created a histogram colorbar that helps visulize distribution of values for annotated imagery. Fixed static sectors that
+had non-standard formatting, this includes not having the region sub-key, or having spacing in the metadata which would
+lead to spacing in the output filepath. Added a north american static sector.
+
+::
+
+     added: tests/scripts/amsr2.tc.89H-Physical.imagery_annotated_colorhist.sh
+     added: geoips/plugins/yaml/sectors/static/north_america.yaml
+     modified: geoips/image_utils/mpl_utils.py
+     modified: geoips/plugins/modules/output_formatters/imagery_annotated.py
+     modified: geoips/plugins/yaml/sectors/static/e_pacific.yaml
+     modified: geoips/plugins/yaml/sectors/static/guam.yaml
+     modified: geoips/plugins/yaml/sectors/static/hawaii.yaml
+     modified: geoips/plugins/yaml/sectors/static/rio_de_janeiro.yaml
+     modified: geoips/plugins/yaml/sectors/static/w_atlantic.yaml
+
+Documentation
+=============
+
+Fixed docstrings on sgli reader and on hncc algorithm.
+------------------------------------------------------
+
+Added better description of source on High Near Constant Contrast algorithm, attributing paper the algorithm was derived
+from. Fixed several copy paste bugs within the SGLI reader.
+
+::
+
+     modified: geoips/plugins/modules/readers/sgli_l1b_hdf5.py
+     modified: geoips/plugins/modules/algorithms/visir/HNear_Constant_Contrast.py
+
+Add release note for version 1.18.0
+-----------------------------------
+
+Release note on release branch to force tag/release, package/publish,
+and deploy docs.
+
+Additionally add any updated files from geoips_ci/sync
+
+geoips#1029 - 1.18.0 updates
+
+::
+
+     added: docs/source/releases/latest/1.18.0-release-note.yaml
+     modified: geoips_ci/sync updated files
+
+Update upcoming and tagged versions
+-----------------------------------
+
+* Tagged version: 1.18.0
+* Upcoming version: 1.18.1
+
+geoips#1029 - 1.18.0 updates
+
+::
+
+     modified: .github/versions/tagged_version
+     modified: .github/versions/upcoming_version
+
+Temporary bug fix
+=================
+
+Temporary fix for incorrect solar and satellite azimuth angles
+--------------------------------------------------------------
+
+This is a temporary bug fix for satellite and solar angle calculations. Proper and
+longterm fix will be to update the backend calculations.
+
+There is a bug in the satellite azimuth calculation where it is off by 180°
+It doesn't seem like it is an issue with the output being 0-360 vs -180 - 180.
+Converting to -180 - 180 will not yield the correct result.
+
+There is another bug in the solar azimuth calculation that causes the output to
+be in radians, and in 0-360. If the full disk solar azimuth angle array has
+minimum greater than zero, then we are dealing with the bugged calculation.
+Need to apply the following corrections -
+1 - Convert from radians to degrees
+2 - Convert from 0-360 to -180 - 180
+
+geoips#1045
+
+::
+
+     modified: geoips/plugins/modules/readers/utils/geostationary_geolocation.py
+
 Minor bug fix
 =============
 
@@ -959,6 +977,18 @@ geoips#1035
 ::
 
      modified: geoips/plugins/modules/sector_metadata_generators/fdeck_parser.py
+
+Bug fix
+=======
+
+Fix plugin registry rebuild check
+---------------------------------
+
+This fixes a typo in a check for if GEOIPS_REBUILD_REGISTRIES is set.
+
+::
+
+     modified: geoips/plugin_registry.py
 
 Setup
 =====
@@ -1055,33 +1085,3 @@ geoips#1027
      added: geoips/utils/memusg/boxplots.py
      added: geoips/utils/memusg/dataframe_utils.py
      added: geoips/utils/memusg/plot_json_files.py
-
-Release process
-===============
-
-Add 1.18.0 release note
------------------------
-
-Currently tagged internal version 1.17.3.
-
-geoips#1029 - 1.18.0 updates*
-
-::
-
-     added: docs/source/releases/1.18.0/1.18.0-internal-release.yaml
-
-Update internal and github.com 'upcoming_version' and 'tagged_version'
-----------------------------------------------------------------------
-
-Updated 'update_this_release_note' file in geoips repo for the
-next internal version-
-1.18.1
-next github.com version-
-1.19.0
-
-geoips#1029 - 1.18.0 updates*
-
-::
-
-     modified: .github/versions/upcoming_version
-     modified: .github/versions/tagged_version

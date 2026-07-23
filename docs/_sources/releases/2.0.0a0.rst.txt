@@ -1,0 +1,1484 @@
+Version 2.0.0a0 (2026-07-23)
+****************************
+
+ * *Bug fix*: Fix order-based procflow reader path (dict -> datatree)
+ * *Bug fix*: Reject unimplemented spec.defaults at validation instead of ignoring it
+ * *Bug fix*: Fix geoips config create --all output and add field comments
+ * *Bug fix*: Stop workflows model reading os.environ at import
+ * *Bug fix*: Fix workflowstepdefinitionmodel.name accepting none due to init=false
+ * *Bug fix*: Obp workflow implementation and validation improvements
+ * *Bug fix*: Resolve expand steps python identifier processing
+ * *Bug fix*: Allow arguments to be none on workflow-kind steps
+ * *Bug fix*: Hash-based cli instruction cache invalidation
+ * *Enhancement*: Adding geoipserror class
+ * *Enhancement*: Obp-style scripting interface
+ * *Enhancement*: Implement datatree runtime for the order-based procflow
+ * *Enhancement*: Rename extra_plugins to extra_plugin_packages
+ * *Enhancement*: Add dask-based output_token provenance to workflow steps
+ * *Enhancement*: Obp cli updates
+ * *Enhancement*: Add workflow-domain exception classes
+ * *Enhancement*: Add output checker overrides to workflow-based commands
+ * *Enhancement*: Add datatreeditto
+ * *Enhancement*: Obp interpolators update
+ * *Enhancement*: Default coverage checkers when product encountered
+ * *Removal*: Remove outputs field from steps
+ * *Removal*: Adding geoips_yaml_utils
+ * *Removal*: Remove module-level call() from order_based.py in favor of class-based orderbased
+ * *Feature*: Allow plugin packages to register configuration options
+ * *Feature*: Add colormapper pydantic model
+ * *Feature*: Introduce order-based procflow workflows
+ * *Feature*: Implement split/join fan-out in the order-based procflow
+ * *Feature*: Add plugin_proivded as an additional default value in obp pydantic models
+ * *Feature*: Add yaml-based configuration system that replaces base_paths.py
+ * *Feature*: Order-based procflow: add filename formatter pydantic models
+ * *Feature*: Order-based procflow: add output formatters
+ * *Feature*: Static multi-sector processing (sbp) via split over sector_list
+ * *Documentation*: Update ci infrastructure documentation
+ * *Documentation*: Update datatree spec implementation status and procflow interface docstring
+ * *Documentation*: Add release note for version 2.0.0a
+ * *Documentation*: Update tagged versions
+ * *Documentation*: Add basic linting information
+ * *Documentation*: Add spec for obp datatrees
+ * *Continuous integration*: Add self-hosted runner integration test workflow
+ * *Continuous integration*: Add unit and integration tests for the datatree runtime
+ * *Installation*: Replace install shell scripts with ansible playbooks
+ * *Refactor*: Convert majority of module-based plugins to class-based
+ * *Refactor*: Route datatreeditto reverse conversion through the shared converter_registry
+ * *Refactor*: Consolidate obp conduit registry and use lexeme for kind/interface names
+
+Bug fix
+=======
+
+Fix order-based procflow reader path (dict -> datatree)
+-------------------------------------------------------
+
+Readers return the standard GeoIPS ``{key: xr.Dataset}`` dict, but this most
+common OBP path was broken in two ways that no test exercised. First,
+``BaseReaderPlugin._post_call`` used ``xr.*`` without importing xarray.
+Second, ``BaseClassPlugin._invoke`` early-returned when ``data is None`` (the
+reader case), so ``_post_call`` never ran and the ``dict -> DataTree`` merge
+was skipped, causing ``_attach_step_node`` to crash trying to wrap a raw dict.
+``_invoke`` now runs ``_post_call`` in the no-data branch, so reader output is
+merged into a ``DataTree`` end-to-end. A new integration test exercises the
+real dict-returning reader through the reader -> algorithm path.
+
+::
+
+     added: tests/integration_tests/test_obp_reader_path.py
+     modified: geoips/interfaces/class_based/readers.py
+     modified: geoips/interfaces/class_based_plugin.py
+
+Reject unimplemented spec.defaults at validation instead of ignoring it
+-----------------------------------------------------------------------
+
+``WorkflowSpecModel.defaults`` (per-kind argument defaults) was accepted by
+the schema but never consumed by the runtime, so a spec that set it was
+silently ignored. A ``_reject_defaults`` validator now rejects it at
+validation with a clear message until the runtime wires it in, mirroring the
+existing ``_reject_retention_by_kind`` behavior. The related test and the
+``retention_by_kind`` field comment are updated to reflect the reject-until-
+wired behavior.
+
+::
+
+     modified: geoips/pydantic_models/v1/workflows.py
+     modified: tests/unit_tests/pydantic_models/v1/test_workflow_spec_model.py
+
+Fix geoips config create --all output and add field comments
+------------------------------------------------------------
+
+Switch to dumping the fully resolved config so the config
+file is complete and valid on reload. Also render the file with per-field
+comments as pulled from new schema field descriptions.
+
+An invalid .geoips.yaml now errors with a clear message.
+
+::
+
+     added: docs/source/releases/latest/fix-config-create-all-and-comments.yaml
+     modified: geoips/config/schema.py
+     modified: geoips/config/config.py
+     modified: geoips/config/plugins.py
+     modified: geoips/commandline/geoips_config.py
+     modified: tests/unit_tests/config/test_config.py
+     modified: tests/unit_tests/config/test_config_cli.py
+
+Stop workflows model reading os.environ at import
+-------------------------------------------------
+
+WorkflowPluginModel read GEOIPS_TESTDATA_DIR/GEOIPS_PACKAGES_DIR straight
+from os.environ at import time just for schema examples.
+This updates the workflow model to use geoips.config instead.
+
+::
+
+     added: docs/source/releases/latest/fix-workflows-env-at-import.yaml
+     modified: geoips/pydantic_models/v1/workflows.py
+
+Fix workflowstepdefinitionmodel.name accepting none due to init=false
+---------------------------------------------------------------------
+
+The name field on WorkflowStepDefinitionModel was marked init=False with a
+default of None, causing the value supplied in the YAML to be silently
+dropped during construction. Validators that read model.name therefore
+always saw None. Removed init=False and made the typing explicitly nullable.
+
+::
+
+     modified: geoips/pydantic_models/v1/workflows.py
+
+Obp workflow implementation and validation improvements
+-------------------------------------------------------
+
+Resolves OBP workflow step errors and ensures correct data flow between workflow steps.
+
+::
+
+     deleted: geoips/plugins/yaml/workflows/tests/abi_static_infrared_annotated_enhanced.yaml
+     added: geoips/plugins/yaml/workflows/tests/abi_static_infrared_imagery_annotated_enhanced.yaml
+     modified: geoips/interfaces/class_based/filename_formatters.py
+     modified: geoips/interfaces/class_based/output_formatters.py
+     modified: geoips/plugins/yaml/workflows/tests/abi_static_infrared_imagery_clean.yaml
+     modified: geoips/plugins/yaml/workflows/tests/abi_static_infrared_netcdf_geoips.yaml
+     modified: geoips/plugins/yaml/workflows/tests/abi_static_nasa_dust_rgb_imagery_clean.yaml
+     modified: geoips/plugins/yaml/workflows/tests/abi_static_test_visible_logarithmic_imagery_clean.yaml
+     modified: geoips/plugins/yaml/workflows/tests/abi_static_visible_imagery_clean.yaml
+     modified: geoips/plugins/yaml/workflows/tests/ami_static_infrared_imagery_clean.yaml
+     modified: geoips/plugins/yaml/workflows/tests/ami_static_mst_absdiff_ir_bd_imagery_clean.yaml
+     modified: geoips/plugins/yaml/workflows/tests/ami_static_visible_imagery_clean.yaml
+     modified: geoips/plugins/yaml/workflows/tests/fci_static_visible_imagery_annotated.yaml
+     modified: geoips/plugins/yaml/workflows/tests/gfs_static_waveheight_imagery_clean.yaml
+     modified: geoips/plugins/yaml/workflows/tests/gfs_static_windspeed_imagery_clean.yaml
+     modified: geoips/plugins/yaml/workflows/tests/mimic_coarse_static_tpw_cimss_imagery_annotated.yaml
+     modified: geoips/plugins/yaml/workflows/tests/mwr_tb165_imagery_clean.yaml
+     modified: geoips/plugins/yaml/workflows/tests/mwr_tb180_imagery_clean.yaml
+     modified: geoips/plugins/yaml/workflows/tests/mwr_tb325_15_imagery_clean.yaml
+     modified: geoips/plugins/yaml/workflows/tests/mwr_tb50_imagery_clean.yaml
+     modified: geoips/plugins/yaml/workflows/tests/mwr_tb89_imagery_clean.yaml
+     modified: geoips/plugins/yaml/workflows/tests/seviri_airmass_imagery_clean.yaml
+     modified: geoips/plugins/yaml/workflows/tests/seviri_convective_storms_imagery_clean.yaml
+     modified: geoips/plugins/yaml/workflows/tests/seviri_day_microphys_summer_imagery_clean.yaml
+     modified: geoips/plugins/yaml/workflows/tests/seviri_day_microphys_winter_imagery_clean.yaml
+     modified: geoips/plugins/yaml/workflows/tests/seviri_day_solar_imagery_clean.yaml
+     modified: geoips/plugins/yaml/workflows/tests/seviri_dust_rgb_imagery_clean.yaml
+     modified: geoips/plugins/yaml/workflows/tests/seviri_natural_color_imagery_clean.yaml
+     modified: geoips/plugins/yaml/workflows/tests/seviri_night_microphys_imagery_clean.yaml
+     modified: geoips/plugins/yaml/workflows/tests/seviri_volcanic_ash_imagery_clean.yaml
+     modified: geoips/plugins/yaml/workflows/tests/seviri_wv_upper_no_self_register_unprojected_image.yaml
+     modified: geoips/plugins/yaml/workflows/tests/seviri_wv_upper_unprojected_image.yaml
+     modified: geoips/plugins/yaml/workflows/tests/viirs_static_visible_imagery_clean.yaml
+     modified: geoips/plugins/yaml/workflows/tests/viirsclearnight_night_vis_ir_geoips1_imagery_annotated.yaml
+     modified: geoips/plugins/yaml/workflows/tests/viirsclearnight_night_vis_ir_geoips1_unprojected_image.yaml
+     modified: geoips/plugins/yaml/workflows/tests/viirsday_global_night_vis_ir_cogeotiff_rgba.yaml
+     modified: geoips/pydantic_models/v1/workflows.py
+
+Resolve expand steps python identifier processing
+-------------------------------------------------
+
+Ensure expand_steps sanitizes step IDs derived from product names
+
+::
+
+     added: docs/source/releases/latest/1452-fix-expand-steps-python-idnetifer-processing.yaml
+     added: geoips/plugins/yaml/workflows/tests/sgli_static_ir_rgb_imagery_clean.yaml
+     modified: geoips/pydantic_models/v1/workflows.py
+     modified: tests/unit_tests/pydantic_models/v1/workflows/test_workflows.py
+
+Allow arguments to be none on workflow-kind steps
+-------------------------------------------------
+
+``WorkflowStepDefinitionModel.arguments`` was typed ``Dict[str, Any]`` but
+``_ensure_xor_name_spec`` sets it to ``None`` for ``kind: workflow`` steps
+(which carry an inline ``spec`` instead). Newer pydantic rejects ``None`` for
+a non-optional dict field, breaking sub-workflow (and now split) steps. The
+field is now ``Dict[str, Any] | None``.
+
+::
+
+     modified: geoips/pydantic_models/v1/workflows.py
+
+Hash-based cli instruction cache invalidation
+---------------------------------------------
+
+Cache CLI command instructions off a source content hash instead of mtime.
+mtime is problematic across checkouts and left a stale cache which created some issues.
+
+::
+
+     added: docs/source/releases/latest/fix-cli-instruction-cache.yaml
+     modified: geoips/utils/cache_files.py
+     modified: tests/unit_tests/utils/cache_files.py
+     modified: tests/unit_tests/commandline/test_get_commandline_instructions.py
+
+Enhancement
+===========
+
+Adding geoipserror class
+------------------------
+
+Adds `GeoipsError` as a common root, then updates `errors.py` so each class inherits from it. Now, calling `except
+GeoipsError:` will catch any GeoIPS error. `DuplicateKeyError` now inherits from `yaml.constructor.ConstructorError`,
+and the raise site in `yaml_utils.py` has been updated so that the call-signature is formatted correctly. `CliError` is
+intentionally left unchanged pending a separate scope conversation; also folds in a one-line fix to
+`geoips_validate.py:134` where `except AttributeError or KeyError:` was silently short-circuiting to `AttributeError`.
+
+`#1309 <https://github.com/NRLMMD-GEOIPS/geoips>`_
+
+::
+
+     added: docs/source/releases/latest/1309-create-geoipserror-class.yaml
+     modified: geoips/commandline/geoips_validate.py
+     modified: geoips/utils/yaml_utils.py
+     modified: geoips/errors.py
+
+Obp-style scripting interface
+-----------------------------
+
+Add an OBP-Style scripting interface. This provides a number of user-facing convenience
+functions and updates the plugins to handle appropriate data retention policies.
+
+Also added new tests as well as some example scripts.
+
+::
+
+     added: docs/dev/obp_script_plugin_calls.md
+     added: docs/dev/script_datatree_developer_notes.md
+     added: docs/source/releases/latest/obp-based-scripting.yaml
+     added: geoips/scripting.py
+     added: geoips/utils/types/datatree_helpers.py
+     added: geoips/utils/types/script_datatree.py
+     added: tests/example_scripts/obp_scripting/verify_script_abi_infrared_output.py
+     added: tests/example_scripts/obp_scripting/verify_script_manual_difference_output.py
+     added: tests/example_scripts/obp_scripting/verify_script_reader.py
+     added: tests/example_scripts/obp_scripting/verify_script_reader_manipulation.py
+     added: tests/unit_tests/test_scripting.py
+     added: tests/unit_tests/utils/types/test_script_datatree.py
+     modified: geoips/interfaces/class_based/algorithms.py
+     modified: geoips/interfaces/class_based/coverage_checkers.py
+     modified: geoips/interfaces/class_based/filename_formatters.py
+     modified: geoips/interfaces/class_based/interpolators.py
+     modified: geoips/interfaces/class_based_plugin.py
+     modified: geoips/utils/types/obp_conduits.py
+     modified: tests/integration_tests/test_integration.py
+     modified: tests/unit_tests/interfaces/test_class_based_plugin_invoke.py
+     modified: tests/unit_tests/xarray_utils/test_coords.py
+
+Implement datatree runtime for the order-based procflow
+-------------------------------------------------------
+
+Add a DataTree-backed runtime for the order-based procflow (OBP). Workflow
+execution now produces an xr.DataTree with per-step nodes carrying provenance
+attrs (output_token, plugin_name, plugin_kind, gc_status). The Workflow
+composite class uses a Strategy-pattern RetentionPolicy and Kahn's topological
+sort for step ordering. New pydantic schema fields (depends_on, keep, outputs,
+retention, defaults) are validated with cycle detection and dangling-output
+checking. The OrderBased procflow is now a class-based plugin accepting
+WorkflowPluginModel, WorkflowSpecModel, or dict inputs.
+
+::
+
+     added: geoips/interfaces/class_based/workflow.py
+     added: geoips/utils/types/datatree_converters.py
+     added: geoips/utils/types/tokenization.py
+     added: geoips/utils/types/__init__.py
+     modified: geoips/interfaces/class_based_plugin.py
+     modified: geoips/interfaces/class_based/algorithms.py
+     modified: geoips/interfaces/class_based/interpolators.py
+     modified: geoips/interfaces/class_based/output_formatters.py
+     modified: geoips/interfaces/class_based/filename_formatters.py
+     modified: geoips/interfaces/class_based/coverage_checkers.py
+     modified: geoips/interfaces/class_based/output_checkers.py
+     modified: geoips/interfaces/class_based/title_formatters.py
+     modified: geoips/interfaces/class_based/sector_adjusters.py
+     modified: geoips/interfaces/class_based/sector_spec_generators.py
+     modified: geoips/interfaces/class_based/sector_metadata_generators.py
+     modified: geoips/interfaces/class_based/databases.py
+     modified: geoips/interfaces/class_based/readers.py
+     modified: geoips/interfaces/class_based/colormappers.py
+     modified: geoips/interfaces/class_based/procflows.py
+     modified: geoips/plugins/modules/procflows/order_based.py
+     modified: geoips/commandline/geoips_run.py
+     modified: geoips/pydantic_models/v1/workflows.py
+     modified: geoips/utils/types/datatree_ditto.py
+     modified: geoips/plugins/yaml/workflows/read_test_v1.yaml
+     modified: geoips/plugins/yaml/workflows/read_test_v1_coverage_checker.yaml
+     modified: geoips/plugins/yaml/workflows/read_test_interpolator_v1.yaml
+     modified: geoips/plugins/yaml/workflows/visir/Infrared.yaml
+     modified: geoips/plugins/yaml/workflows/unit_tests/test_workflow.yaml
+     modified: geoips/plugins/yaml/workflows/geostationary_dmw/windbarbs_dmw_high.yaml
+
+Rename extra_plugins to extra_plugin_packages
+---------------------------------------------
+
+Rename the ansible variable extra_plugins to extra_plugin_packages to clarify
+that it installs plugin packages rather than individual plugins.
+
+::
+
+     modified: tests/ansible/inventory/local.yml
+     modified: tests/ansible/playbooks/install.yml
+     modified: tests/ansible/roles/source_repos/defaults/main.yml
+     modified: tests/ansible/roles/source_repos/tasks/main.yml
+     modified: tests/ansible/README.md
+     modified: Makefile
+     modified: docs/source/concepts/architecture/ci-infrastructure.rst
+
+Add dask-based output_token provenance to workflow steps
+--------------------------------------------------------
+
+Each step node in the workflow DataTree now carries an output_token and
+arguments_hash in its attrs. Tokens are computed via dask.base.tokenize
+with a dask: prefix for forward-compatibility. Tokens survive garbage
+collection (only data_vars are dropped; attrs remain). Untokenizable
+outputs are stamped with a sentinel untokenizable:<Type> value and do
+not halt the workflow.
+
+::
+
+     added: geoips/utils/types/tokenization.py
+     modified: geoips/interfaces/class_based/workflow.py
+
+Obp cli updates
+---------------
+
+Updates to v1 workflow models and 'geoips run order_based <workflow_name>' /
+'geoips test workflow <workflow_name>' CLI commands. Updates include refactoring
+the 'test' section of a workflow and adding support for overrides in workflow
+plugins. These can be specified in the test section of a workflow or at the command
+line via '-[Ss]', '-[Kk]', '-[Gg]' flags via the 'geoips run order_based' command.
+In order to apply overrides, GeoIPS will fully expand a workflow plugin, replace
+relevant portions of the workflow with the contents specified as an override, then
+revalidate the modified workflow.
+
+Added documentation and fixed failing unit tests as well. New unit tests to come for
+new functionality added.
+
+::
+
+     modified: docs/dev/running_order_based_procflow.rst
+     modified: docs/source/concepts/functionality/command-line/index.rst
+     modified: geoips/commandline/ancillary_info/cmd_instructions.yaml
+     modified: geoips/commandline/geoips_command.py
+     modified: geoips/commandline/geoips_run.py
+     modified: geoips/commandline/geoips_test.py
+     modified: geoips/interfaces/class_based_plugin.py
+     modified: geoips/interfaces/yaml_based/workflows.py
+     modified: geoips/plugins/modules/procflows/order_based.py
+     modified: geoips/plugins/yaml/workflows/unit_tests/test_bad_test_section.yaml
+     modified: geoips/plugins/yaml/workflows/unit_tests/test_product.yaml
+     modified: geoips/pydantic_models/v1/output_checkers.py
+     modified: geoips/pydantic_models/v1/workflows.py
+     modified: tests/unit_tests/commandline/test_geoips_run.py
+     modified: tests/unit_tests/commandline/test_geoips_test_workflow.py
+     modified: tests/unit_tests/pydantic_models/v1/output_checkers/test_cases_bad.yaml
+     modified: tests/unit_tests/pydantic_models/v1/utils.py
+
+Add workflow-domain exception classes
+-------------------------------------
+
+Add six typed exceptions for order-based-procflow workflow operations,
+all subclassing GeoipsError: WorkflowSpecError, PluginResolutionError,
+DependencyCycleError, DataTreeSchemaError,
+RetentionConfigError, and BoundaryIOError.
+
+`#1309 <https://github.com/NRLMMD-GEOIPS/geoips>`_
+
+::
+
+     modified: geoips/errors.py
+
+Add output checker overrides to workflow-based commands
+-------------------------------------------------------
+
+Adds the support for output_checker overrides for the ``geoips test workflow``
+command. Output checker overrides are specified in the following format:
+
+::
+
+    test:
+      outputs:
+        <step_id>: &output-step-definition
+          # name: <output_checker_name>
+          # Optional, derived from compare path if not provided.
+          # full_test_policy: "on_token_mismatch" | "always" | "never"
+          # compare_path: /path/to/comparison/file.ext
+          # Optional, but usually should exist.
+          # threshold: float [0,1]
+          # Only works for image output checker.
+        <step_idX>:
+          spec:
+            steps:
+              <step_idY>:
+                <nested_keys>: *output-step-definition
+
+Output checker steps are not intended to be placed directly in a workflow. This is
+due to the structure of output checker plugins, and how they are intended to be used.
+It is not efficient to compare outputs of one or more steps every time you run a
+workflow, nor will a workflow always have a comparison file for one or more steps.
+These are intended to be used in testing settings where comparison to known outputs
+will be performed in the instance a token comparison fails or we want to do more
+thorough comparison of certain outputs.
+
+Output checker overrides under the hood insert a new step DIRECTLY after the step
+ID that referenced the output checker override. So, for example, if we had a step
+ID named ``apply_algorithm`` in a workflow definition, then at runtime a new step
+would be inserted in the workflow directly after ``apply_algorithm`` named
+``output_checkerX`` (X == number of output checker steps found prior + 1) containing
+the definition of the output checker override.
+
+Take the following workflow.
+
+::
+
+    apiVersion: geoips/v1
+    interface: workflows
+    family: order_based
+    name: test_product
+    docstring: |
+      11.2 µm Infrared.
+
+      This product utilizes channel 14 (11.2 µm) and highlights areas of deep
+      convection within a Tropical Cyclone.
+    description: 11.2 µm Infrared.
+    spec:
+      steps:
+        reader:
+          kind: reader
+          name: abi_netcdf
+          depends_on: []
+          keep: False
+          arguments:
+            chans: ['B14BT']
+            sector_list: global_cylindrical
+            logging_level: info
+            satellite_zenith_angle_cutoff: 80
+        abi:Infrared:
+          kind: workflow
+          spec:
+            outputs: ['colormapper']
+            retention: keep_referenced
+            keep: False,
+            depends_on: ['reader']
+            arguments: None
+          steps:
+            interpolator:
+              kind: interpolator
+              name: interp_nearest
+              depends_on: []
+              keep: False
+              arguments:
+                sector_list: global_cylindrical
+                logging_level: info
+            algorithm:
+              kind: algorithm
+              name: single_channel
+              depends_on: ['interpolator']
+              keep: False
+              arguments:
+                output_data_range: [-90.0, 30.0]
+                input_units: Kelvin
+                output_units: Kelvin
+                min_outbounds: crop
+                max_outbounds: crop
+                norm: False
+                inverse: False
+                sector_list: global_cylindrical
+                logging_level: info
+            colormapper:
+              kind: colormapper
+              name: Infrared
+              depends_on: ['algorithm']
+              keep: False
+              arguments:
+                data_range: [-90.0, 30.0]
+                sector_list: global_cylindrical
+                logging_level: info
+        output_checker1:
+          policy: on_failure
+          name: image
+          kind: output_checker
+          depends_on: ['abi:Infrared']
+          arguments:
+            compare_path:
+            /home/evan/geoips/geoips_packages/geoips/tests/outputs/abi.static.Infrared.imagery_clean/20200918.195020.goes-16.abi.Infrared.test_goes16_eqc_3km_day_20200918T1950Z.100p00.noaa.3p0.png
+
+::
+
+     modified: docs/dev/class_based_plugins.rst
+     modified: docs/dev/order_based_procflow.rst
+     modified: docs/dev/running_order_based_procflow.rst
+     modified: docs/source/releases/latest/geoips-obp-output-checker-overrides.yaml
+     modified: geoips/commandline/geoips_command.py
+     modified: geoips/commandline/geoips_run.py
+     modified: geoips/commandline/geoips_test.py
+     modified: geoips/dev/output_config.py
+     modified: geoips/image_utils/maps.py
+     modified: geoips/interfaces/class_based/coverage_checkers.py
+     modified: geoips/interfaces/class_based/procflows.py
+     modified: geoips/interfaces/class_based/workflow.py
+     modified: geoips/interfaces/class_based_plugin.py
+     modified: geoips/interfaces/yaml_based/sectors.py
+     modified: geoips/interfaces/yaml_based/workflows.py
+     modified: geoips/plugins/modules/procflows/order_based.py
+     modified: geoips/plugins/yaml/workflows/unit_tests/full_run.yaml
+     modified: geoips/plugins/yaml/workflows/unit_tests/test_product.yaml
+     modified: geoips/pydantic_models/v1/output_checkers.py
+     modified: geoips/pydantic_models/v1/readers.py
+     modified: geoips/pydantic_models/v1/workflows.py
+     modified: geoips/utils/types/converter_registry.py
+     modified: geoips/utils/types/converters.py
+     modified: geoips/utils/types/family_conversions.py
+     modified: geoips/utils/types/tokenization.py
+     modified: tests/integration_tests/conftest.py
+     modified: tests/integration_tests/test_obp_datatree.py
+     modified: tests/integration_tests/test_obp_family_conversions.py
+     modified: tests/unit_tests/interfaces/class_based/test_workflow.py
+     modified: tests/unit_tests/plugins/yaml/workflows/test_workflow_overrides.py
+
+Add datatreeditto
+-----------------
+
+Pokemon, the world's most valuable intellectual property, has a pokemon named "ditto" that duplicates its opponents
+behavior and structure with only slight difference. This PR introduces a data type - the DataTreeDitto that behaves very
+similarly to xarray DataTrees with slight differences. This allows us to use non-xobjects while still getting all of the
+benefits of the xarray DataTrees. Using non-xobjects results in more computational overhead, so this data structure
+should ultimately be phased out.
+
+::
+
+     added: .github/workflows/integ_test.yaml
+     added: Makefile
+     added: docs/dev/datatree-spec.md
+     added: docs/source/concepts/architecture/ci-infrastructure.rst
+     added: docs/source/concepts/architecture/custom-types/datatree-ditto.rst
+     added: docs/source/concepts/architecture/custom-types/index.rst
+     added: docs/source/getting-started/installing/docker.rst
+     added: docs/source/releases/latest/add-datatree-spec.yaml
+     added: docs/source/releases/latest/ansible-install-and-self-hosted-ci.yaml
+     added: docs/source/releases/latest/datatree-ditto.yaml
+     added: geoips/commandline/install_progress.py
+     added: geoips/utils/types/datatree_ditto.py
+     added: tests/ansible/README.md
+     added: tests/ansible/ansible.cfg
+     added: tests/ansible/inventory/local.yml
+     added: tests/ansible/playbooks/install.yml
+     added: tests/ansible/playbooks/test_data.yml
+     added: tests/ansible/roles/cartopy_shapefiles/tasks/main.yml
+     added: tests/ansible/roles/python_env/tasks/main.yml
+     added: tests/ansible/roles/registries/tasks/main.yml
+     added: tests/ansible/roles/settings_repos/defaults/main.yml
+     added: tests/ansible/roles/settings_repos/tasks/main.yml
+     added: tests/ansible/roles/source_repos/defaults/main.yml
+     added: tests/ansible/roles/source_repos/tasks/main.yml
+     added: tests/ansible/roles/system_deps/tasks/main.yml
+     added: tests/ansible/roles/test_data/defaults/main.yml
+     added: tests/ansible/roles/test_data/tasks/install_datasets.yml
+     added: tests/ansible/roles/test_data/tasks/main.yml
+     added: tests/ansible/scripts/devcontainer-setup.sh
+     added: tests/lint/__init__.py
+     added: tests/lint/conftest.py
+     added: tests/lint/test_bandit.py
+     added: tests/lint/test_black.py
+     added: tests/lint/test_doc8.py
+     added: tests/lint/test_flake8.py
+     added: tests/unit_tests/utils/types/test_datatree_ditto.py
+     added: tests/unit_tests/utils/types/test_datatree_ditto_FROM_XARRAY.py
+     added: tests/unit_tests/utils/types/test_datatree_ditto_mapping_FROM_XARRAY.py
+     modified: .devcontainer/devcontainer.json
+     modified: .dockerignore
+     modified: .github/workflows/status-check.yaml
+     modified: .gitignore
+     modified: Dockerfile
+     modified: README.md
+     modified: docs/source/concepts/architecture/index.rst
+     modified: docs/source/concepts/configuration/index.rst
+     modified: docs/source/contribute/index.rst
+     modified: docs/source/getting-started/installing/index.rst
+     modified: docs/source/tutorials/setting-up-for-plugin-development.rst
+     modified: geoips/commandline/ancillary_info/test-data-urls.yaml
+     modified: geoips/commandline/geoips_config.py
+     modified: pyproject.toml
+     modified: pytest.ini
+     modified: tests/conftest.py
+     modified: tests/integration_tests/test_integration.py
+     modified: tests/integration_tests/test_tiny_sectors_geoips.py
+     modified: tests/utils/check_code.sh
+
+Obp interpolators update
+------------------------
+
+Adds support for inserting interpolator steps in a workflow plugin. If an
+interpolator step is specified, it MUST depend on two other steps, one of which
+must be a data source, and the other must be a sector. This way it can accurately
+interpolate data from that source to that sector.
+
+::
+
+     moved: geoips/plugins/yaml/workflows/unit_tests/full_run.yaml ->
+     geoips/plugins/yaml/workflows/unit_tests/Infrared.yaml
+     added: geoips/plugins/yaml/workflows/unit_tests/Visible.yaml
+     modified: docs/source/releases/latest/obp-interpolators-update.yaml
+     modified: geoips/interfaces/class_based/workflow.py
+     modified: geoips/interfaces/class_based_plugin.py
+     modified: geoips/plugins/modules/algorithms/single_channel.py
+     modified: geoips/plugins/modules/interpolators/pyresample_wrappers/interp_gauss.py
+     modified: geoips/plugins/modules/interpolators/pyresample_wrappers/interp_nearest.py
+     modified: geoips/plugins/modules/procflows/order_based.py
+     modified: geoips/plugins/modules/procflows/single_source.py
+     modified: geoips/plugins/yaml/workflows/unit_tests/Infrared.yaml
+     modified: geoips/plugins/yaml/workflows/unit_tests/Visible.yaml
+     modified: geoips/plugins/yaml/workflows/unit_tests/dmw_high.yaml
+     modified: geoips/plugins/yaml/workflows/unit_tests/output_checker.yaml
+     modified: geoips/plugins/yaml/workflows/unit_tests/test_product.yaml
+     modified: geoips/pydantic_models/v1/bases.py
+     modified: geoips/pydantic_models/v1/workflows.py
+     modified: geoips/utils/types/converters.py
+     modified: tests/unit_tests/interfaces/class_based/test_workflow.py
+     modified: tests/unit_tests/interfaces/test_class_based_plugin_invoke.py
+     modified: tests/unit_tests/pydantic_models/v1/test_workflow_spec_model.py
+     modified: tests/unit_tests/utils/types/test_datatree_converters.py
+
+Default coverage checkers when product encountered
+--------------------------------------------------
+
+Any time a product is encountered as a step in a workflow, fully expand that product
+as a nested series of steps in the original workflow, then add a coverage checker as
+the final step of the product nested steps if it doesn't already exist as a step.
+Use the masked arrays coverage checker in this case and set minimum coverage to 10.
+
+::
+
+     modified: geoips/pydantic_models/v1/workflows.py
+     modified: geoips/interfaces/class_based/coverage_checkers.py
+
+Removal
+=======
+
+Remove outputs field from steps
+-------------------------------
+
+The functionality provided by the `outputs` field in workflow steps has
+been superseeded by expanded use of `depends_on`. This PR removes all
+remaining references to `outputs`.
+
+::
+
+     added: geoips/plugins/yaml/workflows/abi_infrared_test.yaml
+     modified: docs/dev/datatree-spec.md
+     modified: docs/source/releases/latest/geoips-obp-output-checker-overrides.yaml
+     modified: docs/source/releases/latest/workflow-domain-exceptions.yaml
+     modified: environments/requirements.txt
+     modified: geoips/commandline/geoips_test.py
+     modified: geoips/config/config.py
+     modified: geoips/config/yaml_loader.py
+     modified: geoips/errors.py
+     modified: geoips/plugins/modules/procflows/config_based.py
+     modified: geoips/plugins/modules/procflows/order_based.py
+     modified: geoips/plugins/yaml/workflows/geostationary_dmw/windbarbs_dmw_high.yaml
+     modified: geoips/plugins/yaml/workflows/read_test_interpolator_v1.yaml
+     modified: geoips/plugins/yaml/workflows/read_test_v1.yaml
+     modified: geoips/plugins/yaml/workflows/read_test_v1_coverage_checker.yaml
+     modified: geoips/plugins/yaml/workflows/unit_tests/example_sub_workflow.yaml
+     modified: geoips/plugins/yaml/workflows/unit_tests/example_workflow.yaml
+     modified: geoips/plugins/yaml/workflows/unit_tests/test_datatree_conversions.yaml
+     modified: geoips/plugins/yaml/workflows/unit_tests/test_product.yaml
+     modified: geoips/plugins/yaml/workflows/unit_tests/test_product_default.yaml
+     modified: geoips/plugins/yaml/workflows/visir/Infrared.yaml
+     modified: geoips/pydantic_models/v1/workflows.py
+     modified: geoips/utils/memusg/dataframe_utils.py
+     modified: geoips/utils/yaml_utils.py
+     modified: pyproject.toml
+     modified: tests/integration_tests/test_integration.py
+     modified: tests/integration_tests/test_obp_datatree.py
+     modified: tests/integration_tests/test_obp_family_conversions.py
+     modified: tests/unit_tests/config/test_config.py
+     modified: tests/unit_tests/config/test_yaml_loader.py
+     modified: tests/unit_tests/interfaces/class_based/test_workflow.py
+     modified: tests/unit_tests/pydantic_models/v1/test_workflow_spec_model.py
+     modified: tests/unit_tests/pydantic_models/v1/workflows/test_workflow_step_definition_model.py
+
+Adding geoips_yaml_utils
+------------------------
+
+This PR adds the dependency package geoips_yaml_utils, which is a wrapper
+around PyYAML and a replacement for pyaml-env. This also means that
+geoips.utils.yaml_utils and the related test package in tests/unit_tests/
+needs to be removed as the logic was migrated to geoips_yaml_utils and is
+no longer needed here.
+
+`#1382 <https://github.com/NRLMMD-GEOIPS/geoips>`_
+
+::
+
+     deleted: geoips/utils/yaml_utils.py
+     deleted: tests/unit_tests/utils/test_yaml_utils.py
+     added: docs/source/releases/latest/1382-import-geoips_yaml_utils.yaml
+     modified: pyproject.toml
+     modified: geoips/commandline/cmd_instructions.py
+     modified: geoips/commandline/geoips_command.py
+     modified: geoips/commandline/geoips_describe.py
+     modified: geoips/commandline/geoips_run.py
+     modified: geoips/commandline/geoips_validate.py
+     modified: geoips/interfaces/base.py
+     modified: geoips/plugins/modules/procflows/config_based.py
+     modified: geoips/pydantic_models/v1/products.py
+     modified: geoips/sector_utils/yaml_utils.py
+     modified: geoips/utils/memusg/dataframe_utils.py
+     modified: geoips/utils/cache_files.py
+     modified: docs/source/contribute/coding-standards.rst
+     modified: geoips/errors.py
+
+Remove module-level call() from order_based.py in favor of class-based orderbased
+---------------------------------------------------------------------------------
+
+The module-level call(workflow, fnames, command_line_args) function in
+geoips.plugins.modules.procflows.order_based has been removed. The procflow
+is now a class-based OrderBased(BaseProcflowPlugin) plugin. External callers
+that imported this function directly must now resolve through the procflows
+registry: interfaces.procflows.get_plugin("order_based")(workflow_spec,
+fnames=fnames). The CLI (geoips run order_based) is unchanged from a user
+perspective.
+
+::
+
+     modified: geoips/plugins/modules/procflows/order_based.py
+     modified: geoips/commandline/geoips_run.py
+
+Feature
+=======
+
+Allow plugin packages to register configuration options
+-------------------------------------------------------
+
+External GeoIPS plugin packages can now register their own configuration
+settings via the new ``geoips.config_plugins`` entry-point group. Each
+package exposes a ``geoips.config.ConfigPlugin`` wrapping a pydantic
+settings model.
+
+Plugin settings participate in the standard layered precedence
+(defaults > .geoips.yaml under ``geoips.plugins.<pkg>`` > auto-generated
+``GEOIPS_PLUGIN_<PKG>_<FIELD>`` environment variables), are accessed via
+``config.plugins.<pkg>``, and are included by ``geoips config create``
+(with per-plugin header and per-field default comments under ``--all``).
+``geoips config validate`` validates plugin sections and warns on unknown
+settings. Discovery and per-plugin validation are lazy so a misconfigured
+plugin cannot break importing ``geoips.config``.
+
+::
+
+     added: docs/source/releases/latest/add-plugin-config-registration.yaml
+     added: geoips/config/plugins.py
+     added: tests/unit_tests/config/test_plugins.py
+     added: tests/unit_tests/config/test_config_cli.py
+     modified: geoips/config/__init__.py
+     modified: geoips/config/config.py
+     modified: geoips/errors.py
+     modified: geoips/commandline/geoips_config.py
+     modified: tests/unit_tests/config/test_env_map_sync.py
+     modified: docs/source/concepts/configuration/index.rst
+
+Add colormapper pydantic model
+------------------------------
+
+Introduce Pydantic model defining and validating OBP-v1 ColormapperArgumentsModel
+
+::
+
+     added: docs/source/releases/latest/1336-add-colomapper-pydantic-model.yaml
+     added: tests/unit_tests/pydantic_models/v1/colormappers/test_cases_bad.yaml
+     added: tests/unit_tests/pydantic_models/v1/colormappers/test_cases_good.yaml
+     added: tests/unit_tests/pydantic_models/v1/colormappers/test_cases_neutral.yaml
+     modified: docs/dev/order_based_procflow.rst
+     modified: geoips/pydantic_models/v1/colormappers.py
+     modified: tests/unit_tests/pydantic_models/v1/conftest.py
+     modified: tests/unit_tests/pydantic_models/v1/test_pydantic_models.py
+
+Introduce order-based procflow workflows
+----------------------------------------
+
+NO DESCRIPTION
+
+::
+
+     deleted: geoips/plugins/yaml/workflows/unit_tests/abi-static-infrared-imagery-annotated-enhanced.yaml
+     added: docs/source/releases/latest/1452-fix-expand-steps-python-idnetifer-processing.yaml
+     added: docs/source/releases/latest/1455-introduce-order-based-procflow-workflows.yaml
+     added: geoips/plugins/yaml/workflows/tests/abi_static_infrared_annotated_enhanced.yaml
+     added: geoips/plugins/yaml/workflows/tests/abi_static_infrared_imagery_clean.yaml
+     added: geoips/plugins/yaml/workflows/tests/abi_static_infrared_netcdf_geoips.yaml
+     added: geoips/plugins/yaml/workflows/tests/abi_static_nasa_dust_rgb_imagery_clean.yaml
+     added: geoips/plugins/yaml/workflows/tests/abi_static_test_visible_logarithmic_imagery_clean.yaml
+     added: geoips/plugins/yaml/workflows/tests/abi_static_visible_imagery_clean.yaml
+     added: geoips/plugins/yaml/workflows/tests/ami_static_infrared_imagery_clean.yaml
+     added: geoips/plugins/yaml/workflows/tests/ami_static_mst_absdiff_ir_bd_imagery_clean.yaml
+     added: geoips/plugins/yaml/workflows/tests/ami_static_visible_imagery_clean.yaml
+     added: geoips/plugins/yaml/workflows/tests/ewsg_static_infrared_imagery_clean.yaml
+     added: geoips/plugins/yaml/workflows/tests/fci_static_visible_imagery_annotated.yaml
+     added: geoips/plugins/yaml/workflows/tests/gfs_static_waveheight_imagery_clean.yaml
+     added: geoips/plugins/yaml/workflows/tests/gfs_static_windspeed_imagery_clean.yaml
+     added: geoips/plugins/yaml/workflows/tests/mimic_coarse_static_tpw_cimss_imagery_annotated.yaml
+     added: geoips/plugins/yaml/workflows/tests/mwr_tb165_imagery_clean.yaml
+     added: geoips/plugins/yaml/workflows/tests/mwr_tb180_imagery_clean.yaml
+     added: geoips/plugins/yaml/workflows/tests/mwr_tb325_15_imagery_clean.yaml
+     added: geoips/plugins/yaml/workflows/tests/mwr_tb50_imagery_clean.yaml
+     added: geoips/plugins/yaml/workflows/tests/mwr_tb89_imagery_clean.yaml
+     added: geoips/plugins/yaml/workflows/tests/seviri_airmass_imagery_clean.yaml
+     added: geoips/plugins/yaml/workflows/tests/seviri_convective_storms_imagery_clean.yaml
+     added: geoips/plugins/yaml/workflows/tests/seviri_day_microphys_summer_imagery_clean.yaml
+     added: geoips/plugins/yaml/workflows/tests/seviri_day_microphys_winter_imagery_clean.yaml
+     added: geoips/plugins/yaml/workflows/tests/seviri_day_solar_imagery_clean.yaml
+     added: geoips/plugins/yaml/workflows/tests/seviri_natural_color_imagery_clean.yaml
+     added: geoips/plugins/yaml/workflows/tests/seviri_night_microphys_imagery_clean.yaml
+     added: geoips/plugins/yaml/workflows/tests/seviri_volcanic_ash_imagery_clean.yaml
+     added: geoips/plugins/yaml/workflows/tests/seviri_wv_upper_no_self_register_unprojected_image.yaml
+     added: geoips/plugins/yaml/workflows/tests/seviri_wv_upper_unprojected_image.yaml
+     added: geoips/plugins/yaml/workflows/tests/sgli_static_ir_rgb_imagery_clean.yaml
+     added: geoips/plugins/yaml/workflows/tests/smap_awips_netcdf.yaml
+     added: geoips/plugins/yaml/workflows/tests/smap_unsectored_text_winds.yaml
+     added: geoips/plugins/yaml/workflows/tests/viirs_static_visible_imagery_clean.yaml
+     added: geoips/plugins/yaml/workflows/tests/viirsclearnight_night_vis_ir_geoips1_imagery_annotated.yaml
+     added: geoips/plugins/yaml/workflows/tests/viirsclearnight_night_vis_ir_geoips1_unprojected_image.yaml
+     added: geoips/plugins/yaml/workflows/tests/viirsday_global_night_vis_ir_cogeotiff_rgba.yaml
+     modified: docs/dev/order_based_procflow.rst
+     modified: geoips/plugins/yaml/products/ami.yaml
+     modified: geoips/plugins/yaml/products/seviri.yaml
+     modified: geoips/plugins/yaml/workflows/unit_tests/test_product.yaml
+     modified: geoips/pydantic_models/v1/workflows.py
+     modified: tests/unit_tests/pydantic_models/v1/workflows/test_workflows.py
+
+Implement split/join fan-out in the order-based procflow
+--------------------------------------------------------
+
+``split`` and ``join`` step kinds are now executed rather than raising
+NotImplementedError. A ``split`` step carries an inline body sub-workflow
+(``spec``) plus branch config in ``arguments`` (an explicit ``scopes`` list,
+or ``over: sector_list``); the body runs once per branch, nested under
+``/<split_id>/<scope>``. A ``join`` step re-collects the branches under a
+single node and records ``joined_scopes``. The ``scope`` field is re-enabled
+(no longer rejected at validation) as the branch label, and the schema accepts
+a ``split`` step's inline ``spec`` + branch ``arguments``. Seeded
+sub-workflows now correctly pass their pre-loaded input to a first
+(``depends_on: []``) step.
+
+::
+
+     added: tests/integration_tests/test_obp_split_join.py
+     modified: geoips/interfaces/class_based/workflow.py
+     modified: geoips/pydantic_models/v1/workflows.py
+     modified: tests/unit_tests/interfaces/class_based/test_workflow.py
+     modified: tests/unit_tests/pydantic_models/v1/test_workflow_spec_model.py
+
+Add plugin_proivded as an additional default value in obp pydantic models
+-------------------------------------------------------------------------
+
+'This PR introduces a new default value called PLUGIN_PROVIDED that would help us to
+sanitize the workflow: drop the fields/arguments with the value = "PLUGIN_PROVIDED".
+This will make these fields omitted letting the call signature fill in the required
+default value.'
+
+Note-1: This is a breaking change.
+
+Note-2: If we do not specify the default value as "PLUGIN_PROVIDED" and set it to
+`None`, Pydantic-Python behavior will not allow the plugin-defined defaults to
+actually take effect.
+
+::
+
+     added: tests/unit_tests/plugins/modules/procflows/conftest.py
+     added: tests/unit_tests/plugins/modules/procflows/test_obp_utils.py
+     added: geoips/docs/source/releases/latest/update-dev-staging.yaml
+     added: geoips/plugins/modules/procflows/obp_utils.py
+     added: geoips/constants.py
+     modified: geoips/plugins/modules/procflows/order_based.py
+
+Add yaml-based configuration system that replaces base_paths.py
+---------------------------------------------------------------
+
+Introduces a new ``geoips.config`` module with a layered YAML-based
+configuration system with pydantic-validated settings. Configuration is
+resolved with priority: environment variables > project-level .geoips.yaml
+> code defaults.
+
+The new system replaces the imperative ``PATHS`` dictionary in
+``geoips/filenames/base_paths.py``, which is now a shim
+with deprecation warnings. All existing imports and dict-style access
+continue to work unchanged.
+
+::
+
+     added: docs/source/releases/latest/add-layered-yaml-config-system.yaml
+     added: geoips/config/__init__.py
+     added: geoips/config/config.py
+     added: geoips/config/schema.py
+     added: geoips/config/yaml_loader.py
+     added: tests/unit_tests/config/__init__.py
+     added: tests/unit_tests/config/test_config.py
+     added: tests/unit_tests/config/test_schema.py
+     added: tests/unit_tests/config/test_yaml_loader.py
+     added: tests/unit_tests/config/test_env_map_sync.py
+     modified: geoips/filenames/base_paths.py
+     modified: docs/source/concepts/configuration/index.rst
+
+Order-based procflow: add filename formatter pydantic models
+------------------------------------------------------------
+
+Introduce Pydantic model defining and validating OBP-v1 FilenameFormatterArgumentsModel
+
+::
+
+     added: docs/source/releases/latest/1323-add-filename-formatter-pydantic-model.yaml
+     added: tests/unit_tests/pydantic_models/v1/filename_formatters/test_cases_bad.yaml
+     added: tests/unit_tests/pydantic_models/v1/filename_formatters/test_cases_good.yaml
+     added: tests/unit_tests/pydantic_models/v1/filename_formatters/test_cases_neutral.yaml
+     modified: docs/dev/order_based_procflow.rst
+     modified: geoips/plugins/modules/filename_formatters/geoips_netcdf_fname.py
+     modified: geoips/pydantic_models/v1/filename_formatters.py
+     modified: geoips/pydantic_models/v1/workflows.py
+     modified: tests/unit_tests/pydantic_models/v1/conftest.py
+     modified: tests/unit_tests/pydantic_models/v1/test_pydantic_models.py
+
+Order-based procflow: add output formatters
+-------------------------------------------
+
+Introduce Pydantic model defining and validating OBP-v1 OutputFormatterArgumentsModel
+
+::
+
+     added: docs/source/releases/latest/1279-OBP-add-output-formatters.yaml
+     added: tests/unit_tests/pydantic_models/v1/output_formatters/test_cases_bad.yaml
+     added: tests/unit_tests/pydantic_models/v1/output_formatters/test_cases_good.yaml
+     added: tests/unit_tests/pydantic_models/v1/output_formatters/test_cases_neutral.yaml
+     modified: docs/dev/order_based_procflow.rst
+     modified: geoips/pydantic_models/v1/output_formatters.py
+     modified: tests/unit_tests/pydantic_models/v1/conftest.py
+     modified: tests/unit_tests/pydantic_models/v1/test_pydantic_models.py
+     modified: geoips/plugins/yaml/workflows/read_test_v1.yaml
+
+Static multi-sector processing (sbp) via split over sector_list
+---------------------------------------------------------------
+
+The order-based procflow can now produce output for multiple static sectors
+in a single run. A ``split`` step with ``over: sector_list`` resolves each
+static sector in ``globals.sector_list`` to an ``AreaDefinition`` (making the
+previously dead ``Workflow._resolve_area_defs`` live) and runs its inline body
+sub-workflow once per sector. Each branch's ``AreaDefinition`` is seeded into
+the branch input so the body's steps receive it as ``area_def`` through the
+standard conduit mechanism. Dynamic sectors remain out of scope.
+
+::
+
+     added: tests/integration_tests/test_obp_sectoring.py
+     modified: geoips/interfaces/class_based/workflow.py
+
+Documentation
+=============
+
+Update ci infrastructure documentation
+--------------------------------------
+
+Clarify that ansible playbooks manage software, plugins, and test datasets
+for CI purposes.  Document that ansible-core is pre-installed on CI runners.
+Add early cross-reference to Makefile convenience targets.  Document
+editable_pip_install=true behavior in dev Docker targets.
+
+::
+
+     modified: docs/source/concepts/architecture/ci-infrastructure.rst
+
+Update datatree spec implementation status and procflow interface docstring
+---------------------------------------------------------------------------
+
+Update the Implementation Status block in ``docs/dev/datatree-spec.md`` to
+reflect that split/join execution and static multi-sector (SBP) processing
+are now implemented (with dynamic sectors and ``when:`` still deferred), and
+that DataTree converter dispatch uses a single shared registry. The
+``ProcflowsInterface`` docstring is corrected to describe the class-based
+``order_based`` procflow and to drop the reference to a non-existent
+``overlay`` procflow.
+
+::
+
+     modified: docs/dev/datatree-spec.md
+     modified: geoips/interfaces/class_based/procflows.py
+
+Add release note for version 2.0.0a
+-----------------------------------
+
+Release note on release branch to force tag/release, package/publish,
+and deploy docs.
+
+geoips - v2.0.0a updates
+
+::
+
+     added: docs/source/releases/2.0.0a/2.0.0a-release-note.yaml
+
+Update tagged versions
+----------------------
+
+* Tagged version: 2.0.0a
+
+geoips - v2.0.0a updates
+
+::
+
+     modified: .github/versions/tagged_version
+
+Add basic linting information
+-----------------------------
+
+Added documentation for linters to help contributors follow coding standards.
+
+::
+
+     added: docs/source/contribute/linters.rst
+     modified: docs/source/contribute/index.rst
+
+Add spec for obp datatrees
+--------------------------
+
+This adds a specification for the DataTree backbone for the OBP with an eye towards future capabilities.
+
+::
+
+     added: docs/dev/datatree-spec.md
+
+Continuous integration
+======================
+
+Add self-hosted runner integration test workflow
+------------------------------------------------
+
+Add integ_test.yaml CI workflow on self-hosted runners that builds a Docker
+image, downloads test datasets via ansible, and runs base and full integration
+tests.  Test data is mounted as a runtime volume (never baked into images).
+
+Rename ci.yml to integ_test.yaml to reflect its integration-test focus.
+
+::
+
+     added: .github/workflows/integ_test.yaml
+     modified: .github/workflows/ci.yml
+
+Add unit and integration tests for the datatree runtime
+-------------------------------------------------------
+
+New unit tests cover pydantic schema validation (WorkflowStepDefinitionModel,
+WorkflowSpecModel), _invoke() DataTree wrapping, Workflow topological sort
+and retention policies, DataTreeDitto converters, and dask tokenization.
+A new integration test suite exercises synthetic-reader workflows end-to-end
+with DataTree shape assertions and output_token stability checks across
+repeated runs.
+
+::
+
+     added: tests/unit_tests/pydantic_models/v1/test_workflow_spec_model.py
+     added: tests/unit_tests/utils/types/test_datatree_converters.py
+     added: tests/unit_tests/utils/types/test_tokenization.py
+     added: tests/unit_tests/interfaces/test_class_based_plugin_invoke.py
+     added: tests/unit_tests/interfaces/class_based/test_workflow.py
+     added: tests/unit_tests/plugins/modules/procflows/test_order_based.py
+     added: tests/integration_tests/test_obp_datatree.py
+     added: tests/integration_tests/conftest.py
+
+Installation
+============
+
+Replace install shell scripts with ansible playbooks
+----------------------------------------------------
+
+Replace legacy shell scripts (base_install.sh, full_install.sh, site_install.sh,
+check_system_requirements.sh) with Ansible playbooks and roles in
+tests/ansible/.  The same playbooks run on bare-metal and inside Docker
+containers using a three-tier tag model (base, full, site).
+
+Rework the multi-stage Dockerfile to delegate to ansible playbooks.  Add new
+targets: dev (editable site), dev-quick (editable base), and production
+(source-free slim runtime).
+
+::
+
+     added: tests/ansible/
+     modified: Dockerfile
+     modified: Makefile
+     modified: .dockerignore
+
+Refactor
+========
+
+Convert majority of module-based plugins to class-based
+-------------------------------------------------------
+
+This update includes a large refactoring of the module-based side of the codebase.
+The OBP introduced the idea of true class-based plugins so we could perform
+operations on datasets being processed before and after the enter / exit a plugin.
+This way we can transform the data into the expected type that the plugin specifies.
+Currently, nearly all class-based plugins are generated at runtime via pluginify,
+and we cannot easily depict what a plugin of a certain type has access to via
+inheritance. It's also not clear how these plugins are being converted at runtime.
+
+This update converts all module-based plugins (asides from procflow plugins) to
+true class-based plugins. Additionally, this update moves shared functionality from
+certain plugin types onto their base classes, so they no longer need to import
+functionality from one or more plugins of the same type. They can just access this
+functionality via self.<common_func>...
+
+Finally, updated pyproject.toml to reflect the version of pluginify needed to
+support this new functionality.
+
+::
+
+     deleted: geoips/plugins/modules/algorithms/RGB_Default.py
+     deleted: geoips/plugins/modules/algorithms/__init__.py
+     deleted: geoips/plugins/modules/algorithms/absdiff_mst.py
+     deleted: geoips/plugins/modules/algorithms/model/model_channel.py
+     deleted: geoips/plugins/modules/algorithms/model/model_windbarbs.py
+     deleted: geoips/plugins/modules/algorithms/pmw_tb/__init__.py
+     deleted: geoips/plugins/modules/algorithms/pmw_tb/pmw_37pct.py
+     deleted: geoips/plugins/modules/algorithms/pmw_tb/pmw_89pct.py
+     deleted: geoips/plugins/modules/algorithms/pmw_tb/pmw_color37.py
+     deleted: geoips/plugins/modules/algorithms/pmw_tb/pmw_color89.py
+     deleted: geoips/plugins/modules/algorithms/pressure_winds/windbarbs_dmw.py
+     deleted: geoips/plugins/modules/algorithms/sfc_winds/__init__.py
+     deleted: geoips/plugins/modules/algorithms/sfc_winds/windbarbs.py
+     deleted: geoips/plugins/modules/algorithms/single_channel.py
+     deleted: geoips/plugins/modules/algorithms/visir/Convective_Storms.py
+     deleted: geoips/plugins/modules/algorithms/visir/Day_Microphys_Summer.py
+     deleted: geoips/plugins/modules/algorithms/visir/Day_Microphys_Winter.py
+     deleted: geoips/plugins/modules/algorithms/visir/Day_Solar.py
+     deleted: geoips/plugins/modules/algorithms/visir/Dust_RGB.py
+     deleted: geoips/plugins/modules/algorithms/visir/HNear_Constant_Contrast.py
+     deleted: geoips/plugins/modules/algorithms/visir/Natural_Color.py
+     deleted: geoips/plugins/modules/algorithms/visir/Night_Microphys.py
+     deleted: geoips/plugins/modules/algorithms/visir/Night_Vis.py
+     deleted: geoips/plugins/modules/algorithms/visir/Night_Vis_GeoIPS1.py
+     deleted: geoips/plugins/modules/algorithms/visir/Night_Vis_IR.py
+     deleted: geoips/plugins/modules/algorithms/visir/Night_Vis_IR_GeoIPS1.py
+     deleted: geoips/plugins/modules/algorithms/visir/Volcanic_Ash.py
+     deleted: geoips/plugins/modules/algorithms/visir/__init__.py
+     deleted: geoips/plugins/modules/algorithms/visir/airmass.py
+     deleted: geoips/plugins/modules/algorithms/visir/nasa_dust_rgb.py
+     deleted: geoips/plugins/modules/algorithms/visir/seviri_xmls/Convective-Storms.xml
+     deleted: geoips/plugins/modules/algorithms/visir/seviri_xmls/Day-Microphys-Summer.xml
+     deleted: geoips/plugins/modules/algorithms/visir/seviri_xmls/Day-Microphys-Winter.xml
+     deleted: geoips/plugins/modules/algorithms/visir/seviri_xmls/Day-Solar.xml
+     deleted: geoips/plugins/modules/algorithms/visir/seviri_xmls/Dust-RGB.xml
+     deleted: geoips/plugins/modules/algorithms/visir/seviri_xmls/ExtAlg.xml
+     deleted: geoips/plugins/modules/algorithms/visir/seviri_xmls/Natural-Color.xml
+     deleted: geoips/plugins/modules/algorithms/visir/seviri_xmls/Night-Microphys.xml
+     deleted: geoips/plugins/modules/algorithms/visir/seviri_xmls/Volcanic-Ash.xml
+     deleted: geoips/plugins/modules/algorithms/visir/seviri_xmls/airmass.xml
+     deleted: geoips/plugins/modules/colormappers/__init__.py
+     deleted: geoips/plugins/modules/colormappers/cmap_rgb.py
+     deleted: geoips/plugins/modules/colormappers/matplotlib_linear_norm.py
+     deleted: geoips/plugins/modules/colormappers/matplotlib_log_norm.py
+     deleted: geoips/plugins/modules/colormappers/models/wave_height_cmap.py
+     deleted: geoips/plugins/modules/colormappers/pmw_tb/__init__.py
+     deleted: geoips/plugins/modules/colormappers/pmw_tb/cmap_150H.py
+     deleted: geoips/plugins/modules/colormappers/pmw_tb/cmap_37H.py
+     deleted: geoips/plugins/modules/colormappers/pmw_tb/cmap_37H_Legacy.py
+     deleted: geoips/plugins/modules/colormappers/pmw_tb/cmap_37H_Physical.py
+     deleted: geoips/plugins/modules/colormappers/pmw_tb/cmap_37pct.py
+     deleted: geoips/plugins/modules/colormappers/pmw_tb/cmap_89H.py
+     deleted: geoips/plugins/modules/colormappers/pmw_tb/cmap_89HW.py
+     deleted: geoips/plugins/modules/colormappers/pmw_tb/cmap_89H_Legacy.py
+     deleted: geoips/plugins/modules/colormappers/pmw_tb/cmap_89H_Physical.py
+     deleted: geoips/plugins/modules/colormappers/pmw_tb/cmap_89pct.py
+     deleted: geoips/plugins/modules/colormappers/pmw_tb/cmap_Rain.py
+     deleted: geoips/plugins/modules/colormappers/tpw/__init__.py
+     deleted: geoips/plugins/modules/colormappers/tpw/tpw_pwat.py
+     deleted: geoips/plugins/modules/colormappers/visir/IR_BD.py
+     deleted: geoips/plugins/modules/colormappers/visir/Infrared.py
+     deleted: geoips/plugins/modules/colormappers/visir/WV.py
+     deleted: geoips/plugins/modules/colormappers/visir/__init__.py
+     deleted: geoips/plugins/modules/colormappers/winds/__init__.py
+     deleted: geoips/plugins/modules/colormappers/winds/dmw_wind_levels.py
+     deleted: geoips/plugins/modules/colormappers/winds/global_winds_transitions.py
+     deleted: geoips/plugins/modules/colormappers/winds/wind_radii_transitions.py
+     deleted: geoips/plugins/modules/colormappers/winds/wind_radii_transitions_legacy.py
+     deleted: geoips/plugins/modules/coverage_checkers/__init__.py
+     deleted: geoips/plugins/modules/coverage_checkers/center_radius.py
+     deleted: geoips/plugins/modules/coverage_checkers/center_radius_rgba.py
+     deleted: geoips/plugins/modules/coverage_checkers/masked_arrays.py
+     deleted: geoips/plugins/modules/coverage_checkers/numpy_arrays_nan.py
+     deleted: geoips/plugins/modules/coverage_checkers/rgba.py
+     deleted: geoips/plugins/modules/coverage_checkers/windbarbs.py
+     deleted: geoips/plugins/modules/filename_formatters/__init__.py
+     deleted: geoips/plugins/modules/filename_formatters/basic_fname.py
+     deleted: geoips/plugins/modules/filename_formatters/geoips_fname.py
+     deleted: geoips/plugins/modules/filename_formatters/geoips_netcdf_fname.py
+     deleted: geoips/plugins/modules/filename_formatters/geotiff_fname.py
+     deleted: geoips/plugins/modules/filename_formatters/metadata_default_fname.py
+     deleted: geoips/plugins/modules/filename_formatters/tc_clean_fname.py
+     deleted: geoips/plugins/modules/filename_formatters/tc_fname.py
+     deleted: geoips/plugins/modules/filename_formatters/text_winds_day_fname.py
+     deleted: geoips/plugins/modules/filename_formatters/text_winds_full_fname.py
+     deleted: geoips/plugins/modules/filename_formatters/text_winds_tc_fname.py
+     deleted: geoips/plugins/modules/interpolators/__init__.py
+     deleted: geoips/plugins/modules/interpolators/pyresample_wrappers/__init__.py
+     deleted: geoips/plugins/modules/interpolators/pyresample_wrappers/interp_gauss.py
+     deleted: geoips/plugins/modules/interpolators/pyresample_wrappers/interp_nearest.py
+     deleted: geoips/plugins/modules/interpolators/scipy_wrappers/__init__.py
+     deleted: geoips/plugins/modules/interpolators/scipy_wrappers/interp_grid.py
+     deleted: geoips/plugins/modules/output_formatters/__init__.py
+     deleted: geoips/plugins/modules/output_formatters/cogeotiff.py
+     deleted: geoips/plugins/modules/output_formatters/cogeotiff_rgba.py
+     deleted: geoips/plugins/modules/output_formatters/full_disk_image.py
+     deleted: geoips/plugins/modules/output_formatters/geotiff_standard.py
+     deleted: geoips/plugins/modules/output_formatters/histogram_csv.py
+     deleted: geoips/plugins/modules/output_formatters/histogram_netcdf.py
+     deleted: geoips/plugins/modules/output_formatters/imagery_annotated.py
+     deleted: geoips/plugins/modules/output_formatters/imagery_clean.py
+     deleted: geoips/plugins/modules/output_formatters/imagery_windbarbs.py
+     deleted: geoips/plugins/modules/output_formatters/imagery_windbarbs_clean.py
+     deleted: geoips/plugins/modules/output_formatters/imagery_windbarbs_multi_level.py
+     deleted: geoips/plugins/modules/output_formatters/imagery_windbarbs_multi_level_clean.py
+     deleted: geoips/plugins/modules/output_formatters/metadata_default.py
+     deleted: geoips/plugins/modules/output_formatters/metadata_tc.py
+     deleted: geoips/plugins/modules/output_formatters/netcdf_full.py
+     deleted: geoips/plugins/modules/output_formatters/netcdf_geoips.py
+     deleted: geoips/plugins/modules/output_formatters/netcdf_xarray.py
+     deleted: geoips/plugins/modules/output_formatters/text_winds.py
+     deleted: geoips/plugins/modules/output_formatters/unprojected_image.py
+     deleted: geoips/plugins/modules/output_formatters/windspeed_awips2_formatter.py
+     deleted: geoips/plugins/modules/readers/__init__.py
+     deleted: geoips/plugins/modules/readers/abi_l2_netcdf.py
+     deleted: geoips/plugins/modules/readers/abi_netcdf.py
+     deleted: geoips/plugins/modules/readers/ahi_hsd.py
+     deleted: geoips/plugins/modules/readers/ami_netcdf.py
+     deleted: geoips/plugins/modules/readers/amsr2_netcdf.py
+     deleted: geoips/plugins/modules/readers/amsr2_remss_winds_netcdf.py
+     deleted: geoips/plugins/modules/readers/amsua_mhs_mirs.py
+     deleted: geoips/plugins/modules/readers/amsub_hdf.py
+     deleted: geoips/plugins/modules/readers/ascat_uhr_netcdf.py
+     deleted: geoips/plugins/modules/readers/atms_hdf5.py
+     deleted: geoips/plugins/modules/readers/aws_netcdf.py
+     deleted: geoips/plugins/modules/readers/cygnss_netcdf.py
+     deleted: geoips/plugins/modules/readers/ewsg_netcdf.py
+     deleted: geoips/plugins/modules/readers/fci_netcdf.py
+     deleted: geoips/plugins/modules/readers/geoips_netcdf.py
+     deleted: geoips/plugins/modules/readers/gfs_grib.py
+     deleted: geoips/plugins/modules/readers/gmi_hdf5.py
+     deleted: geoips/plugins/modules/readers/imerg_hdf5.py
+     deleted: geoips/plugins/modules/readers/mimic_netcdf.py
+     deleted: geoips/plugins/modules/readers/modis_hdf4.py
+     deleted: geoips/plugins/modules/readers/saphir_hdf5.py
+     deleted: geoips/plugins/modules/readers/sar_winds_netcdf.py
+     deleted: geoips/plugins/modules/readers/scat_knmi_winds_netcdf.py
+     deleted: geoips/plugins/modules/readers/scat_noaa_winds_netcdf.py
+     deleted: geoips/plugins/modules/readers/seviri_hrit.py
+     deleted: geoips/plugins/modules/readers/sfc_winds_text.py
+     deleted: geoips/plugins/modules/readers/sgli_l1b_hdf5.py
+     deleted: geoips/plugins/modules/readers/smap_remss_winds_netcdf.py
+     deleted: geoips/plugins/modules/readers/smos_winds_netcdf.py
+     deleted: geoips/plugins/modules/readers/ssmi_binary.py
+     deleted: geoips/plugins/modules/readers/ssmis_binary.py
+     deleted: geoips/plugins/modules/readers/viirs_l2_netcdf.py
+     deleted: geoips/plugins/modules/readers/viirs_netcdf.py
+     deleted: geoips/plugins/modules/readers/viirs_sdr_hdf5.py
+     deleted: geoips/plugins/modules/readers/viirs_sdr_satpy_hdf5.py
+     deleted: geoips/plugins/modules/readers/wfabba_ascii.py
+     deleted: geoips/plugins/modules/readers/windsat_idr37_binary.py
+     deleted: geoips/plugins/modules/readers/windsat_remss_winds_netcdf.py
+     deleted: geoips/plugins/modules/sector_metadata_generators/__init__.py
+     deleted: geoips/plugins/modules/sector_metadata_generators/bdeck_parser.py
+     deleted: geoips/plugins/modules/sector_metadata_generators/fdeck_parser.py
+     deleted: geoips/plugins/modules/sector_metadata_generators/tc_sector_file_parser.py
+     deleted: geoips/plugins/modules/sector_metadata_generators/volc_parser.py
+     deleted: geoips/plugins/modules/sector_spec_generators/__init__.py
+     deleted: geoips/plugins/modules/sector_spec_generators/center_coordinates.py
+     deleted: geoips/plugins/modules/title_formatters/__init__.py
+     deleted: geoips/plugins/modules/title_formatters/static_standard.py
+     deleted: geoips/plugins/modules/title_formatters/tc_copyright.py
+     deleted: geoips/plugins/modules/title_formatters/tc_standard.py
+     added: geoips/plugins/classes/algorithms/RGB_Default.py
+     added: geoips/plugins/classes/algorithms/absdiff_mst.py
+     added: geoips/plugins/classes/algorithms/model/model_channel.py
+     added: geoips/plugins/classes/algorithms/model/model_windbarbs.py
+     added: geoips/plugins/classes/algorithms/pmw_tb/pmw_37pct.py
+     added: geoips/plugins/classes/algorithms/pmw_tb/pmw_89pct.py
+     added: geoips/plugins/classes/algorithms/pmw_tb/pmw_color37.py
+     added: geoips/plugins/classes/algorithms/pmw_tb/pmw_color89.py
+     added: geoips/plugins/classes/algorithms/pressure_winds/windbarbs_dmw.py
+     added: geoips/plugins/classes/algorithms/sfc_winds/windbarbs.py
+     added: geoips/plugins/classes/algorithms/single_channel.py
+     added: geoips/plugins/classes/algorithms/visir/Convective_Storms.py
+     added: geoips/plugins/classes/algorithms/visir/Day_Microphys_Summer.py
+     added: geoips/plugins/classes/algorithms/visir/Day_Microphys_Winter.py
+     added: geoips/plugins/classes/algorithms/visir/Day_Solar.py
+     added: geoips/plugins/classes/algorithms/visir/Dust_RGB.py
+     added: geoips/plugins/classes/algorithms/visir/HNear_Constant_Contrast.py
+     added: geoips/plugins/classes/algorithms/visir/Natural_Color.py
+     added: geoips/plugins/classes/algorithms/visir/Night_Microphys.py
+     added: geoips/plugins/classes/algorithms/visir/Night_Vis.py
+     added: geoips/plugins/classes/algorithms/visir/Night_Vis_GeoIPS1.py
+     added: geoips/plugins/classes/algorithms/visir/Night_Vis_IR.py
+     added: geoips/plugins/classes/algorithms/visir/Night_Vis_IR_GeoIPS1.py
+     added: geoips/plugins/classes/algorithms/visir/Volcanic_Ash.py
+     added: geoips/plugins/classes/algorithms/visir/airmass.py
+     added: geoips/plugins/classes/algorithms/visir/nasa_dust_rgb.py
+     added: geoips/plugins/classes/colormappers/cmap_rgb.py
+     added: geoips/plugins/classes/colormappers/matplotlib_linear_norm.py
+     added: geoips/plugins/classes/colormappers/matplotlib_log_norm.py
+     added: geoips/plugins/classes/colormappers/models/wave_height_cmap.py
+     added: geoips/plugins/classes/colormappers/pmw_tb/cmap_150H.py
+     added: geoips/plugins/classes/colormappers/pmw_tb/cmap_37H.py
+     added: geoips/plugins/classes/colormappers/pmw_tb/cmap_37H_Legacy.py
+     added: geoips/plugins/classes/colormappers/pmw_tb/cmap_37H_Physical.py
+     added: geoips/plugins/classes/colormappers/pmw_tb/cmap_37pct.py
+     added: geoips/plugins/classes/colormappers/pmw_tb/cmap_89H.py
+     added: geoips/plugins/classes/colormappers/pmw_tb/cmap_89HW.py
+     added: geoips/plugins/classes/colormappers/pmw_tb/cmap_89H_Legacy.py
+     added: geoips/plugins/classes/colormappers/pmw_tb/cmap_89H_Physical.py
+     added: geoips/plugins/classes/colormappers/pmw_tb/cmap_89pct.py
+     added: geoips/plugins/classes/colormappers/pmw_tb/cmap_Rain.py
+     added: geoips/plugins/classes/colormappers/tpw/tpw_pwat.py
+     added: geoips/plugins/classes/colormappers/visir/IR_BD.py
+     added: geoips/plugins/classes/colormappers/visir/Infrared.py
+     added: geoips/plugins/classes/colormappers/visir/WV.py
+     added: geoips/plugins/classes/colormappers/winds/dmw_wind_levels.py
+     added: geoips/plugins/classes/colormappers/winds/global_winds_transitions.py
+     added: geoips/plugins/classes/colormappers/winds/wind_radii_transitions.py
+     added: geoips/plugins/classes/colormappers/winds/wind_radii_transitions_legacy.py
+     added: geoips/plugins/classes/coverage_checkers/center_radius.py
+     added: geoips/plugins/classes/coverage_checkers/center_radius_rgba.py
+     added: geoips/plugins/classes/coverage_checkers/masked_arrays.py
+     added: geoips/plugins/classes/coverage_checkers/numpy_arrays_nan.py
+     added: geoips/plugins/classes/coverage_checkers/rgba.py
+     added: geoips/plugins/classes/coverage_checkers/windbarbs.py
+     added: geoips/plugins/classes/filename_formatters/basic_fname.py
+     added: geoips/plugins/classes/filename_formatters/geoips_fname.py
+     added: geoips/plugins/classes/filename_formatters/geoips_netcdf_fname.py
+     added: geoips/plugins/classes/filename_formatters/geotiff_fname.py
+     added: geoips/plugins/classes/filename_formatters/metadata_default_fname.py
+     added: geoips/plugins/classes/filename_formatters/tc_clean_fname.py
+     added: geoips/plugins/classes/filename_formatters/tc_fname.py
+     added: geoips/plugins/classes/filename_formatters/text_winds_day_fname.py
+     added: geoips/plugins/classes/filename_formatters/text_winds_full_fname.py
+     added: geoips/plugins/classes/filename_formatters/text_winds_tc_fname.py
+     added: geoips/plugins/classes/filename_formatters/utils/__init__.py
+     added: geoips/plugins/classes/filename_formatters/utils/tc_file_naming.py
+     added: geoips/plugins/classes/interpolators/pyresample_wrappers/interp_gauss.py
+     added: geoips/plugins/classes/interpolators/pyresample_wrappers/interp_nearest.py
+     added: geoips/plugins/classes/interpolators/scipy_wrappers/interp_grid.py
+     added: geoips/plugins/classes/interpolators/utils/__init__.py
+     added: geoips/plugins/classes/interpolators/utils/boxdefinitions.py
+     added: geoips/plugins/classes/interpolators/utils/interp_pyresample.py
+     added: geoips/plugins/classes/interpolators/utils/interp_scipy.py
+     added: geoips/plugins/classes/output_formatters/cogeotiff.py
+     added: geoips/plugins/classes/output_formatters/cogeotiff_rgba.py
+     added: geoips/plugins/classes/output_formatters/full_disk_image.py
+     added: geoips/plugins/classes/output_formatters/geotiff_standard.py
+     added: geoips/plugins/classes/output_formatters/histogram_csv.py
+     added: geoips/plugins/classes/output_formatters/histogram_netcdf.py
+     added: geoips/plugins/classes/output_formatters/imagery_annotated.py
+     added: geoips/plugins/classes/output_formatters/imagery_clean.py
+     added: geoips/plugins/classes/output_formatters/imagery_windbarbs.py
+     added: geoips/plugins/classes/output_formatters/imagery_windbarbs_clean.py
+     added: geoips/plugins/classes/output_formatters/imagery_windbarbs_multi_level.py
+     added: geoips/plugins/classes/output_formatters/imagery_windbarbs_multi_level_clean.py
+     added: geoips/plugins/classes/output_formatters/metadata_default.py
+     added: geoips/plugins/classes/output_formatters/metadata_tc.py
+     added: geoips/plugins/classes/output_formatters/netcdf_full.py
+     added: geoips/plugins/classes/output_formatters/netcdf_geoips.py
+     added: geoips/plugins/classes/output_formatters/netcdf_xarray.py
+     added: geoips/plugins/classes/output_formatters/text_winds.py
+     added: geoips/plugins/classes/output_formatters/unprojected_image.py
+     added: geoips/plugins/classes/output_formatters/windspeed_awips2_formatter.py
+     added: geoips/plugins/classes/readers/abi_l2_netcdf.py
+     added: geoips/plugins/classes/readers/abi_netcdf.py
+     added: geoips/plugins/classes/readers/ahi_hsd.py
+     added: geoips/plugins/classes/readers/ami_netcdf.py
+     added: geoips/plugins/classes/readers/amsr2_netcdf.py
+     added: geoips/plugins/classes/readers/amsr2_remss_winds_netcdf.py
+     added: geoips/plugins/classes/readers/amsua_mhs_mirs.py
+     added: geoips/plugins/classes/readers/amsub_hdf.py
+     added: geoips/plugins/classes/readers/ascat_uhr_netcdf.py
+     added: geoips/plugins/classes/readers/atms_hdf5.py
+     added: geoips/plugins/classes/readers/aws_netcdf.py
+     added: geoips/plugins/classes/readers/cygnss_netcdf.py
+     added: geoips/plugins/classes/readers/ewsg_netcdf.py
+     added: geoips/plugins/classes/readers/fci_netcdf.py
+     added: geoips/plugins/classes/readers/geoips_netcdf.py
+     added: geoips/plugins/classes/readers/gfs_grib.py
+     added: geoips/plugins/classes/readers/gmi_hdf5.py
+     added: geoips/plugins/classes/readers/imerg_hdf5.py
+     added: geoips/plugins/classes/readers/mimic_netcdf.py
+     added: geoips/plugins/classes/readers/modis_hdf4.py
+     added: geoips/plugins/classes/readers/saphir_hdf5.py
+     added: geoips/plugins/classes/readers/sar_winds_netcdf.py
+     added: geoips/plugins/classes/readers/scat_knmi_winds_netcdf.py
+     added: geoips/plugins/classes/readers/scat_noaa_winds_netcdf.py
+     added: geoips/plugins/classes/readers/seviri_hrit.py
+     added: geoips/plugins/classes/readers/sfc_winds_text.py
+     added: geoips/plugins/classes/readers/sgli_l1b_hdf5.py
+     added: geoips/plugins/classes/readers/smap_remss_winds_netcdf.py
+     added: geoips/plugins/classes/readers/smos_winds_netcdf.py
+     added: geoips/plugins/classes/readers/ssmi_binary.py
+     added: geoips/plugins/classes/readers/ssmis_binary.py
+     added: geoips/plugins/classes/readers/utils/__init__.py
+     added: geoips/plugins/classes/readers/utils/geostationary_geolocation.py
+     added: geoips/plugins/classes/readers/utils/hrit_reader.py
+     added: geoips/plugins/classes/readers/utils/remss_reader.py
+     added: geoips/plugins/classes/readers/viirs_l2_netcdf.py
+     added: geoips/plugins/classes/readers/viirs_netcdf.py
+     added: geoips/plugins/classes/readers/viirs_sdr_hdf5.py
+     added: geoips/plugins/classes/readers/viirs_sdr_satpy_hdf5.py
+     added: geoips/plugins/classes/readers/wfabba_ascii.py
+     added: geoips/plugins/classes/readers/windsat_idr37_binary.py
+     added: geoips/plugins/classes/readers/windsat_remss_winds_netcdf.py
+     added: geoips/plugins/classes/sector_metadata_generators/bdeck_parser.py
+     added: geoips/plugins/classes/sector_metadata_generators/fdeck_parser.py
+     added: geoips/plugins/classes/sector_metadata_generators/tc_sector_file_parser.py
+     added: geoips/plugins/classes/sector_metadata_generators/volc_parser.py
+     added: geoips/plugins/classes/sector_spec_generators/center_coordinates.py
+     added: geoips/plugins/classes/title_formatters/static_standard.py
+     added: geoips/plugins/classes/title_formatters/tc_copyright.py
+     added: geoips/plugins/classes/title_formatters/tc_standard.py
+     modified: geoips/interfaces/class_based/coverage_checkers.py
+     modified: geoips/interfaces/class_based/filename_formatters.py
+     modified: geoips/interfaces/class_based/output_formatters.py
+     modified: geoips/interfaces/class_based/readers.py
+     modified: geoips/interfaces/class_based/sector_metadata_generators.py
+     modified: pyproject.toml
+
+Route datatreeditto reverse conversion through the shared converter_registry
+----------------------------------------------------------------------------
+
+DataTreeDitto previously kept its own ``_converters`` dict in sync with the
+shared ``converter_registry`` by hand, and its reverse (Dataset -> original)
+conversion dispatched off that private dict. ``_convert_from_dataset`` now
+resolves the ``_ditto_original_type`` against ``converter_registry`` and
+delegates the conversion to it, so there is a single source of truth for
+converter dispatch. ``datatree_converters`` now registers each converter
+through the one ``register_converter`` call site (which populates both the
+shared registry and the backward-compatible ``_converters`` mirror), removing
+the duplicated direct registrations.
+
+::
+
+     modified: geoips/utils/types/datatree_ditto.py
+     modified: geoips/utils/types/datatree_converters.py
+
+Consolidate obp conduit registry and use lexeme for kind/interface names
+------------------------------------------------------------------------
+
+The OBP "conduit" binding registry (upstream plugin kind -> downstream kwarg
+name + extractor) previously lived inside ``class_based_plugin`` as
+``_OBP_CONDUITS`` and was reached back into by ``YamlPluginCallable``. It now
+has a single home in ``geoips/utils/types/obp_conduits.py`` (alongside the
+other adaptation/conversion types), exported as ``OBP_CONDUITS`` +
+``kwarg_name_for_kind``, so a new plugin kind is wired in one place. Plugin
+kind <-> interface-name conversion is done with ``Lexeme(...).plural`` /
+``Lexeme(...).singular`` directly at the call sites; the previous, subtly
+wrong ``interface.rstrip("s")`` in ``YamlPluginCallable`` is replaced with
+``Lexeme``.
+
+::
+
+     added: geoips/utils/types/obp_conduits.py
+     modified: geoips/interfaces/class_based_plugin.py
+     modified: geoips/utils/types/yaml_plugin_callable.py
+     modified: geoips/interfaces/class_based/workflow.py
+     modified: geoips/pydantic_models/v1/workflows.py
+     modified: geoips/plugins/modules/procflows/obp_utils.py

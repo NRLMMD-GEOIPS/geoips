@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Version 1.15.2 (2026-07-23) &#8212; GeoIPS, Geolocated Information Processing System 1.19.0.post1200.dev0 documentation</title>
+    <title>Version 1.15.2 (2026-07-23) &#8212; GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation</title>
   
   
   
@@ -41,7 +41,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
 
-    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=ba503b0a"></script>
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=6727bded"></script>
     <script src="../_static/doctools.js?v=888ff710"></script>
     <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
@@ -54,8 +54,8 @@
     <link rel="prev" title="Version 1.15.3 (2026-07-23)" href="1.15.3.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="1.1" />
-    <meta name="docbuild:last-update" content="Jul 23, 2026 15:25:48"/>
+  <meta name="docsearch:version" content="2.0" />
+    <meta name="docbuild:last-update" content="Jul 23, 2026 17:03:57"/>
   
     
     <script src="../_static/searchtools.js"></script>
@@ -127,8 +127,8 @@
       
     
     
-    <img src="../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 1.19.0.post1200.dev0 documentation - Home"/>
-    <img src="../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 1.19.0.post1200.dev0 documentation - Home"/>
+    <img src="../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation - Home"/>
+    <img src="../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation - Home"/>
   
   
 </a></div>
@@ -431,7 +431,7 @@
      aria-label="Section Navigation">
   <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
   <div class="bd-toc-item navbar-nav"><ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="latest.html">Version latest (2026-07-23)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="2.0.0a0.html">Version 2.0.0a0 (2026-07-23)</a></li>
 </ul>
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="1.19.0.html">Version 1.19.0 (2026-07-23)</a></li>
@@ -631,488 +631,52 @@
 <h1>Version 1.15.2 (2026-07-23)<a class="headerlink" href="#version-1-15-2-2026-07-23" title="Permalink to this heading">#</a></h1>
 <blockquote>
 <div><ul class="simple">
-<li><p><em>Bug fix</em>: Additional test output updates</p></li>
-<li><p><em>Bug fix</em>: Update amsub -&gt; amsua_mhs for extra test script</p></li>
-<li><p><em>Bug fix</em>: Add pad_x_scale_factor and pad_y_scale_factor to product_defaults schema</p></li>
-<li><p><em>Bug fix</em>: Remove unused geoips_get, add 1.15.2 environment files</p></li>
-<li><p><em>Bug fix</em>: Do not try to parse any empty lines in tc deck file</p></li>
-<li><p><em>Bug fix</em>: Do not try to parse any empty lines in tc deck file</p></li>
-<li><p><em>Bug fix</em>: Add pad_x_scale_factor and pad_y_scale_factor to product_defaults schema</p></li>
-<li><p><em>Bug fix</em>: Remove unused geoips_get, add 1.15.2 environment files</p></li>
-<li><p><em>Bug fix</em>: Ssmi_binary numpy 2.x uint16 cast bug fix</p></li>
-<li><p><em>Bug fix</em>: Allow non-bash scripts in test_integration.py</p></li>
-<li><p><em>Bug fix</em>: Allow another level in uncompress_test_data.sh</p></li>
-<li><p><em>Bug fix</em>: Ensure plugin-is-valid passes with type hints in plugin call signature</p></li>
-<li><p><em>Bug fix</em>: Cast radius of influence to float when passing to interp_kd_tree</p></li>
-<li><p><em>Bug fix</em>: Ssmi_binary numpy 2.x uint16 cast bug fix</p></li>
-<li><p><em>Bug fix</em>: No longer support bug in datetime64 scaling</p></li>
-<li><p><em>Bug fix</em>: Fix segfault issue in fci reader</p></li>
-<li><p><em>Bug fix</em>: Ensure overall_usage_dict exists before accessing it</p></li>
-<li><p><em>Bug fix</em>: Add geoips prefix to the pregenerated geolocation env vars</p></li>
-<li><p><em>Bug fix</em>: Add pytest alias to ensure the user doesn’t want to track their pytest output</p></li>
-<li><p><em>Bug fix</em>: Ensure geoips_rebuild_registries is properly set as a bool</p></li>
-<li><p><em>Documentation</em>: Add release note for version 1.15.2</p></li>
-<li><p><em>Documentation</em>: Update upcoming and tagged versions</p></li>
-<li><p><em>Testing</em>: Raise more informative error for json schema plugin validationerror</p></li>
-<li><p><em>Testing</em>: Standardize base, full, and system pytest markers for better test separation</p></li>
-<li><p><em>Testing</em>: Tee -a interactive_pytest.sh output, pass in pytest markers directly, clean up log locations.</p></li>
-<li><p><em>Testing</em>: Add pytest-based integration tests for all packages</p></li>
-<li><p><em>Testing</em>: Raise more informative error for json schema plugin validationerror</p></li>
-<li><p><em>Testing</em>: Standardize base, full, and system pytest markers for better test separation</p></li>
-<li><p><em>Testing</em>: Tee -a interactive_pytest.sh output, pass in pytest markers directly, clean up log locations.</p></li>
-<li><p><em>Testing</em>: Finalize pytest integration markers based on srs</p></li>
-<li><p><em>Testing</em>: Update download_noaa_aws.sh script to write to geoips_outdirs</p></li>
-<li><p><em>Testing</em>: Update download_noaa_aws.sh script to write to geoips_outdirs</p></li>
 <li><p><em>Enhancement</em>: Add new sectors for full disk meteosat products</p></li>
-<li><p><em>Enhancement</em>: Use base_paths to control output of geostationary geolocation files</p></li>
-<li><p><em>Enhancement</em>: Add roi into geosatellite sensor readers</p></li>
 <li><p><em>Enhancement</em>: Add guam and hawaii static sectors to main geoips repo</p></li>
-<li><p><em>Enhancement</em>: Track resource usage at checkpoints, add zarr hooks to geostationary readers</p></li>
-<li><p><em>Enhancement</em>: Additional metadata for geostationary readers.</p></li>
 <li><p><em>Enhancement</em>: Add support for using zarray for geolocation cache</p></li>
+<li><p><em>Enhancement</em>: Add roi into geosatellite sensor readers</p></li>
+<li><p><em>Enhancement</em>: Additional metadata for geostationary readers.</p></li>
 <li><p><em>Enhancement</em>: Add comments to aws reader and delete annotated images</p></li>
 <li><p><em>Enhancement</em>: Update aws reader and clean imagery</p></li>
 <li><p><em>Enhancement</em>: Add arctic weather satellite text data for tc products</p></li>
 <li><p><em>Enhancement</em>: Add aws reader and test products</p></li>
+<li><p><em>Enhancement</em>: Use base_paths to control output of geostationary geolocation files</p></li>
+<li><p><em>Enhancement</em>: Track resource usage at checkpoints, add zarr hooks to geostationary readers</p></li>
+<li><p><em>Bug fix</em>: Fix segfault issue in fci reader</p></li>
+<li><p><em>Bug fix</em>: Additional test output updates</p></li>
+<li><p><em>Bug fix</em>: Update amsub -&gt; amsua_mhs for extra test script</p></li>
+<li><p><em>Bug fix</em>: Add pad_x_scale_factor and pad_y_scale_factor to product_defaults schema</p></li>
+<li><p><em>Bug fix</em>: Remove unused geoips_get, add 1.15.2 environment files</p></li>
+<li><p><em>Bug fix</em>: Add pad_x_scale_factor and pad_y_scale_factor to product_defaults schema</p></li>
+<li><p><em>Bug fix</em>: Remove unused geoips_get, add 1.15.2 environment files</p></li>
+<li><p><em>Bug fix</em>: Ssmi_binary numpy 2.x uint16 cast bug fix</p></li>
+<li><p><em>Bug fix</em>: Do not try to parse any empty lines in tc deck file</p></li>
+<li><p><em>Bug fix</em>: Do not try to parse any empty lines in tc deck file</p></li>
+<li><p><em>Bug fix</em>: Add geoips prefix to the pregenerated geolocation env vars</p></li>
+<li><p><em>Bug fix</em>: Add pytest alias to ensure the user doesn’t want to track their pytest output</p></li>
+<li><p><em>Bug fix</em>: Ensure plugin-is-valid passes with type hints in plugin call signature</p></li>
+<li><p><em>Bug fix</em>: Ensure geoips_rebuild_registries is properly set as a bool</p></li>
+<li><p><em>Bug fix</em>: Ensure overall_usage_dict exists before accessing it</p></li>
+<li><p><em>Bug fix</em>: Allow non-bash scripts in test_integration.py</p></li>
+<li><p><em>Bug fix</em>: Allow another level in uncompress_test_data.sh</p></li>
+<li><p><em>Bug fix</em>: Cast radius of influence to float when passing to interp_kd_tree</p></li>
+<li><p><em>Bug fix</em>: Ssmi_binary numpy 2.x uint16 cast bug fix</p></li>
+<li><p><em>Bug fix</em>: No longer support bug in datetime64 scaling</p></li>
+<li><p><em>Testing</em>: Add pytest-based integration tests for all packages</p></li>
+<li><p><em>Testing</em>: Raise more informative error for json schema plugin validationerror</p></li>
+<li><p><em>Testing</em>: Standardize base, full, and system pytest markers for better test separation</p></li>
+<li><p><em>Testing</em>: Tee -a interactive_pytest.sh output, pass in pytest markers directly, clean up log locations.</p></li>
+<li><p><em>Testing</em>: Raise more informative error for json schema plugin validationerror</p></li>
+<li><p><em>Testing</em>: Standardize base, full, and system pytest markers for better test separation</p></li>
+<li><p><em>Testing</em>: Tee -a interactive_pytest.sh output, pass in pytest markers directly, clean up log locations.</p></li>
+<li><p><em>Testing</em>: Update download_noaa_aws.sh script to write to geoips_outdirs</p></li>
+<li><p><em>Testing</em>: Update download_noaa_aws.sh script to write to geoips_outdirs</p></li>
+<li><p><em>Testing</em>: Finalize pytest integration markers based on srs</p></li>
+<li><p><em>Documentation</em>: Add release note for version 1.15.2</p></li>
+<li><p><em>Documentation</em>: Update upcoming and tagged versions</p></li>
 <li><p><em>Actions</em>: Copy the pip base requirements to requirements.txt</p></li>
 </ul>
 </div></blockquote>
-<section id="bug-fix">
-<h2>Bug fix<a class="headerlink" href="#bug-fix" title="Permalink to this heading">#</a></h2>
-<section id="additional-test-output-updates">
-<h3>Additional test output updates<a class="headerlink" href="#additional-test-output-updates" title="Permalink to this heading">#</a></h3>
-<p>Extra tests</p>
-<p><a class="reference external" href="GEOIPS/geoips">#753</a></p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">integration_tests</span><span class="o">/</span><span class="n">test_integration</span><span class="o">.</span><span class="n">py</span>
-<span class="n">modified</span><span class="p">:</span>
-<span class="n">tests</span><span class="o">/</span><span class="n">outputs</span><span class="o">/</span><span class="n">ewsg</span><span class="o">.</span><span class="n">static</span><span class="o">.</span><span class="n">Infrared</span><span class="o">.</span><span class="n">imagery_clean</span><span class="o">/</span><span class="mf">20201211.230905</span><span class="o">.</span><span class="n">ews</span><span class="o">-</span><span class="n">g1</span><span class="o">.</span><span class="n">gvar</span><span class="o">.</span><span class="n">Infrared</span><span class="o">.</span><span class="n">ewsg</span><span class="mf">.65</span><span class="n">p15</span><span class="o">.</span><span class="n">noaa</span><span class="mf">.10</span><span class="n">p0</span><span class="o">.</span><span class="n">png</span>
-<span class="n">modified</span><span class="p">:</span>
-<span class="n">tests</span><span class="o">/</span><span class="n">outputs</span><span class="o">/</span><span class="n">modis</span><span class="o">.</span><span class="n">Infrared</span><span class="o">.</span><span class="n">unprojected_image</span><span class="o">/</span><span class="mf">20210104.201500</span><span class="o">.</span><span class="n">aqua</span><span class="o">.</span><span class="n">modis</span><span class="o">.</span><span class="n">Infrared</span><span class="o">.</span><span class="n">self_register</span><span class="mf">.100</span><span class="n">p00</span><span class="o">.</span><span class="n">nasa</span><span class="mf">.3</span><span class="n">p0</span><span class="o">.</span><span class="n">png</span>
-<span class="n">modified</span><span class="p">:</span>
-<span class="n">tests</span><span class="o">/</span><span class="n">outputs</span><span class="o">/</span><span class="n">saphir</span><span class="o">.</span><span class="n">tc</span><span class="mf">.183</span><span class="o">-</span><span class="mi">3</span><span class="n">HNearest</span><span class="o">.</span><span class="n">imagery_annotated</span><span class="o">/</span><span class="mi">20210209_003103</span><span class="n">_SH192021_saphir_meghatropiques_183</span><span class="o">-</span><span class="mi">3</span><span class="n">HNearest_135kts_88p76_1p0</span><span class="o">.</span><span class="n">png</span>
-<span class="n">modified</span><span class="p">:</span>
-<span class="n">tests</span><span class="o">/</span><span class="n">outputs</span><span class="o">/</span><span class="n">seviri</span><span class="o">.</span><span class="n">WV</span><span class="o">-</span><span class="n">Upper</span><span class="o">.</span><span class="n">unprojected_image</span><span class="o">/</span><span class="mf">20231211.080000</span><span class="o">.</span><span class="n">msg</span><span class="o">-</span><span class="mf">2.</span><span class="n">seviri</span><span class="o">.</span><span class="n">WV</span><span class="o">-</span><span class="n">Upper</span><span class="o">.</span><span class="n">self_register</span><span class="mf">.69</span><span class="n">p07</span><span class="o">.</span><span class="n">nesdisstar</span><span class="mf">.10</span><span class="n">p0</span><span class="o">.</span><span class="n">png</span>
-</pre></div>
-</div>
-</section>
-<section id="update-amsub-amsua-mhs-for-extra-test-script">
-<h3>Update amsub -&gt; amsua_mhs for extra test script<a class="headerlink" href="#update-amsub-amsua-mhs-for-extra-test-script" title="Permalink to this heading">#</a></h3>
-<p>Updating naming for accuracy</p>
-<p><a class="reference external" href="GEOIPS/geoips">#753</a></p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">integration_tests</span><span class="o">/</span><span class="n">test_integration</span><span class="o">.</span><span class="n">py</span>
-</pre></div>
-</div>
-</section>
-<section id="add-pad-x-scale-factor-and-pad-y-scale-factor-to-product-defaults-schema">
-<h3>Add pad_x_scale_factor and pad_y_scale_factor to product_defaults schema<a class="headerlink" href="#add-pad-x-scale-factor-and-pad-y-scale-factor-to-product-defaults-schema" title="Permalink to this heading">#</a></h3>
-<ul class="simple">
-<li><p>For now, explicitly add any new YAML product fields to schema</p></li>
-<li><p>We may want to generalize this for OBP, but keep things explicit to better track
-what/how we are implementing things now.</p></li>
-</ul>
-<p><a class="reference external" href="GEOIPS/geoips">#753</a></p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">schema</span><span class="o">/</span><span class="n">product_defaults</span><span class="o">/</span><span class="n">specs</span><span class="o">/</span><span class="n">interpolator_algorithm_colormapper</span><span class="o">.</span><span class="n">yaml</span>
-<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">schema</span><span class="o">/</span><span class="n">product_defaults</span><span class="o">/</span><span class="n">specs</span><span class="o">/</span><span class="n">interpolator</span><span class="o">.</span><span class="n">yaml</span>
-</pre></div>
-</div>
-</section>
-<section id="remove-unused-geoips-get-add-1-15-2-environment-files">
-<h3>Remove unused geoips_get, add 1.15.2 environment files<a class="headerlink" href="#remove-unused-geoips-get-add-1-15-2-environment-files" title="Permalink to this heading">#</a></h3>
-<ul class="simple">
-<li><p>Remove geoips/commandline/geoips_get.py - keeps returning in public merges.</p></li>
-<li><p>Add 1.15.2 environment files</p></li>
-</ul>
-<p><a class="reference external" href="GEOIPS/geoips">#753</a></p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">deleted</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">commandline</span><span class="o">/</span><span class="n">geoips_get</span><span class="o">.</span><span class="n">py</span>
-<span class="n">added</span><span class="p">:</span> <span class="n">environments</span><span class="o">/</span><span class="n">mamba_base_package_list_1</span><span class="mf">.15.2_20250409</span><span class="o">.</span><span class="n">yml</span>
-<span class="n">added</span><span class="p">:</span> <span class="n">environments</span><span class="o">/</span><span class="n">pip_base_requirements_1</span><span class="mf">.15.2_20250409</span><span class="o">.</span><span class="n">txt</span>
-</pre></div>
-</div>
-</section>
-<section id="do-not-try-to-parse-any-empty-lines-in-tc-deck-file">
-<h3>Do not try to parse any empty lines in tc deck file<a class="headerlink" href="#do-not-try-to-parse-any-empty-lines-in-tc-deck-file" title="Permalink to this heading">#</a></h3>
-<p>Use regex to skip any lines in a deck file that do not have any
-alpha-numeric characters, which implies the line is empty.</p>
-<p>geoips#861</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">sector_utils</span><span class="o">/</span><span class="n">tc_tracks_database</span><span class="o">.</span><span class="n">py</span>
-</pre></div>
-</div>
-</section>
-<section id="id5">
-<h3>Do not try to parse any empty lines in tc deck file<a class="headerlink" href="#id5" title="Permalink to this heading">#</a></h3>
-<p>Use regex to skip any lines in a deck file that do not have any
-alpha-numeric characters, which implies the line is empty.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">sector_utils</span><span class="o">/</span><span class="n">tc_tracks_database</span><span class="o">.</span><span class="n">py</span>
-</pre></div>
-</div>
-</section>
-<section id="id6">
-<h3>Add pad_x_scale_factor and pad_y_scale_factor to product_defaults schema<a class="headerlink" href="#id6" title="Permalink to this heading">#</a></h3>
-<ul class="simple">
-<li><p>For now, explicitly add any new YAML product fields to schema</p></li>
-<li><p>We may want to generalize this for OBP, but keep things explicit to better track
-what/how we are implementing things now.</p></li>
-</ul>
-<p><a class="reference external" href="GEOIPS/geoips">#753</a></p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">schema</span><span class="o">/</span><span class="n">product_defaults</span><span class="o">/</span><span class="n">specs</span><span class="o">/</span><span class="n">interpolator_algorithm_colormapper</span><span class="o">.</span><span class="n">yaml</span>
-<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">schema</span><span class="o">/</span><span class="n">product_defaults</span><span class="o">/</span><span class="n">specs</span><span class="o">/</span><span class="n">interpolator</span><span class="o">.</span><span class="n">yaml</span>
-</pre></div>
-</div>
-</section>
-<section id="id8">
-<h3>Remove unused geoips_get, add 1.15.2 environment files<a class="headerlink" href="#id8" title="Permalink to this heading">#</a></h3>
-<ul class="simple">
-<li><p>Remove geoips/commandline/geoips_get.py - keeps returning in public merges.</p></li>
-<li><p>Add 1.15.2 environment files</p></li>
-</ul>
-<p><a class="reference external" href="GEOIPS/geoips">#753</a></p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">deleted</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">commandline</span><span class="o">/</span><span class="n">geoips_get</span><span class="o">.</span><span class="n">py</span>
-<span class="n">added</span><span class="p">:</span> <span class="n">environments</span><span class="o">/</span><span class="n">mamba_base_package_list_1</span><span class="mf">.15.2_20250409</span><span class="o">.</span><span class="n">yml</span>
-<span class="n">added</span><span class="p">:</span> <span class="n">environments</span><span class="o">/</span><span class="n">pip_base_requirements_1</span><span class="mf">.15.2_20250409</span><span class="o">.</span><span class="n">txt</span>
-</pre></div>
-</div>
-</section>
-<section id="ssmi-binary-numpy-2-x-uint16-cast-bug-fix">
-<h3>Ssmi_binary numpy 2.x uint16 cast bug fix<a class="headerlink" href="#ssmi-binary-numpy-2-x-uint16-cast-bug-fix" title="Permalink to this heading">#</a></h3>
-<p>buffer values were overflowing due to uint8, cast as uint16</p>
-<p><a class="reference external" href="GEOIPS/geoips">#753</a></p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">readers</span><span class="o">/</span><span class="n">ssmi_binary</span><span class="o">.</span><span class="n">py</span>
-</pre></div>
-</div>
-</section>
-<section id="allow-non-bash-scripts-in-test-integration-py">
-<h3>Allow non-bash scripts in test_integration.py<a class="headerlink" href="#allow-non-bash-scripts-in-test-integration-py" title="Permalink to this heading">#</a></h3>
-<p>Previously explicitly called bash $script_name, update test_integration to call
-with “bash” if .sh in the script name, else just call the full line directly.</p>
-<p><a class="reference external" href="GEOIPS/geoips">#753</a></p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">integration_tests</span><span class="o">/</span><span class="n">test_integration</span><span class="o">.</span><span class="n">py</span>
-</pre></div>
-</div>
-</section>
-<section id="allow-another-level-in-uncompress-test-data-sh">
-<h3>Allow another level in uncompress_test_data.sh<a class="headerlink" href="#allow-another-level-in-uncompress-test-data-sh" title="Permalink to this heading">#</a></h3>
-<p>Ensure all files get extracted.</p>
-<p><a class="reference external" href="GEOIPS/geoips">#753</a></p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">utils</span><span class="o">/</span><span class="n">uncompress_test_data</span><span class="o">.</span><span class="n">sh</span>
-</pre></div>
-</div>
-</section>
-<section id="ensure-plugin-is-valid-passes-with-type-hints-in-plugin-call-signature">
-<h3>Ensure plugin-is-valid passes with type hints in plugin call signature<a class="headerlink" href="#ensure-plugin-is-valid-passes-with-type-hints-in-plugin-call-signature" title="Permalink to this heading">#</a></h3>
-<p>Previously if a plugin had type hints within the call signature, the return
-value of inspect.signature was not being parsed properly, and the plugin
-was not being recognized as valid.  Ensure we use only the argument name
-for comparison against the list of allowed arguments.</p>
-<p>Note currently plugin_is_valid is only tested by calling
-tests/utils/test_interfaces.py, in the future call signatures will be
-validated differently, but we want to ensure this test is regularly
-run to ensure compliance with expected call signature formatting
-as much as possible.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">interfaces</span><span class="o">/</span><span class="n">base</span><span class="o">.</span><span class="n">py</span><span class="s2">&quot;&quot;</span>
-</pre></div>
-</div>
-</section>
-<section id="cast-radius-of-influence-to-float-when-passing-to-interp-kd-tree">
-<h3>Cast radius of influence to float when passing to interp_kd_tree<a class="headerlink" href="#cast-radius-of-influence-to-float-when-passing-to-interp-kd-tree" title="Permalink to this heading">#</a></h3>
-<p>With numpy 2.0 / netcdf upgrade, some readers now return np.float64 for radius of
-influence.  Pyresample fails with</p>
-<ul class="simple">
-<li><p>TypeError radius_of_influence must be number</p></li>
-</ul>
-<p>Cast to float within pyresample wrapper to avoid errors.</p>
-<p><a class="reference external" href="GEOIPS/geoips">#753</a></p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">interpolators</span><span class="o">/</span><span class="n">pyresample_wrappers</span><span class="o">/</span><span class="n">interp_gauss</span><span class="o">.</span><span class="n">py</span>
-</pre></div>
-</div>
-</section>
-<section id="id14">
-<h3>Ssmi_binary numpy 2.x uint16 cast bug fix<a class="headerlink" href="#id14" title="Permalink to this heading">#</a></h3>
-<p>buffer values were overflowing due to uint8, cast as uint16</p>
-<p><a class="reference external" href="GEOIPS/geoips">#753</a></p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">readers</span><span class="o">/</span><span class="n">ssmi_binary</span><span class="o">.</span><span class="n">py</span>
-</pre></div>
-</div>
-</section>
-<section id="no-longer-support-bug-in-datetime64-scaling">
-<h3>No longer support bug in datetime64 scaling<a class="headerlink" href="#no-longer-support-bug-in-datetime64-scaling" title="Permalink to this heading">#</a></h3>
-<p>This was a bug until numpy 2.x with improperly handling scaling factors for
-numpy datetime64 objects.  It now appears to work correctly, so remove the hard
-coded 1e-9 scaling factor.</p>
-<p>I am honestly not exactly sure how this worked before, but changing the default
-scaling from 1e-9 to 1 works now, and 1e-9 default scaling worked for numpy &lt; 2.
-My best guess is that the datetime64’s were stored improperly with numpy &lt; 2, so
-when it thought it was units of seconds, it was actually units of nanoseconds, so
-we always had to use the 1e-9 scale factor, regardless of whether it said it
-was seconds or nanoseconds.</p>
-<p><a class="reference external" href="GEOIPS/geoips">#753</a></p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">xarray_utils</span><span class="o">/</span><span class="n">time</span><span class="o">.</span><span class="n">py</span>
-</pre></div>
-</div>
-</section>
-<section id="fix-segfault-issue-in-fci-reader">
-<h3>Fix segfault issue in fci reader<a class="headerlink" href="#fix-segfault-issue-in-fci-reader" title="Permalink to this heading">#</a></h3>
-<p>Refactor the FCI reader to remove dependency on using the satpy FCI reader. The
-satpy reader causes a segfault when converting a dask array to a numpy array. No
-idea why….</p>
-<p>Added a new function that allows us to toggle between using the satpy reader, vs
-using xarray to open the data and convert radiances to reflectances or brightness
-temperatures. There are differences in the output imagery, so updated the comparison
-outputs to use the reflectances/brightness temperatures generated by the new
-read_with_xarray function.</p>
-<p>Disabled the sun_zen_correction in the fci product YAML for the visible product, as
-this correction was causing washed out reflectances near the scan edge.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">deleted</span><span class="p">:</span>
-<span class="n">tests</span><span class="o">/</span><span class="n">outputs</span><span class="o">/</span><span class="n">fci</span><span class="o">.</span><span class="n">static</span><span class="o">.</span><span class="n">Visible</span><span class="o">.</span><span class="n">imagery_annotated</span><span class="o">/</span><span class="mf">20240113.115000</span><span class="o">.</span><span class="n">MTG</span><span class="o">-</span><span class="n">I1</span><span class="o">.</span><span class="n">fci</span><span class="o">.</span><span class="n">Visible</span><span class="o">.</span><span class="k">global</span><span class="mf">.26</span><span class="n">p10</span><span class="o">.</span><span class="n">EUMETSAT</span><span class="mf">.20</span><span class="n">p0</span><span class="o">.</span><span class="n">png</span>
-<span class="n">added</span><span class="p">:</span>
-<span class="n">tests</span><span class="o">/</span><span class="n">outputs</span><span class="o">/</span><span class="n">fci</span><span class="o">.</span><span class="n">static</span><span class="o">.</span><span class="n">Visible</span><span class="o">.</span><span class="n">imagery_annotated</span><span class="o">/</span><span class="mf">20240113.115000</span><span class="o">.</span><span class="n">MTG</span><span class="o">-</span><span class="n">I1</span><span class="o">.</span><span class="n">fci</span><span class="o">.</span><span class="n">Visible</span><span class="o">.</span><span class="k">global</span><span class="mf">.26</span><span class="n">p09</span><span class="o">.</span><span class="n">EUMETSAT</span><span class="mf">.20</span><span class="n">p0</span><span class="o">.</span><span class="n">png</span>
-<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">readers</span><span class="o">/</span><span class="n">fci_netcdf</span><span class="o">.</span><span class="n">py</span>
-<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">yaml</span><span class="o">/</span><span class="n">products</span><span class="o">/</span><span class="n">fci</span><span class="o">.</span><span class="n">yaml</span>
-<span class="n">modified</span><span class="p">:</span>
-<span class="n">tests</span><span class="o">/</span><span class="n">outputs</span><span class="o">/</span><span class="n">fci</span><span class="o">.</span><span class="n">unprojected_image</span><span class="o">.</span><span class="n">Infrared</span><span class="o">/</span><span class="mf">20240113.115000</span><span class="o">.</span><span class="n">MTG</span><span class="o">-</span><span class="n">I1</span><span class="o">.</span><span class="n">fci</span><span class="o">.</span><span class="n">Infrared</span><span class="o">.</span><span class="n">self_register</span><span class="mf">.71</span><span class="n">p89</span><span class="o">.</span><span class="n">EUMETSAT</span><span class="mf">.50</span><span class="n">p0</span><span class="o">.</span><span class="n">png</span>
-</pre></div>
-</div>
-</section>
-<section id="ensure-overall-usage-dict-exists-before-accessing-it">
-<h3>Ensure overall_usage_dict exists before accessing it<a class="headerlink" href="#ensure-overall-usage-dict-exists-before-accessing-it" title="Permalink to this heading">#</a></h3>
-<p>I have no idea why this wasn’t working.</p>
-<p><a class="reference external" href="GEOIPS/geoips">#753</a></p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">utils</span><span class="o">/</span><span class="n">memusg</span><span class="o">.</span><span class="n">py</span>
-</pre></div>
-</div>
-</section>
-<section id="add-geoips-prefix-to-the-pregenerated-geolocation-env-vars">
-<h3>Add geoips prefix to the pregenerated geolocation env vars<a class="headerlink" href="#add-geoips-prefix-to-the-pregenerated-geolocation-env-vars" title="Permalink to this heading">#</a></h3>
-<p>By standard, always prefix geoips env vars with GEOIPS, so include it in these
-new ones.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">filenames</span><span class="o">/</span><span class="n">base_paths</span><span class="o">.</span><span class="n">py</span>
-<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">readers</span><span class="o">/</span><span class="n">utils</span><span class="o">/</span><span class="n">geostationary_geolocation</span><span class="o">.</span><span class="n">py</span>
-<span class="n">modified</span><span class="p">:</span> <span class="n">setup</span><span class="o">/</span><span class="n">bash_setup</span><span class="o">/</span><span class="n">color_prompt</span>
-</pre></div>
-</div>
-</section>
-<section id="add-pytest-alias-to-ensure-the-user-doesn-t-want-to-track-their-pytest-output">
-<h3>Add pytest alias to ensure the user doesn’t want to track their pytest output<a class="headerlink" href="#add-pytest-alias-to-ensure-the-user-doesn-t-want-to-track-their-pytest-output" title="Permalink to this heading">#</a></h3>
-<p>Just a reminder.</p>
-<p><a class="reference external" href="GEOIPS/geoips">#753</a></p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">setup</span><span class="o">/</span><span class="n">config_geoips</span>
-</pre></div>
-</div>
-</section>
-<section id="ensure-geoips-rebuild-registries-is-properly-set-as-a-bool">
-<h3>Ensure geoips_rebuild_registries is properly set as a bool<a class="headerlink" href="#ensure-geoips-rebuild-registries-is-properly-set-as-a-bool" title="Permalink to this heading">#</a></h3>
-<p>Allow 0, false, or False for setting in environment.</p>
-<p><a class="reference external" href="GEOIPS/geoips">#753</a></p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">filenames</span><span class="o">/</span><span class="n">base_paths</span><span class="o">.</span><span class="n">py</span>
-</pre></div>
-</div>
-</section>
-</section>
-<section id="documentation">
-<h2>Documentation<a class="headerlink" href="#documentation" title="Permalink to this heading">#</a></h2>
-<section id="add-release-note-for-version-1-15-2">
-<h3>Add release note for version 1.15.2<a class="headerlink" href="#add-release-note-for-version-1-15-2" title="Permalink to this heading">#</a></h3>
-<p>Release note on release branch to force tag/release, package/publish,
-and deploy docs.</p>
-<p>Additionally add any updated files from geoips_ci/sync</p>
-<p>geoips#753 - 1.15.2 updates</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">added</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">releases</span><span class="o">/</span><span class="n">latest</span><span class="o">/</span><span class="mf">1.15.2</span><span class="o">-</span><span class="n">release</span><span class="o">-</span><span class="n">note</span><span class="o">.</span><span class="n">yaml</span>
-<span class="n">modified</span><span class="p">:</span> <span class="n">geoips_ci</span><span class="o">/</span><span class="n">sync</span> <span class="n">updated</span> <span class="n">files</span>
-</pre></div>
-</div>
-</section>
-<section id="update-upcoming-and-tagged-versions">
-<h3>Update upcoming and tagged versions<a class="headerlink" href="#update-upcoming-and-tagged-versions" title="Permalink to this heading">#</a></h3>
-<ul class="simple">
-<li><p>Tagged version: 1.15.2</p></li>
-<li><p>Upcoming version: 1.15.3</p></li>
-</ul>
-<p>geoips#753 - 1.15.2 updates</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="o">.</span><span class="n">github</span><span class="o">/</span><span class="n">versions</span><span class="o">/</span><span class="n">tagged_version</span>
-<span class="n">modified</span><span class="p">:</span> <span class="o">.</span><span class="n">github</span><span class="o">/</span><span class="n">versions</span><span class="o">/</span><span class="n">upcoming_version</span>
-</pre></div>
-</div>
-</section>
-</section>
-<section id="testing">
-<h2>Testing<a class="headerlink" href="#testing" title="Permalink to this heading">#</a></h2>
-<section id="raise-more-informative-error-for-json-schema-plugin-validationerror">
-<h3>Raise more informative error for json schema plugin validationerror<a class="headerlink" href="#raise-more-informative-error-for-json-schema-plugin-validationerror" title="Permalink to this heading">#</a></h3>
-<p>I believe this will still work as long as the original error is included as
-str(err) within the output.  Previously the original error was not included,
-and the unit tests would fail because they are looking for a specific string
-within the error contents.</p>
-<p><a class="reference external" href="GEOIPS/geoips">#753</a></p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">interfaces</span><span class="o">/</span><span class="n">base</span><span class="o">.</span><span class="n">py</span>
-</pre></div>
-</div>
-</section>
-<section id="standardize-base-full-and-system-pytest-markers-for-better-test-separation">
-<h3>Standardize base, full, and system pytest markers for better test separation<a class="headerlink" href="#standardize-base-full-and-system-pytest-markers-for-better-test-separation" title="Permalink to this heading">#</a></h3>
-<ul class="simple">
-<li><p>Remove all unit tests and test interfaces from check_code. This ensures check_code
-operates on the current repo only, and does not apply long-running pytests
-(unit tests/long) or checks that operate on all installed plugins (test_interfaces)</p></li>
-<li><p>Add “system” pytest marker for integration tests that span multiple plugin repos.
-No tests that operate on any additional plugin repositories should be included
-in the “base”, “full”, or “extra” pytest markers.</p>
-<ul>
-<li><p>“base” pytest marker intended to be a fast-running basic test of the CURRENT
-repos functionality</p></li>
-<li><p>“full” pytest marker intended to be a complete test of the current repos
-functionality, but should not operate on any other repositories.</p></li>
-<li><p>“extra” pytest marker operates only on the current repo, but includes
-non-standard or non-required tests.</p></li>
-<li><p>“realtime” pytest marker allows testing specifically real-time functionality,
-currently unused but could be implemented for realtime processing tests.</p></li>
-</ul>
-</li>
-<li><p>Separate base_install.sh, full_install.sh, and system_install.sh to match
-functionality in base, full, and system markers.</p></li>
-</ul>
-<p><a class="reference external" href="GEOIPS/geoips">#753</a></p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">utils</span><span class="o">/</span><span class="n">check_code</span><span class="o">.</span><span class="n">sh</span>
-<span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">integration_tests</span><span class="o">/</span><span class="n">test_integration</span><span class="o">.</span><span class="n">py</span>
-<span class="n">modified</span><span class="p">:</span> <span class="n">pytest</span><span class="o">.</span><span class="n">ini</span>
-<span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">integration_tests</span><span class="o">/</span><span class="n">base_install</span><span class="o">.</span><span class="n">sh</span>
-<span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">integration_tests</span><span class="o">/</span><span class="n">full_install</span><span class="o">.</span><span class="n">sh</span>
-<span class="n">added</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">integration_tests</span><span class="o">/</span><span class="n">system_install</span><span class="o">.</span><span class="n">sh</span>
-</pre></div>
-</div>
-</section>
-<section id="tee-a-interactive-pytest-sh-output-pass-in-pytest-markers-directly-clean-up-log-locations">
-<h3>Tee -a interactive_pytest.sh output, pass in pytest markers directly, clean up log locations.<a class="headerlink" href="#tee-a-interactive-pytest-sh-output-pass-in-pytest-markers-directly-clean-up-log-locations" title="Permalink to this heading">#</a></h3>
-<p>Allow consistent operation on all repos. Also move logs to consistent locations
-for various testing purposes to clean up $GEOIPS_OUTDIRS/logs.</p>
-<ul class="simple">
-<li><p>$GEOIPS_OUTDIRS/logs/install for check_system_requirements.sh installation logs</p></li>
-<li><p>$GEOIPS_OUTDIRS/logs/test_all for test_all_pre.sh</p></li>
-<li><p>$GEOIPS_OUTDIRS/logs/pytest for interactive_pytest.sh</p></li>
-</ul>
-<p><a class="reference external" href="GEOIPS/geoips">#753</a></p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">utils</span><span class="o">/</span><span class="n">interactive_pytest</span><span class="o">.</span><span class="n">sh</span>
-<span class="n">modified</span><span class="p">:</span> <span class="n">setup</span><span class="o">/</span><span class="n">check_system_requirements</span><span class="o">.</span><span class="n">sh</span>
-<span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">utils</span><span class="o">/</span><span class="n">test_all_pre</span><span class="o">.</span><span class="n">sh</span>
-</pre></div>
-</div>
-</section>
-<section id="add-pytest-based-integration-tests-for-all-packages">
-<h3>Add pytest-based integration tests for all packages<a class="headerlink" href="#add-pytest-based-integration-tests-for-all-packages" title="Permalink to this heading">#</a></h3>
-<ul class="simple">
-<li><p>Remove individual package repopaths and pkgnames from geoips test_integration,
-since integration tests are now called directly from each package.</p></li>
-<li><p>Allow “interactive” marker for interactive_pytest.sh (to run all integration
-tests)</p></li>
-<li><p>Remove individual test calls to individual repositories integration tests, since
-they are now tested directly.</p></li>
-<li><p>Add “preprocess” marker to pytest.ini</p></li>
-</ul>
-<p><a class="reference external" href="GEOIPS/geoips">#753</a></p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">integration_tests</span><span class="o">/</span><span class="n">test_integration</span><span class="o">.</span><span class="n">py</span>
-<span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">utils</span><span class="o">/</span><span class="n">interactive_pytest</span><span class="o">.</span><span class="n">sh</span>
-<span class="n">modified</span><span class="p">:</span> <span class="n">pytest</span><span class="o">.</span><span class="n">ini</span>
-</pre></div>
-</div>
-</section>
-<section id="id24">
-<h3>Raise more informative error for json schema plugin validationerror<a class="headerlink" href="#id24" title="Permalink to this heading">#</a></h3>
-<p>I believe this will still work as long as the original error is included as
-str(err) within the output.  Previously the original error was not included,
-and the unit tests would fail because they are looking for a specific string
-within the error contents.</p>
-<p><a class="reference external" href="GEOIPS/geoips">#753</a></p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">interfaces</span><span class="o">/</span><span class="n">base</span><span class="o">.</span><span class="n">py</span>
-</pre></div>
-</div>
-</section>
-<section id="id26">
-<h3>Standardize base, full, and system pytest markers for better test separation<a class="headerlink" href="#id26" title="Permalink to this heading">#</a></h3>
-<ul class="simple">
-<li><p>Remove all unit tests and test interfaces from check_code. This ensures check_code
-operates on the current repo only, and does not apply long-running pytests
-(unit tests/long) or checks that operate on all installed plugins (test_interfaces)</p></li>
-<li><p>Add “system” pytest marker for integration tests that span multiple plugin repos.
-No tests that operate on any additional plugin repositories should be included
-in the “base”, “full”, or “extra” pytest markers.</p>
-<ul>
-<li><p>“base” pytest marker intended to be a fast-running basic test of the CURRENT
-repos functionality</p></li>
-<li><p>“full” pytest marker intended to be a complete test of the current repos
-functionality, but should not operate on any other repositories.</p></li>
-<li><p>“extra” pytest marker operates only on the current repo, but includes
-non-standard or non-required tests.</p></li>
-<li><p>“realtime” pytest marker allows testing specifically real-time functionality,
-currently unused but could be implemented for realtime processing tests.</p></li>
-</ul>
-</li>
-<li><p>Separate base_install.sh, full_install.sh, and system_install.sh to match
-functionality in base, full, and system markers.</p></li>
-</ul>
-<p><a class="reference external" href="GEOIPS/geoips">#753</a></p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">utils</span><span class="o">/</span><span class="n">check_code</span><span class="o">.</span><span class="n">sh</span>
-<span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">integration_tests</span><span class="o">/</span><span class="n">test_integration</span><span class="o">.</span><span class="n">py</span>
-<span class="n">modified</span><span class="p">:</span> <span class="n">pytest</span><span class="o">.</span><span class="n">ini</span>
-<span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">integration_tests</span><span class="o">/</span><span class="n">base_install</span><span class="o">.</span><span class="n">sh</span>
-<span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">integration_tests</span><span class="o">/</span><span class="n">full_install</span><span class="o">.</span><span class="n">sh</span>
-<span class="n">added</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">integration_tests</span><span class="o">/</span><span class="n">system_install</span><span class="o">.</span><span class="n">sh</span>
-</pre></div>
-</div>
-</section>
-<section id="id28">
-<h3>Tee -a interactive_pytest.sh output, pass in pytest markers directly, clean up log locations.<a class="headerlink" href="#id28" title="Permalink to this heading">#</a></h3>
-<p>Allow consistent operation on all repos. Also move logs to consistent locations
-for various testing purposes to clean up $GEOIPS_OUTDIRS/logs.</p>
-<ul class="simple">
-<li><p>$GEOIPS_OUTDIRS/logs/install for check_system_requirements.sh installation logs</p></li>
-<li><p>$GEOIPS_OUTDIRS/logs/test_all for test_all_pre.sh</p></li>
-<li><p>$GEOIPS_OUTDIRS/logs/pytest for interactive_pytest.sh</p></li>
-</ul>
-<p><a class="reference external" href="GEOIPS/geoips">#753</a></p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">utils</span><span class="o">/</span><span class="n">interactive_pytest</span><span class="o">.</span><span class="n">sh</span>
-<span class="n">modified</span><span class="p">:</span> <span class="n">setup</span><span class="o">/</span><span class="n">check_system_requirements</span><span class="o">.</span><span class="n">sh</span>
-<span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">utils</span><span class="o">/</span><span class="n">test_all_pre</span><span class="o">.</span><span class="n">sh</span>
-</pre></div>
-</div>
-</section>
-<section id="finalize-pytest-integration-markers-based-on-srs">
-<h3>Finalize pytest integration markers based on srs<a class="headerlink" href="#finalize-pytest-integration-markers-based-on-srs" title="Permalink to this heading">#</a></h3>
-<p>The Software Requirements Specification includes very specific delineation between
-GeoIPS Core, GeoIPS Site, and GeoIPS System implementations.
-Update pytest markers based on the definitions in the SRS, and update all verbiage
-in integration tests / setup scripts.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">moved</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">integration_tests</span><span class="o">/</span><span class="n">site_install</span><span class="o">.</span><span class="n">sh</span> <span class="o">&lt;-</span> <span class="n">system_install</span><span class="o">.</span><span class="n">sh</span>
-<span class="n">modified</span><span class="p">:</span> <span class="n">pytest</span><span class="o">.</span><span class="n">ini</span>
-<span class="n">modified</span><span class="p">:</span> <span class="n">setup</span><span class="o">/</span><span class="n">check_system_requirements</span><span class="o">.</span><span class="n">sh</span>
-<span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">integration_tests</span><span class="o">/</span><span class="n">site_install</span><span class="o">.</span><span class="n">sh</span>
-<span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">integration_tests</span><span class="o">/</span><span class="n">test_integration</span><span class="o">.</span><span class="n">py</span>
-<span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">utils</span><span class="o">/</span><span class="n">interactive_pytest</span><span class="o">.</span><span class="n">sh</span>
-</pre></div>
-</div>
-</section>
-<section id="update-download-noaa-aws-sh-script-to-write-to-geoips-outdirs">
-<h3>Update download_noaa_aws.sh script to write to geoips_outdirs<a class="headerlink" href="#update-download-noaa-aws-sh-script-to-write-to-geoips-outdirs" title="Permalink to this heading">#</a></h3>
-<p>Previously download_noaa_aws.sh wrote to $GEOIPS_TESTDATA_DIR/test_data_noaa_aws.
-Update to now write to $GEOIPS_OUTDIRS/noaa_aws_downloads, test_data_noaa_aws
-will now be a static test data repository of datasets originally downloaded from
-NOAA AWS, and dynamically/interactively downloaded datasets will be written to
-$GEOIPS_OUTDIRS by default.</p>
-<p><a class="reference external" href="GEOIPS/geoips">#753</a></p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">download_noaa_aws</span><span class="o">.</span><span class="n">sh</span>
-</pre></div>
-</div>
-</section>
-<section id="id31">
-<h3>Update download_noaa_aws.sh script to write to geoips_outdirs<a class="headerlink" href="#id31" title="Permalink to this heading">#</a></h3>
-<p>Previously download_noaa_aws.sh wrote to $GEOIPS_TESTDATA_DIR/test_data_noaa_aws.
-Update to now write to $GEOIPS_OUTDIRS/noaa_aws_downloads, test_data_noaa_aws
-will now be a static test data repository of datasets originally downloaded from
-NOAA AWS, and dynamically/interactively downloaded datasets will be written to
-$GEOIPS_OUTDIRS by default.</p>
-<p><a class="reference external" href="GEOIPS/geoips">#753</a></p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">download_noaa_aws</span><span class="o">.</span><span class="n">sh</span>
-</pre></div>
-</div>
-</section>
-</section>
 <section id="enhancement">
 <h2>Enhancement<a class="headerlink" href="#enhancement" title="Permalink to this heading">#</a></h2>
 <section id="add-new-sectors-for-full-disk-meteosat-products">
@@ -1125,12 +689,30 @@ meteosat satellites centered at 0deg and 45.5deg, respectively</p>
 </pre></div>
 </div>
 </section>
-<section id="use-base-paths-to-control-output-of-geostationary-geolocation-files">
-<h3>Use base_paths to control output of geostationary geolocation files<a class="headerlink" href="#use-base-paths-to-control-output-of-geostationary-geolocation-files" title="Permalink to this heading">#</a></h3>
-<p>Use PREGENERATED_STATIC_GEOLOCATION and PREGENERATED_DYNAMIC_GEOLOCATION variables
-to control output location.</p>
-<p>geoips#561</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">filenames</span><span class="o">/</span><span class="n">base_paths</span><span class="o">.</span><span class="n">py</span>
+<section id="add-guam-and-hawaii-static-sectors-to-main-geoips-repo">
+<h3>Add guam and hawaii static sectors to main geoips repo<a class="headerlink" href="#add-guam-and-hawaii-static-sectors-to-main-geoips-repo" title="Permalink to this heading">#</a></h3>
+<p>Static sectors covering Guam and Hawaii.</p>
+<p>geoips#818</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">added</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">yaml</span><span class="o">/</span><span class="n">sectors</span><span class="o">/</span><span class="n">static</span><span class="o">/</span><span class="n">guam</span><span class="o">.</span><span class="n">yaml</span>
+<span class="n">added</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">yaml</span><span class="o">/</span><span class="n">sectors</span><span class="o">/</span><span class="n">static</span><span class="o">/</span><span class="n">hawaii</span><span class="o">.</span><span class="n">yaml</span>
+</pre></div>
+</div>
+</section>
+<section id="add-support-for-using-zarray-for-geolocation-cache">
+<h3>Add support for using zarray for geolocation cache<a class="headerlink" href="#add-support-for-using-zarray-for-geolocation-cache" title="Permalink to this heading">#</a></h3>
+<p>Update the ABI reader and geolocation utils to support saving the pre-generated
+geolocation cache in either numpy.memmap or zarray. The default behavior is to keep
+using numpy.memmap, but the new geolocation_cache_backend allows users to toggle
+between “memmap” or “zarr”.</p>
+<p>Also updated the readers interface to pass kwargs to the reader when using the
+read_data_to_xarray_dict and call_files_and_get_top_level_metadata ReadersInterface
+methods.</p>
+<p>Add test scripts for ABI zarray geolocation cache backend.</p>
+<p>geoips#793</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">added</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">scripts</span><span class="o">/</span><span class="n">abi</span><span class="o">.</span><span class="n">config_based_output_low_memory_zarr_backend</span><span class="o">.</span><span class="n">sh</span>
+<span class="n">added</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">yaml_configs</span><span class="o">/</span><span class="n">abi_test_low_memory_zarr_cache_backend</span><span class="o">.</span><span class="n">yaml</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">interfaces</span><span class="o">/</span><span class="n">module_based</span><span class="o">/</span><span class="n">readers</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">readers</span><span class="o">/</span><span class="n">abi_netcdf</span><span class="o">.</span><span class="n">py</span>
 <span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">readers</span><span class="o">/</span><span class="n">utils</span><span class="o">/</span><span class="n">geostationary_geolocation</span><span class="o">.</span><span class="n">py</span>
 </pre></div>
 </div>
@@ -1151,46 +733,6 @@ if ROI is not defined.</p>
 </pre></div>
 </div>
 </section>
-<section id="add-guam-and-hawaii-static-sectors-to-main-geoips-repo">
-<h3>Add guam and hawaii static sectors to main geoips repo<a class="headerlink" href="#add-guam-and-hawaii-static-sectors-to-main-geoips-repo" title="Permalink to this heading">#</a></h3>
-<p>Static sectors covering Guam and Hawaii.</p>
-<p>geoips#818</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">added</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">yaml</span><span class="o">/</span><span class="n">sectors</span><span class="o">/</span><span class="n">static</span><span class="o">/</span><span class="n">guam</span><span class="o">.</span><span class="n">yaml</span>
-<span class="n">added</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">yaml</span><span class="o">/</span><span class="n">sectors</span><span class="o">/</span><span class="n">static</span><span class="o">/</span><span class="n">hawaii</span><span class="o">.</span><span class="n">yaml</span>
-</pre></div>
-</div>
-</section>
-<section id="track-resource-usage-at-checkpoints-add-zarr-hooks-to-geostationary-readers">
-<h3>Track resource usage at checkpoints, add zarr hooks to geostationary readers<a class="headerlink" href="#track-resource-usage-at-checkpoints-add-zarr-hooks-to-geostationary-readers" title="Permalink to this heading">#</a></h3>
-<p>Add new “track_resource_usage” and “checkpoint_usage_stats” methods to the
-memusg.PidLog class. The “track_resource_usage” method allows for more detailed
-profiling of resource usage statistics at specified checkpoints in a procflow. The
-“checkpoint_usage_stats” method returns a dictionary of each checkpoint with the
-recorded resource usage statistics. These detailed resource usage statistics can be
-written to the database if both <cite>–product_db</cite> and <cite>–store_checkpoint_statistics</cite>
-are passed to the procflow.These checkpoints are currently limited to the
-config_based procflow, and in geostationary readers (including
-readers.geostationary_geolocation).</p>
-<p>Also updated the ewsg_netcdf, ahi_hsd, ami_netcdf, and seviri_hrit readers to
-include hooks for toggling between using memmap or zarr as the backend for storing
-pre-calcuated geostationary geolocation data. (Note the ewsg_netcdf reader has the
-hooks, but the settings are not actively used. Added for consistency with the other
-geostationary readers.)</p>
-<p>geoips#797</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">commandline</span><span class="o">/</span><span class="n">args</span><span class="o">.</span><span class="n">py</span>
-<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">procflows</span><span class="o">/</span><span class="n">config_based</span><span class="o">.</span><span class="n">py</span>
-<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">readers</span><span class="o">/</span><span class="n">abi_l2_netcdf</span><span class="o">.</span><span class="n">py</span>
-<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">readers</span><span class="o">/</span><span class="n">abi_netcdf</span><span class="o">.</span><span class="n">py</span>
-<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">readers</span><span class="o">/</span><span class="n">ahi_hsd</span><span class="o">.</span><span class="n">py</span>
-<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">readers</span><span class="o">/</span><span class="n">ami_netcdf</span><span class="o">.</span><span class="n">py</span>
-<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">readers</span><span class="o">/</span><span class="n">ewsg_netcdf</span><span class="o">.</span><span class="n">py</span>
-<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">readers</span><span class="o">/</span><span class="n">fci_netcdf</span><span class="o">.</span><span class="n">py</span>
-<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">readers</span><span class="o">/</span><span class="n">seviri_hrit</span><span class="o">.</span><span class="n">py</span>
-<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">readers</span><span class="o">/</span><span class="n">utils</span><span class="o">/</span><span class="n">geostationary_geolocation</span><span class="o">.</span><span class="n">py</span>
-<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">utils</span><span class="o">/</span><span class="n">memusg</span><span class="o">.</span><span class="n">py</span>
-</pre></div>
-</div>
-</section>
 <section id="additional-metadata-for-geostationary-readers">
 <h3>Additional metadata for geostationary readers.<a class="headerlink" href="#additional-metadata-for-geostationary-readers" title="Permalink to this heading">#</a></h3>
 <p>Added additional metadata for geostationary readers.
@@ -1204,25 +746,6 @@ different variables other than product name.</p>
 <span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">output_formatters</span><span class="o">/</span><span class="n">imagery_annotated</span><span class="o">.</span><span class="n">py</span>
 <span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">readers</span><span class="o">/</span><span class="n">abi_netcdf</span><span class="o">.</span><span class="n">py</span>
 <span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">readers</span><span class="o">/</span><span class="n">ahi_hsd</span><span class="o">.</span><span class="n">py</span>
-</pre></div>
-</div>
-</section>
-<section id="add-support-for-using-zarray-for-geolocation-cache">
-<h3>Add support for using zarray for geolocation cache<a class="headerlink" href="#add-support-for-using-zarray-for-geolocation-cache" title="Permalink to this heading">#</a></h3>
-<p>Update the ABI reader and geolocation utils to support saving the pre-generated
-geolocation cache in either numpy.memmap or zarray. The default behavior is to keep
-using numpy.memmap, but the new geolocation_cache_backend allows users to toggle
-between “memmap” or “zarr”.</p>
-<p>Also updated the readers interface to pass kwargs to the reader when using the
-read_data_to_xarray_dict and call_files_and_get_top_level_metadata ReadersInterface
-methods.</p>
-<p>Add test scripts for ABI zarray geolocation cache backend.</p>
-<p>geoips#793</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">added</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">scripts</span><span class="o">/</span><span class="n">abi</span><span class="o">.</span><span class="n">config_based_output_low_memory_zarr_backend</span><span class="o">.</span><span class="n">sh</span>
-<span class="n">added</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">yaml_configs</span><span class="o">/</span><span class="n">abi_test_low_memory_zarr_cache_backend</span><span class="o">.</span><span class="n">yaml</span>
-<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">interfaces</span><span class="o">/</span><span class="n">module_based</span><span class="o">/</span><span class="n">readers</span><span class="o">.</span><span class="n">py</span>
-<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">readers</span><span class="o">/</span><span class="n">abi_netcdf</span><span class="o">.</span><span class="n">py</span>
-<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">readers</span><span class="o">/</span><span class="n">utils</span><span class="o">/</span><span class="n">geostationary_geolocation</span><span class="o">.</span><span class="n">py</span>
 </pre></div>
 </div>
 </section>
@@ -1330,6 +853,483 @@ Five test images are created.</p>
 </pre></div>
 </div>
 </section>
+<section id="use-base-paths-to-control-output-of-geostationary-geolocation-files">
+<h3>Use base_paths to control output of geostationary geolocation files<a class="headerlink" href="#use-base-paths-to-control-output-of-geostationary-geolocation-files" title="Permalink to this heading">#</a></h3>
+<p>Use PREGENERATED_STATIC_GEOLOCATION and PREGENERATED_DYNAMIC_GEOLOCATION variables
+to control output location.</p>
+<p>geoips#561</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">filenames</span><span class="o">/</span><span class="n">base_paths</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">readers</span><span class="o">/</span><span class="n">utils</span><span class="o">/</span><span class="n">geostationary_geolocation</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+</section>
+<section id="track-resource-usage-at-checkpoints-add-zarr-hooks-to-geostationary-readers">
+<h3>Track resource usage at checkpoints, add zarr hooks to geostationary readers<a class="headerlink" href="#track-resource-usage-at-checkpoints-add-zarr-hooks-to-geostationary-readers" title="Permalink to this heading">#</a></h3>
+<p>Add new “track_resource_usage” and “checkpoint_usage_stats” methods to the
+memusg.PidLog class. The “track_resource_usage” method allows for more detailed
+profiling of resource usage statistics at specified checkpoints in a procflow. The
+“checkpoint_usage_stats” method returns a dictionary of each checkpoint with the
+recorded resource usage statistics. These detailed resource usage statistics can be
+written to the database if both <cite>–product_db</cite> and <cite>–store_checkpoint_statistics</cite>
+are passed to the procflow.These checkpoints are currently limited to the
+config_based procflow, and in geostationary readers (including
+readers.geostationary_geolocation).</p>
+<p>Also updated the ewsg_netcdf, ahi_hsd, ami_netcdf, and seviri_hrit readers to
+include hooks for toggling between using memmap or zarr as the backend for storing
+pre-calcuated geostationary geolocation data. (Note the ewsg_netcdf reader has the
+hooks, but the settings are not actively used. Added for consistency with the other
+geostationary readers.)</p>
+<p>geoips#797</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">commandline</span><span class="o">/</span><span class="n">args</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">procflows</span><span class="o">/</span><span class="n">config_based</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">readers</span><span class="o">/</span><span class="n">abi_l2_netcdf</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">readers</span><span class="o">/</span><span class="n">abi_netcdf</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">readers</span><span class="o">/</span><span class="n">ahi_hsd</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">readers</span><span class="o">/</span><span class="n">ami_netcdf</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">readers</span><span class="o">/</span><span class="n">ewsg_netcdf</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">readers</span><span class="o">/</span><span class="n">fci_netcdf</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">readers</span><span class="o">/</span><span class="n">seviri_hrit</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">readers</span><span class="o">/</span><span class="n">utils</span><span class="o">/</span><span class="n">geostationary_geolocation</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">utils</span><span class="o">/</span><span class="n">memusg</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="bug-fix">
+<h2>Bug fix<a class="headerlink" href="#bug-fix" title="Permalink to this heading">#</a></h2>
+<section id="fix-segfault-issue-in-fci-reader">
+<h3>Fix segfault issue in fci reader<a class="headerlink" href="#fix-segfault-issue-in-fci-reader" title="Permalink to this heading">#</a></h3>
+<p>Refactor the FCI reader to remove dependency on using the satpy FCI reader. The
+satpy reader causes a segfault when converting a dask array to a numpy array. No
+idea why….</p>
+<p>Added a new function that allows us to toggle between using the satpy reader, vs
+using xarray to open the data and convert radiances to reflectances or brightness
+temperatures. There are differences in the output imagery, so updated the comparison
+outputs to use the reflectances/brightness temperatures generated by the new
+read_with_xarray function.</p>
+<p>Disabled the sun_zen_correction in the fci product YAML for the visible product, as
+this correction was causing washed out reflectances near the scan edge.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">deleted</span><span class="p">:</span>
+<span class="n">tests</span><span class="o">/</span><span class="n">outputs</span><span class="o">/</span><span class="n">fci</span><span class="o">.</span><span class="n">static</span><span class="o">.</span><span class="n">Visible</span><span class="o">.</span><span class="n">imagery_annotated</span><span class="o">/</span><span class="mf">20240113.115000</span><span class="o">.</span><span class="n">MTG</span><span class="o">-</span><span class="n">I1</span><span class="o">.</span><span class="n">fci</span><span class="o">.</span><span class="n">Visible</span><span class="o">.</span><span class="k">global</span><span class="mf">.26</span><span class="n">p10</span><span class="o">.</span><span class="n">EUMETSAT</span><span class="mf">.20</span><span class="n">p0</span><span class="o">.</span><span class="n">png</span>
+<span class="n">added</span><span class="p">:</span>
+<span class="n">tests</span><span class="o">/</span><span class="n">outputs</span><span class="o">/</span><span class="n">fci</span><span class="o">.</span><span class="n">static</span><span class="o">.</span><span class="n">Visible</span><span class="o">.</span><span class="n">imagery_annotated</span><span class="o">/</span><span class="mf">20240113.115000</span><span class="o">.</span><span class="n">MTG</span><span class="o">-</span><span class="n">I1</span><span class="o">.</span><span class="n">fci</span><span class="o">.</span><span class="n">Visible</span><span class="o">.</span><span class="k">global</span><span class="mf">.26</span><span class="n">p09</span><span class="o">.</span><span class="n">EUMETSAT</span><span class="mf">.20</span><span class="n">p0</span><span class="o">.</span><span class="n">png</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">readers</span><span class="o">/</span><span class="n">fci_netcdf</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">yaml</span><span class="o">/</span><span class="n">products</span><span class="o">/</span><span class="n">fci</span><span class="o">.</span><span class="n">yaml</span>
+<span class="n">modified</span><span class="p">:</span>
+<span class="n">tests</span><span class="o">/</span><span class="n">outputs</span><span class="o">/</span><span class="n">fci</span><span class="o">.</span><span class="n">unprojected_image</span><span class="o">.</span><span class="n">Infrared</span><span class="o">/</span><span class="mf">20240113.115000</span><span class="o">.</span><span class="n">MTG</span><span class="o">-</span><span class="n">I1</span><span class="o">.</span><span class="n">fci</span><span class="o">.</span><span class="n">Infrared</span><span class="o">.</span><span class="n">self_register</span><span class="mf">.71</span><span class="n">p89</span><span class="o">.</span><span class="n">EUMETSAT</span><span class="mf">.50</span><span class="n">p0</span><span class="o">.</span><span class="n">png</span>
+</pre></div>
+</div>
+</section>
+<section id="additional-test-output-updates">
+<h3>Additional test output updates<a class="headerlink" href="#additional-test-output-updates" title="Permalink to this heading">#</a></h3>
+<p>Extra tests</p>
+<p><a class="reference external" href="GEOIPS/geoips">#753</a></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">integration_tests</span><span class="o">/</span><span class="n">test_integration</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span>
+<span class="n">tests</span><span class="o">/</span><span class="n">outputs</span><span class="o">/</span><span class="n">ewsg</span><span class="o">.</span><span class="n">static</span><span class="o">.</span><span class="n">Infrared</span><span class="o">.</span><span class="n">imagery_clean</span><span class="o">/</span><span class="mf">20201211.230905</span><span class="o">.</span><span class="n">ews</span><span class="o">-</span><span class="n">g1</span><span class="o">.</span><span class="n">gvar</span><span class="o">.</span><span class="n">Infrared</span><span class="o">.</span><span class="n">ewsg</span><span class="mf">.65</span><span class="n">p15</span><span class="o">.</span><span class="n">noaa</span><span class="mf">.10</span><span class="n">p0</span><span class="o">.</span><span class="n">png</span>
+<span class="n">modified</span><span class="p">:</span>
+<span class="n">tests</span><span class="o">/</span><span class="n">outputs</span><span class="o">/</span><span class="n">modis</span><span class="o">.</span><span class="n">Infrared</span><span class="o">.</span><span class="n">unprojected_image</span><span class="o">/</span><span class="mf">20210104.201500</span><span class="o">.</span><span class="n">aqua</span><span class="o">.</span><span class="n">modis</span><span class="o">.</span><span class="n">Infrared</span><span class="o">.</span><span class="n">self_register</span><span class="mf">.100</span><span class="n">p00</span><span class="o">.</span><span class="n">nasa</span><span class="mf">.3</span><span class="n">p0</span><span class="o">.</span><span class="n">png</span>
+<span class="n">modified</span><span class="p">:</span>
+<span class="n">tests</span><span class="o">/</span><span class="n">outputs</span><span class="o">/</span><span class="n">saphir</span><span class="o">.</span><span class="n">tc</span><span class="mf">.183</span><span class="o">-</span><span class="mi">3</span><span class="n">HNearest</span><span class="o">.</span><span class="n">imagery_annotated</span><span class="o">/</span><span class="mi">20210209_003103</span><span class="n">_SH192021_saphir_meghatropiques_183</span><span class="o">-</span><span class="mi">3</span><span class="n">HNearest_135kts_88p76_1p0</span><span class="o">.</span><span class="n">png</span>
+<span class="n">modified</span><span class="p">:</span>
+<span class="n">tests</span><span class="o">/</span><span class="n">outputs</span><span class="o">/</span><span class="n">seviri</span><span class="o">.</span><span class="n">WV</span><span class="o">-</span><span class="n">Upper</span><span class="o">.</span><span class="n">unprojected_image</span><span class="o">/</span><span class="mf">20231211.080000</span><span class="o">.</span><span class="n">msg</span><span class="o">-</span><span class="mf">2.</span><span class="n">seviri</span><span class="o">.</span><span class="n">WV</span><span class="o">-</span><span class="n">Upper</span><span class="o">.</span><span class="n">self_register</span><span class="mf">.69</span><span class="n">p07</span><span class="o">.</span><span class="n">nesdisstar</span><span class="mf">.10</span><span class="n">p0</span><span class="o">.</span><span class="n">png</span>
+</pre></div>
+</div>
+</section>
+<section id="update-amsub-amsua-mhs-for-extra-test-script">
+<h3>Update amsub -&gt; amsua_mhs for extra test script<a class="headerlink" href="#update-amsub-amsua-mhs-for-extra-test-script" title="Permalink to this heading">#</a></h3>
+<p>Updating naming for accuracy</p>
+<p><a class="reference external" href="GEOIPS/geoips">#753</a></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">integration_tests</span><span class="o">/</span><span class="n">test_integration</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+</section>
+<section id="add-pad-x-scale-factor-and-pad-y-scale-factor-to-product-defaults-schema">
+<h3>Add pad_x_scale_factor and pad_y_scale_factor to product_defaults schema<a class="headerlink" href="#add-pad-x-scale-factor-and-pad-y-scale-factor-to-product-defaults-schema" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>For now, explicitly add any new YAML product fields to schema</p></li>
+<li><p>We may want to generalize this for OBP, but keep things explicit to better track
+what/how we are implementing things now.</p></li>
+</ul>
+<p><a class="reference external" href="GEOIPS/geoips">#753</a></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">schema</span><span class="o">/</span><span class="n">product_defaults</span><span class="o">/</span><span class="n">specs</span><span class="o">/</span><span class="n">interpolator_algorithm_colormapper</span><span class="o">.</span><span class="n">yaml</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">schema</span><span class="o">/</span><span class="n">product_defaults</span><span class="o">/</span><span class="n">specs</span><span class="o">/</span><span class="n">interpolator</span><span class="o">.</span><span class="n">yaml</span>
+</pre></div>
+</div>
+</section>
+<section id="remove-unused-geoips-get-add-1-15-2-environment-files">
+<h3>Remove unused geoips_get, add 1.15.2 environment files<a class="headerlink" href="#remove-unused-geoips-get-add-1-15-2-environment-files" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Remove geoips/commandline/geoips_get.py - keeps returning in public merges.</p></li>
+<li><p>Add 1.15.2 environment files</p></li>
+</ul>
+<p><a class="reference external" href="GEOIPS/geoips">#753</a></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">deleted</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">commandline</span><span class="o">/</span><span class="n">geoips_get</span><span class="o">.</span><span class="n">py</span>
+<span class="n">added</span><span class="p">:</span> <span class="n">environments</span><span class="o">/</span><span class="n">mamba_base_package_list_1</span><span class="mf">.15.2_20250409</span><span class="o">.</span><span class="n">yml</span>
+<span class="n">added</span><span class="p">:</span> <span class="n">environments</span><span class="o">/</span><span class="n">pip_base_requirements_1</span><span class="mf">.15.2_20250409</span><span class="o">.</span><span class="n">txt</span>
+</pre></div>
+</div>
+</section>
+<section id="id5">
+<h3>Add pad_x_scale_factor and pad_y_scale_factor to product_defaults schema<a class="headerlink" href="#id5" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>For now, explicitly add any new YAML product fields to schema</p></li>
+<li><p>We may want to generalize this for OBP, but keep things explicit to better track
+what/how we are implementing things now.</p></li>
+</ul>
+<p><a class="reference external" href="GEOIPS/geoips">#753</a></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">schema</span><span class="o">/</span><span class="n">product_defaults</span><span class="o">/</span><span class="n">specs</span><span class="o">/</span><span class="n">interpolator_algorithm_colormapper</span><span class="o">.</span><span class="n">yaml</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">schema</span><span class="o">/</span><span class="n">product_defaults</span><span class="o">/</span><span class="n">specs</span><span class="o">/</span><span class="n">interpolator</span><span class="o">.</span><span class="n">yaml</span>
+</pre></div>
+</div>
+</section>
+<section id="id7">
+<h3>Remove unused geoips_get, add 1.15.2 environment files<a class="headerlink" href="#id7" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Remove geoips/commandline/geoips_get.py - keeps returning in public merges.</p></li>
+<li><p>Add 1.15.2 environment files</p></li>
+</ul>
+<p><a class="reference external" href="GEOIPS/geoips">#753</a></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">deleted</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">commandline</span><span class="o">/</span><span class="n">geoips_get</span><span class="o">.</span><span class="n">py</span>
+<span class="n">added</span><span class="p">:</span> <span class="n">environments</span><span class="o">/</span><span class="n">mamba_base_package_list_1</span><span class="mf">.15.2_20250409</span><span class="o">.</span><span class="n">yml</span>
+<span class="n">added</span><span class="p">:</span> <span class="n">environments</span><span class="o">/</span><span class="n">pip_base_requirements_1</span><span class="mf">.15.2_20250409</span><span class="o">.</span><span class="n">txt</span>
+</pre></div>
+</div>
+</section>
+<section id="ssmi-binary-numpy-2-x-uint16-cast-bug-fix">
+<h3>Ssmi_binary numpy 2.x uint16 cast bug fix<a class="headerlink" href="#ssmi-binary-numpy-2-x-uint16-cast-bug-fix" title="Permalink to this heading">#</a></h3>
+<p>buffer values were overflowing due to uint8, cast as uint16</p>
+<p><a class="reference external" href="GEOIPS/geoips">#753</a></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">readers</span><span class="o">/</span><span class="n">ssmi_binary</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+</section>
+<section id="do-not-try-to-parse-any-empty-lines-in-tc-deck-file">
+<h3>Do not try to parse any empty lines in tc deck file<a class="headerlink" href="#do-not-try-to-parse-any-empty-lines-in-tc-deck-file" title="Permalink to this heading">#</a></h3>
+<p>Use regex to skip any lines in a deck file that do not have any
+alpha-numeric characters, which implies the line is empty.</p>
+<p>geoips#861</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">sector_utils</span><span class="o">/</span><span class="n">tc_tracks_database</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+</section>
+<section id="id10">
+<h3>Do not try to parse any empty lines in tc deck file<a class="headerlink" href="#id10" title="Permalink to this heading">#</a></h3>
+<p>Use regex to skip any lines in a deck file that do not have any
+alpha-numeric characters, which implies the line is empty.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">sector_utils</span><span class="o">/</span><span class="n">tc_tracks_database</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+</section>
+<section id="add-geoips-prefix-to-the-pregenerated-geolocation-env-vars">
+<h3>Add geoips prefix to the pregenerated geolocation env vars<a class="headerlink" href="#add-geoips-prefix-to-the-pregenerated-geolocation-env-vars" title="Permalink to this heading">#</a></h3>
+<p>By standard, always prefix geoips env vars with GEOIPS, so include it in these
+new ones.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">filenames</span><span class="o">/</span><span class="n">base_paths</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">readers</span><span class="o">/</span><span class="n">utils</span><span class="o">/</span><span class="n">geostationary_geolocation</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">setup</span><span class="o">/</span><span class="n">bash_setup</span><span class="o">/</span><span class="n">color_prompt</span>
+</pre></div>
+</div>
+</section>
+<section id="add-pytest-alias-to-ensure-the-user-doesn-t-want-to-track-their-pytest-output">
+<h3>Add pytest alias to ensure the user doesn’t want to track their pytest output<a class="headerlink" href="#add-pytest-alias-to-ensure-the-user-doesn-t-want-to-track-their-pytest-output" title="Permalink to this heading">#</a></h3>
+<p>Just a reminder.</p>
+<p><a class="reference external" href="GEOIPS/geoips">#753</a></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">setup</span><span class="o">/</span><span class="n">config_geoips</span>
+</pre></div>
+</div>
+</section>
+<section id="ensure-plugin-is-valid-passes-with-type-hints-in-plugin-call-signature">
+<h3>Ensure plugin-is-valid passes with type hints in plugin call signature<a class="headerlink" href="#ensure-plugin-is-valid-passes-with-type-hints-in-plugin-call-signature" title="Permalink to this heading">#</a></h3>
+<p>Previously if a plugin had type hints within the call signature, the return
+value of inspect.signature was not being parsed properly, and the plugin
+was not being recognized as valid.  Ensure we use only the argument name
+for comparison against the list of allowed arguments.</p>
+<p>Note currently plugin_is_valid is only tested by calling
+tests/utils/test_interfaces.py, in the future call signatures will be
+validated differently, but we want to ensure this test is regularly
+run to ensure compliance with expected call signature formatting
+as much as possible.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">interfaces</span><span class="o">/</span><span class="n">base</span><span class="o">.</span><span class="n">py</span><span class="s2">&quot;&quot;</span>
+</pre></div>
+</div>
+</section>
+<section id="ensure-geoips-rebuild-registries-is-properly-set-as-a-bool">
+<h3>Ensure geoips_rebuild_registries is properly set as a bool<a class="headerlink" href="#ensure-geoips-rebuild-registries-is-properly-set-as-a-bool" title="Permalink to this heading">#</a></h3>
+<p>Allow 0, false, or False for setting in environment.</p>
+<p><a class="reference external" href="GEOIPS/geoips">#753</a></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">filenames</span><span class="o">/</span><span class="n">base_paths</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+</section>
+<section id="ensure-overall-usage-dict-exists-before-accessing-it">
+<h3>Ensure overall_usage_dict exists before accessing it<a class="headerlink" href="#ensure-overall-usage-dict-exists-before-accessing-it" title="Permalink to this heading">#</a></h3>
+<p>I have no idea why this wasn’t working.</p>
+<p><a class="reference external" href="GEOIPS/geoips">#753</a></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">utils</span><span class="o">/</span><span class="n">memusg</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+</section>
+<section id="allow-non-bash-scripts-in-test-integration-py">
+<h3>Allow non-bash scripts in test_integration.py<a class="headerlink" href="#allow-non-bash-scripts-in-test-integration-py" title="Permalink to this heading">#</a></h3>
+<p>Previously explicitly called bash $script_name, update test_integration to call
+with “bash” if .sh in the script name, else just call the full line directly.</p>
+<p><a class="reference external" href="GEOIPS/geoips">#753</a></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">integration_tests</span><span class="o">/</span><span class="n">test_integration</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+</section>
+<section id="allow-another-level-in-uncompress-test-data-sh">
+<h3>Allow another level in uncompress_test_data.sh<a class="headerlink" href="#allow-another-level-in-uncompress-test-data-sh" title="Permalink to this heading">#</a></h3>
+<p>Ensure all files get extracted.</p>
+<p><a class="reference external" href="GEOIPS/geoips">#753</a></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">utils</span><span class="o">/</span><span class="n">uncompress_test_data</span><span class="o">.</span><span class="n">sh</span>
+</pre></div>
+</div>
+</section>
+<section id="cast-radius-of-influence-to-float-when-passing-to-interp-kd-tree">
+<h3>Cast radius of influence to float when passing to interp_kd_tree<a class="headerlink" href="#cast-radius-of-influence-to-float-when-passing-to-interp-kd-tree" title="Permalink to this heading">#</a></h3>
+<p>With numpy 2.0 / netcdf upgrade, some readers now return np.float64 for radius of
+influence.  Pyresample fails with</p>
+<ul class="simple">
+<li><p>TypeError radius_of_influence must be number</p></li>
+</ul>
+<p>Cast to float within pyresample wrapper to avoid errors.</p>
+<p><a class="reference external" href="GEOIPS/geoips">#753</a></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">interpolators</span><span class="o">/</span><span class="n">pyresample_wrappers</span><span class="o">/</span><span class="n">interp_gauss</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+</section>
+<section id="id17">
+<h3>Ssmi_binary numpy 2.x uint16 cast bug fix<a class="headerlink" href="#id17" title="Permalink to this heading">#</a></h3>
+<p>buffer values were overflowing due to uint8, cast as uint16</p>
+<p><a class="reference external" href="GEOIPS/geoips">#753</a></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">readers</span><span class="o">/</span><span class="n">ssmi_binary</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+</section>
+<section id="no-longer-support-bug-in-datetime64-scaling">
+<h3>No longer support bug in datetime64 scaling<a class="headerlink" href="#no-longer-support-bug-in-datetime64-scaling" title="Permalink to this heading">#</a></h3>
+<p>This was a bug until numpy 2.x with improperly handling scaling factors for
+numpy datetime64 objects.  It now appears to work correctly, so remove the hard
+coded 1e-9 scaling factor.</p>
+<p>I am honestly not exactly sure how this worked before, but changing the default
+scaling from 1e-9 to 1 works now, and 1e-9 default scaling worked for numpy &lt; 2.
+My best guess is that the datetime64’s were stored improperly with numpy &lt; 2, so
+when it thought it was units of seconds, it was actually units of nanoseconds, so
+we always had to use the 1e-9 scale factor, regardless of whether it said it
+was seconds or nanoseconds.</p>
+<p><a class="reference external" href="GEOIPS/geoips">#753</a></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">xarray_utils</span><span class="o">/</span><span class="n">time</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="testing">
+<h2>Testing<a class="headerlink" href="#testing" title="Permalink to this heading">#</a></h2>
+<section id="add-pytest-based-integration-tests-for-all-packages">
+<h3>Add pytest-based integration tests for all packages<a class="headerlink" href="#add-pytest-based-integration-tests-for-all-packages" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Remove individual package repopaths and pkgnames from geoips test_integration,
+since integration tests are now called directly from each package.</p></li>
+<li><p>Allow “interactive” marker for interactive_pytest.sh (to run all integration
+tests)</p></li>
+<li><p>Remove individual test calls to individual repositories integration tests, since
+they are now tested directly.</p></li>
+<li><p>Add “preprocess” marker to pytest.ini</p></li>
+</ul>
+<p><a class="reference external" href="GEOIPS/geoips">#753</a></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">integration_tests</span><span class="o">/</span><span class="n">test_integration</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">utils</span><span class="o">/</span><span class="n">interactive_pytest</span><span class="o">.</span><span class="n">sh</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">pytest</span><span class="o">.</span><span class="n">ini</span>
+</pre></div>
+</div>
+</section>
+<section id="raise-more-informative-error-for-json-schema-plugin-validationerror">
+<h3>Raise more informative error for json schema plugin validationerror<a class="headerlink" href="#raise-more-informative-error-for-json-schema-plugin-validationerror" title="Permalink to this heading">#</a></h3>
+<p>I believe this will still work as long as the original error is included as
+str(err) within the output.  Previously the original error was not included,
+and the unit tests would fail because they are looking for a specific string
+within the error contents.</p>
+<p><a class="reference external" href="GEOIPS/geoips">#753</a></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">interfaces</span><span class="o">/</span><span class="n">base</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+</section>
+<section id="standardize-base-full-and-system-pytest-markers-for-better-test-separation">
+<h3>Standardize base, full, and system pytest markers for better test separation<a class="headerlink" href="#standardize-base-full-and-system-pytest-markers-for-better-test-separation" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Remove all unit tests and test interfaces from check_code. This ensures check_code
+operates on the current repo only, and does not apply long-running pytests
+(unit tests/long) or checks that operate on all installed plugins (test_interfaces)</p></li>
+<li><p>Add “system” pytest marker for integration tests that span multiple plugin repos.
+No tests that operate on any additional plugin repositories should be included
+in the “base”, “full”, or “extra” pytest markers.</p>
+<ul>
+<li><p>“base” pytest marker intended to be a fast-running basic test of the CURRENT
+repos functionality</p></li>
+<li><p>“full” pytest marker intended to be a complete test of the current repos
+functionality, but should not operate on any other repositories.</p></li>
+<li><p>“extra” pytest marker operates only on the current repo, but includes
+non-standard or non-required tests.</p></li>
+<li><p>“realtime” pytest marker allows testing specifically real-time functionality,
+currently unused but could be implemented for realtime processing tests.</p></li>
+</ul>
+</li>
+<li><p>Separate base_install.sh, full_install.sh, and system_install.sh to match
+functionality in base, full, and system markers.</p></li>
+</ul>
+<p><a class="reference external" href="GEOIPS/geoips">#753</a></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">utils</span><span class="o">/</span><span class="n">check_code</span><span class="o">.</span><span class="n">sh</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">integration_tests</span><span class="o">/</span><span class="n">test_integration</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">pytest</span><span class="o">.</span><span class="n">ini</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">integration_tests</span><span class="o">/</span><span class="n">base_install</span><span class="o">.</span><span class="n">sh</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">integration_tests</span><span class="o">/</span><span class="n">full_install</span><span class="o">.</span><span class="n">sh</span>
+<span class="n">added</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">integration_tests</span><span class="o">/</span><span class="n">system_install</span><span class="o">.</span><span class="n">sh</span>
+</pre></div>
+</div>
+</section>
+<section id="tee-a-interactive-pytest-sh-output-pass-in-pytest-markers-directly-clean-up-log-locations">
+<h3>Tee -a interactive_pytest.sh output, pass in pytest markers directly, clean up log locations.<a class="headerlink" href="#tee-a-interactive-pytest-sh-output-pass-in-pytest-markers-directly-clean-up-log-locations" title="Permalink to this heading">#</a></h3>
+<p>Allow consistent operation on all repos. Also move logs to consistent locations
+for various testing purposes to clean up $GEOIPS_OUTDIRS/logs.</p>
+<ul class="simple">
+<li><p>$GEOIPS_OUTDIRS/logs/install for check_system_requirements.sh installation logs</p></li>
+<li><p>$GEOIPS_OUTDIRS/logs/test_all for test_all_pre.sh</p></li>
+<li><p>$GEOIPS_OUTDIRS/logs/pytest for interactive_pytest.sh</p></li>
+</ul>
+<p><a class="reference external" href="GEOIPS/geoips">#753</a></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">utils</span><span class="o">/</span><span class="n">interactive_pytest</span><span class="o">.</span><span class="n">sh</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">setup</span><span class="o">/</span><span class="n">check_system_requirements</span><span class="o">.</span><span class="n">sh</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">utils</span><span class="o">/</span><span class="n">test_all_pre</span><span class="o">.</span><span class="n">sh</span>
+</pre></div>
+</div>
+</section>
+<section id="id24">
+<h3>Raise more informative error for json schema plugin validationerror<a class="headerlink" href="#id24" title="Permalink to this heading">#</a></h3>
+<p>I believe this will still work as long as the original error is included as
+str(err) within the output.  Previously the original error was not included,
+and the unit tests would fail because they are looking for a specific string
+within the error contents.</p>
+<p><a class="reference external" href="GEOIPS/geoips">#753</a></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">interfaces</span><span class="o">/</span><span class="n">base</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+</section>
+<section id="id26">
+<h3>Standardize base, full, and system pytest markers for better test separation<a class="headerlink" href="#id26" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Remove all unit tests and test interfaces from check_code. This ensures check_code
+operates on the current repo only, and does not apply long-running pytests
+(unit tests/long) or checks that operate on all installed plugins (test_interfaces)</p></li>
+<li><p>Add “system” pytest marker for integration tests that span multiple plugin repos.
+No tests that operate on any additional plugin repositories should be included
+in the “base”, “full”, or “extra” pytest markers.</p>
+<ul>
+<li><p>“base” pytest marker intended to be a fast-running basic test of the CURRENT
+repos functionality</p></li>
+<li><p>“full” pytest marker intended to be a complete test of the current repos
+functionality, but should not operate on any other repositories.</p></li>
+<li><p>“extra” pytest marker operates only on the current repo, but includes
+non-standard or non-required tests.</p></li>
+<li><p>“realtime” pytest marker allows testing specifically real-time functionality,
+currently unused but could be implemented for realtime processing tests.</p></li>
+</ul>
+</li>
+<li><p>Separate base_install.sh, full_install.sh, and system_install.sh to match
+functionality in base, full, and system markers.</p></li>
+</ul>
+<p><a class="reference external" href="GEOIPS/geoips">#753</a></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">utils</span><span class="o">/</span><span class="n">check_code</span><span class="o">.</span><span class="n">sh</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">integration_tests</span><span class="o">/</span><span class="n">test_integration</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">pytest</span><span class="o">.</span><span class="n">ini</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">integration_tests</span><span class="o">/</span><span class="n">base_install</span><span class="o">.</span><span class="n">sh</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">integration_tests</span><span class="o">/</span><span class="n">full_install</span><span class="o">.</span><span class="n">sh</span>
+<span class="n">added</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">integration_tests</span><span class="o">/</span><span class="n">system_install</span><span class="o">.</span><span class="n">sh</span>
+</pre></div>
+</div>
+</section>
+<section id="id28">
+<h3>Tee -a interactive_pytest.sh output, pass in pytest markers directly, clean up log locations.<a class="headerlink" href="#id28" title="Permalink to this heading">#</a></h3>
+<p>Allow consistent operation on all repos. Also move logs to consistent locations
+for various testing purposes to clean up $GEOIPS_OUTDIRS/logs.</p>
+<ul class="simple">
+<li><p>$GEOIPS_OUTDIRS/logs/install for check_system_requirements.sh installation logs</p></li>
+<li><p>$GEOIPS_OUTDIRS/logs/test_all for test_all_pre.sh</p></li>
+<li><p>$GEOIPS_OUTDIRS/logs/pytest for interactive_pytest.sh</p></li>
+</ul>
+<p><a class="reference external" href="GEOIPS/geoips">#753</a></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">utils</span><span class="o">/</span><span class="n">interactive_pytest</span><span class="o">.</span><span class="n">sh</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">setup</span><span class="o">/</span><span class="n">check_system_requirements</span><span class="o">.</span><span class="n">sh</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">utils</span><span class="o">/</span><span class="n">test_all_pre</span><span class="o">.</span><span class="n">sh</span>
+</pre></div>
+</div>
+</section>
+<section id="update-download-noaa-aws-sh-script-to-write-to-geoips-outdirs">
+<h3>Update download_noaa_aws.sh script to write to geoips_outdirs<a class="headerlink" href="#update-download-noaa-aws-sh-script-to-write-to-geoips-outdirs" title="Permalink to this heading">#</a></h3>
+<p>Previously download_noaa_aws.sh wrote to $GEOIPS_TESTDATA_DIR/test_data_noaa_aws.
+Update to now write to $GEOIPS_OUTDIRS/noaa_aws_downloads, test_data_noaa_aws
+will now be a static test data repository of datasets originally downloaded from
+NOAA AWS, and dynamically/interactively downloaded datasets will be written to
+$GEOIPS_OUTDIRS by default.</p>
+<p><a class="reference external" href="GEOIPS/geoips">#753</a></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">download_noaa_aws</span><span class="o">.</span><span class="n">sh</span>
+</pre></div>
+</div>
+</section>
+<section id="id31">
+<h3>Update download_noaa_aws.sh script to write to geoips_outdirs<a class="headerlink" href="#id31" title="Permalink to this heading">#</a></h3>
+<p>Previously download_noaa_aws.sh wrote to $GEOIPS_TESTDATA_DIR/test_data_noaa_aws.
+Update to now write to $GEOIPS_OUTDIRS/noaa_aws_downloads, test_data_noaa_aws
+will now be a static test data repository of datasets originally downloaded from
+NOAA AWS, and dynamically/interactively downloaded datasets will be written to
+$GEOIPS_OUTDIRS by default.</p>
+<p><a class="reference external" href="GEOIPS/geoips">#753</a></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">download_noaa_aws</span><span class="o">.</span><span class="n">sh</span>
+</pre></div>
+</div>
+</section>
+<section id="finalize-pytest-integration-markers-based-on-srs">
+<h3>Finalize pytest integration markers based on srs<a class="headerlink" href="#finalize-pytest-integration-markers-based-on-srs" title="Permalink to this heading">#</a></h3>
+<p>The Software Requirements Specification includes very specific delineation between
+GeoIPS Core, GeoIPS Site, and GeoIPS System implementations.
+Update pytest markers based on the definitions in the SRS, and update all verbiage
+in integration tests / setup scripts.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">moved</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">integration_tests</span><span class="o">/</span><span class="n">site_install</span><span class="o">.</span><span class="n">sh</span> <span class="o">&lt;-</span> <span class="n">system_install</span><span class="o">.</span><span class="n">sh</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">pytest</span><span class="o">.</span><span class="n">ini</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">setup</span><span class="o">/</span><span class="n">check_system_requirements</span><span class="o">.</span><span class="n">sh</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">integration_tests</span><span class="o">/</span><span class="n">site_install</span><span class="o">.</span><span class="n">sh</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">integration_tests</span><span class="o">/</span><span class="n">test_integration</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">utils</span><span class="o">/</span><span class="n">interactive_pytest</span><span class="o">.</span><span class="n">sh</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="documentation">
+<h2>Documentation<a class="headerlink" href="#documentation" title="Permalink to this heading">#</a></h2>
+<section id="add-release-note-for-version-1-15-2">
+<h3>Add release note for version 1.15.2<a class="headerlink" href="#add-release-note-for-version-1-15-2" title="Permalink to this heading">#</a></h3>
+<p>Release note on release branch to force tag/release, package/publish,
+and deploy docs.</p>
+<p>Additionally add any updated files from geoips_ci/sync</p>
+<p>geoips#753 - 1.15.2 updates</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">added</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">releases</span><span class="o">/</span><span class="n">latest</span><span class="o">/</span><span class="mf">1.15.2</span><span class="o">-</span><span class="n">release</span><span class="o">-</span><span class="n">note</span><span class="o">.</span><span class="n">yaml</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">geoips_ci</span><span class="o">/</span><span class="n">sync</span> <span class="n">updated</span> <span class="n">files</span>
+</pre></div>
+</div>
+</section>
+<section id="update-upcoming-and-tagged-versions">
+<h3>Update upcoming and tagged versions<a class="headerlink" href="#update-upcoming-and-tagged-versions" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Tagged version: 1.15.2</p></li>
+<li><p>Upcoming version: 1.15.3</p></li>
+</ul>
+<p>geoips#753 - 1.15.2 updates</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="o">.</span><span class="n">github</span><span class="o">/</span><span class="n">versions</span><span class="o">/</span><span class="n">tagged_version</span>
+<span class="n">modified</span><span class="p">:</span> <span class="o">.</span><span class="n">github</span><span class="o">/</span><span class="n">versions</span><span class="o">/</span><span class="n">upcoming_version</span>
+</pre></div>
+</div>
+</section>
 </section>
 <section id="actions">
 <h2>Actions<a class="headerlink" href="#actions" title="Permalink to this heading">#</a></h2>
@@ -1391,59 +1391,59 @@ Five test images are created.</p>
   </div>
   <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#enhancement">Enhancement</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#add-new-sectors-for-full-disk-meteosat-products">Add new sectors for full disk meteosat products</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#add-guam-and-hawaii-static-sectors-to-main-geoips-repo">Add guam and hawaii static sectors to main geoips repo</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#add-support-for-using-zarray-for-geolocation-cache">Add support for using zarray for geolocation cache</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#add-roi-into-geosatellite-sensor-readers">Add roi into geosatellite sensor readers</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#additional-metadata-for-geostationary-readers">Additional metadata for geostationary readers.</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#add-comments-to-aws-reader-and-delete-annotated-images">Add comments to aws reader and delete annotated images</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#update-aws-reader-and-clean-imagery">Update aws reader and clean imagery</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#add-arctic-weather-satellite-text-data-for-tc-products">Add arctic weather satellite text data for tc products</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#add-aws-reader-and-test-products">Add aws reader and test products</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#use-base-paths-to-control-output-of-geostationary-geolocation-files">Use base_paths to control output of geostationary geolocation files</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#track-resource-usage-at-checkpoints-add-zarr-hooks-to-geostationary-readers">Track resource usage at checkpoints, add zarr hooks to geostationary readers</a></li>
+</ul>
+</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bug-fix">Bug fix</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fix-segfault-issue-in-fci-reader">Fix segfault issue in fci reader</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#additional-test-output-updates">Additional test output updates</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#update-amsub-amsua-mhs-for-extra-test-script">Update amsub -&gt; amsua_mhs for extra test script</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#add-pad-x-scale-factor-and-pad-y-scale-factor-to-product-defaults-schema">Add pad_x_scale_factor and pad_y_scale_factor to product_defaults schema</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#remove-unused-geoips-get-add-1-15-2-environment-files">Remove unused geoips_get, add 1.15.2 environment files</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#do-not-try-to-parse-any-empty-lines-in-tc-deck-file">Do not try to parse any empty lines in tc deck file</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">Do not try to parse any empty lines in tc deck file</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">Add pad_x_scale_factor and pad_y_scale_factor to product_defaults schema</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id8">Remove unused geoips_get, add 1.15.2 environment files</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">Add pad_x_scale_factor and pad_y_scale_factor to product_defaults schema</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">Remove unused geoips_get, add 1.15.2 environment files</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ssmi-binary-numpy-2-x-uint16-cast-bug-fix">Ssmi_binary numpy 2.x uint16 cast bug fix</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#allow-non-bash-scripts-in-test-integration-py">Allow non-bash scripts in test_integration.py</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#allow-another-level-in-uncompress-test-data-sh">Allow another level in uncompress_test_data.sh</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ensure-plugin-is-valid-passes-with-type-hints-in-plugin-call-signature">Ensure plugin-is-valid passes with type hints in plugin call signature</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cast-radius-of-influence-to-float-when-passing-to-interp-kd-tree">Cast radius of influence to float when passing to interp_kd_tree</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id14">Ssmi_binary numpy 2.x uint16 cast bug fix</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#no-longer-support-bug-in-datetime64-scaling">No longer support bug in datetime64 scaling</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fix-segfault-issue-in-fci-reader">Fix segfault issue in fci reader</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ensure-overall-usage-dict-exists-before-accessing-it">Ensure overall_usage_dict exists before accessing it</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#do-not-try-to-parse-any-empty-lines-in-tc-deck-file">Do not try to parse any empty lines in tc deck file</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id10">Do not try to parse any empty lines in tc deck file</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#add-geoips-prefix-to-the-pregenerated-geolocation-env-vars">Add geoips prefix to the pregenerated geolocation env vars</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#add-pytest-alias-to-ensure-the-user-doesn-t-want-to-track-their-pytest-output">Add pytest alias to ensure the user doesn’t want to track their pytest output</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ensure-plugin-is-valid-passes-with-type-hints-in-plugin-call-signature">Ensure plugin-is-valid passes with type hints in plugin call signature</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ensure-geoips-rebuild-registries-is-properly-set-as-a-bool">Ensure geoips_rebuild_registries is properly set as a bool</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ensure-overall-usage-dict-exists-before-accessing-it">Ensure overall_usage_dict exists before accessing it</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#allow-non-bash-scripts-in-test-integration-py">Allow non-bash scripts in test_integration.py</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#allow-another-level-in-uncompress-test-data-sh">Allow another level in uncompress_test_data.sh</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cast-radius-of-influence-to-float-when-passing-to-interp-kd-tree">Cast radius of influence to float when passing to interp_kd_tree</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id17">Ssmi_binary numpy 2.x uint16 cast bug fix</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#no-longer-support-bug-in-datetime64-scaling">No longer support bug in datetime64 scaling</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#testing">Testing</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#add-pytest-based-integration-tests-for-all-packages">Add pytest-based integration tests for all packages</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#raise-more-informative-error-for-json-schema-plugin-validationerror">Raise more informative error for json schema plugin validationerror</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#standardize-base-full-and-system-pytest-markers-for-better-test-separation">Standardize base, full, and system pytest markers for better test separation</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#tee-a-interactive-pytest-sh-output-pass-in-pytest-markers-directly-clean-up-log-locations">Tee -a interactive_pytest.sh output, pass in pytest markers directly, clean up log locations.</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id24">Raise more informative error for json schema plugin validationerror</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id26">Standardize base, full, and system pytest markers for better test separation</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id28">Tee -a interactive_pytest.sh output, pass in pytest markers directly, clean up log locations.</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#update-download-noaa-aws-sh-script-to-write-to-geoips-outdirs">Update download_noaa_aws.sh script to write to geoips_outdirs</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id31">Update download_noaa_aws.sh script to write to geoips_outdirs</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#finalize-pytest-integration-markers-based-on-srs">Finalize pytest integration markers based on srs</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#documentation">Documentation</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#add-release-note-for-version-1-15-2">Add release note for version 1.15.2</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#update-upcoming-and-tagged-versions">Update upcoming and tagged versions</a></li>
-</ul>
-</li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#testing">Testing</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#raise-more-informative-error-for-json-schema-plugin-validationerror">Raise more informative error for json schema plugin validationerror</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#standardize-base-full-and-system-pytest-markers-for-better-test-separation">Standardize base, full, and system pytest markers for better test separation</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#tee-a-interactive-pytest-sh-output-pass-in-pytest-markers-directly-clean-up-log-locations">Tee -a interactive_pytest.sh output, pass in pytest markers directly, clean up log locations.</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#add-pytest-based-integration-tests-for-all-packages">Add pytest-based integration tests for all packages</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id24">Raise more informative error for json schema plugin validationerror</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id26">Standardize base, full, and system pytest markers for better test separation</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id28">Tee -a interactive_pytest.sh output, pass in pytest markers directly, clean up log locations.</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#finalize-pytest-integration-markers-based-on-srs">Finalize pytest integration markers based on srs</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#update-download-noaa-aws-sh-script-to-write-to-geoips-outdirs">Update download_noaa_aws.sh script to write to geoips_outdirs</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id31">Update download_noaa_aws.sh script to write to geoips_outdirs</a></li>
-</ul>
-</li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#enhancement">Enhancement</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#add-new-sectors-for-full-disk-meteosat-products">Add new sectors for full disk meteosat products</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#use-base-paths-to-control-output-of-geostationary-geolocation-files">Use base_paths to control output of geostationary geolocation files</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#add-roi-into-geosatellite-sensor-readers">Add roi into geosatellite sensor readers</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#add-guam-and-hawaii-static-sectors-to-main-geoips-repo">Add guam and hawaii static sectors to main geoips repo</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#track-resource-usage-at-checkpoints-add-zarr-hooks-to-geostationary-readers">Track resource usage at checkpoints, add zarr hooks to geostationary readers</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#additional-metadata-for-geostationary-readers">Additional metadata for geostationary readers.</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#add-support-for-using-zarray-for-geolocation-cache">Add support for using zarray for geolocation cache</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#add-comments-to-aws-reader-and-delete-annotated-images">Add comments to aws reader and delete annotated images</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#update-aws-reader-and-clean-imagery">Update aws reader and clean imagery</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#add-arctic-weather-satellite-text-data-for-tc-products">Add arctic weather satellite text data for tc products</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#add-aws-reader-and-test-products">Add aws reader and test products</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#actions">Actions</a><ul class="nav section-nav flex-column">

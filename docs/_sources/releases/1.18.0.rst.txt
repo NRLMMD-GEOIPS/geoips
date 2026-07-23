@@ -1,347 +1,37 @@
 Version 1.18.0 (2026-07-23)
 ***************************
 
- * *Refactor*: Geoips utilize pluginify package
- * *Enhancement*: Obp support products in workflow plugins
- * *Enhancement*: Add a model validator to the outputcheckerarguments pydantic model
- * *Enhancement*: New class-based validators interface
- * *Enhancement*: Update order-based procflow to fail early when required data files are missing
- * *Enhancement*: Add duplicate key detection for plugin yaml loading
- * *Enhancement*: Add globalvariablesmodel for shared obp workflow arguments
- * *Enhancement*: Geoips test sector updates
- * *Feature*: Order-based procflow: add coverage checkers
  * *Feature*: Extend readerargumentsmodel with additional configuration
- * *Feature*: Order-based procflow : algorithms
  * *Feature*: Migrate readerargumentsmodel tests to new yaml-based test framework
  * *Feature*: Order-based procflow: add interpolators pydantic models
- * *Documentation*: Fix documentation contact info.
- * *Documentation*: Add sphinxcontrib-typer to doc requirements
- * *Documentation*: Update order-based procflow documentation
- * *Documentation*: Update product name references in model_windbarbs
- * *Bug fix*: Fix randomness in unit tests and disable ami_netcdf test
- * *Bug fix*: Remove extra period before file extension in output filenames
- * *Bug fix*: Adding missing init file in memusg directory
- * *Bug fix*: Fix broken docs imports
- * *Bug fix*: Fix broken memusg imports
- * *Ci*: Add no-op status check for enforcing up to date branches before merge
- * *Continuous integration*: Update code base for black 2026 style - see black 26.1.0 release notes for details.
- * *Performance*: Validate that the version separator for geoips package is "/"
- * *Testing*: Standardize test product and product default names
+ * *Feature*: Order-based procflow : algorithms
+ * *Feature*: Order-based procflow: add coverage checkers
+ * *Enhancement*: Add globalvariablesmodel for shared obp workflow arguments
+ * *Enhancement*: Update order-based procflow to fail early when required data files are missing
+ * *Enhancement*: New class-based validators interface
+ * *Enhancement*: Add a model validator to the outputcheckerarguments pydantic model
+ * *Enhancement*: Add duplicate key detection for plugin yaml loading
+ * *Enhancement*: Geoips test sector updates
+ * *Enhancement*: Obp support products in workflow plugins
  * *Release process*: Add 1.18.0 release note
  * *Release process*: Update internal and github.com 'upcoming_version' and 'tagged_version'
-
-Refactor
-========
-
-Geoips utilize pluginify package
---------------------------------
-
-In an effort to share our plugin registry code as an independent package outside of
-GeoIPS, this PR removes all references to plugin registry code. I've created a
-separate package called 'pluginify' which copied over all of the deleted code, then
-modified it to be mostly agnostic of GeoIPS, besides a few references in
-documentation and optional imports for testing. The optional import will be removed
-soon. I've posted this repository on TestPyPi and it can currently be installed
-via `python3 -m pip install --index-url https://test.pypi.org/simple/ --no-deps pluginify`
-or it can be cloned via 'https://github.com/NRLMMD-GEOIPS/pluginify.git' and
-installed with `pip install -e`. We hope to have this on main PyPi once this is
-fully tested.
-
-Essentially, a package has to implement it's own interfaces and validators for
-plugins of those interfaces. They then can make use of pluginify's code to create
-plugin registries and load / create plugins as was previously done in GeoIPS. The
-benefit of moving this code out of GeoIPS is that other python packages can create
-their own interfaces / plugin types alongside validators without having to install
-the large dependency that is GeoIPS.
-
-::
-
-     deleted: docs/source/concepts/architecture/plugin-registries.rst
-     deleted: docs/source/concepts/functionality/plugin-registries.rst
-     deleted: geoips/commandline/cmd_instructions.py
-     deleted: geoips/create_plugin_registries.py
-     deleted: geoips/plugin_registry.py
-     deleted: tests/unit_tests/commandline/test_geoips_config_create_registries.py
-     deleted: tests/unit_tests/commandline/test_geoips_config_delete_registries.py
-     deleted: tests/unit_tests/plugin_registries/files/bad/invalid_interfaces.yaml
-     deleted: tests/unit_tests/plugin_registries/files/bad/missing_lowest_keys.yaml
-     deleted: tests/unit_tests/plugin_registries/files/bad/missing_plugin_types.yaml
-     deleted: tests/unit_tests/plugin_registries/files/good/data_fusion.yaml
-     deleted: tests/unit_tests/plugin_registries/files/good/geoips.yaml
-     deleted: tests/unit_tests/plugin_registries/files/good/geoips_clavrx.yaml
-     deleted: tests/unit_tests/plugin_registries/files/good/geoips_plugin_example.yaml
-     deleted: tests/unit_tests/plugin_registries/files/good/overcast_package.yaml
-     deleted: tests/unit_tests/plugin_registries/files/good/recenter_tc.yaml
-     deleted: tests/unit_tests/plugin_registries/files/good/template_basic_plugin.yaml
-     deleted: tests/unit_tests/plugin_registries/files/good/template_fusion_plugin.yaml
-     deleted: tests/unit_tests/plugin_registries/test_plugin_registries.py
-     modified: .cspell.json
-     modified: Dockerfile
-     modified: docs/source/_templates/sphinx_conf.template.py
-     modified: docs/source/concepts/architecture/index.rst
-     modified: docs/source/concepts/functionality/command-line/index.rst
-     modified: docs/source/concepts/functionality/index.rst
-     modified: docs/source/_templates/sphinx_conf.template.py
-     modified: geoips/commandline/ancillary_info/alias_mapping.yaml
-     modified: geoips/commandline/ancillary_info/cmd_instructions.yaml
-     modified: geoips/commandline/geoips_command.py
-     modified: geoips/commandline/geoips_config.py
-     modified: geoips/commandline/geoips_describe.py
-     modified: geoips/commandline/geoips_list.py
-     modified: geoips/commandline/geoips_test.py
-     modified: geoips/errors.py
-     modified: geoips/geoips_utils.py
-     modified: geoips/interfaces/base.py
-     modified: geoips/plugins/modules/algorithms/absdiff_mst.py
-     modified: geoips/plugins/modules/output_formatters/imagery_annotated.py
-     modified: geoips/plugins/modules/procflows/config_based.py
-     modified: geoips/sector_utils/utils.py
-     modified: pyproject.toml
-     modified: tests/unit_tests/commandline/cli_top_level_tester.py
-     modified: tests/unit_tests/commandline/test_geoips_test_linting.py
-     modified: tests/unit_tests/commandline/test_geoips_list_interface.py
-     modified: tests/unit_tests/commandline/test_geoips_list_plugins.py
-     modified: tests/unit_tests/commandline/test_geoips_list_source_names.py
-     modified: tests/unit_tests/commandline/test_geoips_validate.py
-     modified: tests/unit_tests/plugins/test_get_plugin.py
-     modified: tests/unit_tests/plugins/test_get_plugin_metadata.py
-     modified: tests/utils/test_interfaces.py
-
-Enhancement
-===========
-
-Obp support products in workflow plugins
-----------------------------------------
-
-Adds support for products, product defaults, and workflow plugins as steps in
-workflow plugins. If a workflow is found as a step, we will recursively call the
-order based procflow using the contents of the retrieved workflow plugin. If a
-workflow is fully specified as a step in a workflow, we'll recursively call the
-order based procflow using the contents of that step.
-
-This update adds a few test workflows to ensure those updates work as expected.
-Additionally, two new commands were added in this update, called
-`geoips test workflow <workflow_name>` and `geoips expand <workflow_name>`. New
-fields were added to workflow plugins which support the test command. You can
-run a full workflow using the contents of the 'test' field in a workflow with no
-additional arguments. `geoips expand <workflow_name>` generates a fully expanded
-workflow plugin so a user can view all of the steps in a workflow, even if embedded
-workflows / products / product defaults are present as steps. This makes it easy
-to confirm the order of operations that will be applied via the order based
-procflow.
-
-Updates to the plugin registry file will need to be transferred over to pluginify
-once those PRs have been merged and it's been migrated to PyPi.
-
-Finally, added unit tests for new commands.
-
-::
-
-     added: geoips/commandline/geoips_expand.py
-     added: geoips/plugins/yaml/workflows/unit_tests/test_bad_product_section.yaml
-     added: geoips/plugins/yaml/workflows/unit_tests/test_product.yaml
-     added: geoips/plugins/yaml/workflows/unit_tests/test_product_default.yaml
-     added: geoips/plugins/yaml/workflows/unit_tests/test_workflow.yaml
-     added: tests/unit_tests/commandline/test_geoips_exand.py
-     added: tests/unit_tests/commandline/test_geoips_test_workflow.py
-     modified: .cspell.json
-     modified: docs/source/concepts/functionality/command-line/index.rst
-     modified: geoips/commandline/ancillary_info/alias_mapping.yaml
-     modified: geoips/commandline/ancillary_info/cmd_instructions.yaml
-     modified: geoips/commandline/commandline_interface.py
-     modified: geoips/commandline/geoips_describe.py
-     modified: geoips/commandline/geoips_test.py
-     modified: geoips/interfaces/yaml_based/workflows.py
-     modified: geoips/plugin_registry.py
-     modified: geoips/plugins/modules/procflows/order_based.py
-     modified: geoips/pydantic_models/v1/workflows.py
-     modified: pyproject.toml
-     modified: tests/unit_tests/commandline/cli_top_level_tester.py
-     modified: tests/unit_tests/pydantic_models/v1/workflows/test_workflow_step_definition_model.py
-
-Add a model validator to the outputcheckerarguments pydantic model
-------------------------------------------------------------------
-
-Add a model validator to ensure that if checker_name, is provided, compare_path is also provided
-
-`#1253 <https://github.com/NRLMMD-GEOIPS/geoips>`_
-
-::
-
-     added: docs/source/releases/latest/1253-add-a-model-validator-to-the-outputcheckerarguments-pydantic-model.yaml
-     modified: geoips/pydantic_models/v1/output_checkers.py
-     modified: tests/unit_tests/pydantic_models/v1/output_checkers/test_cases_bad.yaml
-     modified: tests/unit_tests/pydantic_models/v1/conftest.py
-     modified: docs/dev/order_based_procflow.rst
-
-New class-based validators interface
-------------------------------------
-
-This update creates an entirely new class-based 'validators' interface. Plugins of
-this type should be responsible for producing statistics via the comparison of a
-produced dataset and a source of truth dataset that can be displayed via a specific
-output formatter. Think of a bar chart, regression analysis, etc.
-
-This update sets up the basic infrastructure of the validators interface, adds this
-interface to relevant CLI commands, and creates a dummy validator plugin that can
-be used for testing purposes.
-
-::
-
-     added: docs/source/concepts/functionality/interfaces/module_based/validators.rst
-     added: geoips/interfaces/class_based/validators.py
-     added: geoips/plugins/modules/validators/difference.py
-     modified: docs/source/concepts/functionality/interfaces/index.rst
-     modified: geoips/commandline/ancillary_info/alias_mapping.yaml
-     modified: geoips/commandline/ancillary_info/cmd_instructions.yaml
-     modified: geoips/interfaces/__init__.py
-
-Update order-based procflow to fail early when required data files are missing
-------------------------------------------------------------------------------
-
-Add early validation of file inputs in the order-based procflow. Before processing begins, the workflow now checks that
-all file paths required by reader and output_checker steps exist on the filesystem. If any paths are missing, the
-workflow terminates immediately with a FileNotFoundError listing every missing file and the step that requires it,
-rather than failing partway through processing.
-
-`#1257 <https://github.com/NRLMMD-GEOIPS/geoips>`_
-
-::
-
-     added: docs/source/releases/latest/1257-update-obp-workflow-to-fail-early-when-required-data-files-are-missing.yaml
-     added: geoips/pydantic_models/v1/readers.py
-     added: geoips/utils/file_utils.py
-     added: tests/unit_tests/utils/test_file_utils.py
-     modified: docs/dev/order_based_procflow.rst
-     modified: geoips/plugins/modules/procflows/order_based.py
-     modified: geoips/pydantic_models/v1/output_checkers.py
-     modified: geoips/pydantic_models/v1/readers.py
-     modified: tests/unit_tests/pydantic_models/v1/conftest.py
-     modified: tests/unit_tests/pydantic_models/v1/output_checkers/test_cases_bad.yaml
-     modified: tests/unit_tests/pydantic_models/v1/output_checkers/test_cases_good.yaml
-     modified: tests/unit_tests/pydantic_models/v1/readers/test_cases_good.yaml
-     modified: tests/unit_tests/pydantic_models/v1/test_pydantic_models.py
-
-Add duplicate key detection for plugin yaml loading
----------------------------------------------------
-
-Adds geoips/utils/yaml_utils as a drop-in replacement for PyYAML across the geoips package.
-
-The module re-exports all standard PyYAML symbols but overrides safe_load and safe_load_all to raise DuplicateKeyError
-when a YAML mapping contains a repeated key. This is a bug that PyYAML silently ignores by overwriting the earlier
-value. All import yaml call sites in geoips have been updated to use the wrapper. In the process, a pre-existing
-duplicate key in cmd_instructions.yaml was found and corrected. Unit tests cover both the passing and failing cases,
-including nested mappings.
-
-`#966 <https://github.com/NRLMMD-GEOIPS/geoips>`_
-
-::
-
-     added: docs/source/releases/latest/966-detect-and-handle-duplicate-step-keys-in-workflow-yaml-files.yaml
-     added: geoips/utils/yaml_utils.py
-     added: tests/unit_tests/utils/test_yaml_utils.py
-     modified: geoips/commandline/ancillary_info/cmd_instructions.yaml
-     modified: geoips/commandline/ancillary_info/test_data.py
-     modified: geoips/commandline/cmd_instructions.py
-     modified: geoips/commandline/geoips_command.py
-     modified: geoips/commandline/geoips_describe.py
-     modified: geoips/commandline/geoips_run.py
-     modified: geoips/commandline/geoips_validate.py
-     modified: geoips/interfaces/base.py
-     modified: geoips/pydantic_models/v1/products.py
-     modified: geoips/sector_utils/yaml_utils.py
-     modified: geoips/utils/cache_files.py
-     modified: geoips/errors.py
-     modified: docs/source/contribute/coding-standards.rst
-     modified: tests/integration_tests/full_install.sh
-
-Add globalvariablesmodel for shared obp workflow arguments
-----------------------------------------------------------
-
-Adds a new GlobalVariablesModel to the pydantic models. It groups together
-the handful of settings that apply to a whole Order-Based Procflow workflow
-rather than to a single step, with a bit of validation to catch fields that
-need to be set together.
-
-`#1287 <https://github.com/NRLMMD-GEOIPS/geoips>`_
-
-::
-
-     added: docs/source/releases/latest/1287-add-globalvariablesmodel-to-support-shared-arguments-across-obp-steps.yaml
-     added: tests/unit_tests/pydantic_models/v1/workflows/test_cases_bad.yaml
-     added: tests/unit_tests/pydantic_models/v1/workflows/test_cases_good.yaml
-     added: tests/unit_tests/pydantic_models/v1/workflows/test_cases_neutral.yaml
-     modified: docs/dev/order_based_procflow.rst
-     modified: geoips/plugins/yaml/workflows/read_test_v1.yaml
-     modified: geoips/plugins/yaml/workflows/read_test_v2alpha1.yaml
-     modified: geoips/pydantic_models/v1/workflows.py
-     modified: tests/unit_tests/commandline/test_geoips_run.py
-     modified: tests/unit_tests/pydantic_models/v1/conftest.py
-     modified: tests/unit_tests/pydantic_models/v1/test_pydantic_models.py
-
-Geoips test sector updates
---------------------------
-
-Updated 'geoips test sector' command to support a '--gridlines' and a '--labels'
-flag. The '--gridlines' flag will add latitude / longitude gridlines to your sector
-image. By default labels will be added to the bottom and left side of the sector
-image when gridlines are added. To disable this, or change the location of labels,
-provide the '--labels' flag with no arguments or different locations.
-This can be applied alongside the '--overlay' flag as well.
-
-Updated documentation and added a unit test to test this functionality.
-Additionally, I updated the sector schema to support two methods for specifying an
-area definition's resolution. Instead of a length two array of integers, a
-dictionary specifying "dx": float, "dy": float, and "units": str can be
-supplied.
-
-Finally, fixed failing integration tests by fixing imports, removing the need to
-install akima86 via git, commented out packages we don't want to install
-(geoips_tutorial), and commented out test datasets that aren't available or were
-failing.
-
-::
-
-     modified: docs/source/concepts/functionality/command-line/index.rst
-     modified: geoips/commandline/ancillary_info/cmd_instructions.yaml
-     modified: geoips/commandline/ancillary_info/test-data-urls.yaml
-     modified: geoips/commandline/geoips_test.py
-     modified: geoips/image_utils/mpl_utils.py
-     modified: geoips/interfaces/yaml_based/sectors.py
-     modified: geoips/schema/sectors/specs/area_definition.yaml
-     modified: geoips/utils/memusg/plot_json_files.py
-     modified: tests/integration_tests/full_install.sh
-     modified: tests/integration_tests/site_install.sh
-     modified: tests/unit_tests/commandline/test_geoips_test_sector.py
+ * *Bug fix*: Fix randomness in unit tests and disable ami_netcdf test
+ * *Bug fix*: Adding missing init file in memusg directory
+ * *Bug fix*: Remove extra period before file extension in output filenames
+ * *Bug fix*: Fix broken docs imports
+ * *Bug fix*: Fix broken memusg imports
+ * *Documentation*: Fix documentation contact info.
+ * *Documentation*: Update order-based procflow documentation
+ * *Documentation*: Update product name references in model_windbarbs
+ * *Documentation*: Add sphinxcontrib-typer to doc requirements
+ * *Continuous integration*: Update code base for black 2026 style - see black 26.1.0 release notes for details.
+ * *Testing*: Standardize test product and product default names
+ * *Performance*: Validate that the version separator for geoips package is "/"
+ * *Refactor*: Geoips utilize pluginify package
+ * *Ci*: Add no-op status check for enforcing up to date branches before merge
 
 Feature
 =======
-
-Order-based procflow: add coverage checkers
--------------------------------------------
-
-Define OBP Pydantic model for Coverage Checker plugins.
-
-`#1202 <https://github.com/NRLMMD-GEOIPS/geoips>`_
-
-::
-
-     added: docs/source/releases/latest/1180-OBP-add-coverage-checkers-pydantic-models.yaml
-     added: geoips/pydantic_models/v1/coverage_checkers.py
-     added: geoips/plugins/yaml/workflows/read_test_v1_coverage_checker.yaml
-     added: tests/unit_tests/pydantic_models/v1/coverage_checkers/conftest.py
-     added: tests/unit_tests/pydantic_models/v1/coverage_checkers/test_cases_bad.yaml
-     added: tests/unit_tests/pydantic_models/v1/coverage_checkers/test_coverage_checkers.py
-     modified: geoips/plugin_registry.py
-     modified: geoips/plugins/modules/coverage_checkers/center_radius.py
-     modified: geoips/plugins/modules/coverage_checkers/center_radius_rgba.py
-     modified: geoips/plugins/modules/coverage_checkers/masked_arrays.py
-     modified: geoips/plugins/modules/coverage_checkers/numpy_arrays_nan.py
-     modified: geoips/plugins/modules/coverage_checkers/rgba.py
-     modified: geoips/plugins/modules/coverage_checkers/windbarbs.py
-     modified: geoips/plugins/modules/procflows/order_based.py
-     modified: geoips/plugins/yaml/workflows/read_test_v1.yaml
-     modified: geoips/pydantic_models/v1/workflows.py
 
 Extend readerargumentsmodel with additional configuration
 ---------------------------------------------------------
@@ -360,6 +50,48 @@ Adds sectored_read, resample_read, and associated self_regsiter fields along wit
      modified: tests/unit_tests/pydantic_models/v1/conftest.py
      modified: tests/unit_tests/pydantic_models/v1/test_pydantic_models.py
      modified: tests/unit_tests/pydantic_models/v1/workflows/test_workflow_step_definition_model.py
+
+Migrate readerargumentsmodel tests to new yaml-based test framework
+-------------------------------------------------------------------
+
+Refactor unit tests to use YAML-driven test inputs to enhance consistency and maintainability
+
+::
+
+     added: docs/source/releases/latest/1002-migrate-readerargumentsmodel-tests-to-new-framework.yaml
+     added: geoips/pydantic_models/v1/readers.py
+     added: tests/unit_tests/pydantic_models/v1/readers/test_cases_bad.yaml
+     added: tests/unit_tests/pydantic_models/v1/readers/test_cases_good.yaml
+     added: tests/unit_tests/pydantic_models/v1/readers/test_cases_neutral.yaml
+     added: tests/unit_tests/pydantic_models/v1/readers/test_reader_arguments_model.py
+     modified: docs/dev/order_based_procflow.rst
+     modified: geoips/pydantic_models/v1/bases.py
+     modified: geoips/pydantic_models/v1/workflows.py
+     modified: tests/unit_tests/pydantic_models/v1/conftest.py
+     modified: tests/unit_tests/pydantic_models/v1/test_pydantic_models.py
+     modified: tests/unit_tests/pydantic_models/v1/workflows/test_workflow_step_definition_model.py
+     moved: tests/unit_tests/pydantic_models/v1/{workflows => readers}/test_reader_arguments_model.py
+
+Order-based procflow: add interpolators pydantic models
+-------------------------------------------------------
+
+Introduce Pydantic models defining and validating OBP-v1 interpolator Models
+
+::
+
+     added: docs/source/releases/latest/1115-OBP-add-interpolator-pydantic-models.yaml
+     added: geoips/plugins/yaml/workflows/read_test_interpolator_v1.yaml
+     added: geoips/pydantic_models/v1/interpolators.py
+     added: tests/unit_tests/pydantic_models/v1/interpolators/test_cases_bad.yaml
+     added: tests/unit_tests/pydantic_models/v1/interpolators/test_cases_good.yaml
+     added: tests/unit_tests/pydantic_models/v1/interpolators/test_cases_neutral.yaml
+     modified: docs/dev/order_based_procflow.rst
+     modified: geoips/plugins/modules/procflows/order_based.py
+     modified: geoips/plugins/yaml/workflows/read_test_v1.yaml
+     modified: geoips/pydantic_models/v1/workflows.py
+     modified: tests/unit_tests/pydantic_models/v1/conftest.py
+     modified: tests/unit_tests/pydantic_models/v1/test_pydantic_models.py
+     modified: tests/unit_tests/pydantic_models/v1/utils.py
 
 Order-based procflow : algorithms
 ---------------------------------
@@ -454,47 +186,323 @@ Introduce Pydantic model defining and validating OBP-v1 TitleFormatterArgumentsM
      modified: tests/unit_tests/pydantic_models/v1/conftest.py
      modified: tests/unit_tests/pydantic_models/v1/test_pydantic_models.py
 
-Migrate readerargumentsmodel tests to new yaml-based test framework
--------------------------------------------------------------------
+Order-based procflow: add coverage checkers
+-------------------------------------------
 
-Refactor unit tests to use YAML-driven test inputs to enhance consistency and maintainability
+Define OBP Pydantic model for Coverage Checker plugins.
 
-::
-
-     added: docs/source/releases/latest/1002-migrate-readerargumentsmodel-tests-to-new-framework.yaml
-     added: geoips/pydantic_models/v1/readers.py
-     added: tests/unit_tests/pydantic_models/v1/readers/test_cases_bad.yaml
-     added: tests/unit_tests/pydantic_models/v1/readers/test_cases_good.yaml
-     added: tests/unit_tests/pydantic_models/v1/readers/test_cases_neutral.yaml
-     added: tests/unit_tests/pydantic_models/v1/readers/test_reader_arguments_model.py
-     modified: docs/dev/order_based_procflow.rst
-     modified: geoips/pydantic_models/v1/bases.py
-     modified: geoips/pydantic_models/v1/workflows.py
-     modified: tests/unit_tests/pydantic_models/v1/conftest.py
-     modified: tests/unit_tests/pydantic_models/v1/test_pydantic_models.py
-     modified: tests/unit_tests/pydantic_models/v1/workflows/test_workflow_step_definition_model.py
-     moved: tests/unit_tests/pydantic_models/v1/{workflows => readers}/test_reader_arguments_model.py
-
-Order-based procflow: add interpolators pydantic models
--------------------------------------------------------
-
-Introduce Pydantic models defining and validating OBP-v1 interpolator Models
+`#1202 <https://github.com/NRLMMD-GEOIPS/geoips>`_
 
 ::
 
-     added: docs/source/releases/latest/1115-OBP-add-interpolator-pydantic-models.yaml
-     added: geoips/plugins/yaml/workflows/read_test_interpolator_v1.yaml
-     added: geoips/pydantic_models/v1/interpolators.py
-     added: tests/unit_tests/pydantic_models/v1/interpolators/test_cases_bad.yaml
-     added: tests/unit_tests/pydantic_models/v1/interpolators/test_cases_good.yaml
-     added: tests/unit_tests/pydantic_models/v1/interpolators/test_cases_neutral.yaml
-     modified: docs/dev/order_based_procflow.rst
+     added: docs/source/releases/latest/1180-OBP-add-coverage-checkers-pydantic-models.yaml
+     added: geoips/pydantic_models/v1/coverage_checkers.py
+     added: geoips/plugins/yaml/workflows/read_test_v1_coverage_checker.yaml
+     added: tests/unit_tests/pydantic_models/v1/coverage_checkers/conftest.py
+     added: tests/unit_tests/pydantic_models/v1/coverage_checkers/test_cases_bad.yaml
+     added: tests/unit_tests/pydantic_models/v1/coverage_checkers/test_coverage_checkers.py
+     modified: geoips/plugin_registry.py
+     modified: geoips/plugins/modules/coverage_checkers/center_radius.py
+     modified: geoips/plugins/modules/coverage_checkers/center_radius_rgba.py
+     modified: geoips/plugins/modules/coverage_checkers/masked_arrays.py
+     modified: geoips/plugins/modules/coverage_checkers/numpy_arrays_nan.py
+     modified: geoips/plugins/modules/coverage_checkers/rgba.py
+     modified: geoips/plugins/modules/coverage_checkers/windbarbs.py
      modified: geoips/plugins/modules/procflows/order_based.py
      modified: geoips/plugins/yaml/workflows/read_test_v1.yaml
      modified: geoips/pydantic_models/v1/workflows.py
+
+Enhancement
+===========
+
+Add globalvariablesmodel for shared obp workflow arguments
+----------------------------------------------------------
+
+Adds a new GlobalVariablesModel to the pydantic models. It groups together
+the handful of settings that apply to a whole Order-Based Procflow workflow
+rather than to a single step, with a bit of validation to catch fields that
+need to be set together.
+
+`#1287 <https://github.com/NRLMMD-GEOIPS/geoips>`_
+
+::
+
+     added: docs/source/releases/latest/1287-add-globalvariablesmodel-to-support-shared-arguments-across-obp-steps.yaml
+     added: tests/unit_tests/pydantic_models/v1/workflows/test_cases_bad.yaml
+     added: tests/unit_tests/pydantic_models/v1/workflows/test_cases_good.yaml
+     added: tests/unit_tests/pydantic_models/v1/workflows/test_cases_neutral.yaml
+     modified: docs/dev/order_based_procflow.rst
+     modified: geoips/plugins/yaml/workflows/read_test_v1.yaml
+     modified: geoips/plugins/yaml/workflows/read_test_v2alpha1.yaml
+     modified: geoips/pydantic_models/v1/workflows.py
+     modified: tests/unit_tests/commandline/test_geoips_run.py
      modified: tests/unit_tests/pydantic_models/v1/conftest.py
      modified: tests/unit_tests/pydantic_models/v1/test_pydantic_models.py
-     modified: tests/unit_tests/pydantic_models/v1/utils.py
+
+Update order-based procflow to fail early when required data files are missing
+------------------------------------------------------------------------------
+
+Add early validation of file inputs in the order-based procflow. Before processing begins, the workflow now checks that
+all file paths required by reader and output_checker steps exist on the filesystem. If any paths are missing, the
+workflow terminates immediately with a FileNotFoundError listing every missing file and the step that requires it,
+rather than failing partway through processing.
+
+`#1257 <https://github.com/NRLMMD-GEOIPS/geoips>`_
+
+::
+
+     added: docs/source/releases/latest/1257-update-obp-workflow-to-fail-early-when-required-data-files-are-missing.yaml
+     added: geoips/pydantic_models/v1/readers.py
+     added: geoips/utils/file_utils.py
+     added: tests/unit_tests/utils/test_file_utils.py
+     modified: docs/dev/order_based_procflow.rst
+     modified: geoips/plugins/modules/procflows/order_based.py
+     modified: geoips/pydantic_models/v1/output_checkers.py
+     modified: geoips/pydantic_models/v1/readers.py
+     modified: tests/unit_tests/pydantic_models/v1/conftest.py
+     modified: tests/unit_tests/pydantic_models/v1/output_checkers/test_cases_bad.yaml
+     modified: tests/unit_tests/pydantic_models/v1/output_checkers/test_cases_good.yaml
+     modified: tests/unit_tests/pydantic_models/v1/readers/test_cases_good.yaml
+     modified: tests/unit_tests/pydantic_models/v1/test_pydantic_models.py
+
+New class-based validators interface
+------------------------------------
+
+This update creates an entirely new class-based 'validators' interface. Plugins of
+this type should be responsible for producing statistics via the comparison of a
+produced dataset and a source of truth dataset that can be displayed via a specific
+output formatter. Think of a bar chart, regression analysis, etc.
+
+This update sets up the basic infrastructure of the validators interface, adds this
+interface to relevant CLI commands, and creates a dummy validator plugin that can
+be used for testing purposes.
+
+::
+
+     added: docs/source/concepts/functionality/interfaces/module_based/validators.rst
+     added: geoips/interfaces/class_based/validators.py
+     added: geoips/plugins/modules/validators/difference.py
+     modified: docs/source/concepts/functionality/interfaces/index.rst
+     modified: geoips/commandline/ancillary_info/alias_mapping.yaml
+     modified: geoips/commandline/ancillary_info/cmd_instructions.yaml
+     modified: geoips/interfaces/__init__.py
+
+Add a model validator to the outputcheckerarguments pydantic model
+------------------------------------------------------------------
+
+Add a model validator to ensure that if checker_name, is provided, compare_path is also provided
+
+`#1253 <https://github.com/NRLMMD-GEOIPS/geoips>`_
+
+::
+
+     added: docs/source/releases/latest/1253-add-a-model-validator-to-the-outputcheckerarguments-pydantic-model.yaml
+     modified: geoips/pydantic_models/v1/output_checkers.py
+     modified: tests/unit_tests/pydantic_models/v1/output_checkers/test_cases_bad.yaml
+     modified: tests/unit_tests/pydantic_models/v1/conftest.py
+     modified: docs/dev/order_based_procflow.rst
+
+Add duplicate key detection for plugin yaml loading
+---------------------------------------------------
+
+Adds geoips/utils/yaml_utils as a drop-in replacement for PyYAML across the geoips package.
+
+The module re-exports all standard PyYAML symbols but overrides safe_load and safe_load_all to raise DuplicateKeyError
+when a YAML mapping contains a repeated key. This is a bug that PyYAML silently ignores by overwriting the earlier
+value. All import yaml call sites in geoips have been updated to use the wrapper. In the process, a pre-existing
+duplicate key in cmd_instructions.yaml was found and corrected. Unit tests cover both the passing and failing cases,
+including nested mappings.
+
+`#966 <https://github.com/NRLMMD-GEOIPS/geoips>`_
+
+::
+
+     added: docs/source/releases/latest/966-detect-and-handle-duplicate-step-keys-in-workflow-yaml-files.yaml
+     added: geoips/utils/yaml_utils.py
+     added: tests/unit_tests/utils/test_yaml_utils.py
+     modified: geoips/commandline/ancillary_info/cmd_instructions.yaml
+     modified: geoips/commandline/ancillary_info/test_data.py
+     modified: geoips/commandline/cmd_instructions.py
+     modified: geoips/commandline/geoips_command.py
+     modified: geoips/commandline/geoips_describe.py
+     modified: geoips/commandline/geoips_run.py
+     modified: geoips/commandline/geoips_validate.py
+     modified: geoips/interfaces/base.py
+     modified: geoips/pydantic_models/v1/products.py
+     modified: geoips/sector_utils/yaml_utils.py
+     modified: geoips/utils/cache_files.py
+     modified: geoips/errors.py
+     modified: docs/source/contribute/coding-standards.rst
+     modified: tests/integration_tests/full_install.sh
+
+Geoips test sector updates
+--------------------------
+
+Updated 'geoips test sector' command to support a '--gridlines' and a '--labels'
+flag. The '--gridlines' flag will add latitude / longitude gridlines to your sector
+image. By default labels will be added to the bottom and left side of the sector
+image when gridlines are added. To disable this, or change the location of labels,
+provide the '--labels' flag with no arguments or different locations.
+This can be applied alongside the '--overlay' flag as well.
+
+Updated documentation and added a unit test to test this functionality.
+Additionally, I updated the sector schema to support two methods for specifying an
+area definition's resolution. Instead of a length two array of integers, a
+dictionary specifying "dx": float, "dy": float, and "units": str can be
+supplied.
+
+Finally, fixed failing integration tests by fixing imports, removing the need to
+install akima86 via git, commented out packages we don't want to install
+(geoips_tutorial), and commented out test datasets that aren't available or were
+failing.
+
+::
+
+     modified: docs/source/concepts/functionality/command-line/index.rst
+     modified: geoips/commandline/ancillary_info/cmd_instructions.yaml
+     modified: geoips/commandline/ancillary_info/test-data-urls.yaml
+     modified: geoips/commandline/geoips_test.py
+     modified: geoips/image_utils/mpl_utils.py
+     modified: geoips/interfaces/yaml_based/sectors.py
+     modified: geoips/schema/sectors/specs/area_definition.yaml
+     modified: geoips/utils/memusg/plot_json_files.py
+     modified: tests/integration_tests/full_install.sh
+     modified: tests/integration_tests/site_install.sh
+     modified: tests/unit_tests/commandline/test_geoips_test_sector.py
+
+Obp support products in workflow plugins
+----------------------------------------
+
+Adds support for products, product defaults, and workflow plugins as steps in
+workflow plugins. If a workflow is found as a step, we will recursively call the
+order based procflow using the contents of the retrieved workflow plugin. If a
+workflow is fully specified as a step in a workflow, we'll recursively call the
+order based procflow using the contents of that step.
+
+This update adds a few test workflows to ensure those updates work as expected.
+Additionally, two new commands were added in this update, called
+`geoips test workflow <workflow_name>` and `geoips expand <workflow_name>`. New
+fields were added to workflow plugins which support the test command. You can
+run a full workflow using the contents of the 'test' field in a workflow with no
+additional arguments. `geoips expand <workflow_name>` generates a fully expanded
+workflow plugin so a user can view all of the steps in a workflow, even if embedded
+workflows / products / product defaults are present as steps. This makes it easy
+to confirm the order of operations that will be applied via the order based
+procflow.
+
+Updates to the plugin registry file will need to be transferred over to pluginify
+once those PRs have been merged and it's been migrated to PyPi.
+
+Finally, added unit tests for new commands.
+
+::
+
+     added: geoips/commandline/geoips_expand.py
+     added: geoips/plugins/yaml/workflows/unit_tests/test_bad_product_section.yaml
+     added: geoips/plugins/yaml/workflows/unit_tests/test_product.yaml
+     added: geoips/plugins/yaml/workflows/unit_tests/test_product_default.yaml
+     added: geoips/plugins/yaml/workflows/unit_tests/test_workflow.yaml
+     added: tests/unit_tests/commandline/test_geoips_exand.py
+     added: tests/unit_tests/commandline/test_geoips_test_workflow.py
+     modified: .cspell.json
+     modified: docs/source/concepts/functionality/command-line/index.rst
+     modified: geoips/commandline/ancillary_info/alias_mapping.yaml
+     modified: geoips/commandline/ancillary_info/cmd_instructions.yaml
+     modified: geoips/commandline/commandline_interface.py
+     modified: geoips/commandline/geoips_describe.py
+     modified: geoips/commandline/geoips_test.py
+     modified: geoips/interfaces/yaml_based/workflows.py
+     modified: geoips/plugin_registry.py
+     modified: geoips/plugins/modules/procflows/order_based.py
+     modified: geoips/pydantic_models/v1/workflows.py
+     modified: pyproject.toml
+     modified: tests/unit_tests/commandline/cli_top_level_tester.py
+     modified: tests/unit_tests/pydantic_models/v1/workflows/test_workflow_step_definition_model.py
+
+Release process
+===============
+
+Add 1.18.0 release note
+-----------------------
+
+Currently tagged internal version 1.17.3.
+
+geoips#1029 - 1.18.0 updates*
+
+::
+
+     added: docs/source/releases/1.18.0/1.18.0-internal-release.yaml
+
+Update internal and github.com 'upcoming_version' and 'tagged_version'
+----------------------------------------------------------------------
+
+Updated 'update_this_release_note' file in geoips repo for the
+next internal version-
+1.18.1
+next github.com version-
+1.19.0
+
+geoips#1029 - 1.18.0 updates*
+
+::
+
+     modified: .github/versions/upcoming_version
+     modified: .github/versions/tagged_version
+
+Bug fix
+=======
+
+Fix randomness in unit tests and disable ami_netcdf test
+--------------------------------------------------------
+
+This fixes randomness in unit tests by using a fixed number of seeds. This allows
+use of multiple CPU when running the tests. Also disables the ami_netcdf test
+because it takes a ridiculous amount of time.
+
+::
+
+     modified: tests/unit_tests/commandline/test_log_setup.py
+     modified: tests/unit_tests_long/plugins/modules/readers/reader_dataset_variable_mappings.yaml
+
+Adding missing init file in memusg directory
+--------------------------------------------
+
+GeoIPS pytest causes many errors because of a missing __init__.py file in the /geoips/utils/memusg directory.
+
+`#1293 <https://github.com/NRLMMD-GEOIPS/geoips>`_
+
+::
+
+     added: docs/source/releases/latest/1292-adding-memusg-init.yaml
+     added: geoips/utils/memusg/__init__.py
+
+Remove extra period before file extension in output filenames
+-------------------------------------------------------------
+
+Fixes an extra period before the file extension in filenames generated by "basic_fname" filename formatter
+
+::
+
+     added: docs/source/releases/latest/1322-remove-extra-period-before-extension-in-output-filename.yaml
+     modified: geoips/plugins/modules/filename_formatters/basic_fname.py
+
+Fix broken docs imports
+-----------------------
+
+This fixes rich imports.
+
+::
+
+     modified: docs/build_docs.py
+
+Fix broken memusg imports
+-------------------------
+
+Use relative imports to fix broken imports in memusg.
+
+::
+
+     modified: geoips/utils/memusg/plot_json_files.py
 
 Documentation
 =============
@@ -507,17 +515,6 @@ Add contact info to contact page.
 ::
 
      modified: docs/source/_templates/index.template.rst
-
-Add sphinxcontrib-typer to doc requirements
--------------------------------------------
-
-Add sphinxcontrib-typer to doc requirements and sphinx config file to support
-pluginify.
-
-::
-
-     modified: pyproject.toml
-     modified: docs/_templates/sphinx_conf.template.py
 
 Update order-based procflow documentation
 -----------------------------------------
@@ -541,73 +538,16 @@ Remove stale references to product_name and update the docs accordingly.
      modified: geoips/plugins/modules/algorithms/model/model_channel.py
      modified: geoips/plugins/modules/algorithms/model/model_windbarbs.py
 
-Bug fix
-=======
+Add sphinxcontrib-typer to doc requirements
+-------------------------------------------
 
-Fix randomness in unit tests and disable ami_netcdf test
---------------------------------------------------------
-
-This fixes randomness in unit tests by using a fixed number of seeds. This allows
-use of multiple CPU when running the tests. Also disables the ami_netcdf test
-because it takes a ridiculous amount of time.
+Add sphinxcontrib-typer to doc requirements and sphinx config file to support
+pluginify.
 
 ::
 
-     modified: tests/unit_tests/commandline/test_log_setup.py
-     modified: tests/unit_tests_long/plugins/modules/readers/reader_dataset_variable_mappings.yaml
-
-Remove extra period before file extension in output filenames
--------------------------------------------------------------
-
-Fixes an extra period before the file extension in filenames generated by "basic_fname" filename formatter
-
-::
-
-     added: docs/source/releases/latest/1322-remove-extra-period-before-extension-in-output-filename.yaml
-     modified: geoips/plugins/modules/filename_formatters/basic_fname.py
-
-Adding missing init file in memusg directory
---------------------------------------------
-
-GeoIPS pytest causes many errors because of a missing __init__.py file in the /geoips/utils/memusg directory.
-
-`#1293 <https://github.com/NRLMMD-GEOIPS/geoips>`_
-
-::
-
-     added: docs/source/releases/latest/1292-adding-memusg-init.yaml
-     added: geoips/utils/memusg/__init__.py
-
-Fix broken docs imports
------------------------
-
-This fixes rich imports.
-
-::
-
-     modified: docs/build_docs.py
-
-Fix broken memusg imports
--------------------------
-
-Use relative imports to fix broken imports in memusg.
-
-::
-
-     modified: geoips/utils/memusg/plot_json_files.py
-
-Ci
-==
-
-Add no-op status check for enforcing up to date branches before merge
----------------------------------------------------------------------
-
-Organization rulesets do not allow enforcing up to date branches without creating a status check.  Create a dummy status
-check to enforce up to date branches via rulesets.
-
-::
-
-     added: .github/workflows/status-check.yaml
+     modified: pyproject.toml
+     modified: docs/_templates/sphinx_conf.template.py
 
 Continuous integration
 ======================
@@ -705,24 +645,6 @@ Please make sure you update your local Black install as old versions will produc
      modified: tests/unit_tests_long/plugins/modules/readers/test_readers.py
      modified: tests/utils/test_interfaces.py
 
-Performance
-===========
-
-Validate that the version separator for geoips package is "/"
--------------------------------------------------------------
-
-Add a field validator for the apiVersion field in PluginModel that ensures API
- versions contain a "/" separator between the package name and version (e.g.
- "geoips/v1"). Includes unit tests for valid and invalid apiVersion values.
-
-`#1033 <https://github.com/NRLMMD-GEOIPS/geoips/>`_
-
-::
-
-     added: docs/source/releases/latest/optimization-1033-top-level-plugin-enhancements.yaml
-     modified: geoips/pydantic_models/v1/bases.py
-     modified: tests/unit_tests/pydantic_models/v1/bases/test_bases.py
-
 Testing
 =======
 
@@ -746,32 +668,110 @@ geoips#1029 - 1.18.0 updates
      modified: geoips/plugins/yaml/products/integration_tests/Test-Day-Only.yaml
      modified: geoips/plugins/yaml/products/integration_tests/Test-Night-Only.yaml
 
-Release process
-===============
+Performance
+===========
 
-Add 1.18.0 release note
------------------------
+Validate that the version separator for geoips package is "/"
+-------------------------------------------------------------
 
-Currently tagged internal version 1.17.3.
+Add a field validator for the apiVersion field in PluginModel that ensures API
+ versions contain a "/" separator between the package name and version (e.g.
+ "geoips/v1"). Includes unit tests for valid and invalid apiVersion values.
 
-geoips#1029 - 1.18.0 updates*
-
-::
-
-     added: docs/source/releases/1.18.0/1.18.0-internal-release.yaml
-
-Update internal and github.com 'upcoming_version' and 'tagged_version'
-----------------------------------------------------------------------
-
-Updated 'update_this_release_note' file in geoips repo for the
-next internal version-
-1.18.1
-next github.com version-
-1.19.0
-
-geoips#1029 - 1.18.0 updates*
+`#1033 <https://github.com/NRLMMD-GEOIPS/geoips/>`_
 
 ::
 
-     modified: .github/versions/upcoming_version
-     modified: .github/versions/tagged_version
+     added: docs/source/releases/latest/optimization-1033-top-level-plugin-enhancements.yaml
+     modified: geoips/pydantic_models/v1/bases.py
+     modified: tests/unit_tests/pydantic_models/v1/bases/test_bases.py
+
+Refactor
+========
+
+Geoips utilize pluginify package
+--------------------------------
+
+In an effort to share our plugin registry code as an independent package outside of
+GeoIPS, this PR removes all references to plugin registry code. I've created a
+separate package called 'pluginify' which copied over all of the deleted code, then
+modified it to be mostly agnostic of GeoIPS, besides a few references in
+documentation and optional imports for testing. The optional import will be removed
+soon. I've posted this repository on TestPyPi and it can currently be installed
+via `python3 -m pip install --index-url https://test.pypi.org/simple/ --no-deps pluginify`
+or it can be cloned via 'https://github.com/NRLMMD-GEOIPS/pluginify.git' and
+installed with `pip install -e`. We hope to have this on main PyPi once this is
+fully tested.
+
+Essentially, a package has to implement it's own interfaces and validators for
+plugins of those interfaces. They then can make use of pluginify's code to create
+plugin registries and load / create plugins as was previously done in GeoIPS. The
+benefit of moving this code out of GeoIPS is that other python packages can create
+their own interfaces / plugin types alongside validators without having to install
+the large dependency that is GeoIPS.
+
+::
+
+     deleted: docs/source/concepts/architecture/plugin-registries.rst
+     deleted: docs/source/concepts/functionality/plugin-registries.rst
+     deleted: geoips/commandline/cmd_instructions.py
+     deleted: geoips/create_plugin_registries.py
+     deleted: geoips/plugin_registry.py
+     deleted: tests/unit_tests/commandline/test_geoips_config_create_registries.py
+     deleted: tests/unit_tests/commandline/test_geoips_config_delete_registries.py
+     deleted: tests/unit_tests/plugin_registries/files/bad/invalid_interfaces.yaml
+     deleted: tests/unit_tests/plugin_registries/files/bad/missing_lowest_keys.yaml
+     deleted: tests/unit_tests/plugin_registries/files/bad/missing_plugin_types.yaml
+     deleted: tests/unit_tests/plugin_registries/files/good/data_fusion.yaml
+     deleted: tests/unit_tests/plugin_registries/files/good/geoips.yaml
+     deleted: tests/unit_tests/plugin_registries/files/good/geoips_clavrx.yaml
+     deleted: tests/unit_tests/plugin_registries/files/good/geoips_plugin_example.yaml
+     deleted: tests/unit_tests/plugin_registries/files/good/overcast_package.yaml
+     deleted: tests/unit_tests/plugin_registries/files/good/recenter_tc.yaml
+     deleted: tests/unit_tests/plugin_registries/files/good/template_basic_plugin.yaml
+     deleted: tests/unit_tests/plugin_registries/files/good/template_fusion_plugin.yaml
+     deleted: tests/unit_tests/plugin_registries/test_plugin_registries.py
+     modified: .cspell.json
+     modified: Dockerfile
+     modified: docs/source/_templates/sphinx_conf.template.py
+     modified: docs/source/concepts/architecture/index.rst
+     modified: docs/source/concepts/functionality/command-line/index.rst
+     modified: docs/source/concepts/functionality/index.rst
+     modified: docs/source/_templates/sphinx_conf.template.py
+     modified: geoips/commandline/ancillary_info/alias_mapping.yaml
+     modified: geoips/commandline/ancillary_info/cmd_instructions.yaml
+     modified: geoips/commandline/geoips_command.py
+     modified: geoips/commandline/geoips_config.py
+     modified: geoips/commandline/geoips_describe.py
+     modified: geoips/commandline/geoips_list.py
+     modified: geoips/commandline/geoips_test.py
+     modified: geoips/errors.py
+     modified: geoips/geoips_utils.py
+     modified: geoips/interfaces/base.py
+     modified: geoips/plugins/modules/algorithms/absdiff_mst.py
+     modified: geoips/plugins/modules/output_formatters/imagery_annotated.py
+     modified: geoips/plugins/modules/procflows/config_based.py
+     modified: geoips/sector_utils/utils.py
+     modified: pyproject.toml
+     modified: tests/unit_tests/commandline/cli_top_level_tester.py
+     modified: tests/unit_tests/commandline/test_geoips_test_linting.py
+     modified: tests/unit_tests/commandline/test_geoips_list_interface.py
+     modified: tests/unit_tests/commandline/test_geoips_list_plugins.py
+     modified: tests/unit_tests/commandline/test_geoips_list_source_names.py
+     modified: tests/unit_tests/commandline/test_geoips_validate.py
+     modified: tests/unit_tests/plugins/test_get_plugin.py
+     modified: tests/unit_tests/plugins/test_get_plugin_metadata.py
+     modified: tests/utils/test_interfaces.py
+
+Ci
+==
+
+Add no-op status check for enforcing up to date branches before merge
+---------------------------------------------------------------------
+
+Organization rulesets do not allow enforcing up to date branches without creating a status check.  Create a dummy status
+check to enforce up to date branches via rulesets.
+
+::
+
+     added: .github/workflows/status-check.yaml

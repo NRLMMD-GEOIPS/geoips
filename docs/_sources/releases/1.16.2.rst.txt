@@ -1,75 +1,241 @@
 Version 1.16.2 (2026-07-23)
 ***************************
 
- * *Documentation*: Add release note for version 1.16.2
- * *Documentation*: Update upcoming and tagged versions
- * *Documentation*: Add citation information for imagery use.
+ * *Bug fix*: Name cached zarr/memmap files as partial when being created
+ * *Bug fix*: Remove product_name from required xarray_to_xarray algorithm arg list
+ * *Bug fix*: Geokompsat sector vs geokompsat-subsector
+ * *Bug fix*: Allow overriding geoips_conda_install_dir upstream, and always set/use geoips_conda_install_dir
+ * *Bug fix*: Print out full path to final output files in addition to env var replaced paths
+ * *Bug fix*: Pin numpy to < 2.3
+ * *Bug fix*: Allow user to override output checker name
+ * *Bug fix*: Resolve undefined lat/lons in ahi_hsd reader
+ * *Bug fix*: Fix underfilled lines of longitude for high latitude sectors
+ * *Bug fix*: Allow system wide default cache backend
+ * *Bug fix*: Provide empty line and sample index definitions for full disk reads
+ * *Bug fix*: Minor bug fixes to geoips_netcdf_fname formatter and viirs_l2_netcdf reader
+ * *Bug fix*: Ensure chunks passed to zf.create_dataset are of same shape as array
+ * *Bug fix*: Update for corrected high latitude longitude lines
  * *Installation*: Use geoips_conda_env_name if defined for conda env, else default to geoips_conda
+ * *Installation*: Add call cmd function to geoips_utils.py, call from pytest-based integration tests
  * *Installation*: Move cartopy_data_dir to geoips_ancildat
  * *Installation*: Support creating brassy changelogs in both geoips_packages_dir and geoips_testdata_dir
  * *Installation*: Update linux with conda installation to include gxx_linux-64
- * *Installation*: Add call cmd function to geoips_utils.py, call from pytest-based integration tests
- * *Bug fix*: Allow system wide default cache backend
- * *Bug fix*: Pin numpy to < 2.3
- * *Bug fix*: Allow overriding geoips_conda_install_dir upstream, and always set/use geoips_conda_install_dir
- * *Bug fix*: Print out full path to final output files in addition to env var replaced paths
- * *Bug fix*: Geokompsat sector vs geokompsat-subsector
- * *Bug fix*: Remove product_name from required xarray_to_xarray algorithm arg list
- * *Bug fix*: Fix underfilled lines of longitude for high latitude sectors
- * *Bug fix*: Update for corrected high latitude longitude lines
- * *Bug fix*: Name cached zarr/memmap files as partial when being created
- * *Bug fix*: Resolve undefined lat/lons in ahi_hsd reader
- * *Bug fix*: Minor bug fixes to geoips_netcdf_fname formatter and viirs_l2_netcdf reader
- * *Bug fix*: Allow user to override output checker name
- * *Bug fix*: Ensure chunks passed to zf.create_dataset are of same shape as array
- * *Bug fix*: Provide empty line and sample index definitions for full disk reads
+ * *Documentation*: Add citation information for imagery use.
+ * *Documentation*: Add release note for version 1.16.2
+ * *Documentation*: Update upcoming and tagged versions
+ * *Enhancement*: Trackfile parsers now specify and return allowed aid types
  * *Testing*: Add small sectors to use in integration tests
  * *Testing*: Update to standard geostationary test data repository locations
  * *Testing*: Remove all instances of test_data_noaa_aws.
  * *Testing*: Add link_integration_test_packages shell script
  * *Testing*: Allow removing tgz file after decompressing test datasets
  * *Testing*: Add site, system, and all options to interactive_pytest.sh, and --tg=short
- * *Enhancement*: Trackfile parsers now specify and return allowed aid types
 
-Documentation
-=============
+Bug fix
+=======
 
-Add release note for version 1.16.2
------------------------------------
+Name cached zarr/memmap files as partial when being created
+-----------------------------------------------------------
 
-Release note on release branch to force tag/release, package/publish,
-and deploy docs.
-
-Additionally add any updated files from geoips_ci/sync
-
-GEOIPS#861 - 1.16.2 updates
-
-::
-
-     added: docs/source/releases/latest/1.16.2-release-note.yaml
-     modified: geoips_ci/sync updated files
-
-Update upcoming and tagged versions
------------------------------------
-
-* Tagged version: 1.16.2
-* Upcoming version: 1.16.3
-
-GEOIPS#861 - 1.16.2 updates
+Need to assign cache filenames a temporary name when being generated in order to
+prevent any concurrent geoips calls from reading in an incomplete cache. Cache files
+that are in the process of being generated have ".partial" appended to the end of
+the cached filename. If a concurrent geoips procflow finds a "partial" cache file,
+the procflow will check for a specified period (30 seconds by default) to see if the
+partial cache is replaced with the final and complete cache. If the partial cache is
+not replaced in this time frame, the procflow will raise a custom
+CacheNotFoundError.
 
 ::
 
-     modified: .github/versions/tagged_version
-     modified: .github/versions/upcoming_version
+     modified: geoips/plugins/modules/readers/abi_netcdf.py
+     modified: geoips/plugins/modules/readers/utils/geostationary_geolocation.py
 
-Add citation information for imagery use.
+Remove product_name from required xarray_to_xarray algorithm arg list
+---------------------------------------------------------------------
+
+Some xarray to xarray algorithms may be tied to a specific product name, so
+the product_name argument would not be required in the call signature.
+
+::
+
+     modified: geoips/plugins/module_based/algorithms.py
+
+Geokompsat sector vs geokompsat-subsector
 -----------------------------------------
 
-Citation information for imagery use.
+geokompsat-subsector doesn't exist. Since this will be replaced with tiny sectors
+soon anyway, just use the existing geokompsat sector
+
+GEOIPS#861
 
 ::
 
-     modified: README.md
+     moved: 20231208.030032.GK-2A.ami.Infrared.geokompsat.45p56.nmsc.10p0.png ->
+     tests/outputs/ami.static.Infrared.imagery_clean/20231208.030032.GK-2A.ami.Infrared.geokompsat-subsector-27deg.100p00.nmsc.10p0.png
+     moved: 20231208.030032.GK-2A.ami.Visible.geokompsat-subsector-27deg.100p00.nmsc.10p0.png <-
+     tests/outputs/ami.static.Visible.imagery_clean/20231208.030032.GK-2A.ami.Visible.geokompsat.45p56.nmsc.10p0.png
+
+Allow overriding geoips_conda_install_dir upstream, and always set/use geoips_conda_install_dir
+-----------------------------------------------------------------------------------------------
+
+If GEOIPS_CONDA_INSTALL_DIR is set, ensure it is used in both config_geoips and
+geoips_conda_init_setup.
+
+Also, ensure GEOIPS_CONDA_INSTALL_DIR is always set, so we can consistently use the
+correct installation location, without hardcoding $GEOIPS_DEPENDENCIES_DIR/miniconda3
+all over the place.
+
+::
+
+     modified: setup/config_geoips
+     modified: setup/geoips_conda_init_setup
+
+Print out full path to final output files in addition to env var replaced paths
+-------------------------------------------------------------------------------
+
+For easier CTRL-Click in VSCode, include both full path and env var replaced paths.
+env var replaced paths are good for copy/paste generalized outputs.
+
+::
+
+     modified: geoips/plugins/modules/procflows/config_based.py
+
+Pin numpy to < 2.3
+------------------
+
+numpy 2.3 changes how numpy handles scalar types so they no longer inherit directly
+from Python's built in types.  This prevents packages like PyYAML from automatically
+treating them as serializable. In the past, isinstance(float, np.float64(1)) would
+have returned True. Now it returns False. So, YAML serialization of numpy types no
+longer works. We have to convert prior to serialization.
+
+For now, we are going to pin numpy to < 2.3 while we resolve these updates.
+
+Additionally add gxx_linux-64 to conda install for consistent glibc version for
+installing numpy >= 2.3, and numexpr >= 2.11.
+
+Additionally, add libgit2 to conda install for consistent libgit2 for
+pygit / brassy installation.
+
+GEOIPS#861
+
+::
+
+     modified: pyproject.toml
+     modified: docs/source/getting-started/installing/install-with-conda.rst
+
+Allow user to override output checker name
+------------------------------------------
+
+Add a command-line argument that gets passed to the output checker call
+that allows the user to manually request use of the certain output checker
+(overriding its automatic determination by file extension).
+
+GEOIPS#845 - override outputchecker name
+
+::
+
+     modified: geoips/commandline/args.py
+     modified: geoips/interfaces/module_based/output_checkers.py
+     modified: geoips/plugins/modules/procflows/config_based.py
+     modified: geoips/plugins/modules/procflows/single_source.py
+
+Resolve undefined lat/lons in ahi_hsd reader
+--------------------------------------------
+
+ahi_hsd reader was missing lats and lons assignment after geolocation cache
+had been produced.  Add lats = zf["lats"] and lons = zf["lons"] in
+get_latitude_longitude function
+
+GEOIPS#861
+
+::
+
+     modified: geoips/plugins/modules/readers/ahi_hsd.py
+
+Fix underfilled lines of longitude for high latitude sectors
+------------------------------------------------------------
+
+Fixes miscalculations for high latitude sectors under eqc projections. Now calculates the proper number and range of
+lines of meridian to create for annotated imagery.
+
+::
+
+     modified: geoips/image_utils/maps.py
+
+Allow system wide default cache backend
+---------------------------------------
+
+* Add GEOIPS_GEOLOCATION_CACHE_BACKEND environment variable to base_paths, which
+  defaults to the current memmap default.
+* Update all geostationary readers to use the GEOIPS_GEOLOCATION_CACHE_BACKEND
+  as default rather than hard coded "memmap"
+* Add default to config_geoips for zarr backend
+
+GEOIPS#861
+
+::
+
+     modified: setup/config_geoips
+     modified: geoips/filenames/base_paths.py
+     modified: geoips/plugins/modules/readers/abi_l2_netcdf.py
+     modified: geoips/plugins/modules/readers/abi_netcdf.py
+     modified: geoips/plugins/modules/readers/ahi_hsd.py
+     modified: geoips/plugins/modules/readers/ami_netcdf.py
+     modified: geoips/plugins/modules/readers/ewsg_netcdf.py
+     modified: geoips/plugins/modules/readers/fci_netcdf.py
+     modified: geoips/plugins/modules/readers/seviri_hrit.py
+
+Provide empty line and sample index definitions for full disk reads
+-------------------------------------------------------------------
+
+Radiance retrievals pass in line and sample indices even when retrieving
+the full disk, but those variables were only defined for non-full disk
+reads. Defining full disk versions as empty lists so that radiance
+retrieval succeeds.
+
+::
+
+     modified: geoips/plugins/modules/readers/abi_netcdf.py
+
+Minor bug fixes to geoips_netcdf_fname formatter and viirs_l2_netcdf reader
+---------------------------------------------------------------------------
+
+geoips_netcdf_fname - Add handling if xarray_obj.area_definition is None, and set
+area_id as "x" if None.
+
+viirs_l2_netcdf - Add list of empty vars to loaded vars to prevent reader from
+thinking there are missing variables in the file, fix deprecation warnings, and
+provide option for generating time arrays.
+
+::
+
+     modified: geoips/plugins/modules/filename_formatters/geoips_netcdf_fname.py
+     modified: geoips/plugins/modules/readers/viirs_l2_netcdf.py
+
+Ensure chunks passed to zf.create_dataset are of same shape as array
+--------------------------------------------------------------------
+
+Was just using fixed (chunk_size, chunk_size). Ensure we are passing a tuple
+that is the same shape as the array. Otherwise zf.create_dataset will fail due to
+mismatched shapes
+
+::
+
+     modified: geoips/plugins/modules/readers/utils/geostationary_geolocation.py
+
+Update for corrected high latitude longitude lines
+--------------------------------------------------
+
+Updated test output imagery for fix to missing longitude lines at high latitude.
+
+GEOIPS#861
+
+::
+
+     modified:
+     tests/outputs/abi.static.DMW-LowMidHigh.imagery_windbarbs_multi_level/20210929.000020.goes-16.abi.DMW-LowMidHigh.w_atlantic.10p48.noaa.3p0.png
 
 Installation
 ============
@@ -83,6 +249,30 @@ if GEOIPS_CONDA_ENV_NAME is defined, use it.
 
      modified: setup/config_geoips
      modified: setup/geoips_conda_init_setup
+
+Add call cmd function to geoips_utils.py, call from pytest-based integration tests
+----------------------------------------------------------------------------------
+
+This is useful for shell-script based installation commands, as well as pytest-
+based integration testing.  Produces log friendly subprocess command output,
+with options to redirect to a log with a non-blocking pipe (to allow writing
+to the log file before an entire process is complete), or just printing to stdout/
+stderr.
+
+Updated pytest-based integration test to use call_cmd, and redirect to logs that
+live in $GEOIPS_OUTDIRS/logs/pytests/integration.
+
+Also added option to pipe to tee or not redirect to a file at all in
+check_system_requirements.sh run_command.
+
+Also default to not including prefixes (stdout/stderr/> ) for pipe, since pipe
+returns clean output.
+
+::
+
+     modified: geoips/geoips_utils.py
+     modified: tests/integration_tests/test_integration.py
+     modified: setup/check_system_requirements.sh
 
 Move cartopy_data_dir to geoips_ancildat
 ----------------------------------------
@@ -116,235 +306,66 @@ gxx_linux-64 required for numpy >= 2.3 and numexpr >= 2.11
 
      modified: docs/source/getting-started/installing/linux_with_conda.rst
 
-Add call cmd function to geoips_utils.py, call from pytest-based integration tests
-----------------------------------------------------------------------------------
+Documentation
+=============
 
-This is useful for shell-script based installation commands, as well as pytest-
-based integration testing.  Produces log friendly subprocess command output,
-with options to redirect to a log with a non-blocking pipe (to allow writing
-to the log file before an entire process is complete), or just printing to stdout/
-stderr.
-
-Updated pytest-based integration test to use call_cmd, and redirect to logs that
-live in $GEOIPS_OUTDIRS/logs/pytests/integration.
-
-Also added option to pipe to tee or not redirect to a file at all in
-check_system_requirements.sh run_command.
-
-Also default to not including prefixes (stdout/stderr/> ) for pipe, since pipe
-returns clean output.
-
-::
-
-     modified: geoips/geoips_utils.py
-     modified: tests/integration_tests/test_integration.py
-     modified: setup/check_system_requirements.sh
-
-Bug fix
-=======
-
-Allow system wide default cache backend
----------------------------------------
-
-* Add GEOIPS_GEOLOCATION_CACHE_BACKEND environment variable to base_paths, which
-  defaults to the current memmap default.
-* Update all geostationary readers to use the GEOIPS_GEOLOCATION_CACHE_BACKEND
-  as default rather than hard coded "memmap"
-* Add default to config_geoips for zarr backend
-
-GEOIPS#861
-
-::
-
-     modified: setup/config_geoips
-     modified: geoips/filenames/base_paths.py
-     modified: geoips/plugins/modules/readers/abi_l2_netcdf.py
-     modified: geoips/plugins/modules/readers/abi_netcdf.py
-     modified: geoips/plugins/modules/readers/ahi_hsd.py
-     modified: geoips/plugins/modules/readers/ami_netcdf.py
-     modified: geoips/plugins/modules/readers/ewsg_netcdf.py
-     modified: geoips/plugins/modules/readers/fci_netcdf.py
-     modified: geoips/plugins/modules/readers/seviri_hrit.py
-
-Pin numpy to < 2.3
-------------------
-
-numpy 2.3 changes how numpy handles scalar types so they no longer inherit directly
-from Python's built in types.  This prevents packages like PyYAML from automatically
-treating them as serializable. In the past, isinstance(float, np.float64(1)) would
-have returned True. Now it returns False. So, YAML serialization of numpy types no
-longer works. We have to convert prior to serialization.
-
-For now, we are going to pin numpy to < 2.3 while we resolve these updates.
-
-Additionally add gxx_linux-64 to conda install for consistent glibc version for
-installing numpy >= 2.3, and numexpr >= 2.11.
-
-Additionally, add libgit2 to conda install for consistent libgit2 for
-pygit / brassy installation.
-
-GEOIPS#861
-
-::
-
-     modified: pyproject.toml
-     modified: docs/source/getting-started/installing/install-with-conda.rst
-
-Allow overriding geoips_conda_install_dir upstream, and always set/use geoips_conda_install_dir
------------------------------------------------------------------------------------------------
-
-If GEOIPS_CONDA_INSTALL_DIR is set, ensure it is used in both config_geoips and
-geoips_conda_init_setup.
-
-Also, ensure GEOIPS_CONDA_INSTALL_DIR is always set, so we can consistently use the
-correct installation location, without hardcoding $GEOIPS_DEPENDENCIES_DIR/miniconda3
-all over the place.
-
-::
-
-     modified: setup/config_geoips
-     modified: setup/geoips_conda_init_setup
-
-Print out full path to final output files in addition to env var replaced paths
--------------------------------------------------------------------------------
-
-For easier CTRL-Click in VSCode, include both full path and env var replaced paths.
-env var replaced paths are good for copy/paste generalized outputs.
-
-::
-
-     modified: geoips/plugins/modules/procflows/config_based.py
-
-Geokompsat sector vs geokompsat-subsector
+Add citation information for imagery use.
 -----------------------------------------
 
-geokompsat-subsector doesn't exist. Since this will be replaced with tiny sectors
-soon anyway, just use the existing geokompsat sector
-
-GEOIPS#861
+Citation information for imagery use.
 
 ::
 
-     moved: 20231208.030032.GK-2A.ami.Infrared.geokompsat.45p56.nmsc.10p0.png ->
-     tests/outputs/ami.static.Infrared.imagery_clean/20231208.030032.GK-2A.ami.Infrared.geokompsat-subsector-27deg.100p00.nmsc.10p0.png
-     moved: 20231208.030032.GK-2A.ami.Visible.geokompsat-subsector-27deg.100p00.nmsc.10p0.png <-
-     tests/outputs/ami.static.Visible.imagery_clean/20231208.030032.GK-2A.ami.Visible.geokompsat.45p56.nmsc.10p0.png
+     modified: README.md
 
-Remove product_name from required xarray_to_xarray algorithm arg list
----------------------------------------------------------------------
+Add release note for version 1.16.2
+-----------------------------------
 
-Some xarray to xarray algorithms may be tied to a specific product name, so
-the product_name argument would not be required in the call signature.
+Release note on release branch to force tag/release, package/publish,
+and deploy docs.
 
-::
+Additionally add any updated files from geoips_ci/sync
 
-     modified: geoips/plugins/module_based/algorithms.py
-
-Fix underfilled lines of longitude for high latitude sectors
-------------------------------------------------------------
-
-Fixes miscalculations for high latitude sectors under eqc projections. Now calculates the proper number and range of
-lines of meridian to create for annotated imagery.
+GEOIPS#861 - 1.16.2 updates
 
 ::
 
-     modified: geoips/image_utils/maps.py
+     added: docs/source/releases/latest/1.16.2-release-note.yaml
+     modified: geoips_ci/sync updated files
 
-Update for corrected high latitude longitude lines
---------------------------------------------------
+Update upcoming and tagged versions
+-----------------------------------
 
-Updated test output imagery for fix to missing longitude lines at high latitude.
+* Tagged version: 1.16.2
+* Upcoming version: 1.16.3
 
-GEOIPS#861
-
-::
-
-     modified:
-     tests/outputs/abi.static.DMW-LowMidHigh.imagery_windbarbs_multi_level/20210929.000020.goes-16.abi.DMW-LowMidHigh.w_atlantic.10p48.noaa.3p0.png
-
-Name cached zarr/memmap files as partial when being created
------------------------------------------------------------
-
-Need to assign cache filenames a temporary name when being generated in order to
-prevent any concurrent geoips calls from reading in an incomplete cache. Cache files
-that are in the process of being generated have ".partial" appended to the end of
-the cached filename. If a concurrent geoips procflow finds a "partial" cache file,
-the procflow will check for a specified period (30 seconds by default) to see if the
-partial cache is replaced with the final and complete cache. If the partial cache is
-not replaced in this time frame, the procflow will raise a custom
-CacheNotFoundError.
+GEOIPS#861 - 1.16.2 updates
 
 ::
 
-     modified: geoips/plugins/modules/readers/abi_netcdf.py
-     modified: geoips/plugins/modules/readers/utils/geostationary_geolocation.py
+     modified: .github/versions/tagged_version
+     modified: .github/versions/upcoming_version
 
-Resolve undefined lat/lons in ahi_hsd reader
---------------------------------------------
+Enhancement
+===========
 
-ahi_hsd reader was missing lats and lons assignment after geolocation cache
-had been produced.  Add lats = zf["lats"] and lons = zf["lons"] in
-get_latitude_longitude function
+Trackfile parsers now specify and return allowed aid types
+----------------------------------------------------------
 
-GEOIPS#861
+Trackfile parsers now return a list of allowed aid types. The list of allowed aid
+types gets passed to the remove_duplicate_storm_positions_and_unsupported_aid_types
+(formerly remove_duplicate_storm_positions) to filter down the parsed trackfiles.
 
-::
-
-     modified: geoips/plugins/modules/readers/ahi_hsd.py
-
-Minor bug fixes to geoips_netcdf_fname formatter and viirs_l2_netcdf reader
----------------------------------------------------------------------------
-
-geoips_netcdf_fname - Add handling if xarray_obj.area_definition is None, and set
-area_id as "x" if None.
-
-viirs_l2_netcdf - Add list of empty vars to loaded vars to prevent reader from
-thinking there are missing variables in the file, fix deprecation warnings, and
-provide option for generating time arrays.
+Added new f-deck parser provided by Tim Olander from CIMSS.
 
 ::
 
-     modified: geoips/plugins/modules/filename_formatters/geoips_netcdf_fname.py
-     modified: geoips/plugins/modules/readers/viirs_l2_netcdf.py
-
-Allow user to override output checker name
-------------------------------------------
-
-Add a command-line argument that gets passed to the output checker call
-that allows the user to manually request use of the certain output checker
-(overriding its automatic determination by file extension).
-
-GEOIPS#845 - override outputchecker name
-
-::
-
-     modified: geoips/commandline/args.py
-     modified: geoips/interfaces/module_based/output_checkers.py
-     modified: geoips/plugins/modules/procflows/config_based.py
+     added: geoips/plugins/modules/sector_metadata_generators/fdeck_parser.py
      modified: geoips/plugins/modules/procflows/single_source.py
-
-Ensure chunks passed to zf.create_dataset are of same shape as array
---------------------------------------------------------------------
-
-Was just using fixed (chunk_size, chunk_size). Ensure we are passing a tuple
-that is the same shape as the array. Otherwise zf.create_dataset will fail due to
-mismatched shapes
-
-::
-
-     modified: geoips/plugins/modules/readers/utils/geostationary_geolocation.py
-
-Provide empty line and sample index definitions for full disk reads
--------------------------------------------------------------------
-
-Radiance retrievals pass in line and sample indices even when retrieving
-the full disk, but those variables were only defined for non-full disk
-reads. Defining full disk versions as empty lists so that radiance
-retrieval succeeds.
-
-::
-
-     modified: geoips/plugins/modules/readers/abi_netcdf.py
+     modified: geoips/plugins/modules/sector_metadata_generators/bdeck_parser.py
+     modified: geoips/sector_utils/tc_tracks.py
+     modified: geoips/sector_utils/tc_tracks_database.py
+     modified: geoips/sector_utils/utils.py
 
 Testing
 =======
@@ -519,24 +540,3 @@ since we now write pytest test_integration.py logs to pytests/integration.
 ::
 
      modified: tests/utils/interactive_pytest.sh
-
-Enhancement
-===========
-
-Trackfile parsers now specify and return allowed aid types
-----------------------------------------------------------
-
-Trackfile parsers now return a list of allowed aid types. The list of allowed aid
-types gets passed to the remove_duplicate_storm_positions_and_unsupported_aid_types
-(formerly remove_duplicate_storm_positions) to filter down the parsed trackfiles.
-
-Added new f-deck parser provided by Tim Olander from CIMSS.
-
-::
-
-     added: geoips/plugins/modules/sector_metadata_generators/fdeck_parser.py
-     modified: geoips/plugins/modules/procflows/single_source.py
-     modified: geoips/plugins/modules/sector_metadata_generators/bdeck_parser.py
-     modified: geoips/sector_utils/tc_tracks.py
-     modified: geoips/sector_utils/tc_tracks_database.py
-     modified: geoips/sector_utils/utils.py

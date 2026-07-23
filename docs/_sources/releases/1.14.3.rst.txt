@@ -2,34 +2,34 @@ Version 1.14.3 (2026-07-23)
 ***************************
 
  * *Removal*: Remove unused geokompsat product file
+ * *Bug fix*: Fix environment variable substitution
+ * *Bug fix*: Add create_plugin_registries to base_test
+ * *Bug fix*: Improved data download and memory management during full install
+ * *Bug fix*: Fix dir creation bug on oserror
+ * *Bug fix*: Update geostationary readers to support multiple scan times
+ * *Bug fix*: Remove unused noaa aws dataset from base tests
+ * *Bug fix*: Change fail state for unit test
  * *Documentation*: Add numpy docstrings and examples to coding standards
- * *Documentation*: Add additional info to ram system install requirements section
  * *Documentation*: Added documentation for new docs build script
  * *Documentation*: Write docstrings for base_paths
- * *Refactoring updates*: Share logger object to cli command classes
- * *Bug fix*: Remove unused noaa aws dataset from base tests
- * *Bug fix*: Update geostationary readers to support multiple scan times
- * *Bug fix*: Add create_plugin_registries to base_test
- * *Bug fix*: Fix environment variable substitution
- * *Bug fix*: Fix dir creation bug on oserror
- * *Bug fix*: Improved data download and memory management during full install
- * *Bug fix*: Change fail state for unit test
+ * *Documentation*: Add additional info to ram system install requirements section
+ * *Enhancement*: Organize imports
+ * *Enhancement*: Added new geoips list source-names command
+ * *Enhancement*: Rewrite docs build in python
+ * *Enhancement*: Make repo_path optional for documentation building
+ * *Enhancement*: Accept dataset names and urls in download_test_data.py
+ * *Enhancement*: Enable full suite of integration tests to be run in parallel via pytest.
+ * *Enhancement*: Ami ewsg multi scan time update
+ * *Refactor*: Ensure consistent module aliases
  * *Release process*: Add 1.14.3 release note
  * *Release process*: Update internal and github.com 'upcoming_version' and 'tagged_version'
  * *Release process*: Add pip and mamba 1.14.3 environment files
  * *Bug fixes*: Fix import for nearestndinterpolator
  * *Bug fixes*: Resolve documentation build errors for external repositories
  * *Bug fixes*: Update ami unprojected test image for slight edge of scan differences
- * *Enhancement*: Enable full suite of integration tests to be run in parallel via pytest.
- * *Enhancement*: Ami ewsg multi scan time update
- * *Enhancement*: Rewrite docs build in python
- * *Enhancement*: Organize imports
- * *Enhancement*: Added new geoips list source-names command
- * *Enhancement*: Accept dataset names and urls in download_test_data.py
- * *Enhancement*: Make repo_path optional for documentation building
  * *Testing*: Update geoips clavr-x test data
- * *Refactor*: Ensure consistent module aliases
  * *Refactor*: Refactor base_paths
+ * *Refactoring updates*: Share logger object to cli command classes
 
 Removal
 =======
@@ -45,90 +45,71 @@ correct source name is ``ami``, not ``geokompsat``, we removed this file.
 
      deleted: geoips/plugins/yaml/products/geokompsat.yaml
 
-Documentation
-=============
-
-Add numpy docstrings and examples to coding standards
------------------------------------------------------
-
-Throughout GeoIPS, we have inconsistent coding standards.
-The numpy docstring format is an external standard we already use,
-and so we want that to be explicit in our documentation.
-This adds explicit info on using numpy docstrings, as well as examples.
-
-::
-
-     modified: docs/source/new-docs/contribute/coding_standards.rst
-
-Add additional info to ram system install requirements section
---------------------------------------------------------------
-
-This existed elsewhere in the docs, but is more clear when included here in the install requirements.
-
-::
-
-     modified: docs/source/new-docs/getting-started/system-requirements/index.rst
-
-Added documentation for new docs build script
----------------------------------------------
-
-The docs build script has been re-written in python. This adds documentation on how to use it and what it does.
-
-::
-
-     added: docs/source/new-docs/concepts/functionality/documentation-building.rst
-     modified: docs/source/devguide/index.rst
-
-Write docstrings for base_paths
--------------------------------
-
-Docstrings for base_paths were out of date. They have now been updated.
-
-::
-
-     modified: geoips/filenames/base_paths.py
-
-Refactoring updates
-===================
-
-Share logger object to cli command classes
-------------------------------------------
-
-*From GEOIPS#714: 7-26-24, Discuss how to share LOG attribute in the CLI*
-
-Since we've started developing the GeoIPS CLI, we've known that there was a need to
-have a shared logger object among all of the CLI command classes for debugging
-purposes and to output basic information to the user if requested. We can now do
-this using the '--log-level' / '-log' flag. Depending on the log level set, all
-levels that match or are of higher 'order' than the log level provided will be
-outputted. This functionality matches that used in 'run_procflow'. Logging is now
-a supported utility throughout the CLI, and can be used in any CLI class via
-self.LOG.<log_level>(log_statement). Note that self.LOG.<log_level> does not have to
-match the provided '--log-level' ran in the command. This flag is strictly just the
-LOG level filter. I.e. if '--log-level info' was provided, levels
-['info', 'debug', 'interactive'] would be shown. The lower the level, the more
-logging channels will output.
-
-`#714 <https://github.com/NRLMMD-GEOIPS/geoips>`_
-
-::
-
-     modified: geoips/commandline/commandline_interface.py
-     modified: geoips/commandline/geoips_command.py
-
 Bug fix
 =======
 
-Remove unused noaa aws dataset from base tests
-----------------------------------------------
+Fix environment variable substitution
+-------------------------------------
 
-Removed NOAA AWS dataset from the base tests
-because it was unused resulting in a ~6X faster install
-(2m 28s -> 24s) and a ~4.25 smaller data footprint (3.8Gb -> 894Mb).
+Change string operations on env var replacement to use pathlib to fix issue with links
+
+::
+
+     modified: geoips/geoips_utils.py
+
+Add create_plugin_registries to base_test
+-----------------------------------------
+
+create_plugin_registries needs to be run before tests. It is included in full_test.sh, but not in base_test.sh. This
+updates base_test.sh to call create_plugin_registries just like full_test.sh
 
 ::
 
      modified: tests/integration_tests/base_install.sh
+
+Improved data download and memory management during full install
+----------------------------------------------------------------
+
+Fixes a memory bug by streaming download and decompression instead of storing
+in memory.
+
+::
+
+     added: setup/test-data-urls.yaml
+     modified: setup/check_system_requirements.sh
+     modified: setup/download_test_data.py
+
+Fix dir creation bug on oserror
+-------------------------------
+
+Fixes found issue with make_dirs. Previously, if make_dirs was passed a read only directory (eg. ``/read_only``), it
+would print:
+
+.. code-block:: bash
+
+    "/read_only: We thought /read_only did not exist, but then it did. "
+    "Not trying to make directory",
+
+This is was for anything that could trigger any of these OS Errors:
+
+- OSError
+- BlockingIOError
+- ChildProcessError
+- ConnectionError
+- BrokenPipeError
+- FileNotFoundError
+- InterruptedError
+- IsADirectoryError
+- NotADirectoryError
+- PermissionError
+- ProcessLookupError
+- TimeoutError
+
+Which is far beyond the FileExistsError that was originally supposed to be caught.
+
+::
+
+     modified: geoips/filenames/base_paths.py
 
 Update geostationary readers to support multiple scan times
 -----------------------------------------------------------
@@ -178,68 +159,16 @@ updates which have been merged into this PR.
      tests/outputs/ami.static.mst.absdiff-IR-BD.imagery_annotated/20241010.000039.GK-2A.ami.absdiff-IR-BD.korea.83p16.nmsc.1p0.png
      added: tests/scripts/ami.static.mst.absdiff-IR-BD.imagery_annotated.sh
 
-Add create_plugin_registries to base_test
------------------------------------------
+Remove unused noaa aws dataset from base tests
+----------------------------------------------
 
-create_plugin_registries needs to be run before tests. It is included in full_test.sh, but not in base_test.sh. This
-updates base_test.sh to call create_plugin_registries just like full_test.sh
+Removed NOAA AWS dataset from the base tests
+because it was unused resulting in a ~6X faster install
+(2m 28s -> 24s) and a ~4.25 smaller data footprint (3.8Gb -> 894Mb).
 
 ::
 
      modified: tests/integration_tests/base_install.sh
-
-Fix environment variable substitution
--------------------------------------
-
-Change string operations on env var replacement to use pathlib to fix issue with links
-
-::
-
-     modified: geoips/geoips_utils.py
-
-Fix dir creation bug on oserror
--------------------------------
-
-Fixes found issue with make_dirs. Previously, if make_dirs was passed a read only directory (eg. ``/read_only``), it
-would print:
-
-.. code-block:: bash
-
-    "/read_only: We thought /read_only did not exist, but then it did. "
-    "Not trying to make directory",
-
-This is was for anything that could trigger any of these OS Errors:
-
-- OSError
-- BlockingIOError
-- ChildProcessError
-- ConnectionError
-- BrokenPipeError
-- FileNotFoundError
-- InterruptedError
-- IsADirectoryError
-- NotADirectoryError
-- PermissionError
-- ProcessLookupError
-- TimeoutError
-
-Which is far beyond the FileExistsError that was originally supposed to be caught.
-
-::
-
-     modified: geoips/filenames/base_paths.py
-
-Improved data download and memory management during full install
-----------------------------------------------------------------
-
-Fixes a memory bug by streaming download and decompression instead of storing
-in memory.
-
-::
-
-     added: setup/test-data-urls.yaml
-     modified: setup/check_system_requirements.sh
-     modified: setup/download_test_data.py
 
 Change fail state for unit test
 -------------------------------
@@ -250,173 +179,51 @@ Changed reader unit-test to xfail on missing data rather than fail.
 
      modified: tests/unit_tests_long/plugins/modules/readers/test_readers.py
 
-Release process
-===============
+Documentation
+=============
 
-Add 1.14.3 release note
------------------------
+Add numpy docstrings and examples to coding standards
+-----------------------------------------------------
 
-Currently tagged internal version 1.14.2.
-
-GEOIPS#715 - 1.14.3 updates*
-
-::
-
-     added: docs/source/releases/latest/1.14.3-internal-release.yaml
-
-Update internal and github.com 'upcoming_version' and 'tagged_version'
-----------------------------------------------------------------------
-
-Updated 'update_this_release_note' file in geoips repo for the
-next internal version -
-1.14.4
-next github.com version -
-1.15.0
-
-GEOIPS#715 - 1.14.3 updates*
+Throughout GeoIPS, we have inconsistent coding standards.
+The numpy docstring format is an external standard we already use,
+and so we want that to be explicit in our documentation.
+This adds explicit info on using numpy docstrings, as well as examples.
 
 ::
 
-     modified: .github/versions/upcoming_version
-     modified: .github/versions/tagged_version
+     modified: docs/source/new-docs/contribute/coding_standards.rst
 
-Add pip and mamba 1.14.3 environment files
-------------------------------------------
+Added documentation for new docs build script
+---------------------------------------------
 
-Note AMI TC test case failed due to geolocation, updated AMI unprojected image
-output due to minor differences at edge of scan.
-
-Package geoips_full
-Total run time 2671 seconds
-Number data types run 60
-Number data types failed 1
-Tue Dec 10 19:52:45 UTC 2024
-
-Package geoips_base
-Total run time 204 seconds
-Number data types run 3
-Number data types failed 0
-Mon Dec  9 21:32:04 UTC 2024
-
-GEOIPS/geoips#715 - 1.14.3 updates
+The docs build script has been re-written in python. This adds documentation on how to use it and what it does.
 
 ::
 
-     added: environments/mamba_base_package_list_1.14.3_20241209.yml
-     added: environments/pip_base_requirements_1.14.3_20241209.txt
-     added: environments/mamba_full_package_list_1.14.3_20241210.yml
-     added: environments/pip_full_requirements_1.14.3_20241210.txt
+     added: docs/source/new-docs/concepts/functionality/documentation-building.rst
+     modified: docs/source/devguide/index.rst
 
-Bug fixes
-=========
+Write docstrings for base_paths
+-------------------------------
 
-Fix import for nearestndinterpolator
-------------------------------------
-
-This is from scipy, not pykdtree
-
-GEOIPS#715 - 1.14.3 updates*
+Docstrings for base_paths were out of date. They have now been updated.
 
 ::
 
-     modified: geoips/plugins/modules/readers/viirs_sdr_hdf5.py
+     modified: geoips/filenames/base_paths.py
 
-Resolve documentation build errors for external repositories
-------------------------------------------------------------
+Add additional info to ram system install requirements section
+--------------------------------------------------------------
 
-* geoips-docs-dir point to geoips repo for build_docs.sh pass through, not
-  current repository (build_docs.sh).
-* Ensure introduction/index.rst is an optional section (not currently in all repos)
-  (build_docs.py and index.template.rst)
-* Use shutil.copytree to copy geoips _static templates to
-  current repo build directory (build_docs.py)
-
-GEOIPS#715 - 1.14.3 updates*
+This existed elsewhere in the docs, but is more clear when included here in the install requirements.
 
 ::
 
-     modified: docs/build_docs.py
-     modified: docs/build_docs.sh
-     modified: docs/source/_templates/index.template.rst
-
-Update ami unprojected test image for slight edge of scan differences
----------------------------------------------------------------------
-
-Jeremy and Evan saw this same discrepancy with their local github.com runs,
-updating to the most recent version, likely a dependency version update.
-
-GEOIPS#715 - 1.14.3 updates*
-
-::
-
-     modified:
-     tests/outputs/ami.WV-Upper.unprojected_image/20231208.030032.GK-2A.ami.WV-Upper.self_register.76p19.nmsc.2p0.png
+     modified: docs/source/new-docs/getting-started/system-requirements/index.rst
 
 Enhancement
 ===========
-
-Enable full suite of integration tests to be run in parallel via pytest.
-------------------------------------------------------------------------
-
-This adds a helper python file with pytest-capable tests that call the same shell scripts called by full_test.sh. This
-is helpful when combined with pytest-xdist's ability to run pytests in parallel. It also gives developers the ability to
-run tests with an alternative CLI output format. Users should continue to run full_test.sh.
-
-::
-
-     modified: tests/integration_tests/test_full_test.py
-     modified: pyproject.toml
-     modified: pytest.ini
-
-Ami ewsg multi scan time update
--------------------------------
-
-Related to *GEOIPS#312: Bug Fix: Update geostationary readers to support multiple scan times*
-
-New updates to readers ewsg_netcdf and ami_netcdf. With the new updates, the
-aforementioned readers are now able to take in multiple scan times of files and
-output them appropriately in a xarray dictionary format. Alongside these updates,
-we refactored readers changed in PR #427 (which addressed the issue above) to reduce
-code duplication. Now all of the readers which can read in multiple scan times have
-the same logic in their call functions regardless of the data being read in or the
-operations needed to read it.
-
-Note: we have not been able to acquire ews-g1 data yet and therefore have not been
-able to test the new changes as of the time of writing this.
-
-`#312 <https://github.com/NRLMMD-GEOIPS/geoips/>`_
-
-::
-
-     modified: geoips/interfaces/module_based/readers.py
-     modified: geoips/plugins/modules/readers/abi_netcdf.py
-     modified: geoips/plugins/modules/readers/ahi_hsd.py
-     modified: geoips/plugins/modules/readers/ami_netcdf.py
-     modified: geoips/plugins/modules/readers/ewsg_netcdf.py
-     modified: geoips/plugins/modules/readers/seviri_hrit.py
-     modified: geoips/pluginsyaml/sectors/static/korea.yaml
-
-Rewrite docs build in python
-----------------------------
-
-The docs build script has been re-written in Python. It now builds the docs in a temporary directory and only overwrites
-the docs on disk if the build is successful. Please start calling docs/build_docs.py instead of docs/build_docs.sh.
-
-::
-
-     added: docs/build_docs.py
-     added: docs/source/releases/latest/Add-create_plugin_regitries-to-base_install.yaml
-     added: docs/__init__.py
-     modified: docs/build_docs.sh
-     modified: pyproject.toml
-     modified: pytest.ini
-     modified: tests/integration_tests/base_install.sh
-     modified: .github/workflows/doc-test.yaml
-     modified: docs/source/_templates/index.template.rst
-     modified: docs/source/_templates/sphinx_conf.template.py
-     modified: docs/update_release_note_index.py
-     modified: docs/source/new-docs/contribute/code-of-conduct.rst
-     deleted: tests/integration_tests/test_full_test.py
 
 Organize imports
 ----------------
@@ -520,17 +327,27 @@ will be fully deprecated when GeoIPS v2.0.0 is released.
      modified: geoips/plugins/modules/readers/windsat_remss_winds_netcdf.py
      added: tests/unit_tests/commandline/test_geoips_list_source_names.py
 
-Accept dataset names and urls in download_test_data.py
-------------------------------------------------------
+Rewrite docs build in python
+----------------------------
 
-``download_test_data.py`` now accepts dataset names and URLs, with added features
-like optional rich text output. Progress towards integrating more functionality
-into the GeoIPS CLI. Moved CIRA download URLs to a YAML file for easier management.
+The docs build script has been re-written in Python. It now builds the docs in a temporary directory and only overwrites
+the docs on disk if the build is successful. Please start calling docs/build_docs.py instead of docs/build_docs.sh.
 
 ::
 
-     added: setup/test-data-urls.yaml
-     modified: setup/download_test_data.py
+     added: docs/build_docs.py
+     added: docs/source/releases/latest/Add-create_plugin_regitries-to-base_install.yaml
+     added: docs/__init__.py
+     modified: docs/build_docs.sh
+     modified: pyproject.toml
+     modified: pytest.ini
+     modified: tests/integration_tests/base_install.sh
+     modified: .github/workflows/doc-test.yaml
+     modified: docs/source/_templates/index.template.rst
+     modified: docs/source/_templates/sphinx_conf.template.py
+     modified: docs/update_release_note_index.py
+     modified: docs/source/new-docs/contribute/code-of-conduct.rst
+     deleted: tests/integration_tests/test_full_test.py
 
 Make repo_path optional for documentation building
 --------------------------------------------------
@@ -544,6 +361,176 @@ automatically find the packages installed directory.
      modified: docs/build_docs.py
      modified: .github/workflows/doc-test.yaml
      modified: docs/source/new-docs/concepts/functionality/documentation-building.rst
+
+Accept dataset names and urls in download_test_data.py
+------------------------------------------------------
+
+``download_test_data.py`` now accepts dataset names and URLs, with added features
+like optional rich text output. Progress towards integrating more functionality
+into the GeoIPS CLI. Moved CIRA download URLs to a YAML file for easier management.
+
+::
+
+     added: setup/test-data-urls.yaml
+     modified: setup/download_test_data.py
+
+Enable full suite of integration tests to be run in parallel via pytest.
+------------------------------------------------------------------------
+
+This adds a helper python file with pytest-capable tests that call the same shell scripts called by full_test.sh. This
+is helpful when combined with pytest-xdist's ability to run pytests in parallel. It also gives developers the ability to
+run tests with an alternative CLI output format. Users should continue to run full_test.sh.
+
+::
+
+     modified: tests/integration_tests/test_full_test.py
+     modified: pyproject.toml
+     modified: pytest.ini
+
+Ami ewsg multi scan time update
+-------------------------------
+
+Related to *GEOIPS#312: Bug Fix: Update geostationary readers to support multiple scan times*
+
+New updates to readers ewsg_netcdf and ami_netcdf. With the new updates, the
+aforementioned readers are now able to take in multiple scan times of files and
+output them appropriately in a xarray dictionary format. Alongside these updates,
+we refactored readers changed in PR #427 (which addressed the issue above) to reduce
+code duplication. Now all of the readers which can read in multiple scan times have
+the same logic in their call functions regardless of the data being read in or the
+operations needed to read it.
+
+Note: we have not been able to acquire ews-g1 data yet and therefore have not been
+able to test the new changes as of the time of writing this.
+
+`#312 <https://github.com/NRLMMD-GEOIPS/geoips/>`_
+
+::
+
+     modified: geoips/interfaces/module_based/readers.py
+     modified: geoips/plugins/modules/readers/abi_netcdf.py
+     modified: geoips/plugins/modules/readers/ahi_hsd.py
+     modified: geoips/plugins/modules/readers/ami_netcdf.py
+     modified: geoips/plugins/modules/readers/ewsg_netcdf.py
+     modified: geoips/plugins/modules/readers/seviri_hrit.py
+     modified: geoips/pluginsyaml/sectors/static/korea.yaml
+
+Refactor
+========
+
+Ensure consistent module aliases
+--------------------------------
+
+refactor ensuring consistent module aliases
+
+::
+
+     modified: geoips/plugins/modules/readers/ascat_uhr_netcdf.py
+     modified: geoips/plugins/modules/readers/gmi_hdf5.py
+     modified: geoips/plugins/modules/readers/smos_winds_netcdf.py
+     modified: geoips/plugins/modules/readers/ssmis_binary.py
+
+Release process
+===============
+
+Add 1.14.3 release note
+-----------------------
+
+Currently tagged internal version 1.14.2.
+
+GEOIPS#715 - 1.14.3 updates*
+
+::
+
+     added: docs/source/releases/latest/1.14.3-internal-release.yaml
+
+Update internal and github.com 'upcoming_version' and 'tagged_version'
+----------------------------------------------------------------------
+
+Updated 'update_this_release_note' file in geoips repo for the
+next internal version -
+1.14.4
+next github.com version -
+1.15.0
+
+GEOIPS#715 - 1.14.3 updates*
+
+::
+
+     modified: .github/versions/upcoming_version
+     modified: .github/versions/tagged_version
+
+Add pip and mamba 1.14.3 environment files
+------------------------------------------
+
+Note AMI TC test case failed due to geolocation, updated AMI unprojected image
+output due to minor differences at edge of scan.
+
+Package geoips_full
+Total run time 2671 seconds
+Number data types run 60
+Number data types failed 1
+Tue Dec 10 19:52:45 UTC 2024
+
+Package geoips_base
+Total run time 204 seconds
+Number data types run 3
+Number data types failed 0
+Mon Dec  9 21:32:04 UTC 2024
+
+GEOIPS/geoips#715 - 1.14.3 updates
+
+::
+
+     added: environments/mamba_base_package_list_1.14.3_20241209.yml
+     added: environments/pip_base_requirements_1.14.3_20241209.txt
+     added: environments/mamba_full_package_list_1.14.3_20241210.yml
+     added: environments/pip_full_requirements_1.14.3_20241210.txt
+
+Bug fixes
+=========
+
+Fix import for nearestndinterpolator
+------------------------------------
+
+This is from scipy, not pykdtree
+
+GEOIPS#715 - 1.14.3 updates*
+
+::
+
+     modified: geoips/plugins/modules/readers/viirs_sdr_hdf5.py
+
+Resolve documentation build errors for external repositories
+------------------------------------------------------------
+
+* geoips-docs-dir point to geoips repo for build_docs.sh pass through, not
+  current repository (build_docs.sh).
+* Ensure introduction/index.rst is an optional section (not currently in all repos)
+  (build_docs.py and index.template.rst)
+* Use shutil.copytree to copy geoips _static templates to
+  current repo build directory (build_docs.py)
+
+GEOIPS#715 - 1.14.3 updates*
+
+::
+
+     modified: docs/build_docs.py
+     modified: docs/build_docs.sh
+     modified: docs/source/_templates/index.template.rst
+
+Update ami unprojected test image for slight edge of scan differences
+---------------------------------------------------------------------
+
+Jeremy and Evan saw this same discrepancy with their local github.com runs,
+updating to the most recent version, likely a dependency version update.
+
+GEOIPS#715 - 1.14.3 updates*
+
+::
+
+     modified:
+     tests/outputs/ami.WV-Upper.unprojected_image/20231208.030032.GK-2A.ami.WV-Upper.self_register.76p19.nmsc.2p0.png
 
 Testing
 =======
@@ -563,21 +550,6 @@ url of this dataset and the tar file to include this new test data.
 Refactor
 ========
 
-Ensure consistent module aliases
---------------------------------
-
-refactor ensuring consistent module aliases
-
-::
-
-     modified: geoips/plugins/modules/readers/ascat_uhr_netcdf.py
-     modified: geoips/plugins/modules/readers/gmi_hdf5.py
-     modified: geoips/plugins/modules/readers/smos_winds_netcdf.py
-     modified: geoips/plugins/modules/readers/ssmis_binary.py
-
-Refactor
-========
-
 Refactor base_paths
 -------------------
 
@@ -587,3 +559,31 @@ file original file very difficult to read, comprehend and/or maintain. File has 
 ::
 
      modified: geoips/filenames/base_paths.py
+
+Refactoring updates
+===================
+
+Share logger object to cli command classes
+------------------------------------------
+
+*From GEOIPS#714: 7-26-24, Discuss how to share LOG attribute in the CLI*
+
+Since we've started developing the GeoIPS CLI, we've known that there was a need to
+have a shared logger object among all of the CLI command classes for debugging
+purposes and to output basic information to the user if requested. We can now do
+this using the '--log-level' / '-log' flag. Depending on the log level set, all
+levels that match or are of higher 'order' than the log level provided will be
+outputted. This functionality matches that used in 'run_procflow'. Logging is now
+a supported utility throughout the CLI, and can be used in any CLI class via
+self.LOG.<log_level>(log_statement). Note that self.LOG.<log_level> does not have to
+match the provided '--log-level' ran in the command. This flag is strictly just the
+LOG level filter. I.e. if '--log-level info' was provided, levels
+['info', 'debug', 'interactive'] would be shown. The lower the level, the more
+logging channels will output.
+
+`#714 <https://github.com/NRLMMD-GEOIPS/geoips>`_
+
+::
+
+     modified: geoips/commandline/commandline_interface.py
+     modified: geoips/commandline/geoips_command.py

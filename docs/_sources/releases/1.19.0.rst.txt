@@ -1,38 +1,39 @@
 Version 1.19.0 (2026-07-23)
 ***************************
 
- * *Bug fixes*: Add patch release note templates
+ * *Bug fixes*: Fix time in text winds output formatter
  * *Bug fixes*: Fix time in smap reader due to xarray version change.
  * *Bug fixes*: Fix broken jsonschema resolution specification to allow number not just int.
- * *Bug fixes*: Fix time in text winds output formatter
- * *Documentation*: Add release note for version 1.19.0
- * *Documentation*: Update tagged versions
+ * *Bug fixes*: Add patch release note templates
  * *Testing*: Remove full_setup and site_setup from integration test script
  * *Installation*: Add clavr-x orb executable install to site install.
- * *Bug fix*: Do not pad xarray datasets in config_based procflow when the output format plugin family is "xarray_data"
-   and the area_definition is "self_registered"
+ * *Documentation*: Add release note for version 1.19.0
+ * *Documentation*: Update tagged versions
  * *Release process*: Add 1.19.0 release note
  * *Release process*: Update internal and github.com 'tagged_version'
+ * *Bug fix*: Do not pad xarray datasets in config_based procflow when the output format plugin family is "xarray_data"
+   and the area_definition is "self_registered"
 
 Bug fixes
 =========
 
-Add patch release note templates
---------------------------------
+Fix time in text winds output formatter
+---------------------------------------
 
-* Add internal and os patch release note templates
-* Add no-bug-fixes-required-on-this-release release note template (which just needs to be copied into
-  place with appropriate X.Y.Z, not edited)
-* Add release note for patch-internal, using template!
+Ensure we properly convert timestamps in xarray object to values for print in text
+winds output formatter.  Previously manually converted by dividing by 10e-6, update
+to use pandas for conversions to avoid hard coding the units.  This works for both
+xarray 2026.2.0 and 2026.4.0 (2026.4.0 broke smap time handling)
 
-geoips#1067 - 1.19.0 updates*
+Additionally updated text output checker to limit diff output to 10k characters, to
+avoid potentially VERY large log output.
+
+geoips#1067 - 1.19.0 updates
 
 ::
 
-     added: docs/source/releases/1.19.0/1.19.0-patch-internal-add-patch-release-note-templates.yaml
-     added: docs/templates/X.Y.Z-patch-internal-name-desc.yaml
-     added: docs/templates/X.Y.Z-patch-os-name-desc.yaml
-     added: docs/templates/X.Y.Z-no-bug-fixes-required-on-this-release.yaml
+     modified: geoips/plugins/classes/output_checkers/text.py
+     modified: geoips/plugins/modules/output_formatters/text_winds.py
 
 Fix time in smap reader due to xarray version change.
 -----------------------------------------------------
@@ -61,52 +62,22 @@ geoips#1067 - 1.19.0 updates*
 
      modified: geoips/schema/sectors/specs/area_definition.yaml
 
-Fix time in text winds output formatter
----------------------------------------
+Add patch release note templates
+--------------------------------
 
-Ensure we properly convert timestamps in xarray object to values for print in text
-winds output formatter.  Previously manually converted by dividing by 10e-6, update
-to use pandas for conversions to avoid hard coding the units.  This works for both
-xarray 2026.2.0 and 2026.4.0 (2026.4.0 broke smap time handling)
+* Add internal and os patch release note templates
+* Add no-bug-fixes-required-on-this-release release note template (which just needs to be copied into
+  place with appropriate X.Y.Z, not edited)
+* Add release note for patch-internal, using template!
 
-Additionally updated text output checker to limit diff output to 10k characters, to
-avoid potentially VERY large log output.
-
-geoips#1067 - 1.19.0 updates
+geoips#1067 - 1.19.0 updates*
 
 ::
 
-     modified: geoips/plugins/classes/output_checkers/text.py
-     modified: geoips/plugins/modules/output_formatters/text_winds.py
-
-Documentation
-=============
-
-Add release note for version 1.19.0
------------------------------------
-
-Release note on release branch to force tag/release, package/publish,
-and deploy docs.
-
-Additionally add any updated files from geoips_ci/sync
-
-geoips#1067 - 1.19.0 updates
-
-::
-
-     added: docs/source/releases/latest/1.19.0-release-note.yaml
-     modified: geoips_ci/sync updated files
-
-Update tagged versions
-----------------------
-
-* Tagged version: 1.19.0
-
-geoips#1067 - 1.19.0 updates
-
-::
-
-     modified: .github/versions/tagged_version
+     added: docs/source/releases/1.19.0/1.19.0-patch-internal-add-patch-release-note-templates.yaml
+     added: docs/templates/X.Y.Z-patch-internal-name-desc.yaml
+     added: docs/templates/X.Y.Z-patch-os-name-desc.yaml
+     added: docs/templates/X.Y.Z-no-bug-fixes-required-on-this-release.yaml
 
 Testing
 =======
@@ -144,24 +115,34 @@ geoips#1067 - 1.19.0 updates
 
      modified: tests/integration_tests/site_install.sh
 
-Bug fix
-=======
+Documentation
+=============
 
-Do not pad xarray datasets in config_based procflow when the output format plugin family is "xarray_data" and the
-area_definition is "self_registered"
-------------------------------------
+Add release note for version 1.19.0
+-----------------------------------
 
-Check that the area_def is not "self_registered" before padding dataset in config_based procflow.
-Padding (resectoring) an xarray_dataset will not work if the area_definition is self_registered.
-Attempting to pad an xarray_dataset that is self_registered will result in an AttributeError,
-since we will have a SwathDefinition on our hands and not an AreaDefinition. SwathDefinitions
-do not have the 'get_array_indices_from_lonlat' attribute.
+Release note on release branch to force tag/release, package/publish,
+and deploy docs.
 
-geoips#1070
+Additionally add any updated files from geoips_ci/sync
+
+geoips#1067 - 1.19.0 updates
 
 ::
 
-     modified: geoips/plugins/modules/procflows/config_based.py
+     added: docs/source/releases/latest/1.19.0-release-note.yaml
+     modified: geoips_ci/sync updated files
+
+Update tagged versions
+----------------------
+
+* Tagged version: 1.19.0
+
+geoips#1067 - 1.19.0 updates
+
+::
+
+     modified: .github/versions/tagged_version
 
 Release process
 ===============
@@ -191,3 +172,22 @@ geoips#1067 - 1.19.0 updates
 ::
 
      modified: .github/versions/tagged_version
+
+Bug fix
+=======
+
+Do not pad xarray datasets in config_based procflow when the output format plugin family is "xarray_data" and the
+area_definition is "self_registered"
+------------------------------------
+
+Check that the area_def is not "self_registered" before padding dataset in config_based procflow.
+Padding (resectoring) an xarray_dataset will not work if the area_definition is self_registered.
+Attempting to pad an xarray_dataset that is self_registered will result in an AttributeError,
+since we will have a SwathDefinition on our hands and not an AreaDefinition. SwathDefinitions
+do not have the 'get_array_indices_from_lonlat' attribute.
+
+geoips#1070
+
+::
+
+     modified: geoips/plugins/modules/procflows/config_based.py
