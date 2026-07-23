@@ -27,9 +27,7 @@ DOCS_EXAMPLES = (
 
 def _load(module_name, filename):
     """Load a doc-owned example module by file path."""
-    spec = importlib.util.spec_from_file_location(
-        module_name, DOCS_EXAMPLES / filename
-    )
+    spec = importlib.util.spec_from_file_location(module_name, DOCS_EXAMPLES / filename)
     module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)
     return module
