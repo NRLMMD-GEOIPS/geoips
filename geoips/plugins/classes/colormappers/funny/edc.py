@@ -32,7 +32,8 @@ class ExplosiveDiarrheaColormapperPlugin(BaseColormapperPlugin):
         Returns
         -------
         mpl_colors_info : dict
-            Dictionary of matplotlib plotting parameters, to ensure consistent image output
+            Dictionary of matplotlib plotting parameters, to ensure consistent image
+            output
         """
         min_val = data_range[0]
         max_val = data_range[1]
