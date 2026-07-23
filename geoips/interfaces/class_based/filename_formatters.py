@@ -18,6 +18,19 @@ class BaseFilenameFormatterPlugin(BaseClassPlugin, abstract=True):
 
     data_tree = False
 
+    def _normalize_obp_kwargs(self, kwargs):
+        """Assign None to area_def when no sector step is upstream.
+
+        Filename formatters that accept ``area_def`` (e.g. ``basic_fname``)
+        guard against ``None`` with an ``if area_def:`` check, so ``None`` is
+        a valid sentinel meaning "no area definition available". When no sector
+        step is listed in ``depends_on`` the conduit never injects ``area_def``,
+        so we default it here rather than requiring every unsectored workflow to
+        repeat ``arguments: {area_def: null}``.
+        """
+        kwargs.setdefault("area_def", None)
+        return kwargs
+
     def _pre_call(self, data=None, *args, _obp_initiated=False, **kwargs):
         """Flatten OBP DataTree input into a mutable Dataset before base hooks.
 
@@ -25,10 +38,21 @@ class BaseFilenameFormatterPlugin(BaseClassPlugin, abstract=True):
         ``xr.DataTree``. This override flattens the child node datasets into a
         writable ``xr.Dataset`` so ``call()`` receives the expected
         ``xarray_obj`` input. Legacy (non-OBP) inputs pass through unchanged.
+
+        Also bridges the singular ``product_name`` global (OBP convention) to
+        the ``product_names`` list expected by ``data``-family formatters.
         """
-        if _obp_initiated and isinstance(data, xr.DataTree):
-            data = to_mutable_dataset(data)
-        return super()._pre_call(data, *args, _obp_initiated=_obp_initiated, **kwargs)
+        kwargs_modified = False
+        if _obp_initiated:
+            if isinstance(data, xr.DataTree):
+                data = to_mutable_dataset(data)
+            if "product_names" not in kwargs and "product_name" in kwargs:
+                kwargs["product_names"] = [kwargs["product_name"]]
+                kwargs_modified = True
+        result = super()._pre_call(data, *args, _obp_initiated=_obp_initiated, **kwargs)
+        if kwargs_modified:
+            return result, kwargs
+        return result
 
     def _post_call(self, data=None, *args, _obp_initiated=False, **kwargs):
         r"""Normalize filename output into ``DataTreeDitto`` for OBP.

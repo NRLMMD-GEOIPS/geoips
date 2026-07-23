@@ -15,7 +15,6 @@ documentation:
     finish: 2026-06-05
   related-issue:
     internal: geoips#1067 - 1.19.0 updates
-documentation:
 - title: Update tagged versions
   description: |
 

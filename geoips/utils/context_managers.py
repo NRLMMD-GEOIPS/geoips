@@ -28,5 +28,12 @@ def import_optional_dependencies(loglevel="info"):
         err_str = f"Failed to import {err.name} at {filename}:{lineno}. "
         err_str += "If you need it, install it."
 
-        getattr(LOG, loglevel)(err_str)
-        # print(err_str)
+        # The requested level (e.g. GeoIPS' custom "interactive" level) may not be
+        # registered yet during early package imports. Fall back to ``info`` so a
+        # missing optional dependency never turns into an AttributeError -- this
+        # previously broke ``import geoips`` (and therefore autodoc/doc builds) in
+        # environments that did not have every optional dependency installed.
+        log_method = getattr(LOG, loglevel, None)
+        if not callable(log_method):
+            log_method = LOG.info
+        log_method(err_str)

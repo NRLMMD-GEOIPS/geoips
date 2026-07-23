@@ -46,7 +46,15 @@ spec:
     filename_formatter:
       kind: filename_formatter
       name: geoips_fname
-      depends_on: [abi_Test_Visible_Logarithmic.algorithm, sector]
+      depends_on: 
+        - abi_Test_Visible_Logarithmic.algorithm
+        - abi_Test_Visible_Logarithmic.coverage_checker
+        - sector
     output_formatter:
       kind: output_formatter
       name: imagery_clean
+      depends_on:
+        - abi_Test_Visible_Logarithmic.algorithm
+        - abi_Test_Visible_Logarithmic.colormapper
+        - filename_formatter
+        - sector
