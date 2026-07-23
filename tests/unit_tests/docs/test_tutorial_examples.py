@@ -66,8 +66,10 @@ def test_my_cloud_depth_algorithm_metadata_and_call():
 
 
 def test_scripting_cloud_depth_example_runs():
-    """The doc-owned scripting example runs and computes cloud depth
-    via geoips.scripting."""
+    """Run the doc-owned scripting example and verify cloud depth computation.
+
+    The example uses geoips.scripting to compute cloud depth from synthetic data.
+    """
     mod = _load("script_cloud_depth_example", "script_cloud_depth.py")
     depth = mod.compute_cloud_depth()
     np.testing.assert_allclose(depth.values, np.array([[4.0, 6.0]]))

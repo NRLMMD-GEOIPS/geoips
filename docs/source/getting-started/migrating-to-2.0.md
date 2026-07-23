@@ -8,8 +8,9 @@
 # Migrating from GeoIPS 1.x to 2.0
 
 GeoIPS 2.0 introduces Order-Based Processing (OBP), class-based plugins, a DataTree data
-model, and a layered configuration system. GeoIPS 1.x patterns still work where noted, but
-are deprecated. This guide summarizes what changed and links to the detailed guides.
+model, and a layered configuration system. Most GeoIPS 1.x patterns still work but are
+deprecated (dynamic sectors are not yet supported in OBP). This guide summarizes what
+changed and links to the detailed guides.
 
 ## What changed at a glance
 

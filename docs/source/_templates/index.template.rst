@@ -24,6 +24,7 @@
 **Useful links**:
 `Source Repository <https://github.com/NRLMMD-GEOIPS/PKGNAME>`__ |
 `GeoIPS License <https://github.com/NRLMMD-GEOIPS/geoips/blob/main/LICENSE>`__ |
+`Migrating to 2.0 <getting-started/migrating-to-2.0.html>`__ |
 `NRLMMD <https://www.nrlmry.navy.mil/>`__ |
 `CIRA <https://www.cira.colostate.edu/>`__
 
