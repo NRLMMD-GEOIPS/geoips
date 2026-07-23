@@ -41,6 +41,13 @@ spec:
     filename_formatter:
       kind: filename_formatter
       name: geoips_fname
+      depends_on:
+        - seviri_WV_Upper.algorithm
+        - seviri_WV_Upper.coverage_checker
     output_formatter:
       kind: output_formatter
       name: unprojected_image
+      depends_on:
+        - seviri_WV_Upper.algorithm
+        - seviri_WV_Upper.colormapper
+        - filename_formatter

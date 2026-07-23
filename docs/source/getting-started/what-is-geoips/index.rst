@@ -8,18 +8,15 @@ What is GeoIPS
 
 GeoIPS (Geolocated Information Processing System) is an extensible,
 open-source Python framework designed to process any dataset with latitude and
-longitude cooridinates. It is completely plugin-based to the degree that most
-of its functionality is provided by plugins.
-
-The Geolocated Information Processing System (GeoIPS) is a generalized processing system, providing a collection
-of algorithm and product implementations facilitating consistent and reliable application of specific products
-across a variety of sensors and data types.
+longitude coordinates. It is completely plugin-based to the degree that most
+of its functionality is provided by plugins, enabling consistent and reliable
+application of specific products across a variety of sensors and data types.
 
 .. image:: GeoIPS_Functionality_Overview.png
    :width: 800
 
 GeoIPS acts as a toolbox for internal GeoIPS-based product development - all modules are expected to
-have simple inputs and outputs (Python numpy or dask arrays or xarrays, dictionaries, strings, lists), to enable
+have simple inputs and outputs (Python numpy or dask arrays or xarrays, DataTree, dictionaries, strings, lists), to enable
 portability and simplified interfacing between modules.
 
 Some of the primary benefits / requirements of GeoIPS include:
