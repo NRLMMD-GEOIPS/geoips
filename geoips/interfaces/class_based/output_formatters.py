@@ -785,6 +785,7 @@ class OutputFormattersInterface(BaseClassInterface):
             "bg_datatype_title",
             "clean_fname",
             "remove_duplicate_minrange",
+            "title_formatter_str",
         ],
         "image_multi": ["product_name_titles"],
         "xarray_dict_data": ["append", "overwrite"],

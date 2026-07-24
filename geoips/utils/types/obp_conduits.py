@@ -133,6 +133,10 @@ OBP_CONDUITS: dict[str, dict] = {
         "kwarg": "gridline_annotator",
         "extract": _extract_annotator_spec,
     },
+    "title_formatter": {
+        "kwarg": "title_formatter_str",
+        "extract": lambda c: _extract_attr(c, "title_formatter_str"),
+    },
     "interpolator": {"kwarg": "xarray_obj", "extract": _extract_ds},
     "manual": {"kwarg": "xarray_obj", "extract": _extract_ds},
     "product": {"kwarg": "product_name", "extract": _extract_product_name},
