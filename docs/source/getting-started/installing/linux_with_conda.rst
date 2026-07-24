@@ -80,11 +80,11 @@ GeoIPS test data download requires the following environment variables to be set
 
 .. code:: bash
 
-    conda env config vars set GEOIPS_PACKAGES_DIR=$HOME/geoips
+    conda env config vars set GEOIPS_PACKAGES_DIR=$HOME/geoips_base/packages
     # Reactivate environment for variables to take effect
     conda deactivate && conda activate geoips
-    conda env config vars set GEOIPS_TESTDATA_DIR=$GEOIPS_PACKAGES_DIR/test_data
-    conda env config vars set GEOIPS_OUTDIRS=$GEOIPS_PACKAGES_DIR/outdirs
+    conda env config vars set GEOIPS_TESTDATA_DIR=$HOME/geoips_base/test_data
+    conda env config vars set GEOIPS_OUTDIRS=$HOME/geoips_base/outdirs
     conda deactivate && conda activate geoips
     mkdir -p "$GEOIPS_PACKAGES_DIR" "$GEOIPS_TESTDATA_DIR" "$GEOIPS_OUTDIRS"
 
@@ -92,6 +92,17 @@ GeoIPS test data download requires the following environment variables to be set
 
    You can customize test data location
    by changing the value of ``GEOIPS_TESTDATA_DIR``.
+
+3a. Development installation
+----------------------------
+
+If you need to modify the GeoIPS source code, clone and pip install in editable mode.
+
+.. code:: bash
+
+   cd $GEOIPS_PACKAGES_DIR
+   git clone https://github.com/NRLMMD-GEOIPS/geoips
+   pip install -e .
 
 4. Run a Sample Script
 ----------------------
@@ -125,3 +136,15 @@ The end of the output should show the path to the generated output image and fin
     11_191109    log_setup.py:162  INTERACTIVE: Completed geoips PROCFLOW single_source processing, done!
     11_191109    log_setup.py:162  INTERACTIVE: Total time: 0:00:24.911853
     11_191109    log_setup.py:162  INTERACTIVE: Return value: 0
+
+
+4a. Run a development test script
+---------------------------------
+
+If installed in development mode, run a test script to confirm expected outputs are produced.
+
+.. code:: bash
+
+   cd $GEOIPS_PACKAGES_DIR/geoips
+   pytest -k abi.static.Infrared.imagery_clean.sh
+
