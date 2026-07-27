@@ -73,11 +73,19 @@ class RgbGunRecipe(FrozenModel):
         ..., description="The data range for a given rgb gun."
     )
     gamma: float = Field(..., description="The gamma value for a rgb gun.")
-    input_units: Optional[Literal["kelvin", "celsius", "kts", "m s-1"]] = Field(
+    input_units: Optional[
+        Literal[
+            "kelvin", "celsius", "kts", "m s-1", "reflectance", "albedo", "radiance"
+        ]
+    ] = Field(
         "kelvin",
         description="The input units of the data for the rgb gun.",
     )
-    output_units: Optional[Literal["kelvin", "celsius", "kts", "m s-1"]] = Field(
+    output_units: Optional[
+        Literal[
+            "kelvin", "celsius", "kts", "m s-1", "reflectance", "albedo", "radiance"
+        ]
+    ] = Field(
         "kelvin",
         description="The input units of the data for the rgb gun.",
     )

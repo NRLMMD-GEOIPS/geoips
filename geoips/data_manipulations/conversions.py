@@ -37,7 +37,7 @@ def unit_conversion(data_array, input_units=None, output_units=None):
         input_units = input_units.lower()
         output_units = output_units.lower()
 
-        valid_units = ["kelvin", "celsius", "kts", "m s-1"]
+        valid_units = ["kelvin", "celsius", "kts", "m s-1", "reflectance", "albedo", "radiance"]
         if input_units not in valid_units:
             raise ValueError(f"Input units must be one of {valid_units}")
         if output_units not in valid_units:
