@@ -21,6 +21,7 @@ from copy import deepcopy
 import datetime as dt
 from glob import glob
 import logging
+import re
 from typing import Any, Dict, List, Literal, Optional, Union
 
 # Third-Party Libraries
@@ -57,6 +58,7 @@ from geoips.pydantic_models.v1.filename_formatters import (
 from geoips.pydantic_models.v1.interpolators import InterpolatorArgumentsModel
 from geoips.pydantic_models.v1.output_checkers import OutputCheckerArgumentsModel
 from geoips.pydantic_models.v1.readers import ReaderArgumentsModel
+from geoips.pydantic_models.v1.title_formatters import TitleFormatterArgumentsModel
 from geoips.utils.types.partial_lexeme import Lexeme
 
 LOG = logging.getLogger(__name__)
@@ -148,6 +150,16 @@ def get_plugin_kinds() -> set[str]:
         for ifs in interfaces.list_available_interfaces().values()
         for plugin_kinds in ifs
     }
+
+
+def _product_step_id(name: list[str]) -> str:
+    """Build a valid PythonIdentifier step ID from a product name tuple.
+
+    Joins the name segments with ``"_"`` then replaces any remaining
+    non-identifier characters with ``"_"``, ensuring the result satisfies
+    ``str.isidentifier()``.
+    """
+    return re.sub(r"[^a-zA-Z0-9_]", "_", "_".join(name))
 
 
 # NOTE: We need to move all of the argument models to their own module once implemented
@@ -250,6 +262,7 @@ _PLUGIN_ARGUMENTS_MODELS: dict[str, type] = {
     "ProductArgumentsModel": ProductArgumentsModel,
     "ReaderArgumentsModel": ReaderArgumentsModel,
     "SectorArgumentsModel": SectorArgumentsModel,
+    "TitleFormatterArgumentsModel": TitleFormatterArgumentsModel,
     "WorkflowArgumentsModel": WorkflowArgumentsModel,
 }
 
@@ -795,10 +808,10 @@ class WorkflowSpecModel(FrozenModel):
         family = plugin.get("family")
         spec = plugin.get("spec", {})
         global_vars = {"variables": spec["variables"]} if spec.get("variables") else {}
+        last_data_step = []
 
         if family in ORDERED_PRODUCT_FAMILIES:
             step_order = family.split("_")
-            last_data_step = []
             for idx, plugin_name in enumerate(step_order):
                 steps[plugin_name] = spec[plugin_name].get("plugin")
                 steps[plugin_name]["kind"] = plugin_name
@@ -830,6 +843,8 @@ class WorkflowSpecModel(FrozenModel):
 
                 steps[key] = value.get("plugin")
                 steps[key]["kind"] = kind
+                if kind not in ("colormapper", "output_formatter"):
+                    last_data_step = [key]
 
         if "coverage_checker" not in list(steps.keys()):
             # Add default coverage checker step if one doesn't already exist
@@ -959,7 +974,7 @@ class WorkflowSpecModel(FrozenModel):
                 # remaining non-identifier characters so the result is always
                 # a valid PythonIdentifier (required by depends_on validation).
                 step_id = (
-                    "_".join(step.get("name"))
+                    _product_step_id(step.get("name"))
                     if step.get("kind") == "product"
                     else step.get("name")
                 )
@@ -989,7 +1004,7 @@ class WorkflowSpecModel(FrozenModel):
                 continue
             if step.get("kind") in ("product", "product_default"):
                 step_id = (
-                    "_".join(step.get("name"))
+                    _product_step_id(step.get("name"))
                     if step.get("kind") == "product"
                     else step.get("name")
                 )
@@ -1343,7 +1358,7 @@ class WorkflowPluginModel(PluginModel):
     test: WorkflowTestModel = Field(
         None,
         description=(
-            "An optional dictionary of parameters used to test this workflow.",
+            "An optional dictionary of parameters used to test this workflow."
         ),
         examples=[
             {

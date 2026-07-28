@@ -175,7 +175,21 @@ class BaseOutputFormatterPlugin(BaseClassPlugin, abstract=True):
         )
 
     def _pre_call(self, data=None, *args, _obp_initiated=False, **kwargs):
-        """Check argument order and reorder if necessary, then delegate."""
+        """Check argument order and reorder if necessary, then delegate.
+
+        Under OBP, bridges the singular ``product_name`` global to the
+        ``product_names`` list expected by output formatter ``call()`` methods.
+        """
+        if (
+            _obp_initiated
+            and "product_names" not in kwargs
+            and "product_name" in kwargs
+        ):
+            kwargs["product_names"] = [kwargs["product_name"]]
+            result = super()._pre_call(
+                data, *args, _obp_initiated=_obp_initiated, **kwargs
+            )
+            return result, kwargs
         return super()._pre_call(data, *args, _obp_initiated=_obp_initiated, **kwargs)
 
     def _post_call(self, data, *args, _obp_initiated=False, **kwargs):

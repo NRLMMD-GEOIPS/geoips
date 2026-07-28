@@ -112,44 +112,39 @@ own specifications. Here is an example of a new Feature Annotator:
 Creating a Script to Visualize our New Feature Annotator
 --------------------------------------------------------
 
-Now that we have a custom feature annotator, we can use our test script created in the
-:ref:`Products/Cloud-Depth Section<cloud-depth-product>` to visualize our data with our
-new feature annotator. Follow the series of commands to appropriately edit that test
-script to employ your new feature annotator.
+Now that we have a custom feature annotator, use it in your ``My-Cloud-Depth`` workflow
+(from the :ref:`Products/Cloud-Depth Section<cloud-depth-product>`) by adding a
+``feature_annotator`` step and depending on it from the annotated output formatter
+(replace ``tutorial`` with your plugin name):
 
-::
+.. code-block:: yaml
 
-    cd $MY_PKG_DIR/tests/scripts
+    steps:
+      # ... your existing sector / reader / product / filename_formatter steps ...
+      features:
+        kind: feature_annotator
+        name: tutorial
+      output_formatter:
+        kind: output_formatter
+        name: imagery_annotated
+        depends_on:
+          - clavrx_My_Cloud_Depth.algorithm
+          - clavrx_My_Cloud_Depth.colormapper
+          - features
+          - sector
 
-Create a file called ``clavrx.conus_annotated_features_gridlines.my-cloud-depth.sh``.
-Copy and paste the code below into that file, which will now make use of our new feature
-annotator
+Then run the workflow:
 
 .. code-block:: bash
 
-  run_procflow \
-      $GEOIPS_TESTDATA_DIR/test_data_clavrx/data/goes16_2023101_1600/clavrx_OR_ABI-L1b-RadF-M6C01_G16_s20231011600207.level2.hdf \
-      --procflow single_source \
-      --reader_name clavrx_hdf4 \
-      --product_name My-Cloud-Depth \
-      --output_formatter imagery_annotated \
-      --filename_formatter geoips_fname \
-      --minimum_coverage 0 \
-      --feature_annotator tutorial \
-      --sector_list conus
-  ss_retval=$?
+  geoips run order_based my_cloud_depth \
+      $GEOIPS_TESTDATA_DIR/test_data_clavrx/data/goes16_2023101_1600/*.hdf
 
-If you named your feature annotator with a different name, please replace ``tutorial``
-with your plugin name.
-
-To produce imagery using your new feature annotator, run the command below.
-
-::
-
-    $MY_PKG_DIR/tests/scripts/clavrx.conus_annotated_features_gridlines.my-cloud-depth.sh
+Alternatively, apply your annotator at run time without editing the workflow with a global
+override: ``-g feature_annotator=tutorial``.
 
 This will output a series of log output. If your script succeeded it will end with INFO:
-Return Value 0. To view your output, look for a line that says SINGLESOURCESUCCESS. Open
+Return Value 0. To view your output, look for the output image path printed in the log. Open
 the PNG file to view your Cloud Depth Image! It should look like the image shown below.
 
 Note: The image shown below also makes use of the custom Gridline Annotator created in

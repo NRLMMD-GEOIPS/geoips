@@ -24,24 +24,6 @@ enhancement:
   date:
     start: 2024-08-14
     finish: 2024-12-13
-enhancement:
-- title: ''
-  description: ''
-  files:
-    deleted:
-    - ''
-    moved:
-    - ''
-    added:
-    - ''
-    modified:
-    - ''
-  related-issue:
-    number: null
-    repo_url: ''
-  date:
-    start: null
-    finish: null
 deprecation:
 - title: ''
   description: ''
