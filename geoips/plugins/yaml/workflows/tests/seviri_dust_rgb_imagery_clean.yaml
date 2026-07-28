@@ -31,7 +31,6 @@ spec:
     sector:
       kind: sector
       name: test_meteoeu_eqc_3km_landocean
-      depends_on: []
     reader:
       kind: reader
       name: seviri_hrit
