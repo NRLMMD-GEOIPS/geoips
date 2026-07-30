@@ -1,0 +1,26 @@
+name: rgb
+family: list
+interface: products
+docstring: |
+  Products for rgb algorithms.
+spec:
+  products:
+    - name: airmass
+      product_defaults: RGB-Default
+      source_names: [abi]
+      docstring: |
+        pass
+      spec:
+        variables:
+          - B08BT
+          - B10BT
+          - B12BT
+          - B13BT
+        algorithm:
+          plugin:
+            name: config_rgb
+            arguments:
+              config_name: "abi_airmass"
+        # B08BT, B10BT R
+        # B12BT, B13BT G
+        # B08BT        B

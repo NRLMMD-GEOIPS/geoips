@@ -34,16 +34,19 @@ def unit_conversion(data_array, input_units=None, output_units=None):
     if input_units and output_units and input_units != output_units:
         from geoips.data_manipulations.corrections import apply_offset
 
-        valid_units = ["Kelvin", "celsius", "kts", "m s-1"]
+        input_units = input_units.lower()
+        output_units = output_units.lower()
+
+        valid_units = ["kelvin", "celsius", "kts", "m s-1"]
         if input_units not in valid_units:
             raise ValueError(f"Input units must be one of {valid_units}")
         if output_units not in valid_units:
             raise ValueError(f"Output units must be one of {valid_units}")
 
-        if input_units == "Kelvin" and output_units == "celsius":
+        if input_units == "kelvin" and output_units == "celsius":
             data_array = apply_offset(data_array, KtoC_conversion)
 
-        if input_units == "celsius" and output_units == "Kelvin":
+        if input_units == "celsius" and output_units == "kelvin":
             data_array = apply_offset(data_array, -KtoC_conversion)
 
         if input_units == "m s-1" and output_units == "kts":
