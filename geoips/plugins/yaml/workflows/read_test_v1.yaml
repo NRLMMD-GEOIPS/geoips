@@ -19,7 +19,6 @@ description: 11.2 µm Infrared.
   # logging_level: info
 spec:
   retention: keep_referenced
-  outputs: [read_abi_L1_data]
   globals:
     presector: False
     product_db: False

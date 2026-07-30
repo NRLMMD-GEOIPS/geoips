@@ -8,6 +8,7 @@ import inspect
 import pytest
 import xarray as xr
 
+from geoips.errors import BoundaryIOError
 from geoips.interfaces.class_based.output_formatters import BaseOutputFormatterPlugin
 
 
@@ -113,3 +114,21 @@ def test_legacy_area_first_formatter_accepts_legacy_mixed_call_order():
 
     assert result.attrs["area_def_id"] == id(area_def)
     assert result.attrs["xarray_obj_marker"] == "expected-input"
+
+
+def test_output_formatter_list_result_has_semantic_output_attrs():
+    """OBP formatter list results expose semantic output product attrs."""
+    formatter = _legacy_area_first_formatter_class()()
+
+    result = formatter._post_call(["out.png"], _obp_initiated=True)
+
+    assert result.ds.attrs["output_products"] == ["out.png"]
+    assert result.ds.attrs["_ditto_list_value"] == ["out.png"]
+
+
+def test_output_formatter_empty_list_result_raises_boundary_error():
+    """OBP formatter list results must include at least one output product."""
+    formatter = _legacy_area_first_formatter_class()()
+
+    with pytest.raises(BoundaryIOError, match="did not produce any output products"):
+        formatter._post_call([], _obp_initiated=True)

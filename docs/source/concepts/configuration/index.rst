@@ -7,6 +7,7 @@
  https://github.com/NRLMMD-GEOIPS.
 
 .. _configuration:
+.. _geoips-config:
 
 Configuring GeoIPS
 ******************
@@ -623,3 +624,29 @@ To persist via configuration file:
     geoips:
       features:
         no_color: true
+
+Schema models (developer reference)
+===================================
+
+The configuration schema is defined by pydantic models in
+:mod:`geoips.config.schema`. The tables above are the human-readable reference; the models
+below are generated from the code and show the exact fields, types, and defaults that the
+schema validates. ``GeoSettings`` is the root model; the others are its nested sections.
+
+.. autopydantic_model:: geoips.config.schema.GeoSettings
+   :noindex:
+
+.. autopydantic_model:: geoips.config.schema.OutputPathsSettings
+   :noindex:
+
+.. autopydantic_model:: geoips.config.schema.CacheSettings
+   :noindex:
+
+.. autopydantic_model:: geoips.config.schema.FeatureSettings
+   :noindex:
+
+.. autopydantic_model:: geoips.config.schema.LoggingSettings
+   :noindex:
+
+.. autopydantic_model:: geoips.config.schema.TestSettings
+   :noindex:

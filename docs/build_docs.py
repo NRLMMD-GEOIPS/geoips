@@ -549,12 +549,15 @@ def build_module_apidocs_with_sphinx(
     Exception
         If the sphinx-apidoc command fails.
     """
+    v2alpha1_path = os.path.join(module_path, "pydantic_models", "v2alpha1")
     arguments = [
         "--no-toc",
         "-o",  # flag for output path
         apidoc_build_path,  # output path
         module_path,  # module path
         "*/lib/*",  # exclude path
+        v2alpha1_path,  # Exclude path
+        os.path.join(v2alpha1_path, "*"),  # Exclude path
     ]
     # See https://github.com/sphinx-doc/sphinx/issues/8664
     # and https://www.sphinx-doc.org/en/master/man/sphinx-apidoc.html
@@ -738,6 +741,7 @@ def build_release_notes_with_brassy(
                     f"Skipping release dir {release_dir}"
                     "because it's version is 'upcoming'"
                 )
+                continue
             log.debug(f"Setting version of {release_filename} to {release_version}")
             build_release_note_from_dir_with_brassy(
                 release_dir, release_filename, release_version, header_file.name

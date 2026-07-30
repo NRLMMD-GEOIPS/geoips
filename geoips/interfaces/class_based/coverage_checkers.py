@@ -5,8 +5,9 @@
 
 import xarray as xr
 
-from geoips.interfaces.class_based_plugin import BaseClassPlugin
 from geoips.interfaces.base import BaseClassInterface
+from geoips.interfaces.class_based_plugin import BaseClassPlugin
+from geoips.utils.types.datatree_helpers import to_mutable_dataset
 
 
 class BaseCoverageCheckerPlugin(BaseClassPlugin, abstract=True):
@@ -51,11 +52,14 @@ class BaseCoverageCheckerPlugin(BaseClassPlugin, abstract=True):
             When ``minimum_coverage`` is set and any variable's
             coverage percentage falls below it.
         """
+        if _obp_initiated and "variable_name" not in kwargs:
+            kwargs["variable_name"] = self._infer_variable_name(data)
+
         variables = kwargs.get("variables")
         if not _obp_initiated or not isinstance(variables, list):
             return super()._invoke(data, *args, _obp_initiated=_obp_initiated, **kwargs)
 
-        minimum_coverage = kwargs.pop("minimum_coverage", 0.0)
+        minimum_coverage = kwargs.pop("minimum_coverage", 10.0)
         kwargs.pop("variables")
 
         min_cov = 100.0
@@ -75,36 +79,43 @@ class BaseCoverageCheckerPlugin(BaseClassPlugin, abstract=True):
                 result = res
         return result
 
+    def _infer_variable_name(self, data):
+        """Infer the coverage-checker variable from upstream data when unambiguous.
+
+        Coverage checker steps may be inserted automatically while expanding legacy
+        product definitions. In those cases, the product configuration often does not
+        name the algorithm output variable. Use the actual upstream dataset at call
+        time to infer the variable only when exactly one data variable is available.
+        """
+        dataset = to_mutable_dataset(data)
+        data_vars = list(getattr(dataset, "data_vars", []))
+
+        if len(data_vars) == 1:
+            return data_vars[0]
+
+        if not data_vars:
+            raise ValueError(
+                f"Coverage checker plugin '{self.name}' requires 'variable_name', "
+                "but no data variables were found in the upstream data."
+            )
+
+        raise ValueError(
+            f"Coverage checker plugin '{self.name}' requires 'variable_name' when "
+            "upstream data contains multiple data variables. Available variables: "
+            f"{data_vars}."
+        )
+
     def _pre_call(self, data=None, *args, _obp_initiated=False, **kwargs):
-        r"""Normalize upstream ``DataTreeDitto`` input into a mutable ``xr.Dataset``.
+        """Flatten OBP DataTree input into a mutable Dataset before base hooks.
 
-        Mirrors ``BaseAlgorithmPlugin._pre_call`` by converting upstream
-        ``DataTreeDitto`` inputs into a writable ``xr.Dataset`` so ``call()``
-        receives the expected input type.
-
-        Non-OBP paths and non-``DataTreeDitto`` inputs pass through unchanged.
-
-        Parameters
-        ----------
-        data : DataTreeDitto | xr.DataTree | xr.Dataset | None, optional
-            Upstream input passed into the algorithm. When the runtime procflow in OBP,
-            this will be ``DataTreeDitto`` containing one or more dependency nodes.
-        \*args : tuple
-            Additional positional arguments forwarded to the base ``_pre_call``.
-        _obp_initiated : bool, default=False
-            Indicates whether the call originated from the OBP workflow. When
-            ``True``, ``DataTreeDitto`` inputs are converted into mutable datasets.
-        \*\*kwargs : dict
-            Additional keyword arguments forwarded to the base ``_pre_call``.
-
-        Returns
-        -------
-        xr.Dataset | Any
-            A mutable ``xr.Dataset`` when upstream input is normalized from
-            ``DataTree``; otherwise whatever the base ``_pre_call`` returns.
+        Mirrors ``BaseAlgorithmPlugin._pre_call``: under OBP upstream outputs
+        arrive as a ``DataTree`` whose child nodes expose immutable
+        ``DatasetView`` objects via ``.ds``. This override flattens that tree
+        into a mutable Dataset so ``call()`` receives the expected input.
+        Legacy (non-OBP) inputs pass through unchanged.
         """
         if _obp_initiated and isinstance(data, xr.DataTree):
-            data = self._to_mutable_dataset(data)
+            data = to_mutable_dataset(data)
         return super()._pre_call(data, *args, _obp_initiated=_obp_initiated, **kwargs)
 
     def _post_call(self, data=None, *args, _obp_initiated=False, **kwargs):

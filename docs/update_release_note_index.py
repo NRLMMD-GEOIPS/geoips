@@ -137,6 +137,8 @@ def main(index_filename, release_note_path):
         # appropriate alpha version, and remove the aN from the mmb_version_num
         if "a" in version_num:
             mmb_version_num, alpha = version_num.split("a")
+            if alpha == "":
+                alpha = "0"
         # Now split for major/minor/bugfix from the X_Y_Z version
         major, minor, bugfix = mmb_version_num.split(".")
         # Zero pad these for sorting
@@ -187,6 +189,10 @@ def main(index_filename, release_note_path):
                         str(release_note_path / f"{curr_mmb_period}a{int(alpha)}.rst")
                     ):
                         lines += [f"   {curr_mmb_period}a{int(alpha)}\n"]
+                    elif exists(str(release_note_path / f"{curr_mmb}a.rst")):
+                        lines += [f"   {curr_mmb}a\n"]
+                    elif exists(str(release_note_path / f"{curr_mmb_period}a.rst")):
+                        lines += [f"   {curr_mmb_period}a\n"]
             lines += ["\n"]
     # Now write all the lines we've collected out to index.rst
     with open(index_filename, "w") as fobj:

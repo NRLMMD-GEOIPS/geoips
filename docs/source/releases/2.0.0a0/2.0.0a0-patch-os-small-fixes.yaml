@@ -1,0 +1,24 @@
+documentation:
+- title: Add release note for version 2.0.0a
+  description: |
+    Release note on release branch to force tag/release, package/publish,
+    and deploy docs.
+  files:
+    added:
+    - docs/source/releases/2.0.0a/2.0.0a-release-note.yaml
+  date:
+    start: 2026-07-21
+    finish: 2026-07-21
+  related-issue:
+    internal: geoips - v2.0.0a updates
+- title: Update tagged versions
+  description: |
+    * Tagged version: 2.0.0a
+  files:
+    modified:
+    - .github/versions/tagged_version
+  date:
+    start: 2026-07-21
+    finish: 2026-07-21
+  related-issue:
+    internal: geoips - v2.0.0a updates

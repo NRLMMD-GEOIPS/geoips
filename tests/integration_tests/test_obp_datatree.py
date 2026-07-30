@@ -92,7 +92,6 @@ class TestDatatreeNoDepsWorkflow:
         wf = Workflow(spec, workflow_name="embedded")
         result = wf.call(fnames=[])
         assert "workflow_name" in result.attrs
-        assert "outputs" in result.attrs
         assert "retention_policy" in result.attrs
         assert "geoips_version" in result.attrs
 
@@ -182,12 +181,9 @@ class TestOutputTokenStability:
 class TestRetention:
     """Retention policies affect GC behavior."""
 
-    def test_keep_outputs_only_gc_nondata(self):
-        """keep_outputs_only marks non-output steps as data_dropped."""
-        spec = _build_linear_spec(
-            retention="keep_outputs_only",
-            outputs=["algo"],
-        )
+    def test_keep_referenced_gcs_unreferenced_steps(self):
+        """keep_referenced marks steps as data_dropped after consumers run."""
+        spec = _build_linear_spec()
         result = Workflow(spec, workflow_name="ret").call(fnames=[])
 
         read_node = result.get("read")
@@ -196,9 +192,8 @@ class TestRetention:
         assert algo_node.ds is not None
 
         assert read_node is not None
-        assert (
-            read_node.attrs.get("gc_status") == "data_dropped"
-        ), "Non-output step should be GC'd by keep_outputs_only policy"
+        assert read_node.attrs.get("gc_status") == "data_dropped"
+        assert algo_node.attrs.get("gc_status") == "data_dropped"
 
 
 class TestInputMagicRef:

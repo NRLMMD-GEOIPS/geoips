@@ -24,15 +24,15 @@ from colorama import Fore, Style
 from pluginify.config import REGISTRY_DIRECTORY
 from tabulate import tabulate
 
-from geoips.commandline.ancillary_info import cmd_instructions, alias_mapping
 from pydantic import ValidationError
+import geoips_yaml_utils as yaml
 
+from geoips.commandline.ancillary_info import cmd_instructions, alias_mapping
 from geoips.commandline.log_setup import setup_logging
 from geoips.errors import PluginError
 from geoips.filenames.base_paths import PATHS
 from geoips.interfaces import workflows
 from geoips.pydantic_models.v1.workflows import WorkflowPluginModel
-import geoips.utils.yaml_utils as yaml
 
 
 class PluginPackages:
@@ -817,11 +817,14 @@ class GeoipsWorkflowCommand(GeoipsExecutableCommand):
               OBP if overrides don't occur.
         """
         # unregistered generated workflow
-        try:
-            workflow = literal_eval(value)
-        except (ValueError, SyntaxError):
-            # Ignore these errors, could still be valid input
-            workflow = None
+        if isinstance(value, Mapping):
+            workflow = value
+        else:
+            try:
+                workflow = literal_eval(value)
+            except (ValueError, SyntaxError, TypeError):
+                # Ignore these errors, could still be valid input
+                workflow = None
 
         if isinstance(workflow, Mapping):
             # Validate the generated workflow with is_registered set to false as this
@@ -840,7 +843,7 @@ class GeoipsWorkflowCommand(GeoipsExecutableCommand):
             except (ValidationError, ValueError, TypeError) as e:
                 self.parser.error(f"Could not parse workflow dict: {e}")
         # unregistered workflow @ filepath (any path that exists on disk)
-        elif self.ensure_valid_json_or_yaml_path(value):
+        elif isinstance(value, str) and self.ensure_valid_json_or_yaml_path(value):
             # since the filepath was valid and exists, load the data and validate it
             filepath = self.ensure_valid_json_or_yaml_path(value)
             if filepath.suffix.lower() == ".json":
@@ -850,6 +853,7 @@ class GeoipsWorkflowCommand(GeoipsExecutableCommand):
 
             with open(filepath, "r") as f:
                 workflow = loader(f)
+
             # This assumes if you pass the filepath option that the plugin itself is
             # not registered. Validate that it's formatted correctly.
             try:
@@ -884,29 +888,8 @@ class GeoipsWorkflowCommand(GeoipsExecutableCommand):
                 self.parser.error(
                     f"Error: could not load workflow plugin under name '{value}'."
                 )
-        # unregistered workflow @ filepath (any path that exists on disk)
-        elif self.ensure_valid_json_or_yaml_path(value):
-            # since the filepath was valid and exists, load the data and validate it
-            filepath = self.ensure_valid_json_or_yaml_path(value)
-            if filepath.suffix.lower() == ".json":
-                loader = json.load
-            else:
-                loader = yaml.safe_load
-
-            with open(filepath, "r") as f:
-                workflow = loader(f)
-            # This assumes if you pass the filepath option that the plugin itself is not
-            # registered. Validate that it's formatted correctly.
-            workflow = WorkflowPluginModel(
-                **workflow,
-                is_registered=False,
-                # Adding context in pydantic is akin to passing in values that are
-                # usually None to an Objects __init__ function. It will construct
-                # differently if those parameters are provided. In this case, we are
-                # telling pydantic to expand the workflow, rather than validate just
-                # what's in the data provided
-                context={"expand": True},
-            ).model_dump()
+            except ValidationError as e:
+                self.parser.error(f"Workflow '{value}' failed validation:\n{e}")
         else:
             self.parser.error(
                 "Error: positional argument 'workflow' could not be associated with an"

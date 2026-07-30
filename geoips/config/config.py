@@ -365,7 +365,7 @@ class GeoIPSConfig:
         settings = GeoSettings.model_validate(settings_dict)
 
         plugin_yaml: dict[str, Any] = {}
-        project_data = load_project_config()
+        project_data = load_project_config(project_config_path)
         if project_data is not None and isinstance(project_data, dict):
             geoips_data = project_data.get("geoips")
             if isinstance(geoips_data, dict):
@@ -382,7 +382,7 @@ class GeoIPSConfig:
                 except ValidationError as exc:
                     raise ConfigError(
                         f"Invalid GeoIPS config file "
-                        f"{find_project_config()!r}:\n"
+                        f"{find_project_config(project_config_path)!r}:\n"
                         f"{_format_config_errors(exc)}\n"
                         "Fix the errors above or run 'geoips config validate' "
                         "for details."

@@ -13,7 +13,7 @@ import os
 import json
 import hashlib
 from logging import getLogger
-import geoips.utils.yaml_utils as yaml
+import geoips_yaml_utils as yaml
 from geoips.filenames.base_paths import PATHS
 
 LOG = getLogger(__name__)

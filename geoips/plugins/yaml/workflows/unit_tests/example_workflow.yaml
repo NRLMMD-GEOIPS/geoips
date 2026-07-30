@@ -10,7 +10,6 @@ docstring: |
   colormapper / gridlines / filename -> output_formatter, with explicit
   ``depends_on`` edges. Intended as a reference fixture for the OBP runtime.
 spec:
-  outputs: [output_formatter]
   steps:
     reader:
       kind: reader

@@ -21,6 +21,7 @@ from copy import deepcopy
 import datetime as dt
 from glob import glob
 import logging
+import re
 from typing import Any, Dict, List, Literal, Optional, Union
 
 # Third-Party Libraries
@@ -35,10 +36,10 @@ from pydantic import (
 )
 
 # GeoIPS imports
+from geoips.constants import PLUGIN_PROVIDED
 from geoips import interfaces
 from geoips.config import config
 from geoips.errors import (
-    DanglingOutputError,
     DependencyCycleError,
     PluginResolutionError,
 )
@@ -46,6 +47,7 @@ from geoips.pydantic_models.v1.bases import (
     PluginModel,
     FrozenModel,
     PermissiveFrozenModel,
+    PythonIdentifier,
     StepReference,
 )
 from geoips.pydantic_models.v1.algorithms import AlgorithmArgumentsModel
@@ -56,6 +58,7 @@ from geoips.pydantic_models.v1.filename_formatters import (
 from geoips.pydantic_models.v1.interpolators import InterpolatorArgumentsModel
 from geoips.pydantic_models.v1.output_checkers import OutputCheckerArgumentsModel
 from geoips.pydantic_models.v1.readers import ReaderArgumentsModel
+from geoips.pydantic_models.v1.title_formatters import TitleFormatterArgumentsModel
 from geoips.utils.types.partial_lexeme import Lexeme
 
 LOG = logging.getLogger(__name__)
@@ -63,8 +66,8 @@ LOG = logging.getLogger(__name__)
 SCAFFOLD_KINDS = frozenset({"split", "join"})
 """Kinds reserved as scaffolding markers.
 
-Steps with these kinds are accepted by schema validation but raise
-``NotImplementedError`` at runtime.
+Steps with these kinds are accepted by schema validation and executed by
+workflow orchestration rather than plugin resolution.
 """
 
 INPUT_REF = "_input"
@@ -147,6 +150,16 @@ def get_plugin_kinds() -> set[str]:
         for ifs in interfaces.list_available_interfaces().values()
         for plugin_kinds in ifs
     }
+
+
+def _product_step_id(name: list[str]) -> str:
+    """Build a valid PythonIdentifier step ID from a product name tuple.
+
+    Joins the name segments with ``"_"`` then replaces any remaining
+    non-identifier characters with ``"_"``, ensuring the result satisfies
+    ``str.isidentifier()``.
+    """
+    return re.sub(r"[^a-zA-Z0-9_]", "_", "_".join(name))
 
 
 # NOTE: We need to move all of the argument models to their own module once implemented
@@ -249,6 +262,7 @@ _PLUGIN_ARGUMENTS_MODELS: dict[str, type] = {
     "ProductArgumentsModel": ProductArgumentsModel,
     "ReaderArgumentsModel": ReaderArgumentsModel,
     "SectorArgumentsModel": SectorArgumentsModel,
+    "TitleFormatterArgumentsModel": TitleFormatterArgumentsModel,
     "WorkflowArgumentsModel": WorkflowArgumentsModel,
 }
 
@@ -263,6 +277,7 @@ class GlobalVariablesModel(PermissiveFrozenModel):
     presectoring toggle)
     """
 
+    minimum_coverage: float | str = Field(default=PLUGIN_PROVIDED)
     presector: bool = Field(
         False,
         description="Specify whether to presector the data prior to applying "
@@ -343,7 +358,8 @@ class WorkflowStepDefinitionModel(FrozenModel):
     name: str | tuple[str] | None = Field(
         None,
         description=(
-            "Plugin name. Required for every step except those with "
+            "Plugin name. Required for plugin-backed steps, but not for "
+            "scaffold steps such as ``split`` or ``join`` or steps with "
             "``kind: workflow`` that supply an inline ``spec``."
         ),
     )
@@ -384,7 +400,7 @@ class WorkflowStepDefinitionModel(FrozenModel):
             "For steps following a ``split``: which branch to operate on. "
             "When set, this step's output node nests at "
             "``/<split_id>/<scope>/<step_id>``. "
-            "Split/join execution is not yet implemented."
+            "Explicit step-level scope routing is not yet implemented."
         ),
     )
     when: str | None = Field(
@@ -448,7 +464,7 @@ class WorkflowStepDefinitionModel(FrozenModel):
     @field_validator("scope", mode="before")
     @classmethod
     def _reject_scope(cls, value: str | None) -> None:
-        """Reject non-None ``scope`` — split/join is not yet implemented."""
+        """Reject non-None ``scope`` — explicit step-level scoping not implemented."""
         if value is not None:
             raise ValueError(
                 "scope is not yet implemented — remove this field from the YAML"
@@ -469,8 +485,9 @@ class WorkflowStepDefinitionModel(FrozenModel):
     def _ensure_xor_name_spec(cls, values):
         """Ensure that fields 'spec' and 'name' are mutually exclusive.
 
-        Additionally, ensure that only workflow plugins can define spec in a step. All
-        other plugins must reference a name and provide arguments as is done usually.
+        Additionally, ensure that only workflow and split steps can define ``spec``.
+        Plugin-backed steps must reference a name and provide arguments as usual.
+        Join steps are scaffold steps and do not resolve a plugin by name.
 
         Parameters
         ----------
@@ -487,20 +504,33 @@ class WorkflowStepDefinitionModel(FrozenModel):
         ValueError
             If the plugin name is not valid for the specified plugin kind.
         """
+        if not isinstance(values, dict):
+            return values
+
         if values.get("kind") == "workflow":
             if (values.get("name") is None) == (values.get("spec") is None):
-                raise ValueError("Exactly one of 'name' or 'spec' must be provided.")
+                raise ValueError("Exactly one of name or spec must be provided.")
             values["arguments"] = None
+        elif values.get("kind") == "split":
+            if values.get("name") is not None:
+                raise ValueError("Split steps cannot define a plugin name.")
+            if values.get("spec") is None:
+                raise ValueError("Split steps must define an inline spec.")
+        elif values.get("kind") == "join":
+            if values.get("name") is not None:
+                raise ValueError("Join steps cannot define a plugin name.")
+            if values.get("spec") is not None:
+                raise ValueError("Join steps cannot define an inline spec.")
         else:
             if values.get("spec"):
                 raise ValueError(
-                    "You cannot implement a 'spec' field for any step other than one "
-                    "which a workflow."
+                    "You cannot implement a spec field for any step other than "
+                    "one which is a workflow or split."
                 )
             if values.get("name") is None:
                 raise ValueError(
                     "You must specify a name field for every plugin step that is not a "
-                    "workflow step."
+                    "workflow, split, or join step."
                 )
 
         return values
@@ -654,33 +684,20 @@ class WorkflowSpecModel(FrozenModel):
         None,
         description="Arguments shared across workflow steps",
     )
-    steps: Dict[str, Union[WorkflowStepDefinitionModel]] = Field(
+    steps: Dict[PythonIdentifier, WorkflowStepDefinitionModel] = Field(
         ..., description="Steps to produce the workflow."
     )
 
-    outputs: List[str] | None = Field(
-        None,
+    retention: Literal["keep_all", "keep_referenced"] | None = Field(
+        DEFAULT_RETENTION,
         description=(
-            "Step IDs that constitute workflow outputs. These step nodes "
-            "are exempt from garbage collection. If None, defaults to "
-            "[last_step_id] using Python 3.7+ dict insertion ordering."
+            "Workflow-level data retention policy. "
+            "- keep_all: never GC any step data. "
+            "- keep_referenced: GC a step's data when no remaining "
+            "  downstream step references it."
         ),
     )
-    retention: Literal["keep_all", "keep_referenced", "keep_outputs_only"] | None = (
-        Field(
-            DEFAULT_RETENTION,
-            description=(
-                "Workflow-level data retention policy. "
-                "- keep_all: never GC any step data. "
-                "- keep_referenced: GC a step's data when no remaining "
-                "  downstream step references it. "
-                "- keep_outputs_only: GC everything except declared outputs."
-            ),
-        )
-    )
-    retention_by_kind: (
-        Dict[str, Literal["keep_all", "keep_referenced", "keep_outputs_only"]] | None
-    ) = Field(
+    retention_by_kind: Dict[str, Literal["keep_all", "keep_referenced"]] | None = Field(
         None,
         description=(
             "Per-kind retention overrides. Keys are plugin kind names "
@@ -791,10 +808,10 @@ class WorkflowSpecModel(FrozenModel):
         family = plugin.get("family")
         spec = plugin.get("spec", {})
         global_vars = {"variables": spec["variables"]} if spec.get("variables") else {}
+        last_data_step = []
 
         if family in ORDERED_PRODUCT_FAMILIES:
             step_order = family.split("_")
-            last_data_step = []
             for idx, plugin_name in enumerate(step_order):
                 steps[plugin_name] = spec[plugin_name].get("plugin")
                 steps[plugin_name]["kind"] = plugin_name
@@ -826,6 +843,17 @@ class WorkflowSpecModel(FrozenModel):
 
                 steps[key] = value.get("plugin")
                 steps[key]["kind"] = kind
+                if kind not in ("colormapper", "output_formatter"):
+                    last_data_step = [key]
+
+        if "coverage_checker" not in list(steps.keys()):
+            # Add default coverage checker step if one doesn't already exist
+            steps["coverage_checker"] = {
+                "kind": "coverage_checker",
+                "name": "masked_arrays",
+                "depends_on": last_data_step,
+                "arguments": {"minimum_coverage": 10},
+            }
 
         return steps, global_vars
 
@@ -901,19 +929,27 @@ class WorkflowSpecModel(FrozenModel):
         _inputs = None
 
         for name, step in steps.items():
+            if not isinstance(step, dict):
+                expanded_steps[name] = step
+                _inputs = [name]
+                continue
             # Default
             if step.get("kind") in ["product", "product_default"]:
+                if step.get("depends_on"):
+                    _inputs = step["depends_on"]
                 spec = {"steps": cls.expand_step(step, info, _inputs)}
                 new_step = {
                     "kind": "workflow",
                     "spec": spec,
                 }
+                if step.get("depends_on"):
+                    new_step["depends_on"] = step["depends_on"]
                 # Generate a step ID based off the current step's plugin name.
                 # For products, join the name tuple with "_" and replace any
                 # remaining non-identifier characters so the result is always
                 # a valid PythonIdentifier (required by depends_on validation).
                 step_id = (
-                    "_".join(step.get("name"))
+                    _product_step_id(step.get("name"))
                     if step.get("kind") == "product"
                     else step.get("name")
                 )
@@ -937,9 +973,11 @@ class WorkflowSpecModel(FrozenModel):
 
         mapping = {}
         for name, step in steps.items():
+            if not isinstance(step, dict):
+                continue
             if step.get("kind") in ("product", "product_default"):
                 step_id = (
-                    "_".join(step.get("name"))
+                    _product_step_id(step.get("name"))
                     if step.get("kind") == "product"
                     else step.get("name")
                 )
@@ -952,22 +990,12 @@ class WorkflowSpecModel(FrozenModel):
                 expanded = cls.expand_step(step, info)
                 mapping[name] = list(expanded.keys())
 
-        outputs = data.get("outputs")
-        if outputs and mapping:
-            remapped = []
-            for out in outputs:
-                if out in mapping:
-                    remapped.extend(mapping[out])
-                else:
-                    remapped.append(out)
-            data["outputs"] = remapped
-
         return data
 
     @model_validator(mode="before")
     @classmethod
     def _inject_defaults(cls, data: dict, info: ValidationInfo) -> dict:
-        """Inject implicit defaults for ``outputs`` and ``depends_on``.
+        """Inject implicit defaults for ``depends_on``.
 
         Runs after ``expand_steps`` so the step dict is fully resolved.
         All defaults are baked into the raw dict *before* freezing, so no
@@ -987,19 +1015,10 @@ class WorkflowSpecModel(FrozenModel):
                 f"data-injection dependency token and cannot name a step"
             )
 
-        if data.get("outputs") is None:
-            output_candidates = [
-                sid
-                for sid in step_ids
-                if steps[sid].get("kind")
-                not in ("workflow", "product", "product_default")
-            ]
-            data["outputs"] = (
-                output_candidates[-1:] if output_candidates else [step_ids[-1]]
-            )
-
         for i, sid in enumerate(step_ids):
             step = steps[sid]
+            if not isinstance(step, dict):
+                continue
             if step.get("depends_on") is None:
                 step["depends_on"] = [] if i == 0 else [step_ids[i - 1]]
 
@@ -1068,7 +1087,7 @@ class WorkflowSpecModel(FrozenModel):
 
     @model_validator(mode="after")
     def _validate_dependencies(self):
-        """Validate ``outputs`` refs, ``depends_on`` refs, and detect cycles.
+        """Validate ``depends_on`` refs and detect cycles.
 
         This is a read-only validator — all defaults have already been
         injected by ``_inject_defaults`` at mode="before".
@@ -1080,8 +1099,6 @@ class WorkflowSpecModel(FrozenModel):
 
         Raises
         ------
-        DanglingOutputError
-            If an entry in ``outputs`` is not a defined step id.
         PluginResolutionError
             If a ``depends_on`` reference (or nested segment) does not resolve.
         DependencyCycleError
@@ -1091,14 +1108,6 @@ class WorkflowSpecModel(FrozenModel):
 
         if not step_ids:
             return self
-
-        # --- validate outputs reference valid steps ---
-        unknown_outputs = set(self.outputs or []) - set(step_ids)
-        if unknown_outputs:
-            raise DanglingOutputError(
-                f"outputs {sorted(unknown_outputs)} are not defined step ids; "
-                f"valid ids: {sorted(step_ids)}"
-            )
 
         # --- deep-validate every depends_on reference (incl. dotted paths) ---
         # The magic ``_input`` token is a virtual source, not a real step, so it
@@ -1322,7 +1331,7 @@ class WorkflowPluginModel(PluginModel):
     test: WorkflowTestModel = Field(
         None,
         description=(
-            "An optional dictionary of parameters used to test this workflow.",
+            "An optional dictionary of parameters used to test this workflow."
         ),
         examples=[
             {

@@ -25,6 +25,8 @@ from typing import Any, Callable
 import numpy as np
 import xarray as xr
 
+from geoips.xarray_utils.coords import normalize_geoips_dataset_coords
+
 # ---------------------------------------------------------------------------
 # FamilyConversionSpec
 # ---------------------------------------------------------------------------
@@ -335,9 +337,10 @@ def dataset_to_dataset_dict(
     -------
     dict[str, xr.Dataset]
     """
+    dataset = normalize_geoips_dataset_coords(dataset)
     result: dict[str, xr.Dataset] = {}
     for var in dataset.data_vars:
-        result[var] = dataset[[var]]
+        result[var] = normalize_geoips_dataset_coords(dataset[[var]])
     return result
 
 
@@ -359,7 +362,7 @@ def dataset_dict_to_dataset(dct: dict[str, xr.Dataset], **kwargs: Any) -> xr.Dat
     datasets = list(dct.values())
     merged: xr.Dataset = xr.merge(datasets) if datasets else xr.Dataset()
     merged.attrs["_conv_var_order"] = list(dct.keys())
-    return merged
+    return normalize_geoips_dataset_coords(merged)
 
 
 # ---------------------------------------------------------------------------

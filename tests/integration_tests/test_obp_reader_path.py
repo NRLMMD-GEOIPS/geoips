@@ -89,6 +89,7 @@ def test_reader_dict_merged_into_datatree(patch_reader_path):
                 "name": "dict_reader",
                 "arguments": {},
                 "depends_on": [],
+                "keep": True,
             },
         }
     )
@@ -96,10 +97,10 @@ def test_reader_dict_merged_into_datatree(patch_reader_path):
     node = result.get("read")
     assert isinstance(node, xr.DataTree)
     assert node.ds is not None
-    # data var survived the dict -> Dataset merge
-    assert "B14BT" in node.ds.data_vars
-    # METADATA attrs were merged in
-    assert node.ds.attrs.get("source_name") == "abi"
+    # Data payload survived under the reader's DATA child.
+    assert "B14BT" in node["DATA"].ds.data_vars
+    assert node["DATA"].ds.attrs.get("source_name") == "abi"
+    # METADATA attrs were merged onto the reader root node.
     assert node.ds.attrs.get("platform_name") == "goes-16"
 
 

@@ -54,13 +54,40 @@ class TestGeoIPSConfig:
         cfg = GeoIPSConfig()
         assert cfg.outdirs == "/test/outdirs"
 
-    def test_falls_back_to_home(self, monkeypatch):
+    def test_falls_back_to_home(self, monkeypatch, tmp_path):
         """Verify outdirs falls back to $HOME/geoips_outdirs when unset."""
-        for var in ("GEOIPS_OUTDIRS", "GEOIPS_LOGGING_LEVEL"):
+        home = tmp_path / "home"
+        home.mkdir()
+
+        monkeypatch.chdir(tmp_path)
+        for var in ("GEOIPS_OUTDIRS", "GEOIPS_LOGGING_LEVEL", "GEOIPS_RCFILE"):
             monkeypatch.delenv(var, raising=False)
-        monkeypatch.setenv("HOME", "/home/testuser")
+        monkeypatch.setenv("HOME", str(home))
+
         cfg = GeoIPSConfig()
-        assert cfg.outdirs == "/home/testuser/geoips_outdirs"
+
+        assert cfg.outdirs == str(home / "geoips_outdirs")
+
+    def test_uses_explicit_project_config_path(self, monkeypatch, tmp_path):
+        """Verify GeoIPSConfig applies an explicitly supplied project config path."""
+        config_file = tmp_path / "explicit.yaml"
+        config_file.write_text("geoips:\n  outdirs: /explicit/outdirs\n")
+
+        cwd_file = tmp_path / ".geoips.yaml"
+        cwd_file.write_text("geoips:\n  outdirs: /cwd/outdirs\n")
+        monkeypatch.chdir(tmp_path)
+        monkeypatch.delenv("GEOIPS_OUTDIRS", raising=False)
+
+        cfg = GeoIPSConfig(project_config_path=str(config_file))
+
+        assert cfg.outdirs == "/explicit/outdirs"
+
+    def test_missing_explicit_project_config_path_raises(self, tmp_path):
+        """Verify GeoIPSConfig raises for a missing explicit project config path."""
+        missing_file = tmp_path / "missing.yaml"
+
+        with pytest.raises(FileNotFoundError):
+            GeoIPSConfig(project_config_path=str(missing_file))
 
     def test_auto_resolves_base_path(self, monkeypatch):
         """Verify base_path is auto-resolved to the geoips package directory."""
@@ -223,10 +250,14 @@ class TestInvalidProjectConfig:
         monkeypatch.setattr(
             config_mod,
             "load_project_config",
-            lambda: {"geoips": {"features": {"no_color": "notabool"}}},
+            lambda project_config_path=None: {
+                "geoips": {"features": {"no_color": "notabool"}}
+            },
         )
         monkeypatch.setattr(
-            config_mod, "find_project_config", lambda: "bad/.geoips.yaml"
+            config_mod,
+            "find_project_config",
+            lambda project_config_path=None: "bad/.geoips.yaml",
         )
 
         with pytest.raises(ConfigError) as excinfo:

@@ -3,6 +3,8 @@
 
 """Interpolators interface class."""
 
+import xarray as xr
+
 from geoips.interfaces.class_based_plugin import BaseClassPlugin
 from geoips.interfaces.base import BaseClassInterface
 
@@ -12,7 +14,86 @@ class BaseInterpolatorPlugin(BaseClassPlugin, abstract=True):
 
     data_tree = False
 
-    pass
+    def _pre_call(self, data=None, *args, _obp_initiated=False, **kwargs):
+        """Prepare OBP interpolator inputs before invoking ``call``.
+
+        Legacy interpolators expect ``area_def``, ``input_xarray``,
+        ``output_xarray``, and ``varlist`` as call arguments. Under OBP, those
+        values may arrive as DataTree dependencies and conduit-injected kwargs.
+        Normalize them here so ``BaseClassPlugin._invoke`` can remain generic and
+        still be the only method that calls ``call``.
+        """
+        # Workflow mode usually arrives here with a multi-input tree. Script
+        # mode keeps the accumulated script tree in ``data``, then _invoke
+        # extracts upstream reader/interpolator and sector nodes into conduit
+        # kwargs such as ``xarray_obj`` and ``area_def``. Either shape needs
+        # normalization to the legacy interpolator call signature.
+        has_extracted_conduit_inputs = "xarray_obj" in kwargs or "area_def" in kwargs
+        if _obp_initiated and (
+            self._use_positional_unpacking(data, _obp_initiated)
+            or has_extracted_conduit_inputs
+        ):
+            kwargs = self._prepare_obp_interpolator_kwargs(data, kwargs)
+            data = super()._pre_call(
+                data, *args, _obp_initiated=_obp_initiated, **kwargs
+            )
+            return data, kwargs
+
+        return super()._pre_call(data, *args, _obp_initiated=_obp_initiated, **kwargs)
+
+    def _prepare_obp_interpolator_kwargs(self, data, kwargs):
+        """Populate legacy interpolator call kwargs from OBP inputs."""
+        input_xarray = kwargs.pop("xarray_obj", None)
+        area_def_found = kwargs.get("area_def") is not None
+
+        if input_xarray is None or not area_def_found:
+            input_xarray, area_def_found = self._collect_interpolator_inputs(
+                data, input_xarray, area_def_found
+            )
+
+        if input_xarray is None:
+            raise RuntimeError(
+                "Error: Could not find an input dataset to interpolate for "
+                f"interpolator plugin '{self.name}'."
+            )
+
+        if not area_def_found:
+            raise RuntimeError(
+                "Error: Could not determine an area definition for interpolator "
+                f"plugin '{self.name}'. Provide an area_def directly, or include "
+                "a sector step or sector input that can supply an area definition."
+            )
+
+        if kwargs.get("area_def") is None:
+            raise RuntimeError(
+                "Error: Could not determine an appropriate area definition to "
+                "interpolate to. Please ensure your interpolator step depends on a "
+                "sector before continuing."
+            )
+
+        kwargs["input_xarray"] = input_xarray
+        kwargs.setdefault("output_xarray", xr.Dataset())
+        if kwargs.get("varlist") is None:
+            kwargs["varlist"] = list(input_xarray.variables.keys())
+
+        return kwargs
+
+    @staticmethod
+    def _collect_interpolator_inputs(data, input_xarray=None, area_def_found=False):
+        """Find interpolation input data and sector-derived area definitions."""
+        if not isinstance(data, xr.DataTree):
+            return input_xarray, area_def_found
+
+        for group in data.groups:
+            ds = data[group]
+            if not hasattr(ds, "attrs") or not ds.attrs:
+                continue
+            if ds.attrs.get("plugin_kind") == "sector":
+                area_def_found = True
+            elif input_xarray is None:
+                input_xarray = ds.to_dataset()
+
+        return input_xarray, area_def_found
 
 
 class InterpolatorsInterface(BaseClassInterface):

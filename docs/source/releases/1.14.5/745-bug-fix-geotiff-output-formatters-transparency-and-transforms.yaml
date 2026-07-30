@@ -39,7 +39,6 @@ bug fix:
     date:
       start: 2025-01-22
       finish: 2025-01-24
-bug fix:
   - title: "ABI netcdf non-resampled read ROI and sat zen cutoff same as resampled"
     description: |
       Previously there was no sat zenith cut off for abi non-resampled reads,

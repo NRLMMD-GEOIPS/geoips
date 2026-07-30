@@ -1,7 +1,8 @@
 Linters
 =======
 
-GeoIPS uses several linting tools to maintain code quality and consistency. This document describes the linters, how to install them, and how to run them.
+GeoIPS uses several linting tools to maintain code quality and consistency. This
+document describes the linters, how to install them, and how to run them.
 
 Available Linters
 -----------------

@@ -4,7 +4,6 @@ name: ob_windbarbs_dmw_high
 docstring: |
   The windbarbs workflow configuration.
 spec:
-  outputs: [output_formatter]
   steps:
     algorithm:
       kind: algorithm
