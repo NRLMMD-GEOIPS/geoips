@@ -4,7 +4,6 @@
 """Data manipulation steps for generic rgb recipes."""
 
 import numpy
-from pandas.io.formats.format import math
 
 from geoips.interfaces.class_based.algorithms import BaseAlgorithmPlugin
 from geoips.interfaces import algorithm_configs
@@ -24,41 +23,12 @@ class ConfigRgbAlgorithmPlugin(BaseAlgorithmPlugin):
     family = "xarray_to_numpy"
     name = "config_rgb"
 
-    _operations = {
-            ast.Add : operator.add,
-            ast.Sub : operator.sub,
-            ast.Mult : operator.mul,
-            ast.Div : operator.truediv,
-            ast.Pow : operator.pow,
-    }
-
-    _functions = {
-            "abs" : abs
-            }
-
     @classmethod
     def _safe_eval(cls, node, variables):
         if isinstance(node, ast.Constant):
             return node.value
         elif isinstance(node, ast.Name):
-            import pdb; breakpoint()
-            return variables[node.id]
-        elif isinstance(node, ast.BinOp):
-            op = cls._operations[node.op.__class__]
-            left = cls._safe_eval(node.left, variables)
-            right = cls._safe_eval(node.right, variables)
-            if isinstance(node.op, ast.Pow):
-                assert right < 100
-            return op(left, right)
-        elif isinstance(node, ast.Call):
-            assert not node.keywords
-            assert isinstance(node.func, ast.Name)
-            func = cls._functions[node.func.id]
-            args = [cls._safe_eval(arg, variables) for arg in node.args]
-            return func(*args)
-
-        assert False, 'Unsafe operation'
-
+            return variables[]
 
     @classmethod
     def safe_eval(cls, expression, variables):
@@ -84,10 +54,7 @@ class ConfigRgbAlgorithmPlugin(BaseAlgorithmPlugin):
         equation_type = equation["type"]
 
         if equation_type == "expression":
-            variables = {}
-            for v in equation["variables"]:
-                variables[v] = xobj[v].to_masked_array()
-            return cls.safe_eval(equation["expression"], variables)
+            return cls.safe_eval(equation["expression"], equation["variables"])
 
         if equation_type == "addition":
             data = (

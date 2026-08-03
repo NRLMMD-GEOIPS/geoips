@@ -17,9 +17,13 @@ from geoips.pydantic_models.v1.bases import (
 class RgbEquation(FrozenModel):
     """Model for an rgb equation."""
 
-    type: Literal["raw", "difference", "addition"] = Field(
+    type: Literal["raw", "difference", "addition", "expression"] = Field(
         ..., description="The type of equation being performed."
     )
+    expression: str | None = Field(
+        default=None,
+        description="If the type of expression, this is a string of the expression"
+            )
     variables: List[str] = Field(
         ..., description="The variables needed to perform the equation."
     )
