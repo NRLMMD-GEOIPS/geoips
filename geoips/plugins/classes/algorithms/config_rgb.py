@@ -112,7 +112,6 @@ class ConfigRgbAlgorithmPlugin(BaseAlgorithmPlugin):
             variables = {}
             for v in equation["variables"]:
                 variables[v] = xobj[v].to_masked_array()
-            import pdb; breakpoint()
             return cls.safe_eval(equation["expression"], variables)
 
         if equation_type == "addition":
@@ -127,8 +126,6 @@ class ConfigRgbAlgorithmPlugin(BaseAlgorithmPlugin):
             )
         else:
             data = xobj[equation["variables"][0]].to_masked_array()
-
-        breakpoint()
 
         return data
 
