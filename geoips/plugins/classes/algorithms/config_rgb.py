@@ -129,7 +129,7 @@ class ConfigRgbAlgorithmPlugin(BaseAlgorithmPlugin):
 
         return data
 
-    def call(self, xobj, config_name):  # NOQA -- xobj is used in the literal eval calls
+    def call(self, xobj, config_name=None, obp_spec=None):  # NOQA -- xobj is used in the literal eval calls
         """Apply a generic algorithm for rgb recipes.
 
         Parameters
@@ -144,18 +144,25 @@ class ConfigRgbAlgorithmPlugin(BaseAlgorithmPlugin):
         numpy.ndarray
             numpy.ndarray or numpy.MaskedArray of qualitative RGBA image output
         """
-        config = algorithm_configs.get_plugin(config_name)
+        # config_name overrides obp_spec if somehow both are provided  
+        if config_name:
+            config = algorithm_configs.get_plugin(config_name)
+            config_spec = config["spec"]
+        elif obp_spec:
+            config_spec = obp_spec
+        else:
+            raise ValueError("This algorithm requires either a config_name or an obp_spec argument.")
 
-        red = self.apply_equation(xobj, config["spec"]["red"]["equation"])
-        grn = self.apply_equation(xobj, config["spec"]["green"]["equation"])
-        blu = self.apply_equation(xobj, config["spec"]["blue"]["equation"])
+        red = self.apply_equation(xobj, config_spec["red"]["equation"])
+        grn = self.apply_equation(xobj, config_spec["green"]["equation"])
+        blu = self.apply_equation(xobj, config_spec["blue"]["equation"])
 
-        input_units_red = config["spec"]["red"]["input_units"]
-        output_units_red = config["spec"]["red"]["output_units"]
-        input_units_grn = config["spec"]["green"]["input_units"]
-        output_units_grn = config["spec"]["green"]["output_units"]
-        input_units_blu = config["spec"]["blue"]["input_units"]
-        output_units_blu = config["spec"]["blue"]["output_units"]
+        input_units_red = config_spec["red"]["input_units"]
+        output_units_red = config_spec["red"]["output_units"]
+        input_units_grn = config_spec["green"]["input_units"]
+        output_units_grn = config_spec["green"]["output_units"]
+        input_units_blu = config_spec["blue"]["input_units"]
+        output_units_blu = config_spec["blue"]["output_units"]
 
         # Convert TB from Kevin to Celsius
         from geoips.data_manipulations.conversions import unit_conversion
@@ -172,8 +179,8 @@ class ConfigRgbAlgorithmPlugin(BaseAlgorithmPlugin):
 
         from geoips.data_manipulations.corrections import apply_data_range, apply_gamma
 
-        data_range = config["spec"]["red"]["data_range"]
-        gamma = config["spec"]["red"]["gamma"]
+        data_range = config_spec["red"]["data_range"]
+        gamma = config_spec["red"]["gamma"]
         red = apply_data_range(
             red,
             min_val=data_range[0],
@@ -185,8 +192,8 @@ class ConfigRgbAlgorithmPlugin(BaseAlgorithmPlugin):
         )  # need inverse option?
         red = apply_gamma(red, gamma)
 
-        data_range = config["spec"]["green"]["data_range"]
-        gamma = config["spec"]["green"]["gamma"]
+        data_range = config_spec["green"]["data_range"]
+        gamma = config_spec["green"]["gamma"]
         grn = apply_data_range(
             grn,
             min_val=data_range[0],
@@ -198,8 +205,8 @@ class ConfigRgbAlgorithmPlugin(BaseAlgorithmPlugin):
         )
         grn = apply_gamma(grn, gamma)
 
-        data_range = config["spec"]["blue"]["data_range"]
-        gamma = config["spec"]["blue"]["gamma"]
+        data_range = config_spec["blue"]["data_range"]
+        gamma = config_spec["blue"]["gamma"]
         blu = apply_data_range(
             blu,
             min_val=data_range[0],
