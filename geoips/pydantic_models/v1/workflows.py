@@ -916,7 +916,10 @@ class WorkflowSpecModel(FrozenModel):
                 # I.e. arguments:
                 #        step_id.argument_name: value
                 step_id, argument_name = key.split(".")
-                steps[step_id]["arguments"][argument_name] = value
+                if argument_name == "depends_on":
+                    steps[step_id]["depends_on"] = value
+                else:
+                    steps[step_id]["arguments"][argument_name] = value
 
         if _inputs and kind == "workflow":
             for step_id, step in steps.items():
