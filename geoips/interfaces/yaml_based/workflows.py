@@ -3,13 +3,12 @@
 
 """Workflow interface module."""
 
-# cspell: ignore koverrides soverrides
+# cspell: ignore soverrides
 
 from collections.abc import Mapping
 from copy import deepcopy
 import logging
 
-from lexeme_type.lexeme import Lexeme
 import yaml
 
 from geoips.interfaces.base import BaseYamlInterface
@@ -56,48 +55,6 @@ class WorkflowsInterface(BaseYamlInterface):
 
         return {
             "argument": lhs,
-            # doing a yaml.safe_load attempts to cast the value into its correct type
-            "value": yaml.safe_load(rhs),
-        }
-
-    def kind_override_type(self, value: str):
-        """Ensure an override string fits the following format.
-
-        Expected Format
-        ---------------
-        '<kind>.<argument_name>=<some_value>'
-
-        Parameters
-        ----------
-        value: str
-            The full kind override string for a geoips run order_based command.
-
-        Returns
-        -------
-        override_dict: dict
-            The validated contents of an override string in a dictionary.
-        """
-        try:
-            lhs, rhs = value.split("=", 1)
-        except ValueError:
-            raise ValueError(
-                f"Invalid format '{value}'. Expected '<kind>.<argument_name>=<value>'"
-            )
-
-        parts = lhs.split(".")
-
-        if len(parts) != 2:
-            raise ValueError(
-                f"Invalid key '{lhs}'. Must be in the format of "
-                "'<kind>.<argument_name>'"
-            )
-
-        kind = parts[0]
-        argument = parts[1]
-
-        return {
-            "kind": kind,
-            "argument": argument,
             # doing a yaml.safe_load attempts to cast the value into its correct type
             "value": yaml.safe_load(rhs),
         }
@@ -164,6 +121,8 @@ class WorkflowsInterface(BaseYamlInterface):
         d: dict[dict]
             A nested dictionary.
         """
+        if d.get("spec") and d.get("spec").get("steps"):
+            keys = ["spec", "steps"] + keys
         current = d
         for key in [step_id] + keys:
             current = current.setdefault(key, {})
@@ -195,28 +154,6 @@ class WorkflowsInterface(BaseYamlInterface):
         )
         return steps
 
-    def _override_kind(self, steps, override):
-        """Override an argument of a given kind.
-
-        Parameters
-        ----------
-        steps: dict[dict]
-            An ordered dictionary of steps to apply in a given workflow.
-        override: Any
-            The value of the override.
-
-        Returns
-        -------
-        steps: dict[dict]
-            An overridden representation of 'steps'.
-        """
-        for id, step in steps.items():
-            if Lexeme(step["kind"]).singular == Lexeme(override["kind"]).singular:
-                if step.get("arguments"):
-                    steps[id]["arguments"][override["argument"]] = override["value"]
-
-        return steps
-
     def _override_global(self, steps, override):
         """Override an argument of a given global.
 
@@ -233,7 +170,11 @@ class WorkflowsInterface(BaseYamlInterface):
             An overridden representation of 'steps'.
         """
         for id, step in steps.items():
-            if step.get("arguments") and override["argument"] in step["arguments"]:
+            if step.get("kind") == "workflow" and step.get("spec", {}).get("steps"):
+                step["spec"]["steps"] = self._override_global(
+                    step["spec"]["steps"], override
+                )
+            else:
                 steps[id]["arguments"][override["argument"]] = override["value"]
         return steps
 
@@ -241,8 +182,8 @@ class WorkflowsInterface(BaseYamlInterface):
         self,
         workflow,
         goverrides=[],
-        koverrides=[],
         soverrides=[],
+        grab_bases=True,
     ):
         """Override a workflow plugin where applicable.
 
@@ -252,10 +193,11 @@ class WorkflowsInterface(BaseYamlInterface):
             A dictionary representation of a workflow plugin.
         goverrides: list[str], optional
             A list of string global overrides.
-        koverrides: list[str], optional
-            A list of string kind overrides.
         soverrides: list[str], optional
             A list of string step overrides.
+        grab_bases: bool, optional
+            Whether or not to use the override arguments specified in a workflow's
+            'arguments' section. Defaults to True.
 
         Returns
         -------
@@ -263,19 +205,29 @@ class WorkflowsInterface(BaseYamlInterface):
             The overridden representation of 'workflow'.
         """
         steps = workflow["spec"]["steps"]
+        if grab_bases:
+            base_goverrides, base_soverrides = (
+                self._convert_override_dict_to_string_format(workflow)
+            )
+            # Add CLI arguments at the end of the list, they will override if duplicates
+            # occur
+            goverrides = base_goverrides.extend(goverrides)
+            soverrides = base_soverrides.extend(soverrides)
 
-        wf_overrides = {"globals": goverrides, "kinds": koverrides, "steps": soverrides}
+        wf_overrides = {
+            "global": goverrides,
+            "step": soverrides,
+        }
 
         for override_type, overrides in wf_overrides.items():
-            type_singular = Lexeme(override_type).singular
             for override in overrides:
                 if isinstance(override, str):
-                    steps = getattr(self, f"_override_{type_singular}")(
+                    steps = getattr(self, f"_override_{override_type}")(
                         steps,
-                        getattr(self, f"{type_singular}_override_type")(override),
+                        getattr(self, f"{override_type}_override_type")(override),
                     )
                 else:
-                    steps = getattr(self, f"_override_{type_singular}")(steps, override)
+                    steps = getattr(self, f"_override_{override_type}")(steps, override)
 
         workflow["spec"]["steps"] = steps
 
@@ -451,7 +403,7 @@ class WorkflowsInterface(BaseYamlInterface):
 
         return steps
 
-    def _convert_override_dict_to_string_format(self, workflow):
+    def _convert_override_dict_to_string_format(self, workflow, input_arguments=None):
         """
         Convert a workflow's test section overrides to string-based overrides.
 
@@ -459,77 +411,42 @@ class WorkflowsInterface(BaseYamlInterface):
         ----------
         workflow: dict
             A dictionary representation of a workflow plugin.
+        input_arguments: dict, optional
+            A dictionary of input override arguments from the commandline. Defaults to
+            None.
 
         Returns
         -------
         goverrides: list[str]
             A list of global override strings.
-        koverrides: list[str]
-            A list of kind override strings.
         soverrides: list[str]
             A list of step override strings.
         """
-
-        def _iterate_over_nested(current):
-            """Iterate over the keys of a nested dictionary.
-
-            Expected format of the nested dictionary is a single key, value pair in
-            each nested dictionary.
-
-            Parameters
-            ----------
-            current: dict
-                The current instance of a dictionary in a nested dictionary.
-
-            Returns
-            -------
-            key: str
-                The key of the leaf nested dictionary. One the final iteration is hit,
-                balloon back up and return the name of the key in each parent
-                dictionary.
-            value: Any
-                The override value being applied.
-            """
-            key = list(current.keys())[0]
-            if not isinstance(current[key], Mapping):
-                return f"{key}={current[key]}"
-            else:
-                return f"{key}.{_iterate_over_nested(current[key])}"
-
-        override_types = ["globals", "kinds", "steps"]
         goverrides = []
-        koverrides = []
         soverrides = []
-        for override_type in override_types:
-            overrides = workflow.get("test", {}).get(override_type)
-            if overrides:
-                for override_key, override in overrides.items():
-                    if isinstance(override, Mapping) and not override.keys():
-                        continue
-                    elif isinstance(override, Mapping):
-                        str_override = (
-                            f"{override_key}.{_iterate_over_nested(override)}"
-                        )
-                    else:
-                        str_override = f"{override_key}={override}"
+        arguments = input_arguments if input_arguments else workflow.get("arguments")
 
-                    if override_type == "globals":
-                        goverrides.append(str_override)
-                    elif override_type == "kinds":
-                        koverrides.append(str_override)
-                    else:
-                        soverrides.append(str_override)
+        for override_key, overrides in arguments.items():
+            if override_key.startswith("global"):
+                override_type = "global"
+            else:
+                override_type = "step"
+            for argument, value in overrides.items():
+                if override_type == "global":
+                    str_override = f"{argument}={value}"
+                    goverrides.append(str_override)
+                else:
+                    str_override = f"{override_key}.{argument}={value}"
+                    soverrides.append(str_override)
 
-        return goverrides, koverrides, soverrides
+        return goverrides, soverrides
 
     def _override_workflow_dict_format(
         self,
         workflow,
-        goverrides=None,
-        koverrides=None,
-        soverrides=None,
-        oc_overrides=None,
-        use_test=False,
+        goverrides={},
+        soverrides={},
+        oc_overrides={},
     ):
         """Override a workflow plugin where applicable.
 
@@ -539,38 +456,30 @@ class WorkflowsInterface(BaseYamlInterface):
             A dictionary representation of a workflow plugin.
         goverrides: dict, optional
             A dictionary of global overrides.
-        koverrides: dict, optional
-            A dictionary of kind overrides.
         soverrides: dict, optional
             A dictionary for step overrides.
         oc_overrides: dict, optional
             A dictionary for output_checker overrides.
-        use_test: bool, optional
-            Whether or not to use the overrides specified in a workflow's 'test' section
-            or to use the overrides provided as arguments to this function.
 
         Returns
         -------
         overridden: dict
             The overridden representation of 'workflow'.
         """
-        if not use_test:
-            for override_type, overrides in {
-                "globals": goverrides,
-                "kinds": koverrides,
-                "steps": soverrides,
-            }.items():
-                if overrides:
-                    workflow["test"][override_type] = overrides
-                else:
-                    workflow["test"][override_type] = {}
-
-        goverrides, koverrides, soverrides = (
-            self._convert_override_dict_to_string_format(workflow)
+        in_goverrides, in_soverrides = self._convert_override_dict_to_string_format(
+            workflow, input_arguments={"global": goverrides}.update(soverrides)
         )
+        goverrides, soverrides = self._convert_override_dict_to_string_format(workflow)
+
+        # Add CLI arguments at the end of the list, they will override if duplicates
+        # occur
+        if in_goverrides and any(set(in_goverrides).difference(set(goverrides))):
+            goverrides.extend(in_goverrides)
+        if in_soverrides and any(set(in_soverrides).difference(set(soverrides))):
+            soverrides.extend(in_soverrides)
 
         workflow = self._override_workflow_string_format(
-            workflow, goverrides, koverrides, soverrides
+            workflow, goverrides, soverrides, grab_bases=False
         )
 
         steps = deepcopy(workflow["spec"]["steps"])
@@ -619,9 +528,7 @@ class WorkflowsInterface(BaseYamlInterface):
                 "but the plugin is missing a top level 'test' section."
             )
 
-        expanded_workflow = self._override_workflow_dict_format(
-            expanded_workflow, use_test=True
-        )
+        expanded_workflow = self._override_workflow_dict_format(expanded_workflow)
 
         # Import buried in order to avoid circular import error
         from geoips.pydantic_models.v1.workflows import WorkflowPluginModel

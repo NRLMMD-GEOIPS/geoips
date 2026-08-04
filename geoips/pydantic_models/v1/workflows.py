@@ -1227,30 +1227,6 @@ class OutputCheckerOverrideModel(PermissiveFrozenModel):
     )
 
 
-class NestedSpecOverride(PermissiveFrozenModel):
-    """Spec definition allowing for recursive overrides."""
-
-    steps: Dict[str, StepOverrideType] = Field(default_factory=dict)
-
-
-class StepOverrideType(PermissiveFrozenModel):
-    """
-    A workflow step override.
-
-    Either:
-    - arbitrary arguments
-    OR
-    - a nested spec containing additional steps
-    """
-
-    spec: Optional[NestedSpecOverride] = None
-
-
-# Required for recursive references
-NestedSpecOverride.model_rebuild()
-StepOverrideType.model_rebuild()
-
-
 class WorkflowTestModel(FrozenModel):
     """Model for the test section of GeoIPS workflow plugins."""
 
@@ -1259,38 +1235,6 @@ class WorkflowTestModel(FrozenModel):
         ...,
         description="A list of one or more filepaths to the data used for this test.",
         validation_alias=AliasChoices("fnames", "filenames"),
-    )
-    #
-    # globals:
-    #   argument: value
-    #
-    globals: Dict[str, Any] = Field(
-        default_factory=dict,
-        description="Override dictionary for global arguments.",
-    )
-
-    #
-    # kinds:
-    #     readers:
-    #         argument: value
-    #
-    # Keys must match interfaces.__all__
-    #
-    kinds: Dict[str, Dict[str, Any]] = Field(
-        default_factory=dict,
-        description="Override dictionary for plugins matching a certain 'kind'.",
-    )
-
-    #
-    # steps:
-    #     step_id:
-    #         argument: value
-    #
-    # or recursive nested specs
-    #
-    steps: Dict[str, StepOverrideType] = Field(
-        default_factory=dict,
-        description="Override dictionary for individual steps.",
     )
 
     #
@@ -1310,20 +1254,6 @@ class WorkflowTestModel(FrozenModel):
             " an output checker."
         ),
     )
-
-    @model_validator(mode="after")
-    def validate_kind_keys(self) -> WorkflowTestModel:
-        """Ensure kinds keys are valid GeoIPS interfaces."""
-        # Make sure any element of kinds are a valid interface
-        invalid = set(self.kinds) - set(interfaces.__all__)
-
-        if invalid:
-            raise ValueError(
-                f"Invalid kinds keys: {sorted(invalid)}. "
-                f"Valid interfaces are: {sorted(interfaces.__all__)}"
-            )
-
-        return self
 
     @field_validator("filenames", mode="before")
     @classmethod
@@ -1355,6 +1285,7 @@ class WorkflowPluginModel(PluginModel):
     """A plugin that produces a workflow."""
 
     model_config = ConfigDict(extra="allow")
+
     test: WorkflowTestModel = Field(
         None,
         description=(
@@ -1370,6 +1301,11 @@ class WorkflowPluginModel(PluginModel):
             },
         ],
     )
+
+    arguments: Optional[Dict[str, Any]] | None = Field(
+        None, description="Argument overrides to apply to your workflow."
+    )
+
     spec: WorkflowSpecModel = Field(..., description="The workflow specification")
 
     @model_validator(mode="before")
