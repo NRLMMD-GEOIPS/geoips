@@ -24,44 +24,69 @@ class ConfigRgbAlgorithmPlugin(BaseAlgorithmPlugin):
     family = "xarray_to_numpy"
     name = "config_rgb"
 
+    # map each mathematical symbol to a corresponding numpy function
     _operations = {
-            ast.Add : operator.add,
-            ast.Sub : operator.sub,
-            ast.Mult : operator.mul,
-            ast.Div : operator.truediv,
-            ast.Pow : operator.pow,
+            ast.Add : numpy.add,
+            ast.Sub : numpy.subtract,
+            ast.Mult : numpy.multiply,
+            ast.Div : numpy.divide,
+            ast.Pow : numpy.pow,
     }
-
-    _functions = {
-            "abs" : abs
-            }
 
     @classmethod
     def _safe_eval(cls, node, variables):
+        '''Parses user-inputted expressions recursively.
+
+        Parameters
+        ----------
+        node : ast.Constant | ast.Name | ast.BinOp | ast.Call
+            A node representative of a section of the expression.
+        variables : dict[str : np.MaskedArray] 
+            A dictionary to map each variable inputted by 
+            the user to its corresponding MaskedArray
+        '''
         if isinstance(node, ast.Constant):
+            # Numeric constants, e.g. 1
             return node.value
         elif isinstance(node, ast.Name):
-            import pdb; breakpoint()
+            # Varibles from the `variables` dictionary
             return variables[node.id]
         elif isinstance(node, ast.BinOp):
+            # Binary operations, e.g addition.
             op = cls._operations[node.op.__class__]
             left = cls._safe_eval(node.left, variables)
             right = cls._safe_eval(node.right, variables)
-            if isinstance(node.op, ast.Pow):
-                assert right < 100
             return op(left, right)
         elif isinstance(node, ast.Call):
-            assert not node.keywords
+            # check if the call is valid
             assert isinstance(node.func, ast.Name)
-            func = cls._functions[node.func.id]
+            # if not a valid numpy function, it will throw an AttributeError
+            func = getattr(numpy, node.func.id)
             args = [cls._safe_eval(arg, variables) for arg in node.args]
             return func(*args)
 
+        # some unknown node type
         assert False, 'Unsafe operation'
 
 
     @classmethod
     def safe_eval(cls, expression, variables):
+        '''Wrapper for recursive expression evaluator `_safe_eval`
+
+        Parameters
+        ----------
+        expression : str
+            A string representing the `expression` user input in the algorithm_configs
+            yaml file.
+        variables : dict[str : np.MaskedArray]
+            A dictionary to map each variable inputted by 
+            the user to its corresponding MaskedArray
+        
+        Returns
+        -------
+        data : numpy.ndarray
+            The resulting dataset after parsing and performing the equation.
+        '''
         node = ast.parse(expression, '<string>', 'eval').body
         return cls._safe_eval(node, variables)
     
@@ -87,6 +112,7 @@ class ConfigRgbAlgorithmPlugin(BaseAlgorithmPlugin):
             variables = {}
             for v in equation["variables"]:
                 variables[v] = xobj[v].to_masked_array()
+            import pdb; breakpoint()
             return cls.safe_eval(equation["expression"], variables)
 
         if equation_type == "addition":
@@ -101,6 +127,8 @@ class ConfigRgbAlgorithmPlugin(BaseAlgorithmPlugin):
             )
         else:
             data = xobj[equation["variables"][0]].to_masked_array()
+
+        breakpoint()
 
         return data
 
