@@ -135,7 +135,7 @@ OBP_CONDUITS: dict[str, dict] = {
     },
     "title_formatter": {
         "kwarg": "title_formatter_str",
-        "extract": lambda c: _extract_attr(c, "title_formatter_str"),
+        "extract": lambda c: _extract_attr(c, "value"),
     },
     "interpolator": {"kwarg": "xarray_obj", "extract": _extract_ds},
     "manual": {"kwarg": "xarray_obj", "extract": _extract_ds},
