@@ -14,9 +14,6 @@ from geoips.interfaces import products
 
 LOG = logging.getLogger(__name__)
 
-# TESTING CODE - DO NOT COMMIT
-from ipdb import set_trace as shell
-
 
 class ImageryAnnotatedOutputFormatterPlugin(BaseOutputFormatterPlugin):
     """Imagery Annotated Output formatter plugin class."""
@@ -180,7 +177,6 @@ class ImageryAnnotatedOutputFormatterPlugin(BaseOutputFormatterPlugin):
                     bkgrnd_clr=bkgrnd_clr,
                 )
 
-        shell()
         if title_formatter_str is not None and isinstance(title_formatter_str, str):
             # call() was passed a fully-formatted title string so we use it!
             title_string = title_formatter_str
