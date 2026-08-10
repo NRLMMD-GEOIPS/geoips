@@ -8,6 +8,12 @@
 GeoIPS Generalized Best Practices
 =================================
 
+.. note::
+
+   For recommendations specific to :ref:`Order-Based Processing <order-based-processing>`
+   — composing workflows, ``depends_on`` patterns, retention policies, and when to script
+   vs. write a workflow — see :ref:`obp-best-practices`.
+
 There are many ways one can incorporate GeoIPS into their research or operational flow.
 While the developers do not want to be prescriptivist, we do recommend a series
 of best practices to ensure that your plugin development/deployment experience is as smooth as possible.

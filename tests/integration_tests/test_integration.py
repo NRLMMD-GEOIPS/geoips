@@ -3,16 +3,23 @@
 
 """Pytest file for calling integration bash scripts."""
 
+import fcntl
+import importlib.util
 import os
 import platform
-import shlex
-from datetime import datetime, timezone
 import re
+import shlex
+import sys
+import tempfile
+from datetime import datetime, timezone
+from pathlib import Path
 
 import pytest
 
-from geoips.geoips_utils import call_cmd
 from geoips.filenames.base_paths import PATHS as gpaths
+from geoips.geoips_utils import call_cmd
+
+tmpdir = tempfile.mkdtemp()
 
 MACHINE_ARCH = platform.machine().lower()
 IS_ARM = MACHINE_ARCH in ["aarch64", "arm64"] or MACHINE_ARCH.startswith("arm")
@@ -260,10 +267,28 @@ def _run_ansible_check(tags, label):
         orig_vals[key] = os.environ.get(key)
         os.environ[key] = val
 
+    run_uid = os.environ.get("PYTEST_XDIST_TESTRUNUID", "single-process")
+    state_dir = Path(os.getenv("GEOIPS_OUTDIRS", tmpdir)) / "pytest-install-state"
+    state_dir.mkdir(parents=True, exist_ok=True)
+    lock_path = state_dir / "ansible-install.lock"
+    done_path = state_dir / f"{run_uid}-{label}.done"
+
     try:
-        retval, stdout, stderr = call_cmd(
-            cmd, output_log_fname=log_fname, use_logging=False, use_print=False
-        )
+        with open(lock_path, "w", encoding="utf-8") as lock_fobj:
+            fcntl.flock(lock_fobj, fcntl.LOCK_EX)
+            try:
+                if done_path.exists():
+                    print(f"Ansible install check ({label}) already completed.")
+                    return
+
+                retval, stdout, stderr = call_cmd(
+                    cmd, output_log_fname=log_fname, use_logging=False, use_print=False
+                )
+
+                if retval == 0:
+                    done_path.write_text(f"{log_fname}\n", encoding="utf-8")
+            finally:
+                fcntl.flock(lock_fobj, fcntl.LOCK_UN)
     finally:
         # Restore original env
         for key, orig in orig_vals.items():
@@ -636,6 +661,78 @@ def test_integ_full_script(full_setup: None, script: str, fail_on_missing_data: 
     """
     setup_environment()
     run_script_with_bash(script, fail_on_missing_data=fail_on_missing_data)
+
+
+# OBP-style scripting example scripts. These are pure-Python modules with a
+# ``main()`` entrypoint; importing and calling ``main()`` directly avoids the
+# subprocess overhead of ``run_script_with_bash`` while still exercising the
+# full script-mode plugin pipeline end to end.
+obp_scripting_integ_test_calls = [
+    "verify_script_abi_infrared_output.py",
+    "verify_script_reader.py",
+    "verify_script_reader_manipulation.py",
+]
+
+
+@pytest.mark.full
+@pytest.mark.integration
+@pytest.mark.parametrize("script_name", obp_scripting_integ_test_calls)
+def test_integ_obp_scripting_example_script(
+    full_setup: None,
+    script_name: str,
+    fail_on_missing_data: bool,
+):
+    """Run OBP scripting example scripts by importing and calling ``main()``.
+
+    Unlike the bash-driven integration scripts, these examples are pure Python
+    with a ``main()`` entrypoint, so they are imported by path and executed
+    in-process. ``sys.argv`` is reset to ``[script_name]`` so any ``argparse``
+    based scripts use their documented defaults.
+
+    Parameters
+    ----------
+    script_name : str
+        Filename of the example script under
+        ``tests/example_scripts/obp_scripting/``.
+    fail_on_missing_data : bool
+        If True, raise when the script cannot find its test data. If False,
+        xfail the test instead.
+
+    Raises
+    ------
+    FileNotFoundError
+        If required test data is missing and ``fail_on_missing_data`` is True.
+    RuntimeError
+        If the script's ``main()`` raises for any other reason.
+    """
+    setup_environment()
+
+    script_path = (
+        Path(gpaths["GEOIPS_PACKAGES_DIR"])
+        / "geoips"
+        / "tests"
+        / "example_scripts"
+        / "obp_scripting"
+        / script_name
+    )
+    spec = importlib.util.spec_from_file_location(script_name, script_path)
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+
+    saved_argv = sys.argv
+    sys.argv = [script_name]
+    try:
+        module.main()
+    except FileNotFoundError as exc:
+        err_msg = (
+            f"OBP scripting example {script_name!r} could not find its test "
+            f"data: {exc}"
+        )
+        if fail_on_missing_data:
+            raise FileNotFoundError(err_msg) from exc
+        pytest.xfail(err_msg)
+    finally:
+        sys.argv = saved_argv
 
 
 # These are required to test the full functionality of this repo, but have limited

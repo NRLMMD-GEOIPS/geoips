@@ -18,7 +18,6 @@ per branch; ``join`` steps re-collect those branches.  Conditional execution
 
 from __future__ import annotations
 
-import logging
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
 import dataclasses
@@ -28,6 +27,7 @@ from typing import Any
 
 import xarray as xr
 
+from geoips.commandline.log_setup import setup_logging
 from geoips.pydantic_models.v1.workflows import (
     DEFAULT_RETENTION,
     INPUT_REF,
@@ -46,7 +46,9 @@ from geoips.sector_utils.utils import get_sectors_from_yamls
 
 import geoips
 
-LOG = logging.getLogger(__name__)
+# LOG = logging.getLogger(__name__)
+
+LOG = setup_logging(logging_level="info")
 
 
 def _dep_head(dep: str) -> str:
@@ -615,6 +617,7 @@ class Workflow:
             step_def.kind,
             step_def.name,
         )
+
         return result
 
     # ------------------------------------------------------------------

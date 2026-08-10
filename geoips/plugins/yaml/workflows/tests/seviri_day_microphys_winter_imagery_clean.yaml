@@ -1,0 +1,55 @@
+# # # This source code is subject to the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
+
+# script migration = done
+# product testing = done
+
+# Default values - if you do not have this exact test case available, call with available data files / sectors.
+# This exact test case required for valid comparisons - remove "compare_path" argument if running a different
+# set of arguments.
+
+apiVersion: geoips/v1
+interface: workflows
+family: order_based
+name: seviri_day_microphys_winter_imagery_clean
+docstring: |
+  SEVIRI Day Microphysics Winter RGB clean imagery over a static European
+  equirectangular land-ocean sector using MSG-3 HRIT data.
+package: geoips
+test:
+  fnames: !ENV ${GEOIPS_TESTDATA_DIR}/test_data_seviri/data/20250624/1200/H-000-MSG3*
+  outputs:
+    output_formatter:
+      full_test_policy: on_token_mismatch # always | never
+      compare_path: !ENV ${GEOIPS_PACKAGES_DIR}/geoips/tests/outputs/seviri.Day_Microphys_Winter.imagery_clean
+      output_checker_name: image
+spec:
+  globals:
+    product_name: Day_Microphys_Winter
+    reader_defined_area_def: False
+    # will be uncommented after split operation is implemented
+    # sector_list: ["test_meteoeu_eqc_3km_landocean"]
+  steps:
+    sector:
+      kind: sector
+      name: test_meteoeu_eqc_3km_landocean
+    reader:
+      kind: reader
+      name: seviri_hrit
+      depends_on: [sector]
+    seviri_Day_Microphys_Winter:
+      kind: product
+      name: [seviri, Day_Microphys_Winter]
+      depends_on: [sector, reader]
+    filename_formatter:
+      kind: filename_formatter
+      name: geoips_fname
+      depends_on: [seviri_Day_Microphys_Winter.algorithm, sector, seviri_Day_Microphys_Winter.coverage_checker]
+    output_formatter:
+      kind: output_formatter
+      name: imagery_clean
+      depends_on:
+        - seviri_Day_Microphys_Winter.algorithm
+        - seviri_Day_Microphys_Winter.colormapper
+        - filename_formatter
+        - sector

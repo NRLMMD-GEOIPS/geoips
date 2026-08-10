@@ -7,9 +7,10 @@ from os.path import join as pathjoin
 
 import xarray as xr
 
-from geoips.interfaces.class_based_plugin import BaseClassPlugin
 from geoips.interfaces.base import BaseClassInterface
+from geoips.interfaces.class_based_plugin import BaseClassPlugin
 from geoips.utils.types.datatree_ditto import DataTreeDitto
+from geoips.utils.types.datatree_helpers import to_mutable_dataset
 
 
 class BaseFilenameFormatterPlugin(BaseClassPlugin, abstract=True):
@@ -17,38 +18,41 @@ class BaseFilenameFormatterPlugin(BaseClassPlugin, abstract=True):
 
     data_tree = False
 
-    def _pre_call(self, data=None, *args, _obp_initiated=False, **kwargs):
-        r"""Normalize ``DataTreeDitto`` input into a mutable ``xr.Dataset``.
+    def _normalize_obp_kwargs(self, kwargs):
+        """Assign None to area_def when no sector step is upstream.
 
-        When invoked by OBP, upstream dependency outputs are collected into a
-        multi-input ``xr.DataTree``. This hook converts the child node datasets into a
-        writable ``xr.Dataset`` so ``call()`` receives the expected ``xarray_obj``
-        input.
-
-        A single upstream dependency is converted directly. Multiple upstream
-        dependencies are merged into one dataset.
-
-        Parameters
-        ----------
-        data : xr.DataTree | xr.Dataset | None, optional
-            Upstream input passed into the plugin. In OBP, this is typically a
-            multi-input ``xr.DataTree`` containing dependency nodes.
-        \*args : tuple
-            Additional positional arguments forwarded to the base ``_pre_call``.
-        _obp_initiated : bool, default=False
-            Indicates whether the call originated from OBP.
-        \*\*kwargs : dict
-            Additional keyword arguments forwarded to the base ``_pre_call``.
-
-        Returns
-        -------
-        xr.Dataset | Any
-            A mutable ``xr.Dataset`` when upstream ``xr.DataTree`` input is
-            normalized; otherwise the result returned by the base ``_pre_call``.
+        Filename formatters that accept ``area_def`` (e.g. ``basic_fname``)
+        guard against ``None`` with an ``if area_def:`` check, so ``None`` is
+        a valid sentinel meaning "no area definition available". When no sector
+        step is listed in ``depends_on`` the conduit never injects ``area_def``,
+        so we default it here rather than requiring every unsectored workflow to
+        repeat ``arguments: {area_def: null}``.
         """
-        if _obp_initiated and isinstance(data, xr.DataTree):
-            data = self._to_mutable_dataset(data)
-        return super()._pre_call(data, *args, _obp_initiated=_obp_initiated, **kwargs)
+        kwargs.setdefault("area_def", None)
+        return kwargs
+
+    def _pre_call(self, data=None, *args, _obp_initiated=False, **kwargs):
+        """Flatten OBP DataTree input into a mutable Dataset before base hooks.
+
+        Under OBP, upstream dependency outputs are collected into a multi-input
+        ``xr.DataTree``. This override flattens the child node datasets into a
+        writable ``xr.Dataset`` so ``call()`` receives the expected
+        ``xarray_obj`` input. Legacy (non-OBP) inputs pass through unchanged.
+
+        Also bridges the singular ``product_name`` global (OBP convention) to
+        the ``product_names`` list expected by ``data``-family formatters.
+        """
+        kwargs_modified = False
+        if _obp_initiated:
+            if isinstance(data, xr.DataTree):
+                data = to_mutable_dataset(data)
+            if "product_names" not in kwargs and "product_name" in kwargs:
+                kwargs["product_names"] = [kwargs["product_name"]]
+                kwargs_modified = True
+        result = super()._pre_call(data, *args, _obp_initiated=_obp_initiated, **kwargs)
+        if kwargs_modified:
+            return result, kwargs
+        return result
 
     def _post_call(self, data=None, *args, _obp_initiated=False, **kwargs):
         r"""Normalize filename output into ``DataTreeDitto`` for OBP.

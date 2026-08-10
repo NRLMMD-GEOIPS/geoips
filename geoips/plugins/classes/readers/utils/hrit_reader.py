@@ -53,6 +53,12 @@ class HritDtype(object):
 
     def __getattr__(self, type_name):
         """Get hritdtype attr."""
+        if type_name.startswith("__") and type_name.endswith("__"):
+            # Dunder probes (e.g. by autodoc, copy, or pickle) must raise
+            # AttributeError -- not HritError -- so normal Python introspection
+            # (and the API documentation build) works on the module-level
+            # ``dtype`` instance.
+            raise AttributeError(type_name)
         try:
             return np.dtype(self.types[type_name])
         except KeyError:

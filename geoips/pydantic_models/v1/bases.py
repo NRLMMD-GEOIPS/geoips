@@ -384,7 +384,10 @@ def step_reference(val: str) -> str:
     segments = val.split(".")
     for segment in segments:
         # Reuse python_identifier so keyword/identifier rules stay consistent.
-        python_identifier(segment)
+        try:
+            python_identifier(segment)
+        except ValueError as e:
+            LOG.warning(e)
     return val
 
 

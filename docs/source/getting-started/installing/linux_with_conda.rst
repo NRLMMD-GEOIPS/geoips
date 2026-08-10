@@ -102,19 +102,16 @@ Download the sample dataset using geoips CLI command:
 
     geoips config install test_data_abi
 
-Test the installation by running a sample GeoIPS processing script.
+Test the installation by running a sample :ref:`Order-Based Processing
+<order-based-processing>` workflow. The ``test workflow`` command runs the workflow using
+the input files and comparison output defined in the workflow's own ``test`` section.
 
 .. code:: bash
 
-    geoips run single_source $GEOIPS_TESTDATA_DIR/test_data_abi/data/goes16_20200918_1950/OR_ABI-L1b-RadF-M6C* \
-    --reader_name abi_netcdf \
-    --product_name Infrared \
-    --output_formatter imagery_annotated \
-    --sector_list conus
+    geoips test workflow abi_static_infrared_imagery_clean
 
-The end of the output from the above script should resemble the example below, showing
-the path to the generated output image. The final line should display `Return value: 0`,
-indicating that the script ran successfully.
+The end of the output should show the path to the generated output image and finish with
+`Return value: 0`, indicating that the workflow ran successfully.
 
 .. code:: bash
 

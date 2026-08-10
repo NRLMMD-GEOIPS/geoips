@@ -10,7 +10,7 @@ Mapping goes {"test_dataset_name": "test_dataset_url"}
 
 from pathlib import Path
 from typing import Dict
-import geoips.utils.yaml_utils as yaml
+import geoips_yaml_utils as yaml
 
 # This is not a plugin module
 interface = None
