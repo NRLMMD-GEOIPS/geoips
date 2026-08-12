@@ -431,12 +431,22 @@ class WorkflowsInterface(BaseYamlInterface):
                 override_type = "global"
             else:
                 override_type = "step"
-            for argument, value in overrides.items():
+            if isinstance(overrides, dict):
+                for argument, value in overrides.items():
+                    if override_type == "global":
+                        str_override = f"{argument}={value}"
+                        goverrides.append(str_override)
+                    else:
+                        str_override = f"{override_key}.{argument}={value}"
+                        soverrides.append(str_override)
+            else:
+                argument = override_key.split(".")[-1]
+                value = overrides
                 if override_type == "global":
                     str_override = f"{argument}={value}"
                     goverrides.append(str_override)
                 else:
-                    str_override = f"{override_key}.{argument}={value}"
+                    str_override = f"{override_key}={value}"
                     soverrides.append(str_override)
 
         return goverrides, soverrides
