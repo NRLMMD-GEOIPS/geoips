@@ -177,7 +177,7 @@ class ImageryAnnotatedOutputFormatterPlugin(BaseOutputFormatterPlugin):
                     bkgrnd_clr=bkgrnd_clr,
                 )
 
-        if preformatted_title_str is not None and isinstance(preformatted_title_str, str):
+        if preformatted_title_str and isinstance(preformatted_title_str, str):
             # call() was passed a fully-formatted title string so we use it!
             title_string = preformatted_title_str
         else:
