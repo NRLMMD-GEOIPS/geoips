@@ -43,7 +43,7 @@ class ImageryAnnotatedOutputFormatterPlugin(BaseOutputFormatterPlugin):
         remove_duplicate_minrange=None,
         title_copyright=None,
         title_formatter=None,
-        title_formatter_str=None,
+        preformatted_title_str=None,
         output_dict=None,
         var_name=None,
         x_size=None,
@@ -177,9 +177,9 @@ class ImageryAnnotatedOutputFormatterPlugin(BaseOutputFormatterPlugin):
                     bkgrnd_clr=bkgrnd_clr,
                 )
 
-        if title_formatter_str is not None and isinstance(title_formatter_str, str):
+        if preformatted_title_str is not None and isinstance(preformatted_title_str, str):
             # call() was passed a fully-formatted title string so we use it!
-            title_string = title_formatter_str
+            title_string = preformatted_title_str
         else:
             # Construct the title for final image
             title_string = get_title_string_from_objects(
