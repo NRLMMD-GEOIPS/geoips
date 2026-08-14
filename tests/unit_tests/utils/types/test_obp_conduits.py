@@ -1,3 +1,6 @@
+# # # This source code is subject to the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
+
 """Unit tests for geoips.utils.types.obp_conduits."""
 
 import xarray as xr
@@ -23,7 +26,7 @@ class TestObpConduits:
                 "value": sentinel,
             }
         )
-        dt = xr.DataTree(children={"title": ds})
+        dt = xr.DataTree(children={"title": xr.DataTree(ds, name="title")})
         kwargs_dict = BaseClassPlugin._extract_child_kwargs(dt, {})
         assert kwargs_dict["preformatted_title_str"] == sentinel
 
@@ -37,7 +40,7 @@ class TestObpConduits:
                 "value": "My Cool Title",
             }
         )
-        dt = xr.DataTree(children={"title": ds})
+        dt = xr.DataTree(children={"title": xr.DataTree(ds, name="title")})
         non_empty_kwargs_dict = {
             "preformatted_title_str": sentinel,
         }
@@ -55,6 +58,6 @@ class TestObpConduits:
                 "mpl_colors_info": None,
             }
         )
-        dt = xr.DataTree(children={"title": ds})
+        dt = xr.DataTree(children={"title": xr.DataTree(ds, name="title")})
         kwargs_dict = BaseClassPlugin._extract_child_kwargs(dt, {})
         assert "preformatted_title_str" not in kwargs_dict

@@ -148,6 +148,23 @@ class SyntheticFilenameFormatter(BaseClassPlugin):
         return dt
 
 
+class SyntheticTitleFormatter(BaseClassPlugin):
+    """Synthetic title formatter that emits a plain string."""
+
+    interface = "title_formatters"
+    family = "standard"
+    name = "synthetic_title"
+    data_tree = False
+
+    def call(self, data=None, product_name_title=None, **kwargs):
+        """Return a fake output title as a string."""
+        title = product_name_title
+        if not product_name_title or not isinstance(product_name_title, str):
+            title = "Fake Title Output"
+
+        return title
+
+
 class SyntheticImageOutputFormatter(BaseClassPlugin):
     """Synthetic image output formatter that records received dependencies."""
 
@@ -157,7 +174,14 @@ class SyntheticImageOutputFormatter(BaseClassPlugin):
     data_tree = False
     _family_conversion_map = OUTPUT_FORMATTER_FAMILY_CONVERSIONS
 
-    def call(self, data, output_fnames=None, mpl_colors_info=None, **kwargs):
+    def call(
+        self,
+        data,
+        output_fnames=None,
+        mpl_colors_info=None,
+        preformatted_title_str=None,
+        **kwargs,
+    ):
         """Return output metadata showing which auxiliary inputs arrived."""
         from geoips.utils.types.datatree_ditto import DataTreeDitto
 
@@ -166,6 +190,7 @@ class SyntheticImageOutputFormatter(BaseClassPlugin):
                 "saved_files": ["/fake/path/saved.png"],
                 "received_fnames": output_fnames is not None,
                 "received_colors": mpl_colors_info is not None,
+                "received_title": preformatted_title_str,
             }
         )
         dt = DataTreeDitto(ds, name=self.name)
@@ -183,6 +208,8 @@ def _resolve_synthetic_plugin(kind, name):
         return SyntheticColormapper()
     if kind == "filename_formatter":
         return SyntheticFilenameFormatter()
+    if kind == "title_formatter":
+        return SyntheticTitleFormatter()
     if kind == "output_formatter":
         return SyntheticImageOutputFormatter()
     if kind == "interpolator":
@@ -421,7 +448,7 @@ class TestChildKwargExtraction:
     """Test mapping auxiliary child outputs into output formatter kwargs."""
 
     def test_colormap_to_output_formatter(self, patch_for_family_conversions):
-        """Pass colormapper and filename formatter outputs to an image output."""
+        """Pass outputs to an image output_formatter."""
         spec = _build_spec(
             {
                 "read": {
@@ -448,11 +475,17 @@ class TestChildKwargExtraction:
                     "arguments": {"suffix": "png"},
                     "depends_on": ["algo"],
                 },
+                "title": {
+                    "kind": "title_formatter",
+                    "name": "synthetic_title",
+                    "arguments": {"product_name_title": "Testing Title"},
+                    "depends_on": ["algo"],
+                },
                 "out": {
                     "kind": "output_formatter",
                     "name": "synthetic_image",
                     "arguments": {},
-                    "depends_on": ["algo", "cmap", "fname"],
+                    "depends_on": ["algo", "cmap", "fname", "title"],
                 },
             }
         )
@@ -460,6 +493,7 @@ class TestChildKwargExtraction:
         out_node = result.get("out")
         assert out_node is not None
         assert out_node.ds is not None
+        assert out_node.ds.attrs["received_title"] == "Testing Title"
 
 
 class TestFullPipeline:
