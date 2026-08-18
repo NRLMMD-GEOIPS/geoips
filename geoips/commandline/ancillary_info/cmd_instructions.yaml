@@ -260,6 +260,15 @@ instructions:
       To use, type `geoips install <test_dataset_names> -o <full_path> -g`.
     output_info:
       - Not Applicable
+  geoips_lint:
+    help_str: |
+      Run all GeoIPS linters on a specific GeoIPS Package. This will test whether or not
+      the code you wrote adheres to the specified coding conventions set up by GeoIPS.
+      Defaults to the 'geoips' package.
+    usage_str: |
+      To use, type `geoips lint -p <package-name>`.
+    output_info:
+      - Output of the Linters
   geoips_list:
     help_str: |
       List off available GeoIPS artifacts provided further commands. Current artifacts
@@ -483,33 +492,12 @@ instructions:
       - Log Output of the Single Source Process Workflow (Procflow)
   geoips_test:
     help_str: |
-      Run tests implemented in GeoIPS or a separate GeoIPS Package. This could be
-      running a set of linters on a specific package, running a certain integration or
-      normal test script, or running unit tests. Current options are ["linting",
-      "script", "unit-test"].
+      Run tests implemented in GeoIPS or a separate GeoIPS Package. Currently only
+      supports the testing of reproducible workflow plugins.
     usage_str: |
       To use, type `geoips test <cmd> <sub-cmd>`.
     output_info:
       - Output of the Test Being Ran
-  geoips_test_linting:
-    help_str: |
-      Run all GeoIPS linters on a specific GeoIPS Package. This will test whether or not
-      the code you wrote adheres to the specified coding conventions set up by GeoIPS.
-      Defaults to the 'geoips' package.
-    usage_str: |
-      To use, type `geoips test linting -p <package-name>`.
-    output_info:
-      - Output of the Linters
-  geoips_test_script:
-    help_str: |
-      Runs a specific test script (integration-based or normal), found within a certain
-      GeoIPS package. If this is specified as an integration test, this will only work
-      using the 'geoips' package. Use '--integration' to specify that the script
-      is integration-based. Defaults to the 'geoips' package.
-    usage_str: |
-      To use, type `geoips test script -p <package-name> <--integration> <script_name>`.
-    output_info:
-      - Output of the Script Being Ran
   geoips_test_workflow:
     help_str: |
       Test the output of a workflow plugin. The ``test`` section in the specified
@@ -520,16 +508,6 @@ instructions:
       To use, type `geoips test workflow <workflow_type>`.
     output_info:
       - All captured print and log output of executing the given workflow.
-  # geoips_test_unit-test:
-  #   help_str: |
-  #     Run tests unit-test[s] implemented in a certain GeoIPS package. This command
-  #     expects that the unit tests implemented are pytest-based. Defaults to the
-  #     'geoips' package.
-  #   usage_str: |
-  #     To use, type
-  #     `geoips test unit-test -p <package-name> <directory_name> <-n> <script_name>`
-  #   output_info:
-  #     - Output of the Unit Test Being Ran
   geoips_tree:
     help_str: |
       Print a tree of all of the available GeoIPS CLI commands. This will display every
