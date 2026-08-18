@@ -1,76 +1,16 @@
 name: geoips_cmd_instructions
 instructions:
-  geoips_config:
+  geoips_create:
     help_str: |
-      Various configuration-based commands for setting up your geoips environment.
-      Currently supports `geoips config install ...` and
-      `geoips config <create/delete-registries>` commands.
+      GeoIPS creation commands. Used to set up your environment and additionally create
+      sector images to inspect the geospatial domain and resolution of your sector.
+      Currently supports `geoips create config`, `geoips create registries` and
+      `geoips create sector`.
     usage_str: |
-      To use, type `geoips config <cmd> <sub-command> ...`
+      To use, type `geoips create <cmd> <sub-command> ...`
     output_info:
-      - Output related to config process that was run.
-  geoips_config_install:
-    help_str: |
-      Install appropriate test dataset(s) based on the arguments provided. To see a list
-      of available test datasets for install, run `geoips list test-datasets`. If
-      wanting to install data to a location different that $GEOIPS_TESTDATA_DIR, then
-      use the -o (outdir) option and provide a full path to the directory you desire to
-      install data in.
-
-      Optionally, you can run the command 'geoips config install all', which will
-      install all test datasets listed in 'geoips list test-datasets'. If 'all' is
-      provided, no other dataset can be specified.
-    usage_str: |
-      To use, type `geoips config install <test_dataset_names> -o <full_path>`.
-    output_info:
-      - Not Applicable
-  geoips_config_create-registries:
-    help_str: |
-      Create plugin registries for one or more plugin packages of a certain namespace.
-      By default, this command uses namespace 'geoips.plugin_packages', but this can
-      be overridden with the -n (--namespace) flag. If you want to create plugin
-      registries for a subset of packages of the specified namespace, you can provide
-      the -p (--packages) flag, which should be a list of one or more package names
-      to create plugin registries for that fall under 'namespace'. Additionally, you
-      can add the -s (--save_type) flag, which is a string that can be either 'json' or
-      'yaml', specifying the file format of your registry. By default, GeoIPS expects
-      'json' as the file format to use, and that is the default of this flag.
-    usage_str: |
-      To use, type `geoips config create-registries -n <namespace> -s <save_type>
-      -p <packages>`.
-    output_info:
-      - Not Applicable
-  geoips_config_delete-registries:
-    help_str: |
-      Delete plugin registries in one or more plugin packages of a certain namespace.
-      By default, this command uses namespace 'geoips.plugin_packages', but this can
-      be overridden with the -n (--namespace) flag. If you want to delete plugin
-      registries for a subset of packages of the specified namespace, you can provide
-      the -p (--packages) flag, which should be a list of one or more package names
-      to create plugin registries for that fall under 'namespace'.
-      Install the appropriate test dataset and/or package based on the arguments
-      provided. To see a list of available test datasets for install, run
-      `geoips list test-datasets`.
-
-    usage_str: |
-      To use, type `geoips config delete-registries -n <namespace> -p <packages>`.
-    output_info:
-      - Not Applicable
-  geoips_config_install-github:
-    help_str: |
-      Install the appropriate test dataset and/or package directly from a github
-      repository based on the arguments provided. Will install the github repository
-      $GEOIPS_REPO_URL/<repository_name>.
-      Repositories named test_data_* or realtime_outputs_* will be
-      cloned into $GEOIPS_TESTDATA_DIR.  All other repositories will be cloned into
-      $GEOIPS_PACKAGES_DIR.
-
-      Currently only test data installations are supported.
-    usage_str: |
-      To use, type `geoips config install-github <repository_name>`.
-    output_info:
-      - Not Applicable
-  geoips_config_create:
+      - Output related to the creation process that was ran.
+  geoips_create_config:
     help_str: |
       Generate a .geoips.yaml configuration file from your current environment
       variables, with interactive prompts for any missing values.
@@ -87,21 +27,70 @@ instructions:
       `geoips config create -o /path/to/.geoips.yaml --force`.
     output_info:
       - The generated .geoips.yaml configuration file
-  geoips_config_validate:
+  geoips_create_registries:
     help_str: |
-      Validate a GeoIPS .geoips.yaml configuration file.
-
-      Checks YAML syntax, verifies the file contains a valid geoips configuration
-      mapping, and validates all settings against the expected types and structure.
-      Reports all errors found.
-
-      If no --file is given, searches standard locations ($GEOIPS_RCFILE,
-      ./.geoips.yaml, ~/.config/geoips/config.yaml).
+      Create plugin registries for one or more plugin packages of a certain namespace.
+      By default, this command uses namespace 'geoips.plugin_packages', but this can
+      be overridden with the -n (--namespace) flag. If you want to create plugin
+      registries for a subset of packages of the specified namespace, you can provide
+      the -p (--packages) flag, which should be a list of one or more package names
+      to create plugin registries for that fall under 'namespace'. Additionally, you
+      can add the -s (--save_type) flag, which is a string that can be either 'json' or
+      'yaml', specifying the file format of your registry. By default, GeoIPS expects
+      'json' as the file format to use, and that is the default of this flag.
     usage_str: |
-      To use, type `geoips config validate` or
-      `geoips config validate -f /path/to/.geoips.yaml`.
+      To use, type `geoips create registries -n <namespace> -s <save_type>
+      -p <packages>`.
     output_info:
-      - Validation status (valid/invalid) with error details if invalid
+      - Not Applicable
+  geoips_create_sector:
+    help_str: |
+      Create a specific sector image from the provided sector plugin name. This is an
+      easy way to test whether or not the sector plugin you've created matches the
+      region of the globe you want to study at the correct resolution. Provided this
+      sector plugin has been added to the plugin registry, this command will work.
+
+      If '--overlay' is supplied, your sector will be overlaid on top of the
+      'global_cylindrical' grid in a semi-transparent fashion. This is useful for
+      testing the geospatial domain of very small sectors.
+
+      If '--gridlines' or '-g' is supplied, latitude, longitude gridlines will be
+      applied to the generated sector image. By default, latitude, longitude labels
+      will also be applied.
+
+      To disable labels, or change their location, you can supply a '--labels' ('-l')
+      flag. By default, labels are added to the bottom and left sides of the sector.
+      You can add a '--labels' flag with no arguments to disable labels. Otherwise,
+      choose one or more of the following options ['left', 'right', 'top', 'bottom'].
+    usage_str: |
+      To use, type `geoips test sector <sector_name> --overlay --gridlines --labels
+      <labels> --outdir <output_directory_path>`.
+    output_info:
+      - A path to the image of the sector you've created.
+  geoips_delete:
+    help_str: |
+      Delete configuration files for GeoIPS. Can delete anything created via
+      `geoips create ...`.
+    usage_str: |
+      To use, type `geoips delete ...`.
+    output_info:
+      - The filepath(s) of the deleted files.
+  geoips_delete_registries:
+    help_str: |
+      Delete plugin registries in one or more plugin packages of a certain namespace.
+      By default, this command uses namespace 'geoips.plugin_packages', but this can
+      be overridden with the -n (--namespace) flag. If you want to delete plugin
+      registries for a subset of packages of the specified namespace, you can provide
+      the -p (--packages) flag, which should be a list of one or more package names
+      to create plugin registries for that fall under 'namespace'.
+      Install the appropriate test dataset and/or package based on the arguments
+      provided. To see a list of available test datasets for install, run
+      `geoips list test-datasets`.
+
+    usage_str: |
+      To use, type `geoips config delete-registries -n <namespace> -p <packages>`.
+    output_info:
+      - Not Applicable
   geoips_describe: &geoips-describe-artifact
     help_str: |
       Retrieve information about a GeoIPS artifact. For this command, an artifact is one
@@ -244,16 +233,43 @@ instructions:
       To use, type `geoips expand <workflow_name> <--color>`.
     output_info:
       - The fully expanded workflow plugin in a readable format.
+  geoips_install:
+    help_str: |
+      Install appropriate test dataset(s) and/or package(s) based on the arguments
+      provided.
+
+      Can install test dataset(s) and/or packages directly from a github repository,
+      or can install static test dataset(s) from a public NextCloud instance.
+
+      To see a list of available non-github test datasets for install, run
+      `geoips list test-datasets`. If wanting to install data to a location different
+      that $GEOIPS_TESTDATA_DIR, then use the -o (outdir) option and provide a full path
+      to the directory you desire to install data in.
+
+      Optionally, you can run the command 'geoips install all', which will
+      install all test datasets listed in 'geoips list test-datasets'. If 'all' is
+      provided, no other dataset can be specified.
+
+      If using github based installation, use the `-g` flag. This will install the
+      github repository $GEOIPS_REPO_URL/<repository_name>. Repositories named
+      test_data_* or realtime_outputs_* will be cloned into $GEOIPS_TESTDATA_DIR.  All
+      other repositories will be cloned into $GEOIPS_PACKAGES_DIR.
+
+      Currently only test data installations are supported for github installations.
+    usage_str: |
+      To use, type `geoips install <test_dataset_names> -o <full_path> -g`.
+    output_info:
+      - Not Applicable
   geoips_list:
     help_str: |
       List off available GeoIPS artifacts provided further commands. Current artifacts
       available for listing are: ["algorithms", "colormappers", "coverage_checkers",
-      "databases",
-      "filename_formatters", "interpolators", "output_checkers", "output_formatters",
-      "procflows", "readers", "sector_adjusters", "sector_metadata_generators",
-      "sector_spec_generators", "title_formatters", "feature_annotators",
-      "gridline_annotators", "product_defaults", "products", "sectors", "interfaces",
-      "packages", "plugins", "scripts", "test-datasets", "unit-tests"].
+      "databases", "filename_formatters", "interpolators", "output_checkers",
+      "output_formatters", "procflows", "readers", "sector_adjusters",
+      "sector_metadata_generators", "sector_spec_generators", "title_formatters",
+      "validators", "feature_annotators", "gridline_annotators", "product_defaults",
+      "products", "sectors", "interfaces", "packages", "plugins", "scripts",
+      "test-datasets", "unit-tests", "workflows"].
     usage_str: |
       To use, type `geoips list <cmd> <sub-cmd>`.
     output_info:
@@ -494,30 +510,6 @@ instructions:
       To use, type `geoips test script -p <package-name> <--integration> <script_name>`.
     output_info:
       - Output of the Script Being Ran
-  geoips_test_sector:
-    help_str: |
-      Create a specific sector image from the provided sector plugin name. This is an
-      easy way to test whether or not the sector plugin you've created matches the
-      region of the globe you want to study at the correct resolution. Provided this
-      sector plugin has been added to the plugin registry, this command will work.
-
-      If '--overlay' is supplied, your sector will be overlaid on top of the
-      'global_cylindrical' grid in a semi-transparent fashion. This is useful for
-      testing the geospatial domain of very small sectors.
-
-      If '--gridlines' or '-g' is supplied, latitude, longitude gridlines will be
-      applied to the generated sector image. By default, latitude, longitude labels
-      will also be applied.
-
-      To disable labels, or change their location, you can supply a '--labels' ('-l')
-      flag. By default, labels are added to the bottom and left sides of the sector.
-      You can add a '--labels' flag with no arguments to disable labels. Otherwise,
-      choose one or more of the following options ['left', 'right', 'top', 'bottom'].
-    usage_str: |
-      To use, type `geoips test sector <sector_name> --overlay --gridlines --labels
-      <labels> --outdir <output_directory_path>`.
-    output_info:
-      - A path to the image of the sector you've created.
   geoips_test_workflow:
     help_str: |
       Test the output of a workflow plugin. The ``test`` section in the specified
@@ -563,3 +555,18 @@ instructions:
       To use, type `geoips validate <file_path> OPT_ARG <plugin_name>`.
     output_info:
       - A message telling you if the plugin is valid or not and why.
+  geoips_validate_config:
+    help_str: |
+      Validate a GeoIPS .geoips.yaml configuration file.
+
+      Checks YAML syntax, verifies the file contains a valid geoips configuration
+      mapping, and validates all settings against the expected types and structure.
+      Reports all errors found.
+
+      If no --file is given, searches standard locations ($GEOIPS_RCFILE,
+      ./.geoips.yaml, ~/.config/geoips/config.yaml).
+    usage_str: |
+      To use, type `geoips validate config` or
+      `geoips validate config -f /path/to/.geoips.yaml`.
+    output_info:
+      - Validation status (valid/invalid) with error details if invalid
