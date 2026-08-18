@@ -115,21 +115,11 @@ source-names:
   - src-names
 install:
   - inst
-install-github:
-  - inst-gh
-delete-registries:
-  - del-reg
-  - del-regs
-  - del-registry
-  - del-registries
-  - delete-reg
-  - delete-regs
-  - delete-registry
-create-registries:
-  - crt-reg
-  - crt-regs
-  - crt-registry
-  - crt-registries
-  - create-reg
-  - create-regs
-  - create-registry
+delete:
+  - del
+create:
+  - crt
+registries:
+  - reg
+  - regs
+  - registry
