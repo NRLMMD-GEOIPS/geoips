@@ -14,9 +14,11 @@ from colorama import Fore, Style
 
 from geoips.commandline import ancillary_info
 from geoips.commandline.geoips_command import GeoipsCommand
-from geoips.commandline.geoips_config import GeoipsConfig
+from geoips.commandline.geoips_create import GeoipsCreate
+from geoips.commandline.geoips_delete import GeoipsDelete
 from geoips.commandline.geoips_describe import GeoipsDescribe
 from geoips.commandline.geoips_expand import GeoipsExpand
+from geoips.commandline.geoips_install import GeoipsInstall
 from geoips.commandline.geoips_lint import GeoipsLint
 from geoips.commandline.geoips_list import GeoipsList
 from geoips.commandline.geoips_run import GeoipsRun
@@ -37,9 +39,11 @@ class GeoipsCLI(GeoipsCommand):
 
     name = "geoips"  # Needed since we inherit from GeoipsCommand
     command_classes = [
-        GeoipsConfig,
+        GeoipsCreate,
+        GeoipsDelete,
         GeoipsDescribe,
         GeoipsExpand,
+        GeoipsInstall,
         GeoipsLint,
         GeoipsList,
         GeoipsRun,
@@ -49,7 +53,7 @@ class GeoipsCLI(GeoipsCommand):
     ]
 
     def __init__(self, cmd_instructions=None, legacy=False):
-        """Initialize the GeoipsCLI and each of it's command classes.
+        """Initialize the Geoips CLI and each of it's command classes.
 
         The CLI contains a single top-level argparse.ArgumentParser() which contains
         subparsers related to each subcommand. This ensures that each command has a
