@@ -23,8 +23,8 @@ instructions:
       Use --no-prompt for non-interactive/CI use. Use --all to include default
       values for all settings. Use --force to overwrite an existing output file.
     usage_str: |
-      To use, type `geoips config create` or
-      `geoips config create -o /path/to/.geoips.yaml --force`.
+      To use, type `geoips create config` or
+      `geoips create config -o /path/to/.geoips.yaml --force`.
     output_info:
       - The generated .geoips.yaml configuration file
   geoips_create_registries:
@@ -88,7 +88,7 @@ instructions:
       `geoips list test-datasets`.
 
     usage_str: |
-      To use, type `geoips config delete-registries -n <namespace> -p <packages>`.
+      To use, type `geoips delete registries -n <namespace> -p <packages>`.
     output_info:
       - Not Applicable
   geoips_describe: &geoips-describe-artifact
@@ -241,11 +241,11 @@ instructions:
       use the -o (outdir) option and provide a full path to the directory you desire to
       install data in.
 
-      Optionally, you can run the command 'geoips config install all', which will
+      Optionally, you can run the command 'geoips install all', which will
       install all test datasets listed in 'geoips list test-datasets'. If 'all' is
       provided, no other dataset can be specified.
     usage_str: |
-      To use, type `geoips config install <test_dataset_names> -o <full_path>`.
+      To use, type `geoips install <test_dataset_names> -o <full_path>`.
     output_info:
       - Not Applicable
   geoips_install_github:
@@ -259,7 +259,7 @@ instructions:
 
       Currently only test data installations are supported.
     usage_str: |
-      To use, type `geoips config install-github <repository_name>`.
+      To use, type `geoips install github <repository_name>`.
     output_info:
       - Not Applicable
   geoips_lint:
