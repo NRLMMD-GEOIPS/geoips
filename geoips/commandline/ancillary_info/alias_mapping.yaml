@@ -97,10 +97,6 @@ packages:
   - pkgs
 plugins:
   - plgs
-registries:
-  - reg
-  - regs
-  - registry
 config:
   - cfg
 describe:

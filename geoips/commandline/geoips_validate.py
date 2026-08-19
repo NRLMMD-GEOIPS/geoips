@@ -14,7 +14,7 @@ from pathlib import Path
 import geoips_yaml_utils as yaml
 from pydantic import ValidationError
 
-from geoips.commandline.geoips_command import GeoipsExecutableCommand
+from geoips.commandline.geoips_command import GeoipsCommand, GeoipsExecutableCommand
 from geoips.config.plugins import discover_config_plugins
 from geoips.config.schema import GeoSettings
 from geoips.config.yaml_loader import find_project_config
@@ -203,14 +203,14 @@ class GeoipsValidateConfig(GeoipsExecutableCommand):
                 print(f"Config file '{file_path}' is valid.")
 
 
-class GeoipsValidate(GeoipsExecutableCommand):
+class GeoipsValidatePlugin(GeoipsExecutableCommand):
     """Validate Command for validating package plugins."""
 
-    name = "validate"
-    command_classes = [GeoipsValidateConfig]
+    name = "plugin"
+    command_classes = []
 
     def add_arguments(self):
-        """Add arguments to the validate-subparser fot the Validate Command."""
+        """Add arguments to the validate-subparser fot the plugin Command."""
         self.parser.add_argument(
             "file_path",
             type=str,
@@ -373,3 +373,11 @@ class GeoipsValidate(GeoipsExecutableCommand):
             if not interface.plugin_is_valid(subplg["source_names"][0], subplg["name"]):
                 return False
         return True
+
+
+class GeoipsValidate(GeoipsCommand):
+    """Top-Level validate command for instantiating sub-command validation routines."""
+
+    name = "validate"
+
+    command_classes = [GeoipsValidateConfig, GeoipsValidatePlugin]

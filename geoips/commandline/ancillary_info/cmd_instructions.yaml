@@ -235,6 +235,14 @@ instructions:
       - The fully expanded workflow plugin in a readable format.
   geoips_install:
     help_str: |
+      Install test datasets hosted on a NextCloud instance or test data / plugin
+      packages from one or more GitHub repositories.
+    usage_str: |
+      To use, type `geoips install <cmd> <sub-command> ...`
+    output_info:
+      - Output related to the installation process that was ran.
+  geoips_install_data:
+    help_str: |
       Install appropriate test dataset(s) based on the arguments provided. To see a list
       of available test datasets for install, run `geoips list test-datasets`. If
       wanting to install data to a location different that $GEOIPS_TESTDATA_DIR, then
@@ -524,6 +532,14 @@ instructions:
         Can be colored output if wanted and can define whether or not we want the full
         command string or just the name of the command at the specified depth.
   geoips_validate:
+    help_str: |
+      GeoIPS validation commands. Can be used to either validate a GeoIPS-based plugin
+      or a GeoIPS configuration file.
+    usage_str: |
+      To use, type `geoips validate <cmd> <sub-command> ...`
+    output_info:
+      - Output related to the validation process that was ran.
+  geoips_validate_plugin:
     help_str: |
       Validate a GeoIPS Plugin found at <file_path>. While this is done under the hood
       via GeoIPS, this is an easy way to test whether or not the plugin you are

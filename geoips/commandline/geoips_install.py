@@ -293,15 +293,15 @@ class GeoipsInstallGithub(GeoipsExecutableCommand):
             raise IOError(f"FAILED Did not successfully install '{test_dataset_name}'")
 
 
-class GeoipsInstall(GeoipsExecutableCommand):
+class GeoipsInstallData(GeoipsExecutableCommand):
     """Command Class for installing test datasets.
 
     Supports installation of test data needed for testing and/or running
     your GeoIPS environment.
     """
 
-    name = "install"
-    command_classes = [GeoipsInstallGithub]
+    name = "data"
+    command_classes = []
 
     _FIRST_CHUNK_SIZE = 5 * 1024 * 1024  # 5 MB
 
@@ -604,3 +604,11 @@ class GeoipsInstall(GeoipsExecutableCommand):
             temp_path=temp_path,
             total_bytes=total_size,
         )
+
+
+class GeoipsInstall(GeoipsCommand):
+    """Top-Level install command for installing test datasets and plugin packages."""
+
+    name = "install"
+
+    command_classes = [GeoipsInstallData, GeoipsInstallGithub]
