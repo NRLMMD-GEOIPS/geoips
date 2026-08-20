@@ -12,205 +12,19 @@ from os.path import exists
 from pathlib import Path
 
 import geoips_yaml_utils as yaml
-from pydantic import ValidationError
 
-from geoips.commandline.geoips_command import GeoipsCommand, GeoipsExecutableCommand
-from geoips.config.plugins import discover_config_plugins
-from geoips.config.schema import GeoSettings
-from geoips.config.yaml_loader import find_project_config
+from geoips.commandline.geoips_command import GeoipsExecutableCommand
 from geoips import interfaces
 
 
-def _resolve_config_path(file_arg: Path | None) -> Path | None:
-    """Resolve the config file path from an optional argument.
-
-    If *file_arg* is provided, returns it. Otherwise searches standard
-    locations via ``geoips.config.yaml_loader.find_project_config``.
-
-    Parameters
-    ----------
-    file_arg : pathlib.Path or None
-        User-supplied file path, or ``None`` to auto-search.
-
-    Returns
-    -------
-    pathlib.Path or None
-        Resolved path, or ``None`` if no config file was found.
-    """
-    if file_arg is not None:
-        return file_arg
-
-    found = find_project_config()
-    return Path(found) if found else None
-
-
-def _validate_config_file(file_path: Path) -> list[str]:
-    """Validate a GeoIPS YAML configuration file.
-
-    Checks YAML syntax, validates core settings against the GeoIPS
-    configuration model, and validates each ``geoips.plugins.<pkg>`` section
-    against its registered plugin model. Unknown top-level settings and
-    unknown plugin names are reported as warnings, since they are silently
-    ignored at load time.
-
-    Parameters
-    ----------
-    file_path : pathlib.Path
-        Path to the ``.geoips.yaml`` file to validate.
-
-    Returns
-    -------
-    tuple[list[str], list[str]]
-        A ``(errors, warnings)`` pair of human-readable messages. An empty
-        *errors* list means the file is valid.
-    """
-    errors: list[str] = []
-    warnings: list[str] = []
-
-    try:
-        with open(file_path, "r") as fh:
-            data = yaml.safe_load(fh)
-    except yaml.YAMLError as exc:
-        return [f"YAML syntax error: {exc}"], warnings
-    except OSError as exc:
-        return [f"Cannot read file: {exc}"], warnings
-
-    if not isinstance(data, dict):
-        return ["File must contain a YAML mapping (dictionary)."], warnings
-
-    geoips_data = data.get("geoips")
-    if geoips_data is None:
-        return ["Missing top-level 'geoips' key."], warnings
-
-    if not isinstance(geoips_data, dict):
-        return ["The 'geoips' key must contain a mapping (dictionary)."], warnings
-
-    known_keys = set(GeoSettings.model_fields) | {"plugins"}
-    for key in geoips_data:
-        if key not in known_keys:
-            warnings.append(f"geoips.{key}: unknown setting (ignored)")
-
-    core_data = {k: v for k, v in geoips_data.items() if k != "plugins"}
-    try:
-        GeoSettings.model_validate(core_data)
-    except ValidationError as exc:
-        for err in exc.errors():
-            loc = ".".join(str(p) for p in err["loc"])
-            errors.append(f"geoips.{loc}: {err['msg']}")
-
-    errors.extend(_validate_plugins_section(geoips_data.get("plugins"), warnings))
-
-    return errors, warnings
-
-
-def _validate_plugins_section(plugins_data, warnings: list[str]) -> list[str]:
-    """Validate the ``geoips.plugins`` mapping against registered plugins.
-
-    Parameters
-    ----------
-    plugins_data : Any
-        The value of ``geoips.plugins`` from the config file (or ``None``).
-    warnings : list[str]
-        List appended to in-place with warnings for unknown plugins.
-
-    Returns
-    -------
-    list[str]
-        Error messages for invalid plugin sections.
-    """
-    if plugins_data is None:
-        return []
-    if not isinstance(plugins_data, dict):
-        return ["geoips.plugins: must be a mapping (dictionary)."]
-
-    errors: list[str] = []
-    registered = discover_config_plugins()
-    for pkg, pkg_data in plugins_data.items():
-        plugin = registered.get(pkg)
-        if plugin is None:
-            warnings.append(f"geoips.plugins.{pkg}: unknown plugin (ignored)")
-            continue
-        if not isinstance(pkg_data, dict):
-            errors.append(f"geoips.plugins.{pkg}: must be a mapping (dictionary).")
-            continue
-        try:
-            plugin.settings_model.model_validate(pkg_data)
-        except ValidationError as exc:
-            for err in exc.errors():
-                loc = ".".join(str(p) for p in err["loc"])
-                errors.append(f"geoips.plugins.{pkg}.{loc}: {err['msg']}")
-    return errors
-
-
-class GeoipsValidateConfig(GeoipsExecutableCommand):
-    """Validate a GeoIPS .geoips.yaml configuration file.
-
-    Checks YAML syntax, verifies the structure against the GeoIPS
-    configuration schema, and reports all errors found.
-    """
-
-    name = "config"
-    command_classes = []
-
-    def add_arguments(self):
-        """Add arguments to the validate-subparser for the config command."""
-        self.parser.add_argument(
-            "-f",
-            "--file",
-            type=Path,
-            default=None,
-            help="Path to the config file to validate. If not given, "
-            "searches standard locations.",
-        )
-        self.parser.add_argument(
-            "-q",
-            "--quiet",
-            action="store_true",
-            default=False,
-            help="Only set the exit code; produce no output.",
-        )
-
-    def __call__(self, args):
-        """Run ``geoips validate config``.
-
-        Parameters
-        ----------
-        args : Namespace
-            Parsed command-line arguments.
-        """
-        file_path = _resolve_config_path(args.file)
-
-        if file_path is None:
-            self.parser.error(
-                "No config file found. Specify --file or place a .geoips.yaml "
-                "in the current directory."
-            )
-
-        errors, warnings = _validate_config_file(file_path)
-
-        if warnings and not args.quiet:
-            for warning in warnings:
-                print(f"  warning: {warning}")
-
-        if errors:
-            if not args.quiet:
-                print(f"Config file '{file_path}' is invalid:\n")
-                for err in errors:
-                    print(f"  {err}")
-            self.parser.error("Validation failed.")
-        else:
-            if not args.quiet:
-                print(f"Config file '{file_path}' is valid.")
-
-
-class GeoipsValidatePlugin(GeoipsExecutableCommand):
+class GeoipsValidate(GeoipsExecutableCommand):
     """Validate Command for validating package plugins."""
 
-    name = "plugin"
+    name = "validate"
     command_classes = []
 
     def add_arguments(self):
-        """Add arguments to the validate-subparser fot the plugin Command."""
+        """Add arguments to the validate-subparser fot the Validate Command."""
         self.parser.add_argument(
             "file_path",
             type=str,
@@ -373,11 +187,3 @@ class GeoipsValidatePlugin(GeoipsExecutableCommand):
             if not interface.plugin_is_valid(subplg["source_names"][0], subplg["name"]):
                 return False
         return True
-
-
-class GeoipsValidate(GeoipsCommand):
-    """Top-Level validate command for instantiating sub-command validation routines."""
-
-    name = "validate"
-
-    command_classes = [GeoipsValidateConfig, GeoipsValidatePlugin]

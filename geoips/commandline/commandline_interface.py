@@ -14,14 +14,15 @@ from colorama import Fore, Style
 
 from geoips.commandline import ancillary_info
 from geoips.commandline.geoips_command import GeoipsCommand
-from geoips.commandline.geoips_create import GeoipsCreate
-from geoips.commandline.geoips_delete import GeoipsDelete
+from geoips.commandline.geoips_config import GeoipsConfig
 from geoips.commandline.geoips_describe import GeoipsDescribe
 from geoips.commandline.geoips_expand import GeoipsExpand
 from geoips.commandline.geoips_install import GeoipsInstall
 from geoips.commandline.geoips_lint import GeoipsLint
 from geoips.commandline.geoips_list import GeoipsList
+from geoips.commandline.geoips_registry import GeoipsRegistry
 from geoips.commandline.geoips_run import GeoipsRun
+from geoips.commandline.geoips_sector import GeoipsSector
 from geoips.commandline.geoips_test import GeoipsTest
 from geoips.commandline.geoips_tree import GeoipsTree
 from geoips.commandline.geoips_validate import GeoipsValidate
@@ -39,14 +40,15 @@ class GeoipsCLI(GeoipsCommand):
 
     name = "geoips"  # Needed since we inherit from GeoipsCommand
     command_classes = [
-        GeoipsCreate,
-        GeoipsDelete,
+        GeoipsConfig,
         GeoipsDescribe,
         GeoipsExpand,
         GeoipsInstall,
         GeoipsLint,
         GeoipsList,
+        GeoipsRegistry,
         GeoipsRun,
+        GeoipsSector,
         GeoipsTest,
         GeoipsTree,
         GeoipsValidate,

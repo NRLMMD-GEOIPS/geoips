@@ -45,7 +45,7 @@ class GeoipsTree(GeoipsExecutableCommand):
                 for alias in self.alias_mapping[cmd_name]:
                     # Aliases below are names of actual commands and we need to deal
                     # with this using conditionals in 'print_tree'
-                    if alias not in ["sector", "workflow"]:
+                    if alias not in ["sector", "workflow", "registry"]:
                         self._cmd_aliases.append(alias)
         return self._cmd_aliases
 

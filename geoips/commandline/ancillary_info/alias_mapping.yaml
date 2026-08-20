@@ -115,6 +115,8 @@ delete:
   - del
 create:
   - crt
+registry:
+  - reg
 registries:
   - reg
   - regs

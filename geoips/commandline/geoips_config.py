@@ -1,26 +1,20 @@
 # # # This source code is subject to the license referenced at
 # # # https://github.com/NRLMMD-GEOIPS.
 
-"""GeoIPS CLI "create" command.
+"""GeoIPS CLI "config" command.
 
-Creates configuration, registry, and sector image files.
+Various configuration-based commands for setting up your geoips environment.
 """
 
-from importlib import metadata
 import logging
 import os
-from os.path import exists, join
-from pathlib import Path
+import pathlib
+from importlib import metadata
 
-# from pytest import main as invoke_pytest
-from pluginify.commandline_typer import configure_logging
-from pluginify.plugin_registry import PluginRegistry
 import yaml
+from pydantic import ValidationError
 
-from geoips.commandline.geoips_command import (
-    GeoipsCommand,
-    GeoipsExecutableCommand,
-)
+from geoips.commandline.geoips_command import GeoipsCommand, GeoipsExecutableCommand
 from geoips.config.config import GeoIPSConfig, _cast_env_value
 from geoips.config.plugins import (
     CONFIG_PLUGIN_GROUP,
@@ -33,9 +27,6 @@ from geoips.config.plugins import (
 )
 from geoips.config.schema import GEOIPS_ENV_MAP, GeoSettings
 from geoips.config.yaml_loader import find_project_config
-from geoips.errors import PluginError
-from geoips.filenames.base_paths import PATHS
-from geoips.interfaces import sectors
 
 LOG = logging.getLogger(__name__)
 
@@ -262,7 +253,128 @@ def _render_config(core_nested: dict, plugin_values: dict, plugins: dict) -> str
     return "\n".join(lines) + "\n"
 
 
-class GeoipsCreateConfig(GeoipsExecutableCommand):
+def _resolve_config_path(file_arg: pathlib.Path | None) -> pathlib.Path | None:
+    """Resolve the config file path from an optional argument.
+
+    If *file_arg* is provided, returns it. Otherwise searches standard
+    locations via ``geoips.config.yaml_loader.find_project_config``.
+
+    Parameters
+    ----------
+    file_arg : pathlib.Path or None
+        User-supplied file path, or ``None`` to auto-search.
+
+    Returns
+    -------
+    pathlib.Path or None
+        Resolved path, or ``None`` if no config file was found.
+    """
+    if file_arg is not None:
+        return file_arg
+
+    found = find_project_config()
+    return pathlib.Path(found) if found else None
+
+
+def _validate_config_file(file_path: pathlib.Path) -> list[str]:
+    """Validate a GeoIPS YAML configuration file.
+
+    Checks YAML syntax, validates core settings against the GeoIPS
+    configuration model, and validates each ``geoips.plugins.<pkg>`` section
+    against its registered plugin model. Unknown top-level settings and
+    unknown plugin names are reported as warnings, since they are silently
+    ignored at load time.
+
+    Parameters
+    ----------
+    file_path : pathlib.Path
+        Path to the ``.geoips.yaml`` file to validate.
+
+    Returns
+    -------
+    tuple[list[str], list[str]]
+        A ``(errors, warnings)`` pair of human-readable messages. An empty
+        *errors* list means the file is valid.
+    """
+    errors: list[str] = []
+    warnings: list[str] = []
+
+    try:
+        with open(file_path, "r") as fh:
+            data = yaml.safe_load(fh)
+    except yaml.YAMLError as exc:
+        return [f"YAML syntax error: {exc}"], warnings
+    except OSError as exc:
+        return [f"Cannot read file: {exc}"], warnings
+
+    if not isinstance(data, dict):
+        return ["File must contain a YAML mapping (dictionary)."], warnings
+
+    geoips_data = data.get("geoips")
+    if geoips_data is None:
+        return ["Missing top-level 'geoips' key."], warnings
+
+    if not isinstance(geoips_data, dict):
+        return ["The 'geoips' key must contain a mapping (dictionary)."], warnings
+
+    known_keys = set(GeoSettings.model_fields) | {"plugins"}
+    for key in geoips_data:
+        if key not in known_keys:
+            warnings.append(f"geoips.{key}: unknown setting (ignored)")
+
+    core_data = {k: v for k, v in geoips_data.items() if k != "plugins"}
+    try:
+        GeoSettings.model_validate(core_data)
+    except ValidationError as exc:
+        for err in exc.errors():
+            loc = ".".join(str(p) for p in err["loc"])
+            errors.append(f"geoips.{loc}: {err['msg']}")
+
+    errors.extend(_validate_plugins_section(geoips_data.get("plugins"), warnings))
+
+    return errors, warnings
+
+
+def _validate_plugins_section(plugins_data, warnings: list[str]) -> list[str]:
+    """Validate the ``geoips.plugins`` mapping against registered plugins.
+
+    Parameters
+    ----------
+    plugins_data : Any
+        The value of ``geoips.plugins`` from the config file (or ``None``).
+    warnings : list[str]
+        List appended to in-place with warnings for unknown plugins.
+
+    Returns
+    -------
+    list[str]
+        Error messages for invalid plugin sections.
+    """
+    if plugins_data is None:
+        return []
+    if not isinstance(plugins_data, dict):
+        return ["geoips.plugins: must be a mapping (dictionary)."]
+
+    errors: list[str] = []
+    registered = discover_config_plugins()
+    for pkg, pkg_data in plugins_data.items():
+        plugin = registered.get(pkg)
+        if plugin is None:
+            warnings.append(f"geoips.plugins.{pkg}: unknown plugin (ignored)")
+            continue
+        if not isinstance(pkg_data, dict):
+            errors.append(f"geoips.plugins.{pkg}: must be a mapping (dictionary).")
+            continue
+        try:
+            plugin.settings_model.model_validate(pkg_data)
+        except ValidationError as exc:
+            for err in exc.errors():
+                loc = ".".join(str(p) for p in err["loc"])
+                errors.append(f"geoips.plugins.{pkg}.{loc}: {err['msg']}")
+    return errors
+
+
+class GeoipsConfigCreate(GeoipsExecutableCommand):
     """Generate a .geoips.yaml config file from environment variables.
 
     Scans ``GEOIPS_*`` and unprefixed environment variables and writes
@@ -271,7 +383,7 @@ class GeoipsCreateConfig(GeoipsExecutableCommand):
     GEOIPS_PACKAGES_DIR) that are not set in the environment.
     """
 
-    name = "config"
+    name = "create"
     command_classes = []
 
     _KEYS_TO_PROMPT: list[str] = [
@@ -281,12 +393,12 @@ class GeoipsCreateConfig(GeoipsExecutableCommand):
     ]
 
     def add_arguments(self):
-        """Add arguments to the create-subparser for the config command."""
+        """Add arguments to the config-subparser for the create command."""
         self.parser.add_argument(
             "-o",
             "--output",
-            type=Path,
-            default=Path(".geoips.yaml"),
+            type=pathlib.Path,
+            default=pathlib.Path(".geoips.yaml"),
             help="Output path for the generated config file.",
         )
         self.parser.add_argument(
@@ -311,7 +423,7 @@ class GeoipsCreateConfig(GeoipsExecutableCommand):
         )
 
     def __call__(self, args):
-        """Run ``geoips create config``.
+        """Run ``geoips config create``.
 
         Parameters
         ----------
@@ -381,171 +493,72 @@ class GeoipsCreateConfig(GeoipsExecutableCommand):
         print(f"Generated {output_path} from {source}.")
 
 
-class GeoipsCreateRegistries(GeoipsExecutableCommand):
-    """Command class for creating plugin registries for plugin packages."""
+class GeoipsConfigValidate(GeoipsExecutableCommand):
+    """Validate a GeoIPS .geoips.yaml configuration file.
 
-    name = "registries"
-    command_classes = []
-
-    def add_arguments(self):
-        """Add arguments to the create-subparser for the registries Command."""
-        self.parser.add_argument(
-            "-s",
-            "--save-type",
-            default="json",
-            type=str,
-            choices=["json", "yaml"],
-            help=(
-                "The file format to save the registry as. Defaults to 'json', which is "
-                "what's used by GeoIPS under the hood. For human readable output, you "
-                "can provide the optional argument '-s yaml'."
-            ),
-        )
-
-    def __call__(self, args):
-        """Run the `geoips create registries -n <namespace> -s <save_type> -p <packages>` command.  # NOQA
-
-        Parameters
-        ----------
-        args: Namespace()
-            - The argument namespace to parse through
-        """
-        packages = args.packages
-        namespace = args.namespace
-        save_type = args.save_type
-        # This is needed to ensure that we capture the logs from pluginify
-        configure_logging()
-        plugin_registry = PluginRegistry(namespace)
-        plugin_registry.create_registries(packages, save_type)
-
-
-class GeoipsCreateSector(GeoipsExecutableCommand):
-    """Command for creating a sector image based on the provided sector name.
-
-    This used to be ran via 'create_sector_image', however we are trying to consolidate
-    all independent console scripts to be used via the CLI. When this command is called
-    an image of the provided sector will be created so we can view whether or not it
-    matches the region of the globe we'd like to study.
+    Checks YAML syntax, verifies the structure against the GeoIPS
+    configuration schema, and reports all errors found.
     """
 
-    name = "sector"
+    name = "validate"
     command_classes = []
 
     def add_arguments(self):
-        """Instantiate the arguments that are supported for the create sector command.
-
-        Currently the "geoips create sector" command supports this format:
-            - geoips create sector <sector_name> --outdir <output_directory_path>
-        Where:
-            - <sector_name> is the name of any GeoIPS Sector Plugin that has an entry in
-              any package's plugin registry.
-            - --outdir is the full path to the directory in which you'd like to create
-              the sector image.
-        """
+        """Add arguments to the config-subparser for the validate command."""
         self.parser.add_argument(
-            "sector_name",
-            type=str,
-            help="Name of the sector plugin to create an image from.",
+            "-f",
+            "--file",
+            type=pathlib.Path,
+            default=None,
+            help="Path to the config file to validate. If not given, "
+            "searches standard locations.",
         )
         self.parser.add_argument(
-            "--outdir",
-            "-o",
-            type=str,
-            default=PATHS["GEOIPS_OUTDIRS"],
-            help="The output directory to create your sector image in.",
-        )
-        self.parser.add_argument(
-            "--overlay",
-            default=False,
+            "-q",
+            "--quiet",
             action="store_true",
-            help=(
-                "Overlay this sector on the global_cylindrical grid. Useful for testing"
-                "small sectors, where their domain might be difficult to interpret in "
-                "a geospatial context."
-            ),
-        )
-        self.parser.add_argument(
-            "--gridlines",
-            "-g",
             default=False,
-            action="store_true",
-            help="Add a latitude / longitude gridline overlay to your sector.",
-        )
-        self.parser.add_argument(
-            "--labels",
-            "-l",
-            default=["left", "bottom"],
-            choices=["left", "right", "top", "bottom"],
-            nargs="*",
-            help=(
-                "A list of strings which set where gridline labels will be set on the "
-                "sector. Specify no values to disable labels."
-            ),
+            help="Only set the exit code; produce no output.",
         )
 
     def __call__(self, args):
-        """Create the provided sector image based off the arguments provided.
-
-        This will retrieve the selected sector plugin from any GeoIPS Plugin package,
-        then create an image of that sector. This is a good way to quickly test whether
-        or not your sector plugin covers the area you expected with the correct
-        resolution.
+        """Run ``geoips config validate``.
 
         Parameters
         ----------
-        args: Argparse Namespace()
-            - The list argument namespace to parse through
+        args : Namespace
+            Parsed command-line arguments.
         """
-        sector_name = args.sector_name
-        outdir = args.outdir
-        overlay = args.overlay
-        gridlines = args.gridlines
-        labels = args.labels
-        noborder = False if len(labels) else True
+        file_path = _resolve_config_path(args.file)
 
-        # If the path to outdir doesn't already exist, make that path
-        if not exists(outdir):
-            os.makedirs(outdir)
-        # Create an image for the requested sector, including just the map and white
-        # background.
-        fname = join(outdir, f"{sector_name}.png")
-        try:
-            if "non_existent" in sector_name:
-                # This occurs for a unit test that we are just checking the error output
-                # for. No need to rebuild the plugin registry, which can be specified by
-                # using rebuild_registries=False
-                rebuild_registries = False
-            else:
-                # Otherwise, assume this is a new sector that is being developed, and
-                # automate plugin registry creation if it does not already exist as an
-                # entry in the registry.
-                rebuild_registries = True
-            sect = sectors.get_plugin(
-                sector_name, rebuild_registries=rebuild_registries
+        if file_path is None:
+            self.parser.error(
+                "No config file found. Specify --file or place a .geoips.yaml "
+                "in the current directory."
             )
-        except PluginError:
-            raise self.parser.error(
-                f"Sector '{sector_name}' is not a valid plugin.\nPlease use a plugin "
-                "found under 'geoips list interface sectors' or create a new plugin "
-                f"named '{sector_name}' and run 'pluginify create'."
-            )
-        print(f"Creating {fname}.")
-        sect.create_test_plot(
-            fname,
-            overlay=overlay,
-            gridlines=gridlines,
-            gridline_labels=labels,
-            noborder=noborder,
-        )
+
+        errors, warnings = _validate_config_file(file_path)
+
+        if warnings and not args.quiet:
+            for warning in warnings:
+                print(f"  warning: {warning}")
+
+        if errors:
+            if not args.quiet:
+                print(f"Config file '{file_path}' is invalid:\n")
+                for err in errors:
+                    print(f"  {err}")
+            self.parser.error("Validation failed.")
+        else:
+            if not args.quiet:
+                print(f"Config file '{file_path}' is valid.")
 
 
-class GeoipsCreate(GeoipsCommand):
-    """Top-Level create command for instantiating sub-command creation routines."""
+class GeoipsConfig(GeoipsCommand):
+    """Config top-level command for configuring your GeoIPS environment."""
 
-    name = "create"
-
+    name = "config"
     command_classes = [
-        GeoipsCreateConfig,
-        GeoipsCreateSector,
-        GeoipsCreateRegistries,
+        GeoipsConfigCreate,
+        GeoipsConfigValidate,
     ]
