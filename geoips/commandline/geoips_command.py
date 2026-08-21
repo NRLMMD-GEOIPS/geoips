@@ -420,7 +420,11 @@ class GeoipsCommand(abc.ABC):
         """
         if len(self.command_classes):
             self.subparsers = self.parser.add_subparsers(
-                help=f"{self.name} instructions."
+                title=f"{self.name} commands",
+                description=(
+                    "Aliases are shown in parentheses after each canonical command."
+                ),
+                metavar="COMMAND",
             )
             # Sort subcommands alphabetically:
             sorted_command_classes = sorted(self.command_classes, key=lambda x: x.name)
