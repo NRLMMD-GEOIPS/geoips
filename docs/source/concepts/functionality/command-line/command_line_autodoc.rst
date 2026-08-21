@@ -7,6 +7,3 @@
 
 Command Line Commands and Arguments
 ***********************************
-
-.. autoprogram:: geoips.commandline.commandline_interface:GeoipsCLI().parser
-    :prog: geoips
