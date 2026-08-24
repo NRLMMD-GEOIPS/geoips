@@ -4,7 +4,7 @@ instructions:
     help: |
       Various configuration-based commands for setting up your geoips environment.
       Currently supports `geoips config create` and `geoips config validate`.
-    usage_str: |
+    usage: |
       To use, type `geoips config <cmd> <sub-command> ...`
     output_info:
       - Output related to config process that was run.
@@ -20,7 +20,7 @@ instructions:
 
       Use --no-prompt for non-interactive/CI use. Use --all to include default
       values for all settings. Use --force to overwrite an existing output file.
-    usage_str: |
+    usage: |
       To use, type `geoips config create` or
       `geoips config create -o /path/to/.geoips.yaml --force`.
     output_info:
@@ -35,7 +35,7 @@ instructions:
 
       If no --file is given, searches standard locations ($GEOIPS_RCFILE,
       ./.geoips.yaml, ~/.config/geoips/config.yaml).
-    usage_str: |
+    usage: |
       To use, type `geoips config validate` or
       `geoips config validate -f /path/to/.geoips.yaml`.
     output_info:
@@ -84,7 +84,7 @@ instructions:
               * Interface Name
               * Interface Type
               * Required Arguments / Schema
-    usage_str: |
+    usage: |
       To use, type `geoips describe <interface_name> <sub-cmd> ...`.
     output_info:
       - Information related to the artifact that was retrieved.
@@ -115,7 +115,7 @@ instructions:
   #     that family. See output_info for each datum provided when this command is
   #     called. For a listing of available GeoIPS families, run:
   #     `geoips list interfaces`.
-  #   usage_str: |
+  #   usage: |
   #     To use, type `geoips describe family <interface_name> <family_name>`, where
   #     <interface_name> is a valid GeoIPS Interface and <family_name> is a supported
   #     family member of that interface.
@@ -132,7 +132,7 @@ instructions:
   #     that interface. See output_info for each datum provided when this command is
   #     called. For a listing of available GeoIPS interfaces, run:
   #     `geoips list interfaces`.
-  #   usage_str: |
+  #   usage: |
   #     To use, type `geoips describe interface <interface_name>`, where
   #     <interface_name> is a valid GeoIPS Interface.
   #   output_info:
@@ -148,7 +148,7 @@ instructions:
       that package. See output_info for each datum provided when this command is
       called. For a listing of available GeoIPS packages, run:
       `geoips list packages`.
-    usage_str: |
+    usage: |
       To use, type `geoips describe package <package-name>`, where <package-name> is a
       valid GeoIPS Package.
     output_info:
@@ -163,7 +163,7 @@ instructions:
   #     that plugin. See output_info for each datum provided when this command is
   #     called. For a listing of available GeoIPS Plugins, run:
   #     `geoips list plugins`.
-  #   usage_str: |
+  #   usage: |
   #     To use, type `geoips describe plugin <interface_name> <plugin_name>`, where
   #     <interface_name> is a valid GeoIPS Interface and <plugin_name> is a valid plugin
   #     identifier that has been implemented in any installed GeoIPS package.
@@ -178,7 +178,7 @@ instructions:
   geoips_expand:
     help: |
       Fully expands a workflow plugin.
-    usage_str: |
+    usage: |
       To use, type `geoips expand <workflow_name> <--color>`.
     output_info:
       - The fully expanded workflow plugin in a readable format.
@@ -186,7 +186,7 @@ instructions:
     help: |
       Install test datasets hosted on a NextCloud instance or test data / plugin
       packages from one or more GitHub repositories.
-    usage_str: |
+    usage: |
       To use, type `geoips install <cmd> <sub-command> ...`
     output_info:
       - Output related to the installation process that was ran.
@@ -201,7 +201,7 @@ instructions:
       Optionally, you can run the command 'geoips install all', which will
       install all test datasets listed in 'geoips list test-datasets'. If 'all' is
       provided, no other dataset can be specified.
-    usage_str: |
+    usage: |
       To use, type `geoips install <test_dataset_names> -o <full_path>`.
     output_info:
       - Not Applicable
@@ -215,7 +215,7 @@ instructions:
       $GEOIPS_PACKAGES_DIR.
 
       Currently only test data installations are supported.
-    usage_str: |
+    usage: |
       To use, type `geoips install github <repository_name>`.
     output_info:
       - Not Applicable
@@ -224,7 +224,7 @@ instructions:
       Run all GeoIPS linters on a specific GeoIPS Package. This will test whether or not
       the code you wrote adheres to the specified coding conventions set up by GeoIPS.
       Defaults to the 'geoips' package.
-    usage_str: |
+    usage: |
       To use, type `geoips lint -p <package-name>`.
     output_info:
       - Output of the Linters
@@ -238,14 +238,14 @@ instructions:
       "validators", "feature_annotators", "gridline_annotators", "product_defaults",
       "products", "sectors", "interfaces", "packages", "plugins", "scripts",
       "test-datasets", "unit-tests", "workflows"].
-    usage_str: |
+    usage: |
       To use, type `geoips list <cmd> <sub-cmd>`.
     output_info:
       - Additional info related to the artifact[s] being listed.
   geoips_list_common:
     help: |
       Common optional arguments shared between list commands.
-    usage_str: |
+    usage: |
       This cannot be used by itself. It is just a framework to share arguments amongst
       similar commands.
     output_info:
@@ -257,7 +257,7 @@ instructions:
       information can then be used with
       `geoips describe <interface_name> <plugin_name>` to retrieve more information
       about a certain plugin.
-    usage_str: |
+    usage: |
       To use, type `geoips list <interface_name>`. Optionally includes `-p`
       flag for seeing what plugins are in a certain package (-p). For example, to see
       what plugins under a certain interface have been created in a single package,
@@ -298,7 +298,7 @@ instructions:
       been implemented in other geoips package, or just a certain package. This
       information can then be used with `geoips describe <interface_name>` to
       retrieve more information about a certain interface.
-    usage_str: |
+    usage: |
       To use, type `geoips list interfaces`. Optionally includes `-i` and `-p` flags for
       seeing what has been implemented (-i) in a certain package (-p), or all packages.
       For example, to see what interfaces have been implemented in a certain package,
@@ -317,7 +317,7 @@ instructions:
       List off plugins found under all, or a specified GeoIPS package. This information
       can then be used with `geoips describe <interface_name> <plugin_name>` to
       retrieve more information about a certain plugin.
-    usage_str: |
+    usage: |
       To use, type `geoips list plugins`. Optionally includes `-p` flag for
       seeing what plugins are in a certain package (-p). For example, to see what
       plugins have been created in a single package, run
@@ -335,7 +335,7 @@ instructions:
       List off packages found under the GeoIPS Namespace, alongside their path and
       top-level docstring. This command will list every  GeoIPS Package found, provided
       it has already been installed.
-    usage_str: |
+    usage: |
       To use, type `geoips list packages`.
     output_info:
       - Docstring
@@ -347,7 +347,7 @@ instructions:
       List off scripts found under all, or a specified GeoIPS package. This information
       can then be used with `geoips run <package-name> <script_name>` to run a certain
       process workflow, defined in a bash script.
-    usage_str: |
+    usage: |
       To use, type `geoips list scripts`. Optionally includes `-p` flag for
       seeing what scripts are in a certain package (-p). For example, to see what
       scripts have been created in a single package, run
@@ -363,7 +363,7 @@ instructions:
       in which your plugin packages fall under, -r is a flag specifying that the CLI
       should output relative paths (default=False), and -p can be a filter a single
       package listing (defaults to all packages).
-    usage_str: |
+    usage: |
       To use, type `geoips list registries -n <namespace> -r <relpath> -p <pkg_name>`.
     output_info:
       - GeoIPS Package
@@ -374,7 +374,7 @@ instructions:
       List off source_names of reader plugins found under all, or a specified GeoIPS
       package. This information can then be used in creating product plugins which will
       use the aforementioned source_names for product creation.
-    usage_str: |
+    usage: |
       To use, type `geoips list source-names`. Optionally includes `-p` flag for
       seeing what source-names are in a certain package (-p). For example, to see what
       source-names are attributed to a single package, run
@@ -387,7 +387,7 @@ instructions:
     help: |
       List off test-datasets used for testing GeoIPS and other GeoIPS Packages.
       This data is used for running tests via `geoips run <pkg_name> <script_name>`.
-    usage_str: |
+    usage: |
       To use, type `geoips list test-datasets`.
     output_info:
       - Data Host
@@ -396,7 +396,7 @@ instructions:
     help: |
       List off unit-tests used in a certain GeoIPS Package.
       This data can be used to run unit tests via `geoips test unit-test ...`.
-    usage_str: |
+    usage: |
       To use, type `geoips list unit-tests -p <package-name>`.
     output_info:
       - GeoIPS Package
@@ -406,7 +406,7 @@ instructions:
     help: |
       Commands used to manage GeoIPS-based plugin registry files. Currently supports
       `geoips registry create` and `geoips registry delete`.
-    usage_str: |
+    usage: |
       To use, type `geoips registry <cmd> <sub-cmd> ...`
     output_info:
       - Output related to the registry process that was ran.
@@ -421,7 +421,7 @@ instructions:
       can add the -s (--save_type) flag, which is a string that can be either 'json' or
       'yaml', specifying the file format of your registry. By default, GeoIPS expects
       'json' as the file format to use, and that is the default of this flag.
-    usage_str: |
+    usage: |
       To use, type `geoips registry create -n <namespace> -s <save_type>
       -p <packages>`.
     output_info:
@@ -437,7 +437,7 @@ instructions:
       Install the appropriate test dataset and/or package based on the arguments
       provided. To see a list of available test datasets for install, run
       `geoips list test-datasets`.
-    usage_str: |
+    usage: |
       To use, type `geoips registry delete -n <namespace> -p <packages>`.
     output_info:
       - Paths to the deleted registry files.
@@ -446,7 +446,7 @@ instructions:
       Run a specified geoips process workflow (procflow) plugin. See
       'geoips run single_source' or 'geoips run data_fusion' for more information of
       what arguments to provide.
-    usage_str: |
+    usage: |
       To use, type `geoips run <procflow_name> **<procflow_arguments>`.
     output_info:
       - Log output of the specified procflow ran over certain products.
@@ -455,7 +455,7 @@ instructions:
       Run the config based process workflow. For more information of the
       arguments available, either run 'geoips run config_based -h', or view the arguments
       set up in geoips.commandline.args:add_args
-    usage_str: |
+    usage: |
       To use, type `geoips run data_fusion **<data_fusion_args>`.
     output_info:
       - Log Output of the Data Fusion Process Workflow (Procflow)
@@ -465,7 +465,7 @@ instructions:
       native 'single_source' procflow with extra arguments. For more information of the
       arguments available, either run 'geoips run data_fusion -h', or view the arguments
       set up in data_fusion.commandline.args:add_args
-    usage_str: |
+    usage: |
       To use, type `geoips run data_fusion **<data_fusion_args>`.
     output_info:
       - Log Output of the Data Fusion Process Workflow (Procflow)
@@ -474,7 +474,7 @@ instructions:
       Run the order_based process workflow (procflow). This procflow executes operations
       in the order they are specified in the provided workflow plugin. Eventually, this
       will be the only procflow supported by GeoIPS.
-    usage_str: |
+    usage: |
       To use, type `geoips run order_based <workflow_type> <filenames> **<order_based_args>`.
     output_info:
       - Log output of the order based process workflow.
@@ -483,7 +483,7 @@ instructions:
       Run the native geoips single source process workflow. For more information of the
       arguments available, either run 'geoips run single_source -h', or view the
       arguments set up in geoips.commandline.args:add_args
-    usage_str: |
+    usage: |
       To use, type `geoips run single_source **<single_source_args>`.
     output_info:
       - Log Output of the Single Source Process Workflow (Procflow)
@@ -491,7 +491,7 @@ instructions:
     help: |
       Sector-based commands for GeoIPS. Currently supports `geoips sector plot`, which
       produces an image of the geospatial domain in which a sector plugin encapsulates.
-    usage_str: |
+    usage: |
       To use, type `geoips sector <cmd> <sub-cmd> ...`
     output_info:
       - Output related to the sector process that was ran.
@@ -514,7 +514,7 @@ instructions:
       flag. By default, labels are added to the bottom and left sides of the sector.
       You can add a '--labels' flag with no arguments to disable labels. Otherwise,
       choose one or more of the following options ['left', 'right', 'top', 'bottom'].
-    usage_str: |
+    usage: |
       To use, type `geoips sector plot <sector_name> --overlay --gridlines --labels
       <labels> --outdir <output_directory_path>`.
     output_info:
@@ -523,7 +523,7 @@ instructions:
     help: |
       Run tests implemented in GeoIPS or a separate GeoIPS Package. Currently only
       supports the testing of reproducible workflow plugins.
-    usage_str: |
+    usage: |
       To use, type `geoips test <cmd> <sub-cmd>`.
     output_info:
       - Output of the Test Being Ran
@@ -533,7 +533,7 @@ instructions:
       workflow plugin should include all parameters needed to produce a replicable
       output which can be created by executing all the steps listed in the given
       workflow.
-    usage_str: |
+    usage: |
       To use, type `geoips test workflow <workflow_type>`.
     output_info:
       - All captured print and log output of executing the given workflow.
@@ -543,7 +543,7 @@ instructions:
       command in a top-down tree which gives a visual structure of how the CLI can be
       ran. <--max-depth> must be greater than or equal to 0, where depth denotes the
       level of the command you'd like to display. Ie. <0> geoips <1> list <2> scripts.
-    usage_str: |
+    usage: |
       To use, type `geoips tree <--max-depth> <int> <--color> <--short-name>`.
     output_info:
       - The tree of available GeoIPS CLI commands up to '--max-depth' levels, where
@@ -558,7 +558,7 @@ instructions:
       developing is valid. If the <file_path> you're trying to validate is a
       multi-document YAML file, you'll also need to provide the name of the plugin
       within that file for this command to work.
-    usage_str: |
+    usage: |
       To use, type `geoips validate <file_path> OPT_ARG <plugin_name>`.
     output_info:
       - A message telling you if the plugin is valid or not and why.

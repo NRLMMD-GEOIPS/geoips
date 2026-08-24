@@ -8,7 +8,7 @@ instructions:
       '
     output_info:
     - Output related to config process that was run.
-    usage_str: 'To use, type `geoips config <sub-cmd> <sub-sub-command> ...`
+    usage: 'To use, type `geoips config <sub-cmd> <sub-sub-command> ...`
 
       '
   config_install:
@@ -21,7 +21,7 @@ instructions:
       '
     output_info:
     - Not Applicable
-    usage_str: 'To use, type `geoips config install <test_dataset_name>`.
+    usage: 'To use, type `geoips config install <test_dataset_name>`.
 
       '
   get:
@@ -33,7 +33,7 @@ instructions:
       '
     output_info:
     - Information related to the artifact that was retrieved.
-    usage_str: 'To use, type `geoips get <sub-cmd> <sub-sub-cmd> ...`.
+    usage: 'To use, type `geoips get <sub-cmd> <sub-sub-cmd> ...`.
 
       '
   get_family:
@@ -54,7 +54,7 @@ instructions:
     - Interface Name
     - Interface Type
     - Required Args / Schema
-    usage_str: 'To use, type `geoips get family <interface_name> <family_name>`, where
+    usage: 'To use, type `geoips get family <interface_name> <family_name>`, where
 
       <interface_name> is a valid GeoIPS Interface and <family_name> is a supported
 
@@ -79,7 +79,7 @@ instructions:
     - Interface Name
     - Interface Type
     - Supported Families
-    usage_str: 'To use, type `geoips get interface <interface_name>`, where <interface_name>
+    usage: 'To use, type `geoips get interface <interface_name>`, where <interface_name>
       is a
 
       valid GeoIPS Interface.
@@ -101,7 +101,7 @@ instructions:
     - Docstring
     - Package Path
     - Documentation Link
-    usage_str: 'To use, type `geoips get package <package-name>`, where <package-name>
+    usage: 'To use, type `geoips get package <package-name>`, where <package-name>
       is a
 
       valid GeoIPS Package.
@@ -126,7 +126,7 @@ instructions:
     - Package
     - Relative Path
     - Plugin Specific Info (signature / source_names / available overrides)
-    usage_str: 'To use, type `geoips get plugin <interface_name> <plugin_name>`, where
+    usage: 'To use, type `geoips get plugin <interface_name> <plugin_name>`, where
 
       <interface_name> is a valid GeoIPS Interface and <plugin_name> is a valid plugin
 
@@ -144,7 +144,7 @@ instructions:
       '
     output_info:
     - Additional info related to the artifact[s] being listed.
-    usage_str: 'To use, type `geoips list <sub-cmd> <sub-sub-cmd>`.
+    usage: 'To use, type `geoips list <sub-cmd> <sub-sub-cmd>`.
 
       '
   list_interface:
@@ -168,7 +168,7 @@ instructions:
     - Package
     - Plugin Name
     - Relative Path
-    usage_str: 'To use, type `geoips list interface <interface_name>`. Optionally
+    usage: 'To use, type `geoips list interface <interface_name>`. Optionally
       includes `-p`
 
       flag for seeing what plugins are in a certain package (-p). For example, to
@@ -204,7 +204,7 @@ instructions:
     - Interface Type
     - Package
     - Supported Families
-    usage_str: 'To use, type `geoips list interfaces`. Optionally includes `-i` and
+    usage: 'To use, type `geoips list interfaces`. Optionally includes `-i` and
       `-p` flags for
 
       seeing what has been implemented (-i) in a certain package (-p), or all packages.
@@ -230,7 +230,7 @@ instructions:
     - Docstring
     - Package
     - Relative Path
-    usage_str: 'To use, type `geoips list packages`.
+    usage: 'To use, type `geoips list packages`.
 
       '
   list_plugins:
@@ -250,7 +250,7 @@ instructions:
     - Package
     - Plugin Name
     - Relative Path
-    usage_str: 'To use, type `geoips list plugins`. Optionally includes `-p` flag
+    usage: 'To use, type `geoips list plugins`. Optionally includes `-p` flag
       for
 
       seeing what plugins are in a certain package (-p). For example, to see what
@@ -275,7 +275,7 @@ instructions:
     output_info:
     - Package
     - Script Name
-    usage_str: 'To use, type `geoips list scripts`. Optionally includes `-p` flag
+    usage: 'To use, type `geoips list scripts`. Optionally includes `-p` flag
       for
 
       seeing what scripts are in a certain package (-p). For example, to see what
@@ -297,7 +297,7 @@ instructions:
     output_info:
     - Data Host
     - Dataset Name
-    usage_str: 'To use, type `geoips list test-datasets`.
+    usage: 'To use, type `geoips list test-datasets`.
 
       '
   list_unit-tests:
@@ -310,7 +310,7 @@ instructions:
     - GeoIPS Package
     - Unit Test Directory
     - Unit Test Name
-    usage_str: 'To use, type `geoips list unit-tests -p <package-name>`.
+    usage: 'To use, type `geoips list unit-tests -p <package-name>`.
 
       '
   run:
@@ -328,7 +328,7 @@ instructions:
       '
     output_info:
     - Log Output of the Process Workflow (Procflow)
-    usage_str: 'To use, type `geoips run -p <package-name> <script_name>`.
+    usage: 'To use, type `geoips run -p <package-name> <script_name>`.
 
       '
   test:
@@ -345,7 +345,7 @@ instructions:
       '
     output_info:
     - Output of the Test Being Ran
-    usage_str: 'To use, type `geoips test <sub-cmd> <sub-sub-cmd>`.
+    usage: 'To use, type `geoips test <sub-cmd> <sub-sub-cmd>`.
 
       '
   test_linting:
@@ -359,7 +359,7 @@ instructions:
       '
     output_info:
     - Output of the Linters
-    usage_str: 'To use, type `geoips test linting -p <package-name>`.
+    usage: 'To use, type `geoips test linting -p <package-name>`.
 
       '
   test_script:
@@ -376,7 +376,7 @@ instructions:
       '
     output_info:
     - Output of the Script Being Ran
-    usage_str: 'To use, type `geoips test script -p <package-name> <--integration>
+    usage: 'To use, type `geoips test script -p <package-name> <--integration>
       <script_name>`.
 
       '
@@ -391,7 +391,7 @@ instructions:
       '
     output_info:
     - Output of the Unit Test Being Ran
-    usage_str: 'To use, type
+    usage: 'To use, type
 
       `geoips test unit-test -p <package-name> <directory_name> <-n> <script_name>`
 
@@ -407,6 +407,6 @@ instructions:
       '
     output_info:
     - A message telling you if the plugin is valid or not and why.
-    usage_str: 'To use, type `geoips validate <file_path>`. Do it man. NOW.
+    usage: 'To use, type `geoips validate <file_path>`. Do it man. NOW.
 
       '

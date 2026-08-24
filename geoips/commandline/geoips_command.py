@@ -321,7 +321,7 @@ class GeoipsCommand(abc.ABC):
                 self.name,
                 description=description,
                 help=help_text,
-                usage=instructions["usage_str"],
+                usage=instructions["usage"],
                 epilog=epilog,
                 parents=self.parent_parsers,
                 conflict_handler="resolve",
