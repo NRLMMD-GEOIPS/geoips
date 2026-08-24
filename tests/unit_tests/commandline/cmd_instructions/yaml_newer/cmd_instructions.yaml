@@ -1,7 +1,7 @@
 name: 2024-05-20_19:43:53_UTC
 instructions:
   config:
-    help_str: 'Various configuration-based commands for setting up your geoips environment.
+    help: 'Various configuration-based commands for setting up your geoips environment.
 
       Currently supports `geoips config install <test_dataset_name>` command.
 
@@ -12,7 +12,7 @@ instructions:
 
       '
   config_install:
-    help_str: 'Install the appropriate test dataset and/or package based on the arguments
+    help: 'Install the appropriate test dataset and/or package based on the arguments
 
       provided. To see a list of available test datasets for install, run
 
@@ -25,7 +25,7 @@ instructions:
 
       '
   get:
-    help_str: 'Retrieve an appropriate GeoIPS artifact. Currently supported `get`
+    help: 'Retrieve an appropriate GeoIPS artifact. Currently supported `get`
       calls are:
 
       ["family", "interface", "package", "plugin"]
@@ -37,7 +37,7 @@ instructions:
 
       '
   get_family:
-    help_str: 'Retrieve the appropriate GeoIPS Family alongside descriptive information
+    help: 'Retrieve the appropriate GeoIPS Family alongside descriptive information
       of
 
       that family. See output_info for each datum provided when this command is
@@ -62,7 +62,7 @@ instructions:
 
       '
   get_interface:
-    help_str: 'Retrieve the appropriate GeoIPS Interface alongside descriptive information
+    help: 'Retrieve the appropriate GeoIPS Interface alongside descriptive information
       of
 
       that interface. See output_info for each datum provided when this command is
@@ -86,7 +86,7 @@ instructions:
 
       '
   get_package:
-    help_str: 'Retrieve the appropriate GeoIPS Package alongside descriptive information
+    help: 'Retrieve the appropriate GeoIPS Package alongside descriptive information
       of
 
       that package. See output_info for each datum provided when this command is
@@ -108,7 +108,7 @@ instructions:
 
       '
   get_plugin:
-    help_str: 'Retrieve the appropriate GeoIPS Plugin alongside descriptive information
+    help: 'Retrieve the appropriate GeoIPS Plugin alongside descriptive information
       of
 
       that plugin. See output_info for each datum provided when this command is
@@ -134,7 +134,7 @@ instructions:
 
       '
   list:
-    help_str: 'List off available GeoIPS artifacts provided further commands. Current
+    help: 'List off available GeoIPS artifacts provided further commands. Current
       artifacts
 
       available for listing are: ["interface", "interfaces", "packages", "plugins",
@@ -148,7 +148,7 @@ instructions:
 
       '
   list_interface:
-    help_str: 'List off plugins found under a certain interface. This is useful for
+    help: 'List off plugins found under a certain interface. This is useful for
       seeing what
 
       plugins have been implemented through all, or a certain, GeoIPS Package. This
@@ -183,7 +183,7 @@ instructions:
 
       '
   list_interfaces:
-    help_str: 'List off every GeoIPS Interface. This is useful for seeing what is
+    help: 'List off every GeoIPS Interface. This is useful for seeing what is
 
       available throughout GeoIPS, but can also be extended to see what interfaces
       have
@@ -218,7 +218,7 @@ instructions:
 
       '
   list_packages:
-    help_str: 'List off packages found under the GeoIPS Namespace, alongside their
+    help: 'List off packages found under the GeoIPS Namespace, alongside their
       path and
 
       top-level docstring. This command will list every  GeoIPS Package found, provided
@@ -234,7 +234,7 @@ instructions:
 
       '
   list_plugins:
-    help_str: 'List off plugins found under all, or a specified GeoIPS package. This
+    help: 'List off plugins found under all, or a specified GeoIPS package. This
       information
 
       can then be used with `geoips get-plugin <interface_name> <plugin_name>` to
@@ -264,7 +264,7 @@ instructions:
 
       '
   list_scripts:
-    help_str: 'List off scripts found under all, or a specified GeoIPS package. This
+    help: 'List off scripts found under all, or a specified GeoIPS package. This
       information
 
       can then be used with `geoips run <package-name> <script_name>` to run a certain
@@ -289,7 +289,7 @@ instructions:
 
       '
   list_test-datasets:
-    help_str: 'List off test-datasets used for testing GeoIPS and other GeoIPS Packages.
+    help: 'List off test-datasets used for testing GeoIPS and other GeoIPS Packages.
 
       This data is used for running tests via `geoips run <pkg_name> <script_name>`.
 
@@ -301,7 +301,7 @@ instructions:
 
       '
   list_unit-tests:
-    help_str: 'List off unit-tests used in a certain GeoIPS Package.
+    help: 'List off unit-tests used in a certain GeoIPS Package.
 
       This data can be used to run unit tests via `geoips test unit-test ...`.
 
@@ -314,7 +314,7 @@ instructions:
 
       '
   run:
-    help_str: 'Run a geoips process workflow (procflow), given a GeoIPS package and
+    help: 'Run a geoips process workflow (procflow), given a GeoIPS package and
       a script
 
       name. This will do the exact same thing as being in the directory of a certain
@@ -332,7 +332,7 @@ instructions:
 
       '
   test:
-    help_str: 'Run tests implemented in GeoIPS or a separate GeoIPS Package. This
+    help: 'Run tests implemented in GeoIPS or a separate GeoIPS Package. This
       could be
 
       running a set of linters on a specific package, running a certain integration
@@ -349,7 +349,7 @@ instructions:
 
       '
   test_linting:
-    help_str: 'Run all GeoIPS linters on a specific GeoIPS Package. This will test
+    help: 'Run all GeoIPS linters on a specific GeoIPS Package. This will test
       whether or not
 
       the code you wrote adheres to the specified coding conventions set up by GeoIPS.
@@ -363,7 +363,7 @@ instructions:
 
       '
   test_script:
-    help_str: 'Runs a specific test script (integration-based or normal), found within
+    help: 'Runs a specific test script (integration-based or normal), found within
       a certain
 
       GeoIPS package. If this is specified as an integration test, this will only
@@ -381,7 +381,7 @@ instructions:
 
       '
   test_unit-test:
-    help_str: 'Run tests unit-test[s] implemented in a certain GeoIPS package. This
+    help: 'Run tests unit-test[s] implemented in a certain GeoIPS package. This
       command
 
       expects that the unit tests implemented are pytest-based. Defaults to the ''geoips''
@@ -397,7 +397,7 @@ instructions:
 
       '
   validate:
-    help_str: 'Validate a GeoIPS Plugin found at <file_path>. While this is done under
+    help: 'Validate a GeoIPS Plugin found at <file_path>. While this is done under
       the hood via
 
       GeoIPS, this is an easy way to test whether or not the plugin you are developing
