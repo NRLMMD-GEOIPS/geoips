@@ -1240,6 +1240,14 @@ class WorkflowTestModel(FrozenModel):
         validation_alias=AliasChoices("fnames", "filenames"),
     )
 
+    # arguments:
+    #     globals:
+    #         minimum_coverage: <float>
+    #         product_name: <some_value>
+    arguments: Optional[Dict[str, Any]] | None = Field(
+        None, description="Argument overrides to apply to your workflow."
+    )
+
     #
     # outputs:
     #     step_id:

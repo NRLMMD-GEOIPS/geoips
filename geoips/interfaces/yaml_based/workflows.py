@@ -38,12 +38,12 @@ class WorkflowsInterface(BaseYamlInterface):
 
         Parameters
         ----------
-        value: str
+        value : str
             The full global override string for a geoips run order_based command.
 
         Returns
         -------
-        override_dict: dict
+        override_dict : dict
             The validated contents of an override string in a dictionary.
         """
         try:
@@ -68,12 +68,12 @@ class WorkflowsInterface(BaseYamlInterface):
 
         Parameters
         ----------
-        value: str
+        value : str
             The full step override string for a geoips run order_based command.
 
         Returns
         -------
-        override_dict: dict
+        override_dict : dict
             The validated contents of an override string in a dictionary.
         """
         try:
@@ -107,18 +107,18 @@ class WorkflowsInterface(BaseYamlInterface):
 
         Parameters
         ----------
-        d: dict[dict]
+        d : dict[dict]
             The nested dictionary to set a key, value pair in.
-        keys: list[str]
+        keys : list[str]
             A list of keys to access the nested dictionaries.
-        argument: str
+        argument : str
             The final key to set value to.
-        value: Any
+        value : Any
             The value to assign to a key that's in a nested dictionary.
 
         Returns
         -------
-        d: dict[dict]
+        d : dict[dict]
             A nested dictionary.
         """
         if d.get("spec") and d.get("spec").get("steps"):
@@ -135,14 +135,14 @@ class WorkflowsInterface(BaseYamlInterface):
 
         Parameters
         ----------
-        steps: dict[dict]
+        steps : dict[dict]
             An ordered dictionary of steps to apply in a given workflow.
-        override: Any
+        override : Any
             The value of the override.
 
         Returns
         -------
-        steps: dict[dict]
+        steps : dict[dict]
             An overridden representation of 'steps'.
         """
         steps = self._set_nested(
@@ -159,14 +159,14 @@ class WorkflowsInterface(BaseYamlInterface):
 
         Parameters
         ----------
-        steps: dict[dict]
+        steps : dict[dict]
             An ordered dictionary of steps to apply in a given workflow.
-        override: Any
+        override : Any
             The value of the override.
 
         Returns
         -------
-        steps: dict[dict]
+        steps : dict[dict]
             An overridden representation of 'steps'.
         """
         for id, step in steps.items():
@@ -189,19 +189,19 @@ class WorkflowsInterface(BaseYamlInterface):
 
         Parameters
         ----------
-        workflow: dict
+        workflow : dict
             A dictionary representation of a workflow plugin.
-        goverrides: list[str], optional
+        goverrides : list[str], optional
             A list of string global overrides.
-        soverrides: list[str], optional
+        soverrides : list[str], optional
             A list of string step overrides.
-        grab_bases: bool, optional
+        grab_bases : bool, optional
             Whether or not to use the override arguments specified in a workflow's
             'arguments' section. Defaults to True.
 
         Returns
         -------
-        overridden: dict
+        overridden : dict
             The overridden representation of 'workflow'.
         """
         steps = workflow["spec"]["steps"]
@@ -403,28 +403,46 @@ class WorkflowsInterface(BaseYamlInterface):
 
         return steps
 
-    def _convert_override_dict_to_string_format(self, workflow, input_arguments=None):
+    def _convert_override_dict_to_string_format(
+        self,
+        workflow,
+        input_arguments=None,
+        use_test_arguments=False,
+    ):
         """
         Convert a workflow's test section overrides to string-based overrides.
 
         Parameters
         ----------
-        workflow: dict
+        workflow : dict
             A dictionary representation of a workflow plugin.
-        input_arguments: dict, optional
+        input_arguments : dict, optional
             A dictionary of input override arguments from the commandline. Defaults to
             None.
+        use_test_arguments : bool, optional
+            Whether or not to default to the arguments specified in a workflow's 'test'
+            section or to default to the arguments set in the top level of a workflow
+            plugin.
 
         Returns
         -------
-        goverrides: list[str]
+        goverrides : list[str]
             A list of global override strings.
-        soverrides: list[str]
+        soverrides : list[str]
             A list of step override strings.
         """
         goverrides = []
         soverrides = []
-        arguments = input_arguments if input_arguments else workflow.get("arguments")
+        if use_test_arguments:
+            arguments = (
+                input_arguments
+                if input_arguments
+                else workflow.get("test", {}).get("arguments", {})
+            )
+        else:
+            arguments = (
+                input_arguments if input_arguments else workflow.get("arguments", {})
+            )
 
         for override_key, overrides in arguments.items():
             if override_key.startswith("global"):
@@ -457,29 +475,38 @@ class WorkflowsInterface(BaseYamlInterface):
         goverrides={},
         soverrides={},
         oc_overrides={},
+        use_test_arguments=False,
     ):
         """Override a workflow plugin where applicable.
 
         Parameters
         ----------
-        workflow: dict
+        workflow : dict
             A dictionary representation of a workflow plugin.
-        goverrides: dict, optional
+        goverrides : dict, optional
             A dictionary of global overrides.
-        soverrides: dict, optional
+        soverrides : dict, optional
             A dictionary for step overrides.
-        oc_overrides: dict, optional
+        oc_overrides : dict, optional
             A dictionary for output_checker overrides.
+        use_test_arguments : bool, optional
+            Whether or not to default to the arguments specified in a workflow's 'test'
+            section or to default to the arguments set in the top level of a workflow
+            plugin.
 
         Returns
         -------
-        overridden: dict
+        overridden : dict
             The overridden representation of 'workflow'.
         """
         in_goverrides, in_soverrides = self._convert_override_dict_to_string_format(
-            workflow, input_arguments={"global": goverrides}.update(soverrides)
+            workflow,
+            input_arguments={"global": goverrides}.update(soverrides),
+            use_test_arguments=use_test_arguments,
         )
-        goverrides, soverrides = self._convert_override_dict_to_string_format(workflow)
+        goverrides, soverrides = self._convert_override_dict_to_string_format(
+            workflow,
+        )
 
         # Add CLI arguments at the end of the list, they will override if duplicates
         # occur
@@ -527,7 +554,7 @@ class WorkflowsInterface(BaseYamlInterface):
 
         Parameters
         ----------
-        expanded_workflow: WorkflowPlugin type
+        expanded_workflow : WorkflowPlugin type
             A dictionary representation of an expanded workflow plugin. Expanding means
             nested workflows and/or products have been fully generated and everything
             has been specified in a single workflow plugin.
@@ -538,7 +565,10 @@ class WorkflowsInterface(BaseYamlInterface):
                 "but the plugin is missing a top level 'test' section."
             )
 
-        expanded_workflow = self._override_workflow_dict_format(expanded_workflow)
+        expanded_workflow = self._override_workflow_dict_format(
+            expanded_workflow,
+            use_test_arguments=True,
+        )
 
         # Import buried in order to avoid circular import error
         from geoips.pydantic_models.v1.workflows import WorkflowPluginModel
@@ -567,9 +597,9 @@ class WorkflowsInterface(BaseYamlInterface):
 
         Parameters
         ----------
-        name: str
+        name : str
             The name of the workflow plugin.
-        rebuild_registries: bool (default=None)
+        rebuild_registries : bool (default=None)
             Whether or not to rebuild the registries if get_plugin fails. If set to
             None, default to what we have set in geoips.filenames.base_paths, which
             defaults to True. If specified, use the input value of rebuild_registries,
@@ -577,7 +607,7 @@ class WorkflowsInterface(BaseYamlInterface):
             get_plugin fails, rebuild the plugin registry, call then call
             get_plugin once more with rebuild_registries toggled off, so it only gets
             rebuilt once.
-        _expand: private bool (default=False)
+        _expand : private bool (default=False)
             If true, fully expand the workflow plugin in place. Otherwise, load as is
             done usually. This should only be used for the 'geoips expand <workflow>'
             command.
