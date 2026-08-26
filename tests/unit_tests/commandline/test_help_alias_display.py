@@ -103,3 +103,41 @@ def test_command_instructions_require_help_or_description():
 
     with pytest.raises(KeyError, match="must define 'help', 'description', or both"):
         GeoipsCLI(cmd_instructions=instructions)
+
+
+def test_describe_interface_instructions_substitute_interface_name():
+    """Format shared describe instructions for each generated interface command."""
+    cli = GeoipsCLI()
+    describe_parser = _get_subparser(cli.parser, "describe")
+    algorithms_parser = _get_subparser(describe_parser, "algorithms")
+    output_formatters_parser = _get_subparser(describe_parser, "output-formatters")
+
+    normalized_help = " ".join(describe_parser.format_help().split())
+    assert (
+        "Describe the algorithms interface, its plugins, or its families."
+        in normalized_help
+    )
+    assert "GeoIPS algorithms interface" in algorithms_parser.description
+    assert algorithms_parser.usage == (
+        "geoips describe algorithms\n"
+        "       geoips describe algorithms PLUGIN\n"
+        "       geoips describe algorithms family FAMILY\n"
+    )
+
+    assert "GeoIPS output-formatters interface" in output_formatters_parser.description
+    assert output_formatters_parser.usage == (
+        "geoips describe output-formatters\n"
+        "       geoips describe output-formatters PLUGIN\n"
+        "       geoips describe output-formatters family FAMILY\n"
+    )
+    assert "{interface}" not in normalized_help
+    algorithms_help = algorithms_parser.format_help()
+    assert "{interface}" not in algorithms_help
+    assert "FAMILY" in algorithms_help
+    assert "PLUGIN" in algorithms_help
+    assert "{scalar_to_scalar" not in algorithms_help
+
+    package_parser = _get_subparser(describe_parser, "package")
+    assert package_parser.usage.startswith(
+        "To use, type `geoips describe package <package-name>`"
+    )

@@ -1,4 +1,22 @@
 name: geoips_cmd_instructions
+templates:
+  geoips_describe_interface: &geoips-describe-interface
+    help: Describe the {interface} interface, its plugins, or its families.
+    description: |
+      Display detailed information about the GeoIPS {interface} interface, a
+      registered plugin, or a supported family.
+
+      Run this command without an additional argument to describe the interface.
+      Provide a plugin name to describe a registered plugin, or use
+      `family FAMILY` to describe a supported family.
+
+      Use `geoips list {interface}` to find registered plugins.
+    usage: |
+      geoips describe {interface}
+             geoips describe {interface} PLUGIN
+             geoips describe {interface} family FAMILY
+    output_info:
+      - Information about the {interface} interface, selected plugin, or selected family
 instructions:
   geoips_config:
     help: Manage GeoIPS configuration files and settings.
@@ -83,75 +101,55 @@ instructions:
     usage: geoips config validate [OPTIONS]
     output_info:
       - Validation status (valid/invalid) with error details if invalid
-  geoips_describe: &geoips-describe-artifact
-    help: |
-      Retrieve information about a GeoIPS artifact. For this command, an artifact is one
-      of ['interface', 'plugin', 'family']. To get more information on how to
-      retrieve these artifacts, see below.
+  geoips_describe:
+    help: Describe GeoIPS interfaces, plugins, families, and packages.
+    description: |
+      Display detailed, YAML-formatted information about GeoIPS interfaces,
+      plugins, interface families, and installed packages.
 
-      * Interface:
-          * Command Signature:
-              * `geoips describe <interface_name>`
-          * Artifact Listing:
-              * `geoips list interfaces`
-          * output_info:
-              * Absolute Path
-              * Docstring
-              * Interface Name
-              * Interface Type
-              * Supported Families
+      Each GeoIPS interface is exposed as a command under `geoips describe`. Run
+      an interface command by itself to describe the interface, add a plugin name
+      to describe one of its registered plugins, or add `family FAMILY` to
+      describe one of its supported families. Use the `package` command to
+      describe an installed GeoIPS package.
 
-      * Plugin:
-          * Command Signature:
-              * `geoips describe <interface_name> <plugin_name>`
-          * Artifact Listing:
-              * `geoips list plugins <-p> <package-name>`
-          * Output Info:
-              * Docstring
-              * Family Name
-              * GeoIPS Package
-              * Interface Name
-              * Plugin Type
-              * call_sig / source_names / Product Defaults (dependent on Plugin Type)
-              * Relative Path
+      Examples:
 
-      * Family:
-          * Command Signature:
-              * `geoips describe <interface_name> family <family_name>`
-          * Artifact Listing:
-              * `geoips list interfaces --columns interface supported_families`
-          * Output Info:
-              * Docstring
-              * Family Name
-              * Family Path
-              * Interface Name
-              * Interface Type
-              * Required Arguments / Schema
+      - `geoips describe algorithms`
+      - `geoips describe algorithms single_channel`
+      - `geoips describe algorithms family xarray_to_xarray`
+      - `geoips describe package geoips`
+
+      Use `geoips list interfaces`, `geoips list plugins`, and
+      `geoips list packages` to find available names.
     usage: |
-      To use, type `geoips describe <interface_name> <sub-cmd> ...`.
+      geoips describe INTERFACE
+             geoips describe INTERFACE PLUGIN
+             geoips describe INTERFACE family FAMILY
+             geoips describe package PACKAGE
     output_info:
       - Information related to the artifact that was retrieved.
-  geoips_describe_algorithms: *geoips-describe-artifact
-  geoips_describe_colormappers: *geoips-describe-artifact
-  geoips_describe_coverage-checkers: *geoips-describe-artifact
-  geoips_describe_databases: *geoips-describe-artifact
-  geoips_describe_filename-formatters: *geoips-describe-artifact
-  geoips_describe_interpolators: *geoips-describe-artifact
-  geoips_describe_output-checkers: *geoips-describe-artifact
-  geoips_describe_output-formatters: *geoips-describe-artifact
-  geoips_describe_procflows: *geoips-describe-artifact
-  geoips_describe_readers: *geoips-describe-artifact
-  geoips_describe_sector-adjusters: *geoips-describe-artifact
-  geoips_describe_sector-metadata-generators: *geoips-describe-artifact
-  geoips_describe_sector-spec-generators: *geoips-describe-artifact
-  geoips_describe_title-formatters: *geoips-describe-artifact
-  geoips_describe_feature-annotators: *geoips-describe-artifact
-  geoips_describe_gridline-annotators: *geoips-describe-artifact
-  geoips_describe_product-defaults: *geoips-describe-artifact
-  geoips_describe_products: *geoips-describe-artifact
-  geoips_describe_sectors: *geoips-describe-artifact
-  geoips_describe_validators: *geoips-describe-artifact
-  geoips_describe_workflows: *geoips-describe-artifact
+  geoips_describe_algorithms: *geoips-describe-interface
+  geoips_describe_colormappers: *geoips-describe-interface
+  geoips_describe_coverage-checkers: *geoips-describe-interface
+  geoips_describe_databases: *geoips-describe-interface
+  geoips_describe_filename-formatters: *geoips-describe-interface
+  geoips_describe_interpolators: *geoips-describe-interface
+  geoips_describe_output-checkers: *geoips-describe-interface
+  geoips_describe_output-formatters: *geoips-describe-interface
+  geoips_describe_procflows: *geoips-describe-interface
+  geoips_describe_readers: *geoips-describe-interface
+  geoips_describe_sector-adjusters: *geoips-describe-interface
+  geoips_describe_sector-metadata-generators: *geoips-describe-interface
+  geoips_describe_sector-spec-generators: *geoips-describe-interface
+  geoips_describe_title-formatters: *geoips-describe-interface
+  geoips_describe_feature-annotators: *geoips-describe-interface
+  geoips_describe_gridline-annotators: *geoips-describe-interface
+  geoips_describe_product-defaults: *geoips-describe-interface
+  geoips_describe_products: *geoips-describe-interface
+  geoips_describe_sectors: *geoips-describe-interface
+  geoips_describe_validators: *geoips-describe-interface
+  geoips_describe_workflows: *geoips-describe-interface
   # geoips_describe_family:
   #   help: |
   #     Retrieve the appropriate GeoIPS Family alongside descriptive information of

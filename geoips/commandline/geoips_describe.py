@@ -97,6 +97,18 @@ class GeoipsDescribeArtifact(GeoipsExecutableCommand):
     name = "interface"
     command_classes = []
 
+    def _format_instructions(self, instructions):
+        """Insert this generated command's interface name into shared instructions."""
+        formatted = instructions.copy()
+        for field in ("help", "description", "usage"):
+            if field in formatted:
+                formatted[field] = formatted[field].format(interface=self.name)
+        if "output_info" in formatted:
+            formatted["output_info"] = [
+                item.format(interface=self.name) for item in formatted["output_info"]
+            ]
+        return formatted
+
     def add_arguments(self):
         """Add arguments to the describe-subparser for the describe Interface cmd."""
         self.parser.add_argument(
@@ -104,15 +116,17 @@ class GeoipsDescribeArtifact(GeoipsExecutableCommand):
             type=str,
             default=None,
             nargs="?",
-            help="GeoIPS Plugin to select from the provided interface.",
+            metavar="PLUGIN",
+            help="GeoIPS plugin to describe.",
         )
         self.parser.add_argument(
             "family_name",
             type=str,
             default=None,
             nargs="?",
+            metavar="FAMILY",
             choices=getattr(interfaces, self.name.replace("-", "_")).supported_families,
-            help="GeoIPS Family to select from the provided interface.",
+            help="GeoIPS family to describe.",
         )
 
     def __call__(self, args):

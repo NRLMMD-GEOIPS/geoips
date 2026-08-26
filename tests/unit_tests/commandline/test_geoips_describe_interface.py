@@ -47,7 +47,7 @@ class TestGeoipsDescribeInterface(BaseCliTest):
         """
         # An error occurred using args. Assert that args is not valid and check the
         # output of the error.
-        err_str = "usage: To use, type `geoips describe <interface_name> <sub-cmd> ...`"
+        err_str = "usage: geoips describe INTERFACE"
         assert err_str in error
 
     def check_output(self, args, output):
@@ -62,9 +62,7 @@ class TestGeoipsDescribeInterface(BaseCliTest):
         """
         # The args provided are valid, so test that the output is actually correct
         if "-h" in args:
-            usg_str = (
-                "usage: To use, type `geoips describe <interface_name> <sub-cmd> ...`"
-            )
+            usg_str = "usage: geoips describe INTERFACE"
             assert usg_str in output
         else:
             # Checking that output from geoips describe package command is valid

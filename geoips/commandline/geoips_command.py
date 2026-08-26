@@ -308,6 +308,7 @@ class GeoipsCommand(abc.ABC):
                     "formatted. You need an 'instructions' entry that contains a "
                     f"'{self.combined_name}' key."
                 ) from resp
+            instructions = self._format_instructions(instructions)
             help_text = instructions.get("help", instructions.get("description"))
             description = instructions.get("description", instructions.get("help"))
             if help_text is None or description is None:
@@ -344,6 +345,25 @@ class GeoipsCommand(abc.ABC):
             command=self.combined_name.replace("_", " "),
             command_parser=self.parser,
         )
+
+    def _format_instructions(self, instructions):
+        """Return command instructions after applying command-specific formatting.
+
+        Subclasses may override this hook when commands generated from a shared
+        instruction template need runtime substitutions. The default implementation
+        leaves the instructions unchanged.
+
+        Parameters
+        ----------
+        instructions : dict
+            Help, description, usage, and output information for this command.
+
+        Returns
+        -------
+        dict
+            Instructions to pass to the command's argument parser.
+        """
+        return instructions
 
     def _handle_top_level_args(self):
         """Set up and retrieve the logger object for use in the CLI.
