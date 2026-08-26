@@ -276,7 +276,9 @@ def _resolve_config_path(file_arg: pathlib.Path | None) -> pathlib.Path | None:
     return pathlib.Path(found) if found else None
 
 
-def _validate_config_file(file_path: pathlib.Path) -> list[str]:
+def _validate_config_file(
+    file_path: pathlib.Path,
+) -> tuple[list[str], list[str]]:
     """Validate a GeoIPS YAML configuration file.
 
     Checks YAML syntax, validates core settings against the GeoIPS
