@@ -533,8 +533,9 @@ class GeoipsConfigValidate(GeoipsExecutableCommand):
 
         if file_path is None:
             self.parser.error(
-                "No config file found. Specify --file or place a .geoips.yaml "
-                "in the current directory."
+                "No GeoIPS configuration file found. Specify one with --file, set "
+                "GEOIPS_RCFILE to its path, or create one at ./.geoips.yaml or "
+                "~/.config/geoips/config.yaml."
             )
 
         errors, warnings = _validate_config_file(file_path)
