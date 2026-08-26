@@ -14,6 +14,9 @@ instructions:
       2. `.geoips.yaml` in the current directory
       3. `~/.config/geoips/config.yaml`
 
+      When `GEOIPS_RCFILE` is set, its path must exist. If it does not, GeoIPS
+      reports an error instead of searching the remaining locations.
+
       Settings can also be specified through corresponding environment
       variables. Environment variables take precedence over values loaded from
       the selected configuration file.
@@ -42,12 +45,15 @@ instructions:
       2. `.geoips.yaml` in the current directory
       3. `~/.config/geoips/config.yaml`
 
+      When `GEOIPS_RCFILE` is set, its path must exist. If it does not, GeoIPS
+      reports an error instead of searching the remaining locations.
+
       Use `--output` to write to a different path and `--force` to overwrite an
       existing file. To load a file outside the standard search locations, set
       `GEOIPS_RCFILE` to its path.
     usage: geoips config create [OPTIONS]
     output_info:
-      - The generated .geoips.yaml configuration file
+      - The generated GeoIPS configuration file at the selected output path
   geoips_config_validate:
     help: Validate a GeoIPS configuration file.
     description: |
@@ -67,6 +73,9 @@ instructions:
       1. The path specified by `GEOIPS_RCFILE`
       2. `.geoips.yaml` in the current directory
       3. `~/.config/geoips/config.yaml`
+
+      When `GEOIPS_RCFILE` is set, its path must exist. If it does not, GeoIPS
+      reports an error instead of searching the remaining locations.
 
       Use `--quiet` to suppress warnings, detailed validation errors, and the
       success message. When validation fails, GeoIPS still prints the command
