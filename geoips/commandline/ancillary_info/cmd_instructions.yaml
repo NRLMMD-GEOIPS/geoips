@@ -1,43 +1,77 @@
 name: geoips_cmd_instructions
 instructions:
   geoips_config:
-    help: |
-      Various configuration-based commands for setting up your geoips environment.
-      Currently supports `geoips config create` and `geoips config validate`.
-    usage: |
-      To use, type `geoips config <cmd> <sub-command> ...`
+    help: Manage GeoIPS configuration files and settings.
+    description: |
+      Manage GeoIPS configuration files and the settings they contain. GeoIPS
+      supports explicitly selected, project-specific, and user-level
+      configuration files.
+
+      When loading configuration, GeoIPS searches the following locations in
+      order and uses the first file it finds:
+
+      1. The path specified by `GEOIPS_RCFILE`
+      2. `.geoips.yaml` in the current directory
+      3. `~/.config/geoips/config.yaml`
+
+      Settings can also be specified through corresponding environment
+      variables. Environment variables take precedence over values loaded from
+      the selected configuration file.
+    usage: geoips config COMMAND
     output_info:
       - Output related to config process that was run.
   geoips_config_create:
-    help: |
-      Generate a .geoips.yaml configuration file from your current environment
-      variables, with interactive prompts for any missing values.
+    help: Create a GeoIPS configuration file.
+    description: |
+      Create a GeoIPS configuration file from settings in the current
+      environment. Unless `--no-prompt` is specified, GeoIPS also prompts for
+      `GEOIPS_OUTDIRS`, `GEOIPS_TESTDATA_DIR`, and `GEOIPS_PACKAGES_DIR` when
+      they are not set.
 
-      Scans GEOIPS_* and unprefixed environment variables and writes them as a
-      structured YAML configuration file. By default, prompts interactively for
-      key variables not set in the environment (GEOIPS_OUTDIRS, GEOIPS_TESTDATA_DIR,
-      GEOIPS_PACKAGES_DIR).
+      By default, this command writes `.geoips.yaml` in the current directory
+      and includes only settings obtained from environment variables and
+      interactive prompts. Use `--all` to include all core settings and the
+      settings provided by configuration plugins installed in the current
+      environment. See the Configuration Settings Reference in the GeoIPS
+      documentation for the complete list of core settings.
 
-      Use --no-prompt for non-interactive/CI use. Use --all to include default
-      values for all settings. Use --force to overwrite an existing output file.
-    usage: |
-      To use, type `geoips config create` or
-      `geoips config create -o /path/to/.geoips.yaml --force`.
+      When loading configuration, GeoIPS searches the following locations in
+      order and uses the first file it finds:
+
+      1. The path specified by `GEOIPS_RCFILE`
+      2. `.geoips.yaml` in the current directory
+      3. `~/.config/geoips/config.yaml`
+
+      Use `--output` to write to a different path and `--force` to overwrite an
+      existing file. To load a file outside the standard search locations, set
+      `GEOIPS_RCFILE` to its path.
+    usage: geoips config create [OPTIONS]
     output_info:
       - The generated .geoips.yaml configuration file
   geoips_config_validate:
-    help: |
-      Validate a GeoIPS .geoips.yaml configuration file.
+    help: Validate a GeoIPS configuration file.
+    description: |
+      Validate the syntax and contents of a GeoIPS configuration file. This
+      command checks the YAML structure, validates core settings against the
+      GeoIPS configuration schema, and validates plugin settings against schemas
+      registered by installed plugins.
 
-      Checks YAML syntax, verifies the file contains a valid geoips configuration
-      mapping, and validates all settings against the expected types and structure.
-      Reports all errors found.
+      Unknown top-level settings and unregistered configuration plugins are
+      reported as warnings because GeoIPS ignores them when loading
+      configuration. Invalid setting structures or values are reported as
+      errors.
 
-      If no --file is given, searches standard locations ($GEOIPS_RCFILE,
-      ./.geoips.yaml, ~/.config/geoips/config.yaml).
-    usage: |
-      To use, type `geoips config validate` or
-      `geoips config validate -f /path/to/.geoips.yaml`.
+      When `--file` is not specified, GeoIPS searches the following locations in
+      order and validates the first file it finds:
+
+      1. The path specified by `GEOIPS_RCFILE`
+      2. `.geoips.yaml` in the current directory
+      3. `~/.config/geoips/config.yaml`
+
+      Use `--quiet` to suppress warnings, detailed validation errors, and the
+      success message. When validation fails, GeoIPS still prints the command
+      usage and a failure message and exits with a nonzero status.
+    usage: geoips config validate [OPTIONS]
     output_info:
       - Validation status (valid/invalid) with error details if invalid
   geoips_describe: &geoips-describe-artifact
