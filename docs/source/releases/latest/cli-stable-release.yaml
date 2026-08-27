@@ -1,0 +1,40 @@
+refactor:
+- title: 'CLI Stable Release Updates'
+  description: |
+    Updates to the CLI for its 'stable' release. These updates refactor the CLI
+    command structure and introduce a few new commands as well. Updates made in this PR
+    include moving the test data install commands to their own command class
+    (`geoips test-data <sub-cmd>`), moving sector commands to their own command class
+    (`geoips sector <sub-cmd>`), moving registry commands to their own command class
+    (`geoips registry <sub-cmd>`), changing `geoips test linting` to `geoips lint`, as
+    well as other refactors.
+
+    New commands added include `geoips --version`, `geoips test-data remove`, as well
+    as other future commands planned in https://github.com/NRLMMD-GEOIPS/geoips/issues/1479.
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+      - geoips/commandline/geoips_install.py
+      - geoips/commandline/geoips_registry.py
+      - geoips/commandline/geoips_sector.py
+    modified:
+      - geoips/_version.py
+      - geoips/commandline/ancillary_info/alias_mapping.yaml
+      - geoips/commandline/ancillary_info/cmd_instructions.yaml
+      - geoips/commandline/commandline_interface.py
+      - geoips/commandline/geoips_command.py
+      - geoips/commandline/geoips_config.py
+      - geoips/commandline/geoips_lint.py
+      - geoips/commandline/geoips_test.py
+      - geoips/commandline/geoips_tree.py
+      - geoips/commandline/geoips_validate.py
+      - pyproject.toml
+  related-issue:
+    number: null
+    repo_url: ''
+  date:
+    start: null
+    finish: null
