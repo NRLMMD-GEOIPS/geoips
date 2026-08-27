@@ -12,6 +12,7 @@ import sys
 
 from colorama import Fore, Style
 
+from geoips import __version__
 from geoips.commandline import ancillary_info
 from geoips.commandline.geoips_command import GeoipsCommand
 from geoips.commandline.geoips_config import GeoipsConfig
@@ -126,7 +127,16 @@ class GeoipsCLI(GeoipsCommand):
     def execute_command(self):
         """Execute the given command."""
         self.GEOIPS_ARGS = self.parser.parse_args()
-        if hasattr(self.GEOIPS_ARGS, "exe_command"):
+
+        if self.GEOIPS_ARGS.version:
+            if len(sys.argv) != 2:
+                print(
+                    "\nError: you cannot provide any other argument alongside the "
+                    "--version flag."
+                )
+            else:
+                print(f"\ngeoips={__version__}")
+        elif hasattr(self.GEOIPS_ARGS, "exe_command"):
             # The command called is executable (child of GeoipsExecutableCommand)
             # so execute that command now.
             self.GEOIPS_ARGS.exe_command(self.GEOIPS_ARGS)

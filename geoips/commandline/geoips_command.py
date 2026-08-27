@@ -141,6 +141,15 @@ class ParentParsers:
             "https://docs.python.org/3/library/warnings.html#warning-filter"
         ),
     )
+    geoips_parser.add_argument(
+        "--version",
+        default=False,
+        action="store_true",
+        help=(
+            "Show the current version of your GeoIPS installation and exit. "
+            "Cannot be supplied alongside any other argument."
+        ),
+    )
 
     list_parser = argparse.ArgumentParser(
         add_help=False, formatter_class=AlphabeticalHelpFormatter
