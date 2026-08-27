@@ -311,11 +311,11 @@ class GeoipsInstallData(GeoipsExecutableCommand):
             "test_dataset_names",
             type=str.lower,
             nargs="+",
+            metavar="DATASET",
             choices=list(test_dataset_dict.keys()) + ["all"],
             help=(
-                "Names of the GeoIPS test datasets to install. If 'all' is specified, "
-                "GeoIPS will install all test datasets hosted on NextCloud. 'all' "
-                "cannot be specified alongside other test dataset names."
+                "Cataloged test dataset to install; specify one or more names, or "
+                "'all' by itself."
             ),
         )
         testdata_dir = geoips.filenames.base_paths.PATHS["GEOIPS_TESTDATA_DIR"]
@@ -325,9 +325,9 @@ class GeoipsInstallData(GeoipsExecutableCommand):
             type=pathlib.Path,
             default=pathlib.Path(testdata_dir) if testdata_dir else pathlib.Path.cwd(),
             help=(
-                "The full path to the directory you want to install this data to."
-                "If not provided, this command will default to $GEOIPS_TESTDATA_DIR"
-                "if set else will default to the current working directory."
+                "Existing directory in which to install the datasets. Defaults to "
+                "GEOIPS_TESTDATA_DIR when configured, or the current directory "
+                "otherwise."
             ),
         )
         self.parser.add_argument(
@@ -337,23 +337,24 @@ class GeoipsInstallData(GeoipsExecutableCommand):
             default=int(os.getenv("GEOIPS_DOWNLOAD_WORKERS", "6")),
             metavar="N",
             help=(
-                "Number of concurrent downloads (env: GEOIPS_DOWNLOAD_WORKERS, "
-                "default: 6)."
+                "Maximum number of concurrent downloads. Defaults to "
+                "GEOIPS_DOWNLOAD_WORKERS, or 6 when unset."
             ),
         )
         self.parser.add_argument(
             "--no-rich",
             action="store_true",
-            help=(
-                "Disable rich live progress display.  Plain text output "
-                "suitable for CI logs or redirected stdout."
-            ),
+            help="Use plain-text progress output instead of the rich live display.",
         )
         self.parser.add_argument(
             "--temp-dir",
             type=pathlib.Path,
             default=None,
-            help=("Directory for temporary download files (default: system /tmp)."),
+            metavar="DIRECTORY",
+            help=(
+                "Directory for temporary download files. Defaults to the system "
+                "temporary directory."
+            ),
         )
 
     def __call__(self, args):
@@ -364,6 +365,9 @@ class GeoipsInstallData(GeoipsExecutableCommand):
         args: Namespace()
             The argument namespace to parse through.
         """
+        if "all" in args.test_dataset_names and len(args.test_dataset_names) > 1:
+            self.parser.error("'all' cannot be combined with individual dataset names.")
+
         outdir = args.outdir
         if not outdir.is_dir():
             self.parser.error(f"Specified output directory {outdir} doesn't exist.")

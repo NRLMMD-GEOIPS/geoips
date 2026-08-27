@@ -208,20 +208,32 @@ instructions:
     output_info:
       - Installation progress and status
   geoips_install_data:
-    help: |
-      Install appropriate test dataset(s) based on the arguments provided. To see a list
-      of available test datasets for install, run `geoips list test-datasets`. If
-      wanting to install data to a location different that $GEOIPS_TESTDATA_DIR, then
-      use the -o (outdir) option and provide a full path to the directory you desire to
-      install data in.
+    help: Install test datasets from the GeoIPS data catalog.
+    description: |
+      Download and extract one or more datasets from the GeoIPS test-data
+      catalog. Specify one or more dataset names, or specify `all` by itself to
+      install every cataloged dataset.
 
-      Optionally, you can run the command 'geoips install all', which will
-      install all test datasets listed in 'geoips list test-datasets'. If 'all' is
-      provided, no other dataset can be specified.
+      By default, GeoIPS installs datasets in `GEOIPS_TESTDATA_DIR`. If that
+      setting is not defined, it uses the current directory. Use `--outdir` to
+      select another existing directory.
+
+      Before downloading a dataset, GeoIPS checks for an existing installation.
+      Current datasets are retained, while stale or incomplete installations are
+      replaced.
+
+      Use `geoips list test-datasets` to find available dataset names.
+
+      Examples:
+
+      - `geoips install data test_data_abi`
+      - `geoips install data test_data_abi test_data_ahi`
+      - `geoips install data all`
     usage: |
-      To use, type `geoips install <test_dataset_names> -o <full_path>`.
+      geoips install data DATASET [DATASET ...] [OPTIONS]
+             geoips install data all [OPTIONS]
     output_info:
-      - Not Applicable
+      - Download, verification, extraction, and cache status
   geoips_install_github:
     help: |
       Install the appropriate test dataset and/or package directly from a github
