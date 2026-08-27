@@ -1,9 +1,10 @@
 # # # This source code is subject to the license referenced at
 # # # https://github.com/NRLMMD-GEOIPS.
 
-"""GeoIPS CLI "install" command.
+"""GeoIPS CLI "test-data" command.
 
-Installation commands used to install test datasets and github plugin packages.
+Test data commands used to pull, update, and remove test datasets / github
+test-datasets.
 """
 
 import hashlib
@@ -28,11 +29,9 @@ from geoips.commandline.ancillary_info.test_data import test_dataset_dict
 from geoips.commandline.geoips_command import GeoipsCommand, GeoipsExecutableCommand
 from geoips.commandline.install_progress import create_progress_display
 from geoips.config.plugins import (
-    build_plugin_env_map,
     field_comment,
     is_nested_model,
 )
-from geoips.config.schema import GEOIPS_ENV_MAP
 
 
 class ChunkCheckRecord(NamedTuple):
@@ -247,76 +246,36 @@ def _dump_annotated(values: dict, model_cls, indent: int) -> list[str]:
     return lines
 
 
-class GeoipsInstallGithub(GeoipsExecutableCommand):
-    """Command Class for installing github packages/datasets.
+class GeoipsTestDataPull(GeoipsExecutableCommand):
+    """Command Class for pulling test datasets from a remote location.
 
-    Supports installation of packages and test data needed for testing and/or running
-    your GeoIPS environment via github repositories.
-    """
-
-    name = "github"
-    command_classes = []
-
-    def add_arguments(self):
-        """Add arguments to the install-subparser for the install Command."""
-        self.parser.add_argument(
-            "test_dataset_name",
-            type=str.lower,
-            help="GeoIPS Test Dataset to Install from GitHub repository.",
-        )
-
-    def __call__(self, args):
-        """Run the `geoips install github <test_dataset_name>` command.
-
-        Parameters
-        ----------
-        args: Namespace()
-            - The argument namespace to parse through
-        """
-        test_dataset_name = args.test_dataset_name
-        print(
-            f"Running check_system_requirements.sh test_data_github {test_dataset_name}"
-        )
-        call_list = [
-            "bash",
-            join(
-                geoips.filenames.base_paths.PATHS["GEOIPS_PACKAGES_DIR"],
-                "geoips",
-                "setup",
-                "check_system_requirements.sh",
-            ),
-            "test_data_github",
-            test_dataset_name,
-        ]
-        retval = subprocess.call(call_list)
-        if retval != 0:
-            raise IOError(f"FAILED Did not successfully install '{test_dataset_name}'")
-
-
-class GeoipsInstallData(GeoipsExecutableCommand):
-    """Command Class for installing test datasets.
-
-    Supports installation of test data needed for testing and/or running
+    Supports pulling of test data needed for testing and/or running
     your GeoIPS environment.
     """
 
-    name = "data"
+    name = "pull"
     command_classes = []
 
     _FIRST_CHUNK_SIZE = 5 * 1024 * 1024  # 5 MB
 
     def add_arguments(self):
-        """Add arguments to the install-subparser for the Install Command."""
+        """Add arguments to the test-data-subparser for the pull Command."""
         self.parser.add_argument(
             "test_dataset_names",
             type=str.lower,
             nargs="+",
-            choices=list(test_dataset_dict.keys()) + ["all"],
             help=(
-                "Names of the GeoIPS test datasets to install. If 'all' is specified, "
-                "GeoIPS will install all test datasets hosted on NextCloud. 'all' "
+                "Names of the GeoIPS test datasets to pull. If 'all' is specified, "
+                "GeoIPS will pull all test datasets hosted on NextCloud. 'all' "
                 "cannot be specified alongside other test dataset names."
             ),
+        )
+        self.parser.add_argument(
+            "-g",
+            "--github",
+            default=False,
+            action="store_true",
+            help="Pull test data from a GitHub repository instead of NextCloud.",
         )
         testdata_dir = geoips.filenames.base_paths.PATHS["GEOIPS_TESTDATA_DIR"]
         self.parser.add_argument(
@@ -325,7 +284,7 @@ class GeoipsInstallData(GeoipsExecutableCommand):
             type=pathlib.Path,
             default=pathlib.Path(testdata_dir) if testdata_dir else pathlib.Path.cwd(),
             help=(
-                "The full path to the directory you want to install this data to."
+                "The full path to the directory you want to pull this data to."
                 "If not provided, this command will default to $GEOIPS_TESTDATA_DIR"
                 "if set else will default to the current working directory."
             ),
@@ -356,8 +315,40 @@ class GeoipsInstallData(GeoipsExecutableCommand):
             help=("Directory for temporary download files (default: system /tmp)."),
         )
 
-    def __call__(self, args):
-        """Run the ``geoips install <test_dataset_names> -o <outdir>`` command.
+    @staticmethod
+    def _pull_github(args):
+        """Run the `geoips test-data pull <test_dataset_name>` github command.
+
+        Parameters
+        ----------
+        args: Namespace()
+            - The argument namespace to parse through
+        """
+        test_dataset_names = args.test_dataset_names
+        for test_dataset_name in test_dataset_names:
+            print(
+                "Running check_system_requirements.sh test_data_github "
+                f"{test_dataset_name}"
+            )
+            call_list = [
+                "bash",
+                join(
+                    geoips.filenames.base_paths.PATHS["GEOIPS_PACKAGES_DIR"],
+                    "geoips",
+                    "setup",
+                    "check_system_requirements.sh",
+                ),
+                "test_data_github",
+                test_dataset_name,
+            ]
+            retval = subprocess.call(call_list)
+            if retval != 0:
+                raise IOError(
+                    f"FAILED Did not successfully install '{test_dataset_name}'"
+                )
+
+    def _pull_nextcloud(self, args):
+        """Pull remote test datasets hosted at CIRA's NextCloud instance.
 
         Parameters
         ----------
@@ -380,6 +371,29 @@ class GeoipsInstallData(GeoipsExecutableCommand):
             self._install_pipeline(names, outdir, args, display)
         finally:
             display.stop()
+
+    def __call__(self, args):
+        """Run the ``geoips test-data pull <test_dataset_names> -o <outdir>`` command.
+
+        Parameters
+        ----------
+        args: Namespace()
+            The argument namespace to parse through.
+        """
+        if args.github:
+            self._pull_github(args)
+        else:
+            valid_ds_choices = list(test_dataset_dict.keys()).extend("all")
+            if any(
+                [ds_name not in valid_ds_choices for ds_name in args.test_dataset_names]
+            ):
+                self.parser.error(
+                    "Error: one or more of the supplied test dataset names in \n"
+                    f"{args.test_dataset_names}\nare not valid. Please ensure that "
+                    "every test dataset requested to be pulled from NextCloud matches "
+                    f"one of the following:\n {valid_ds_choices}\n"
+                )
+            self._pull_nextcloud(args)
 
     # ------------------------------------------------------------------
     # Pipeline orchestration
@@ -606,9 +620,9 @@ class GeoipsInstallData(GeoipsExecutableCommand):
         )
 
 
-class GeoipsInstall(GeoipsCommand):
-    """Top-Level install command for installing test datasets and plugin packages."""
+class GeoipsTestData(GeoipsCommand):
+    """Top-Level test-data command for pulling, updating, and removing test datasets."""
 
-    name = "install"
+    name = "test-data"
 
-    command_classes = [GeoipsInstallData, GeoipsInstallGithub]
+    command_classes = [GeoipsTestDataPull]

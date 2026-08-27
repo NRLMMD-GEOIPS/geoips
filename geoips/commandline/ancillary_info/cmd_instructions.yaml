@@ -182,41 +182,33 @@ instructions:
       To use, type `geoips expand <workflow_name> <--color>`.
     output_info:
       - The fully expanded workflow plugin in a readable format.
-  geoips_install:
+  geoips_test-data:
     help_str: |
-      Install test datasets hosted on a NextCloud instance or test data / plugin
-      packages from one or more GitHub repositories.
+      Pull, update, or remove test datasets hosted on a NextCloud instance or test data
+      from one or more GitHub repositories.
     usage_str: |
-      To use, type `geoips install <cmd> <sub-command> ...`
+      To use, type `geoips test-data <cmd> <sub-command> ...`
     output_info:
-      - Output related to the installation process that was ran.
-  geoips_install_data:
+      - Output related to the test-data process that was ran.
+  geoips_test-data_pull:
     help_str: |
-      Install appropriate test dataset(s) based on the arguments provided. To see a list
-      of available test datasets for install, run `geoips list test-datasets`. If
-      wanting to install data to a location different that $GEOIPS_TESTDATA_DIR, then
+      Pull appropriate test dataset(s) based on the arguments provided. To see a list
+      of available test datasets for pulling, run `geoips list test-datasets`. If
+      wanting to pull data to a location different that $GEOIPS_TESTDATA_DIR, then
       use the -o (outdir) option and provide a full path to the directory you desire to
-      install data in.
+      pull data in.
 
-      Optionally, you can run the command 'geoips install all', which will
-      install all test datasets listed in 'geoips list test-datasets'. If 'all' is
+      Optionally, you can run the command 'geoips test-data pull all', which will
+      pull all test datasets listed in 'geoips list test-datasets'. If 'all' is
       provided, no other dataset can be specified.
-    usage_str: |
-      To use, type `geoips install <test_dataset_names> -o <full_path>`.
-    output_info:
-      - Not Applicable
-  geoips_install_github:
-    help_str: |
-      Install the appropriate test dataset and/or package directly from a github
-      repository based on the arguments provided. Will install the github repository
-      $GEOIPS_REPO_URL/<repository_name>.
-      Repositories named test_data_* or realtime_outputs_* will be
-      cloned into $GEOIPS_TESTDATA_DIR.  All other repositories will be cloned into
-      $GEOIPS_PACKAGES_DIR.
 
-      Currently only test data installations are supported.
+      Optionally, you can pull data from a GitHub repository rather than the default
+      NextCloud instance. This will pull the test-data repository
+      $GEOIPS_REPO_URL/<repository_name>. Repositories named test_data_* or
+      realtime_outputs_* will be cloned into $GEOIPS_TESTDATA_DIR.
     usage_str: |
-      To use, type `geoips install github <repository_name>`.
+      To use, type `geoips test-data pull <test_dataset_names> -o <full_path>` OR
+      `geoips test-data pull <test_data_repository_names> -g`.
     output_info:
       - Not Applicable
   geoips_lint:

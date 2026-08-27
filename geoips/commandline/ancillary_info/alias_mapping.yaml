@@ -109,8 +109,8 @@ validate:
   - val
 source-names:
   - src-names
-install:
-  - inst
+test-data:
+  - td
 delete:
   - del
 create:
