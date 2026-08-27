@@ -22,8 +22,8 @@ class RgbEquation(FrozenModel):
     )
     expression: str | None = Field(
         default=None,
-        description="If the type of expression, this is a string of the expression"
-            )
+        description="If the type of expression, this is a string of the expression",
+    )
     variables: List[str] = Field(
         ..., description="The variables needed to perform the equation."
     )

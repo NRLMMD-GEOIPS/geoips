@@ -26,25 +26,25 @@ class ConfigRgbAlgorithmPlugin(BaseAlgorithmPlugin):
 
     # map each mathematical symbol to a corresponding numpy function
     _operations = {
-            ast.Add : numpy.add,
-            ast.Sub : numpy.subtract,
-            ast.Mult : numpy.multiply,
-            ast.Div : numpy.divide,
-            ast.Pow : numpy.pow,
+        ast.Add: numpy.add,
+        ast.Sub: numpy.subtract,
+        ast.Mult: numpy.multiply,
+        ast.Div: numpy.divide,
+        ast.Pow: numpy.pow,
     }
 
     @classmethod
     def _safe_eval(cls, node, variables):
-        '''Parses user-inputted expressions recursively.
+        """Parses user-inputted expressions recursively.
 
         Parameters
         ----------
         node : ast.Constant | ast.Name | ast.BinOp | ast.Call
             A node representative of a section of the expression.
-        variables : dict[str : np.MaskedArray] 
-            A dictionary to map each variable inputted by 
+        variables : dict[str : np.MaskedArray]
+            A dictionary to map each variable inputted by
             the user to its corresponding MaskedArray
-        '''
+        """
         if isinstance(node, ast.Constant):
             # Numeric constants, e.g. 1
             return node.value
@@ -66,12 +66,11 @@ class ConfigRgbAlgorithmPlugin(BaseAlgorithmPlugin):
             return func(*args)
 
         # some unknown node type
-        assert False, 'Unsafe operation'
-
+        assert False, "Unsafe operation"
 
     @classmethod
     def safe_eval(cls, expression, variables):
-        '''Wrapper for recursive expression evaluator `_safe_eval`
+        """Wrapper for recursive expression evaluator `_safe_eval`
 
         Parameters
         ----------
@@ -79,17 +78,17 @@ class ConfigRgbAlgorithmPlugin(BaseAlgorithmPlugin):
             A string representing the `expression` user input in the algorithm_configs
             yaml file.
         variables : dict[str : np.MaskedArray]
-            A dictionary to map each variable inputted by 
+            A dictionary to map each variable inputted by
             the user to its corresponding MaskedArray
-        
+
         Returns
         -------
         data : numpy.ndarray
             The resulting dataset after parsing and performing the equation.
-        '''
-        node = ast.parse(expression, '<string>', 'eval').body
+        """
+        node = ast.parse(expression, "<string>", "eval").body
         return cls._safe_eval(node, variables)
-    
+
     @classmethod
     def apply_equation(cls, xobj, equation):
         """Apply the provided equation to data contained in xobj.
@@ -129,7 +128,9 @@ class ConfigRgbAlgorithmPlugin(BaseAlgorithmPlugin):
 
         return data
 
-    def call(self, xobj, config_name=None, obp_spec=None):  # NOQA -- xobj is used in the literal eval calls
+    def call(
+        self, xobj, config_name=None, obp_spec=None
+    ):  # NOQA -- xobj is used in the literal eval calls
         """Apply a generic algorithm for rgb recipes.
 
         Parameters
@@ -144,14 +145,16 @@ class ConfigRgbAlgorithmPlugin(BaseAlgorithmPlugin):
         numpy.ndarray
             numpy.ndarray or numpy.MaskedArray of qualitative RGBA image output
         """
-        # config_name overrides obp_spec if somehow both are provided  
+        # config_name overrides obp_spec if somehow both are provided
         if config_name:
             config = algorithm_configs.get_plugin(config_name)
             config_spec = config["spec"]
         elif obp_spec:
             config_spec = obp_spec
         else:
-            raise ValueError("This algorithm requires either a config_name or an obp_spec argument.")
+            raise ValueError(
+                "This algorithm requires either a config_name or an obp_spec argument."
+            )
 
         red = self.apply_equation(xobj, config_spec["red"]["equation"])
         grn = self.apply_equation(xobj, config_spec["green"]["equation"])
