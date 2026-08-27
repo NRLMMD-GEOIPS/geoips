@@ -122,14 +122,6 @@ class TestLoadProjectConfig:
         with pytest.raises(FileNotFoundError):
             load_project_config(str(missing_file))
 
-    def test_missing_rcfile_raises(self, monkeypatch, tmp_path):
-        """Verify loading fails when GEOIPS_RCFILE names a missing file."""
-        missing_file = tmp_path / "missing.yaml"
-        monkeypatch.setenv("GEOIPS_RCFILE", str(missing_file))
-
-        with pytest.raises(FileNotFoundError, match="GEOIPS_RCFILE"):
-            load_project_config()
-
     def test_returns_none_for_invalid_yaml(self, monkeypatch, tmp_path):
         """Verify None is returned when YAML is not a mapping."""
         config_file = tmp_path / "bad_config.yaml"

@@ -49,7 +49,7 @@ else
     exit 1
 fi
 
-path="$( cd $2 && pwd)"
+path="$( cd "$2" && pwd)"
 geoips_path="$( cd "$( dirname "$0")/../../" && pwd)"
 extra_args=$3
 lint_dir="$geoips_path/tests/lint"

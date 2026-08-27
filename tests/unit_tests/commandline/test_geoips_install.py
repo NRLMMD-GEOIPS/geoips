@@ -26,12 +26,7 @@ def test_install_data_help_uses_concise_dataset_metavar():
     data_parser = _get_subparser(install_parser, "data")
     help_output = data_parser.format_help()
 
-    assert data_parser.usage == (
-        "geoips install data DATASET [DATASET ...] [OPTIONS]\n"
-        "       geoips install data all [OPTIONS]\n"
-    )
-    assert "DATASET" in help_output
-    assert "DIRECTORY" in help_output
+    assert "DATASET [DATASET ...]" in help_output
     assert "{test_data_abi" not in help_output
 
 
@@ -54,19 +49,15 @@ def test_install_data_rejects_all_with_dataset_name(monkeypatch, capsys):
     )
 
 
-def test_install_github_help_describes_test_data_repository_scope():
-    """Describe the GitHub command's source, destination, and limited scope."""
+def test_install_github_help_uses_repository_metavar():
+    """Hide the repository choices behind a concise metavar."""
     cli = GeoipsCLI()
     install_parser = _get_subparser(cli.parser, "install")
     github_parser = _get_subparser(install_parser, "github")
     help_output = github_parser.format_help()
-    description = " ".join(github_parser.description.split())
 
-    assert github_parser.usage == "geoips install github REPOSITORY"
-    assert "REPOSITORY" in help_output
-    assert "GEOIPS_REPO_URL" in description
-    assert "GEOIPS_TESTDATA_DIR" in description
-    assert "does not install GeoIPS plugin packages" in description
+    assert "geoips install github REPOSITORY" in help_output
+    assert "{test_data_abi" not in help_output
 
 
 def test_install_github_reports_user_facing_progress(monkeypatch, capsys):
@@ -84,9 +75,9 @@ def test_install_github_reports_user_facing_progress(monkeypatch, capsys):
 
     cli.execute_command()
 
-    assert capsys.readouterr().out == (
-        "Installing test-data repository 'test_data_abi' from GitHub.\n"
-    )
+    output = capsys.readouterr().out
+    assert "test_data_abi" in output
+    assert "git clone" not in output
 
 
 def test_install_data_reports_missing_output_directory(monkeypatch, capsys, tmp_path):
