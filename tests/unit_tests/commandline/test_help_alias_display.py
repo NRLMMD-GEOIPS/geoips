@@ -153,3 +153,17 @@ def test_install_parent_help_describes_current_scope():
     assert install_parser.usage == "geoips install COMMAND"
     assert "currently installs test data only" in description
     assert "does not install GeoIPS plugin packages" in description
+
+
+def test_lint_help_describes_checks_and_editable_package_requirement():
+    """Present lint's checks, package default, and editable-mode requirement."""
+    cli = GeoipsCLI()
+    lint_parser = _get_subparser(cli.parser, "lint")
+    help_output = lint_parser.format_help()
+    description = " ".join(lint_parser.description.split())
+
+    assert lint_parser.usage == "geoips lint [--package-name PACKAGE]"
+    assert "Bandit, Black, and Flake8" in description
+    assert "installed in editable mode" in description
+    assert "PACKAGE" in help_output
+    assert "{geoips" not in help_output

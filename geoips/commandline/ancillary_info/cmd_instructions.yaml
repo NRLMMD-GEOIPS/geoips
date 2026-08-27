@@ -256,14 +256,22 @@ instructions:
     output_info:
       - Repository installation and decompression status
   geoips_lint:
-    help: |
-      Run all GeoIPS linters on a specific GeoIPS Package. This will test whether or not
-      the code you wrote adheres to the specified coding conventions set up by GeoIPS.
-      Defaults to the 'geoips' package.
-    usage: |
-      To use, type `geoips lint -p <package-name>`.
+    help: Run code-quality checks on a GeoIPS plugin package.
+    description: |
+      Run the GeoIPS Bandit, Black, and Flake8 checks against an installed plugin
+      package. The package must be installed in editable mode so GeoIPS can access
+      its source tree.
+
+      If `--package-name` is not specified, this command checks the `geoips`
+      package. Use `geoips list packages` to find installed plugin package names.
+
+      Examples:
+
+      - `geoips lint`
+      - `geoips lint --package-name geoips`
+    usage: geoips lint [--package-name PACKAGE]
     output_info:
-      - Output of the Linters
+      - Bandit, Black, and Flake8 results
   geoips_list:
     help: |
       List off available GeoIPS artifacts provided further commands. Current artifacts
