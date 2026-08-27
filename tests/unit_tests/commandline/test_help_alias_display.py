@@ -138,6 +138,7 @@ def test_describe_interface_instructions_substitute_interface_name():
     assert "{scalar_to_scalar" not in algorithms_help
 
     package_parser = _get_subparser(describe_parser, "package")
-    assert package_parser.usage.startswith(
-        "To use, type `geoips describe package <package-name>`"
+    assert package_parser.usage == "geoips describe package PACKAGE"
+    assert package_parser.description.startswith(
+        "Display detailed information about an installed GeoIPS plugin package"
     )

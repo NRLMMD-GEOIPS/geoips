@@ -367,8 +367,9 @@ class GeoipsDescribePackage(GeoipsExecutableCommand):
             "package_name",
             type=str.lower,
             default="geoips",
+            metavar="PACKAGE",
             choices=self.plugin_package_names,
-            help="GeoIPS Package to retrieve.",
+            help="Installed GeoIPS plugin package to describe.",
         )
 
     def __call__(self, args):

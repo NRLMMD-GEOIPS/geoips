@@ -184,20 +184,24 @@ instructions:
   #     - Interface Type
   #     - Supported Families
   geoips_describe_package:
-    help: |
-      Retrieve the appropriate GeoIPS Package alongside descriptive information of
-      that package. See output_info for each datum provided when this command is
-      called. For a listing of available GeoIPS packages, run:
-      `geoips list packages`.
-    usage: |
-      To use, type `geoips describe package <package-name>`, where <package-name> is a
-      valid GeoIPS Package.
+    help: Describe an installed GeoIPS plugin package.
+    description: |
+      Display detailed information about an installed GeoIPS plugin package,
+      including its version, installation path, package description, and
+      source-code location.
+
+      Use `geoips list packages` to find available plugin package names.
+
+      Example:
+
+      - `geoips describe package geoips`
+    usage: geoips describe package PACKAGE
     output_info:
-      - GeoIPS Package
-      - Docstring
-      - Package Path
-      - Source Code
-      - Version Number
+      - Plugin package name
+      - Package description
+      - Installation path
+      - Source-code location
+      - Installed version
   # geoips_describe_plugin:
   #   help: |
   #     Retrieve the appropriate GeoIPS Plugin alongside descriptive information of
