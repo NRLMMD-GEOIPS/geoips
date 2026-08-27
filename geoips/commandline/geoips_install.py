@@ -262,7 +262,8 @@ class GeoipsInstallGithub(GeoipsExecutableCommand):
         self.parser.add_argument(
             "test_dataset_name",
             type=str.lower,
-            help="GeoIPS Test Dataset to Install from GitHub repository.",
+            metavar="REPOSITORY",
+            help="GeoIPS test-data repository to install.",
         )
 
     def __call__(self, args):

@@ -235,19 +235,26 @@ instructions:
     output_info:
       - Download, verification, extraction, and cache status
   geoips_install_github:
-    help: |
-      Install the appropriate test dataset and/or package directly from a github
-      repository based on the arguments provided. Will install the github repository
-      $GEOIPS_REPO_URL/<repository_name>.
-      Repositories named test_data_* or realtime_outputs_* will be
-      cloned into $GEOIPS_TESTDATA_DIR.  All other repositories will be cloned into
-      $GEOIPS_PACKAGES_DIR.
+    help: Install a GeoIPS test-data repository from GitHub.
+    description: |
+      Clone a GeoIPS test-data repository from `GEOIPS_REPO_URL` into
+      `GEOIPS_TESTDATA_DIR`. The repository is installed in a subdirectory named
+      after the repository.
 
-      Currently only test data installations are supported.
-    usage: |
-      To use, type `geoips install github <repository_name>`.
+      If the destination already appears to contain test data, GeoIPS leaves it
+      unchanged. After cloning, GeoIPS runs `uncompress_test_data.sh` when that
+      script is provided by the repository.
+
+      This command installs test-data repositories only; it does not install
+      GeoIPS plugin packages. For cataloged test-data archives, use
+      `geoips install data`.
+
+      Example:
+
+      - `geoips install github test_data_abi`
+    usage: geoips install github REPOSITORY
     output_info:
-      - Not Applicable
+      - Repository installation and decompression status
   geoips_lint:
     help: |
       Run all GeoIPS linters on a specific GeoIPS Package. This will test whether or not
