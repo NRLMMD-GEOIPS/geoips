@@ -37,13 +37,14 @@ class GeoipsExpand(GeoipsExecutableCommand):
         self.parser.add_argument(
             "workflow_name",
             type=str,
-            help="Name of the workflow plugin to expand.",
+            metavar="WORKFLOW",
+            help="Registered workflow plugin to expand.",
         )
         self.parser.add_argument(
             "--color",
             default=False,
             action="store_true",
-            help="Whether or not we want to highlight the output of this command.",
+            help="Apply YAML syntax highlighting to the output.",
         )
 
     def __call__(self, args):

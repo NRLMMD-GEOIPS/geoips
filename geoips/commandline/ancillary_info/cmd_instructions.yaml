@@ -170,12 +170,23 @@ instructions:
       - Source-code location
       - Installed version
   geoips_expand:
-    help: |
-      Fully expands a workflow plugin.
-    usage: |
-      To use, type `geoips expand <workflow_name> <--color>`.
+    help: Expand a registered workflow plugin.
+    description: |
+      Resolve embedded workflows and product definitions in a registered workflow
+      plugin, then print the complete workflow definition as YAML. The expanded
+      output shows the steps and settings GeoIPS will use when running the
+      workflow.
+
+      Use `--color` to apply YAML syntax highlighting to the output. Use
+      `geoips list workflows` to find available workflow names.
+
+      Examples:
+
+      - `geoips expand abi_infrared`
+      - `geoips expand abi_infrared --color`
+    usage: geoips expand WORKFLOW [--color]
     output_info:
-      - The fully expanded workflow plugin in a readable format.
+      - Fully expanded workflow definition in YAML
   geoips_install:
     help: |
       Install test datasets hosted on a NextCloud instance or test data / plugin

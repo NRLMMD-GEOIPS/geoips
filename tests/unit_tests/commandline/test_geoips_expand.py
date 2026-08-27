@@ -47,7 +47,7 @@ class TestGeoipsExpand(BaseCliTest):
             - Multiline str representing the error output of the CLI call
         """
         assert (
-            "To use, type `geoips expand <workflow_name>" in error
+            "usage: geoips expand WORKFLOW [--color]" in error
             or "Error: could not load workflow plugin under name" in error
         )
 
@@ -63,7 +63,7 @@ class TestGeoipsExpand(BaseCliTest):
         """
         # The args provided are valid, so test that the output is actually correct
         if "-h" in args:
-            assert "To use, type `geoips expand <workflow_name>" in output
+            assert "usage: geoips expand WORKFLOW [--color]" in output
         else:
             wf = yaml.safe_load(output.strip())
             assert WorkflowPluginModel(**wf)
