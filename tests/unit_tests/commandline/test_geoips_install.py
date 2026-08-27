@@ -67,3 +67,47 @@ def test_install_github_help_describes_test_data_repository_scope():
     assert "GEOIPS_REPO_URL" in description
     assert "GEOIPS_TESTDATA_DIR" in description
     assert "does not install GeoIPS plugin packages" in description
+
+
+def test_install_github_reports_user_facing_progress(monkeypatch, capsys):
+    """Describe the requested installation instead of exposing its shell command."""
+    cli = GeoipsCLI()
+    monkeypatch.setattr(
+        sys,
+        "argv",
+        ["geoips", "install", "github", "test_data_abi"],
+    )
+    monkeypatch.setattr(
+        "geoips.commandline.geoips_install.subprocess.call",
+        lambda _: 0,
+    )
+
+    cli.execute_command()
+
+    assert capsys.readouterr().out == (
+        "Installing test-data repository 'test_data_abi' from GitHub.\n"
+    )
+
+
+def test_install_data_reports_missing_output_directory(monkeypatch, capsys, tmp_path):
+    """Report a concise error when the selected destination does not exist."""
+    missing_dir = tmp_path / "missing"
+    cli = GeoipsCLI()
+    monkeypatch.setattr(
+        sys,
+        "argv",
+        [
+            "geoips",
+            "install",
+            "data",
+            "test_data_abi",
+            "--outdir",
+            str(missing_dir),
+        ],
+    )
+
+    with pytest.raises(SystemExit) as exc_info:
+        cli.execute_command()
+
+    assert exc_info.value.code == 2
+    assert f"Output directory '{missing_dir}' does not exist" in capsys.readouterr().err
