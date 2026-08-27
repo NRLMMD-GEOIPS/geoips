@@ -150,39 +150,6 @@ instructions:
   geoips_describe_sectors: *geoips-describe-interface
   geoips_describe_validators: *geoips-describe-interface
   geoips_describe_workflows: *geoips-describe-interface
-  # geoips_describe_family:
-  #   help: |
-  #     Retrieve the appropriate GeoIPS Family alongside descriptive information of
-  #     that family. See output_info for each datum provided when this command is
-  #     called. For a listing of available GeoIPS families, run:
-  #     `geoips list interfaces`.
-  #   usage: |
-  #     To use, type `geoips describe family <interface_name> <family_name>`, where
-  #     <interface_name> is a valid GeoIPS Interface and <family_name> is a supported
-  #     family member of that interface.
-  #   output_info:
-  #     - Docstring
-  #     - Family Name
-  #     - Family Path
-  #     - Interface Name
-  #     - Interface Type
-  #     - Required Args / Schema
-  # geoips_describe_interface:
-  #   help: |
-  #     Retrieve the appropriate GeoIPS Interface alongside descriptive information of
-  #     that interface. See output_info for each datum provided when this command is
-  #     called. For a listing of available GeoIPS interfaces, run:
-  #     `geoips list interfaces`.
-  #   usage: |
-  #     To use, type `geoips describe interface <interface_name>`, where
-  #     <interface_name> is a valid GeoIPS Interface.
-  #   output_info:
-  #     - Absolute Path
-  #     - Docstring
-  #     - Documentation Link (If applicable)
-  #     - Interface Name
-  #     - Interface Type
-  #     - Supported Families
   geoips_describe_package:
     help: Describe an installed GeoIPS plugin package.
     description: |
@@ -202,24 +169,6 @@ instructions:
       - Installation path
       - Source-code location
       - Installed version
-  # geoips_describe_plugin:
-  #   help: |
-  #     Retrieve the appropriate GeoIPS Plugin alongside descriptive information of
-  #     that plugin. See output_info for each datum provided when this command is
-  #     called. For a listing of available GeoIPS Plugins, run:
-  #     `geoips list plugins`.
-  #   usage: |
-  #     To use, type `geoips describe plugin <interface_name> <plugin_name>`, where
-  #     <interface_name> is a valid GeoIPS Interface and <plugin_name> is a valid plugin
-  #     identifier that has been implemented in any installed GeoIPS package.
-  #   output_info:
-  #     - Docstring
-  #     - Documentation Link (If applicable)
-  #     - Family
-  #     - Interface Name
-  #     - Package
-  #     - Relative Path
-  #     - Plugin Specific Info (signature / source_names / available overrides)
   geoips_expand:
     help: |
       Fully expands a workflow plugin.
