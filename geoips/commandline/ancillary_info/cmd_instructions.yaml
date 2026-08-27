@@ -188,13 +188,25 @@ instructions:
     output_info:
       - Fully expanded workflow definition in YAML
   geoips_install:
-    help: |
-      Install test datasets hosted on a NextCloud instance or test data / plugin
-      packages from one or more GitHub repositories.
-    usage: |
-      To use, type `geoips install <cmd> <sub-command> ...`
+    help: Install GeoIPS test datasets.
+    description: |
+      Install test datasets used by GeoIPS tests, examples, and development
+      workflows. Use the `data` command to download one or more cataloged
+      test-data archives, or use the `github` command to install a test-data
+      repository from GitHub.
+
+      This command currently installs test data only; it does not install GeoIPS
+      plugin packages.
+
+      Use `geoips list test-datasets` to find available dataset names.
+
+      Examples:
+
+      - `geoips install data test_data_abi`
+      - `geoips install github test_data_abi`
+    usage: geoips install COMMAND
     output_info:
-      - Output related to the installation process that was ran.
+      - Installation progress and status
   geoips_install_data:
     help: |
       Install appropriate test dataset(s) based on the arguments provided. To see a list

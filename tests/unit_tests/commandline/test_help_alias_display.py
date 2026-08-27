@@ -142,3 +142,14 @@ def test_describe_interface_instructions_substitute_interface_name():
     assert package_parser.description.startswith(
         "Display detailed information about an installed GeoIPS plugin package"
     )
+
+
+def test_install_parent_help_describes_current_scope():
+    """Describe install's test-data scope without claiming package support."""
+    cli = GeoipsCLI()
+    install_parser = _get_subparser(cli.parser, "install")
+    description = " ".join(install_parser.description.split())
+
+    assert install_parser.usage == "geoips install COMMAND"
+    assert "currently installs test data only" in description
+    assert "does not install GeoIPS plugin packages" in description
