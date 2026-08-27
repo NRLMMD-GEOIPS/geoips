@@ -286,47 +286,49 @@ class GeoipsCommand(abc.ABC):
                 # invocation of the CLI.
                 self.cmd_instructions = cmd_instructions
 
-            try:
-                # Add custom logic for the 'order_based' command. This is the only
-                # command which has epilog text, which in this case, is a warning saying
-                # this procflow is in development and is subject to change at any time
-                if self.name == "order_based":
-                    if PATHS["NO_COLOR"]:
-                        epilog = self.warning_no_color
-                    else:
-                        epilog = self.warning_with_color
+            # Add custom logic for the 'order_based' command. This is the only
+            # command which has epilog text, which in this case, is a warning saying
+            # this procflow is in development and is subject to change at any time
+            if self.name == "order_based":
+                if PATHS["NO_COLOR"]:
+                    epilog = self.warning_no_color
                 else:
-                    epilog = None
-                # If the command's name exists w/in the alias mapping, then
-                # add those aliases to the parser, otherwise just set it as an empty
-                # list.
-                aliases = self.alias_mapping.get(self.name.replace("_", "-"), [])
-                # Attempt to create a sepate sub-parser for the specific command
-                # class being initialized so we can separate the commands arguments
-                # in a tree-like structure
-                self.parser = parent.subparsers.add_parser(
-                    self.name,
-                    description=self.cmd_instructions["instructions"][
-                        self.combined_name
-                    ]["help_str"],
-                    help=self.cmd_instructions["instructions"][self.combined_name][
-                        "help_str"
-                    ],
-                    usage=self.cmd_instructions["instructions"][self.combined_name][
-                        "usage_str"
-                    ],
-                    epilog=epilog,
-                    parents=self.parent_parsers,
-                    conflict_handler="resolve",
-                    aliases=aliases,
-                    formatter_class=AlphabeticalHelpFormatter,
-                )
-            except KeyError:
+                    epilog = self.warning_with_color
+            else:
+                epilog = None
+            # If the command's name exists w/in the alias mapping, then
+            # add those aliases to the parser, otherwise just set it as an empty
+            # list.
+            aliases = self.alias_mapping.get(self.name.replace("_", "-"), [])
+            try:
+                instructions = self.cmd_instructions["instructions"][self.combined_name]
+            except KeyError as resp:
                 raise KeyError(
                     "Error, the supplied command line instructions are improperly "
                     "formatted. You need an 'instructions' entry that contains a "
                     f"'{self.combined_name}' key."
+                ) from resp
+            instructions = self._format_instructions(instructions)
+            help_text = instructions.get("help", instructions.get("description"))
+            description = instructions.get("description", instructions.get("help"))
+            if help_text is None or description is None:
+                raise KeyError(
+                    "Command instructions must define 'help', 'description', or both."
                 )
+            # Attempt to create a sepate sub-parser for the specific command
+            # class being initialized so we can separate the commands arguments
+            # in a tree-like structure
+            self.parser = parent.subparsers.add_parser(
+                self.name,
+                description=description,
+                help=help_text,
+                usage=instructions["usage"],
+                epilog=epilog,
+                parents=self.parent_parsers,
+                conflict_handler="resolve",
+                aliases=aliases,
+                formatter_class=AlphabeticalHelpFormatter,
+            )
         else:
             # Otherwise initialize a top-level parser for this command.
             self.parser = argparse.ArgumentParser(
@@ -343,6 +345,25 @@ class GeoipsCommand(abc.ABC):
             command=self.combined_name.replace("_", " "),
             command_parser=self.parser,
         )
+
+    def _format_instructions(self, instructions):
+        """Return command instructions after applying command-specific formatting.
+
+        Subclasses may override this hook when commands generated from a shared
+        instruction template need runtime substitutions. The default implementation
+        leaves the instructions unchanged.
+
+        Parameters
+        ----------
+        instructions : dict
+            Help, description, usage, and output information for this command.
+
+        Returns
+        -------
+        dict
+            Instructions to pass to the command's argument parser.
+        """
+        return instructions
 
     def _handle_top_level_args(self):
         """Set up and retrieve the logger object for use in the CLI.
@@ -420,7 +441,11 @@ class GeoipsCommand(abc.ABC):
         """
         if len(self.command_classes):
             self.subparsers = self.parser.add_subparsers(
-                help=f"{self.name} instructions."
+                title=f"{self.name} commands",
+                description=(
+                    "Aliases are shown in parentheses after each canonical command."
+                ),
+                metavar="COMMAND",
             )
             # Sort subcommands alphabetically:
             sorted_command_classes = sorted(self.command_classes, key=lambda x: x.name)

@@ -50,6 +50,20 @@ class TestFindProjectConfig:
         result = find_project_config()
         assert result == str(rcfile)
 
+    def test_missing_rcfile_raises_without_fallback(self, monkeypatch, tmp_path):
+        """Verify a missing GEOIPS_RCFILE target prevents fallback to CWD."""
+        missing_file = tmp_path / "missing.yaml"
+        monkeypatch.setenv("GEOIPS_RCFILE", str(missing_file))
+
+        cwd_file = tmp_path / ".geoips.yaml"
+        cwd_file.write_text("geoips:\n  version: from-cwd\n")
+        monkeypatch.chdir(tmp_path)
+
+        with pytest.raises(FileNotFoundError, match="GEOIPS_RCFILE") as exc:
+            find_project_config()
+
+        assert str(missing_file) in str(exc.value)
+
     def test_explicit_path_is_used(self, monkeypatch, tmp_path):
         """Verify an explicit config path is used instead of default search paths."""
         explicit_file = tmp_path / "explicit.yaml"

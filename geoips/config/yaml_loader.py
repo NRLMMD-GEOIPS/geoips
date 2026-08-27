@@ -19,7 +19,7 @@ def _default_search_locations() -> list[str]:
     """Return the ordered list of project config file search locations.
 
     Priority order (first found wins):
-        1. ``$GEOIPS_RCFILE`` (if set and file exists)
+        1. ``$GEOIPS_RCFILE`` (if set; the file must exist)
         2. ``./.geoips.yaml`` (current working directory)
         3. ``~/.config/geoips/config.yaml`` (platform-appropriate user config dir)
 
@@ -27,11 +27,20 @@ def _default_search_locations() -> list[str]:
     -------
     list[str]
         Ordered list of candidate file paths to check.
+
+    Raises
+    ------
+    FileNotFoundError
+        If ``GEOIPS_RCFILE`` is set but its target does not exist.
     """
     locations = []
 
     rcfile = os.getenv("GEOIPS_RCFILE", "")
-    if rcfile and os.path.isfile(rcfile):
+    if rcfile:
+        if not os.path.isfile(rcfile):
+            raise FileNotFoundError(
+                f"GEOIPS_RCFILE points to {rcfile!r}, but that file does not exist."
+            )
         locations.append(rcfile)
 
     cwd_config = os.path.join(os.getcwd(), ".geoips.yaml")
@@ -65,7 +74,8 @@ def find_project_config(project_config_path: str | None = None) -> str | None:
     Raises
     ------
     FileNotFoundError
-        If *project_config_path* is supplied and does not exist.
+        If *project_config_path* is supplied and does not exist, or if
+        ``GEOIPS_RCFILE`` is set but its target does not exist.
     """
     if project_config_path is not None:
         if os.path.isfile(project_config_path):
@@ -97,6 +107,12 @@ def load_project_config(project_config_path: str | None = None) -> dict | None:
     -------
     dict or None
         Parsed YAML dictionary if a config file was found, otherwise ``None``.
+
+    Raises
+    ------
+    FileNotFoundError
+        If *project_config_path* is supplied and does not exist, or if
+        ``GEOIPS_RCFILE`` is set but its target does not exist.
     """
     config_path = find_project_config(project_config_path)
     if config_path is None:

@@ -61,8 +61,9 @@ Search locations
 GeoIPS searches for a project configuration file in the following order,
 using the first file found:
 
-1. ``$GEOIPS_RCFILE`` — Path set by the environment variable (if defined
-   and the file exists).
+1. ``$GEOIPS_RCFILE`` — Path selected by the environment variable, if set.
+   The file must exist; otherwise, GeoIPS reports an error and does not search
+   the remaining locations.
 2. ``./.geoips.yaml`` — In the current working directory.
 3. ``~/.config/geoips/config.yaml`` — In the user's XDG-compliant
    configuration directory.

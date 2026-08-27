@@ -1,10 +1,7 @@
 # # # This source code is subject to the license referenced at
 # # # https://github.com/NRLMMD-GEOIPS.
 
-"""GeoIPS CLI "config" command.
-
-Various configuration-based commands for setting up your geoips environment.
-"""
+"""Command-line tools for managing GeoIPS configuration."""
 
 import logging
 import os
@@ -276,7 +273,9 @@ def _resolve_config_path(file_arg: pathlib.Path | None) -> pathlib.Path | None:
     return pathlib.Path(found) if found else None
 
 
-def _validate_config_file(file_path: pathlib.Path) -> list[str]:
+def _validate_config_file(
+    file_path: pathlib.Path,
+) -> tuple[list[str], list[str]]:
     """Validate a GeoIPS YAML configuration file.
 
     Checks YAML syntax, validates core settings against the GeoIPS
@@ -288,7 +287,7 @@ def _validate_config_file(file_path: pathlib.Path) -> list[str]:
     Parameters
     ----------
     file_path : pathlib.Path
-        Path to the ``.geoips.yaml`` file to validate.
+        Path to the GeoIPS configuration file to validate.
 
     Returns
     -------
@@ -375,12 +374,12 @@ def _validate_plugins_section(plugins_data, warnings: list[str]) -> list[str]:
 
 
 class GeoipsConfigCreate(GeoipsExecutableCommand):
-    """Generate a .geoips.yaml config file from environment variables.
+    """Create a GeoIPS configuration file.
 
-    Scans ``GEOIPS_*`` and unprefixed environment variables and writes
-    them as a structured YAML configuration file. Interactively prompts
-    for key variables (GEOIPS_OUTDIRS, GEOIPS_TESTDATA_DIR,
-    GEOIPS_PACKAGES_DIR) that are not set in the environment.
+    Collect values from supported environment variables and write them as
+    structured YAML. Unless ``--no-prompt`` is specified, prompt for
+    ``GEOIPS_OUTDIRS``, ``GEOIPS_TESTDATA_DIR``, and ``GEOIPS_PACKAGES_DIR``
+    when they are not set.
     """
 
     name = "create"
@@ -494,10 +493,11 @@ class GeoipsConfigCreate(GeoipsExecutableCommand):
 
 
 class GeoipsConfigValidate(GeoipsExecutableCommand):
-    """Validate a GeoIPS .geoips.yaml configuration file.
+    """Validate a GeoIPS configuration file.
 
-    Checks YAML syntax, verifies the structure against the GeoIPS
-    configuration schema, and reports all errors found.
+    Check YAML syntax and structure, validate core settings against the GeoIPS
+    configuration schema, validate configuration sections for installed
+    plugins, and report errors and warnings.
     """
 
     name = "validate"
@@ -533,8 +533,9 @@ class GeoipsConfigValidate(GeoipsExecutableCommand):
 
         if file_path is None:
             self.parser.error(
-                "No config file found. Specify --file or place a .geoips.yaml "
-                "in the current directory."
+                "No GeoIPS configuration file found. Specify one with --file, set "
+                "GEOIPS_RCFILE to its path, or create one at ./.geoips.yaml or "
+                "~/.config/geoips/config.yaml."
             )
 
         errors, warnings = _validate_config_file(file_path)
@@ -555,7 +556,7 @@ class GeoipsConfigValidate(GeoipsExecutableCommand):
 
 
 class GeoipsConfig(GeoipsCommand):
-    """Config top-level command for configuring your GeoIPS environment."""
+    """Manage GeoIPS configuration from the command line."""
 
     name = "config"
     command_classes = [
