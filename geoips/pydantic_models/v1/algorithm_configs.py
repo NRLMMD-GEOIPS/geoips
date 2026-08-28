@@ -17,8 +17,12 @@ from geoips.pydantic_models.v1.bases import (
 class RgbEquation(FrozenModel):
     """Model for an rgb equation."""
 
-    type: Literal["raw", "difference", "addition"] = Field(
+    type: Literal["raw", "difference", "addition", "expression"] = Field(
         ..., description="The type of equation being performed."
+    )
+    expression: str | None = Field(
+        default=None,
+        description="If the type of expression, this is a string of the expression",
     )
     variables: List[str] = Field(
         ..., description="The variables needed to perform the equation."
@@ -73,11 +77,19 @@ class RgbGunRecipe(FrozenModel):
         ..., description="The data range for a given rgb gun."
     )
     gamma: float = Field(..., description="The gamma value for a rgb gun.")
-    input_units: Optional[Literal["kelvin", "celsius", "kts", "m s-1"]] = Field(
+    input_units: Optional[
+        Literal[
+            "kelvin", "celsius", "kts", "m s-1", "reflectance", "albedo", "radiance"
+        ]
+    ] = Field(
         "kelvin",
         description="The input units of the data for the rgb gun.",
     )
-    output_units: Optional[Literal["kelvin", "celsius", "kts", "m s-1"]] = Field(
+    output_units: Optional[
+        Literal[
+            "kelvin", "celsius", "kts", "m s-1", "reflectance", "albedo", "radiance"
+        ]
+    ] = Field(
         "kelvin",
         description="The input units of the data for the rgb gun.",
     )
