@@ -3,8 +3,9 @@
 
 """Data manipulation steps for generic rgb recipes."""
 
-import numpy
-from pandas.io.formats.format import math
+import numpy as np
+import scipy
+import pandas as pd
 
 from geoips.interfaces.class_based.algorithms import BaseAlgorithmPlugin
 from geoips.interfaces import algorithm_configs
@@ -12,7 +13,6 @@ from geoips.interfaces import algorithm_configs
 import logging
 
 import ast
-import operator
 
 LOG = logging.getLogger(__name__)
 
@@ -26,16 +26,22 @@ class ConfigRgbAlgorithmPlugin(BaseAlgorithmPlugin):
 
     # map each mathematical symbol to a corresponding numpy function
     _operations = {
-        ast.Add: numpy.add,
-        ast.Sub: numpy.subtract,
-        ast.Mult: numpy.multiply,
-        ast.Div: numpy.divide,
-        ast.Pow: numpy.pow,
+        ast.Add: np.add,
+        ast.Sub: np.subtract,
+        ast.Mult: np.multiply,
+        ast.Div: np.divide,
+        ast.Pow: np.pow,
+    }
+
+    _modules = {
+        "np": np,
+        "scipy": scipy,
+        "pd": pd,
     }
 
     @classmethod
     def _safe_eval(cls, node, variables):
-        """Parses user-inputted expressions recursively.
+        """Parse user-inputted expressions recursively.
 
         Parameters
         ----------
@@ -58,10 +64,8 @@ class ConfigRgbAlgorithmPlugin(BaseAlgorithmPlugin):
             right = cls._safe_eval(node.right, variables)
             return op(left, right)
         elif isinstance(node, ast.Call):
-            # check if the call is valid
-            assert isinstance(node.func, ast.Name)
-            # if not a valid numpy function, it will throw an AttributeError
-            func = getattr(numpy, node.func.id)
+            func = cls._resolve_function(node.func)
+
             args = [cls._safe_eval(arg, variables) for arg in node.args]
             return func(*args)
 
@@ -69,8 +73,56 @@ class ConfigRgbAlgorithmPlugin(BaseAlgorithmPlugin):
         assert False, "Unsafe operation"
 
     @classmethod
+    def _resolve_function(cls, node):
+        """Parse user-inputted functions recursively.
+
+        Parameters
+        ----------
+        node : ast.Call
+            A node representative of the function to be called.
+
+        Returns
+        -------
+        obj : Callable
+            A callable function from one of the above listed modules.
+        """
+        if isinstance(node, ast.Name):
+            raise ValueError(f"Function '{node.id}' is not allowed")
+
+        if isinstance(node, ast.Attribute):
+            # Build array like ["np", "sin"]
+            parts = []
+            current = node
+
+            while isinstance(current, ast.Attribute):
+                parts.append(current.attr)
+                current = current.value
+
+            if not isinstance(current, ast.Name):
+                raise ValueError("Unsafe function reference")
+
+            parts.append(current.id)
+            parts.reverse()
+
+            root = parts.pop(0)
+            if root not in cls._modules:
+                raise ValueError(f"Module '{root}' is not allowed")
+
+            obj = cls._modules[root]
+
+            for part in parts:
+                obj = getattr(obj, part)
+
+            if not callable(obj):
+                raise ValueError("Expression does not refer to a function.")
+
+            return obj
+
+        raise ValueError("Unsafe function reference")
+
+    @classmethod
     def safe_eval(cls, expression, variables):
-        """Wrapper for recursive expression evaluator `_safe_eval`
+        """Wrap recursive expression evaluator `_safe_eval`.
 
         Parameters
         ----------
