@@ -3,16 +3,7 @@
 
 """Sector spec generators interface class."""
 
-from geoips.interfaces.class_based_plugin import BaseClassPlugin
 from geoips.interfaces.base import BaseClassInterface
-
-
-class BaseSectorSpecGeneratorPlugin(BaseClassPlugin, abstract=True):
-    """Base class for GeoIPS sector_spec_generator plugins."""
-
-    data_tree = False
-
-    pass
 
 
 class SectorSpecGeneratorsInterface(BaseClassInterface):
@@ -23,6 +14,8 @@ class SectorSpecGeneratorsInterface(BaseClassInterface):
     lat/lon of the region determined at run time, while the resolution
     and width/height are predetermined)
     """
+
+    from geoips.interfaces.class_based.bases import BaseSectorSpecGeneratorPlugin
 
     name = "sector_spec_generators"
     plugin_class = BaseSectorSpecGeneratorPlugin

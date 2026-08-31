@@ -3,20 +3,13 @@
 
 """Databases interface class."""
 
-from geoips.interfaces.class_based_plugin import BaseClassPlugin
 from geoips.interfaces.base import BaseClassInterface
 
 
-class BaseDatabasePlugin(BaseClassPlugin, abstract=True):
-    """Base class for GeoIPS database plugins."""
-
-    data_tree = False
-
-    pass
-
-
 class DatabasesInterface(BaseClassInterface):
-    """Interface for database table writers/quieriers."""
+    """Interface for database table writers/queriers."""
+
+    from geoips.interfaces.class_based.bases import BaseDatabasePlugin
 
     name = "databases"
     plugin_class = BaseDatabasePlugin

@@ -3,16 +3,7 @@
 
 """Procflows interface class."""
 
-from geoips.interfaces.class_based_plugin import BaseClassPlugin
 from geoips.interfaces.base import BaseClassInterface
-
-
-class BaseProcflowPlugin(BaseClassPlugin, abstract=True):
-    """Base class for GeoIPS procflow plugins."""
-
-    data_tree = True
-
-    pass
 
 
 class ProcflowsInterface(BaseClassInterface):
@@ -29,6 +20,8 @@ class ProcflowsInterface(BaseClassInterface):
     * config_based: (legacy, module-based) efficient method for producing all
       possible outputs for a given set of data files.
     """
+
+    from geoips.interfaces.class_based.bases import BaseProcflowPlugin
 
     name = "procflows"
     plugin_class = BaseProcflowPlugin

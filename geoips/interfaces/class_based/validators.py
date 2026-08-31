@@ -4,17 +4,12 @@
 """Validators interface module."""
 
 from geoips.interfaces.base import BaseClassInterface
-from geoips.interfaces.class_based_plugin import BaseClassPlugin
-
-
-class BaseValidatorPlugin(BaseClassPlugin, abstract=True):
-    """Base class for GeoIPS validator plugins."""
-
-    pass
 
 
 class ValidatorsInterface(BaseClassInterface):
     """Interface for plugins validating data against a source of truth."""
+
+    from geoips.interfaces.class_based.bases import BaseValidatorPlugin
 
     name = "validators"
     plugin_class = BaseValidatorPlugin

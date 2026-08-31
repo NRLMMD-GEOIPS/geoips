@@ -3,16 +3,7 @@
 
 """Sector adjusters interface class."""
 
-from geoips.interfaces.class_based_plugin import BaseClassPlugin
 from geoips.interfaces.base import BaseClassInterface
-
-
-class BaseSectorAdjusterPlugin(BaseClassPlugin, abstract=True):
-    """Base class for GeoIPS sector_adjuster plugins."""
-
-    data_tree = False
-
-    pass
 
 
 class SectorAdjustersInterface(BaseClassInterface):
@@ -21,6 +12,8 @@ class SectorAdjustersInterface(BaseClassInterface):
     Ie, pass in data and the area definition, and modify the area_definition based
     on the data itself.
     """
+
+    from geoips.interfaces.class_based.bases import BaseSectorAdjusterPlugin
 
     name = "sector_adjusters"
     plugin_class = BaseSectorAdjusterPlugin
