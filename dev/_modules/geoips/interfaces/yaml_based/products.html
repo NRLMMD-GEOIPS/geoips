@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>geoips.interfaces.yaml_based.products &#8212; GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation</title>
+    <title>geoips.interfaces.yaml_based.products &#8212; GeoIPS, Geolocated Information Processing System 0.0.0 documentation</title>
   
   
   
@@ -40,7 +40,7 @@
   <link rel="preload" as="script" href="../../../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
 <link rel="preload" as="script" href="../../../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
 
-    <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js?v=6727bded"></script>
+    <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js?v=525cde36"></script>
     <script src="../../../../_static/doctools.js?v=888ff710"></script>
     <script src="../../../../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../../_static/design-tabs.js?v=f930bc37"></script>
@@ -401,14 +401,21 @@ mermaid.initialize(
 window.addEventListener("load", load);
 window.runMermaid = runMermaid;</script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_modules/geoips/interfaces/yaml_based/products';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.17.1';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://nrlmmd-geoips.github.io/geoips/versions.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = 'dev';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner =
+            false;
+        </script>
     <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
     <link rel="icon" href="../../../../_static/nrlicon.ico"/>
     <link rel="index" title="Index" href="../../../../genindex.html" />
     <link rel="search" title="Search" href="../../../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2.0" />
-    <meta name="docbuild:last-update" content="Jul 23, 2026 17:03:57"/>
+  <meta name="docsearch:version" content="0.0" />
+    <meta name="docbuild:last-update" content="Aug 31, 2026 13:32:18"/>
   
     
     <script src="../../../../_static/searchtools.js"></script>
@@ -480,11 +487,31 @@ window.runMermaid = runMermaid;</script>
       
     
     
-    <img src="../../../../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation - Home"/>
-    <img src="../../../../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation - Home"/>
+    <img src="../../../../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 0.0.0 documentation - Home"/>
+    <img src="../../../../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 0.0.0 documentation - Home"/>
   
   
 </a></div>
+    
+      <div class="navbar-item">
+<div class="version-switcher__container dropdown pst-js-only">
+  <button id="pst-version-switcher-button-2"
+    type="button"
+    class="version-switcher__button btn btn-sm dropdown-toggle"
+    data-bs-toggle="dropdown"
+    aria-haspopup="listbox"
+    aria-controls="pst-version-switcher-list-2"
+    aria-label="Version switcher list"
+  >
+    Choose version  <!-- this text may get changed later by javascript -->
+    <span class="caret"></span>
+  </button>
+  <div id="pst-version-switcher-list-2"
+    class="version-switcher__menu dropdown-menu list-group-flush py-0"
+    role="listbox" aria-labelledby="pst-version-switcher-button-2">
+    <!-- dropdown will be populated by javascript on page load -->
+  </div>
+</div></div>
     
   </div>
   
@@ -828,7 +855,7 @@ window.runMermaid = runMermaid;</script>
 <span></span><span class="c1"># # # This source code is subject to the license referenced at</span>
 <span class="c1"># # # https://github.com/NRLMMD-GEOIPS.</span>
 
-<span class="sd">&quot;&quot;&quot;Products interface module.&quot;&quot;&quot;</span>
+<span class="sd">"""Products interface module."""</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
 
@@ -843,28 +870,28 @@ window.runMermaid = runMermaid;</script>
 
 
 <div class="viewcode-block" id="ProductsPluginValidator"><a class="viewcode-back" href="../../../../geoips_api/geoips.interfaces.yaml_based.html#geoips.interfaces.yaml_based.products.ProductsPluginValidator">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">ProductsPluginValidator</span><span class="p">(</span><span class="n">YamlPluginValidator</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Validator for Products plugins.</span>
+<span class="w">    </span><span class="sd">"""Validator for Products plugins.</span>
 
 <span class="sd">    This differs from other validators for two reasons:</span>
 
-<span class="sd">    1. Most plugins are identified solely by &#39;name&#39;. Products are identified by</span>
-<span class="sd">       &#39;source_name&#39; and &#39;name.</span>
-<span class="sd">    2. Most plugins supply their &#39;family&#39; directly. Products can supply it directly, but</span>
-<span class="sd">       can, alternatively, specify a &#39;product_defaults&#39; plugin from which to pull</span>
-<span class="sd">       &#39;family&#39; and most other properties. This validator handles filling in a product</span>
+<span class="sd">    1. Most plugins are identified solely by 'name'. Products are identified by</span>
+<span class="sd">       'source_name' and 'name.</span>
+<span class="sd">    2. Most plugins supply their 'family' directly. Products can supply it directly, but</span>
+<span class="sd">       can, alternatively, specify a 'product_defaults' plugin from which to pull</span>
+<span class="sd">       'family' and most other properties. This validator handles filling in a product</span>
 <span class="sd">       plugin based on its specified product defaults plugin.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
 <div class="viewcode-block" id="ProductsPluginValidator.validate"><a class="viewcode-back" href="../../../../geoips_api/geoips.interfaces.yaml_based.html#geoips.interfaces.yaml_based.products.ProductsPluginValidator.validate">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">validate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">plugin</span><span class="p">,</span> <span class="n">validator_id</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Validate a Products plugin against the relevant schema.</span>
+<span class="w">        </span><span class="sd">"""Validate a Products plugin against the relevant schema.</span>
 
 <span class="sd">        The relevant schema is determined based on the interface and family of the</span>
 <span class="sd">        plugin.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="s2">&quot;product_defaults&quot;</span> <span class="ow">in</span> <span class="n">plugin</span><span class="p">:</span>
-            <span class="k">if</span> <span class="s2">&quot;family&quot;</span> <span class="ow">in</span> <span class="n">plugin</span><span class="p">:</span>
+<span class="sd">        """</span>
+        <span class="k">if</span> <span class="s2">"product_defaults"</span> <span class="ow">in</span> <span class="n">plugin</span><span class="p">:</span>
+            <span class="k">if</span> <span class="s2">"family"</span> <span class="ow">in</span> <span class="n">plugin</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span>
-                    <span class="s2">&quot;Properties &#39;family&#39; and &#39;product_defaults&#39; are mutually exclusive.&quot;</span>
+                    <span class="s2">"Properties 'family' and 'product_defaults' are mutually exclusive."</span>
                 <span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">validate_product</span><span class="p">(</span><span class="n">plugin</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
@@ -872,66 +899,66 @@ window.runMermaid = runMermaid;</script>
                 <span class="n">plugin</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">validate</span><span class="p">(</span><span class="n">plugin</span><span class="p">,</span> <span class="n">validator_id</span><span class="o">=</span><span class="n">validator_id</span><span class="p">)</span>
             <span class="k">except</span> <span class="n">ValidationError</span> <span class="k">as</span> <span class="n">resp</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span>
-                    <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">resp</span><span class="si">}</span><span class="s2">: Trouble validating plugin &#39;</span><span class="si">{</span><span class="n">plugin</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">&#39;</span><span class="se">\n</span><span class="s2">&quot;</span>
-                    <span class="sa">f</span><span class="s2">&quot;in interface &#39;</span><span class="si">{</span><span class="n">plugin</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;interface&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">&#39;</span><span class="se">\n</span><span class="s2">&quot;</span>
-                    <span class="sa">f</span><span class="s2">&quot;located at &#39;</span><span class="si">{</span><span class="n">plugin</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;abspath&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">&#39;</span><span class="se">\n</span><span class="s2">&quot;</span>
-                    <span class="sa">f</span><span class="s2">&quot;from package &#39;</span><span class="si">{</span><span class="n">plugin</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;package&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">&#39; &quot;</span>
+                    <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">resp</span><span class="si">}</span><span class="s2">: Trouble validating plugin '</span><span class="si">{</span><span class="n">plugin</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'name'</span><span class="p">)</span><span class="si">}</span><span class="s2">'</span><span class="se">\n</span><span class="s2">"</span>
+                    <span class="sa">f</span><span class="s2">"in interface '</span><span class="si">{</span><span class="n">plugin</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'interface'</span><span class="p">)</span><span class="si">}</span><span class="s2">'</span><span class="se">\n</span><span class="s2">"</span>
+                    <span class="sa">f</span><span class="s2">"located at '</span><span class="si">{</span><span class="n">plugin</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'abspath'</span><span class="p">)</span><span class="si">}</span><span class="s2">'</span><span class="se">\n</span><span class="s2">"</span>
+                    <span class="sa">f</span><span class="s2">"from package '</span><span class="si">{</span><span class="n">plugin</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'package'</span><span class="p">)</span><span class="si">}</span><span class="s2">' "</span>
                 <span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">resp</span>
 
         <span class="k">return</span> <span class="n">plugin</span></div>
 
 <div class="viewcode-block" id="ProductsPluginValidator.validate_product"><a class="viewcode-back" href="../../../../geoips_api/geoips.interfaces.yaml_based.html#geoips.interfaces.yaml_based.products.ProductsPluginValidator.validate_product">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">validate_product</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">product</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Validate single product.&quot;&quot;&quot;</span>
-        <span class="n">LOG</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;In validate product&quot;</span><span class="p">)</span>
-        <span class="k">if</span> <span class="s2">&quot;family&quot;</span> <span class="ow">in</span> <span class="n">product</span><span class="p">:</span>
-            <span class="n">LOG</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Validating family-based product&quot;</span><span class="p">)</span>
-            <span class="n">family</span> <span class="o">=</span> <span class="n">product</span><span class="p">[</span><span class="s2">&quot;family&quot;</span><span class="p">]</span>
+<span class="w">        </span><span class="sd">"""Validate single product."""</span>
+        <span class="n">LOG</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">"In validate product"</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s2">"family"</span> <span class="ow">in</span> <span class="n">product</span><span class="p">:</span>
+            <span class="n">LOG</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">"Validating family-based product"</span><span class="p">)</span>
+            <span class="n">family</span> <span class="o">=</span> <span class="n">product</span><span class="p">[</span><span class="s2">"family"</span><span class="p">]</span>
             <span class="k">try</span><span class="p">:</span>
-                <span class="n">spec_validator</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">validators</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;product_defaults.specs.</span><span class="si">{</span><span class="n">family</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]</span>
+                <span class="n">spec_validator</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">validators</span><span class="p">[</span><span class="sa">f</span><span class="s2">"product_defaults.specs.</span><span class="si">{</span><span class="n">family</span><span class="si">}</span><span class="s2">"</span><span class="p">]</span>
             <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span>
-                    <span class="sa">f</span><span class="s2">&quot;No product_defaults spec for family &#39;</span><span class="si">{</span><span class="n">family</span><span class="si">}</span><span class="s2">&#39;&quot;</span><span class="p">,</span> <span class="n">instance</span><span class="o">=</span><span class="n">product</span>
+                    <span class="sa">f</span><span class="s2">"No product_defaults spec for family '</span><span class="si">{</span><span class="n">family</span><span class="si">}</span><span class="s2">'"</span><span class="p">,</span> <span class="n">instance</span><span class="o">=</span><span class="n">product</span>
                 <span class="p">)</span>
-            <span class="n">spec_validator</span><span class="o">.</span><span class="n">validate</span><span class="p">(</span><span class="n">product</span><span class="p">[</span><span class="s2">&quot;spec&quot;</span><span class="p">])</span>
-        <span class="k">elif</span> <span class="s2">&quot;product_defaults&quot;</span> <span class="ow">in</span> <span class="n">product</span><span class="p">:</span>
-            <span class="n">defaults</span> <span class="o">=</span> <span class="n">product_defaults</span><span class="o">.</span><span class="n">get_plugin</span><span class="p">(</span><span class="n">product</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;product_defaults&quot;</span><span class="p">))</span>
-            <span class="n">product</span><span class="p">[</span><span class="s2">&quot;family&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">defaults</span><span class="p">[</span><span class="s2">&quot;family&quot;</span><span class="p">]</span>
+            <span class="n">spec_validator</span><span class="o">.</span><span class="n">validate</span><span class="p">(</span><span class="n">product</span><span class="p">[</span><span class="s2">"spec"</span><span class="p">])</span>
+        <span class="k">elif</span> <span class="s2">"product_defaults"</span> <span class="ow">in</span> <span class="n">product</span><span class="p">:</span>
+            <span class="n">defaults</span> <span class="o">=</span> <span class="n">product_defaults</span><span class="o">.</span><span class="n">get_plugin</span><span class="p">(</span><span class="n">product</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">"product_defaults"</span><span class="p">))</span>
+            <span class="n">product</span><span class="p">[</span><span class="s2">"family"</span><span class="p">]</span> <span class="o">=</span> <span class="n">defaults</span><span class="p">[</span><span class="s2">"family"</span><span class="p">]</span>
 
-            <span class="n">LOG</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Validating product_defaults-based product&quot;</span><span class="p">)</span>
+            <span class="n">LOG</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">"Validating product_defaults-based product"</span><span class="p">)</span>
             <span class="c1"># This updates missing values in spec from defaults but leaves existing</span>
-            <span class="c1"># values alone. Using update here ensures that we&#39;re updating in-place</span>
+            <span class="c1"># values alone. Using update here ensures that we're updating in-place</span>
             <span class="c1"># rather than creating a new dictionary.</span>
             <span class="n">merge_nested_dicts</span><span class="p">(</span><span class="n">product</span><span class="p">,</span> <span class="n">defaults</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;Product &#39;</span><span class="si">{</span><span class="n">product</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&#39; did not specify either &quot;</span>
-                <span class="sa">f</span><span class="s2">&quot;&#39;family&#39; or &#39;product_defaults&#39;.&quot;</span>
+                <span class="sa">f</span><span class="s2">"Product '</span><span class="si">{</span><span class="n">product</span><span class="p">[</span><span class="s1">'name'</span><span class="p">]</span><span class="si">}</span><span class="s2">' did not specify either "</span>
+                <span class="sa">f</span><span class="s2">"'family' or 'product_defaults'."</span>
             <span class="p">)</span>
         <span class="k">return</span> <span class="n">product</span></div></div>
 
 
 <div class="viewcode-block" id="ProductsInterface"><a class="viewcode-back" href="../../../../geoips_api/geoips.interfaces.yaml_based.html#geoips.interfaces.yaml_based.products.ProductsInterface">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">ProductsInterface</span><span class="p">(</span><span class="n">BaseYamlInterface</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;GeoIPS interface for Products plugins.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""GeoIPS interface for Products plugins."""</span>
 
-    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;products&quot;</span>
-    <span class="n">use_pydantic</span> <span class="o">=</span> <span class="n">gpaths</span><span class="p">[</span><span class="s2">&quot;GEOIPS_USE_PYDANTIC&quot;</span><span class="p">]</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">"products"</span>
+    <span class="n">use_pydantic</span> <span class="o">=</span> <span class="n">gpaths</span><span class="p">[</span><span class="s2">"GEOIPS_USE_PYDANTIC"</span><span class="p">]</span>
     <span class="n">validator</span> <span class="o">=</span> <span class="n">ProductsPluginValidator</span><span class="p">()</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_create_registered_plugin_names</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">yaml_plugin</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create a plugin name for plugin registry.</span>
+<span class="w">        </span><span class="sd">"""Create a plugin name for plugin registry.</span>
 
 <span class="sd">        This name is a tuple containing source_name and name.</span>
 <span class="sd">        Overrides the same method from YamlPluginValidator.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">names</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="k">for</span> <span class="n">source_name</span> <span class="ow">in</span> <span class="n">yaml_plugin</span><span class="p">[</span><span class="s2">&quot;source_names&quot;</span><span class="p">]:</span>
-            <span class="n">names</span> <span class="o">+=</span> <span class="p">[(</span><span class="n">source_name</span><span class="p">,</span> <span class="n">yaml_plugin</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">])]</span>
+        <span class="k">for</span> <span class="n">source_name</span> <span class="ow">in</span> <span class="n">yaml_plugin</span><span class="p">[</span><span class="s2">"source_names"</span><span class="p">]:</span>
+            <span class="n">names</span> <span class="o">+=</span> <span class="p">[(</span><span class="n">source_name</span><span class="p">,</span> <span class="n">yaml_plugin</span><span class="p">[</span><span class="s2">"name"</span><span class="p">])]</span>
         <span class="k">return</span> <span class="n">names</span>
 
 <div class="viewcode-block" id="ProductsInterface.get_plugin_metadata"><a class="viewcode-back" href="../../../../geoips_api/geoips.interfaces.yaml_based.html#geoips.interfaces.yaml_based.products.ProductsInterface.get_plugin_metadata">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_plugin_metadata</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">source_name</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Retrieve a product plugin&#39;s metadata.</span>
+<span class="w">        </span><span class="sd">"""Retrieve a product plugin's metadata.</span>
 
-<span class="sd">        Where the metadata of the plugin matches the plugin&#39;s corresponding entry in the</span>
+<span class="sd">        Where the metadata of the plugin matches the plugin's corresponding entry in the</span>
 <span class="sd">        plugin registry.</span>
 
 <span class="sd">        Parameters</span>
@@ -939,28 +966,28 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">        source_name: str</span>
 <span class="sd">            - The source (sensor) which this product is derived from.</span>
 <span class="sd">        name: str</span>
-<span class="sd">            - The name of the product plugin whose metadata we&#39;d like to retrieve.</span>
+<span class="sd">            - The name of the product plugin whose metadata we'd like to retrieve.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        metadata: dict</span>
 <span class="sd">            - A dictionary of metadata for the requested plugin.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">get_plugin_metadata</span><span class="p">((</span><span class="n">source_name</span><span class="p">,</span> <span class="n">name</span><span class="p">))</span></div>
 
 <div class="viewcode-block" id="ProductsInterface.get_plugin"><a class="viewcode-back" href="../../../../geoips_api/geoips.interfaces.yaml_based.html#geoips.interfaces.yaml_based.products.ProductsInterface.get_plugin">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_plugin</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">source_name</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">product_spec_override</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">rebuild_registries</span><span class="o">=</span><span class="kc">None</span>
     <span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Retrieve a Product plugin by source_name, name, and product_spec_override.</span>
+<span class="w">        </span><span class="sd">"""Retrieve a Product plugin by source_name, name, and product_spec_override.</span>
 
 <span class="sd">        If product_spec_override dict is passed, values contained within</span>
 <span class="sd">        product_spec_override will be used in place of those found in products</span>
 <span class="sd">        list and product_defaults.</span>
 
 <span class="sd">        product_spec_override[product_name] matches the format of the product</span>
-<span class="sd">        &quot;spec&quot; field.</span>
+<span class="sd">        "spec" field.</span>
 
-<span class="sd">        Additionally, if the special key product_spec_override[&quot;all&quot;] is included,</span>
+<span class="sd">        Additionally, if the special key product_spec_override["all"] is included,</span>
 <span class="sd">        it will apply to all products not specified by name within the dictionary.</span>
 
 <span class="sd">        Parameters</span>
@@ -970,7 +997,7 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">        name : str</span>
 <span class="sd">            - The name the desired plugin.</span>
 <span class="sd">        dict : str</span>
-<span class="sd">            - Dictionary specifying what information of the product&#39;s spec that is to be</span>
+<span class="sd">            - Dictionary specifying what information of the product's spec that is to be</span>
 <span class="sd">              overridden at runtime.</span>
 <span class="sd">        rebuild_registries: bool (default=None)</span>
 <span class="sd">            - Whether or not to rebuild the registries if get_plugin fails. If set to</span>
@@ -980,17 +1007,17 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">              get_plugin fails, rebuild the plugin registry, call then call</span>
 <span class="sd">              get_plugin once more with rebuild_registries toggled off, so it only gets</span>
 <span class="sd">              rebuilt once.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">prod_plugin</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">get_plugin</span><span class="p">((</span><span class="n">source_name</span><span class="p">,</span> <span class="n">name</span><span class="p">),</span> <span class="n">rebuild_registries</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">product_spec_override</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="c1"># Default to no override arguments</span>
             <span class="n">override_args</span> <span class="o">=</span> <span class="p">{}</span>
-            <span class="c1"># If available, use the current product&#39;s override values</span>
+            <span class="c1"># If available, use the current product's override values</span>
             <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">product_spec_override</span><span class="p">:</span>
                 <span class="n">override_args</span> <span class="o">=</span> <span class="n">product_spec_override</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
-            <span class="c1"># Otherwise, if &quot;all&quot; specified, use those override values</span>
-            <span class="k">elif</span> <span class="s2">&quot;all&quot;</span> <span class="ow">in</span> <span class="n">product_spec_override</span><span class="p">:</span>
-                <span class="n">override_args</span> <span class="o">=</span> <span class="n">product_spec_override</span><span class="p">[</span><span class="s2">&quot;all&quot;</span><span class="p">]</span>
+            <span class="c1"># Otherwise, if "all" specified, use those override values</span>
+            <span class="k">elif</span> <span class="s2">"all"</span> <span class="ow">in</span> <span class="n">product_spec_override</span><span class="p">:</span>
+                <span class="n">override_args</span> <span class="o">=</span> <span class="n">product_spec_override</span><span class="p">[</span><span class="s2">"all"</span><span class="p">]</span>
             <span class="n">replace_arg</span> <span class="o">=</span> <span class="kc">False</span>
             <span class="c1"># NOTE: this is a top-level field, where if you set</span>
             <span class="c1"># product_spec_override:</span>
@@ -1005,28 +1032,28 @@ window.runMermaid = runMermaid;</script>
             <span class="c1"># and able to be applied to only specific fields,</span>
             <span class="c1"># etc.  This is a brute force method to at least</span>
             <span class="c1"># allow overriding entire fields.</span>
-            <span class="k">if</span> <span class="n">product_spec_override</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;replace&quot;</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">product_spec_override</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"replace"</span><span class="p">):</span>
                 <span class="n">replace_arg</span> <span class="o">=</span> <span class="kc">True</span>
-            <span class="n">prod_plugin</span><span class="p">[</span><span class="s2">&quot;spec&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">merge_nested_dicts</span><span class="p">(</span>
-                <span class="n">prod_plugin</span><span class="p">[</span><span class="s2">&quot;spec&quot;</span><span class="p">],</span> <span class="n">override_args</span><span class="p">,</span> <span class="n">in_place</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">replace</span><span class="o">=</span><span class="n">replace_arg</span>
+            <span class="n">prod_plugin</span><span class="p">[</span><span class="s2">"spec"</span><span class="p">]</span> <span class="o">=</span> <span class="n">merge_nested_dicts</span><span class="p">(</span>
+                <span class="n">prod_plugin</span><span class="p">[</span><span class="s2">"spec"</span><span class="p">],</span> <span class="n">override_args</span><span class="p">,</span> <span class="n">in_place</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">replace</span><span class="o">=</span><span class="n">replace_arg</span>
             <span class="p">)</span>
 
         <span class="k">return</span> <span class="n">prod_plugin</span></div>
 
 <div class="viewcode-block" id="ProductsInterface.get_plugins"><a class="viewcode-back" href="../../../../geoips_api/geoips.interfaces.yaml_based.html#geoips.interfaces.yaml_based.products.ProductsInterface.get_plugins">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_plugins</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Retrieve a plugin by name.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Retrieve a plugin by name."""</span>
         <span class="n">plugins</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="k">for</span> <span class="n">source_name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">plugin_registry</span><span class="o">.</span><span class="n">registered_plugins</span><span class="p">[</span><span class="s2">&quot;yaml_based&quot;</span><span class="p">][</span>
+        <span class="k">for</span> <span class="n">source_name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">plugin_registry</span><span class="o">.</span><span class="n">registered_plugins</span><span class="p">[</span><span class="s2">"yaml_based"</span><span class="p">][</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
         <span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
-            <span class="k">for</span> <span class="n">subplg_name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">plugin_registry</span><span class="o">.</span><span class="n">registered_plugins</span><span class="p">[</span><span class="s2">&quot;yaml_based&quot;</span><span class="p">][</span>
+            <span class="k">for</span> <span class="n">subplg_name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">plugin_registry</span><span class="o">.</span><span class="n">registered_plugins</span><span class="p">[</span><span class="s2">"yaml_based"</span><span class="p">][</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
             <span class="p">][</span><span class="n">source_name</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
                 <span class="n">plugins</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_plugin</span><span class="p">(</span><span class="n">source_name</span><span class="p">,</span> <span class="n">subplg_name</span><span class="p">))</span>
         <span class="k">return</span> <span class="n">plugins</span></div>
 
 <div class="viewcode-block" id="ProductsInterface.plugin_is_valid"><a class="viewcode-back" href="../../../../geoips_api/geoips.interfaces.yaml_based.html#geoips.interfaces.yaml_based.products.ProductsInterface.plugin_is_valid">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">plugin_is_valid</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">source_name</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Test that the named plugin is valid.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Test that the named plugin is valid."""</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">get_plugin</span><span class="p">(</span><span class="n">source_name</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
             <span class="k">return</span> <span class="kc">True</span>
@@ -1034,7 +1061,7 @@ window.runMermaid = runMermaid;</script>
             <span class="k">return</span> <span class="kc">False</span></div>
 
 <div class="viewcode-block" id="ProductsInterface.test_interface"><a class="viewcode-back" href="../../../../geoips_api/geoips.interfaces.yaml_based.html#geoips.interfaces.yaml_based.products.ProductsInterface.test_interface">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">test_interface</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Test interface method.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Test interface method."""</span>
         <span class="n">plugins</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_plugins</span><span class="p">()</span>
         <span class="n">all_valid</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">plugins_all_valid</span><span class="p">()</span>
         <span class="n">family_list</span> <span class="o">=</span> <span class="p">[]</span>
@@ -1046,19 +1073,19 @@ window.runMermaid = runMermaid;</script>
             <span class="n">plugin_ids</span><span class="p">[</span><span class="n">plugin</span><span class="o">.</span><span class="n">family</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">plugin</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
 
         <span class="n">output</span> <span class="o">=</span> <span class="p">{</span>
-            <span class="s2">&quot;all_valid&quot;</span><span class="p">:</span> <span class="n">all_valid</span><span class="p">,</span>
-            <span class="s2">&quot;by_family&quot;</span><span class="p">:</span> <span class="n">plugin_ids</span><span class="p">,</span>
-            <span class="s2">&quot;validity_check&quot;</span><span class="p">:</span> <span class="p">{},</span>
-            <span class="s2">&quot;family&quot;</span><span class="p">:</span> <span class="p">{},</span>
-            <span class="s2">&quot;func&quot;</span><span class="p">:</span> <span class="p">{},</span>
-            <span class="s2">&quot;docstring&quot;</span><span class="p">:</span> <span class="p">{},</span>
+            <span class="s2">"all_valid"</span><span class="p">:</span> <span class="n">all_valid</span><span class="p">,</span>
+            <span class="s2">"by_family"</span><span class="p">:</span> <span class="n">plugin_ids</span><span class="p">,</span>
+            <span class="s2">"validity_check"</span><span class="p">:</span> <span class="p">{},</span>
+            <span class="s2">"family"</span><span class="p">:</span> <span class="p">{},</span>
+            <span class="s2">"func"</span><span class="p">:</span> <span class="p">{},</span>
+            <span class="s2">"docstring"</span><span class="p">:</span> <span class="p">{},</span>
         <span class="p">}</span>
         <span class="k">for</span> <span class="n">curr_family</span> <span class="ow">in</span> <span class="n">plugin_ids</span><span class="p">:</span>
             <span class="k">for</span> <span class="n">curr_id</span> <span class="ow">in</span> <span class="n">plugin_ids</span><span class="p">[</span><span class="n">curr_family</span><span class="p">]:</span>
-                <span class="n">output</span><span class="p">[</span><span class="s2">&quot;validity_check&quot;</span><span class="p">][</span><span class="n">curr_id</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">plugin_is_valid</span><span class="p">(</span><span class="o">*</span><span class="n">curr_id</span><span class="p">)</span>
-                <span class="n">output</span><span class="p">[</span><span class="s2">&quot;func&quot;</span><span class="p">][</span><span class="n">curr_id</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_plugin</span><span class="p">(</span><span class="o">*</span><span class="n">curr_id</span><span class="p">)</span>
-                <span class="n">output</span><span class="p">[</span><span class="s2">&quot;family&quot;</span><span class="p">][</span><span class="n">curr_id</span><span class="p">]</span> <span class="o">=</span> <span class="n">curr_family</span>
-                <span class="n">output</span><span class="p">[</span><span class="s2">&quot;docstring&quot;</span><span class="p">][</span><span class="n">curr_id</span><span class="p">]</span> <span class="o">=</span> <span class="n">output</span><span class="p">[</span><span class="s2">&quot;func&quot;</span><span class="p">][</span><span class="n">curr_id</span><span class="p">]</span><span class="o">.</span><span class="n">docstring</span>
+                <span class="n">output</span><span class="p">[</span><span class="s2">"validity_check"</span><span class="p">][</span><span class="n">curr_id</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">plugin_is_valid</span><span class="p">(</span><span class="o">*</span><span class="n">curr_id</span><span class="p">)</span>
+                <span class="n">output</span><span class="p">[</span><span class="s2">"func"</span><span class="p">][</span><span class="n">curr_id</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_plugin</span><span class="p">(</span><span class="o">*</span><span class="n">curr_id</span><span class="p">)</span>
+                <span class="n">output</span><span class="p">[</span><span class="s2">"family"</span><span class="p">][</span><span class="n">curr_id</span><span class="p">]</span> <span class="o">=</span> <span class="n">curr_family</span>
+                <span class="n">output</span><span class="p">[</span><span class="s2">"docstring"</span><span class="p">][</span><span class="n">curr_id</span><span class="p">]</span> <span class="o">=</span> <span class="n">output</span><span class="p">[</span><span class="s2">"func"</span><span class="p">][</span><span class="n">curr_id</span><span class="p">]</span><span class="o">.</span><span class="n">docstring</span>
         <span class="k">return</span> <span class="n">output</span></div></div>
 
 

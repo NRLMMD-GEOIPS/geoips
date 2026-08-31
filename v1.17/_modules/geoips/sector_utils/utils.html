@@ -1,0 +1,1785 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>geoips.sector_utils.utils &#8212; GeoIPS, Geolocated Information Processing System 1.17.2 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../_static/styles/theme.css?digest=cb8930eaaf36d9849b67" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=cb8930eaaf36d9849b67" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/set_width.css?v=d4af5e1e" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../../../_static/scripts/fontawesome.js?digest=cb8930eaaf36d9849b67"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=cb8930eaaf36d9849b67" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=cb8930eaaf36d9849b67" />
+
+    <script src="../../../_static/documentation_options.js?v=00ff4e64"></script>
+    <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
+    <script type="module">import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.12.1/dist/mermaid.esm.min.mjs";
+
+
+
+const initStyles = () => {
+    const defaultStyle = document.createElement('style');
+    defaultStyle.textContent = "pre.mermaid {\n    /* Same as .mermaid-container > pre */\n    display: block;\n    width: 100%;\n}\n\npre.mermaid > svg {\n    /* Same as .mermaid-container > pre > svg */\n    height: 500px;\n    width: 100%;\n    max-width: 100% !important;\n}";
+    document.head.appendChild(defaultStyle);
+
+    const fullscreenStyle = document.createElement('style');
+    fullscreenStyle.textContent = ".mermaid-container {\n    position: relative;\n    display: flex;\n    flex-direction: row;\n    width: 100%;\n}\n\n.mermaid-container > pre {\n    display: block;\n    width: 100%;\n}\n\n.mermaid-container > pre > svg {\n    height: 500px;\n    width: 100%;\n    max-width: 100% !important;\n}\n\n.mermaid-fullscreen-btn {\n    position: absolute;\n    width: 28px;\n    height: 28px;\n    background: rgba(255, 255, 255, 0.95);\n    border: 1px solid rgba(0, 0, 0, 0.3);\n    border-radius: 4px;\n    cursor: pointer;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n    transition: all 0.2s;\n    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);\n    font-size: 14px;\n    line-height: 1;\n    padding: 0;\n    color: #333;\n}\n\n.mermaid-fullscreen-btn:hover {\n    opacity: 100% !important;\n    background: rgba(255, 255, 255, 1);\n    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);\n    transform: scale(1.1);\n}\n\n.mermaid-fullscreen-btn.dark-theme {\n    background: rgba(50, 50, 50, 0.95);\n    border: 1px solid rgba(255, 255, 255, 0.3);\n    color: #e0e0e0;\n}\n\n.mermaid-fullscreen-btn.dark-theme:hover {\n    background: rgba(60, 60, 60, 1);\n    box-shadow: 0 3px 10px rgba(255, 255, 255, 0.2);\n}\n\n.mermaid-fullscreen-modal {\n    display: none;\n    position: fixed !important;\n    top: 0 !important;\n    left: 0 !important;\n    width: 95vw;\n    height: 100vh;\n    background: rgba(255, 255, 255, 0.98);\n    z-index: 9999;\n    padding: 20px;\n    overflow: auto;\n}\n\n.mermaid-fullscreen-modal.dark-theme {\n    background: rgba(0, 0, 0, 0.98);\n}\n\n.mermaid-fullscreen-modal.active {\n    display: flex;\n    align-items: center;\n    justify-content: center;\n}\n\n.mermaid-container-fullscreen {\n    position: relative;\n    width: 95vw;\n    height: 90vh;\n    max-width: 95vw;\n    max-height: 90vh;\n    background: white;\n    border-radius: 8px;\n    padding: 20px;\n    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);\n    overflow: auto;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n}\n\n.mermaid-container-fullscreen.dark-theme {\n    background: #1a1a1a;\n    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8);\n}\n\n.mermaid-container-fullscreen pre.mermaid {\n    width: 100%;\n    height: 100%;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n}\n\n.mermaid-container-fullscreen .mermaid svg {\n    height: 100% !important;\n    width: 100% !important;\n    cursor: grab;\n}\n\n.mermaid-fullscreen-close {\n    position: fixed !important;\n    top: 20px !important;\n    right: 20px !important;\n    width: 40px;\n    height: 40px;\n    background: rgba(255, 255, 255, 0.95);\n    border: 1px solid rgba(0, 0, 0, 0.2);\n    border-radius: 50%;\n    cursor: pointer;\n    z-index: 10000;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);\n    transition: all 0.2s;\n    font-size: 24px;\n    line-height: 1;\n    color: #333;\n}\n\n.mermaid-fullscreen-close:hover {\n    background: white;\n    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);\n    transform: scale(1.1);\n}\n\n.mermaid-fullscreen-close.dark-theme {\n    background: rgba(50, 50, 50, 0.95);\n    border: 1px solid rgba(255, 255, 255, 0.2);\n    color: #e0e0e0;\n}\n\n.mermaid-fullscreen-close.dark-theme:hover {\n    background: rgba(60, 60, 60, 1);\n    box-shadow: 0 6px 16px rgba(255, 255, 255, 0.2);\n}\n\n.mermaid-fullscreen-modal .mermaid-fullscreen-btn {\n    display: none !important;\n}";
+    document.head.appendChild(fullscreenStyle);
+}
+
+// Detect if page has dark background
+const isDarkTheme = () => {
+    // We use a set of heuristics:
+    // 1. Check for common dark mode classes or attributes
+    // 2. Check computed background color brightness
+    if (document.documentElement.classList.contains('dark') ||
+        document.documentElement.getAttribute('data-theme') === 'dark' ||
+        document.body.classList.contains('dark') ||
+        document.body.getAttribute('data-theme') === 'dark') {
+        // console.log("Dark theme detected via class/attribute");
+        return true;
+    }
+    if (document.documentElement.classList.contains('light') ||
+        document.documentElement.getAttribute('data-theme') === 'light' ||
+        document.body.classList.contains('light') ||
+        document.body.getAttribute('data-theme') === 'light') {
+        // console.log("Light theme detected via class/attribute");
+        return false;
+    }
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        // console.log("Dark theme detected via prefers-color-scheme");
+        return true;
+    }
+    const bgColor = window.getComputedStyle(document.body).backgroundColor;
+    const match = bgColor.match(/rgb\((\d+),\s*(\d+),\s*(\d+)/);
+    if (match) {
+        const r = parseInt(match[1]);
+        const g = parseInt(match[2]);
+        const b = parseInt(match[3]);
+        const brightness = (r * 299 + g * 587 + b * 114) / 1000;
+        // console.log("Background color brightness:", brightness);
+        return brightness < 128;
+    }
+    // console.log("No dark or light theme detected, defaulting to light theme");
+    return false;
+};
+
+let darkTheme = isDarkTheme();
+let modal = null;
+let modalContent = null;
+let previousScrollOffset = [window.scrollX, window.scrollY];
+let _lazyObserver = null;
+let _renderQueue = Promise.resolve();
+let closeModal = () => {};
+
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && modal?.classList.contains('active')) {
+        closeModal();
+    }
+});
+
+// Apply d3 zoom to each SVG. Idempotent: an SVG already wrapped is skipped,
+// so this is safe to call both for the initial batch and for diagrams that
+// render lazily once they become visible.
+const addZoomToSvgs = (svgs) => {
+    svgs.each(function() {
+        if (this.getAttribute('data-zoom-applied') === 'true') return;
+        var svg = d3.select(this);
+        svg.html("<g class='wrapper'>" + svg.html() + "</g>");
+        var inner = svg.select("g");
+        var zoom = d3.zoom().on("zoom", function(event) {
+            inner.attr("transform", event.transform);
+        });
+        svg.call(zoom);
+        this.setAttribute('data-zoom-applied', 'true');
+    });
+};
+
+const runMermaid = async (rerun) => {
+    console.log("Running mermaid diagrams, rerun =", rerun);
+    // clear all existing mermaid charts
+    let all_mermaids = document.querySelectorAll(".mermaid");
+
+    if (rerun) {
+        // Disconnect any previous lazy rendering observer
+        if (_lazyObserver) {
+            _lazyObserver.disconnect();
+            _lazyObserver = null;
+        }
+
+        all_mermaids.forEach((el) => {
+            el.removeAttribute('data-mermaid-deferred');
+            el.removeAttribute('data-mermaid-render-failed');
+            if(!el.hasAttribute("data-original-code")) {
+                // store original code
+                // console.log(`Storing original code for first run: `, el.innerHTML);
+                el.setAttribute('data-original-code', el.innerHTML);
+            }
+            if(el.getAttribute("data-processed") === "true") {
+                // remove and restore original
+                el.removeAttribute("data-processed");
+                // console.log(`Restoring original code for re-run: `, el.getAttribute('data-original-code'));
+                el.innerHTML = el.getAttribute('data-original-code');
+            } else {
+                // store original code
+                // console.log(`Storing original code for re-run: `, el.innerHTML);
+                el.setAttribute('data-original-code', el.innerHTML);
+            }
+        });
+
+        // Separate visible and hidden elements. Mermaid's layout engine measures
+        // text dimensions via the DOM, which fails for elements hidden by a parent
+        // (e.g., Reveal.js non-active slides, sphinx-design unopened tabs),
+        // producing broken SVGs. Render visible elements now, defer hidden ones.
+        const visible = [];
+        const hidden = [];
+        all_mermaids.forEach((el) => {
+            // offsetParent is null for display:none ancestors.
+            // getClientRects().length > 0 catches position:fixed elements
+            // (which also have null offsetParent but are still visible).
+            if (el.offsetParent !== null || el.getClientRects().length > 0) {
+                visible.push(el);
+            } else {
+                hidden.push(el);
+                el.setAttribute('data-mermaid-deferred', 'true');
+            }
+        });
+
+        if (visible.length > 0) {
+            try {
+                await mermaid.run({ nodes: visible });
+            } catch (e) {
+                console.error("Mermaid rendering failed:", e);
+            }
+        }
+
+        // Lazily render hidden elements when they become visible.
+        // Uses a promise chain (_renderQueue) to serialize rendering,
+        // since IntersectionObserver may report multiple entries at once
+        // and mermaid.run() is not safe to call concurrently.
+        if (hidden.length > 0) {
+            if (typeof IntersectionObserver === 'undefined') {
+                console.warn("IntersectionObserver not available; hidden mermaid diagrams will not render.");
+            } else {
+                _renderQueue = Promise.resolve();
+                _lazyObserver = new IntersectionObserver((entries) => {
+                    for (const entry of entries) {
+                        if (entry.isIntersecting && entry.target.getAttribute("data-processed") !== "true") {
+                            _lazyObserver.unobserve(entry.target);
+                            const el = entry.target;
+                            _renderQueue = _renderQueue.then(async () => {
+                                try {
+                                    await mermaid.run({ nodes: [el] });
+                                    el.removeAttribute('data-mermaid-deferred');
+                                    // Apply zoom to the now-rendered diagram, matching
+                                    // the decoration visible diagrams receive.
+                                    if (false) {
+                                        addZoomToSvgs(d3.selectAll("").select(function() {
+                                            return this.querySelector("svg");
+                                        }));
+                                    }
+                                } catch (e) {
+                                    console.error("Mermaid deferred rendering failed:", e);
+                                    el.removeAttribute('data-mermaid-deferred');
+                                    el.setAttribute('data-mermaid-render-failed', 'true');
+                                }
+                            });
+                        }
+                    }
+                });
+                hidden.forEach((el) => _lazyObserver.observe(el));
+            }
+        }
+    }
+
+    all_mermaids = document.querySelectorAll(".mermaid");
+    // Exclude deferred (hidden) and render-failed elements from completion checks
+    const mermaids_active = document.querySelectorAll(".mermaid:not([data-mermaid-deferred]):not([data-mermaid-render-failed])");
+    const mermaids_processed = document.querySelectorAll(".mermaid:not([data-mermaid-deferred]):not([data-mermaid-render-failed])[data-processed='true']");
+
+    if (false) {
+        const mermaids_to_add_zoom = 0 === -1 ? mermaids_active.length : 0;
+        if(mermaids_to_add_zoom > 0) {
+            var svgs = d3.selectAll("").select(function() {
+                return this.querySelector("svg");
+            });
+            // Wait until every active (visible) diagram has rendered. Deferred
+            // diagrams are excluded, so a fixed d3_node_count that counts a
+            // hidden diagram no longer loops forever waiting for its SVG.
+            if(mermaids_active.length !== mermaids_processed.length) {
+                setTimeout(() => runMermaid(false), 200);
+                return;
+            }
+            addZoomToSvgs(svgs);
+        }
+    } else if(mermaids_active.length !== mermaids_processed.length) {
+        // Wait for mermaid to process all diagrams
+        setTimeout(() => runMermaid(false), 200);
+        return;
+    }
+
+    // Stop here if not adding fullscreen capability
+    if (!true) return;
+
+    if (modal !== null ) {
+        // Destroy existing modal
+        modal.remove();
+        modal = null;
+        modalContent = null;
+    }
+
+    modal = document.createElement('div');
+    modal.className = 'mermaid-fullscreen-modal' + (darkTheme ? ' dark-theme' : '');
+    modal.setAttribute('role', 'dialog');
+    modal.setAttribute('aria-modal', 'true');
+    modal.setAttribute('aria-label', 'Fullscreen diagram viewer');
+    modal.innerHTML = `
+        <button class="mermaid-fullscreen-close${darkTheme ? ' dark-theme' : ''}" aria-label="Close fullscreen">✕</button>
+        <div class="mermaid-container-fullscreen${darkTheme ? ' dark-theme' : ''}"></div>
+    `;
+    document.body.appendChild(modal);
+
+    modalContent = modal.querySelector('.mermaid-container-fullscreen');
+    const closeBtn = modal.querySelector('.mermaid-fullscreen-close');
+
+    closeModal = () => {
+        modal.classList.remove('active');
+        modalContent.innerHTML = '';
+        document.body.style.overflow = ''
+        window.scrollTo({left: previousScrollOffset[0], top: previousScrollOffset[1], behavior: 'instant'});
+    };
+
+    closeBtn.addEventListener('click', closeModal);
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) closeModal();
+    });
+    document.querySelectorAll('.mermaid').forEach((mermaidDiv) => {
+        if (mermaidDiv.parentNode.classList.contains('mermaid-container') ||
+            mermaidDiv.closest('.mermaid-fullscreen-modal')) {
+            // Already processed, adjust button class if needed
+            const existingBtn = mermaidDiv.parentNode.querySelector('.mermaid-fullscreen-btn');
+            if (existingBtn) {
+                existingBtn.className = 'mermaid-fullscreen-btn' + (darkTheme ? ' dark-theme' : '');
+            }
+            return;
+        }
+
+        const container = document.createElement('div');
+        container.className = 'mermaid-container';
+        mermaidDiv.parentNode.insertBefore(container, mermaidDiv);
+        container.appendChild(mermaidDiv);
+
+        const fullscreenBtn = document.createElement('button');
+        fullscreenBtn.className = 'mermaid-fullscreen-btn' + (darkTheme ? ' dark-theme' : '');
+        fullscreenBtn.setAttribute('aria-label', 'View diagram in fullscreen');
+        fullscreenBtn.textContent = "\u26f6";
+        fullscreenBtn.style.opacity = "50%";
+
+        // Calculate dynamic position based on diagram's margin and padding
+        const diagramStyle = window.getComputedStyle(mermaidDiv);
+        const marginTop = parseFloat(diagramStyle.marginTop) || 0;
+        const marginRight = parseFloat(diagramStyle.marginRight) || 0;
+        const paddingTop = parseFloat(diagramStyle.paddingTop) || 0;
+        const paddingRight = parseFloat(diagramStyle.paddingRight) || 0;
+        fullscreenBtn.style.top = `${marginTop + paddingTop + 4}px`;
+        fullscreenBtn.style.right = `${marginRight + paddingRight + 4}px`;
+
+        fullscreenBtn.addEventListener('click', () => {
+            previousScrollOffset = [window.scrollX, window.scrollY];
+            const clone = mermaidDiv.cloneNode(true);
+            modalContent.innerHTML = '';
+            modalContent.appendChild(clone);
+
+            const svg = clone.querySelector('svg');
+            if (svg) {
+                svg.removeAttribute('width');
+                svg.removeAttribute('height');
+                svg.style.width = '100%';
+                svg.style.height = 'auto';
+                svg.style.maxWidth = '100%';
+                svg.style.display = 'block';
+
+                if (false) {
+                    setTimeout(() => {
+                        const g = svg.querySelector('g');
+                        if (g) {
+                            var svgD3 = d3.select(svg);
+                            svgD3.html("<g class='wrapper'>" + svgD3.html() + "</g>");
+                            var inner = svgD3.select("g");
+                            var zoom = d3.zoom().on("zoom", function(event) {
+                                inner.attr("transform", event.transform);
+                            });
+                            svgD3.call(zoom);
+                        }
+                    }, 100);
+                }
+            }
+
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        });
+        container.appendChild(fullscreenBtn);
+    });
+};
+
+
+
+const load = async () => {
+    initStyles();
+
+
+    await runMermaid(true);
+
+    const reRunIfThemeChanges = async () => {
+        const newDarkTheme = isDarkTheme();
+        if (newDarkTheme !== darkTheme) {
+            darkTheme = newDarkTheme;
+            console.log("Theme change detected, re-running mermaid with", darkTheme ? "dark" : "default", "theme");
+            await mermaid.initialize(
+                {...{"startOnLoad": false},
+                ...{ darkMode: darkTheme, theme: darkTheme ? "dark" : "default" },
+                }
+            );
+            await runMermaid(true);
+        }
+    };
+
+    // Update theme classes when theme changes
+    const themeObserver = new MutationObserver(reRunIfThemeChanges);
+    themeObserver.observe(document.documentElement, {
+        attributes: true,
+        attributeFilter: ['class', 'style', 'data-theme']
+    });
+    themeObserver.observe(document.body, {
+        attributes: true,
+        attributeFilter: ['class', 'style', 'data-theme']
+    });
+};
+
+
+
+
+
+console.log("Initializing mermaid with", darkTheme ? "dark" : "default", "theme");
+mermaid.initialize(
+    {...{"startOnLoad": false},
+    ...{ darkMode: darkTheme, theme: darkTheme ? "dark" : "default" },
+    }
+);
+
+window.addEventListener("load", load);
+window.runMermaid = runMermaid;</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/geoips/sector_utils/utils';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.21.0';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://nrlmmd-geoips.github.io/geoips/versions.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = '1.17';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner =
+            false;
+        </script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <link rel="icon" href="../../../_static/nrlicon.ico"/>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="1.1" />
+    <meta name="docbuild:last-update" content="Aug 31, 2026 13:22:15"/>
+  
+    
+    <script src="../../../_static/searchtools.js"></script>
+    <script src="../../../_static/language_data.js"></script>
+    <script src="../../../searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../../_static/NRL_logo_RGB.jpg" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 1.17.2 documentation - Home"/>
+    <img src="../../../_static/NRL_logo_sidebar_Reverse.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 1.17.2 documentation - Home"/>
+  
+  
+</a></div>
+    
+      <div class="navbar-item">
+<div class="version-switcher__container dropdown pst-js-only">
+  <button id="pst-version-switcher-button-2"
+    type="button"
+    class="version-switcher__button btn btn-sm dropdown-toggle"
+    data-bs-toggle="dropdown"
+    aria-haspopup="listbox"
+    aria-controls="pst-version-switcher-list-2"
+    aria-label="Version switcher list"
+  >
+    Choose version  <!-- this text may get changed later by javascript -->
+    <span class="caret"></span>
+  </button>
+  <div id="pst-version-switcher-list-2"
+    class="version-switcher__menu dropdown-menu list-group-flush py-0"
+    role="listbox" aria-labelledby="pst-version-switcher-button-2">
+    <!-- dropdown will be populated by javascript on page load -->
+  </div>
+</div></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../getting-started/index.html">
+    Getting Started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../tutorials/index.html">
+    Tutorials
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../concepts/index.html">
+    Concepts
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../contribute/index.html">
+    Contribute
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../geoips_api/index.html">
+    API
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../releases/index.html">
+    Release Notes
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../contact/index.html">
+    About Us
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/NRLMMD-GEOIPS/geoips" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i><span class="visually-hidden">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../getting-started/index.html">
+    Getting Started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../tutorials/index.html">
+    Tutorials
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../concepts/index.html">
+    Concepts
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../contribute/index.html">
+    Contribute
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../geoips_api/index.html">
+    API
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../releases/index.html">
+    Release Notes
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../contact/index.html">
+    About Us
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/NRLMMD-GEOIPS/geoips" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i><span class="visually-hidden">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../../index.html" class="nav-link">Module code</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">geoips.sector_utils.utils</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <h1>Source code for geoips.sector_utils.utils</h1><div class="highlight"><pre>
+<span></span><span class="c1"># # # This source code is subject to the license referenced at</span>
+<span class="c1"># # # https://github.com/NRLMMD-GEOIPS.</span>
+
+<span class="sd">"""Utilities for working with dynamic sector specifications."""</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyresample</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_area</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">geoips.sector_utils.tc_tracks</span><span class="w"> </span><span class="kn">import</span> <span class="n">set_tc_area_def</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">geoips.interfaces</span><span class="w"> </span><span class="kn">import</span> <span class="n">sectors</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">geoips.errors</span><span class="w"> </span><span class="kn">import</span> <span class="n">PluginError</span>
+
+<span class="n">LOG</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+<span class="n">SECTOR_INFO_ATTRS</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">"tc"</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s2">"pressure"</span><span class="p">,</span>
+        <span class="s2">"vmax"</span><span class="p">,</span>
+        <span class="s2">"clat"</span><span class="p">,</span>
+        <span class="s2">"clon"</span><span class="p">,</span>
+        <span class="s2">"synoptic_time"</span><span class="p">,</span>
+        <span class="s2">"aid_type"</span><span class="p">,</span>
+        <span class="s2">"storm_num"</span><span class="p">,</span>
+        <span class="s2">"storm_name"</span><span class="p">,</span>
+        <span class="s2">"storm_basin"</span><span class="p">,</span>
+        <span class="s2">"storm_year"</span><span class="p">,</span>
+        <span class="s2">"deck_line"</span><span class="p">,</span>
+        <span class="s2">"source_file"</span><span class="p">,</span>
+        <span class="s2">"final_storm_name"</span><span class="p">,</span>
+    <span class="p">],</span>
+    <span class="s2">"pyrocb"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"min_lat"</span><span class="p">,</span> <span class="s2">"min_lon"</span><span class="p">,</span> <span class="s2">"max_lat"</span><span class="p">,</span> <span class="s2">"max_lon"</span><span class="p">,</span> <span class="s2">"box_resolution_km"</span><span class="p">],</span>
+    <span class="s2">"volcano"</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s2">"summit_elevation"</span><span class="p">,</span>
+        <span class="s2">"plume_height"</span><span class="p">,</span>
+        <span class="s2">"wind_speed"</span><span class="p">,</span>
+        <span class="s2">"wind_dir"</span><span class="p">,</span>
+        <span class="s2">"clat"</span><span class="p">,</span>
+        <span class="s2">"clon"</span><span class="p">,</span>
+    <span class="p">],</span>
+    <span class="s2">"atmosriver"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"min_lat"</span><span class="p">,</span> <span class="s2">"min_lon"</span><span class="p">,</span> <span class="s2">"max_lat"</span><span class="p">,</span> <span class="s2">"max_lon"</span><span class="p">,</span> <span class="s2">"box_resolution_km"</span><span class="p">],</span>
+    <span class="s2">"stitched"</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s2">"continent"</span><span class="p">,</span>
+        <span class="s2">"country"</span><span class="p">,</span>
+        <span class="s2">"area"</span><span class="p">,</span>
+        <span class="s2">"subarea"</span><span class="p">,</span>
+        <span class="s2">"state"</span><span class="p">,</span>
+        <span class="s2">"city"</span><span class="p">,</span>
+        <span class="s2">"primary_area_definition"</span><span class="p">,</span>
+    <span class="p">],</span>
+    <span class="s2">"static"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"continent"</span><span class="p">,</span> <span class="s2">"country"</span><span class="p">,</span> <span class="s2">"area"</span><span class="p">,</span> <span class="s2">"subarea"</span><span class="p">,</span> <span class="s2">"state"</span><span class="p">,</span> <span class="s2">"city"</span><span class="p">],</span>
+<span class="p">}</span>
+
+
+<div class="viewcode-block" id="set_text_area_def">
+<a class="viewcode-back" href="../../../geoips_api/geoips.sector_utils.html#geoips.sector_utils.utils.set_text_area_def">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">set_text_area_def</span><span class="p">(</span><span class="n">xarray_obj</span><span class="p">,</span> <span class="n">area_def</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Set the area definition for text files.</span>
+
+<span class="sd">    This uses raw sectored data, not interpolated.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    xarray_obj : xarray.Dataset</span>
+<span class="sd">        xarray dataset</span>
+<span class="sd">    area_def : pyresample.AreaDefinition</span>
+<span class="sd">        original area definition</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    pyresample.AreaDefinition</span>
+<span class="sd">        pyresample AreaDefinition pertaining to the region for generating text file</span>
+<span class="sd">    """</span>
+    <span class="n">text_area_def</span> <span class="o">=</span> <span class="n">area_def</span>
+    <span class="n">num_lines</span> <span class="o">=</span> <span class="n">xarray_obj</span><span class="o">.</span><span class="n">wind_speed_kts</span><span class="o">.</span><span class="n">where</span><span class="p">(</span>
+        <span class="n">xarray_obj</span><span class="o">.</span><span class="n">wind_speed_kts</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">,</span> <span class="n">drop</span><span class="o">=</span><span class="kc">True</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">num_samples</span> <span class="o">=</span> <span class="n">xarray_obj</span><span class="o">.</span><span class="n">wind_speed_kts</span><span class="o">.</span><span class="n">where</span><span class="p">(</span>
+        <span class="n">xarray_obj</span><span class="o">.</span><span class="n">wind_speed_kts</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">,</span> <span class="n">drop</span><span class="o">=</span><span class="kc">True</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="c1"># Uses default pixel width/height</span>
+    <span class="n">text_area_def</span> <span class="o">=</span> <span class="n">set_tc_area_def</span><span class="p">(</span>
+        <span class="n">area_def</span><span class="o">.</span><span class="n">sector_info</span><span class="p">,</span>
+        <span class="n">num_lines</span><span class="o">=</span><span class="n">num_lines</span><span class="p">,</span>
+        <span class="n">num_samples</span><span class="o">=</span><span class="n">num_samples</span><span class="p">,</span>
+        <span class="n">pixel_width</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">pixel_height</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">text_area_def</span><span class="o">.</span><span class="n">pixel_size_x</span> <span class="o">=</span> <span class="s2">"native"</span>
+    <span class="n">text_area_def</span><span class="o">.</span><span class="n">pixel_size_y</span> <span class="o">=</span> <span class="s2">"native"</span>
+
+    <span class="k">return</span> <span class="n">text_area_def</span></div>
+
+
+
+<div class="viewcode-block" id="check_center_coverage">
+<a class="viewcode-back" href="../../../geoips_api/geoips.sector_utils.html#geoips.sector_utils.utils.check_center_coverage">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">check_center_coverage</span><span class="p">(</span>
+    <span class="n">xarray_obj</span><span class="p">,</span>
+    <span class="n">area_def</span><span class="p">,</span>
+    <span class="n">varlist</span><span class="p">,</span>
+    <span class="n">covg_varname</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">covg_varlist</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">width_degrees</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span>
+    <span class="n">height_degrees</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span>
+    <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">hours_before_sector_time</span><span class="o">=</span><span class="mi">18</span><span class="p">,</span>
+    <span class="n">hours_after_sector_time</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Check if there is any data covering the center of the sector.</span>
+
+<span class="sd">    Do not provide any longitude padding for coverage check sectoring -</span>
+<span class="sd">    we want to see if there is any data within the exact center box,</span>
+<span class="sd">    not within +- 3 degrees of the center box.</span>
+<span class="sd">    """</span>
+    <span class="n">covg_area_def</span> <span class="o">=</span> <span class="n">set_tc_coverage_check_area_def</span><span class="p">(</span>
+        <span class="n">area_def</span><span class="p">,</span> <span class="n">width_degrees</span><span class="o">=</span><span class="n">width_degrees</span><span class="p">,</span> <span class="n">height_degrees</span><span class="o">=</span><span class="n">height_degrees</span>
+    <span class="p">)</span>
+
+    <span class="kn">from</span><span class="w"> </span><span class="nn">geoips.xarray_utils.data</span><span class="w"> </span><span class="kn">import</span> <span class="n">sector_xarray_dataset</span>
+
+    <span class="n">covg_xarray</span> <span class="o">=</span> <span class="n">sector_xarray_dataset</span><span class="p">(</span>
+        <span class="n">xarray_obj</span><span class="p">,</span>
+        <span class="n">covg_area_def</span><span class="p">,</span>
+        <span class="n">varlist</span><span class="p">,</span>
+        <span class="n">lon_pad</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+        <span class="n">verbose</span><span class="o">=</span><span class="n">verbose</span><span class="p">,</span>
+        <span class="n">hours_before_sector_time</span><span class="o">=</span><span class="n">hours_before_sector_time</span><span class="p">,</span>
+        <span class="n">hours_after_sector_time</span><span class="o">=</span><span class="n">hours_after_sector_time</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="kn">from</span><span class="w"> </span><span class="nn">geoips.data_manipulations.info</span><span class="w"> </span><span class="kn">import</span> <span class="n">percent_unmasked</span>
+
+    <span class="c1"># If no covg_xarray returned, return False</span>
+    <span class="k">if</span> <span class="n">covg_xarray</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span><span class="p">,</span> <span class="n">covg_xarray</span>
+
+    <span class="c1"># If we passed in a list of coverage variables, loop through each one - if</span>
+    <span class="c1"># any are &gt; 0, return True</span>
+    <span class="k">if</span> <span class="n">covg_varlist</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">curr_covg_varname</span> <span class="ow">in</span> <span class="n">covg_varlist</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">percent_unmasked</span><span class="p">(</span><span class="n">covg_xarray</span><span class="p">[</span><span class="n">curr_covg_varname</span><span class="p">]</span><span class="o">.</span><span class="n">to_masked_array</span><span class="p">())</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">True</span><span class="p">,</span> <span class="n">covg_xarray</span>
+
+    <span class="c1"># If we only want a single coverage variable, return False if that variable is 0</span>
+    <span class="k">if</span> <span class="n">covg_varname</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">percent_unmasked</span><span class="p">(</span><span class="n">covg_xarray</span><span class="p">[</span><span class="n">covg_varname</span><span class="p">]</span><span class="o">.</span><span class="n">to_masked_array</span><span class="p">())</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span><span class="p">,</span> <span class="n">covg_xarray</span>
+
+    <span class="c1"># Otherwise, return True</span>
+    <span class="k">return</span> <span class="kc">True</span><span class="p">,</span> <span class="n">covg_xarray</span></div>
+
+
+
+<div class="viewcode-block" id="copy_sector_info">
+<a class="viewcode-back" href="../../../geoips_api/geoips.sector_utils.html#geoips.sector_utils.utils.copy_sector_info">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">copy_sector_info</span><span class="p">(</span><span class="n">src_area_def</span><span class="p">,</span> <span class="n">dest_area_def</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Copy sector info from src_area_def to dest_area_def."""</span>
+    <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">src_area_def</span><span class="p">,</span> <span class="s2">"sector_info"</span><span class="p">):</span>
+        <span class="n">dest_area_def</span><span class="o">.</span><span class="n">sector_info</span> <span class="o">=</span> <span class="n">src_area_def</span><span class="o">.</span><span class="n">sector_info</span>
+    <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">src_area_def</span><span class="p">,</span> <span class="s2">"sector_type"</span><span class="p">):</span>
+        <span class="n">dest_area_def</span><span class="o">.</span><span class="n">sector_type</span> <span class="o">=</span> <span class="n">src_area_def</span><span class="o">.</span><span class="n">sector_type</span>
+    <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">src_area_def</span><span class="p">,</span> <span class="s2">"sector_start_datetime"</span><span class="p">):</span>
+        <span class="n">dest_area_def</span><span class="o">.</span><span class="n">sector_start_datetime</span> <span class="o">=</span> <span class="n">src_area_def</span><span class="o">.</span><span class="n">sector_start_datetime</span>
+    <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">src_area_def</span><span class="p">,</span> <span class="s2">"sector_end_datetime"</span><span class="p">):</span>
+        <span class="n">dest_area_def</span><span class="o">.</span><span class="n">sector_end_datetime</span> <span class="o">=</span> <span class="n">src_area_def</span><span class="o">.</span><span class="n">sector_end_datetime</span>
+    <span class="k">return</span> <span class="n">dest_area_def</span></div>
+
+
+
+<div class="viewcode-block" id="set_tc_coverage_check_area_def">
+<a class="viewcode-back" href="../../../geoips_api/geoips.sector_utils.html#geoips.sector_utils.utils.set_tc_coverage_check_area_def">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">set_tc_coverage_check_area_def</span><span class="p">(</span><span class="n">area_def</span><span class="p">,</span> <span class="n">width_degrees</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">height_degrees</span><span class="o">=</span><span class="mi">8</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Set the area definition for checking coverage for TC overpasses.</span>
+
+<span class="sd">    Take a small box around the center of the storm to evaluate coverage,</span>
+<span class="sd">    rather than the entire image.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    area_def : pyresample.AreaDefinition</span>
+<span class="sd">        original area definition</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    pyresample.AreaDefinition</span>
+<span class="sd">        pyresample AreaDefinition pertaining to the region for plotting</span>
+<span class="sd">    """</span>
+    <span class="n">covg_area_def</span> <span class="o">=</span> <span class="n">area_def</span>
+    <span class="n">DEG_TO_KM</span> <span class="o">=</span> <span class="mf">111.321</span>
+    <span class="c1"># Take a 8deg x 8deg box centered over the storm location for</span>
+    <span class="c1"># coverage check, 1km pixels</span>
+    <span class="n">width_km</span> <span class="o">=</span> <span class="n">DEG_TO_KM</span> <span class="o">*</span> <span class="n">width_degrees</span>
+    <span class="n">height_km</span> <span class="o">=</span> <span class="n">DEG_TO_KM</span> <span class="o">*</span> <span class="n">height_degrees</span>
+    <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"  Changing area definition for checking TC coverage"</span><span class="p">)</span>
+
+    <span class="kn">from</span><span class="w"> </span><span class="nn">geoips.plugins.modules.sector_spec_generators</span><span class="w"> </span><span class="kn">import</span> <span class="n">center_coordinates</span>
+
+    <span class="n">covg_area_def</span> <span class="o">=</span> <span class="n">center_coordinates</span><span class="o">.</span><span class="n">call</span><span class="p">(</span>
+        <span class="n">area_id</span><span class="o">=</span><span class="n">area_def</span><span class="o">.</span><span class="n">area_id</span><span class="p">,</span>
+        <span class="n">long_description</span><span class="o">=</span><span class="n">area_def</span><span class="o">.</span><span class="n">description</span><span class="p">,</span>
+        <span class="n">clat</span><span class="o">=</span><span class="n">area_def</span><span class="o">.</span><span class="n">sector_info</span><span class="p">[</span><span class="s2">"clat"</span><span class="p">],</span>
+        <span class="n">clon</span><span class="o">=</span><span class="n">area_def</span><span class="o">.</span><span class="n">sector_info</span><span class="p">[</span><span class="s2">"clon"</span><span class="p">],</span>
+        <span class="n">projection</span><span class="o">=</span><span class="s2">"eqc"</span><span class="p">,</span>
+        <span class="n">num_lines</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">height_km</span><span class="p">),</span>
+        <span class="n">num_samples</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">width_km</span><span class="p">),</span>
+        <span class="n">pixel_width</span><span class="o">=</span><span class="mf">1000.0</span><span class="p">,</span>
+        <span class="n">pixel_height</span><span class="o">=</span><span class="mf">1000.0</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">covg_area_def</span> <span class="o">=</span> <span class="n">copy_sector_info</span><span class="p">(</span><span class="n">area_def</span><span class="p">,</span> <span class="n">covg_area_def</span><span class="p">)</span>
+
+    <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"  Coverage area definition: </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="n">covg_area_def</span><span class="o">.</span><span class="n">description</span><span class="p">)</span>
+    <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+        <span class="s2">"  Coverage sector info: clat: </span><span class="si">%s</span><span class="s2"> clon: </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span>
+        <span class="n">covg_area_def</span><span class="o">.</span><span class="n">sector_info</span><span class="p">[</span><span class="s2">"clat"</span><span class="p">],</span>
+        <span class="n">covg_area_def</span><span class="o">.</span><span class="n">sector_info</span><span class="p">[</span><span class="s2">"clon"</span><span class="p">],</span>
+    <span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">covg_area_def</span></div>
+
+
+
+<div class="viewcode-block" id="get_max_lat">
+<a class="viewcode-back" href="../../../geoips_api/geoips.sector_utils.html#geoips.sector_utils.utils.get_max_lat">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_max_lat</span><span class="p">(</span><span class="n">lats</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Get maximum latitude from array of latitudes.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    lats : numpy.ndarray</span>
+<span class="sd">        numpy MaskedArray of latitudes</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    float</span>
+<span class="sd">        Maximum latitude, between -90 and 90</span>
+<span class="sd">    """</span>
+    <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">lats</span><span class="o">.</span><span class="n">max</span><span class="p">())</span></div>
+
+
+
+<div class="viewcode-block" id="get_min_lat">
+<a class="viewcode-back" href="../../../geoips_api/geoips.sector_utils.html#geoips.sector_utils.utils.get_min_lat">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_min_lat</span><span class="p">(</span><span class="n">lats</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Get minimum latitude from array of latitudes.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    lats : numpy.ndarray</span>
+<span class="sd">        numpy MaskedArray of latitudes</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    float</span>
+<span class="sd">        Minimum latitude, between -90 and 90</span>
+<span class="sd">    """</span>
+    <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">lats</span><span class="o">.</span><span class="n">min</span><span class="p">())</span></div>
+
+
+
+<div class="viewcode-block" id="get_min_lon">
+<a class="viewcode-back" href="../../../geoips_api/geoips.sector_utils.html#geoips.sector_utils.utils.get_min_lon">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_min_lon</span><span class="p">(</span><span class="n">lons</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Get minimum longitude from array of longitudes, handling date line.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    lons : numpy.ndarray</span>
+<span class="sd">        numpy MaskedArray of longitudes</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    float</span>
+<span class="sd">        Minimum longitude, between -180 and 180</span>
+<span class="sd">    """</span>
+    <span class="k">if</span> <span class="n">lons</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mf">179.5</span> <span class="ow">and</span> <span class="n">lons</span><span class="o">.</span><span class="n">min</span><span class="p">()</span> <span class="o">&lt;</span> <span class="o">-</span><span class="mf">179.5</span><span class="p">:</span>
+        <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span>
+
+        <span class="n">lons</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">lons</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">,</span> <span class="n">lons</span> <span class="o">+</span> <span class="mi">360</span><span class="p">,</span> <span class="n">lons</span><span class="p">)</span>
+    <span class="n">minlon</span> <span class="o">=</span> <span class="n">lons</span><span class="o">.</span><span class="n">min</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">minlon</span> <span class="o">&gt;</span> <span class="mi">180</span><span class="p">:</span>
+        <span class="n">minlon</span> <span class="o">-=</span> <span class="mi">360</span>
+    <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">minlon</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="get_max_lon">
+<a class="viewcode-back" href="../../../geoips_api/geoips.sector_utils.html#geoips.sector_utils.utils.get_max_lon">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_max_lon</span><span class="p">(</span><span class="n">lons</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Get maximum longitude from array of longitudes, handling date line.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    lons : numpy.ndarray</span>
+<span class="sd">        numpy MaskedArray of longitudes</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    float</span>
+<span class="sd">        Maximum longitude, between -180 and 180</span>
+<span class="sd">    """</span>
+    <span class="k">if</span> <span class="n">lons</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mf">179.5</span> <span class="ow">and</span> <span class="n">lons</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">&lt;</span> <span class="o">-</span><span class="mf">179.5</span><span class="p">:</span>
+        <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span>
+
+        <span class="n">lons</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">lons</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">,</span> <span class="n">lons</span> <span class="o">+</span> <span class="mi">360</span><span class="p">,</span> <span class="n">lons</span><span class="p">)</span>
+    <span class="n">maxlon</span> <span class="o">=</span> <span class="n">lons</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">maxlon</span> <span class="o">&gt;</span> <span class="mi">180</span><span class="p">:</span>
+        <span class="n">maxlon</span> <span class="o">-=</span> <span class="mi">360</span>
+    <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">maxlon</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="get_lat_center">
+<a class="viewcode-back" href="../../../geoips_api/geoips.sector_utils.html#geoips.sector_utils.utils.get_lat_center">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_lat_center</span><span class="p">(</span><span class="n">lats</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Return the center longitude point from lats array."""</span>
+    <span class="n">center_lat</span> <span class="o">=</span> <span class="n">lats</span><span class="o">.</span><span class="n">min</span><span class="p">()</span> <span class="o">+</span> <span class="p">(</span><span class="n">lats</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">-</span> <span class="n">lats</span><span class="o">.</span><span class="n">min</span><span class="p">())</span> <span class="o">/</span> <span class="mf">2.0</span>
+    <span class="k">return</span> <span class="n">center_lat</span></div>
+
+
+
+<div class="viewcode-block" id="get_lon_center">
+<a class="viewcode-back" href="../../../geoips_api/geoips.sector_utils.html#geoips.sector_utils.utils.get_lon_center">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_lon_center</span><span class="p">(</span><span class="n">lons</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Return the center longitude point from lons array."""</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span>
+
+    <span class="k">if</span> <span class="n">lons</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mf">179.5</span> <span class="ow">and</span> <span class="n">lons</span><span class="o">.</span><span class="n">min</span><span class="p">()</span> <span class="o">&lt;</span> <span class="o">-</span><span class="mf">179.5</span><span class="p">:</span>
+        <span class="n">lons</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">lons</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">,</span> <span class="n">lons</span> <span class="o">+</span> <span class="mi">360</span><span class="p">,</span> <span class="n">lons</span><span class="p">)</span>
+
+    <span class="n">center_lon</span> <span class="o">=</span> <span class="n">lons</span><span class="o">.</span><span class="n">min</span><span class="p">()</span> <span class="o">+</span> <span class="p">(</span><span class="n">lons</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">-</span> <span class="n">lons</span><span class="o">.</span><span class="n">min</span><span class="p">())</span> <span class="o">/</span> <span class="mf">2.0</span>
+
+    <span class="k">if</span> <span class="n">center_lon</span> <span class="o">&gt;</span> <span class="mi">180</span><span class="p">:</span>
+        <span class="n">center_lon</span> <span class="o">-=</span> <span class="mi">360</span>
+
+    <span class="k">return</span> <span class="n">center_lon</span></div>
+
+
+
+<div class="viewcode-block" id="get_trackfile_area_defs">
+<a class="viewcode-back" href="../../../geoips_api/geoips.sector_utils.html#geoips.sector_utils.utils.get_trackfile_area_defs">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_trackfile_area_defs</span><span class="p">(</span>
+    <span class="n">trackfiles</span><span class="p">,</span>
+    <span class="n">trackfile_parser</span><span class="p">,</span>
+    <span class="n">trackfile_sectorlist</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">tc_spec_template</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">aid_type</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">start_datetime</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">end_datetime</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Get all TC area definitions for the current xarray object, and requested sectors.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    trackfiles : list</span>
+<span class="sd">        List of trackfiles to convert into area_defs</span>
+<span class="sd">    trackfile_parser : str</span>
+<span class="sd">        Parser to use from plugins.modules.sector_metadata_generators on trackfiles</span>
+<span class="sd">    trackfile_sectorlist list of str, default=None</span>
+<span class="sd">        * list of sector names to process, of format: tc2020io01amphan.</span>
+<span class="sd">        * If None, or 'all' contained in list, process all matching TC sectors.</span>
+<span class="sd">    aid_type : str, default=None</span>
+<span class="sd">        If specified, string to look for in "aid_type" TC deck file field for</span>
+<span class="sd">        inclusion</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    list of pyresample.AreaDefinition</span>
+<span class="sd">        List of pyresample AreaDefinition objects</span>
+<span class="sd">    """</span>
+    <span class="n">area_defs</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">final_area_defs</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">geoips.sector_utils.tc_tracks</span><span class="w"> </span><span class="kn">import</span> <span class="n">trackfile_to_area_defs</span>
+
+    <span class="k">for</span> <span class="n">trackfile</span> <span class="ow">in</span> <span class="n">trackfiles</span><span class="p">:</span>
+        <span class="n">adef</span><span class="p">,</span> <span class="n">allowed_aid_types</span> <span class="o">=</span> <span class="n">trackfile_to_area_defs</span><span class="p">(</span>
+            <span class="n">trackfile</span><span class="p">,</span>
+            <span class="n">trackfile_parser</span><span class="o">=</span><span class="n">trackfile_parser</span><span class="p">,</span>
+            <span class="n">tc_spec_template</span><span class="o">=</span><span class="n">tc_spec_template</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">area_defs</span> <span class="o">+=</span> <span class="n">adef</span>
+    <span class="k">if</span> <span class="n">trackfile_sectorlist</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="s2">"all"</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">trackfile_sectorlist</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">area_def</span> <span class="ow">in</span> <span class="n">area_defs</span><span class="p">:</span>
+            <span class="k">if</span> <span class="s2">"storm_id"</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">area_def</span><span class="o">.</span><span class="n">sector_info</span><span class="p">:</span>
+                <span class="n">LOG</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">"FAILED storm_id not defined in sector_info"</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="s2">"FAILED storm_id not defined in sector_info. Ensure storm_id "</span>
+                    <span class="s2">"defined in trackfile parser."</span>
+                <span class="p">)</span>
+            <span class="k">elif</span> <span class="n">area_def</span><span class="o">.</span><span class="n">sector_info</span><span class="p">[</span><span class="s2">"storm_id"</span><span class="p">]</span> <span class="ow">in</span> <span class="n">trackfile_sectorlist</span><span class="p">:</span>
+                <span class="n">final_area_defs</span> <span class="o">+=</span> <span class="p">[</span><span class="n">area_def</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+                    <span class="s2">"area_def storm_id </span><span class="si">%s</span><span class="s2"> area_id </span><span class="si">%s</span><span class="s2"> not in trackfile_sectorlist </span><span class="si">%s</span><span class="s2">, "</span>
+                    <span class="s2">"not including"</span><span class="p">,</span>
+                    <span class="n">area_def</span><span class="o">.</span><span class="n">sector_info</span><span class="p">[</span><span class="s2">"storm_id"</span><span class="p">],</span>
+                    <span class="n">area_def</span><span class="o">.</span><span class="n">area_id</span><span class="p">,</span>
+                    <span class="nb">str</span><span class="p">(</span><span class="n">trackfile_sectorlist</span><span class="p">),</span>
+                <span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">final_area_defs</span> <span class="o">=</span> <span class="n">area_defs</span>
+
+    <span class="n">ret_area_defs</span> <span class="o">=</span> <span class="n">final_area_defs</span>
+    <span class="k">if</span> <span class="n">start_datetime</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">end_datetime</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">ret_area_defs</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">area_def</span> <span class="ow">in</span> <span class="n">final_area_defs</span><span class="p">:</span>
+            <span class="k">if</span> <span class="p">(</span>
+                <span class="n">area_def</span><span class="o">.</span><span class="n">sector_start_datetime</span> <span class="o">&gt;</span> <span class="n">start_datetime</span>
+                <span class="ow">and</span> <span class="n">area_def</span><span class="o">.</span><span class="n">sector_start_datetime</span> <span class="o">&lt;</span> <span class="n">end_datetime</span>
+            <span class="p">):</span>
+                <span class="n">ret_area_defs</span> <span class="o">+=</span> <span class="p">[</span><span class="n">area_def</span><span class="p">]</span>
+
+    <span class="c1"># Make sure there are no duplicates</span>
+    <span class="n">ret_area_defs</span> <span class="o">=</span> <span class="n">remove_duplicate_storm_positions_and_unsupported_aid_types</span><span class="p">(</span>
+        <span class="n">ret_area_defs</span><span class="p">,</span> <span class="n">allowed_aid_types</span>
+    <span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">ret_area_defs</span></div>
+
+
+
+<div class="viewcode-block" id="get_static_area_defs_for_xarray">
+<a class="viewcode-back" href="../../../geoips_api/geoips.sector_utils.html#geoips.sector_utils.utils.get_static_area_defs_for_xarray">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_static_area_defs_for_xarray</span><span class="p">(</span><span class="n">xarray_obj</span><span class="p">,</span> <span class="n">sectorlist</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Get all STATIC area definitions for the current xarray object.</span>
+
+<span class="sd">    Filter based on requested sectors.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    xarray_obj : xarray.Dataset</span>
+<span class="sd">        xarray Dataset to which we are assigning area_defs</span>
+<span class="sd">    sectorlist : list of str</span>
+<span class="sd">        list of sector names</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    list of pyresample.AreaDefinition</span>
+<span class="sd">        List of pyresample AreaDefinition objects</span>
+<span class="sd">    """</span>
+    <span class="n">area_defs</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">if</span> <span class="p">(</span>
+        <span class="n">xarray_obj</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+        <span class="ow">and</span> <span class="s2">"area_definition"</span> <span class="ow">in</span> <span class="n">xarray_obj</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+        <span class="ow">and</span> <span class="n">xarray_obj</span><span class="o">.</span><span class="n">area_definition</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+    <span class="p">):</span>
+        <span class="k">if</span> <span class="n">xarray_obj</span><span class="o">.</span><span class="n">area_definition</span><span class="o">.</span><span class="n">area_id</span> <span class="ow">in</span> <span class="n">sectorlist</span><span class="p">:</span>
+            <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+                <span class="s2">"</span><span class="si">%s</span><span class="s2"> area_id in sectorlist and in xarray_obj.area_definition, adding "</span>
+                <span class="s2">"area_def"</span><span class="p">,</span>
+                <span class="n">xarray_obj</span><span class="o">.</span><span class="n">area_definition</span><span class="o">.</span><span class="n">area_id</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="n">area_defs</span> <span class="o">=</span> <span class="p">[</span><span class="n">xarray_obj</span><span class="o">.</span><span class="n">area_definition</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+                <span class="s2">"</span><span class="si">%s</span><span class="s2"> area_id NOT in sectorlist and set on xarray_obj.area_definition, "</span>
+                <span class="s2">"SKIPPING area_def"</span><span class="p">,</span>
+                <span class="n">xarray_obj</span><span class="o">.</span><span class="n">area_definition</span><span class="o">.</span><span class="n">area_id</span><span class="p">,</span>
+            <span class="p">)</span>
+    <span class="k">elif</span> <span class="n">sectorlist</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">area_defs</span> <span class="o">=</span> <span class="n">get_sectors_from_yamls</span><span class="p">(</span><span class="n">sectorlist</span><span class="p">)</span>
+
+    <span class="n">ret_area_defs</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">area_def</span> <span class="ow">in</span> <span class="n">area_defs</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">area_def</span><span class="o">.</span><span class="n">description</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span>
+            <span class="n">curr_area_def</span><span class="o">.</span><span class="n">description</span> <span class="k">for</span> <span class="n">curr_area_def</span> <span class="ow">in</span> <span class="n">ret_area_defs</span>
+        <span class="p">]:</span>
+            <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"Including area_def </span><span class="si">%s</span><span class="s2"> in return list"</span><span class="p">,</span> <span class="n">area_def</span><span class="o">.</span><span class="n">description</span><span class="p">)</span>
+            <span class="n">ret_area_defs</span> <span class="o">+=</span> <span class="p">[</span><span class="n">area_def</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+                <span class="s2">"area_def </span><span class="si">%s</span><span class="s2"> already in return list, not including"</span><span class="p">,</span>
+                <span class="n">area_def</span><span class="o">.</span><span class="n">description</span><span class="p">,</span>
+            <span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">ret_area_defs</span></div>
+
+
+
+<div class="viewcode-block" id="get_tc_area_defs_for_xarray">
+<a class="viewcode-back" href="../../../geoips_api/geoips.sector_utils.html#geoips.sector_utils.utils.get_tc_area_defs_for_xarray">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_tc_area_defs_for_xarray</span><span class="p">(</span>
+    <span class="n">xarray_obj</span><span class="p">,</span>
+    <span class="n">tcdb_sector_list</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">tc_spec_template</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">trackfile_parser</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">hours_before_sector_time</span><span class="o">=</span><span class="mi">18</span><span class="p">,</span>
+    <span class="n">hours_after_sector_time</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span>
+    <span class="n">aid_type</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Get all TC area definitions for the current xarray object, and requested sectors.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    xarray_obj : xarray.Dataset</span>
+<span class="sd">        xarray Dataset to which we are assigning area_defs</span>
+<span class="sd">    tcdb_sector_list : list of str, default=None</span>
+<span class="sd">        * list of sector names to process, of format: tc2020io01amphan.</span>
+<span class="sd">        * If None, or 'all' contained in list, process all matching TC sectors.</span>
+<span class="sd">    actual_datetime : datetime.datetime, default=None</span>
+<span class="sd">        Optional datetime to match for dynamic sectors</span>
+<span class="sd">    var_for_coverage : str</span>
+<span class="sd">        Default None, optional variable to sector to check exact time</span>
+<span class="sd">    hours_before_sector_time : float, default=18</span>
+<span class="sd">        hours to look before sector time</span>
+<span class="sd">    hours_after_sector_time : float, default=6</span>
+<span class="sd">        hours to look after sector time</span>
+<span class="sd">    aid_type : str, default=None</span>
+<span class="sd">        string to look for in "aid_type" TC deck file field for inclusion</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    list of pyresample AreaDefinition</span>
+<span class="sd">        List of pyresample AreaDefinition objects required for passed xarray</span>
+<span class="sd">    """</span>
+    <span class="k">if</span> <span class="p">(</span>
+        <span class="s2">"area_definition"</span> <span class="ow">in</span> <span class="n">xarray_obj</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+        <span class="ow">and</span> <span class="n">xarray_obj</span><span class="o">.</span><span class="n">area_definition</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+    <span class="p">):</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">xarray_obj</span><span class="o">.</span><span class="n">area_definition</span><span class="p">]</span>
+
+    <span class="n">area_defs</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">timedelta</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">geoips.sector_utils.tc_tracks_database</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_all_storms_from_db</span>
+
+    <span class="n">curr_area_defs</span><span class="p">,</span> <span class="n">allowed_aid_types</span> <span class="o">=</span> <span class="n">get_all_storms_from_db</span><span class="p">(</span>
+        <span class="n">xarray_obj</span><span class="o">.</span><span class="n">start_datetime</span> <span class="o">-</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">hours</span><span class="o">=</span><span class="n">hours_before_sector_time</span><span class="p">),</span>
+        <span class="n">xarray_obj</span><span class="o">.</span><span class="n">end_datetime</span> <span class="o">+</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">hours</span><span class="o">=</span><span class="n">hours_after_sector_time</span><span class="p">),</span>
+        <span class="n">tc_spec_template</span><span class="o">=</span><span class="n">tc_spec_template</span><span class="p">,</span>
+        <span class="n">trackfile_parser</span><span class="o">=</span><span class="n">trackfile_parser</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="k">if</span> <span class="n">tcdb_sector_list</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="s2">"all"</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">tcdb_sector_list</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">area_def</span> <span class="ow">in</span> <span class="n">curr_area_defs</span><span class="p">:</span>
+            <span class="k">if</span> <span class="s2">"storm_id"</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">area_def</span><span class="o">.</span><span class="n">sector_info</span><span class="p">:</span>
+                <span class="n">LOG</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">"FAILED storm_id not defined in sector_info"</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="s2">"FAILED storm_id not defined in sector_info. Ensure storm_id "</span>
+                    <span class="s2">"defined in trackfile parser."</span>
+                <span class="p">)</span>
+            <span class="k">elif</span> <span class="n">area_def</span><span class="o">.</span><span class="n">sector_info</span><span class="p">[</span><span class="s2">"storm_id"</span><span class="p">]</span> <span class="ow">in</span> <span class="n">tcdb_sector_list</span><span class="p">:</span>
+                <span class="n">area_defs</span> <span class="o">+=</span> <span class="p">[</span><span class="n">area_def</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+                    <span class="s2">"area_def storm_id </span><span class="si">%s</span><span class="s2"> area_id </span><span class="si">%s</span><span class="s2"> not in tcdb_sector_list </span><span class="si">%s</span><span class="s2">, "</span>
+                    <span class="s2">"not including"</span><span class="p">,</span>
+                    <span class="n">area_def</span><span class="o">.</span><span class="n">sector_info</span><span class="p">[</span><span class="s2">"storm_id"</span><span class="p">],</span>
+                    <span class="n">area_def</span><span class="o">.</span><span class="n">area_id</span><span class="p">,</span>
+                    <span class="nb">str</span><span class="p">(</span><span class="n">tcdb_sector_list</span><span class="p">),</span>
+                <span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">area_defs</span> <span class="o">=</span> <span class="n">curr_area_defs</span>
+
+    <span class="c1"># Make sure there are no duplicates</span>
+    <span class="n">ret_area_defs</span> <span class="o">=</span> <span class="n">remove_duplicate_storm_positions_and_unsupported_aid_types</span><span class="p">(</span>
+        <span class="n">area_defs</span><span class="p">,</span> <span class="n">allowed_aid_types</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">ret_area_defs</span></div>
+
+
+
+<div class="viewcode-block" id="is_requested_aid_type">
+<a class="viewcode-back" href="../../../geoips_api/geoips.sector_utils.html#geoips.sector_utils.utils.is_requested_aid_type">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">is_requested_aid_type</span><span class="p">(</span><span class="n">area_def</span><span class="p">,</span> <span class="n">allowed_aid_types</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Return True if passed area_def is of requested aid_type."""</span>
+    <span class="k">if</span> <span class="p">(</span>
+        <span class="n">allowed_aid_types</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+        <span class="ow">and</span> <span class="s2">"aid_type"</span> <span class="ow">in</span> <span class="n">area_def</span><span class="o">.</span><span class="n">sector_info</span>
+        <span class="ow">and</span> <span class="ow">not</span> <span class="nb">any</span><span class="p">(</span><span class="n">area_def</span><span class="o">.</span><span class="n">sector_info</span><span class="p">[</span><span class="s2">"aid_type"</span><span class="p">]</span> <span class="o">==</span> <span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">allowed_aid_types</span><span class="p">)</span>
+    <span class="p">):</span>
+        <span class="k">return</span> <span class="kc">False</span>
+    <span class="k">return</span> <span class="kc">True</span></div>
+
+
+
+<div class="viewcode-block" id="storm_locations_match">
+<a class="viewcode-back" href="../../../geoips_api/geoips.sector_utils.html#geoips.sector_utils.utils.storm_locations_match">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">storm_locations_match</span><span class="p">(</span><span class="n">area_def</span><span class="p">,</span> <span class="n">other_area_def</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Return True if passed pyresample AreaDefinitions are the same location.</span>
+
+<span class="sd">    Match if center lat, center lon, storm year, storm basin, and synoptic time</span>
+<span class="sd">    all match.</span>
+<span class="sd">    """</span>
+    <span class="k">if</span> <span class="p">(</span>
+        <span class="n">area_def</span><span class="o">.</span><span class="n">sector_info</span><span class="p">[</span><span class="s2">"clat"</span><span class="p">]</span> <span class="o">==</span> <span class="n">other_area_def</span><span class="o">.</span><span class="n">sector_info</span><span class="p">[</span><span class="s2">"clat"</span><span class="p">]</span>
+        <span class="ow">and</span> <span class="n">area_def</span><span class="o">.</span><span class="n">sector_info</span><span class="p">[</span><span class="s2">"clon"</span><span class="p">]</span> <span class="o">==</span> <span class="n">other_area_def</span><span class="o">.</span><span class="n">sector_info</span><span class="p">[</span><span class="s2">"clon"</span><span class="p">]</span>
+        <span class="ow">and</span> <span class="n">area_def</span><span class="o">.</span><span class="n">sector_info</span><span class="p">[</span><span class="s2">"storm_year"</span><span class="p">]</span>
+        <span class="o">==</span> <span class="n">other_area_def</span><span class="o">.</span><span class="n">sector_info</span><span class="p">[</span><span class="s2">"storm_year"</span><span class="p">]</span>
+        <span class="ow">and</span> <span class="n">area_def</span><span class="o">.</span><span class="n">sector_info</span><span class="p">[</span><span class="s2">"storm_basin"</span><span class="p">]</span>
+        <span class="o">==</span> <span class="n">other_area_def</span><span class="o">.</span><span class="n">sector_info</span><span class="p">[</span><span class="s2">"storm_basin"</span><span class="p">]</span>
+        <span class="ow">and</span> <span class="n">area_def</span><span class="o">.</span><span class="n">sector_info</span><span class="p">[</span><span class="s2">"synoptic_time"</span><span class="p">]</span>
+        <span class="o">==</span> <span class="n">other_area_def</span><span class="o">.</span><span class="n">sector_info</span><span class="p">[</span><span class="s2">"synoptic_time"</span><span class="p">]</span>
+    <span class="p">):</span>
+        <span class="k">return</span> <span class="kc">True</span>
+    <span class="k">return</span> <span class="kc">False</span></div>
+
+
+
+<div class="viewcode-block" id="remove_duplicate_storm_positions_and_unsupported_aid_types">
+<a class="viewcode-back" href="../../../geoips_api/geoips.sector_utils.html#geoips.sector_utils.utils.remove_duplicate_storm_positions_and_unsupported_aid_types">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">remove_duplicate_storm_positions_and_unsupported_aid_types</span><span class="p">(</span>
+    <span class="n">area_defs</span><span class="p">,</span> <span class="n">allowed_aid_types</span><span class="o">=</span><span class="kc">None</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Remove duplicate storm positions from passed list of area_defs.</span>
+
+<span class="sd">    Uses "is_requested_aid_type" and "storm_locations_match" utilities.</span>
+<span class="sd">    """</span>
+    <span class="n">ret_area_defs</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">area_def</span> <span class="ow">in</span> <span class="n">area_defs</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">is_requested_aid_type</span><span class="p">(</span><span class="n">area_def</span><span class="p">,</span> <span class="n">allowed_aid_types</span><span class="p">):</span>
+            <span class="n">LOG</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
+                <span class="s2">"area_def </span><span class="si">%s</span><span class="s2"> aid_type </span><span class="si">%s</span><span class="s2"> not requested, not including"</span><span class="p">,</span>
+                <span class="n">area_def</span><span class="o">.</span><span class="n">description</span><span class="p">,</span>
+                <span class="n">area_def</span><span class="o">.</span><span class="n">sector_info</span><span class="p">[</span><span class="s2">"aid_type"</span><span class="p">],</span>
+            <span class="p">)</span>
+            <span class="k">continue</span>
+        <span class="k">elif</span> <span class="n">area_def</span><span class="o">.</span><span class="n">description</span> <span class="ow">in</span> <span class="p">[</span>
+            <span class="n">curr_area_def</span><span class="o">.</span><span class="n">description</span> <span class="k">for</span> <span class="n">curr_area_def</span> <span class="ow">in</span> <span class="n">ret_area_defs</span>
+        <span class="p">]:</span>
+            <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+                <span class="s2">"area_def </span><span class="si">%s</span><span class="s2"> already in return list, not including"</span><span class="p">,</span>
+                <span class="n">area_def</span><span class="o">.</span><span class="n">description</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="k">continue</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">kept_one</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="k">for</span> <span class="n">other_area_def</span> <span class="ow">in</span> <span class="n">area_defs</span><span class="p">:</span>
+                <span class="k">if</span> <span class="p">(</span>
+                    <span class="n">area_def</span><span class="o">.</span><span class="n">sector_info</span><span class="p">[</span><span class="s2">"final_storm_name"</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">"invest"</span>
+                    <span class="ow">and</span> <span class="n">other_area_def</span><span class="o">.</span><span class="n">sector_info</span><span class="p">[</span><span class="s2">"final_storm_name"</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+                    <span class="o">!=</span> <span class="s2">"invest"</span>
+                    <span class="ow">and</span> <span class="n">storm_locations_match</span><span class="p">(</span><span class="n">area_def</span><span class="p">,</span> <span class="n">other_area_def</span><span class="p">)</span>
+                    <span class="ow">and</span> <span class="n">is_requested_aid_type</span><span class="p">(</span><span class="n">other_area_def</span><span class="p">,</span> <span class="n">allowed_aid_types</span><span class="p">)</span>
+                <span class="p">):</span>
+                    <span class="n">kept_one</span> <span class="o">=</span> <span class="kc">True</span>
+                    <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+                        <span class="s2">"Including area_def </span><span class="si">%s</span><span class="s2"> in return list, NOT including </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span>
+                        <span class="n">other_area_def</span><span class="o">.</span><span class="n">description</span><span class="p">,</span>
+                        <span class="n">area_def</span><span class="o">.</span><span class="n">description</span><span class="p">,</span>
+                    <span class="p">)</span>
+                    <span class="n">ret_area_defs</span> <span class="o">+=</span> <span class="p">[</span><span class="n">other_area_def</span><span class="p">]</span>
+                <span class="k">if</span> <span class="s2">"storm_id"</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">area_def</span><span class="o">.</span><span class="n">sector_info</span><span class="p">:</span>
+                    <span class="n">LOG</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">"FAILED storm_id not defined in sector_info"</span><span class="p">)</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                        <span class="s2">"FAILED storm_id not defined in sector_info. Ensure storm_id "</span>
+                        <span class="s2">"defined in trackfile parser."</span>
+                    <span class="p">)</span>
+                <span class="k">elif</span> <span class="p">(</span>
+                    <span class="s2">"invest_storm_id"</span> <span class="ow">in</span> <span class="n">other_area_def</span><span class="o">.</span><span class="n">sector_info</span>
+                    <span class="ow">and</span> <span class="n">other_area_def</span><span class="o">.</span><span class="n">sector_info</span><span class="p">[</span><span class="s2">"invest_storm_id"</span><span class="p">]</span>
+                    <span class="o">==</span> <span class="n">area_def</span><span class="o">.</span><span class="n">sector_info</span><span class="p">[</span><span class="s2">"storm_id"</span><span class="p">]</span>
+                <span class="p">):</span>
+                    <span class="n">kept_one</span> <span class="o">=</span> <span class="kc">True</span>
+                    <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+                        <span class="s2">"Including area_def </span><span class="si">%s</span><span class="s2"> in return list, NOT including </span><span class="si">%s</span><span class="s2">, "</span>
+                        <span class="s2">"invest_storm_id defined"</span><span class="p">,</span>
+                        <span class="n">other_area_def</span><span class="o">.</span><span class="n">area_id</span><span class="p">,</span>
+                        <span class="n">area_def</span><span class="o">.</span><span class="n">sector_info</span><span class="p">[</span><span class="s2">"storm_id"</span><span class="p">],</span>
+                    <span class="p">)</span>
+                    <span class="n">ret_area_defs</span> <span class="o">+=</span> <span class="p">[</span><span class="n">other_area_def</span><span class="p">]</span>
+
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">kept_one</span> <span class="ow">and</span> <span class="s2">"aid_type"</span> <span class="ow">in</span> <span class="n">area_def</span><span class="o">.</span><span class="n">sector_info</span><span class="p">:</span>
+                <span class="n">ret_area_defs</span> <span class="o">+=</span> <span class="p">[</span><span class="n">area_def</span><span class="p">]</span>
+                <span class="n">LOG</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
+                    <span class="s2">"Including area_def </span><span class="si">%s</span><span class="s2"> in return list, track type </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span>
+                    <span class="n">area_def</span><span class="o">.</span><span class="n">description</span><span class="p">,</span>
+                    <span class="n">area_def</span><span class="o">.</span><span class="n">sector_info</span><span class="p">[</span><span class="s2">"aid_type"</span><span class="p">],</span>
+                <span class="p">)</span>
+            <span class="k">elif</span> <span class="ow">not</span> <span class="n">kept_one</span><span class="p">:</span>
+                <span class="n">ret_area_defs</span> <span class="o">+=</span> <span class="p">[</span><span class="n">area_def</span><span class="p">]</span>
+                <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"Including area_def </span><span class="si">%s</span><span class="s2"> in return list"</span><span class="p">,</span> <span class="n">area_def</span><span class="o">.</span><span class="n">description</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">ret_area_defs</span></div>
+
+
+
+<div class="viewcode-block" id="filter_area_defs_actual_time">
+<a class="viewcode-back" href="../../../geoips_api/geoips.sector_utils.html#geoips.sector_utils.utils.filter_area_defs_actual_time">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">filter_area_defs_actual_time</span><span class="p">(</span><span class="n">area_defs</span><span class="p">,</span> <span class="n">actual_datetime</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Filter list of area_defs to only include the passed actual_datetime."""</span>
+    <span class="n">ret_area_def_ids</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">area_def</span> <span class="ow">in</span> <span class="n">area_defs</span><span class="p">:</span>
+        <span class="n">storm_id</span> <span class="o">=</span> <span class="n">area_def</span><span class="o">.</span><span class="n">sector_info</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"storm_id"</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">storm_id</span> <span class="ow">and</span> <span class="n">storm_id</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">ret_area_def_ids</span><span class="p">:</span>
+            <span class="n">ret_area_def_ids</span><span class="p">[</span><span class="n">storm_id</span><span class="p">]</span> <span class="o">=</span> <span class="n">area_def</span>
+        <span class="k">elif</span> <span class="n">is_dynamic_sector</span><span class="p">(</span><span class="n">area_def</span><span class="p">)</span> <span class="ow">and</span> <span class="n">actual_datetime</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">actual_datetime</span> <span class="o">-</span> <span class="n">area_def</span><span class="o">.</span><span class="n">sector_start_datetime</span><span class="p">)</span> <span class="o">&lt;</span> <span class="nb">abs</span><span class="p">(</span>
+                <span class="n">actual_datetime</span> <span class="o">-</span> <span class="n">ret_area_def_ids</span><span class="p">[</span><span class="n">storm_id</span><span class="p">]</span><span class="o">.</span><span class="n">sector_start_datetime</span>
+            <span class="p">):</span>
+                <span class="n">LOG</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
+                    <span class="s2">"AREA_DEF LIST REPLACING </span><span class="si">%s</span><span class="s2"> with area_def </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span>
+                    <span class="n">ret_area_def_ids</span><span class="p">[</span><span class="n">storm_id</span><span class="p">]</span><span class="o">.</span><span class="n">area_id</span><span class="p">,</span>
+                    <span class="n">area_def</span><span class="o">.</span><span class="n">area_id</span><span class="p">,</span>
+                <span class="p">)</span>
+                <span class="n">ret_area_def_ids</span><span class="p">[</span><span class="n">storm_id</span><span class="p">]</span> <span class="o">=</span> <span class="n">area_def</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">LOG</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
+                <span class="s2">"AREA_DEF LIST REPLACING Multiple identical sectors - using latest </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span>
+                <span class="n">area_def</span><span class="o">.</span><span class="n">area_id</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="n">ret_area_def_ids</span><span class="p">[</span><span class="n">storm_id</span><span class="p">]</span> <span class="o">=</span> <span class="n">area_def</span>
+
+    <span class="k">return</span> <span class="n">ret_area_def_ids</span><span class="o">.</span><span class="n">values</span><span class="p">()</span></div>
+
+
+
+<span class="c1"># def filter_area_defs_sector(area_defs, xarray_obj, var_for_coverage):</span>
+<span class="c1">#     from geoips.xarray_utils.data import sector_xarrays</span>
+<span class="c1">#     ret_area_def_ids = {}</span>
+<span class="c1">#     ret_area_def_sects = {}</span>
+<span class="c1">#     for area_def in area_defs:</span>
+<span class="c1">#         if area_def.area_id not in ret_area_def_ids:</span>
+<span class="c1">#             sects = sector_xarrays([xarray_obj],</span>
+<span class="c1">#                                    area_def,</span>
+<span class="c1">#                                    varlist=[var_for_coverage],</span>
+<span class="c1">#                                    verbose=False)</span>
+<span class="c1">#             if not sects:</span>
+<span class="c1">#                 LOG.info('AREA_DEF LIST NO COVERAGE not adding sector')</span>
+<span class="c1">#             else:</span>
+<span class="c1">#                 LOG.info('AREA_DEF LIST ADDING area_def %s', area_def.description)</span>
+<span class="c1">#                 ret_area_def_ids[area_def.area_id] = area_def</span>
+<span class="c1">#                 ret_area_def_sects[area_def.area_id] = sects[0]</span>
+<span class="c1">#         elif is_dynamic_sector(area_def):</span>
+<span class="c1">#             old_sect = ret_area_def_sects[area_def.area_id]</span>
+<span class="c1">#             old_area_def = ret_area_def_ids[area_def.area_id]</span>
+<span class="c1">#             sects = sector_xarrays([xarray_obj],</span>
+<span class="c1">#                                    area_def,</span>
+<span class="c1">#                                    varlist=[var_for_coverage],</span>
+<span class="c1">#                                    verbose=False)</span>
+<span class="c1">#             if sects and abs(sects[0].start_datetime - area_def.sector_start_datetime)</span>
+<span class="c1">#                   &lt; abs(old_sect.start_datetime - old_area_def.sector_start_datetime):</span>
+<span class="c1">#</span>
+<span class="c1">#                 LOG.info('AREA_DEF LIST REPLACING %s with area_def %s',</span>
+<span class="c1">#                          ret_area_def_ids[area_def.area_id].name,</span>
+<span class="c1">#                          area_def.description)</span>
+<span class="c1">#                 ret_area_def_ids[area_def.area_id] = area_def</span>
+<span class="c1">#                 ret_area_def_sects[area_def.area_id] = sects[0]</span>
+<span class="c1">#</span>
+<span class="c1">#         else:</span>
+<span class="c1">#             LOG.warning('AREA_DEF LIST REPLACING Multiple identical sectors - using</span>
+<span class="c1">#                         latest %s', area_def.description)</span>
+<span class="c1">#             ret_area_def_ids[area_def.area_id] = area_def</span>
+<span class="c1">#</span>
+<span class="c1">#     return ret_area_def_ids.values()</span>
+
+
+<div class="viewcode-block" id="get_sectors_from_yamls">
+<a class="viewcode-back" href="../../../geoips_api/geoips.sector_utils.html#geoips.sector_utils.utils.get_sectors_from_yamls">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_sectors_from_yamls</span><span class="p">(</span><span class="n">sector_list</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Get AreaDefinition objects with custom "sector_info" dictionary.</span>
+
+<span class="sd">    Based on YAML area definition contained in "sectorfnames" files.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    sector_list : list of str</span>
+<span class="sd">        list of strings of desired sector names to retrieve from YAML files</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    list</span>
+<span class="sd">        List of pyresample AreaDefinition objects, with arbitrary additional YAML</span>
+<span class="sd">        entries added as attributes to each area def (this is to allow specifying</span>
+<span class="sd">        "sector_info" metadata dictionary within the YAML file)</span>
+<span class="sd">    """</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">importlib.resources</span><span class="w"> </span><span class="kn">import</span> <span class="n">files</span>
+
+    <span class="n">area_defs</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">sector_name</span> <span class="ow">in</span> <span class="n">sector_list</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">sector_plugin</span> <span class="o">=</span> <span class="n">sectors</span><span class="o">.</span><span class="n">get_plugin</span><span class="p">(</span><span class="n">sector_name</span><span class="p">)</span>
+        <span class="k">except</span> <span class="n">PluginError</span> <span class="k">as</span> <span class="n">resp</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">PluginError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">resp</span><span class="si">}</span><span class="s2">:</span><span class="se">\n</span><span class="s2">Error getting sector </span><span class="si">{</span><span class="n">sector_name</span><span class="si">}</span><span class="s2"> from "</span>
+                <span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">sector_list </span><span class="si">{</span><span class="n">sector_list</span><span class="si">}</span><span class="s2">. "</span>
+                <span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">Check plugin directories for sector plugin named "</span>
+                <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">sector_name</span><span class="si">}</span><span class="s2">"</span>
+            <span class="p">)</span>
+        <span class="n">abspath</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">files</span><span class="p">(</span><span class="n">sector_plugin</span><span class="o">.</span><span class="n">package</span><span class="p">)</span> <span class="o">/</span> <span class="n">sector_plugin</span><span class="o">.</span><span class="n">relpath</span><span class="p">)</span>
+        <span class="n">area_def</span> <span class="o">=</span> <span class="n">load_area</span><span class="p">(</span><span class="n">abspath</span><span class="p">,</span> <span class="s2">"spec"</span><span class="p">)</span>
+        <span class="n">area_def</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span><span class="s2">"sector_info"</span><span class="p">,</span> <span class="n">sector_plugin</span><span class="p">[</span><span class="s2">"metadata"</span><span class="p">])</span>
+        <span class="n">area_def</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span><span class="s2">"sector_type"</span><span class="p">,</span> <span class="n">sector_plugin</span><span class="p">[</span><span class="s2">"family"</span><span class="p">])</span>
+        <span class="n">area_defs</span> <span class="o">+=</span> <span class="p">[</span><span class="n">area_def</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">area_defs</span></div>
+
+
+
+<div class="viewcode-block" id="create_areadefinition_from_yaml">
+<a class="viewcode-back" href="../../../geoips_api/geoips.sector_utils.html#geoips.sector_utils.utils.create_areadefinition_from_yaml">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">create_areadefinition_from_yaml</span><span class="p">(</span><span class="n">yamlfile</span><span class="p">,</span> <span class="n">sector</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Take a YAML with misc metadata and create a pyresample areadefinition.</span>
+
+<span class="sd">    Misc. metadata will be parsed from the YAML file and manually added to the</span>
+<span class="sd">    areadefinition</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    yamlfile : str</span>
+<span class="sd">        full path to YAML area definition file</span>
+<span class="sd">    sector : str</span>
+<span class="sd">        name of sector</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    pyresample.AreaDefinition</span>
+<span class="sd">        pyresample AreaDefinition based on YAML specification.</span>
+<span class="sd">    """</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">pyresample</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">yaml</span>
+
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">yamlfile</span><span class="p">,</span> <span class="s2">"r"</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">sectorfile_yaml</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">safe_load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+    <span class="n">sector_info</span> <span class="o">=</span> <span class="n">sectorfile_yaml</span><span class="p">[</span><span class="s2">"spec"</span><span class="p">]</span>
+    <span class="n">area_id</span> <span class="o">=</span> <span class="n">sector</span>
+    <span class="n">description</span> <span class="o">=</span> <span class="n">sector_info</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">"description"</span><span class="p">)</span>
+    <span class="n">projection</span> <span class="o">=</span> <span class="n">sector_info</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">"projection"</span><span class="p">)</span>
+    <span class="n">resolution</span> <span class="o">=</span> <span class="n">sector_info</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">"resolution"</span><span class="p">)</span>
+    <span class="n">shape</span> <span class="o">=</span> <span class="n">sector_info</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">"shape"</span><span class="p">)</span>
+    <span class="n">area_extent</span> <span class="o">=</span> <span class="n">sector_info</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">"area_extent"</span><span class="p">)</span>
+    <span class="c1"># Create the pyresample area definition</span>
+    <span class="n">shape_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">shape</span><span class="p">[</span><span class="s2">"height"</span><span class="p">],</span> <span class="n">shape</span><span class="p">[</span><span class="s2">"width"</span><span class="p">]]</span>
+    <span class="n">extent_list</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">extent_list</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">area_extent</span><span class="p">[</span><span class="s2">"lower_left_xy"</span><span class="p">])</span>
+    <span class="n">extent_list</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">area_extent</span><span class="p">[</span><span class="s2">"upper_right_xy"</span><span class="p">])</span>
+    <span class="n">area_def</span> <span class="o">=</span> <span class="n">pyresample</span><span class="o">.</span><span class="n">create_area_def</span><span class="p">(</span>
+        <span class="n">area_id</span><span class="o">=</span><span class="n">area_id</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="n">description</span><span class="p">,</span>
+        <span class="n">projection</span><span class="o">=</span><span class="n">projection</span><span class="p">,</span>
+        <span class="n">resolution</span><span class="o">=</span><span class="n">resolution</span><span class="p">,</span>
+        <span class="n">shape</span><span class="o">=</span><span class="n">shape_list</span><span class="p">,</span>
+        <span class="n">area_extent</span><span class="o">=</span><span class="n">extent_list</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="c1"># Manually add the metadata to area_def</span>
+    <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">sector_info</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+        <span class="n">area_def</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">sector_info</span><span class="p">[</span><span class="n">key</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">area_def</span></div>
+
+
+
+<div class="viewcode-block" id="is_sector_type">
+<a class="viewcode-back" href="../../../geoips_api/geoips.sector_utils.html#geoips.sector_utils.utils.is_sector_type">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">is_sector_type</span><span class="p">(</span><span class="n">area_def</span><span class="p">,</span> <span class="n">sector_type_str</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Determine if the type of area_def sector is as specified in passed sector_type.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    area_def : pyresample.AreaDefinition</span>
+<span class="sd">        pyresample AreaDefinition object specifying region of interest</span>
+<span class="sd">    sector_type_str : str</span>
+<span class="sd">        * String specifying the type of sector, must match 'sector_type'</span>
+<span class="sd">          attribute on AreaDefinition object</span>
+<span class="sd">        * currently one of 'tc', 'pyrocb', 'volcano', 'atmosriver' 'static'</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    bool</span>
+<span class="sd">        True if area_def.sector_type == 'sector_type', False otherwise</span>
+<span class="sd">    """</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">area_def</span><span class="p">:</span>
+        <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"area_def not defined, not of type </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="n">sector_type_str</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">False</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">area_def</span><span class="p">,</span> <span class="s2">"sector_type"</span><span class="p">):</span>
+        <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"area_def.sector_type not defined, not of type </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="n">sector_type_str</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="k">if</span> <span class="n">area_def</span><span class="o">.</span><span class="n">sector_type</span> <span class="o">==</span> <span class="n">sector_type_str</span><span class="p">:</span>
+        <span class="c1"># Need to decide if this is necessary.</span>
+        <span class="c1"># for attr in SECTOR_INFO_ATTRS[sector_type_str]:</span>
+        <span class="c1">#     if attr not in area_def.sector_info.keys():</span>
+        <span class="c1">#         LOG.warning('attr %s not in area_def.sector_info.keys(), not of type</span>
+        <span class="c1">#                     %s', attr, sector_type_str)</span>
+        <span class="c1">#         return False</span>
+        <span class="k">return</span> <span class="kc">True</span>
+    <span class="k">return</span> <span class="kc">False</span></div>
+
+
+
+<div class="viewcode-block" id="is_dynamic_sector">
+<a class="viewcode-back" href="../../../geoips_api/geoips.sector_utils.html#geoips.sector_utils.utils.is_dynamic_sector">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">is_dynamic_sector</span><span class="p">(</span><span class="n">area_def</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Determine if the AreaDefinition object is a dynamic region of interest.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    area_def : pyresample.AreaDefinition</span>
+<span class="sd">        pyresample AreaDefinition object specifying region of interest</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    bool</span>
+<span class="sd">        * True if area_def.sector_start_datetime exists and is not None,</span>
+<span class="sd">        * False otherwise</span>
+<span class="sd">    """</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">area_def</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">area_def</span><span class="p">,</span> <span class="s2">"sector_start_datetime"</span><span class="p">):</span>
+        <span class="k">return</span> <span class="kc">False</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">area_def</span><span class="o">.</span><span class="n">sector_start_datetime</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span>
+    <span class="k">if</span> <span class="n">area_def</span><span class="o">.</span><span class="n">sector_start_datetime</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">True</span>
+    <span class="k">return</span> <span class="kc">False</span></div>
+
+</pre></div>
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../../_static/scripts/bootstrap.js?digest=cb8930eaaf36d9849b67"></script>
+<script defer src="../../../_static/scripts/pydata-sphinx-theme.js?digest=cb8930eaaf36d9849b67"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item"><div class="footer">
+    <a href="http://www.navy.mil">Official US Navy Website</a>
+    <a href="http://www.navy.com/navy/">US Navy Recruiting</a>
+    <a href="http://www.nrlmry.navy.mil">NRL</a>
+    <a href="http://foia.navy.mil">Accessibility</a>
+    <a href="http://foia.navy.mil">Freedom of Information Act</a>
+    <a href="http://www.nrlmry.navy.mil/privacypolicy.htm">Security & Policy</a>
+    <a href="http://www.nrlmry.navy.mil/linknotice.html">Hyperlink Notice</a>
+    <a href="mailto:webmaster@nrlmry.navy.mil">webmaster@nrlmry.navy.mil</a><br>
+    <a href="http://www.nrlmry.navy.mil">
+    Naval Research Laboratory Marine Meteorology Division Monterey, CA</a><br>
+    7 Grace Hopper Avenue, STOP 2, Monterey, CA 93943-5502
+</div></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

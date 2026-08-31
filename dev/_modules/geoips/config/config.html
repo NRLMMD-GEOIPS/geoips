@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>geoips.config.config &#8212; GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation</title>
+    <title>geoips.config.config &#8212; GeoIPS, Geolocated Information Processing System 0.0.0 documentation</title>
   
   
   
@@ -40,7 +40,7 @@
   <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
 
-    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=6727bded"></script>
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=525cde36"></script>
     <script src="../../../_static/doctools.js?v=888ff710"></script>
     <script src="../../../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
@@ -401,14 +401,21 @@ mermaid.initialize(
 window.addEventListener("load", load);
 window.runMermaid = runMermaid;</script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_modules/geoips/config/config';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.17.1';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://nrlmmd-geoips.github.io/geoips/versions.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = 'dev';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner =
+            false;
+        </script>
     <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
     <link rel="icon" href="../../../_static/nrlicon.ico"/>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2.0" />
-    <meta name="docbuild:last-update" content="Jul 23, 2026 17:03:57"/>
+  <meta name="docsearch:version" content="0.0" />
+    <meta name="docbuild:last-update" content="Aug 31, 2026 13:32:18"/>
   
     
     <script src="../../../_static/searchtools.js"></script>
@@ -480,11 +487,31 @@ window.runMermaid = runMermaid;</script>
       
     
     
-    <img src="../../../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation - Home"/>
-    <img src="../../../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation - Home"/>
+    <img src="../../../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 0.0.0 documentation - Home"/>
+    <img src="../../../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 0.0.0 documentation - Home"/>
   
   
 </a></div>
+    
+      <div class="navbar-item">
+<div class="version-switcher__container dropdown pst-js-only">
+  <button id="pst-version-switcher-button-2"
+    type="button"
+    class="version-switcher__button btn btn-sm dropdown-toggle"
+    data-bs-toggle="dropdown"
+    aria-haspopup="listbox"
+    aria-controls="pst-version-switcher-list-2"
+    aria-label="Version switcher list"
+  >
+    Choose version  <!-- this text may get changed later by javascript -->
+    <span class="caret"></span>
+  </button>
+  <div id="pst-version-switcher-list-2"
+    class="version-switcher__menu dropdown-menu list-group-flush py-0"
+    role="listbox" aria-labelledby="pst-version-switcher-button-2">
+    <!-- dropdown will be populated by javascript on page load -->
+  </div>
+</div></div>
     
   </div>
   
@@ -828,12 +855,12 @@ window.runMermaid = runMermaid;</script>
 <span></span><span class="c1"># # # This source code is subject to the license referenced at</span>
 <span class="c1"># # # https://github.com/NRLMMD-GEOIPS.</span>
 
-<span class="sd">&quot;&quot;&quot;GeoIPS configuration loader.</span>
+<span class="sd">"""GeoIPS configuration loader.</span>
 
 <span class="sd">Provides :class:`GeoIPSConfig` — an immutable, layered configuration</span>
 <span class="sd">container that merges defaults, project YAML overrides, and environment</span>
 <span class="sd">variable overrides with a well-defined priority order.</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
@@ -854,20 +881,20 @@ window.runMermaid = runMermaid;</script>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_format_config_errors</span><span class="p">(</span><span class="n">exc</span><span class="p">:</span> <span class="n">ValidationError</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Format a pydantic ValidationError as readable ``geoips.&lt;field&gt;: &lt;msg&gt;`` lines.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Format a pydantic ValidationError as readable ``geoips.&lt;field&gt;: &lt;msg&gt;`` lines."""</span>
     <span class="n">lines</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">err</span> <span class="ow">in</span> <span class="n">exc</span><span class="o">.</span><span class="n">errors</span><span class="p">():</span>
-        <span class="n">loc</span> <span class="o">=</span> <span class="s2">&quot;.&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">part</span><span class="p">)</span> <span class="k">for</span> <span class="n">part</span> <span class="ow">in</span> <span class="n">err</span><span class="p">[</span><span class="s2">&quot;loc&quot;</span><span class="p">])</span>
-        <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  geoips.</span><span class="si">{</span><span class="n">loc</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">err</span><span class="p">[</span><span class="s1">&#39;msg&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-    <span class="k">return</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">lines</span><span class="p">)</span>
+        <span class="n">loc</span> <span class="o">=</span> <span class="s2">"."</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">part</span><span class="p">)</span> <span class="k">for</span> <span class="n">part</span> <span class="ow">in</span> <span class="n">err</span><span class="p">[</span><span class="s2">"loc"</span><span class="p">])</span>
+        <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  geoips.</span><span class="si">{</span><span class="n">loc</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">err</span><span class="p">[</span><span class="s1">'msg'</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+    <span class="k">return</span> <span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">lines</span><span class="p">)</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_cast_env_value</span><span class="p">(</span><span class="n">value</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">target_field</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Cast a string environment variable to the appropriate Python type.</span>
+<span class="w">    </span><span class="sd">"""Cast a string environment variable to the appropriate Python type.</span>
 
 <span class="sd">    Handles the same casting rules as the original ``cast_string_to_bool_or_none``:</span>
-<span class="sd">    - ``&quot;true&quot;`` / ``&quot;false&quot;`` (case-insensitive) → ``True`` / ``False``</span>
-<span class="sd">    - ``&quot;none&quot;`` / ``&quot;null&quot;`` (case-insensitive) → ``None``</span>
+<span class="sd">    - ``"true"`` / ``"false"`` (case-insensitive) → ``True`` / ``False``</span>
+<span class="sd">    - ``"none"`` / ``"null"`` (case-insensitive) → ``None``</span>
 <span class="sd">    - ``GEOIPS_REPLACE_OUTPUT_PATHS`` → ``list[str]`` (space-split)</span>
 <span class="sd">    - ``GEOIPS_TEST_OUTPUT_CHECKER_THRESHOLD_IMAGE`` → ``float``</span>
 <span class="sd">    - All other values → ``str``</span>
@@ -883,22 +910,22 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">    -------</span>
 <span class="sd">    Any</span>
 <span class="sd">        The cast Python value.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">value</span>
 
     <span class="n">lower</span> <span class="o">=</span> <span class="n">value</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
-    <span class="k">if</span> <span class="n">lower</span> <span class="o">==</span> <span class="s2">&quot;true&quot;</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">lower</span> <span class="o">==</span> <span class="s2">"true"</span><span class="p">:</span>
         <span class="k">return</span> <span class="kc">True</span>
-    <span class="k">if</span> <span class="n">lower</span> <span class="o">==</span> <span class="s2">&quot;false&quot;</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">lower</span> <span class="o">==</span> <span class="s2">"false"</span><span class="p">:</span>
         <span class="k">return</span> <span class="kc">False</span>
-    <span class="k">if</span> <span class="n">lower</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;none&quot;</span><span class="p">,</span> <span class="s2">&quot;null&quot;</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">lower</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">"none"</span><span class="p">,</span> <span class="s2">"null"</span><span class="p">):</span>
         <span class="k">return</span> <span class="kc">None</span>
 
-    <span class="k">if</span> <span class="n">target_field</span> <span class="o">==</span> <span class="s2">&quot;replace_output_paths&quot;</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">target_field</span> <span class="o">==</span> <span class="s2">"replace_output_paths"</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">value</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
 
-    <span class="k">if</span> <span class="n">target_field</span> <span class="o">==</span> <span class="s2">&quot;test.output_checker_threshold_image&quot;</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">target_field</span> <span class="o">==</span> <span class="s2">"test.output_checker_threshold_image"</span><span class="p">:</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
         <span class="k">except</span> <span class="p">(</span><span class="ne">ValueError</span><span class="p">,</span> <span class="ne">TypeError</span><span class="p">):</span>
@@ -908,7 +935,7 @@ window.runMermaid = runMermaid;</script>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_get_env_overrides</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Read environment variables and build a nested override dictionary.</span>
+<span class="w">    </span><span class="sd">"""Read environment variables and build a nested override dictionary.</span>
 
 <span class="sd">    Iterates over ``geoips.config.schema.GEOIPS_ENV_MAP``, checks each</span>
 <span class="sd">    environment variable with ``os.getenv``, and if set, casts the</span>
@@ -920,7 +947,7 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">    dict[str, Any]</span>
 <span class="sd">        A (possibly nested) dictionary of overrides to apply on top of</span>
 <span class="sd">        the default settings model.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">overrides</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
 
     <span class="k">for</span> <span class="n">env_var</span><span class="p">,</span> <span class="n">field_path</span> <span class="ow">in</span> <span class="n">GEOIPS_ENV_MAP</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
@@ -929,7 +956,7 @@ window.runMermaid = runMermaid;</script>
             <span class="k">continue</span>
 
         <span class="n">cast</span> <span class="o">=</span> <span class="n">_cast_env_value</span><span class="p">(</span><span class="n">raw</span><span class="p">,</span> <span class="n">field_path</span><span class="p">)</span>
-        <span class="n">parts</span> <span class="o">=</span> <span class="n">field_path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)</span>
+        <span class="n">parts</span> <span class="o">=</span> <span class="n">field_path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">"."</span><span class="p">)</span>
         <span class="n">node</span> <span class="o">=</span> <span class="n">overrides</span>
         <span class="k">for</span> <span class="n">part</span> <span class="ow">in</span> <span class="n">parts</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
             <span class="n">node</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="n">part</span><span class="p">,</span> <span class="p">{})</span>
@@ -939,7 +966,7 @@ window.runMermaid = runMermaid;</script>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_deep_update</span><span class="p">(</span><span class="n">base</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">override</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Recursively update *base* dictionary with values from *override*.</span>
+<span class="w">    </span><span class="sd">"""Recursively update *base* dictionary with values from *override*.</span>
 
 <span class="sd">    Nested dictionaries are merged rather than replaced.</span>
 
@@ -949,7 +976,7 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">        The dictionary to update in-place.</span>
 <span class="sd">    override : dict</span>
 <span class="sd">        The dictionary containing override values.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">override</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
         <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">base</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">base</span><span class="p">[</span><span class="n">key</span><span class="p">],</span> <span class="nb">dict</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
             <span class="n">_deep_update</span><span class="p">(</span><span class="n">base</span><span class="p">[</span><span class="n">key</span><span class="p">],</span> <span class="n">value</span><span class="p">)</span>
@@ -958,7 +985,7 @@ window.runMermaid = runMermaid;</script>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_compute_auto_settings</span><span class="p">(</span><span class="n">base_settings</span><span class="p">:</span> <span class="n">GeoSettings</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute auto-derived settings from the base model and environment.</span>
+<span class="w">    </span><span class="sd">"""Compute auto-derived settings from the base model and environment.</span>
 
 <span class="sd">    Resolves all paths and values that are derived at runtime:</span>
 <span class="sd">    - ``base_path``, ``packages_dir``, ``basedir`` from source tree</span>
@@ -981,69 +1008,69 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">    -------</span>
 <span class="sd">    dict[str, Any]</span>
 <span class="sd">        A (possibly nested) dictionary of auto-resolved values.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">updates</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
 
     <span class="n">base_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="vm">__file__</span><span class="p">),</span> <span class="n">os</span><span class="o">.</span><span class="n">pardir</span><span class="p">))</span>
-    <span class="n">updates</span><span class="p">[</span><span class="s2">&quot;base_path&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">base_path</span>
+    <span class="n">updates</span><span class="p">[</span><span class="s2">"base_path"</span><span class="p">]</span> <span class="o">=</span> <span class="n">base_path</span>
 
     <span class="n">packages_dir</span> <span class="o">=</span> <span class="n">base_settings</span><span class="o">.</span><span class="n">packages_dir</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">packages_dir</span><span class="p">:</span>
         <span class="n">packages_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">base_path</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">pardir</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">pardir</span><span class="p">))</span>
-        <span class="n">updates</span><span class="p">[</span><span class="s2">&quot;packages_dir&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">packages_dir</span>
+        <span class="n">updates</span><span class="p">[</span><span class="s2">"packages_dir"</span><span class="p">]</span> <span class="o">=</span> <span class="n">packages_dir</span>
 
     <span class="n">basedir</span> <span class="o">=</span> <span class="n">base_settings</span><span class="o">.</span><span class="n">basedir</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">basedir</span><span class="p">:</span>
         <span class="n">basedir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">packages_dir</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">pardir</span><span class="p">))</span>
-        <span class="n">updates</span><span class="p">[</span><span class="s2">&quot;basedir&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">basedir</span>
+        <span class="n">updates</span><span class="p">[</span><span class="s2">"basedir"</span><span class="p">]</span> <span class="o">=</span> <span class="n">basedir</span>
 
     <span class="n">outdirs</span> <span class="o">=</span> <span class="n">base_settings</span><span class="o">.</span><span class="n">outdirs</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">outdirs</span><span class="p">:</span>
-        <span class="n">outdirs</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;GEOIPS_OUTDIRS&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)</span>
+        <span class="n">outdirs</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">"GEOIPS_OUTDIRS"</span><span class="p">,</span> <span class="s2">""</span><span class="p">)</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="s2">"/"</span><span class="p">)</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">outdirs</span><span class="p">:</span>
         <span class="n">LOG</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
-            <span class="s2">&quot;GEOIPS_OUTDIRS is not set in your environment. &quot;</span>
-            <span class="s2">&quot;Defaulting to $HOME/geoips_outdirs as output dir. &quot;</span>
-            <span class="s2">&quot;Please set GEOIPS_OUTDIRS if you want to write to a &quot;</span>
-            <span class="s2">&quot;different directory by default.&quot;</span>
+            <span class="s2">"GEOIPS_OUTDIRS is not set in your environment. "</span>
+            <span class="s2">"Defaulting to $HOME/geoips_outdirs as output dir. "</span>
+            <span class="s2">"Please set GEOIPS_OUTDIRS if you want to write to a "</span>
+            <span class="s2">"different directory by default."</span>
         <span class="p">)</span>
         <span class="k">try</span><span class="p">:</span>
-            <span class="n">home_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;HOME&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
-                <span class="s2">&quot;HOMEDRIVE&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span>
-            <span class="p">)</span> <span class="o">+</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;HOMEPATH&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+            <span class="n">home_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"HOME"</span><span class="p">)</span> <span class="ow">or</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+                <span class="s2">"HOMEDRIVE"</span><span class="p">,</span> <span class="s2">""</span>
+            <span class="p">)</span> <span class="o">+</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"HOMEPATH"</span><span class="p">,</span> <span class="s2">""</span><span class="p">)</span>
         <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
             <span class="n">LOG</span><span class="o">.</span><span class="n">error</span><span class="p">(</span>
-                <span class="s2">&quot;Could not resolve environment variable $HOME, using &#39;/&#39; as default&quot;</span>
+                <span class="s2">"Could not resolve environment variable $HOME, using '/' as default"</span>
             <span class="p">)</span>
-            <span class="n">home_dir</span> <span class="o">=</span> <span class="s2">&quot;/&quot;</span>
-        <span class="n">outdirs</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">home_dir</span><span class="p">,</span> <span class="s2">&quot;geoips_outdirs&quot;</span><span class="p">)</span>
-        <span class="n">updates</span><span class="p">[</span><span class="s2">&quot;outdirs&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">outdirs</span>
+            <span class="n">home_dir</span> <span class="o">=</span> <span class="s2">"/"</span>
+        <span class="n">outdirs</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">home_dir</span><span class="p">,</span> <span class="s2">"geoips_outdirs"</span><span class="p">)</span>
+        <span class="n">updates</span><span class="p">[</span><span class="s2">"outdirs"</span><span class="p">]</span> <span class="o">=</span> <span class="n">outdirs</span>
 
     <span class="k">if</span> <span class="ow">not</span> <span class="n">base_settings</span><span class="o">.</span><span class="n">boxname</span><span class="p">:</span>
-        <span class="n">updates</span><span class="p">[</span><span class="s2">&quot;boxname&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">socket</span><span class="o">.</span><span class="n">gethostname</span><span class="p">()</span>
+        <span class="n">updates</span><span class="p">[</span><span class="s2">"boxname"</span><span class="p">]</span> <span class="o">=</span> <span class="n">socket</span><span class="o">.</span><span class="n">gethostname</span><span class="p">()</span>
 
     <span class="k">if</span> <span class="ow">not</span> <span class="n">base_settings</span><span class="o">.</span><span class="n">home</span><span class="p">:</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;HOME&quot;</span><span class="p">):</span>
-            <span class="n">updates</span><span class="p">[</span><span class="s2">&quot;home&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;HOMEDRIVE&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;HOMEPATH&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">"HOME"</span><span class="p">):</span>
+            <span class="n">updates</span><span class="p">[</span><span class="s2">"home"</span><span class="p">]</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">"HOMEDRIVE"</span><span class="p">,</span> <span class="s2">""</span><span class="p">)</span> <span class="o">+</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">"HOMEPATH"</span><span class="p">,</span> <span class="s2">""</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">updates</span><span class="p">[</span><span class="s2">&quot;home&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;HOME&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)</span>
+            <span class="n">updates</span><span class="p">[</span><span class="s2">"home"</span><span class="p">]</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">"HOME"</span><span class="p">,</span> <span class="s2">""</span><span class="p">)</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="s2">"/"</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="ow">not</span> <span class="n">base_settings</span><span class="o">.</span><span class="n">testdata_dir</span><span class="p">:</span>
-        <span class="n">updates</span><span class="p">[</span><span class="s2">&quot;testdata_dir&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">basedir</span><span class="p">,</span> <span class="s2">&quot;test_data&quot;</span><span class="p">)</span>
+        <span class="n">updates</span><span class="p">[</span><span class="s2">"testdata_dir"</span><span class="p">]</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">basedir</span><span class="p">,</span> <span class="s2">"test_data"</span><span class="p">)</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">base_settings</span><span class="o">.</span><span class="n">dependencies_dir</span><span class="p">:</span>
-        <span class="n">updates</span><span class="p">[</span><span class="s2">&quot;dependencies_dir&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">basedir</span><span class="p">,</span> <span class="s2">&quot;geoips_dependencies&quot;</span><span class="p">)</span>
+        <span class="n">updates</span><span class="p">[</span><span class="s2">"dependencies_dir"</span><span class="p">]</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">basedir</span><span class="p">,</span> <span class="s2">"geoips_dependencies"</span><span class="p">)</span>
 
     <span class="n">cache_updates</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="k">if</span> <span class="n">base_settings</span><span class="o">.</span><span class="n">cache</span><span class="o">.</span><span class="n">cache_dir</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">cache_updates</span><span class="p">[</span><span class="s2">&quot;cache_dir&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">platformdirs</span><span class="o">.</span><span class="n">user_cache_dir</span><span class="p">(</span><span class="s2">&quot;geoips&quot;</span><span class="p">)</span>
+        <span class="n">cache_updates</span><span class="p">[</span><span class="s2">"cache_dir"</span><span class="p">]</span> <span class="o">=</span> <span class="n">platformdirs</span><span class="o">.</span><span class="n">user_cache_dir</span><span class="p">(</span><span class="s2">"geoips"</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">base_settings</span><span class="o">.</span><span class="n">cache</span><span class="o">.</span><span class="n">data_cache_dir</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">cache_updates</span><span class="p">[</span><span class="s2">&quot;data_cache_dir&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">outdirs</span><span class="p">,</span> <span class="s2">&quot;cache&quot;</span><span class="p">,</span> <span class="s2">&quot;geoips&quot;</span><span class="p">)</span>
+        <span class="n">cache_updates</span><span class="p">[</span><span class="s2">"data_cache_dir"</span><span class="p">]</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">outdirs</span><span class="p">,</span> <span class="s2">"cache"</span><span class="p">,</span> <span class="s2">"geoips"</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">base_settings</span><span class="o">.</span><span class="n">cache</span><span class="o">.</span><span class="n">satpy_data_cache_dir</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">cache_updates</span><span class="p">[</span><span class="s2">&quot;satpy_data_cache_dir&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">outdirs</span><span class="p">,</span> <span class="s2">&quot;cache&quot;</span><span class="p">,</span> <span class="s2">&quot;satpy&quot;</span><span class="p">)</span>
+        <span class="n">cache_updates</span><span class="p">[</span><span class="s2">"satpy_data_cache_dir"</span><span class="p">]</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">outdirs</span><span class="p">,</span> <span class="s2">"cache"</span><span class="p">,</span> <span class="s2">"satpy"</span><span class="p">)</span>
 
-    <span class="n">dc</span> <span class="o">=</span> <span class="n">cache_updates</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;data_cache_dir&quot;</span><span class="p">,</span> <span class="n">base_settings</span><span class="o">.</span><span class="n">cache</span><span class="o">.</span><span class="n">data_cache_dir</span><span class="p">)</span>
+    <span class="n">dc</span> <span class="o">=</span> <span class="n">cache_updates</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"data_cache_dir"</span><span class="p">,</span> <span class="n">base_settings</span><span class="o">.</span><span class="n">cache</span><span class="o">.</span><span class="n">data_cache_dir</span><span class="p">)</span>
     <span class="n">sc</span> <span class="o">=</span> <span class="n">cache_updates</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
-        <span class="s2">&quot;satpy_data_cache_dir&quot;</span><span class="p">,</span> <span class="n">base_settings</span><span class="o">.</span><span class="n">cache</span><span class="o">.</span><span class="n">satpy_data_cache_dir</span>
+        <span class="s2">"satpy_data_cache_dir"</span><span class="p">,</span> <span class="n">base_settings</span><span class="o">.</span><span class="n">cache</span><span class="o">.</span><span class="n">satpy_data_cache_dir</span>
     <span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_resolve</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">field</span><span class="p">):</span>
@@ -1052,27 +1079,27 @@ window.runMermaid = runMermaid;</script>
             <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">val</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">val</span>
 
-    <span class="n">cache_updates</span><span class="p">[</span><span class="s2">&quot;data_cache_shortterm_geolocation_dynamic&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_resolve</span><span class="p">(</span>
-        <span class="n">dc</span><span class="p">,</span> <span class="s2">&quot;data_cache_shortterm_geolocation_dynamic&quot;</span>
+    <span class="n">cache_updates</span><span class="p">[</span><span class="s2">"data_cache_shortterm_geolocation_dynamic"</span><span class="p">]</span> <span class="o">=</span> <span class="n">_resolve</span><span class="p">(</span>
+        <span class="n">dc</span><span class="p">,</span> <span class="s2">"data_cache_shortterm_geolocation_dynamic"</span>
     <span class="p">)</span>
-    <span class="n">cache_updates</span><span class="p">[</span><span class="s2">&quot;data_cache_shortterm_geolocation_solar_angles&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_resolve</span><span class="p">(</span>
-        <span class="n">dc</span><span class="p">,</span> <span class="s2">&quot;data_cache_shortterm_geolocation_solar_angles&quot;</span>
+    <span class="n">cache_updates</span><span class="p">[</span><span class="s2">"data_cache_shortterm_geolocation_solar_angles"</span><span class="p">]</span> <span class="o">=</span> <span class="n">_resolve</span><span class="p">(</span>
+        <span class="n">dc</span><span class="p">,</span> <span class="s2">"data_cache_shortterm_geolocation_solar_angles"</span>
     <span class="p">)</span>
-    <span class="n">cache_updates</span><span class="p">[</span><span class="s2">&quot;data_cache_shortterm_calibrated_data&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_resolve</span><span class="p">(</span>
-        <span class="n">dc</span><span class="p">,</span> <span class="s2">&quot;data_cache_shortterm_calibrated_data&quot;</span>
+    <span class="n">cache_updates</span><span class="p">[</span><span class="s2">"data_cache_shortterm_calibrated_data"</span><span class="p">]</span> <span class="o">=</span> <span class="n">_resolve</span><span class="p">(</span>
+        <span class="n">dc</span><span class="p">,</span> <span class="s2">"data_cache_shortterm_calibrated_data"</span>
     <span class="p">)</span>
-    <span class="n">cache_updates</span><span class="p">[</span><span class="s2">&quot;data_cache_longterm_geolocation_static&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_resolve</span><span class="p">(</span>
-        <span class="n">dc</span><span class="p">,</span> <span class="s2">&quot;data_cache_longterm_geolocation_static&quot;</span>
+    <span class="n">cache_updates</span><span class="p">[</span><span class="s2">"data_cache_longterm_geolocation_static"</span><span class="p">]</span> <span class="o">=</span> <span class="n">_resolve</span><span class="p">(</span>
+        <span class="n">dc</span><span class="p">,</span> <span class="s2">"data_cache_longterm_geolocation_static"</span>
     <span class="p">)</span>
-    <span class="n">cache_updates</span><span class="p">[</span><span class="s2">&quot;satpy_cache_shortterm_calibrated_data&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_resolve</span><span class="p">(</span>
-        <span class="n">sc</span><span class="p">,</span> <span class="s2">&quot;satpy_cache_shortterm_calibrated_data&quot;</span>
+    <span class="n">cache_updates</span><span class="p">[</span><span class="s2">"satpy_cache_shortterm_calibrated_data"</span><span class="p">]</span> <span class="o">=</span> <span class="n">_resolve</span><span class="p">(</span>
+        <span class="n">sc</span><span class="p">,</span> <span class="s2">"satpy_cache_shortterm_calibrated_data"</span>
     <span class="p">)</span>
-    <span class="n">cache_updates</span><span class="p">[</span><span class="s2">&quot;satpy_cache_shortterm_geolocation_solar_angles&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_resolve</span><span class="p">(</span>
-        <span class="n">sc</span><span class="p">,</span> <span class="s2">&quot;satpy_cache_shortterm_geolocation_solar_angles&quot;</span>
+    <span class="n">cache_updates</span><span class="p">[</span><span class="s2">"satpy_cache_shortterm_geolocation_solar_angles"</span><span class="p">]</span> <span class="o">=</span> <span class="n">_resolve</span><span class="p">(</span>
+        <span class="n">sc</span><span class="p">,</span> <span class="s2">"satpy_cache_shortterm_geolocation_solar_angles"</span>
     <span class="p">)</span>
 
     <span class="k">if</span> <span class="n">cache_updates</span><span class="p">:</span>
-        <span class="n">updates</span><span class="p">[</span><span class="s2">&quot;cache&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="n">updates</span><span class="p">[</span><span class="s2">"cache"</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
             <span class="o">**</span><span class="n">base_settings</span><span class="o">.</span><span class="n">cache</span><span class="o">.</span><span class="n">model_dump</span><span class="p">(),</span>
             <span class="o">**</span><span class="n">cache_updates</span><span class="p">,</span>
         <span class="p">}</span>
@@ -1091,43 +1118,43 @@ window.runMermaid = runMermaid;</script>
     <span class="c1"># with the schema, ``GEOIPS_ENV_MAP``, and legacy ``base_paths.py`` by</span>
     <span class="c1"># ``tests/unit_tests/config/test_env_map_sync.py``.</span>
     <span class="k">for</span> <span class="n">field_name</span> <span class="ow">in</span> <span class="p">(</span>
-        <span class="s2">&quot;presectored_data&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;preread_data&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;preregistered_data&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;precalculated_data&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;clean_imagery&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;annotated_imagery&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;geotiff_imagery&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;final_data&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;pregenerated_geolocation&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;scratch&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;localscratch&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;sharedscratch&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;logdir&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;geoipsdata&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;ancildat_autogen&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;ancildat&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;tcwww&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;tcprivatewww&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;publicwww&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;privatewww&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;tc_decks_db&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;tc_decks_dir&quot;</span><span class="p">,</span>
+        <span class="s2">"presectored_data"</span><span class="p">,</span>
+        <span class="s2">"preread_data"</span><span class="p">,</span>
+        <span class="s2">"preregistered_data"</span><span class="p">,</span>
+        <span class="s2">"precalculated_data"</span><span class="p">,</span>
+        <span class="s2">"clean_imagery"</span><span class="p">,</span>
+        <span class="s2">"annotated_imagery"</span><span class="p">,</span>
+        <span class="s2">"geotiff_imagery"</span><span class="p">,</span>
+        <span class="s2">"final_data"</span><span class="p">,</span>
+        <span class="s2">"pregenerated_geolocation"</span><span class="p">,</span>
+        <span class="s2">"scratch"</span><span class="p">,</span>
+        <span class="s2">"localscratch"</span><span class="p">,</span>
+        <span class="s2">"sharedscratch"</span><span class="p">,</span>
+        <span class="s2">"logdir"</span><span class="p">,</span>
+        <span class="s2">"geoipsdata"</span><span class="p">,</span>
+        <span class="s2">"ancildat_autogen"</span><span class="p">,</span>
+        <span class="s2">"ancildat"</span><span class="p">,</span>
+        <span class="s2">"tcwww"</span><span class="p">,</span>
+        <span class="s2">"tcprivatewww"</span><span class="p">,</span>
+        <span class="s2">"publicwww"</span><span class="p">,</span>
+        <span class="s2">"privatewww"</span><span class="p">,</span>
+        <span class="s2">"tc_decks_db"</span><span class="p">,</span>
+        <span class="s2">"tc_decks_dir"</span><span class="p">,</span>
     <span class="p">):</span>
         <span class="n">resolved</span> <span class="o">=</span> <span class="n">_resolve_output</span><span class="p">(</span><span class="n">field_name</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">resolved</span> <span class="o">!=</span> <span class="nb">str</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="n">base_settings</span><span class="o">.</span><span class="n">output_paths</span><span class="p">,</span> <span class="n">field_name</span><span class="p">)):</span>
             <span class="n">output_updates</span><span class="p">[</span><span class="n">field_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">resolved</span>
 
     <span class="k">if</span> <span class="n">output_updates</span><span class="p">:</span>
-        <span class="n">updates</span><span class="p">[</span><span class="s2">&quot;output_paths&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="n">updates</span><span class="p">[</span><span class="s2">"output_paths"</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
             <span class="o">**</span><span class="n">base_settings</span><span class="o">.</span><span class="n">output_paths</span><span class="o">.</span><span class="n">model_dump</span><span class="p">(),</span>
             <span class="o">**</span><span class="n">output_updates</span><span class="p">,</span>
         <span class="p">}</span>
 
     <span class="k">for</span> <span class="n">field_name</span><span class="p">,</span> <span class="n">default_base</span> <span class="ow">in</span> <span class="p">(</span>
-        <span class="p">(</span><span class="s2">&quot;pregenerated_static_geolocation&quot;</span><span class="p">,</span> <span class="n">outdirs</span><span class="p">),</span>
-        <span class="p">(</span><span class="s2">&quot;pregenerated_dynamic_geolocation&quot;</span><span class="p">,</span> <span class="n">outdirs</span><span class="p">),</span>
-        <span class="p">(</span><span class="s2">&quot;tc_template&quot;</span><span class="p">,</span> <span class="n">base_path</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">"pregenerated_static_geolocation"</span><span class="p">,</span> <span class="n">outdirs</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">"pregenerated_dynamic_geolocation"</span><span class="p">,</span> <span class="n">outdirs</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">"tc_template"</span><span class="p">,</span> <span class="n">base_path</span><span class="p">),</span>
     <span class="p">):</span>
         <span class="n">val</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="n">base_settings</span><span class="p">,</span> <span class="n">field_name</span><span class="p">))</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isabs</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="ow">and</span> <span class="n">field_name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">updates</span><span class="p">:</span>
@@ -1135,13 +1162,13 @@ window.runMermaid = runMermaid;</script>
 
     <span class="n">www_updates</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="k">for</span> <span class="n">www_key</span><span class="p">,</span> <span class="n">path_field</span> <span class="ow">in</span> <span class="p">(</span>
-        <span class="p">(</span><span class="s2">&quot;tcwww_url&quot;</span><span class="p">,</span> <span class="s2">&quot;tcwww&quot;</span><span class="p">),</span>
-        <span class="p">(</span><span class="s2">&quot;tcprivatewww_url&quot;</span><span class="p">,</span> <span class="s2">&quot;tcprivatewww&quot;</span><span class="p">),</span>
-        <span class="p">(</span><span class="s2">&quot;publicwww_url&quot;</span><span class="p">,</span> <span class="s2">&quot;publicwww&quot;</span><span class="p">),</span>
-        <span class="p">(</span><span class="s2">&quot;privatewww_url&quot;</span><span class="p">,</span> <span class="s2">&quot;privatewww&quot;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">"tcwww_url"</span><span class="p">,</span> <span class="s2">"tcwww"</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">"tcprivatewww_url"</span><span class="p">,</span> <span class="s2">"tcprivatewww"</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">"publicwww_url"</span><span class="p">,</span> <span class="s2">"publicwww"</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">"privatewww_url"</span><span class="p">,</span> <span class="s2">"privatewww"</span><span class="p">),</span>
     <span class="p">):</span>
         <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">base_settings</span><span class="p">,</span> <span class="n">www_key</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">op</span> <span class="o">=</span> <span class="n">updates</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;output_paths&quot;</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+            <span class="n">op</span> <span class="o">=</span> <span class="n">updates</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"output_paths"</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
                 <span class="n">path_field</span><span class="p">,</span>
                 <span class="nb">getattr</span><span class="p">(</span><span class="n">base_settings</span><span class="o">.</span><span class="n">output_paths</span><span class="p">,</span> <span class="n">path_field</span><span class="p">),</span>
             <span class="p">)</span>
@@ -1150,21 +1177,21 @@ window.runMermaid = runMermaid;</script>
         <span class="n">updates</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">www_updates</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="ow">not</span> <span class="n">base_settings</span><span class="o">.</span><span class="n">replace_output_paths</span><span class="p">:</span>
-        <span class="n">raw</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;GEOIPS_REPLACE_OUTPUT_PATHS&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+        <span class="n">raw</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">"GEOIPS_REPLACE_OUTPUT_PATHS"</span><span class="p">,</span> <span class="s2">""</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">raw</span><span class="p">:</span>
-            <span class="n">updates</span><span class="p">[</span><span class="s2">&quot;replace_output_paths&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">raw</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+            <span class="n">updates</span><span class="p">[</span><span class="s2">"replace_output_paths"</span><span class="p">]</span> <span class="o">=</span> <span class="n">raw</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">updates</span><span class="p">[</span><span class="s2">&quot;replace_output_paths&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
-                <span class="s2">&quot;TCWWW TCPRIVATEWWW PRIVATEWWW PUBLICWWW &quot;</span>
-                <span class="s2">&quot;GEOTIFF_IMAGERY_PATH ANNOTATED_IMAGERY_PATH &quot;</span>
-                <span class="s2">&quot;CLEAN_IMAGERY_PATH&quot;</span>
+            <span class="n">updates</span><span class="p">[</span><span class="s2">"replace_output_paths"</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="s2">"TCWWW TCPRIVATEWWW PRIVATEWWW PUBLICWWW "</span>
+                <span class="s2">"GEOTIFF_IMAGERY_PATH ANNOTATED_IMAGERY_PATH "</span>
+                <span class="s2">"CLEAN_IMAGERY_PATH"</span>
             <span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
 
     <span class="k">return</span> <span class="n">updates</span>
 
 
 <div class="viewcode-block" id="GeoIPSConfig"><a class="viewcode-back" href="../../../geoips_api/geoips.config.html#geoips.config.config.GeoIPSConfig">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">GeoIPSConfig</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Immutable, layered GeoIPS configuration container.</span>
+<span class="w">    </span><span class="sd">"""Immutable, layered GeoIPS configuration container.</span>
 
 <span class="sd">    Configuration is loaded once at construction time with this priority</span>
 <span class="sd">    (highest wins):</span>
@@ -1181,10 +1208,10 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">    project_config_path : str or None, optional</span>
 <span class="sd">        Override the project config search path. If ``None``, the</span>
 <span class="sd">        standard search locations are used.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">project_config_path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">settings</span> <span class="o">=</span> <span class="n">GeoSettings</span><span class="p">(</span><span class="n">outdirs</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;GEOIPS_OUTDIRS&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">))</span>
+        <span class="n">settings</span> <span class="o">=</span> <span class="n">GeoSettings</span><span class="p">(</span><span class="n">outdirs</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">"GEOIPS_OUTDIRS"</span><span class="p">,</span> <span class="s2">""</span><span class="p">))</span>
 
         <span class="n">auto</span> <span class="o">=</span> <span class="n">_compute_auto_settings</span><span class="p">(</span><span class="n">settings</span><span class="p">)</span>
         <span class="n">settings_dict</span> <span class="o">=</span> <span class="n">settings</span><span class="o">.</span><span class="n">model_dump</span><span class="p">()</span>
@@ -1194,25 +1221,25 @@ window.runMermaid = runMermaid;</script>
         <span class="n">plugin_yaml</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="n">project_data</span> <span class="o">=</span> <span class="n">load_project_config</span><span class="p">(</span><span class="n">project_config_path</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">project_data</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">project_data</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
-            <span class="n">geoips_data</span> <span class="o">=</span> <span class="n">project_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;geoips&quot;</span><span class="p">)</span>
+            <span class="n">geoips_data</span> <span class="o">=</span> <span class="n">project_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"geoips"</span><span class="p">)</span>
             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">geoips_data</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
-                <span class="n">raw_plugins</span> <span class="o">=</span> <span class="n">geoips_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;plugins&quot;</span><span class="p">)</span>
+                <span class="n">raw_plugins</span> <span class="o">=</span> <span class="n">geoips_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"plugins"</span><span class="p">)</span>
                 <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">raw_plugins</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
                     <span class="n">plugin_yaml</span> <span class="o">=</span> <span class="n">raw_plugins</span>
                 <span class="n">settings_dict</span> <span class="o">=</span> <span class="n">settings</span><span class="o">.</span><span class="n">model_dump</span><span class="p">()</span>
                 <span class="n">_deep_update</span><span class="p">(</span>
                     <span class="n">settings_dict</span><span class="p">,</span>
-                    <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">geoips_data</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">k</span> <span class="o">!=</span> <span class="s2">&quot;plugins&quot;</span><span class="p">},</span>
+                    <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">geoips_data</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">k</span> <span class="o">!=</span> <span class="s2">"plugins"</span><span class="p">},</span>
                 <span class="p">)</span>
                 <span class="k">try</span><span class="p">:</span>
                     <span class="n">settings</span> <span class="o">=</span> <span class="n">GeoSettings</span><span class="o">.</span><span class="n">model_validate</span><span class="p">(</span><span class="n">settings_dict</span><span class="p">)</span>
                 <span class="k">except</span> <span class="n">ValidationError</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
                     <span class="k">raise</span> <span class="n">ConfigError</span><span class="p">(</span>
-                        <span class="sa">f</span><span class="s2">&quot;Invalid GeoIPS config file &quot;</span>
-                        <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">find_project_config</span><span class="p">(</span><span class="n">project_config_path</span><span class="p">)</span><span class="si">!r}</span><span class="s2">:</span><span class="se">\n</span><span class="s2">&quot;</span>
-                        <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">_format_config_errors</span><span class="p">(</span><span class="n">exc</span><span class="p">)</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
-                        <span class="s2">&quot;Fix the errors above or run &#39;geoips config validate&#39; &quot;</span>
-                        <span class="s2">&quot;for details.&quot;</span>
+                        <span class="sa">f</span><span class="s2">"Invalid GeoIPS config file "</span>
+                        <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">find_project_config</span><span class="p">(</span><span class="n">project_config_path</span><span class="p">)</span><span class="si">!r}</span><span class="s2">:</span><span class="se">\n</span><span class="s2">"</span>
+                        <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">_format_config_errors</span><span class="p">(</span><span class="n">exc</span><span class="p">)</span><span class="si">}</span><span class="se">\n</span><span class="s2">"</span>
+                        <span class="s2">"Fix the errors above or run 'geoips config validate' "</span>
+                        <span class="s2">"for details."</span>
                     <span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="kc">None</span>
 
         <span class="n">env_overrides</span> <span class="o">=</span> <span class="n">_get_env_overrides</span><span class="p">()</span>
@@ -1228,7 +1255,7 @@ window.runMermaid = runMermaid;</script>
         <span class="bp">self</span><span class="o">.</span><span class="n">_plugins_ns</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="kc">None</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_resolve_plugin</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Resolve, validate, and cache a single plugin&#39;s settings.</span>
+<span class="w">        </span><span class="sd">"""Resolve, validate, and cache a single plugin's settings.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -1244,7 +1271,7 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">        ------</span>
 <span class="sd">        KeyError</span>
 <span class="sd">            If no plugin with *name* is registered.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">geoips.config.plugins</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
             <span class="n">discover_config_plugins</span><span class="p">,</span>
             <span class="n">resolve_plugin_settings</span><span class="p">,</span>
@@ -1261,13 +1288,13 @@ window.runMermaid = runMermaid;</script>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">plugins</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Accessor for configuration contributed by external plugin packages.</span>
+<span class="w">        </span><span class="sd">"""Accessor for configuration contributed by external plugin packages.</span>
 
 <span class="sd">        Returns a namespace supporting attribute access</span>
-<span class="sd">        (``config.plugins.my_pkg``), item access (``config.plugins[&quot;my_pkg&quot;]``),</span>
+<span class="sd">        (``config.plugins.my_pkg``), item access (``config.plugins["my_pkg"]``),</span>
 <span class="sd">        ``.get()``, and iteration over registered plugin names. Plugin modules</span>
 <span class="sd">        are imported lazily on first access.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">geoips.config.plugins</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
             <span class="n">discover_config_plugins</span><span class="p">,</span>
             <span class="n">PluginSettingsNamespace</span><span class="p">,</span>
@@ -1280,7 +1307,7 @@ window.runMermaid = runMermaid;</script>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_plugins_ns</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__getattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Delegate attribute access to the inner settings model.</span>
+<span class="w">        </span><span class="sd">"""Delegate attribute access to the inner settings model.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -1296,16 +1323,16 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">        ------</span>
 <span class="sd">        AttributeError</span>
 <span class="sd">            If the attribute does not exist on the settings model.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="n">name</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">):</span>
+<span class="sd">        """</span>
+        <span class="k">if</span> <span class="n">name</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">"_"</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_settings</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
         <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;GeoIPSConfig has no attribute </span><span class="si">{</span><span class="n">name</span><span class="si">!r}</span><span class="s2">&quot;</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="kc">None</span>
+            <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"GeoIPSConfig has no attribute </span><span class="si">{</span><span class="n">name</span><span class="si">!r}</span><span class="s2">"</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="kc">None</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Dict-style access for backward compatibility.</span>
+<span class="w">        </span><span class="sd">"""Dict-style access for backward compatibility.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -1321,11 +1348,11 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">        ------</span>
 <span class="sd">        KeyError</span>
 <span class="sd">            If *key* is not a recognized legacy config key.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_legacy_dict</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
 
 <div class="viewcode-block" id="GeoIPSConfig.get"><a class="viewcode-back" href="../../../geoips_api/geoips.config.html#geoips.config.config.GeoIPSConfig.get">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">default</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get a configuration value by legacy uppercase key.</span>
+<span class="w">        </span><span class="sd">"""Get a configuration value by legacy uppercase key.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -1338,11 +1365,11 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">        -------</span>
 <span class="sd">        Any</span>
 <span class="sd">            The configuration value, or *default*.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_legacy_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">default</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="GeoIPSConfig.to_legacy_dict"><a class="viewcode-back" href="../../../geoips_api/geoips.config.html#geoips.config.config.GeoIPSConfig.to_legacy_dict">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">to_legacy_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the full configuration as a flat uppercase dictionary.</span>
+<span class="w">        </span><span class="sd">"""Return the full configuration as a flat uppercase dictionary.</span>
 
 <span class="sd">        This mirrors the shape of the old ``PATHS`` dict from</span>
 <span class="sd">        ``geoips.filenames.base_paths`` for backward compatibility.</span>
@@ -1357,11 +1384,11 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">        -------</span>
 <span class="sd">        dict[str, Any]</span>
 <span class="sd">            Flat uppercase-keyed configuration dictionary.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
-            <span class="s2">&quot;GeoIPSConfig.to_legacy_dict() and the flat uppercase config keys &quot;</span>
-            <span class="s2">&quot;are deprecated and will be removed in a future release. Access &quot;</span>
-            <span class="s2">&quot;settings via the structured GeoIPSConfig attributes instead.&quot;</span><span class="p">,</span>
+            <span class="s2">"GeoIPSConfig.to_legacy_dict() and the flat uppercase config keys "</span>
+            <span class="s2">"are deprecated and will be removed in a future release. Access "</span>
+            <span class="s2">"settings via the structured GeoIPSConfig attributes instead."</span><span class="p">,</span>
             <span class="ne">DeprecationWarning</span><span class="p">,</span>
             <span class="n">stacklevel</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
         <span class="p">)</span>
@@ -1376,108 +1403,108 @@ window.runMermaid = runMermaid;</script>
         <span class="n">te</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">test</span>
 
         <span class="k">return</span> <span class="p">{</span>
-            <span class="s2">&quot;BASE_PATH&quot;</span><span class="p">:</span> <span class="n">s</span><span class="o">.</span><span class="n">base_path</span><span class="p">,</span>
-            <span class="s2">&quot;GEOIPS_OUTDIRS&quot;</span><span class="p">:</span> <span class="n">s</span><span class="o">.</span><span class="n">outdirs</span><span class="p">,</span>
-            <span class="s2">&quot;GEOIPS_PACKAGES_DIR&quot;</span><span class="p">:</span> <span class="n">s</span><span class="o">.</span><span class="n">packages_dir</span><span class="p">,</span>
-            <span class="s2">&quot;GEOIPS_REPLACE_OUTPUT_PATHS&quot;</span><span class="p">:</span> <span class="n">s</span><span class="o">.</span><span class="n">replace_output_paths</span><span class="p">,</span>
-            <span class="s2">&quot;GEOIPS_USE_PYDANTIC&quot;</span><span class="p">:</span> <span class="n">fe</span><span class="o">.</span><span class="n">use_pydantic</span><span class="p">,</span>
-            <span class="s2">&quot;GEOIPS_BASEDIR&quot;</span><span class="p">:</span> <span class="n">s</span><span class="o">.</span><span class="n">basedir</span><span class="p">,</span>
-            <span class="s2">&quot;GEOIPS_DATA_CACHE_DIR&quot;</span><span class="p">:</span> <span class="n">ca</span><span class="o">.</span><span class="n">data_cache_dir</span><span class="p">,</span>
-            <span class="s2">&quot;SATPY_DATA_CACHE_DIR&quot;</span><span class="p">:</span> <span class="n">ca</span><span class="o">.</span><span class="n">satpy_data_cache_dir</span><span class="p">,</span>
-            <span class="s2">&quot;GEOIPS_GEOLOCATION_CACHE_BACKEND&quot;</span><span class="p">:</span> <span class="n">ca</span><span class="o">.</span><span class="n">geolocation_cache_backend</span><span class="p">,</span>
-            <span class="s2">&quot;GEOIPS_REBUILD_REGISTRIES&quot;</span><span class="p">:</span> <span class="n">fe</span><span class="o">.</span><span class="n">rebuild_registries</span><span class="p">,</span>
-            <span class="s2">&quot;NO_COLOR&quot;</span><span class="p">:</span> <span class="n">fe</span><span class="o">.</span><span class="n">no_color</span><span class="p">,</span>
-            <span class="s2">&quot;GEOIPS_DOCS_URL&quot;</span><span class="p">:</span> <span class="n">s</span><span class="o">.</span><span class="n">docs_url</span><span class="p">,</span>
-            <span class="s2">&quot;GEOIPS_VERSION&quot;</span><span class="p">:</span> <span class="n">s</span><span class="o">.</span><span class="n">version</span><span class="p">,</span>
-            <span class="s2">&quot;GEOIPS_OPERATIONAL_USER&quot;</span><span class="p">:</span> <span class="n">fe</span><span class="o">.</span><span class="n">operational_user</span><span class="p">,</span>
-            <span class="s2">&quot;GEOIPS_COPYRIGHT&quot;</span><span class="p">:</span> <span class="n">s</span><span class="o">.</span><span class="n">copyright</span><span class="p">,</span>
-            <span class="s2">&quot;GEOIPS_COPYRIGHT_ABBREVIATED&quot;</span><span class="p">:</span> <span class="n">s</span><span class="o">.</span><span class="n">copyright_abbreviated</span><span class="p">,</span>
-            <span class="s2">&quot;GEOIPS_CACHE_DIR&quot;</span><span class="p">:</span> <span class="n">ca</span><span class="o">.</span><span class="n">cache_dir</span><span class="p">,</span>
-            <span class="s2">&quot;GEOIPS_RCFILE&quot;</span><span class="p">:</span> <span class="n">s</span><span class="o">.</span><span class="n">rcfile</span><span class="p">,</span>
-            <span class="s2">&quot;DEFAULT_QUEUE&quot;</span><span class="p">:</span> <span class="n">s</span><span class="o">.</span><span class="n">default_queue</span><span class="p">,</span>
-            <span class="s2">&quot;BOXNAME&quot;</span><span class="p">:</span> <span class="n">s</span><span class="o">.</span><span class="n">boxname</span><span class="p">,</span>
-            <span class="s2">&quot;GEOIPS_LOGGING_FMT_STRING&quot;</span><span class="p">:</span> <span class="n">lo</span><span class="o">.</span><span class="n">fmt_string</span><span class="p">,</span>
-            <span class="s2">&quot;GEOIPS_LOGGING_DATEFMT_STRING&quot;</span><span class="p">:</span> <span class="n">lo</span><span class="o">.</span><span class="n">datefmt_string</span><span class="p">,</span>
-            <span class="s2">&quot;GEOIPS_LOGGING_LEVEL&quot;</span><span class="p">:</span> <span class="n">lo</span><span class="o">.</span><span class="n">level</span><span class="p">,</span>
-            <span class="s2">&quot;GEOIPS_WARNING_LEVEL&quot;</span><span class="p">:</span> <span class="n">s</span><span class="o">.</span><span class="n">warning_level</span><span class="p">,</span>
-            <span class="s2">&quot;GEOIPS_RICH_CONSOLE_OUTPUT&quot;</span><span class="p">:</span> <span class="n">fe</span><span class="o">.</span><span class="n">rich_console_output</span><span class="p">,</span>
-            <span class="s2">&quot;GEOIPS_TEST_OUTPUT_CHECKER_THRESHOLD_IMAGE&quot;</span><span class="p">:</span> <span class="nb">float</span><span class="p">(</span>
+            <span class="s2">"BASE_PATH"</span><span class="p">:</span> <span class="n">s</span><span class="o">.</span><span class="n">base_path</span><span class="p">,</span>
+            <span class="s2">"GEOIPS_OUTDIRS"</span><span class="p">:</span> <span class="n">s</span><span class="o">.</span><span class="n">outdirs</span><span class="p">,</span>
+            <span class="s2">"GEOIPS_PACKAGES_DIR"</span><span class="p">:</span> <span class="n">s</span><span class="o">.</span><span class="n">packages_dir</span><span class="p">,</span>
+            <span class="s2">"GEOIPS_REPLACE_OUTPUT_PATHS"</span><span class="p">:</span> <span class="n">s</span><span class="o">.</span><span class="n">replace_output_paths</span><span class="p">,</span>
+            <span class="s2">"GEOIPS_USE_PYDANTIC"</span><span class="p">:</span> <span class="n">fe</span><span class="o">.</span><span class="n">use_pydantic</span><span class="p">,</span>
+            <span class="s2">"GEOIPS_BASEDIR"</span><span class="p">:</span> <span class="n">s</span><span class="o">.</span><span class="n">basedir</span><span class="p">,</span>
+            <span class="s2">"GEOIPS_DATA_CACHE_DIR"</span><span class="p">:</span> <span class="n">ca</span><span class="o">.</span><span class="n">data_cache_dir</span><span class="p">,</span>
+            <span class="s2">"SATPY_DATA_CACHE_DIR"</span><span class="p">:</span> <span class="n">ca</span><span class="o">.</span><span class="n">satpy_data_cache_dir</span><span class="p">,</span>
+            <span class="s2">"GEOIPS_GEOLOCATION_CACHE_BACKEND"</span><span class="p">:</span> <span class="n">ca</span><span class="o">.</span><span class="n">geolocation_cache_backend</span><span class="p">,</span>
+            <span class="s2">"GEOIPS_REBUILD_REGISTRIES"</span><span class="p">:</span> <span class="n">fe</span><span class="o">.</span><span class="n">rebuild_registries</span><span class="p">,</span>
+            <span class="s2">"NO_COLOR"</span><span class="p">:</span> <span class="n">fe</span><span class="o">.</span><span class="n">no_color</span><span class="p">,</span>
+            <span class="s2">"GEOIPS_DOCS_URL"</span><span class="p">:</span> <span class="n">s</span><span class="o">.</span><span class="n">docs_url</span><span class="p">,</span>
+            <span class="s2">"GEOIPS_VERSION"</span><span class="p">:</span> <span class="n">s</span><span class="o">.</span><span class="n">version</span><span class="p">,</span>
+            <span class="s2">"GEOIPS_OPERATIONAL_USER"</span><span class="p">:</span> <span class="n">fe</span><span class="o">.</span><span class="n">operational_user</span><span class="p">,</span>
+            <span class="s2">"GEOIPS_COPYRIGHT"</span><span class="p">:</span> <span class="n">s</span><span class="o">.</span><span class="n">copyright</span><span class="p">,</span>
+            <span class="s2">"GEOIPS_COPYRIGHT_ABBREVIATED"</span><span class="p">:</span> <span class="n">s</span><span class="o">.</span><span class="n">copyright_abbreviated</span><span class="p">,</span>
+            <span class="s2">"GEOIPS_CACHE_DIR"</span><span class="p">:</span> <span class="n">ca</span><span class="o">.</span><span class="n">cache_dir</span><span class="p">,</span>
+            <span class="s2">"GEOIPS_RCFILE"</span><span class="p">:</span> <span class="n">s</span><span class="o">.</span><span class="n">rcfile</span><span class="p">,</span>
+            <span class="s2">"DEFAULT_QUEUE"</span><span class="p">:</span> <span class="n">s</span><span class="o">.</span><span class="n">default_queue</span><span class="p">,</span>
+            <span class="s2">"BOXNAME"</span><span class="p">:</span> <span class="n">s</span><span class="o">.</span><span class="n">boxname</span><span class="p">,</span>
+            <span class="s2">"GEOIPS_LOGGING_FMT_STRING"</span><span class="p">:</span> <span class="n">lo</span><span class="o">.</span><span class="n">fmt_string</span><span class="p">,</span>
+            <span class="s2">"GEOIPS_LOGGING_DATEFMT_STRING"</span><span class="p">:</span> <span class="n">lo</span><span class="o">.</span><span class="n">datefmt_string</span><span class="p">,</span>
+            <span class="s2">"GEOIPS_LOGGING_LEVEL"</span><span class="p">:</span> <span class="n">lo</span><span class="o">.</span><span class="n">level</span><span class="p">,</span>
+            <span class="s2">"GEOIPS_WARNING_LEVEL"</span><span class="p">:</span> <span class="n">s</span><span class="o">.</span><span class="n">warning_level</span><span class="p">,</span>
+            <span class="s2">"GEOIPS_RICH_CONSOLE_OUTPUT"</span><span class="p">:</span> <span class="n">fe</span><span class="o">.</span><span class="n">rich_console_output</span><span class="p">,</span>
+            <span class="s2">"GEOIPS_TEST_OUTPUT_CHECKER_THRESHOLD_IMAGE"</span><span class="p">:</span> <span class="nb">float</span><span class="p">(</span>
                 <span class="n">te</span><span class="o">.</span><span class="n">output_checker_threshold_image</span>
             <span class="p">),</span>
-            <span class="s2">&quot;GEOIPS_TEST_PRINT_TEXT_OUTPUT_CHECKER_TO_CONSOLE&quot;</span><span class="p">:</span> <span class="p">(</span>
+            <span class="s2">"GEOIPS_TEST_PRINT_TEXT_OUTPUT_CHECKER_TO_CONSOLE"</span><span class="p">:</span> <span class="p">(</span>
                 <span class="n">te</span><span class="o">.</span><span class="n">print_text_output_checker_to_console</span>
             <span class="p">),</span>
-            <span class="s2">&quot;GEOIPS_TEST_PROMPT_TO_OVERWRITE_COMPARISON_FILE_IF_MISMATCH&quot;</span><span class="p">:</span> <span class="p">(</span>
+            <span class="s2">"GEOIPS_TEST_PROMPT_TO_OVERWRITE_COMPARISON_FILE_IF_MISMATCH"</span><span class="p">:</span> <span class="p">(</span>
                 <span class="n">te</span><span class="o">.</span><span class="n">prompt_to_overwrite_comparison_file_if_mismatch</span>
             <span class="p">),</span>
-            <span class="s2">&quot;GEOIPS_TEST_SUPPRESS_PYTEST_FAILED_LOG_CONTENTS&quot;</span><span class="p">:</span> <span class="p">(</span>
+            <span class="s2">"GEOIPS_TEST_SUPPRESS_PYTEST_FAILED_LOG_CONTENTS"</span><span class="p">:</span> <span class="p">(</span>
                 <span class="n">te</span><span class="o">.</span><span class="n">suppress_pytest_failed_log_contents</span>
             <span class="p">),</span>
-            <span class="s2">&quot;GEOIPS_TEST_SECTOR_CREATE_ANNOTATED_OUTPUTS&quot;</span><span class="p">:</span> <span class="p">(</span>
+            <span class="s2">"GEOIPS_TEST_SECTOR_CREATE_ANNOTATED_OUTPUTS"</span><span class="p">:</span> <span class="p">(</span>
                 <span class="n">te</span><span class="o">.</span><span class="n">sector_create_annotated_outputs</span>
             <span class="p">),</span>
-            <span class="s2">&quot;GEOIPS_TEST_SECTOR_CREATE_GEOTIFF_OUTPUTS&quot;</span><span class="p">:</span> <span class="p">(</span>
+            <span class="s2">"GEOIPS_TEST_SECTOR_CREATE_GEOTIFF_OUTPUTS"</span><span class="p">:</span> <span class="p">(</span>
                 <span class="n">te</span><span class="o">.</span><span class="n">sector_create_geotiff_outputs</span>
             <span class="p">),</span>
-            <span class="s2">&quot;GEOIPS_TESTDATA_DIR&quot;</span><span class="p">:</span> <span class="n">s</span><span class="o">.</span><span class="n">testdata_dir</span><span class="p">,</span>
-            <span class="s2">&quot;GEOIPS_DEPENDENCIES_DIR&quot;</span><span class="p">:</span> <span class="n">s</span><span class="o">.</span><span class="n">dependencies_dir</span><span class="p">,</span>
-            <span class="s2">&quot;PRESECTORED_DATA_PATH&quot;</span><span class="p">:</span> <span class="n">op</span><span class="o">.</span><span class="n">presectored_data</span><span class="p">,</span>
-            <span class="s2">&quot;PREREAD_DATA_PATH&quot;</span><span class="p">:</span> <span class="n">op</span><span class="o">.</span><span class="n">preread_data</span><span class="p">,</span>
-            <span class="s2">&quot;PREREGISTERED_DATA_PATH&quot;</span><span class="p">:</span> <span class="n">op</span><span class="o">.</span><span class="n">preregistered_data</span><span class="p">,</span>
-            <span class="s2">&quot;PRECALCULATED_DATA_PATH&quot;</span><span class="p">:</span> <span class="n">op</span><span class="o">.</span><span class="n">precalculated_data</span><span class="p">,</span>
-            <span class="s2">&quot;CLEAN_IMAGERY_PATH&quot;</span><span class="p">:</span> <span class="n">op</span><span class="o">.</span><span class="n">clean_imagery</span><span class="p">,</span>
-            <span class="s2">&quot;ANNOTATED_IMAGERY_PATH&quot;</span><span class="p">:</span> <span class="n">op</span><span class="o">.</span><span class="n">annotated_imagery</span><span class="p">,</span>
-            <span class="s2">&quot;GEOTIFF_IMAGERY_PATH&quot;</span><span class="p">:</span> <span class="n">op</span><span class="o">.</span><span class="n">geotiff_imagery</span><span class="p">,</span>
-            <span class="s2">&quot;FINAL_DATA_PATH&quot;</span><span class="p">:</span> <span class="n">op</span><span class="o">.</span><span class="n">final_data</span><span class="p">,</span>
-            <span class="s2">&quot;PREGENERATED_GEOLOCATION_PATH&quot;</span><span class="p">:</span> <span class="n">op</span><span class="o">.</span><span class="n">pregenerated_geolocation</span><span class="p">,</span>
-            <span class="s2">&quot;GEOIPS_PREGENERATED_STATIC_GEOLOCATION&quot;</span><span class="p">:</span> <span class="p">(</span>
+            <span class="s2">"GEOIPS_TESTDATA_DIR"</span><span class="p">:</span> <span class="n">s</span><span class="o">.</span><span class="n">testdata_dir</span><span class="p">,</span>
+            <span class="s2">"GEOIPS_DEPENDENCIES_DIR"</span><span class="p">:</span> <span class="n">s</span><span class="o">.</span><span class="n">dependencies_dir</span><span class="p">,</span>
+            <span class="s2">"PRESECTORED_DATA_PATH"</span><span class="p">:</span> <span class="n">op</span><span class="o">.</span><span class="n">presectored_data</span><span class="p">,</span>
+            <span class="s2">"PREREAD_DATA_PATH"</span><span class="p">:</span> <span class="n">op</span><span class="o">.</span><span class="n">preread_data</span><span class="p">,</span>
+            <span class="s2">"PREREGISTERED_DATA_PATH"</span><span class="p">:</span> <span class="n">op</span><span class="o">.</span><span class="n">preregistered_data</span><span class="p">,</span>
+            <span class="s2">"PRECALCULATED_DATA_PATH"</span><span class="p">:</span> <span class="n">op</span><span class="o">.</span><span class="n">precalculated_data</span><span class="p">,</span>
+            <span class="s2">"CLEAN_IMAGERY_PATH"</span><span class="p">:</span> <span class="n">op</span><span class="o">.</span><span class="n">clean_imagery</span><span class="p">,</span>
+            <span class="s2">"ANNOTATED_IMAGERY_PATH"</span><span class="p">:</span> <span class="n">op</span><span class="o">.</span><span class="n">annotated_imagery</span><span class="p">,</span>
+            <span class="s2">"GEOTIFF_IMAGERY_PATH"</span><span class="p">:</span> <span class="n">op</span><span class="o">.</span><span class="n">geotiff_imagery</span><span class="p">,</span>
+            <span class="s2">"FINAL_DATA_PATH"</span><span class="p">:</span> <span class="n">op</span><span class="o">.</span><span class="n">final_data</span><span class="p">,</span>
+            <span class="s2">"PREGENERATED_GEOLOCATION_PATH"</span><span class="p">:</span> <span class="n">op</span><span class="o">.</span><span class="n">pregenerated_geolocation</span><span class="p">,</span>
+            <span class="s2">"GEOIPS_PREGENERATED_STATIC_GEOLOCATION"</span><span class="p">:</span> <span class="p">(</span>
                 <span class="n">s</span><span class="o">.</span><span class="n">pregenerated_static_geolocation</span>
             <span class="p">),</span>
-            <span class="s2">&quot;GEOIPS_PREGENERATED_DYNAMIC_GEOLOCATION&quot;</span><span class="p">:</span> <span class="p">(</span>
+            <span class="s2">"GEOIPS_PREGENERATED_DYNAMIC_GEOLOCATION"</span><span class="p">:</span> <span class="p">(</span>
                 <span class="n">s</span><span class="o">.</span><span class="n">pregenerated_dynamic_geolocation</span>
             <span class="p">),</span>
-            <span class="s2">&quot;SCRATCH&quot;</span><span class="p">:</span> <span class="n">op</span><span class="o">.</span><span class="n">scratch</span><span class="p">,</span>
-            <span class="s2">&quot;LOCALSCRATCH&quot;</span><span class="p">:</span> <span class="n">op</span><span class="o">.</span><span class="n">localscratch</span><span class="p">,</span>
-            <span class="s2">&quot;SHAREDSCRATCH&quot;</span><span class="p">:</span> <span class="n">op</span><span class="o">.</span><span class="n">sharedscratch</span><span class="p">,</span>
-            <span class="s2">&quot;LOGDIR&quot;</span><span class="p">:</span> <span class="n">op</span><span class="o">.</span><span class="n">logdir</span><span class="p">,</span>
-            <span class="s2">&quot;GEOIPSDATA&quot;</span><span class="p">:</span> <span class="n">op</span><span class="o">.</span><span class="n">geoipsdata</span><span class="p">,</span>
-            <span class="s2">&quot;GEOIPS_ANCILDAT_AUTOGEN&quot;</span><span class="p">:</span> <span class="n">op</span><span class="o">.</span><span class="n">ancildat_autogen</span><span class="p">,</span>
-            <span class="s2">&quot;GEOIPS_ANCILDAT&quot;</span><span class="p">:</span> <span class="n">op</span><span class="o">.</span><span class="n">ancildat</span><span class="p">,</span>
-            <span class="s2">&quot;TCWWW&quot;</span><span class="p">:</span> <span class="n">op</span><span class="o">.</span><span class="n">tcwww</span><span class="p">,</span>
-            <span class="s2">&quot;TCPRIVATEWWW&quot;</span><span class="p">:</span> <span class="n">op</span><span class="o">.</span><span class="n">tcprivatewww</span><span class="p">,</span>
-            <span class="s2">&quot;PUBLICWWW&quot;</span><span class="p">:</span> <span class="n">op</span><span class="o">.</span><span class="n">publicwww</span><span class="p">,</span>
-            <span class="s2">&quot;PRIVATEWWW&quot;</span><span class="p">:</span> <span class="n">op</span><span class="o">.</span><span class="n">privatewww</span><span class="p">,</span>
-            <span class="s2">&quot;GEOIPS_TC_DECKS_DB&quot;</span><span class="p">:</span> <span class="n">op</span><span class="o">.</span><span class="n">tc_decks_db</span><span class="p">,</span>
-            <span class="s2">&quot;GEOIPS_TC_DECKS_DIR&quot;</span><span class="p">:</span> <span class="n">op</span><span class="o">.</span><span class="n">tc_decks_dir</span><span class="p">,</span>
-            <span class="s2">&quot;GEOIPS_TC_DECKS_TYPE&quot;</span><span class="p">:</span> <span class="n">s</span><span class="o">.</span><span class="n">tc_decks_type</span><span class="p">,</span>
-            <span class="s2">&quot;GEOIPS_DATA_CACHE_DIR_SHORTTERM_GEOLOCATION_DYNAMIC&quot;</span><span class="p">:</span> <span class="p">(</span>
+            <span class="s2">"SCRATCH"</span><span class="p">:</span> <span class="n">op</span><span class="o">.</span><span class="n">scratch</span><span class="p">,</span>
+            <span class="s2">"LOCALSCRATCH"</span><span class="p">:</span> <span class="n">op</span><span class="o">.</span><span class="n">localscratch</span><span class="p">,</span>
+            <span class="s2">"SHAREDSCRATCH"</span><span class="p">:</span> <span class="n">op</span><span class="o">.</span><span class="n">sharedscratch</span><span class="p">,</span>
+            <span class="s2">"LOGDIR"</span><span class="p">:</span> <span class="n">op</span><span class="o">.</span><span class="n">logdir</span><span class="p">,</span>
+            <span class="s2">"GEOIPSDATA"</span><span class="p">:</span> <span class="n">op</span><span class="o">.</span><span class="n">geoipsdata</span><span class="p">,</span>
+            <span class="s2">"GEOIPS_ANCILDAT_AUTOGEN"</span><span class="p">:</span> <span class="n">op</span><span class="o">.</span><span class="n">ancildat_autogen</span><span class="p">,</span>
+            <span class="s2">"GEOIPS_ANCILDAT"</span><span class="p">:</span> <span class="n">op</span><span class="o">.</span><span class="n">ancildat</span><span class="p">,</span>
+            <span class="s2">"TCWWW"</span><span class="p">:</span> <span class="n">op</span><span class="o">.</span><span class="n">tcwww</span><span class="p">,</span>
+            <span class="s2">"TCPRIVATEWWW"</span><span class="p">:</span> <span class="n">op</span><span class="o">.</span><span class="n">tcprivatewww</span><span class="p">,</span>
+            <span class="s2">"PUBLICWWW"</span><span class="p">:</span> <span class="n">op</span><span class="o">.</span><span class="n">publicwww</span><span class="p">,</span>
+            <span class="s2">"PRIVATEWWW"</span><span class="p">:</span> <span class="n">op</span><span class="o">.</span><span class="n">privatewww</span><span class="p">,</span>
+            <span class="s2">"GEOIPS_TC_DECKS_DB"</span><span class="p">:</span> <span class="n">op</span><span class="o">.</span><span class="n">tc_decks_db</span><span class="p">,</span>
+            <span class="s2">"GEOIPS_TC_DECKS_DIR"</span><span class="p">:</span> <span class="n">op</span><span class="o">.</span><span class="n">tc_decks_dir</span><span class="p">,</span>
+            <span class="s2">"GEOIPS_TC_DECKS_TYPE"</span><span class="p">:</span> <span class="n">s</span><span class="o">.</span><span class="n">tc_decks_type</span><span class="p">,</span>
+            <span class="s2">"GEOIPS_DATA_CACHE_DIR_SHORTTERM_GEOLOCATION_DYNAMIC"</span><span class="p">:</span> <span class="p">(</span>
                 <span class="n">ca</span><span class="o">.</span><span class="n">data_cache_shortterm_geolocation_dynamic</span>
             <span class="p">),</span>
-            <span class="s2">&quot;GEOIPS_DATA_CACHE_DIR_LONGTERM_GEOLOCATION_STATIC&quot;</span><span class="p">:</span> <span class="p">(</span>
+            <span class="s2">"GEOIPS_DATA_CACHE_DIR_LONGTERM_GEOLOCATION_STATIC"</span><span class="p">:</span> <span class="p">(</span>
                 <span class="n">ca</span><span class="o">.</span><span class="n">data_cache_longterm_geolocation_static</span>
             <span class="p">),</span>
-            <span class="s2">&quot;GEOIPS_DATA_CACHE_DIR_SHORTTERM_GEOLOCATION_SOLAR_ANGLES&quot;</span><span class="p">:</span> <span class="p">(</span>
+            <span class="s2">"GEOIPS_DATA_CACHE_DIR_SHORTTERM_GEOLOCATION_SOLAR_ANGLES"</span><span class="p">:</span> <span class="p">(</span>
                 <span class="n">ca</span><span class="o">.</span><span class="n">data_cache_shortterm_geolocation_solar_angles</span>
             <span class="p">),</span>
-            <span class="s2">&quot;GEOIPS_DATA_CACHE_DIR_SHORTTERM_CALIBRATED_DATA&quot;</span><span class="p">:</span> <span class="p">(</span>
+            <span class="s2">"GEOIPS_DATA_CACHE_DIR_SHORTTERM_CALIBRATED_DATA"</span><span class="p">:</span> <span class="p">(</span>
                 <span class="n">ca</span><span class="o">.</span><span class="n">data_cache_shortterm_calibrated_data</span>
             <span class="p">),</span>
-            <span class="s2">&quot;SATPY_DATA_CACHE_DIR_SHORTTERM_CALIBRATED_DATA&quot;</span><span class="p">:</span> <span class="p">(</span>
+            <span class="s2">"SATPY_DATA_CACHE_DIR_SHORTTERM_CALIBRATED_DATA"</span><span class="p">:</span> <span class="p">(</span>
                 <span class="n">ca</span><span class="o">.</span><span class="n">satpy_cache_shortterm_calibrated_data</span>
             <span class="p">),</span>
-            <span class="s2">&quot;SATPY_DATA_CACHE_DIR_SHORTTERM_GEOLOCATION_SOLAR_ANGLES&quot;</span><span class="p">:</span> <span class="p">(</span>
+            <span class="s2">"SATPY_DATA_CACHE_DIR_SHORTTERM_GEOLOCATION_SOLAR_ANGLES"</span><span class="p">:</span> <span class="p">(</span>
                 <span class="n">ca</span><span class="o">.</span><span class="n">satpy_cache_shortterm_geolocation_solar_angles</span>
             <span class="p">),</span>
-            <span class="s2">&quot;TC_TEMPLATE&quot;</span><span class="p">:</span> <span class="n">s</span><span class="o">.</span><span class="n">tc_template</span><span class="p">,</span>
-            <span class="s2">&quot;HOME&quot;</span><span class="p">:</span> <span class="n">s</span><span class="o">.</span><span class="n">home</span>
+            <span class="s2">"TC_TEMPLATE"</span><span class="p">:</span> <span class="n">s</span><span class="o">.</span><span class="n">tc_template</span><span class="p">,</span>
+            <span class="s2">"HOME"</span><span class="p">:</span> <span class="n">s</span><span class="o">.</span><span class="n">home</span>
             <span class="ow">or</span> <span class="p">(</span>
-                <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;HOME&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)</span>
-                <span class="ow">or</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;HOMEDRIVE&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;HOMEPATH&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+                <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">"HOME"</span><span class="p">,</span> <span class="s2">""</span><span class="p">)</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="s2">"/"</span><span class="p">)</span>
+                <span class="ow">or</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">"HOMEDRIVE"</span><span class="p">,</span> <span class="s2">""</span><span class="p">)</span> <span class="o">+</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">"HOMEPATH"</span><span class="p">,</span> <span class="s2">""</span><span class="p">)</span>
             <span class="p">),</span>
-            <span class="s2">&quot;TCWWW_URL&quot;</span><span class="p">:</span> <span class="n">s</span><span class="o">.</span><span class="n">tcwww_url</span> <span class="ow">or</span> <span class="n">op</span><span class="o">.</span><span class="n">tcwww</span><span class="p">,</span>
-            <span class="s2">&quot;TCPRIVATEWWW_URL&quot;</span><span class="p">:</span> <span class="n">s</span><span class="o">.</span><span class="n">tcprivatewww_url</span> <span class="ow">or</span> <span class="n">op</span><span class="o">.</span><span class="n">tcprivatewww</span><span class="p">,</span>
-            <span class="s2">&quot;PUBLICWWW_URL&quot;</span><span class="p">:</span> <span class="n">s</span><span class="o">.</span><span class="n">publicwww_url</span> <span class="ow">or</span> <span class="n">op</span><span class="o">.</span><span class="n">publicwww</span><span class="p">,</span>
-            <span class="s2">&quot;PRIVATEWWW_URL&quot;</span><span class="p">:</span> <span class="n">s</span><span class="o">.</span><span class="n">privatewww_url</span> <span class="ow">or</span> <span class="n">op</span><span class="o">.</span><span class="n">privatewww</span><span class="p">,</span>
+            <span class="s2">"TCWWW_URL"</span><span class="p">:</span> <span class="n">s</span><span class="o">.</span><span class="n">tcwww_url</span> <span class="ow">or</span> <span class="n">op</span><span class="o">.</span><span class="n">tcwww</span><span class="p">,</span>
+            <span class="s2">"TCPRIVATEWWW_URL"</span><span class="p">:</span> <span class="n">s</span><span class="o">.</span><span class="n">tcprivatewww_url</span> <span class="ow">or</span> <span class="n">op</span><span class="o">.</span><span class="n">tcprivatewww</span><span class="p">,</span>
+            <span class="s2">"PUBLICWWW_URL"</span><span class="p">:</span> <span class="n">s</span><span class="o">.</span><span class="n">publicwww_url</span> <span class="ow">or</span> <span class="n">op</span><span class="o">.</span><span class="n">publicwww</span><span class="p">,</span>
+            <span class="s2">"PRIVATEWWW_URL"</span><span class="p">:</span> <span class="n">s</span><span class="o">.</span><span class="n">privatewww_url</span> <span class="ow">or</span> <span class="n">op</span><span class="o">.</span><span class="n">privatewww</span><span class="p">,</span>
         <span class="p">}</span></div>
 
 
@@ -1485,7 +1512,7 @@ window.runMermaid = runMermaid;</script>
 
 
 <div class="viewcode-block" id="get_config"><a class="viewcode-back" href="../../../geoips_api/geoips.config.html#geoips.config.config.get_config">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">get_config</span><span class="p">(</span><span class="n">project_config_path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">GeoIPSConfig</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the singleton :class:`GeoIPSConfig` instance.</span>
+<span class="w">    </span><span class="sd">"""Return the singleton :class:`GeoIPSConfig` instance.</span>
 
 <span class="sd">    Creates the configuration on first call. Subsequent calls return</span>
 <span class="sd">    the cached instance.</span>
@@ -1499,7 +1526,7 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">    -------</span>
 <span class="sd">    GeoIPSConfig</span>
 <span class="sd">        The singleton configuration instance.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">global</span> <span class="n">_config</span>
     <span class="k">if</span> <span class="n">_config</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">_config</span> <span class="o">=</span> <span class="n">GeoIPSConfig</span><span class="p">(</span><span class="n">project_config_path</span><span class="o">=</span><span class="n">project_config_path</span><span class="p">)</span>
@@ -1507,7 +1534,7 @@ window.runMermaid = runMermaid;</script>
 
 
 <div class="viewcode-block" id="make_dirs"><a class="viewcode-back" href="../../../geoips_api/geoips.config.html#geoips.config.config.make_dirs">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">make_dirs</span><span class="p">(</span><span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Create directories, catching exceptions if directory already exists.</span>
+<span class="w">    </span><span class="sd">"""Create directories, catching exceptions if directory already exists.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -1518,8 +1545,8 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">    -------</span>
 <span class="sd">    str</span>
 <span class="sd">        *path* if successfully created.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Creating directory </span><span class="si">%s</span><span class="s2"> if it doesn&#39;t already exist.&quot;</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span>
+<span class="sd">    """</span>
+    <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"Creating directory </span><span class="si">%s</span><span class="s2"> if it doesn't already exist."</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span>
     <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="mo">0o755</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">path</span></div>
 </pre></div>

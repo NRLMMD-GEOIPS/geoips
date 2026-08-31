@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>geoips.utils.types.tokenization &#8212; GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation</title>
+    <title>geoips.utils.types.tokenization &#8212; GeoIPS, Geolocated Information Processing System 0.0.0 documentation</title>
   
   
   
@@ -40,7 +40,7 @@
   <link rel="preload" as="script" href="../../../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
 <link rel="preload" as="script" href="../../../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
 
-    <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js?v=6727bded"></script>
+    <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js?v=525cde36"></script>
     <script src="../../../../_static/doctools.js?v=888ff710"></script>
     <script src="../../../../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../../_static/design-tabs.js?v=f930bc37"></script>
@@ -401,14 +401,21 @@ mermaid.initialize(
 window.addEventListener("load", load);
 window.runMermaid = runMermaid;</script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_modules/geoips/utils/types/tokenization';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.17.1';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://nrlmmd-geoips.github.io/geoips/versions.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = 'dev';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner =
+            false;
+        </script>
     <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
     <link rel="icon" href="../../../../_static/nrlicon.ico"/>
     <link rel="index" title="Index" href="../../../../genindex.html" />
     <link rel="search" title="Search" href="../../../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2.0" />
-    <meta name="docbuild:last-update" content="Jul 23, 2026 17:03:57"/>
+  <meta name="docsearch:version" content="0.0" />
+    <meta name="docbuild:last-update" content="Aug 31, 2026 13:32:18"/>
   
     
     <script src="../../../../_static/searchtools.js"></script>
@@ -480,11 +487,31 @@ window.runMermaid = runMermaid;</script>
       
     
     
-    <img src="../../../../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation - Home"/>
-    <img src="../../../../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation - Home"/>
+    <img src="../../../../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 0.0.0 documentation - Home"/>
+    <img src="../../../../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 0.0.0 documentation - Home"/>
   
   
 </a></div>
+    
+      <div class="navbar-item">
+<div class="version-switcher__container dropdown pst-js-only">
+  <button id="pst-version-switcher-button-2"
+    type="button"
+    class="version-switcher__button btn btn-sm dropdown-toggle"
+    data-bs-toggle="dropdown"
+    aria-haspopup="listbox"
+    aria-controls="pst-version-switcher-list-2"
+    aria-label="Version switcher list"
+  >
+    Choose version  <!-- this text may get changed later by javascript -->
+    <span class="caret"></span>
+  </button>
+  <div id="pst-version-switcher-list-2"
+    class="version-switcher__menu dropdown-menu list-group-flush py-0"
+    role="listbox" aria-labelledby="pst-version-switcher-button-2">
+    <!-- dropdown will be populated by javascript on page load -->
+  </div>
+</div></div>
     
   </div>
   
@@ -828,13 +855,13 @@ window.runMermaid = runMermaid;</script>
 <span></span><span class="c1"># # # This source code is subject to the license referenced at</span>
 <span class="c1"># # # https://github.com/NRLMMD-GEOIPS.</span>
 
-<span class="sd">&quot;&quot;&quot;Stable tokenization helpers for DataTree provenance.</span>
+<span class="sd">"""Stable tokenization helpers for DataTree provenance.</span>
 
 <span class="sd">Wraps ``dask.base.tokenize`` to produce deterministic, content-addressed</span>
 <span class="sd">tokens for step outputs, argument dictionaries, and step provenance chains.</span>
-<span class="sd">Tokens are prefixed with ``&quot;dask:&quot;`` so future migrations to a different</span>
+<span class="sd">Tokens are prefixed with ``"dask:"`` so future migrations to a different</span>
 <span class="sd">hash provider remain detectable and safe to compare by full-string equality.</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
@@ -845,12 +872,12 @@ window.runMermaid = runMermaid;</script>
 
 <span class="n">LOG</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
-<span class="n">_TOKEN_PREFIX</span> <span class="o">=</span> <span class="s2">&quot;dask:&quot;</span>
-<span class="n">_UNTOKENIZABLE_PREFIX</span> <span class="o">=</span> <span class="s2">&quot;untokenizable:&quot;</span>
+<span class="n">_TOKEN_PREFIX</span> <span class="o">=</span> <span class="s2">"dask:"</span>
+<span class="n">_UNTOKENIZABLE_PREFIX</span> <span class="o">=</span> <span class="s2">"untokenizable:"</span>
 
 
 <div class="viewcode-block" id="compute_token"><a class="viewcode-back" href="../../../../geoips_api/geoips.utils.types.html#geoips.utils.types.tokenization.compute_token">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">compute_token</span><span class="p">(</span><span class="o">*</span><span class="n">objs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Compute a stable, deterministic token over the given objects.</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">"""Compute a stable, deterministic token over the given objects.</span>
 
 <span class="sd">    Wraps ``dask.base.tokenize`` and prefixes its output so that future</span>
 <span class="sd">    migrations to a different hash provider remain forward-compatible in</span>
@@ -866,20 +893,20 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    str</span>
-<span class="sd">        A ``&quot;dask:&lt;hex&gt;&quot;`` token string.</span>
+<span class="sd">        A ``"dask:&lt;hex&gt;"`` token string.</span>
 
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
-<span class="sd">    &gt;&gt;&gt; compute_token(&quot;hello&quot;, 42)</span>
-<span class="sd">    &#39;dask:...&#39;</span>
-<span class="sd">    &gt;&gt;&gt; compute_token(&quot;hello&quot;, 42) == compute_token(&quot;hello&quot;, 42)</span>
+<span class="sd">    &gt;&gt;&gt; compute_token("hello", 42)</span>
+<span class="sd">    'dask:...'</span>
+<span class="sd">    &gt;&gt;&gt; compute_token("hello", 42) == compute_token("hello", 42)</span>
 <span class="sd">    True</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">return</span> <span class="n">_TOKEN_PREFIX</span> <span class="o">+</span> <span class="n">dask_tokenize</span><span class="p">(</span><span class="o">*</span><span class="n">objs</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="compute_arguments_hash"><a class="viewcode-back" href="../../../../geoips_api/geoips.utils.types.html#geoips.utils.types.tokenization.compute_arguments_hash">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">compute_arguments_hash</span><span class="p">(</span><span class="n">arguments</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Tokenize a step&#39;s arguments dictionary.</span>
+<span class="w">    </span><span class="sd">"""Tokenize a step's arguments dictionary.</span>
 
 <span class="sd">    The hash covers keys and values in a stable order so that semantically</span>
 <span class="sd">    identical argument dicts produce identical tokens even when supplied</span>
@@ -888,19 +915,19 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    arguments : dict</span>
-<span class="sd">        The step&#39;s ``arguments`` dictionary from the workflow spec.</span>
+<span class="sd">        The step's ``arguments`` dictionary from the workflow spec.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    str</span>
-<span class="sd">        A ``&quot;dask:&quot;``-prefixed token string.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">        A ``"dask:"``-prefixed token string.</span>
+<span class="sd">    """</span>
     <span class="c1"># Sort items so two dicts with the same content hash identically</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">compute_token</span><span class="p">(</span><span class="n">arguments</span><span class="p">)</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
-        <span class="n">LOG</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Could not tokenize arguments: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">exc</span><span class="p">)</span>
-        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">_UNTOKENIZABLE_PREFIX</span><span class="si">}{</span><span class="nb">type</span><span class="p">(</span><span class="n">exc</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">&quot;</span></div>
+        <span class="n">LOG</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">"Could not tokenize arguments: </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="n">exc</span><span class="p">)</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">_UNTOKENIZABLE_PREFIX</span><span class="si">}{</span><span class="nb">type</span><span class="p">(</span><span class="n">exc</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">"</span></div>
 
 
 <div class="viewcode-block" id="compute_step_output_token"><a class="viewcode-back" href="../../../../geoips_api/geoips.utils.types.html#geoips.utils.types.tokenization.compute_step_output_token">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">compute_step_output_token</span><span class="p">(</span>
@@ -910,7 +937,7 @@ window.runMermaid = runMermaid;</script>
     <span class="n">arguments</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span>
     <span class="n">upstream_tokens</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute a step&#39;s ``output_token`` for provenance attrs.</span>
+<span class="w">    </span><span class="sd">"""Compute a step's ``output_token`` for provenance attrs.</span>
 
 <span class="sd">    The token MUST change when any of *plugin identity*, *arguments*, or</span>
 <span class="sd">    *upstream tokens* change.  It MUST NOT change for cosmetic refactors</span>
@@ -919,14 +946,14 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    step_output : Any</span>
-<span class="sd">        The return value of a step&#39;s ``call()`` method (a Dataset, DataTree,</span>
+<span class="sd">        The return value of a step's ``call()`` method (a Dataset, DataTree,</span>
 <span class="sd">        numpy array, dict, etc.).</span>
 <span class="sd">    plugin_name : str</span>
-<span class="sd">        Plugin name (e.g. ``&quot;abi_netcdf&quot;``).</span>
+<span class="sd">        Plugin name (e.g. ``"abi_netcdf"``).</span>
 <span class="sd">    plugin_kind : str</span>
-<span class="sd">        Plugin kind (e.g. ``&quot;reader&quot;``).</span>
+<span class="sd">        Plugin kind (e.g. ``"reader"``).</span>
 <span class="sd">    arguments : dict</span>
-<span class="sd">        The step&#39;s ``arguments`` dictionary.</span>
+<span class="sd">        The step's ``arguments`` dictionary.</span>
 <span class="sd">    upstream_tokens : dict[str, str] or None</span>
 <span class="sd">        Mapping of upstream step-id → output_token, or ``None`` for</span>
 <span class="sd">        reader steps with no dependencies.</span>
@@ -934,9 +961,9 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    str</span>
-<span class="sd">        A ``&quot;dask:&quot;``-prefixed token, or ``&quot;untokenizable:&lt;exc&gt;&quot;`` if</span>
+<span class="sd">        A ``"dask:"``-prefixed token, or ``"untokenizable:&lt;exc&gt;"`` if</span>
 <span class="sd">        tokenization raises an exception.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">compute_token</span><span class="p">(</span>
             <span class="n">plugin_name</span><span class="p">,</span>
@@ -947,12 +974,12 @@ window.runMermaid = runMermaid;</script>
         <span class="p">)</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
         <span class="n">LOG</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
-            <span class="s2">&quot;Could not tokenize output from </span><span class="si">%s</span><span class="s2">/</span><span class="si">%s</span><span class="s2">: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span>
+            <span class="s2">"Could not tokenize output from </span><span class="si">%s</span><span class="s2">/</span><span class="si">%s</span><span class="s2">: </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span>
             <span class="n">plugin_kind</span><span class="p">,</span>
             <span class="n">plugin_name</span><span class="p">,</span>
             <span class="n">exc</span><span class="p">,</span>
         <span class="p">)</span>
-        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">_UNTOKENIZABLE_PREFIX</span><span class="si">}{</span><span class="nb">type</span><span class="p">(</span><span class="n">exc</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">&quot;</span></div>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">_UNTOKENIZABLE_PREFIX</span><span class="si">}{</span><span class="nb">type</span><span class="p">(</span><span class="n">exc</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">"</span></div>
 </pre></div>
 
                 </article>

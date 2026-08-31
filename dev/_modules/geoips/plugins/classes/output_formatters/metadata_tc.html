@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>geoips.plugins.classes.output_formatters.metadata_tc &#8212; GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation</title>
+    <title>geoips.plugins.classes.output_formatters.metadata_tc &#8212; GeoIPS, Geolocated Information Processing System 0.0.0 documentation</title>
   
   
   
@@ -40,7 +40,7 @@
   <link rel="preload" as="script" href="../../../../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
 <link rel="preload" as="script" href="../../../../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
 
-    <script data-url_root="../../../../../" id="documentation_options" src="../../../../../_static/documentation_options.js?v=6727bded"></script>
+    <script data-url_root="../../../../../" id="documentation_options" src="../../../../../_static/documentation_options.js?v=525cde36"></script>
     <script src="../../../../../_static/doctools.js?v=888ff710"></script>
     <script src="../../../../../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../../../_static/design-tabs.js?v=f930bc37"></script>
@@ -401,14 +401,21 @@ mermaid.initialize(
 window.addEventListener("load", load);
 window.runMermaid = runMermaid;</script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_modules/geoips/plugins/classes/output_formatters/metadata_tc';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.17.1';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://nrlmmd-geoips.github.io/geoips/versions.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = 'dev';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner =
+            false;
+        </script>
     <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
     <link rel="icon" href="../../../../../_static/nrlicon.ico"/>
     <link rel="index" title="Index" href="../../../../../genindex.html" />
     <link rel="search" title="Search" href="../../../../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2.0" />
-    <meta name="docbuild:last-update" content="Jul 23, 2026 17:03:57"/>
+  <meta name="docsearch:version" content="0.0" />
+    <meta name="docbuild:last-update" content="Aug 31, 2026 13:32:18"/>
   
     
     <script src="../../../../../_static/searchtools.js"></script>
@@ -480,11 +487,31 @@ window.runMermaid = runMermaid;</script>
       
     
     
-    <img src="../../../../../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation - Home"/>
-    <img src="../../../../../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation - Home"/>
+    <img src="../../../../../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 0.0.0 documentation - Home"/>
+    <img src="../../../../../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 0.0.0 documentation - Home"/>
   
   
 </a></div>
+    
+      <div class="navbar-item">
+<div class="version-switcher__container dropdown pst-js-only">
+  <button id="pst-version-switcher-button-2"
+    type="button"
+    class="version-switcher__button btn btn-sm dropdown-toggle"
+    data-bs-toggle="dropdown"
+    aria-haspopup="listbox"
+    aria-controls="pst-version-switcher-list-2"
+    aria-label="Version switcher list"
+  >
+    Choose version  <!-- this text may get changed later by javascript -->
+    <span class="caret"></span>
+  </button>
+  <div id="pst-version-switcher-list-2"
+    class="version-switcher__menu dropdown-menu list-group-flush py-0"
+    role="listbox" aria-labelledby="pst-version-switcher-button-2">
+    <!-- dropdown will be populated by javascript on page load -->
+  </div>
+</div></div>
     
   </div>
   
@@ -828,7 +855,7 @@ window.runMermaid = runMermaid;</script>
 <span></span><span class="c1"># # # This source code is subject to the license referenced at</span>
 <span class="c1"># # # https://github.com/NRLMMD-GEOIPS.</span>
 
-<span class="sd">&quot;&quot;&quot;TC product YAML metadata output format.&quot;&quot;&quot;</span>
+<span class="sd">"""TC product YAML metadata output format."""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">geoips.interfaces.class_based.output_formatters</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseOutputFormatterPlugin</span>
 
@@ -843,11 +870,11 @@ window.runMermaid = runMermaid;</script>
 
 
 <div class="viewcode-block" id="MetadataTcOutputFormatterPlugin"><a class="viewcode-back" href="../../../../../geoips_api/geoips.plugins.classes.output_formatters.html#geoips.plugins.classes.output_formatters.metadata_tc.MetadataTcOutputFormatterPlugin">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">MetadataTcOutputFormatterPlugin</span><span class="p">(</span><span class="n">BaseOutputFormatterPlugin</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Metadata TC Output formatter plugin class.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Metadata TC Output formatter plugin class."""</span>
 
-    <span class="n">interface</span> <span class="o">=</span> <span class="s2">&quot;output_formatters&quot;</span>
-    <span class="n">family</span> <span class="o">=</span> <span class="s2">&quot;standard_metadata&quot;</span>
-    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;metadata_tc&quot;</span>
+    <span class="n">interface</span> <span class="o">=</span> <span class="s2">"output_formatters"</span>
+    <span class="n">family</span> <span class="o">=</span> <span class="s2">"standard_metadata"</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">"metadata_tc"</span>
 
 <div class="viewcode-block" id="MetadataTcOutputFormatterPlugin.call"><a class="viewcode-back" href="../../../../../geoips_api/geoips.plugins.classes.output_formatters.html#geoips.plugins.classes.output_formatters.metadata_tc.MetadataTcOutputFormatterPlugin.call">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">call</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
@@ -855,13 +882,13 @@ window.runMermaid = runMermaid;</script>
         <span class="n">xarray_obj</span><span class="p">,</span>
         <span class="n">metadata_yaml_filename</span><span class="p">,</span>
         <span class="n">product_filename</span><span class="p">,</span>
-        <span class="n">metadata_dir</span><span class="o">=</span><span class="s2">&quot;metadata&quot;</span><span class="p">,</span>
-        <span class="n">basedir</span><span class="o">=</span><span class="n">gpaths</span><span class="p">[</span><span class="s2">&quot;TCWWW&quot;</span><span class="p">],</span>
+        <span class="n">metadata_dir</span><span class="o">=</span><span class="s2">"metadata"</span><span class="p">,</span>
+        <span class="n">basedir</span><span class="o">=</span><span class="n">gpaths</span><span class="p">[</span><span class="s2">"TCWWW"</span><span class="p">],</span>
         <span class="n">output_dict</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">metadata_fname_dict</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">output_fname_dict</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Produce metadata yaml file of sector info associated with final_product.</span>
+<span class="w">        </span><span class="sd">"""Produce metadata yaml file of sector info associated with final_product.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -869,7 +896,7 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">            Pyresample AreaDefintion object</span>
 <span class="sd">        final_product : str</span>
 <span class="sd">            Product that is associated with the passed area_def</span>
-<span class="sd">        metadata_dir : str, default=&quot;metadata&quot;</span>
+<span class="sd">        metadata_dir : str, default="metadata"</span>
 <span class="sd">            Subdirectory name for metadata (using non-default allows for</span>
 <span class="sd">            non-operational outputs)</span>
 
@@ -877,17 +904,17 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">        -------</span>
 <span class="sd">        str</span>
 <span class="sd">            Metadata yaml filename, if one was produced.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">geoips.sector_utils.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">is_sector_type</span>
 
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">is_sector_type</span><span class="p">(</span><span class="n">area_def</span><span class="p">,</span> <span class="s2">&quot;tc&quot;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">is_sector_type</span><span class="p">(</span><span class="n">area_def</span><span class="p">,</span> <span class="s2">"tc"</span><span class="p">):</span>
             <span class="k">return</span> <span class="kc">None</span>
-        <span class="c1"># os.path.join does not take a list, so &quot;*&quot; it</span>
-        <span class="c1"># product_partial_path = product_filename.replace(gpaths[&#39;TCWWW&#39;],</span>
-        <span class="c1">#   &#39;https://www.nrlmry.navy.mil/tcdat&#39;)</span>
+        <span class="c1"># os.path.join does not take a list, so "*" it</span>
+        <span class="c1"># product_partial_path = product_filename.replace(gpaths['TCWWW'],</span>
+        <span class="c1">#   'https://www.nrlmry.navy.mil/tcdat')</span>
         <span class="n">product_partial_path</span> <span class="o">=</span> <span class="n">replace_geoips_paths</span><span class="p">(</span><span class="n">product_filename</span><span class="p">)</span>
         <span class="c1"># product_partial_path = pathjoin(</span>
-        <span class="c1">#   *final_product.split(&#39;/&#39;)[-5:-1]+[basename(final_product)])</span>
+        <span class="c1">#   *final_product.split('/')[-5:-1]+[basename(final_product)])</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">output_tc_metadata_yaml</span><span class="p">(</span>
             <span class="n">metadata_yaml_filename</span><span class="p">,</span>
             <span class="n">area_def</span><span class="p">,</span>
@@ -899,25 +926,25 @@ window.runMermaid = runMermaid;</script>
         <span class="p">)</span></div>
 
 <div class="viewcode-block" id="MetadataTcOutputFormatterPlugin.update_sector_info_with_data_times"><a class="viewcode-back" href="../../../../../geoips_api/geoips.plugins.classes.output_formatters.html#geoips.plugins.classes.output_formatters.metadata_tc.MetadataTcOutputFormatterPlugin.update_sector_info_with_data_times">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">update_sector_info_with_data_times</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sector_info</span><span class="p">,</span> <span class="n">xarray_obj</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Update sector info with data times, for YAML metadata output.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Update sector info with data times, for YAML metadata output."""</span>
         <span class="n">start</span> <span class="o">=</span> <span class="n">xarray_obj</span><span class="o">.</span><span class="n">start_datetime</span>
         <span class="n">end</span> <span class="o">=</span> <span class="n">xarray_obj</span><span class="o">.</span><span class="n">end_datetime</span>
         <span class="n">mid</span> <span class="o">=</span> <span class="n">start</span> <span class="o">+</span> <span class="p">(</span><span class="n">end</span> <span class="o">-</span> <span class="n">start</span><span class="p">)</span> <span class="o">/</span> <span class="mf">2.0</span>
-        <span class="n">sector_info</span><span class="p">[</span><span class="s2">&quot;data_times&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="n">sector_info</span><span class="p">[</span><span class="s2">&quot;data_times&quot;</span><span class="p">][</span><span class="s2">&quot;start&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">start</span>
-        <span class="n">sector_info</span><span class="p">[</span><span class="s2">&quot;data_times&quot;</span><span class="p">][</span><span class="s2">&quot;end&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">end</span>
-        <span class="n">sector_info</span><span class="p">[</span><span class="s2">&quot;data_times&quot;</span><span class="p">][</span><span class="s2">&quot;mid&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">mid</span>
+        <span class="n">sector_info</span><span class="p">[</span><span class="s2">"data_times"</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">sector_info</span><span class="p">[</span><span class="s2">"data_times"</span><span class="p">][</span><span class="s2">"start"</span><span class="p">]</span> <span class="o">=</span> <span class="n">start</span>
+        <span class="n">sector_info</span><span class="p">[</span><span class="s2">"data_times"</span><span class="p">][</span><span class="s2">"end"</span><span class="p">]</span> <span class="o">=</span> <span class="n">end</span>
+        <span class="n">sector_info</span><span class="p">[</span><span class="s2">"data_times"</span><span class="p">][</span><span class="s2">"mid"</span><span class="p">]</span> <span class="o">=</span> <span class="n">mid</span>
         <span class="k">return</span> <span class="n">sector_info</span></div>
 
 <div class="viewcode-block" id="MetadataTcOutputFormatterPlugin.update_sector_info_with_area_def_info"><a class="viewcode-back" href="../../../../../geoips_api/geoips.plugins.classes.output_formatters.html#geoips.plugins.classes.output_formatters.metadata_tc.MetadataTcOutputFormatterPlugin.update_sector_info_with_area_def_info">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">update_sector_info_with_area_def_info</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sector_info</span><span class="p">,</span> <span class="n">area_def</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Update sector info with area_def info, for YAML metadata output.&quot;&quot;&quot;</span>
-        <span class="n">sector_info</span><span class="p">[</span><span class="s2">&quot;area_id&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">area_def</span><span class="o">.</span><span class="n">area_id</span>
-        <span class="n">sector_info</span><span class="p">[</span><span class="s2">&quot;area_description&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">area_def</span><span class="o">.</span><span class="n">description</span>
+<span class="w">        </span><span class="sd">"""Update sector info with area_def info, for YAML metadata output."""</span>
+        <span class="n">sector_info</span><span class="p">[</span><span class="s2">"area_id"</span><span class="p">]</span> <span class="o">=</span> <span class="n">area_def</span><span class="o">.</span><span class="n">area_id</span>
+        <span class="n">sector_info</span><span class="p">[</span><span class="s2">"area_description"</span><span class="p">]</span> <span class="o">=</span> <span class="n">area_def</span><span class="o">.</span><span class="n">description</span>
         <span class="k">return</span> <span class="n">sector_info</span></div>
 
 <div class="viewcode-block" id="MetadataTcOutputFormatterPlugin.update_sector_info_with_data_attribution"><a class="viewcode-back" href="../../../../../geoips_api/geoips.plugins.classes.output_formatters.html#geoips.plugins.classes.output_formatters.metadata_tc.MetadataTcOutputFormatterPlugin.update_sector_info_with_data_attribution">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">update_sector_info_with_data_attribution</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sector_info</span><span class="p">,</span> <span class="n">xarray_obj</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Update sector info with data attribution, for YAML metadata output.&quot;&quot;&quot;</span>
-        <span class="k">for</span> <span class="n">attr_key</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;data_attribution&quot;</span><span class="p">,</span> <span class="s2">&quot;data_provider&quot;</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">"""Update sector info with data attribution, for YAML metadata output."""</span>
+        <span class="k">for</span> <span class="n">attr_key</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">"data_attribution"</span><span class="p">,</span> <span class="s2">"data_provider"</span><span class="p">]:</span>
             <span class="k">if</span> <span class="n">attr_key</span> <span class="ow">in</span> <span class="n">xarray_obj</span><span class="o">.</span><span class="n">attrs</span><span class="p">:</span>
                 <span class="n">sector_info</span><span class="p">[</span><span class="n">attr_key</span><span class="p">]</span> <span class="o">=</span> <span class="n">xarray_obj</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="n">attr_key</span><span class="p">]</span>
         <span class="k">return</span> <span class="n">sector_info</span></div>
@@ -925,13 +952,13 @@ window.runMermaid = runMermaid;</script>
 <div class="viewcode-block" id="MetadataTcOutputFormatterPlugin.update_sector_info_with_coverage"><a class="viewcode-back" href="../../../../../geoips_api/geoips.plugins.classes.output_formatters.html#geoips.plugins.classes.output_formatters.metadata_tc.MetadataTcOutputFormatterPlugin.update_sector_info_with_coverage">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">update_sector_info_with_coverage</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">sector_info</span><span class="p">,</span> <span class="n">product_name</span><span class="p">,</span> <span class="n">xarray_obj</span><span class="p">,</span> <span class="n">area_def</span><span class="p">,</span> <span class="n">output_dict</span>
     <span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Update sector info with coverage, for YAML metadata output.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Update sector info with coverage, for YAML metadata output."""</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">geoips.dev.product</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_covg_from_product</span><span class="p">,</span> <span class="n">get_covg_args_from_product</span>
 
         <span class="n">covg_func_types</span> <span class="o">=</span> <span class="p">{</span>
-            <span class="s2">&quot;image_production&quot;</span><span class="p">:</span> <span class="s2">&quot;image_production_coverage_checker&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;fname&quot;</span><span class="p">:</span> <span class="s2">&quot;filename_coverage_checker&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;full&quot;</span><span class="p">:</span> <span class="s2">&quot;full_coverage_checker&quot;</span><span class="p">,</span>
+            <span class="s2">"image_production"</span><span class="p">:</span> <span class="s2">"image_production_coverage_checker"</span><span class="p">,</span>
+            <span class="s2">"fname"</span><span class="p">:</span> <span class="s2">"filename_coverage_checker"</span><span class="p">,</span>
+            <span class="s2">"full"</span><span class="p">:</span> <span class="s2">"full_coverage_checker"</span><span class="p">,</span>
         <span class="p">}</span>
 
         <span class="n">covg_funcs</span> <span class="o">=</span> <span class="p">{}</span>
@@ -941,26 +968,26 @@ window.runMermaid = runMermaid;</script>
         <span class="n">prod_plugin</span> <span class="o">=</span> <span class="n">products</span><span class="o">.</span><span class="n">get_plugin</span><span class="p">(</span>
             <span class="n">xarray_obj</span><span class="o">.</span><span class="n">source_name</span><span class="p">,</span>
             <span class="n">product_name</span><span class="p">,</span>
-            <span class="n">output_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;product_spec_override&quot;</span><span class="p">),</span>
+            <span class="n">output_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"product_spec_override"</span><span class="p">),</span>
         <span class="p">)</span>
 
         <span class="n">default_covg_plugin</span> <span class="o">=</span> <span class="n">get_covg_from_product</span><span class="p">(</span>
             <span class="n">prod_plugin</span><span class="p">,</span>
-            <span class="n">covg_field</span><span class="o">=</span><span class="s2">&quot;coverage_checker&quot;</span><span class="p">,</span>
+            <span class="n">covg_field</span><span class="o">=</span><span class="s2">"coverage_checker"</span><span class="p">,</span>
         <span class="p">)</span>
 
         <span class="n">default_covg_args</span> <span class="o">=</span> <span class="n">get_covg_args_from_product</span><span class="p">(</span>
             <span class="n">prod_plugin</span><span class="p">,</span>
-            <span class="n">covg_field</span><span class="o">=</span><span class="s2">&quot;coverage_checker&quot;</span><span class="p">,</span>
+            <span class="n">covg_field</span><span class="o">=</span><span class="s2">"coverage_checker"</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">default_covgs</span> <span class="o">=</span> <span class="n">default_covg_plugin</span><span class="p">(</span>
-                <span class="n">xarray_obj</span><span class="p">,</span> <span class="n">prod_plugin</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">area_def</span><span class="p">,</span> <span class="o">**</span><span class="n">covg_args</span><span class="p">[</span><span class="s2">&quot;default&quot;</span><span class="p">]</span>
+                <span class="n">xarray_obj</span><span class="p">,</span> <span class="n">prod_plugin</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">area_def</span><span class="p">,</span> <span class="o">**</span><span class="n">covg_args</span><span class="p">[</span><span class="s2">"default"</span><span class="p">]</span>
             <span class="p">)</span>
         <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
             <span class="n">LOG</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
-                <span class="s1">&#39;&quot;</span><span class="si">%s</span><span class="s1">&quot; covg_func not defined, not including in metadata_tc output&#39;</span><span class="p">,</span>
-                <span class="s2">&quot;default&quot;</span><span class="p">,</span>
+                <span class="s1">'"</span><span class="si">%s</span><span class="s1">" covg_func not defined, not including in metadata_tc output'</span><span class="p">,</span>
+                <span class="s2">"default"</span><span class="p">,</span>
             <span class="p">)</span>
 
         <span class="k">for</span> <span class="n">covg_func_type</span><span class="p">,</span> <span class="n">coverage_checker_plugin_name</span> <span class="ow">in</span> <span class="n">covg_func_types</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
@@ -979,40 +1006,40 @@ window.runMermaid = runMermaid;</script>
             <span class="c1"># Note get_covg_args_from_product was updated to return a copy of</span>
             <span class="c1"># covg_args, so this does not impact future uses of the product.</span>
             <span class="n">covg_varname</span> <span class="o">=</span> <span class="n">covg_args</span><span class="p">[</span><span class="n">covg_func_type</span><span class="p">]</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span>
-                <span class="s2">&quot;variable_name&quot;</span><span class="p">,</span> <span class="n">prod_plugin</span><span class="o">.</span><span class="n">name</span>
+                <span class="s2">"variable_name"</span><span class="p">,</span> <span class="n">prod_plugin</span><span class="o">.</span><span class="n">name</span>
             <span class="p">)</span>
             <span class="c1"># Note variables can be specified as DATASET:VARIABLE, since this is a</span>
             <span class="c1"># preprocessed alg_xarray, and not a dictionary of datasets, just use the</span>
             <span class="c1"># variable name (we expect the correct variable will exist in this final</span>
             <span class="c1"># processed array)</span>
-            <span class="k">if</span> <span class="s2">&quot;:&quot;</span> <span class="ow">in</span> <span class="n">covg_varname</span><span class="p">:</span>
-                <span class="n">covg_varname</span> <span class="o">=</span> <span class="n">covg_varname</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;:&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="k">if</span> <span class="s2">":"</span> <span class="ow">in</span> <span class="n">covg_varname</span><span class="p">:</span>
+                <span class="n">covg_varname</span> <span class="o">=</span> <span class="n">covg_varname</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">":"</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
             <span class="k">try</span><span class="p">:</span>
                 <span class="n">covgs</span><span class="p">[</span><span class="n">covg_func_type</span><span class="p">]</span> <span class="o">=</span> <span class="n">covg_funcs</span><span class="p">[</span><span class="n">covg_func_type</span><span class="p">](</span>
                     <span class="n">xarray_obj</span><span class="p">,</span> <span class="n">covg_varname</span><span class="p">,</span> <span class="n">area_def</span><span class="p">,</span> <span class="o">**</span><span class="n">covg_args</span><span class="p">[</span><span class="n">covg_func_type</span><span class="p">]</span>
                 <span class="p">)</span>
             <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
                 <span class="n">LOG</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
-                    <span class="s1">&#39;&quot;</span><span class="si">%s</span><span class="s1">&quot; covg_func not defined, not including in metadata_tc output&#39;</span><span class="p">,</span>
+                    <span class="s1">'"</span><span class="si">%s</span><span class="s1">" covg_func not defined, not including in metadata_tc output'</span><span class="p">,</span>
                     <span class="n">covg_func_type</span><span class="p">,</span>
                 <span class="p">)</span>
 
         <span class="k">if</span> <span class="n">covgs</span><span class="p">:</span>
-            <span class="n">sector_info</span><span class="p">[</span><span class="s2">&quot;covg_info&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="n">sector_info</span><span class="p">[</span><span class="s2">"covg_info"</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
 
         <span class="k">for</span> <span class="n">covg_func_type</span> <span class="ow">in</span> <span class="n">covgs</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
-            <span class="n">sector_info</span><span class="p">[</span><span class="s2">&quot;covg_info&quot;</span><span class="p">][</span><span class="n">covg_func_type</span> <span class="o">+</span> <span class="s2">&quot;_covg_func&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">covg_funcs</span><span class="p">[</span>
+            <span class="n">sector_info</span><span class="p">[</span><span class="s2">"covg_info"</span><span class="p">][</span><span class="n">covg_func_type</span> <span class="o">+</span> <span class="s2">"_covg_func"</span><span class="p">]</span> <span class="o">=</span> <span class="n">covg_funcs</span><span class="p">[</span>
                 <span class="n">covg_func_type</span>
             <span class="p">]</span><span class="o">.</span><span class="n">name</span>
-            <span class="n">sector_info</span><span class="p">[</span><span class="s2">&quot;covg_info&quot;</span><span class="p">][</span><span class="n">covg_func_type</span> <span class="o">+</span> <span class="s2">&quot;_covg_args&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">covg_args</span><span class="p">[</span>
+            <span class="n">sector_info</span><span class="p">[</span><span class="s2">"covg_info"</span><span class="p">][</span><span class="n">covg_func_type</span> <span class="o">+</span> <span class="s2">"_covg_args"</span><span class="p">]</span> <span class="o">=</span> <span class="n">covg_args</span><span class="p">[</span>
                 <span class="n">covg_func_type</span>
             <span class="p">]</span>
-            <span class="n">sector_info</span><span class="p">[</span><span class="s2">&quot;covg_info&quot;</span><span class="p">][</span><span class="n">covg_func_type</span> <span class="o">+</span> <span class="s2">&quot;_covg&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">covgs</span><span class="p">[</span><span class="n">covg_func_type</span><span class="p">]</span>
+            <span class="n">sector_info</span><span class="p">[</span><span class="s2">"covg_info"</span><span class="p">][</span><span class="n">covg_func_type</span> <span class="o">+</span> <span class="s2">"_covg"</span><span class="p">]</span> <span class="o">=</span> <span class="n">covgs</span><span class="p">[</span><span class="n">covg_func_type</span><span class="p">]</span>
 
         <span class="k">if</span> <span class="n">covgs</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">set</span><span class="p">(</span><span class="n">covg_func_types</span><span class="p">)</span><span class="o">.</span><span class="n">issubset</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">covgs</span><span class="o">.</span><span class="n">keys</span><span class="p">())):</span>
-            <span class="n">sector_info</span><span class="p">[</span><span class="s2">&quot;covg_info&quot;</span><span class="p">][</span><span class="s2">&quot;default_covg_func&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">default_covgs</span><span class="o">.</span><span class="n">name</span>
-            <span class="n">sector_info</span><span class="p">[</span><span class="s2">&quot;covg_info&quot;</span><span class="p">][</span><span class="s2">&quot;default_covg_args&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">default_covg_args</span>
-            <span class="n">sector_info</span><span class="p">[</span><span class="s2">&quot;covg_info&quot;</span><span class="p">][</span><span class="s2">&quot;default_covg&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">default_covgs</span>
+            <span class="n">sector_info</span><span class="p">[</span><span class="s2">"covg_info"</span><span class="p">][</span><span class="s2">"default_covg_func"</span><span class="p">]</span> <span class="o">=</span> <span class="n">default_covgs</span><span class="o">.</span><span class="n">name</span>
+            <span class="n">sector_info</span><span class="p">[</span><span class="s2">"covg_info"</span><span class="p">][</span><span class="s2">"default_covg_args"</span><span class="p">]</span> <span class="o">=</span> <span class="n">default_covg_args</span>
+            <span class="n">sector_info</span><span class="p">[</span><span class="s2">"covg_info"</span><span class="p">][</span><span class="s2">"default_covg"</span><span class="p">]</span> <span class="o">=</span> <span class="n">default_covgs</span>
 
         <span class="k">return</span> <span class="n">sector_info</span></div>
 
@@ -1026,7 +1053,7 @@ window.runMermaid = runMermaid;</script>
         <span class="n">metadata_fname_dict</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">output_fname_dict</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Write out yaml file &quot;metadata_fname&quot; of sector info found in &quot;area_def&quot;.</span>
+<span class="w">        </span><span class="sd">"""Write out yaml file "metadata_fname" of sector info found in "area_def".</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -1043,14 +1070,14 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">        -------</span>
 <span class="sd">        str</span>
 <span class="sd">            Path to metadata filename if successfully produced.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">sector_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">update_sector_info_with_default_metadata</span><span class="p">(</span>
             <span class="n">area_def</span><span class="p">,</span> <span class="n">xarray_obj</span><span class="p">,</span> <span class="n">product_filename</span><span class="o">=</span><span class="n">product_filename</span>
         <span class="p">)</span>
 
         <span class="n">sector_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">update_sector_info_with_coverage</span><span class="p">(</span>
             <span class="n">sector_info</span><span class="p">,</span>
-            <span class="n">metadata_fname_dict</span><span class="p">[</span><span class="s2">&quot;product_name&quot;</span><span class="p">],</span>
+            <span class="n">metadata_fname_dict</span><span class="p">[</span><span class="s2">"product_name"</span><span class="p">],</span>
             <span class="n">xarray_obj</span><span class="p">,</span>
             <span class="n">area_def</span><span class="p">,</span>
             <span class="n">output_dict</span><span class="p">,</span>
@@ -1075,7 +1102,7 @@ window.runMermaid = runMermaid;</script>
             <span class="n">sector_info</span><span class="p">,</span> <span class="n">metadata_fname</span><span class="p">,</span> <span class="n">force</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">replace_geoips_paths</span><span class="o">=</span><span class="kc">True</span>
         <span class="p">)</span>
         <span class="k">if</span> <span class="n">returns</span><span class="p">:</span>
-            <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;METADATASUCCESS Writing </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">metadata_fname</span><span class="p">)</span>
+            <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"METADATASUCCESS Writing </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="n">metadata_fname</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">returns</span></div></div>
 
 

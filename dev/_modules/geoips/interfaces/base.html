@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>geoips.interfaces.base &#8212; GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation</title>
+    <title>geoips.interfaces.base &#8212; GeoIPS, Geolocated Information Processing System 0.0.0 documentation</title>
   
   
   
@@ -40,7 +40,7 @@
   <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
 
-    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=6727bded"></script>
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=525cde36"></script>
     <script src="../../../_static/doctools.js?v=888ff710"></script>
     <script src="../../../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
@@ -401,14 +401,21 @@ mermaid.initialize(
 window.addEventListener("load", load);
 window.runMermaid = runMermaid;</script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_modules/geoips/interfaces/base';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.17.1';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://nrlmmd-geoips.github.io/geoips/versions.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = 'dev';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner =
+            false;
+        </script>
     <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
     <link rel="icon" href="../../../_static/nrlicon.ico"/>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2.0" />
-    <meta name="docbuild:last-update" content="Jul 23, 2026 17:03:57"/>
+  <meta name="docsearch:version" content="0.0" />
+    <meta name="docbuild:last-update" content="Aug 31, 2026 13:32:18"/>
   
     
     <script src="../../../_static/searchtools.js"></script>
@@ -480,11 +487,31 @@ window.runMermaid = runMermaid;</script>
       
     
     
-    <img src="../../../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation - Home"/>
-    <img src="../../../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation - Home"/>
+    <img src="../../../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 0.0.0 documentation - Home"/>
+    <img src="../../../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 0.0.0 documentation - Home"/>
   
   
 </a></div>
+    
+      <div class="navbar-item">
+<div class="version-switcher__container dropdown pst-js-only">
+  <button id="pst-version-switcher-button-2"
+    type="button"
+    class="version-switcher__button btn btn-sm dropdown-toggle"
+    data-bs-toggle="dropdown"
+    aria-haspopup="listbox"
+    aria-controls="pst-version-switcher-list-2"
+    aria-label="Version switcher list"
+  >
+    Choose version  <!-- this text may get changed later by javascript -->
+    <span class="caret"></span>
+  </button>
+  <div id="pst-version-switcher-list-2"
+    class="version-switcher__menu dropdown-menu list-group-flush py-0"
+    role="listbox" aria-labelledby="pst-version-switcher-button-2">
+    <!-- dropdown will be populated by javascript on page load -->
+  </div>
+</div></div>
     
   </div>
   
@@ -828,7 +855,7 @@ window.runMermaid = runMermaid;</script>
 <span></span><span class="c1"># # # This source code is subject to the license referenced at</span>
 <span class="c1"># # # https://github.com/NRLMMD-GEOIPS.</span>
 
-<span class="sd">&quot;&quot;&quot;Base classes for interfaces, plugins, and plugin validation machinery.&quot;&quot;&quot;</span>
+<span class="sd">"""Base classes for interfaces, plugins, and plugin validation machinery."""</span>
 
 <span class="c1"># cspell:ignore refjs</span>
 
@@ -854,33 +881,33 @@ window.runMermaid = runMermaid;</script>
 <span class="n">LOG</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
 
-<span class="n">JSONSCHEMA_DRAFT</span> <span class="o">=</span> <span class="s2">&quot;202012&quot;</span>
-<span class="n">SCHEMA_PATH</span> <span class="o">=</span> <span class="n">files</span><span class="p">(</span><span class="s2">&quot;geoips&quot;</span><span class="p">)</span> <span class="o">/</span> <span class="s2">&quot;schema&quot;</span>
+<span class="n">JSONSCHEMA_DRAFT</span> <span class="o">=</span> <span class="s2">"202012"</span>
+<span class="n">SCHEMA_PATH</span> <span class="o">=</span> <span class="n">files</span><span class="p">(</span><span class="s2">"geoips"</span><span class="p">)</span> <span class="o">/</span> <span class="s2">"schema"</span>
 
 
 <div class="viewcode-block" id="get_schemas"><a class="viewcode-back" href="../../../geoips_api/geoips.interfaces.html#geoips.interfaces.base.get_schemas">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">get_schemas</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">validator</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Collect all of the interface schema.&quot;&quot;&quot;</span>
-    <span class="n">schema_files</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">path</span><span class="p">)</span><span class="o">.</span><span class="n">rglob</span><span class="p">(</span><span class="s2">&quot;*.yaml&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="sd">"""Collect all of the interface schema."""</span>
+    <span class="n">schema_files</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">path</span><span class="p">)</span><span class="o">.</span><span class="n">rglob</span><span class="p">(</span><span class="s2">"*.yaml"</span><span class="p">)</span>
 
     <span class="n">schemas</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="k">for</span> <span class="n">schema_file</span> <span class="ow">in</span> <span class="n">schema_files</span><span class="p">:</span>
-        <span class="n">LOG</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Adding schema file </span><span class="si">{</span><span class="n">schema_file</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">LOG</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Adding schema file </span><span class="si">{</span><span class="n">schema_file</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 
-        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">schema_file</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fo</span><span class="p">:</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">schema_file</span><span class="p">,</span> <span class="s2">"r"</span><span class="p">)</span> <span class="k">as</span> <span class="n">fo</span><span class="p">:</span>
             <span class="n">schema</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">safe_load</span><span class="p">(</span><span class="n">fo</span><span class="p">)</span>
-        <span class="n">schema_id</span> <span class="o">=</span> <span class="n">schema</span><span class="p">[</span><span class="s2">&quot;$id&quot;</span><span class="p">]</span>
+        <span class="n">schema_id</span> <span class="o">=</span> <span class="n">schema</span><span class="p">[</span><span class="s2">"$id"</span><span class="p">]</span>
 
         <span class="k">try</span><span class="p">:</span>
             <span class="n">validator</span><span class="o">.</span><span class="n">check_schema</span><span class="p">(</span><span class="n">schema</span><span class="p">)</span>
         <span class="k">except</span> <span class="n">SchemaError</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">SchemaError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Invalid schema &#39;</span><span class="si">{</span><span class="n">schema_file</span><span class="si">}</span><span class="s2">&#39;&quot;</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">err</span>
+            <span class="k">raise</span> <span class="n">SchemaError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Invalid schema '</span><span class="si">{</span><span class="n">schema_file</span><span class="si">}</span><span class="s2">'"</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">err</span>
         <span class="n">schemas</span><span class="p">[</span><span class="n">schema_id</span><span class="p">]</span> <span class="o">=</span> <span class="n">schema</span>
 
     <span class="k">return</span> <span class="n">schemas</span></div>
 
 
 <div class="viewcode-block" id="get_validators"><a class="viewcode-back" href="../../../geoips_api/geoips.interfaces.html#geoips.interfaces.base.get_validators">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">get_validators</span><span class="p">(</span><span class="n">schema_dict</span><span class="p">,</span> <span class="n">validator_class</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Create validators for each schema in `schema_dict`.</span>
+<span class="w">    </span><span class="sd">"""Create validators for each schema in `schema_dict`.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -893,14 +920,14 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">    dict</span>
 <span class="sd">        A dictionary whose keys are schema `$id` and whose values are `jsonschema`</span>
 <span class="sd">        validator instances.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="c1"># This is the jsonschema draft implemention from the referencing package</span>
-    <span class="c1"># It is used for creating the &quot;resources&quot; and &quot;registry&quot; that link together</span>
+    <span class="c1"># It is used for creating the "resources" and "registry" that link together</span>
     <span class="c1"># the references.</span>
     <span class="c1">#</span>
-    <span class="c1"># This could likely have a better variable name, but I don&#39;t really know what to</span>
+    <span class="c1"># This could likely have a better variable name, but I don't really know what to</span>
     <span class="c1"># call it...</span>
-    <span class="n">ref</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">refjs</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;DRAFT</span><span class="si">{</span><span class="n">JSONSCHEMA_DRAFT</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">ref</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">refjs</span><span class="p">,</span> <span class="sa">f</span><span class="s2">"DRAFT</span><span class="si">{</span><span class="n">JSONSCHEMA_DRAFT</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
     <span class="n">resources</span> <span class="o">=</span> <span class="p">[(</span><span class="n">name</span><span class="p">,</span> <span class="n">ref</span><span class="o">.</span><span class="n">create_resource</span><span class="p">(</span><span class="n">sch</span><span class="p">))</span> <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">sch</span> <span class="ow">in</span> <span class="n">schema_dict</span><span class="o">.</span><span class="n">items</span><span class="p">()]</span>
     <span class="n">registry</span> <span class="o">=</span> <span class="n">referencing</span><span class="o">.</span><span class="n">Registry</span><span class="p">()</span><span class="o">.</span><span class="n">with_resources</span><span class="p">(</span><span class="n">resources</span><span class="p">)</span>
 
@@ -914,72 +941,72 @@ window.runMermaid = runMermaid;</script>
 
 
 <div class="viewcode-block" id="YamlPluginValidator"><a class="viewcode-back" href="../../../geoips_api/geoips.interfaces.html#geoips.interfaces.base.YamlPluginValidator">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">YamlPluginValidator</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;PluginValidator class.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""PluginValidator class."""</span>
 
     <span class="n">_schema_path</span> <span class="o">=</span> <span class="n">SCHEMA_PATH</span>
-    <span class="n">_validator</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">jsonschema</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;Draft</span><span class="si">{</span><span class="n">JSONSCHEMA_DRAFT</span><span class="si">}</span><span class="s2">Validator&quot;</span><span class="p">)</span>
+    <span class="n">_validator</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">jsonschema</span><span class="p">,</span> <span class="sa">f</span><span class="s2">"Draft</span><span class="si">{</span><span class="n">JSONSCHEMA_DRAFT</span><span class="si">}</span><span class="s2">Validator"</span><span class="p">)</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">schemas</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return a list of jsonschema schemas for GeoIPS.</span>
+<span class="w">        </span><span class="sd">"""Return a list of jsonschema schemas for GeoIPS.</span>
 
 <span class="sd">        This performs a lazy-load for the schema to avoid loading them if not</span>
 <span class="sd">        needed. This reduces the import time for geoips.interfaces.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;_schemas&quot;</span><span class="p">):</span>
+<span class="sd">        """</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">"_schemas"</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_schemas</span> <span class="o">=</span> <span class="n">get_schemas</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_schema_path</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_validator</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_schemas</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">validators</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return schema validators.</span>
+<span class="w">        </span><span class="sd">"""Return schema validators.</span>
 
 <span class="sd">        This performs a lazy-load for the validators to avoid loading them if not</span>
 <span class="sd">        needed. This reduces the import time for geoips.interfaces.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;_validators&quot;</span><span class="p">):</span>
+<span class="sd">        """</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">"_validators"</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_validators</span> <span class="o">=</span> <span class="n">get_validators</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">schemas</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_validator</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_validators</span>
 
 <div class="viewcode-block" id="YamlPluginValidator.validate"><a class="viewcode-back" href="../../../geoips_api/geoips.interfaces.html#geoips.interfaces.base.YamlPluginValidator.validate">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">validate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">plugin</span><span class="p">,</span> <span class="n">validator_id</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Validate a YAML plugin against the relevant schema.</span>
+<span class="w">        </span><span class="sd">"""Validate a YAML plugin against the relevant schema.</span>
 
 <span class="sd">        The relevant schema is determined based on the interface and family of the</span>
 <span class="sd">        plugin.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="c1"># Pop off unit-test properties</span>
         <span class="k">try</span><span class="p">:</span>
-            <span class="n">plugin</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;error&quot;</span><span class="p">)</span>
+            <span class="n">plugin</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">"error"</span><span class="p">)</span>
         <span class="k">except</span> <span class="p">(</span><span class="ne">KeyError</span><span class="p">,</span> <span class="ne">AttributeError</span><span class="p">,</span> <span class="ne">TypeError</span><span class="p">):</span>
             <span class="k">pass</span>
         <span class="k">try</span><span class="p">:</span>
-            <span class="n">plugin</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;error_pattern&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+            <span class="n">plugin</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">"error_pattern"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
         <span class="k">except</span> <span class="p">(</span><span class="ne">KeyError</span><span class="p">,</span> <span class="ne">AttributeError</span><span class="p">,</span> <span class="ne">TypeError</span><span class="p">):</span>
             <span class="k">pass</span>
 
         <span class="c1"># This is a temporary fix as we transition to using one top-level schema per</span>
         <span class="c1"># interface. As we transition, add more exceptions here.</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">validator_id</span> <span class="ow">and</span> <span class="n">plugin</span><span class="p">[</span><span class="s2">&quot;interface&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;sectors&quot;</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">plugin</span><span class="p">[</span><span class="s2">&quot;family&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;generated&quot;</span><span class="p">:</span>
-                <span class="n">validator_id</span> <span class="o">=</span> <span class="s2">&quot;sectors.generated&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">validator_id</span> <span class="ow">and</span> <span class="n">plugin</span><span class="p">[</span><span class="s2">"interface"</span><span class="p">]</span> <span class="o">==</span> <span class="s2">"sectors"</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">plugin</span><span class="p">[</span><span class="s2">"family"</span><span class="p">]</span> <span class="o">==</span> <span class="s2">"generated"</span><span class="p">:</span>
+                <span class="n">validator_id</span> <span class="o">=</span> <span class="s2">"sectors.generated"</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="n">validator_id</span> <span class="o">=</span> <span class="s2">&quot;sectors.static&quot;</span>
+                <span class="n">validator_id</span> <span class="o">=</span> <span class="s2">"sectors.static"</span>
 
         <span class="k">if</span> <span class="ow">not</span> <span class="n">validator_id</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">validators</span><span class="p">[</span><span class="s2">&quot;bases.top&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">validate</span><span class="p">(</span><span class="n">plugin</span><span class="p">)</span>
-            <span class="n">validator_id</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">plugin</span><span class="p">[</span><span class="s1">&#39;interface&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">plugin</span><span class="p">[</span><span class="s1">&#39;family&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">validators</span><span class="p">[</span><span class="s2">"bases.top"</span><span class="p">]</span><span class="o">.</span><span class="n">validate</span><span class="p">(</span><span class="n">plugin</span><span class="p">)</span>
+            <span class="n">validator_id</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">plugin</span><span class="p">[</span><span class="s1">'interface'</span><span class="p">]</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">plugin</span><span class="p">[</span><span class="s1">'family'</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span>
 
         <span class="k">try</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">validator_id</span> <span class="o">==</span> <span class="s2">&quot;workflows.order_based&quot;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">validator_id</span> <span class="o">==</span> <span class="s2">"workflows.order_based"</span><span class="p">:</span>
                 <span class="k">return</span> <span class="n">plugin</span>
             <span class="n">validator</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">validators</span><span class="p">[</span><span class="n">validator_id</span><span class="p">]</span>
         <span class="k">except</span> <span class="ne">KeyError</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">validator_id</span> <span class="o">==</span> <span class="s2">&quot;workflows.order_based&quot;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">validator_id</span> <span class="o">==</span> <span class="s2">"workflows.order_based"</span><span class="p">:</span>
                 <span class="k">return</span> <span class="n">plugin</span>
             <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;No validator found for &#39;</span><span class="si">{</span><span class="n">validator_id</span><span class="si">}</span><span class="s2">&#39;&quot;</span>
-                <span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">from plugin &#39;</span><span class="si">{</span><span class="n">plugin</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&#39;&quot;</span>
-                <span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">in interface &#39;</span><span class="si">{</span><span class="n">plugin</span><span class="p">[</span><span class="s1">&#39;interface&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&#39;&quot;</span>
+                <span class="sa">f</span><span class="s2">"No validator found for '</span><span class="si">{</span><span class="n">validator_id</span><span class="si">}</span><span class="s2">'"</span>
+                <span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">from plugin '</span><span class="si">{</span><span class="n">plugin</span><span class="p">[</span><span class="s1">'name'</span><span class="p">]</span><span class="si">}</span><span class="s2">'"</span>
+                <span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">in interface '</span><span class="si">{</span><span class="n">plugin</span><span class="p">[</span><span class="s1">'interface'</span><span class="p">]</span><span class="si">}</span><span class="s2">'"</span>
             <span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">err</span>
 
         <span class="c1"># The error ourput by `validator.validate(plugin)` is being used for testing</span>
@@ -991,76 +1018,76 @@ window.runMermaid = runMermaid;</script>
             <span class="n">validator</span><span class="o">.</span><span class="n">validate</span><span class="p">(</span><span class="n">plugin</span><span class="p">)</span>
         <span class="k">except</span> <span class="n">ValidationError</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
             <span class="k">try</span><span class="p">:</span>
-                <span class="n">plg_name</span> <span class="o">=</span> <span class="n">plugin</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">)</span>
-                <span class="n">plg_pkg</span> <span class="o">=</span> <span class="n">plugin</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;package&quot;</span><span class="p">)</span>
-                <span class="n">plg_interface</span> <span class="o">=</span> <span class="n">plugin</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;interface&quot;</span><span class="p">)</span>
-                <span class="n">plg_abspath</span> <span class="o">=</span> <span class="n">plugin</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;abspath&quot;</span><span class="p">)</span>
+                <span class="n">plg_name</span> <span class="o">=</span> <span class="n">plugin</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"name"</span><span class="p">)</span>
+                <span class="n">plg_pkg</span> <span class="o">=</span> <span class="n">plugin</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"package"</span><span class="p">)</span>
+                <span class="n">plg_interface</span> <span class="o">=</span> <span class="n">plugin</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"interface"</span><span class="p">)</span>
+                <span class="n">plg_abspath</span> <span class="o">=</span> <span class="n">plugin</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"abspath"</span><span class="p">)</span>
             <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span>
-                    <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">err</span><span class="p">)</span><span class="si">}</span><span class="s2">: No &#39;get()&#39; method found on plugin object.&quot;</span>
+                    <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">err</span><span class="p">)</span><span class="si">}</span><span class="s2">: No 'get()' method found on plugin object."</span>
                 <span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">err</span>
             <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
                 <span class="n">missing_keys</span> <span class="o">=</span> <span class="p">[]</span>
-                <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">,</span> <span class="s2">&quot;package&quot;</span><span class="p">,</span> <span class="s2">&quot;interface&quot;</span><span class="p">,</span> <span class="s2">&quot;abspath&quot;</span><span class="p">]:</span>
+                <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">"name"</span><span class="p">,</span> <span class="s2">"package"</span><span class="p">,</span> <span class="s2">"interface"</span><span class="p">,</span> <span class="s2">"abspath"</span><span class="p">]:</span>
                     <span class="k">if</span> <span class="n">key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">plugin</span><span class="p">:</span>
                         <span class="n">missing_keys</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
                 <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span>
-                    <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">err</span><span class="p">)</span><span class="si">}</span><span class="s2">: Plugin missing required keys: </span><span class="si">{</span><span class="n">missing_keys</span><span class="si">}</span><span class="s2">.&quot;</span>
+                    <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">err</span><span class="p">)</span><span class="si">}</span><span class="s2">: Plugin missing required keys: </span><span class="si">{</span><span class="n">missing_keys</span><span class="si">}</span><span class="s2">."</span>
                 <span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">err</span>
             <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">err</span><span class="p">)</span><span class="si">}</span><span class="s2">: &quot;</span>
-                <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Failed to validate plugin with json schema&quot;</span>
-                <span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">on plugin &#39;</span><span class="si">{</span><span class="n">plg_name</span><span class="si">}</span><span class="s2">&#39;&quot;</span>
-                <span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">from package &#39;</span><span class="si">{</span><span class="n">plg_pkg</span><span class="si">}</span><span class="s2">&#39; &quot;</span>
-                <span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">within interface &#39;</span><span class="si">{</span><span class="n">plg_interface</span><span class="si">}</span><span class="s2">&#39; &quot;</span>
-                <span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">at &#39;</span><span class="si">{</span><span class="n">plg_abspath</span><span class="si">}</span><span class="s2">&#39;&quot;</span>
+                <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">err</span><span class="p">)</span><span class="si">}</span><span class="s2">: "</span>
+                <span class="s2">"</span><span class="se">\n</span><span class="s2">Failed to validate plugin with json schema"</span>
+                <span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">on plugin '</span><span class="si">{</span><span class="n">plg_name</span><span class="si">}</span><span class="s2">'"</span>
+                <span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">from package '</span><span class="si">{</span><span class="n">plg_pkg</span><span class="si">}</span><span class="s2">' "</span>
+                <span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">within interface '</span><span class="si">{</span><span class="n">plg_interface</span><span class="si">}</span><span class="s2">' "</span>
+                <span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">at '</span><span class="si">{</span><span class="n">plg_abspath</span><span class="si">}</span><span class="s2">'"</span>
             <span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">err</span>
 
-        <span class="k">if</span> <span class="s2">&quot;family&quot;</span> <span class="ow">in</span> <span class="n">plugin</span> <span class="ow">and</span> <span class="n">plugin</span><span class="p">[</span><span class="s2">&quot;family&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;list&quot;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="s2">"family"</span> <span class="ow">in</span> <span class="n">plugin</span> <span class="ow">and</span> <span class="n">plugin</span><span class="p">[</span><span class="s2">"family"</span><span class="p">]</span> <span class="o">==</span> <span class="s2">"list"</span><span class="p">:</span>
             <span class="n">plugin</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">validate_list</span><span class="p">(</span><span class="n">plugin</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">plugin</span></div>
 
 <div class="viewcode-block" id="YamlPluginValidator.validate_list"><a class="viewcode-back" href="../../../geoips_api/geoips.interfaces.html#geoips.interfaces.base.YamlPluginValidator.validate_list">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">validate_list</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">plugin</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Validate a list of YAML plugins.</span>
+<span class="w">        </span><span class="sd">"""Validate a list of YAML plugins.</span>
 
-<span class="sd">        Some interfaces allow a &#39;list&#39; family. These list plugins will contain a</span>
-<span class="sd">        property that is the same as the interface&#39;s name. Under that is a list of</span>
+<span class="sd">        Some interfaces allow a 'list' family. These list plugins will contain a</span>
+<span class="sd">        property that is the same as the interface's name. Under that is a list of</span>
 <span class="sd">        individual plugins.</span>
 
 <span class="sd">        This function will add the interface property to each plugin in the list, then</span>
 <span class="sd">        validate each plugin.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">valid_list_families</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;products&quot;</span><span class="p">]</span>
-        <span class="k">if</span> <span class="n">plugin</span><span class="p">[</span><span class="s2">&quot;interface&quot;</span><span class="p">]</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">valid_list_families</span><span class="p">:</span>
+<span class="sd">        """</span>
+        <span class="n">valid_list_families</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"products"</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">plugin</span><span class="p">[</span><span class="s2">"interface"</span><span class="p">]</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">valid_list_families</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
-                <span class="s2">&quot;Unable to handle plugins of family &#39;list&#39; for&quot;</span>
-                <span class="sa">f</span><span class="s2">&quot;&#39;</span><span class="si">{</span><span class="n">plugin</span><span class="p">[</span><span class="s1">&#39;interface&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2"> interface.&quot;</span>
-                <span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Plugins from family &#39;list&#39; are currently only handled for &quot;</span>
-                <span class="sa">f</span><span class="s2">&quot;the following interfaces: &#39;</span><span class="si">{</span><span class="n">valid_list_families</span><span class="si">}</span><span class="s2">&#39;.&quot;</span>
+                <span class="s2">"Unable to handle plugins of family 'list' for"</span>
+                <span class="sa">f</span><span class="s2">"'</span><span class="si">{</span><span class="n">plugin</span><span class="p">[</span><span class="s1">'interface'</span><span class="p">]</span><span class="si">}</span><span class="s2"> interface."</span>
+                <span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">Plugins from family 'list' are currently only handled for "</span>
+                <span class="sa">f</span><span class="s2">"the following interfaces: '</span><span class="si">{</span><span class="n">valid_list_families</span><span class="si">}</span><span class="s2">'."</span>
             <span class="p">)</span>
         <span class="c1"># Lists should use their interface name to denote the beginning of the list</span>
-        <span class="k">for</span> <span class="n">sub_plugin</span> <span class="ow">in</span> <span class="n">plugin</span><span class="p">[</span><span class="s2">&quot;spec&quot;</span><span class="p">][</span><span class="n">plugin</span><span class="p">[</span><span class="s2">&quot;interface&quot;</span><span class="p">]]:</span>
-            <span class="n">sub_plugin</span><span class="p">[</span><span class="s2">&quot;interface&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">plugin</span><span class="p">[</span><span class="s2">&quot;interface&quot;</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">sub_plugin</span> <span class="ow">in</span> <span class="n">plugin</span><span class="p">[</span><span class="s2">"spec"</span><span class="p">][</span><span class="n">plugin</span><span class="p">[</span><span class="s2">"interface"</span><span class="p">]]:</span>
+            <span class="n">sub_plugin</span><span class="p">[</span><span class="s2">"interface"</span><span class="p">]</span> <span class="o">=</span> <span class="n">plugin</span><span class="p">[</span><span class="s2">"interface"</span><span class="p">]</span>
             <span class="k">try</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">validate</span><span class="p">(</span><span class="n">sub_plugin</span><span class="p">)</span>
             <span class="k">except</span> <span class="n">PluginError</span> <span class="k">as</span> <span class="n">resp</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="n">PluginError</span><span class="p">(</span>
-                    <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">resp</span><span class="si">}</span><span class="s2">: Trouble validating sub_plugin &#39;</span><span class="si">{</span><span class="n">sub_plugin</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">&#39; &quot;</span>
-                    <span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">on plugin &#39;</span><span class="si">{</span><span class="n">plugin</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">&#39;&quot;</span>
-                    <span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">from package &#39;</span><span class="si">{</span><span class="n">plugin</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;package&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">&#39; &quot;</span>
-                    <span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">at &#39;</span><span class="si">{</span><span class="n">plugin</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;abspath&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">&#39;&quot;</span>
+                    <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">resp</span><span class="si">}</span><span class="s2">: Trouble validating sub_plugin '</span><span class="si">{</span><span class="n">sub_plugin</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'name'</span><span class="p">)</span><span class="si">}</span><span class="s2">' "</span>
+                    <span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">on plugin '</span><span class="si">{</span><span class="n">plugin</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'name'</span><span class="p">)</span><span class="si">}</span><span class="s2">'"</span>
+                    <span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">from package '</span><span class="si">{</span><span class="n">plugin</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'package'</span><span class="p">)</span><span class="si">}</span><span class="s2">' "</span>
+                    <span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">at '</span><span class="si">{</span><span class="n">plugin</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'abspath'</span><span class="p">)</span><span class="si">}</span><span class="s2">'"</span>
                 <span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">resp</span>
         <span class="k">return</span> <span class="n">plugin</span></div></div>
 
 
 <div class="viewcode-block" id="plugin_repr"><a class="viewcode-back" href="../../../geoips_api/geoips.interfaces.html#geoips.interfaces.base.plugin_repr">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">plugin_repr</span><span class="p">(</span><span class="n">obj</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Repr plugin string.&quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">obj</span><span class="o">.</span><span class="vm">__class__</span><span class="si">}</span><span class="s1">(name=&quot;</span><span class="si">{</span><span class="n">obj</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s1">&quot;, module=&quot;</span><span class="si">{</span><span class="n">obj</span><span class="o">.</span><span class="n">module</span><span class="si">}</span><span class="s1">&quot;)&#39;</span></div>
+<span class="w">    </span><span class="sd">"""Repr plugin string."""</span>
+    <span class="k">return</span> <span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="n">obj</span><span class="o">.</span><span class="vm">__class__</span><span class="si">}</span><span class="s1">(name="</span><span class="si">{</span><span class="n">obj</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s1">", module="</span><span class="si">{</span><span class="n">obj</span><span class="o">.</span><span class="n">module</span><span class="si">}</span><span class="s1">")'</span></div>
 
 
 <div class="viewcode-block" id="BaseClassInterface"><a class="viewcode-back" href="../../../geoips_api/geoips.interfaces.html#geoips.interfaces.base.BaseClassInterface">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">BaseClassInterface</span><span class="p">(</span><span class="n">pluginify_base_class</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Base class for class-based interfaces.</span>
+<span class="w">    </span><span class="sd">"""Base class for class-based interfaces.</span>
 
 <span class="sd">    This class should not be instantiated directly. Instead, a package should implement</span>
 <span class="sd">    custom interfaces that inherit from the children of this class. Those custom</span>
@@ -1071,13 +1098,13 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">    ```</span>
 <span class="sd">    will retrieve an instance of ``AlgorithmsInterface`` which will provide access to</span>
 <span class="sd">    the geoips algorithm plugins.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
-    <span class="n">apiVersion</span> <span class="o">=</span> <span class="s2">&quot;geoips/v1&quot;</span></div>
+    <span class="n">apiVersion</span> <span class="o">=</span> <span class="s2">"geoips/v1"</span></div>
 
 
 <div class="viewcode-block" id="BaseYamlInterface"><a class="viewcode-back" href="../../../geoips_api/geoips.interfaces.html#geoips.interfaces.base.BaseYamlInterface">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">BaseYamlInterface</span><span class="p">(</span><span class="n">pluginify_base_yaml</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Base class for GeoIPS yaml-based plugin interfaces.</span>
+<span class="w">    </span><span class="sd">"""Base class for GeoIPS yaml-based plugin interfaces.</span>
 
 <span class="sd">    This class should not be instantiated directly. Instead, interfaces should be</span>
 <span class="sd">    accessed by importing them from ``geoips.interfaces``. For example:</span>
@@ -1086,10 +1113,10 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">    ```</span>
 <span class="sd">    will retrieve an instance of ``ProductsInterface`` which will provide access to</span>
 <span class="sd">    the GeoIPS products plugins.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="n">validator</span> <span class="o">=</span> <span class="n">YamlPluginValidator</span><span class="p">()</span>
-    <span class="n">apiVersion</span> <span class="o">=</span> <span class="s2">&quot;geoips/v1&quot;</span></div>
+    <span class="n">apiVersion</span> <span class="o">=</span> <span class="s2">"geoips/v1"</span></div>
 </pre></div>
 
                 </article>

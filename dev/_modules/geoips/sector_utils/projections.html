@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>geoips.sector_utils.projections &#8212; GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation</title>
+    <title>geoips.sector_utils.projections &#8212; GeoIPS, Geolocated Information Processing System 0.0.0 documentation</title>
   
   
   
@@ -40,7 +40,7 @@
   <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
 
-    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=6727bded"></script>
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=525cde36"></script>
     <script src="../../../_static/doctools.js?v=888ff710"></script>
     <script src="../../../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
@@ -401,14 +401,21 @@ mermaid.initialize(
 window.addEventListener("load", load);
 window.runMermaid = runMermaid;</script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_modules/geoips/sector_utils/projections';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.17.1';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://nrlmmd-geoips.github.io/geoips/versions.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = 'dev';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner =
+            false;
+        </script>
     <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
     <link rel="icon" href="../../../_static/nrlicon.ico"/>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2.0" />
-    <meta name="docbuild:last-update" content="Jul 23, 2026 17:03:57"/>
+  <meta name="docsearch:version" content="0.0" />
+    <meta name="docbuild:last-update" content="Aug 31, 2026 13:32:18"/>
   
     
     <script src="../../../_static/searchtools.js"></script>
@@ -480,11 +487,31 @@ window.runMermaid = runMermaid;</script>
       
     
     
-    <img src="../../../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation - Home"/>
-    <img src="../../../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation - Home"/>
+    <img src="../../../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 0.0.0 documentation - Home"/>
+    <img src="../../../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 0.0.0 documentation - Home"/>
   
   
 </a></div>
+    
+      <div class="navbar-item">
+<div class="version-switcher__container dropdown pst-js-only">
+  <button id="pst-version-switcher-button-2"
+    type="button"
+    class="version-switcher__button btn btn-sm dropdown-toggle"
+    data-bs-toggle="dropdown"
+    aria-haspopup="listbox"
+    aria-controls="pst-version-switcher-list-2"
+    aria-label="Version switcher list"
+  >
+    Choose version  <!-- this text may get changed later by javascript -->
+    <span class="caret"></span>
+  </button>
+  <div id="pst-version-switcher-list-2"
+    class="version-switcher__menu dropdown-menu list-group-flush py-0"
+    role="listbox" aria-labelledby="pst-version-switcher-button-2">
+    <!-- dropdown will be populated by javascript on page load -->
+  </div>
+</div></div>
     
   </div>
   
@@ -828,49 +855,49 @@ window.runMermaid = runMermaid;</script>
 <span></span><span class="c1"># # # This source code is subject to the license referenced at</span>
 <span class="c1"># # # https://github.com/NRLMMD-GEOIPS.</span>
 
-<span class="sd">&quot;&quot;&quot;Projection information for setting up pyresample area definitions.&quot;&quot;&quot;</span>
+<span class="sd">"""Projection information for setting up pyresample area definitions."""</span>
 
 <span class="n">projections_avail</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="p">(</span><span class="s2">&quot;aeqd&quot;</span><span class="p">,</span> <span class="s2">&quot;aeqd&quot;</span><span class="p">,</span> <span class="s2">&quot;Azimuthal Equidistant&quot;</span><span class="p">):</span> <span class="mi">0</span><span class="p">,</span>
-    <span class="p">(</span><span class="s2">&quot;poly&quot;</span><span class="p">,</span> <span class="s2">&quot;poly&quot;</span><span class="p">,</span> <span class="s2">&quot;Polyconic&quot;</span><span class="p">):</span> <span class="mi">0</span><span class="p">,</span>
-    <span class="p">(</span><span class="s2">&quot;gnom&quot;</span><span class="p">,</span> <span class="s2">&quot;gnom&quot;</span><span class="p">,</span> <span class="s2">&quot;Gnomonic&quot;</span><span class="p">):</span> <span class="mi">0</span><span class="p">,</span>
-    <span class="p">(</span><span class="s2">&quot;moll&quot;</span><span class="p">,</span> <span class="s2">&quot;moll&quot;</span><span class="p">,</span> <span class="s2">&quot;Mollweide&quot;</span><span class="p">):</span> <span class="mi">1</span><span class="p">,</span>
-    <span class="p">(</span><span class="s2">&quot;tmerc&quot;</span><span class="p">,</span> <span class="s2">&quot;tmerc&quot;</span><span class="p">,</span> <span class="s2">&quot;Transverse Mercator&quot;</span><span class="p">):</span> <span class="mi">0</span><span class="p">,</span>
-    <span class="p">(</span><span class="s2">&quot;nplaea&quot;</span><span class="p">,</span> <span class="s2">&quot;laea&quot;</span><span class="p">,</span> <span class="s2">&quot;North-Polar Lambert Azimuthal&quot;</span><span class="p">):</span> <span class="mi">4</span><span class="p">,</span>
-    <span class="p">(</span><span class="s2">&quot;gall&quot;</span><span class="p">,</span> <span class="s2">&quot;gall&quot;</span><span class="p">,</span> <span class="s2">&quot;Gall Stereographic Cylindrical&quot;</span><span class="p">):</span> <span class="mi">0</span><span class="p">,</span>
-    <span class="p">(</span><span class="s2">&quot;mill&quot;</span><span class="p">,</span> <span class="s2">&quot;mill&quot;</span><span class="p">,</span> <span class="s2">&quot;Miller Cylindrical&quot;</span><span class="p">):</span> <span class="mi">0</span><span class="p">,</span>
-    <span class="p">(</span><span class="s2">&quot;merc&quot;</span><span class="p">,</span> <span class="s2">&quot;merc&quot;</span><span class="p">,</span> <span class="s2">&quot;Mercator&quot;</span><span class="p">):</span> <span class="mi">0</span><span class="p">,</span>
-    <span class="p">(</span><span class="s2">&quot;stere&quot;</span><span class="p">,</span> <span class="s2">&quot;stere&quot;</span><span class="p">,</span> <span class="s2">&quot;Stereographic&quot;</span><span class="p">):</span> <span class="mi">0</span><span class="p">,</span>
-    <span class="p">(</span><span class="s2">&quot;npstere&quot;</span><span class="p">,</span> <span class="s2">&quot;stere&quot;</span><span class="p">,</span> <span class="s2">&quot;North-Polar Stereographic&quot;</span><span class="p">):</span> <span class="mi">4</span><span class="p">,</span>
-    <span class="p">(</span><span class="s2">&quot;hammer&quot;</span><span class="p">,</span> <span class="s2">&quot;hammer&quot;</span><span class="p">,</span> <span class="s2">&quot;Hammer&quot;</span><span class="p">):</span> <span class="mi">1</span><span class="p">,</span>
-    <span class="p">(</span><span class="s2">&quot;geos&quot;</span><span class="p">,</span> <span class="s2">&quot;geos&quot;</span><span class="p">,</span> <span class="s2">&quot;Geostationary&quot;</span><span class="p">):</span> <span class="mi">2</span><span class="p">,</span>
-    <span class="p">(</span><span class="s2">&quot;nsper&quot;</span><span class="p">,</span> <span class="s2">&quot;nsper&quot;</span><span class="p">,</span> <span class="s2">&quot;Near-Sided Perspective&quot;</span><span class="p">):</span> <span class="mi">2</span><span class="p">,</span>
-    <span class="p">(</span><span class="s2">&quot;vandg&quot;</span><span class="p">,</span> <span class="s2">&quot;vandg&quot;</span><span class="p">,</span> <span class="s2">&quot;van der Grinten&quot;</span><span class="p">):</span> <span class="mi">0</span><span class="p">,</span>
-    <span class="p">(</span><span class="s2">&quot;laea&quot;</span><span class="p">,</span> <span class="s2">&quot;laea&quot;</span><span class="p">,</span> <span class="s2">&quot;Lambert Azimuthal Equal Area&quot;</span><span class="p">):</span> <span class="mi">0</span><span class="p">,</span>
-    <span class="p">(</span><span class="s2">&quot;mbtfpq&quot;</span><span class="p">,</span> <span class="s2">&quot;mbtfpq&quot;</span><span class="p">,</span> <span class="s2">&quot;McBryde-Thomas Flat-Polar Quartic&quot;</span><span class="p">):</span> <span class="mi">1</span><span class="p">,</span>
-    <span class="p">(</span><span class="s2">&quot;sinu&quot;</span><span class="p">,</span> <span class="s2">&quot;sinu&quot;</span><span class="p">,</span> <span class="s2">&quot;Sinusoidal&quot;</span><span class="p">):</span> <span class="mi">1</span><span class="p">,</span>
-    <span class="p">(</span><span class="s2">&quot;spstere&quot;</span><span class="p">,</span> <span class="s2">&quot;stere&quot;</span><span class="p">,</span> <span class="s2">&quot;South-Polar Stereographic&quot;</span><span class="p">):</span> <span class="mi">4</span><span class="p">,</span>
+    <span class="p">(</span><span class="s2">"aeqd"</span><span class="p">,</span> <span class="s2">"aeqd"</span><span class="p">,</span> <span class="s2">"Azimuthal Equidistant"</span><span class="p">):</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="p">(</span><span class="s2">"poly"</span><span class="p">,</span> <span class="s2">"poly"</span><span class="p">,</span> <span class="s2">"Polyconic"</span><span class="p">):</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="p">(</span><span class="s2">"gnom"</span><span class="p">,</span> <span class="s2">"gnom"</span><span class="p">,</span> <span class="s2">"Gnomonic"</span><span class="p">):</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="p">(</span><span class="s2">"moll"</span><span class="p">,</span> <span class="s2">"moll"</span><span class="p">,</span> <span class="s2">"Mollweide"</span><span class="p">):</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="p">(</span><span class="s2">"tmerc"</span><span class="p">,</span> <span class="s2">"tmerc"</span><span class="p">,</span> <span class="s2">"Transverse Mercator"</span><span class="p">):</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="p">(</span><span class="s2">"nplaea"</span><span class="p">,</span> <span class="s2">"laea"</span><span class="p">,</span> <span class="s2">"North-Polar Lambert Azimuthal"</span><span class="p">):</span> <span class="mi">4</span><span class="p">,</span>
+    <span class="p">(</span><span class="s2">"gall"</span><span class="p">,</span> <span class="s2">"gall"</span><span class="p">,</span> <span class="s2">"Gall Stereographic Cylindrical"</span><span class="p">):</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="p">(</span><span class="s2">"mill"</span><span class="p">,</span> <span class="s2">"mill"</span><span class="p">,</span> <span class="s2">"Miller Cylindrical"</span><span class="p">):</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="p">(</span><span class="s2">"merc"</span><span class="p">,</span> <span class="s2">"merc"</span><span class="p">,</span> <span class="s2">"Mercator"</span><span class="p">):</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="p">(</span><span class="s2">"stere"</span><span class="p">,</span> <span class="s2">"stere"</span><span class="p">,</span> <span class="s2">"Stereographic"</span><span class="p">):</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="p">(</span><span class="s2">"npstere"</span><span class="p">,</span> <span class="s2">"stere"</span><span class="p">,</span> <span class="s2">"North-Polar Stereographic"</span><span class="p">):</span> <span class="mi">4</span><span class="p">,</span>
+    <span class="p">(</span><span class="s2">"hammer"</span><span class="p">,</span> <span class="s2">"hammer"</span><span class="p">,</span> <span class="s2">"Hammer"</span><span class="p">):</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="p">(</span><span class="s2">"geos"</span><span class="p">,</span> <span class="s2">"geos"</span><span class="p">,</span> <span class="s2">"Geostationary"</span><span class="p">):</span> <span class="mi">2</span><span class="p">,</span>
+    <span class="p">(</span><span class="s2">"nsper"</span><span class="p">,</span> <span class="s2">"nsper"</span><span class="p">,</span> <span class="s2">"Near-Sided Perspective"</span><span class="p">):</span> <span class="mi">2</span><span class="p">,</span>
+    <span class="p">(</span><span class="s2">"vandg"</span><span class="p">,</span> <span class="s2">"vandg"</span><span class="p">,</span> <span class="s2">"van der Grinten"</span><span class="p">):</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="p">(</span><span class="s2">"laea"</span><span class="p">,</span> <span class="s2">"laea"</span><span class="p">,</span> <span class="s2">"Lambert Azimuthal Equal Area"</span><span class="p">):</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="p">(</span><span class="s2">"mbtfpq"</span><span class="p">,</span> <span class="s2">"mbtfpq"</span><span class="p">,</span> <span class="s2">"McBryde-Thomas Flat-Polar Quartic"</span><span class="p">):</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="p">(</span><span class="s2">"sinu"</span><span class="p">,</span> <span class="s2">"sinu"</span><span class="p">,</span> <span class="s2">"Sinusoidal"</span><span class="p">):</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="p">(</span><span class="s2">"spstere"</span><span class="p">,</span> <span class="s2">"stere"</span><span class="p">,</span> <span class="s2">"South-Polar Stereographic"</span><span class="p">):</span> <span class="mi">4</span><span class="p">,</span>
     <span class="c1"># lcc does not geolocate correctly</span>
-    <span class="p">(</span><span class="s2">&quot;lcc&quot;</span><span class="p">,</span> <span class="s2">&quot;lcc&quot;</span><span class="p">,</span> <span class="s2">&quot;Lambert Conformal&quot;</span><span class="p">):</span> <span class="mi">0</span><span class="p">,</span>
-    <span class="p">(</span><span class="s2">&quot;npaeqd&quot;</span><span class="p">,</span> <span class="s2">&quot;npaeqd&quot;</span><span class="p">,</span> <span class="s2">&quot;North-Polar Azimuthal Equidistant&quot;</span><span class="p">):</span> <span class="mi">4</span><span class="p">,</span>
-    <span class="p">(</span><span class="s2">&quot;ease_sh&quot;</span><span class="p">,</span> <span class="s2">&quot;ease_sh&quot;</span><span class="p">,</span> <span class="s2">&quot;Antarctic EASE Grid&quot;</span><span class="p">):</span> <span class="mi">4</span><span class="p">,</span>
-    <span class="p">(</span><span class="s2">&quot;ease_nh&quot;</span><span class="p">,</span> <span class="s2">&quot;ease_nh&quot;</span><span class="p">,</span> <span class="s2">&quot;Arctic EASE grid&quot;</span><span class="p">):</span> <span class="mi">4</span><span class="p">,</span>
-    <span class="p">(</span><span class="s2">&quot;eqdc&quot;</span><span class="p">,</span> <span class="s2">&quot;eqdc&quot;</span><span class="p">,</span> <span class="s2">&quot;Equidistant Conic&quot;</span><span class="p">):</span> <span class="mi">0</span><span class="p">,</span>
-    <span class="p">(</span><span class="s2">&quot;cyl&quot;</span><span class="p">,</span> <span class="s2">&quot;eqc&quot;</span><span class="p">,</span> <span class="s2">&quot;Equidistant Cylindrical&quot;</span><span class="p">):</span> <span class="mi">2</span><span class="p">,</span>
-    <span class="p">(</span><span class="s2">&quot;eqc&quot;</span><span class="p">,</span> <span class="s2">&quot;eqc&quot;</span><span class="p">,</span> <span class="s2">&quot;Equidistant Cylindrical&quot;</span><span class="p">):</span> <span class="mi">2</span><span class="p">,</span>
-    <span class="p">(</span><span class="s2">&quot;omerc&quot;</span><span class="p">,</span> <span class="s2">&quot;omerc&quot;</span><span class="p">,</span> <span class="s2">&quot;Oblique Mercator&quot;</span><span class="p">):</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="p">(</span><span class="s2">"lcc"</span><span class="p">,</span> <span class="s2">"lcc"</span><span class="p">,</span> <span class="s2">"Lambert Conformal"</span><span class="p">):</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="p">(</span><span class="s2">"npaeqd"</span><span class="p">,</span> <span class="s2">"npaeqd"</span><span class="p">,</span> <span class="s2">"North-Polar Azimuthal Equidistant"</span><span class="p">):</span> <span class="mi">4</span><span class="p">,</span>
+    <span class="p">(</span><span class="s2">"ease_sh"</span><span class="p">,</span> <span class="s2">"ease_sh"</span><span class="p">,</span> <span class="s2">"Antarctic EASE Grid"</span><span class="p">):</span> <span class="mi">4</span><span class="p">,</span>
+    <span class="p">(</span><span class="s2">"ease_nh"</span><span class="p">,</span> <span class="s2">"ease_nh"</span><span class="p">,</span> <span class="s2">"Arctic EASE grid"</span><span class="p">):</span> <span class="mi">4</span><span class="p">,</span>
+    <span class="p">(</span><span class="s2">"eqdc"</span><span class="p">,</span> <span class="s2">"eqdc"</span><span class="p">,</span> <span class="s2">"Equidistant Conic"</span><span class="p">):</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="p">(</span><span class="s2">"cyl"</span><span class="p">,</span> <span class="s2">"eqc"</span><span class="p">,</span> <span class="s2">"Equidistant Cylindrical"</span><span class="p">):</span> <span class="mi">2</span><span class="p">,</span>
+    <span class="p">(</span><span class="s2">"eqc"</span><span class="p">,</span> <span class="s2">"eqc"</span><span class="p">,</span> <span class="s2">"Equidistant Cylindrical"</span><span class="p">):</span> <span class="mi">2</span><span class="p">,</span>
+    <span class="p">(</span><span class="s2">"omerc"</span><span class="p">,</span> <span class="s2">"omerc"</span><span class="p">,</span> <span class="s2">"Oblique Mercator"</span><span class="p">):</span> <span class="mi">0</span><span class="p">,</span>
     <span class="c1"># aea does not geolocate correctly</span>
-    <span class="p">(</span><span class="s2">&quot;aea&quot;</span><span class="p">,</span> <span class="s2">&quot;aea&quot;</span><span class="p">,</span> <span class="s2">&quot;Albers Equal Area&quot;</span><span class="p">):</span> <span class="mi">0</span><span class="p">,</span>
-    <span class="p">(</span><span class="s2">&quot;spaeqd&quot;</span><span class="p">,</span> <span class="s2">&quot;spaeqd&quot;</span><span class="p">,</span> <span class="s2">&quot;South-Polar Azimuthal Equidistant&quot;</span><span class="p">):</span> <span class="mi">4</span><span class="p">,</span>
-    <span class="p">(</span><span class="s2">&quot;ortho&quot;</span><span class="p">,</span> <span class="s2">&quot;ortho&quot;</span><span class="p">,</span> <span class="s2">&quot;Orthographic&quot;</span><span class="p">):</span> <span class="mi">3</span><span class="p">,</span>
-    <span class="p">(</span><span class="s2">&quot;cass&quot;</span><span class="p">,</span> <span class="s2">&quot;cass&quot;</span><span class="p">,</span> <span class="s2">&quot;Cassini-Soldner&quot;</span><span class="p">):</span> <span class="mi">0</span><span class="p">,</span>
-    <span class="p">(</span><span class="s2">&quot;splaea&quot;</span><span class="p">,</span> <span class="s2">&quot;laea&quot;</span><span class="p">,</span> <span class="s2">&quot;South-Polar Lambert Azimuthal&quot;</span><span class="p">):</span> <span class="mi">4</span><span class="p">,</span>
-    <span class="p">(</span><span class="s2">&quot;robin&quot;</span><span class="p">,</span> <span class="s2">&quot;robin&quot;</span><span class="p">,</span> <span class="s2">&quot;Robinson&quot;</span><span class="p">):</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="p">(</span><span class="s2">"aea"</span><span class="p">,</span> <span class="s2">"aea"</span><span class="p">,</span> <span class="s2">"Albers Equal Area"</span><span class="p">):</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="p">(</span><span class="s2">"spaeqd"</span><span class="p">,</span> <span class="s2">"spaeqd"</span><span class="p">,</span> <span class="s2">"South-Polar Azimuthal Equidistant"</span><span class="p">):</span> <span class="mi">4</span><span class="p">,</span>
+    <span class="p">(</span><span class="s2">"ortho"</span><span class="p">,</span> <span class="s2">"ortho"</span><span class="p">,</span> <span class="s2">"Orthographic"</span><span class="p">):</span> <span class="mi">3</span><span class="p">,</span>
+    <span class="p">(</span><span class="s2">"cass"</span><span class="p">,</span> <span class="s2">"cass"</span><span class="p">,</span> <span class="s2">"Cassini-Soldner"</span><span class="p">):</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="p">(</span><span class="s2">"splaea"</span><span class="p">,</span> <span class="s2">"laea"</span><span class="p">,</span> <span class="s2">"South-Polar Lambert Azimuthal"</span><span class="p">):</span> <span class="mi">4</span><span class="p">,</span>
+    <span class="p">(</span><span class="s2">"robin"</span><span class="p">,</span> <span class="s2">"robin"</span><span class="p">,</span> <span class="s2">"Robinson"</span><span class="p">):</span> <span class="mi">1</span><span class="p">,</span>
 <span class="p">}</span>
 
 
 <div class="viewcode-block" id="get_projection"><a class="viewcode-back" href="../../../geoips_api/geoips.sector_utils.html#geoips.sector_utils.projections.get_projection">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">get_projection</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get a dictionary of projection names containing the specified keys.</span>
+<span class="w">    </span><span class="sd">"""Get a dictionary of projection names containing the specified keys.</span>
 
 <span class="sd">    Dictionary keys:</span>
 <span class="sd">        * name:       the basemap projection short name</span>
@@ -885,7 +912,7 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">    * Ignores corner lats and lons and width/height arguments.  Uses center lat/lon</span>
 <span class="sd">    * Can use corner lats and lons or corner coordinates in the local projection</span>
 <span class="sd">      space, but ignores all other location parameters.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">proj_info</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">projections_avail</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
         <span class="k">try</span><span class="p">:</span>
@@ -894,16 +921,16 @@ window.runMermaid = runMermaid;</script>
             <span class="n">lowercase_name</span> <span class="o">=</span> <span class="n">name</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
         <span class="k">if</span> <span class="n">lowercase_name</span> <span class="o">==</span> <span class="n">key</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">():</span>
             <span class="n">proj_info</span> <span class="o">=</span> <span class="p">{</span>
-                <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="n">key</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
-                <span class="s2">&quot;p4name&quot;</span><span class="p">:</span> <span class="n">key</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
-                <span class="s2">&quot;longname&quot;</span><span class="p">:</span> <span class="n">key</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span>
-                <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="n">val</span><span class="p">,</span>
+                <span class="s2">"name"</span><span class="p">:</span> <span class="n">key</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+                <span class="s2">"p4name"</span><span class="p">:</span> <span class="n">key</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+                <span class="s2">"longname"</span><span class="p">:</span> <span class="n">key</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span>
+                <span class="s2">"type"</span><span class="p">:</span> <span class="n">val</span><span class="p">,</span>
             <span class="p">}</span>
             <span class="k">break</span>
     <span class="k">if</span> <span class="n">proj_info</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2"> projection is not defined in geoips.&quot;</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">proj_info</span><span class="p">[</span><span class="s2">&quot;p4name&quot;</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2"> projection is not defined in Proj4.&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2"> projection is not defined in geoips."</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">proj_info</span><span class="p">[</span><span class="s2">"p4name"</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2"> projection is not defined in Proj4."</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">proj_info</span></div>
 </pre></div>
 

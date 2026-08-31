@@ -1,0 +1,71 @@
+geoips package
+==============
+
+Subpackages
+-----------
+
+.. toctree::
+   :maxdepth: 4
+
+   geoips.commandline
+   geoips.data_manipulations
+   geoips.dev
+   geoips.filenames
+   geoips.image_utils
+   geoips.interfaces
+   geoips.plugins
+   geoips.pydantic_models
+   geoips.sector_utils
+   geoips.utils
+   geoips.xarray_utils
+
+Submodules
+----------
+
+geoips.cli module
+-----------------
+
+.. automodule:: geoips.cli
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+geoips.create\_plugin\_registries module
+----------------------------------------
+
+.. automodule:: geoips.create_plugin_registries
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+geoips.errors module
+--------------------
+
+.. automodule:: geoips.errors
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+geoips.geoips\_utils module
+---------------------------
+
+.. automodule:: geoips.geoips_utils
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+geoips.plugin\_registry module
+------------------------------
+
+.. automodule:: geoips.plugin_registry
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+Module contents
+---------------
+
+.. automodule:: geoips
+   :members:
+   :show-inheritance:
+   :undoc-members:

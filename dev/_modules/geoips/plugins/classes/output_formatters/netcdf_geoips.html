@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>geoips.plugins.classes.output_formatters.netcdf_geoips &#8212; GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation</title>
+    <title>geoips.plugins.classes.output_formatters.netcdf_geoips &#8212; GeoIPS, Geolocated Information Processing System 0.0.0 documentation</title>
   
   
   
@@ -40,7 +40,7 @@
   <link rel="preload" as="script" href="../../../../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
 <link rel="preload" as="script" href="../../../../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
 
-    <script data-url_root="../../../../../" id="documentation_options" src="../../../../../_static/documentation_options.js?v=6727bded"></script>
+    <script data-url_root="../../../../../" id="documentation_options" src="../../../../../_static/documentation_options.js?v=525cde36"></script>
     <script src="../../../../../_static/doctools.js?v=888ff710"></script>
     <script src="../../../../../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../../../_static/design-tabs.js?v=f930bc37"></script>
@@ -401,14 +401,21 @@ mermaid.initialize(
 window.addEventListener("load", load);
 window.runMermaid = runMermaid;</script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_modules/geoips/plugins/classes/output_formatters/netcdf_geoips';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.17.1';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://nrlmmd-geoips.github.io/geoips/versions.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = 'dev';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner =
+            false;
+        </script>
     <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
     <link rel="icon" href="../../../../../_static/nrlicon.ico"/>
     <link rel="index" title="Index" href="../../../../../genindex.html" />
     <link rel="search" title="Search" href="../../../../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2.0" />
-    <meta name="docbuild:last-update" content="Jul 23, 2026 17:03:57"/>
+  <meta name="docsearch:version" content="0.0" />
+    <meta name="docbuild:last-update" content="Aug 31, 2026 13:32:18"/>
   
     
     <script src="../../../../../_static/searchtools.js"></script>
@@ -480,11 +487,31 @@ window.runMermaid = runMermaid;</script>
       
     
     
-    <img src="../../../../../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation - Home"/>
-    <img src="../../../../../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation - Home"/>
+    <img src="../../../../../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 0.0.0 documentation - Home"/>
+    <img src="../../../../../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 0.0.0 documentation - Home"/>
   
   
 </a></div>
+    
+      <div class="navbar-item">
+<div class="version-switcher__container dropdown pst-js-only">
+  <button id="pst-version-switcher-button-2"
+    type="button"
+    class="version-switcher__button btn btn-sm dropdown-toggle"
+    data-bs-toggle="dropdown"
+    aria-haspopup="listbox"
+    aria-controls="pst-version-switcher-list-2"
+    aria-label="Version switcher list"
+  >
+    Choose version  <!-- this text may get changed later by javascript -->
+    <span class="caret"></span>
+  </button>
+  <div id="pst-version-switcher-list-2"
+    class="version-switcher__menu dropdown-menu list-group-flush py-0"
+    role="listbox" aria-labelledby="pst-version-switcher-button-2">
+    <!-- dropdown will be populated by javascript on page load -->
+  </div>
+</div></div>
     
   </div>
   
@@ -828,7 +855,7 @@ window.runMermaid = runMermaid;</script>
 <span></span><span class="c1"># # # This source code is subject to the license referenced at</span>
 <span class="c1"># # # https://github.com/NRLMMD-GEOIPS.</span>
 
-<span class="sd">&quot;&quot;&quot;Geoips style NetCDF output format.&quot;&quot;&quot;</span>
+<span class="sd">"""Geoips style NetCDF output format."""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">geoips.interfaces.class_based.output_formatters</span><span class="w"> </span><span class="kn">import</span> <span class="n">NetcdfOutputFormatterPlugin</span>
 
@@ -838,11 +865,11 @@ window.runMermaid = runMermaid;</script>
 
 
 <div class="viewcode-block" id="NetcdfGeoipOutputFormatterPlugin"><a class="viewcode-back" href="../../../../../geoips_api/geoips.plugins.classes.output_formatters.html#geoips.plugins.classes.output_formatters.netcdf_geoips.NetcdfGeoipOutputFormatterPlugin">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">NetcdfGeoipOutputFormatterPlugin</span><span class="p">(</span><span class="n">NetcdfOutputFormatterPlugin</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Netcdf Geoip Output formatter plugin class.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Netcdf Geoip Output formatter plugin class."""</span>
 
-    <span class="n">interface</span> <span class="o">=</span> <span class="s2">&quot;output_formatters&quot;</span>
-    <span class="n">family</span> <span class="o">=</span> <span class="s2">&quot;xarray_data&quot;</span>
-    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;netcdf_geoips&quot;</span>
+    <span class="n">interface</span> <span class="o">=</span> <span class="s2">"output_formatters"</span>
+    <span class="n">family</span> <span class="o">=</span> <span class="s2">"xarray_data"</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">"netcdf_geoips"</span>
 
 <div class="viewcode-block" id="NetcdfGeoipOutputFormatterPlugin.call"><a class="viewcode-back" href="../../../../../geoips_api/geoips.plugins.classes.output_formatters.html#geoips.plugins.classes.output_formatters.netcdf_geoips.NetcdfGeoipOutputFormatterPlugin.call">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">call</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
@@ -853,7 +880,7 @@ window.runMermaid = runMermaid;</script>
         <span class="n">use_compression</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
         <span class="n">compression_kwargs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Write GeoIPS style NetCDF to disk.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Write GeoIPS style NetCDF to disk."""</span>
         <span class="kn">import</span><span class="w"> </span><span class="nn">xarray</span>
 
         <span class="n">prod_xarray</span> <span class="o">=</span> <span class="n">xarray</span><span class="o">.</span><span class="n">Dataset</span><span class="p">()</span>

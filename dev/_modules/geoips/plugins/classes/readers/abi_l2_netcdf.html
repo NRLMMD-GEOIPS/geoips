@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>geoips.plugins.classes.readers.abi_l2_netcdf &#8212; GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation</title>
+    <title>geoips.plugins.classes.readers.abi_l2_netcdf &#8212; GeoIPS, Geolocated Information Processing System 0.0.0 documentation</title>
   
   
   
@@ -40,7 +40,7 @@
   <link rel="preload" as="script" href="../../../../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
 <link rel="preload" as="script" href="../../../../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
 
-    <script data-url_root="../../../../../" id="documentation_options" src="../../../../../_static/documentation_options.js?v=6727bded"></script>
+    <script data-url_root="../../../../../" id="documentation_options" src="../../../../../_static/documentation_options.js?v=525cde36"></script>
     <script src="../../../../../_static/doctools.js?v=888ff710"></script>
     <script src="../../../../../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../../../_static/design-tabs.js?v=f930bc37"></script>
@@ -401,14 +401,21 @@ mermaid.initialize(
 window.addEventListener("load", load);
 window.runMermaid = runMermaid;</script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_modules/geoips/plugins/classes/readers/abi_l2_netcdf';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.17.1';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://nrlmmd-geoips.github.io/geoips/versions.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = 'dev';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner =
+            false;
+        </script>
     <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
     <link rel="icon" href="../../../../../_static/nrlicon.ico"/>
     <link rel="index" title="Index" href="../../../../../genindex.html" />
     <link rel="search" title="Search" href="../../../../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2.0" />
-    <meta name="docbuild:last-update" content="Jul 23, 2026 17:03:57"/>
+  <meta name="docsearch:version" content="0.0" />
+    <meta name="docbuild:last-update" content="Aug 31, 2026 13:32:18"/>
   
     
     <script src="../../../../../_static/searchtools.js"></script>
@@ -480,11 +487,31 @@ window.runMermaid = runMermaid;</script>
       
     
     
-    <img src="../../../../../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation - Home"/>
-    <img src="../../../../../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation - Home"/>
+    <img src="../../../../../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 0.0.0 documentation - Home"/>
+    <img src="../../../../../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 0.0.0 documentation - Home"/>
   
   
 </a></div>
+    
+      <div class="navbar-item">
+<div class="version-switcher__container dropdown pst-js-only">
+  <button id="pst-version-switcher-button-2"
+    type="button"
+    class="version-switcher__button btn btn-sm dropdown-toggle"
+    data-bs-toggle="dropdown"
+    aria-haspopup="listbox"
+    aria-controls="pst-version-switcher-list-2"
+    aria-label="Version switcher list"
+  >
+    Choose version  <!-- this text may get changed later by javascript -->
+    <span class="caret"></span>
+  </button>
+  <div id="pst-version-switcher-list-2"
+    class="version-switcher__menu dropdown-menu list-group-flush py-0"
+    role="listbox" aria-labelledby="pst-version-switcher-button-2">
+    <!-- dropdown will be populated by javascript on page load -->
+  </div>
+</div></div>
     
   </div>
   
@@ -828,7 +855,7 @@ window.runMermaid = runMermaid;</script>
 <span></span><span class="c1"># # # This source code is subject to the license referenced at</span>
 <span class="c1"># # # https://github.com/NRLMMD-GEOIPS.</span>
 
-<span class="sd">&quot;&quot;&quot;ABI Level 2 NetCDF reader.&quot;&quot;&quot;</span>
+<span class="sd">"""ABI Level 2 NetCDF reader."""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">geoips.interfaces.class_based.readers</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseAbiReaderPlugin</span>
 
@@ -848,19 +875,19 @@ window.runMermaid = runMermaid;</script>
 <span class="p">)</span>
 
 <span class="n">log</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
-<span class="n">source_names</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;abi&quot;</span><span class="p">]</span>
+<span class="n">source_names</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"abi"</span><span class="p">]</span>
 
 
 <div class="viewcode-block" id="AbiL2NetcdfReaderPlugin"><a class="viewcode-back" href="../../../../../geoips_api/geoips.plugins.classes.readers.html#geoips.plugins.classes.readers.abi_l2_netcdf.AbiL2NetcdfReaderPlugin">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">AbiL2NetcdfReaderPlugin</span><span class="p">(</span><span class="n">BaseAbiReaderPlugin</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;ABI L2 Netcdf reader plugin class.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""ABI L2 Netcdf reader plugin class."""</span>
 
-    <span class="n">interface</span> <span class="o">=</span> <span class="s2">&quot;readers&quot;</span>
-    <span class="n">family</span> <span class="o">=</span> <span class="s2">&quot;standard&quot;</span>
-    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;abi_l2_netcdf&quot;</span>
+    <span class="n">interface</span> <span class="o">=</span> <span class="s2">"readers"</span>
+    <span class="n">family</span> <span class="o">=</span> <span class="s2">"standard"</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">"abi_l2_netcdf"</span>
 
 <div class="viewcode-block" id="AbiL2NetcdfReaderPlugin.get_metadata"><a class="viewcode-back" href="../../../../../geoips_api/geoips.plugins.classes.readers.html#geoips.plugins.classes.readers.abi_l2_netcdf.AbiL2NetcdfReaderPlugin.get_metadata">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_metadata</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fname</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get metadata.&quot;&quot;&quot;</span>
-        <span class="k">with</span> <span class="n">ncdf</span><span class="o">.</span><span class="n">Dataset</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">df</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Get metadata."""</span>
+        <span class="k">with</span> <span class="n">ncdf</span><span class="o">.</span><span class="n">Dataset</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="s2">"r"</span><span class="p">)</span> <span class="k">as</span> <span class="n">df</span><span class="p">:</span>
             <span class="n">metadata</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_metadata</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">fname</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">metadata</span></div>
 
@@ -868,14 +895,14 @@ window.runMermaid = runMermaid;</script>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">metadata</span><span class="p">,</span>
         <span class="n">area_def</span><span class="p">,</span>
-        <span class="n">geolocation_cache_backend</span><span class="o">=</span><span class="s2">&quot;memmap&quot;</span><span class="p">,</span>
+        <span class="n">geolocation_cache_backend</span><span class="o">=</span><span class="s2">"memmap"</span><span class="p">,</span>
         <span class="n">cache_chunk_size</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">resource_tracker</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Calculate ABI geolocation.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Calculate ABI geolocation."""</span>
         <span class="n">geometa</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_geolocation_metadata</span><span class="p">(</span><span class="n">metadata</span><span class="p">)</span>
         <span class="n">sdt</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span>
-            <span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;file_info&quot;</span><span class="p">][</span><span class="s2">&quot;time_coverage_start&quot;</span><span class="p">],</span> <span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2">T%H:%M:%S.</span><span class="si">%f</span><span class="s2">Z&quot;</span>
+            <span class="n">metadata</span><span class="p">[</span><span class="s2">"file_info"</span><span class="p">][</span><span class="s2">"time_coverage_start"</span><span class="p">],</span> <span class="s2">"%Y-%m-</span><span class="si">%d</span><span class="s2">T%H:%M:%S.</span><span class="si">%f</span><span class="s2">Z"</span>
         <span class="p">)</span>
         <span class="n">fldk_lats</span><span class="p">,</span> <span class="n">fldk_lons</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_latitude_longitude</span><span class="p">(</span>
             <span class="n">geometa</span><span class="p">,</span>
@@ -896,12 +923,12 @@ window.runMermaid = runMermaid;</script>
             <span class="n">chunk_size</span><span class="o">=</span><span class="n">cache_chunk_size</span><span class="p">,</span>
             <span class="n">resource_tracker</span><span class="o">=</span><span class="n">resource_tracker</span><span class="p">,</span>
         <span class="p">)</span>
-        <span class="n">geo</span><span class="p">[</span><span class="s2">&quot;fldk_lats&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">fldk_lats</span>
-        <span class="n">geo</span><span class="p">[</span><span class="s2">&quot;fldk_lons&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">fldk_lons</span>
+        <span class="n">geo</span><span class="p">[</span><span class="s2">"fldk_lats"</span><span class="p">]</span> <span class="o">=</span> <span class="n">fldk_lats</span>
+        <span class="n">geo</span><span class="p">[</span><span class="s2">"fldk_lons"</span><span class="p">]</span> <span class="o">=</span> <span class="n">fldk_lons</span>
         <span class="k">return</span> <span class="n">geo</span></div>
 
 <div class="viewcode-block" id="AbiL2NetcdfReaderPlugin.satpy_read"><a class="viewcode-back" href="../../../../../geoips_api/geoips.plugins.classes.readers.html#geoips.plugins.classes.readers.abi_l2_netcdf.AbiL2NetcdfReaderPlugin.satpy_read">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">satpy_read</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fname</span><span class="p">,</span> <span class="n">chans</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Ingest data using satpy.Scene.</span>
+<span class="w">        </span><span class="sd">"""Ingest data using satpy.Scene.</span>
 
 <span class="sd">        satpy.Scene object converted to xarray dataset at the end</span>
 
@@ -917,8 +944,8 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">        -------</span>
 <span class="sd">        xarray.dataset</span>
 <span class="sd">            Dataset holding either requested or all variables from file</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">scene</span> <span class="o">=</span> <span class="n">satpy</span><span class="o">.</span><span class="n">Scene</span><span class="p">([</span><span class="n">fname</span><span class="p">],</span> <span class="n">reader</span><span class="o">=</span><span class="s2">&quot;abi_l2_nc&quot;</span><span class="p">)</span>
+<span class="sd">        """</span>
+        <span class="n">scene</span> <span class="o">=</span> <span class="n">satpy</span><span class="o">.</span><span class="n">Scene</span><span class="p">([</span><span class="n">fname</span><span class="p">],</span> <span class="n">reader</span><span class="o">=</span><span class="s2">"abi_l2_nc"</span><span class="p">)</span>
         <span class="n">available_vars</span> <span class="o">=</span> <span class="n">scene</span><span class="o">.</span><span class="n">available_dataset_names</span><span class="p">()</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">chans</span><span class="p">:</span>
             <span class="n">load_chans</span> <span class="o">=</span> <span class="n">available_vars</span>
@@ -929,7 +956,7 @@ window.runMermaid = runMermaid;</script>
         <span class="k">return</span> <span class="n">xarray</span></div>
 
 <div class="viewcode-block" id="AbiL2NetcdfReaderPlugin.xr_read"><a class="viewcode-back" href="../../../../../geoips_api/geoips.plugins.classes.readers.html#geoips.plugins.classes.readers.abi_l2_netcdf.AbiL2NetcdfReaderPlugin.xr_read">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">xr_read</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fname</span><span class="p">,</span> <span class="n">chans</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Ingest data using xarray.open_dataset.</span>
+<span class="w">        </span><span class="sd">"""Ingest data using xarray.open_dataset.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -943,18 +970,18 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">        -------</span>
 <span class="sd">        xarray.dataset</span>
 <span class="sd">            Dataset holding either requested or all variables from file.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">ds</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">open_dataset</span><span class="p">(</span><span class="n">fname</span><span class="p">)</span>
-        <span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;start_datetime&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span>
-            <span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;time_coverage_start&quot;</span><span class="p">],</span> <span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2">T%H:%M:%S.</span><span class="si">%f</span><span class="s2">Z&quot;</span>
+        <span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"start_datetime"</span><span class="p">]</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span>
+            <span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"time_coverage_start"</span><span class="p">],</span> <span class="s2">"%Y-%m-</span><span class="si">%d</span><span class="s2">T%H:%M:%S.</span><span class="si">%f</span><span class="s2">Z"</span>
         <span class="p">)</span>
-        <span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;end_datetime&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span>
-            <span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;time_coverage_end&quot;</span><span class="p">],</span> <span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2">T%H:%M:%S.</span><span class="si">%f</span><span class="s2">Z&quot;</span>
+        <span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"end_datetime"</span><span class="p">]</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span>
+            <span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"time_coverage_end"</span><span class="p">],</span> <span class="s2">"%Y-%m-</span><span class="si">%d</span><span class="s2">T%H:%M:%S.</span><span class="si">%f</span><span class="s2">Z"</span>
         <span class="p">)</span>
         <span class="k">if</span> <span class="n">chans</span><span class="p">:</span>
             <span class="n">ds_vars</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">variables</span><span class="p">)</span>
             <span class="n">drop_vars</span> <span class="o">=</span> <span class="p">[</span>
-                <span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">ds_vars</span> <span class="k">if</span> <span class="n">x</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">chans</span> <span class="ow">and</span> <span class="n">x</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;lat&quot;</span><span class="p">,</span> <span class="s2">&quot;lon&quot;</span><span class="p">]</span>
+                <span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">ds_vars</span> <span class="k">if</span> <span class="n">x</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">chans</span> <span class="ow">and</span> <span class="n">x</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">"lat"</span><span class="p">,</span> <span class="s2">"lon"</span><span class="p">]</span>
             <span class="p">]</span>
             <span class="n">ds</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">drop_vars</span><span class="p">(</span><span class="n">drop_vars</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">ds</span></div>
@@ -966,11 +993,11 @@ window.runMermaid = runMermaid;</script>
         <span class="n">metadata_only</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
         <span class="n">chans</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
         <span class="n">self_register</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-        <span class="n">geolocation_cache_backend</span><span class="o">=</span><span class="n">gpaths</span><span class="p">[</span><span class="s2">&quot;GEOIPS_GEOLOCATION_CACHE_BACKEND&quot;</span><span class="p">],</span>
+        <span class="n">geolocation_cache_backend</span><span class="o">=</span><span class="n">gpaths</span><span class="p">[</span><span class="s2">"GEOIPS_GEOLOCATION_CACHE_BACKEND"</span><span class="p">],</span>
         <span class="n">cache_chunk_size</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">resource_tracker</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Read ABI Level 2 NetCDF data from a list of filenames.</span>
 
 <span class="sd">        Parameters</span>
@@ -1002,48 +1029,48 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">        :ref:`xarray_standards`</span>
 <span class="sd">            Additional information regarding required attributes and variables</span>
 <span class="sd">            for GeoIPS-formatted xarray Datasets.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="c1"># Start with pulling metadata from the first and last files</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">metadata</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_metadata</span><span class="p">(</span><span class="n">fnames</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
             <span class="n">end_metadata</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_metadata</span><span class="p">(</span><span class="n">fnames</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
         <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
-            <span class="n">metadata</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;file_info&quot;</span><span class="p">:</span> <span class="n">xr</span><span class="o">.</span><span class="n">open_dataset</span><span class="p">(</span><span class="n">fnames</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">attrs</span><span class="p">}</span>
-            <span class="n">end_metadata</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;file_info&quot;</span><span class="p">:</span> <span class="n">xr</span><span class="o">.</span><span class="n">open_dataset</span><span class="p">(</span><span class="n">fnames</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span><span class="o">.</span><span class="n">attrs</span><span class="p">}</span>
+            <span class="n">metadata</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"file_info"</span><span class="p">:</span> <span class="n">xr</span><span class="o">.</span><span class="n">open_dataset</span><span class="p">(</span><span class="n">fnames</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">attrs</span><span class="p">}</span>
+            <span class="n">end_metadata</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"file_info"</span><span class="p">:</span> <span class="n">xr</span><span class="o">.</span><span class="n">open_dataset</span><span class="p">(</span><span class="n">fnames</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span><span class="o">.</span><span class="n">attrs</span><span class="p">}</span>
         <span class="n">geoips_attrs</span> <span class="o">=</span> <span class="p">{</span>
-            <span class="s2">&quot;area_definition&quot;</span><span class="p">:</span> <span class="n">area_def</span><span class="p">,</span>
-            <span class="s2">&quot;start_datetime&quot;</span><span class="p">:</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span>
-                <span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;file_info&quot;</span><span class="p">][</span><span class="s2">&quot;time_coverage_start&quot;</span><span class="p">],</span> <span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2">T%H:%M:%S.</span><span class="si">%f</span><span class="s2">Z&quot;</span>
+            <span class="s2">"area_definition"</span><span class="p">:</span> <span class="n">area_def</span><span class="p">,</span>
+            <span class="s2">"start_datetime"</span><span class="p">:</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span>
+                <span class="n">metadata</span><span class="p">[</span><span class="s2">"file_info"</span><span class="p">][</span><span class="s2">"time_coverage_start"</span><span class="p">],</span> <span class="s2">"%Y-%m-</span><span class="si">%d</span><span class="s2">T%H:%M:%S.</span><span class="si">%f</span><span class="s2">Z"</span>
             <span class="p">),</span>
-            <span class="s2">&quot;end_datetime&quot;</span><span class="p">:</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span>
-                <span class="n">end_metadata</span><span class="p">[</span><span class="s2">&quot;file_info&quot;</span><span class="p">][</span><span class="s2">&quot;time_coverage_end&quot;</span><span class="p">],</span> <span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2">T%H:%M:%S.</span><span class="si">%f</span><span class="s2">Z&quot;</span>
+            <span class="s2">"end_datetime"</span><span class="p">:</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span>
+                <span class="n">end_metadata</span><span class="p">[</span><span class="s2">"file_info"</span><span class="p">][</span><span class="s2">"time_coverage_end"</span><span class="p">],</span> <span class="s2">"%Y-%m-</span><span class="si">%d</span><span class="s2">T%H:%M:%S.</span><span class="si">%f</span><span class="s2">Z"</span>
             <span class="p">),</span>
-            <span class="s2">&quot;vertical_data_type&quot;</span><span class="p">:</span> <span class="s2">&quot;surface&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;source_name&quot;</span><span class="p">:</span> <span class="s2">&quot;abi&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;data_provider&quot;</span><span class="p">:</span> <span class="s2">&quot;noaa&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;interpolation_radius_of_influence&quot;</span><span class="p">:</span> <span class="mi">50000</span><span class="p">,</span>
+            <span class="s2">"vertical_data_type"</span><span class="p">:</span> <span class="s2">"surface"</span><span class="p">,</span>
+            <span class="s2">"source_name"</span><span class="p">:</span> <span class="s2">"abi"</span><span class="p">,</span>
+            <span class="s2">"data_provider"</span><span class="p">:</span> <span class="s2">"noaa"</span><span class="p">,</span>
+            <span class="s2">"interpolation_radius_of_influence"</span><span class="p">:</span> <span class="mi">50000</span><span class="p">,</span>
         <span class="p">}</span>
         <span class="k">if</span> <span class="p">(</span>
-            <span class="s2">&quot;platform_ID&quot;</span> <span class="ow">in</span> <span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;file_info&quot;</span><span class="p">]</span>
-            <span class="ow">and</span> <span class="s2">&quot;platform_name&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;file_info&quot;</span><span class="p">]</span>
+            <span class="s2">"platform_ID"</span> <span class="ow">in</span> <span class="n">metadata</span><span class="p">[</span><span class="s2">"file_info"</span><span class="p">]</span>
+            <span class="ow">and</span> <span class="s2">"platform_name"</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">metadata</span><span class="p">[</span><span class="s2">"file_info"</span><span class="p">]</span>
         <span class="p">):</span>
             <span class="c1"># Some of the level2 data have platform_ID attribute in the form G&lt;NN&gt;,</span>
             <span class="c1"># where &lt;NN&gt; = 16, 17, 18</span>
             <span class="c1"># Use platform_ID to set the platform_name</span>
-            <span class="n">geoips_attrs</span><span class="p">[</span><span class="s2">&quot;platform_name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;file_info&quot;</span><span class="p">][</span>
-                <span class="s2">&quot;platform_ID&quot;</span>
-            <span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;G&quot;</span><span class="p">,</span> <span class="s2">&quot;goes-&quot;</span><span class="p">)</span>
+            <span class="n">geoips_attrs</span><span class="p">[</span><span class="s2">"platform_name"</span><span class="p">]</span> <span class="o">=</span> <span class="n">metadata</span><span class="p">[</span><span class="s2">"file_info"</span><span class="p">][</span>
+                <span class="s2">"platform_ID"</span>
+            <span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">"G"</span><span class="p">,</span> <span class="s2">"goes-"</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">area_def</span><span class="p">:</span>
-            <span class="n">geoips_attrs</span><span class="p">[</span><span class="s2">&quot;area_id&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">area_def</span><span class="o">.</span><span class="n">area_id</span>
+            <span class="n">geoips_attrs</span><span class="p">[</span><span class="s2">"area_id"</span><span class="p">]</span> <span class="o">=</span> <span class="n">area_def</span><span class="o">.</span><span class="n">area_id</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">geoips_attrs</span><span class="p">[</span><span class="s2">&quot;area_id&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;file_info&quot;</span><span class="p">][</span><span class="s2">&quot;scene_id&quot;</span><span class="p">]</span>
+            <span class="n">geoips_attrs</span><span class="p">[</span><span class="s2">"area_id"</span><span class="p">]</span> <span class="o">=</span> <span class="n">metadata</span><span class="p">[</span><span class="s2">"file_info"</span><span class="p">][</span><span class="s2">"scene_id"</span><span class="p">]</span>
         <span class="n">meta_dataset</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">(</span><span class="n">attrs</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">metadata</span><span class="p">,</span> <span class="o">**</span><span class="n">geoips_attrs</span><span class="p">))</span>
         <span class="k">if</span> <span class="n">metadata_only</span><span class="p">:</span>
-            <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;METADATA&quot;</span><span class="p">:</span> <span class="n">meta_dataset</span><span class="p">}</span>
+            <span class="k">return</span> <span class="p">{</span><span class="s2">"METADATA"</span><span class="p">:</span> <span class="n">meta_dataset</span><span class="p">}</span>
 
         <span class="c1"># C.P.C. - 20 May 2021</span>
-        <span class="c1"># Can&#39;t figure out how to calculate the geolocation  using satpy,</span>
+        <span class="c1"># Can't figure out how to calculate the geolocation  using satpy,</span>
         <span class="c1"># so relying on the abi_netcdf reader for the time being until I figure it out</span>
         <span class="c1"># Deal with geolocation outside of loop to avoid hitting the disk numerous times</span>
         <span class="k">try</span><span class="p">:</span>
@@ -1055,67 +1082,67 @@ window.runMermaid = runMermaid;</script>
                 <span class="n">resource_tracker</span><span class="o">=</span><span class="n">resource_tracker</span><span class="p">,</span>
             <span class="p">)</span>
             <span class="k">if</span> <span class="n">area_def</span><span class="p">:</span>
-                <span class="n">lats</span> <span class="o">=</span> <span class="n">geo</span><span class="p">[</span><span class="s2">&quot;latitude&quot;</span><span class="p">]</span>
-                <span class="n">lons</span> <span class="o">=</span> <span class="n">geo</span><span class="p">[</span><span class="s2">&quot;longitude&quot;</span><span class="p">]</span>
+                <span class="n">lats</span> <span class="o">=</span> <span class="n">geo</span><span class="p">[</span><span class="s2">"latitude"</span><span class="p">]</span>
+                <span class="n">lons</span> <span class="o">=</span> <span class="n">geo</span><span class="p">[</span><span class="s2">"longitude"</span><span class="p">]</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="n">lats</span> <span class="o">=</span> <span class="n">geo</span><span class="p">[</span><span class="s2">&quot;fldk_lats&quot;</span><span class="p">]</span>
-                <span class="n">lons</span> <span class="o">=</span> <span class="n">geo</span><span class="p">[</span><span class="s2">&quot;fldk_lons&quot;</span><span class="p">]</span>
+                <span class="n">lats</span> <span class="o">=</span> <span class="n">geo</span><span class="p">[</span><span class="s2">"fldk_lats"</span><span class="p">]</span>
+                <span class="n">lons</span> <span class="o">=</span> <span class="n">geo</span><span class="p">[</span><span class="s2">"fldk_lons"</span><span class="p">]</span>
             <span class="n">ll_mask</span> <span class="o">=</span> <span class="p">(</span><span class="n">isnan</span><span class="p">(</span><span class="n">lats</span><span class="p">))</span> <span class="o">|</span> <span class="p">(</span><span class="n">lats</span> <span class="o">&lt;</span> <span class="o">-</span><span class="mi">90</span><span class="p">)</span> <span class="o">|</span> <span class="p">(</span><span class="n">lats</span> <span class="o">&gt;</span> <span class="mi">90</span><span class="p">)</span>
         <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
             <span class="n">ll_mask</span> <span class="o">=</span> <span class="kc">None</span>
 
         <span class="n">xarrays</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="c1"># Ensure start_datetime and end_datetime are always tied to the file being read</span>
-        <span class="n">geoips_attrs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;start_datetime&quot;</span><span class="p">)</span>
-        <span class="n">geoips_attrs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;end_datetime&quot;</span><span class="p">)</span>
+        <span class="n">geoips_attrs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">"start_datetime"</span><span class="p">)</span>
+        <span class="n">geoips_attrs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">"end_datetime"</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">fname</span> <span class="ow">in</span> <span class="n">fnames</span><span class="p">:</span>
-            <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Reading </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">fname</span><span class="p">)</span>
+            <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"Reading </span><span class="si">%s</span><span class="s2">"</span> <span class="o">%</span> <span class="n">fname</span><span class="p">)</span>
             <span class="k">try</span><span class="p">:</span>
-                <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Trying with satpy backend&quot;</span><span class="p">)</span>
+                <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"Trying with satpy backend"</span><span class="p">)</span>
                 <span class="n">xarray</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">satpy_read</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="n">chans</span><span class="p">)</span>
             <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
-                <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Attempting to load with xarray&quot;</span><span class="p">)</span>
+                <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"Attempting to load with xarray"</span><span class="p">)</span>
                 <span class="n">xarray</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xr_read</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="n">chans</span><span class="p">)</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="nb">list</span><span class="p">(</span><span class="n">xarray</span><span class="o">.</span><span class="n">variables</span><span class="p">):</span>
-                <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Requested chans not in file, skipping&quot;</span><span class="p">)</span>
+                <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"Requested chans not in file, skipping"</span><span class="p">)</span>
                 <span class="k">continue</span>
             <span class="k">if</span> <span class="n">area_def</span> <span class="ow">and</span> <span class="n">ll_mask</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="n">coords</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">xarray</span><span class="o">.</span><span class="n">coords</span><span class="p">)</span>
-                <span class="n">coords</span><span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="n">area_def</span><span class="o">.</span><span class="n">width</span><span class="p">)</span>
-                <span class="n">coords</span><span class="p">[</span><span class="s2">&quot;y&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="n">area_def</span><span class="o">.</span><span class="n">height</span><span class="p">)</span>
+                <span class="n">coords</span><span class="p">[</span><span class="s2">"x"</span><span class="p">]</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="n">area_def</span><span class="o">.</span><span class="n">width</span><span class="p">)</span>
+                <span class="n">coords</span><span class="p">[</span><span class="s2">"y"</span><span class="p">]</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="n">area_def</span><span class="o">.</span><span class="n">height</span><span class="p">)</span>
                 <span class="n">area_dataset</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">(</span><span class="n">coords</span><span class="o">=</span><span class="n">coords</span><span class="p">)</span>
                 <span class="n">area_dataset</span><span class="o">.</span><span class="n">attrs</span> <span class="o">=</span> <span class="n">xarray</span><span class="o">.</span><span class="n">attrs</span>
-                <span class="n">lines</span> <span class="o">=</span> <span class="n">geo</span><span class="p">[</span><span class="s2">&quot;Lines&quot;</span><span class="p">]</span>
-                <span class="n">samps</span> <span class="o">=</span> <span class="n">geo</span><span class="p">[</span><span class="s2">&quot;Samples&quot;</span><span class="p">]</span>
+                <span class="n">lines</span> <span class="o">=</span> <span class="n">geo</span><span class="p">[</span><span class="s2">"Lines"</span><span class="p">]</span>
+                <span class="n">samps</span> <span class="o">=</span> <span class="n">geo</span><span class="p">[</span><span class="s2">"Samples"</span><span class="p">]</span>
                 <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">xarray</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
                     <span class="n">array</span> <span class="o">=</span> <span class="n">xarray</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="n">lines</span><span class="p">,</span> <span class="n">samps</span><span class="p">]</span>
-                    <span class="n">area_dataset</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="p">((</span><span class="s2">&quot;y&quot;</span><span class="p">,</span> <span class="s2">&quot;x&quot;</span><span class="p">),</span> <span class="n">array</span><span class="p">)</span>
+                    <span class="n">area_dataset</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="p">((</span><span class="s2">"y"</span><span class="p">,</span> <span class="s2">"x"</span><span class="p">),</span> <span class="n">array</span><span class="p">)</span>
                 <span class="n">xarray</span> <span class="o">=</span> <span class="n">area_dataset</span>
             <span class="k">if</span> <span class="n">ll_mask</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="n">xarray</span><span class="p">[</span><span class="s2">&quot;latitude&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">((</span><span class="s2">&quot;y&quot;</span><span class="p">,</span> <span class="s2">&quot;x&quot;</span><span class="p">),</span> <span class="n">lats</span><span class="p">)</span>
-                <span class="n">xarray</span><span class="p">[</span><span class="s2">&quot;longitude&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">((</span><span class="s2">&quot;y&quot;</span><span class="p">,</span> <span class="s2">&quot;x&quot;</span><span class="p">),</span> <span class="n">lons</span><span class="p">)</span>
-                <span class="k">for</span> <span class="n">ll</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;latitude&quot;</span><span class="p">,</span> <span class="s2">&quot;longitude&quot;</span><span class="p">]:</span>
+                <span class="n">xarray</span><span class="p">[</span><span class="s2">"latitude"</span><span class="p">]</span> <span class="o">=</span> <span class="p">((</span><span class="s2">"y"</span><span class="p">,</span> <span class="s2">"x"</span><span class="p">),</span> <span class="n">lats</span><span class="p">)</span>
+                <span class="n">xarray</span><span class="p">[</span><span class="s2">"longitude"</span><span class="p">]</span> <span class="o">=</span> <span class="p">((</span><span class="s2">"y"</span><span class="p">,</span> <span class="s2">"x"</span><span class="p">),</span> <span class="n">lons</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">ll</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">"latitude"</span><span class="p">,</span> <span class="s2">"longitude"</span><span class="p">]:</span>
                     <span class="n">xarray</span><span class="p">[</span><span class="n">ll</span><span class="p">]</span> <span class="o">=</span> <span class="n">xarray</span><span class="p">[</span><span class="n">ll</span><span class="p">]</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="o">~</span><span class="n">ll_mask</span><span class="p">)</span>
-            <span class="k">if</span> <span class="s2">&quot;lat&quot;</span> <span class="ow">in</span> <span class="n">xarray</span><span class="p">:</span>
-                <span class="n">xarray</span> <span class="o">=</span> <span class="n">xarray</span><span class="o">.</span><span class="n">rename</span><span class="p">({</span><span class="s2">&quot;lat&quot;</span><span class="p">:</span> <span class="s2">&quot;latitude&quot;</span><span class="p">,</span> <span class="s2">&quot;lon&quot;</span><span class="p">:</span> <span class="s2">&quot;longitude&quot;</span><span class="p">})</span>
+            <span class="k">if</span> <span class="s2">"lat"</span> <span class="ow">in</span> <span class="n">xarray</span><span class="p">:</span>
+                <span class="n">xarray</span> <span class="o">=</span> <span class="n">xarray</span><span class="o">.</span><span class="n">rename</span><span class="p">({</span><span class="s2">"lat"</span><span class="p">:</span> <span class="s2">"latitude"</span><span class="p">,</span> <span class="s2">"lon"</span><span class="p">:</span> <span class="s2">"longitude"</span><span class="p">})</span>
             <span class="c1"># Add metadata needed by downstream GeoIPS utils</span>
             <span class="n">xarray</span><span class="o">.</span><span class="n">attrs</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">xarray</span><span class="o">.</span><span class="n">attrs</span><span class="p">,</span> <span class="o">**</span><span class="n">geoips_attrs</span><span class="p">)</span>
-            <span class="k">if</span> <span class="s2">&quot;start_datetime&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">xarray</span><span class="o">.</span><span class="n">attrs</span><span class="p">:</span>
-                <span class="n">xarray</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;start_datetime&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xarray</span><span class="o">.</span><span class="n">start_time</span>
-                <span class="n">xarray</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;end_datetime&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xarray</span><span class="o">.</span><span class="n">end_time</span>
+            <span class="k">if</span> <span class="s2">"start_datetime"</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">xarray</span><span class="o">.</span><span class="n">attrs</span><span class="p">:</span>
+                <span class="n">xarray</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"start_datetime"</span><span class="p">]</span> <span class="o">=</span> <span class="n">xarray</span><span class="o">.</span><span class="n">start_time</span>
+                <span class="n">xarray</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"end_datetime"</span><span class="p">]</span> <span class="o">=</span> <span class="n">xarray</span><span class="o">.</span><span class="n">end_time</span>
             <span class="n">xarrays</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">xarray</span><span class="p">)</span>
         <span class="c1"># If more than one file is passed, assuming more than one scan was passed.</span>
         <span class="c1"># This might not work if multiple L2 product types are passed that are of</span>
         <span class="c1"># different resolutions</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">xarrays</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
-            <span class="n">start_times</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;start_datetime&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">xarrays</span><span class="p">]</span>
-            <span class="n">end_times</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;end_datetime&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">xarrays</span><span class="p">]</span>
+            <span class="n">start_times</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"start_datetime"</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">xarrays</span><span class="p">]</span>
+            <span class="n">end_times</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"end_datetime"</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">xarrays</span><span class="p">]</span>
             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">start_times</span><span class="p">))</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
                 <span class="c1"># multiple scan times were passed in</span>
-                <span class="n">xarray_dset</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">xarrays</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="s2">&quot;time_dim&quot;</span><span class="p">)</span>
-                <span class="n">xarray_dset</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;start_datetime&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">start_times</span><span class="p">)</span>
-                <span class="n">xarray_dset</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;end_datetime&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">end_times</span><span class="p">)</span>
-                <span class="n">xarray_dset</span> <span class="o">=</span> <span class="n">xarray_dset</span><span class="o">.</span><span class="n">assign_coords</span><span class="p">({</span><span class="s2">&quot;time_dim&quot;</span><span class="p">:</span> <span class="n">start_times</span><span class="p">})</span>
+                <span class="n">xarray_dset</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">xarrays</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="s2">"time_dim"</span><span class="p">)</span>
+                <span class="n">xarray_dset</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"start_datetime"</span><span class="p">]</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">start_times</span><span class="p">)</span>
+                <span class="n">xarray_dset</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"end_datetime"</span><span class="p">]</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">end_times</span><span class="p">)</span>
+                <span class="n">xarray_dset</span> <span class="o">=</span> <span class="n">xarray_dset</span><span class="o">.</span><span class="n">assign_coords</span><span class="p">({</span><span class="s2">"time_dim"</span><span class="p">:</span> <span class="n">start_times</span><span class="p">})</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="c1"># Multiple files for a single scan time were passed in (such as multiple</span>
                 <span class="c1"># Derived motion winds (DMW) files)</span>
@@ -1124,20 +1151,20 @@ window.runMermaid = runMermaid;</script>
                 <span class="c1"># First check the dim sizes for each variable in the xarray</span>
                 <span class="n">xarray_dim_sizes</span> <span class="o">=</span> <span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">dset</span><span class="o">.</span><span class="n">dims</span><span class="p">)</span> <span class="k">for</span> <span class="n">dset</span> <span class="ow">in</span> <span class="n">xarrays</span><span class="p">]</span>
                 <span class="c1"># Now check if each variable</span>
-                <span class="n">xarray_dim_names</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;_&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">dset</span><span class="o">.</span><span class="n">dims</span><span class="p">))</span> <span class="k">for</span> <span class="n">dset</span> <span class="ow">in</span> <span class="n">xarrays</span><span class="p">]</span>
+                <span class="n">xarray_dim_names</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"_"</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">dset</span><span class="o">.</span><span class="n">dims</span><span class="p">))</span> <span class="k">for</span> <span class="n">dset</span> <span class="ow">in</span> <span class="n">xarrays</span><span class="p">]</span>
                 <span class="k">if</span> <span class="nb">all</span><span class="p">([</span><span class="n">size</span> <span class="o">==</span> <span class="mi">1</span> <span class="k">for</span> <span class="n">size</span> <span class="ow">in</span> <span class="n">xarray_dim_sizes</span><span class="p">])</span> <span class="ow">and</span> <span class="p">(</span>
                     <span class="nb">len</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">xarray_dim_names</span><span class="p">))</span> <span class="o">==</span> <span class="mi">1</span>
                 <span class="p">):</span>
                     <span class="n">xarray_dset</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">xarrays</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="n">xarray_dim_names</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
                 <span class="k">else</span><span class="p">:</span>
                     <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                        <span class="s2">&quot;Do not know how to stack xarrays with &quot;</span>
-                        <span class="s2">&quot;mismatching dim sizes and names&quot;</span>
+                        <span class="s2">"Do not know how to stack xarrays with "</span>
+                        <span class="s2">"mismatching dim sizes and names"</span>
                     <span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">xarray_dset</span> <span class="o">=</span> <span class="n">xarrays</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 
-        <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;abi_l2_data&quot;</span><span class="p">:</span> <span class="n">xarray_dset</span><span class="p">,</span> <span class="s2">&quot;METADATA&quot;</span><span class="p">:</span> <span class="n">meta_dataset</span><span class="p">}</span></div></div>
+        <span class="k">return</span> <span class="p">{</span><span class="s2">"abi_l2_data"</span><span class="p">:</span> <span class="n">xarray_dset</span><span class="p">,</span> <span class="s2">"METADATA"</span><span class="p">:</span> <span class="n">meta_dataset</span><span class="p">}</span></div></div>
 
 
 <span class="n">PLUGIN_CLASS</span> <span class="o">=</span> <span class="n">AbiL2NetcdfReaderPlugin</span>

@@ -1,0 +1,133 @@
+geoips.plugins.modules.algorithms.visir package
+===============================================
+
+Submodules
+----------
+
+geoips.plugins.modules.algorithms.visir.Convective\_Storms module
+-----------------------------------------------------------------
+
+.. automodule:: geoips.plugins.modules.algorithms.visir.Convective_Storms
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+geoips.plugins.modules.algorithms.visir.Day\_Microphys\_Summer module
+---------------------------------------------------------------------
+
+.. automodule:: geoips.plugins.modules.algorithms.visir.Day_Microphys_Summer
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+geoips.plugins.modules.algorithms.visir.Day\_Microphys\_Winter module
+---------------------------------------------------------------------
+
+.. automodule:: geoips.plugins.modules.algorithms.visir.Day_Microphys_Winter
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+geoips.plugins.modules.algorithms.visir.Day\_Solar module
+---------------------------------------------------------
+
+.. automodule:: geoips.plugins.modules.algorithms.visir.Day_Solar
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+geoips.plugins.modules.algorithms.visir.Dust\_RGB module
+--------------------------------------------------------
+
+.. automodule:: geoips.plugins.modules.algorithms.visir.Dust_RGB
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+geoips.plugins.modules.algorithms.visir.HNear\_Constant\_Contrast module
+------------------------------------------------------------------------
+
+.. automodule:: geoips.plugins.modules.algorithms.visir.HNear_Constant_Contrast
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+geoips.plugins.modules.algorithms.visir.Natural\_Color module
+-------------------------------------------------------------
+
+.. automodule:: geoips.plugins.modules.algorithms.visir.Natural_Color
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+geoips.plugins.modules.algorithms.visir.Night\_Microphys module
+---------------------------------------------------------------
+
+.. automodule:: geoips.plugins.modules.algorithms.visir.Night_Microphys
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+geoips.plugins.modules.algorithms.visir.Night\_Vis module
+---------------------------------------------------------
+
+.. automodule:: geoips.plugins.modules.algorithms.visir.Night_Vis
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+geoips.plugins.modules.algorithms.visir.Night\_Vis\_GeoIPS1 module
+------------------------------------------------------------------
+
+.. automodule:: geoips.plugins.modules.algorithms.visir.Night_Vis_GeoIPS1
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+geoips.plugins.modules.algorithms.visir.Night\_Vis\_IR module
+-------------------------------------------------------------
+
+.. automodule:: geoips.plugins.modules.algorithms.visir.Night_Vis_IR
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+geoips.plugins.modules.algorithms.visir.Night\_Vis\_IR\_GeoIPS1 module
+----------------------------------------------------------------------
+
+.. automodule:: geoips.plugins.modules.algorithms.visir.Night_Vis_IR_GeoIPS1
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+geoips.plugins.modules.algorithms.visir.Volcanic\_Ash module
+------------------------------------------------------------
+
+.. automodule:: geoips.plugins.modules.algorithms.visir.Volcanic_Ash
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+geoips.plugins.modules.algorithms.visir.airmass module
+------------------------------------------------------
+
+.. automodule:: geoips.plugins.modules.algorithms.visir.airmass
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+geoips.plugins.modules.algorithms.visir.nasa\_dust\_rgb module
+--------------------------------------------------------------
+
+.. automodule:: geoips.plugins.modules.algorithms.visir.nasa_dust_rgb
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+Module contents
+---------------
+
+.. automodule:: geoips.plugins.modules.algorithms.visir
+   :members:
+   :show-inheritance:
+   :undoc-members:

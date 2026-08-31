@@ -1,0 +1,414 @@
+.. dropdown:: Distribution Statement
+
+ | # # # This source code is subject to the license referenced at
+ | # # # https://github.com/NRLMMD-GEOIPS.
+
+Version 1.11.7 (2023-11-16)
+***************************
+
+* Update internal 'update_this_release_note' to v1_12_0.rst
+* Update github.com 'update_this_release_note' to v1_12_1a0.rst
+* Bug fixes
+
+  * Add more informative error messages plugin errors
+  * Add interface level to ascii_palettes plugin registry
+  * Do not catastrophically fail at runtime for a single bad plugin
+  * Do not fail at runtime for missing plugin registries
+  * Fix for duplicate entry points for setuptools pip install -e
+  * Resolve sphinx duplicate label issue (remove explicit include)
+  * Leave product_defaults-defined attributes as null in registry
+  * Return empty list from get_plugins for interfaces with no plugins
+  * Add registered_plugins.json to .gitignore
+  * Collect all plugin registry errors and report and fail at end
+* Testing updates
+
+  * Skip geoips pytests when GEOIPS_DISABLE_SHARED_CODE_CHECKS=True
+  * Set paths in check_code.sh with pwd
+
+Bug fixes
+=========
+
+Make sechma, validators, and registries properties in interface classes
+-----------------------------------------------------------------------
+
+To improve load times, the schema, validators, and registries were updated
+to be properties in the Interface classes.
+
+::
+
+  modified: geoips/interfaces/bases.py
+
+Set paths in check_code.sh with pwd
+-----------------------------------
+
+To avoid relative paths (which causes incorrect pkgname in check_code.sh),
+when setting paths at the beginning, use the cd dirname $0 && pwd construct.
+(ie, change to the directory in a subshell, then pwd it to set the path)
+
+::
+
+  modified: geoips/tests/utils/check_code.sh
+  modified: tests/integration_tests/full_test.sh
+
+Skip geoips pytests when GEOIPS_DISABLE_SHARED_CODE_CHECKS=True
+---------------------------------------------------------------
+
+*From GEOIPS#393: 2023-11-15, 1.11.7 merge bug fixes*
+
+geoips pytests and test_interfaces both test ALL plugin packages by default
+every time.  Setting GEOIPS_DISABLE_SHARED_CODE_CHECKS allows not running
+those shared tests with every test run.
+
+Initially only test_interfaces was skipped when GEOIPS_DISABLE_SHARED_CODE_CHECKS
+was set, expand to also skip geoips pytests.
+
+Additionally add export statements before and after geoips check_code in
+full_test.sh, so all tests are run for geoips check_code.sh, and shared
+code checks are skipped for subsequenty plugin packages check_code.sh calls.
+And remove the direct "test_interfaces" call from full_test.sh (since it
+is now called from check_code.sh)
+
+::
+
+  modified: geoips/tests/utils/check_code.sh
+  modified: tests/integration_tests/full_test.sh
+
+Add registered_plugins.json to .gitignore
+-----------------------------------------
+
+*From GEOIPS#393: 2023-11-15, 1.11.7 merge bug fixes*
+
+This is auto-generated at build time, ignore.
+
+::
+
+  .gitignore
+
+Return empty list from get_plugins for interfaces with no plugins
+-----------------------------------------------------------------
+
+*From GEOIPS#393: 2023-11-15, 1.11.7 merge bug fixes*
+
+All plugin interfaces are explicitly imported in
+geoips/interfaces/__init__.py, and test_interfaces
+uses that list of available interfaces for looping through
+and testing all of the interfaces.
+
+The get_plugins() method within interfaces/base.py checks for a
+self.name entry within the registered_plugins dictionary when
+finding the list of all plugins.
+
+self.name comes explicitly from one of the interfaces that are
+found by default on geoips.interfaces.
+
+If there is a defined interface with no plugins available in the current
+geoips installation (in any currently installed plugin package),
+then there will NOT be an entry within registered plugins
+for that interface, and a KeyError will be raised in the for loop.
+
+Now, within get_plugins(), we check if the current interface
+(self.name) is found in the registered_plugins dictionary -
+if it is not, that means there are no plugins for that interface,
+so we return an empty list.
+
+::
+
+  geoips/interfaces/base.py
+
+
+Leave product_defaults-defined attributes as null in registry
+-------------------------------------------------------------
+
+*From GEOIPS#393: 2023-11-15, 1.11.7 merge bug fixes*
+
+When assembling the plugin registry, family and docstring can both
+be defined within the "product_defaults" rather than directly in the
+current product. Since product_defaults can be defined in ANY plugin
+package, we are not guaranteed to have the product defaults definition
+available when assembling the current product's registry.
+
+For now, when product_defaults is defined, and family and docstring are not,
+just leave family and docstring as "null" in the registry.  We can pull
+the family and docstring from the plugins themselves at runtime.
+
+If we determine it is an efficiency hit in the future, we could potentially
+set up create_plugin_registries.py to do a second pass after all plugin
+registries are populated to fill in the nulls, but for now we will
+allow them to be populated at runtime or with the CLI.
+
+Additionally, if family or docstring are NOT defined on the sub-plugin,
+and product_defaults is also NOT defined, raise an error.  If no product
+defaults are defined, then there will be nowhere to pull the required
+family and docstring attributes if they are not defined explicitly,
+so that will always be an error. Most likely this would be covered
+by the schema, but provide another check here prior to creating the
+registries.
+
+::
+
+  geoips/create_plugin_registries.py
+
+Do not fail at runtime for missing plugin registries
+----------------------------------------------------
+
+*From GEOIPS#393: 2023-11-15, 1.11.7 merge bug fixes*
+
+If an installed package does not have a plugin registry json file,
+do not catastrophically fail at runtime.
+
+test_interfaces still fails for a missing plugin registry file,
+so it will be caught in testing, just do not fail catastrophically
+at runtime until the plugin registry is actually required.
+
+::
+
+  # test script:
+  15_070045 plugin_registry.py:95     ERROR: Plugin registry
+  $GEOIPS_PACKAGES_DIR/recenter_tc/recenter_tc/registered_plugins.json did not exist,
+  please run 'create_plugin_registries'
+  # Continues running until recenter_tc plugins are actually attempted to be used.
+
+  # test_interfaces:
+  FileNotFoundError: [Errno 2]
+  No such file or directory:
+  '$GEOIPS_PACKAGES_DIR/recenter_tc/recenter_tc/registered_plugins.json'
+  # test_interfaces fails right away.
+
+::
+
+  modified: geoips/plugin_registry.py
+
+Remove explicit includes from plugin_extend.rst
+-----------------------------------------------
+
+*From GEOIPS#393: 2023-11-15, 1.11.7 merge bug fixes*
+
+An explicit range of lines was initially being included in all plugin
+development RST files from plugin_extend.rst.
+This was causing a duplicate label error when including
+the same sphinx label in all of the plugin_development RST files.
+
+To avoid future errors, if the contents of plugin_extend.rst
+is changed in the future, added a reference link within plugin_extend.rst
+to the required attributes, and linked to that from each plugin development
+RST file (rather than including a specific set of lines verbatim).
+
+::
+
+  modified: docs/source/userguide/plugin_development/algorithm.rst
+  modified: docs/source/userguide/plugin_development/colormapper.rst
+  modified: docs/source/userguide/plugin_development/feature_annotator.rst
+  modified: docs/source/userguide/plugin_development/gridline_annotator.rst
+  modified: docs/source/userguide/plugin_development/output_formatter.rst
+  modified: docs/source/userguide/plugin_development/product.rst
+  modified: docs/source/userguide/plugin_development/product_default.rst
+  modified: docs/source/userguide/plugin_development/reader.rst
+  modified: docs/source/userguide/plugin_development/static_sector.rst
+  modified: docs/source/userguide/plugin_extend.rst
+
+Collect all plugin registry errors and report and fail at end
+-------------------------------------------------------------
+
+*From issue GEOIPS#393: 2023-11-09, update 'update_this_release_note'*
+
+Rather than having to fix a single bad plugin at a time when attempting
+to create the plugin registry, wait until all have been read in,
+and raise an error at the very end including the error messages from
+each of the bad plugins.
+
+Updated output (includes all bad plugins at once, instead of one at a time).
+
+::
+
+  geoips.errors.PluginRegistryError:
+  Error in package [geoips]:
+          You can not have two Plugins of the same
+          interface [output_formatters] with the same
+          name [imagery_annotated] found at
+          relpath [plugins/modules/output_formatters/imagery_annotated.py] and
+          relpath [plugins/modules/output_formatters/test_imagery_annotated.py]
+
+  Error in package [geoips_test]:
+          You can not have two Plugins of the same
+          interface [colormappers] with the same
+          name [cmap_91] found at
+          relpath [plugins/modules/colormappers/cmap_91.py] and
+          relpath [plugins/modules/colormappers/cmap_89.py]
+
+  Error in package [geoips_test]:
+          You can not have two Plugins of the same
+          interface [readers] with the same
+          name [amsr2_netcdf] found at
+          relpath [plugins/modules/readers/amsr2_netcdf.py] and
+          relpath [plugins/modules/readers/amsr2_netcdf_test.py]
+
+Fix for duplicate entry points for setuptools pip install -e
+------------------------------------------------------------
+
+*From GEOIPS#393: 2023-11-11, 1.11.7 merge bug fixes*
+
+It appears when there is a .egg-info directory in a plugin package directory,
+that plugin package gets picked up twice in the entry points.  Rather than
+filtering the list every time the entry points are opened in geoips_utils.py,
+just filter once when creating the plugin registries.
+
+I believe this is a Python 3.9 bug with entry points, causing the duplicate
+packages when installed with setuptools.  3.10 appears to resolve the
+duplicates.
+
+::
+
+  modified: geoips/create_plugin_registries.py
+
+Do not catastrophically fail at runtime for a single bad plugin
+---------------------------------------------------------------
+
+*From GEOIPS#393: 2023-11-11, 1.11.7 merge bug fixes*
+
+Remove validate_registry calls from within the PluginRegistry init. allow
+using the registry if some values are bad.
+
+Add test for validate_registry and validate_all_registries to test_interfaces.
+Everything in test_interfaces should be moved to unit tests at some point.
+
+This ensures all plugins within the registry are valid, but avoids
+failing catastrophically during runtime for a single bad plugin if
+it were validated every time at runtime.
+
+::
+
+  modified:   geoips/commandline/test_interfaces.py
+  modified:   geoips/plugin_registry.py
+
+Add interface level to ascii_palettes plugin registry
+-----------------------------------------------------
+
+*From GEOIPS#393: 2023-11-10, 1.11.7 merge bug fixes*
+
+Currently pull interface name from final directory in path, and plugin name
+from file basename.
+
+Eventually we will include this information directly in the text files themselves
+(so they are fully fledged plugins), but for now to ensure consistent/correct
+formatting within the plugin registries, ensure we have an interface level
+for txt plugins.
+
+Additionally, add in interface/family/name fields to existing ascii palettes.
+Unused for now, but included for reference.
+
+::
+
+  modified:   geoips/create_plugin_registries.py
+  modified:   geoips/plugins/txt/ascii_palettes/tpw_cimss.txt
+  modified:   geoips/plugins/txt/ascii_palettes/tpw_purple.txt
+  modified:   geoips/plugins/txt/ascii_palettes/tpw_pwat.txt
+
+  Updated text plugin registry formatting:
+
+  In [2]: plugins['text_based']
+  Out[2]:
+  {'ascii_palettes': {'tpw_cimss': {'package': 'geoips',
+   'relpath': 'plugins/txt/ascii_palettes/tpw_cimss.txt'},
+  'tpw_purple': {'package': 'geoips',
+   'relpath': 'plugins/txt/ascii_palettes/tpw_purple.txt'},
+  'tpw_pwat': {'package': 'geoips',
+   'relpath': 'plugins/txt/ascii_palettes/tpw_pwat.txt'}}}
+
+Add more informative error messages for plugin errors
+-----------------------------------------------------
+
+*From GEOIPS#393: 2023-11-10, 1.11.7 merge bug fixes*
+
+Include relpath in duplicate plugins error messages
+
+* Previously did not indicate exactly where the plugin was found.
+* Now include relpath in output as well as names.
+
+::
+
+    modified: geoips/create_plugin_registries.py
+
+    New error:
+    geoips.errors.PluginRegistryError: Error with packages [geoips, geoips]:
+                    You can't have two Plugins of the same
+                    interface [ascii_palettes] with the same
+                    plugin name [tpw_cimss]
+                    pkg relpath: plugins/txt/ascii_palettes/tpw_cimss.txt
+                    comp relpath: plugins/txt/ascii_palettes/tpw_cimss.txt
+
+Identify the plugins with "bad" interfaces in error message
+
+* Previously ust said the "algorithm" interface didn't exist, but gave
+  no indication of where the bad interface was located.
+* Now print all plugins under that "bad" interface, and note that all
+  plugins must be updated to use a valid interface.
+
+::
+
+    modified: geoips/plugin_registry.py
+
+    New error message:
+
+    _pytest.outcomes.XFailed: The following interfaces were not valid:
+
+    Plugin type 'module_based' does not allow interface 'algorithm'.
+    Valid interfaces:
+    ['algorithms', 'colormappers', 'coverage_checkers',
+    'filename_formatters', 'interpolators', 'output_checkers',
+    'output_formatters', 'procflows', 'readers', 'sector_adjusters',
+    'sector_metadata_generators', 'sector_spec_generators', 'title_formatters']
+
+    Please update the following plugins to use a valid interface:
+    {'TrueColor': {'docstring': 'True Color GeoIPS algorithm plugin.',
+                   'family': 'xarray_to_numpy',
+                   'interface': 'algorithm',
+                   'package': 'true_color',
+                   'plugin_type': 'module_based',
+                   'relpath': 'plugins/modules/algorithms/visir/TrueColor.py',
+                   'signature': '(xobj)'}}
+
+Include full path (__file__) for poorly formatted module-based
+plugins (missing attributes, etc).
+
+Ensure an informative error, including the full path to the bad plugin, is included
+for module-based plugins that are missing attributes, have improperly formatted
+values, etc.
+
+::
+
+    FAILED: issues found within  'readers' interface:
+
+    MISSING expected kwarg 'self_register' in 'amsr2_netcdf'
+    for 'readers' interface,
+    found in 'amsr2_netcdf' plugin,
+    in 'amsr2_netcdf' module
+    at '$GEOIPS/geoips/plugins/modules/readers/amsr2_netcdf.py'
+
+Release Updates
+===============
+
+Add 1.11.7 release note
+-----------------------
+
+*From GEOIPS#393: 2023-11-09, version update*
+
+::
+
+    modified: CHANGELOG.rst
+    new file: docs/source/releases/v1_11_7.rst
+    modified: docs/source/releases/index.rst
+
+Update internal and github.com 'update_this_release_note'
+---------------------------------------------------------
+
+*From GEOIPS#393: 2023-11-09, update 'update_this_release_note'*
+
+Updated 'update_this_release_note' file in geoips repo for the
+next internal version:
+docs/source/releases/v1_12_0.rst
+next github.com version:
+docs/source/releases/v1_12_1a0.rst
+
+::
+
+    modified: update_this_release_note

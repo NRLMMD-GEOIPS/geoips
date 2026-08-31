@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Running GeoIPS Pytest Tests &#8212; GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation</title>
+    <title>Running GeoIPS Pytest Tests &#8212; GeoIPS, Geolocated Information Processing System 0.0.0 documentation</title>
   
   
   
@@ -41,11 +41,18 @@
   <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
 
-    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=6727bded"></script>
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=525cde36"></script>
     <script src="../../_static/doctools.js?v=888ff710"></script>
     <script src="../../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../_static/design-tabs.js?v=f930bc37"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'contribute/testing/running_tests';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.17.1';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://nrlmmd-geoips.github.io/geoips/versions.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = 'dev';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner =
+            false;
+        </script>
     <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
     <link rel="icon" href="../../_static/nrlicon.ico"/>
     <link rel="index" title="Index" href="../../genindex.html" />
@@ -54,8 +61,8 @@
     <link rel="prev" title="Testing" href="index.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2.0" />
-    <meta name="docbuild:last-update" content="Jul 23, 2026 17:03:57"/>
+  <meta name="docsearch:version" content="0.0" />
+    <meta name="docbuild:last-update" content="Aug 31, 2026 13:32:18"/>
   
     
     <script src="../../_static/searchtools.js"></script>
@@ -127,11 +134,31 @@
       
     
     
-    <img src="../../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation - Home"/>
-    <img src="../../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation - Home"/>
+    <img src="../../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 0.0.0 documentation - Home"/>
+    <img src="../../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 0.0.0 documentation - Home"/>
   
   
 </a></div>
+    
+      <div class="navbar-item">
+<div class="version-switcher__container dropdown pst-js-only">
+  <button id="pst-version-switcher-button-2"
+    type="button"
+    class="version-switcher__button btn btn-sm dropdown-toggle"
+    data-bs-toggle="dropdown"
+    aria-haspopup="listbox"
+    aria-controls="pst-version-switcher-list-2"
+    aria-label="Version switcher list"
+  >
+    Choose version  <!-- this text may get changed later by javascript -->
+    <span class="caret"></span>
+  </button>
+  <div id="pst-version-switcher-list-2"
+    class="version-switcher__menu dropdown-menu list-group-flush py-0"
+    role="listbox" aria-labelledby="pst-version-switcher-button-2">
+    <!-- dropdown will be populated by javascript on page load -->
+  </div>
+</div></div>
     
   </div>
   
@@ -558,7 +585,7 @@
 </pre></div>
 </div>
 <p>Run long unit tests with specific markers:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span> <span class="n">tests</span><span class="o">/</span><span class="n">unit_tests_long</span><span class="o">/</span> <span class="o">-</span><span class="n">m</span> <span class="s2">&quot;integration&quot;</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span> <span class="n">tests</span><span class="o">/</span><span class="n">unit_tests_long</span><span class="o">/</span> <span class="o">-</span><span class="n">m</span> <span class="s2">"integration"</span>
 </pre></div>
 </div>
 </section>
@@ -590,13 +617,13 @@ see our testing markers documentation.</p>
 <section id="repository-level-markers">
 <h3>Repository-Level Markers<a class="headerlink" href="#repository-level-markers" title="Permalink to this heading">#</a></h3>
 <p><strong>Base Tests</strong> - Quick tests for minimal installations:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span> <span class="o">-</span><span class="n">m</span> <span class="s2">&quot;base&quot;</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span> <span class="o">-</span><span class="n">m</span> <span class="s2">"base"</span>
 </pre></div>
 </div>
 <p>Base tests complete very quickly and require only minimal
 installation for testing basic functionality within the current repository.</p>
 <p><strong>Full Tests</strong> - Comprehensive repository testing:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span> <span class="o">-</span><span class="n">m</span> <span class="s2">&quot;full&quot;</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span> <span class="o">-</span><span class="n">m</span> <span class="s2">"full"</span>
 </pre></div>
 </div>
 <p>Full tests require complete installation and test only functionality within
@@ -604,29 +631,29 @@ the current repository. These tests depend on <code class="docutils literal notr
 This includes all repository tests except those
 marked as optional <code class="docutils literal notranslate"><span class="pre">base</span></code> tests.</p>
 <p>Run both base and full tests:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span> <span class="o">-</span><span class="n">m</span> <span class="s2">&quot;base or full&quot;</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span> <span class="o">-</span><span class="n">m</span> <span class="s2">"base or full"</span>
 </pre></div>
 </div>
 </section>
 <section id="integration-test-markers">
 <h3>Integration Test Markers<a class="headerlink" href="#integration-test-markers" title="Permalink to this heading">#</a></h3>
 <p><strong>Integration Tests</strong> - Cross-component functionality:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span> <span class="o">-</span><span class="n">m</span> <span class="s2">&quot;integration&quot;</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span> <span class="o">-</span><span class="n">m</span> <span class="s2">"integration"</span>
 </pre></div>
 </div>
 <p>Integration tests verify functionality across multiple components and/or packages.</p>
 <p>Exclude integration tests (unit tests only):</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span> <span class="o">-</span><span class="n">m</span> <span class="s2">&quot;not integration&quot;</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span> <span class="o">-</span><span class="n">m</span> <span class="s2">"not integration"</span>
 </pre></div>
 </div>
 <p><strong>Multi-Package Tests</strong> - Cross-repository dependencies:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span> <span class="o">-</span><span class="n">m</span> <span class="s2">&quot;spans_multiple_packages&quot;</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span> <span class="o">-</span><span class="n">m</span> <span class="s2">"spans_multiple_packages"</span>
 </pre></div>
 </div>
 <p>This tests functionality that could fail due to code
 in multiple repositories (e.g., plugin validation across repos).</p>
 <p><strong>Limited Dataset Tests</strong> - Restricted data availability:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span> <span class="o">-</span><span class="n">m</span> <span class="s2">&quot;limited_test_dataset_availability&quot;</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span> <span class="o">-</span><span class="n">m</span> <span class="s2">"limited_test_dataset_availability"</span>
 </pre></div>
 </div>
 <p>Run just tests that may not be available to all users
@@ -639,34 +666,34 @@ pre-packaged opensource testing set.</p>
 for real-time processing.
 Most GeoIPS developers will not use these markers.</p>
 <p><strong>Real-time Tests</strong> - End-to-end processing:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span> <span class="o">-</span><span class="n">m</span> <span class="s2">&quot;realtime&quot;</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span> <span class="o">-</span><span class="n">m</span> <span class="s2">"realtime"</span>
 </pre></div>
 </div>
 <p>Tests full real-time functionality using complete
 procflow/workflow configs and all installed plugins.</p>
 <p><strong>Scheduler Tests</strong> - Task scheduling:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span> <span class="o">-</span><span class="n">m</span> <span class="s2">&quot;scheduler&quot;</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span> <span class="o">-</span><span class="n">m</span> <span class="s2">"scheduler"</span>
 </pre></div>
 </div>
 <p>Tests scheduling capabilities for processing workflows.</p>
 <p><strong>Database Tests</strong> - Database integration:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span> <span class="o">-</span><span class="n">m</span> <span class="s2">&quot;database&quot;</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span> <span class="o">-</span><span class="n">m</span> <span class="s2">"database"</span>
 </pre></div>
 </div>
 <p>Tests database integrations.</p>
 <p><strong>Downloader Tests</strong> - Data ingestion:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span> <span class="o">-</span><span class="n">m</span> <span class="s2">&quot;downloader&quot;</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span> <span class="o">-</span><span class="n">m</span> <span class="s2">"downloader"</span>
 </pre></div>
 </div>
 <p>Tests automated data download and ingestion functions.</p>
 <p><strong>External Preprocessing Tests</strong> - Third-party integration:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span> <span class="o">-</span><span class="n">m</span> <span class="s2">&quot;external_preprocessing&quot;</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span> <span class="o">-</span><span class="n">m</span> <span class="s2">"external_preprocessing"</span>
 </pre></div>
 </div>
 <p>Tests/runs external preprocessing tools
 (e.g., CLAVR-x, CSPP) that are not part of core GeoIPS.</p>
 <p><strong>Scrubber Tests</strong> - Data cleanup:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span> <span class="o">-</span><span class="n">m</span> <span class="s2">&quot;scrubber&quot;</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span> <span class="o">-</span><span class="n">m</span> <span class="s2">"scrubber"</span>
 </pre></div>
 </div>
 <p>Tests data cleanup and maintenance functions.</p>
@@ -674,19 +701,19 @@ procflow/workflow configs and all installed plugins.</p>
 <section id="combined-marker-examples">
 <h3>Combined Marker Examples<a class="headerlink" href="#combined-marker-examples" title="Permalink to this heading">#</a></h3>
 <p>Run base integration tests:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span> <span class="o">-</span><span class="n">m</span> <span class="s2">&quot;base and integration&quot;</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span> <span class="o">-</span><span class="n">m</span> <span class="s2">"base and integration"</span>
 </pre></div>
 </div>
 <p>Run full tests excluding those requiring external datasets:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span> <span class="o">-</span><span class="n">m</span> <span class="s2">&quot;full and not limited_test_dataset_availability&quot;</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span> <span class="o">-</span><span class="n">m</span> <span class="s2">"full and not limited_test_dataset_availability"</span>
 </pre></div>
 </div>
 <p>Run all system implementation tests:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span> <span class="o">-</span><span class="n">m</span> <span class="s2">&quot;realtime or scheduler or database or downloader or external_preprocessing or scrubber&quot;</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span> <span class="o">-</span><span class="n">m</span> <span class="s2">"realtime or scheduler or database or downloader or external_preprocessing or scrubber"</span>
 </pre></div>
 </div>
 <p>Run integration tests that don’t span multiple packages:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span> <span class="o">-</span><span class="n">m</span> <span class="s2">&quot;integration and not spans_multiple_packages&quot;</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span> <span class="o">-</span><span class="n">m</span> <span class="s2">"integration and not spans_multiple_packages"</span>
 </pre></div>
 </div>
 </section>
@@ -695,40 +722,40 @@ procflow/workflow configs and all installed plugins.</p>
 <h2>Pattern Matching Examples<a class="headerlink" href="#pattern-matching-examples" title="Permalink to this heading">#</a></h2>
 <p><strong>Test Name Patterns</strong></p>
 <p>Run tests containing “reader” in the name:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span> <span class="o">-</span><span class="n">k</span> <span class="s2">&quot;reader&quot;</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span> <span class="o">-</span><span class="n">k</span> <span class="s2">"reader"</span>
 </pre></div>
 </div>
 <p>Run tests for specific functionality:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span> <span class="o">-</span><span class="n">k</span> <span class="s2">&quot;test_colormap&quot;</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span> <span class="o">-</span><span class="n">k</span> <span class="s2">"test_colormap"</span>
 </pre></div>
 </div>
 <p>Run tests NOT containing specific words:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span> <span class="o">-</span><span class="n">k</span> <span class="s2">&quot;not slow&quot;</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span> <span class="o">-</span><span class="n">k</span> <span class="s2">"not slow"</span>
 </pre></div>
 </div>
 <p>Combine multiple patterns with AND:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span> <span class="o">-</span><span class="n">k</span> <span class="s2">&quot;reader and viirs&quot;</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span> <span class="o">-</span><span class="n">k</span> <span class="s2">"reader and viirs"</span>
 </pre></div>
 </div>
 <p>Combine multiple patterns with OR:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span> <span class="o">-</span><span class="n">k</span> <span class="s2">&quot;reader or writer&quot;</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span> <span class="o">-</span><span class="n">k</span> <span class="s2">"reader or writer"</span>
 </pre></div>
 </div>
 <p>Complex pattern combinations:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span> <span class="o">-</span><span class="n">k</span> <span class="s2">&quot;(reader or writer) and not slow&quot;</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span> <span class="o">-</span><span class="n">k</span> <span class="s2">"(reader or writer) and not slow"</span>
 </pre></div>
 </div>
 <p><strong>File Pattern Examples</strong></p>
 <p>Run all reader tests:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span> <span class="o">-</span><span class="n">k</span> <span class="s2">&quot;test_*_reader&quot;</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span> <span class="o">-</span><span class="n">k</span> <span class="s2">"test_*_reader"</span>
 </pre></div>
 </div>
 <p>Run all tests ending with “integration”:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span> <span class="o">-</span><span class="n">k</span> <span class="s2">&quot;*integration&quot;</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span> <span class="o">-</span><span class="n">k</span> <span class="s2">"*integration"</span>
 </pre></div>
 </div>
 <p>Run tests matching class patterns:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span> <span class="o">-</span><span class="n">k</span> <span class="s2">&quot;TestReader or TestWriter&quot;</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span> <span class="o">-</span><span class="n">k</span> <span class="s2">"TestReader or TestWriter"</span>
 </pre></div>
 </div>
 </section>
@@ -934,7 +961,7 @@ output clean.</p>
 </pre></div>
 </div>
 <p>Create timestamped log files:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span> <span class="o">&gt;</span> <span class="s2">&quot;test_$(date +%Y%m</span><span class="si">%d</span><span class="s2">_%H%M%S).log&quot;</span> <span class="mi">2</span><span class="o">&gt;&amp;</span><span class="mi">1</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span> <span class="o">&gt;</span> <span class="s2">"test_$(date +%Y%m</span><span class="si">%d</span><span class="s2">_%H%M%S).log"</span> <span class="mi">2</span><span class="o">&gt;&amp;</span><span class="mi">1</span>
 </pre></div>
 </div>
 <p>Control pytest verbosity levels:</p>
@@ -959,7 +986,7 @@ output clean.</p>
 </pre></div>
 </div>
 <p>Configure log format for file output:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span> <span class="o">--</span><span class="n">log</span><span class="o">-</span><span class="n">cli</span><span class="o">-</span><span class="nb">format</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">%(asctime)s</span><span class="s2"> [</span><span class="si">%(levelname)s</span><span class="s2">] </span><span class="si">%(message)s</span><span class="s2">&quot;</span> <span class="o">&gt;</span> <span class="n">formatted_logs</span><span class="o">.</span><span class="n">txt</span> <span class="mi">2</span><span class="o">&gt;&amp;</span><span class="mi">1</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span> <span class="o">--</span><span class="n">log</span><span class="o">-</span><span class="n">cli</span><span class="o">-</span><span class="nb">format</span><span class="o">=</span><span class="s2">"</span><span class="si">%(asctime)s</span><span class="s2"> [</span><span class="si">%(levelname)s</span><span class="s2">] </span><span class="si">%(message)s</span><span class="s2">"</span> <span class="o">&gt;</span> <span class="n">formatted_logs</span><span class="o">.</span><span class="n">txt</span> <span class="mi">2</span><span class="o">&gt;&amp;</span><span class="mi">1</span>
 </pre></div>
 </div>
 <p>Use progress indicators for long-running tests:</p>
@@ -967,12 +994,12 @@ output clean.</p>
 </pre></div>
 </div>
 <p>Rotate logs by test session:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span> <span class="o">&gt;</span> <span class="s2">&quot;session_$(date +</span><span class="si">%s</span><span class="s2">).log&quot;</span> <span class="mi">2</span><span class="o">&gt;&amp;</span><span class="mi">1</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span> <span class="o">&gt;</span> <span class="s2">"session_$(date +</span><span class="si">%s</span><span class="s2">).log"</span> <span class="mi">2</span><span class="o">&gt;&amp;</span><span class="mi">1</span>
 </pre></div>
 </div>
 <p>Split output by test categories:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span> <span class="o">-</span><span class="n">m</span> <span class="s2">&quot;base&quot;</span> <span class="o">&gt;</span> <span class="n">base_tests</span><span class="o">.</span><span class="n">log</span> <span class="mi">2</span><span class="o">&gt;&amp;</span><span class="mi">1</span>
-<span class="n">pytest</span> <span class="o">-</span><span class="n">m</span> <span class="s2">&quot;integration&quot;</span> <span class="o">&gt;</span> <span class="n">integration_tests</span><span class="o">.</span><span class="n">log</span> <span class="mi">2</span><span class="o">&gt;&amp;</span><span class="mi">1</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span> <span class="o">-</span><span class="n">m</span> <span class="s2">"base"</span> <span class="o">&gt;</span> <span class="n">base_tests</span><span class="o">.</span><span class="n">log</span> <span class="mi">2</span><span class="o">&gt;&amp;</span><span class="mi">1</span>
+<span class="n">pytest</span> <span class="o">-</span><span class="n">m</span> <span class="s2">"integration"</span> <span class="o">&gt;</span> <span class="n">integration_tests</span><span class="o">.</span><span class="n">log</span> <span class="mi">2</span><span class="o">&gt;&amp;</span><span class="mi">1</span>
 </pre></div>
 </div>
 <p><strong>Output Size Management</strong></p>
@@ -996,9 +1023,9 @@ output clean.</p>
 </pre></div>
 </div>
 <p>Run multiple test configurations with separate logs:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span> <span class="o">-</span><span class="n">m</span> <span class="s2">&quot;base&quot;</span> <span class="o">&gt;</span> <span class="n">base</span><span class="o">.</span><span class="n">log</span> <span class="mi">2</span><span class="o">&gt;&amp;</span><span class="mi">1</span>
-<span class="n">pytest</span> <span class="o">-</span><span class="n">m</span> <span class="s2">&quot;integration&quot;</span> <span class="o">&gt;</span> <span class="n">integration</span><span class="o">.</span><span class="n">log</span> <span class="mi">2</span><span class="o">&gt;&amp;</span><span class="mi">1</span>
-<span class="n">pytest</span> <span class="o">-</span><span class="n">m</span> <span class="s2">&quot;full&quot;</span> <span class="o">&gt;</span> <span class="n">full</span><span class="o">.</span><span class="n">log</span> <span class="mi">2</span><span class="o">&gt;&amp;</span><span class="mi">1</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span> <span class="o">-</span><span class="n">m</span> <span class="s2">"base"</span> <span class="o">&gt;</span> <span class="n">base</span><span class="o">.</span><span class="n">log</span> <span class="mi">2</span><span class="o">&gt;&amp;</span><span class="mi">1</span>
+<span class="n">pytest</span> <span class="o">-</span><span class="n">m</span> <span class="s2">"integration"</span> <span class="o">&gt;</span> <span class="n">integration</span><span class="o">.</span><span class="n">log</span> <span class="mi">2</span><span class="o">&gt;&amp;</span><span class="mi">1</span>
+<span class="n">pytest</span> <span class="o">-</span><span class="n">m</span> <span class="s2">"full"</span> <span class="o">&gt;</span> <span class="n">full</span><span class="o">.</span><span class="n">log</span> <span class="mi">2</span><span class="o">&gt;&amp;</span><span class="mi">1</span>
 </pre></div>
 </div>
 </section>
@@ -1007,7 +1034,7 @@ output clean.</p>
 <p>Run tests across all GeoIPS plugin packages with comprehensive coverage:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>cd $GEOIPS_PACKAGES_DIR
 coverage run --omit=*test* --source ./.. --module \
-      pytest -m &#39;$pytest_mark&#39; \
+      pytest -m '$pytest_mark' \
       --junit-xml=/output/test-artifacts/pytest.xml \
       --html=/output/test-artifacts/pytest.html --self-contained-html
 coverage json -o /output/test-artifacts/coverage.json --pretty-print
@@ -1045,7 +1072,7 @@ coverage html -d /output/test-artifacts/coverage-html
 </div>
 <p><strong>Complex Examples</strong></p>
 <p>Run with custom markers and options:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span> <span class="o">-</span><span class="n">m</span> <span class="s2">&quot;integration and not limited_test_dataset_availability&quot;</span> <span class="o">--</span><span class="n">cov</span><span class="o">-</span><span class="n">report</span><span class="o">=</span><span class="n">html</span> <span class="o">-</span><span class="n">v</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span> <span class="o">-</span><span class="n">m</span> <span class="s2">"integration and not limited_test_dataset_availability"</span> <span class="o">--</span><span class="n">cov</span><span class="o">-</span><span class="n">report</span><span class="o">=</span><span class="n">html</span> <span class="o">-</span><span class="n">v</span>
 </pre></div>
 </div>
 <p>Exclude specific directories:</p>
@@ -1057,7 +1084,7 @@ coverage html -d /output/test-artifacts/coverage-html
 </pre></div>
 </div>
 <p>Pattern matching with coverage:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span> <span class="o">-</span><span class="n">k</span> <span class="s2">&quot;reader&quot;</span> <span class="o">--</span><span class="n">cov</span><span class="o">=</span><span class="n">geoips</span><span class="o">.</span><span class="n">interfaces</span><span class="o">.</span><span class="n">readers</span> <span class="o">--</span><span class="n">cov</span><span class="o">-</span><span class="n">report</span><span class="o">=</span><span class="n">term</span><span class="o">-</span><span class="n">missing</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span> <span class="o">-</span><span class="n">k</span> <span class="s2">"reader"</span> <span class="o">--</span><span class="n">cov</span><span class="o">=</span><span class="n">geoips</span><span class="o">.</span><span class="n">interfaces</span><span class="o">.</span><span class="n">readers</span> <span class="o">--</span><span class="n">cov</span><span class="o">-</span><span class="n">report</span><span class="o">=</span><span class="n">term</span><span class="o">-</span><span class="n">missing</span>
 </pre></div>
 </div>
 <p><strong>Development and Debugging</strong></p>

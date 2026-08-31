@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Build a Reader: a hands-on walkthrough &#8212; GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation</title>
+    <title>Build a Reader: a hands-on walkthrough &#8212; GeoIPS, Geolocated Information Processing System 0.0.0 documentation</title>
   
   
   
@@ -41,11 +41,18 @@
   <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
 
-    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=6727bded"></script>
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=525cde36"></script>
     <script src="../../_static/doctools.js?v=888ff710"></script>
     <script src="../../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../_static/design-tabs.js?v=f930bc37"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'tutorials/extending-with-plugins/reader-walkthrough';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.17.1';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://nrlmmd-geoips.github.io/geoips/versions.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = 'dev';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner =
+            false;
+        </script>
     <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
     <link rel="icon" href="../../_static/nrlicon.ico"/>
     <link rel="index" title="Index" href="../../genindex.html" />
@@ -54,8 +61,8 @@
     <link rel="prev" title="Get to know the GeoIPS Readers" href="reader.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2.0" />
-    <meta name="docbuild:last-update" content="Jul 23, 2026 17:03:57"/>
+  <meta name="docsearch:version" content="0.0" />
+    <meta name="docbuild:last-update" content="Aug 31, 2026 13:32:18"/>
   
     
     <script src="../../_static/searchtools.js"></script>
@@ -127,11 +134,31 @@
       
     
     
-    <img src="../../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation - Home"/>
-    <img src="../../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation - Home"/>
+    <img src="../../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 0.0.0 documentation - Home"/>
+    <img src="../../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 0.0.0 documentation - Home"/>
   
   
 </a></div>
+    
+      <div class="navbar-item">
+<div class="version-switcher__container dropdown pst-js-only">
+  <button id="pst-version-switcher-button-2"
+    type="button"
+    class="version-switcher__button btn btn-sm dropdown-toggle"
+    data-bs-toggle="dropdown"
+    aria-haspopup="listbox"
+    aria-controls="pst-version-switcher-list-2"
+    aria-label="Version switcher list"
+  >
+    Choose version  <!-- this text may get changed later by javascript -->
+    <span class="caret"></span>
+  </button>
+  <div id="pst-version-switcher-list-2"
+    class="version-switcher__menu dropdown-menu list-group-flush py-0"
+    role="listbox" aria-labelledby="pst-version-switcher-button-2">
+    <!-- dropdown will be populated by javascript on page load -->
+  </div>
+</div></div>
     
   </div>
   
@@ -615,15 +642,15 @@ metadata attributes. Documentation, <code class="docutils literal notranslate"><
 (GRIB) all help. A quick throwaway script also works for NetCDF4/HDF5:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">xarray</span>
 
-<span class="n">xobj</span> <span class="o">=</span> <span class="n">xarray</span><span class="o">.</span><span class="n">open_dataset</span><span class="p">(</span><span class="s2">&quot;myfile.h5&quot;</span><span class="p">)</span>
+<span class="n">xobj</span> <span class="o">=</span> <span class="n">xarray</span><span class="o">.</span><span class="n">open_dataset</span><span class="p">(</span><span class="s2">"myfile.h5"</span><span class="p">)</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;FILE METADATA ATTRIBUTES&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"FILE METADATA ATTRIBUTES"</span><span class="p">)</span>
 <span class="k">for</span> <span class="n">attr</span> <span class="ow">in</span> <span class="n">xobj</span><span class="o">.</span><span class="n">attrs</span><span class="p">:</span>
-    <span class="nb">print</span><span class="p">(</span><span class="n">attr</span><span class="p">,</span> <span class="s2">&quot;:&quot;</span><span class="p">,</span> <span class="n">xobj</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="n">attr</span><span class="p">])</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">attr</span><span class="p">,</span> <span class="s2">":"</span><span class="p">,</span> <span class="n">xobj</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="n">attr</span><span class="p">])</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">VARIABLES + METADATA ATTRIBUTES&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">VARIABLES + METADATA ATTRIBUTES"</span><span class="p">)</span>
 <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">xobj</span><span class="p">:</span>
-    <span class="nb">print</span><span class="p">(</span><span class="n">var</span><span class="p">,</span> <span class="s2">&quot;:&quot;</span><span class="p">,</span> <span class="n">xobj</span><span class="p">[</span><span class="n">var</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span> <span class="ow">or</span> <span class="s2">&quot;No attributes&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">var</span><span class="p">,</span> <span class="s2">":"</span><span class="p">,</span> <span class="n">xobj</span><span class="p">[</span><span class="n">var</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span> <span class="ow">or</span> <span class="s2">"No attributes"</span><span class="p">)</span>
 </pre></div>
 </div>
 </section>
@@ -639,7 +666,7 @@ metadata attributes. Documentation, <code class="docutils literal notranslate"><
 <h3><a class="toc-backref" href="#id5" role="doc-backlink">Plugin header and class</a><a class="headerlink" href="#plugin-header-and-class" title="Permalink to this heading">#</a></h3>
 <p>Start with a module docstring, imports, the logger, and the class attributes that tell
 GeoIPS what this plugin is:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="sd">&quot;&quot;&quot;Reader for the single-file FL-89 sensor (HDF5).&quot;&quot;&quot;</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="sd">"""Reader for the single-file FL-89 sensor (HDF5)."""</span>
 
 <span class="c1"># Python standard libraries</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">datetime</span>
@@ -655,12 +682,12 @@ GeoIPS what this plugin is:</p>
 
 
 <span class="k">class</span><span class="w"> </span><span class="nc">GreatValueHDF5ReaderPlugin</span><span class="p">(</span><span class="n">BaseReaderPlugin</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Read FL-89 data from a single HDF5 file.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Read FL-89 data from a single HDF5 file."""</span>
 
-    <span class="n">interface</span> <span class="o">=</span> <span class="s2">&quot;readers&quot;</span>
-    <span class="n">family</span> <span class="o">=</span> <span class="s2">&quot;standard&quot;</span>
-    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;fl89_value_hdf5&quot;</span>
-    <span class="n">source_names</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;fl89&quot;</span><span class="p">]</span>
+    <span class="n">interface</span> <span class="o">=</span> <span class="s2">"readers"</span>
+    <span class="n">family</span> <span class="o">=</span> <span class="s2">"standard"</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">"fl89_value_hdf5"</span>
+    <span class="n">source_names</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"fl89"</span><span class="p">]</span>
 </pre></div>
 </div>
 <p><code class="docutils literal notranslate"><span class="pre">interface</span></code>/<code class="docutils literal notranslate"><span class="pre">family</span></code>/<code class="docutils literal notranslate"><span class="pre">name</span></code> identify the plugin; <code class="docutils literal notranslate"><span class="pre">source_names</span></code> declares which data
@@ -672,7 +699,7 @@ sources it can read (products reference the same source name).</p>
 arguments:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">call</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fnames</span><span class="p">,</span> <span class="n">metadata_only</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">chans</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">area_def</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
          <span class="n">self_register</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Read FL-89 data from a list of filenames.</span>
+<span class="w">    </span><span class="sd">"""Read FL-89 data from a list of filenames.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -690,12 +717,12 @@ arguments:</p>
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    dict of xarray.Dataset</span>
-<span class="sd">        Keyed by descriptive dataset ids, plus a ``&quot;METADATA&quot;`` entry.</span>
+<span class="sd">        Keyed by descriptive dataset ids, plus a ``"METADATA"`` entry.</span>
 
 <span class="sd">    See Also</span>
 <span class="sd">    --------</span>
 <span class="sd">    :ref:`xarray_standards`</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 </pre></div>
 </div>
 <div class="admonition note">
@@ -709,23 +736,23 @@ is up to you.</p>
 <h3><a class="toc-backref" href="#id7" role="doc-backlink">Read the metadata</a><a class="headerlink" href="#read-the-metadata" title="Permalink to this heading">#</a></h3>
 <p>This sensor delivers a single file, so read it and set the required attributes:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">fname</span> <span class="o">=</span> <span class="n">fnames</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>  <span class="c1"># this sensor delivers a single file</span>
-<span class="n">LOG</span><span class="o">.</span><span class="n">interactive</span><span class="p">(</span><span class="s2">&quot;Reading </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">fname</span><span class="p">)</span>
+<span class="n">LOG</span><span class="o">.</span><span class="n">interactive</span><span class="p">(</span><span class="s2">"Reading </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="n">fname</span><span class="p">)</span>
 
 <span class="c1"># xarray reads HDF5/NetCDF4 without importing the backend directly</span>
 <span class="n">xobj</span> <span class="o">=</span> <span class="n">xarray</span><span class="o">.</span><span class="n">open_dataset</span><span class="p">(</span><span class="n">fname</span><span class="p">)</span>
 
 <span class="n">sdt</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span>
-    <span class="n">xobj</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;time_data_start&quot;</span><span class="p">],</span> <span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2">T%H:%M:%SZ&quot;</span>
+    <span class="n">xobj</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"time_data_start"</span><span class="p">],</span> <span class="s2">"%Y-%m-</span><span class="si">%d</span><span class="s2">T%H:%M:%SZ"</span>
 <span class="p">)</span>
 <span class="n">edt</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span>
-    <span class="n">xobj</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;time_data_end&quot;</span><span class="p">],</span> <span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2">T%H:%M:%SZ&quot;</span>
+    <span class="n">xobj</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"time_data_end"</span><span class="p">],</span> <span class="s2">"%Y-%m-</span><span class="si">%d</span><span class="s2">T%H:%M:%SZ"</span>
 <span class="p">)</span>
 
-<span class="n">xobj</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;start_datetime&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">sdt</span>
-<span class="n">xobj</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;end_datetime&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">edt</span>
-<span class="n">xobj</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;source_name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;fl89&quot;</span>
-<span class="n">xobj</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;platform_name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;fl89&quot;</span>
-<span class="n">xobj</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;data_provider&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Frito-Lay&quot;</span>
+<span class="n">xobj</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"start_datetime"</span><span class="p">]</span> <span class="o">=</span> <span class="n">sdt</span>
+<span class="n">xobj</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"end_datetime"</span><span class="p">]</span> <span class="o">=</span> <span class="n">edt</span>
+<span class="n">xobj</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"source_name"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"fl89"</span>
+<span class="n">xobj</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"platform_name"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"fl89"</span>
+<span class="n">xobj</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"data_provider"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"Frito-Lay"</span>
 </pre></div>
 </div>
 </section>
@@ -739,8 +766,8 @@ don’t return early — doubling the memory and time cost. Always return after 
 pass:</p>
 </div>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="n">metadata_only</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
-    <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;metadata_only requested. Returning&quot;</span><span class="p">)</span>
-    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;METADATA&quot;</span><span class="p">:</span> <span class="n">xobj</span><span class="p">}</span>
+    <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"metadata_only requested. Returning"</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s2">"METADATA"</span><span class="p">:</span> <span class="n">xobj</span><span class="p">}</span>
 </pre></div>
 </div>
 </section>
@@ -752,22 +779,22 @@ pass:</p>
 <code class="docutils literal notranslate"><span class="pre">latitude</span></code>/<code class="docutils literal notranslate"><span class="pre">longitude</span></code> to be 2-D, matching the data. Build a 2-D grid with
 <code class="docutils literal notranslate"><span class="pre">numpy.meshgrid</span></code>:</p>
 </div>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Obtaining lat/lon from xarray&quot;</span><span class="p">)</span>
-<span class="n">lat</span> <span class="o">=</span> <span class="n">xobj</span><span class="o">.</span><span class="n">variables</span><span class="p">[</span><span class="s2">&quot;Latitude&quot;</span><span class="p">][</span><span class="o">...</span><span class="p">]</span>
-<span class="n">lon</span> <span class="o">=</span> <span class="n">xobj</span><span class="o">.</span><span class="n">variables</span><span class="p">[</span><span class="s2">&quot;Longitude&quot;</span><span class="p">][</span><span class="o">...</span><span class="p">]</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"Obtaining lat/lon from xarray"</span><span class="p">)</span>
+<span class="n">lat</span> <span class="o">=</span> <span class="n">xobj</span><span class="o">.</span><span class="n">variables</span><span class="p">[</span><span class="s2">"Latitude"</span><span class="p">][</span><span class="o">...</span><span class="p">]</span>
+<span class="n">lon</span> <span class="o">=</span> <span class="n">xobj</span><span class="o">.</span><span class="n">variables</span><span class="p">[</span><span class="s2">"Longitude"</span><span class="p">][</span><span class="o">...</span><span class="p">]</span>
 
-<span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Creating 2D lat/lon grid&quot;</span><span class="p">)</span>
+<span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"Creating 2D lat/lon grid"</span><span class="p">)</span>
 <span class="n">lon_final</span><span class="p">,</span> <span class="n">lat_final</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">lon</span><span class="p">,</span> <span class="n">lat</span><span class="p">)</span>
 
-<span class="n">xobj</span><span class="p">[</span><span class="s2">&quot;latitude&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xarray</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
-    <span class="n">numpy</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">lat_final</span><span class="p">),</span> <span class="n">dims</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;lat&quot;</span><span class="p">,</span> <span class="s2">&quot;lon&quot;</span><span class="p">)</span>
+<span class="n">xobj</span><span class="p">[</span><span class="s2">"latitude"</span><span class="p">]</span> <span class="o">=</span> <span class="n">xarray</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
+    <span class="n">numpy</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">lat_final</span><span class="p">),</span> <span class="n">dims</span><span class="o">=</span><span class="p">(</span><span class="s2">"lat"</span><span class="p">,</span> <span class="s2">"lon"</span><span class="p">)</span>
 <span class="p">)</span>
-<span class="n">xobj</span><span class="p">[</span><span class="s2">&quot;longitude&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xarray</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
-    <span class="n">numpy</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">lon_final</span><span class="p">),</span> <span class="n">dims</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;lat&quot;</span><span class="p">,</span> <span class="s2">&quot;lon&quot;</span><span class="p">)</span>
+<span class="n">xobj</span><span class="p">[</span><span class="s2">"longitude"</span><span class="p">]</span> <span class="o">=</span> <span class="n">xarray</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
+    <span class="n">numpy</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">lon_final</span><span class="p">),</span> <span class="n">dims</span><span class="o">=</span><span class="p">(</span><span class="s2">"lat"</span><span class="p">,</span> <span class="s2">"lon"</span><span class="p">)</span>
 <span class="p">)</span>
 
 <span class="c1"># Drop the original 1-D coordinates now that we have 2-D versions</span>
-<span class="n">xobj</span> <span class="o">=</span> <span class="n">xobj</span><span class="o">.</span><span class="n">drop_vars</span><span class="p">([</span><span class="s2">&quot;Latitude&quot;</span><span class="p">,</span> <span class="s2">&quot;Longitude&quot;</span><span class="p">])</span>
+<span class="n">xobj</span> <span class="o">=</span> <span class="n">xobj</span><span class="o">.</span><span class="n">drop_vars</span><span class="p">([</span><span class="s2">"Latitude"</span><span class="p">,</span> <span class="s2">"Longitude"</span><span class="p">])</span>
 </pre></div>
 </div>
 </section>
@@ -775,7 +802,7 @@ pass:</p>
 <h3><a class="toc-backref" href="#id10" role="doc-backlink">Return the data</a><a class="headerlink" href="#return-the-data" title="Permalink to this heading">#</a></h3>
 <p>Return a dictionary of xarray datasets — one (or more) named datasets plus a <code class="docutils literal notranslate"><span class="pre">METADATA</span></code>
 entry — and declare <code class="docutils literal notranslate"><span class="pre">PLUGIN_CLASS</span></code> so the registry can find your reader:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>        <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;FL89&quot;</span><span class="p">:</span> <span class="n">xobj</span><span class="p">,</span> <span class="s2">&quot;METADATA&quot;</span><span class="p">:</span> <span class="n">xobj</span><span class="p">[[]]}</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>        <span class="k">return</span> <span class="p">{</span><span class="s2">"FL89"</span><span class="p">:</span> <span class="n">xobj</span><span class="p">,</span> <span class="s2">"METADATA"</span><span class="p">:</span> <span class="n">xobj</span><span class="p">[[]]}</span>
 
 
 <span class="n">PLUGIN_CLASS</span> <span class="o">=</span> <span class="n">GreatValueHDF5ReaderPlugin</span>
@@ -791,7 +818,7 @@ indented three spaces, everything from <code class="docutils literal notranslate
 <p>Polar-orbiter passes are often delivered as many files. This reader reads one <em>or</em> many
 files and stitches them together. Create <code class="docutils literal notranslate"><span class="pre">fl98_value_hdf5.py</span></code> in the same directory,
 with the same header pattern:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="sd">&quot;&quot;&quot;Reader for the multi-file FL-98 sensor (HDF5).&quot;&quot;&quot;</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="sd">"""Reader for the multi-file FL-98 sensor (HDF5)."""</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">datetime</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
@@ -805,12 +832,12 @@ with the same header pattern:</p>
 
 
 <span class="k">class</span><span class="w"> </span><span class="nc">Fl98ReaderPlugin</span><span class="p">(</span><span class="n">BaseReaderPlugin</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Read FL-98 data from one or more HDF5 files.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Read FL-98 data from one or more HDF5 files."""</span>
 
-    <span class="n">interface</span> <span class="o">=</span> <span class="s2">&quot;readers&quot;</span>
-    <span class="n">family</span> <span class="o">=</span> <span class="s2">&quot;standard&quot;</span>
-    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;fl98_value_hdf5&quot;</span>
-    <span class="n">source_names</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;fl98&quot;</span><span class="p">]</span>
+    <span class="n">interface</span> <span class="o">=</span> <span class="s2">"readers"</span>
+    <span class="n">family</span> <span class="o">=</span> <span class="s2">"standard"</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">"fl98_value_hdf5"</span>
+    <span class="n">source_names</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"fl98"</span><span class="p">]</span>
 </pre></div>
 </div>
 <section id="metadata-from-the-first-and-last-files">
@@ -819,29 +846,29 @@ with the same header pattern:</p>
 what you need for the metadata pass:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">call</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fnames</span><span class="p">,</span> <span class="n">metadata_only</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">chans</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">area_def</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
          <span class="n">self_register</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Read FL-98 data from a list of filenames.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Read FL-98 data from a list of filenames."""</span>
     <span class="n">xobj_metadata</span> <span class="o">=</span> <span class="n">xarray</span><span class="o">.</span><span class="n">Dataset</span><span class="p">()</span>
 
     <span class="n">xobj_temp</span> <span class="o">=</span> <span class="n">xarray</span><span class="o">.</span><span class="n">open_dataset</span><span class="p">(</span><span class="n">fnames</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
     <span class="n">sdt</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span>
-        <span class="n">xobj_temp</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;time_data_start&quot;</span><span class="p">],</span> <span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2">T%H:%M:%SZ&quot;</span>
+        <span class="n">xobj_temp</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"time_data_start"</span><span class="p">],</span> <span class="s2">"%Y-%m-</span><span class="si">%d</span><span class="s2">T%H:%M:%SZ"</span>
     <span class="p">)</span>
     <span class="n">xobj_temp</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 
     <span class="n">xobj_temp</span> <span class="o">=</span> <span class="n">xarray</span><span class="o">.</span><span class="n">open_dataset</span><span class="p">(</span><span class="n">fnames</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
     <span class="n">edt</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span>
-        <span class="n">xobj_temp</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;time_data_end&quot;</span><span class="p">],</span> <span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2">T%H:%M:%SZ&quot;</span>
+        <span class="n">xobj_temp</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"time_data_end"</span><span class="p">],</span> <span class="s2">"%Y-%m-</span><span class="si">%d</span><span class="s2">T%H:%M:%SZ"</span>
     <span class="p">)</span>
     <span class="n">xobj_temp</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 
-    <span class="n">xobj_metadata</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;start_datetime&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">sdt</span>
-    <span class="n">xobj_metadata</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;end_datetime&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">edt</span>
-    <span class="n">xobj_metadata</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;source_name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;fl98&quot;</span>
-    <span class="n">xobj_metadata</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;platform_name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;fl98&quot;</span>
-    <span class="n">xobj_metadata</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;data_provider&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Frito-Lay&quot;</span>
+    <span class="n">xobj_metadata</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"start_datetime"</span><span class="p">]</span> <span class="o">=</span> <span class="n">sdt</span>
+    <span class="n">xobj_metadata</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"end_datetime"</span><span class="p">]</span> <span class="o">=</span> <span class="n">edt</span>
+    <span class="n">xobj_metadata</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"source_name"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"fl98"</span>
+    <span class="n">xobj_metadata</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"platform_name"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"fl98"</span>
+    <span class="n">xobj_metadata</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"data_provider"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"Frito-Lay"</span>
 
     <span class="k">if</span> <span class="n">metadata_only</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
-        <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;METADATA&quot;</span><span class="p">:</span> <span class="n">xobj_metadata</span><span class="p">}</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s2">"METADATA"</span><span class="p">:</span> <span class="n">xobj_metadata</span><span class="p">}</span>
 </pre></div>
 </div>
 <div class="admonition note">
@@ -856,7 +883,7 @@ ordering for your own data rather than relying on it.</p>
 helper method that reads geolocation and only the requested channels. Add it to the class,
 above <code class="docutils literal notranslate"><span class="pre">call</span></code>:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">read_fl98_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fname</span><span class="p">,</span> <span class="n">chans</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Read one FL-98 file; return a dict of xarray datasets.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Read one FL-98 file; return a dict of xarray datasets."""</span>
     <span class="kn">import</span><span class="w"> </span><span class="nn">h5py</span>
 
     <span class="n">datain</span> <span class="o">=</span> <span class="n">h5py</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="n">fname</span><span class="p">)</span>
@@ -864,17 +891,17 @@ above <code class="docutils literal notranslate"><span class="pre">call</span></
     <span class="n">temp_xarray</span> <span class="o">=</span> <span class="n">xarray</span><span class="o">.</span><span class="n">Dataset</span><span class="p">()</span>
 
     <span class="c1"># Geolocation → 2-D (see Challenge #2)</span>
-    <span class="n">lat</span> <span class="o">=</span> <span class="n">datain</span><span class="p">[</span><span class="s2">&quot;Latitude&quot;</span><span class="p">][:]</span>
-    <span class="n">lon</span> <span class="o">=</span> <span class="n">datain</span><span class="p">[</span><span class="s2">&quot;Longitude&quot;</span><span class="p">][:]</span>
+    <span class="n">lat</span> <span class="o">=</span> <span class="n">datain</span><span class="p">[</span><span class="s2">"Latitude"</span><span class="p">][:]</span>
+    <span class="n">lon</span> <span class="o">=</span> <span class="n">datain</span><span class="p">[</span><span class="s2">"Longitude"</span><span class="p">][:]</span>
     <span class="n">coordict</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
         <span class="n">num_lats</span><span class="o">=</span><span class="nb">range</span><span class="p">(</span><span class="n">lat</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="n">num_lons</span><span class="o">=</span><span class="nb">range</span><span class="p">(</span><span class="n">lon</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
     <span class="p">)</span>
-    <span class="n">dims</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;num_lats&quot;</span><span class="p">,</span> <span class="s2">&quot;num_lons&quot;</span><span class="p">)</span>
+    <span class="n">dims</span> <span class="o">=</span> <span class="p">(</span><span class="s2">"num_lats"</span><span class="p">,</span> <span class="s2">"num_lons"</span><span class="p">)</span>
     <span class="n">lon_final</span><span class="p">,</span> <span class="n">lat_final</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">lon</span><span class="p">,</span> <span class="n">lat</span><span class="p">)</span>
-    <span class="n">temp_xarray</span><span class="p">[</span><span class="s2">&quot;latitude&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xarray</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
+    <span class="n">temp_xarray</span><span class="p">[</span><span class="s2">"latitude"</span><span class="p">]</span> <span class="o">=</span> <span class="n">xarray</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
         <span class="n">lat_final</span><span class="p">,</span> <span class="n">coords</span><span class="o">=</span><span class="n">coordict</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="n">dims</span>
     <span class="p">)</span>
-    <span class="n">temp_xarray</span><span class="p">[</span><span class="s2">&quot;longitude&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xarray</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
+    <span class="n">temp_xarray</span><span class="p">[</span><span class="s2">"longitude"</span><span class="p">]</span> <span class="o">=</span> <span class="n">xarray</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
         <span class="n">lon_final</span><span class="p">,</span> <span class="n">coords</span><span class="o">=</span><span class="n">coordict</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="n">dims</span>
     <span class="p">)</span>
 
@@ -885,7 +912,7 @@ above <code class="docutils literal notranslate"><span class="pre">call</span></
         <span class="p">)</span>
 
     <span class="n">datain</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
-    <span class="n">return_dict</span><span class="p">[</span><span class="s2">&quot;DATA&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">temp_xarray</span>
+    <span class="n">return_dict</span><span class="p">[</span><span class="s2">"DATA"</span><span class="p">]</span> <span class="o">=</span> <span class="n">temp_xarray</span>
     <span class="k">return</span> <span class="n">return_dict</span>
 </pre></div>
 </div>
@@ -893,7 +920,7 @@ above <code class="docutils literal notranslate"><span class="pre">call</span></
 <p class="admonition-title">Challenge #3 — awkward variable names</p>
 <p>Some sensors name variables in ways that are unwieldy as GeoIPS variables (e.g. AMSR2’s
 <code class="docutils literal notranslate"><span class="pre">Brightness_Temperature_89_GHz_AH</span></code>). Map source names to GeoIPS names as you read:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">varnames</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;Brightness_Temperature_89_GHz_AH&quot;</span><span class="p">:</span> <span class="s2">&quot;tb89hA&quot;</span><span class="p">,</span> <span class="o">...</span><span class="p">}</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">varnames</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"Brightness_Temperature_89_GHz_AH"</span><span class="p">:</span> <span class="s2">"tb89hA"</span><span class="p">,</span> <span class="o">...</span><span class="p">}</span>
 <span class="k">for</span> <span class="n">src_name</span><span class="p">,</span> <span class="n">geoips_name</span> <span class="ow">in</span> <span class="n">varnames</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
     <span class="n">sub_xarray</span><span class="p">[</span><span class="n">geoips_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">full_xarray</span><span class="p">[</span><span class="n">src_name</span><span class="p">]</span>
 </pre></div>
@@ -921,16 +948,16 @@ variable along a new dimension, then concatenate:</p>
                     <span class="n">xarray_fl98</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">stacked</span><span class="p">]</span>
 
         <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">xarray_fl98</span><span class="p">:</span>
-            <span class="n">xarray_fl98</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">xarray</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">xarray_fl98</span><span class="p">[</span><span class="n">key</span><span class="p">],</span> <span class="n">dim</span><span class="o">=</span><span class="s2">&quot;zed&quot;</span><span class="p">)</span>
+            <span class="n">xarray_fl98</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">xarray</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">xarray_fl98</span><span class="p">[</span><span class="n">key</span><span class="p">],</span> <span class="n">dim</span><span class="o">=</span><span class="s2">"zed"</span><span class="p">)</span>
 
         <span class="k">for</span> <span class="n">dsname</span><span class="p">,</span> <span class="n">curr_xarray</span> <span class="ow">in</span> <span class="n">xarray_fl98</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-            <span class="n">curr_xarray</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;start_datetime&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">sdt</span>
-            <span class="n">curr_xarray</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;end_datetime&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">edt</span>
-            <span class="n">curr_xarray</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;source_name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;fl98&quot;</span>
-            <span class="n">curr_xarray</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;platform_name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;fl98&quot;</span>
-            <span class="n">curr_xarray</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;data_provider&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Frito-Lay&quot;</span>
+            <span class="n">curr_xarray</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"start_datetime"</span><span class="p">]</span> <span class="o">=</span> <span class="n">sdt</span>
+            <span class="n">curr_xarray</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"end_datetime"</span><span class="p">]</span> <span class="o">=</span> <span class="n">edt</span>
+            <span class="n">curr_xarray</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"source_name"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"fl98"</span>
+            <span class="n">curr_xarray</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"platform_name"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"fl98"</span>
+            <span class="n">curr_xarray</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"data_provider"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"Frito-Lay"</span>
 
-        <span class="n">xarray_fl98</span><span class="p">[</span><span class="s2">&quot;METADATA&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">xarray_fl98</span><span class="o">.</span><span class="n">values</span><span class="p">())[</span><span class="mi">0</span><span class="p">][[]]</span>
+        <span class="n">xarray_fl98</span><span class="p">[</span><span class="s2">"METADATA"</span><span class="p">]</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">xarray_fl98</span><span class="o">.</span><span class="n">values</span><span class="p">())[</span><span class="mi">0</span><span class="p">][[]]</span>
         <span class="k">return</span> <span class="n">xarray_fl98</span>
 
 
@@ -961,11 +988,11 @@ overlap with masked space. Be careful with geographically overlapping files.</p>
 <span class="nt">spec</span><span class="p">:</span>
 <span class="w">  </span><span class="nt">products</span><span class="p">:</span>
 <span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">coupon</span>
-<span class="w">      </span><span class="nt">source_names</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;fl89&quot;</span><span class="p p-Indicator">]</span>
+<span class="w">      </span><span class="nt">source_names</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">"fl89"</span><span class="p p-Indicator">]</span>
 <span class="w">      </span><span class="nt">docstring</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">FL-89 coupon RGB.</span>
 <span class="w">      </span><span class="nt">product_defaults</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">RGB-Default</span>
 <span class="w">      </span><span class="nt">spec</span><span class="p">:</span>
-<span class="w">        </span><span class="nt">variables</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;ChanRed&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;ChanGrn&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;ChanBlu&quot;</span><span class="p p-Indicator">]</span>
+<span class="w">        </span><span class="nt">variables</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">"ChanRed"</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">"ChanGrn"</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">"ChanBlu"</span><span class="p p-Indicator">]</span>
 <span class="w">        </span><span class="nt">scale_factor</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.003</span>
 </pre></div>
 </div>

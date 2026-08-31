@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>geoips.pydantic_models.v1.sectors &#8212; GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation</title>
+    <title>geoips.pydantic_models.v1.sectors &#8212; GeoIPS, Geolocated Information Processing System 0.0.0 documentation</title>
   
   
   
@@ -40,7 +40,7 @@
   <link rel="preload" as="script" href="../../../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
 <link rel="preload" as="script" href="../../../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
 
-    <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js?v=6727bded"></script>
+    <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js?v=525cde36"></script>
     <script src="../../../../_static/doctools.js?v=888ff710"></script>
     <script src="../../../../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../../_static/design-tabs.js?v=f930bc37"></script>
@@ -401,14 +401,21 @@ mermaid.initialize(
 window.addEventListener("load", load);
 window.runMermaid = runMermaid;</script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_modules/geoips/pydantic_models/v1/sectors';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.17.1';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://nrlmmd-geoips.github.io/geoips/versions.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = 'dev';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner =
+            false;
+        </script>
     <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
     <link rel="icon" href="../../../../_static/nrlicon.ico"/>
     <link rel="index" title="Index" href="../../../../genindex.html" />
     <link rel="search" title="Search" href="../../../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2.0" />
-    <meta name="docbuild:last-update" content="Jul 23, 2026 17:03:57"/>
+  <meta name="docsearch:version" content="0.0" />
+    <meta name="docbuild:last-update" content="Aug 31, 2026 13:32:18"/>
   
     
     <script src="../../../../_static/searchtools.js"></script>
@@ -480,11 +487,31 @@ window.runMermaid = runMermaid;</script>
       
     
     
-    <img src="../../../../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation - Home"/>
-    <img src="../../../../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation - Home"/>
+    <img src="../../../../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 0.0.0 documentation - Home"/>
+    <img src="../../../../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 0.0.0 documentation - Home"/>
   
   
 </a></div>
+    
+      <div class="navbar-item">
+<div class="version-switcher__container dropdown pst-js-only">
+  <button id="pst-version-switcher-button-2"
+    type="button"
+    class="version-switcher__button btn btn-sm dropdown-toggle"
+    data-bs-toggle="dropdown"
+    aria-haspopup="listbox"
+    aria-controls="pst-version-switcher-list-2"
+    aria-label="Version switcher list"
+  >
+    Choose version  <!-- this text may get changed later by javascript -->
+    <span class="caret"></span>
+  </button>
+  <div id="pst-version-switcher-list-2"
+    class="version-switcher__menu dropdown-menu list-group-flush py-0"
+    role="listbox" aria-labelledby="pst-version-switcher-button-2">
+    <!-- dropdown will be populated by javascript on page load -->
+  </div>
+</div></div>
     
   </div>
   
@@ -831,7 +858,7 @@ window.runMermaid = runMermaid;</script>
 <span></span><span class="c1"># # # This source code is subject to the license referenced at</span>
 <span class="c1"># # # https://github.com/NRLMMD-GEOIPS.</span>
 
-<span class="sd">&quot;&quot;&quot;Pydantic models used to validate GeoIPS sector plugins.&quot;&quot;&quot;</span>
+<span class="sd">"""Pydantic models used to validate GeoIPS sector plugins."""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">datetime</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">enum</span><span class="w"> </span><span class="kn">import</span> <span class="n">Enum</span>
@@ -858,24 +885,24 @@ window.runMermaid = runMermaid;</script>
 
 
 <div class="viewcode-block" id="EarthConstants"><a class="viewcode-back" href="../../../../geoips_api/geoips.pydantic_models.v1.html#geoips.pydantic_models.v1.sectors.EarthConstants">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">EarthConstants</span><span class="p">(</span><span class="nb">float</span><span class="p">,</span> <span class="n">Enum</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;A class with Earth related geometrical constants.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""A class with Earth related geometrical constants."""</span>
 
     <span class="n">SEMI_MAJOR_AXIS</span> <span class="o">=</span> <span class="mf">6371228.0</span>  <span class="c1"># Semimajor axis of the earth in meters.</span></div>
 
 
 <div class="viewcode-block" id="XYCoordinate"><a class="viewcode-back" href="../../../../geoips_api/geoips.pydantic_models.v1.html#geoips.pydantic_models.v1.sectors.XYCoordinate">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">XYCoordinate</span><span class="p">(</span><span class="n">FrozenModel</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;A coordinate in projection units.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""A coordinate in projection units."""</span>
 
-    <span class="n">x</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;The x coordinate in projection units.&quot;</span><span class="p">)</span>
-    <span class="n">y</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;The y coordinate in projection units.&quot;</span><span class="p">)</span></div>
+    <span class="n">x</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"The x coordinate in projection units."</span><span class="p">)</span>
+    <span class="n">y</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"The y coordinate in projection units."</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="validate_lat_lon_coordinate"><a class="viewcode-back" href="../../../../geoips_api/geoips.pydantic_models.v1.html#geoips.pydantic_models.v1.sectors.validate_lat_lon_coordinate">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">validate_lat_lon_coordinate</span><span class="p">(</span><span class="n">arg</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Validate a latitude and longitude coordinate.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Validate a latitude and longitude coordinate."""</span>
     <span class="k">if</span> <span class="n">arg</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;</span> <span class="o">-</span><span class="mi">90</span> <span class="ow">or</span> <span class="n">arg</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">90</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Latitude must be between -90 and 90&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"Latitude must be between -90 and 90"</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">arg</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&lt;</span> <span class="o">-</span><span class="mi">180</span> <span class="ow">or</span> <span class="n">arg</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">180</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Longitude must be between -180 and 180&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"Longitude must be between -180 and 180"</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">arg</span></div>
 
 
@@ -885,7 +912,7 @@ window.runMermaid = runMermaid;</script>
 
 
 <div class="viewcode-block" id="SectorProjection"><a class="viewcode-back" href="../../../../geoips_api/geoips.pydantic_models.v1.html#geoips.pydantic_models.v1.sectors.SectorProjection">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">SectorProjection</span><span class="p">(</span><span class="n">PermissiveFrozenModel</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Projection information for a sector.</span>
+<span class="w">    </span><span class="sd">"""Projection information for a sector.</span>
 
 <span class="sd">    This is a dictionary that provides Proj projection information for the sector. For</span>
 <span class="sd">    more information on what parameters can be supplied, see the Proj documentation.</span>
@@ -894,12 +921,12 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">    sector projection parameters are supported but not validated. If you need validation</span>
 <span class="sd">    for a parameter that is not currently implemented, please open an issue and, if</span>
 <span class="sd">    possible, a pull request on GitHub.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
-    <span class="n">proj</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Proj projection alias.&quot;</span><span class="p">)</span>
+    <span class="n">proj</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Proj projection alias."</span><span class="p">)</span>
     <span class="n">a</span><span class="p">:</span> <span class="n">EarthConstants</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
         <span class="n">EarthConstants</span><span class="o">.</span><span class="n">SEMI_MAJOR_AXIS</span><span class="p">,</span>
-        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Semimajor axis of the ellipsoid in meters.&quot;</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">"Semimajor axis of the ellipsoid in meters."</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">R</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span>
         <span class="nb">float</span><span class="p">,</span>
@@ -908,21 +935,21 @@ window.runMermaid = runMermaid;</script>
             <span class="n">strict</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
             <span class="n">ge</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
             <span class="n">description</span><span class="o">=</span><span class="p">(</span>
-                <span class="s2">&quot;Radius of the sphere, given in meters. If used in conjunction with &quot;</span>
-                <span class="s2">&quot;``+ellps``, ``+R`` takes precedence.&quot;</span>
-                <span class="s2">&quot;See https://proj.org/en/stable/usage/ellipsoids.html#ellipsoid-size-parameters &quot;</span>  <span class="c1"># NOQA</span>
-                <span class="s2">&quot;for more information.&quot;</span>
+                <span class="s2">"Radius of the sphere, given in meters. If used in conjunction with "</span>
+                <span class="s2">"``+ellps``, ``+R`` takes precedence."</span>
+                <span class="s2">"See https://proj.org/en/stable/usage/ellipsoids.html#ellipsoid-size-parameters "</span>  <span class="c1"># NOQA</span>
+                <span class="s2">"for more information."</span>
             <span class="p">),</span>
         <span class="p">),</span>
     <span class="p">]</span>
     <span class="n">ellipsoid</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
-        <span class="s2">&quot;GRS80&quot;</span><span class="p">,</span>
+        <span class="s2">"GRS80"</span><span class="p">,</span>
         <span class="n">description</span><span class="o">=</span><span class="p">(</span>
-            <span class="s2">&quot;The name of a built-in ellipsoid definition. &quot;</span>
-            <span class="s2">&quot;See https://proj.org/en/stable/usage/ellipsoids.html#built-in-ellipsoid-definitions &quot;</span>  <span class="c1"># NOQA</span>
-            <span class="s2">&quot; for more information, or execute ``proj -le`` for a list of &quot;</span>
-            <span class="s2">&quot;built-in ellipsoid names. &quot;</span>
-            <span class="s2">&quot;*Defaults to &#39;GRS80&#39;.*&quot;</span>
+            <span class="s2">"The name of a built-in ellipsoid definition. "</span>
+            <span class="s2">"See https://proj.org/en/stable/usage/ellipsoids.html#built-in-ellipsoid-definitions "</span>  <span class="c1"># NOQA</span>
+            <span class="s2">" for more information, or execute ``proj -le`` for a list of "</span>
+            <span class="s2">"built-in ellipsoid names. "</span>
+            <span class="s2">"*Defaults to 'GRS80'.*"</span>
         <span class="p">),</span>
     <span class="p">)</span>
     <span class="n">h</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span>
@@ -932,8 +959,8 @@ window.runMermaid = runMermaid;</script>
             <span class="n">strict</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
             <span class="n">ge</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
             <span class="n">description</span><span class="o">=</span><span class="p">(</span>
-                <span class="s2">&quot;Height of the view point above the Earth and must be in the same units&quot;</span>
-                <span class="s2">&quot; as the radius of the sphere or semimajor axis of the ellipsoid.&quot;</span>
+                <span class="s2">"Height of the view point above the Earth and must be in the same units"</span>
+                <span class="s2">" as the radius of the sphere or semimajor axis of the ellipsoid."</span>
             <span class="p">),</span>
         <span class="p">),</span>
     <span class="p">]</span>
@@ -944,8 +971,8 @@ window.runMermaid = runMermaid;</script>
             <span class="n">strict</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
             <span class="n">ge</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
             <span class="n">description</span><span class="o">=</span><span class="p">(</span>
-                <span class="s2">&quot;Scale factor. Determines scale factor used in the projection. &quot;</span>
-                <span class="s2">&quot;*Defaults to 1.0.*&quot;</span>
+                <span class="s2">"Scale factor. Determines scale factor used in the projection. "</span>
+                <span class="s2">"*Defaults to 1.0.*"</span>
             <span class="p">),</span>
         <span class="p">),</span>
     <span class="p">]</span>
@@ -956,7 +983,7 @@ window.runMermaid = runMermaid;</script>
             <span class="n">strict</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
             <span class="n">ge</span><span class="o">=-</span><span class="mi">90</span><span class="p">,</span>
             <span class="n">le</span><span class="o">=</span><span class="mi">90</span><span class="p">,</span>
-            <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Latitude of origin in degrees.&quot;</span><span class="p">,</span>
+            <span class="n">description</span><span class="o">=</span><span class="s2">"Latitude of origin in degrees."</span><span class="p">,</span>
         <span class="p">),</span>
     <span class="p">]</span>
     <span class="n">lat_1</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span>
@@ -966,7 +993,7 @@ window.runMermaid = runMermaid;</script>
             <span class="n">strict</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
             <span class="n">ge</span><span class="o">=-</span><span class="mi">90</span><span class="p">,</span>
             <span class="n">le</span><span class="o">=</span><span class="mi">90</span><span class="p">,</span>
-            <span class="n">description</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;First standard parallel.&quot;</span> <span class="s2">&quot; *Defaults to 0.0.*&quot;</span><span class="p">),</span>
+            <span class="n">description</span><span class="o">=</span><span class="p">(</span><span class="s2">"First standard parallel."</span> <span class="s2">" *Defaults to 0.0.*"</span><span class="p">),</span>
         <span class="p">),</span>
     <span class="p">]</span>
     <span class="n">lat_2</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span>
@@ -976,7 +1003,7 @@ window.runMermaid = runMermaid;</script>
             <span class="n">strict</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
             <span class="n">ge</span><span class="o">=-</span><span class="mi">90</span><span class="p">,</span>
             <span class="n">le</span><span class="o">=</span><span class="mi">90</span><span class="p">,</span>
-            <span class="n">description</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;Second standard parallel.&quot;</span> <span class="s2">&quot; *Defaults to 0.0.*&quot;</span><span class="p">),</span>
+            <span class="n">description</span><span class="o">=</span><span class="p">(</span><span class="s2">"Second standard parallel."</span> <span class="s2">" *Defaults to 0.0.*"</span><span class="p">),</span>
         <span class="p">),</span>
     <span class="p">]</span>
     <span class="n">lat_ts</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span>
@@ -986,10 +1013,10 @@ window.runMermaid = runMermaid;</script>
             <span class="n">strict</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
             <span class="n">ge</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
             <span class="n">description</span><span class="o">=</span><span class="p">(</span>
-                <span class="s2">&quot;Latitude of true scale. Defines the latitude where scale is not &quot;</span>
-                <span class="s2">&quot;distorted. &quot;</span>
-                <span class="s2">&quot;Takes precedence over ``+k_0`` if both options are used together. &quot;</span>
-                <span class="s2">&quot;*Defaults to 0.0.*&quot;</span>
+                <span class="s2">"Latitude of true scale. Defines the latitude where scale is not "</span>
+                <span class="s2">"distorted. "</span>
+                <span class="s2">"Takes precedence over ``+k_0`` if both options are used together. "</span>
+                <span class="s2">"*Defaults to 0.0.*"</span>
             <span class="p">),</span>
         <span class="p">),</span>
     <span class="p">]</span>
@@ -1000,51 +1027,51 @@ window.runMermaid = runMermaid;</script>
             <span class="n">strict</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
             <span class="n">ge</span><span class="o">=-</span><span class="mi">180</span><span class="p">,</span>
             <span class="n">le</span><span class="o">=</span><span class="mi">180</span><span class="p">,</span>
-            <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Longitude of origin in degrees.&quot;</span><span class="p">,</span>
+            <span class="n">description</span><span class="o">=</span><span class="s2">"Longitude of origin in degrees."</span><span class="p">,</span>
         <span class="p">),</span>
     <span class="p">]</span>
-    <span class="n">t_epoch</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;Central epoch of the transformation.&quot;</span><span class="p">))</span>
+    <span class="n">t_epoch</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="p">(</span><span class="s2">"Central epoch of the transformation."</span><span class="p">))</span>
     <span class="n">t_final</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
         <span class="kc">None</span><span class="p">,</span>
         <span class="n">description</span><span class="o">=</span><span class="p">(</span>
-            <span class="s2">&quot;Final epoch that the coordinate will be propagated to after transformation. &quot;</span>  <span class="c1"># NOQA</span>
-            <span class="s2">&quot;The special epoch *now* can be used instead of writing a specific period in &quot;</span>  <span class="c1"># NOQA</span>
-            <span class="s2">&quot;time. When *now* is used, it is replaced internally with the epoch of the &quot;</span>
-            <span class="s2">&quot;transformation. This means that the resulting coordinate will be slightly &quot;</span>
-            <span class="s2">&quot;different if carried out again at a later date.&quot;</span>
+            <span class="s2">"Final epoch that the coordinate will be propagated to after transformation. "</span>  <span class="c1"># NOQA</span>
+            <span class="s2">"The special epoch *now* can be used instead of writing a specific period in "</span>  <span class="c1"># NOQA</span>
+            <span class="s2">"time. When *now* is used, it is replaced internally with the epoch of the "</span>
+            <span class="s2">"transformation. This means that the resulting coordinate will be slightly "</span>
+            <span class="s2">"different if carried out again at a later date."</span>
         <span class="p">),</span>
     <span class="p">)</span>
     <span class="n">x_0</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
         <span class="mf">0.0</span><span class="p">,</span>
         <span class="n">description</span><span class="o">=</span><span class="p">(</span>
-            <span class="s2">&quot;False easting, easting at false origin or easting at projection centre &quot;</span>
-            <span class="s2">&quot;(naming and meaning depend on the projection method). Always in meters.&quot;</span>
-            <span class="s2">&quot;*Defaults to 0.0.*&quot;</span>
+            <span class="s2">"False easting, easting at false origin or easting at projection centre "</span>
+            <span class="s2">"(naming and meaning depend on the projection method). Always in meters."</span>
+            <span class="s2">"*Defaults to 0.0.*"</span>
         <span class="p">),</span>
     <span class="p">)</span>
     <span class="n">y_0</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
         <span class="mf">0.0</span><span class="p">,</span>
         <span class="n">description</span><span class="o">=</span><span class="p">(</span>
-            <span class="s2">&quot;False northing, northing at false origin or northing at projection centre &quot;</span>
-            <span class="s2">&quot;(naming and meaning depend on the projection method). Always in meters.&quot;</span>
-            <span class="s2">&quot;*Defaults to 0.0.*&quot;</span>
+            <span class="s2">"False northing, northing at false origin or northing at projection centre "</span>
+            <span class="s2">"(naming and meaning depend on the projection method). Always in meters."</span>
+            <span class="s2">"*Defaults to 0.0.*"</span>
         <span class="p">),</span>
     <span class="p">)</span>
-    <span class="n">units</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;m&quot;</span><span class="p">,</span> <span class="s2">&quot;km&quot;</span><span class="p">,</span> <span class="s2">&quot;degrees&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
-        <span class="s2">&quot;m&quot;</span><span class="p">,</span>
+    <span class="n">units</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">"m"</span><span class="p">,</span> <span class="s2">"km"</span><span class="p">,</span> <span class="s2">"degrees"</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="s2">"m"</span><span class="p">,</span>
         <span class="n">description</span><span class="o">=</span><span class="p">(</span>
-            <span class="s2">&quot;Units of the projection. &quot;</span>
-            <span class="s2">&quot;This should not need to be changed from the default. &quot;</span>
-            <span class="s2">&quot;This controls the units of the x and y coordinates in the projection but &quot;</span>
-            <span class="s2">&quot;has no impact on the units of the resolution or area_extent because we &quot;</span>
-            <span class="s2">&quot;specify those units separately.&quot;</span>
+            <span class="s2">"Units of the projection. "</span>
+            <span class="s2">"This should not need to be changed from the default. "</span>
+            <span class="s2">"This controls the units of the x and y coordinates in the projection but "</span>
+            <span class="s2">"has no impact on the units of the resolution or area_extent because we "</span>
+            <span class="s2">"specify those units separately."</span>
         <span class="p">),</span>
     <span class="p">)</span></div>
 
 
 <span class="c1"># Ex: Change inheritance to FrozenModel</span>
 <div class="viewcode-block" id="SectorShape"><a class="viewcode-back" href="../../../../geoips_api/geoips.pydantic_models.v1.html#geoips.pydantic_models.v1.sectors.SectorShape">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">SectorShape</span><span class="p">(</span><span class="n">FrozenModel</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;The shape of the sector in pixels.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""The shape of the sector in pixels."""</span>
 
     <span class="n">height</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span>
         <span class="nb">int</span><span class="p">,</span>
@@ -1052,7 +1079,7 @@ window.runMermaid = runMermaid;</script>
             <span class="o">...</span><span class="p">,</span>
             <span class="n">strict</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
             <span class="n">gt</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
-            <span class="n">description</span><span class="o">=</span><span class="s2">&quot;The height of the sector in pixels. Must be greater than 0.&quot;</span><span class="p">,</span>
+            <span class="n">description</span><span class="o">=</span><span class="s2">"The height of the sector in pixels. Must be greater than 0."</span><span class="p">,</span>
         <span class="p">),</span>
     <span class="p">]</span>
     <span class="n">width</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span>
@@ -1061,17 +1088,17 @@ window.runMermaid = runMermaid;</script>
             <span class="o">...</span><span class="p">,</span>
             <span class="n">strict</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
             <span class="n">gt</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
-            <span class="n">description</span><span class="o">=</span><span class="s2">&quot;The width of the sector in pixels. Must be greater than 0.&quot;</span><span class="p">,</span>
+            <span class="n">description</span><span class="o">=</span><span class="s2">"The width of the sector in pixels. Must be greater than 0."</span><span class="p">,</span>
         <span class="p">),</span>
     <span class="p">]</span></div>
 
 
 <div class="viewcode-block" id="SectorResolution"><a class="viewcode-back" href="../../../../geoips_api/geoips.pydantic_models.v1.html#geoips.pydantic_models.v1.sectors.SectorResolution">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">SectorResolution</span><span class="p">(</span><span class="n">FrozenModel</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;The resolution of the sector in projection units.</span>
+<span class="w">    </span><span class="sd">"""The resolution of the sector in projection units.</span>
 
-<span class="sd">    The height and width of pixels in the units specified by the sector&#39;s projection</span>
+<span class="sd">    The height and width of pixels in the units specified by the sector's projection</span>
 <span class="sd">    units.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="n">dx</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span>
         <span class="nb">float</span><span class="p">,</span>
@@ -1080,8 +1107,8 @@ window.runMermaid = runMermaid;</script>
             <span class="n">strict</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
             <span class="n">gt</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
             <span class="n">description</span><span class="o">=</span><span class="p">(</span>
-                <span class="s2">&quot;The width of pixels in the units specified by &quot;</span>
-                <span class="s2">&quot;the sector&#39;s projection units.&quot;</span>
+                <span class="s2">"The width of pixels in the units specified by "</span>
+                <span class="s2">"the sector's projection units."</span>
             <span class="p">),</span>
         <span class="p">),</span>
     <span class="p">]</span>
@@ -1092,56 +1119,56 @@ window.runMermaid = runMermaid;</script>
             <span class="n">strict</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
             <span class="n">gt</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
             <span class="n">description</span><span class="o">=</span><span class="p">(</span>
-                <span class="s2">&quot;The height of pixels in the units specified by &quot;</span>
-                <span class="s2">&quot;the sector&#39;s projection units.&quot;</span>
+                <span class="s2">"The height of pixels in the units specified by "</span>
+                <span class="s2">"the sector's projection units."</span>
             <span class="p">),</span>
         <span class="p">),</span>
     <span class="p">]</span></div>
 
 
 <div class="viewcode-block" id="SectorAreaExtent"><a class="viewcode-back" href="../../../../geoips_api/geoips.pydantic_models.v1.html#geoips.pydantic_models.v1.sectors.SectorAreaExtent">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">SectorAreaExtent</span><span class="p">(</span><span class="n">FrozenModel</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;The extent of the sector in projection units.</span>
+<span class="w">    </span><span class="sd">"""The extent of the sector in projection units.</span>
 
 <span class="sd">    For more information on how this is used, see the pyresample documentation.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="n">lower_left_xy</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
         <span class="o">...</span><span class="p">,</span>
-        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Lower left corner of the sector in projection units.&quot;</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">"Lower left corner of the sector in projection units."</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">upper_right_xy</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
         <span class="o">...</span><span class="p">,</span>
-        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Upper right corner of the sector in projection units. &quot;</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">"Upper right corner of the sector in projection units. "</span><span class="p">,</span>
     <span class="p">)</span></div>
 
 
 <span class="c1"># This possibly could be PermissiveFrozenModel</span>
 <div class="viewcode-block" id="AreaDefinitionSpec"><a class="viewcode-back" href="../../../../geoips_api/geoips.pydantic_models.v1.html#geoips.pydantic_models.v1.sectors.AreaDefinitionSpec">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">AreaDefinitionSpec</span><span class="p">(</span><span class="n">FrozenModel</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Defines an AreaDefinition for use with pyresample.</span>
+<span class="w">    </span><span class="sd">"""Defines an AreaDefinition for use with pyresample.</span>
 
 <span class="sd">    The resulting dictionary should be able to just be passed to</span>
 <span class="sd">    ``pyresample.create_area_def()``.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="n">area_id</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
         <span class="kc">None</span><span class="p">,</span>
         <span class="n">description</span><span class="o">=</span><span class="p">(</span>
-            <span class="s2">&quot;A name for the resulting pyresample AreaDefinition. &quot;</span>
-            <span class="s2">&quot;Defaults to the sector&#39;s name.&quot;</span>
+            <span class="s2">"A name for the resulting pyresample AreaDefinition. "</span>
+            <span class="s2">"Defaults to the sector's name."</span>
         <span class="p">),</span>
     <span class="p">)</span>
     <span class="n">description</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
         <span class="kc">None</span><span class="p">,</span>
         <span class="n">description</span><span class="o">=</span><span class="p">(</span>
-            <span class="s2">&quot;A description for the resulting pyresample AreaDefinition. &quot;</span>
-            <span class="s2">&quot;Defaults to the sector&#39;s docstring.&quot;</span>
+            <span class="s2">"A description for the resulting pyresample AreaDefinition. "</span>
+            <span class="s2">"Defaults to the sector's docstring."</span>
         <span class="p">),</span>
     <span class="p">)</span>
     <span class="n">projection</span><span class="p">:</span> <span class="n">SectorProjection</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
         <span class="o">...</span><span class="p">,</span>
         <span class="n">description</span><span class="o">=</span><span class="p">(</span>
-            <span class="s2">&quot;A dictionary providing Proj projection information for the sector. &quot;</span>
-            <span class="s2">&quot;For more information please see the Proj documentation.&quot;</span>
+            <span class="s2">"A dictionary providing Proj projection information for the sector. "</span>
+            <span class="s2">"For more information please see the Proj documentation."</span>
         <span class="p">),</span>
     <span class="p">)</span>
     <span class="c1"># This can either be a tuple of integers (preferred) or a</span>
@@ -1156,8 +1183,8 @@ window.runMermaid = runMermaid;</script>
     <span class="n">area_extent</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span> <span class="n">SectorAreaExtent</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
         <span class="kc">None</span><span class="p">,</span>
         <span class="n">description</span><span class="o">=</span><span class="p">(</span>
-            <span class="s2">&quot;Sector area extent in projection units. &quot;</span>
-            <span class="s2">&quot;For more information see the pyresample documentation.&quot;</span>
+            <span class="s2">"Sector area extent in projection units. "</span>
+            <span class="s2">"For more information see the pyresample documentation."</span>
         <span class="p">),</span>
     <span class="p">)</span>
     <span class="n">resolution</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span>
@@ -1170,97 +1197,97 @@ window.runMermaid = runMermaid;</script>
     <span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
         <span class="kc">None</span><span class="p">,</span>
         <span class="n">description</span><span class="o">=</span><span class="p">(</span>
-            <span class="s2">&quot;The size of the pixels in the sector in projection units. &quot;</span>
-            <span class="s2">&quot;May be specified as a single float or a tuple of two floats &quot;</span>
-            <span class="s2">&quot;describing the resolution in the x and y directions separately. &quot;</span>
-            <span class="s2">&quot;See the pyresample documentation for more information.&quot;</span>
+            <span class="s2">"The size of the pixels in the sector in projection units. "</span>
+            <span class="s2">"May be specified as a single float or a tuple of two floats "</span>
+            <span class="s2">"describing the resolution in the x and y directions separately. "</span>
+            <span class="s2">"See the pyresample documentation for more information."</span>
         <span class="p">),</span>
     <span class="p">)</span>
-    <span class="n">units</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;m&quot;</span><span class="p">,</span> <span class="s2">&quot;km&quot;</span><span class="p">,</span> <span class="s2">&quot;meters&quot;</span><span class="p">,</span> <span class="s2">&quot;kilometers&quot;</span><span class="p">,</span> <span class="s2">&quot;deg&quot;</span><span class="p">,</span> <span class="s2">&quot;degrees&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
-        <span class="s2">&quot;m&quot;</span><span class="p">,</span>
+    <span class="n">units</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">"m"</span><span class="p">,</span> <span class="s2">"km"</span><span class="p">,</span> <span class="s2">"meters"</span><span class="p">,</span> <span class="s2">"kilometers"</span><span class="p">,</span> <span class="s2">"deg"</span><span class="p">,</span> <span class="s2">"degrees"</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="s2">"m"</span><span class="p">,</span>
         <span class="n">description</span><span class="o">=</span><span class="p">(</span>
-            <span class="s2">&quot;The units used for resolution and area_extent. &quot;</span>
-            <span class="s2">&quot;This takes priority over the units specified in the projection. &quot;</span>
-            <span class="s2">&quot;For more information on this parameter and its priority order, see the &quot;</span>
-            <span class="s2">&quot;pyresample documentation.&quot;</span>
+            <span class="s2">"The units used for resolution and area_extent. "</span>
+            <span class="s2">"This takes priority over the units specified in the projection. "</span>
+            <span class="s2">"For more information on this parameter and its priority order, see the "</span>
+            <span class="s2">"pyresample documentation."</span>
         <span class="p">),</span>
     <span class="p">)</span>
     <span class="n">center</span><span class="p">:</span> <span class="n">XYCoordinate</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
         <span class="n">default_factory</span><span class="o">=</span><span class="k">lambda</span><span class="p">:</span> <span class="n">XYCoordinate</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mf">0.0</span><span class="p">),</span>
         <span class="n">description</span><span class="o">=</span><span class="p">(</span>
-            <span class="s2">&quot;The center of the sector in projection units. Defaults to (0.0, 0.0). &quot;</span>
-            <span class="s2">&quot;See the pyresample documentation for more information.&quot;</span>
+            <span class="s2">"The center of the sector in projection units. Defaults to (0.0, 0.0). "</span>
+            <span class="s2">"See the pyresample documentation for more information."</span>
         <span class="p">),</span>
     <span class="p">)</span>
 
-    <span class="nd">@field_validator</span><span class="p">(</span><span class="s2">&quot;center&quot;</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;before&quot;</span><span class="p">)</span>
+    <span class="nd">@field_validator</span><span class="p">(</span><span class="s2">"center"</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">"before"</span><span class="p">)</span>
     <span class="nd">@classmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">_valdiate_and_convert_center</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">v</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Validate and normalize the &#39;center&#39; field into an XYCoordinate object.</span>
+<span class="w">        </span><span class="sd">"""</span>
+<span class="sd">        Validate and normalize the 'center' field into an XYCoordinate object.</span>
 
 <span class="sd">        Supports flexible input formats while enforcing strict correctness.</span>
 <span class="sd">        Acceptable input formats:</span>
 <span class="sd">        - A 2-element list or tuple: [x, y] or (x, y)</span>
-<span class="sd">        - A dictionary with &#39;x&#39; and &#39;y&#39; keys: {&quot;x&quot;:float, &quot;y&quot;:float}</span>
+<span class="sd">        - A dictionary with 'x' and 'y' keys: {"x":float, "y":float}</span>
 <span class="sd">        - An existing XYCoodinate instance</span>
 
 <span class="sd">        Raises</span>
 <span class="sd">        ------</span>
 <span class="sd">            ValueError: If the list / tuple does not have exactly two elements or the</span>
-<span class="sd">            dict lacks &#39;x&#39; or &#39;y&#39;.</span>
+<span class="sd">            dict lacks 'x' or 'y'.</span>
 <span class="sd">            TypeError: If the input is not a dict, list, tuple, or XYCoordinate.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">            XYCoordinate: Validated coordinate object for center of projection.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)):</span>
             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Center must be a 2-element list / tuple (x, y).&quot;</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"Center must be a 2-element list / tuple (x, y)."</span><span class="p">)</span>
             <span class="k">return</span> <span class="n">XYCoordinate</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">v</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">y</span><span class="o">=</span><span class="n">v</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
         <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
-            <span class="k">if</span> <span class="s2">&quot;x&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">v</span> <span class="ow">or</span> <span class="s2">&quot;y&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">v</span><span class="p">:</span>
+            <span class="k">if</span> <span class="s2">"x"</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">v</span> <span class="ow">or</span> <span class="s2">"y"</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">v</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                    <span class="s2">&quot;Both &#39;x&#39; and &#39;y&#39; must be supplied in the center dictionary.&quot;</span>
+                    <span class="s2">"Both 'x' and 'y' must be supplied in the center dictionary."</span>
                 <span class="p">)</span>
             <span class="k">return</span> <span class="n">XYCoordinate</span><span class="p">(</span><span class="o">**</span><span class="n">v</span><span class="p">)</span>
         <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">XYCoordinate</span><span class="p">):</span>
             <span class="k">return</span> <span class="n">v</span>
-        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;center must be (x, y) as a dict, list, tuple.&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">"center must be (x, y) as a dict, list, tuple."</span><span class="p">)</span>
 
-    <span class="nd">@field_serializer</span><span class="p">(</span><span class="s2">&quot;center&quot;</span><span class="p">)</span>
+    <span class="nd">@field_serializer</span><span class="p">(</span><span class="s2">"center"</span><span class="p">)</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">_serialize_center</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
         <span class="k">return</span> <span class="p">(</span><span class="n">value</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">value</span><span class="o">.</span><span class="n">y</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="RegionMetadata"><a class="viewcode-back" href="../../../../geoips_api/geoips.pydantic_models.v1.html#geoips.pydantic_models.v1.sectors.RegionMetadata">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">RegionMetadata</span><span class="p">(</span><span class="n">FrozenModel</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Metadata format for standard static sectors.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Metadata format for standard static sectors."""</span>
 
     <span class="n">model_config</span> <span class="o">=</span> <span class="n">ConfigDict</span><span class="p">(</span><span class="n">coerce_numbers_to_str</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 
-    <span class="n">continent</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Continent which the sector resides in.&quot;</span><span class="p">)</span>
-    <span class="n">country</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Country which the sector resides in.&quot;</span><span class="p">)</span>
-    <span class="n">area</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Geographic area of the sector.&quot;</span><span class="p">)</span>
-    <span class="n">subarea</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Geographic subarea of the sector.&quot;</span><span class="p">)</span>
-    <span class="n">state</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;State which the sector resides in.&quot;</span><span class="p">)</span>
-    <span class="n">city</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;City which the sector resides in.&quot;</span><span class="p">)</span></div>
+    <span class="n">continent</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Continent which the sector resides in."</span><span class="p">)</span>
+    <span class="n">country</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Country which the sector resides in."</span><span class="p">)</span>
+    <span class="n">area</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Geographic area of the sector."</span><span class="p">)</span>
+    <span class="n">subarea</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Geographic subarea of the sector."</span><span class="p">)</span>
+    <span class="n">state</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"State which the sector resides in."</span><span class="p">)</span>
+    <span class="n">city</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"City which the sector resides in."</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="StaticMetadata"><a class="viewcode-back" href="../../../../geoips_api/geoips.pydantic_models.v1.html#geoips.pydantic_models.v1.sectors.StaticMetadata">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">StaticMetadata</span><span class="p">(</span><span class="n">FrozenModel</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Metadata format for standard static sectors.</span>
+<span class="w">    </span><span class="sd">"""Metadata format for standard static sectors.</span>
 
-<span class="sd">    This is the same as StaticMetadata, just with an additional &#39;region&#39; level. This is</span>
+<span class="sd">    This is the same as StaticMetadata, just with an additional 'region' level. This is</span>
 <span class="sd">    a convenience model for specifying static sector plugins in a legacy format.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="n">region</span><span class="p">:</span> <span class="n">RegionMetadata</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
-        <span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Additional field used to specify metadata in a legacy format.&quot;</span>
+        <span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Additional field used to specify metadata in a legacy format."</span>
     <span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="BoxMetadata"><a class="viewcode-back" href="../../../../geoips_api/geoips.pydantic_models.v1.html#geoips.pydantic_models.v1.sectors.BoxMetadata">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">BoxMetadata</span><span class="p">(</span><span class="n">FrozenModel</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Metadata format for pyroCb sectors.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Metadata format for pyroCb sectors."""</span>
 
     <span class="n">min_lat</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span>
         <span class="nb">float</span><span class="p">,</span>
@@ -1269,7 +1296,7 @@ window.runMermaid = runMermaid;</script>
             <span class="n">strict</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
             <span class="n">ge</span><span class="o">=-</span><span class="mi">90</span><span class="p">,</span>
             <span class="n">le</span><span class="o">=</span><span class="mi">90</span><span class="p">,</span>
-            <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Bottom left latitude in degrees.&quot;</span><span class="p">,</span>
+            <span class="n">description</span><span class="o">=</span><span class="s2">"Bottom left latitude in degrees."</span><span class="p">,</span>
         <span class="p">),</span>
     <span class="p">]</span>
     <span class="n">min_lon</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span>
@@ -1279,7 +1306,7 @@ window.runMermaid = runMermaid;</script>
             <span class="n">strict</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
             <span class="n">ge</span><span class="o">=-</span><span class="mi">180</span><span class="p">,</span>
             <span class="n">le</span><span class="o">=</span><span class="mi">180</span><span class="p">,</span>
-            <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Bottom left longitude in degrees.&quot;</span><span class="p">,</span>
+            <span class="n">description</span><span class="o">=</span><span class="s2">"Bottom left longitude in degrees."</span><span class="p">,</span>
         <span class="p">),</span>
     <span class="p">]</span>
     <span class="n">max_lat</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span>
@@ -1289,7 +1316,7 @@ window.runMermaid = runMermaid;</script>
             <span class="n">strict</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
             <span class="n">ge</span><span class="o">=-</span><span class="mi">90</span><span class="p">,</span>
             <span class="n">le</span><span class="o">=</span><span class="mi">90</span><span class="p">,</span>
-            <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Upper right latitude in degrees.&quot;</span><span class="p">,</span>
+            <span class="n">description</span><span class="o">=</span><span class="s2">"Upper right latitude in degrees."</span><span class="p">,</span>
         <span class="p">),</span>
     <span class="p">]</span>
     <span class="n">max_lon</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span>
@@ -1299,7 +1326,7 @@ window.runMermaid = runMermaid;</script>
             <span class="n">strict</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
             <span class="n">ge</span><span class="o">=-</span><span class="mi">180</span><span class="p">,</span>
             <span class="n">le</span><span class="o">=</span><span class="mi">180</span><span class="p">,</span>
-            <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Upper right longitude in degrees.&quot;</span><span class="p">,</span>
+            <span class="n">description</span><span class="o">=</span><span class="s2">"Upper right longitude in degrees."</span><span class="p">,</span>
         <span class="p">),</span>
     <span class="p">]</span>
 
@@ -1309,26 +1336,26 @@ window.runMermaid = runMermaid;</script>
             <span class="o">...</span><span class="p">,</span>
             <span class="n">strict</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
             <span class="n">gt</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
-            <span class="n">description</span><span class="o">=</span><span class="s2">&quot;The resolution of each pixel in kilometers.&quot;</span><span class="p">,</span>
+            <span class="n">description</span><span class="o">=</span><span class="s2">"The resolution of each pixel in kilometers."</span><span class="p">,</span>
         <span class="p">),</span>
     <span class="p">]</span></div>
 
 
 <div class="viewcode-block" id="StitchedMetadata"><a class="viewcode-back" href="../../../../geoips_api/geoips.pydantic_models.v1.html#geoips.pydantic_models.v1.sectors.StitchedMetadata">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">StitchedMetadata</span><span class="p">(</span><span class="n">StaticMetadata</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Metadata for stitched imagery sectors.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Metadata for stitched imagery sectors."""</span>
 
     <span class="n">primary_area_definition</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
-        <span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Name of the area definition to be used.&quot;</span>
+        <span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Name of the area definition to be used."</span>
     <span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="TCMetadata"><a class="viewcode-back" href="../../../../geoips_api/geoips.pydantic_models.v1.html#geoips.pydantic_models.v1.sectors.TCMetadata">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">TCMetadata</span><span class="p">(</span><span class="n">FrozenModel</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Metdata format for Tropical Cyclone sectors.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Metdata format for Tropical Cyclone sectors."""</span>
 
     <span class="n">pressure</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span>
         <span class="nb">float</span><span class="p">,</span>
         <span class="n">Field</span><span class="p">(</span>
-            <span class="o">...</span><span class="p">,</span> <span class="n">strict</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">gt</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Pressure of the storm in millibars.&quot;</span>
+            <span class="o">...</span><span class="p">,</span> <span class="n">strict</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">gt</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Pressure of the storm in millibars."</span>
         <span class="p">),</span>
     <span class="p">]</span>
     <span class="n">velocity_max</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span>
@@ -1337,13 +1364,13 @@ window.runMermaid = runMermaid;</script>
             <span class="o">...</span><span class="p">,</span>
             <span class="n">strict</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
             <span class="n">gt</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
-            <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Maximum velocity in knots of the storm.&quot;</span><span class="p">,</span>
+            <span class="n">description</span><span class="o">=</span><span class="s2">"Maximum velocity in knots of the storm."</span><span class="p">,</span>
         <span class="p">),</span>
     <span class="p">]</span>
     <span class="n">center_lat</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span>
         <span class="nb">float</span><span class="p">,</span>
         <span class="n">Field</span><span class="p">(</span>
-            <span class="o">...</span><span class="p">,</span> <span class="n">strict</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">ge</span><span class="o">=-</span><span class="mi">90</span><span class="p">,</span> <span class="n">le</span><span class="o">=</span><span class="mi">90</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Center latitude of the storm.&quot;</span>
+            <span class="o">...</span><span class="p">,</span> <span class="n">strict</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">ge</span><span class="o">=-</span><span class="mi">90</span><span class="p">,</span> <span class="n">le</span><span class="o">=</span><span class="mi">90</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Center latitude of the storm."</span>
         <span class="p">),</span>
     <span class="p">]</span>
     <span class="n">center_lon</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span>
@@ -1353,11 +1380,11 @@ window.runMermaid = runMermaid;</script>
             <span class="n">strict</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
             <span class="n">ge</span><span class="o">=-</span><span class="mi">180</span><span class="p">,</span>
             <span class="n">le</span><span class="o">=</span><span class="mi">180</span><span class="p">,</span>
-            <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Center longitude of the storm.&quot;</span><span class="p">,</span>
+            <span class="n">description</span><span class="o">=</span><span class="s2">"Center longitude of the storm."</span><span class="p">,</span>
         <span class="p">),</span>
     <span class="p">]</span>
-    <span class="n">synoptic_time</span><span class="p">:</span> <span class="n">datetime</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Synoptic time of the storm.&quot;</span><span class="p">)</span>
-    <span class="n">aid_type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Tropical cyclone forecast aid category.&quot;</span><span class="p">)</span>
+    <span class="n">synoptic_time</span><span class="p">:</span> <span class="n">datetime</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Synoptic time of the storm."</span><span class="p">)</span>
+    <span class="n">aid_type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Tropical cyclone forecast aid category."</span><span class="p">)</span>
     <span class="n">storm_num</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span>
         <span class="nb">int</span><span class="p">,</span>
         <span class="n">Field</span><span class="p">(</span>
@@ -1365,17 +1392,17 @@ window.runMermaid = runMermaid;</script>
             <span class="n">strict</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
             <span class="n">gt</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
             <span class="n">description</span><span class="o">=</span><span class="p">(</span>
-                <span class="s2">&quot;Two digit storm number in sequential order from the start of the &quot;</span>
-                <span class="s2">&quot;hurricane season.&quot;</span>
+                <span class="s2">"Two digit storm number in sequential order from the start of the "</span>
+                <span class="s2">"hurricane season."</span>
             <span class="p">),</span>
         <span class="p">),</span>
     <span class="p">]</span>
-    <span class="n">storm_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s2">&quot;Name of the storm.&quot;</span><span class="p">)</span>
+    <span class="n">storm_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s2">"Name of the storm."</span><span class="p">)</span>
     <span class="n">storm_basin</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
         <span class="o">...</span><span class="p">,</span>
         <span class="n">description</span><span class="o">=</span><span class="p">(</span>
-            <span class="s2">&quot;Two character representation of the basin in which the storm originated &quot;</span>
-            <span class="s2">&quot;in.&quot;</span>
+            <span class="s2">"Two character representation of the basin in which the storm originated "</span>
+            <span class="s2">"in."</span>
         <span class="p">),</span>
     <span class="p">)</span>
     <span class="n">storm_year</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span>
@@ -1384,32 +1411,32 @@ window.runMermaid = runMermaid;</script>
             <span class="o">...</span><span class="p">,</span>
             <span class="n">strict</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
             <span class="n">gt</span><span class="o">=</span><span class="mi">1900</span><span class="p">,</span>
-            <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Year in which the storm originated, after 1900.&quot;</span><span class="p">,</span>
+            <span class="n">description</span><span class="o">=</span><span class="s2">"Year in which the storm originated, after 1900."</span><span class="p">,</span>
         <span class="p">),</span>
     <span class="p">]</span>
     <span class="n">deck_line</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
         <span class="o">...</span><span class="p">,</span>
         <span class="n">description</span><span class="o">=</span><span class="p">(</span>
-            <span class="s2">&quot;Deck data file used within the weather forecasting system for this storm.&quot;</span>
+            <span class="s2">"Deck data file used within the weather forecasting system for this storm."</span>
         <span class="p">),</span>
     <span class="p">)</span>
-    <span class="n">source_file</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;File in which the storm data came from.&quot;</span><span class="p">)</span>
+    <span class="n">source_file</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"File in which the storm data came from."</span><span class="p">)</span>
     <span class="n">final_storm_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
         <span class="o">...</span><span class="p">,</span>
-        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Final name of the storm used within the track file.&quot;</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">"Final name of the storm used within the track file."</span><span class="p">,</span>
     <span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="VolcanoMetadata"><a class="viewcode-back" href="../../../../geoips_api/geoips.pydantic_models.v1.html#geoips.pydantic_models.v1.sectors.VolcanoMetadata">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">VolcanoMetadata</span><span class="p">(</span><span class="n">FrozenModel</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Metadata format for Volcano sectors.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Metadata format for Volcano sectors."""</span>
 
     <span class="n">summit_elevation</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
-        <span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Elevation of the volcano&#39;s summit.&quot;</span>
+        <span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Elevation of the volcano's summit."</span>
     <span class="p">)</span>
-    <span class="n">plume_height</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Altitude of the volcanic plume.&quot;</span><span class="p">)</span>
+    <span class="n">plume_height</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Altitude of the volcanic plume."</span><span class="p">)</span>
     <span class="n">wind_speed</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span>
         <span class="nb">float</span><span class="p">,</span>
-        <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">strict</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">gt</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Windspeed of the volcano sector.&quot;</span><span class="p">),</span>
+        <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">strict</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">gt</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Windspeed of the volcano sector."</span><span class="p">),</span>
     <span class="p">]</span>
     <span class="n">wind_dir</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span>
         <span class="nb">float</span><span class="p">,</span>
@@ -1418,7 +1445,7 @@ window.runMermaid = runMermaid;</script>
             <span class="n">strict</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
             <span class="n">ge</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
             <span class="n">le</span><span class="o">=</span><span class="mi">360</span><span class="p">,</span>
-            <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Angular direction of wind within the volcano sector.&quot;</span><span class="p">,</span>
+            <span class="n">description</span><span class="o">=</span><span class="s2">"Angular direction of wind within the volcano sector."</span><span class="p">,</span>
         <span class="p">),</span>
     <span class="p">]</span>
     <span class="n">clat</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span>
@@ -1428,7 +1455,7 @@ window.runMermaid = runMermaid;</script>
             <span class="n">strict</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
             <span class="n">ge</span><span class="o">=-</span><span class="mi">90</span><span class="p">,</span>
             <span class="n">le</span><span class="o">=</span><span class="mi">90</span><span class="p">,</span>
-            <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Center latitude of the volcano sector.&quot;</span><span class="p">,</span>
+            <span class="n">description</span><span class="o">=</span><span class="s2">"Center latitude of the volcano sector."</span><span class="p">,</span>
         <span class="p">),</span>
     <span class="p">]</span>
     <span class="n">clon</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span>
@@ -1438,20 +1465,20 @@ window.runMermaid = runMermaid;</script>
             <span class="n">strict</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
             <span class="n">ge</span><span class="o">=-</span><span class="mi">180</span><span class="p">,</span>
             <span class="n">le</span><span class="o">=</span><span class="mi">180</span><span class="p">,</span>
-            <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Center longitude of the volcano sector.&quot;</span><span class="p">,</span>
+            <span class="n">description</span><span class="o">=</span><span class="s2">"Center longitude of the volcano sector."</span><span class="p">,</span>
         <span class="p">),</span>
     <span class="p">]</span></div>
 
 
 <div class="viewcode-block" id="StaticSectorPluginModel"><a class="viewcode-back" href="../../../../geoips_api/geoips.pydantic_models.v1.html#geoips.pydantic_models.v1.sectors.StaticSectorPluginModel">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">StaticSectorPluginModel</span><span class="p">(</span><span class="n">PluginModel</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Static sector plugin format.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Static sector plugin format."""</span>
 
-    <span class="c1"># model_config = ConfigDict(extra=&quot;allow&quot;)</span>
+    <span class="c1"># model_config = ConfigDict(extra="allow")</span>
     <span class="n">spec</span><span class="p">:</span> <span class="n">AreaDefinitionSpec</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
         <span class="o">...</span><span class="p">,</span>
         <span class="n">description</span><span class="o">=</span><span class="p">(</span>
-            <span class="s2">&quot;Specification of the sector&#39;s geographical domain. &quot;</span>
-            <span class="s2">&quot;Used to generate a pyresample AreaDefinition.&quot;</span>
+            <span class="s2">"Specification of the sector's geographical domain. "</span>
+            <span class="s2">"Used to generate a pyresample AreaDefinition."</span>
         <span class="p">),</span>
     <span class="p">)</span>
     <span class="n">metadata</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span>
@@ -1463,99 +1490,99 @@ window.runMermaid = runMermaid;</script>
     <span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
         <span class="o">...</span><span class="p">,</span>
         <span class="n">description</span><span class="o">=</span><span class="p">(</span>
-            <span class="s2">&quot;Metadata describing the sector &quot;</span>
-            <span class="s2">&quot;(mostly used in FilenameFormatters and MetadataFormatters).&quot;</span>
+            <span class="s2">"Metadata describing the sector "</span>
+            <span class="s2">"(mostly used in FilenameFormatters and MetadataFormatters)."</span>
         <span class="p">),</span>
     <span class="p">)</span>
 
-    <span class="nd">@field_validator</span><span class="p">(</span><span class="s2">&quot;metadata&quot;</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;before&quot;</span><span class="p">)</span>
+    <span class="nd">@field_validator</span><span class="p">(</span><span class="s2">"metadata"</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">"before"</span><span class="p">)</span>
     <span class="nd">@classmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">coerce_metadata</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Coerce metadata to StaticMetadata if possible.</span>
+<span class="w">        </span><span class="sd">"""Coerce metadata to StaticMetadata if possible.</span>
 
 <span class="sd">        Doing this as pydantic by default will return the last class that validates</span>
 <span class="sd">        correctly, and this applies to other metadata classes.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">dict</span><span class="p">)</span> <span class="ow">and</span> <span class="s2">&quot;region&quot;</span> <span class="ow">in</span> <span class="n">value</span><span class="p">:</span>
+<span class="sd">        """</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">dict</span><span class="p">)</span> <span class="ow">and</span> <span class="s2">"region"</span> <span class="ow">in</span> <span class="n">value</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">StaticMetadata</span><span class="p">(</span><span class="o">**</span><span class="n">value</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">value</span>
 
-    <span class="nd">@field_validator</span><span class="p">(</span><span class="s2">&quot;spec&quot;</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;before&quot;</span><span class="p">)</span>
+    <span class="nd">@field_validator</span><span class="p">(</span><span class="s2">"spec"</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">"before"</span><span class="p">)</span>
     <span class="nd">@classmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">add_parent</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">info</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Collect default area_id and description from parent.</span>
+<span class="w">        </span><span class="sd">"""Collect default area_id and description from parent.</span>
 
 <span class="sd">        This is a field validator that runs before the root validator. It accesses the</span>
 <span class="sd">        properties of the parent object to fill in area_id and description if they are</span>
-<span class="sd">        not provided. These values come from the parent&#39;s name and docstring.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="s2">&quot;area_id&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">value</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">value</span><span class="p">[</span><span class="s2">&quot;area_id&quot;</span><span class="p">]:</span>
-            <span class="n">value</span><span class="p">[</span><span class="s2">&quot;area_id&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">info</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span>
-        <span class="k">if</span> <span class="s2">&quot;description&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">value</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">value</span><span class="p">[</span><span class="s2">&quot;description&quot;</span><span class="p">]:</span>
-            <span class="n">value</span><span class="p">[</span><span class="s2">&quot;description&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">info</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;docstring&quot;</span><span class="p">]</span>
+<span class="sd">        not provided. These values come from the parent's name and docstring.</span>
+<span class="sd">        """</span>
+        <span class="k">if</span> <span class="s2">"area_id"</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">value</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">value</span><span class="p">[</span><span class="s2">"area_id"</span><span class="p">]:</span>
+            <span class="n">value</span><span class="p">[</span><span class="s2">"area_id"</span><span class="p">]</span> <span class="o">=</span> <span class="n">info</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s2">"name"</span><span class="p">]</span>
+        <span class="k">if</span> <span class="s2">"description"</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">value</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">value</span><span class="p">[</span><span class="s2">"description"</span><span class="p">]:</span>
+            <span class="n">value</span><span class="p">[</span><span class="s2">"description"</span><span class="p">]</span> <span class="o">=</span> <span class="n">info</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s2">"docstring"</span><span class="p">]</span>
         <span class="k">return</span> <span class="n">value</span></div>
 
 
 <div class="viewcode-block" id="SectorSpecGenerator"><a class="viewcode-back" href="../../../../geoips_api/geoips.pydantic_models.v1.html#geoips.pydantic_models.v1.sectors.SectorSpecGenerator">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">SectorSpecGenerator</span><span class="p">(</span><span class="n">PermissiveDynamicModel</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;The format of the name and arguments for a sector spec generator plugin.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""The format of the name and arguments for a sector spec generator plugin."""</span>
 
     <span class="n">name</span><span class="p">:</span> <span class="n">PythonIdentifier</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
         <span class="o">...</span><span class="p">,</span>
-        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;The name of the sector_spec_generator plugin to use.&quot;</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">"The name of the sector_spec_generator plugin to use."</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">arguments</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
         <span class="o">...</span><span class="p">,</span>
         <span class="n">description</span><span class="o">=</span><span class="p">(</span>
-            <span class="s2">&quot;A dictionary of arguments to provide to the sector_spec_generator plugin. &quot;</span>
-            <span class="s2">&quot;If an empty dictionary is provided, the default arguments for that plugin &quot;</span>
-            <span class="s2">&quot;will be used in place.&quot;</span>
+            <span class="s2">"A dictionary of arguments to provide to the sector_spec_generator plugin. "</span>
+            <span class="s2">"If an empty dictionary is provided, the default arguments for that plugin "</span>
+            <span class="s2">"will be used in place."</span>
         <span class="p">),</span>
     <span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="DynamicSectorSpec"><a class="viewcode-back" href="../../../../geoips_api/geoips.pydantic_models.v1.html#geoips.pydantic_models.v1.sectors.DynamicSectorSpec">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">DynamicSectorSpec</span><span class="p">(</span><span class="n">DynamicModel</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;The format of a dynamic sector&#39;s &#39;spec&#39; field.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""The format of a dynamic sector's 'spec' field."""</span>
 
     <span class="n">sector_spec_generator</span><span class="p">:</span> <span class="n">SectorSpecGenerator</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
         <span class="o">...</span><span class="p">,</span>
         <span class="n">description</span><span class="o">=</span><span class="p">(</span>
-            <span class="s2">&quot;A field containing the name of the sector_spec_generator to use and the &quot;</span>
-            <span class="s2">&quot;arguments to provide to it.&quot;</span>
+            <span class="s2">"A field containing the name of the sector_spec_generator to use and the "</span>
+            <span class="s2">"arguments to provide to it."</span>
         <span class="p">),</span>
     <span class="p">)</span>
     <span class="c1"># These are not required nor should be implemented for DynamicSectorPluginModels.</span>
     <span class="c1"># These are only implemented due to the Union operator (used to detect static vs</span>
     <span class="c1"># dynamic sector models) as pydantic will attempt to coerce a potential dynamic</span>
     <span class="c1"># sector model into a static sector model. Most of the time we can check if</span>
-    <span class="c1"># &#39;sector_spec_generator&#39; exists within the model&#39;s spec and just return before</span>
-    <span class="c1"># setting &#39;area_id&#39; and &#39;description&#39;, however, if &#39;sector_spec_generator&#39; is</span>
+    <span class="c1"># 'sector_spec_generator' exists within the model's spec and just return before</span>
+    <span class="c1"># setting 'area_id' and 'description', however, if 'sector_spec_generator' is</span>
     <span class="c1"># (as is the case in one of our unit tests), then we need to optionally allow these</span>
     <span class="c1"># to be set and just ignore them.</span>
     <span class="n">area_id</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
         <span class="kc">None</span><span class="p">,</span>
         <span class="n">description</span><span class="o">=</span><span class="p">(</span>
-            <span class="s2">&quot;A name for the resulting pyresample AreaDefinition. &quot;</span>
-            <span class="s2">&quot;Defaults to the sector&#39;s name.&quot;</span>
+            <span class="s2">"A name for the resulting pyresample AreaDefinition. "</span>
+            <span class="s2">"Defaults to the sector's name."</span>
         <span class="p">),</span>
         <span class="n">exclude</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">description</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
         <span class="kc">None</span><span class="p">,</span>
         <span class="n">description</span><span class="o">=</span><span class="p">(</span>
-            <span class="s2">&quot;A description for the resulting pyresample AreaDefinition. &quot;</span>
-            <span class="s2">&quot;Defaults to the sector&#39;s docstring.&quot;</span>
+            <span class="s2">"A description for the resulting pyresample AreaDefinition. "</span>
+            <span class="s2">"Defaults to the sector's docstring."</span>
         <span class="p">),</span>
         <span class="n">exclude</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
     <span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="DynamicSectorPluginModel"><a class="viewcode-back" href="../../../../geoips_api/geoips.pydantic_models.v1.html#geoips.pydantic_models.v1.sectors.DynamicSectorPluginModel">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">DynamicSectorPluginModel</span><span class="p">(</span><span class="n">PluginModel</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Dynamic sector plugin format.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Dynamic sector plugin format."""</span>
 
     <span class="n">spec</span><span class="p">:</span> <span class="n">DynamicSectorSpec</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
         <span class="o">...</span><span class="p">,</span>
         <span class="n">description</span><span class="o">=</span><span class="p">(</span>
-            <span class="s2">&quot;A field demonstrating how to specify / format your dynamic sector plugin.&quot;</span>
+            <span class="s2">"A field demonstrating how to specify / format your dynamic sector plugin."</span>
         <span class="p">),</span>
     <span class="p">)</span></div>
 
@@ -1564,22 +1591,22 @@ window.runMermaid = runMermaid;</script>
 <span class="k">class</span><span class="w"> </span><span class="nc">_SectorPluginUnion</span><span class="p">(</span>
     <span class="n">RootModel</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">DynamicSectorPluginModel</span><span class="p">,</span> <span class="n">StaticSectorPluginModel</span><span class="p">]]</span>
 <span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Private root model to unpack via SectorPluginModel.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Private root model to unpack via SectorPluginModel."""</span>
 
     <span class="n">root</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">DynamicSectorPluginModel</span><span class="p">,</span> <span class="n">StaticSectorPluginModel</span><span class="p">]</span>
 
 
 <div class="viewcode-block" id="SectorPluginModel"><a class="viewcode-back" href="../../../../geoips_api/geoips.pydantic_models.v1.html#geoips.pydantic_models.v1.sectors.SectorPluginModel">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">SectorPluginModel</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;The format of a singular product plugin or a list of them.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""The format of a singular product plugin or a list of them."""</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">**</span><span class="n">data</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create a new instance of a SectorPluginModel exposing the subclass of root.</span>
+<span class="w">        </span><span class="sd">"""Create a new instance of a SectorPluginModel exposing the subclass of root.</span>
 
 <span class="sd">        Where root is the attribute used to access either type of model used to</span>
 <span class="sd">        construct a SectorPluginModel.</span>
 
-<span class="sd">        I.e. &#39;_SectorPluginUnion(**data).root = Real Model&#39; # NOQA RS210</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        I.e. '_SectorPluginUnion(**data).root = Real Model' # NOQA RS210</span>
+<span class="sd">        """</span>
         <span class="n">parsed_model</span> <span class="o">=</span> <span class="n">_SectorPluginUnion</span><span class="p">(</span><span class="o">**</span><span class="n">data</span><span class="p">)</span><span class="o">.</span><span class="n">root</span>
         <span class="k">return</span> <span class="n">parsed_model</span></div>
 </pre></div>

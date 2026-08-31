@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Conda-based Installation for Linux &#8212; GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation</title>
+    <title>Conda-based Installation for Linux &#8212; GeoIPS, Geolocated Information Processing System 0.0.0 documentation</title>
   
   
   
@@ -41,11 +41,18 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
 
-    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=6727bded"></script>
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=525cde36"></script>
     <script src="../_static/doctools.js?v=888ff710"></script>
     <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'contribute/dev_linux_with_conda';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.17.1';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://nrlmmd-geoips.github.io/geoips/versions.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = 'dev';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner =
+            false;
+        </script>
     <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
     <link rel="icon" href="../_static/nrlicon.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
@@ -54,8 +61,8 @@
     <link rel="prev" title="GeoIPS git workflow" href="git-workflow.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2.0" />
-    <meta name="docbuild:last-update" content="Jul 23, 2026 17:03:57"/>
+  <meta name="docsearch:version" content="0.0" />
+    <meta name="docbuild:last-update" content="Aug 31, 2026 13:32:18"/>
   
     
     <script src="../_static/searchtools.js"></script>
@@ -127,11 +134,31 @@
       
     
     
-    <img src="../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation - Home"/>
-    <img src="../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation - Home"/>
+    <img src="../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 0.0.0 documentation - Home"/>
+    <img src="../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 0.0.0 documentation - Home"/>
   
   
 </a></div>
+    
+      <div class="navbar-item">
+<div class="version-switcher__container dropdown pst-js-only">
+  <button id="pst-version-switcher-button-2"
+    type="button"
+    class="version-switcher__button btn btn-sm dropdown-toggle"
+    data-bs-toggle="dropdown"
+    aria-haspopup="listbox"
+    aria-controls="pst-version-switcher-list-2"
+    aria-label="Version switcher list"
+  >
+    Choose version  <!-- this text may get changed later by javascript -->
+    <span class="caret"></span>
+  </button>
+  <div id="pst-version-switcher-list-2"
+    class="version-switcher__menu dropdown-menu list-group-flush py-0"
+    role="listbox" aria-labelledby="pst-version-switcher-button-2">
+    <!-- dropdown will be populated by javascript on page load -->
+  </div>
+</div></div>
     
   </div>
   
@@ -546,10 +573,10 @@ git<span class="w"> </span>clone<span class="w"> </span><span class="si">${</spa
 </div>
 <p>If desired, the GeoIPS environment variables can be added to your
 <code class="docutils literal notranslate"><span class="pre">$HOME/.bashrc</span></code> by running the following commands:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;export GEOIPS_REPO_URL=</span><span class="nv">$GEOIPS_REPO_URL</span><span class="s2">&quot;</span><span class="w"> </span>&gt;&gt;<span class="w"> </span>~/.bashrc
-<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;export GEOIPS_PACKAGES_DIR=</span><span class="nv">$GEOIPS_PACKAGES_DIR</span><span class="s2">&quot;</span><span class="w"> </span>&gt;&gt;<span class="w"> </span>~/.bashrc
-<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;export GEOIPS_TESTDATA_DIR=</span><span class="nv">$GEOIPS_TESTDATA_DIR</span><span class="s2">&quot;</span><span class="w"> </span>&gt;&gt;<span class="w"> </span>~/.bashrc
-<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;export GEOIPS_OUTDIRS=</span><span class="nv">$GEOIPS_OUTDIRS</span><span class="s2">&quot;</span><span class="w"> </span>&gt;&gt;<span class="w"> </span>~/.bashrc
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">echo</span><span class="w"> </span><span class="s2">"export GEOIPS_REPO_URL=</span><span class="nv">$GEOIPS_REPO_URL</span><span class="s2">"</span><span class="w"> </span>&gt;&gt;<span class="w"> </span>~/.bashrc
+<span class="nb">echo</span><span class="w"> </span><span class="s2">"export GEOIPS_PACKAGES_DIR=</span><span class="nv">$GEOIPS_PACKAGES_DIR</span><span class="s2">"</span><span class="w"> </span>&gt;&gt;<span class="w"> </span>~/.bashrc
+<span class="nb">echo</span><span class="w"> </span><span class="s2">"export GEOIPS_TESTDATA_DIR=</span><span class="nv">$GEOIPS_TESTDATA_DIR</span><span class="s2">"</span><span class="w"> </span>&gt;&gt;<span class="w"> </span>~/.bashrc
+<span class="nb">echo</span><span class="w"> </span><span class="s2">"export GEOIPS_OUTDIRS=</span><span class="nv">$GEOIPS_OUTDIRS</span><span class="s2">"</span><span class="w"> </span>&gt;&gt;<span class="w"> </span>~/.bashrc
 </pre></div>
 </div>
 </section>
@@ -601,7 +628,7 @@ every time you want to run or work on GeoIPS.</p>
 <h3>4. Install the GeoIPS git repository<a class="headerlink" href="#install-the-geoips-git-repository" title="Permalink to this heading">#</a></h3>
 <p>This command installs all GeoIPS Python dependencies, and GeoIPS itself.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Ensure geoips python environment enabled before installing geoips</span>
-pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$GEOIPS_PACKAGES_DIR</span><span class="s2">/geoips[doc,lint,test,debug]&quot;</span>
+pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span><span class="s2">"</span><span class="nv">$GEOIPS_PACKAGES_DIR</span><span class="s2">/geoips[doc,lint,test,debug]"</span>
 </pre></div>
 </div>
 </section>
@@ -622,7 +649,7 @@ pytest-based integration tests, please see
 <span class="nv">$GEOIPS_PACKAGES_DIR</span>/geoips/tests/integration_tests/base_install.sh
 
 <span class="c1"># Run integration tests</span>
-pytest<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;integration and base&quot;</span><span class="w"> </span><span class="nv">$GEOIPS_PACKAGES_DIR</span>/geoips
+pytest<span class="w"> </span>-m<span class="w"> </span><span class="s2">"integration and base"</span><span class="w"> </span><span class="nv">$GEOIPS_PACKAGES_DIR</span>/geoips
 </pre></div>
 </div>
 </section>
@@ -656,11 +683,11 @@ other runtime problems.</p>
 <h3>7. OPTIONAL: Capture working requirements.txt for base install<a class="headerlink" href="#optional-capture-working-requirements-txt-for-base-install" title="Permalink to this heading">#</a></h3>
 <p>OPTIONAL: These can be committed to the repository for reference - only commit if
 base_test.sh returns 0!  Not required.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$NEW_GEOIPS_VERSION</span><span class="s2">&quot;</span><span class="w"> </span>!<span class="o">=</span><span class="w"> </span><span class="s2">&quot;&quot;</span><span class="w"> </span><span class="o">]]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span><span class="s2">"</span><span class="nv">$NEW_GEOIPS_VERSION</span><span class="s2">"</span><span class="w"> </span>!<span class="o">=</span><span class="w"> </span><span class="s2">""</span><span class="w"> </span><span class="o">]]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
 <span class="w">    </span><span class="nv">GEOIPS_VERSION</span><span class="o">=</span><span class="nv">$NEW_GEOIPS_VERSION</span>
 <span class="k">fi</span>
-<span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$GEOIPS_VERSION</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">&quot;&quot;</span><span class="w"> </span><span class="o">]]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
-<span class="w">    </span><span class="nv">GEOIPS_VERSION</span><span class="o">=</span><span class="sb">`</span>python<span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;import geoips; print(geoips.__version__)&quot;</span><span class="sb">`</span>
+<span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span><span class="s2">"</span><span class="nv">$GEOIPS_VERSION</span><span class="s2">"</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">""</span><span class="w"> </span><span class="o">]]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">    </span><span class="nv">GEOIPS_VERSION</span><span class="o">=</span><span class="sb">`</span>python<span class="w"> </span>-c<span class="w"> </span><span class="s2">"import geoips; print(geoips.__version__)"</span><span class="sb">`</span>
 <span class="k">fi</span>
 
 mkdir<span class="w"> </span>-p<span class="w"> </span><span class="nv">$GEOIPS_PACKAGES_DIR</span>/geoips/environments

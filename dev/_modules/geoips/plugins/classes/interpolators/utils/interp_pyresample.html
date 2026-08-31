@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>geoips.plugins.classes.interpolators.utils.interp_pyresample &#8212; GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation</title>
+    <title>geoips.plugins.classes.interpolators.utils.interp_pyresample &#8212; GeoIPS, Geolocated Information Processing System 0.0.0 documentation</title>
   
   
   
@@ -40,7 +40,7 @@
   <link rel="preload" as="script" href="../../../../../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
 <link rel="preload" as="script" href="../../../../../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
 
-    <script data-url_root="../../../../../../" id="documentation_options" src="../../../../../../_static/documentation_options.js?v=6727bded"></script>
+    <script data-url_root="../../../../../../" id="documentation_options" src="../../../../../../_static/documentation_options.js?v=525cde36"></script>
     <script src="../../../../../../_static/doctools.js?v=888ff710"></script>
     <script src="../../../../../../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../../../../_static/design-tabs.js?v=f930bc37"></script>
@@ -401,14 +401,21 @@ mermaid.initialize(
 window.addEventListener("load", load);
 window.runMermaid = runMermaid;</script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_modules/geoips/plugins/classes/interpolators/utils/interp_pyresample';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.17.1';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://nrlmmd-geoips.github.io/geoips/versions.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = 'dev';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner =
+            false;
+        </script>
     <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
     <link rel="icon" href="../../../../../../_static/nrlicon.ico"/>
     <link rel="index" title="Index" href="../../../../../../genindex.html" />
     <link rel="search" title="Search" href="../../../../../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2.0" />
-    <meta name="docbuild:last-update" content="Jul 23, 2026 17:03:57"/>
+  <meta name="docsearch:version" content="0.0" />
+    <meta name="docbuild:last-update" content="Aug 31, 2026 13:32:18"/>
   
     
     <script src="../../../../../../_static/searchtools.js"></script>
@@ -480,11 +487,31 @@ window.runMermaid = runMermaid;</script>
       
     
     
-    <img src="../../../../../../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation - Home"/>
-    <img src="../../../../../../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation - Home"/>
+    <img src="../../../../../../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 0.0.0 documentation - Home"/>
+    <img src="../../../../../../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 0.0.0 documentation - Home"/>
   
   
 </a></div>
+    
+      <div class="navbar-item">
+<div class="version-switcher__container dropdown pst-js-only">
+  <button id="pst-version-switcher-button-2"
+    type="button"
+    class="version-switcher__button btn btn-sm dropdown-toggle"
+    data-bs-toggle="dropdown"
+    aria-haspopup="listbox"
+    aria-controls="pst-version-switcher-list-2"
+    aria-label="Version switcher list"
+  >
+    Choose version  <!-- this text may get changed later by javascript -->
+    <span class="caret"></span>
+  </button>
+  <div id="pst-version-switcher-list-2"
+    class="version-switcher__menu dropdown-menu list-group-flush py-0"
+    role="listbox" aria-labelledby="pst-version-switcher-button-2">
+    <!-- dropdown will be populated by javascript on page load -->
+  </div>
+</div></div>
     
   </div>
   
@@ -828,7 +855,7 @@ window.runMermaid = runMermaid;</script>
 <span></span><span class="c1"># # # This source code is subject to the license referenced at</span>
 <span class="c1"># # # https://github.com/NRLMMD-GEOIPS.</span>
 
-<span class="sd">&quot;&quot;&quot;Interpolation methods using pyresample routines.&quot;&quot;&quot;</span>
+<span class="sd">"""Interpolation methods using pyresample routines."""</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
 
@@ -846,7 +873,7 @@ window.runMermaid = runMermaid;</script>
 
 
 <div class="viewcode-block" id="get_data_box_definition"><a class="viewcode-back" href="../../../../../../geoips_api/geoips.plugins.classes.interpolators.utils.html#geoips.plugins.classes.interpolators.utils.interp_pyresample.get_data_box_definition">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">get_data_box_definition</span><span class="p">(</span><span class="n">source_name</span><span class="p">,</span> <span class="n">lons</span><span class="p">,</span> <span class="n">lats</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Obtain pyresample geometry definitions.</span>
+<span class="w">    </span><span class="sd">"""Obtain pyresample geometry definitions.</span>
 
 <span class="sd">    For use with pyresample based reprojections</span>
 
@@ -858,7 +885,7 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">        Numpy array of longitudes, 0 to 360</span>
 <span class="sd">    lats : ndarray</span>
 <span class="sd">        Numpy array of latitudes, -90 to 90</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">geoips.plugins.classes.interpolators.utils.boxdefinitions</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
         <span class="n">MaskedCornersSwathDefinition</span><span class="p">,</span>
     <span class="p">)</span>
@@ -867,12 +894,12 @@ window.runMermaid = runMermaid;</script>
     <span class="p">)</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">pyresample.geometry</span><span class="w"> </span><span class="kn">import</span> <span class="n">GridDefinition</span>
 
-    <span class="k">if</span> <span class="n">source_name</span> <span class="o">==</span> <span class="s2">&quot;abi&quot;</span> <span class="ow">and</span> <span class="n">lons</span><span class="o">.</span><span class="n">ndim</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">source_name</span> <span class="o">==</span> <span class="s2">"abi"</span> <span class="ow">and</span> <span class="n">lons</span><span class="o">.</span><span class="n">ndim</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
         <span class="n">data_box_definition</span> <span class="o">=</span> <span class="n">GridDefinition</span><span class="p">(</span>
             <span class="n">lons</span><span class="o">=</span><span class="n">numpy</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">lons</span><span class="p">,</span> <span class="n">subok</span><span class="o">=</span><span class="kc">False</span><span class="p">),</span>
             <span class="n">lats</span><span class="o">=</span><span class="n">numpy</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">lats</span><span class="p">,</span> <span class="n">subok</span><span class="o">=</span><span class="kc">False</span><span class="p">),</span>
         <span class="p">)</span>
-    <span class="k">if</span> <span class="n">source_name</span> <span class="o">==</span> <span class="s2">&quot;ahi&quot;</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">source_name</span> <span class="o">==</span> <span class="s2">"ahi"</span><span class="p">:</span>
         <span class="n">data_box_definition</span> <span class="o">=</span> <span class="n">PlanarPolygonDefinition</span><span class="p">(</span>
             <span class="n">lons</span><span class="o">=</span><span class="n">numpy</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">lons</span><span class="p">,</span> <span class="n">subok</span><span class="o">=</span><span class="kc">False</span><span class="p">),</span>
             <span class="n">lats</span><span class="o">=</span><span class="n">numpy</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">lats</span><span class="p">,</span> <span class="n">subok</span><span class="o">=</span><span class="kc">False</span><span class="p">),</span>
@@ -891,13 +918,13 @@ window.runMermaid = runMermaid;</script>
     <span class="n">area_definition</span><span class="p">,</span>
     <span class="n">data_box_definition</span><span class="p">,</span>
     <span class="n">radius_of_influence</span><span class="p">,</span>
-    <span class="n">interp_type</span><span class="o">=</span><span class="s2">&quot;nearest&quot;</span><span class="p">,</span>
+    <span class="n">interp_type</span><span class="o">=</span><span class="s2">"nearest"</span><span class="p">,</span>
     <span class="n">sigmas</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="n">neighbours</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="n">nprocs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="n">fill_value</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
 <span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Interpolate using pyresample&#39;s kd_tree.resample_nearest method.</span>
+<span class="w">    </span><span class="sd">"""Interpolate using pyresample's kd_tree.resample_nearest method.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -913,48 +940,48 @@ window.runMermaid = runMermaid;</script>
 
 <span class="sd">    Other Parameters</span>
 <span class="sd">    ----------------</span>
-<span class="sd">    interp_type : str, default=&#39;nearest&#39;</span>
-<span class="sd">        One of &#39;nearest&#39; or &#39;gauss&#39; - kd_tree resampling methods.</span>
+<span class="sd">    interp_type : str, default='nearest'</span>
+<span class="sd">        One of 'nearest' or 'gauss' - kd_tree resampling methods.</span>
 <span class="sd">    sigmas : int, default=None</span>
-<span class="sd">        Used for interp_type &#39;gauss&#39; - multiplication factor for sigmas option:</span>
+<span class="sd">        Used for interp_type 'gauss' - multiplication factor for sigmas option:</span>
 <span class="sd">            * sigmas = [sigmas]*len(list_of_arrays)</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">dstacked_arrays</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">dstack</span><span class="p">(</span><span class="n">list_of_arrays</span><span class="p">)</span>
 
-    <span class="k">if</span> <span class="n">interp_type</span> <span class="o">==</span> <span class="s2">&quot;nearest&quot;</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">interp_type</span> <span class="o">==</span> <span class="s2">"nearest"</span><span class="p">:</span>
         <span class="n">kw_args</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="n">kw_args</span><span class="p">[</span><span class="s2">&quot;fill_value&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="n">kw_args</span><span class="p">[</span><span class="s2">&quot;radius_of_influence&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">radius_of_influence</span>
+        <span class="n">kw_args</span><span class="p">[</span><span class="s2">"fill_value"</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">kw_args</span><span class="p">[</span><span class="s2">"radius_of_influence"</span><span class="p">]</span> <span class="o">=</span> <span class="n">radius_of_influence</span>
         <span class="k">if</span> <span class="n">nprocs</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">kw_args</span><span class="p">[</span><span class="s2">&quot;nprocs&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">nprocs</span>
-        <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Using interp_type </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">interp_type</span><span class="p">)</span>
+            <span class="n">kw_args</span><span class="p">[</span><span class="s2">"nprocs"</span><span class="p">]</span> <span class="o">=</span> <span class="n">nprocs</span>
+        <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"Using interp_type </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="n">interp_type</span><span class="p">)</span>
         <span class="n">dstacked_arrays</span> <span class="o">=</span> <span class="n">kd_tree</span><span class="o">.</span><span class="n">resample_nearest</span><span class="p">(</span>
             <span class="n">data_box_definition</span><span class="p">,</span>
             <span class="n">dstacked_arrays</span><span class="p">,</span>
             <span class="n">area_definition</span><span class="p">,</span>
             <span class="o">**</span><span class="n">kw_args</span><span class="p">,</span>
         <span class="p">)</span>
-    <span class="k">elif</span> <span class="n">interp_type</span> <span class="o">==</span> <span class="s2">&quot;gauss&quot;</span><span class="p">:</span>
+    <span class="k">elif</span> <span class="n">interp_type</span> <span class="o">==</span> <span class="s2">"gauss"</span><span class="p">:</span>
         <span class="n">kw_args</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="n">kw_args</span><span class="p">[</span><span class="s2">&quot;sigmas&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mi">4000</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">list_of_arrays</span><span class="p">)</span>
-        <span class="n">kw_args</span><span class="p">[</span><span class="s2">&quot;fill_value&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="n">kw_args</span><span class="p">[</span><span class="s2">&quot;radius_of_influence&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">radius_of_influence</span>
+        <span class="n">kw_args</span><span class="p">[</span><span class="s2">"sigmas"</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mi">4000</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">list_of_arrays</span><span class="p">)</span>
+        <span class="n">kw_args</span><span class="p">[</span><span class="s2">"fill_value"</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">kw_args</span><span class="p">[</span><span class="s2">"radius_of_influence"</span><span class="p">]</span> <span class="o">=</span> <span class="n">radius_of_influence</span>
 
         <span class="k">if</span> <span class="n">sigmas</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">kw_args</span><span class="p">[</span><span class="s2">&quot;sigmas&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">sigmas</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">list_of_arrays</span><span class="p">)</span>
+            <span class="n">kw_args</span><span class="p">[</span><span class="s2">"sigmas"</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">sigmas</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">list_of_arrays</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">neighbours</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">kw_args</span><span class="p">[</span><span class="s2">&quot;neighbours&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">neighbours</span>
+            <span class="n">kw_args</span><span class="p">[</span><span class="s2">"neighbours"</span><span class="p">]</span> <span class="o">=</span> <span class="n">neighbours</span>
         <span class="k">if</span> <span class="n">nprocs</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">kw_args</span><span class="p">[</span><span class="s2">&quot;nprocs&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">nprocs</span>
+            <span class="n">kw_args</span><span class="p">[</span><span class="s2">"nprocs"</span><span class="p">]</span> <span class="o">=</span> <span class="n">nprocs</span>
         <span class="k">if</span> <span class="n">fill_value</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">kw_args</span><span class="p">[</span><span class="s2">&quot;fill_value&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">fill_value</span>
+            <span class="n">kw_args</span><span class="p">[</span><span class="s2">"fill_value"</span><span class="p">]</span> <span class="o">=</span> <span class="n">fill_value</span>
 
-        <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Using interp_type </span><span class="si">%s</span><span class="s2"> </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">interp_type</span><span class="p">,</span> <span class="n">sigmas</span><span class="p">)</span>
+        <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"Using interp_type </span><span class="si">%s</span><span class="s2"> </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="n">interp_type</span><span class="p">,</span> <span class="n">sigmas</span><span class="p">)</span>
         <span class="n">dstacked_arrays</span> <span class="o">=</span> <span class="n">kd_tree</span><span class="o">.</span><span class="n">resample_gauss</span><span class="p">(</span>
             <span class="n">data_box_definition</span><span class="p">,</span> <span class="n">dstacked_arrays</span><span class="p">,</span> <span class="n">area_definition</span><span class="p">,</span> <span class="o">**</span><span class="n">kw_args</span>
         <span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Unknown interp_type </span><span class="si">{0}</span><span class="s2">, failing&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">interp_type</span><span class="p">))</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">"Unknown interp_type </span><span class="si">{0}</span><span class="s2">, failing"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">interp_type</span><span class="p">))</span>
 
     <span class="n">interpolated_arrays</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="c1"># We are explicitly expecting 2d arrays back, so if 3d, break it down.</span>

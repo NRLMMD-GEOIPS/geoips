@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>geoips.plugins.modules.procflows.obp_utils &#8212; GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation</title>
+    <title>geoips.plugins.modules.procflows.obp_utils &#8212; GeoIPS, Geolocated Information Processing System 0.0.0 documentation</title>
   
   
   
@@ -40,7 +40,7 @@
   <link rel="preload" as="script" href="../../../../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
 <link rel="preload" as="script" href="../../../../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
 
-    <script data-url_root="../../../../../" id="documentation_options" src="../../../../../_static/documentation_options.js?v=6727bded"></script>
+    <script data-url_root="../../../../../" id="documentation_options" src="../../../../../_static/documentation_options.js?v=525cde36"></script>
     <script src="../../../../../_static/doctools.js?v=888ff710"></script>
     <script src="../../../../../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../../../_static/design-tabs.js?v=f930bc37"></script>
@@ -401,14 +401,21 @@ mermaid.initialize(
 window.addEventListener("load", load);
 window.runMermaid = runMermaid;</script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_modules/geoips/plugins/modules/procflows/obp_utils';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.17.1';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://nrlmmd-geoips.github.io/geoips/versions.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = 'dev';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner =
+            false;
+        </script>
     <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
     <link rel="icon" href="../../../../../_static/nrlicon.ico"/>
     <link rel="index" title="Index" href="../../../../../genindex.html" />
     <link rel="search" title="Search" href="../../../../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2.0" />
-    <meta name="docbuild:last-update" content="Jul 23, 2026 17:03:57"/>
+  <meta name="docsearch:version" content="0.0" />
+    <meta name="docbuild:last-update" content="Aug 31, 2026 13:32:18"/>
   
     
     <script src="../../../../../_static/searchtools.js"></script>
@@ -480,11 +487,31 @@ window.runMermaid = runMermaid;</script>
       
     
     
-    <img src="../../../../../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation - Home"/>
-    <img src="../../../../../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation - Home"/>
+    <img src="../../../../../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 0.0.0 documentation - Home"/>
+    <img src="../../../../../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 0.0.0 documentation - Home"/>
   
   
 </a></div>
+    
+      <div class="navbar-item">
+<div class="version-switcher__container dropdown pst-js-only">
+  <button id="pst-version-switcher-button-2"
+    type="button"
+    class="version-switcher__button btn btn-sm dropdown-toggle"
+    data-bs-toggle="dropdown"
+    aria-haspopup="listbox"
+    aria-controls="pst-version-switcher-list-2"
+    aria-label="Version switcher list"
+  >
+    Choose version  <!-- this text may get changed later by javascript -->
+    <span class="caret"></span>
+  </button>
+  <div id="pst-version-switcher-list-2"
+    class="version-switcher__menu dropdown-menu list-group-flush py-0"
+    role="listbox" aria-labelledby="pst-version-switcher-button-2">
+    <!-- dropdown will be populated by javascript on page load -->
+  </div>
+</div></div>
     
   </div>
   
@@ -828,7 +855,7 @@ window.runMermaid = runMermaid;</script>
 <span></span><span class="c1"># # # This source code is subject to the license referenced at</span>
 <span class="c1"># # # https://github.com/NRLMMD-GEOIPS.</span>
 
-<span class="sd">&quot;&quot;&quot;Order-Based Procflow (OBP) utility functions.&quot;&quot;&quot;</span>
+<span class="sd">"""Order-Based Procflow (OBP) utility functions."""</span>
 
 <span class="c1"># Python Standard Libraries</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">importlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">import_module</span>
@@ -841,16 +868,16 @@ window.runMermaid = runMermaid;</script>
 
 
 <div class="viewcode-block" id="validate_arguments"><a class="viewcode-back" href="../../../../../geoips_api/geoips.plugins.modules.procflows.html#geoips.plugins.modules.procflows.obp_utils.validate_arguments">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">validate_arguments</span><span class="p">(</span><span class="n">apiVersion</span><span class="p">,</span> <span class="n">interface</span><span class="p">,</span> <span class="n">arguments</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Load the correct pydantic argument model and validate arguments.</span>
+<span class="w">    </span><span class="sd">"""Load the correct pydantic argument model and validate arguments.</span>
 
-<span class="sd">    Where the &#39;correct&#39; argument model is based on apiVersion and interface.</span>
+<span class="sd">    Where the 'correct' argument model is based on apiVersion and interface.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    apiVersion : str</span>
 <span class="sd">        The apiVersion of the workflow model that contained these arguments.</span>
 <span class="sd">    interface : str</span>
-<span class="sd">        The name of the interface we&#39;ll provide arguments to.</span>
+<span class="sd">        The name of the interface we'll provide arguments to.</span>
 <span class="sd">    arguments : dict[str, Any]</span>
 <span class="sd">        A dictionary of arguments to validate against a certain model.</span>
 
@@ -858,33 +885,33 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">    -------</span>
 <span class="sd">    validated_arguments : dict[str, Any]</span>
 <span class="sd">        A validated representation of the input arguments.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">package</span><span class="p">,</span> <span class="n">version</span> <span class="o">=</span> <span class="n">apiVersion</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)</span>
+<span class="sd">    """</span>
+    <span class="n">package</span><span class="p">,</span> <span class="n">version</span> <span class="o">=</span> <span class="n">apiVersion</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">"/"</span><span class="p">)</span>
     <span class="k">try</span><span class="p">:</span>
-        <span class="n">module</span> <span class="o">=</span> <span class="n">import_module</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">package</span><span class="si">}</span><span class="s2">.pydantic_models.</span><span class="si">{</span><span class="n">version</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">interface</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">module</span> <span class="o">=</span> <span class="n">import_module</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">package</span><span class="si">}</span><span class="s2">.pydantic_models.</span><span class="si">{</span><span class="n">version</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">interface</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
     <span class="k">except</span> <span class="ne">ImportError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Could not import models from &#39;</span><span class="si">{</span><span class="n">version</span><span class="si">}</span><span class="s2">&#39;: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span>
+        <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Could not import models from '</span><span class="si">{</span><span class="n">version</span><span class="si">}</span><span class="s2">': </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span>
 
     <span class="n">interface_base</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">Lexeme</span><span class="p">(</span><span class="n">interface</span><span class="p">)</span><span class="o">.</span><span class="n">singular</span><span class="p">)</span>
-    <span class="n">model_name</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">interface_base</span><span class="o">.</span><span class="n">title</span><span class="p">()</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;_&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">ArgumentsModel&quot;</span>
+    <span class="n">model_name</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">interface_base</span><span class="o">.</span><span class="n">title</span><span class="p">()</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">'_'</span><span class="p">,</span><span class="w"> </span><span class="s1">''</span><span class="p">)</span><span class="si">}</span><span class="s2">ArgumentsModel"</span>
 
     <span class="k">try</span><span class="p">:</span>
         <span class="n">model_class</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">module</span><span class="p">,</span> <span class="n">model_name</span><span class="p">)</span>
     <span class="k">except</span> <span class="ne">AttributeError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Model &#39;</span><span class="si">{</span><span class="n">model_name</span><span class="si">}</span><span class="s2">&#39; not found in &#39;</span><span class="si">{</span><span class="n">apiVersion</span><span class="si">}</span><span class="s2">&#39;&quot;</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Model '</span><span class="si">{</span><span class="n">model_name</span><span class="si">}</span><span class="s2">' not found in '</span><span class="si">{</span><span class="n">apiVersion</span><span class="si">}</span><span class="s2">'"</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span>
 
     <span class="k">return</span> <span class="n">model_class</span><span class="p">(</span><span class="o">**</span><span class="n">arguments</span><span class="p">)</span><span class="o">.</span><span class="n">model_dump</span><span class="p">()</span></div>
 
 
 <div class="viewcode-block" id="remove_keys_with_default_value_plugin_provided"><a class="viewcode-back" href="../../../../../geoips_api/geoips.plugins.modules.procflows.html#geoips.plugins.modules.procflows.obp_utils.remove_keys_with_default_value_plugin_provided">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">remove_keys_with_default_value_plugin_provided</span><span class="p">(</span><span class="n">workflow_dict</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Sanitize the workflow by removing keys with value &#39;PLUGIN_PROVIDED&#39;.</span>
+<span class="w">    </span><span class="sd">"""Sanitize the workflow by removing keys with value 'PLUGIN_PROVIDED'.</span>
 
-<span class="sd">    &#39;PLUGIN_PROVIDED&#39; acts as a secondary default value in the OBP. It is used when the</span>
+<span class="sd">    'PLUGIN_PROVIDED' acts as a secondary default value in the OBP. It is used when the</span>
 <span class="sd">    same argument across different plugins of the same type has different default</span>
 <span class="sd">    values.</span>
 
 <span class="sd">    This function recursively removes workflow arguments whose value is</span>
-<span class="sd">    &#39;PLUGIN_PROVIDED&#39;. The plugin call signature would process these arguments as</span>
+<span class="sd">    'PLUGIN_PROVIDED'. The plugin call signature would process these arguments as</span>
 <span class="sd">    omitted and populates the default value accordingly.</span>
 
 <span class="sd">    Parameters</span>
@@ -895,9 +922,9 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    dict</span>
-<span class="sd">        workflow dictionary with all keys containing the value &#39;plugin_provided&#39;</span>
+<span class="sd">        workflow dictionary with all keys containing the value 'plugin_provided'</span>
 <span class="sd">        removed.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">workflow_dict</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
         <span class="k">return</span> <span class="p">{</span>
             <span class="n">key</span><span class="p">:</span> <span class="n">remove_keys_with_default_value_plugin_provided</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>

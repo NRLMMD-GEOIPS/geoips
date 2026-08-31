@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>geoips.plugins.classes.output_formatters.cogeotiff &#8212; GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation</title>
+    <title>geoips.plugins.classes.output_formatters.cogeotiff &#8212; GeoIPS, Geolocated Information Processing System 0.0.0 documentation</title>
   
   
   
@@ -40,7 +40,7 @@
   <link rel="preload" as="script" href="../../../../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
 <link rel="preload" as="script" href="../../../../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
 
-    <script data-url_root="../../../../../" id="documentation_options" src="../../../../../_static/documentation_options.js?v=6727bded"></script>
+    <script data-url_root="../../../../../" id="documentation_options" src="../../../../../_static/documentation_options.js?v=525cde36"></script>
     <script src="../../../../../_static/doctools.js?v=888ff710"></script>
     <script src="../../../../../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../../../_static/design-tabs.js?v=f930bc37"></script>
@@ -401,14 +401,21 @@ mermaid.initialize(
 window.addEventListener("load", load);
 window.runMermaid = runMermaid;</script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_modules/geoips/plugins/classes/output_formatters/cogeotiff';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.17.1';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://nrlmmd-geoips.github.io/geoips/versions.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = 'dev';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner =
+            false;
+        </script>
     <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
     <link rel="icon" href="../../../../../_static/nrlicon.ico"/>
     <link rel="index" title="Index" href="../../../../../genindex.html" />
     <link rel="search" title="Search" href="../../../../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2.0" />
-    <meta name="docbuild:last-update" content="Jul 23, 2026 17:03:57"/>
+  <meta name="docsearch:version" content="0.0" />
+    <meta name="docbuild:last-update" content="Aug 31, 2026 13:32:18"/>
   
     
     <script src="../../../../../_static/searchtools.js"></script>
@@ -480,11 +487,31 @@ window.runMermaid = runMermaid;</script>
       
     
     
-    <img src="../../../../../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation - Home"/>
-    <img src="../../../../../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation - Home"/>
+    <img src="../../../../../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 0.0.0 documentation - Home"/>
+    <img src="../../../../../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 0.0.0 documentation - Home"/>
   
   
 </a></div>
+    
+      <div class="navbar-item">
+<div class="version-switcher__container dropdown pst-js-only">
+  <button id="pst-version-switcher-button-2"
+    type="button"
+    class="version-switcher__button btn btn-sm dropdown-toggle"
+    data-bs-toggle="dropdown"
+    aria-haspopup="listbox"
+    aria-controls="pst-version-switcher-list-2"
+    aria-label="Version switcher list"
+  >
+    Choose version  <!-- this text may get changed later by javascript -->
+    <span class="caret"></span>
+  </button>
+  <div id="pst-version-switcher-list-2"
+    class="version-switcher__menu dropdown-menu list-group-flush py-0"
+    role="listbox" aria-labelledby="pst-version-switcher-button-2">
+    <!-- dropdown will be populated by javascript on page load -->
+  </div>
+</div></div>
     
   </div>
   
@@ -828,7 +855,7 @@ window.runMermaid = runMermaid;</script>
 <span></span><span class="c1"># # # This source code is subject to the license referenced at</span>
 <span class="c1"># # # https://github.com/NRLMMD-GEOIPS.</span>
 
-<span class="sd">&quot;&quot;&quot;Geotiff image rasterio-based output format.&quot;&quot;&quot;</span>
+<span class="sd">"""Geotiff image rasterio-based output format."""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">geoips.interfaces.class_based.output_formatters</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseOutputFormatterPlugin</span>
 
@@ -861,16 +888,16 @@ window.runMermaid = runMermaid;</script>
 
 
 <div class="viewcode-block" id="CogeotiffOutputFormatterPlugin"><a class="viewcode-back" href="../../../../../geoips_api/geoips.plugins.classes.output_formatters.html#geoips.plugins.classes.output_formatters.cogeotiff.CogeotiffOutputFormatterPlugin">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">CogeotiffOutputFormatterPlugin</span><span class="p">(</span><span class="n">BaseOutputFormatterPlugin</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Cogeotiff Output formatter plugin class.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Cogeotiff Output formatter plugin class."""</span>
 
-    <span class="n">interface</span> <span class="o">=</span> <span class="s2">&quot;output_formatters&quot;</span>
-    <span class="n">family</span> <span class="o">=</span> <span class="s2">&quot;image&quot;</span>
-    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;cogeotiff&quot;</span>
+    <span class="n">interface</span> <span class="o">=</span> <span class="s2">"output_formatters"</span>
+    <span class="n">family</span> <span class="o">=</span> <span class="s2">"image"</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">"cogeotiff"</span>
 
 <div class="viewcode-block" id="CogeotiffOutputFormatterPlugin.get_rasterio_cmap_dict"><a class="viewcode-back" href="../../../../../geoips_api/geoips.plugins.classes.output_formatters.html#geoips.plugins.classes.output_formatters.cogeotiff.CogeotiffOutputFormatterPlugin.get_rasterio_cmap_dict">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_rasterio_cmap_dict</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">mpl_cmap</span><span class="p">,</span> <span class="n">scale_data_min</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">scale_data_max</span><span class="o">=</span><span class="mi">255</span><span class="p">,</span> <span class="n">missing_value</span><span class="o">=</span><span class="mi">0</span>
     <span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get rasterio cmap dict, with vals between scale_data_min and scale_data_max.&quot;&quot;&quot;</span>  <span class="c1"># NOQA</span>
+<span class="w">        </span><span class="sd">"""Get rasterio cmap dict, with vals between scale_data_min and scale_data_max."""</span>  <span class="c1"># NOQA</span>
         <span class="c1"># Scale from 1 to 255, leave 0 for missing value.</span>
         <span class="n">cmap_arr</span> <span class="o">=</span> <span class="n">mpl_cmap</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">scale_data_min</span><span class="p">,</span> <span class="n">scale_data_max</span><span class="p">))</span> <span class="o">*</span> <span class="n">scale_data_max</span>
         <span class="n">cmap_dict</span> <span class="o">=</span> <span class="p">{}</span>
@@ -880,7 +907,7 @@ window.runMermaid = runMermaid;</script>
         <span class="k">for</span> <span class="n">ii</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">scale_data_min</span><span class="p">,</span> <span class="n">scale_data_max</span><span class="p">):</span>
             <span class="n">cmap_dict</span><span class="p">[</span><span class="n">ii</span><span class="p">]</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">cmap_arr</span><span class="p">[</span><span class="n">arr_ind</span><span class="p">,</span> <span class="p">:])</span>
             <span class="n">arr_ind</span> <span class="o">+=</span> <span class="mi">1</span>
-        <span class="c1"># RGB values don&#39;t matter, just the &quot;0&quot; for the masked part.</span>
+        <span class="c1"># RGB values don't matter, just the "0" for the masked part.</span>
         <span class="n">cmap_dict</span><span class="p">[</span><span class="n">missing_value</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">255.0</span><span class="p">,</span> <span class="mf">255.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">cmap_dict</span></div>
 
@@ -892,11 +919,11 @@ window.runMermaid = runMermaid;</script>
         <span class="n">scale_data_min</span><span class="p">,</span>
         <span class="n">scale_data_max</span><span class="p">,</span>
     <span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get scale and offset information from dataset.</span>
+<span class="w">        </span><span class="sd">"""Get scale and offset information from dataset.</span>
 
 <span class="sd">        These values are written to the geotiff file metadata in order to use for</span>
 <span class="sd">        retrieving quantitative values from the scaled data when rendering.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">scales</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="n">offsets</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">band</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">bands</span><span class="p">):</span>
@@ -920,7 +947,7 @@ window.runMermaid = runMermaid;</script>
         <span class="n">scale_data_max</span><span class="o">=</span><span class="mi">255</span><span class="p">,</span>
         <span class="n">missing_value</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
     <span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Scale geotiff data between scale_data_min and scale_data_max.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Scale geotiff data between scale_data_min and scale_data_max."""</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">geoips.data_manipulations.corrections</span><span class="w"> </span><span class="kn">import</span> <span class="n">apply_data_range</span>
 
         <span class="n">bands</span> <span class="o">=</span> <span class="mi">1</span>
@@ -941,11 +968,11 @@ window.runMermaid = runMermaid;</script>
         <span class="c1"># Use the min and max values in mpl_colors_info norm if specified.</span>
         <span class="k">if</span> <span class="p">(</span>
             <span class="n">mpl_colors_info</span>
-            <span class="ow">and</span> <span class="s2">&quot;norm&quot;</span> <span class="ow">in</span> <span class="n">mpl_colors_info</span>
-            <span class="ow">and</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">mpl_colors_info</span><span class="p">[</span><span class="s2">&quot;norm&quot;</span><span class="p">],</span> <span class="s2">&quot;vmax&quot;</span><span class="p">)</span>
+            <span class="ow">and</span> <span class="s2">"norm"</span> <span class="ow">in</span> <span class="n">mpl_colors_info</span>
+            <span class="ow">and</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">mpl_colors_info</span><span class="p">[</span><span class="s2">"norm"</span><span class="p">],</span> <span class="s2">"vmax"</span><span class="p">)</span>
         <span class="p">):</span>
-            <span class="n">min_val</span> <span class="o">=</span> <span class="n">mpl_colors_info</span><span class="p">[</span><span class="s2">&quot;norm&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">vmin</span>
-            <span class="n">max_val</span> <span class="o">=</span> <span class="n">mpl_colors_info</span><span class="p">[</span><span class="s2">&quot;norm&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">vmax</span>
+            <span class="n">min_val</span> <span class="o">=</span> <span class="n">mpl_colors_info</span><span class="p">[</span><span class="s2">"norm"</span><span class="p">]</span><span class="o">.</span><span class="n">vmin</span>
+            <span class="n">max_val</span> <span class="o">=</span> <span class="n">mpl_colors_info</span><span class="p">[</span><span class="s2">"norm"</span><span class="p">]</span><span class="o">.</span><span class="n">vmax</span>
 
         <span class="c1"># This is 254 for range 1 to 255.</span>
         <span class="n">num_colors</span> <span class="o">=</span> <span class="n">scale_data_max</span> <span class="o">-</span> <span class="n">scale_data_min</span>
@@ -999,7 +1026,7 @@ window.runMermaid = runMermaid;</script>
         <span class="k">return</span> <span class="n">scale_data</span><span class="o">.</span><span class="n">filled</span><span class="p">(),</span> <span class="n">missing_value</span><span class="p">,</span> <span class="n">scales</span><span class="p">,</span> <span class="n">offsets</span></div>
 
 <div class="viewcode-block" id="CogeotiffOutputFormatterPlugin.get_geotiff_transform"><a class="viewcode-back" href="../../../../../geoips_api/geoips.plugins.classes.output_formatters.html#geoips.plugins.classes.output_formatters.cogeotiff.CogeotiffOutputFormatterPlugin.get_geotiff_transform">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_geotiff_transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">area_def</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the appropriate GeoTIFF transform and projectio information.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Get the appropriate GeoTIFF transform and projectio information."""</span>
         <span class="c1"># Note the original implementation here, following the</span>
         <span class="c1"># rasterio documentation, resulted in upside down imagery.</span>
         <span class="c1"># https://github.com/rasterio/rasterio/issues/1683</span>
@@ -1033,15 +1060,15 @@ window.runMermaid = runMermaid;</script>
         <span class="c1"># if the area definition is not of the correct format, rather than adding</span>
         <span class="c1"># more supported cases.  We should think carefully about what projections/</span>
         <span class="c1"># area definition formats we want to handle / support.</span>
-        <span class="k">if</span> <span class="n">area_def</span><span class="o">.</span><span class="n">proj_dict</span><span class="p">[</span><span class="s2">&quot;proj&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;eqc&quot;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">area_def</span><span class="o">.</span><span class="n">proj_dict</span><span class="p">[</span><span class="s2">"proj"</span><span class="p">]</span> <span class="o">==</span> <span class="s2">"eqc"</span><span class="p">:</span>
             <span class="c1"># For eqc projection, area_extent is in m, and area_extent_ll in degrees</span>
             <span class="n">minlat</span> <span class="o">=</span> <span class="n">area_def</span><span class="o">.</span><span class="n">area_extent_ll</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
             <span class="n">maxlat</span> <span class="o">=</span> <span class="n">area_def</span><span class="o">.</span><span class="n">area_extent_ll</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
             <span class="n">minlon</span> <span class="o">=</span> <span class="n">area_def</span><span class="o">.</span><span class="n">area_extent_ll</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
             <span class="n">maxlon</span> <span class="o">=</span> <span class="n">area_def</span><span class="o">.</span><span class="n">area_extent_ll</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
             <span class="c1"># Pulling crs from area def did not work for the standard eqc sectors.</span>
-            <span class="n">crs</span> <span class="o">=</span> <span class="s2">&quot;EPSG:4326&quot;</span>
-        <span class="k">elif</span> <span class="n">area_def</span><span class="o">.</span><span class="n">proj_dict</span><span class="p">[</span><span class="s2">&quot;proj&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;longlat&quot;</span><span class="p">:</span>
+            <span class="n">crs</span> <span class="o">=</span> <span class="s2">"EPSG:4326"</span>
+        <span class="k">elif</span> <span class="n">area_def</span><span class="o">.</span><span class="n">proj_dict</span><span class="p">[</span><span class="s2">"proj"</span><span class="p">]</span> <span class="o">==</span> <span class="s2">"longlat"</span><span class="p">:</span>
             <span class="c1"># For longlat projection, area_extent is actually in degrees</span>
             <span class="n">minlat</span> <span class="o">=</span> <span class="n">area_def</span><span class="o">.</span><span class="n">area_extent</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
             <span class="n">maxlat</span> <span class="o">=</span> <span class="n">area_def</span><span class="o">.</span><span class="n">area_extent</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
@@ -1053,11 +1080,11 @@ window.runMermaid = runMermaid;</script>
         <span class="c1"># We may want to add additional checks to ensure sectors are set up properly.</span>
         <span class="k">if</span> <span class="n">maxlon</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">minlon</span> <span class="o">&gt;</span> <span class="n">maxlon</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">OutputFormatterDatelineError</span><span class="p">(</span>
-                <span class="s2">&quot;Region CAN NOT cross the dateline. &quot;</span>
-                <span class="s2">&quot;Try again with a different sector.&quot;</span>
-                <span class="s2">&quot;Note you can create a projection &#39;longlat&#39; area_def with the &quot;</span>
-                <span class="s2">&quot;prime meridian set to the center of the sector with the &#39;pm&#39; field, &quot;</span>
-                <span class="s2">&quot;which will allow creating sectors that cross the IDL.&quot;</span>
+                <span class="s2">"Region CAN NOT cross the dateline. "</span>
+                <span class="s2">"Try again with a different sector."</span>
+                <span class="s2">"Note you can create a projection 'longlat' area_def with the "</span>
+                <span class="s2">"prime meridian set to the center of the sector with the 'pm' field, "</span>
+                <span class="s2">"which will allow creating sectors that cross the IDL."</span>
             <span class="p">)</span>
 
         <span class="c1"># Determine the transform based on min/max lat/lon, and width/height.</span>
@@ -1079,17 +1106,17 @@ window.runMermaid = runMermaid;</script>
         <span class="n">existing_image</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">cog</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
     <span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create standard geotiff output using rasterio.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Create standard geotiff output using rasterio."""</span>
         <span class="c1"># We may want to add additional checks to ensure projections are set up</span>
         <span class="c1"># properly for what is explicitly supported in the cogeotiff output formatter,</span>
         <span class="c1"># for now it at least requires eqc or longlat, and there must be no lat/lon</span>
         <span class="c1"># values outside the -180 to 180 range. There are probably additional</span>
         <span class="c1"># requirements for those projections, so we should add to the checks as</span>
         <span class="c1"># those requirements are identified.</span>
-        <span class="k">if</span> <span class="n">area_def</span><span class="o">.</span><span class="n">proj_dict</span><span class="p">[</span><span class="s2">&quot;proj&quot;</span><span class="p">]</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;eqc&quot;</span><span class="p">,</span> <span class="s2">&quot;longlat&quot;</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="n">area_def</span><span class="o">.</span><span class="n">proj_dict</span><span class="p">[</span><span class="s2">"proj"</span><span class="p">]</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">"eqc"</span><span class="p">,</span> <span class="s2">"longlat"</span><span class="p">]:</span>
             <span class="k">raise</span> <span class="n">OutputFormatterInvalidProjectionError</span><span class="p">(</span>
-                <span class="s2">&quot;Projection must be &#39;eqc&#39; in order to produce COGS output. &quot;</span>
-                <span class="s2">&quot;This writer relies on equally spaced lat/lons&quot;</span>
+                <span class="s2">"Projection must be 'eqc' in order to produce COGS output. "</span>
+                <span class="s2">"This writer relies on equally spaced lat/lons"</span>
             <span class="p">)</span>
 
         <span class="c1"># Scale the data to produce an 8 bit geotiff.  Defaults to range 1 to 255</span>
@@ -1104,7 +1131,7 @@ window.runMermaid = runMermaid;</script>
 
             <span class="c1"># Get the CRS and transform information based on the current area</span>
             <span class="c1"># definition.  GeoTIFFs are fairly particular about how the projection</span>
-            <span class="c1"># information is specified.  Ie, you can&#39;t go outside -180 to 180.</span>
+            <span class="c1"># information is specified.  Ie, you can't go outside -180 to 180.</span>
             <span class="n">height</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">crs</span><span class="p">,</span> <span class="n">src_transform</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_geotiff_transform</span><span class="p">(</span><span class="n">area_def</span><span class="p">)</span>
 
             <span class="c1"># If this is RGBA data, e.g. shape is (bands, width, height),</span>
@@ -1124,7 +1151,7 @@ window.runMermaid = runMermaid;</script>
 
             <span class="c1"># Profile for writing the GeoTIFF, using information obtained above.</span>
             <span class="n">src_profile</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
-                <span class="n">driver</span><span class="o">=</span><span class="s2">&quot;GTiff&quot;</span><span class="p">,</span>
+                <span class="n">driver</span><span class="o">=</span><span class="s2">"GTiff"</span><span class="p">,</span>
                 <span class="n">dtype</span><span class="o">=</span><span class="n">uint8</span><span class="p">,</span>
                 <span class="n">count</span><span class="o">=</span><span class="n">bands</span><span class="p">,</span>
                 <span class="n">height</span><span class="o">=</span><span class="n">height</span><span class="p">,</span>
@@ -1139,7 +1166,7 @@ window.runMermaid = runMermaid;</script>
                 <span class="c1"># If this is not RGBA, then set up the internal colormap information.</span>
                 <span class="k">if</span> <span class="ow">not</span> <span class="n">is_rgba</span><span class="p">:</span>
                     <span class="c1"># Populate the input file with numpy array</span>
-                    <span class="n">cmap_dict</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_rasterio_cmap_dict</span><span class="p">(</span><span class="n">mpl_colors_info</span><span class="p">[</span><span class="s2">&quot;cmap&quot;</span><span class="p">])</span>
+                    <span class="n">cmap_dict</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_rasterio_cmap_dict</span><span class="p">(</span><span class="n">mpl_colors_info</span><span class="p">[</span><span class="s2">"cmap"</span><span class="p">])</span>
                     <span class="c1"># Must set nodata prior to writing colormap for cog_translate</span>
                     <span class="n">mem</span><span class="o">.</span><span class="n">nodata</span> <span class="o">=</span> <span class="n">missing_value</span>
                     <span class="n">mem</span><span class="o">.</span><span class="n">write_colormap</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">cmap_dict</span><span class="p">)</span>
@@ -1163,26 +1190,26 @@ window.runMermaid = runMermaid;</script>
 
                 <span class="c1"># Adding this explicitly definitely caused more overviews to be</span>
                 <span class="c1"># created, but I am not sure we want that.  It should come up with</span>
-                <span class="c1"># reasonable defaults on it&#39;s own, and for the very large high</span>
+                <span class="c1"># reasonable defaults on it's own, and for the very large high</span>
                 <span class="c1"># resolution sectors we definitely will get more than 3 overviews.</span>
                 <span class="c1"># if cog:</span>
                 <span class="c1">#     mem.build_overviews([1, 2, 3])</span>
 
-                <span class="n">dst_profile</span> <span class="o">=</span> <span class="n">cog_profiles</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;deflate&quot;</span><span class="p">)</span>
+                <span class="n">dst_profile</span> <span class="o">=</span> <span class="n">cog_profiles</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"deflate"</span><span class="p">)</span>
                 <span class="k">for</span> <span class="n">output_fname</span> <span class="ow">in</span> <span class="n">output_fnames</span><span class="p">:</span>
                     <span class="n">make_dirs</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">output_fname</span><span class="p">))</span>
                     <span class="n">cog_translate</span><span class="p">(</span>
                         <span class="n">mem</span><span class="p">,</span>
                         <span class="n">output_fname</span><span class="p">,</span>
                         <span class="n">dst_profile</span><span class="p">,</span>
-                        <span class="c1"># This should be auto-determined, and I don&#39;t think we will</span>
+                        <span class="c1"># This should be auto-determined, and I don't think we will</span>
                         <span class="c1"># ever want to hard code it here.  Large high resolution</span>
                         <span class="c1"># sectors should always end up with more than 3 overviews.</span>
                         <span class="c1"># overview_level=3,</span>
                         <span class="n">in_memory</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
                         <span class="n">quiet</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
                     <span class="p">)</span>
-                <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;cogeotiff </span><span class="si">{</span><span class="n">output_fname</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">"cogeotiff </span><span class="si">{</span><span class="n">output_fname</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">output_fnames</span></div></div>
 

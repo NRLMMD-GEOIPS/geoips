@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>geoips.plugins.classes.readers.ssmi_binary &#8212; GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation</title>
+    <title>geoips.plugins.classes.readers.ssmi_binary &#8212; GeoIPS, Geolocated Information Processing System 0.0.0 documentation</title>
   
   
   
@@ -40,7 +40,7 @@
   <link rel="preload" as="script" href="../../../../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
 <link rel="preload" as="script" href="../../../../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
 
-    <script data-url_root="../../../../../" id="documentation_options" src="../../../../../_static/documentation_options.js?v=6727bded"></script>
+    <script data-url_root="../../../../../" id="documentation_options" src="../../../../../_static/documentation_options.js?v=525cde36"></script>
     <script src="../../../../../_static/doctools.js?v=888ff710"></script>
     <script src="../../../../../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../../../_static/design-tabs.js?v=f930bc37"></script>
@@ -401,14 +401,21 @@ mermaid.initialize(
 window.addEventListener("load", load);
 window.runMermaid = runMermaid;</script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_modules/geoips/plugins/classes/readers/ssmi_binary';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.17.1';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://nrlmmd-geoips.github.io/geoips/versions.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = 'dev';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner =
+            false;
+        </script>
     <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
     <link rel="icon" href="../../../../../_static/nrlicon.ico"/>
     <link rel="index" title="Index" href="../../../../../genindex.html" />
     <link rel="search" title="Search" href="../../../../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2.0" />
-    <meta name="docbuild:last-update" content="Jul 23, 2026 17:03:57"/>
+  <meta name="docsearch:version" content="0.0" />
+    <meta name="docbuild:last-update" content="Aug 31, 2026 13:32:18"/>
   
     
     <script src="../../../../../_static/searchtools.js"></script>
@@ -480,11 +487,31 @@ window.runMermaid = runMermaid;</script>
       
     
     
-    <img src="../../../../../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation - Home"/>
-    <img src="../../../../../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation - Home"/>
+    <img src="../../../../../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 0.0.0 documentation - Home"/>
+    <img src="../../../../../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 0.0.0 documentation - Home"/>
   
   
 </a></div>
+    
+      <div class="navbar-item">
+<div class="version-switcher__container dropdown pst-js-only">
+  <button id="pst-version-switcher-button-2"
+    type="button"
+    class="version-switcher__button btn btn-sm dropdown-toggle"
+    data-bs-toggle="dropdown"
+    aria-haspopup="listbox"
+    aria-controls="pst-version-switcher-list-2"
+    aria-label="Version switcher list"
+  >
+    Choose version  <!-- this text may get changed later by javascript -->
+    <span class="caret"></span>
+  </button>
+  <div id="pst-version-switcher-list-2"
+    class="version-switcher__menu dropdown-menu list-group-flush py-0"
+    role="listbox" aria-labelledby="pst-version-switcher-button-2">
+    <!-- dropdown will be populated by javascript on page load -->
+  </div>
+</div></div>
     
   </div>
   
@@ -828,7 +855,7 @@ window.runMermaid = runMermaid;</script>
 <span></span><span class="c1"># # # This source code is subject to the license referenced at</span>
 <span class="c1"># # # https://github.com/NRLMMD-GEOIPS.</span>
 
-<span class="sd">&quot;&quot;&quot;SSMI binary reader.</span>
+<span class="sd">"""SSMI binary reader.</span>
 
 <span class="sd">This SSMI reader is designed for importing SSMI sdr data files (such as</span>
 <span class="sd">ssmi_orbital_sdrmi_f15_d20200427_s104500_e123100_r05323_cfnoc.def). This reader</span>
@@ -883,7 +910,7 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">        lon[HIRES][2];           /* longitudes */</span>
 <span class="sd">    int16 lat[HIRES][2];         /* latitudes */</span>
 <span class="sd">    char sft[HIRES][2];          /* surface types */</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">geoips.interfaces.class_based.readers</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseReaderPlugin</span>
 
@@ -898,19 +925,19 @@ window.runMermaid = runMermaid;</script>
 <span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">xarray</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">xr</span>
 
-<span class="n">matplotlib</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s2">&quot;agg&quot;</span><span class="p">)</span>
+<span class="n">matplotlib</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s2">"agg"</span><span class="p">)</span>
 
 <span class="n">LOG</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="SsmiBinaryReaderPlugin"><a class="viewcode-back" href="../../../../../geoips_api/geoips.plugins.classes.readers.html#geoips.plugins.classes.readers.ssmi_binary.SsmiBinaryReaderPlugin">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">SsmiBinaryReaderPlugin</span><span class="p">(</span><span class="n">BaseReaderPlugin</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Ssmi Binary reader plugin class.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Ssmi Binary reader plugin class."""</span>
 
-    <span class="n">interface</span> <span class="o">=</span> <span class="s2">&quot;readers&quot;</span>
-    <span class="n">family</span> <span class="o">=</span> <span class="s2">&quot;standard&quot;</span>
-    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;ssmi_binary&quot;</span>
+    <span class="n">interface</span> <span class="o">=</span> <span class="s2">"readers"</span>
+    <span class="n">family</span> <span class="o">=</span> <span class="s2">"standard"</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">"ssmi_binary"</span>
 
-    <span class="n">source_names</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;ssmi&quot;</span><span class="p">]</span>
+    <span class="n">source_names</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"ssmi"</span><span class="p">]</span>
 
     <span class="c1"># NOTE: Anytime you see a # NOQA comment, this is for flake8 formatting. Unused</span>
     <span class="c1"># variables are needed in this for moving through the binary file correctly.</span>
@@ -923,7 +950,7 @@ window.runMermaid = runMermaid;</script>
         <span class="n">area_def</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">self_register</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
     <span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Read SSMI FNMOC Binary Data.</span>
+<span class="w">        </span><span class="sd">"""Read SSMI FNMOC Binary Data.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -958,29 +985,29 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">        :ref:`xarray_standards`</span>
 <span class="sd">            Additional information regarding required attributes and variables</span>
 <span class="sd">            for GeoIPS-formatted xarray Datasets.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="c1"># from IPython import embed as shell</span>
         <span class="n">fname</span> <span class="o">=</span> <span class="n">fnames</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 
-        <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Reading file </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">fname</span><span class="p">)</span>
+        <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"Reading file </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="n">fname</span><span class="p">)</span>
 
         <span class="c1">#     check for right nput SSMI SDR data file</span>
 
-        <span class="n">data_name</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">fname</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">data_name</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">fname</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">"_"</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">"."</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
 
-        <span class="k">if</span> <span class="n">data_name</span> <span class="o">!=</span> <span class="s2">&quot;def&quot;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">data_name</span> <span class="o">!=</span> <span class="s2">"def"</span><span class="p">:</span>
             <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
-                <span class="s2">&quot;Warning: wrong SSMI SDR data type:  data_type=</span><span class="si">{0}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">data_name</span><span class="p">)</span>
+                <span class="s2">"Warning: wrong SSMI SDR data type:  data_type=</span><span class="si">{0}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">data_name</span><span class="p">)</span>
             <span class="p">)</span>
             <span class="k">raise</span>
 
-        <span class="k">if</span> <span class="s2">&quot;cfnoc&quot;</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">fname</span><span class="p">)</span> <span class="ow">and</span> <span class="s2">&quot;sdrmi&quot;</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">fname</span><span class="p">):</span>
-            <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;found a SSMI SDR file&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s2">"cfnoc"</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">fname</span><span class="p">)</span> <span class="ow">and</span> <span class="s2">"sdrmi"</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">fname</span><span class="p">):</span>
+            <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"found a SSMI SDR file"</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;not a SSMI SDR file: skip it&quot;</span><span class="p">)</span>
-            <span class="k">raise</span> <span class="ne">IOError</span><span class="p">(</span><span class="s2">&quot;Not an SSMI SDR file: skip it&quot;</span><span class="p">)</span>
+            <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"not a SSMI SDR file: skip it"</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">IOError</span><span class="p">(</span><span class="s2">"Not an SSMI SDR file: skip it"</span><span class="p">)</span>
 
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;    ------  Notes  ------</span>
+<span class="w">        </span><span class="sd">"""    ------  Notes  ------</span>
 <span class="sd">       Read in SSMI SDR files for 19v-h,22v,37v-h,85v-h(A and B scans) in binary data</span>
 <span class="sd">            Then, transform these variables (TBs) into xarray framework for GEOIPS</span>
 
@@ -990,17 +1017,17 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">           xarray.Dataset with required Variables and Attributes:</span>
 <span class="sd">               Variables:</span>
 <span class="sd">                        LORES Channels:</span>
-<span class="sd">                          &#39;latitude&#39;, &#39;longitude&#39;, &#39;19V&#39;, &#39;19H&#39;,</span>
-<span class="sd">                          &#39;22V&#39;, &#39;37V&#39;,&#39;37H&#39;,&#39;time_scan&#39;</span>
+<span class="sd">                          'latitude', 'longitude', '19V', '19H',</span>
+<span class="sd">                          '22V', '37V','37H','time_scan'</span>
 <span class="sd">                        HIRES Channels (combined A-B scans):</span>
-<span class="sd">                          &#39;latitude&#39;, &#39;longitude&#39;, &#39;85V&#39;, &#39;85H&#39;, &#39;sfcType&#39;, &#39;time_scan&#39;</span>
+<span class="sd">                          'latitude', 'longitude', '85V', '85H', 'sfcType', 'time_scan'</span>
 <span class="sd">               Attibutes:</span>
-<span class="sd">                        &#39;source_name&#39;, &#39;platform_name&#39;, &#39;data_provider&#39;,</span>
-<span class="sd">                        &#39;interpolation_radius_of_influence&#39;,</span>
-<span class="sd">                        &#39;start_datetime&#39;, &#39;end_datetime&#39;</span>
+<span class="sd">                        'source_name', 'platform_name', 'data_provider',</span>
+<span class="sd">                        'interpolation_radius_of_influence',</span>
+<span class="sd">                        'start_datetime', 'end_datetime'</span>
 <span class="sd">               Optional Attrs:</span>
-<span class="sd">                        &#39;source_file_names&#39;, &#39;source_file_datetimes&#39;</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">                        'source_file_names', 'source_file_datetimes'</span>
+<span class="sd">    """</span>
 
         <span class="c1">#    *********  Decode Formula for SSMI SDR Data  *************</span>
         <span class="c1"># V1 evaluates a 1-byte binary value as an unsigned number</span>
@@ -1099,16 +1126,16 @@ window.runMermaid = runMermaid;</script>
                 <span class="n">sft</span><span class="p">[</span><span class="n">spotH</span> <span class="o">+</span> <span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">V1</span><span class="p">(</span><span class="n">bb</span> <span class="o">+</span> <span class="mi">54</span><span class="p">)</span>
 
             <span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
-                <span class="s2">&quot;v19&quot;</span><span class="p">:</span> <span class="n">v19</span><span class="p">,</span>
-                <span class="s2">&quot;h19&quot;</span><span class="p">:</span> <span class="n">h19</span><span class="p">,</span>
-                <span class="s2">&quot;v22&quot;</span><span class="p">:</span> <span class="n">v22</span><span class="p">,</span>
-                <span class="s2">&quot;v37&quot;</span><span class="p">:</span> <span class="n">v37</span><span class="p">,</span>
-                <span class="s2">&quot;h37&quot;</span><span class="p">:</span> <span class="n">h37</span><span class="p">,</span>
-                <span class="s2">&quot;lat&quot;</span><span class="p">:</span> <span class="n">lat</span><span class="p">,</span>
-                <span class="s2">&quot;lon&quot;</span><span class="p">:</span> <span class="n">lon</span><span class="p">,</span>
-                <span class="s2">&quot;v85&quot;</span><span class="p">:</span> <span class="n">v85</span><span class="p">,</span>
-                <span class="s2">&quot;h85&quot;</span><span class="p">:</span> <span class="n">h85</span><span class="p">,</span>
-                <span class="s2">&quot;sft&quot;</span><span class="p">:</span> <span class="n">sft</span><span class="p">,</span>
+                <span class="s2">"v19"</span><span class="p">:</span> <span class="n">v19</span><span class="p">,</span>
+                <span class="s2">"h19"</span><span class="p">:</span> <span class="n">h19</span><span class="p">,</span>
+                <span class="s2">"v22"</span><span class="p">:</span> <span class="n">v22</span><span class="p">,</span>
+                <span class="s2">"v37"</span><span class="p">:</span> <span class="n">v37</span><span class="p">,</span>
+                <span class="s2">"h37"</span><span class="p">:</span> <span class="n">h37</span><span class="p">,</span>
+                <span class="s2">"lat"</span><span class="p">:</span> <span class="n">lat</span><span class="p">,</span>
+                <span class="s2">"lon"</span><span class="p">:</span> <span class="n">lon</span><span class="p">,</span>
+                <span class="s2">"v85"</span><span class="p">:</span> <span class="n">v85</span><span class="p">,</span>
+                <span class="s2">"h85"</span><span class="p">:</span> <span class="n">h85</span><span class="p">,</span>
+                <span class="s2">"sft"</span><span class="p">:</span> <span class="n">sft</span><span class="p">,</span>
             <span class="p">}</span>
             <span class="k">return</span> <span class="n">data</span>
 
@@ -1139,17 +1166,17 @@ window.runMermaid = runMermaid;</script>
 
         <span class="c1"># Header Info</span>
         <span class="n">blocks</span> <span class="o">=</span> <span class="p">{</span>
-            <span class="s2">&quot;ProdID&quot;</span><span class="p">:</span> <span class="mi">28</span><span class="p">,</span>  <span class="c1"># Product ID hdr</span>
-            <span class="s2">&quot;DataSeq&quot;</span><span class="p">:</span> <span class="mi">26</span><span class="p">,</span>  <span class="c1"># DataSeq hdr  (scan line info, total scans))</span>
-            <span class="s2">&quot;RevHdrDD&quot;</span><span class="p">:</span> <span class="mi">190</span><span class="p">,</span>  <span class="c1"># Rev info</span>
-            <span class="s2">&quot;ScanHdrDD&quot;</span><span class="p">:</span> <span class="mi">34</span><span class="p">,</span>  <span class="c1"># Scan hdr</span>
-            <span class="s2">&quot;ScanDD&quot;</span><span class="p">:</span> <span class="mi">370</span><span class="p">,</span>  <span class="c1">#</span>
-            <span class="s2">&quot;RevHdr&quot;</span><span class="p">:</span> <span class="mi">30</span><span class="p">,</span>
-            <span class="s2">&quot;ScanHdr&quot;</span><span class="p">:</span> <span class="mi">12</span><span class="p">,</span>
-            <span class="s2">&quot;Scan&quot;</span><span class="p">:</span> <span class="mi">3334</span><span class="p">,</span>
+            <span class="s2">"ProdID"</span><span class="p">:</span> <span class="mi">28</span><span class="p">,</span>  <span class="c1"># Product ID hdr</span>
+            <span class="s2">"DataSeq"</span><span class="p">:</span> <span class="mi">26</span><span class="p">,</span>  <span class="c1"># DataSeq hdr  (scan line info, total scans))</span>
+            <span class="s2">"RevHdrDD"</span><span class="p">:</span> <span class="mi">190</span><span class="p">,</span>  <span class="c1"># Rev info</span>
+            <span class="s2">"ScanHdrDD"</span><span class="p">:</span> <span class="mi">34</span><span class="p">,</span>  <span class="c1"># Scan hdr</span>
+            <span class="s2">"ScanDD"</span><span class="p">:</span> <span class="mi">370</span><span class="p">,</span>  <span class="c1">#</span>
+            <span class="s2">"RevHdr"</span><span class="p">:</span> <span class="mi">30</span><span class="p">,</span>
+            <span class="s2">"ScanHdr"</span><span class="p">:</span> <span class="mi">12</span><span class="p">,</span>
+            <span class="s2">"Scan"</span><span class="p">:</span> <span class="mi">3334</span><span class="p">,</span>
         <span class="p">}</span>
 
-        <span class="n">f1</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">)</span>  <span class="c1"># open inform ssmi sdr file</span>
+        <span class="n">f1</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="s2">"rb"</span><span class="p">)</span>  <span class="c1"># open inform ssmi sdr file</span>
 
         <span class="n">data</span> <span class="o">=</span> <span class="p">{}</span>  <span class="c1"># define a dictionary array for parameters (TBs, etc)</span>
 
@@ -1163,7 +1190,7 @@ window.runMermaid = runMermaid;</script>
         <span class="c1">#    Process of READ HEARDERs</span>
 
         <span class="c1">#    Product ID Block</span>
-        <span class="n">buf</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">frombuffer</span><span class="p">(</span><span class="n">f1</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">blocks</span><span class="p">[</span><span class="s2">&quot;ProdID&quot;</span><span class="p">]),</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;uint8&quot;</span><span class="p">)</span>
+        <span class="n">buf</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">frombuffer</span><span class="p">(</span><span class="n">f1</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">blocks</span><span class="p">[</span><span class="s2">"ProdID"</span><span class="p">]),</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">"uint8"</span><span class="p">)</span>
         <span class="n">satid0</span> <span class="o">=</span> <span class="mi">10</span> <span class="o">*</span> <span class="p">(</span><span class="n">V1</span><span class="p">(</span><span class="mi">18</span><span class="p">)</span> <span class="o">-</span> <span class="mi">48</span><span class="p">)</span> <span class="o">+</span> <span class="n">V1</span><span class="p">(</span><span class="mi">19</span><span class="p">)</span> <span class="o">-</span> <span class="mi">48</span>
         <span class="n">fcyr</span> <span class="o">=</span> <span class="n">V2</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span>  <span class="c1"># date of this input file createed</span>
         <span class="c1"># fcmon = V1(22)</span>
@@ -1172,16 +1199,16 @@ window.runMermaid = runMermaid;</script>
         <span class="c1"># fcmin = V1(25)</span>
 
         <span class="c1">#    Data Sequence Block</span>
-        <span class="n">buf</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">frombuffer</span><span class="p">(</span><span class="n">f1</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">blocks</span><span class="p">[</span><span class="s2">&quot;DataSeq&quot;</span><span class="p">]),</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;uint8&quot;</span><span class="p">)</span>
+        <span class="n">buf</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">frombuffer</span><span class="p">(</span><span class="n">f1</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">blocks</span><span class="p">[</span><span class="s2">"DataSeq"</span><span class="p">]),</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">"uint8"</span><span class="p">)</span>
         <span class="c1"># scans = V2(14)  # number of total scans of this orbital file</span>
 
         <span class="c1">#    Data Description Blocks</span>
-        <span class="n">buf</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">frombuffer</span><span class="p">(</span><span class="n">f1</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">blocks</span><span class="p">[</span><span class="s2">&quot;RevHdrDD&quot;</span><span class="p">]),</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;uint8&quot;</span><span class="p">)</span>
-        <span class="n">buf</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">frombuffer</span><span class="p">(</span><span class="n">f1</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">blocks</span><span class="p">[</span><span class="s2">&quot;ScanHdrDD&quot;</span><span class="p">]),</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;uint8&quot;</span><span class="p">)</span>
-        <span class="n">buf</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">frombuffer</span><span class="p">(</span><span class="n">f1</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">blocks</span><span class="p">[</span><span class="s2">&quot;ScanDD&quot;</span><span class="p">]),</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;uint8&quot;</span><span class="p">)</span>
+        <span class="n">buf</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">frombuffer</span><span class="p">(</span><span class="n">f1</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">blocks</span><span class="p">[</span><span class="s2">"RevHdrDD"</span><span class="p">]),</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">"uint8"</span><span class="p">)</span>
+        <span class="n">buf</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">frombuffer</span><span class="p">(</span><span class="n">f1</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">blocks</span><span class="p">[</span><span class="s2">"ScanHdrDD"</span><span class="p">]),</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">"uint8"</span><span class="p">)</span>
+        <span class="n">buf</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">frombuffer</span><span class="p">(</span><span class="n">f1</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">blocks</span><span class="p">[</span><span class="s2">"ScanDD"</span><span class="p">]),</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">"uint8"</span><span class="p">)</span>
 
         <span class="c1">#     Rev Header Block</span>
-        <span class="n">buf</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">frombuffer</span><span class="p">(</span><span class="n">f1</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">blocks</span><span class="p">[</span><span class="s2">&quot;RevHdr&quot;</span><span class="p">]),</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;uint8&quot;</span><span class="p">)</span>
+        <span class="n">buf</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">frombuffer</span><span class="p">(</span><span class="n">f1</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">blocks</span><span class="p">[</span><span class="s2">"RevHdr"</span><span class="p">]),</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">"uint8"</span><span class="p">)</span>
         <span class="c1"># scid = V4(4)  # spcaecraft ID, i.e., 15 for F15</span>
         <span class="c1"># rev = V4(8)</span>
         <span class="n">bjld</span> <span class="o">=</span> <span class="n">V2</span><span class="p">(</span><span class="mi">12</span><span class="p">)</span>  <span class="c1"># start date info: julian day</span>
@@ -1210,7 +1237,7 @@ window.runMermaid = runMermaid;</script>
             <span class="c1"># Read Scan Header Block</span>
             <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
                 <span class="n">buf</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">frombuffer</span><span class="p">(</span>
-                    <span class="n">f1</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;uint8&quot;</span>
+                    <span class="n">f1</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">"uint8"</span>
                 <span class="p">)</span>  <span class="c1"># read in block length from  two-byte words</span>
                 <span class="k">if</span> <span class="nb">list</span><span class="p">(</span><span class="n">buf</span><span class="p">)</span> <span class="o">==</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">buf</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
                     <span class="k">continue</span>
@@ -1224,19 +1251,19 @@ window.runMermaid = runMermaid;</script>
             <span class="n">length2</span> <span class="o">=</span> <span class="n">length</span> <span class="o">-</span> <span class="mi">2</span>  <span class="c1"># bytes of the rest block</span>
 
             <span class="n">buf0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">frombuffer</span><span class="p">(</span>
-                <span class="n">f1</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">length2</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;uint8&quot;</span>
+                <span class="n">f1</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">length2</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">"uint8"</span>
             <span class="p">)</span>  <span class="c1"># read length2 bytes of this block</span>
             <span class="n">buf</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
                 <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">buf0</span>
-            <span class="p">)</span>  <span class="c1"># shift two bytes so buf will have &quot;length&quot; bytes</span>
+            <span class="p">)</span>  <span class="c1"># shift two bytes so buf will have "length" bytes</span>
 
             <span class="k">if</span> <span class="n">length</span> <span class="o">==</span> <span class="n">BAD_LEN</span><span class="p">:</span>
-                <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;fatal error:  Ban_length&quot;</span><span class="p">)</span>
+                <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"fatal error:  Ban_length"</span><span class="p">)</span>
                 <span class="k">raise</span>  <span class="c1"># fatal error stop</span>
             <span class="k">elif</span> <span class="n">length</span> <span class="o">==</span> <span class="n">EOF_LEN</span> <span class="ow">or</span> <span class="n">length</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
                 <span class="k">break</span>
-            <span class="k">elif</span> <span class="n">length</span> <span class="o">!=</span> <span class="n">blocks</span><span class="p">[</span><span class="s2">&quot;ScanHdr&quot;</span><span class="p">]:</span>
-                <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;block length= </span><span class="si">{0}</span><span class="s2"> </span><span class="si">{1}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">blocks</span><span class="p">[</span><span class="s2">&quot;ScanHdr&quot;</span><span class="p">],</span> <span class="n">length</span><span class="p">))</span>
+            <span class="k">elif</span> <span class="n">length</span> <span class="o">!=</span> <span class="n">blocks</span><span class="p">[</span><span class="s2">"ScanHdr"</span><span class="p">]:</span>
+                <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"block length= </span><span class="si">{0}</span><span class="s2"> </span><span class="si">{1}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">blocks</span><span class="p">[</span><span class="s2">"ScanHdr"</span><span class="p">],</span> <span class="n">length</span><span class="p">))</span>
                 <span class="k">continue</span>  <span class="c1"># unexpected block length, go to next block</span>
 
             <span class="c1"># extraction of parameters from scan header block</span>
@@ -1249,7 +1276,7 @@ window.runMermaid = runMermaid;</script>
             <span class="n">scan_min</span> <span class="o">=</span> <span class="p">(</span><span class="n">bst</span> <span class="o">-</span> <span class="n">scan_hr</span> <span class="o">*</span> <span class="mi">3600</span><span class="p">)</span> <span class="o">/</span> <span class="mi">60</span>  <span class="c1"># minute of scan</span>
             <span class="n">scan_sec</span> <span class="o">=</span> <span class="n">bst</span> <span class="o">-</span> <span class="n">scan_hr</span> <span class="o">*</span> <span class="mi">3600</span> <span class="o">-</span> <span class="n">scan_min</span> <span class="o">*</span> <span class="mi">60</span>  <span class="c1"># second of the scan</span>
 
-            <span class="n">date_info</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">year_info</span> <span class="o">+</span> <span class="n">jDay_info</span><span class="p">,</span> <span class="s2">&quot;%Y%j&quot;</span><span class="p">)</span>
+            <span class="n">date_info</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">year_info</span> <span class="o">+</span> <span class="n">jDay_info</span><span class="p">,</span> <span class="s2">"%Y%j"</span><span class="p">)</span>
 
             <span class="n">scan_yr</span> <span class="o">=</span> <span class="n">date_info</span><span class="o">.</span><span class="n">year</span>
             <span class="n">scan_mon</span> <span class="o">=</span> <span class="n">date_info</span><span class="o">.</span><span class="n">month</span>
@@ -1268,7 +1295,7 @@ window.runMermaid = runMermaid;</script>
 
             <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
                 <span class="n">buf</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">frombuffer</span><span class="p">(</span>
-                    <span class="n">f1</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;uint8&quot;</span>
+                    <span class="n">f1</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">"uint8"</span>
                 <span class="p">)</span>  <span class="c1"># read in block length from  two-byte words</span>
                 <span class="k">if</span> <span class="nb">list</span><span class="p">(</span><span class="n">buf</span><span class="p">)</span> <span class="o">==</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">buf</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
                     <span class="k">continue</span>
@@ -1282,23 +1309,23 @@ window.runMermaid = runMermaid;</script>
             <span class="n">length2</span> <span class="o">=</span> <span class="n">length</span> <span class="o">-</span> <span class="mi">2</span>  <span class="c1"># bytes of the rest block</span>
 
             <span class="n">buf0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">frombuffer</span><span class="p">(</span>
-                <span class="n">f1</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">length2</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;uint8&quot;</span>
+                <span class="n">f1</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">length2</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">"uint8"</span>
             <span class="p">)</span>  <span class="c1"># read length2 bytes of this block</span>
             <span class="n">buf</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
                 <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">buf0</span>
-            <span class="p">)</span>  <span class="c1"># shift two bytes so buf will have &quot;length&quot; bytes</span>
+            <span class="p">)</span>  <span class="c1"># shift two bytes so buf will have "length" bytes</span>
 
             <span class="k">if</span> <span class="n">length</span> <span class="o">==</span> <span class="n">BAD_LEN</span><span class="p">:</span>
                 <span class="k">raise</span>  <span class="c1"># fatal error stop</span>
             <span class="k">elif</span> <span class="n">length</span> <span class="o">==</span> <span class="n">EOF_LEN</span> <span class="ow">or</span> <span class="n">length</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
                 <span class="k">break</span>
-            <span class="k">elif</span> <span class="n">length</span> <span class="o">!=</span> <span class="n">blocks</span><span class="p">[</span><span class="s2">&quot;Scan&quot;</span><span class="p">]:</span>
-                <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;block length= </span><span class="si">{0}</span><span class="s2"> </span><span class="si">{1}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">blocks</span><span class="p">[</span><span class="s2">&quot;Scan&quot;</span><span class="p">],</span> <span class="n">length</span><span class="p">))</span>
+            <span class="k">elif</span> <span class="n">length</span> <span class="o">!=</span> <span class="n">blocks</span><span class="p">[</span><span class="s2">"Scan"</span><span class="p">]:</span>
+                <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"block length= </span><span class="si">{0}</span><span class="s2"> </span><span class="si">{1}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">blocks</span><span class="p">[</span><span class="s2">"Scan"</span><span class="p">],</span> <span class="n">length</span><span class="p">))</span>
                 <span class="k">continue</span>  <span class="c1"># unexpected block lengthi, go to next block</span>
 
             <span class="c1"># check of max scans</span>
             <span class="k">if</span> <span class="n">scan_read</span> <span class="o">&gt;</span> <span class="n">MAXSCANS</span><span class="p">:</span>
-                <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Reached max scans, break!&quot;</span><span class="p">)</span>
+                <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"Reached max scans, break!"</span><span class="p">)</span>
                 <span class="k">break</span>
 
             <span class="c1"># extract parameters from the scan block</span>
@@ -1310,7 +1337,7 @@ window.runMermaid = runMermaid;</script>
 
         <span class="c1">#  -------- Apply the GEOIPS framework in XARRAY data frame ----------</span>
 
-        <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Making full dataframe&quot;</span><span class="p">)</span>
+        <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"Making full dataframe"</span><span class="p">)</span>
 
         <span class="c1"># bad_value = -999</span>
 
@@ -1348,14 +1375,14 @@ window.runMermaid = runMermaid;</script>
             <span class="k">for</span> <span class="n">jj</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">LORES</span><span class="p">):</span>  <span class="c1"># loop of pixels per scan for LORES channels</span>
                 <span class="n">jj2</span> <span class="o">=</span> <span class="n">jj</span> <span class="o">*</span> <span class="mi">2</span>
                 <span class="k">try</span><span class="p">:</span>
-                    <span class="n">lat_lo</span><span class="p">[</span><span class="n">ii</span><span class="p">][</span><span class="n">jj</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">ii</span><span class="p">][</span><span class="s2">&quot;lat&quot;</span><span class="p">][</span><span class="n">jj2</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
-                    <span class="n">lon_lo</span><span class="p">[</span><span class="n">ii</span><span class="p">][</span><span class="n">jj</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">ii</span><span class="p">][</span><span class="s2">&quot;lon&quot;</span><span class="p">][</span><span class="n">jj2</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
-                    <span class="n">V19</span><span class="p">[</span><span class="n">ii</span><span class="p">][</span><span class="n">jj</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">ii</span><span class="p">][</span><span class="s2">&quot;v19&quot;</span><span class="p">][</span><span class="n">jj</span><span class="p">]</span>
-                    <span class="n">H19</span><span class="p">[</span><span class="n">ii</span><span class="p">][</span><span class="n">jj</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">ii</span><span class="p">][</span><span class="s2">&quot;h19&quot;</span><span class="p">][</span><span class="n">jj</span><span class="p">]</span>
-                    <span class="n">V22</span><span class="p">[</span><span class="n">ii</span><span class="p">][</span><span class="n">jj</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">ii</span><span class="p">][</span><span class="s2">&quot;v22&quot;</span><span class="p">][</span><span class="n">jj</span><span class="p">]</span>
-                    <span class="n">V37</span><span class="p">[</span><span class="n">ii</span><span class="p">][</span><span class="n">jj</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">ii</span><span class="p">][</span><span class="s2">&quot;v37&quot;</span><span class="p">][</span><span class="n">jj</span><span class="p">]</span>
-                    <span class="n">H37</span><span class="p">[</span><span class="n">ii</span><span class="p">][</span><span class="n">jj</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">ii</span><span class="p">][</span><span class="s2">&quot;h37&quot;</span><span class="p">][</span><span class="n">jj</span><span class="p">]</span>
-                    <span class="n">time_scan_lo</span><span class="p">[</span><span class="n">ii</span><span class="p">][</span><span class="n">jj</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">%04d%03d%02d%02d</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span>
+                    <span class="n">lat_lo</span><span class="p">[</span><span class="n">ii</span><span class="p">][</span><span class="n">jj</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">ii</span><span class="p">][</span><span class="s2">"lat"</span><span class="p">][</span><span class="n">jj2</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+                    <span class="n">lon_lo</span><span class="p">[</span><span class="n">ii</span><span class="p">][</span><span class="n">jj</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">ii</span><span class="p">][</span><span class="s2">"lon"</span><span class="p">][</span><span class="n">jj2</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+                    <span class="n">V19</span><span class="p">[</span><span class="n">ii</span><span class="p">][</span><span class="n">jj</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">ii</span><span class="p">][</span><span class="s2">"v19"</span><span class="p">][</span><span class="n">jj</span><span class="p">]</span>
+                    <span class="n">H19</span><span class="p">[</span><span class="n">ii</span><span class="p">][</span><span class="n">jj</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">ii</span><span class="p">][</span><span class="s2">"h19"</span><span class="p">][</span><span class="n">jj</span><span class="p">]</span>
+                    <span class="n">V22</span><span class="p">[</span><span class="n">ii</span><span class="p">][</span><span class="n">jj</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">ii</span><span class="p">][</span><span class="s2">"v22"</span><span class="p">][</span><span class="n">jj</span><span class="p">]</span>
+                    <span class="n">V37</span><span class="p">[</span><span class="n">ii</span><span class="p">][</span><span class="n">jj</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">ii</span><span class="p">][</span><span class="s2">"v37"</span><span class="p">][</span><span class="n">jj</span><span class="p">]</span>
+                    <span class="n">H37</span><span class="p">[</span><span class="n">ii</span><span class="p">][</span><span class="n">jj</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">ii</span><span class="p">][</span><span class="s2">"h37"</span><span class="p">][</span><span class="n">jj</span><span class="p">]</span>
+                    <span class="n">time_scan_lo</span><span class="p">[</span><span class="n">ii</span><span class="p">][</span><span class="n">jj</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"</span><span class="si">%04d%03d%02d%02d</span><span class="s2">"</span> <span class="o">%</span> <span class="p">(</span>
                         <span class="n">fcyr</span><span class="p">,</span>
                         <span class="n">bjld</span><span class="p">,</span>
                         <span class="n">hour</span><span class="p">[</span><span class="n">ii</span><span class="p">],</span>
@@ -1363,29 +1390,29 @@ window.runMermaid = runMermaid;</script>
                     <span class="p">)</span>
                 <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
                     <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
-                        <span class="s2">&quot;Failed setting arrays in LORES channels </span><span class="si">{0}</span><span class="s2"> </span><span class="si">{1}</span><span class="s2"> </span><span class="si">{2}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                        <span class="s2">"Failed setting arrays in LORES channels </span><span class="si">{0}</span><span class="s2"> </span><span class="si">{1}</span><span class="s2"> </span><span class="si">{2}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
                             <span class="n">ii</span><span class="p">,</span> <span class="n">jj</span><span class="p">,</span> <span class="n">jj2</span>
                         <span class="p">)</span>
                     <span class="p">)</span>
 
             <span class="k">for</span> <span class="n">jj</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">HIRES</span><span class="p">):</span>  <span class="c1"># loop of pixels per scan for HIRES channels</span>
                 <span class="k">try</span><span class="p">:</span>
-                    <span class="n">lat_hia</span><span class="p">[</span><span class="n">ii</span><span class="p">][</span><span class="n">jj</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">ii</span><span class="p">][</span><span class="s2">&quot;lat&quot;</span><span class="p">][</span><span class="n">jj</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>  <span class="c1"># A scan</span>
-                    <span class="n">lon_hia</span><span class="p">[</span><span class="n">ii</span><span class="p">][</span><span class="n">jj</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">ii</span><span class="p">][</span><span class="s2">&quot;lon&quot;</span><span class="p">][</span><span class="n">jj</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
-                    <span class="n">lat_hib</span><span class="p">[</span><span class="n">ii</span><span class="p">][</span><span class="n">jj</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">ii</span><span class="p">][</span><span class="s2">&quot;lat&quot;</span><span class="p">][</span><span class="n">jj</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>  <span class="c1"># B scan</span>
-                    <span class="n">lon_hib</span><span class="p">[</span><span class="n">ii</span><span class="p">][</span><span class="n">jj</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">ii</span><span class="p">][</span><span class="s2">&quot;lon&quot;</span><span class="p">][</span><span class="n">jj</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
-                    <span class="n">V85a</span><span class="p">[</span><span class="n">ii</span><span class="p">][</span><span class="n">jj</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">ii</span><span class="p">][</span><span class="s2">&quot;v85&quot;</span><span class="p">][</span><span class="n">jj</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>  <span class="c1"># A scan</span>
-                    <span class="n">V85b</span><span class="p">[</span><span class="n">ii</span><span class="p">][</span><span class="n">jj</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">ii</span><span class="p">][</span><span class="s2">&quot;v85&quot;</span><span class="p">][</span><span class="n">jj</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>  <span class="c1"># B scan</span>
-                    <span class="n">H85a</span><span class="p">[</span><span class="n">ii</span><span class="p">][</span><span class="n">jj</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">ii</span><span class="p">][</span><span class="s2">&quot;h85&quot;</span><span class="p">][</span><span class="n">jj</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>  <span class="c1"># A scan</span>
-                    <span class="n">H85b</span><span class="p">[</span><span class="n">ii</span><span class="p">][</span><span class="n">jj</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">ii</span><span class="p">][</span><span class="s2">&quot;h85&quot;</span><span class="p">][</span><span class="n">jj</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>  <span class="c1"># B scan</span>
+                    <span class="n">lat_hia</span><span class="p">[</span><span class="n">ii</span><span class="p">][</span><span class="n">jj</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">ii</span><span class="p">][</span><span class="s2">"lat"</span><span class="p">][</span><span class="n">jj</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>  <span class="c1"># A scan</span>
+                    <span class="n">lon_hia</span><span class="p">[</span><span class="n">ii</span><span class="p">][</span><span class="n">jj</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">ii</span><span class="p">][</span><span class="s2">"lon"</span><span class="p">][</span><span class="n">jj</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+                    <span class="n">lat_hib</span><span class="p">[</span><span class="n">ii</span><span class="p">][</span><span class="n">jj</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">ii</span><span class="p">][</span><span class="s2">"lat"</span><span class="p">][</span><span class="n">jj</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>  <span class="c1"># B scan</span>
+                    <span class="n">lon_hib</span><span class="p">[</span><span class="n">ii</span><span class="p">][</span><span class="n">jj</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">ii</span><span class="p">][</span><span class="s2">"lon"</span><span class="p">][</span><span class="n">jj</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+                    <span class="n">V85a</span><span class="p">[</span><span class="n">ii</span><span class="p">][</span><span class="n">jj</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">ii</span><span class="p">][</span><span class="s2">"v85"</span><span class="p">][</span><span class="n">jj</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>  <span class="c1"># A scan</span>
+                    <span class="n">V85b</span><span class="p">[</span><span class="n">ii</span><span class="p">][</span><span class="n">jj</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">ii</span><span class="p">][</span><span class="s2">"v85"</span><span class="p">][</span><span class="n">jj</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>  <span class="c1"># B scan</span>
+                    <span class="n">H85a</span><span class="p">[</span><span class="n">ii</span><span class="p">][</span><span class="n">jj</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">ii</span><span class="p">][</span><span class="s2">"h85"</span><span class="p">][</span><span class="n">jj</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>  <span class="c1"># A scan</span>
+                    <span class="n">H85b</span><span class="p">[</span><span class="n">ii</span><span class="p">][</span><span class="n">jj</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">ii</span><span class="p">][</span><span class="s2">"h85"</span><span class="p">][</span><span class="n">jj</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>  <span class="c1"># B scan</span>
 
                     <span class="c1"># combined A-B scans</span>
                     <span class="n">lat_ab</span><span class="p">[</span><span class="n">ii2</span><span class="p">][</span><span class="n">jj</span><span class="p">]</span> <span class="o">=</span> <span class="n">lat_hia</span><span class="p">[</span><span class="n">ii</span><span class="p">][</span><span class="n">jj</span><span class="p">]</span>  <span class="c1"># put A scan values</span>
                     <span class="n">lon_ab</span><span class="p">[</span><span class="n">ii2</span><span class="p">][</span><span class="n">jj</span><span class="p">]</span> <span class="o">=</span> <span class="n">lon_hia</span><span class="p">[</span><span class="n">ii</span><span class="p">][</span><span class="n">jj</span><span class="p">]</span>
                     <span class="n">V85</span><span class="p">[</span><span class="n">ii2</span><span class="p">][</span><span class="n">jj</span><span class="p">]</span> <span class="o">=</span> <span class="n">V85a</span><span class="p">[</span><span class="n">ii</span><span class="p">][</span><span class="n">jj</span><span class="p">]</span>
                     <span class="n">H85</span><span class="p">[</span><span class="n">ii2</span><span class="p">][</span><span class="n">jj</span><span class="p">]</span> <span class="o">=</span> <span class="n">H85a</span><span class="p">[</span><span class="n">ii</span><span class="p">][</span><span class="n">jj</span><span class="p">]</span>
-                    <span class="n">sfcType</span><span class="p">[</span><span class="n">ii2</span><span class="p">][</span><span class="n">jj</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">ii</span><span class="p">][</span><span class="s2">&quot;sft&quot;</span><span class="p">][</span><span class="n">jj</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
-                    <span class="n">time_scan</span><span class="p">[</span><span class="n">ii2</span><span class="p">][</span><span class="n">jj</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">%04d%03d%02d%02d</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span>
+                    <span class="n">sfcType</span><span class="p">[</span><span class="n">ii2</span><span class="p">][</span><span class="n">jj</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">ii</span><span class="p">][</span><span class="s2">"sft"</span><span class="p">][</span><span class="n">jj</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+                    <span class="n">time_scan</span><span class="p">[</span><span class="n">ii2</span><span class="p">][</span><span class="n">jj</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"</span><span class="si">%04d%03d%02d%02d</span><span class="s2">"</span> <span class="o">%</span> <span class="p">(</span>
                         <span class="n">fcyr</span><span class="p">,</span>
                         <span class="n">bjld</span><span class="p">,</span>
                         <span class="n">hour</span><span class="p">[</span><span class="n">ii</span><span class="p">],</span>
@@ -1396,99 +1423,99 @@ window.runMermaid = runMermaid;</script>
                     <span class="n">lon_ab</span><span class="p">[</span><span class="n">ii2</span> <span class="o">+</span> <span class="mi">1</span><span class="p">][</span><span class="n">jj</span><span class="p">]</span> <span class="o">=</span> <span class="n">lon_hib</span><span class="p">[</span><span class="n">ii</span><span class="p">][</span><span class="n">jj</span><span class="p">]</span>
                     <span class="n">V85</span><span class="p">[</span><span class="n">ii2</span> <span class="o">+</span> <span class="mi">1</span><span class="p">][</span><span class="n">jj</span><span class="p">]</span> <span class="o">=</span> <span class="n">V85b</span><span class="p">[</span><span class="n">ii</span><span class="p">][</span><span class="n">jj</span><span class="p">]</span>
                     <span class="n">H85</span><span class="p">[</span><span class="n">ii2</span> <span class="o">+</span> <span class="mi">1</span><span class="p">][</span><span class="n">jj</span><span class="p">]</span> <span class="o">=</span> <span class="n">H85b</span><span class="p">[</span><span class="n">ii</span><span class="p">][</span><span class="n">jj</span><span class="p">]</span>
-                    <span class="n">sfcType</span><span class="p">[</span><span class="n">ii2</span> <span class="o">+</span> <span class="mi">1</span><span class="p">][</span><span class="n">jj</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">ii</span><span class="p">][</span><span class="s2">&quot;sft&quot;</span><span class="p">][</span><span class="n">jj</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+                    <span class="n">sfcType</span><span class="p">[</span><span class="n">ii2</span> <span class="o">+</span> <span class="mi">1</span><span class="p">][</span><span class="n">jj</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">ii</span><span class="p">][</span><span class="s2">"sft"</span><span class="p">][</span><span class="n">jj</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
                     <span class="n">time_scan</span><span class="p">[</span><span class="n">ii2</span> <span class="o">+</span> <span class="mi">1</span><span class="p">][</span><span class="n">jj</span><span class="p">]</span> <span class="o">=</span> <span class="n">time_scan</span><span class="p">[</span><span class="n">ii2</span><span class="p">][</span>
                         <span class="n">jj</span>
                     <span class="p">]</span>  <span class="c1"># same time for A and B scan</span>
                 <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
-                    <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Failed setting arrays in HIRES channels&quot;</span><span class="p">)</span>
+                    <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"Failed setting arrays in HIRES channels"</span><span class="p">)</span>
 
         <span class="c1">#          ------  setup xarray variables   ------</span>
         <span class="c1"># namelist_lores = [</span>
-        <span class="c1">#     &quot;latitude&quot;,</span>
-        <span class="c1">#     &quot;longitude&quot;,</span>
-        <span class="c1">#     &quot;V19&quot;,</span>
-        <span class="c1">#     &quot;H19&quot;,</span>
-        <span class="c1">#     &quot;V22&quot;,</span>
-        <span class="c1">#     &quot;V37&quot;,</span>
-        <span class="c1">#     &quot;H37&quot;,</span>
-        <span class="c1">#     &quot;time_scan_lo&quot;,</span>
+        <span class="c1">#     "latitude",</span>
+        <span class="c1">#     "longitude",</span>
+        <span class="c1">#     "V19",</span>
+        <span class="c1">#     "H19",</span>
+        <span class="c1">#     "V22",</span>
+        <span class="c1">#     "V37",</span>
+        <span class="c1">#     "H37",</span>
+        <span class="c1">#     "time_scan_lo",</span>
         <span class="c1"># ]</span>
-        <span class="c1"># namelist_85ab = [&quot;latitude&quot;, &quot;longitude&quot;, &quot;V85&quot;, &quot;H85&quot;, &quot;sfcType&quot;, &quot;time&quot;]</span>
+        <span class="c1"># namelist_85ab = ["latitude", "longitude", "V85", "H85", "sfcType", "time"]</span>
 
         <span class="c1"># for LORES channels</span>
         <span class="n">xarray_lores</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">()</span>
-        <span class="n">xarray_lores</span><span class="p">[</span><span class="s2">&quot;latitude&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">lat_lo</span><span class="p">)</span>
-        <span class="n">xarray_lores</span><span class="p">[</span><span class="s2">&quot;longitude&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">lon_lo</span><span class="p">)</span>
-        <span class="n">xarray_lores</span><span class="p">[</span><span class="s2">&quot;V19&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">V19</span><span class="p">)</span>
-        <span class="n">xarray_lores</span><span class="p">[</span><span class="s2">&quot;H19&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">H19</span><span class="p">)</span>
-        <span class="n">xarray_lores</span><span class="p">[</span><span class="s2">&quot;V22&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">V22</span><span class="p">)</span>
-        <span class="n">xarray_lores</span><span class="p">[</span><span class="s2">&quot;V37&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">V37</span><span class="p">)</span>
-        <span class="n">xarray_lores</span><span class="p">[</span><span class="s2">&quot;H37&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">H37</span><span class="p">)</span>
-        <span class="n">xarray_lores</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
+        <span class="n">xarray_lores</span><span class="p">[</span><span class="s2">"latitude"</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">lat_lo</span><span class="p">)</span>
+        <span class="n">xarray_lores</span><span class="p">[</span><span class="s2">"longitude"</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">lon_lo</span><span class="p">)</span>
+        <span class="n">xarray_lores</span><span class="p">[</span><span class="s2">"V19"</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">V19</span><span class="p">)</span>
+        <span class="n">xarray_lores</span><span class="p">[</span><span class="s2">"H19"</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">H19</span><span class="p">)</span>
+        <span class="n">xarray_lores</span><span class="p">[</span><span class="s2">"V22"</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">V22</span><span class="p">)</span>
+        <span class="n">xarray_lores</span><span class="p">[</span><span class="s2">"V37"</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">V37</span><span class="p">)</span>
+        <span class="n">xarray_lores</span><span class="p">[</span><span class="s2">"H37"</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">H37</span><span class="p">)</span>
+        <span class="n">xarray_lores</span><span class="p">[</span><span class="s2">"time"</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
             <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">time_scan_lo</span><span class="p">)</span>
             <span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
-            <span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s2">&quot;%Y%j%H%M&quot;</span><span class="p">)</span>
+            <span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s2">"%Y%j%H%M"</span><span class="p">)</span>
         <span class="p">)</span>
 
         <span class="c1"># for combined 85GHz A-B channels</span>
         <span class="n">xarray_85ab</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">()</span>
-        <span class="n">xarray_85ab</span><span class="p">[</span><span class="s2">&quot;latitude&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">lat_ab</span><span class="p">)</span>
-        <span class="n">xarray_85ab</span><span class="p">[</span><span class="s2">&quot;longitude&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">lon_ab</span><span class="p">)</span>
-        <span class="n">xarray_85ab</span><span class="p">[</span><span class="s2">&quot;V85&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">V85</span><span class="p">)</span>
-        <span class="n">xarray_85ab</span><span class="p">[</span><span class="s2">&quot;H85&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">H85</span><span class="p">)</span>
-        <span class="n">xarray_85ab</span><span class="p">[</span><span class="s2">&quot;sfcType&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">sfcType</span><span class="p">)</span>
-        <span class="n">xarray_85ab</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
-            <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">time_scan</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s2">&quot;%Y%j%H%M&quot;</span><span class="p">)</span>
+        <span class="n">xarray_85ab</span><span class="p">[</span><span class="s2">"latitude"</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">lat_ab</span><span class="p">)</span>
+        <span class="n">xarray_85ab</span><span class="p">[</span><span class="s2">"longitude"</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">lon_ab</span><span class="p">)</span>
+        <span class="n">xarray_85ab</span><span class="p">[</span><span class="s2">"V85"</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">V85</span><span class="p">)</span>
+        <span class="n">xarray_85ab</span><span class="p">[</span><span class="s2">"H85"</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">H85</span><span class="p">)</span>
+        <span class="n">xarray_85ab</span><span class="p">[</span><span class="s2">"sfcType"</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">sfcType</span><span class="p">)</span>
+        <span class="n">xarray_85ab</span><span class="p">[</span><span class="s2">"time"</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
+            <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">time_scan</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s2">"%Y%j%H%M"</span><span class="p">)</span>
         <span class="p">)</span>
 
         <span class="c1"># setup attributes</span>
 
         <span class="c1"># ch:       19   22   37  85    GHz</span>
-        <span class="c1"># FOV_list=[&#39;43&#39;,&#39;40&#39;,&#39;28&#39;,13&#39;]  km</span>
+        <span class="c1"># FOV_list=['43','40','28',13']  km</span>
 
         <span class="c1"># satID string</span>
-        <span class="n">satid</span> <span class="o">=</span> <span class="s2">&quot;F&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">satid0</span><span class="p">)</span>
+        <span class="n">satid</span> <span class="o">=</span> <span class="s2">"F"</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">satid0</span><span class="p">)</span>
 
-        <span class="n">start_time</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">%04d%03d%02d%02d</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">fcyr</span><span class="p">,</span> <span class="n">bjld</span><span class="p">,</span> <span class="n">bhr</span><span class="p">,</span> <span class="n">bmin</span><span class="p">)</span>
-        <span class="n">end_time</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">%04d%03d%02d%02d</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">fcyr</span><span class="p">,</span> <span class="n">ejld</span><span class="p">,</span> <span class="n">ehr</span><span class="p">,</span> <span class="n">emin</span><span class="p">)</span>
+        <span class="n">start_time</span> <span class="o">=</span> <span class="s2">"</span><span class="si">%04d%03d%02d%02d</span><span class="s2">"</span> <span class="o">%</span> <span class="p">(</span><span class="n">fcyr</span><span class="p">,</span> <span class="n">bjld</span><span class="p">,</span> <span class="n">bhr</span><span class="p">,</span> <span class="n">bmin</span><span class="p">)</span>
+        <span class="n">end_time</span> <span class="o">=</span> <span class="s2">"</span><span class="si">%04d%03d%02d%02d</span><span class="s2">"</span> <span class="o">%</span> <span class="p">(</span><span class="n">fcyr</span><span class="p">,</span> <span class="n">ejld</span><span class="p">,</span> <span class="n">ehr</span><span class="p">,</span> <span class="n">emin</span><span class="p">)</span>
 
         <span class="c1"># for LORES</span>
-        <span class="n">xarray_lores</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;start_datetime&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">start_time</span><span class="p">,</span> <span class="s2">&quot;%Y%j%H%M&quot;</span><span class="p">)</span>
-        <span class="n">xarray_lores</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;end_datetime&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">end_time</span><span class="p">,</span> <span class="s2">&quot;%Y%j%H%M&quot;</span><span class="p">)</span>
-        <span class="n">xarray_lores</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;source_name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;ssmi&quot;</span>
-        <span class="n">xarray_lores</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;platform_name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">satid</span>
-        <span class="n">xarray_lores</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;data_provider&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;DMSP&quot;</span>
-        <span class="n">xarray_lores</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;source_file_names&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">fname</span><span class="p">)]</span>
+        <span class="n">xarray_lores</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"start_datetime"</span><span class="p">]</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">start_time</span><span class="p">,</span> <span class="s2">"%Y%j%H%M"</span><span class="p">)</span>
+        <span class="n">xarray_lores</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"end_datetime"</span><span class="p">]</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">end_time</span><span class="p">,</span> <span class="s2">"%Y%j%H%M"</span><span class="p">)</span>
+        <span class="n">xarray_lores</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"source_name"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"ssmi"</span>
+        <span class="n">xarray_lores</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"platform_name"</span><span class="p">]</span> <span class="o">=</span> <span class="n">satid</span>
+        <span class="n">xarray_lores</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"data_provider"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"DMSP"</span>
+        <span class="n">xarray_lores</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"source_file_names"</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">fname</span><span class="p">)]</span>
 
-        <span class="c1"># MTIFs need to be &quot;prettier&quot; for PMW products, so 2km resolution for final</span>
-        <span class="c1"># image xarray_lores.attrs[&#39;sample_distance_km&#39;] = 25</span>
-        <span class="n">xarray_lores</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;sample_distance_km&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">2</span>
-        <span class="n">xarray_lores</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;interpolation_radius_of_influence&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">50000</span>
+        <span class="c1"># MTIFs need to be "prettier" for PMW products, so 2km resolution for final</span>
+        <span class="c1"># image xarray_lores.attrs['sample_distance_km'] = 25</span>
+        <span class="n">xarray_lores</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"sample_distance_km"</span><span class="p">]</span> <span class="o">=</span> <span class="mi">2</span>
+        <span class="n">xarray_lores</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"interpolation_radius_of_influence"</span><span class="p">]</span> <span class="o">=</span> <span class="mi">50000</span>
 
         <span class="c1"># for 85GHz A-B combined</span>
-        <span class="n">xarray_85ab</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;start_datetime&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">start_time</span><span class="p">,</span> <span class="s2">&quot;%Y%j%H%M&quot;</span><span class="p">)</span>
-        <span class="n">xarray_85ab</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;end_datetime&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">end_time</span><span class="p">,</span> <span class="s2">&quot;%Y%j%H%M&quot;</span><span class="p">)</span>
-        <span class="n">xarray_85ab</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;source_file_datetimes&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">xarray_85ab</span><span class="o">.</span><span class="n">start_datetime</span><span class="p">]</span>
-        <span class="n">xarray_85ab</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;source_name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;ssmi&quot;</span>
-        <span class="n">xarray_85ab</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;platform_name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">satid</span>
-        <span class="n">xarray_85ab</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;data_provider&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;DMSP&quot;</span>
-        <span class="n">xarray_85ab</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;source_file_names&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">fname</span><span class="p">)]</span>
+        <span class="n">xarray_85ab</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"start_datetime"</span><span class="p">]</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">start_time</span><span class="p">,</span> <span class="s2">"%Y%j%H%M"</span><span class="p">)</span>
+        <span class="n">xarray_85ab</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"end_datetime"</span><span class="p">]</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">end_time</span><span class="p">,</span> <span class="s2">"%Y%j%H%M"</span><span class="p">)</span>
+        <span class="n">xarray_85ab</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"source_file_datetimes"</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">xarray_85ab</span><span class="o">.</span><span class="n">start_datetime</span><span class="p">]</span>
+        <span class="n">xarray_85ab</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"source_name"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"ssmi"</span>
+        <span class="n">xarray_85ab</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"platform_name"</span><span class="p">]</span> <span class="o">=</span> <span class="n">satid</span>
+        <span class="n">xarray_85ab</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"data_provider"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"DMSP"</span>
+        <span class="n">xarray_85ab</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"source_file_names"</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">fname</span><span class="p">)]</span>
 
-        <span class="c1"># MTIFs need to be &quot;prettier&quot; for PMW products, so 2km resolution for final</span>
-        <span class="c1"># image xarray_85ab.attrs[&#39;sample_distance_km&#39;] = 13</span>
-        <span class="n">xarray_85ab</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;sample_distance_km&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">2</span>
-        <span class="n">xarray_85ab</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;interpolation_radius_of_influence&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">15000</span>
+        <span class="c1"># MTIFs need to be "prettier" for PMW products, so 2km resolution for final</span>
+        <span class="c1"># image xarray_85ab.attrs['sample_distance_km'] = 13</span>
+        <span class="n">xarray_85ab</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"sample_distance_km"</span><span class="p">]</span> <span class="o">=</span> <span class="mi">2</span>
+        <span class="n">xarray_85ab</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"interpolation_radius_of_influence"</span><span class="p">]</span> <span class="o">=</span> <span class="mi">15000</span>
 
-        <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;  Start time </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">start_time</span><span class="p">)</span>
-        <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;  End time </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">end_time</span><span class="p">)</span>
-        <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;  Min lat </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">lat_ab</span><span class="o">.</span><span class="n">min</span><span class="p">())</span>
-        <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;  Max lat </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">lat_ab</span><span class="o">.</span><span class="n">max</span><span class="p">())</span>
+        <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"  Start time </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="n">start_time</span><span class="p">)</span>
+        <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"  End time </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="n">end_time</span><span class="p">)</span>
+        <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"  Min lat </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="n">lat_ab</span><span class="o">.</span><span class="n">min</span><span class="p">())</span>
+        <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"  Max lat </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="n">lat_ab</span><span class="o">.</span><span class="n">max</span><span class="p">())</span>
 
         <span class="k">return</span> <span class="p">{</span>
-            <span class="s2">&quot;HIRES&quot;</span><span class="p">:</span> <span class="n">xarray_85ab</span><span class="p">,</span>
-            <span class="s2">&quot;LORES&quot;</span><span class="p">:</span> <span class="n">xarray_lores</span><span class="p">,</span>
-            <span class="s2">&quot;METADATA&quot;</span><span class="p">:</span> <span class="n">xarray_85ab</span><span class="p">[[]],</span>
+            <span class="s2">"HIRES"</span><span class="p">:</span> <span class="n">xarray_85ab</span><span class="p">,</span>
+            <span class="s2">"LORES"</span><span class="p">:</span> <span class="n">xarray_lores</span><span class="p">,</span>
+            <span class="s2">"METADATA"</span><span class="p">:</span> <span class="n">xarray_85ab</span><span class="p">[[]],</span>
         <span class="p">}</span></div></div>
 
 

@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>geoips.sector_utils.yaml_utils &#8212; GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation</title>
+    <title>geoips.sector_utils.yaml_utils &#8212; GeoIPS, Geolocated Information Processing System 0.0.0 documentation</title>
   
   
   
@@ -40,7 +40,7 @@
   <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
 
-    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=6727bded"></script>
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=525cde36"></script>
     <script src="../../../_static/doctools.js?v=888ff710"></script>
     <script src="../../../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
@@ -401,14 +401,21 @@ mermaid.initialize(
 window.addEventListener("load", load);
 window.runMermaid = runMermaid;</script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_modules/geoips/sector_utils/yaml_utils';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.17.1';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://nrlmmd-geoips.github.io/geoips/versions.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = 'dev';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner =
+            false;
+        </script>
     <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
     <link rel="icon" href="../../../_static/nrlicon.ico"/>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2.0" />
-    <meta name="docbuild:last-update" content="Jul 23, 2026 17:03:57"/>
+  <meta name="docsearch:version" content="0.0" />
+    <meta name="docbuild:last-update" content="Aug 31, 2026 13:32:18"/>
   
     
     <script src="../../../_static/searchtools.js"></script>
@@ -480,11 +487,31 @@ window.runMermaid = runMermaid;</script>
       
     
     
-    <img src="../../../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation - Home"/>
-    <img src="../../../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation - Home"/>
+    <img src="../../../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 0.0.0 documentation - Home"/>
+    <img src="../../../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 0.0.0 documentation - Home"/>
   
   
 </a></div>
+    
+      <div class="navbar-item">
+<div class="version-switcher__container dropdown pst-js-only">
+  <button id="pst-version-switcher-button-2"
+    type="button"
+    class="version-switcher__button btn btn-sm dropdown-toggle"
+    data-bs-toggle="dropdown"
+    aria-haspopup="listbox"
+    aria-controls="pst-version-switcher-list-2"
+    aria-label="Version switcher list"
+  >
+    Choose version  <!-- this text may get changed later by javascript -->
+    <span class="caret"></span>
+  </button>
+  <div id="pst-version-switcher-list-2"
+    class="version-switcher__menu dropdown-menu list-group-flush py-0"
+    role="listbox" aria-labelledby="pst-version-switcher-button-2">
+    <!-- dropdown will be populated by javascript on page load -->
+  </div>
+</div></div>
     
   </div>
   
@@ -828,7 +855,7 @@ window.runMermaid = runMermaid;</script>
 <span></span><span class="c1"># # # This source code is subject to the license referenced at</span>
 <span class="c1"># # # https://github.com/NRLMMD-GEOIPS.</span>
 
-<span class="sd">&quot;&quot;&quot;Utilities for working with YAML sector specifications.&quot;&quot;&quot;</span>
+<span class="sd">"""Utilities for working with YAML sector specifications."""</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
@@ -843,7 +870,7 @@ window.runMermaid = runMermaid;</script>
 <span class="c1"># explicitly registers custom representers to convert numpy types to standard Python</span>
 <span class="c1"># types for YAML serialization.</span>
 <div class="viewcode-block" id="numpy_representer"><a class="viewcode-back" href="../../../geoips_api/geoips.sector_utils.html#geoips.sector_utils.yaml_utils.numpy_representer">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">numpy_representer</span><span class="p">(</span><span class="n">dumper</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert NumPy scalar types to native Python types.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Convert NumPy scalar types to native Python types."""</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)):</span>
         <span class="k">return</span> <span class="n">dumper</span><span class="o">.</span><span class="n">represent_float</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">data</span><span class="p">))</span>
     <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">int64</span><span class="p">)):</span>
@@ -864,7 +891,7 @@ window.runMermaid = runMermaid;</script>
 
 
 <div class="viewcode-block" id="area_def_to_yamldict"><a class="viewcode-back" href="../../../geoips_api/geoips.sector_utils.html#geoips.sector_utils.yaml_utils.area_def_to_yamldict">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">area_def_to_yamldict</span><span class="p">(</span><span class="n">area_def</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert passed pyresample AreaDefinition to a valid YAML dictionary.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Convert passed pyresample AreaDefinition to a valid YAML dictionary."""</span>
     <span class="n">yamldict</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="n">sectorname</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">area_def</span><span class="o">.</span><span class="n">area_id</span><span class="p">)</span>
     <span class="n">yamldict</span><span class="p">[</span><span class="n">sectorname</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
@@ -880,14 +907,14 @@ window.runMermaid = runMermaid;</script>
     <span class="p">)</span>
 
     <span class="c1"># The section below was commented out as it is not used by GeoIPS at this time, and</span>
-    <span class="c1"># the function didn&#39;t work since it included errors. 9/27/23</span>
+    <span class="c1"># the function didn't work since it included errors. 9/27/23</span>
 
     <span class="c1"># yamldict = add_projection_to_yamldict(</span>
     <span class="c1">#     yamldict,</span>
     <span class="c1">#     sectorname,</span>
-    <span class="c1">#     area_def.proj_dict[&quot;proj&quot;],</span>
-    <span class="c1">#     area_def.proj_dict[&quot;lat_0&quot;],</span>
-    <span class="c1">#     area_def.proj_dict[&quot;lon_0&quot;],</span>
+    <span class="c1">#     area_def.proj_dict["proj"],</span>
+    <span class="c1">#     area_def.proj_dict["lat_0"],</span>
+    <span class="c1">#     area_def.proj_dict["lon_0"],</span>
     <span class="c1">#     center_x=0,</span>
     <span class="c1">#     center_y=0,</span>
     <span class="c1">#     pix_x=area_def.width,</span>
@@ -899,13 +926,13 @@ window.runMermaid = runMermaid;</script>
 
 
 <div class="viewcode-block" id="area_def_to_yamlfile"><a class="viewcode-back" href="../../../geoips_api/geoips.sector_utils.html#geoips.sector_utils.yaml_utils.area_def_to_yamlfile">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">area_def_to_yamlfile</span><span class="p">(</span><span class="n">area_def</span><span class="p">,</span> <span class="n">out_fname</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Write pyresample AreaDefinition out as a valid YAML dictionary.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Write pyresample AreaDefinition out as a valid YAML dictionary."""</span>
     <span class="n">yamldict</span> <span class="o">=</span> <span class="n">area_def_to_yamldict</span><span class="p">(</span><span class="n">area_def</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">write_yamldict</span><span class="p">(</span><span class="n">yamldict</span><span class="p">,</span> <span class="n">out_fname</span><span class="o">=</span><span class="n">out_fname</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="write_yamldict"><a class="viewcode-back" href="../../../geoips_api/geoips.sector_utils.html#geoips.sector_utils.yaml_utils.write_yamldict">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">write_yamldict</span><span class="p">(</span><span class="n">yamldict</span><span class="p">,</span> <span class="n">out_fname</span><span class="p">,</span> <span class="n">force</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">replace_geoips_paths</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Write yamldict to out_fname.</span>
+<span class="w">    </span><span class="sd">"""Write yamldict to out_fname.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -922,26 +949,26 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">    -------</span>
 <span class="sd">    str</span>
 <span class="sd">        Path to output file if successfully produced</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">geoips.filenames.base_paths</span><span class="w"> </span><span class="kn">import</span> <span class="n">make_dirs</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">geoips.geoips_utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">replace_geoips_paths_in_dict</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">os.path</span><span class="w"> </span><span class="kn">import</span> <span class="n">dirname</span><span class="p">,</span> <span class="n">exists</span>
 
     <span class="k">if</span> <span class="n">replace_geoips_paths</span><span class="p">:</span>
         <span class="n">dump_yamldict</span> <span class="o">=</span> <span class="n">replace_geoips_paths_in_dict</span><span class="p">(</span><span class="n">yamldict</span><span class="p">)</span>
-    <span class="c1"># If we aren&#39;t replacing the geoips paths, just use the original yaml dict.</span>
+    <span class="c1"># If we aren't replacing the geoips paths, just use the original yaml dict.</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">dump_yamldict</span> <span class="o">=</span> <span class="n">yamldict</span>
 
     <span class="n">make_dirs</span><span class="p">(</span><span class="n">dirname</span><span class="p">(</span><span class="n">out_fname</span><span class="p">))</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">exists</span><span class="p">(</span><span class="n">out_fname</span><span class="p">)</span> <span class="ow">or</span> <span class="n">force</span><span class="p">:</span>
-        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">out_fname</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fobj</span><span class="p">:</span>
-            <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;SUCCESS Writing out yaml file </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">out_fname</span><span class="p">)</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">out_fname</span><span class="p">,</span> <span class="s2">"w"</span><span class="p">)</span> <span class="k">as</span> <span class="n">fobj</span><span class="p">:</span>
+            <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"SUCCESS Writing out yaml file </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="n">out_fname</span><span class="p">)</span>
             <span class="n">yaml</span><span class="o">.</span><span class="n">safe_dump</span><span class="p">(</span><span class="n">dump_yamldict</span><span class="p">,</span> <span class="n">fobj</span><span class="p">,</span> <span class="n">default_flow_style</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
             <span class="k">return</span> <span class="p">[</span><span class="n">out_fname</span><span class="p">]</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
-            <span class="s2">&quot;SKIPPING </span><span class="si">%s</span><span class="s2"> already exists, delete it if you need to recreate&quot;</span><span class="p">,</span> <span class="n">out_fname</span>
+            <span class="s2">"SKIPPING </span><span class="si">%s</span><span class="s2"> already exists, delete it if you need to recreate"</span><span class="p">,</span> <span class="n">out_fname</span>
         <span class="p">)</span>
         <span class="k">return</span> <span class="p">[]</span></div>
 
@@ -949,42 +976,42 @@ window.runMermaid = runMermaid;</script>
 <div class="viewcode-block" id="add_dynamic_datetime_to_yamldict"><a class="viewcode-back" href="../../../geoips_api/geoips.sector_utils.html#geoips.sector_utils.yaml_utils.add_dynamic_datetime_to_yamldict">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">add_dynamic_datetime_to_yamldict</span><span class="p">(</span>
     <span class="n">yaml_dict</span><span class="p">,</span> <span class="n">sectorname</span><span class="p">,</span> <span class="n">sector_start_datetime</span><span class="p">,</span> <span class="n">sector_end_datetime</span>
 <span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Add passed dynamic datetime info to passed YAML dictionary.&quot;&quot;&quot;</span>
-    <span class="n">yaml_dict</span><span class="p">[</span><span class="n">sectorname</span><span class="p">][</span><span class="s2">&quot;sector_start_datetime&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">sector_start_datetime</span>
-    <span class="n">yaml_dict</span><span class="p">[</span><span class="n">sectorname</span><span class="p">][</span><span class="s2">&quot;sector_end_datetime&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">sector_end_datetime</span>
+<span class="w">    </span><span class="sd">"""Add passed dynamic datetime info to passed YAML dictionary."""</span>
+    <span class="n">yaml_dict</span><span class="p">[</span><span class="n">sectorname</span><span class="p">][</span><span class="s2">"sector_start_datetime"</span><span class="p">]</span> <span class="o">=</span> <span class="n">sector_start_datetime</span>
+    <span class="n">yaml_dict</span><span class="p">[</span><span class="n">sectorname</span><span class="p">][</span><span class="s2">"sector_end_datetime"</span><span class="p">]</span> <span class="o">=</span> <span class="n">sector_end_datetime</span>
     <span class="k">return</span> <span class="n">yaml_dict</span></div>
 
 
 <div class="viewcode-block" id="add_description_to_yamldict"><a class="viewcode-back" href="../../../geoips_api/geoips.sector_utils.html#geoips.sector_utils.yaml_utils.add_description_to_yamldict">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">add_description_to_yamldict</span><span class="p">(</span>
     <span class="n">yaml_dict</span><span class="p">,</span> <span class="n">sectorname</span><span class="p">,</span> <span class="n">sector_type</span><span class="p">,</span> <span class="n">sector_start_datetime</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">info_dict</span><span class="o">=</span><span class="kc">None</span>
 <span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Add passed sector description information to passed YAML dictionary.&quot;&quot;&quot;</span>
-    <span class="n">yaml_dict</span><span class="p">[</span><span class="n">sectorname</span><span class="p">][</span><span class="s2">&quot;sector_type&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">sector_type</span>
-    <span class="k">if</span> <span class="n">sector_type</span> <span class="o">==</span> <span class="s2">&quot;static&quot;</span><span class="p">:</span>
-        <span class="n">yaml_dict</span><span class="p">[</span><span class="n">sectorname</span><span class="p">][</span><span class="s2">&quot;description&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">sectorname</span>
-    <span class="k">if</span> <span class="n">sector_type</span> <span class="o">==</span> <span class="s2">&quot;tc&quot;</span><span class="p">:</span>
-        <span class="n">yaml_dict</span><span class="p">[</span><span class="n">sectorname</span><span class="p">][</span><span class="s2">&quot;sector_type&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">sector_type</span>
-        <span class="n">yaml_dict</span><span class="p">[</span><span class="n">sectorname</span><span class="p">][</span><span class="s2">&quot;description&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;TC</span><span class="si">{0}</span><span class="s2"> </span><span class="si">{1}{2}</span><span class="s2"> </span><span class="si">{3}</span><span class="s2"> </span><span class="si">{4}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-            <span class="n">info_dict</span><span class="p">[</span><span class="s2">&quot;storm_year&quot;</span><span class="p">],</span>
-            <span class="n">info_dict</span><span class="p">[</span><span class="s2">&quot;storm_basin&quot;</span><span class="p">],</span>
-            <span class="n">info_dict</span><span class="p">[</span><span class="s2">&quot;storm_num&quot;</span><span class="p">],</span>
-            <span class="n">info_dict</span><span class="p">[</span><span class="s2">&quot;storm_name&quot;</span><span class="p">],</span>
-            <span class="nb">str</span><span class="p">(</span><span class="n">info_dict</span><span class="p">[</span><span class="s2">&quot;synoptic_time&quot;</span><span class="p">]),</span>
+<span class="w">    </span><span class="sd">"""Add passed sector description information to passed YAML dictionary."""</span>
+    <span class="n">yaml_dict</span><span class="p">[</span><span class="n">sectorname</span><span class="p">][</span><span class="s2">"sector_type"</span><span class="p">]</span> <span class="o">=</span> <span class="n">sector_type</span>
+    <span class="k">if</span> <span class="n">sector_type</span> <span class="o">==</span> <span class="s2">"static"</span><span class="p">:</span>
+        <span class="n">yaml_dict</span><span class="p">[</span><span class="n">sectorname</span><span class="p">][</span><span class="s2">"description"</span><span class="p">]</span> <span class="o">=</span> <span class="n">sectorname</span>
+    <span class="k">if</span> <span class="n">sector_type</span> <span class="o">==</span> <span class="s2">"tc"</span><span class="p">:</span>
+        <span class="n">yaml_dict</span><span class="p">[</span><span class="n">sectorname</span><span class="p">][</span><span class="s2">"sector_type"</span><span class="p">]</span> <span class="o">=</span> <span class="n">sector_type</span>
+        <span class="n">yaml_dict</span><span class="p">[</span><span class="n">sectorname</span><span class="p">][</span><span class="s2">"description"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"TC</span><span class="si">{0}</span><span class="s2"> </span><span class="si">{1}{2}</span><span class="s2"> </span><span class="si">{3}</span><span class="s2"> </span><span class="si">{4}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+            <span class="n">info_dict</span><span class="p">[</span><span class="s2">"storm_year"</span><span class="p">],</span>
+            <span class="n">info_dict</span><span class="p">[</span><span class="s2">"storm_basin"</span><span class="p">],</span>
+            <span class="n">info_dict</span><span class="p">[</span><span class="s2">"storm_num"</span><span class="p">],</span>
+            <span class="n">info_dict</span><span class="p">[</span><span class="s2">"storm_name"</span><span class="p">],</span>
+            <span class="nb">str</span><span class="p">(</span><span class="n">info_dict</span><span class="p">[</span><span class="s2">"synoptic_time"</span><span class="p">]),</span>
         <span class="p">)</span>
-    <span class="k">if</span> <span class="n">sector_type</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;pyrocb&quot;</span><span class="p">,</span> <span class="s2">&quot;atmosriver&quot;</span><span class="p">,</span> <span class="s2">&quot;volcano&quot;</span><span class="p">]:</span>
+    <span class="k">if</span> <span class="n">sector_type</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">"pyrocb"</span><span class="p">,</span> <span class="s2">"atmosriver"</span><span class="p">,</span> <span class="s2">"volcano"</span><span class="p">]:</span>
         <span class="n">sector_start_datetime_str</span> <span class="o">=</span> <span class="n">yaml_dict</span><span class="p">[</span><span class="n">sectorname</span><span class="p">][</span>
-            <span class="s2">&quot;sector_start_datetime&quot;</span>
-        <span class="p">]</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y%m</span><span class="si">%d</span><span class="s2">T%HZ&quot;</span><span class="p">)</span>
-        <span class="n">yaml_dict</span><span class="p">[</span><span class="n">sectorname</span><span class="p">][</span><span class="s2">&quot;sector_type&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">sector_type</span>
-        <span class="n">yaml_dict</span><span class="p">[</span><span class="n">sectorname</span><span class="p">][</span><span class="s2">&quot;description&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{0}</span><span class="s2"> at </span><span class="si">{1}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+            <span class="s2">"sector_start_datetime"</span>
+        <span class="p">]</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">"%Y%m</span><span class="si">%d</span><span class="s2">T%HZ"</span><span class="p">)</span>
+        <span class="n">yaml_dict</span><span class="p">[</span><span class="n">sectorname</span><span class="p">][</span><span class="s2">"sector_type"</span><span class="p">]</span> <span class="o">=</span> <span class="n">sector_type</span>
+        <span class="n">yaml_dict</span><span class="p">[</span><span class="n">sectorname</span><span class="p">][</span><span class="s2">"description"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"</span><span class="si">{0}</span><span class="s2"> at </span><span class="si">{1}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
             <span class="n">sectorname</span><span class="p">,</span> <span class="n">sector_start_datetime_str</span>
         <span class="p">)</span>
     <span class="k">return</span> <span class="n">yaml_dict</span></div>
 
 
 <div class="viewcode-block" id="add_sectorinfo_to_yamldict"><a class="viewcode-back" href="../../../geoips_api/geoips.sector_utils.html#geoips.sector_utils.yaml_utils.add_sectorinfo_to_yamldict">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">add_sectorinfo_to_yamldict</span><span class="p">(</span><span class="n">yaml_dict</span><span class="p">,</span> <span class="n">sectorname</span><span class="p">,</span> <span class="n">sector_info_dict</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Add sector_info dictionary to YAML dictionary.&quot;&quot;&quot;</span>
-    <span class="n">yaml_dict</span><span class="p">[</span><span class="n">sectorname</span><span class="p">][</span><span class="s2">&quot;sector_info&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">sector_info_dict</span>
+<span class="w">    </span><span class="sd">"""Add sector_info dictionary to YAML dictionary."""</span>
+    <span class="n">yaml_dict</span><span class="p">[</span><span class="n">sectorname</span><span class="p">][</span><span class="s2">"sector_info"</span><span class="p">]</span> <span class="o">=</span> <span class="n">sector_info_dict</span>
     <span class="k">return</span> <span class="n">yaml_dict</span></div>
 
 
@@ -1000,28 +1027,28 @@ window.runMermaid = runMermaid;</script>
 <span class="c1">#     center_y=0,</span>
 <span class="c1">#     template_yaml=None,</span>
 <span class="c1"># ):</span>
-<span class="c1">#     &quot;&quot;&quot;Add projection information to YAML dictionary.&quot;&quot;&quot;</span>
-<span class="c1">#     LOG.info(&quot;add_projection_to_yamldict - update to template_yaml&quot;)</span>
+<span class="c1">#     """Add projection information to YAML dictionary."""</span>
+<span class="c1">#     LOG.info("add_projection_to_yamldict - update to template_yaml")</span>
 
-<span class="c1">#     yaml_dict[sectorname][&quot;projection&quot;] = {}</span>
-<span class="c1">#     yaml_dict[sectorname][&quot;projection&quot;][&quot;proj&quot;] = proj</span>
-<span class="c1">#     yaml_dict[sectorname][&quot;projection&quot;][&quot;a&quot;] = 6371228.0</span>
-<span class="c1">#     yaml_dict[sectorname][&quot;projection&quot;][&quot;units&quot;] = &quot;m&quot;</span>
-<span class="c1">#     yaml_dict[sectorname][&quot;projection&quot;][&quot;lat_0&quot;] = center_lat</span>
-<span class="c1">#     yaml_dict[sectorname][&quot;projection&quot;][&quot;lon_0&quot;] = center_lon</span>
-<span class="c1">#     yaml_dict[sectorname][&quot;center&quot;] = [center_x, center_y]</span>
-<span class="c1">#     yaml_dict[sectorname][&quot;resolution&quot;] = [pix_width_m, pix_height_m]</span>
-<span class="c1">#     # yaml_dict[sectorname][&#39;shape&#39;] = [pix_x, pix_y]</span>
-<span class="c1">#     yaml_dict[sectorname][&quot;shape&quot;] = {}</span>
-<span class="c1">#     yaml_dict[sectorname][&quot;shape&quot;][&quot;width&quot;] = pix_x</span>
-<span class="c1">#     yaml_dict[sectorname][&quot;shape&quot;][&quot;height&quot;] = pix_y</span>
+<span class="c1">#     yaml_dict[sectorname]["projection"] = {}</span>
+<span class="c1">#     yaml_dict[sectorname]["projection"]["proj"] = proj</span>
+<span class="c1">#     yaml_dict[sectorname]["projection"]["a"] = 6371228.0</span>
+<span class="c1">#     yaml_dict[sectorname]["projection"]["units"] = "m"</span>
+<span class="c1">#     yaml_dict[sectorname]["projection"]["lat_0"] = center_lat</span>
+<span class="c1">#     yaml_dict[sectorname]["projection"]["lon_0"] = center_lon</span>
+<span class="c1">#     yaml_dict[sectorname]["center"] = [center_x, center_y]</span>
+<span class="c1">#     yaml_dict[sectorname]["resolution"] = [pix_width_m, pix_height_m]</span>
+<span class="c1">#     # yaml_dict[sectorname]['shape'] = [pix_x, pix_y]</span>
+<span class="c1">#     yaml_dict[sectorname]["shape"] = {}</span>
+<span class="c1">#     yaml_dict[sectorname]["shape"]["width"] = pix_x</span>
+<span class="c1">#     yaml_dict[sectorname]["shape"]["height"] = pix_y</span>
 <span class="c1">#     # This only works because it is square!!</span>
-<span class="c1">#     yaml_dict[sectorname][&quot;area_extent&quot;] = {</span>
-<span class="c1">#         &quot;lower_left_xy&quot;: [</span>
+<span class="c1">#     yaml_dict[sectorname]["area_extent"] = {</span>
+<span class="c1">#         "lower_left_xy": [</span>
 <span class="c1">#             center_x - (pix_x * pix_width_m / 2),</span>
 <span class="c1">#             center_y - (pix_y * pix_height_m / 2),</span>
 <span class="c1">#         ],</span>
-<span class="c1">#         &quot;upper_right_xy&quot;: [</span>
+<span class="c1">#         "upper_right_xy": [</span>
 <span class="c1">#             center_x + (pix_x * pix_width_m / 2),</span>
 <span class="c1">#             center_y + (pix_y * pix_height_m / 2),</span>
 <span class="c1">#         ],</span>

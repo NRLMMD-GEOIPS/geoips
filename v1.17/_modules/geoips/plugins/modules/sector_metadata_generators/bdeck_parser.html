@@ -1,0 +1,1360 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../../../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>geoips.plugins.modules.sector_metadata_generators.bdeck_parser &#8212; GeoIPS, Geolocated Information Processing System 1.17.2 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../../../_static/styles/theme.css?digest=cb8930eaaf36d9849b67" rel="stylesheet" />
+<link href="../../../../../_static/styles/pydata-sphinx-theme.css?digest=cb8930eaaf36d9849b67" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/set_width.css?v=d4af5e1e" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../../../../../_static/scripts/fontawesome.js?digest=cb8930eaaf36d9849b67"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../../../_static/scripts/bootstrap.js?digest=cb8930eaaf36d9849b67" />
+<link rel="preload" as="script" href="../../../../../_static/scripts/pydata-sphinx-theme.js?digest=cb8930eaaf36d9849b67" />
+
+    <script src="../../../../../_static/documentation_options.js?v=00ff4e64"></script>
+    <script src="../../../../../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../../../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../../../../../_static/design-tabs.js?v=f930bc37"></script>
+    <script type="module">import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.12.1/dist/mermaid.esm.min.mjs";
+
+
+
+const initStyles = () => {
+    const defaultStyle = document.createElement('style');
+    defaultStyle.textContent = "pre.mermaid {\n    /* Same as .mermaid-container > pre */\n    display: block;\n    width: 100%;\n}\n\npre.mermaid > svg {\n    /* Same as .mermaid-container > pre > svg */\n    height: 500px;\n    width: 100%;\n    max-width: 100% !important;\n}";
+    document.head.appendChild(defaultStyle);
+
+    const fullscreenStyle = document.createElement('style');
+    fullscreenStyle.textContent = ".mermaid-container {\n    position: relative;\n    display: flex;\n    flex-direction: row;\n    width: 100%;\n}\n\n.mermaid-container > pre {\n    display: block;\n    width: 100%;\n}\n\n.mermaid-container > pre > svg {\n    height: 500px;\n    width: 100%;\n    max-width: 100% !important;\n}\n\n.mermaid-fullscreen-btn {\n    position: absolute;\n    width: 28px;\n    height: 28px;\n    background: rgba(255, 255, 255, 0.95);\n    border: 1px solid rgba(0, 0, 0, 0.3);\n    border-radius: 4px;\n    cursor: pointer;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n    transition: all 0.2s;\n    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);\n    font-size: 14px;\n    line-height: 1;\n    padding: 0;\n    color: #333;\n}\n\n.mermaid-fullscreen-btn:hover {\n    opacity: 100% !important;\n    background: rgba(255, 255, 255, 1);\n    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);\n    transform: scale(1.1);\n}\n\n.mermaid-fullscreen-btn.dark-theme {\n    background: rgba(50, 50, 50, 0.95);\n    border: 1px solid rgba(255, 255, 255, 0.3);\n    color: #e0e0e0;\n}\n\n.mermaid-fullscreen-btn.dark-theme:hover {\n    background: rgba(60, 60, 60, 1);\n    box-shadow: 0 3px 10px rgba(255, 255, 255, 0.2);\n}\n\n.mermaid-fullscreen-modal {\n    display: none;\n    position: fixed !important;\n    top: 0 !important;\n    left: 0 !important;\n    width: 95vw;\n    height: 100vh;\n    background: rgba(255, 255, 255, 0.98);\n    z-index: 9999;\n    padding: 20px;\n    overflow: auto;\n}\n\n.mermaid-fullscreen-modal.dark-theme {\n    background: rgba(0, 0, 0, 0.98);\n}\n\n.mermaid-fullscreen-modal.active {\n    display: flex;\n    align-items: center;\n    justify-content: center;\n}\n\n.mermaid-container-fullscreen {\n    position: relative;\n    width: 95vw;\n    height: 90vh;\n    max-width: 95vw;\n    max-height: 90vh;\n    background: white;\n    border-radius: 8px;\n    padding: 20px;\n    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);\n    overflow: auto;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n}\n\n.mermaid-container-fullscreen.dark-theme {\n    background: #1a1a1a;\n    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8);\n}\n\n.mermaid-container-fullscreen pre.mermaid {\n    width: 100%;\n    height: 100%;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n}\n\n.mermaid-container-fullscreen .mermaid svg {\n    height: 100% !important;\n    width: 100% !important;\n    cursor: grab;\n}\n\n.mermaid-fullscreen-close {\n    position: fixed !important;\n    top: 20px !important;\n    right: 20px !important;\n    width: 40px;\n    height: 40px;\n    background: rgba(255, 255, 255, 0.95);\n    border: 1px solid rgba(0, 0, 0, 0.2);\n    border-radius: 50%;\n    cursor: pointer;\n    z-index: 10000;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);\n    transition: all 0.2s;\n    font-size: 24px;\n    line-height: 1;\n    color: #333;\n}\n\n.mermaid-fullscreen-close:hover {\n    background: white;\n    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);\n    transform: scale(1.1);\n}\n\n.mermaid-fullscreen-close.dark-theme {\n    background: rgba(50, 50, 50, 0.95);\n    border: 1px solid rgba(255, 255, 255, 0.2);\n    color: #e0e0e0;\n}\n\n.mermaid-fullscreen-close.dark-theme:hover {\n    background: rgba(60, 60, 60, 1);\n    box-shadow: 0 6px 16px rgba(255, 255, 255, 0.2);\n}\n\n.mermaid-fullscreen-modal .mermaid-fullscreen-btn {\n    display: none !important;\n}";
+    document.head.appendChild(fullscreenStyle);
+}
+
+// Detect if page has dark background
+const isDarkTheme = () => {
+    // We use a set of heuristics:
+    // 1. Check for common dark mode classes or attributes
+    // 2. Check computed background color brightness
+    if (document.documentElement.classList.contains('dark') ||
+        document.documentElement.getAttribute('data-theme') === 'dark' ||
+        document.body.classList.contains('dark') ||
+        document.body.getAttribute('data-theme') === 'dark') {
+        // console.log("Dark theme detected via class/attribute");
+        return true;
+    }
+    if (document.documentElement.classList.contains('light') ||
+        document.documentElement.getAttribute('data-theme') === 'light' ||
+        document.body.classList.contains('light') ||
+        document.body.getAttribute('data-theme') === 'light') {
+        // console.log("Light theme detected via class/attribute");
+        return false;
+    }
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        // console.log("Dark theme detected via prefers-color-scheme");
+        return true;
+    }
+    const bgColor = window.getComputedStyle(document.body).backgroundColor;
+    const match = bgColor.match(/rgb\((\d+),\s*(\d+),\s*(\d+)/);
+    if (match) {
+        const r = parseInt(match[1]);
+        const g = parseInt(match[2]);
+        const b = parseInt(match[3]);
+        const brightness = (r * 299 + g * 587 + b * 114) / 1000;
+        // console.log("Background color brightness:", brightness);
+        return brightness < 128;
+    }
+    // console.log("No dark or light theme detected, defaulting to light theme");
+    return false;
+};
+
+let darkTheme = isDarkTheme();
+let modal = null;
+let modalContent = null;
+let previousScrollOffset = [window.scrollX, window.scrollY];
+let _lazyObserver = null;
+let _renderQueue = Promise.resolve();
+let closeModal = () => {};
+
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && modal?.classList.contains('active')) {
+        closeModal();
+    }
+});
+
+// Apply d3 zoom to each SVG. Idempotent: an SVG already wrapped is skipped,
+// so this is safe to call both for the initial batch and for diagrams that
+// render lazily once they become visible.
+const addZoomToSvgs = (svgs) => {
+    svgs.each(function() {
+        if (this.getAttribute('data-zoom-applied') === 'true') return;
+        var svg = d3.select(this);
+        svg.html("<g class='wrapper'>" + svg.html() + "</g>");
+        var inner = svg.select("g");
+        var zoom = d3.zoom().on("zoom", function(event) {
+            inner.attr("transform", event.transform);
+        });
+        svg.call(zoom);
+        this.setAttribute('data-zoom-applied', 'true');
+    });
+};
+
+const runMermaid = async (rerun) => {
+    console.log("Running mermaid diagrams, rerun =", rerun);
+    // clear all existing mermaid charts
+    let all_mermaids = document.querySelectorAll(".mermaid");
+
+    if (rerun) {
+        // Disconnect any previous lazy rendering observer
+        if (_lazyObserver) {
+            _lazyObserver.disconnect();
+            _lazyObserver = null;
+        }
+
+        all_mermaids.forEach((el) => {
+            el.removeAttribute('data-mermaid-deferred');
+            el.removeAttribute('data-mermaid-render-failed');
+            if(!el.hasAttribute("data-original-code")) {
+                // store original code
+                // console.log(`Storing original code for first run: `, el.innerHTML);
+                el.setAttribute('data-original-code', el.innerHTML);
+            }
+            if(el.getAttribute("data-processed") === "true") {
+                // remove and restore original
+                el.removeAttribute("data-processed");
+                // console.log(`Restoring original code for re-run: `, el.getAttribute('data-original-code'));
+                el.innerHTML = el.getAttribute('data-original-code');
+            } else {
+                // store original code
+                // console.log(`Storing original code for re-run: `, el.innerHTML);
+                el.setAttribute('data-original-code', el.innerHTML);
+            }
+        });
+
+        // Separate visible and hidden elements. Mermaid's layout engine measures
+        // text dimensions via the DOM, which fails for elements hidden by a parent
+        // (e.g., Reveal.js non-active slides, sphinx-design unopened tabs),
+        // producing broken SVGs. Render visible elements now, defer hidden ones.
+        const visible = [];
+        const hidden = [];
+        all_mermaids.forEach((el) => {
+            // offsetParent is null for display:none ancestors.
+            // getClientRects().length > 0 catches position:fixed elements
+            // (which also have null offsetParent but are still visible).
+            if (el.offsetParent !== null || el.getClientRects().length > 0) {
+                visible.push(el);
+            } else {
+                hidden.push(el);
+                el.setAttribute('data-mermaid-deferred', 'true');
+            }
+        });
+
+        if (visible.length > 0) {
+            try {
+                await mermaid.run({ nodes: visible });
+            } catch (e) {
+                console.error("Mermaid rendering failed:", e);
+            }
+        }
+
+        // Lazily render hidden elements when they become visible.
+        // Uses a promise chain (_renderQueue) to serialize rendering,
+        // since IntersectionObserver may report multiple entries at once
+        // and mermaid.run() is not safe to call concurrently.
+        if (hidden.length > 0) {
+            if (typeof IntersectionObserver === 'undefined') {
+                console.warn("IntersectionObserver not available; hidden mermaid diagrams will not render.");
+            } else {
+                _renderQueue = Promise.resolve();
+                _lazyObserver = new IntersectionObserver((entries) => {
+                    for (const entry of entries) {
+                        if (entry.isIntersecting && entry.target.getAttribute("data-processed") !== "true") {
+                            _lazyObserver.unobserve(entry.target);
+                            const el = entry.target;
+                            _renderQueue = _renderQueue.then(async () => {
+                                try {
+                                    await mermaid.run({ nodes: [el] });
+                                    el.removeAttribute('data-mermaid-deferred');
+                                    // Apply zoom to the now-rendered diagram, matching
+                                    // the decoration visible diagrams receive.
+                                    if (false) {
+                                        addZoomToSvgs(d3.selectAll("").select(function() {
+                                            return this.querySelector("svg");
+                                        }));
+                                    }
+                                } catch (e) {
+                                    console.error("Mermaid deferred rendering failed:", e);
+                                    el.removeAttribute('data-mermaid-deferred');
+                                    el.setAttribute('data-mermaid-render-failed', 'true');
+                                }
+                            });
+                        }
+                    }
+                });
+                hidden.forEach((el) => _lazyObserver.observe(el));
+            }
+        }
+    }
+
+    all_mermaids = document.querySelectorAll(".mermaid");
+    // Exclude deferred (hidden) and render-failed elements from completion checks
+    const mermaids_active = document.querySelectorAll(".mermaid:not([data-mermaid-deferred]):not([data-mermaid-render-failed])");
+    const mermaids_processed = document.querySelectorAll(".mermaid:not([data-mermaid-deferred]):not([data-mermaid-render-failed])[data-processed='true']");
+
+    if (false) {
+        const mermaids_to_add_zoom = 0 === -1 ? mermaids_active.length : 0;
+        if(mermaids_to_add_zoom > 0) {
+            var svgs = d3.selectAll("").select(function() {
+                return this.querySelector("svg");
+            });
+            // Wait until every active (visible) diagram has rendered. Deferred
+            // diagrams are excluded, so a fixed d3_node_count that counts a
+            // hidden diagram no longer loops forever waiting for its SVG.
+            if(mermaids_active.length !== mermaids_processed.length) {
+                setTimeout(() => runMermaid(false), 200);
+                return;
+            }
+            addZoomToSvgs(svgs);
+        }
+    } else if(mermaids_active.length !== mermaids_processed.length) {
+        // Wait for mermaid to process all diagrams
+        setTimeout(() => runMermaid(false), 200);
+        return;
+    }
+
+    // Stop here if not adding fullscreen capability
+    if (!true) return;
+
+    if (modal !== null ) {
+        // Destroy existing modal
+        modal.remove();
+        modal = null;
+        modalContent = null;
+    }
+
+    modal = document.createElement('div');
+    modal.className = 'mermaid-fullscreen-modal' + (darkTheme ? ' dark-theme' : '');
+    modal.setAttribute('role', 'dialog');
+    modal.setAttribute('aria-modal', 'true');
+    modal.setAttribute('aria-label', 'Fullscreen diagram viewer');
+    modal.innerHTML = `
+        <button class="mermaid-fullscreen-close${darkTheme ? ' dark-theme' : ''}" aria-label="Close fullscreen">✕</button>
+        <div class="mermaid-container-fullscreen${darkTheme ? ' dark-theme' : ''}"></div>
+    `;
+    document.body.appendChild(modal);
+
+    modalContent = modal.querySelector('.mermaid-container-fullscreen');
+    const closeBtn = modal.querySelector('.mermaid-fullscreen-close');
+
+    closeModal = () => {
+        modal.classList.remove('active');
+        modalContent.innerHTML = '';
+        document.body.style.overflow = ''
+        window.scrollTo({left: previousScrollOffset[0], top: previousScrollOffset[1], behavior: 'instant'});
+    };
+
+    closeBtn.addEventListener('click', closeModal);
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) closeModal();
+    });
+    document.querySelectorAll('.mermaid').forEach((mermaidDiv) => {
+        if (mermaidDiv.parentNode.classList.contains('mermaid-container') ||
+            mermaidDiv.closest('.mermaid-fullscreen-modal')) {
+            // Already processed, adjust button class if needed
+            const existingBtn = mermaidDiv.parentNode.querySelector('.mermaid-fullscreen-btn');
+            if (existingBtn) {
+                existingBtn.className = 'mermaid-fullscreen-btn' + (darkTheme ? ' dark-theme' : '');
+            }
+            return;
+        }
+
+        const container = document.createElement('div');
+        container.className = 'mermaid-container';
+        mermaidDiv.parentNode.insertBefore(container, mermaidDiv);
+        container.appendChild(mermaidDiv);
+
+        const fullscreenBtn = document.createElement('button');
+        fullscreenBtn.className = 'mermaid-fullscreen-btn' + (darkTheme ? ' dark-theme' : '');
+        fullscreenBtn.setAttribute('aria-label', 'View diagram in fullscreen');
+        fullscreenBtn.textContent = "\u26f6";
+        fullscreenBtn.style.opacity = "50%";
+
+        // Calculate dynamic position based on diagram's margin and padding
+        const diagramStyle = window.getComputedStyle(mermaidDiv);
+        const marginTop = parseFloat(diagramStyle.marginTop) || 0;
+        const marginRight = parseFloat(diagramStyle.marginRight) || 0;
+        const paddingTop = parseFloat(diagramStyle.paddingTop) || 0;
+        const paddingRight = parseFloat(diagramStyle.paddingRight) || 0;
+        fullscreenBtn.style.top = `${marginTop + paddingTop + 4}px`;
+        fullscreenBtn.style.right = `${marginRight + paddingRight + 4}px`;
+
+        fullscreenBtn.addEventListener('click', () => {
+            previousScrollOffset = [window.scrollX, window.scrollY];
+            const clone = mermaidDiv.cloneNode(true);
+            modalContent.innerHTML = '';
+            modalContent.appendChild(clone);
+
+            const svg = clone.querySelector('svg');
+            if (svg) {
+                svg.removeAttribute('width');
+                svg.removeAttribute('height');
+                svg.style.width = '100%';
+                svg.style.height = 'auto';
+                svg.style.maxWidth = '100%';
+                svg.style.display = 'block';
+
+                if (false) {
+                    setTimeout(() => {
+                        const g = svg.querySelector('g');
+                        if (g) {
+                            var svgD3 = d3.select(svg);
+                            svgD3.html("<g class='wrapper'>" + svgD3.html() + "</g>");
+                            var inner = svgD3.select("g");
+                            var zoom = d3.zoom().on("zoom", function(event) {
+                                inner.attr("transform", event.transform);
+                            });
+                            svgD3.call(zoom);
+                        }
+                    }, 100);
+                }
+            }
+
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        });
+        container.appendChild(fullscreenBtn);
+    });
+};
+
+
+
+const load = async () => {
+    initStyles();
+
+
+    await runMermaid(true);
+
+    const reRunIfThemeChanges = async () => {
+        const newDarkTheme = isDarkTheme();
+        if (newDarkTheme !== darkTheme) {
+            darkTheme = newDarkTheme;
+            console.log("Theme change detected, re-running mermaid with", darkTheme ? "dark" : "default", "theme");
+            await mermaid.initialize(
+                {...{"startOnLoad": false},
+                ...{ darkMode: darkTheme, theme: darkTheme ? "dark" : "default" },
+                }
+            );
+            await runMermaid(true);
+        }
+    };
+
+    // Update theme classes when theme changes
+    const themeObserver = new MutationObserver(reRunIfThemeChanges);
+    themeObserver.observe(document.documentElement, {
+        attributes: true,
+        attributeFilter: ['class', 'style', 'data-theme']
+    });
+    themeObserver.observe(document.body, {
+        attributes: true,
+        attributeFilter: ['class', 'style', 'data-theme']
+    });
+};
+
+
+
+
+
+console.log("Initializing mermaid with", darkTheme ? "dark" : "default", "theme");
+mermaid.initialize(
+    {...{"startOnLoad": false},
+    ...{ darkMode: darkTheme, theme: darkTheme ? "dark" : "default" },
+    }
+);
+
+window.addEventListener("load", load);
+window.runMermaid = runMermaid;</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/geoips/plugins/modules/sector_metadata_generators/bdeck_parser';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.21.0';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://nrlmmd-geoips.github.io/geoips/versions.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = '1.17';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner =
+            false;
+        </script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <link rel="icon" href="../../../../../_static/nrlicon.ico"/>
+    <link rel="index" title="Index" href="../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="1.1" />
+    <meta name="docbuild:last-update" content="Aug 31, 2026 13:22:15"/>
+  
+    
+    <script src="../../../../../_static/searchtools.js"></script>
+    <script src="../../../../../_static/language_data.js"></script>
+    <script src="../../../../../searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../../../../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../../../../_static/NRL_logo_RGB.jpg" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 1.17.2 documentation - Home"/>
+    <img src="../../../../../_static/NRL_logo_sidebar_Reverse.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 1.17.2 documentation - Home"/>
+  
+  
+</a></div>
+    
+      <div class="navbar-item">
+<div class="version-switcher__container dropdown pst-js-only">
+  <button id="pst-version-switcher-button-2"
+    type="button"
+    class="version-switcher__button btn btn-sm dropdown-toggle"
+    data-bs-toggle="dropdown"
+    aria-haspopup="listbox"
+    aria-controls="pst-version-switcher-list-2"
+    aria-label="Version switcher list"
+  >
+    Choose version  <!-- this text may get changed later by javascript -->
+    <span class="caret"></span>
+  </button>
+  <div id="pst-version-switcher-list-2"
+    class="version-switcher__menu dropdown-menu list-group-flush py-0"
+    role="listbox" aria-labelledby="pst-version-switcher-button-2">
+    <!-- dropdown will be populated by javascript on page load -->
+  </div>
+</div></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../getting-started/index.html">
+    Getting Started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../tutorials/index.html">
+    Tutorials
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../concepts/index.html">
+    Concepts
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../contribute/index.html">
+    Contribute
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../geoips_api/index.html">
+    API
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../../../releases/index.html">
+    Release Notes
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../../../contact/index.html">
+    About Us
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/NRLMMD-GEOIPS/geoips" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i><span class="visually-hidden">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../getting-started/index.html">
+    Getting Started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../tutorials/index.html">
+    Tutorials
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../concepts/index.html">
+    Concepts
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../contribute/index.html">
+    Contribute
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../geoips_api/index.html">
+    API
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../releases/index.html">
+    Release Notes
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../contact/index.html">
+    About Us
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/NRLMMD-GEOIPS/geoips" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i><span class="visually-hidden">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../../../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../../../../index.html" class="nav-link">Module code</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">geoips.plugins.modules.sector_metadata_generators.bdeck_parser</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <h1>Source code for geoips.plugins.modules.sector_metadata_generators.bdeck_parser</h1><div class="highlight"><pre>
+<span></span><span class="c1"># # # This source code is subject to the license referenced at</span>
+<span class="c1"># # # https://github.com/NRLMMD-GEOIPS.</span>
+
+<span class="sd">"""TC trackfile parser for B-Deck formatted TC deck files.</span>
+
+<span class="sd">Each B-Deck file contains the full history of storm BEST tracks, on storm per</span>
+<span class="sd">location per line (split between 3 lines each in comments for readability)::</span>
+
+<span class="sd">  AL, 20, 2020091318,   , BEST,   0, 126N,  374W,  30, 1006, TD,   0,    ,    0,</span>
+<span class="sd">      0,    0,    0, 1011,  240, 100,  40,   0,   L,   0,    ,   0,   0,</span>
+<span class="sd">           TWENTY, M, 12, NEQ,   60,    0,    0,   60, genesis-num, 039,</span>
+<span class="sd">  AL, 20, 2020091400,   , BEST,   0, 130N,  386W,  30, 1006, TD,   0,    ,    0,</span>
+<span class="sd">          0,    0,    0, 1011,  240, 100,  40,   0,   L,   0,    ,   0,   0,</span>
+<span class="sd">           TWENTY, M, 12, NEQ,   60,   60,    0,    0, genesis-num, 039,</span>
+<span class="sd">  AL, 20, 2020091406,   , BEST,   0, 130N,  404W,  35, 1004, TS,  34, NEQ,    0,</span>
+<span class="sd">          0,   40,   40, 1011,  240,  40,   0,   0,   L,   0,    ,   0,   0,</span>
+<span class="sd">            TEDDY, M,  0,    ,    0,    0,    0,    0, genesis-num, 039,</span>
+<span class="sd">  AL, 20, 2020091412,   , BEST,   0, 128N,  422W,  35, 1004, TS,  34, NEQ,   50,</span>
+<span class="sd">         30,    0,   50, 1011,  240,  40,  45,   0,   L,   0,    ,   0,   0,</span>
+<span class="sd">            TEDDY, M,  0,    ,    0,    0,    0,    0, genesis-num, 039,</span>
+<span class="sd">  AL, 20, 2020091418,   , BEST,   0, 129N,  434W,  40, 1003, TS,  34, NEQ,   80,</span>
+<span class="sd">         40,    0,   70, 1012,  210,  50,  55,   0,   L,   0,    ,   0,   0,</span>
+<span class="sd">            TEDDY, M, 12, NEQ,   90,   30,    0,   30, genesis-num, 039,</span>
+<span class="sd">  AL, 20, 2020091500,   , BEST,   0, 130N,  445W,  45, 1002, TS,  34, NEQ,  100,</span>
+<span class="sd">         50,    0,   80, 1012,  210,  40,  55,   0,   L,   0,    ,   0,   0,</span>
+<span class="sd">            TEDDY, M, 12, NEQ,   90,   30,    0,   30, genesis-num, 039,</span>
+<span class="sd">  AL, 20, 2020091506,   , BEST,   0, 134N,  455W,  50, 1001, TS,  34, NEQ,  100,</span>
+<span class="sd">         50,   20,   80, 1012,  210,  20,  60,   0,   L,   0,    ,   0,   0,</span>
+<span class="sd">            TEDDY, M, 12, NEQ,  300,  210,   30,    0, genesis-num, 039,</span>
+<span class="sd">  AL, 20, 2020091506,   , BEST,   0, 134N,  455W,  50, 1001, TS,  50, NEQ,   20,</span>
+<span class="sd">          0,    0,    0, 1012,  210,  20,  60,   0,   L,   0,    ,   0,   0,</span>
+<span class="sd">            TEDDY, M, 12, NEQ,  300,  210,   30,    0, genesis-num, 039,</span>
+<span class="sd">  AL, 20, 2020091512,   , BEST,   0, 138N,  466W,  55,  999, TS,  34, NEQ,  140,</span>
+<span class="sd">     60,   40,  160, 1011,  250,  20,  65,   0,   L,   0,    ,   0,   0,</span>
+<span class="sd">        TEDDY, D, 12, NEQ,  300,  210,   30,   30, genesis-num, 039,</span>
+<span class="sd">  AL, 20, 2020091512,   , BEST,   0, 138N,  466W,  55,  999, TS,  50, NEQ,   30,</span>
+<span class="sd">      0,    0,   30, 1011,  250,  20,  65,   0,   L,   0,    ,   0,   0,</span>
+<span class="sd">            TEDDY, D, 12, NEQ,  300,  210,   30,   30, genesis-num, 039,</span>
+<span class="sd">  AL, 20, 2020091518,   , BEST,   0, 142N,  475W,  55,  997, TS,  34, NEQ,  140,</span>
+<span class="sd">     80,   40,  160, 1011,  250,  20,  65,   0,   L,   0,    ,   0,   0,</span>
+<span class="sd">            TEDDY, D, 12, NEQ,  300,  240,   60,   60, genesis-num, 039,</span>
+<span class="sd">  AL, 20, 2020091518,   , BEST,   0, 142N,  475W,  55,  997, TS,  50, NEQ,   30,</span>
+<span class="sd">      0,    0,   30, 1011,  250,  20,  65,   0,   L,   0,    ,   0,   0,</span>
+<span class="sd">            TEDDY, D, 12, NEQ,  300,  240,   60,   60, genesis-num, 039,</span>
+<span class="sd">  AL, 20, 2020091600,   , BEST,   0, 147N,  480W,  65,  987, HU,  34, NEQ,  140,</span>
+<span class="sd">     80,   40,  150, 1010,  180,  20,  75,   0,   L,   0,    ,   0,   0,</span>
+<span class="sd">            TEDDY, D,  0,    ,    0,    0,    0,    0, genesis-num, 039,</span>
+<span class="sd">  AL, 20, 2020091600,   , BEST,   0, 147N,  480W,  65,  987, HU,  50, NEQ,   40,</span>
+<span class="sd">     30,    0,   30, 1010,  180,  20,  75,   0,   L,   0,    ,   0,   0,</span>
+<span class="sd">            TEDDY, D,  0,    ,    0,    0,    0,    0, genesis-num, 039,</span>
+<span class="sd">  AL, 20, 2020091600,   , BEST,   0, 147N,  480W,  65,  987, HU,  64, NEQ,   20,</span>
+<span class="sd">      0,    0,    0, 1010,  180,  20,  75,   0,   L,   0,    ,   0,   0,</span>
+<span class="sd">            TEDDY, D,  0,    ,    0,    0,    0,    0, genesis-num, 039,</span>
+<span class="sd">  AL, 20, 2020091606,   , BEST,   0, 154N,  486W,  80,  978, HU,  34, NEQ,  140,</span>
+<span class="sd">     80,   40,  150, 1010,  180,  20, 100,   0,   L,   0,    ,   0,   0,</span>
+<span class="sd">            TEDDY, D, 12, NEQ,  300,  240,  120,  150, genesis-num, 039,</span>
+<span class="sd">  AL, 20, 2020091606,   , BEST,   0, 154N,  486W,  80,  978, HU,  50, NEQ,   40,</span>
+<span class="sd">     30,   20,   30, 1010,  180,  20, 100,   0,   L,   0,    ,   0,   0,</span>
+<span class="sd">            TEDDY, D, 12, NEQ,  300,  240,  120,  150, genesis-num, 039,</span>
+<span class="sd">  AL, 20, 2020091606,   , BEST,   0, 154N,  486W,  80,  978, HU,  64, NEQ,   20,</span>
+<span class="sd">     10,   10,   20, 1010,  180,  20, 100,   0,   L,   0,    ,   0,   0,</span>
+<span class="sd">            TEDDY, D, 12, NEQ,  300,  240,  120,  150, genesis-num, 039,</span>
+<span class="sd">  AL, 20, 2020091612,   , BEST,   0, 161N,  493W,  85,  973, HU,  34, NEQ,  170,</span>
+<span class="sd">    170,   40,  150, 1010,  180,  20, 100,   0,   L,   0,    ,   0,   0,</span>
+<span class="sd">            TEDDY, D, 12, NEQ,  270,  270,  240,  270, genesis-num, 039,</span>
+<span class="sd">  AL, 20, 2020091612,   , BEST,   0, 161N,  493W,  85,  973, HU,  50, NEQ,   50,</span>
+<span class="sd">     50,   20,   30, 1010,  180,  20, 100,   0,   L,   0,    ,   0,   0,</span>
+<span class="sd">            TEDDY, D, 12, NEQ,  270,  270,  240,  270, genesis-num, 039,</span>
+<span class="sd">  AL, 20, 2020091612,   , BEST,   0, 161N,  493W,  85,  973, HU,  64, NEQ,   25,</span>
+<span class="sd">     25,   10,   20, 1010,  180,  20, 100,   0,   L,   0,    ,   0,   0,</span>
+<span class="sd">            TEDDY, D, 12, NEQ,  270,  270,  240,  270, genesis-num, 039,</span>
+<span class="sd">  AL, 20, 2020091618,   , BEST,   0, 168N,  502W,  85,  973, HU,  34, NEQ,  190,</span>
+<span class="sd">    100,   70,  170, 1010,  180,  20, 105,   0,   L,   0,    ,   0,   0,</span>
+<span class="sd">            TEDDY, D, 12, NEQ,  300,  300,  240,  300, genesis-num, 039,</span>
+<span class="sd">  AL, 20, 2020091618,   , BEST,   0, 168N,  502W,  85,  973, HU,  50, NEQ,   80,</span>
+<span class="sd">     50,   30,   90, 1010,  180,  20, 105,   0,   L,   0,    ,   0,   0,</span>
+<span class="sd">            TEDDY, D, 12, NEQ,  300,  300,  240,  300, genesis-num, 039,</span>
+<span class="sd">  AL, 20, 2020091618,   , BEST,   0, 168N,  502W,  85,  973, HU,  64, NEQ,   30,</span>
+<span class="sd">     25,    0,   30, 1010,  180,  20, 105,   0,   L,   0,    ,   0,   0,</span>
+<span class="sd">            TEDDY, D, 12, NEQ,  300,  300,  240,  300, genesis-num, 039,</span>
+<span class="sd">  AL, 20, 2020091700,   , BEST,   0, 174N,  511W,  85,  973, HU,  34, NEQ,  220,</span>
+<span class="sd">    100,   80,  170, 1009,  210,  20, 100,   0,   L,   0,    ,   0,   0,</span>
+<span class="sd">            TEDDY, D, 12, NEQ,  330,  300,  270,  300, genesis-num, 039,</span>
+<span class="sd">  AL, 20, 2020091700,   , BEST,   0, 174N,  511W,  85,  973, HU,  50, NEQ,   60,</span>
+<span class="sd">     50,   50,   70, 1009,  210,  20, 100,   0,   L,   0,    ,   0,   0,</span>
+<span class="sd">            TEDDY, D, 12, NEQ,  330,  300,  270,  300, genesis-num, 039,</span>
+<span class="sd">  AL, 20, 2020091700,   , BEST,   0, 174N,  511W,  85,  973, HU,  64, NEQ,   30,</span>
+<span class="sd">     25,   20,   30, 1009,  210,  20, 100,   0,   L,   0,    ,   0,   0,</span>
+<span class="sd">            TEDDY, D, 12, NEQ,  330,  300,  270,  300, genesis-num, 039,</span>
+<span class="sd">  AL, 20, 2020091706,   , BEST,   0, 180N,  520W,  85,  973, HU,  34, NEQ,  220,</span>
+<span class="sd">    100,   80,  170, 1009,  210,  20, 105,   0,   L,   0,    ,   0,   0,</span>
+<span class="sd">            TEDDY, D, 12, NEQ,  330,  360,  300,  300, genesis-num, 039,</span>
+<span class="sd">  AL, 20, 2020091706,   , BEST,   0, 180N,  520W,  85,  973, HU,  50, NEQ,   60,</span>
+<span class="sd">     50,   50,   70, 1009,  210,  20, 105,   0,   L,   0,    ,   0,   0,</span>
+<span class="sd">            TEDDY, D, 12, NEQ,  330,  360,  300,  300, genesis-num, 039,</span>
+<span class="sd">  AL, 20, 2020091706,   , BEST,   0, 180N,  520W,  85,  973, HU,  64, NEQ,   30,</span>
+<span class="sd">     25,   20,   30, 1009,  210,  20, 105,   0,   L,   0,    ,   0,   0,</span>
+<span class="sd">            TEDDY, D, 12, NEQ,  330,  360,  300,  300, genesis-num, 039,</span>
+<span class="sd">"""</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">datetime</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dateutil.relativedelta</span><span class="w"> </span><span class="kn">import</span> <span class="n">relativedelta</span>
+
+<span class="n">LOG</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+<span class="n">interface</span> <span class="o">=</span> <span class="s2">"sector_metadata_generators"</span>
+<span class="n">family</span> <span class="o">=</span> <span class="s2">"tc"</span>
+<span class="n">name</span> <span class="o">=</span> <span class="s2">"bdeck_parser"</span>
+
+
+<div class="viewcode-block" id="call">
+<a class="viewcode-back" href="../../../../../geoips_api/geoips.plugins.modules.sector_metadata_generators.html#geoips.plugins.modules.sector_metadata_generators.bdeck_parser.call">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">call</span><span class="p">(</span><span class="n">trackfile_name</span><span class="p">,</span> <span class="n">allowed_aid_types</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""TC deckfile parser for B-Deck files.</span>
+
+<span class="sd">    Each B-Deck file contains the full history of storm BEST tracks, one storm</span>
+<span class="sd">    location per line. Example b-deck files are available in the GeoIPS repo.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    trackfile_name : str</span>
+<span class="sd">        Path to bdeck file, with full 6 hourly storm track</span>
+<span class="sd">        history, formatted as follows:</span>
+<span class="sd">    allowed_aid_type : list</span>
+<span class="sd">        List of allowed aid types. Defaults to ["BEST"] if None</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    list</span>
+<span class="sd">        List of Dictionaries of storm metadata fields from each storm location</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    :ref:`api`</span>
+<span class="sd">        Valid fields can be found in geoips.sector_utils.utils.SECTOR_INFO_ATTRS</span>
+<span class="sd">    """</span>
+    <span class="k">if</span> <span class="n">allowed_aid_types</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">allowed_aid_types</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"BEST"</span><span class="p">]</span>
+    <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"STARTING getting fields from </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="n">trackfile_name</span><span class="p">)</span>
+    <span class="c1"># Must get tcyear out of the filename in case a storm</span>
+    <span class="c1"># crosses TC vs calendar years.</span>
+    <span class="c1"># tcyear = os.path.basename(trackfile_name)[5:9]</span>
+    <span class="n">tc_year</span> <span class="o">=</span> <span class="n">get_stormyear_from_bdeck_filename</span><span class="p">(</span><span class="n">trackfile_name</span><span class="p">)</span>
+    <span class="c1"># print tcyear</span>
+
+    <span class="n">flatsf_lines</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">trackfile_name</span><span class="p">)</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span>
+    <span class="c1"># This just pulls the time of the first entry in the deck file</span>
+    <span class="n">entry_storm_start_datetime</span> <span class="o">=</span> <span class="n">get_storm_start_datetime_from_bdeck_entry</span><span class="p">(</span><span class="n">flatsf_lines</span><span class="p">)</span>
+
+    <span class="c1"># Check if this storm is from an "archived" deck file.</span>
+    <span class="c1"># If this is an archived deck file, we do not want to fail catastrophically for</span>
+    <span class="c1"># poorly formatted old deck files. If it is a new deck file, we would want to</span>
+    <span class="c1"># fail in order to avoid masking issues with new deck files.</span>
+    <span class="n">storm_age_seconds</span> <span class="o">=</span> <span class="p">(</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span> <span class="o">-</span> <span class="n">entry_storm_start_datetime</span><span class="p">)</span><span class="o">.</span><span class="n">total_seconds</span><span class="p">()</span>
+    <span class="n">archived_threshold</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span> <span class="o">-</span> <span class="p">(</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span> <span class="o">-</span> <span class="n">relativedelta</span><span class="p">(</span><span class="n">years</span><span class="o">=</span><span class="mi">2</span><span class="p">))</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">total_seconds</span><span class="p">()</span>
+    <span class="n">is_archived</span> <span class="o">=</span> <span class="n">storm_age_seconds</span> <span class="o">&gt;</span> <span class="n">archived_threshold</span>
+    <span class="k">if</span> <span class="n">is_archived</span><span class="p">:</span>
+        <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+            <span class="s2">"Storm age greater than 2 years - treating as an archived deck file"</span>
+            <span class="s2">"(will automatically skip any bad/poorly formatted lines)"</span>
+        <span class="p">)</span>
+
+    <span class="n">final_storm_name</span> <span class="o">=</span> <span class="n">get_final_storm_name_bdeck</span><span class="p">(</span>
+        <span class="n">flatsf_lines</span><span class="p">,</span> <span class="n">tc_year</span><span class="p">,</span> <span class="n">trackfile_name</span><span class="p">,</span> <span class="n">is_archived</span>
+    <span class="p">)</span>
+    <span class="n">invest_number</span> <span class="o">=</span> <span class="n">get_invest_number_bdeck</span><span class="p">(</span><span class="n">flatsf_lines</span><span class="p">,</span> <span class="n">is_archived</span><span class="p">)</span>
+
+    <span class="c1"># Note storms are often started with 3 locations, and the first 2 locations</span>
+    <span class="c1"># are removed in later deck files, so initial storm start time often does</span>
+    <span class="c1"># not match the final storm start time.</span>
+    <span class="c1"># Keep track of the start datetime referenced in the filename</span>
+    <span class="n">filename_storm_start_datetime</span> <span class="o">=</span> <span class="n">get_storm_start_datetime_from_bdeck_filename</span><span class="p">(</span>
+        <span class="n">trackfile_name</span>
+    <span class="p">)</span>
+
+    <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"  USING final_storm_name from bdeck </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="n">final_storm_name</span><span class="p">)</span>
+    <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"  USING storm_start_datetime from bdeck </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="n">entry_storm_start_datetime</span><span class="p">)</span>
+    <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+        <span class="s2">"  USING original_storm_start_datetime from bdeck </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span>
+        <span class="n">filename_storm_start_datetime</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="c1"># flatsf_lines go from OLDEST to NEWEST (so firsttime is the OLDEST</span>
+    <span class="c1"># storm location)</span>
+    <span class="n">all_fields</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">flatsf_lines</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">curr_fields</span> <span class="o">=</span> <span class="n">parse_bdeck_line</span><span class="p">(</span>
+                <span class="n">line</span><span class="p">,</span>
+                <span class="n">source_filename</span><span class="o">=</span><span class="n">trackfile_name</span><span class="p">,</span>
+                <span class="n">storm_year</span><span class="o">=</span><span class="n">tc_year</span><span class="p">,</span>
+                <span class="n">final_storm_name</span><span class="o">=</span><span class="n">final_storm_name</span><span class="p">,</span>
+                <span class="n">invest_number</span><span class="o">=</span><span class="n">invest_number</span><span class="p">,</span>
+                <span class="n">storm_start_datetime</span><span class="o">=</span><span class="n">entry_storm_start_datetime</span><span class="p">,</span>
+                <span class="n">original_storm_start_datetime</span><span class="o">=</span><span class="n">filename_storm_start_datetime</span><span class="p">,</span>
+                <span class="n">parser_name</span><span class="o">=</span><span class="s2">"bdeck_parser"</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="k">except</span> <span class="ne">ValueError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">is_archived</span><span class="p">:</span>
+                <span class="n">LOG</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">"Skipping bad/poorly formatted line"</span><span class="p">)</span>
+                <span class="k">continue</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+        <span class="c1"># Was previously RE-SETTING finalstormname here.</span>
+        <span class="c1"># That is why we were getting incorrect final_storm_name fields</span>
+        <span class="n">all_fields</span> <span class="o">+=</span> <span class="p">[</span><span class="n">curr_fields</span><span class="p">]</span>
+
+    <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"FINISHED getting fields from </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="n">trackfile_name</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">all_fields</span><span class="p">,</span> <span class="n">final_storm_name</span><span class="p">,</span> <span class="n">tc_year</span><span class="p">,</span> <span class="n">allowed_aid_types</span></div>
+
+
+
+<div class="viewcode-block" id="lat_to_dec">
+<a class="viewcode-back" href="../../../../../geoips_api/geoips.plugins.modules.sector_metadata_generators.html#geoips.plugins.modules.sector_metadata_generators.bdeck_parser.lat_to_dec">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">lat_to_dec</span><span class="p">(</span><span class="n">lat_str</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Return decimal latitude based on N/S specified string."""</span>
+    <span class="n">latnodec</span> <span class="o">=</span> <span class="n">lat_str</span>
+    <span class="n">latdec</span> <span class="o">=</span> <span class="n">latnodec</span><span class="p">[:</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span> <span class="o">+</span> <span class="s2">"."</span> <span class="o">+</span> <span class="n">latnodec</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">:]</span>
+    <span class="n">latdecsign</span> <span class="o">=</span> <span class="n">latdec</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="k">if</span> <span class="p">(</span><span class="n">latdec</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s2">"N"</span><span class="p">)</span> <span class="k">else</span> <span class="s2">"-"</span> <span class="o">+</span> <span class="n">latdec</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">latdecsign</span></div>
+
+
+
+<div class="viewcode-block" id="lon_to_dec">
+<a class="viewcode-back" href="../../../../../geoips_api/geoips.plugins.modules.sector_metadata_generators.html#geoips.plugins.modules.sector_metadata_generators.bdeck_parser.lon_to_dec">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">lon_to_dec</span><span class="p">(</span><span class="n">lon_str</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Return decimal longitude based on E/W specified string."""</span>
+    <span class="n">lonnodec</span> <span class="o">=</span> <span class="n">lon_str</span>
+    <span class="n">londec</span> <span class="o">=</span> <span class="n">lonnodec</span><span class="p">[:</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span> <span class="o">+</span> <span class="s2">"."</span> <span class="o">+</span> <span class="n">lonnodec</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">:]</span>
+    <span class="n">londecsign</span> <span class="o">=</span> <span class="n">londec</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="k">if</span> <span class="p">(</span><span class="n">londec</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s2">"E"</span><span class="p">)</span> <span class="k">else</span> <span class="s2">"-"</span> <span class="o">+</span> <span class="n">londec</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">londecsign</span></div>
+
+
+
+<div class="viewcode-block" id="parse_bdeck_line">
+<a class="viewcode-back" href="../../../../../geoips_api/geoips.plugins.modules.sector_metadata_generators.html#geoips.plugins.modules.sector_metadata_generators.bdeck_parser.parse_bdeck_line">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">parse_bdeck_line</span><span class="p">(</span>
+    <span class="n">line</span><span class="p">,</span>
+    <span class="n">source_filename</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">storm_year</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">final_storm_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">invest_number</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">storm_start_datetime</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">original_storm_start_datetime</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">parser_name</span><span class="o">=</span><span class="s2">"bdeck_parser"</span><span class="p">,</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Retrieve the storm information from the current line from the deck file.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    line : str</span>
+<span class="sd">        Current line from the deck file including all storm information</span>
+
+<span class="sd">        * AL, 20, 2020091618,   , BEST,   0, 168N,  502W,  85,  973, HU,  64,</span>
+<span class="sd">          NEQ,   30,   25,    0,   30, 1010,  180,  20, 105,   0,   L,   0,    ,</span>
+<span class="sd">          0,   0,      TEDDY, D, 12, NEQ,  300,  300,  240,  300,</span>
+<span class="sd">          genesis-num, 039,</span>
+<span class="sd">        * AL, 20, 2020091700,   , BEST,   0, 174N,  511W,  85,  973, HU,  34,</span>
+<span class="sd">          NEQ,  220,  100,   80,  170, 1009,  210,  20, 100,   0,   L,   0,    ,</span>
+<span class="sd">          0,   0,      TEDDY, D, 12, NEQ,  330,  300,  270,  300,</span>
+<span class="sd">          genesis-num, 039,</span>
+<span class="sd">        * AL, 20, 2020091700,   , BEST,   0, 174N,  511W,  85,  973, HU,  50,</span>
+<span class="sd">          NEQ,   60,   50,   50,   70, 1009,  210,  20, 100,   0,   L,   0,    ,</span>
+<span class="sd">          0,   0,      TEDDY, D, 12, NEQ,  330,  300,  270,  300,</span>
+<span class="sd">          genesis-num, 039,</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    dict</span>
+<span class="sd">        Dictionary of the fields from the current storm location from the</span>
+<span class="sd">        deck file</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    :ref:`api`</span>
+<span class="sd">        Valid fields can be found in geoips.sector_utils.utils.SECTOR_INFO_ATTRS</span>
+<span class="sd">    """</span>
+    <span class="c1"># This works with G (GeoIPS) Deck files.</span>
+    <span class="c1"># Need separate parser for B decks (best tracks)</span>
+    <span class="c1"># parts = line.split(',', 40)</span>
+    <span class="n">parts</span> <span class="o">=</span> <span class="p">[</span><span class="n">part</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">for</span> <span class="n">part</span> <span class="ow">in</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">","</span><span class="p">)]</span>
+    <span class="k">if</span> <span class="p">(</span>
+        <span class="nb">len</span><span class="p">(</span><span class="n">parts</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">38</span>
+        <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">parts</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">30</span>
+        <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">parts</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">40</span>
+        <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">parts</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">42</span>
+        <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">parts</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">44</span>
+    <span class="p">):</span>
+        <span class="n">LOG</span><span class="o">.</span><span class="n">interactive</span><span class="p">(</span><span class="n">source_filename</span><span class="p">)</span>
+        <span class="n">LOG</span><span class="o">.</span><span class="n">interactive</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="s2">"Incorrectly formatted deck file - "</span>
+            <span class="s2">"must have either 30 or 38 or 42 fields, "</span>
+            <span class="sa">f</span><span class="s2">"had </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">parts</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
+        <span class="p">)</span>
+    <span class="n">fields</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">storm_num_str</span> <span class="o">=</span> <span class="n">parts</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">storm_basin</span> <span class="o">=</span> <span class="n">parts</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">storm_name</span> <span class="o">=</span> <span class="n">parts</span><span class="p">[</span><span class="mi">27</span><span class="p">]</span>
+    <span class="n">fields</span><span class="p">[</span><span class="s2">"deck_line"</span><span class="p">]</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+    <span class="n">fields</span><span class="p">[</span><span class="s2">"storm_basin"</span><span class="p">]</span> <span class="o">=</span> <span class="n">storm_basin</span>
+    <span class="n">fields</span><span class="p">[</span><span class="s2">"storm_num"</span><span class="p">]</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">storm_num_str</span><span class="p">)</span>
+    <span class="n">fields</span><span class="p">[</span><span class="s2">"synoptic_time"</span><span class="p">]</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">parts</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="s2">"%Y%m</span><span class="si">%d</span><span class="s2">%H"</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">storm_start_datetime</span><span class="p">,</span> <span class="n">datetime</span><span class="p">):</span>
+        <span class="n">fields</span><span class="p">[</span><span class="s2">"storm_start_datetime"</span><span class="p">]</span> <span class="o">=</span> <span class="n">storm_start_datetime</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">original_storm_start_datetime</span><span class="p">,</span> <span class="n">datetime</span><span class="p">):</span>
+        <span class="n">fields</span><span class="p">[</span><span class="s2">"original_storm_start_datetime"</span><span class="p">]</span> <span class="o">=</span> <span class="n">original_storm_start_datetime</span>
+
+    <span class="n">fields</span><span class="p">[</span><span class="s2">"aid_type"</span><span class="p">]</span> <span class="o">=</span> <span class="n">parts</span><span class="p">[</span>
+        <span class="mi">4</span>
+    <span class="p">]</span>  <span class="c1"># BEST, MBAM, OFCL, JTWC, etc - BEST202101220600 when updated</span>
+    <span class="c1"># CARQ - not best track, real time, A-deck (Aids), F (Fix), E (Error), B (Best)</span>
+    <span class="n">fields</span><span class="p">[</span><span class="s2">"clat"</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">lat_to_dec</span><span class="p">(</span><span class="n">parts</span><span class="p">[</span><span class="mi">6</span><span class="p">]))</span>
+    <span class="n">fields</span><span class="p">[</span><span class="s2">"clon"</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">lon_to_dec</span><span class="p">(</span><span class="n">parts</span><span class="p">[</span><span class="mi">7</span><span class="p">]))</span>
+    <span class="n">fields</span><span class="p">[</span><span class="s2">"vmax"</span><span class="p">]</span> <span class="o">=</span> <span class="n">parts</span><span class="p">[</span><span class="mi">8</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">fields</span><span class="p">[</span><span class="s2">"vmax"</span><span class="p">]:</span>
+        <span class="n">fields</span><span class="p">[</span><span class="s2">"vmax"</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">fields</span><span class="p">[</span><span class="s2">"vmax"</span><span class="p">])</span>
+    <span class="n">fields</span><span class="p">[</span><span class="s2">"pressure"</span><span class="p">]</span> <span class="o">=</span> <span class="n">parts</span><span class="p">[</span><span class="mi">9</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">fields</span><span class="p">[</span><span class="s2">"pressure"</span><span class="p">]:</span>
+        <span class="n">fields</span><span class="p">[</span><span class="s2">"pressure"</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">fields</span><span class="p">[</span><span class="s2">"pressure"</span><span class="p">])</span>
+
+    <span class="n">fields</span><span class="p">[</span><span class="s2">"storm_name"</span><span class="p">]</span> <span class="o">=</span> <span class="n">storm_name</span>
+    <span class="n">fields</span><span class="p">[</span><span class="s2">"final_storm_name"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"unknown"</span>
+    <span class="k">if</span> <span class="n">final_storm_name</span><span class="p">:</span>
+        <span class="n">LOG</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">"USING passed final_storm_name </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="n">final_storm_name</span><span class="p">)</span>
+        <span class="n">fields</span><span class="p">[</span><span class="s2">"final_storm_name"</span><span class="p">]</span> <span class="o">=</span> <span class="n">final_storm_name</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">LOG</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">"USING storm_name as final_storm_name </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="n">fields</span><span class="p">[</span><span class="s2">"storm_name"</span><span class="p">])</span>
+        <span class="n">fields</span><span class="p">[</span><span class="s2">"final_storm_name"</span><span class="p">]</span> <span class="o">=</span> <span class="n">fields</span><span class="p">[</span><span class="s2">"storm_name"</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">storm_year</span><span class="p">:</span>
+        <span class="n">fields</span><span class="p">[</span><span class="s2">"storm_year"</span><span class="p">]</span> <span class="o">=</span> <span class="n">storm_year</span>
+    <span class="k">if</span> <span class="n">parts</span><span class="p">[</span><span class="o">-</span><span class="mi">3</span><span class="p">]</span> <span class="o">==</span> <span class="s2">"TRANSITIONED"</span><span class="p">:</span>
+        <span class="c1"># shB02021</span>
+        <span class="n">invest_id</span> <span class="o">=</span> <span class="n">parts</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">" "</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">invest_year</span> <span class="o">=</span> <span class="n">invest_id</span><span class="p">[</span><span class="mi">4</span><span class="p">:]</span>
+        <span class="n">invest_basin</span> <span class="o">=</span> <span class="n">invest_id</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">]</span>
+        <span class="n">invest_num</span> <span class="o">=</span> <span class="s2">"9"</span> <span class="o">+</span> <span class="n">invest_id</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+        <span class="c1"># tc2021sh90invest</span>
+        <span class="n">fields</span><span class="p">[</span><span class="s2">"invest_storm_id"</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="s2">"tc"</span> <span class="o">+</span> <span class="n">invest_year</span> <span class="o">+</span> <span class="n">invest_basin</span> <span class="o">+</span> <span class="n">invest_num</span> <span class="o">+</span> <span class="s2">"invest"</span>
+        <span class="p">)</span>
+    <span class="n">fields</span><span class="p">[</span><span class="s2">"invest_number"</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">if</span> <span class="n">invest_number</span><span class="p">:</span>
+        <span class="n">fields</span><span class="p">[</span><span class="s2">"invest_number"</span><span class="p">]</span> <span class="o">=</span> <span class="n">invest_number</span>
+
+    <span class="k">if</span> <span class="n">source_filename</span><span class="p">:</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">geoips.geoips_utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">replace_geoips_paths</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">source_filename</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="n">fields</span><span class="p">[</span><span class="s2">"source_filename"</span><span class="p">]</span> <span class="o">=</span> <span class="n">replace_geoips_paths</span><span class="p">(</span><span class="n">source_filename</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">fields</span><span class="p">[</span><span class="s2">"source_filename"</span><span class="p">]</span> <span class="o">=</span> <span class="n">source_filename</span>
+    <span class="n">fields</span><span class="p">[</span><span class="s2">"parser_name"</span><span class="p">]</span> <span class="o">=</span> <span class="n">parser_name</span>
+    <span class="k">if</span> <span class="s2">"storm_year"</span> <span class="ow">in</span> <span class="n">fields</span><span class="p">:</span>
+        <span class="n">fields</span><span class="p">[</span><span class="s2">"storm_id"</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="s2">"tc"</span>
+            <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">fields</span><span class="p">[</span><span class="s2">"storm_year"</span><span class="p">])</span>
+            <span class="o">+</span> <span class="n">storm_basin</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+            <span class="o">+</span> <span class="n">storm_num_str</span>
+            <span class="o">+</span> <span class="n">storm_name</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+        <span class="p">)</span>
+    <span class="k">return</span> <span class="n">fields</span></div>
+
+
+
+<div class="viewcode-block" id="get_invest_number_bdeck">
+<a class="viewcode-back" href="../../../../../geoips_api/geoips.plugins.modules.sector_metadata_generators.html#geoips.plugins.modules.sector_metadata_generators.bdeck_parser.get_invest_number_bdeck">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_invest_number_bdeck</span><span class="p">(</span><span class="n">deck_lines</span><span class="p">,</span> <span class="n">is_archived</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Get invest number from full bdeck file."""</span>
+    <span class="n">invest_number</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">deck_lines</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">fields</span> <span class="o">=</span> <span class="n">parse_bdeck_line</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">is_archived</span><span class="p">:</span>
+                <span class="n">LOG</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">"Skipping bad/poorly formatted line"</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">continue</span>
+        <span class="k">if</span> <span class="n">fields</span><span class="p">[</span><span class="s2">"storm_name"</span><span class="p">]</span> <span class="o">==</span> <span class="s2">"INVEST"</span> <span class="ow">and</span> <span class="n">fields</span><span class="p">[</span><span class="s2">"storm_num"</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">89</span><span class="p">:</span>
+            <span class="n">invest_number</span> <span class="o">=</span> <span class="n">fields</span><span class="p">[</span><span class="s2">"storm_num"</span><span class="p">]</span>
+        <span class="k">if</span> <span class="s2">"invest_storm_id"</span> <span class="ow">in</span> <span class="n">fields</span><span class="p">:</span>
+            <span class="n">invest_number</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">fields</span><span class="p">[</span><span class="s2">"invest_storm_id"</span><span class="p">][</span><span class="mi">8</span><span class="p">:</span><span class="mi">10</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">invest_number</span></div>
+
+
+
+<div class="viewcode-block" id="get_storm_start_datetime_from_bdeck_entry">
+<a class="viewcode-back" href="../../../../../geoips_api/geoips.plugins.modules.sector_metadata_generators.html#geoips.plugins.modules.sector_metadata_generators.bdeck_parser.get_storm_start_datetime_from_bdeck_entry">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_storm_start_datetime_from_bdeck_entry</span><span class="p">(</span><span class="n">deck_lines</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Get storm start datetime from full bdeck file."""</span>
+    <span class="c1"># Return the synoptic time of the first bdeck entry</span>
+    <span class="n">fields</span> <span class="o">=</span> <span class="n">parse_bdeck_line</span><span class="p">(</span><span class="n">deck_lines</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"  GETTING storm start time from bdeck entry </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="n">fields</span><span class="p">[</span><span class="s2">"synoptic_time"</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">fields</span><span class="p">[</span><span class="s2">"synoptic_time"</span><span class="p">]</span></div>
+
+
+
+<div class="viewcode-block" id="get_storm_start_datetime_from_bdeck_filename">
+<a class="viewcode-back" href="../../../../../geoips_api/geoips.plugins.modules.sector_metadata_generators.html#geoips.plugins.modules.sector_metadata_generators.bdeck_parser.get_storm_start_datetime_from_bdeck_filename">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_storm_start_datetime_from_bdeck_filename</span><span class="p">(</span><span class="n">bdeck_filename</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Get storm start datetime from bdeck file name."""</span>
+    <span class="c1"># Return the synoptic time found in the actual filename, if it exists!</span>
+    <span class="c1"># This will ONLY be the case for INVESTS, which can use the start</span>
+    <span class="c1"># Gwp912022.2022101400.dat</span>
+    <span class="n">bdeck_parts</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">bdeck_filename</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">"."</span><span class="p">)</span>
+    <span class="n">storm_start_datetime</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">bdeck_parts</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">storm_start_datetime</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">bdeck_parts</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="s2">"%Y%m</span><span class="si">%d</span><span class="s2">%H"</span><span class="p">)</span>
+            <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+                <span class="s2">"  USING storm start time found in filename </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="n">storm_start_datetime</span>
+            <span class="p">)</span>
+        <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+            <span class="n">LOG</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
+                <span class="s2">"  SKIPPING no valid storm start time found in filename, </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span>
+                <span class="s2">"using first entry in bdeck"</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="n">storm_start_datetime</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="k">return</span> <span class="n">storm_start_datetime</span></div>
+
+
+
+<div class="viewcode-block" id="get_stormyear_from_bdeck_filename">
+<a class="viewcode-back" href="../../../../../geoips_api/geoips.plugins.modules.sector_metadata_generators.html#geoips.plugins.modules.sector_metadata_generators.bdeck_parser.get_stormyear_from_bdeck_filename">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_stormyear_from_bdeck_filename</span><span class="p">(</span><span class="n">bdeck_filename</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Get the storm year from the B-deck filename.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    bdeck_filename : str</span>
+<span class="sd">        * Path to deck file to search for storm year</span>
+<span class="sd">        * Must be of format: xxxxxYYYY.dat - pulls YYYY from filename based on</span>
+<span class="sd">          location</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    int</span>
+<span class="sd">        Storm year</span>
+<span class="sd">    """</span>
+    <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">bdeck_filename</span><span class="p">)[</span><span class="mi">5</span><span class="p">:</span><span class="mi">9</span><span class="p">])</span></div>
+
+
+
+<div class="viewcode-block" id="get_final_storm_name_bdeck">
+<a class="viewcode-back" href="../../../../../geoips_api/geoips.plugins.modules.sector_metadata_generators.html#geoips.plugins.modules.sector_metadata_generators.bdeck_parser.get_final_storm_name_bdeck">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_final_storm_name_bdeck</span><span class="p">(</span>
+    <span class="n">deck_lines</span><span class="p">,</span> <span class="n">tcyear</span><span class="p">,</span> <span class="n">trackfile_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">is_archived</span><span class="o">=</span><span class="kc">False</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Get final storm name from full bdeck file."""</span>
+    <span class="n">final_storm_name</span> <span class="o">=</span> <span class="s2">"INVEST"</span>
+    <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">deck_lines</span><span class="p">:</span>
+        <span class="c1"># curr_fields = parse_bdeck_line(line, tcyear, finalstormname)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">curr_fields</span> <span class="o">=</span> <span class="n">parse_bdeck_line</span><span class="p">(</span>
+                <span class="n">line</span><span class="p">,</span>
+                <span class="n">storm_year</span><span class="o">=</span><span class="n">tcyear</span><span class="p">,</span>
+                <span class="n">final_storm_name</span><span class="o">=</span><span class="n">final_storm_name</span><span class="p">,</span>
+                <span class="n">source_filename</span><span class="o">=</span><span class="n">trackfile_name</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="c1"># if curr_fields['storm_name']:</span>
+            <span class="k">if</span> <span class="n">curr_fields</span><span class="p">[</span><span class="s2">"storm_name"</span><span class="p">]</span> <span class="ow">and</span> <span class="n">curr_fields</span><span class="p">[</span><span class="s2">"storm_name"</span><span class="p">]</span> <span class="o">!=</span> <span class="s2">"INVEST"</span><span class="p">:</span>
+                <span class="n">LOG</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">"UPDATING final_storm_name to </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="n">curr_fields</span><span class="p">[</span><span class="s2">"storm_name"</span><span class="p">])</span>
+                <span class="n">final_storm_name</span> <span class="o">=</span> <span class="n">curr_fields</span><span class="p">[</span><span class="s2">"storm_name"</span><span class="p">]</span>
+        <span class="k">except</span> <span class="ne">ValueError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">is_archived</span><span class="p">:</span>
+                <span class="n">LOG</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">"Skipping bad/poorly formatted line"</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">final_storm_name</span></div>
+
+</pre></div>
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../../../../_static/scripts/bootstrap.js?digest=cb8930eaaf36d9849b67"></script>
+<script defer src="../../../../../_static/scripts/pydata-sphinx-theme.js?digest=cb8930eaaf36d9849b67"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item"><div class="footer">
+    <a href="http://www.navy.mil">Official US Navy Website</a>
+    <a href="http://www.navy.com/navy/">US Navy Recruiting</a>
+    <a href="http://www.nrlmry.navy.mil">NRL</a>
+    <a href="http://foia.navy.mil">Accessibility</a>
+    <a href="http://foia.navy.mil">Freedom of Information Act</a>
+    <a href="http://www.nrlmry.navy.mil/privacypolicy.htm">Security & Policy</a>
+    <a href="http://www.nrlmry.navy.mil/linknotice.html">Hyperlink Notice</a>
+    <a href="mailto:webmaster@nrlmry.navy.mil">webmaster@nrlmry.navy.mil</a><br>
+    <a href="http://www.nrlmry.navy.mil">
+    Naval Research Laboratory Marine Meteorology Division Monterey, CA</a><br>
+    7 Grace Hopper Avenue, STOP 2, Monterey, CA 93943-5502
+</div></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

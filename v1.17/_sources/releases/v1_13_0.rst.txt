@@ -1,0 +1,255 @@
+.. dropdown:: Distribution Statement
+
+ | # # # This source code is subject to the license referenced at
+ | # # # https://github.com/NRLMMD-GEOIPS.
+
+Version 1.13.0 (2024-06-08)
+**************************************
+
+* Update internal 'update_this_release_note' to v1_13_1.rst
+* Update github.com 'update_this_release_note' to v1_14_0a0.rst
+* Bug fixes
+
+  * Add create_plugin_registries call to full_install.sh
+  * Remove additional references to get_entry_point_group
+  * Add himawari9 to test data downloads
+  * Update geokompsat unit test to use test_data_noaa_aws
+* Documentation Updates
+
+  * Ensure :orphan: tags are on the first line of rst files
+* Testing Updates
+
+  * Add ami and cli test scripts to full_test and test_all
+  * Update AMI TC test script to use $GEOIPS test bdeck file
+  * Update test outputs for cartopy 0.23.0 and matplotlib 3.9
+  * Remove all references to geokompsat_netcdf reader (replaced with ami_netcdf)
+  * Replace check-old-docs-frozen.py with git-based Actions check
+* Installation Updates
+
+  * Update CIRA NEXCLOUD amsr2 test dataset
+  * Only include latest SCAT test dataset in check_system_requirements
+  * Add create_plugin_registries to full_install.sh
+
+Bug Fixes
+=========
+
+Remove all references to geokompsat_netcdf reader (replaced with ami_netcdf)
+----------------------------------------------------------------------------
+
+I believe this was a bad merge - geokompsat readers and test scripts were
+re-instated.  Had been replaced with ami_netcdf on github.com.
+
+::
+
+  deleted: geoips/plugins/modules/readers/geokompsat_netcdf.py
+  deleted: tests/scripts/geokompsat.WV-Upper.unprojected_image.sh
+  deleted: tests/scripts/geokompsat.static.Infrared.imagery_annotated.sh
+  deleted: tests/scripts/geokompsat.static.Visible.imagery_annotated.sh
+  deleted: tests/scripts/geokompsat.tc.WV.geotiff.sh
+  modified: tests/test_all.sh
+
+Update geokompsat unit test to use test_data_noaa_aws
+-----------------------------------------------------
+
+Use the noaa aws test datasets.
+
+::
+
+  modified:   geoips/plugins/modules/readers/geokompsat_netcdf.py
+
+Add himawari9 to test data downloads
+------------------------------------
+
+Allow downloading himawari9 in noaa aws download script.
+
+::
+
+  modified:   tests/download_noaa_aws.sh
+
+Fix typo in test data download section in check system requirements
+-------------------------------------------------------------------
+
+This may have been a bad merge - there was a double tar -xzv for the
+CIRA NEXCLOUD downloads, which caused it to hang interminably.  Took out the
+duplicate code and it worked.
+
+::
+
+  modified:   setup/check_system_requirements.sh
+
+Add create_plugin_registries call to full_install.sh
+----------------------------------------------------
+
+This actually makes it a full install.
+
+::
+
+  modified:   tests/integration_tests/full_install.sh
+
+Remove additional references to get_entry_point_group
+-----------------------------------------------------
+
+A few of these were missed in the initial updates
+
+::
+
+  modified:   tests/unit_tests/commandline/cli_top_level_tester.py
+  modified:   tests/unit_tests/plugin_registries/test_plugin_registries.py
+  modified:   tests/unit_tests/plugins/yaml/test_all_yaml_plugins.py
+
+Documentation Updates
+=====================
+
+Ensure :orphan: tags are on the first line of rst files
+-------------------------------------------------------
+
+While creating the "new docs", sections that are not yet fully fleshed out are
+tagged with an ``:orphan:`` tag.  This tag MUST be on the first line or sphinx
+will still issue a warning that the RST file is not referenced in any toctree.
+Ensure when distribution statements are added/updated, the :orphan: tag stays
+on the first line.
+
+::
+
+  modified: docs/source/new-docs/**/*.rst
+
+Testing Updates
+===============
+
+Replace check-old-docs-frozen.py with git-based Actions check
+-------------------------------------------------------------
+
+This will avoid the need to update the hashes every time a file changes
+if we do need to update any files in the old docs directory.
+
+::
+
+  modified:   .github/workflows/check-old-docs-frozen.yaml
+  deleted:    docs/check-old-docs-frozen.py
+
+Update test outputs for cartopy 0.23.0 and matplotlib 3.9
+---------------------------------------------------------
+
+matplotlib 3.9 and cartopy 0.23 caused minor changes to output imagery.  Update
+all to correspond to the latest version of cartopy and matplotlib.
+
+::
+
+  modified: tests/outputs/abi.static.Infrared.imagery_annotated/20200918.195020.goes-16.abi.Infrared.goes_east.45p56.noaa.10p0.png
+  modified: tests/outputs/abi.static.Visible.imagery_annotated/20200918.195020.goes-16.abi.Visible.goes_east.41p12.noaa.10p0.png
+  modified: tests/outputs/ami.static.Infrared.imagery_annotated/20231208.030032.GK-2A.ami.Infrared.geokompsat.45p56.nmsc.10p0.png
+  modified: tests/outputs/ami.static.Visible.imagery_annotated/20231208.030032.GK-2A.ami.Visible.geokompsat.45p56.nmsc.10p0.png
+  modified: tests/outputs/amsr2.global_overlay.37pct.imagery_annotated_over_Infrared-Gray/20200518.062048.gcom-w1.amsr2.37pct.global.10p06.star.20p0.png
+  modified: tests/outputs/amsr2.global_overlay.37pct.imagery_annotated_over_Visible/20200518.062048.gcom-w1.amsr2.37pct.global.10p06.star.20p0.png
+  modified: tests/outputs/amsr2.global_overlay.89pct.imagery_annotated_over_Infrared-Gray/20200518.062048.gcom-w1.amsr2.89pct.global.13p55.star.20p0.png
+  modified: tests/outputs/amsr2.global_overlay.89pct.imagery_annotated_over_Visible/20200518.062048.gcom-w1.amsr2.89pct.global.13p55.star.20p0.png
+  modified: tests/outputs/amsr2.tc.89H-Physical.imagery_annotated/20200518_073601_IO012020_amsr2_gcom-w1_89H-Physical_140kts_100p00_res1p0-cr300.png
+  modified: tests/outputs/amsr2.tc_overlay.37pct.imagery_annotated_over_Infrared-Gray/20200518_073601_IO012020_amsr2_gcom-w1_37pct_140kts_95p89_res1p0-cr100-bgInfrared-Gray.png
+  modified: tests/outputs/amsr2.tc_overlay.37pct.imagery_annotated_over_Visible/20200518_073601_IO012020_amsr2_gcom-w1_37pct_140kts_95p89_res1p0-cr100-bgVisible.png
+  modified: tests/outputs/amsr2.tc_overlay.89pct.imagery_annotated_over_Infrared-Gray/20200518_073601_IO012020_amsr2_gcom-w1_89pct_140kts_98p32_res1p0-cr100-bgInfrared-Gray.png
+  modified: tests/outputs/amsr2.tc_overlay.89pct.imagery_annotated_over_Visible/20200518_073601_IO012020_amsr2_gcom-w1_89pct_140kts_98p32_res1p0-cr100-bgVisible.png
+
+Update AMI TC test script to use $GEOIPS test bdeck file
+--------------------------------------------------------
+
+Update bdeck file in AMI TC test script to point to $GEOIPS/tests/sectors.
+
+::
+
+  modified: tests/scripts/ami.tc.WV.geotiff.sh
+  new file: tests/sectors/tc_bdecks/bsh032024.dat
+
+Add ami and cli test scripts to full_test and test_all
+------------------------------------------------------
+
+Ensure all new scripts are added to full_test and test_all.
+
+::
+
+  modified:   tests/integration_tests/full_test.sh
+  modified:   tests/test_all.sh
+
+Installation Updates
+====================
+
+Update CIRA NEXCLOUD amsr2 test dataset
+---------------------------------------
+
+The filenames used in the unit tests and integration tests for AMSR2 test datasets
+did not match those contained in the NEXCLOUD datasets.  Updated CIRA NEXCLOUD
+dataset.  Note this did not require any changes to the source code repositories,
+but included in release note for reference.
+
+::
+
+  NONE
+
+Only include latest SCAT test dataset in check_system_requirements
+------------------------------------------------------------------
+
+Rather than pulling both 1.11.2 and 1.11.3 test_data_scat repositories from
+CIRA NEXCLOUD, only include the latest version in check_system_requirements
+and commandline/ancillary_info/test_data.py.
+
+This should remove the need to specifying the version in the integration tests,
+and for general use we should only support the latest version of the test datasets.
+
+If a user requires a specific test dataset version, they will have to manage that
+themselves.
+
+Eventually we will want to consolidate the test dataset listing to one place,
+right now it is fully specified both in check_system_requie
+
+::
+
+  modified: setup/check_system_requirements.sh
+  modified: tests/integration_tests/full_test.sh
+  modified: geoips/commandline/ancillary_info/test_data.py
+
+Add create_plugin_registries to full_install.sh
+-----------------------------------------------
+
+::
+
+  modified: tests/integration_tests/full_install.sh
+
+Release Updates
+===============
+
+Add mamba env and pip requirements files for base and full install
+------------------------------------------------------------------
+
+*From issue GEOIPS#513: 2024-06-08, version update*
+
+::
+
+  new file: environments/mamba_full_package_list_1.13.0_20240612.yml
+  new file: environments/pip_full_requirements_1.13.0_20240612.txt
+  new file: environments/mamba_base_package_list_1.13.0_20240609.yml
+  new file: environments/pip_base_requirements_1.13.0_20240609.txt
+
+Add 1.13.0 release note
+---------------------------
+
+*From issue GEOIPS#513: 2024-06-08, version update*
+
+::
+
+    modified: CHANGELOG.rst
+    new file: docs/source/releases/v1_13_0.rst
+    modified: docs/source/releases/index.rst
+
+Update internal and github.com 'update_this_release_note'
+---------------------------------------------------------
+
+*From issue GEOIPS#513: 2024-06-08, update 'update_this_release_note'*
+
+Updated 'update_this_release_note' file in geoips repo for the
+next internal version:
+docs/source/releases/v1_13_1.rst
+next github.com version:
+docs/source/releases/v1_14_0a0.rst
+
+::
+
+    modified: update_this_release_note

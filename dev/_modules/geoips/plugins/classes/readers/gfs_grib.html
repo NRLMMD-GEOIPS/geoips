@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>geoips.plugins.classes.readers.gfs_grib &#8212; GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation</title>
+    <title>geoips.plugins.classes.readers.gfs_grib &#8212; GeoIPS, Geolocated Information Processing System 0.0.0 documentation</title>
   
   
   
@@ -40,7 +40,7 @@
   <link rel="preload" as="script" href="../../../../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
 <link rel="preload" as="script" href="../../../../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
 
-    <script data-url_root="../../../../../" id="documentation_options" src="../../../../../_static/documentation_options.js?v=6727bded"></script>
+    <script data-url_root="../../../../../" id="documentation_options" src="../../../../../_static/documentation_options.js?v=525cde36"></script>
     <script src="../../../../../_static/doctools.js?v=888ff710"></script>
     <script src="../../../../../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../../../_static/design-tabs.js?v=f930bc37"></script>
@@ -401,14 +401,21 @@ mermaid.initialize(
 window.addEventListener("load", load);
 window.runMermaid = runMermaid;</script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_modules/geoips/plugins/classes/readers/gfs_grib';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.17.1';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://nrlmmd-geoips.github.io/geoips/versions.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = 'dev';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner =
+            false;
+        </script>
     <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
     <link rel="icon" href="../../../../../_static/nrlicon.ico"/>
     <link rel="index" title="Index" href="../../../../../genindex.html" />
     <link rel="search" title="Search" href="../../../../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2.0" />
-    <meta name="docbuild:last-update" content="Jul 23, 2026 17:03:57"/>
+  <meta name="docsearch:version" content="0.0" />
+    <meta name="docbuild:last-update" content="Aug 31, 2026 13:32:18"/>
   
     
     <script src="../../../../../_static/searchtools.js"></script>
@@ -480,11 +487,31 @@ window.runMermaid = runMermaid;</script>
       
     
     
-    <img src="../../../../../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation - Home"/>
-    <img src="../../../../../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation - Home"/>
+    <img src="../../../../../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 0.0.0 documentation - Home"/>
+    <img src="../../../../../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 0.0.0 documentation - Home"/>
   
   
 </a></div>
+    
+      <div class="navbar-item">
+<div class="version-switcher__container dropdown pst-js-only">
+  <button id="pst-version-switcher-button-2"
+    type="button"
+    class="version-switcher__button btn btn-sm dropdown-toggle"
+    data-bs-toggle="dropdown"
+    aria-haspopup="listbox"
+    aria-controls="pst-version-switcher-list-2"
+    aria-label="Version switcher list"
+  >
+    Choose version  <!-- this text may get changed later by javascript -->
+    <span class="caret"></span>
+  </button>
+  <div id="pst-version-switcher-list-2"
+    class="version-switcher__menu dropdown-menu list-group-flush py-0"
+    role="listbox" aria-labelledby="pst-version-switcher-button-2">
+    <!-- dropdown will be populated by javascript on page load -->
+  </div>
+</div></div>
     
   </div>
   
@@ -828,7 +855,7 @@ window.runMermaid = runMermaid;</script>
 <span></span><span class="c1"># # # This source code is subject to the license referenced at</span>
 <span class="c1"># # # https://github.com/NRLMMD-GEOIPS.</span>
 
-<span class="sd">&quot;&quot;&quot;Reader to read GFS Files in GRIB format.</span>
+<span class="sd">"""Reader to read GFS Files in GRIB format.</span>
 
 <span class="sd">    (NRL-Monterey, Sept. 2024)</span>
 
@@ -837,7 +864,7 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">       - GFS Wave global domain</span>
 
 <span class="sd">This reader can take in multiple forcast times at multiple analysis times.</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">geoips.interfaces.class_based.readers</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseReaderPlugin</span>
 
@@ -854,35 +881,35 @@ window.runMermaid = runMermaid;</script>
 
 
 <div class="viewcode-block" id="GfsGribReaderPlugin"><a class="viewcode-back" href="../../../../../geoips_api/geoips.plugins.classes.readers.html#geoips.plugins.classes.readers.gfs_grib.GfsGribReaderPlugin">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">GfsGribReaderPlugin</span><span class="p">(</span><span class="n">BaseReaderPlugin</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;GFS Grib reader plugin class.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""GFS Grib reader plugin class."""</span>
 
-    <span class="n">interface</span> <span class="o">=</span> <span class="s2">&quot;readers&quot;</span>
-    <span class="n">family</span> <span class="o">=</span> <span class="s2">&quot;standard&quot;</span>
-    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;gfs_grib&quot;</span>
+    <span class="n">interface</span> <span class="o">=</span> <span class="s2">"readers"</span>
+    <span class="n">family</span> <span class="o">=</span> <span class="s2">"standard"</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">"gfs_grib"</span>
 
     <span class="n">surface_vars</span> <span class="o">=</span> <span class="p">[</span>
-        <span class="s2">&quot;Convective available potential energy&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;Convective inhibition&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;Temperature&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;Snow depth&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;Ice thickness&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;Precipitation rate&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;Vegetation&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;Sunshine Duration&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;Sea ice temperature&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;Sea ice area fraction&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;Wind speed (gust)&quot;</span><span class="p">,</span>
+        <span class="s2">"Convective available potential energy"</span><span class="p">,</span>
+        <span class="s2">"Convective inhibition"</span><span class="p">,</span>
+        <span class="s2">"Temperature"</span><span class="p">,</span>
+        <span class="s2">"Snow depth"</span><span class="p">,</span>
+        <span class="s2">"Ice thickness"</span><span class="p">,</span>
+        <span class="s2">"Precipitation rate"</span><span class="p">,</span>
+        <span class="s2">"Vegetation"</span><span class="p">,</span>
+        <span class="s2">"Sunshine Duration"</span><span class="p">,</span>
+        <span class="s2">"Sea ice temperature"</span><span class="p">,</span>
+        <span class="s2">"Sea ice area fraction"</span><span class="p">,</span>
+        <span class="s2">"Wind speed (gust)"</span><span class="p">,</span>
     <span class="p">]</span>
     <span class="c1"># TBD: rename variables to shorter, simpler names</span>
     <span class="c1"># ex: significant_height_of_combined_wind_waves_and_swell -&gt; comb_wave_height</span>
-    <span class="n">tmp_attrs</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;units&quot;</span><span class="p">,</span> <span class="s2">&quot;pressureUnits&quot;</span><span class="p">]</span>
-    <span class="n">surf_attrs</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;units&quot;</span><span class="p">,</span> <span class="s2">&quot;shortName&quot;</span><span class="p">,</span> <span class="s2">&quot;name&quot;</span><span class="p">,</span> <span class="s2">&quot;typeOfLevel&quot;</span><span class="p">]</span>
+    <span class="n">tmp_attrs</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"units"</span><span class="p">,</span> <span class="s2">"pressureUnits"</span><span class="p">]</span>
+    <span class="n">surf_attrs</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"units"</span><span class="p">,</span> <span class="s2">"shortName"</span><span class="p">,</span> <span class="s2">"name"</span><span class="p">,</span> <span class="s2">"typeOfLevel"</span><span class="p">]</span>
 
     <span class="n">MS_TO_KTS</span> <span class="o">=</span> <span class="mf">1.94384</span>
-    <span class="n">source_names</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;gfs&quot;</span><span class="p">]</span>
+    <span class="n">source_names</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"gfs"</span><span class="p">]</span>
 
 <div class="viewcode-block" id="GfsGribReaderPlugin.convert_uv_to_kts"><a class="viewcode-back" href="../../../../../geoips_api/geoips.plugins.classes.readers.html#geoips.plugins.classes.readers.gfs_grib.GfsGribReaderPlugin.convert_uv_to_kts">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">convert_uv_to_kts</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">xr_df</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Convert U/V Components to windspeed and winddir.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Convert U/V Components to windspeed and winddir."""</span>
         <span class="n">sqrt_func</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span>
         <span class="n">arctan2_func</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arctan2</span>
         <span class="n">degrees_func</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">degrees</span>
@@ -891,18 +918,18 @@ window.runMermaid = runMermaid;</script>
         <span class="n">vcomp</span> <span class="o">=</span> <span class="n">xr_df</span><span class="o">.</span><span class="n">v_component_of_wind</span><span class="o">.</span><span class="n">values</span>
         <span class="n">wind_dims</span> <span class="o">=</span> <span class="n">xr_df</span><span class="o">.</span><span class="n">u_component_of_wind</span><span class="o">.</span><span class="n">dims</span>
 
-        <span class="n">xr_df</span><span class="p">[</span><span class="s2">&quot;windspeed_kts&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
+        <span class="n">xr_df</span><span class="p">[</span><span class="s2">"windspeed_kts"</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
             <span class="n">sqrt_func</span><span class="p">((</span><span class="n">ucomp</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">vcomp</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">MS_TO_KTS</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="n">wind_dims</span>
         <span class="p">)</span>
-        <span class="n">xr_df</span><span class="p">[</span><span class="s2">&quot;winddir&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
+        <span class="n">xr_df</span><span class="p">[</span><span class="s2">"winddir"</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
             <span class="n">degrees_func</span><span class="p">(</span><span class="n">arctan2_func</span><span class="p">(</span><span class="o">-</span><span class="n">ucomp</span><span class="p">,</span> <span class="o">-</span><span class="n">vcomp</span><span class="p">))</span> <span class="o">%</span> <span class="mi">360</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="n">wind_dims</span>
         <span class="p">)</span>
         <span class="k">return</span> <span class="n">xr_df</span></div>
 
 <div class="viewcode-block" id="GfsGribReaderPlugin.press_grb_to_xr"><a class="viewcode-back" href="../../../../../geoips_api/geoips.plugins.classes.readers.html#geoips.plugins.classes.readers.gfs_grib.GfsGribReaderPlugin.press_grb_to_xr">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">press_grb_to_xr</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">grb_obj</span><span class="p">,</span> <span class="n">custom_pressure_name</span><span class="o">=</span><span class="s2">&quot;unk_pres&quot;</span><span class="p">,</span> <span class="n">coord_flag</span><span class="o">=</span><span class="kc">False</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">grb_obj</span><span class="p">,</span> <span class="n">custom_pressure_name</span><span class="o">=</span><span class="s2">"unk_pres"</span><span class="p">,</span> <span class="n">coord_flag</span><span class="o">=</span><span class="kc">False</span>
     <span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Convert pressure grb values to xarray.Dataset.</span>
+<span class="w">        </span><span class="sd">"""Convert pressure grb values to xarray.Dataset.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -913,24 +940,24 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">        -------</span>
 <span class="sd">        final_xarray : xarray.Dataset</span>
 <span class="sd">            * xarray formatted to geoips standards</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">lats</span><span class="p">,</span> <span class="n">lons</span> <span class="o">=</span> <span class="n">grb_obj</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">latlons</span><span class="p">()</span>
 
-        <span class="n">tmp_vars</span> <span class="o">=</span> <span class="nb">set</span><span class="p">((</span><span class="n">i</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">grb_obj</span><span class="p">))</span>
+        <span class="n">tmp_vars</span> <span class="o">=</span> <span class="nb">set</span><span class="p">((</span><span class="n">i</span><span class="p">[</span><span class="s2">"name"</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">grb_obj</span><span class="p">))</span>
         <span class="n">varlist</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="n">unq_pres</span> <span class="o">=</span> <span class="kc">False</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">tmp_vars</span><span class="p">:</span>
-            <span class="n">key</span> <span class="o">=</span> <span class="s2">&quot;_&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">i</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">))</span>
-            <span class="n">tmp_data</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">j</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">grb_obj</span> <span class="k">if</span> <span class="n">j</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">i</span><span class="p">)</span>
+            <span class="n">key</span> <span class="o">=</span> <span class="s2">"_"</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">i</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">" "</span><span class="p">))</span>
+            <span class="n">tmp_data</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">j</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">grb_obj</span> <span class="k">if</span> <span class="n">j</span><span class="p">[</span><span class="s2">"name"</span><span class="p">]</span> <span class="o">==</span> <span class="n">i</span><span class="p">)</span>
 
             <span class="n">data_attrs</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">tmp_data</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">tmp_attrs</span><span class="p">}</span>
-            <span class="n">tmp_press_lvls</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">j</span><span class="p">[</span><span class="s2">&quot;level&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">grb_obj</span> <span class="k">if</span> <span class="n">j</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">i</span><span class="p">))</span>
+            <span class="n">tmp_press_lvls</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">j</span><span class="p">[</span><span class="s2">"level"</span><span class="p">]</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">grb_obj</span> <span class="k">if</span> <span class="n">j</span><span class="p">[</span><span class="s2">"name"</span><span class="p">]</span> <span class="o">==</span> <span class="n">i</span><span class="p">))</span>
 
             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">tmp_press_lvls</span><span class="p">)</span> <span class="o">==</span> <span class="mi">22</span><span class="p">:</span>
-                <span class="n">pres_dim</span> <span class="o">=</span> <span class="s2">&quot;coarse_press&quot;</span>
+                <span class="n">pres_dim</span> <span class="o">=</span> <span class="s2">"coarse_press"</span>
                 <span class="n">cpres</span> <span class="o">=</span> <span class="n">tmp_press_lvls</span>
             <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">tmp_press_lvls</span><span class="p">)</span> <span class="o">==</span> <span class="mi">33</span><span class="p">:</span>
-                <span class="n">pres_dim</span> <span class="o">=</span> <span class="s2">&quot;fine_press&quot;</span>
+                <span class="n">pres_dim</span> <span class="o">=</span> <span class="s2">"fine_press"</span>
                 <span class="n">fpres</span> <span class="o">=</span> <span class="n">tmp_press_lvls</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">pres_dim</span> <span class="o">=</span> <span class="n">custom_pressure_name</span>
@@ -938,40 +965,40 @@ window.runMermaid = runMermaid;</script>
                 <span class="n">unq_pres</span> <span class="o">=</span> <span class="kc">True</span>
             <span class="k">if</span> <span class="n">coord_flag</span><span class="p">:</span>
                 <span class="n">varlist</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
-                    <span class="n">data</span><span class="o">=</span><span class="p">[</span><span class="n">j</span><span class="o">.</span><span class="n">values</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">grb_obj</span> <span class="k">if</span> <span class="n">j</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">i</span><span class="p">],</span>
+                    <span class="n">data</span><span class="o">=</span><span class="p">[</span><span class="n">j</span><span class="o">.</span><span class="n">values</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">grb_obj</span> <span class="k">if</span> <span class="n">j</span><span class="p">[</span><span class="s2">"name"</span><span class="p">]</span> <span class="o">==</span> <span class="n">i</span><span class="p">],</span>
                     <span class="n">coords</span><span class="o">=</span><span class="p">{</span>
                         <span class="n">pres_dim</span><span class="p">:</span> <span class="n">tmp_press_lvls</span><span class="p">,</span>
-                        <span class="s2">&quot;latitude&quot;</span><span class="p">:</span> <span class="n">lats</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span>
-                        <span class="s2">&quot;longitude&quot;</span><span class="p">:</span> <span class="n">lons</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+                        <span class="s2">"latitude"</span><span class="p">:</span> <span class="n">lats</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span>
+                        <span class="s2">"longitude"</span><span class="p">:</span> <span class="n">lons</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
                     <span class="p">},</span>
                     <span class="n">attrs</span><span class="o">=</span><span class="n">data_attrs</span><span class="p">,</span>
                 <span class="p">)</span>
 
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">varlist</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
-                    <span class="n">data</span><span class="o">=</span><span class="p">[</span><span class="n">j</span><span class="o">.</span><span class="n">values</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">grb_obj</span> <span class="k">if</span> <span class="n">j</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">i</span><span class="p">],</span>
-                    <span class="n">dims</span><span class="o">=</span><span class="p">(</span><span class="n">pres_dim</span><span class="p">,</span> <span class="s2">&quot;xi&quot;</span><span class="p">,</span> <span class="s2">&quot;yi&quot;</span><span class="p">),</span>
+                    <span class="n">data</span><span class="o">=</span><span class="p">[</span><span class="n">j</span><span class="o">.</span><span class="n">values</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">grb_obj</span> <span class="k">if</span> <span class="n">j</span><span class="p">[</span><span class="s2">"name"</span><span class="p">]</span> <span class="o">==</span> <span class="n">i</span><span class="p">],</span>
+                    <span class="n">dims</span><span class="o">=</span><span class="p">(</span><span class="n">pres_dim</span><span class="p">,</span> <span class="s2">"xi"</span><span class="p">,</span> <span class="s2">"yi"</span><span class="p">),</span>
                     <span class="n">attrs</span><span class="o">=</span><span class="n">data_attrs</span><span class="p">,</span>
                 <span class="p">)</span>
 
         <span class="k">if</span> <span class="ow">not</span> <span class="n">coord_flag</span><span class="p">:</span>
-            <span class="n">varlist</span><span class="p">[</span><span class="s2">&quot;latitude&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">lats</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;xi&quot;</span><span class="p">,</span> <span class="s2">&quot;yi&quot;</span><span class="p">))</span>
-            <span class="n">varlist</span><span class="p">[</span><span class="s2">&quot;longitude&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">lons</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;xi&quot;</span><span class="p">,</span> <span class="s2">&quot;yi&quot;</span><span class="p">))</span>
+            <span class="n">varlist</span><span class="p">[</span><span class="s2">"latitude"</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">lats</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="p">(</span><span class="s2">"xi"</span><span class="p">,</span> <span class="s2">"yi"</span><span class="p">))</span>
+            <span class="n">varlist</span><span class="p">[</span><span class="s2">"longitude"</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">lons</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="p">(</span><span class="s2">"xi"</span><span class="p">,</span> <span class="s2">"yi"</span><span class="p">))</span>
 
         <span class="k">if</span> <span class="n">unq_pres</span><span class="p">:</span>
             <span class="n">varlist</span><span class="p">[</span><span class="n">custom_pressure_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
                 <span class="n">upres</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="p">(</span><span class="n">custom_pressure_name</span><span class="p">)</span>
             <span class="p">)</span>
         <span class="k">elif</span> <span class="ow">not</span> <span class="n">coord_flag</span><span class="p">:</span>
-            <span class="n">varlist</span><span class="p">[</span><span class="s2">&quot;coarse_press&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">cpres</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;coarse_press&quot;</span><span class="p">))</span>
-            <span class="n">varlist</span><span class="p">[</span><span class="s2">&quot;fine_press&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">fpres</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;fine_press&quot;</span><span class="p">))</span>
+            <span class="n">varlist</span><span class="p">[</span><span class="s2">"coarse_press"</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">cpres</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="p">(</span><span class="s2">"coarse_press"</span><span class="p">))</span>
+            <span class="n">varlist</span><span class="p">[</span><span class="s2">"fine_press"</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">fpres</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="p">(</span><span class="s2">"fine_press"</span><span class="p">))</span>
 
         <span class="n">xr_dset</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">(</span><span class="n">varlist</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">xr_dset</span></div>
 
 <div class="viewcode-block" id="GfsGribReaderPlugin.surf_grb_to_xr"><a class="viewcode-back" href="../../../../../geoips_api/geoips.plugins.classes.readers.html#geoips.plugins.classes.readers.gfs_grib.GfsGribReaderPlugin.surf_grb_to_xr">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">surf_grb_to_xr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">grb_obj</span><span class="p">,</span> <span class="n">coord_flag</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Convert surface grb values to xarray.Dataset.</span>
+<span class="w">        </span><span class="sd">"""Convert surface grb values to xarray.Dataset.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -982,35 +1009,35 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">        -------</span>
 <span class="sd">        final_xarray : xarray.Dataset</span>
 <span class="sd">            * xarray formatted to geoips standards</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">varlist</span> <span class="o">=</span> <span class="p">{}</span>
 
         <span class="n">lats</span><span class="p">,</span> <span class="n">lons</span> <span class="o">=</span> <span class="n">grb_obj</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">latlons</span><span class="p">()</span>
 
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">grb_obj</span><span class="p">:</span>
-            <span class="n">tmp_key</span> <span class="o">=</span> <span class="s2">&quot;_&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">i</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">))</span>
+            <span class="n">tmp_key</span> <span class="o">=</span> <span class="s2">"_"</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">i</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">" "</span><span class="p">))</span>
 
             <span class="n">data_attrs</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">i</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">surf_attrs</span><span class="p">}</span>
             <span class="k">if</span> <span class="n">coord_flag</span><span class="p">:</span>
 
                 <span class="n">varlist</span><span class="p">[</span><span class="n">tmp_key</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
                     <span class="n">data</span><span class="o">=</span><span class="n">i</span><span class="o">.</span><span class="n">values</span><span class="p">,</span>
-                    <span class="n">coords</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;latitude&quot;</span><span class="p">:</span> <span class="n">lats</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="s2">&quot;longitude&quot;</span><span class="p">:</span> <span class="n">lons</span><span class="p">[</span><span class="mi">0</span><span class="p">]},</span>
+                    <span class="n">coords</span><span class="o">=</span><span class="p">{</span><span class="s2">"latitude"</span><span class="p">:</span> <span class="n">lats</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="s2">"longitude"</span><span class="p">:</span> <span class="n">lons</span><span class="p">[</span><span class="mi">0</span><span class="p">]},</span>
                     <span class="n">attrs</span><span class="o">=</span><span class="n">data_attrs</span><span class="p">,</span>
                 <span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">varlist</span><span class="p">[</span><span class="n">tmp_key</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
-                    <span class="n">data</span><span class="o">=</span><span class="n">i</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;xi&quot;</span><span class="p">,</span> <span class="s2">&quot;yi&quot;</span><span class="p">),</span> <span class="n">attrs</span><span class="o">=</span><span class="n">data_attrs</span>
+                    <span class="n">data</span><span class="o">=</span><span class="n">i</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="p">(</span><span class="s2">"xi"</span><span class="p">,</span> <span class="s2">"yi"</span><span class="p">),</span> <span class="n">attrs</span><span class="o">=</span><span class="n">data_attrs</span>
                 <span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">coord_flag</span><span class="p">:</span>
-            <span class="n">varlist</span><span class="p">[</span><span class="s2">&quot;latitude&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">lats</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;xi&quot;</span><span class="p">,</span> <span class="s2">&quot;yi&quot;</span><span class="p">))</span>
-            <span class="n">varlist</span><span class="p">[</span><span class="s2">&quot;longitude&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">lons</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;xi&quot;</span><span class="p">,</span> <span class="s2">&quot;yi&quot;</span><span class="p">))</span>
+            <span class="n">varlist</span><span class="p">[</span><span class="s2">"latitude"</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">lats</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="p">(</span><span class="s2">"xi"</span><span class="p">,</span> <span class="s2">"yi"</span><span class="p">))</span>
+            <span class="n">varlist</span><span class="p">[</span><span class="s2">"longitude"</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">lons</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="p">(</span><span class="s2">"xi"</span><span class="p">,</span> <span class="s2">"yi"</span><span class="p">))</span>
 
         <span class="n">xr_dset</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">(</span><span class="n">varlist</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">xr_dset</span></div>
 
 <div class="viewcode-block" id="GfsGribReaderPlugin.read_atmos"><a class="viewcode-back" href="../../../../../geoips_api/geoips.plugins.classes.readers.html#geoips.plugins.classes.readers.gfs_grib.GfsGribReaderPlugin.read_atmos">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">read_atmos</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filenames</span><span class="p">,</span> <span class="n">coord_flag</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Read gfs files.</span>
+<span class="w">        </span><span class="sd">"""Read gfs files.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -1021,13 +1048,13 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">        -------</span>
 <span class="sd">        final_xarray : xarray.Dataset</span>
 <span class="sd">            * xarray formatted to geoips standards</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Reading ATMOS file&quot;</span><span class="p">)</span>
+<span class="sd">        """</span>
+        <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"Reading ATMOS file"</span><span class="p">)</span>
         <span class="n">xr_list</span> <span class="o">=</span> <span class="p">{</span>
-            <span class="s2">&quot;gfs_pressure&quot;</span><span class="p">:</span> <span class="p">[],</span>
-            <span class="s2">&quot;gfs_surface&quot;</span><span class="p">:</span> <span class="p">[],</span>
-            <span class="s2">&quot;gfs_singlelayer&quot;</span><span class="p">:</span> <span class="p">[],</span>
-            <span class="s2">&quot;gfs_atmosphere&quot;</span><span class="p">:</span> <span class="p">[],</span>
+            <span class="s2">"gfs_pressure"</span><span class="p">:</span> <span class="p">[],</span>
+            <span class="s2">"gfs_surface"</span><span class="p">:</span> <span class="p">[],</span>
+            <span class="s2">"gfs_singlelayer"</span><span class="p">:</span> <span class="p">[],</span>
+            <span class="s2">"gfs_atmosphere"</span><span class="p">:</span> <span class="p">[],</span>
         <span class="p">}</span>
         <span class="n">base_time</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="n">fcst_time</span> <span class="o">=</span> <span class="p">[]</span>
@@ -1036,67 +1063,67 @@ window.runMermaid = runMermaid;</script>
             <span class="n">pg_frame</span> <span class="o">=</span> <span class="n">pyg</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
 
             <span class="c1"># Pressure</span>
-            <span class="n">tmp_pres</span> <span class="o">=</span> <span class="n">pg_frame</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">typeOfLevel</span><span class="o">=</span><span class="s2">&quot;isobaricInhPa&quot;</span><span class="p">)</span>
+            <span class="n">tmp_pres</span> <span class="o">=</span> <span class="n">pg_frame</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">typeOfLevel</span><span class="o">=</span><span class="s2">"isobaricInhPa"</span><span class="p">)</span>
             <span class="n">xr_pres</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">press_grb_to_xr</span><span class="p">(</span><span class="n">tmp_pres</span><span class="p">,</span> <span class="n">coord_flag</span><span class="o">=</span><span class="n">coord_flag</span><span class="p">)</span>
 
             <span class="n">xr_pres</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">convert_uv_to_kts</span><span class="p">(</span><span class="n">xr_pres</span><span class="p">)</span>
 
             <span class="c1"># Surface</span>
-            <span class="n">tmp_surf</span> <span class="o">=</span> <span class="n">pg_frame</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">surface_vars</span><span class="p">,</span> <span class="n">typeOfLevel</span><span class="o">=</span><span class="s2">&quot;surface&quot;</span><span class="p">)</span>
+            <span class="n">tmp_surf</span> <span class="o">=</span> <span class="n">pg_frame</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">surface_vars</span><span class="p">,</span> <span class="n">typeOfLevel</span><span class="o">=</span><span class="s2">"surface"</span><span class="p">)</span>
             <span class="n">surface_xr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">surf_grb_to_xr</span><span class="p">(</span><span class="n">tmp_surf</span><span class="p">,</span> <span class="n">coord_flag</span><span class="o">=</span><span class="n">coord_flag</span><span class="p">)</span>
 
             <span class="c1"># Single Layer, is ok to considerd as surface (slab)</span>
-            <span class="n">tmp_sl</span> <span class="o">=</span> <span class="n">pg_frame</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">typeOfLevel</span><span class="o">=</span><span class="s2">&quot;atmosphereSingleLayer&quot;</span><span class="p">)</span>
+            <span class="n">tmp_sl</span> <span class="o">=</span> <span class="n">pg_frame</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">typeOfLevel</span><span class="o">=</span><span class="s2">"atmosphereSingleLayer"</span><span class="p">)</span>
             <span class="n">single_atm_xr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">surf_grb_to_xr</span><span class="p">(</span><span class="n">tmp_sl</span><span class="p">,</span> <span class="n">coord_flag</span><span class="o">=</span><span class="n">coord_flag</span><span class="p">)</span>
 
-            <span class="n">tmp_atmos</span> <span class="o">=</span> <span class="n">pg_frame</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">typeOfLevel</span><span class="o">=</span><span class="s2">&quot;atmosphere&quot;</span><span class="p">)</span>
+            <span class="n">tmp_atmos</span> <span class="o">=</span> <span class="n">pg_frame</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">typeOfLevel</span><span class="o">=</span><span class="s2">"atmosphere"</span><span class="p">)</span>
             <span class="n">atmos_xr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">surf_grb_to_xr</span><span class="p">(</span><span class="n">tmp_atmos</span><span class="p">,</span> <span class="n">coord_flag</span><span class="o">=</span><span class="n">coord_flag</span><span class="p">)</span>
 
-            <span class="n">xr_list</span><span class="p">[</span><span class="s2">&quot;gfs_pressure&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">xr_pres</span><span class="p">)</span>
-            <span class="n">xr_list</span><span class="p">[</span><span class="s2">&quot;gfs_surface&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">surface_xr</span><span class="p">)</span>
-            <span class="n">xr_list</span><span class="p">[</span><span class="s2">&quot;gfs_singlelayer&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">single_atm_xr</span><span class="p">)</span>
-            <span class="n">xr_list</span><span class="p">[</span><span class="s2">&quot;gfs_atmosphere&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">atmos_xr</span><span class="p">)</span>
+            <span class="n">xr_list</span><span class="p">[</span><span class="s2">"gfs_pressure"</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">xr_pres</span><span class="p">)</span>
+            <span class="n">xr_list</span><span class="p">[</span><span class="s2">"gfs_surface"</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">surface_xr</span><span class="p">)</span>
+            <span class="n">xr_list</span><span class="p">[</span><span class="s2">"gfs_singlelayer"</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">single_atm_xr</span><span class="p">)</span>
+            <span class="n">xr_list</span><span class="p">[</span><span class="s2">"gfs_atmosphere"</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">atmos_xr</span><span class="p">)</span>
 
             <span class="c1"># track the analysis and valid forcast date</span>
             <span class="n">base_time</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tmp_sl</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">analDate</span><span class="p">)</span>
             <span class="n">fcst_time</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tmp_sl</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">validDate</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">coord_flag</span><span class="p">:</span>
-            <span class="n">tdim</span> <span class="o">=</span> <span class="s2">&quot;time&quot;</span>
+            <span class="n">tdim</span> <span class="o">=</span> <span class="s2">"time"</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">tdim</span> <span class="o">=</span> <span class="s2">&quot;atime&quot;</span>
+            <span class="n">tdim</span> <span class="o">=</span> <span class="s2">"atime"</span>
         <span class="n">tvar</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">base_time</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="p">(</span><span class="n">tdim</span><span class="p">))</span>
 
         <span class="n">bname</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="n">basename</span><span class="p">,</span> <span class="n">filenames</span><span class="p">))</span>
-        <span class="n">res</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">bname</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;p&quot;</span><span class="p">)))</span> <span class="o">*</span> <span class="mi">111</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="s2">"."</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">bname</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">"."</span><span class="p">)[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">"p"</span><span class="p">)))</span> <span class="o">*</span> <span class="mi">111</span>
 
         <span class="n">xr_attrs</span> <span class="o">=</span> <span class="p">{</span>
-            <span class="s2">&quot;source_file_name&quot;</span><span class="p">:</span> <span class="n">bname</span><span class="p">,</span>
-            <span class="s2">&quot;start_datetime&quot;</span><span class="p">:</span> <span class="n">base_time</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
-            <span class="s2">&quot;end_datetime&quot;</span><span class="p">:</span> <span class="n">fcst_time</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span>
-            <span class="s2">&quot;source_name&quot;</span><span class="p">:</span> <span class="s2">&quot;gfs&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;platform_name&quot;</span><span class="p">:</span> <span class="s2">&quot;model&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;data_provider&quot;</span><span class="p">:</span> <span class="s2">&quot;NOAA&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;sample_distance_km&quot;</span><span class="p">:</span> <span class="n">res</span><span class="p">,</span>
-            <span class="s2">&quot;interpolation_radius_of_influence&quot;</span><span class="p">:</span> <span class="mi">30000</span><span class="p">,</span>
+            <span class="s2">"source_file_name"</span><span class="p">:</span> <span class="n">bname</span><span class="p">,</span>
+            <span class="s2">"start_datetime"</span><span class="p">:</span> <span class="n">base_time</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+            <span class="s2">"end_datetime"</span><span class="p">:</span> <span class="n">fcst_time</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span>
+            <span class="s2">"source_name"</span><span class="p">:</span> <span class="s2">"gfs"</span><span class="p">,</span>
+            <span class="s2">"platform_name"</span><span class="p">:</span> <span class="s2">"model"</span><span class="p">,</span>
+            <span class="s2">"data_provider"</span><span class="p">:</span> <span class="s2">"NOAA"</span><span class="p">,</span>
+            <span class="s2">"sample_distance_km"</span><span class="p">:</span> <span class="n">res</span><span class="p">,</span>
+            <span class="s2">"interpolation_radius_of_influence"</span><span class="p">:</span> <span class="mi">30000</span><span class="p">,</span>
         <span class="p">}</span>
 
         <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">xr_list</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
             <span class="n">xr_list</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">xr_list</span><span class="p">[</span><span class="n">k</span><span class="p">],</span> <span class="n">tvar</span><span class="p">)</span>
-            <span class="n">xr_list</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="s2">&quot;forcast_time&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">fcst_time</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="p">(</span><span class="n">tdim</span><span class="p">))</span>
+            <span class="n">xr_list</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="s2">"forcast_time"</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">fcst_time</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="p">(</span><span class="n">tdim</span><span class="p">))</span>
             <span class="n">xr_list</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr_list</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="o">.</span><span class="n">assign_attrs</span><span class="p">(</span><span class="n">xr_attrs</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">coord_flag</span><span class="p">:</span>
-                <span class="n">xr_list</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr_list</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="s2">&quot;latitude&quot;</span><span class="p">,</span> <span class="s2">&quot;longitude&quot;</span><span class="p">,</span> <span class="o">...</span><span class="p">)</span>
+                <span class="n">xr_list</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr_list</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="s2">"latitude"</span><span class="p">,</span> <span class="s2">"longitude"</span><span class="p">,</span> <span class="o">...</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="n">xr_list</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="s2">&quot;latitude&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr_list</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="s2">&quot;latitude&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
-                <span class="n">xr_list</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="s2">&quot;longitude&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr_list</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="s2">&quot;longitude&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
-                <span class="n">xr_list</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr_list</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="s2">&quot;xi&quot;</span><span class="p">,</span> <span class="s2">&quot;yi&quot;</span><span class="p">,</span> <span class="o">...</span><span class="p">)</span>
+                <span class="n">xr_list</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="s2">"latitude"</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr_list</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="s2">"latitude"</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+                <span class="n">xr_list</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="s2">"longitude"</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr_list</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="s2">"longitude"</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+                <span class="n">xr_list</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr_list</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="s2">"xi"</span><span class="p">,</span> <span class="s2">"yi"</span><span class="p">,</span> <span class="o">...</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">xr_list</span></div>
 
 <div class="viewcode-block" id="GfsGribReaderPlugin.read_wave"><a class="viewcode-back" href="../../../../../geoips_api/geoips.plugins.classes.readers.html#geoips.plugins.classes.readers.gfs_grib.GfsGribReaderPlugin.read_wave">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">read_wave</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filenames</span><span class="p">,</span> <span class="n">coord_flag</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Read gfswave products.&quot;&quot;&quot;</span>
-        <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Reading gfswave&quot;</span><span class="p">)</span>
-        <span class="n">xr_list</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;wave_surface&quot;</span><span class="p">:</span> <span class="p">[],</span> <span class="s2">&quot;wave_seq&quot;</span><span class="p">:</span> <span class="p">[]}</span>
+<span class="w">        </span><span class="sd">"""Read gfswave products."""</span>
+        <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"Reading gfswave"</span><span class="p">)</span>
+        <span class="n">xr_list</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"wave_surface"</span><span class="p">:</span> <span class="p">[],</span> <span class="s2">"wave_seq"</span><span class="p">:</span> <span class="p">[]}</span>
         <span class="n">base_time</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="n">fcst_time</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">filenames</span><span class="p">:</span>
@@ -1104,50 +1131,50 @@ window.runMermaid = runMermaid;</script>
             <span class="n">pg_frame</span> <span class="o">=</span> <span class="n">pyg</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
 
             <span class="c1"># Surface</span>
-            <span class="n">tmp_surf</span> <span class="o">=</span> <span class="n">pg_frame</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">typeOfLevel</span><span class="o">=</span><span class="s2">&quot;surface&quot;</span><span class="p">)</span>
+            <span class="n">tmp_surf</span> <span class="o">=</span> <span class="n">pg_frame</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">typeOfLevel</span><span class="o">=</span><span class="s2">"surface"</span><span class="p">)</span>
             <span class="n">surface_xr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">surf_grb_to_xr</span><span class="p">(</span><span class="n">tmp_surf</span><span class="p">,</span> <span class="n">coord_flag</span><span class="o">=</span><span class="n">coord_flag</span><span class="p">)</span>
 
             <span class="c1"># sequence data</span>
-            <span class="n">tmp_seq</span> <span class="o">=</span> <span class="n">pg_frame</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">typeOfLevel</span><span class="o">=</span><span class="s2">&quot;orderedSequenceData&quot;</span><span class="p">)</span>
+            <span class="n">tmp_seq</span> <span class="o">=</span> <span class="n">pg_frame</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">typeOfLevel</span><span class="o">=</span><span class="s2">"orderedSequenceData"</span><span class="p">)</span>
             <span class="c1"># this is equal to levels</span>
             <span class="n">seq_xr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">press_grb_to_xr</span><span class="p">(</span>
-                <span class="n">tmp_seq</span><span class="p">,</span> <span class="n">coord_flag</span><span class="o">=</span><span class="n">coord_flag</span><span class="p">,</span> <span class="n">custom_pressure_name</span><span class="o">=</span><span class="s2">&quot;wave_seq&quot;</span>
+                <span class="n">tmp_seq</span><span class="p">,</span> <span class="n">coord_flag</span><span class="o">=</span><span class="n">coord_flag</span><span class="p">,</span> <span class="n">custom_pressure_name</span><span class="o">=</span><span class="s2">"wave_seq"</span>
             <span class="p">)</span>
 
-            <span class="n">xr_list</span><span class="p">[</span><span class="s2">&quot;wave_seq&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">seq_xr</span><span class="p">)</span>
-            <span class="n">xr_list</span><span class="p">[</span><span class="s2">&quot;wave_surface&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">surface_xr</span><span class="p">)</span>
+            <span class="n">xr_list</span><span class="p">[</span><span class="s2">"wave_seq"</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">seq_xr</span><span class="p">)</span>
+            <span class="n">xr_list</span><span class="p">[</span><span class="s2">"wave_surface"</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">surface_xr</span><span class="p">)</span>
 
             <span class="n">base_time</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tmp_seq</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">analDate</span><span class="p">)</span>
             <span class="n">fcst_time</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tmp_seq</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">validDate</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">coord_flag</span><span class="p">:</span>
-            <span class="n">tdim</span> <span class="o">=</span> <span class="s2">&quot;time&quot;</span>
+            <span class="n">tdim</span> <span class="o">=</span> <span class="s2">"time"</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">tdim</span> <span class="o">=</span> <span class="s2">&quot;atime&quot;</span>
+            <span class="n">tdim</span> <span class="o">=</span> <span class="s2">"atime"</span>
         <span class="n">tvar</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">base_time</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="p">(</span><span class="n">tdim</span><span class="p">))</span>
         <span class="n">bname</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="n">basename</span><span class="p">,</span> <span class="n">filenames</span><span class="p">))</span>
-        <span class="n">res</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">bname</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;p&quot;</span><span class="p">)))</span> <span class="o">*</span> <span class="mi">111</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="s2">"."</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">bname</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">"."</span><span class="p">)[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">"p"</span><span class="p">)))</span> <span class="o">*</span> <span class="mi">111</span>
 
         <span class="n">xr_attrs</span> <span class="o">=</span> <span class="p">{</span>
-            <span class="s2">&quot;source_file_name&quot;</span><span class="p">:</span> <span class="n">bname</span><span class="p">,</span>
-            <span class="s2">&quot;start_datetime&quot;</span><span class="p">:</span> <span class="n">base_time</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
-            <span class="s2">&quot;end_datetime&quot;</span><span class="p">:</span> <span class="n">fcst_time</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span>
-            <span class="s2">&quot;source_name&quot;</span><span class="p">:</span> <span class="s2">&quot;gfs&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;platform_name&quot;</span><span class="p">:</span> <span class="s2">&quot;model&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;data_provider&quot;</span><span class="p">:</span> <span class="s2">&quot;NOAA&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;sample_distance_km&quot;</span><span class="p">:</span> <span class="n">res</span><span class="p">,</span>
-            <span class="s2">&quot;interpolation_radius_of_influence&quot;</span><span class="p">:</span> <span class="mi">30000</span><span class="p">,</span>
+            <span class="s2">"source_file_name"</span><span class="p">:</span> <span class="n">bname</span><span class="p">,</span>
+            <span class="s2">"start_datetime"</span><span class="p">:</span> <span class="n">base_time</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+            <span class="s2">"end_datetime"</span><span class="p">:</span> <span class="n">fcst_time</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span>
+            <span class="s2">"source_name"</span><span class="p">:</span> <span class="s2">"gfs"</span><span class="p">,</span>
+            <span class="s2">"platform_name"</span><span class="p">:</span> <span class="s2">"model"</span><span class="p">,</span>
+            <span class="s2">"data_provider"</span><span class="p">:</span> <span class="s2">"NOAA"</span><span class="p">,</span>
+            <span class="s2">"sample_distance_km"</span><span class="p">:</span> <span class="n">res</span><span class="p">,</span>
+            <span class="s2">"interpolation_radius_of_influence"</span><span class="p">:</span> <span class="mi">30000</span><span class="p">,</span>
         <span class="p">}</span>
 
         <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">xr_list</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
             <span class="n">xr_list</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">xr_list</span><span class="p">[</span><span class="n">k</span><span class="p">],</span> <span class="n">tvar</span><span class="p">)</span>
-            <span class="n">xr_list</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="s2">&quot;forcast_time&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">fcst_time</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="p">(</span><span class="n">tdim</span><span class="p">))</span>
+            <span class="n">xr_list</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="s2">"forcast_time"</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">fcst_time</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="p">(</span><span class="n">tdim</span><span class="p">))</span>
             <span class="n">xr_list</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr_list</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="o">.</span><span class="n">assign_attrs</span><span class="p">(</span><span class="n">xr_attrs</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">coord_flag</span><span class="p">:</span>
-                <span class="n">xr_list</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr_list</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="s2">&quot;latitude&quot;</span><span class="p">,</span> <span class="s2">&quot;longitude&quot;</span><span class="p">,</span> <span class="o">...</span><span class="p">)</span>
+                <span class="n">xr_list</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr_list</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="s2">"latitude"</span><span class="p">,</span> <span class="s2">"longitude"</span><span class="p">,</span> <span class="o">...</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="n">xr_list</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="s2">&quot;latitude&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr_list</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="s2">&quot;latitude&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
-                <span class="n">xr_list</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="s2">&quot;longitude&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr_list</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="s2">&quot;longitude&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
-                <span class="n">xr_list</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr_list</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="s2">&quot;xi&quot;</span><span class="p">,</span> <span class="s2">&quot;yi&quot;</span><span class="p">,</span> <span class="o">...</span><span class="p">)</span>
+                <span class="n">xr_list</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="s2">"latitude"</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr_list</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="s2">"latitude"</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+                <span class="n">xr_list</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="s2">"longitude"</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr_list</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="s2">"longitude"</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+                <span class="n">xr_list</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr_list</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="s2">"xi"</span><span class="p">,</span> <span class="s2">"yi"</span><span class="p">,</span> <span class="o">...</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">xr_list</span></div>
 
@@ -1160,7 +1187,7 @@ window.runMermaid = runMermaid;</script>
         <span class="n">self_register</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
         <span class="n">coord_flag</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
     <span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Read GFS GRIB data.</span>
+<span class="w">        </span><span class="sd">"""Read GFS GRIB data.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -1192,7 +1219,7 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">              Attributes.</span>
 <span class="sd">            * Dictionary keys can be any descriptive dataset ids.</span>
 <span class="sd">            * Conforms to geoips xarray standards, see more in geoips documentation.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">base_fnames</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="n">basename</span><span class="p">,</span> <span class="n">fnames</span><span class="p">))</span>
         <span class="n">fnames</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">fnames</span><span class="p">)</span>
 
@@ -1203,36 +1230,36 @@ window.runMermaid = runMermaid;</script>
         <span class="n">dtime_end</span> <span class="o">=</span> <span class="n">tmp_val</span><span class="o">.</span><span class="n">validDate</span>
 
         <span class="c1"># rough resolution from degrees</span>
-        <span class="n">res</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">base_fnames</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;p&quot;</span><span class="p">)))</span> <span class="o">*</span> <span class="mi">111</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="s2">"."</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">base_fnames</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">"."</span><span class="p">)[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">"p"</span><span class="p">)))</span> <span class="o">*</span> <span class="mi">111</span>
         <span class="n">tmp_xr</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">(</span>
             <span class="n">attrs</span><span class="o">=</span><span class="p">{</span>
-                <span class="s2">&quot;source_file_name&quot;</span><span class="p">:</span> <span class="n">base_fnames</span><span class="p">,</span>
-                <span class="s2">&quot;start_datetime&quot;</span><span class="p">:</span> <span class="n">dtime_start</span><span class="p">,</span>
-                <span class="s2">&quot;end_datetime&quot;</span><span class="p">:</span> <span class="n">dtime_end</span><span class="p">,</span>
-                <span class="s2">&quot;source_name&quot;</span><span class="p">:</span> <span class="s2">&quot;gfs&quot;</span><span class="p">,</span>
-                <span class="s2">&quot;platform_name&quot;</span><span class="p">:</span> <span class="s2">&quot;model&quot;</span><span class="p">,</span>
-                <span class="s2">&quot;data_provider&quot;</span><span class="p">:</span> <span class="s2">&quot;NOAA&quot;</span><span class="p">,</span>
-                <span class="s2">&quot;sample_distance_km&quot;</span><span class="p">:</span> <span class="n">res</span><span class="p">,</span>
-                <span class="s2">&quot;interpolation_radius_of_influence&quot;</span><span class="p">:</span> <span class="mi">30000</span><span class="p">,</span>
+                <span class="s2">"source_file_name"</span><span class="p">:</span> <span class="n">base_fnames</span><span class="p">,</span>
+                <span class="s2">"start_datetime"</span><span class="p">:</span> <span class="n">dtime_start</span><span class="p">,</span>
+                <span class="s2">"end_datetime"</span><span class="p">:</span> <span class="n">dtime_end</span><span class="p">,</span>
+                <span class="s2">"source_name"</span><span class="p">:</span> <span class="s2">"gfs"</span><span class="p">,</span>
+                <span class="s2">"platform_name"</span><span class="p">:</span> <span class="s2">"model"</span><span class="p">,</span>
+                <span class="s2">"data_provider"</span><span class="p">:</span> <span class="s2">"NOAA"</span><span class="p">,</span>
+                <span class="s2">"sample_distance_km"</span><span class="p">:</span> <span class="n">res</span><span class="p">,</span>
+                <span class="s2">"interpolation_radius_of_influence"</span><span class="p">:</span> <span class="mi">30000</span><span class="p">,</span>
             <span class="p">}</span>
         <span class="p">)</span>
         <span class="k">if</span> <span class="n">metadata_only</span><span class="p">:</span>
-            <span class="n">tmp_dict</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;METADATA&quot;</span><span class="p">:</span> <span class="n">tmp_xr</span><span class="p">}</span>
+            <span class="n">tmp_dict</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"METADATA"</span><span class="p">:</span> <span class="n">tmp_xr</span><span class="p">}</span>
             <span class="k">return</span> <span class="n">tmp_dict</span>
 
-        <span class="n">gfs_type</span> <span class="o">=</span> <span class="nb">set</span><span class="p">([</span><span class="n">i</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">base_fnames</span><span class="p">])</span>
+        <span class="n">gfs_type</span> <span class="o">=</span> <span class="nb">set</span><span class="p">([</span><span class="n">i</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">"."</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">base_fnames</span><span class="p">])</span>
         <span class="n">xr_array</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">gfs_type</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">FileExistsError</span><span class="p">(</span>
-                <span class="s2">&quot;Multiple file types given, please feed in one gfs file type.&quot;</span>
+                <span class="s2">"Multiple file types given, please feed in one gfs file type."</span>
             <span class="p">)</span>
 
-        <span class="k">if</span> <span class="s2">&quot;gfs&quot;</span> <span class="ow">in</span> <span class="n">gfs_type</span><span class="p">:</span>
+        <span class="k">if</span> <span class="s2">"gfs"</span> <span class="ow">in</span> <span class="n">gfs_type</span><span class="p">:</span>
             <span class="n">xr_array</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">read_atmos</span><span class="p">(</span><span class="n">fnames</span><span class="p">,</span> <span class="n">coord_flag</span><span class="o">=</span><span class="n">coord_flag</span><span class="p">)</span>
-        <span class="k">elif</span> <span class="s2">&quot;gfswave&quot;</span> <span class="ow">in</span> <span class="n">gfs_type</span><span class="p">:</span>
+        <span class="k">elif</span> <span class="s2">"gfswave"</span> <span class="ow">in</span> <span class="n">gfs_type</span><span class="p">:</span>
             <span class="n">xr_array</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">read_wave</span><span class="p">(</span><span class="n">fnames</span><span class="p">,</span> <span class="n">coord_flag</span><span class="o">=</span><span class="n">coord_flag</span><span class="p">)</span>
 
-        <span class="n">xr_array</span><span class="p">[</span><span class="s2">&quot;METADATA&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">tmp_xr</span>
+        <span class="n">xr_array</span><span class="p">[</span><span class="s2">"METADATA"</span><span class="p">]</span> <span class="o">=</span> <span class="n">tmp_xr</span>
 
         <span class="k">return</span> <span class="n">xr_array</span></div></div>
 

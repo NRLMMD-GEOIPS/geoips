@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>geoips.image_utils.maps &#8212; GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation</title>
+    <title>geoips.image_utils.maps &#8212; GeoIPS, Geolocated Information Processing System 0.0.0 documentation</title>
   
   
   
@@ -40,7 +40,7 @@
   <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
 
-    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=6727bded"></script>
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=525cde36"></script>
     <script src="../../../_static/doctools.js?v=888ff710"></script>
     <script src="../../../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
@@ -401,14 +401,21 @@ mermaid.initialize(
 window.addEventListener("load", load);
 window.runMermaid = runMermaid;</script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_modules/geoips/image_utils/maps';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.17.1';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://nrlmmd-geoips.github.io/geoips/versions.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = 'dev';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner =
+            false;
+        </script>
     <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
     <link rel="icon" href="../../../_static/nrlicon.ico"/>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2.0" />
-    <meta name="docbuild:last-update" content="Jul 23, 2026 17:03:57"/>
+  <meta name="docsearch:version" content="0.0" />
+    <meta name="docbuild:last-update" content="Aug 31, 2026 13:32:18"/>
   
     
     <script src="../../../_static/searchtools.js"></script>
@@ -480,11 +487,31 @@ window.runMermaid = runMermaid;</script>
       
     
     
-    <img src="../../../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation - Home"/>
-    <img src="../../../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation - Home"/>
+    <img src="../../../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 0.0.0 documentation - Home"/>
+    <img src="../../../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 0.0.0 documentation - Home"/>
   
   
 </a></div>
+    
+      <div class="navbar-item">
+<div class="version-switcher__container dropdown pst-js-only">
+  <button id="pst-version-switcher-button-2"
+    type="button"
+    class="version-switcher__button btn btn-sm dropdown-toggle"
+    data-bs-toggle="dropdown"
+    aria-haspopup="listbox"
+    aria-controls="pst-version-switcher-list-2"
+    aria-label="Version switcher list"
+  >
+    Choose version  <!-- this text may get changed later by javascript -->
+    <span class="caret"></span>
+  </button>
+  <div id="pst-version-switcher-list-2"
+    class="version-switcher__menu dropdown-menu list-group-flush py-0"
+    role="listbox" aria-labelledby="pst-version-switcher-button-2">
+    <!-- dropdown will be populated by javascript on page load -->
+  </div>
+</div></div>
     
   </div>
   
@@ -828,7 +855,7 @@ window.runMermaid = runMermaid;</script>
 <span></span><span class="c1"># # # This source code is subject to the license referenced at</span>
 <span class="c1"># # # https://github.com/NRLMMD-GEOIPS.</span>
 
-<span class="sd">&quot;&quot;&quot;matplotlib geographic map (basemap or cartopy) utilities.&quot;&quot;&quot;</span>
+<span class="sd">"""matplotlib geographic map (basemap or cartopy) utilities."""</span>
 
 <span class="c1"># Python Standard Libraries</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
@@ -849,7 +876,7 @@ window.runMermaid = runMermaid;</script>
 
 
 <div class="viewcode-block" id="ellps2axis"><a class="viewcode-back" href="../../../geoips_api/geoips.image_utils.html#geoips.image_utils.maps.ellps2axis">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">ellps2axis</span><span class="p">(</span><span class="n">ellps_name</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Get semi-major and semi-minor axis from ellipsis definition.</span>
 
 <span class="sd">    Parameters</span>
@@ -863,60 +890,60 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">        semi-major axis</span>
 <span class="sd">    bvar : float</span>
 <span class="sd">        semi-minor axis</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">ellps</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="s2">&quot;helmert&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="mf">6378200.0</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">:</span> <span class="mf">6356818.1696278909</span><span class="p">},</span>
-        <span class="s2">&quot;intl&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="mf">6378388.0</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">:</span> <span class="mf">6356911.9461279465</span><span class="p">},</span>
-        <span class="s2">&quot;merit&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="mf">6378137.0</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">:</span> <span class="mf">6356752.2982159676</span><span class="p">},</span>
-        <span class="s2">&quot;wgs72&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="mf">6378135.0</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">:</span> <span class="mf">6356750.5200160937</span><span class="p">},</span>
-        <span class="s2">&quot;sphere&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="mf">6370997.0</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">:</span> <span class="mf">6370997.0</span><span class="p">},</span>
-        <span class="s2">&quot;clrk66&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="mf">6378206.4000000004</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">:</span> <span class="mf">6356583.7999999998</span><span class="p">},</span>
-        <span class="s2">&quot;nwl9d&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="mf">6378145.0</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">:</span> <span class="mf">6356759.7694886839</span><span class="p">},</span>
-        <span class="s2">&quot;lerch&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="mf">6378139.0</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">:</span> <span class="mf">6356754.2915103417</span><span class="p">},</span>
-        <span class="s2">&quot;evrstss&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="mf">6377298.5559999999</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">:</span> <span class="mf">6356097.5503008962</span><span class="p">},</span>
-        <span class="s2">&quot;evrst30&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="mf">6377276.3449999997</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">:</span> <span class="mf">6356075.4131402401</span><span class="p">},</span>
-        <span class="s2">&quot;mprts&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="mf">6397300.0</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">:</span> <span class="mf">6363806.2827225132</span><span class="p">},</span>
-        <span class="s2">&quot;krass&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="mf">6378245.0</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">:</span> <span class="mf">6356863.0187730473</span><span class="p">},</span>
-        <span class="s2">&quot;walbeck&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="mf">6376896.0</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">:</span> <span class="mf">6355834.8466999996</span><span class="p">},</span>
-        <span class="s2">&quot;kaula&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="mf">6378163.0</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">:</span> <span class="mf">6356776.9920869097</span><span class="p">},</span>
-        <span class="s2">&quot;wgs66&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="mf">6378145.0</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">:</span> <span class="mf">6356759.7694886839</span><span class="p">},</span>
-        <span class="s2">&quot;evrst56&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="mf">6377301.2429999998</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">:</span> <span class="mf">6356100.2283681016</span><span class="p">},</span>
-        <span class="s2">&quot;new_intl&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="mf">6378157.5</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">:</span> <span class="mf">6356772.2000000002</span><span class="p">},</span>
-        <span class="s2">&quot;airy&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="mf">6377563.3959999997</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">:</span> <span class="mf">6356256.9100000001</span><span class="p">},</span>
-        <span class="s2">&quot;bessel&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="mf">6377397.1550000003</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">:</span> <span class="mf">6356078.9628181886</span><span class="p">},</span>
-        <span class="s2">&quot;seasia&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="mf">6378155.0</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">:</span> <span class="mf">6356773.3205000004</span><span class="p">},</span>
-        <span class="s2">&quot;aust_sa&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="mf">6378160.0</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">:</span> <span class="mf">6356774.7191953054</span><span class="p">},</span>
-        <span class="s2">&quot;wgs84&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="mf">6378137.0</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">:</span> <span class="mf">6356752.3142451793</span><span class="p">},</span>
-        <span class="s2">&quot;hough&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="mf">6378270.0</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">:</span> <span class="mf">6356794.3434343431</span><span class="p">},</span>
-        <span class="s2">&quot;wgs60&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="mf">6378165.0</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">:</span> <span class="mf">6356783.2869594367</span><span class="p">},</span>
-        <span class="s2">&quot;engelis&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="mf">6378136.0499999998</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">:</span> <span class="mf">6356751.3227215428</span><span class="p">},</span>
-        <span class="s2">&quot;apl4.9&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="mf">6378137.0</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">:</span> <span class="mf">6356751.796311819</span><span class="p">},</span>
-        <span class="s2">&quot;andrae&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="mf">6377104.4299999997</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">:</span> <span class="mf">6355847.4152333336</span><span class="p">},</span>
-        <span class="s2">&quot;sgs85&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="mf">6378136.0</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">:</span> <span class="mf">6356751.301568781</span><span class="p">},</span>
-        <span class="s2">&quot;delmbr&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="mf">6376428.0</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">:</span> <span class="mf">6355957.9261637237</span><span class="p">},</span>
-        <span class="s2">&quot;fschr60m&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="mf">6378155.0</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">:</span> <span class="mf">6356773.3204827355</span><span class="p">},</span>
-        <span class="s2">&quot;iau76&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="mf">6378140.0</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">:</span> <span class="mf">6356755.2881575283</span><span class="p">},</span>
-        <span class="s2">&quot;plessis&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="mf">6376523.0</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">:</span> <span class="mf">6355863.0</span><span class="p">},</span>
-        <span class="s2">&quot;cpm&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="mf">6375738.7000000002</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">:</span> <span class="mf">6356666.221912113</span><span class="p">},</span>
-        <span class="s2">&quot;fschr68&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="mf">6378150.0</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">:</span> <span class="mf">6356768.3372443849</span><span class="p">},</span>
-        <span class="s2">&quot;mod_airy&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="mf">6377340.1890000002</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">:</span> <span class="mf">6356034.4460000005</span><span class="p">},</span>
-        <span class="s2">&quot;grs80&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="mf">6378137.0</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">:</span> <span class="mf">6356752.3141403561</span><span class="p">},</span>
-        <span class="s2">&quot;bess_nam&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="mf">6377483.8650000002</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">:</span> <span class="mf">6356165.3829663256</span><span class="p">},</span>
-        <span class="s2">&quot;fschr60&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="mf">6378166.0</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">:</span> <span class="mf">6356784.2836071067</span><span class="p">},</span>
-        <span class="s2">&quot;clrk80&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="mf">6378249.1449999996</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">:</span> <span class="mf">6356514.9658284895</span><span class="p">},</span>
-        <span class="s2">&quot;evrst69&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="mf">6377295.6639999999</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">:</span> <span class="mf">6356094.6679152036</span><span class="p">},</span>
-        <span class="s2">&quot;grs67&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="mf">6378160.0</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">:</span> <span class="mf">6356774.5160907144</span><span class="p">},</span>
-        <span class="s2">&quot;evrst48&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="mf">6377304.0630000001</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">:</span> <span class="mf">6356103.0389931547</span><span class="p">},</span>
+        <span class="s2">"helmert"</span><span class="p">:</span> <span class="p">{</span><span class="s2">"a"</span><span class="p">:</span> <span class="mf">6378200.0</span><span class="p">,</span> <span class="s2">"b"</span><span class="p">:</span> <span class="mf">6356818.1696278909</span><span class="p">},</span>
+        <span class="s2">"intl"</span><span class="p">:</span> <span class="p">{</span><span class="s2">"a"</span><span class="p">:</span> <span class="mf">6378388.0</span><span class="p">,</span> <span class="s2">"b"</span><span class="p">:</span> <span class="mf">6356911.9461279465</span><span class="p">},</span>
+        <span class="s2">"merit"</span><span class="p">:</span> <span class="p">{</span><span class="s2">"a"</span><span class="p">:</span> <span class="mf">6378137.0</span><span class="p">,</span> <span class="s2">"b"</span><span class="p">:</span> <span class="mf">6356752.2982159676</span><span class="p">},</span>
+        <span class="s2">"wgs72"</span><span class="p">:</span> <span class="p">{</span><span class="s2">"a"</span><span class="p">:</span> <span class="mf">6378135.0</span><span class="p">,</span> <span class="s2">"b"</span><span class="p">:</span> <span class="mf">6356750.5200160937</span><span class="p">},</span>
+        <span class="s2">"sphere"</span><span class="p">:</span> <span class="p">{</span><span class="s2">"a"</span><span class="p">:</span> <span class="mf">6370997.0</span><span class="p">,</span> <span class="s2">"b"</span><span class="p">:</span> <span class="mf">6370997.0</span><span class="p">},</span>
+        <span class="s2">"clrk66"</span><span class="p">:</span> <span class="p">{</span><span class="s2">"a"</span><span class="p">:</span> <span class="mf">6378206.4000000004</span><span class="p">,</span> <span class="s2">"b"</span><span class="p">:</span> <span class="mf">6356583.7999999998</span><span class="p">},</span>
+        <span class="s2">"nwl9d"</span><span class="p">:</span> <span class="p">{</span><span class="s2">"a"</span><span class="p">:</span> <span class="mf">6378145.0</span><span class="p">,</span> <span class="s2">"b"</span><span class="p">:</span> <span class="mf">6356759.7694886839</span><span class="p">},</span>
+        <span class="s2">"lerch"</span><span class="p">:</span> <span class="p">{</span><span class="s2">"a"</span><span class="p">:</span> <span class="mf">6378139.0</span><span class="p">,</span> <span class="s2">"b"</span><span class="p">:</span> <span class="mf">6356754.2915103417</span><span class="p">},</span>
+        <span class="s2">"evrstss"</span><span class="p">:</span> <span class="p">{</span><span class="s2">"a"</span><span class="p">:</span> <span class="mf">6377298.5559999999</span><span class="p">,</span> <span class="s2">"b"</span><span class="p">:</span> <span class="mf">6356097.5503008962</span><span class="p">},</span>
+        <span class="s2">"evrst30"</span><span class="p">:</span> <span class="p">{</span><span class="s2">"a"</span><span class="p">:</span> <span class="mf">6377276.3449999997</span><span class="p">,</span> <span class="s2">"b"</span><span class="p">:</span> <span class="mf">6356075.4131402401</span><span class="p">},</span>
+        <span class="s2">"mprts"</span><span class="p">:</span> <span class="p">{</span><span class="s2">"a"</span><span class="p">:</span> <span class="mf">6397300.0</span><span class="p">,</span> <span class="s2">"b"</span><span class="p">:</span> <span class="mf">6363806.2827225132</span><span class="p">},</span>
+        <span class="s2">"krass"</span><span class="p">:</span> <span class="p">{</span><span class="s2">"a"</span><span class="p">:</span> <span class="mf">6378245.0</span><span class="p">,</span> <span class="s2">"b"</span><span class="p">:</span> <span class="mf">6356863.0187730473</span><span class="p">},</span>
+        <span class="s2">"walbeck"</span><span class="p">:</span> <span class="p">{</span><span class="s2">"a"</span><span class="p">:</span> <span class="mf">6376896.0</span><span class="p">,</span> <span class="s2">"b"</span><span class="p">:</span> <span class="mf">6355834.8466999996</span><span class="p">},</span>
+        <span class="s2">"kaula"</span><span class="p">:</span> <span class="p">{</span><span class="s2">"a"</span><span class="p">:</span> <span class="mf">6378163.0</span><span class="p">,</span> <span class="s2">"b"</span><span class="p">:</span> <span class="mf">6356776.9920869097</span><span class="p">},</span>
+        <span class="s2">"wgs66"</span><span class="p">:</span> <span class="p">{</span><span class="s2">"a"</span><span class="p">:</span> <span class="mf">6378145.0</span><span class="p">,</span> <span class="s2">"b"</span><span class="p">:</span> <span class="mf">6356759.7694886839</span><span class="p">},</span>
+        <span class="s2">"evrst56"</span><span class="p">:</span> <span class="p">{</span><span class="s2">"a"</span><span class="p">:</span> <span class="mf">6377301.2429999998</span><span class="p">,</span> <span class="s2">"b"</span><span class="p">:</span> <span class="mf">6356100.2283681016</span><span class="p">},</span>
+        <span class="s2">"new_intl"</span><span class="p">:</span> <span class="p">{</span><span class="s2">"a"</span><span class="p">:</span> <span class="mf">6378157.5</span><span class="p">,</span> <span class="s2">"b"</span><span class="p">:</span> <span class="mf">6356772.2000000002</span><span class="p">},</span>
+        <span class="s2">"airy"</span><span class="p">:</span> <span class="p">{</span><span class="s2">"a"</span><span class="p">:</span> <span class="mf">6377563.3959999997</span><span class="p">,</span> <span class="s2">"b"</span><span class="p">:</span> <span class="mf">6356256.9100000001</span><span class="p">},</span>
+        <span class="s2">"bessel"</span><span class="p">:</span> <span class="p">{</span><span class="s2">"a"</span><span class="p">:</span> <span class="mf">6377397.1550000003</span><span class="p">,</span> <span class="s2">"b"</span><span class="p">:</span> <span class="mf">6356078.9628181886</span><span class="p">},</span>
+        <span class="s2">"seasia"</span><span class="p">:</span> <span class="p">{</span><span class="s2">"a"</span><span class="p">:</span> <span class="mf">6378155.0</span><span class="p">,</span> <span class="s2">"b"</span><span class="p">:</span> <span class="mf">6356773.3205000004</span><span class="p">},</span>
+        <span class="s2">"aust_sa"</span><span class="p">:</span> <span class="p">{</span><span class="s2">"a"</span><span class="p">:</span> <span class="mf">6378160.0</span><span class="p">,</span> <span class="s2">"b"</span><span class="p">:</span> <span class="mf">6356774.7191953054</span><span class="p">},</span>
+        <span class="s2">"wgs84"</span><span class="p">:</span> <span class="p">{</span><span class="s2">"a"</span><span class="p">:</span> <span class="mf">6378137.0</span><span class="p">,</span> <span class="s2">"b"</span><span class="p">:</span> <span class="mf">6356752.3142451793</span><span class="p">},</span>
+        <span class="s2">"hough"</span><span class="p">:</span> <span class="p">{</span><span class="s2">"a"</span><span class="p">:</span> <span class="mf">6378270.0</span><span class="p">,</span> <span class="s2">"b"</span><span class="p">:</span> <span class="mf">6356794.3434343431</span><span class="p">},</span>
+        <span class="s2">"wgs60"</span><span class="p">:</span> <span class="p">{</span><span class="s2">"a"</span><span class="p">:</span> <span class="mf">6378165.0</span><span class="p">,</span> <span class="s2">"b"</span><span class="p">:</span> <span class="mf">6356783.2869594367</span><span class="p">},</span>
+        <span class="s2">"engelis"</span><span class="p">:</span> <span class="p">{</span><span class="s2">"a"</span><span class="p">:</span> <span class="mf">6378136.0499999998</span><span class="p">,</span> <span class="s2">"b"</span><span class="p">:</span> <span class="mf">6356751.3227215428</span><span class="p">},</span>
+        <span class="s2">"apl4.9"</span><span class="p">:</span> <span class="p">{</span><span class="s2">"a"</span><span class="p">:</span> <span class="mf">6378137.0</span><span class="p">,</span> <span class="s2">"b"</span><span class="p">:</span> <span class="mf">6356751.796311819</span><span class="p">},</span>
+        <span class="s2">"andrae"</span><span class="p">:</span> <span class="p">{</span><span class="s2">"a"</span><span class="p">:</span> <span class="mf">6377104.4299999997</span><span class="p">,</span> <span class="s2">"b"</span><span class="p">:</span> <span class="mf">6355847.4152333336</span><span class="p">},</span>
+        <span class="s2">"sgs85"</span><span class="p">:</span> <span class="p">{</span><span class="s2">"a"</span><span class="p">:</span> <span class="mf">6378136.0</span><span class="p">,</span> <span class="s2">"b"</span><span class="p">:</span> <span class="mf">6356751.301568781</span><span class="p">},</span>
+        <span class="s2">"delmbr"</span><span class="p">:</span> <span class="p">{</span><span class="s2">"a"</span><span class="p">:</span> <span class="mf">6376428.0</span><span class="p">,</span> <span class="s2">"b"</span><span class="p">:</span> <span class="mf">6355957.9261637237</span><span class="p">},</span>
+        <span class="s2">"fschr60m"</span><span class="p">:</span> <span class="p">{</span><span class="s2">"a"</span><span class="p">:</span> <span class="mf">6378155.0</span><span class="p">,</span> <span class="s2">"b"</span><span class="p">:</span> <span class="mf">6356773.3204827355</span><span class="p">},</span>
+        <span class="s2">"iau76"</span><span class="p">:</span> <span class="p">{</span><span class="s2">"a"</span><span class="p">:</span> <span class="mf">6378140.0</span><span class="p">,</span> <span class="s2">"b"</span><span class="p">:</span> <span class="mf">6356755.2881575283</span><span class="p">},</span>
+        <span class="s2">"plessis"</span><span class="p">:</span> <span class="p">{</span><span class="s2">"a"</span><span class="p">:</span> <span class="mf">6376523.0</span><span class="p">,</span> <span class="s2">"b"</span><span class="p">:</span> <span class="mf">6355863.0</span><span class="p">},</span>
+        <span class="s2">"cpm"</span><span class="p">:</span> <span class="p">{</span><span class="s2">"a"</span><span class="p">:</span> <span class="mf">6375738.7000000002</span><span class="p">,</span> <span class="s2">"b"</span><span class="p">:</span> <span class="mf">6356666.221912113</span><span class="p">},</span>
+        <span class="s2">"fschr68"</span><span class="p">:</span> <span class="p">{</span><span class="s2">"a"</span><span class="p">:</span> <span class="mf">6378150.0</span><span class="p">,</span> <span class="s2">"b"</span><span class="p">:</span> <span class="mf">6356768.3372443849</span><span class="p">},</span>
+        <span class="s2">"mod_airy"</span><span class="p">:</span> <span class="p">{</span><span class="s2">"a"</span><span class="p">:</span> <span class="mf">6377340.1890000002</span><span class="p">,</span> <span class="s2">"b"</span><span class="p">:</span> <span class="mf">6356034.4460000005</span><span class="p">},</span>
+        <span class="s2">"grs80"</span><span class="p">:</span> <span class="p">{</span><span class="s2">"a"</span><span class="p">:</span> <span class="mf">6378137.0</span><span class="p">,</span> <span class="s2">"b"</span><span class="p">:</span> <span class="mf">6356752.3141403561</span><span class="p">},</span>
+        <span class="s2">"bess_nam"</span><span class="p">:</span> <span class="p">{</span><span class="s2">"a"</span><span class="p">:</span> <span class="mf">6377483.8650000002</span><span class="p">,</span> <span class="s2">"b"</span><span class="p">:</span> <span class="mf">6356165.3829663256</span><span class="p">},</span>
+        <span class="s2">"fschr60"</span><span class="p">:</span> <span class="p">{</span><span class="s2">"a"</span><span class="p">:</span> <span class="mf">6378166.0</span><span class="p">,</span> <span class="s2">"b"</span><span class="p">:</span> <span class="mf">6356784.2836071067</span><span class="p">},</span>
+        <span class="s2">"clrk80"</span><span class="p">:</span> <span class="p">{</span><span class="s2">"a"</span><span class="p">:</span> <span class="mf">6378249.1449999996</span><span class="p">,</span> <span class="s2">"b"</span><span class="p">:</span> <span class="mf">6356514.9658284895</span><span class="p">},</span>
+        <span class="s2">"evrst69"</span><span class="p">:</span> <span class="p">{</span><span class="s2">"a"</span><span class="p">:</span> <span class="mf">6377295.6639999999</span><span class="p">,</span> <span class="s2">"b"</span><span class="p">:</span> <span class="mf">6356094.6679152036</span><span class="p">},</span>
+        <span class="s2">"grs67"</span><span class="p">:</span> <span class="p">{</span><span class="s2">"a"</span><span class="p">:</span> <span class="mf">6378160.0</span><span class="p">,</span> <span class="s2">"b"</span><span class="p">:</span> <span class="mf">6356774.5160907144</span><span class="p">},</span>
+        <span class="s2">"evrst48"</span><span class="p">:</span> <span class="p">{</span><span class="s2">"a"</span><span class="p">:</span> <span class="mf">6377304.0630000001</span><span class="p">,</span> <span class="s2">"b"</span><span class="p">:</span> <span class="mf">6356103.0389931547</span><span class="p">},</span>
     <span class="p">}</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">ellps_axis</span> <span class="o">=</span> <span class="n">ellps</span><span class="p">[</span><span class="n">ellps_name</span><span class="o">.</span><span class="n">lower</span><span class="p">()]</span>
-        <span class="n">avar</span> <span class="o">=</span> <span class="n">ellps_axis</span><span class="p">[</span><span class="s2">&quot;a&quot;</span><span class="p">]</span>
-        <span class="n">bvar</span> <span class="o">=</span> <span class="n">ellps_axis</span><span class="p">[</span><span class="s2">&quot;b&quot;</span><span class="p">]</span>
+        <span class="n">avar</span> <span class="o">=</span> <span class="n">ellps_axis</span><span class="p">[</span><span class="s2">"a"</span><span class="p">]</span>
+        <span class="n">bvar</span> <span class="o">=</span> <span class="n">ellps_axis</span><span class="p">[</span><span class="s2">"b"</span><span class="p">]</span>
     <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
             <span class="p">(</span>
-                <span class="s2">&quot;Could not determine semi-major and semi-minor axis &quot;</span>
-                <span class="s2">&quot;of specified ellipsis </span><span class="si">%s</span><span class="s2">&quot;</span>
+                <span class="s2">"Could not determine semi-major and semi-minor axis "</span>
+                <span class="s2">"of specified ellipsis </span><span class="si">%s</span><span class="s2">"</span>
             <span class="p">)</span>
             <span class="o">%</span> <span class="n">ellps_name</span>
         <span class="p">)</span>
@@ -924,7 +951,7 @@ window.runMermaid = runMermaid;</script>
 
 
 <div class="viewcode-block" id="is_crs"><a class="viewcode-back" href="../../../geoips_api/geoips.image_utils.html#geoips.image_utils.maps.is_crs">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">is_crs</span><span class="p">(</span><span class="n">mapobj</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Determine if the map object we are using is a cartopy crs instance.</span>
 
 <span class="sd">    Parameters</span>
@@ -936,15 +963,15 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">    -------</span>
 <span class="sd">    crs : bool</span>
 <span class="sd">        True if it is a CRS object, False otherwise.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">crs</span> <span class="o">=</span> <span class="kc">False</span>
-    <span class="k">if</span> <span class="s2">&quot;cartopy&quot;</span> <span class="ow">in</span> <span class="nb">str</span><span class="p">(</span><span class="n">mapobj</span><span class="o">.</span><span class="vm">__class__</span><span class="p">):</span>
+    <span class="k">if</span> <span class="s2">"cartopy"</span> <span class="ow">in</span> <span class="nb">str</span><span class="p">(</span><span class="n">mapobj</span><span class="o">.</span><span class="vm">__class__</span><span class="p">):</span>
         <span class="n">crs</span> <span class="o">=</span> <span class="kc">True</span>
     <span class="k">return</span> <span class="n">crs</span></div>
 
 
 <div class="viewcode-block" id="parallels"><a class="viewcode-back" href="../../../geoips_api/geoips.image_utils.html#geoips.image_utils.maps.parallels">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">parallels</span><span class="p">(</span><span class="n">area_def</span><span class="p">,</span> <span class="n">grid_size</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Calculate the parallels (latitude) that fall within the input sector.</span>
 
 <span class="sd">    Parameters</span>
@@ -958,8 +985,8 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">    -------</span>
 <span class="sd">    lat_ticks : list</span>
 <span class="sd">        latitude locations for gridlines</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="n">grid_size</span> <span class="o">==</span> <span class="s2">&quot;auto&quot;</span><span class="p">:</span>
+<span class="sd">    """</span>
+    <span class="k">if</span> <span class="n">grid_size</span> <span class="o">==</span> <span class="s2">"auto"</span><span class="p">:</span>
         <span class="n">grid_size</span> <span class="o">=</span> <span class="n">compute_lat_auto_spacing</span><span class="p">(</span><span class="n">area_def</span><span class="p">)</span>
 
     <span class="n">gs</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">grid_size</span><span class="p">)</span>
@@ -969,13 +996,13 @@ window.runMermaid = runMermaid;</script>
     <span class="n">min_parallel</span> <span class="o">=</span> <span class="n">ceil</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">mlats</span><span class="o">.</span><span class="n">min</span><span class="p">())</span> <span class="o">/</span> <span class="n">gs</span><span class="p">)</span> <span class="o">*</span> <span class="n">gs</span>
     <span class="n">max_parallel</span> <span class="o">=</span> <span class="n">ceil</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">mlats</span><span class="o">.</span><span class="n">max</span><span class="p">())</span> <span class="o">/</span> <span class="n">gs</span><span class="p">)</span> <span class="o">*</span> <span class="n">gs</span>
     <span class="n">lat_ticks</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">min_parallel</span><span class="p">,</span> <span class="n">max_parallel</span><span class="p">,</span> <span class="n">gs</span><span class="p">)</span>
-    <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;List of parallels: min/max </span><span class="si">%s</span><span class="s2">, </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">lat_ticks</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">lat_ticks</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"List of parallels: min/max </span><span class="si">%s</span><span class="s2">, </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="n">lat_ticks</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">lat_ticks</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
     <span class="n">lat_ticks</span> <span class="o">=</span> <span class="p">[</span><span class="nb">round</span><span class="p">(</span><span class="n">lat_tick</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">lat_tick</span> <span class="ow">in</span> <span class="n">lat_ticks</span><span class="p">]</span>
     <span class="k">return</span> <span class="n">lat_ticks</span></div>
 
 
 <div class="viewcode-block" id="meridians"><a class="viewcode-back" href="../../../geoips_api/geoips.image_utils.html#geoips.image_utils.maps.meridians">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">meridians</span><span class="p">(</span><span class="n">area_def</span><span class="p">,</span> <span class="n">grid_size</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Calculate the meridians (longitude) that are within the input sector.</span>
 
 <span class="sd">    Parameters</span>
@@ -989,15 +1016,15 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">    -------</span>
 <span class="sd">    meridians_to_draw : list</span>
 <span class="sd">        longitude locations for gridlines</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="n">grid_size</span> <span class="o">==</span> <span class="s2">&quot;auto&quot;</span><span class="p">:</span>
+<span class="sd">    """</span>
+    <span class="k">if</span> <span class="n">grid_size</span> <span class="o">==</span> <span class="s2">"auto"</span><span class="p">:</span>
         <span class="n">grid_size</span> <span class="o">=</span> <span class="n">compute_lon_auto_spacing</span><span class="p">(</span><span class="n">area_def</span><span class="p">)</span>
 
     <span class="n">gs</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">grid_size</span><span class="p">)</span>
 
     <span class="n">corners</span> <span class="o">=</span> <span class="n">area_def</span><span class="o">.</span><span class="n">corners</span>
     <span class="n">lons</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">rad2deg</span><span class="p">(</span><span class="n">corn</span><span class="o">.</span><span class="n">lon</span><span class="p">)</span> <span class="k">for</span> <span class="n">corn</span> <span class="ow">in</span> <span class="n">corners</span><span class="p">]</span>
-    <span class="k">if</span> <span class="n">area_def</span><span class="o">.</span><span class="n">proj_dict</span><span class="p">[</span><span class="s2">&quot;lat_0&quot;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">area_def</span><span class="o">.</span><span class="n">proj_dict</span><span class="p">[</span><span class="s2">"lat_0"</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
         <span class="n">crn_idx</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="n">mc_idx</span> <span class="o">=</span> <span class="mi">1</span>
     <span class="k">else</span><span class="p">:</span>
@@ -1012,14 +1039,14 @@ window.runMermaid = runMermaid;</script>
     <span class="c1"># llcrnrlon = corners[0]</span>
     <span class="c1"># urcrnrlon = corners[1]</span>
 
-    <span class="n">cent_lon</span> <span class="o">=</span> <span class="n">area_def</span><span class="o">.</span><span class="n">proj_dict</span><span class="p">[</span><span class="s2">&quot;lon_0&quot;</span><span class="p">]</span>
+    <span class="n">cent_lon</span> <span class="o">=</span> <span class="n">area_def</span><span class="o">.</span><span class="n">proj_dict</span><span class="p">[</span><span class="s2">"lon_0"</span><span class="p">]</span>
 
     <span class="k">if</span> <span class="n">urcrnrlon</span> <span class="o">&lt;</span> <span class="n">cent_lon</span> <span class="o">&lt;</span> <span class="n">llcrnrlon</span><span class="p">:</span>
         <span class="n">urcrnrlon</span> <span class="o">+=</span> <span class="mi">360</span>
     <span class="k">elif</span> <span class="n">urcrnrlon</span> <span class="o">&lt;</span> <span class="n">llcrnrlon</span><span class="p">:</span>
         <span class="n">llcrnrlon</span> <span class="o">-=</span> <span class="mi">360</span>
     <span class="c1"># Draw all the lines if over the poles</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">area_def</span><span class="o">.</span><span class="n">proj_dict</span><span class="p">[</span><span class="s2">&quot;lat_0&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="o">-</span><span class="mi">90</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">area_def</span><span class="o">.</span><span class="n">proj_dict</span><span class="p">[</span><span class="s2">&quot;lat_0&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">90</span><span class="p">):</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">area_def</span><span class="o">.</span><span class="n">proj_dict</span><span class="p">[</span><span class="s2">"lat_0"</span><span class="p">]</span> <span class="o">==</span> <span class="o">-</span><span class="mi">90</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">area_def</span><span class="o">.</span><span class="n">proj_dict</span><span class="p">[</span><span class="s2">"lat_0"</span><span class="p">]</span> <span class="o">==</span> <span class="mi">90</span><span class="p">):</span>
         <span class="n">llcrnrlon</span> <span class="o">=</span> <span class="o">-</span><span class="mi">180</span>
         <span class="n">urcrnrlon</span> <span class="o">=</span> <span class="mi">180</span>
 
@@ -1029,14 +1056,14 @@ window.runMermaid = runMermaid;</script>
 
     <span class="n">meridians_to_draw</span> <span class="o">=</span> <span class="n">pyresample</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">wrap_longitudes</span><span class="p">(</span><span class="n">meridians_to_draw</span><span class="p">)</span>
     <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
-        <span class="s2">&quot;List of meridians: min/max </span><span class="si">%s</span><span class="s2">, </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">meridians_to_draw</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">meridians_to_draw</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="s2">"List of meridians: min/max </span><span class="si">%s</span><span class="s2">, </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="n">meridians_to_draw</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">meridians_to_draw</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
     <span class="p">)</span>
     <span class="n">meridians_to_draw</span> <span class="o">=</span> <span class="p">[</span><span class="nb">round</span><span class="p">(</span><span class="n">lon_tick</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">lon_tick</span> <span class="ow">in</span> <span class="n">meridians_to_draw</span><span class="p">]</span>
     <span class="k">return</span> <span class="n">meridians_to_draw</span></div>
 
 
 <div class="viewcode-block" id="check_gridline_annotator"><a class="viewcode-back" href="../../../geoips_api/geoips.image_utils.html#geoips.image_utils.maps.check_gridline_annotator">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">check_gridline_annotator</span><span class="p">(</span><span class="n">gridline_annotator</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Check gridlines_info dictionary for that all required fields.</span>
 
 <span class="sd">    Parameters</span>
@@ -1048,40 +1075,40 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">    ------</span>
 <span class="sd">    ValueError</span>
 <span class="sd">        If required field is missing</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">required_fields</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="s2">&quot;spacing&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;latitude&quot;</span><span class="p">,</span> <span class="s2">&quot;longitude&quot;</span><span class="p">],</span>
-        <span class="s2">&quot;labels&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;top&quot;</span><span class="p">,</span> <span class="s2">&quot;bottom&quot;</span><span class="p">,</span> <span class="s2">&quot;left&quot;</span><span class="p">,</span> <span class="s2">&quot;right&quot;</span><span class="p">],</span>
-        <span class="s2">&quot;lines&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;color&quot;</span><span class="p">,</span> <span class="s2">&quot;linestyle&quot;</span><span class="p">,</span> <span class="s2">&quot;linewidth&quot;</span><span class="p">],</span>
+        <span class="s2">"spacing"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"latitude"</span><span class="p">,</span> <span class="s2">"longitude"</span><span class="p">],</span>
+        <span class="s2">"labels"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"top"</span><span class="p">,</span> <span class="s2">"bottom"</span><span class="p">,</span> <span class="s2">"left"</span><span class="p">,</span> <span class="s2">"right"</span><span class="p">],</span>
+        <span class="s2">"lines"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"color"</span><span class="p">,</span> <span class="s2">"linestyle"</span><span class="p">,</span> <span class="s2">"linewidth"</span><span class="p">],</span>
     <span class="p">}</span>
 
     <span class="k">if</span> <span class="n">gridline_annotator</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">gridline_annotator</span> <span class="o">=</span> <span class="n">gridline_annotators</span><span class="o">.</span><span class="n">get_plugin</span><span class="p">(</span><span class="s2">&quot;default&quot;</span><span class="p">)</span>
+        <span class="n">gridline_annotator</span> <span class="o">=</span> <span class="n">gridline_annotators</span><span class="o">.</span><span class="n">get_plugin</span><span class="p">(</span><span class="s2">"default"</span><span class="p">)</span>
 
     <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">subkeys</span> <span class="ow">in</span> <span class="n">required_fields</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-        <span class="k">if</span> <span class="n">key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">gridline_annotator</span><span class="p">[</span><span class="s2">&quot;spec&quot;</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="n">key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">gridline_annotator</span><span class="p">[</span><span class="s2">"spec"</span><span class="p">]:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="s2">&quot;Missing gridlines_info entry </span><span class="si">{0}</span><span class="s2">, required_fields </span><span class="si">{1}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="s2">"Missing gridlines_info entry </span><span class="si">{0}</span><span class="s2">, required_fields </span><span class="si">{1}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
                     <span class="n">key</span><span class="p">,</span> <span class="n">required_fields</span>
                 <span class="p">)</span>
             <span class="p">)</span>
-        <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;xpadding&quot;</span> <span class="ow">or</span> <span class="s2">&quot;ypadding&quot;</span><span class="p">]:</span>
-            <span class="c1"># We skip here since we don&#39;t require &#39;xpadding&#39; or &#39;ypadding&#39;. These are</span>
+        <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">"xpadding"</span> <span class="ow">or</span> <span class="s2">"ypadding"</span><span class="p">]:</span>
+            <span class="c1"># We skip here since we don't require 'xpadding' or 'ypadding'. These are</span>
             <span class="c1"># optional attributes that you can apply to the gridline_annotator if</span>
             <span class="c1"># wanted.</span>
             <span class="k">continue</span>
         <span class="k">for</span> <span class="n">subkey</span> <span class="ow">in</span> <span class="n">subkeys</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">subkey</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">gridline_annotator</span><span class="p">[</span><span class="s2">&quot;spec&quot;</span><span class="p">][</span><span class="n">key</span><span class="p">]:</span>
+            <span class="k">if</span> <span class="n">subkey</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">gridline_annotator</span><span class="p">[</span><span class="s2">"spec"</span><span class="p">][</span><span class="n">key</span><span class="p">]:</span>
                 <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">gridline_annotator</span><span class="p">)</span>
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                    <span class="s2">&quot;Missing gridline_annotator property &quot;</span>
-                    <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">subkey</span><span class="si">}</span><span class="s2">, required_fields </span><span class="si">{</span><span class="n">required_fields</span><span class="si">}</span><span class="s2">&quot;</span>
+                    <span class="s2">"Missing gridline_annotator property "</span>
+                    <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">subkey</span><span class="si">}</span><span class="s2">, required_fields </span><span class="si">{</span><span class="n">required_fields</span><span class="si">}</span><span class="s2">"</span>
                 <span class="p">)</span>
     <span class="k">return</span> <span class="n">gridline_annotator</span></div>
 
 
 <div class="viewcode-block" id="set_gridlines_info_dict"><a class="viewcode-back" href="../../../geoips_api/geoips.image_utils.html#geoips.image_utils.maps.set_gridlines_info_dict">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">set_gridlines_info_dict</span><span class="p">(</span><span class="n">gridlines_info</span><span class="p">,</span> <span class="n">area_def</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Set plotting gridlines.</span>
 
 <span class="sd">    Set the final values for gridlines plotting params, pulling from</span>
@@ -1106,33 +1133,33 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">    -----</span>
 <span class="sd">    Defaults specified as::</span>
 
-<span class="sd">        gridlines_info[&#39;grid_lat_spacing&#39;]      default auto calculated 5 lat grid lines</span>
-<span class="sd">        gridlines_info[&#39;grid_lon_spacing&#39;]      default auto calculated 5 lon grid lines</span>
-<span class="sd">        gridlines_info[&#39;grid_lat_xoffset&#39;]      default None (0.01 * image height)</span>
-<span class="sd">        gridlines_info[&#39;grid_lon_xoffset&#39;]      default None (0.01 * image width)</span>
-<span class="sd">        gridlines_info[&#39;grid_lat_yoffset&#39;]      default None (0.01 * image height)</span>
-<span class="sd">        gridlines_info[&#39;grid_lon_yoffset&#39;]      default None (0.01 * image width)</span>
-<span class="sd">        gridlines_info[&#39;grid_lat_fontsize&#39;]     default None (plot fontsize)</span>
-<span class="sd">        gridlines_info[&#39;grid_lon_fontsize&#39;]     default None (plot fontsize)</span>
-<span class="sd">        gridlines_info[&#39;left_label&#39;]            default True</span>
-<span class="sd">        gridlines_info[&#39;right_label&#39;]           default False</span>
-<span class="sd">        gridlines_info[&#39;top_label&#39;]             default True</span>
-<span class="sd">        gridlines_info[&#39;bottom_label&#39;]          default False</span>
-<span class="sd">        gridlines_info[&#39;grid_lat_linewidth&#39;]    default 1</span>
-<span class="sd">        gridlines_info[&#39;grid_lon_linewidth&#39;]    default 1</span>
-<span class="sd">        gridlines_info[&#39;grid_lat_color&#39;]        default &#39;black&#39;</span>
-<span class="sd">        gridlines_info[&#39;grid_lon_color&#39;]        default &#39;black&#39;</span>
-<span class="sd">        gridlines_info[&#39;grid_lat_dashes&#39;]       default [4, 2]</span>
-<span class="sd">        gridlines_info[&#39;grid_lon_dashes&#39;]       default [4, 2]</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">        gridlines_info['grid_lat_spacing']      default auto calculated 5 lat grid lines</span>
+<span class="sd">        gridlines_info['grid_lon_spacing']      default auto calculated 5 lon grid lines</span>
+<span class="sd">        gridlines_info['grid_lat_xoffset']      default None (0.01 * image height)</span>
+<span class="sd">        gridlines_info['grid_lon_xoffset']      default None (0.01 * image width)</span>
+<span class="sd">        gridlines_info['grid_lat_yoffset']      default None (0.01 * image height)</span>
+<span class="sd">        gridlines_info['grid_lon_yoffset']      default None (0.01 * image width)</span>
+<span class="sd">        gridlines_info['grid_lat_fontsize']     default None (plot fontsize)</span>
+<span class="sd">        gridlines_info['grid_lon_fontsize']     default None (plot fontsize)</span>
+<span class="sd">        gridlines_info['left_label']            default True</span>
+<span class="sd">        gridlines_info['right_label']           default False</span>
+<span class="sd">        gridlines_info['top_label']             default True</span>
+<span class="sd">        gridlines_info['bottom_label']          default False</span>
+<span class="sd">        gridlines_info['grid_lat_linewidth']    default 1</span>
+<span class="sd">        gridlines_info['grid_lon_linewidth']    default 1</span>
+<span class="sd">        gridlines_info['grid_lat_color']        default 'black'</span>
+<span class="sd">        gridlines_info['grid_lon_color']        default 'black'</span>
+<span class="sd">        gridlines_info['grid_lat_dashes']       default [4, 2]</span>
+<span class="sd">        gridlines_info['grid_lon_dashes']       default [4, 2]</span>
+<span class="sd">    """</span>
     <span class="n">use_gridlines_info</span> <span class="o">=</span> <span class="p">{}</span>
 
     <span class="k">if</span> <span class="p">(</span>
         <span class="n">gridlines_info</span> <span class="ow">is</span> <span class="kc">None</span>
-        <span class="ow">or</span> <span class="s2">&quot;grid_lat_spacing&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">gridlines_info</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
-        <span class="ow">or</span> <span class="s2">&quot;grid_lon_spacing&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">gridlines_info</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
-        <span class="ow">or</span> <span class="n">gridlines_info</span><span class="p">[</span><span class="s2">&quot;grid_lon_spacing&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;auto&quot;</span>
-        <span class="ow">or</span> <span class="n">gridlines_info</span><span class="p">[</span><span class="s2">&quot;grid_lat_spacing&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;auto&quot;</span>
+        <span class="ow">or</span> <span class="s2">"grid_lat_spacing"</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">gridlines_info</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+        <span class="ow">or</span> <span class="s2">"grid_lon_spacing"</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">gridlines_info</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+        <span class="ow">or</span> <span class="n">gridlines_info</span><span class="p">[</span><span class="s2">"grid_lon_spacing"</span><span class="p">]</span> <span class="o">==</span> <span class="s2">"auto"</span>
+        <span class="ow">or</span> <span class="n">gridlines_info</span><span class="p">[</span><span class="s2">"grid_lat_spacing"</span><span class="p">]</span> <span class="o">==</span> <span class="s2">"auto"</span>
     <span class="p">):</span>
         <span class="n">minlat</span> <span class="o">=</span> <span class="n">area_def</span><span class="o">.</span><span class="n">area_extent_ll</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
         <span class="n">maxlat</span> <span class="o">=</span> <span class="n">area_def</span><span class="o">.</span><span class="n">area_extent_ll</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
@@ -1157,26 +1184,26 @@ window.runMermaid = runMermaid;</script>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">lat_spacing</span> <span class="o">=</span> <span class="n">lat_extent</span> <span class="o">/</span> <span class="mf">5.0</span>
 
-        <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;lon_extent: </span><span class="si">%s</span><span class="s2">, lon_spacing: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">lon_extent</span><span class="p">,</span> <span class="n">lon_spacing</span><span class="p">)</span>
-        <span class="n">use_gridlines_info</span><span class="p">[</span><span class="s2">&quot;grid_lat_spacing&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">lat_spacing</span>
-        <span class="n">use_gridlines_info</span><span class="p">[</span><span class="s2">&quot;grid_lon_spacing&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">lon_spacing</span>
+        <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"lon_extent: </span><span class="si">%s</span><span class="s2">, lon_spacing: </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="n">lon_extent</span><span class="p">,</span> <span class="n">lon_spacing</span><span class="p">)</span>
+        <span class="n">use_gridlines_info</span><span class="p">[</span><span class="s2">"grid_lat_spacing"</span><span class="p">]</span> <span class="o">=</span> <span class="n">lat_spacing</span>
+        <span class="n">use_gridlines_info</span><span class="p">[</span><span class="s2">"grid_lon_spacing"</span><span class="p">]</span> <span class="o">=</span> <span class="n">lon_spacing</span>
 
-    <span class="n">use_gridlines_info</span><span class="p">[</span><span class="s2">&quot;left_label&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
-    <span class="n">use_gridlines_info</span><span class="p">[</span><span class="s2">&quot;right_label&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
-    <span class="n">use_gridlines_info</span><span class="p">[</span><span class="s2">&quot;top_label&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
-    <span class="n">use_gridlines_info</span><span class="p">[</span><span class="s2">&quot;bottom_label&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
-    <span class="n">use_gridlines_info</span><span class="p">[</span><span class="s2">&quot;grid_lat_linewidth&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
-    <span class="n">use_gridlines_info</span><span class="p">[</span><span class="s2">&quot;grid_lon_linewidth&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
-    <span class="n">use_gridlines_info</span><span class="p">[</span><span class="s2">&quot;grid_lat_color&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;black&quot;</span>
-    <span class="n">use_gridlines_info</span><span class="p">[</span><span class="s2">&quot;grid_lon_color&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;black&quot;</span>
-    <span class="n">use_gridlines_info</span><span class="p">[</span><span class="s2">&quot;grid_lat_xoffset&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="n">use_gridlines_info</span><span class="p">[</span><span class="s2">&quot;grid_lon_xoffset&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="n">use_gridlines_info</span><span class="p">[</span><span class="s2">&quot;grid_lat_yoffset&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="n">use_gridlines_info</span><span class="p">[</span><span class="s2">&quot;grid_lon_yoffset&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="n">use_gridlines_info</span><span class="p">[</span><span class="s2">&quot;grid_lat_fontsize&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="n">use_gridlines_info</span><span class="p">[</span><span class="s2">&quot;grid_lon_fontsize&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="n">use_gridlines_info</span><span class="p">[</span><span class="s2">&quot;grid_lat_dashes&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span>
-    <span class="n">use_gridlines_info</span><span class="p">[</span><span class="s2">&quot;grid_lon_dashes&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span>
+    <span class="n">use_gridlines_info</span><span class="p">[</span><span class="s2">"left_label"</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="n">use_gridlines_info</span><span class="p">[</span><span class="s2">"right_label"</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">use_gridlines_info</span><span class="p">[</span><span class="s2">"top_label"</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="n">use_gridlines_info</span><span class="p">[</span><span class="s2">"bottom_label"</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">use_gridlines_info</span><span class="p">[</span><span class="s2">"grid_lat_linewidth"</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">use_gridlines_info</span><span class="p">[</span><span class="s2">"grid_lon_linewidth"</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">use_gridlines_info</span><span class="p">[</span><span class="s2">"grid_lat_color"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"black"</span>
+    <span class="n">use_gridlines_info</span><span class="p">[</span><span class="s2">"grid_lon_color"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"black"</span>
+    <span class="n">use_gridlines_info</span><span class="p">[</span><span class="s2">"grid_lat_xoffset"</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">use_gridlines_info</span><span class="p">[</span><span class="s2">"grid_lon_xoffset"</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">use_gridlines_info</span><span class="p">[</span><span class="s2">"grid_lat_yoffset"</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">use_gridlines_info</span><span class="p">[</span><span class="s2">"grid_lon_yoffset"</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">use_gridlines_info</span><span class="p">[</span><span class="s2">"grid_lat_fontsize"</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">use_gridlines_info</span><span class="p">[</span><span class="s2">"grid_lon_fontsize"</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">use_gridlines_info</span><span class="p">[</span><span class="s2">"grid_lat_dashes"</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span>
+    <span class="n">use_gridlines_info</span><span class="p">[</span><span class="s2">"grid_lon_dashes"</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span>
 
     <span class="k">if</span> <span class="n">gridlines_info</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">for</span> <span class="n">gkey</span> <span class="ow">in</span> <span class="n">gridlines_info</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
@@ -1187,7 +1214,7 @@ window.runMermaid = runMermaid;</script>
 
 
 <div class="viewcode-block" id="compute_lat_auto_spacing"><a class="viewcode-back" href="../../../geoips_api/geoips.image_utils.html#geoips.image_utils.maps.compute_lat_auto_spacing">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">compute_lat_auto_spacing</span><span class="p">(</span><span class="n">area_def</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute automatic spacing for latitude lines based on area definition.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Compute automatic spacing for latitude lines based on area definition."""</span>
     <span class="n">minlat</span> <span class="o">=</span> <span class="n">area_def</span><span class="o">.</span><span class="n">area_extent_ll</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
     <span class="n">maxlat</span> <span class="o">=</span> <span class="n">area_def</span><span class="o">.</span><span class="n">area_extent_ll</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
     <span class="n">lat_extent</span> <span class="o">=</span> <span class="n">maxlat</span> <span class="o">-</span> <span class="n">minlat</span>
@@ -1200,18 +1227,18 @@ window.runMermaid = runMermaid;</script>
         <span class="n">lat_spacing</span> <span class="o">=</span> <span class="mi">2</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">lat_spacing</span> <span class="o">=</span> <span class="n">lat_extent</span> <span class="o">/</span> <span class="mf">5.0</span>
-    <span class="c1"># LOG.info(f&quot;LAT spacing: {lat_spacing}&quot;)</span>
+    <span class="c1"># LOG.info(f"LAT spacing: {lat_spacing}")</span>
     <span class="k">return</span> <span class="n">lat_spacing</span></div>
 
 
 <div class="viewcode-block" id="compute_lon_extent"><a class="viewcode-back" href="../../../geoips_api/geoips.image_utils.html#geoips.image_utils.maps.compute_lon_extent">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">compute_lon_extent</span><span class="p">(</span><span class="n">area_def</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the longitude extent (deg) of an area, handling wrap-around.</span>
+<span class="w">    </span><span class="sd">"""Return the longitude extent (deg) of an area, handling wrap-around.</span>
 
 <span class="sd">    ``wrap_longitudes`` maps both edges into [-180, 180], which can invert or</span>
 <span class="sd">    collapse the min/max ordering. Add 360 to ``maxlon`` to recover a positive</span>
 <span class="sd">    extent for dateline-crossing sectors and for global sectors (where a</span>
 <span class="sd">    full-globe area_def wraps both edges to the same point).</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">minlon</span> <span class="o">=</span> <span class="n">pyresample</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">wrap_longitudes</span><span class="p">(</span><span class="n">area_def</span><span class="o">.</span><span class="n">area_extent_ll</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
     <span class="n">maxlon</span> <span class="o">=</span> <span class="n">pyresample</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">wrap_longitudes</span><span class="p">(</span><span class="n">area_def</span><span class="o">.</span><span class="n">area_extent_ll</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
     <span class="n">lat_extent</span> <span class="o">=</span> <span class="n">area_def</span><span class="o">.</span><span class="n">area_extent_ll</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">-</span> <span class="n">area_def</span><span class="o">.</span><span class="n">area_extent_ll</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
@@ -1223,7 +1250,7 @@ window.runMermaid = runMermaid;</script>
 
 
 <div class="viewcode-block" id="compute_lon_auto_spacing"><a class="viewcode-back" href="../../../geoips_api/geoips.image_utils.html#geoips.image_utils.maps.compute_lon_auto_spacing">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">compute_lon_auto_spacing</span><span class="p">(</span><span class="n">area_def</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute automatic spacing for longitude lines based on area definition.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Compute automatic spacing for longitude lines based on area definition."""</span>
     <span class="n">lon_extent</span> <span class="o">=</span> <span class="n">compute_lon_extent</span><span class="p">(</span><span class="n">area_def</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">lon_extent</span> <span class="o">&gt;</span> <span class="mi">5</span><span class="p">:</span>
@@ -1232,12 +1259,12 @@ window.runMermaid = runMermaid;</script>
         <span class="n">lon_spacing</span> <span class="o">=</span> <span class="mi">1</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">lon_spacing</span> <span class="o">=</span> <span class="n">lon_extent</span> <span class="o">/</span> <span class="mf">5.0</span>
-    <span class="c1"># LOG.info(f&quot;LON spacing: {lon_spacing}&quot;)</span>
+    <span class="c1"># LOG.info(f"LON spacing: {lon_spacing}")</span>
     <span class="k">return</span> <span class="n">lon_spacing</span></div>
 
 
 <div class="viewcode-block" id="check_feature_annotator"><a class="viewcode-back" href="../../../geoips_api/geoips.image_utils.html#geoips.image_utils.maps.check_feature_annotator">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">check_feature_annotator</span><span class="p">(</span><span class="n">feature_annotator</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Check that the provided feature_annotator plugin has all required fields.</span>
+<span class="w">    </span><span class="sd">"""Check that the provided feature_annotator plugin has all required fields.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -1253,37 +1280,37 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">    --------</span>
 <span class="sd">    geoips.image_utils.maps.get_feature_annotator</span>
 <span class="sd">        For complete list of fields, and appropriate defaults</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">if</span> <span class="n">feature_annotator</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">feature_annotator</span> <span class="o">=</span> <span class="n">feature_annotators</span><span class="o">.</span><span class="n">get_plugin</span><span class="p">(</span><span class="s2">&quot;default&quot;</span><span class="p">)</span>
-    <span class="n">spec</span> <span class="o">=</span> <span class="n">feature_annotator</span><span class="p">[</span><span class="s2">&quot;spec&quot;</span><span class="p">]</span>
+        <span class="n">feature_annotator</span> <span class="o">=</span> <span class="n">feature_annotators</span><span class="o">.</span><span class="n">get_plugin</span><span class="p">(</span><span class="s2">"default"</span><span class="p">)</span>
+    <span class="n">spec</span> <span class="o">=</span> <span class="n">feature_annotator</span><span class="p">[</span><span class="s2">"spec"</span><span class="p">]</span>
 
-    <span class="n">feature_types</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;coastline&quot;</span><span class="p">,</span> <span class="s2">&quot;borders&quot;</span><span class="p">,</span> <span class="s2">&quot;rivers&quot;</span><span class="p">,</span> <span class="s2">&quot;states&quot;</span><span class="p">]</span>
+    <span class="n">feature_types</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"coastline"</span><span class="p">,</span> <span class="s2">"borders"</span><span class="p">,</span> <span class="s2">"rivers"</span><span class="p">,</span> <span class="s2">"states"</span><span class="p">]</span>
     <span class="k">for</span> <span class="n">feature_name</span> <span class="ow">in</span> <span class="n">feature_types</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">feature_name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">spec</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;Missing &#39;</span><span class="si">{</span><span class="n">feature_name</span><span class="si">}</span><span class="s2">&#39; property in feature_annotator &quot;</span>
-                <span class="sa">f</span><span class="s2">&quot;named &#39;</span><span class="si">{</span><span class="n">feature_annotator</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&#39;&quot;</span>
+                <span class="sa">f</span><span class="s2">"Missing '</span><span class="si">{</span><span class="n">feature_name</span><span class="si">}</span><span class="s2">' property in feature_annotator "</span>
+                <span class="sa">f</span><span class="s2">"named '</span><span class="si">{</span><span class="n">feature_annotator</span><span class="p">[</span><span class="s1">'name'</span><span class="p">]</span><span class="si">}</span><span class="s2">'"</span>
             <span class="p">)</span>
-        <span class="k">if</span> <span class="s2">&quot;enabled&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">spec</span><span class="p">[</span><span class="n">feature_name</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="s2">"enabled"</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">spec</span><span class="p">[</span><span class="n">feature_name</span><span class="p">]:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;Missing &#39;enabled&#39; property of &#39;</span><span class="si">{</span><span class="n">feature_name</span><span class="si">}</span><span class="s2">&#39; in feature_annotator &quot;</span>
-                <span class="sa">f</span><span class="s2">&quot;named &#39;</span><span class="si">{</span><span class="n">feature_annotator</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&#39;&quot;</span>
+                <span class="sa">f</span><span class="s2">"Missing 'enabled' property of '</span><span class="si">{</span><span class="n">feature_name</span><span class="si">}</span><span class="s2">' in feature_annotator "</span>
+                <span class="sa">f</span><span class="s2">"named '</span><span class="si">{</span><span class="n">feature_annotator</span><span class="p">[</span><span class="s1">'name'</span><span class="p">]</span><span class="si">}</span><span class="s2">'"</span>
             <span class="p">)</span>
-        <span class="k">if</span> <span class="n">spec</span><span class="p">[</span><span class="n">feature_name</span><span class="p">][</span><span class="s2">&quot;enabled&quot;</span><span class="p">]:</span>
-            <span class="n">props</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;edgecolor&quot;</span><span class="p">,</span> <span class="s2">&quot;linewidth&quot;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">spec</span><span class="p">[</span><span class="n">feature_name</span><span class="p">][</span><span class="s2">"enabled"</span><span class="p">]:</span>
+            <span class="n">props</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"edgecolor"</span><span class="p">,</span> <span class="s2">"linewidth"</span><span class="p">]</span>
             <span class="k">for</span> <span class="n">prop</span> <span class="ow">in</span> <span class="n">props</span><span class="p">:</span>
                 <span class="k">if</span> <span class="n">prop</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">spec</span><span class="p">[</span><span class="n">feature_name</span><span class="p">]:</span>
                     <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                        <span class="sa">f</span><span class="s2">&quot;Missing &#39;</span><span class="si">{</span><span class="n">prop</span><span class="si">}</span><span class="s2">&#39; property of &quot;</span>
-                        <span class="sa">f</span><span class="s2">&quot;&#39;</span><span class="si">{</span><span class="n">feature_name</span><span class="si">}</span><span class="s2">&#39; in feature_annotator, &quot;</span>
-                        <span class="sa">f</span><span class="s2">&quot;named &#39;</span><span class="si">{</span><span class="n">feature_annotator</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&#39;.&quot;</span>
+                        <span class="sa">f</span><span class="s2">"Missing '</span><span class="si">{</span><span class="n">prop</span><span class="si">}</span><span class="s2">' property of "</span>
+                        <span class="sa">f</span><span class="s2">"'</span><span class="si">{</span><span class="n">feature_name</span><span class="si">}</span><span class="s2">' in feature_annotator, "</span>
+                        <span class="sa">f</span><span class="s2">"named '</span><span class="si">{</span><span class="n">feature_annotator</span><span class="p">[</span><span class="s1">'name'</span><span class="p">]</span><span class="si">}</span><span class="s2">'."</span>
                     <span class="p">)</span>
     <span class="k">return</span> <span class="n">feature_annotator</span></div>
 
 
 <span class="c1"># def set_boundaries_info_dict(boundaries_info):</span>
-<span class="c1">#     &quot;&quot;&quot;Set the boundary information.</span>
+<span class="c1">#     """Set the boundary information.</span>
 <span class="c1">#</span>
 <span class="c1">#     Set the final values for coastlines, states, countries plotting params,</span>
 <span class="c1">#     pulling from argument and defaults.</span>
@@ -1305,36 +1332,36 @@ window.runMermaid = runMermaid;</script>
 <span class="c1">#     -----</span>
 <span class="c1">#     Defaults specified as::</span>
 <span class="c1">#</span>
-<span class="c1">#         boundaries_info[&#39;request_coastlines&#39;]       default True</span>
-<span class="c1">#         boundaries_info[&#39;request_countries&#39;]        default True</span>
-<span class="c1">#         boundaries_info[&#39;request_states&#39;]           default True</span>
-<span class="c1">#         boundaries_info[&#39;request_rivers&#39;]           default True</span>
+<span class="c1">#         boundaries_info['request_coastlines']       default True</span>
+<span class="c1">#         boundaries_info['request_countries']        default True</span>
+<span class="c1">#         boundaries_info['request_states']           default True</span>
+<span class="c1">#         boundaries_info['request_rivers']           default True</span>
 <span class="c1">#</span>
-<span class="c1">#         boundaries_info[&#39;coastlines_linewidth&#39;]     default 2</span>
-<span class="c1">#         boundaries_info[&#39;countries_linewidth&#39;]      default 1</span>
-<span class="c1">#         boundaries_info[&#39;states_linewidth&#39;]         default 0.5</span>
-<span class="c1">#         boundaries_info[&#39;rivers_linewidth&#39;]         default 0</span>
+<span class="c1">#         boundaries_info['coastlines_linewidth']     default 2</span>
+<span class="c1">#         boundaries_info['countries_linewidth']      default 1</span>
+<span class="c1">#         boundaries_info['states_linewidth']         default 0.5</span>
+<span class="c1">#         boundaries_info['rivers_linewidth']         default 0</span>
 <span class="c1">#</span>
-<span class="c1">#         boundaries_info[&#39;coastlines_color&#39;]         default &#39;red&#39;</span>
-<span class="c1">#         boundaries_info[&#39;countries_color&#39;]          default &#39;red&#39;</span>
-<span class="c1">#         boundaries_info[&#39;states_color&#39;]             default &#39;red&#39;</span>
-<span class="c1">#         boundaries_info[&#39;rivers_color&#39;]             default &#39;red&#39;</span>
-<span class="c1">#     &quot;&quot;&quot;</span>
+<span class="c1">#         boundaries_info['coastlines_color']         default 'red'</span>
+<span class="c1">#         boundaries_info['countries_color']          default 'red'</span>
+<span class="c1">#         boundaries_info['states_color']             default 'red'</span>
+<span class="c1">#         boundaries_info['rivers_color']             default 'red'</span>
+<span class="c1">#     """</span>
 <span class="c1">#     use_boundaries_info = {}</span>
-<span class="c1">#     use_boundaries_info[&quot;request_coastlines&quot;] = True</span>
-<span class="c1">#     use_boundaries_info[&quot;request_countries&quot;] = True</span>
-<span class="c1">#     use_boundaries_info[&quot;request_states&quot;] = True</span>
-<span class="c1">#     use_boundaries_info[&quot;request_rivers&quot;] = True</span>
+<span class="c1">#     use_boundaries_info["request_coastlines"] = True</span>
+<span class="c1">#     use_boundaries_info["request_countries"] = True</span>
+<span class="c1">#     use_boundaries_info["request_states"] = True</span>
+<span class="c1">#     use_boundaries_info["request_rivers"] = True</span>
 <span class="c1">#</span>
-<span class="c1">#     use_boundaries_info[&quot;coastlines_linewidth&quot;] = 2</span>
-<span class="c1">#     use_boundaries_info[&quot;countries_linewidth&quot;] = 1</span>
-<span class="c1">#     use_boundaries_info[&quot;states_linewidth&quot;] = 0.5</span>
-<span class="c1">#     use_boundaries_info[&quot;rivers_linewidth&quot;] = 0</span>
+<span class="c1">#     use_boundaries_info["coastlines_linewidth"] = 2</span>
+<span class="c1">#     use_boundaries_info["countries_linewidth"] = 1</span>
+<span class="c1">#     use_boundaries_info["states_linewidth"] = 0.5</span>
+<span class="c1">#     use_boundaries_info["rivers_linewidth"] = 0</span>
 <span class="c1">#</span>
-<span class="c1">#     use_boundaries_info[&quot;coastlines_color&quot;] = &quot;red&quot;</span>
-<span class="c1">#     use_boundaries_info[&quot;countries_color&quot;] = &quot;red&quot;</span>
-<span class="c1">#     use_boundaries_info[&quot;states_color&quot;] = &quot;red&quot;</span>
-<span class="c1">#     use_boundaries_info[&quot;rivers_color&quot;] = &quot;red&quot;</span>
+<span class="c1">#     use_boundaries_info["coastlines_color"] = "red"</span>
+<span class="c1">#     use_boundaries_info["countries_color"] = "red"</span>
+<span class="c1">#     use_boundaries_info["states_color"] = "red"</span>
+<span class="c1">#     use_boundaries_info["rivers_color"] = "red"</span>
 <span class="c1">#</span>
 <span class="c1">#     # Grab any values that were passed</span>
 <span class="c1">#     if boundaries_info is not None:</span>
@@ -1346,7 +1373,7 @@ window.runMermaid = runMermaid;</script>
 
 
 <div class="viewcode-block" id="draw_features"><a class="viewcode-back" href="../../../geoips_api/geoips.image_utils.html#geoips.image_utils.maps.draw_features">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">draw_features</span><span class="p">(</span><span class="n">mapobj</span><span class="p">,</span> <span class="n">curr_ax</span><span class="p">,</span> <span class="n">feature_annotator</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Draw cartopy features.</span>
+<span class="w">    </span><span class="sd">"""Draw cartopy features.</span>
 
 <span class="sd">    Draw features on specified cartopy map instance, based</span>
 <span class="sd">    on specs found in the feature_annotator plugin.</span>
@@ -1366,29 +1393,29 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">    --------</span>
 <span class="sd">    geoips.image_utils.maps.check_feature_annotator</span>
 <span class="sd">          for required dictionary entries and defaults.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Drawing coastlines, countries, states, rivers&quot;</span><span class="p">)</span>
+<span class="sd">    """</span>
+    <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"Drawing coastlines, countries, states, rivers"</span><span class="p">)</span>
     <span class="n">feature_annotator</span> <span class="o">=</span> <span class="n">check_feature_annotator</span><span class="p">(</span><span class="n">feature_annotator</span><span class="p">)</span>
 
     <span class="c1"># NOTE passing zorder=None is NOT the same as not passing zorder.</span>
     <span class="c1"># Ensure if zorder is passed, it is propagated to cartopy.</span>
     <span class="n">extra_args</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="k">if</span> <span class="n">zorder</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">extra_args</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;zorder&quot;</span><span class="p">:</span> <span class="n">zorder</span><span class="p">}</span>
+        <span class="n">extra_args</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"zorder"</span><span class="p">:</span> <span class="n">zorder</span><span class="p">}</span>
 
-    <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;    Plotting with cartopy&quot;</span><span class="p">)</span>
+    <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"    Plotting with cartopy"</span><span class="p">)</span>
 
-    <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">feature</span> <span class="ow">in</span> <span class="n">feature_annotator</span><span class="p">[</span><span class="s2">&quot;spec&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">feature</span> <span class="ow">in</span> <span class="n">feature_annotator</span><span class="p">[</span><span class="s2">"spec"</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
         <span class="n">feat</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="n">feature</span><span class="p">)</span>
-        <span class="c1"># Need to make sure this isn&#39;t &#39;background&#39; as this isn&#39;t a feature that can be</span>
+        <span class="c1"># Need to make sure this isn't 'background' as this isn't a feature that can be</span>
         <span class="c1"># added to an axis. This is just the background color of where those features</span>
         <span class="c1"># will or will not be added</span>
-        <span class="k">if</span> <span class="n">name</span> <span class="o">!=</span> <span class="s2">&quot;background&quot;</span> <span class="ow">and</span> <span class="n">feat</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;enabled&quot;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">name</span> <span class="o">!=</span> <span class="s2">"background"</span> <span class="ow">and</span> <span class="n">feat</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">"enabled"</span><span class="p">):</span>
             <span class="n">curr_ax</span><span class="o">.</span><span class="n">add_feature</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="n">cfeature</span><span class="p">,</span> <span class="n">name</span><span class="o">.</span><span class="n">upper</span><span class="p">()),</span> <span class="o">**</span><span class="n">feat</span><span class="p">,</span> <span class="o">**</span><span class="n">extra_args</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="draw_gridlines"><a class="viewcode-back" href="../../../geoips_api/geoips.image_utils.html#geoips.image_utils.maps.draw_gridlines">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">draw_gridlines</span><span class="p">(</span><span class="n">mapobj</span><span class="p">,</span> <span class="n">area_def</span><span class="p">,</span> <span class="n">curr_ax</span><span class="p">,</span> <span class="n">gridline_annotator</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Draw gridlines on map object.</span>
+<span class="w">    </span><span class="sd">"""Draw gridlines on map object.</span>
 
 <span class="sd">    Draw gridlines on a cartopy map object, as specified by a</span>
 <span class="sd">    gridline_annotator plugin instance</span>
@@ -1410,56 +1437,56 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">    --------</span>
 <span class="sd">    geoips.image_utils.maps.get_gridlines_info_dict</span>
 <span class="sd">        For complete list of fields, and appropriate default</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Drawing gridlines&quot;</span><span class="p">)</span>
+<span class="sd">    """</span>
+    <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"Drawing gridlines"</span><span class="p">)</span>
     <span class="n">gridline_annotator</span> <span class="o">=</span> <span class="n">check_gridline_annotator</span><span class="p">(</span><span class="n">gridline_annotator</span><span class="p">)</span>
 
     <span class="c1"># NOTE passing zorder=None is NOT the same as not passing zorder.</span>
     <span class="c1"># Ensure if zorder is passed, it is propagated to cartopy.</span>
     <span class="n">extra_args</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="k">if</span> <span class="n">zorder</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">extra_args</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;zorder&quot;</span><span class="p">:</span> <span class="n">zorder</span><span class="p">}</span>
+        <span class="n">extra_args</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"zorder"</span><span class="p">:</span> <span class="n">zorder</span><span class="p">}</span>
 
-    <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;    Plotting with cartopy&quot;</span><span class="p">)</span>
+    <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"    Plotting with cartopy"</span><span class="p">)</span>
 
-    <span class="n">spec</span> <span class="o">=</span> <span class="n">gridline_annotator</span><span class="p">[</span><span class="s2">&quot;spec&quot;</span><span class="p">]</span>
-    <span class="n">labels</span> <span class="o">=</span> <span class="n">spec</span><span class="p">[</span><span class="s2">&quot;labels&quot;</span><span class="p">]</span>
+    <span class="n">spec</span> <span class="o">=</span> <span class="n">gridline_annotator</span><span class="p">[</span><span class="s2">"spec"</span><span class="p">]</span>
+    <span class="n">labels</span> <span class="o">=</span> <span class="n">spec</span><span class="p">[</span><span class="s2">"labels"</span><span class="p">]</span>
 
-    <span class="k">if</span> <span class="s2">&quot;xpadding&quot;</span> <span class="ow">in</span> <span class="n">labels</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
-        <span class="n">extra_args</span><span class="p">[</span><span class="s2">&quot;xpadding&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">labels</span><span class="p">[</span><span class="s2">&quot;xpadding&quot;</span><span class="p">]</span>
-    <span class="k">if</span> <span class="s2">&quot;ypadding&quot;</span> <span class="ow">in</span> <span class="n">labels</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
-        <span class="n">extra_args</span><span class="p">[</span><span class="s2">&quot;ypadding&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">labels</span><span class="p">[</span><span class="s2">&quot;ypadding&quot;</span><span class="p">]</span>
+    <span class="k">if</span> <span class="s2">"xpadding"</span> <span class="ow">in</span> <span class="n">labels</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+        <span class="n">extra_args</span><span class="p">[</span><span class="s2">"xpadding"</span><span class="p">]</span> <span class="o">=</span> <span class="n">labels</span><span class="p">[</span><span class="s2">"xpadding"</span><span class="p">]</span>
+    <span class="k">if</span> <span class="s2">"ypadding"</span> <span class="ow">in</span> <span class="n">labels</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+        <span class="n">extra_args</span><span class="p">[</span><span class="s2">"ypadding"</span><span class="p">]</span> <span class="o">=</span> <span class="n">labels</span><span class="p">[</span><span class="s2">"ypadding"</span><span class="p">]</span>
 
     <span class="c1"># Note: linestyle is specified by a tuple: (offset, (pixels_on,</span>
     <span class="c1"># pixels_off, pxon, pxoff)), etc</span>
-    <span class="n">lines</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="n">spec</span><span class="p">[</span><span class="s2">&quot;lines&quot;</span><span class="p">])</span>
-    <span class="n">lines</span><span class="p">[</span><span class="s2">&quot;linestyle&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">lines</span><span class="p">[</span><span class="s2">&quot;linestyle&quot;</span><span class="p">]))</span>
+    <span class="n">lines</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="n">spec</span><span class="p">[</span><span class="s2">"lines"</span><span class="p">])</span>
+    <span class="n">lines</span><span class="p">[</span><span class="s2">"linestyle"</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">lines</span><span class="p">[</span><span class="s2">"linestyle"</span><span class="p">]))</span>
     <span class="n">glnr</span> <span class="o">=</span> <span class="n">curr_ax</span><span class="o">.</span><span class="n">gridlines</span><span class="p">(</span><span class="n">draw_labels</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">lines</span><span class="p">,</span> <span class="o">**</span><span class="n">extra_args</span><span class="p">)</span>
 
     <span class="c1"># Default to False, unless set in argument</span>
-    <span class="n">glnr</span><span class="o">.</span><span class="n">top_labels</span> <span class="o">=</span> <span class="n">labels</span><span class="p">[</span><span class="s2">&quot;top&quot;</span><span class="p">]</span>
-    <span class="n">glnr</span><span class="o">.</span><span class="n">bottom_labels</span> <span class="o">=</span> <span class="n">labels</span><span class="p">[</span><span class="s2">&quot;bottom&quot;</span><span class="p">]</span>
-    <span class="n">glnr</span><span class="o">.</span><span class="n">left_labels</span> <span class="o">=</span> <span class="n">labels</span><span class="p">[</span><span class="s2">&quot;left&quot;</span><span class="p">]</span>
-    <span class="n">glnr</span><span class="o">.</span><span class="n">right_labels</span> <span class="o">=</span> <span class="n">labels</span><span class="p">[</span><span class="s2">&quot;right&quot;</span><span class="p">]</span>
+    <span class="n">glnr</span><span class="o">.</span><span class="n">top_labels</span> <span class="o">=</span> <span class="n">labels</span><span class="p">[</span><span class="s2">"top"</span><span class="p">]</span>
+    <span class="n">glnr</span><span class="o">.</span><span class="n">bottom_labels</span> <span class="o">=</span> <span class="n">labels</span><span class="p">[</span><span class="s2">"bottom"</span><span class="p">]</span>
+    <span class="n">glnr</span><span class="o">.</span><span class="n">left_labels</span> <span class="o">=</span> <span class="n">labels</span><span class="p">[</span><span class="s2">"left"</span><span class="p">]</span>
+    <span class="n">glnr</span><span class="o">.</span><span class="n">right_labels</span> <span class="o">=</span> <span class="n">labels</span><span class="p">[</span><span class="s2">"right"</span><span class="p">]</span>
 
-    <span class="n">spacing</span> <span class="o">=</span> <span class="n">spec</span><span class="p">[</span><span class="s2">&quot;spacing&quot;</span><span class="p">]</span>
-    <span class="n">lat_ticks</span> <span class="o">=</span> <span class="n">parallels</span><span class="p">(</span><span class="n">area_def</span><span class="p">,</span> <span class="n">spacing</span><span class="p">[</span><span class="s2">&quot;latitude&quot;</span><span class="p">])</span>
-    <span class="n">lon_ticks</span> <span class="o">=</span> <span class="n">meridians</span><span class="p">(</span><span class="n">area_def</span><span class="p">,</span> <span class="n">spacing</span><span class="p">[</span><span class="s2">&quot;longitude&quot;</span><span class="p">])</span>
+    <span class="n">spacing</span> <span class="o">=</span> <span class="n">spec</span><span class="p">[</span><span class="s2">"spacing"</span><span class="p">]</span>
+    <span class="n">lat_ticks</span> <span class="o">=</span> <span class="n">parallels</span><span class="p">(</span><span class="n">area_def</span><span class="p">,</span> <span class="n">spacing</span><span class="p">[</span><span class="s2">"latitude"</span><span class="p">])</span>
+    <span class="n">lon_ticks</span> <span class="o">=</span> <span class="n">meridians</span><span class="p">(</span><span class="n">area_def</span><span class="p">,</span> <span class="n">spacing</span><span class="p">[</span><span class="s2">"longitude"</span><span class="p">])</span>
 
-    <span class="n">LOG</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Lon Ticks: </span><span class="si">{</span><span class="n">lon_ticks</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">LOG</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Lon Ticks: </span><span class="si">{</span><span class="n">lon_ticks</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
     <span class="n">glnr</span><span class="o">.</span><span class="n">xlocator</span> <span class="o">=</span> <span class="n">mticker</span><span class="o">.</span><span class="n">FixedLocator</span><span class="p">(</span><span class="n">lon_ticks</span><span class="p">)</span>
-    <span class="n">LOG</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Lat Ticks: </span><span class="si">{</span><span class="n">lat_ticks</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">LOG</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Lat Ticks: </span><span class="si">{</span><span class="n">lat_ticks</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
     <span class="n">glnr</span><span class="o">.</span><span class="n">ylocator</span> <span class="o">=</span> <span class="n">mticker</span><span class="o">.</span><span class="n">FixedLocator</span><span class="p">(</span><span class="n">lat_ticks</span><span class="p">)</span>
 
     <span class="n">glnr</span><span class="o">.</span><span class="n">xformatter</span> <span class="o">=</span> <span class="n">LONGITUDE_FORMATTER</span>
     <span class="n">glnr</span><span class="o">.</span><span class="n">yformatter</span> <span class="o">=</span> <span class="n">LATITUDE_FORMATTER</span>
-    <span class="n">glnr</span><span class="o">.</span><span class="n">xlabel_style</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;rotation&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">}</span>
-    <span class="n">glnr</span><span class="o">.</span><span class="n">ylabel_style</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;rotation&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">}</span>
+    <span class="n">glnr</span><span class="o">.</span><span class="n">xlabel_style</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"rotation"</span><span class="p">:</span> <span class="mi">0</span><span class="p">}</span>
+    <span class="n">glnr</span><span class="o">.</span><span class="n">ylabel_style</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"rotation"</span><span class="p">:</span> <span class="mi">0</span><span class="p">}</span>
 
     <span class="k">for</span> <span class="n">style_arg</span> <span class="ow">in</span> <span class="n">gridline_annotators</span><span class="o">.</span><span class="n">label_kwargs</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
-        <span class="c1"># If a (x/y)label_style kwarg is present in the gridline annotator&#39;s label</span>
+        <span class="c1"># If a (x/y)label_style kwarg is present in the gridline annotator's label</span>
         <span class="c1"># object, than make sure to apply that argument now. Ie. color of the label,</span>
-        <span class="c1"># it&#39;s offset, etc. See geoips.schema.gridline_annotators.cartopy:labels for</span>
+        <span class="c1"># it's offset, etc. See geoips.schema.gridline_annotators.cartopy:labels for</span>
         <span class="c1"># more information.</span>
         <span class="k">if</span> <span class="n">style_arg</span> <span class="ow">in</span> <span class="n">labels</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
             <span class="n">glnr</span><span class="o">.</span><span class="n">xlabel_style</span><span class="p">[</span><span class="n">style_arg</span><span class="p">]</span> <span class="o">=</span> <span class="n">labels</span><span class="p">[</span><span class="n">style_arg</span><span class="p">]</span>

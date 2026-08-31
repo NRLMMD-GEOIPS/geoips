@@ -1,0 +1,482 @@
+.. dropdown:: Distribution Statement
+
+ | # # # This source code is subject to the license referenced at
+ | # # # https://github.com/NRLMMD-GEOIPS.
+
+Version 1.12.3 (2024-05-15)
+***************************
+
+* Formatting Updates
+
+  * Allow setting GEOIPS_LOGGING_LEVEL to override default "interactive"
+  * Allow different colors for realtime and admin operational user setups
+* Bug fixes
+
+  * Add geolocation variables to geokompsat reader
+  * Add output of radiance to geokompsat reader
+  * Add geolocation variable masking to AHI reader
+  * Ensure all plugin packages are tested in YAML plugin validation
+  * Ignore missing import in hrit_reader
+  * Fix xarray_to_xarray family
+  * Update ANCILDATDIR to GEOIPS_ANCILDAT
+  * Appropriately pull resolution from LongName
+  * Check for GEOIPS_DB_URI when using database plugin
+  * Resolve typos in IR_BD and WV colormappers LOG statements
+  * Resolve typo in netcdf output checker log_with_emphasis call
+* Enhancements
+
+  * Allow passing pyresample kd_tree arguments to interpolators
+  * Allow replacing fields in product_spec_override
+  * Add geolocation resampling to VIIRS reader
+* Testing Updates
+
+  * Minor updates to geokompsat output image title/labels
+  * Update config-based AHI backgrounds for AHI geolocation masking update
+  * Use variables[varname] vs getattr(varname) for reader unit tests
+  * Update to full path for test_interfaces call in base_test
+* Installation Updates
+
+  * Fix versions for xarray, rasterio, and cartopy in pyproject.toml
+  * Add current miniconda3 install to path
+  * Include mamba.sh setup in geoips_conda_init_setup
+  * Add general clone_repo command to check_system_requirements
+  * Allow passing arguments to pip
+  * Output version-based requirements.txt immediately after base install.
+  * Require matplotlib<3.9.0 due to matplotlib.cm.get_cmap deprecation
+  * Limit git to <2.45.0 due to bug breaking git lfs clones
+* Documentation Updates
+
+  * Allow including additional sections in plugin package documentation
+* Release Updates
+
+  * Update 'update_this_release_note'
+  * Add release note for v1.12.3
+  * Add release note for v1.12.4
+
+Bug Fixes
+=========
+
+Check for GEOIPS_DB_URI when using database plugin
+--------------------------------------------------
+
+If attempting to use a database plugin, GEOIPS_DB_URI must be set.
+
+::
+
+  modified: geoips/plugins/modules/procflow_configs/single_source.py
+  modified: geoips/plugins/modules/procflow_configs/config_based.py
+
+Appropriately pull resolution from LongName
+-------------------------------------------
+
+Was previously pulling the last 4 characters from the "LongName" to get the
+resolution, but for NRT data, the LongName ends in "NRT".  Update logic for
+setting the resolution to split the string, and ensure we are using the
+correct field with the resolution (and not "NRT").
+
+::
+
+  modified: geoips/plugins/modules/readers/viirs_netcdf.py
+
+Update ANCILDATDIR to GEOIPS_ANCILDAT
+-------------------------------------
+
+ANCILDATDIR no longer used, update to GEOIPS_ANCILDAT
+
+::
+
+  modified: geoips/filenames/base_paths.py
+
+Ensure all plugin packages are tested in YAML plugin validation
+---------------------------------------------------------------
+
+Typo - must test files in pkg.name, not "geoips" over and over.
+
+::
+
+  modified: /tests/unit_tests/plugins/yaml/test_all_yaml_plugins.py
+
+Ignore missing import in hrit_reader
+------------------------------------
+
+::
+
+    modified:   geoips/plugins/modules/readers/utils/hrit_reader.py
+
+Add geolocation variables to geokompsat reader
+----------------------------------------------
+
+To allow variables like solar_zenith_angle to be passed through for
+further processing, add geolocation variables to the GeoKOMPSAT reader.
+
+::
+
+  modified: geoips/plugins/modules/readers/geokompsat_netcdf.py
+
+Add output of radiance to geokompsat reader
+----------------------------------------------
+
+Allow output of radiance from geokompsat reader, in addition to existing
+reflectance and brightness temperature, so that they can be used with
+algorithms requiring radiances.
+
+Note unit tests required updating to use VI006Ref and IR112BT, vs VI006 and IR112.
+
+::
+
+  modified: docs/source/releases/v1_12_3.rst
+  modified: geoips/plugins/modules/readers/geokompsat_netcdf.py
+  modified: geoips/plugins/yaml/products/geokompsat.yaml
+
+Add geolocation variable masking to AHI reader
+----------------------------------------------
+
+Mask geolocation variables within AHI reader, to ensure
+consistent layout for all geostationary satellites.
+
+::
+
+  modified: geoips/plugins/modules/readers/ahi_hsd.py
+
+Fix xarray_to_xarray family
+---------------------------
+
+Modify xarray_to_xarray family so that it functions correctly.
+
+::
+
+  modified: geoips/plugins/modules/procflows/single_source.py
+
+Resolve typo in netcdf output checker log_with_emphasis call
+------------------------------------------------------------
+
+Fix typo in log_with_emphasis call in netcdf output checker.  Was calling for every
+line, updated to append all lines into a list, then a single call to log_with_emphasis.
+
+::
+
+  modified: geoips/plugins/modules/output_checkers/netcdf.py
+
+Resolve typos in IR_BD and WV colormappers LOG statements
+---------------------------------------------------------
+
+Fix typo in IR_BD.py and WV.py colormappers LOG.info statements - previously
+had a variable without a corresponding %s.
+
+::
+
+  modified: geoips/plugins/modules/colormappers/visir/IR_BD.py
+  modified: geoips/plugins/modules/colormappers/visir/WV.py
+
+Enhancements
+============
+
+Allow replacing fields in product_spec_override
+-----------------------------------------------
+
+Allow including field "replace" to product_spec_override, indicating fields
+should be entirely replaced vs merged.  This allowed passing a new set of
+variables within the yaml procflow config (specifying a explicit dataset to
+pull a variable from within the procflow config, rather than only in the
+product YAML).  I don't think this is a good final solution, but indicates
+the problem that needs to be solved as we finalize the procflow configs and
+order based procflow, and solves an immediate need.
+
+::
+
+  modified: geoips/geoips_utils.py
+  modified: geoips/interfaces/yaml_based/products.py
+  modified: geoips/xarray_utils/time.py
+
+Allow passing pyresample kd_tree arguments to interpolators
+-----------------------------------------------------------
+
+Expose pyresample arguments at the command line / config level.
+
+Add nproc argument to AMSR2 test script to confirm functionality.
+
+::
+
+  modified:   geoips/geoips_utils.py
+  modified:   geoips/plugins/modules/interpolators/pyresample_wrappers/interp_gauss.py
+  modified:   geoips/plugins/modules/interpolators/pyresample_wrappers/interp_nearest.py
+  modified:   geoips/plugins/modules/interpolators/utils/interp_pyresample.py
+  modified:   tests/scripts/amsr2.tc.89H-Physical.imagery_annotated.sh
+
+Add geolocation resampling to VIIRS reader
+------------------------------------------
+
+Allow VIIRS data to be resampled to an area definition, so that it can be used
+with stitched data products with geostationary data.
+
+Documentation Updates
+=====================
+
+Allow including additional sections in plugin package documentation
+-------------------------------------------------------------------
+
+Initial template implementation only allowed explicit sections in
+plugin package documentation:
+
+* introduction
+* userguide
+* API
+* releases
+
+Allow optional sections, if defined.
+Ie, within build_docs.sh, if docs/source/starter/index.rst file exists
+within the plugin package, then replace STARTERIDX in index_PKG.html
+with "installation/index", so doc build does not fail due to an RST file that
+does not exist in any index.
+
+Allow optional for devguide, deployguide, opguide, starter, and contact:
+
+* docs/source/devguide/index.rst -> DEVIDX
+* docs/source/starter/index.rst -> STARTERIDX
+* docs/source/contact/index.rst -> CONTACTIDX
+* docs/source/deployguide/index.rst -> DEPLOYGUIDEIDX
+* docs/source/opguide/index.rst -> OPGUIDEIDX
+
+Note the full list of sections in the GeoIPS documentation are as follows,
+in the order specified below
+(directory name within docs/source, followed by heading name within index.rst
+in parentheses below):
+
+* REQUIRED: introduction (Introduction)
+* OPTIONAL: starter (Getting Started)
+* REQUIRED: userguide (User Guide)
+* OPTIONAL: devguide (Developer Guide)
+* OPTIONAL: deployguide (Deployment Guide, NOT in geoips repo)
+* OPTIONAL: opguide (Operator Guide, NOT in geoips repo)
+* REQUIRED: <pkg>_api (API Reference)
+* REQUIRED: releases (Release Notes)
+* OPTIONAL: contact (Contact)
+
+Plugin package documentation will follow the same order, only including the
+sections included in their docs/source directory.
+
+Also note initially contact was force copied to every plugin repo from the
+geoips repo.  No longer force copy contact - if contact section is not
+defined in the plugin repo, then no contact information is included.
+
+::
+
+  modified:   docs/build_docs.sh
+  modified:   docs/source/_templates/index_PKG.html
+
+Testing Updates
+===============
+
+Minor updates to geokompsat output image title/labels
+-----------------------------------------------------
+
+This must have initially been added with a different version of matplotlib.
+This does not appear to impact the actual image at all, or contents of title/
+labels.
+
+::
+
+  modified: tests/outputs/geokompsat.static.Visible.imagery_annotated/20231208.030032.GK-2A.geokompsat.Visible.geokompsat.45p56.nmsc.10p0.png
+
+
+Update config-based AHI backgrounds for AHI geolocation masking update
+----------------------------------------------------------------------
+
+GEOIPS/geoips#479 update caused VERY slightly expanded coverage for AHI, due
+to update to geolocation masking. AHI background image is slightly expanded.
+
+::
+
+  modified: tests/outputs/amsr2.global_overlay.37pct.imagery_annotated_over_Visible/20200518.062048.gcom-w1.amsr2.37pct.global.10p06.star.20p0.png
+  modified: tests/outputs/amsr2.global_overlay.89pct.imagery_annotated_over_Visible/20200518.062048.gcom-w1.amsr2.89pct.global.13p55.star.20p0.png
+  modified: tests/outputs/amsr2.global_overlay.37pct.imagery_annotated_over_Infrared-Gray/20200518.062048.gcom-w1.amsr2.37pct.global.10p06.star.20p0.png
+  modified: tests/outputs/amsr2.global_overlay.89pct.imagery_annotated_over_Infrared-Gray/20200518.062048.gcom-w1.amsr2.89pct.global.13p55.star.20p0.png
+
+Use variables[varname] vs getattr(varname) for reader unit tests
+----------------------------------------------------------------
+
+Standardize xarray variable access.
+
+::
+
+  modified: tests/unit_tests_long/plugins/modules/readers/test_readers.py
+
+Update to full path for test_interfaces call in base_test
+---------------------------------------------------------
+
+Use full path to tests/utils/test_interfaces.py, rather than console script
+test_interfaces. test_interfaces is no longer a console script, because it
+relies on utilities in the "test" infrastructure, so is non-functional with
+a pip install of geoips only.
+
+::
+
+  modified: tests/integration_tests/base_test.sh
+
+Installation Updates
+====================
+
+Fix versions for xarray, rasterio, and cartopy in pyproject.toml
+----------------------------------------------------------------
+
+Require fixed versions for
+
+* xarray (knmi scat reader bug),
+* rasterio (geotiff_standard bug)
+* cartopy (test image output gridlines, few pixels difference)
+
+::
+
+  modified: pyproject.toml
+
+Add current miniconda3 install to path
+--------------------------------------
+
+Add current miniconda3 install to path, to ensure correct conda is used
+during conda env calls.
+
+::
+
+  modified: setup/geoips_conda_init_setup
+
+Include mamba.sh setup in geoips_conda_init_setup
+-------------------------------------------------
+
+Also redirect which conda stderr to dev/null to avoid unnecessary
+printing to screen.
+
+::
+
+  modified:   setup/geoips_conda_init_setup
+
+Add general clone_repo command to check_system_requirements
+-----------------------------------------------------------
+
+Allows consistent error checking, and skipping if it already exists.
+
+::
+
+  setup/check_sysstem_requirements.sh
+
+Allow passing arguments to pip
+------------------------------
+
+::
+
+  setup/check_sysstem_requirements.sh
+
+Output version-based requirements.txt immediately after base install
+--------------------------------------------------------------------
+
+::
+
+  modified: docs/source/starter/installation.rst
+
+Require matplotlib<3.9.0 due to matplotlib.cm.get_cmap deprecation
+------------------------------------------------------------------
+
+Will remove this fixed version as soon as we update matplotlib_linear_norm.py for
+latest matplotlib syntax.
+
+::
+
+  modified: pyproject.toml
+
+Limit git to <2.45.0 due to bug breaking git lfs clones
+-------------------------------------------------------
+
+git lfs clones fail altogether with git >= 2.45.0. Will remove this restriction
+once git fixes their bug.
+
+Formatting Updates
+==================
+
+Allow setting GEOIPS_LOGGING_LEVEL to override default "interactive"
+--------------------------------------------------------------------
+
+Command line argument takes precedence, then GEOIPS_LOGGING_LEVEL,
+then default "interactive".  Allows setting logging level across the
+board for ALL processing, without specifying at each command line
+call (ie, good for logs).
+
+::
+
+  modified:   geoips/commandline/run_procflow.py
+
+Allow different colors for realtime and admin operational user setups
+---------------------------------------------------------------------
+
+Differentiate between admin and realtime setup for operational user.
+
+::
+
+  modified: setup/bash_setup/color_prompts
+
+Release Process
+===============
+
+Merge updates from v1.12.2 from github.com
+------------------------------------------
+
+*From GEOIPS#493: 2024-04-30, 1.12.2 release*
+
+::
+
+  modified: docs/source/releases/v1_12_2.rst
+
+Add release note for v1.12.3
+----------------------------
+
+*From GEOIPS#458: 2024-02-17, 1.12.1 release*
+
+All updates until the next release (v1.12.3) will be included in
+this release note.
+
+::
+
+  modified: docs/source/releases/v1_12_3.rst
+  modified: docs/source/releases/index.rst
+
+Update 'update_this_release_note'
+---------------------------------
+
+*From GEOIPS#458: 2024-02-17, 1.12.1 release process updates*
+
+All updates until the next release (v1.12.3) will be included in
+the release note specified in this file.
+
+::
+
+  modified: update_this_release_note
+
+Update to full path for test_interfaces call in base_test
+---------------------------------------------------------
+
+Use full path to tests/utils/test_interfaces.py, rather than console script
+test_interfaces. test_interfaces is no longer a console script, because it
+relies on utilities in the "test" infrastructure, so is non-functional with
+a pip install of geoips only.
+
+::
+
+  modified: tests/integration_tests/base_test.sh
+
+Resolve typo in netcdf output checker log_with_emphasis call
+------------------------------------------------------------
+
+Fix typo in log_with_emphasis call in netcdf output checker.  Was calling for every
+line, updated to append all lines into a list, then a single call to log_with_emphasis.
+
+::
+
+  modified: geoips/plugins/modules/output_checkers/netcdf.py
+
+Add current miniconda3 install to path
+--------------------------------------
+
+Add current miniconda3 install to path, to ensure correct conda is used
+during conda env calls.
+
+::
+
+  modified: setup/geoips_conda_init_setup

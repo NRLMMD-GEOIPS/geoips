@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Command Line Interface (CLI) &#8212; GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation</title>
+    <title>Command Line Interface (CLI) &#8212; GeoIPS, Geolocated Information Processing System 0.0.0 documentation</title>
   
   
   
@@ -41,11 +41,18 @@
   <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
 
-    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=6727bded"></script>
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=525cde36"></script>
     <script src="../../_static/doctools.js?v=888ff710"></script>
     <script src="../../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../_static/design-tabs.js?v=f930bc37"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'functionality/command-line/index';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.17.1';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://nrlmmd-geoips.github.io/geoips/versions.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = 'dev';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner =
+            false;
+        </script>
     <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
     <link rel="icon" href="../../_static/nrlicon.ico"/>
     <link rel="index" title="Index" href="../../genindex.html" />
@@ -54,8 +61,8 @@
     <link rel="prev" title="Command Line Interface" href="../cli.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2.0" />
-    <meta name="docbuild:last-update" content="Jul 23, 2026 17:03:57"/>
+  <meta name="docsearch:version" content="0.0" />
+    <meta name="docbuild:last-update" content="Aug 31, 2026 13:32:18"/>
   
     
     <script src="../../_static/searchtools.js"></script>
@@ -127,11 +134,31 @@
       
     
     
-    <img src="../../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation - Home"/>
-    <img src="../../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation - Home"/>
+    <img src="../../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 0.0.0 documentation - Home"/>
+    <img src="../../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 0.0.0 documentation - Home"/>
   
   
 </a></div>
+    
+      <div class="navbar-item">
+<div class="version-switcher__container dropdown pst-js-only">
+  <button id="pst-version-switcher-button-2"
+    type="button"
+    class="version-switcher__button btn btn-sm dropdown-toggle"
+    data-bs-toggle="dropdown"
+    aria-haspopup="listbox"
+    aria-controls="pst-version-switcher-list-2"
+    aria-label="Version switcher list"
+  >
+    Choose version  <!-- this text may get changed later by javascript -->
+    <span class="caret"></span>
+  </button>
+  <div id="pst-version-switcher-list-2"
+    class="version-switcher__menu dropdown-menu list-group-flush py-0"
+    role="listbox" aria-labelledby="pst-version-switcher-button-2">
+    <!-- dropdown will be populated by javascript on page load -->
+  </div>
+</div></div>
     
   </div>
   
@@ -1103,7 +1130,7 @@ future release. To migrate a legacy call, replace <code class="docutils literal 
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>geoips<span class="w"> </span>run<span class="w"> </span>single_source<span class="w"> </span><span class="nv">$GEOIPS_TESTDATA_DIR</span>/test_data_noaa_aws/data/goes16/20200918/1950/*<span class="w"> </span><span class="se">\</span>
 <span class="w">    </span>--reader_name<span class="w"> </span>abi_netcdf<span class="w"> </span><span class="se">\</span>
 <span class="w">    </span>--product_name<span class="w"> </span>Infrared<span class="w"> </span><span class="se">\</span>
-<span class="w">    </span>--compare_path<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$GEOIPS_PACKAGES_DIR</span><span class="s2">/geoips/tests/outputs/abi.static.&lt;product&gt;.imagery_annotated&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--compare_path<span class="w"> </span><span class="s2">"</span><span class="nv">$GEOIPS_PACKAGES_DIR</span><span class="s2">/geoips/tests/outputs/abi.static.&lt;product&gt;.imagery_annotated"</span><span class="w"> </span><span class="se">\</span>
 <span class="w">    </span>--output_formatter<span class="w"> </span>imagery_annotated<span class="w"> </span><span class="se">\</span>
 <span class="w">    </span>--filename_formatter<span class="w"> </span>geoips_fname<span class="w"> </span><span class="se">\</span>
 <span class="w">    </span>--resampled_read<span class="w"> </span><span class="se">\</span>
@@ -1127,7 +1154,7 @@ confirm functionality, uniform syntax and interoperability.</p>
 <p>We may support more linters in the future.</p>
 </div>
 <p>For example:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>geoips<span class="w"> </span><span class="nb">test</span><span class="w"> </span>linting<span class="w"> </span><span class="c1"># (defaults to &#39;geoips&#39; package)</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>geoips<span class="w"> </span><span class="nb">test</span><span class="w"> </span>linting<span class="w"> </span><span class="c1"># (defaults to 'geoips' package)</span>
 geoips<span class="w"> </span><span class="nb">test</span><span class="w"> </span>linting<span class="w"> </span>-p<span class="w"> </span>&lt;package_name&gt;<span class="w"> </span><span class="c1"># only runs tests in provided plugin package</span>
 </pre></div>
 </div>
@@ -1186,7 +1213,7 @@ and sometimes provide information on what kind of failure occurred.</p>
 <p><code class="docutils literal notranslate"><span class="pre">script</span></code> only supports bash scripts ending in <code class="docutils literal notranslate"><span class="pre">.sh</span></code></p>
 </div>
 <p>For example:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>geoips<span class="w"> </span><span class="nb">test</span><span class="w"> </span>script<span class="w"> </span>&lt;script_name&gt;<span class="w"> </span><span class="c1"># (defaults to &#39;geoips&#39; package)</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>geoips<span class="w"> </span><span class="nb">test</span><span class="w"> </span>script<span class="w"> </span>&lt;script_name&gt;<span class="w"> </span><span class="c1"># (defaults to 'geoips' package)</span>
 </pre></div>
 </div>
 <p><code class="docutils literal notranslate"><span class="pre">script</span></code> can execute integration tests in the ‘geoips’ package.</p>

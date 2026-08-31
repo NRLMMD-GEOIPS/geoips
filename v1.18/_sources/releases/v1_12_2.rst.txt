@@ -1,0 +1,175 @@
+.. dropdown:: Distribution Statement
+
+ | # # # This source code is subject to the license referenced at
+ | # # # https://github.com/NRLMMD-GEOIPS.
+
+Version 1.12.2 (2024-04-24)
+**************************************
+
+* Update internal 'update_this_release_note' to v1_12_3.rst
+* Update github.com 'update_this_release_note' to v1_13_0a0.rst
+* Bug fixes
+
+  * Import from test_plugin_registries for test_interfaces command
+  * Remove check to only vstack mask array for BT_CHANNELS
+  * Do not wrap on hyphen for log_with_emphasis outputs
+  * Revert ABI Visible static and AHI WV GEOTIFF images back to original
+  * Rethnk implementation of Plugin Registry Validation
+  * Rename Geokompsat source name to AMI
+
+* GitHub Actions Bug Fixes
+
+  * Update github actions workflows to ensure proper dependencies
+
+Bug fixes
+=========
+
+Rename Geokompsat source name to AMI
+------------------------------------
+
+Rename the source name "geokompsat" to "ami" to match convention.
+
+::
+
+    renamed: geoips/plugins/modules/readers/geokompsat_netcdf.py -> geoips/plugins/modules/readers/ami_netcdf.py
+    renamed: geoips/plugins/yaml_files/geokompsat_netcdf.yaml -> geoips/plugins/yaml_files/ami_netcdf.yaml
+    modified: geoips/plugins/modules/readers/ami_netcdf.py
+    modified: geoips/plugins/yaml_files/ami_netcdf.yaml
+
+Remove GEOIPS_PACKAGES_DIR from check_code.sh
+---------------------------------------------
+
+Set path to geoips test scripts relative to the current $0 - this allows
+running check_code.sh without GEOIPS_PACKAGES_DIR being set.
+
+::
+
+  modified: tests/utils/check_code.sh
+
+Update github actions workflows to ensure proper dependencies
+-------------------------------------------------------------
+
+Add "test" dependency to build-html-docs and build-pdf-docs - was failing when
+attempting to import datatree.DataTree, since that is only installed with the
+"test" dependencies.
+
+Add GEOIPS_TESTDATA_DIR to pytest-short, since an interactive log unit test
+relies on an ABI test dataset. I am still uncertain whether we want pytest-short
+to rely on test data, but since this is a test dataset that is used in the
+base_install and base_test, we will allow it.
+
+::
+
+  modified:   .github/workflows/build-html-docs.yaml
+  modified:   .github/workflows/build-pdf-docs.yaml
+  modified:   .github/workflows/pytest-short.yaml
+
+Do not wrap on hyphen for log_with_emphasis outputs
+---------------------------------------------------
+
+Can't CTRL-click on imagery in output if it is wrapped!  Ensure output filenames
+containing hyphens do not get wrapped.
+
+::
+
+  modified: geoips/commandline/log_setup.py
+
+Remove check to only vstack mask array for BT_CHANNELS
+------------------------------------------------------
+
+*From issue GEOIPS#493: 2024-04-24, version update*
+
+During the updates adding geolocation resampling to the VIIRS reader, a check
+was put in requiring the variable to be in BT_CHANNELS before vstacking the
+mask array.  This caused the viirs unprojected image test to fail due to incompatible
+shapes. Remove that check - need to determine if it is actually required...
+
+::
+
+        modified:   geoips/plugins/modules/readers/viirs_netcdf.py
+
+Import from test_plugin_registries for test_interfaces command
+--------------------------------------------------------------
+
+*From issue GEOIPS#493: 2024-04-24, version update*
+
+Update test_interfaces for:
+
+1. Import PluginRegistryError from errors vs plugin_registry
+2. Import validate_all_plugins from test_plugin_registries  vs plugin_registries
+
+Additionally, move test_interfaces out of the geoips package, since
+it uses pytest utilities so does not function without a complete
+clone of the repository.  Since test_interfaces.py only functions
+with the test infrastructure in place (via pip install -e),
+move it to geoips/tests/utils/test_interfaces.py, and update the call
+in check_code.sh.
+
+::
+
+  modified: geoips/commandline/test_interfaces.py
+  modified: pyproject.toml
+  modified: tests/utils/check_code.sh
+  renamed: geoips/commandline/test_interfaces.py -> tests/utils/test_interfaces.py
+
+Rethink implementation of Plugin Registry Validation
+----------------------------------------------------
+
+*From GEOIPS#526: 2024-04-29, Move test_interfaces out of geoips/commandline and into tests directory*
+
+This stems from *GEOIPS#442: 2024-04-16, Move PyTest functionality from PluginRegistry Class to Unit Tests*,
+which moved all pytest-dependent functions of the PluginRegistry class to a separate
+unit test. We missed a reference to this validation in
+``geoips/commandline/test_interfaces.py`` which ended up failing due to the moved
+functions. We now invoke the ``import_optional_dependencies`` function in
+``geoips/context_managers.py`` to implement this validation, and if the user does not
+have pytest installed, we just don't validate the PluginRegistry and continue to
+interface testing. We probably should discuss this a bit more, to see if we want to
+refactor the unit tests to not use pytest for validation, or if it is fine leaving it
+as-is.
+
+::
+
+    modified: geoips/commandline/test_interfaces.py
+
+Revert ABI Visible static and AHI WV GEOTIFF images back to original
+--------------------------------------------------------------------
+
+Somehow these had VERY minor changes (9 pixel difference, non-recognizable with
+the naked eye).  Just reverting back to the originals that were in dev, and will
+address if necessary when pushed back out.  There was no record of if/when these
+changed, so going to just revert.
+
+::
+
+  modified: tests/outputs/abi.static.Visible.imagery_annotated/20200918.195020.goes-16.abi.Visible.goes_east.41p12.noaa.10p0.png
+  modified: tests/outputs/ahi.tc.WV.geotiff/20200405_000000_SH252020_ahi_himawari-8_WV_100kts_100p00_1p0.tif
+
+Release Updates
+===============
+
+Add 1.12.2 release note
+---------------------------
+
+*From issue GEOIPS#493: 2024-04-24, version update*
+
+::
+
+    modified: CHANGELOG.rst
+    new file: docs/source/releases/v1_12_2.rst
+    modified: docs/source/releases/index.rst
+
+Update internal and github.com 'update_this_release_note'
+---------------------------------------------------------
+
+*From issue GEOIPS#493: 2024-04-24, update 'update_this_release_note'*
+
+Updated 'update_this_release_note' file in geoips repo for the
+next internal version:
+docs/source/releases/v1_12_3.rst
+next github.com version:
+docs/source/releases/v1_13_0a0.rst
+
+::
+
+    modified: update_this_release_note

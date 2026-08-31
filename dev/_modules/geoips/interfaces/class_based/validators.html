@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>geoips.interfaces.class_based.validators &#8212; GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation</title>
+    <title>geoips.interfaces.class_based.validators &#8212; GeoIPS, Geolocated Information Processing System 0.0.0 documentation</title>
   
   
   
@@ -40,7 +40,7 @@
   <link rel="preload" as="script" href="../../../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
 <link rel="preload" as="script" href="../../../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
 
-    <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js?v=6727bded"></script>
+    <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js?v=525cde36"></script>
     <script src="../../../../_static/doctools.js?v=888ff710"></script>
     <script src="../../../../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../../_static/design-tabs.js?v=f930bc37"></script>
@@ -401,14 +401,21 @@ mermaid.initialize(
 window.addEventListener("load", load);
 window.runMermaid = runMermaid;</script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_modules/geoips/interfaces/class_based/validators';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.17.1';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://nrlmmd-geoips.github.io/geoips/versions.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = 'dev';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner =
+            false;
+        </script>
     <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
     <link rel="icon" href="../../../../_static/nrlicon.ico"/>
     <link rel="index" title="Index" href="../../../../genindex.html" />
     <link rel="search" title="Search" href="../../../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2.0" />
-    <meta name="docbuild:last-update" content="Jul 23, 2026 17:03:57"/>
+  <meta name="docsearch:version" content="0.0" />
+    <meta name="docbuild:last-update" content="Aug 31, 2026 13:32:18"/>
   
     
     <script src="../../../../_static/searchtools.js"></script>
@@ -480,11 +487,31 @@ window.runMermaid = runMermaid;</script>
       
     
     
-    <img src="../../../../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation - Home"/>
-    <img src="../../../../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation - Home"/>
+    <img src="../../../../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 0.0.0 documentation - Home"/>
+    <img src="../../../../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 0.0.0 documentation - Home"/>
   
   
 </a></div>
+    
+      <div class="navbar-item">
+<div class="version-switcher__container dropdown pst-js-only">
+  <button id="pst-version-switcher-button-2"
+    type="button"
+    class="version-switcher__button btn btn-sm dropdown-toggle"
+    data-bs-toggle="dropdown"
+    aria-haspopup="listbox"
+    aria-controls="pst-version-switcher-list-2"
+    aria-label="Version switcher list"
+  >
+    Choose version  <!-- this text may get changed later by javascript -->
+    <span class="caret"></span>
+  </button>
+  <div id="pst-version-switcher-list-2"
+    class="version-switcher__menu dropdown-menu list-group-flush py-0"
+    role="listbox" aria-labelledby="pst-version-switcher-button-2">
+    <!-- dropdown will be populated by javascript on page load -->
+  </div>
+</div></div>
     
   </div>
   
@@ -828,26 +855,26 @@ window.runMermaid = runMermaid;</script>
 <span></span><span class="c1"># # # This source code is subject to the license referenced at</span>
 <span class="c1"># # # https://github.com/NRLMMD-GEOIPS.</span>
 
-<span class="sd">&quot;&quot;&quot;Validators interface module.&quot;&quot;&quot;</span>
+<span class="sd">"""Validators interface module."""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">geoips.interfaces.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseClassInterface</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">geoips.interfaces.class_based_plugin</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseClassPlugin</span>
 
 
 <div class="viewcode-block" id="BaseValidatorPlugin"><a class="viewcode-back" href="../../../../geoips_api/geoips.interfaces.class_based.html#geoips.interfaces.class_based.validators.BaseValidatorPlugin">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">BaseValidatorPlugin</span><span class="p">(</span><span class="n">BaseClassPlugin</span><span class="p">,</span> <span class="n">abstract</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Base class for GeoIPS validator plugins.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Base class for GeoIPS validator plugins."""</span>
 
     <span class="k">pass</span></div>
 
 
 <div class="viewcode-block" id="ValidatorsInterface"><a class="viewcode-back" href="../../../../geoips_api/geoips.interfaces.class_based.html#geoips.interfaces.class_based.validators.ValidatorsInterface">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">ValidatorsInterface</span><span class="p">(</span><span class="n">BaseClassInterface</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Interface for plugins validating data against a source of truth.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Interface for plugins validating data against a source of truth."""</span>
 
-    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;validators&quot;</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">"validators"</span>
     <span class="n">plugin_class</span> <span class="o">=</span> <span class="n">BaseValidatorPlugin</span>
-    <span class="n">required_args</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;standard&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;xarray_obj&quot;</span><span class="p">,</span> <span class="s2">&quot;truth_xarray_obj&quot;</span><span class="p">]}</span>
-    <span class="n">required_kwargs</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;standard&quot;</span><span class="p">:</span> <span class="p">{}}</span>
-    <span class="n">allowable_kwargs</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;standard&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;vars_to_validate&quot;</span><span class="p">}}</span></div>
+    <span class="n">required_args</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"standard"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"xarray_obj"</span><span class="p">,</span> <span class="s2">"truth_xarray_obj"</span><span class="p">]}</span>
+    <span class="n">required_kwargs</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"standard"</span><span class="p">:</span> <span class="p">{}}</span>
+    <span class="n">allowable_kwargs</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"standard"</span><span class="p">:</span> <span class="p">{</span><span class="s2">"vars_to_validate"</span><span class="p">}}</span></div>
 
 
 <span class="n">validators</span> <span class="o">=</span> <span class="n">ValidatorsInterface</span><span class="p">()</span>

@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>geoips.xarray_utils.time &#8212; GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation</title>
+    <title>geoips.xarray_utils.time &#8212; GeoIPS, Geolocated Information Processing System 0.0.0 documentation</title>
   
   
   
@@ -40,7 +40,7 @@
   <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
 
-    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=6727bded"></script>
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=525cde36"></script>
     <script src="../../../_static/doctools.js?v=888ff710"></script>
     <script src="../../../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
@@ -401,14 +401,21 @@ mermaid.initialize(
 window.addEventListener("load", load);
 window.runMermaid = runMermaid;</script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_modules/geoips/xarray_utils/time';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.17.1';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://nrlmmd-geoips.github.io/geoips/versions.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = 'dev';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner =
+            false;
+        </script>
     <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
     <link rel="icon" href="../../../_static/nrlicon.ico"/>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2.0" />
-    <meta name="docbuild:last-update" content="Jul 23, 2026 17:03:57"/>
+  <meta name="docsearch:version" content="0.0" />
+    <meta name="docbuild:last-update" content="Aug 31, 2026 13:32:18"/>
   
     
     <script src="../../../_static/searchtools.js"></script>
@@ -480,11 +487,31 @@ window.runMermaid = runMermaid;</script>
       
     
     
-    <img src="../../../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation - Home"/>
-    <img src="../../../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation - Home"/>
+    <img src="../../../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 0.0.0 documentation - Home"/>
+    <img src="../../../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 0.0.0 documentation - Home"/>
   
   
 </a></div>
+    
+      <div class="navbar-item">
+<div class="version-switcher__container dropdown pst-js-only">
+  <button id="pst-version-switcher-button-2"
+    type="button"
+    class="version-switcher__button btn btn-sm dropdown-toggle"
+    data-bs-toggle="dropdown"
+    aria-haspopup="listbox"
+    aria-controls="pst-version-switcher-list-2"
+    aria-label="Version switcher list"
+  >
+    Choose version  <!-- this text may get changed later by javascript -->
+    <span class="caret"></span>
+  </button>
+  <div id="pst-version-switcher-list-2"
+    class="version-switcher__menu dropdown-menu list-group-flush py-0"
+    role="listbox" aria-labelledby="pst-version-switcher-button-2">
+    <!-- dropdown will be populated by javascript on page load -->
+  </div>
+</div></div>
     
   </div>
   
@@ -828,7 +855,7 @@ window.runMermaid = runMermaid;</script>
 <span></span><span class="c1"># # # This source code is subject to the license referenced at</span>
 <span class="c1"># # # https://github.com/NRLMMD-GEOIPS.</span>
 
-<span class="sd">&quot;&quot;&quot;Utils to handle time stamp information within xarray objects.&quot;&quot;&quot;</span>
+<span class="sd">"""Utils to handle time stamp information within xarray objects."""</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">calendar</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">datetime</span>
@@ -838,7 +865,7 @@ window.runMermaid = runMermaid;</script>
 
 
 <div class="viewcode-block" id="get_posix_from_datetime"><a class="viewcode-back" href="../../../geoips_api/geoips.xarray_utils.html#geoips.xarray_utils.time.get_posix_from_datetime">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">get_posix_from_datetime</span><span class="p">(</span><span class="n">dt</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the POSIX timestamp in seconds.</span>
+<span class="w">    </span><span class="sd">"""Return the POSIX timestamp in seconds.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -849,16 +876,16 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">    -------</span>
 <span class="sd">    long</span>
 <span class="sd">        representing seconds since 1 January 1970 at 00Z (epoch seconds)</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">return</span> <span class="n">calendar</span><span class="o">.</span><span class="n">timegm</span><span class="p">(</span><span class="n">dt</span><span class="o">.</span><span class="n">timetuple</span><span class="p">())</span></div>
 
 
 <div class="viewcode-block" id="get_datetime_from_datetime64"><a class="viewcode-back" href="../../../geoips_api/geoips.xarray_utils.html#geoips.xarray_utils.time.get_datetime_from_datetime64">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">get_datetime_from_datetime64</span><span class="p">(</span><span class="n">dt64</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get a python datetime object from a numpy datetime64 object.</span>
+<span class="w">    </span><span class="sd">"""Get a python datetime object from a numpy datetime64 object.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    dt64 : numpy.datetime64&#39;</span>
+<span class="sd">    dt64 : numpy.datetime64'</span>
 <span class="sd">        numpy.datetime64 object</span>
 
 <span class="sd">    Returns</span>
@@ -869,19 +896,19 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">    Notes</span>
 <span class="sd">    -----</span>
 <span class="sd">    Backwards compatible with numpy versions</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="c1"># Scaling issues resolved as of numpy 2.x.</span>
     <span class="c1"># numpy &lt; 2 appeared to think ALL datetime64 objects were of</span>
     <span class="c1"># units nanoseconds, even if the dtype was seconds, so previously</span>
     <span class="c1"># we used a hard coded scale factor of 1e-9 at all times. numpy 2</span>
     <span class="c1"># appears to store the datetime64 object based on the specified</span>
     <span class="c1"># units, so cash as datetime64[s], then int.</span>
-    <span class="n">dt64_seconds</span> <span class="o">=</span> <span class="n">dt64</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;datetime64[s]&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+    <span class="n">dt64_seconds</span> <span class="o">=</span> <span class="n">dt64</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">"datetime64[s]"</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">datetime</span><span class="o">.</span><span class="n">utcfromtimestamp</span><span class="p">(</span><span class="n">dt64_seconds</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="get_min_from_xarray_time"><a class="viewcode-back" href="../../../geoips_api/geoips.xarray_utils.html#geoips.xarray_utils.time.get_min_from_xarray_time">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">get_min_from_xarray_time</span><span class="p">(</span><span class="n">xarray_obj</span><span class="p">,</span> <span class="n">varname</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get the minimum time as a datetime object from xarray object.</span>
+<span class="w">    </span><span class="sd">"""Get the minimum time as a datetime object from xarray object.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -895,12 +922,12 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">    datetime.datetime</span>
 <span class="sd">        Python datetime.datetime object representing minimum time of the</span>
 <span class="sd">        Dataset or DataArray</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="c1"># If requested varname is not even in the xarray object, just</span>
     <span class="c1"># return None rather than failing.</span>
     <span class="k">if</span> <span class="n">varname</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">xarray_obj</span><span class="o">.</span><span class="n">variables</span><span class="p">:</span>
         <span class="k">return</span> <span class="kc">None</span>
-    <span class="n">minval</span> <span class="o">=</span> <span class="n">xarray_obj</span><span class="p">[</span><span class="n">varname</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">()</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()[</span><span class="s2">&quot;data&quot;</span><span class="p">]</span>
+    <span class="n">minval</span> <span class="o">=</span> <span class="n">xarray_obj</span><span class="p">[</span><span class="n">varname</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">()</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()[</span><span class="s2">"data"</span><span class="p">]</span>
     <span class="c1"># Hack to get around bug in most recent version of numpy</span>
     <span class="k">if</span> <span class="n">minval</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">goodinds</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">xarray_obj</span><span class="p">[</span><span class="n">varname</span><span class="p">]</span><span class="o">.</span><span class="n">to_masked_array</span><span class="p">())</span>
@@ -911,7 +938,7 @@ window.runMermaid = runMermaid;</script>
 
 
 <div class="viewcode-block" id="get_max_from_xarray_time"><a class="viewcode-back" href="../../../geoips_api/geoips.xarray_utils.html#geoips.xarray_utils.time.get_max_from_xarray_time">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">get_max_from_xarray_time</span><span class="p">(</span><span class="n">xarray_obj</span><span class="p">,</span> <span class="n">varname</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get the maximum time as a datetime object from xarray object.</span>
+<span class="w">    </span><span class="sd">"""Get the maximum time as a datetime object from xarray object.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -925,12 +952,12 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">    datetime.datetime</span>
 <span class="sd">        Python datetime.datetime object representing maximum time of the</span>
 <span class="sd">        Dataset or DataArray</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="c1"># If requested varname is not even in the xarray object, just</span>
     <span class="c1"># return None rather than failing.</span>
     <span class="k">if</span> <span class="n">varname</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">xarray_obj</span><span class="o">.</span><span class="n">variables</span><span class="p">:</span>
         <span class="k">return</span> <span class="kc">None</span>
-    <span class="n">maxval</span> <span class="o">=</span> <span class="n">xarray_obj</span><span class="p">[</span><span class="n">varname</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()[</span><span class="s2">&quot;data&quot;</span><span class="p">]</span>
+    <span class="n">maxval</span> <span class="o">=</span> <span class="n">xarray_obj</span><span class="p">[</span><span class="n">varname</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()[</span><span class="s2">"data"</span><span class="p">]</span>
     <span class="c1"># Hack to get around bug in most recent version of numpy</span>
     <span class="k">if</span> <span class="n">maxval</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">goodinds</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">xarray_obj</span><span class="p">[</span><span class="n">varname</span><span class="p">]</span><span class="o">.</span><span class="n">to_masked_array</span><span class="p">())</span>
@@ -941,7 +968,7 @@ window.runMermaid = runMermaid;</script>
 
 
 <div class="viewcode-block" id="fix_datetime"><a class="viewcode-back" href="../../../geoips_api/geoips.xarray_utils.html#geoips.xarray_utils.time.fix_datetime">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">fix_datetime</span><span class="p">(</span><span class="n">inxr</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Masks the input xarray that has improper datetimes (negatives).</span>
+<span class="w">    </span><span class="sd">"""Masks the input xarray that has improper datetimes (negatives).</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -956,7 +983,7 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">    Notes</span>
 <span class="sd">    -----</span>
 <span class="sd">    Depreciated versions of xarray cast this as a functional NaT value</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">tmp_mask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">inxr</span><span class="o">.</span><span class="n">time</span><span class="o">.</span><span class="n">values</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="n">inxr</span><span class="o">.</span><span class="n">time</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
     <span class="n">refactor_date</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">starmap</span><span class="p">(</span><span class="n">xarray_to_time</span><span class="p">,</span> <span class="nb">zip</span><span class="p">(</span><span class="n">tmp_mask</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">tmp_mask</span><span class="p">))))</span>
     <span class="n">inxr</span><span class="o">.</span><span class="n">time</span><span class="o">.</span><span class="n">values</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">refactor_date</span><span class="p">)</span>
@@ -965,14 +992,14 @@ window.runMermaid = runMermaid;</script>
 
 
 <div class="viewcode-block" id="xarray_to_time"><a class="viewcode-back" href="../../../geoips_api/geoips.xarray_utils.html#geoips.xarray_utils.time.xarray_to_time">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">xarray_to_time</span><span class="p">(</span><span class="n">inarr</span><span class="p">,</span> <span class="n">mask</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert a input array (inarr) with a bool mask (mask) to datetime.</span>
+<span class="w">    </span><span class="sd">"""Convert a input array (inarr) with a bool mask (mask) to datetime.</span>
 
 <span class="sd">    Notes</span>
 <span class="sd">    -----</span>
 <span class="sd">    Uses a nan mask on the array to convert real values.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">dt64_arr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">(</span><span class="n">inarr</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">datetime64</span><span class="p">(</span><span class="s2">&quot;nat&quot;</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;datetime64[ns]&quot;</span><span class="p">)</span>
-    <span class="n">dt64_arr</span><span class="p">[</span><span class="o">~</span><span class="n">mask</span><span class="p">]</span> <span class="o">=</span> <span class="n">num2pydate</span><span class="p">(</span><span class="n">inarr</span><span class="p">[</span><span class="o">~</span><span class="n">mask</span><span class="p">],</span> <span class="s2">&quot;seconds since 1990-01-01 00:00:00&quot;</span><span class="p">)</span>
+<span class="sd">    """</span>
+    <span class="n">dt64_arr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">(</span><span class="n">inarr</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">datetime64</span><span class="p">(</span><span class="s2">"nat"</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">"datetime64[ns]"</span><span class="p">)</span>
+    <span class="n">dt64_arr</span><span class="p">[</span><span class="o">~</span><span class="n">mask</span><span class="p">]</span> <span class="o">=</span> <span class="n">num2pydate</span><span class="p">(</span><span class="n">inarr</span><span class="p">[</span><span class="o">~</span><span class="n">mask</span><span class="p">],</span> <span class="s2">"seconds since 1990-01-01 00:00:00"</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">dt64_arr</span></div>
 </pre></div>
 

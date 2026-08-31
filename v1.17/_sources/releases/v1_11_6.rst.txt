@@ -1,0 +1,272 @@
+.. dropdown:: Distribution Statement
+
+ | # # # This source code is subject to the license referenced at
+ | # # # https://github.com/NRLMMD-GEOIPS.
+
+Version 1.11.6 (2023-10-30)
+***************************
+
+* Add additional clarifying log statements
+* Separate black, flake8, and bandit in github actions workflows
+* Add replace_geoips_paths from dict and list utilities
+* Regression fixes
+
+  * Add "navigation_with_keys" html theme option for sphinx conf
+* Bug fixes
+
+  * Fix imports in amsub_hdf reader
+  * Put rad2deg back in seviri_hrit.py reader
+  * Add rain_flag variable to ascat wind-ambiguities product
+  * Add rain_flag_ambiguity variable to ascat noaa readers
+  * Add sectored product schema
+  * Copy alg and covg args in dev/product.py to avoid overwriting original
+  * Pass variable_name to coverage_checker from within metadata_tc output formatter
+    and config_based procflow
+  * Support "no_presectoring" in procflow configs.
+  * Change github actions checkout from v4 to v3
+  * Fixed xarray time issue in scat_knmi_netcdf reader
+* Documentation Updates
+
+  * Add "navigation_with_keys" html theme option for sphinx conf
+* Test repo updates
+
+  * Replace noaa ascat 50km windbarbs test script with wind-ambiguities
+  * Include information on differences and filenames in compare_outputs
+* Installation Updates
+
+  * Check for 'setup.sh install' first for 'install_plugin',
+    then pyproject.toml, then setup.py
+
+Regression fixes
+================
+
+Add "navigation_with_keys" html theme option for sphinx conf
+------------------------------------------------------------
+
+When a new sphinx version changed the default for the "navigation_with_keys"
+field in the html theme dictionary, sphinx began issuing a warning that
+the default has changed. Since we error on warning in our sphinx build,
+this caused the sphinx build to fail.  Adding the "navigation_with_keys"
+field (to the new default of "False") so the warning is no longer
+issued.
+
+::
+
+  docs/source/_templates/conf_PKG.py
+
+Bug fixes
+=========
+
+Add replace_geoips_paths from dict and list utilities
+-----------------------------------------------------
+
+Allow passing a dict or list of values, and replacing
+geoips paths throughout as appropriate.
+
+::
+  modified:   geoips/geoips_utils.py
+
+Added catch for improper dates in netcdf files
+----------------------------------------------
+
+A change in xarray version 2023.9 caused the scat_knmi_winds reader to fail
+for some datasets, due to inability to convert the time variable to nanoseconds
+internal to xarray open_dataset code. Previous versions of xarray automatically
+converted these values to NaT (not a time).
+
+This fix places a try/except around xarray.open_dataset.
+If it raises a ValueError then attempts opening xarray.open_dataset
+with the "decode_time=False" argument, and calling a new utility
+within GeoIPS to mask the invalid dates.
+
+::
+  modified:   pyproject.toml
+  modified:   docs/source/releases/v1_11_6.rst
+  modified:   geoips/plugins/modules/readers/scat_knmi_winds_netcdf.py
+  modified:   geoips/xarray_utils/time.py
+
+Call replace_geoips_paths_from_dict utility from write_yamldict
+---------------------------------------------------------------
+
+When writing out a YAML dictionary, prior to write ensure
+all path fields have the geoips environment variables
+in place of the full paths as appropriate.
+
+Use new "replace_geoips_paths_from_dict" utility.
+
+::
+
+  modified: geoips/sector_utils/yaml_utils.py
+
+Replace full path with geoips env vars in YAML metadata outputs
+---------------------------------------------------------------
+
+Ensure no full paths end up in YAML metadata outputs - always replace all
+paths within the YAML dictionary with geoips environment variables as
+appropriate. Pass "replace_geoips_paths=True" to the updated
+write_yamldict utility to ensure paths are updated to use env vars.
+
+::
+
+  modified: geoips/plugins/modules/output_formatters/metadata_default.py
+  modified: geoips/plugins/modules/output_formatters/metadata_tc.py
+
+Support "no_presectoring" in procflow configs
+---------------------------------------------
+
+This was previously only available via command line.  Allow both
+within the top level procflow config, or command line.
+
+::
+
+  geoips/plugins/modules/procflows/config_based.py
+
+Copy alg and covg args in dev/product.py to avoid overwriting original
+----------------------------------------------------------------------
+
+Originally the arguments were getting rewritten if more than one sector ran.
+Ensure we copy the argument dictionary to avoid being passed by reference and
+overwriting the original dictionary.
+
+::
+
+  geoips/plugins/modules/procflows/single_source.py
+  geoips/dev/product.py
+
+Add sectored product schema
+---------------------------
+
+::
+
+  A       geoips/schema/products/sectored_xarray_dict_area_to_output_format.yaml
+
+Fix imports in amsub_hdf reader
+-------------------------------
+
+::
+
+  modified:   geoips/plugins/modules/readers/amsub_hdf.py
+
+Put rad2deg back in seviri_hrit.py reader
+-----------------------------------------
+
+This is used in numexpr, do not remove. Add NOQA so it is not flagged by flake8.
+
+::
+
+  modified:   geoips/plugins/modules/readers/seviri_hrit.py
+
+Add rain_flag_ambiguity variable to ascat wind-ambiguities product
+------------------------------------------------------------------
+
+Expect rain_flag_ambiguity, wind_speed_kts_ambiguity, and
+wind_dir_deg_met_ambiguity variables all of the same shape for
+wind-ambiguities products.
+
+::
+
+  modified:   geoips/plugins/yaml/products/ascat.yaml
+
+Add rain_flag_ambiguity variable to ascat noaa reader
+-----------------------------------------------------
+
+Rain flag ambiguity variable shares same dimension as wind-ambiguity variables.
+
+This variable is required for wind-ambiguities products.
+
+::
+
+  modified:   geoips/plugins/modules/readers/scat_noaa_winds_netcdf.py
+
+Documentation Updates
+=====================
+
+Add clarifying log statements to various scripts
+------------------------------------------------
+
+During debugging, identified additional log statements to add for clarification.
+
+* Note number of storms returned from tc_tracks_database
+* Update useful log lines in tc tracks db to interactive
+* Include expected area_defs when getting command line area_defs (so we have
+  a better idea what went wrong when we get no sectors)
+* Add interactive logs with filenames, etc for unsectored products
+
+::
+
+    M       geoips/sector_utils/tc_tracks_database.py
+    M       geoips/plugins/modules/procflows/single_source.py
+    M       geoips/plugins/modules/procflows/config_based.py
+
+GitHub Actions Updates
+======================
+
+Separate black, flake8, and bandit in github actions workflows
+--------------------------------------------------------------
+
+To allow applying these individually to different repos, as required, place them
+in independent workflows.
+
+::
+
+  D .github/workflows/check-code.yaml
+  A .github/workflows/bandit.yaml
+  A .github/workflows/black.yaml
+  A .github/workflows/flake8.yaml
+
+Test Repo Updates
+=================
+
+Include information on differences and filenames in compare_outputs
+-------------------------------------------------------------------
+
+Include number of pixels within tolerance, as well as the exact number
+of pixels difference.
+
+Additionally issue "error" messages rather than "warning" when there
+are bad or missing compares/products.  Error displays in interactive
+level, but warning does not (and they are legitimately errors).
+
+::
+
+  M geoips/compare_outputs.py
+
+Replace noaa ascat 50km windbarbs test script with wind-ambiguities
+-------------------------------------------------------------------
+
+Test both windbarbs and wind-ambiguities for noaa ascat reader.
+Replace noaa 50km windbarbs test script with wind-ambiguities.
+
+::
+
+    M       tests/integration_tests/full_test.sh
+    M       tests/test_all.sh
+    R094    tests/scripts/ascat_noaa_50km.tc.windbarbs.imagery_windbarbs.sh
+            tests/scripts/ascat_noaa_50
+            km.tc.wind-ambiguities.imagery_windbarbs.sh
+    A       tests/outputs/ascat_noaa_50km.tc.wind-ambiguities.
+            imagery_windbarbs/
+            20230524_235200_WP022023_ascat_metop-c_wind-ambiguities_135kts_50p08_1p1.png
+    R092    tests/outputs/ascat_noaa_50km.tc.windbarbs.imagery_windbarbs/
+            20230524_235200_WP022023_ascat_metop-c_windbarbs_135kts_50p08_1p1.png.yaml
+            tests/outputs/ascat_noaa_50km.tc.wind-ambiguities.imagery_windbarbs/
+            20230524_235200_WP022023_ascat_metop-c_wind-ambiguities_135kts_50p08_1p1.png.yaml
+    D       tests/outputs/ascat_noaa_50km.tc.windbarbs.imagery_windbarbs/
+            20230524_235200_WP022023_ascat_metop-c_windbarbs_135kts_50p08_1p1.png
+
+Installation Updates
+====================
+
+Check for setup.sh first for install, then pyproject.toml, then setup.py
+------------------------------------------------------------------------
+
+No longer check for setup_<package>.sh. Now default to 'setup.sh install',
+then pyproject.toml, then setup.py.
+
+Note if setup.sh script is included for a plugin package, the 'install'
+command MUST be defined or installation will fail when running
+'geoips/setup.sh install_plugin'
+
+::
+
+  modified: setup.sh

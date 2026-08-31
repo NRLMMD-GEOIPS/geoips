@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>geoips.plugins.classes.title_formatters.static_standard &#8212; GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation</title>
+    <title>geoips.plugins.classes.title_formatters.static_standard &#8212; GeoIPS, Geolocated Information Processing System 0.0.0 documentation</title>
   
   
   
@@ -40,7 +40,7 @@
   <link rel="preload" as="script" href="../../../../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
 <link rel="preload" as="script" href="../../../../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
 
-    <script data-url_root="../../../../../" id="documentation_options" src="../../../../../_static/documentation_options.js?v=6727bded"></script>
+    <script data-url_root="../../../../../" id="documentation_options" src="../../../../../_static/documentation_options.js?v=525cde36"></script>
     <script src="../../../../../_static/doctools.js?v=888ff710"></script>
     <script src="../../../../../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../../../_static/design-tabs.js?v=f930bc37"></script>
@@ -401,14 +401,21 @@ mermaid.initialize(
 window.addEventListener("load", load);
 window.runMermaid = runMermaid;</script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_modules/geoips/plugins/classes/title_formatters/static_standard';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.17.1';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://nrlmmd-geoips.github.io/geoips/versions.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = 'dev';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner =
+            false;
+        </script>
     <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
     <link rel="icon" href="../../../../../_static/nrlicon.ico"/>
     <link rel="index" title="Index" href="../../../../../genindex.html" />
     <link rel="search" title="Search" href="../../../../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2.0" />
-    <meta name="docbuild:last-update" content="Jul 23, 2026 17:03:57"/>
+  <meta name="docsearch:version" content="0.0" />
+    <meta name="docbuild:last-update" content="Aug 31, 2026 13:32:18"/>
   
     
     <script src="../../../../../_static/searchtools.js"></script>
@@ -480,11 +487,31 @@ window.runMermaid = runMermaid;</script>
       
     
     
-    <img src="../../../../../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation - Home"/>
-    <img src="../../../../../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation - Home"/>
+    <img src="../../../../../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 0.0.0 documentation - Home"/>
+    <img src="../../../../../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 0.0.0 documentation - Home"/>
   
   
 </a></div>
+    
+      <div class="navbar-item">
+<div class="version-switcher__container dropdown pst-js-only">
+  <button id="pst-version-switcher-button-2"
+    type="button"
+    class="version-switcher__button btn btn-sm dropdown-toggle"
+    data-bs-toggle="dropdown"
+    aria-haspopup="listbox"
+    aria-controls="pst-version-switcher-list-2"
+    aria-label="Version switcher list"
+  >
+    Choose version  <!-- this text may get changed later by javascript -->
+    <span class="caret"></span>
+  </button>
+  <div id="pst-version-switcher-list-2"
+    class="version-switcher__menu dropdown-menu list-group-flush py-0"
+    role="listbox" aria-labelledby="pst-version-switcher-button-2">
+    <!-- dropdown will be populated by javascript on page load -->
+  </div>
+</div></div>
     
   </div>
   
@@ -828,7 +855,7 @@ window.runMermaid = runMermaid;</script>
 <span></span><span class="c1"># # # This source code is subject to the license referenced at</span>
 <span class="c1"># # # https://github.com/NRLMMD-GEOIPS.</span>
 
-<span class="sd">&quot;&quot;&quot;Standard GeoIPS static title production.&quot;&quot;&quot;</span>
+<span class="sd">"""Standard GeoIPS static title production."""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">geoips.interfaces.class_based.title_formatters</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseTitleFormatterPlugin</span>
 
@@ -842,11 +869,11 @@ window.runMermaid = runMermaid;</script>
 
 
 <div class="viewcode-block" id="StaticStandardTitleFormatterPlugin"><a class="viewcode-back" href="../../../../../geoips_api/geoips.plugins.classes.title_formatters.html#geoips.plugins.classes.title_formatters.static_standard.StaticStandardTitleFormatterPlugin">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">StaticStandardTitleFormatterPlugin</span><span class="p">(</span><span class="n">BaseTitleFormatterPlugin</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Static Standard Title formatter plugin class.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Static Standard Title formatter plugin class."""</span>
 
-    <span class="n">interface</span> <span class="o">=</span> <span class="s2">&quot;title_formatters&quot;</span>
-    <span class="n">family</span> <span class="o">=</span> <span class="s2">&quot;standard&quot;</span>
-    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;static_standard&quot;</span>
+    <span class="n">interface</span> <span class="o">=</span> <span class="s2">"title_formatters"</span>
+    <span class="n">family</span> <span class="o">=</span> <span class="s2">"standard"</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">"static_standard"</span>
 
 <div class="viewcode-block" id="StaticStandardTitleFormatterPlugin.call"><a class="viewcode-back" href="../../../../../geoips_api/geoips.plugins.classes.title_formatters.html#geoips.plugins.classes.title_formatters.static_standard.StaticStandardTitleFormatterPlugin.call">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">call</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
@@ -859,28 +886,28 @@ window.runMermaid = runMermaid;</script>
         <span class="n">bg_datatype_title</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">title_copyright</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Generate standard GeoIPS formatted title.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Generate standard GeoIPS formatted title."""</span>
         <span class="k">if</span> <span class="n">title_copyright</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">title_copyright</span> <span class="o">=</span> <span class="n">gpaths</span><span class="p">[</span><span class="s2">&quot;GEOIPS_COPYRIGHT&quot;</span><span class="p">]</span>
-        <span class="n">title_line1</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{0}</span><span class="s2"> </span><span class="si">{1}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">product_datatype_title</span><span class="p">,</span> <span class="n">product_name_title</span><span class="p">)</span>
-        <span class="n">title_line2</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{0}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-            <span class="n">xarray_obj</span><span class="o">.</span><span class="n">start_datetime</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y/%m/</span><span class="si">%d</span><span class="s2"> %H:%M:%SZ&quot;</span><span class="p">)</span>
+            <span class="n">title_copyright</span> <span class="o">=</span> <span class="n">gpaths</span><span class="p">[</span><span class="s2">"GEOIPS_COPYRIGHT"</span><span class="p">]</span>
+        <span class="n">title_line1</span> <span class="o">=</span> <span class="s2">"</span><span class="si">{0}</span><span class="s2"> </span><span class="si">{1}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">product_datatype_title</span><span class="p">,</span> <span class="n">product_name_title</span><span class="p">)</span>
+        <span class="n">title_line2</span> <span class="o">=</span> <span class="s2">"</span><span class="si">{0}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+            <span class="n">xarray_obj</span><span class="o">.</span><span class="n">start_datetime</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">"%Y/%m/</span><span class="si">%d</span><span class="s2"> %H:%M:%SZ"</span><span class="p">)</span>
         <span class="p">)</span>
         <span class="k">if</span> <span class="n">bg_xarray</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">title_line3</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{0}</span><span class="s2"> </span><span class="si">{1}</span><span class="s2"> at </span><span class="si">{2}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+            <span class="n">title_line3</span> <span class="o">=</span> <span class="s2">"</span><span class="si">{0}</span><span class="s2"> </span><span class="si">{1}</span><span class="s2"> at </span><span class="si">{2}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
                 <span class="n">bg_datatype_title</span><span class="p">,</span>
                 <span class="n">bg_product_name_title</span><span class="p">,</span>
-                <span class="n">bg_xarray</span><span class="o">.</span><span class="n">start_datetime</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2"> %H:%M:%S&quot;</span><span class="p">),</span>
+                <span class="n">bg_xarray</span><span class="o">.</span><span class="n">start_datetime</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">"%Y-%m-</span><span class="si">%d</span><span class="s2"> %H:%M:%S"</span><span class="p">),</span>
             <span class="p">)</span>
-            <span class="c1"># title_string = f&#39;{title_line1}\n{title_line2}\n{title_line3}\n</span>
-            <span class="c1">#                                                         {title_copyright}&#39;</span>
+            <span class="c1"># title_string = f'{title_line1}\n{title_line2}\n{title_line3}\n</span>
+            <span class="c1">#                                                         {title_copyright}'</span>
             <span class="n">title_string</span> <span class="o">=</span> <span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">title_line1</span><span class="si">}</span><span class="se">\n</span><span class="si">{</span><span class="n">title_line2</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">title_copyright</span><span class="si">}</span><span class="se">\n</span><span class="si">{</span><span class="n">title_line3</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">title_line1</span><span class="si">}</span><span class="se">\n</span><span class="si">{</span><span class="n">title_line2</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">title_copyright</span><span class="si">}</span><span class="se">\n</span><span class="si">{</span><span class="n">title_line3</span><span class="si">}</span><span class="s2">"</span>
             <span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="c1"># title_string = f&#39;{title_line1}\n{title_line2}\n{title_copyright}&#39;</span>
-            <span class="n">title_string</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">title_line1</span><span class="si">}</span><span class="se">\n</span><span class="si">{</span><span class="n">title_line2</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">title_copyright</span><span class="si">}</span><span class="s2">&quot;</span>
-        <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Not dynamic, using standard title_string: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">title_string</span><span class="p">)</span>
+            <span class="c1"># title_string = f'{title_line1}\n{title_line2}\n{title_copyright}'</span>
+            <span class="n">title_string</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">title_line1</span><span class="si">}</span><span class="se">\n</span><span class="si">{</span><span class="n">title_line2</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">title_copyright</span><span class="si">}</span><span class="s2">"</span>
+        <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"Not dynamic, using standard title_string: </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="n">title_string</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">title_string</span></div></div>
 

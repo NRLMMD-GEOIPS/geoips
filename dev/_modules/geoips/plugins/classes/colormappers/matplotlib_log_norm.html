@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>geoips.plugins.classes.colormappers.matplotlib_log_norm &#8212; GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation</title>
+    <title>geoips.plugins.classes.colormappers.matplotlib_log_norm &#8212; GeoIPS, Geolocated Information Processing System 0.0.0 documentation</title>
   
   
   
@@ -40,7 +40,7 @@
   <link rel="preload" as="script" href="../../../../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
 <link rel="preload" as="script" href="../../../../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
 
-    <script data-url_root="../../../../../" id="documentation_options" src="../../../../../_static/documentation_options.js?v=6727bded"></script>
+    <script data-url_root="../../../../../" id="documentation_options" src="../../../../../_static/documentation_options.js?v=525cde36"></script>
     <script src="../../../../../_static/doctools.js?v=888ff710"></script>
     <script src="../../../../../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../../../_static/design-tabs.js?v=f930bc37"></script>
@@ -401,14 +401,21 @@ mermaid.initialize(
 window.addEventListener("load", load);
 window.runMermaid = runMermaid;</script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_modules/geoips/plugins/classes/colormappers/matplotlib_log_norm';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.17.1';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://nrlmmd-geoips.github.io/geoips/versions.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = 'dev';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner =
+            false;
+        </script>
     <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
     <link rel="icon" href="../../../../../_static/nrlicon.ico"/>
     <link rel="index" title="Index" href="../../../../../genindex.html" />
     <link rel="search" title="Search" href="../../../../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2.0" />
-    <meta name="docbuild:last-update" content="Jul 23, 2026 17:03:57"/>
+  <meta name="docsearch:version" content="0.0" />
+    <meta name="docbuild:last-update" content="Aug 31, 2026 13:32:18"/>
   
     
     <script src="../../../../../_static/searchtools.js"></script>
@@ -480,11 +487,31 @@ window.runMermaid = runMermaid;</script>
       
     
     
-    <img src="../../../../../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation - Home"/>
-    <img src="../../../../../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation - Home"/>
+    <img src="../../../../../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 0.0.0 documentation - Home"/>
+    <img src="../../../../../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 0.0.0 documentation - Home"/>
   
   
 </a></div>
+    
+      <div class="navbar-item">
+<div class="version-switcher__container dropdown pst-js-only">
+  <button id="pst-version-switcher-button-2"
+    type="button"
+    class="version-switcher__button btn btn-sm dropdown-toggle"
+    data-bs-toggle="dropdown"
+    aria-haspopup="listbox"
+    aria-controls="pst-version-switcher-list-2"
+    aria-label="Version switcher list"
+  >
+    Choose version  <!-- this text may get changed later by javascript -->
+    <span class="caret"></span>
+  </button>
+  <div id="pst-version-switcher-list-2"
+    class="version-switcher__menu dropdown-menu list-group-flush py-0"
+    role="listbox" aria-labelledby="pst-version-switcher-button-2">
+    <!-- dropdown will be populated by javascript on page load -->
+  </div>
+</div></div>
     
   </div>
   
@@ -828,7 +855,7 @@ window.runMermaid = runMermaid;</script>
 <span></span><span class="c1"># # # This source code is subject to the license referenced at</span>
 <span class="c1"># # # https://github.com/NRLMMD-GEOIPS.</span>
 
-<span class="sd">&quot;&quot;&quot;Matplotlib information for standard imagery with an existing system colormap.&quot;&quot;&quot;</span>
+<span class="sd">"""Matplotlib information for standard imagery with an existing system colormap."""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">geoips.interfaces.class_based.colormappers</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseColormapperPlugin</span>
 
@@ -849,29 +876,29 @@ window.runMermaid = runMermaid;</script>
 
 
 <div class="viewcode-block" id="MatplotlibLogNormColormapperPlugin"><a class="viewcode-back" href="../../../../../geoips_api/geoips.plugins.classes.colormappers.html#geoips.plugins.classes.colormappers.matplotlib_log_norm.MatplotlibLogNormColormapperPlugin">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">MatplotlibLogNormColormapperPlugin</span><span class="p">(</span><span class="n">BaseColormapperPlugin</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Matplotlib LOG Norm colormapper plugin class.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Matplotlib LOG Norm colormapper plugin class."""</span>
 
-    <span class="n">interface</span> <span class="o">=</span> <span class="s2">&quot;colormappers&quot;</span>
-    <span class="n">family</span> <span class="o">=</span> <span class="s2">&quot;matplotlib&quot;</span>
-    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;matplotlib_log_norm&quot;</span>
+    <span class="n">interface</span> <span class="o">=</span> <span class="s2">"colormappers"</span>
+    <span class="n">family</span> <span class="o">=</span> <span class="s2">"matplotlib"</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">"matplotlib_log_norm"</span>
 
 <div class="viewcode-block" id="MatplotlibLogNormColormapperPlugin.call"><a class="viewcode-back" href="../../../../../geoips_api/geoips.plugins.classes.colormappers.html#geoips.plugins.classes.colormappers.matplotlib_log_norm.MatplotlibLogNormColormapperPlugin.call">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">call</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">data_range</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-        <span class="n">cmap_name</span><span class="o">=</span><span class="s2">&quot;viridis&quot;</span><span class="p">,</span>
-        <span class="n">cmap_source</span><span class="o">=</span><span class="s2">&quot;matplotlib&quot;</span><span class="p">,</span>
+        <span class="n">cmap_name</span><span class="o">=</span><span class="s2">"viridis"</span><span class="p">,</span>
+        <span class="n">cmap_source</span><span class="o">=</span><span class="s2">"matplotlib"</span><span class="p">,</span>
         <span class="n">cmap_path</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">create_colorbar</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
         <span class="n">cbar_label</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">cbar_ticks</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">cbar_tick_labels</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-        <span class="n">cbar_spacing</span><span class="o">=</span><span class="s2">&quot;proportional&quot;</span><span class="p">,</span>
+        <span class="n">cbar_spacing</span><span class="o">=</span><span class="s2">"proportional"</span><span class="p">,</span>
         <span class="n">cbar_full_width</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
         <span class="n">colorbar_kwargs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">set_ticks_kwargs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">set_label_kwargs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the matplotlib colors information for matplotlib linear norm cmaps.</span>
+<span class="w">        </span><span class="sd">"""Set the matplotlib colors information for matplotlib linear norm cmaps.</span>
 
 <span class="sd">        This information used in both colorbar and image production throughout</span>
 <span class="sd">        GeoIPS image output specifications.</span>
@@ -882,14 +909,14 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">            * [min_val, max_val],</span>
 <span class="sd">              matplotlib.colors.Normalize(vmin=min_val, vmax=max_val)</span>
 <span class="sd">            * If data_range not specified, vmin and vmax both None.</span>
-<span class="sd">        cmap_name : str, default=&quot;Greys&quot;</span>
+<span class="sd">        cmap_name : str, default="Greys"</span>
 <span class="sd">            * Specify the name of the resulting matplotlib colormap.</span>
 <span class="sd">            * If no ascii_path specified, will use builtin matplotlib</span>
 <span class="sd">              colormap of name cmap_name.</span>
 <span class="sd">        ascii_path : str, default=None</span>
 <span class="sd">            * Specify full path to ASCII palette to convert to matplotlib</span>
 <span class="sd">              colormap.</span>
-<span class="sd">            * If not specified, use internal matplotlib colormap &quot;cmap_name&quot;.</span>
+<span class="sd">            * If not specified, use internal matplotlib colormap "cmap_name".</span>
 <span class="sd">        cbar_label : str, default=None</span>
 <span class="sd">            * Positional parameter passed to cbar.set_label</span>
 <span class="sd">            * If specified, use cbar_label string as colorbar label.</span>
@@ -900,19 +927,19 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">            * Specify explicit list of ticks to include for colorbar.</span>
 <span class="sd">            * None indicates ticks at int(min) and int(max) values</span>
 <span class="sd">        cbar_tick_labels : list, default=None</span>
-<span class="sd">            * &quot;labels&quot; argument to pass to cbar.set_ticks.</span>
-<span class="sd">            * can also specify directly within &quot;set_ticks_kwargs&quot;</span>
-<span class="sd">        cbar_spacing : string, default=&quot;proportional&quot;</span>
-<span class="sd">            * &quot;spacing&quot; argument to pass to fig.colorbar</span>
-<span class="sd">            * can also specify directly within &quot;colorbar_kwargs&quot;</span>
+<span class="sd">            * "labels" argument to pass to cbar.set_ticks.</span>
+<span class="sd">            * can also specify directly within "set_ticks_kwargs"</span>
+<span class="sd">        cbar_spacing : string, default="proportional"</span>
+<span class="sd">            * "spacing" argument to pass to fig.colorbar</span>
+<span class="sd">            * can also specify directly within "colorbar_kwargs"</span>
 <span class="sd">        cbar_full_width : bool, default=True</span>
 <span class="sd">            * Extend the colorbar across the full width of the image.</span>
 <span class="sd">        colorbar_kwargs : dict, default=None</span>
-<span class="sd">            * keyword arguments to pass through directly to &quot;fig.colorbar&quot;</span>
+<span class="sd">            * keyword arguments to pass through directly to "fig.colorbar"</span>
 <span class="sd">        set_ticks_kwargs : dict, default=None</span>
-<span class="sd">            * keyword arguments to pass through directly to &quot;cbar.set_ticks&quot;</span>
+<span class="sd">            * keyword arguments to pass through directly to "cbar.set_ticks"</span>
 <span class="sd">        set_label_kwargs : dict, default=None</span>
-<span class="sd">            * keyword arguments to pass through directly to &quot;cbar.set_label&quot;</span>
+<span class="sd">            * keyword arguments to pass through directly to "cbar.set_label"</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
@@ -924,25 +951,25 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">        --------</span>
 <span class="sd">        :ref:`api`</span>
 <span class="sd">            See geoips.image_utils.mpl_utils.create_colorbar for field descriptions.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">min_val</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="n">max_val</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="k">if</span> <span class="n">data_range</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">min_val</span> <span class="o">=</span> <span class="n">data_range</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
             <span class="n">max_val</span> <span class="o">=</span> <span class="n">data_range</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
 
-        <span class="k">if</span> <span class="n">cmap_source</span> <span class="o">==</span> <span class="s2">&quot;matplotlib&quot;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">cmap_source</span> <span class="o">==</span> <span class="s2">"matplotlib"</span><span class="p">:</span>
             <span class="k">try</span><span class="p">:</span>
                 <span class="n">mpl_cmap</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">get_cmap</span><span class="p">(</span><span class="n">cmap_name</span><span class="p">)</span>
             <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                    <span class="sa">f</span><span class="s2">&quot;Colormap </span><span class="si">{</span><span class="n">cmap_name</span><span class="si">}</span><span class="s2"> not found in source </span><span class="si">{</span><span class="n">cmap_source</span><span class="si">}</span><span class="s2">&quot;</span>
+                    <span class="sa">f</span><span class="s2">"Colormap </span><span class="si">{</span><span class="n">cmap_name</span><span class="si">}</span><span class="s2"> not found in source </span><span class="si">{</span><span class="n">cmap_source</span><span class="si">}</span><span class="s2">"</span>
                 <span class="p">)</span>
-        <span class="k">elif</span> <span class="n">cmap_source</span> <span class="o">==</span> <span class="s2">&quot;geoips&quot;</span><span class="p">:</span>
+        <span class="k">elif</span> <span class="n">cmap_source</span> <span class="o">==</span> <span class="s2">"geoips"</span><span class="p">:</span>
             <span class="n">cmap_plugin</span> <span class="o">=</span> <span class="n">colormappers</span><span class="o">.</span><span class="n">get_plugin</span><span class="p">(</span><span class="n">cmap_name</span><span class="p">)</span>
             <span class="c1"># Just get the cmap out of mpl_colors_info to use here.</span>
-            <span class="n">mpl_cmap</span> <span class="o">=</span> <span class="n">cmap_plugin</span><span class="p">()[</span><span class="s2">&quot;cmap&quot;</span><span class="p">]</span>
-        <span class="k">elif</span> <span class="n">cmap_source</span> <span class="o">==</span> <span class="s2">&quot;ascii&quot;</span><span class="p">:</span>
+            <span class="n">mpl_cmap</span> <span class="o">=</span> <span class="n">cmap_plugin</span><span class="p">()[</span><span class="s2">"cmap"</span><span class="p">]</span>
+        <span class="k">elif</span> <span class="n">cmap_source</span> <span class="o">==</span> <span class="s2">"ascii"</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">cmap_path</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="n">mpl_cmap</span> <span class="o">=</span> <span class="n">from_ascii</span><span class="p">(</span><span class="n">cmap_path</span><span class="p">,</span> <span class="n">cmap_name</span><span class="o">=</span><span class="n">cmap_name</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
@@ -951,15 +978,15 @@ window.runMermaid = runMermaid;</script>
                     <span class="n">mpl_cmap</span> <span class="o">=</span> <span class="n">from_ascii</span><span class="p">(</span><span class="n">ascii_path</span><span class="p">,</span> <span class="n">cmap_name</span><span class="o">=</span><span class="n">cmap_name</span><span class="p">)</span>
                 <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
                     <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                        <span class="sa">f</span><span class="s2">&quot;Colormap </span><span class="si">{</span><span class="n">cmap_name</span><span class="si">}</span><span class="s2"> not found in source </span><span class="si">{</span><span class="n">cmap_source</span><span class="si">}</span><span class="s2">&quot;</span>
+                        <span class="sa">f</span><span class="s2">"Colormap </span><span class="si">{</span><span class="n">cmap_name</span><span class="si">}</span><span class="s2"> not found in source </span><span class="si">{</span><span class="n">cmap_source</span><span class="si">}</span><span class="s2">"</span>
                     <span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;Unknown colormap source </span><span class="si">{</span><span class="n">cmap_source</span><span class="si">}</span><span class="s2">, must be one of &quot;</span>
-                <span class="s2">&quot;&#39;matplotlib&#39;, &#39;geoips&#39;, or &#39;ascii&#39;&quot;</span>
+                <span class="sa">f</span><span class="s2">"Unknown colormap source </span><span class="si">{</span><span class="n">cmap_source</span><span class="si">}</span><span class="s2">, must be one of "</span>
+                <span class="s2">"'matplotlib', 'geoips', or 'ascii'"</span>
             <span class="p">)</span>
 
-        <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Setting norm&quot;</span><span class="p">)</span>
+        <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"Setting norm"</span><span class="p">)</span>
 
         <span class="n">mpl_norm</span> <span class="o">=</span> <span class="n">LogNorm</span><span class="p">(</span><span class="n">vmin</span><span class="o">=</span><span class="n">min_val</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="n">max_val</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">cbar_ticks</span><span class="p">:</span>
@@ -979,18 +1006,18 @@ window.runMermaid = runMermaid;</script>
         <span class="n">mpl_boundaries</span> <span class="o">=</span> <span class="kc">None</span>
 
         <span class="n">mpl_colors_info</span> <span class="o">=</span> <span class="p">{</span>
-            <span class="s2">&quot;cmap&quot;</span><span class="p">:</span> <span class="n">mpl_cmap</span><span class="p">,</span>
-            <span class="s2">&quot;norm&quot;</span><span class="p">:</span> <span class="n">mpl_norm</span><span class="p">,</span>
-            <span class="s2">&quot;boundaries&quot;</span><span class="p">:</span> <span class="n">mpl_boundaries</span><span class="p">,</span>
-            <span class="s2">&quot;colorbar&quot;</span><span class="p">:</span> <span class="n">create_colorbar</span><span class="p">,</span>
-            <span class="s2">&quot;cbar_ticks&quot;</span><span class="p">:</span> <span class="n">mpl_ticks</span><span class="p">,</span>
-            <span class="s2">&quot;cbar_tick_labels&quot;</span><span class="p">:</span> <span class="n">mpl_tick_labels</span><span class="p">,</span>
-            <span class="s2">&quot;cbar_label&quot;</span><span class="p">:</span> <span class="n">cbar_label</span><span class="p">,</span>
-            <span class="s2">&quot;cbar_spacing&quot;</span><span class="p">:</span> <span class="n">cbar_spacing</span><span class="p">,</span>
-            <span class="s2">&quot;cbar_full_width&quot;</span><span class="p">:</span> <span class="n">cbar_full_width</span><span class="p">,</span>
-            <span class="s2">&quot;colorbar_kwargs&quot;</span><span class="p">:</span> <span class="n">colorbar_kwargs</span><span class="p">,</span>
-            <span class="s2">&quot;set_ticks_kwargs&quot;</span><span class="p">:</span> <span class="n">set_ticks_kwargs</span><span class="p">,</span>
-            <span class="s2">&quot;set_label_kwargs&quot;</span><span class="p">:</span> <span class="n">set_label_kwargs</span><span class="p">,</span>
+            <span class="s2">"cmap"</span><span class="p">:</span> <span class="n">mpl_cmap</span><span class="p">,</span>
+            <span class="s2">"norm"</span><span class="p">:</span> <span class="n">mpl_norm</span><span class="p">,</span>
+            <span class="s2">"boundaries"</span><span class="p">:</span> <span class="n">mpl_boundaries</span><span class="p">,</span>
+            <span class="s2">"colorbar"</span><span class="p">:</span> <span class="n">create_colorbar</span><span class="p">,</span>
+            <span class="s2">"cbar_ticks"</span><span class="p">:</span> <span class="n">mpl_ticks</span><span class="p">,</span>
+            <span class="s2">"cbar_tick_labels"</span><span class="p">:</span> <span class="n">mpl_tick_labels</span><span class="p">,</span>
+            <span class="s2">"cbar_label"</span><span class="p">:</span> <span class="n">cbar_label</span><span class="p">,</span>
+            <span class="s2">"cbar_spacing"</span><span class="p">:</span> <span class="n">cbar_spacing</span><span class="p">,</span>
+            <span class="s2">"cbar_full_width"</span><span class="p">:</span> <span class="n">cbar_full_width</span><span class="p">,</span>
+            <span class="s2">"colorbar_kwargs"</span><span class="p">:</span> <span class="n">colorbar_kwargs</span><span class="p">,</span>
+            <span class="s2">"set_ticks_kwargs"</span><span class="p">:</span> <span class="n">set_ticks_kwargs</span><span class="p">,</span>
+            <span class="s2">"set_label_kwargs"</span><span class="p">:</span> <span class="n">set_label_kwargs</span><span class="p">,</span>
         <span class="p">}</span>
 
         <span class="k">return</span> <span class="n">mpl_colors_info</span></div></div>

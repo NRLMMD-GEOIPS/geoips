@@ -1,0 +1,630 @@
+.. dropdown:: Distribution Statement
+
+ | # # # This source code is subject to the license referenced at
+ | # # # https://github.com/NRLMMD-GEOIPS.
+
+Version 1.12.1 (2024-02-16)
+***************************
+
+* Bug fixes
+
+  * Add output_kwargs to xarray_data family output formatter
+  * Bug fix in interp_grid scipy.griddata interpolator wrapper
+  * Allow overriding interpolator arguments correctly when using product_defaults
+  * Make DATABASESUCCESS log.interactive
+  * Add longitude wrapping for self-registered data
+  * Update SAR reader to handle changed attribute information in file metadata
+  * Add longitude wrapping to overpass predictor
+  * Update geoips_fname filename formatter to include output_dict kwarg
+* Refactoring updates
+
+  * Remove compare outputs module command line argument
+* Enhancements
+
+  * histogram_netcdf output formatter
+  * Add new `--product_db_writer_kwargs` command line argument
+  * Add GeoKOMPSAT reader
+  * Add support for adding multiple overpass prediction points/observers
+    for large sectors
+  * Add new kwarg to sector create_test_plot to return figure, axis, and map objects
+  * Add support for creating product composites in config_based processing
+  * Add general RGB product defaults.
+* Installation updates
+
+  * Add create_plugin_registries after base_install.sh
+  * Update from Python 3.9 to 3.10 in setup.sh
+  * Update installation.rst to use standard installation process
+  * Update check_system_requirements to support pulling test data from github
+  * Update check_system_requirements to include -v for pip installs
+  * Update check_system_requirements to allow GEOIPS_MODIFIED_BRANCH
+  * Update check_system_requirements to allow dumping pip and mamba envs
+  * Add check_system_requirements function to run arbitrary commands
+  * Add check_system_requirements functions to check command and check env var
+  * Add check_system_requirements function to install mamba package
+  * Raise error when "interface" not defined on plugin during create_plugin_registries
+  * Update pyproject.toml dynamic versioning to strict=false
+* GitHub Actions Updates
+
+  * Finalize HTML/pdf build for PR validation
+  * Allow calling build_docs.sh without GEOIPS_PACKAGES_DIR set
+  * Add GitHub pages documentation deployment workflow
+* Documentation Updates
+
+  * Update sphinx conf.py to support pdf build
+  * Require updating release note directly rather than CHANGELOG.rst
+  * Add unit testing documentation
+  * Ignore \*/lib/\* directories for sphinx api doc
+  * Added comments indicating what "interface = None" means
+  * Added comments indicating why F401 must be ignored in interfaces/__init__.py
+* Testing Updates
+
+  * Update reader unit tests to support multiple tests, and comparing mean
+  * Fail on realtime test if copy file dir does not exist
+  * Single pixel difference update in ABI Visible global test output
+  * Single pixel difference update in AHI WV TC GEOTIFF test output
+* Add release note for v1.12.1
+
+Refactoring Updates
+===================
+
+Remove compare outputs module command line argument
+---------------------------------------------------
+
+This is no longer used, since the output_checkers are defined via a plugin
+interface. Remove all references to this in all procflows/command line args.
+
+::
+
+  modified: geoips/commandline/args.py
+  modified: geoips/plugins/modules/procflows/single_source.py
+  modified: geoips/plugins/modules/procflows/config_based.py
+
+Bug Fixes
+=========
+
+Add output_kwargs to xarray_data family output formatter
+--------------------------------------------------------
+
+Ensure unsupported kwargs are stripped.
+
+::
+
+  modified:   geoips/plugins/modules/procflows/single_source.py
+
+Update geoips_fname filename formatter to include output_dict kwarg
+-------------------------------------------------------------------
+
+To conform with standard filename formatter calls, include "output_dict"
+kwarg in geoips_fname filename formatter
+
+::
+
+  modified: geoips/plugins/modules/filename_formatters/geoips_fname.py
+
+Ensure center lon between -180 and 180 in overpass predictor
+------------------------------------------------------------
+
+Longitudes must be between -180 and 180 when creating ephem sector observer
+for multiple prediction points in large sectors.
+
+::
+
+  modified: geoips/sector_utils/overpass_predictor.py
+
+Make DATABASESUCCESS log.interactive
+------------------------------------
+
+::
+
+  modified:   geoips/plugins/modules/procflows/config_based.py
+  modified:   geoips/plugins/modules/procflows/single_source.py
+
+Allow overriding interpolator arguments correctly when using product_defaults
+-----------------------------------------------------------------------------
+
+*From GEOIPS#450: 2023-12-21, Allow overriding interpolator kwargs*
+
+Update calls to interpolator within single_source procflow to remove
+unsupported kwargs. This ensures kwargs that exist in the plugin
+that is used for product_defaults do not break calls to the plugin
+used in the product if the kwargs in the call signature are not the same.
+
+::
+
+  modified: geoips/plugins/modules/procflows/config_based.py
+  modified: geoips/plugins/modules/procflows/single_source.py
+
+Bug fix in interp_grid scipy.griddata interpolator wrapper
+----------------------------------------------------------
+
+*From GEOIPS#448: 2024-01-12, interp_grid bug fix*
+
+Fix typo: correctly set numx/y grid to width/height vs pixel_size_x/y.
+
+::
+
+  modified:   geoips/plugins/modules/interpolators/scipy_wrappers/interp_grid.py
+
+Add longitude wrapping for self-registered data
+-----------------------------------------------
+
+*From GEOIPS#456: 2024-01-26, Fix dating cutting off at date line*
+
+Wrap longitudes for the self-registered area definition to the
+-180 to 180 range so that data is not cut off at the date lline.
+
+::
+
+  modified: geoips/plugins/modules/procflows/single_source.py
+
+Update SAR reader to handle changed attribute information in file metadata
+--------------------------------------------------------------------------
+
+*From GEOIPS#463: 2024-02-09, handle change in SAR file metadata*
+
+A change in the SAR metadata in the SAR files was observed around Jan 2024,
+where "SAR" was no longer in the wind_xarray.source attribute. Current logic
+requires "SAR" to be in both the wind_xarray.source and wind_xarray.title attributes.
+The change to the wind_xarray.source attribute lead to the reader not ingesting the
+wind data from SAR files. The change in the metadata is likely a bug, but should
+be handled appropriately. SAR Reader now checks in "SAR" is in either the
+wind_xarray.source OR wind_xarray.title attributes.
+
+* ``wind_xarray.source`` returns ``"BLANK"``, which is likely a bug in upstream production.
+
+::
+
+  modified:   geoips/plugins/modules/readers/sar_winds_netcdf.py
+
+Enhancements
+============
+
+histogram_netcdf output formatter
+---------------------------------
+
+Outputs histogram of values for individual image.
+
+::
+
+  new file:   geoips/plugins/modules/output_formatters/histogram_netcdf.py
+  new file:   tests/scripts/amsr2.tc.89H-Physical.histogram_netcdf.sh
+
+Add general RGB product defaults
+--------------------------------
+
+*From GEOIPS#468: 2024-02-14, create generic RGB product/algorithm*
+
+Replace existing RGB-based product_defaults with a single "RGB_Default.yaml"
+product defaults.  Update viirs.yaml to point to that product_defaults, but
+override the algorithm to point to Night-Vis-IR or Night-Vis-IR-GeoIPS1.
+
+Eventually, we may want to support a generic "RGB" algorithm that allows
+specifying the actual individual red green and blue guns from within the
+YAML file (by passing in arguments / steps), but for now this at least
+removes one duplicate file.
+
+::
+
+  deleted:  product_defaults/visir/Night-Vis-IR.yaml
+  deleted:  product_defaults/visir/Night-Vis-IR-GeoIPS1.yaml
+  new:      product_defaults/RGB_Default.yaml
+  modified: products/viirs.yaml
+
+Add new --product_db_writer_kwargs command line argument
+--------------------------------------------------------
+
+*From GEOIPS#433: 2023-12-21, Add product db writer kwargs*
+
+Add new command line argument for specifying product database
+writer kwargs. These kwargs are passed to the product database
+writer plugin calls in the single_source procflow. Writer kwargs
+for config_based procflows will only be controlled in the YAML.
+
+::
+
+    modified: geoips/commandline/args.py
+    modified: geoips/plugins/modules/procflows/single_source.py
+
+Add GeoKOMPSAT reader
+---------------------
+
+Add reader for GeoKOMPSAT-2A AMI instrument.
+Also includes test scripts and comparison images.
+Also includes unit test functions for metadata.
+
+::
+
+    new file: geoips/plugins/modules/readers/geokompsat_netcdf.py
+    new file: geoips/plugins/yaml/products/geokompsat.yaml
+    new file: geoips/plugins/yaml/products/geokompsat.yaml
+    new file: tests/outputs/geokompsat.static.Infrared.imagery_annotated/20231208.030032.GK-2A.geokompsat.Infrared.geokompsat.45p56.nmsc.10p0.png
+    new file: tests/outputs/geokompsat.static.Visible.imagery_annotated/20231208.030032.GK-2A.geokompsat.Visible.geokompsat.45p56.nmsc.10p0.png
+    new file: tests/outputs/geokompsat.tc.WV.geotiff/20231208_030032_SH032024_geokompsat_GK-2A_WV_115kts_100p00_1p0.tif
+    new file: tests/outputs/geokompsat.WV-Upper.unprojected_image/20231208.030032.GK-2A.geokompsat.WV-Upper.self_register.71p36.nmsc.2p0.png
+    new file: tests/scripts/geokompsat.static.Infrared.imagery_annotated.sh
+    new file: tests/scripts/geokompsat.static.Visible.imagery_annotated.sh
+    new file: tests/scripts/geokompsat.tc.WV.geotiff.sh
+    new file: tests/scripts/geokompsat.WV-Upper.unprojected_image.sh
+    modified: docs/source/releases/v1_12_1.rst
+    modified: tests/test_all.sh
+
+Add support for adding multiple overpass prediction points/observers for large sectors
+--------------------------------------------------------------------------------------
+
+Update overpass predictor utility to automatically add multiple predction points
+(observers) for large sectors. The check_midpoints kwarg was replaced with the new
+observer_spacing kwarg, which specifies the spacing (degrees) between observer points
+in the sector. If lat/lon extent of the domain exceeds the specified spacing,
+multiple observer are automatically added across the sector.
+
+Also simplify how the predict_satellite_overpass function stores valid overpasses.
+
+* Overpasses are stored to a dictionary using keys named as <satellite>_<sector>_<time>
+  instead of pass_<N>.
+
+::
+
+    modified: geoips/sector_utils/overpass_predictor.py
+
+Add new kwarg to sector create_test_plot to return figure, axis, and map objects
+--------------------------------------------------------------------------------
+
+Add new ``return_fig_ax_map`` kwarg to the create_test_plot function under the
+sector interface, which returns the fig, ax, and mapobj.
+
+* This allows other scripts/modules to quickly create an image for a specific sector.
+* Also check if fname is ``None``. If ``None``, create_test_plot does
+  not save the image.
+
+::
+
+    modified: geoips/interfaces/yaml_based/sectors.py
+
+Add support for creating product composites in config_based processing
+----------------------------------------------------------------------
+
+*From GEOIPS#461: 2024-02-09, add composite support in config_based procflow*
+
+Add support for compositing products in the config_based procflow.Procflow finds
+pre-processed algorithm netcdf files for a sector that exists on disk,
+reads them into memory, then combines to create a composited product.
+
+Add new xarray data utility that combined multiple xarray datasets of the same
+dimensions together. This is used for creating a composite using pre-processed
+algorithms stored to netCDF files, and with the output from an algorithm
+produced from the current procflow.
+
+Add new argument group - composite_group. Add new command line argument to this group
+for overriding the composite kwargs for supported sector outputs.
+
+New geoips utility for finding input files for generating a composite. Currently only
+supports finding netCDF files checked into the product database, but can/will be
+expanded to support other formats along with no reliance on a database.
+
+::
+
+  modified:   geoips/commandline/args.py
+  modified:   geoips/plugins/modules/procflows/config_based.py
+  modified:   geoips/xarray_utils/data.py
+  new file:   geoips/utils/composite.py
+
+Installation Updates
+====================
+
+Update pyproject.toml dynamic versioning to strict=false
+--------------------------------------------------------
+
+This allows using version 0.0.0 if no tags are set.  If strict=true, unable
+to pip install package without a tag.
+
+::
+
+  modified: pyproject.toml
+
+Raise error when "interface" not defined on plugin during create_plugin_registries
+----------------------------------------------------------------------------------
+
+Also, raise informative error if a plugin doesn't exist on base.py.
+Additionally add indent=4 to make json registries human readable
+(this is also incoming from github.com)
+
+::
+
+  modified: geoips/create_plugin_registries.py
+  modified: geoips/interfaces/base.py
+
+Add check_system_requirements function to install mamba package
+---------------------------------------------------------------
+
+When mamba_install passed, install the package specified command line via
+mamba.
+
+::
+
+  modified: setup/check_system_requirements.sh
+
+Add check_system_requirements functions to check_command and check_environment_variable
+---------------------------------------------------------------------------------------
+
+When check_command is passed, check if "command --version" returns 0, if not,
+exit 1.
+
+When check_environment_variable is passed, check that the env var is defined,
+if not, exit 1.
+
+::
+
+  modified: setup/check_system_requirements.sh
+
+
+Add check_system_requirements function to run arbitrary commands
+----------------------------------------------------------------
+
+When "run_command" passed to check system requirements, just run that command,
+and exit if the command returns non-zero.
+
+::
+
+  modified: setup/check_system_requirements.sh
+
+Update check_system_requirements to allow GEOIPS_MODIFIED_BRANCH
+----------------------------------------------------------------
+
+If GEOIPS_MODIFIED_BRANCH is set, switch to it when cloning a repo.
+This is not a REQUIRED branch, if it doesn't exist, just stay
+where we are (this is for multi-repo issues, where the same
+branch is on all the related repos)
+
+::
+
+  modified: setup/check_system_requirements.sh
+
+
+Add -v option to pip install commands in check_system_requirements.sh
+---------------------------------------------------------------------
+
+::
+
+  modified: setup/check_system_requirements.sh
+
+
+Update check_system_requirements to support pulling test data from github
+-------------------------------------------------------------------------
+
+Allow passing github URL for test data downloads. Do not attempt to
+decompress github cloned test data.
+
+::
+
+  modified: setup/check_system_requirements.sh
+  modified: setup/download_test_data.py
+
+Update installation.rst to use standard installation process
+------------------------------------------------------------
+
+*From GEOIPS#446: 2024-01-11, clarify installation and git workflow*
+
+For consistency between github.com and internal, ensure installation.rst
+uses the same process both internal and public.  No longer use setup.sh steps,
+just include the wget, mamba, and pip steps explicitly.
+
+::
+
+  deleted: setup.sh
+  modified: docs/source/starter/installation.rst
+
+Add create_plugin_registries after base_install.sh
+--------------------------------------------------
+
+::
+
+  modified: docs/source/starter/installation.rst
+  modified: docs/source/starter/mac_installation.rst
+
+Update from Python 3.9 to 3.10 for default install
+--------------------------------------------------
+
+::
+
+  modified: docs/source/starter/installation.rst
+
+GitHub Actions Updates
+======================
+
+Add GitHub pages documentation deployment workflow
+--------------------------------------------------
+
+*From GEOIPS#235: 2024-01-05, deploy ghpages action*
+
+Update deploy_pages.sh script to take arguments for GEOIPS_REPO_URL and
+the github pages repo clone locations (rather than using environment
+variables).
+
+Add workflow to build html and pdf documentation, then deploy to ghpages.
+Runs on published release.
+
+Ensure the "ghpages_repo" directory is removed prior to running
+deploy_pages.sh - it will not run if that directory exists, and
+it will persist between github actions runs.
+
+::
+
+  .github/workflows/deploy-ghpages-docs.yaml
+  docs/deploy_pages.sh
+
+Finalize HTML/pdf build for PR validation
+-----------------------------------------
+
+Update to appropriate mamba and pip commands.  This workflow only builds the
+html docs, does not deploy.  Need a separate workflow for building and deploying
+on release.
+
+Additionally include pdf build.
+
+::
+
+  modified: .github/workflows/build-html-docs.yml
+  new: .github/workflows/build-pdf-docs.yml
+
+Allow calling build_docs.sh without GEOIPS_PACKAGES_DIR set
+-----------------------------------------------------------
+
+Allow passing full path to geoips docs directory, only use $GEOIPS_PACKAGES_DIR
+if docs directory is not passed in.
+
+::
+
+  modified: docs/build_docs.sh
+
+Documentation Updates
+=====================
+
+Add comments regarding flake8 ignores and interface = None
+----------------------------------------------------------
+
+::
+
+  modified: geoips/interfaces/__init__.py
+  modified: geoips/plugins/modules/filename_formatters/utils/tc_file_naming.py
+  modified: geoips/plugins/modules/interpolators/utils/interp_pyresample.py
+  modified: geoips/plugins/modules/interpolators/utils/interp_scipy.py
+  modified: geoips/plugins/modules/readers/utils/geostationary_geolocation.py
+  modified: geoips/plugins/modules/readers/utils/hrit_reader.py
+  modified: geoips/plugins/modules/readers/utils/remss_reader.py
+
+Ignore \*/lib/\* directories for sphinx api doc
+-----------------------------------------------
+
+Currently documentation builds including fortran libraries built with
+f2py fail - ignore the "lib" directory when building documentation for
+now, perhaps in the future determine how to build docuemntation for
+pre-built libraries.
+
+::
+
+  modified: docs/build_docs.sh
+
+Require updating release note directly rather than CHANGELOG.rst
+----------------------------------------------------------------
+
+*From GEOIPS#446: 2024-01-11, clarify installation and git workflow*
+
+Previously allowed developers to add their changes to CHANGELOG.rst, then move
+during the PR review process.  For simplicity and consistency, just point people
+to the "update_this_release_note" file to identify the correct release note, and
+have them update that directly.  This involved updating instructions in 3 RST
+files (CHANGELOG, CHANGELOG_TEMPLATE, and git_workflow).
+
+::
+
+  modified: CHANGELOG.rst
+  modified: CHANGELOG_TEMPLATE.rst
+  modified: docs/source/devguide/git_workflow.rst
+
+Update sphinx conf.py to support latex pdf build
+------------------------------------------------
+
+conf_PKG.py required enumitem list depth of 99 to successfully build
+latex pdf output.  Default list depth of 6 is not compatible with sphinx
+auto API documentation.
+
+::
+
+  modified: docs/source/_templates/conf_PKG.py
+
+Add documentation for reader unit testing
+-----------------------------------------
+
+::
+
+  modified:   docs/source/devguide/unit_tests.rst
+
+Testing Updates
+===============
+
+Fail on realtime test if copy file dir does not exist
+-----------------------------------------------------
+
+To avoid making it through an entire test if the appropriate directory
+is not defined for storing test outputs, fail immediately if incorrect
+directory is specified.
+
+::
+
+  modified: tests/utils/get_realtime_test_args.sh
+
+Single pixel difference update in AHI WV TC GEOTIFF test output
+---------------------------------------------------------------
+
+Dependency update?  diff of hexdump of original and updated image show a single
+bit difference.  tifffile updated from 2023.9.26 to 2024.02.12.
+
+::
+
+  bash$ diff currentdump.txt olddump.txt | more
+  127c127
+  < 00000820  3e af 7f 67 82 3f d3 38  3e af 7f 67 82 3f 00 00  |>..g.?.8>..g.?..|
+  ---
+  > 00000820  3e af 7f 67 82 3f d2 38  3e af 7f 67 82 3f 00 00  |>..g.?.8>..g.?..|
+
+::
+
+  modified:   tests/outputs/ahi.tc.WV.geotiff/20200405_000000_SH252020_ahi_himawari-8_WV_100kts_100p00_1p0.tif
+
+Single pixel difference update in ABI Visible global test output
+----------------------------------------------------------------
+
+Must be a dependency update.  Literally one pixel. xarray updated from 2023.11.0 to
+2023.12.0, could be that.
+
+::
+
+  M tests/outputs/abi.static.Visible.imagery_annotated/20200918.195020.goes-16.abi.Visible.goes_east.41p12.noaa.10p0.png
+
+Update reader unit tests to support multiple tests, and comparing mean
+----------------------------------------------------------------------
+
+Return a list of parameters for reader unit testing rather than a
+single set of parameters.  This allows testing multiple datasets if
+desired.
+
+Additionally, allow including the expected mean from the reader unit
+test, to confirm the data values are as expected.
+
+::
+
+  modified:   tests/unit_tests_long/plugins/modules/readers/test_readers.py
+  modified:   geoips/plugins/modules/readers/amsr2_remss_winds_netcdf.py
+  modified:   geoips/plugins/modules/readers/gmi_hdf5.py
+  modified:   geoips/plugins/modules/readers/sar_winds_netcdf.py
+  modified:   geoips/plugins/modules/readers/scat_knmi_winds_netcdf.py
+  modified:   geoips/plugins/modules/readers/scat_noaa_winds_netcdf.py
+  modified:   geoips/plugins/modules/readers/smap_remss_winds_netcdf.py
+
+Release Process
+===============
+
+Add release note for v1.12.1
+----------------------------
+
+*From GEOIPS#422: 2023-12-13, 1.12.0 release process updates*
+
+All updates until the next release (v1.12.1) will be included in
+this release note.
+
+::
+
+  modified: docs/source/releases/v1.12.1.rst
+  modified: docs/source/releases/index.rst
+
+Update 'update_this_release_note'
+---------------------------------
+
+*From GEOIPS#422: 2023-12-13, 1.12.0 release process updates*
+
+All updates until the next release (v1.12.1) will be included in
+the release note specified in this file.
+
+::
+
+  modified: update_this_release_note

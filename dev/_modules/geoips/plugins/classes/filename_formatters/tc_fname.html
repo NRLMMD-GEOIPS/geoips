@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>geoips.plugins.classes.filename_formatters.tc_fname &#8212; GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation</title>
+    <title>geoips.plugins.classes.filename_formatters.tc_fname &#8212; GeoIPS, Geolocated Information Processing System 0.0.0 documentation</title>
   
   
   
@@ -40,7 +40,7 @@
   <link rel="preload" as="script" href="../../../../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
 <link rel="preload" as="script" href="../../../../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
 
-    <script data-url_root="../../../../../" id="documentation_options" src="../../../../../_static/documentation_options.js?v=6727bded"></script>
+    <script data-url_root="../../../../../" id="documentation_options" src="../../../../../_static/documentation_options.js?v=525cde36"></script>
     <script src="../../../../../_static/doctools.js?v=888ff710"></script>
     <script src="../../../../../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../../../_static/design-tabs.js?v=f930bc37"></script>
@@ -401,14 +401,21 @@ mermaid.initialize(
 window.addEventListener("load", load);
 window.runMermaid = runMermaid;</script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_modules/geoips/plugins/classes/filename_formatters/tc_fname';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.17.1';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://nrlmmd-geoips.github.io/geoips/versions.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = 'dev';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner =
+            false;
+        </script>
     <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
     <link rel="icon" href="../../../../../_static/nrlicon.ico"/>
     <link rel="index" title="Index" href="../../../../../genindex.html" />
     <link rel="search" title="Search" href="../../../../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2.0" />
-    <meta name="docbuild:last-update" content="Jul 23, 2026 17:03:57"/>
+  <meta name="docsearch:version" content="0.0" />
+    <meta name="docbuild:last-update" content="Aug 31, 2026 13:32:18"/>
   
     
     <script src="../../../../../_static/searchtools.js"></script>
@@ -480,11 +487,31 @@ window.runMermaid = runMermaid;</script>
       
     
     
-    <img src="../../../../../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation - Home"/>
-    <img src="../../../../../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation - Home"/>
+    <img src="../../../../../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 0.0.0 documentation - Home"/>
+    <img src="../../../../../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 0.0.0 documentation - Home"/>
   
   
 </a></div>
+    
+      <div class="navbar-item">
+<div class="version-switcher__container dropdown pst-js-only">
+  <button id="pst-version-switcher-button-2"
+    type="button"
+    class="version-switcher__button btn btn-sm dropdown-toggle"
+    data-bs-toggle="dropdown"
+    aria-haspopup="listbox"
+    aria-controls="pst-version-switcher-list-2"
+    aria-label="Version switcher list"
+  >
+    Choose version  <!-- this text may get changed later by javascript -->
+    <span class="caret"></span>
+  </button>
+  <div id="pst-version-switcher-list-2"
+    class="version-switcher__menu dropdown-menu list-group-flush py-0"
+    role="listbox" aria-labelledby="pst-version-switcher-button-2">
+    <!-- dropdown will be populated by javascript on page load -->
+  </div>
+</div></div>
     
   </div>
   
@@ -828,7 +855,7 @@ window.runMermaid = runMermaid;</script>
 <span></span><span class="c1"># # # This source code is subject to the license referenced at</span>
 <span class="c1"># # # https://github.com/NRLMMD-GEOIPS.</span>
 
-<span class="sd">&quot;&quot;&quot;Standard TC filename formatter.&quot;&quot;&quot;</span>
+<span class="sd">"""Standard TC filename formatter."""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">geoips.interfaces.class_based.filename_formatters</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
     <span class="n">BaseFilenameFormatterPlugin</span><span class="p">,</span>
@@ -853,11 +880,11 @@ window.runMermaid = runMermaid;</script>
 
 
 <div class="viewcode-block" id="TcFnameFilenameFormatterPlugin"><a class="viewcode-back" href="../../../../../geoips_api/geoips.plugins.classes.filename_formatters.html#geoips.plugins.classes.filename_formatters.tc_fname.TcFnameFilenameFormatterPlugin">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">TcFnameFilenameFormatterPlugin</span><span class="p">(</span><span class="n">BaseFilenameFormatterPlugin</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;TC Fname Filename formatter plugin class.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""TC Fname Filename formatter plugin class."""</span>
 
-    <span class="n">interface</span> <span class="o">=</span> <span class="s2">&quot;filename_formatters&quot;</span>
-    <span class="n">family</span> <span class="o">=</span> <span class="s2">&quot;standard&quot;</span>
-    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;tc_fname&quot;</span>
+    <span class="n">interface</span> <span class="o">=</span> <span class="s2">"filename_formatters"</span>
+    <span class="n">family</span> <span class="o">=</span> <span class="s2">"standard"</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">"tc_fname"</span>
 
 <div class="viewcode-block" id="TcFnameFilenameFormatterPlugin.call"><a class="viewcode-back" href="../../../../../geoips_api/geoips.plugins.classes.filename_formatters.html#geoips.plugins.classes.filename_formatters.tc_fname.TcFnameFilenameFormatterPlugin.call">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">call</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
@@ -865,24 +892,24 @@ window.runMermaid = runMermaid;</script>
         <span class="n">xarray_obj</span><span class="p">,</span>
         <span class="n">product_name</span><span class="p">,</span>
         <span class="n">coverage</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-        <span class="n">output_type</span><span class="o">=</span><span class="s2">&quot;png&quot;</span><span class="p">,</span>
+        <span class="n">output_type</span><span class="o">=</span><span class="s2">"png"</span><span class="p">,</span>
         <span class="n">output_type_dir</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-        <span class="n">basedir</span><span class="o">=</span><span class="n">gpaths</span><span class="p">[</span><span class="s2">&quot;TCWWW&quot;</span><span class="p">],</span>
+        <span class="n">basedir</span><span class="o">=</span><span class="n">gpaths</span><span class="p">[</span><span class="s2">"TCWWW"</span><span class="p">],</span>
         <span class="n">extra_field</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">output_dict</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create standard TC filenames.</span>
+<span class="w">        </span><span class="sd">"""Create standard TC filenames.</span>
 
 <span class="sd">        See Also</span>
 <span class="sd">        --------</span>
 <span class="sd">        geoips.plugins.classes.filename_formatters.tc_fname.assemble_tc_fname</span>
-<span class="sd">            This uses the shared utility &quot;assemble_tc_fname&quot;, such that a common</span>
+<span class="sd">            This uses the shared utility "assemble_tc_fname", such that a common</span>
 <span class="sd">            filename can be used by related filename formatters.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">geoips.sector_utils.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">is_sector_type</span>
 
-        <span class="k">if</span> <span class="n">area_def</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">is_sector_type</span><span class="p">(</span><span class="n">area_def</span><span class="p">,</span> <span class="s2">&quot;tc&quot;</span><span class="p">):</span>
-            <span class="n">LOG</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;NOT a TC sector, skipping TC output&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">area_def</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">is_sector_type</span><span class="p">(</span><span class="n">area_def</span><span class="p">,</span> <span class="s2">"tc"</span><span class="p">):</span>
+            <span class="n">LOG</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">"NOT a TC sector, skipping TC output"</span><span class="p">)</span>
             <span class="k">return</span> <span class="kc">None</span>
 
         <span class="c1"># Allow output_type_dir to be explicitly set within call signature, allows</span>
@@ -899,16 +926,16 @@ window.runMermaid = runMermaid;</script>
         <span class="c1"># Return reused parameters (min/max vals for normalization, colormaps,</span>
         <span class="c1"># matplotlib Normalization)</span>
         <span class="c1"># from geoips.xarray_utils.time import get_min_from_xarray_time</span>
-        <span class="c1"># start_dt = get_min_from_xarray_time(xarray_obj, &#39;time&#39;)</span>
+        <span class="c1"># start_dt = get_min_from_xarray_time(xarray_obj, 'time')</span>
         <span class="n">start_dt</span> <span class="o">=</span> <span class="n">xarray_obj</span><span class="o">.</span><span class="n">start_datetime</span>
 
-        <span class="k">if</span> <span class="n">area_def</span><span class="o">.</span><span class="n">sector_info</span><span class="p">[</span><span class="s2">&quot;vmax&quot;</span><span class="p">]:</span>
-            <span class="n">intensity</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{0:0.0f}</span><span class="s2">kts&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">area_def</span><span class="o">.</span><span class="n">sector_info</span><span class="p">[</span><span class="s2">&quot;vmax&quot;</span><span class="p">])</span>
+        <span class="k">if</span> <span class="n">area_def</span><span class="o">.</span><span class="n">sector_info</span><span class="p">[</span><span class="s2">"vmax"</span><span class="p">]:</span>
+            <span class="n">intensity</span> <span class="o">=</span> <span class="s2">"</span><span class="si">{0:0.0f}</span><span class="s2">kts"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">area_def</span><span class="o">.</span><span class="n">sector_info</span><span class="p">[</span><span class="s2">"vmax"</span><span class="p">])</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="c1"># This is pulling intensity directly from the deck file,</span>
             <span class="c1"># and sometimes it is not defined - if empty, just</span>
-            <span class="c1"># use &quot;unknown&quot; for intensity</span>
-            <span class="n">intensity</span> <span class="o">=</span> <span class="s2">&quot;unknown&quot;</span>
+            <span class="c1"># use "unknown" for intensity</span>
+            <span class="n">intensity</span> <span class="o">=</span> <span class="s2">"unknown"</span>
 
         <span class="kn">from</span><span class="w"> </span><span class="nn">geoips.plugins.classes.filename_formatters.utils.tc_file_naming</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
             <span class="n">update_extra_field</span><span class="p">,</span>
@@ -919,7 +946,7 @@ window.runMermaid = runMermaid;</script>
             <span class="n">xarray_obj</span><span class="p">,</span>
             <span class="n">area_def</span><span class="p">,</span>
             <span class="n">product_name</span><span class="p">,</span>
-            <span class="n">extra_field_delimiter</span><span class="o">=</span><span class="s2">&quot;-&quot;</span><span class="p">,</span>
+            <span class="n">extra_field_delimiter</span><span class="o">=</span><span class="s2">"-"</span><span class="p">,</span>
             <span class="n">existing_extra_field</span><span class="o">=</span><span class="n">extra_field</span><span class="p">,</span>
             <span class="n">extra_field_resolution</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
             <span class="n">extra_field_coverage_func</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
@@ -944,13 +971,13 @@ window.runMermaid = runMermaid;</script>
         <span class="k">return</span> <span class="n">web_fname</span></div>
 
 <div class="viewcode-block" id="TcFnameFilenameFormatterPlugin.tc_fname_remove_duplicates"><a class="viewcode-back" href="../../../../../geoips_api/geoips.plugins.classes.filename_formatters.html#geoips.plugins.classes.filename_formatters.tc_fname.TcFnameFilenameFormatterPlugin.tc_fname_remove_duplicates">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">tc_fname_remove_duplicates</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fname</span><span class="p">,</span> <span class="n">mins_to_remove</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">remove_files</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Remove tc_fname duplicate files.</span>
+<span class="w">        </span><span class="sd">"""Remove tc_fname duplicate files.</span>
 
 <span class="sd">        Matches storm name, sensor name, platform name, product name, and</span>
-<span class="sd">        resolution for all files within &quot;mins_to_remove&quot; minutes of the</span>
+<span class="sd">        resolution for all files within "mins_to_remove" minutes of the</span>
 <span class="sd">        current file.  All other fields are wild carded during the matching</span>
 <span class="sd">        process.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="c1"># 20201010_222325_WP162020_gmi_GPM_89H_40kts_14p16_1p0.png</span>
         <span class="c1"># 20201010_222325_WP162020_gmi_GPM_89H_40kts_14p16_1p0.png.yaml</span>
         <span class="n">matching_fnames</span> <span class="o">=</span> <span class="p">[]</span>
@@ -959,23 +986,23 @@ window.runMermaid = runMermaid;</script>
         <span class="n">ext1</span> <span class="o">=</span> <span class="n">pathsplitext</span><span class="p">(</span><span class="n">fname</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
         <span class="n">ext2</span> <span class="o">=</span> <span class="n">pathsplitext</span><span class="p">(</span><span class="n">pathsplitext</span><span class="p">(</span><span class="n">fname</span><span class="p">)[</span><span class="mi">0</span><span class="p">])[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
         <span class="c1"># ext3 = pathsplitext(pathsplitext(pathsplitext(fname)[0])[0])[-1]</span>
-        <span class="k">if</span> <span class="p">(</span><span class="n">ext1</span> <span class="o">==</span> <span class="s2">&quot;.png&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">ext1</span> <span class="o">==</span> <span class="s2">&quot;.yaml&quot;</span> <span class="ow">and</span> <span class="n">ext2</span> <span class="o">==</span> <span class="s2">&quot;.png&quot;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">ext1</span> <span class="o">==</span> <span class="s2">".png"</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">ext1</span> <span class="o">==</span> <span class="s2">".yaml"</span> <span class="ow">and</span> <span class="n">ext2</span> <span class="o">==</span> <span class="s2">".png"</span><span class="p">):</span>
             <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
-                <span class="s2">&quot;MATCHES EXT FORMAT. png or png.yaml. &quot;</span>
-                <span class="s2">&quot;Attempting to remove old_tcweb duplicates&quot;</span>
+                <span class="s2">"MATCHES EXT FORMAT. png or png.yaml. "</span>
+                <span class="s2">"Attempting to remove old_tcweb duplicates"</span>
             <span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
-                <span class="s2">&quot;NOT REMOVING DUPLICATES. Not tc_web filename, not png or png.yaml.&quot;</span>
+                <span class="s2">"NOT REMOVING DUPLICATES. Not tc_web filename, not png or png.yaml."</span>
             <span class="p">)</span>
             <span class="k">return</span> <span class="p">[],</span> <span class="p">[]</span>
         <span class="n">dirname</span> <span class="o">=</span> <span class="n">pathdirname</span><span class="p">(</span><span class="n">fname</span><span class="p">)</span>
         <span class="n">basename</span> <span class="o">=</span> <span class="n">pathbasename</span><span class="p">(</span><span class="n">fname</span><span class="p">)</span>
-        <span class="n">parts</span> <span class="o">=</span> <span class="n">basename</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">)</span>
+        <span class="n">parts</span> <span class="o">=</span> <span class="n">basename</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">"_"</span><span class="p">)</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">parts</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">9</span><span class="p">:</span>
             <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
-                <span class="s2">&quot;NOT REMOVING DUPLICATES. Not tc_web filename, does not contain 9 &quot;</span>
-                <span class="s2">&quot;fields.&quot;</span>
+                <span class="s2">"NOT REMOVING DUPLICATES. Not tc_web filename, does not contain 9 "</span>
+                <span class="s2">"fields."</span>
             <span class="p">)</span>
             <span class="k">return</span> <span class="p">[],</span> <span class="p">[]</span>
 
@@ -990,37 +1017,37 @@ window.runMermaid = runMermaid;</script>
             <span class="n">intensity</span> <span class="o">=</span> <span class="n">parts</span><span class="p">[</span><span class="mi">6</span><span class="p">]</span>
             <span class="n">coverage</span> <span class="o">=</span> <span class="n">parts</span><span class="p">[</span><span class="mi">7</span><span class="p">]</span>
             <span class="n">res</span> <span class="o">=</span> <span class="n">parts</span><span class="p">[</span><span class="mi">8</span><span class="p">]</span>
-            <span class="k">if</span> <span class="s2">&quot;p&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">coverage</span> <span class="ow">or</span> <span class="s2">&quot;p&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">res</span><span class="p">:</span>
+            <span class="k">if</span> <span class="s2">"p"</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">coverage</span> <span class="ow">or</span> <span class="s2">"p"</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">res</span><span class="p">:</span>
                 <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
-                    <span class="s2">&quot;NOT REMOVING DUPLICATES. Not tc_web filename, &quot;</span>
-                    <span class="s2">&quot;coverage or res not &#39;NNpNN&#39;.&quot;</span>
+                    <span class="s2">"NOT REMOVING DUPLICATES. Not tc_web filename, "</span>
+                    <span class="s2">"coverage or res not 'NNpNN'."</span>
                 <span class="p">)</span>
                 <span class="k">return</span> <span class="p">[],</span> <span class="p">[]</span>
-            <span class="k">if</span> <span class="s2">&quot;kts&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">intensity</span><span class="p">:</span>
+            <span class="k">if</span> <span class="s2">"kts"</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">intensity</span><span class="p">:</span>
                 <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
-                    <span class="s2">&quot;NOT REMOVING DUPLICATES. Not tc_web filename, &quot;</span>
-                    <span class="s2">&quot;intensity does not contain &#39;kts&#39;.&quot;</span>
+                    <span class="s2">"NOT REMOVING DUPLICATES. Not tc_web filename, "</span>
+                    <span class="s2">"intensity does not contain 'kts'."</span>
                 <span class="p">)</span>
                 <span class="k">return</span> <span class="p">[],</span> <span class="p">[]</span>
         <span class="k">except</span> <span class="ne">IndexError</span><span class="p">:</span>
             <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
-                <span class="s2">&quot;NOT REMOVING DUPLICATES. Unmatched filename format, &quot;</span>
-                <span class="s2">&quot;incorrect number of _ delimited fields&quot;</span>
+                <span class="s2">"NOT REMOVING DUPLICATES. Unmatched filename format, "</span>
+                <span class="s2">"incorrect number of _ delimited fields"</span>
             <span class="p">)</span>
             <span class="k">return</span> <span class="p">[],</span> <span class="p">[]</span>
         <span class="k">try</span><span class="p">:</span>
-            <span class="n">fname_dt</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">yyyymmdd</span> <span class="o">+</span> <span class="n">hhmnss</span><span class="p">,</span> <span class="s2">&quot;%Y%m</span><span class="si">%d</span><span class="s2">%H%M%S&quot;</span><span class="p">)</span>
+            <span class="n">fname_dt</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">yyyymmdd</span> <span class="o">+</span> <span class="n">hhmnss</span><span class="p">,</span> <span class="s2">"%Y%m</span><span class="si">%d</span><span class="s2">%H%M%S"</span><span class="p">)</span>
         <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
             <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
-                <span class="s2">&quot;NOT REMOVING DUPLICATES. Unmatched filename format, &quot;</span>
-                <span class="s2">&quot;incorrect date time string.&quot;</span>
+                <span class="s2">"NOT REMOVING DUPLICATES. Unmatched filename format, "</span>
+                <span class="s2">"incorrect date time string."</span>
             <span class="p">)</span>
             <span class="k">return</span> <span class="p">[],</span> <span class="p">[]</span>
         <span class="n">timediff</span> <span class="o">=</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">minutes</span><span class="o">=</span><span class="n">mins_to_remove</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">currdt</span> <span class="ow">in</span> <span class="n">minrange</span><span class="p">(</span><span class="n">fname_dt</span> <span class="o">-</span> <span class="n">timediff</span><span class="p">,</span> <span class="n">fname_dt</span> <span class="o">+</span> <span class="n">timediff</span><span class="p">):</span>
             <span class="c1"># 20201010_222325_WP162020_gmi_GPM_89H_40kts_14p16_1p0.png</span>
             <span class="n">dtstr</span> <span class="o">=</span> <span class="n">currdt</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span>
-                <span class="s2">&quot;</span><span class="si">{0}</span><span class="s2">/%Y%m</span><span class="si">%d</span><span class="s2">_%H%M*_</span><span class="si">{1}</span><span class="s2">_</span><span class="si">{2}</span><span class="s2">_</span><span class="si">{3}</span><span class="s2">_</span><span class="si">{4}</span><span class="s2">_*_*_</span><span class="si">{5}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="s2">"</span><span class="si">{0}</span><span class="s2">/%Y%m</span><span class="si">%d</span><span class="s2">_%H%M*_</span><span class="si">{1}</span><span class="s2">_</span><span class="si">{2}</span><span class="s2">_</span><span class="si">{3}</span><span class="s2">_</span><span class="si">{4}</span><span class="s2">_*_*_</span><span class="si">{5}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
                     <span class="n">dirname</span><span class="p">,</span> <span class="n">stormname</span><span class="p">,</span> <span class="n">sensor</span><span class="p">,</span> <span class="n">platform</span><span class="p">,</span> <span class="n">product</span><span class="p">,</span> <span class="n">res</span>
                 <span class="p">)</span>
             <span class="p">)</span>
@@ -1030,9 +1057,9 @@ window.runMermaid = runMermaid;</script>
         <span class="n">min_dt</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="k">for</span> <span class="n">matching_fname</span> <span class="ow">in</span> <span class="n">matching_fnames</span><span class="p">:</span>
             <span class="c1"># 20201010_222325_WP162020_gmi_GPM_89H_40kts_14p16_1p0.png</span>
-            <span class="n">parts</span> <span class="o">=</span> <span class="n">pathbasename</span><span class="p">(</span><span class="n">matching_fname</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">)</span>
-            <span class="n">coverage</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">parts</span><span class="p">[</span><span class="mi">7</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;p&quot;</span><span class="p">,</span> <span class="s2">&quot;.&quot;</span><span class="p">))</span>
-            <span class="n">start_dt</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">parts</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">parts</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">:</span><span class="mi">6</span><span class="p">],</span> <span class="s2">&quot;%Y%m</span><span class="si">%d</span><span class="s2">%H%M%S&quot;</span><span class="p">)</span>
+            <span class="n">parts</span> <span class="o">=</span> <span class="n">pathbasename</span><span class="p">(</span><span class="n">matching_fname</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">"_"</span><span class="p">)</span>
+            <span class="n">coverage</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">parts</span><span class="p">[</span><span class="mi">7</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">"p"</span><span class="p">,</span> <span class="s2">"."</span><span class="p">))</span>
+            <span class="n">start_dt</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">parts</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">parts</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">:</span><span class="mi">6</span><span class="p">],</span> <span class="s2">"%Y%m</span><span class="si">%d</span><span class="s2">%H%M%S"</span><span class="p">)</span>
             <span class="n">max_coverage</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">coverage</span><span class="p">,</span> <span class="n">max_coverage</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">min_dt</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="n">min_dt</span> <span class="o">=</span> <span class="n">start_dt</span>
@@ -1040,19 +1067,19 @@ window.runMermaid = runMermaid;</script>
                 <span class="n">min_dt</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">start_dt</span><span class="p">,</span> <span class="n">min_dt</span><span class="p">)</span>
 
         <span class="n">gotone</span> <span class="o">=</span> <span class="kc">False</span>
-        <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;CHECKING DUPLICATE FILES&quot;</span><span class="p">)</span>
+        <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"CHECKING DUPLICATE FILES"</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">matching_fname</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">matching_fnames</span><span class="p">)):</span>
             <span class="c1"># 20201010_222325_WP162020_gmi_GPM_89H_40kts_14p16_1p0.png</span>
-            <span class="n">parts</span> <span class="o">=</span> <span class="n">pathbasename</span><span class="p">(</span><span class="n">matching_fname</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">)</span>
-            <span class="n">coverage</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">parts</span><span class="p">[</span><span class="mi">7</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;p&quot;</span><span class="p">,</span> <span class="s2">&quot;.&quot;</span><span class="p">))</span>
-            <span class="n">start_dt</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">parts</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">parts</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">:</span><span class="mi">6</span><span class="p">],</span> <span class="s2">&quot;%Y%m</span><span class="si">%d</span><span class="s2">%H%M%S&quot;</span><span class="p">)</span>
+            <span class="n">parts</span> <span class="o">=</span> <span class="n">pathbasename</span><span class="p">(</span><span class="n">matching_fname</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">"_"</span><span class="p">)</span>
+            <span class="n">coverage</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">parts</span><span class="p">[</span><span class="mi">7</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">"p"</span><span class="p">,</span> <span class="s2">"."</span><span class="p">))</span>
+            <span class="n">start_dt</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">parts</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">parts</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">:</span><span class="mi">6</span><span class="p">],</span> <span class="s2">"%Y%m</span><span class="si">%d</span><span class="s2">%H%M%S"</span><span class="p">)</span>
             <span class="c1"># Priority to delete lower coverage</span>
             <span class="k">if</span> <span class="n">coverage</span> <span class="o">&lt;</span> <span class="n">max_coverage</span><span class="p">:</span>
                 <span class="n">removed_fnames</span> <span class="o">+=</span> <span class="p">[</span><span class="n">matching_fname</span><span class="p">]</span>
                 <span class="c1"># Test it out for a bit first</span>
                 <span class="k">if</span> <span class="n">remove_files</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
                     <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
-                        <span class="s2">&quot;DELETING DUPLICATE FILE with less coverage </span><span class="si">%s</span><span class="s2"> &lt; </span><span class="si">%s</span><span class="s2"> </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span>
+                        <span class="s2">"DELETING DUPLICATE FILE with less coverage </span><span class="si">%s</span><span class="s2"> &lt; </span><span class="si">%s</span><span class="s2"> </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span>
                         <span class="n">coverage</span><span class="p">,</span>
                         <span class="n">max_coverage</span><span class="p">,</span>
                         <span class="n">matching_fname</span><span class="p">,</span>
@@ -1061,15 +1088,15 @@ window.runMermaid = runMermaid;</script>
                         <span class="n">osunlink</span><span class="p">(</span><span class="n">matching_fname</span><span class="p">)</span>
                     <span class="k">except</span> <span class="ne">FileNotFoundError</span> <span class="k">as</span> <span class="n">resp</span><span class="p">:</span>
                         <span class="n">LOG</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
-                            <span class="s2">&quot;FAILDELETE </span><span class="si">%s</span><span class="s2">: File </span><span class="si">%s</span><span class="s2"> did not exist, &quot;</span>
-                            <span class="s2">&quot;someone must have deleted it for us?&quot;</span><span class="p">,</span>
+                            <span class="s2">"FAILDELETE </span><span class="si">%s</span><span class="s2">: File </span><span class="si">%s</span><span class="s2"> did not exist, "</span>
+                            <span class="s2">"someone must have deleted it for us?"</span><span class="p">,</span>
                             <span class="n">matching_fname</span><span class="p">,</span>
                             <span class="nb">str</span><span class="p">(</span><span class="n">resp</span><span class="p">),</span>
                         <span class="p">)</span>
 
                 <span class="k">else</span><span class="p">:</span>
                     <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
-                        <span class="s2">&quot;TEST DELETING DUPLICATE FILE with less coverage </span><span class="si">%s</span><span class="s2"> &lt; </span><span class="si">%s</span><span class="s2"> </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span>
+                        <span class="s2">"TEST DELETING DUPLICATE FILE with less coverage </span><span class="si">%s</span><span class="s2"> &lt; </span><span class="si">%s</span><span class="s2"> </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span>
                         <span class="n">coverage</span><span class="p">,</span>
                         <span class="n">max_coverage</span><span class="p">,</span>
                         <span class="n">matching_fname</span><span class="p">,</span>
@@ -1079,7 +1106,7 @@ window.runMermaid = runMermaid;</script>
                 <span class="c1"># Test it out for a bit first</span>
                 <span class="k">if</span> <span class="n">remove_files</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
                     <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
-                        <span class="s2">&quot;DELETING DUPLICATE FILE with later start_dt </span><span class="si">%s</span><span class="s2"> &gt; </span><span class="si">%s</span><span class="s2"> </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span>
+                        <span class="s2">"DELETING DUPLICATE FILE with later start_dt </span><span class="si">%s</span><span class="s2"> &gt; </span><span class="si">%s</span><span class="s2"> </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span>
                         <span class="n">start_dt</span><span class="p">,</span>
                         <span class="n">min_dt</span><span class="p">,</span>
                         <span class="n">matching_fname</span><span class="p">,</span>
@@ -1088,15 +1115,15 @@ window.runMermaid = runMermaid;</script>
                         <span class="n">osunlink</span><span class="p">(</span><span class="n">matching_fname</span><span class="p">)</span>
                     <span class="k">except</span> <span class="ne">FileNotFoundError</span> <span class="k">as</span> <span class="n">resp</span><span class="p">:</span>
                         <span class="n">LOG</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
-                            <span class="s2">&quot;FAILDELETE </span><span class="si">%s</span><span class="s2">: File </span><span class="si">%s</span><span class="s2"> did not exist, &quot;</span>
-                            <span class="s2">&quot;someone must have deleted it for us?&quot;</span><span class="p">,</span>
+                            <span class="s2">"FAILDELETE </span><span class="si">%s</span><span class="s2">: File </span><span class="si">%s</span><span class="s2"> did not exist, "</span>
+                            <span class="s2">"someone must have deleted it for us?"</span><span class="p">,</span>
                             <span class="n">matching_fname</span><span class="p">,</span>
                             <span class="nb">str</span><span class="p">(</span><span class="n">resp</span><span class="p">),</span>
                         <span class="p">)</span>
 
                 <span class="k">else</span><span class="p">:</span>
                     <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
-                        <span class="s2">&quot;TEST DELETING DUPLICATE FILE with later start_dt </span><span class="si">%s</span><span class="s2"> &gt; </span><span class="si">%s</span><span class="s2"> </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span>
+                        <span class="s2">"TEST DELETING DUPLICATE FILE with later start_dt </span><span class="si">%s</span><span class="s2"> &gt; </span><span class="si">%s</span><span class="s2"> </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span>
                         <span class="n">start_dt</span><span class="p">,</span>
                         <span class="n">min_dt</span><span class="p">,</span>
                         <span class="n">matching_fname</span><span class="p">,</span>
@@ -1106,8 +1133,8 @@ window.runMermaid = runMermaid;</script>
                 <span class="c1"># Test it out for a bit first</span>
                 <span class="k">if</span> <span class="n">remove_files</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
                     <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
-                        <span class="s2">&quot;DELETING DUPLICATE FILE with same coverage </span><span class="si">%s</span><span class="s2"> = </span><span class="si">%s</span><span class="s2"> &quot;</span>
-                        <span class="s2">&quot;and same start_dt </span><span class="si">%s</span><span class="s2"> = </span><span class="si">%s</span><span class="s2">, </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span>
+                        <span class="s2">"DELETING DUPLICATE FILE with same coverage </span><span class="si">%s</span><span class="s2"> = </span><span class="si">%s</span><span class="s2"> "</span>
+                        <span class="s2">"and same start_dt </span><span class="si">%s</span><span class="s2"> = </span><span class="si">%s</span><span class="s2">, </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span>
                         <span class="n">coverage</span><span class="p">,</span>
                         <span class="n">max_coverage</span><span class="p">,</span>
                         <span class="n">start_dt</span><span class="p">,</span>
@@ -1118,16 +1145,16 @@ window.runMermaid = runMermaid;</script>
                         <span class="n">osunlink</span><span class="p">(</span><span class="n">matching_fname</span><span class="p">)</span>
                     <span class="k">except</span> <span class="ne">FileNotFoundError</span> <span class="k">as</span> <span class="n">resp</span><span class="p">:</span>
                         <span class="n">LOG</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
-                            <span class="s2">&quot;FAILDELETE </span><span class="si">%s</span><span class="s2">: File </span><span class="si">%s</span><span class="s2"> did not exist, &quot;</span>
-                            <span class="s2">&quot;someone must have deleted it for us?&quot;</span><span class="p">,</span>
+                            <span class="s2">"FAILDELETE </span><span class="si">%s</span><span class="s2">: File </span><span class="si">%s</span><span class="s2"> did not exist, "</span>
+                            <span class="s2">"someone must have deleted it for us?"</span><span class="p">,</span>
                             <span class="n">matching_fname</span><span class="p">,</span>
                             <span class="nb">str</span><span class="p">(</span><span class="n">resp</span><span class="p">),</span>
                         <span class="p">)</span>
 
                 <span class="k">else</span><span class="p">:</span>
                     <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
-                        <span class="s2">&quot;TEST DELETING DUPLICATE FILE with same coverage </span><span class="si">%s</span><span class="s2"> = </span><span class="si">%s</span><span class="s2"> &quot;</span>
-                        <span class="s2">&quot;and same start_dt </span><span class="si">%s</span><span class="s2"> = </span><span class="si">%s</span><span class="s2">, </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span>
+                        <span class="s2">"TEST DELETING DUPLICATE FILE with same coverage </span><span class="si">%s</span><span class="s2"> = </span><span class="si">%s</span><span class="s2"> "</span>
+                        <span class="s2">"and same start_dt </span><span class="si">%s</span><span class="s2"> = </span><span class="si">%s</span><span class="s2">, </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span>
                         <span class="n">coverage</span><span class="p">,</span>
                         <span class="n">max_coverage</span><span class="p">,</span>
                         <span class="n">start_dt</span><span class="p">,</span>
@@ -1137,13 +1164,13 @@ window.runMermaid = runMermaid;</script>
             <span class="k">else</span><span class="p">:</span>
                 <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">matching_fnames</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
                     <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
-                        <span class="s2">&quot;SAVING DUPLICATE FILE (only one!) with max coverage </span><span class="si">%s</span><span class="s2"> </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span>
+                        <span class="s2">"SAVING DUPLICATE FILE (only one!) with max coverage </span><span class="si">%s</span><span class="s2"> </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span>
                         <span class="n">max_coverage</span><span class="p">,</span>
                         <span class="n">matching_fname</span><span class="p">,</span>
                     <span class="p">)</span>
                 <span class="k">else</span><span class="p">:</span>
                     <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
-                        <span class="s2">&quot;SAVING DUPLICATE FILE with max coverage </span><span class="si">%s</span><span class="s2"> </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span>
+                        <span class="s2">"SAVING DUPLICATE FILE with max coverage </span><span class="si">%s</span><span class="s2"> </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span>
                         <span class="n">max_coverage</span><span class="p">,</span>
                         <span class="n">matching_fname</span><span class="p">,</span>
                     <span class="p">)</span>
@@ -1166,7 +1193,7 @@ window.runMermaid = runMermaid;</script>
         <span class="n">output_type_dir</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">sector_info</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Produce full output product path from product / sensor specifications.</span>
+<span class="w">        </span><span class="sd">"""Produce full output product path from product / sensor specifications.</span>
 
 <span class="sd">        tc web paths are of the format:</span>
 <span class="sd">            &lt;basedir&gt;/tc&lt;tc_year&gt;/&lt;tc_basin&gt;/&lt;storm_id&gt;/</span>
@@ -1209,7 +1236,7 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">        -------</span>
 <span class="sd">        str</span>
 <span class="sd">            full path to output file</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">output_type_dir</span><span class="p">:</span>
             <span class="n">output_type_dir</span> <span class="o">=</span> <span class="n">output_type</span>
 
@@ -1231,21 +1258,21 @@ window.runMermaid = runMermaid;</script>
         <span class="c1"># * Do NOT include storm_start_datetime for invests in filenames (though we</span>
         <span class="c1">#   use the full storm_id, include storm start datetime, in the file path</span>
         <span class="c1">#   subdirectories)</span>
-        <span class="n">bbnnyyyy</span> <span class="o">=</span> <span class="n">sector_info</span><span class="p">[</span><span class="s2">&quot;storm_id&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">:</span><span class="mi">8</span><span class="p">]</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
-        <span class="n">fname</span> <span class="o">=</span> <span class="s2">&quot;_&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+        <span class="n">bbnnyyyy</span> <span class="o">=</span> <span class="n">sector_info</span><span class="p">[</span><span class="s2">"storm_id"</span><span class="p">][</span><span class="mi">0</span><span class="p">:</span><span class="mi">8</span><span class="p">]</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
+        <span class="n">fname</span> <span class="o">=</span> <span class="s2">"_"</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
             <span class="p">[</span>
-                <span class="n">product_datetime</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y%m</span><span class="si">%d</span><span class="s2">&quot;</span><span class="p">),</span>
-                <span class="n">product_datetime</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%H%M%S&quot;</span><span class="p">),</span>
+                <span class="n">product_datetime</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">"%Y%m</span><span class="si">%d</span><span class="s2">"</span><span class="p">),</span>
+                <span class="n">product_datetime</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">"%H%M%S"</span><span class="p">),</span>
                 <span class="n">bbnnyyyy</span><span class="p">,</span>
                 <span class="n">source_name</span><span class="p">,</span>
                 <span class="n">platform_name</span><span class="p">,</span>
                 <span class="n">product_name</span><span class="p">,</span>
                 <span class="nb">str</span><span class="p">(</span><span class="n">intensity</span><span class="p">),</span>
-                <span class="s2">&quot;</span><span class="si">{0:0.2f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">coverage</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">,</span> <span class="s2">&quot;p&quot;</span><span class="p">),</span>
+                <span class="s2">"</span><span class="si">{0:0.2f}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">coverage</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">"."</span><span class="p">,</span> <span class="s2">"p"</span><span class="p">),</span>
                 <span class="nb">str</span><span class="p">(</span><span class="n">extra</span><span class="p">),</span>
             <span class="p">]</span>
         <span class="p">)</span>
-        <span class="n">fname</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{0}</span><span class="s2">.</span><span class="si">{1}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="n">output_type</span><span class="p">)</span>
+        <span class="n">fname</span> <span class="o">=</span> <span class="s2">"</span><span class="si">{0}</span><span class="s2">.</span><span class="si">{1}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="n">output_type</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">pathjoin</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">fname</span><span class="p">)</span></div></div>
 
 

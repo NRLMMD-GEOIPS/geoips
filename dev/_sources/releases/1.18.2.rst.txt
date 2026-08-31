@@ -1,10 +1,6 @@
-Version 1.18.2 (2026-07-23)
+Version 1.18.2 (2026-08-31)
 ***************************
 
- * *Efficiency*: Add more informative print_mem_usg statements
- * *Efficiency*: Add disable_nan_array_removal argument
- * *Realtime*: Add product_spec_override command line support to config-based procflow
- * *Realtime*: Default product_spec_override command line argument to none
  * *Testing*: Do not wrap console script names during unit tests for geoips expose
  * *Testing*: Add additional information on geoips testing / log output control.
  * *Testing*: Clarify informative log statements.
@@ -20,82 +16,11 @@ Version 1.18.2 (2026-07-23)
  * *Bug fix*: Update rich console import for build_docs.py
  * *Bug fix*: Decrease length of time for validating bdeck formatting from 2 years to 6 months
  * *Refactor*: Update geoips platform name map in viirs_l2_netcdf reader
+ * *Realtime*: Add product_spec_override command line support to config-based procflow
+ * *Realtime*: Default product_spec_override command line argument to none
  * *Breaking change*: Update handling of sector adjuster output
-
-Efficiency
-==========
-
-Add more informative print_mem_usg statements
----------------------------------------------
-
-Pass pid_track to
-
-* get_alg_xarray
-* process_sectored_data_output
-* process_xarray_dict_to_output_format
-
-as well as add additional specific more informative log strings to all the
-pid_track.print_memusg calls (identifying where in the code the print statement is).
-
-geoips#1029 - 1.18.2 updates
-
-::
-
-     modified: geoips/plugins/modules/procflows/single_source.py
-     modified: geoips/utils/memusg/memusg_tracker.py
-
-Add disable_nan_array_removal argument
---------------------------------------
-
-If true, do not remove arrays of all nans before passing to
-interpolator or algorithm steps.  This process can be very slow
-and use a large amount of memory for large arrays, so allow
-turning it off if we know in advance that we do not have to worry
-about handling arrays comprised on all nans.
-
-Allow specifying both command line and in the procflow config for config based,
-and command line for single source.
-
-We will want to improve the efficiency of the nan array removal step as well,
-but still allow disabling it as it always has the potential to be resource
-intensive.
-
-geoips#1029 - 1.18.2 updates
-
-::
-
-     modified: geoips/commandline/args.py
-     modified: geoips/plugins/modules/procflows/config_based.py
-     modified: geoips/plugins/modules/procflows/single_source.py
-
-Realtime
-========
-
-Add product_spec_override command line support to config-based procflow
------------------------------------------------------------------------
-
-Initially product_spec_override was only supported in the actual YAML procflow
-config file, and command line product_spec_override argument was not passed
-through as well.
-
-Add product_spec_override support to the update_output_dict_from_command_line_args
-function, to ensure the product_spec_override is included in the final output
-request.
-
-::
-
-     modified: geoips/plugins/modules/procflows/config_based.py
-
-Default product_spec_override command line argument to none
------------------------------------------------------------
-
-Don't default product_spec_override to empty dict, default to None.
-Otherwise any procflow config defined product_spec_overrides would be automatically
-replaced with nothing!
-
-::
-
-     modified: geoips/commandline/args.py
+ * *Efficiency*: Add more informative print_mem_usg statements
+ * *Efficiency*: Add disable_nan_array_removal argument
 
 Testing
 =======
@@ -317,6 +242,35 @@ geoips#1049
 
      modified: geoips/plugins/modules/readers/viirs_l2_netcdf.py
 
+Realtime
+========
+
+Add product_spec_override command line support to config-based procflow
+-----------------------------------------------------------------------
+
+Initially product_spec_override was only supported in the actual YAML procflow
+config file, and command line product_spec_override argument was not passed
+through as well.
+
+Add product_spec_override support to the update_output_dict_from_command_line_args
+function, to ensure the product_spec_override is included in the final output
+request.
+
+::
+
+     modified: geoips/plugins/modules/procflows/config_based.py
+
+Default product_spec_override command line argument to none
+-----------------------------------------------------------
+
+Don't default product_spec_override to empty dict, default to None.
+Otherwise any procflow config defined product_spec_overrides would be automatically
+replaced with nothing!
+
+::
+
+     modified: geoips/commandline/args.py
+
 Breaking change
 ===============
 
@@ -337,5 +291,51 @@ geoips#1047
 
 ::
 
+     modified: geoips/plugins/modules/procflows/config_based.py
+     modified: geoips/plugins/modules/procflows/single_source.py
+
+Efficiency
+==========
+
+Add more informative print_mem_usg statements
+---------------------------------------------
+
+Pass pid_track to
+
+* get_alg_xarray
+* process_sectored_data_output
+* process_xarray_dict_to_output_format
+
+as well as add additional specific more informative log strings to all the
+pid_track.print_memusg calls (identifying where in the code the print statement is).
+
+geoips#1029 - 1.18.2 updates
+
+::
+
+     modified: geoips/plugins/modules/procflows/single_source.py
+     modified: geoips/utils/memusg/memusg_tracker.py
+
+Add disable_nan_array_removal argument
+--------------------------------------
+
+If true, do not remove arrays of all nans before passing to
+interpolator or algorithm steps.  This process can be very slow
+and use a large amount of memory for large arrays, so allow
+turning it off if we know in advance that we do not have to worry
+about handling arrays comprised on all nans.
+
+Allow specifying both command line and in the procflow config for config based,
+and command line for single source.
+
+We will want to improve the efficiency of the nan array removal step as well,
+but still allow disabling it as it always has the potential to be resource
+intensive.
+
+geoips#1029 - 1.18.2 updates
+
+::
+
+     modified: geoips/commandline/args.py
      modified: geoips/plugins/modules/procflows/config_based.py
      modified: geoips/plugins/modules/procflows/single_source.py

@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>geoips.plugins.classes.sector_metadata_generators.volc_parser &#8212; GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation</title>
+    <title>geoips.plugins.classes.sector_metadata_generators.volc_parser &#8212; GeoIPS, Geolocated Information Processing System 0.0.0 documentation</title>
   
   
   
@@ -40,7 +40,7 @@
   <link rel="preload" as="script" href="../../../../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
 <link rel="preload" as="script" href="../../../../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
 
-    <script data-url_root="../../../../../" id="documentation_options" src="../../../../../_static/documentation_options.js?v=6727bded"></script>
+    <script data-url_root="../../../../../" id="documentation_options" src="../../../../../_static/documentation_options.js?v=525cde36"></script>
     <script src="../../../../../_static/doctools.js?v=888ff710"></script>
     <script src="../../../../../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../../../_static/design-tabs.js?v=f930bc37"></script>
@@ -401,14 +401,21 @@ mermaid.initialize(
 window.addEventListener("load", load);
 window.runMermaid = runMermaid;</script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_modules/geoips/plugins/classes/sector_metadata_generators/volc_parser';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.17.1';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://nrlmmd-geoips.github.io/geoips/versions.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = 'dev';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner =
+            false;
+        </script>
     <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
     <link rel="icon" href="../../../../../_static/nrlicon.ico"/>
     <link rel="index" title="Index" href="../../../../../genindex.html" />
     <link rel="search" title="Search" href="../../../../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2.0" />
-    <meta name="docbuild:last-update" content="Jul 23, 2026 17:03:57"/>
+  <meta name="docsearch:version" content="0.0" />
+    <meta name="docbuild:last-update" content="Aug 31, 2026 13:32:18"/>
   
     
     <script src="../../../../../_static/searchtools.js"></script>
@@ -480,11 +487,31 @@ window.runMermaid = runMermaid;</script>
       
     
     
-    <img src="../../../../../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation - Home"/>
-    <img src="../../../../../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation - Home"/>
+    <img src="../../../../../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 0.0.0 documentation - Home"/>
+    <img src="../../../../../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 0.0.0 documentation - Home"/>
   
   
 </a></div>
+    
+      <div class="navbar-item">
+<div class="version-switcher__container dropdown pst-js-only">
+  <button id="pst-version-switcher-button-2"
+    type="button"
+    class="version-switcher__button btn btn-sm dropdown-toggle"
+    data-bs-toggle="dropdown"
+    aria-haspopup="listbox"
+    aria-controls="pst-version-switcher-list-2"
+    aria-label="Version switcher list"
+  >
+    Choose version  <!-- this text may get changed later by javascript -->
+    <span class="caret"></span>
+  </button>
+  <div id="pst-version-switcher-list-2"
+    class="version-switcher__menu dropdown-menu list-group-flush py-0"
+    role="listbox" aria-labelledby="pst-version-switcher-button-2">
+    <!-- dropdown will be populated by javascript on page load -->
+  </div>
+</div></div>
     
   </div>
   
@@ -828,7 +855,7 @@ window.runMermaid = runMermaid;</script>
 <span></span><span class="c1"># # # This source code is subject to the license referenced at</span>
 <span class="c1"># # # https://github.com/NRLMMD-GEOIPS.</span>
 
-<span class="sd">&quot;&quot;&quot;Parser for dyanmic volcanoes csv files.&quot;&quot;&quot;</span>
+<span class="sd">"""Parser for dyanmic volcanoes csv files."""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">geoips.interfaces.class_based.sector_metadata_generators</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
     <span class="n">BaseSectorMetadataGeneratorPlugin</span><span class="p">,</span>
@@ -842,14 +869,14 @@ window.runMermaid = runMermaid;</script>
 
 
 <div class="viewcode-block" id="VolcParserSectorMetadataGeneratorPlugin"><a class="viewcode-back" href="../../../../../geoips_api/geoips.plugins.classes.sector_metadata_generators.html#geoips.plugins.classes.sector_metadata_generators.volc_parser.VolcParserSectorMetadataGeneratorPlugin">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">VolcParserSectorMetadataGeneratorPlugin</span><span class="p">(</span><span class="n">BaseSectorMetadataGeneratorPlugin</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Volc Parser Sector Metadata generator plugin class.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Volc Parser Sector Metadata generator plugin class."""</span>
 
-    <span class="n">interface</span> <span class="o">=</span> <span class="s2">&quot;sector_metadata_generators&quot;</span>
-    <span class="n">family</span> <span class="o">=</span> <span class="s2">&quot;volc&quot;</span>
-    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;volc_parser&quot;</span>
+    <span class="n">interface</span> <span class="o">=</span> <span class="s2">"sector_metadata_generators"</span>
+    <span class="n">family</span> <span class="o">=</span> <span class="s2">"volc"</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">"volc_parser"</span>
 
 <div class="viewcode-block" id="VolcParserSectorMetadataGeneratorPlugin.call"><a class="viewcode-back" href="../../../../../geoips_api/geoips.plugins.classes.sector_metadata_generators.html#geoips.plugins.classes.sector_metadata_generators.volc_parser.VolcParserSectorMetadataGeneratorPlugin.call">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">call</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">trackfile_name</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Parse a sample volcano csv file.</span>
+<span class="w">        </span><span class="sd">"""Parse a sample volcano csv file.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -858,7 +885,7 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">            * columns: lat lon time</span>
 <span class="sd">            * lat/lon format: decimal</span>
 <span class="sd">            * time format: YYYYMMDDTHHMM</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">csv_parser</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">trackfile_name</span><span class="p">)</span>
 
         <span class="n">all_fields</span> <span class="o">=</span> <span class="p">[]</span>
@@ -867,15 +894,15 @@ window.runMermaid = runMermaid;</script>
             <span class="n">tmp_fields</span> <span class="o">=</span> <span class="n">i</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
             <span class="n">fields</span> <span class="o">=</span> <span class="p">{}</span>
 
-            <span class="n">fields</span><span class="p">[</span><span class="s2">&quot;clat&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">tmp_fields</span><span class="p">[</span><span class="s2">&quot;Lat&quot;</span><span class="p">]</span>
-            <span class="n">fields</span><span class="p">[</span><span class="s2">&quot;clon&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">tmp_fields</span><span class="p">[</span><span class="s2">&quot;Lon&quot;</span><span class="p">]</span>
-            <span class="n">fields</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">tmp_fields</span><span class="p">[</span><span class="s2">&quot;Time&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">to_pydatetime</span><span class="p">()</span>
+            <span class="n">fields</span><span class="p">[</span><span class="s2">"clat"</span><span class="p">]</span> <span class="o">=</span> <span class="n">tmp_fields</span><span class="p">[</span><span class="s2">"Lat"</span><span class="p">]</span>
+            <span class="n">fields</span><span class="p">[</span><span class="s2">"clon"</span><span class="p">]</span> <span class="o">=</span> <span class="n">tmp_fields</span><span class="p">[</span><span class="s2">"Lon"</span><span class="p">]</span>
+            <span class="n">fields</span><span class="p">[</span><span class="s2">"time"</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">tmp_fields</span><span class="p">[</span><span class="s2">"Time"</span><span class="p">])</span><span class="o">.</span><span class="n">to_pydatetime</span><span class="p">()</span>
             <span class="n">all_fields</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">fields</span><span class="p">)</span>
 
-        <span class="n">volcano_name</span> <span class="o">=</span> <span class="n">tmp_fields</span><span class="p">[</span><span class="s2">&quot;Name&quot;</span><span class="p">]</span>
-        <span class="k">if</span> <span class="s2">&quot;volcano&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">volcano_name</span><span class="o">.</span><span class="n">lower</span><span class="p">():</span>
-            <span class="n">volcano_name</span> <span class="o">=</span> <span class="n">volcano_name</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;_VOLCANO&quot;</span>
-        <span class="k">return</span> <span class="n">all_fields</span><span class="p">,</span> <span class="n">volcano_name</span><span class="p">,</span> <span class="n">fields</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y&quot;</span><span class="p">),</span> <span class="s2">&quot;BEST&quot;</span></div></div>
+        <span class="n">volcano_name</span> <span class="o">=</span> <span class="n">tmp_fields</span><span class="p">[</span><span class="s2">"Name"</span><span class="p">]</span>
+        <span class="k">if</span> <span class="s2">"volcano"</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">volcano_name</span><span class="o">.</span><span class="n">lower</span><span class="p">():</span>
+            <span class="n">volcano_name</span> <span class="o">=</span> <span class="n">volcano_name</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="o">+</span> <span class="s2">"_VOLCANO"</span>
+        <span class="k">return</span> <span class="n">all_fields</span><span class="p">,</span> <span class="n">volcano_name</span><span class="p">,</span> <span class="n">fields</span><span class="p">[</span><span class="s2">"time"</span><span class="p">]</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">"%Y"</span><span class="p">),</span> <span class="s2">"BEST"</span></div></div>
 
 
 <span class="n">PLUGIN_CLASS</span> <span class="o">=</span> <span class="n">VolcParserSectorMetadataGeneratorPlugin</span>

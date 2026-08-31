@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Get to know the GeoIPS Readers &#8212; GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation</title>
+    <title>Get to know the GeoIPS Readers &#8212; GeoIPS, Geolocated Information Processing System 0.0.0 documentation</title>
   
   
   
@@ -41,11 +41,18 @@
   <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
 
-    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=6727bded"></script>
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=525cde36"></script>
     <script src="../../_static/doctools.js?v=888ff710"></script>
     <script src="../../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../_static/design-tabs.js?v=f930bc37"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'tutorials/extending-with-plugins/reader';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.17.1';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://nrlmmd-geoips.github.io/geoips/versions.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = 'dev';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner =
+            false;
+        </script>
     <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
     <link rel="icon" href="../../_static/nrlicon.ico"/>
     <link rel="index" title="Index" href="../../genindex.html" />
@@ -54,8 +61,8 @@
     <link rel="prev" title="Extend GeoIPS with a new Dynamic Sector" href="dynamic_sector/index.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2.0" />
-    <meta name="docbuild:last-update" content="Jul 23, 2026 17:03:57"/>
+  <meta name="docsearch:version" content="0.0" />
+    <meta name="docbuild:last-update" content="Aug 31, 2026 13:32:18"/>
   
     
     <script src="../../_static/searchtools.js"></script>
@@ -127,11 +134,31 @@
       
     
     
-    <img src="../../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation - Home"/>
-    <img src="../../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation - Home"/>
+    <img src="../../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 0.0.0 documentation - Home"/>
+    <img src="../../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 0.0.0 documentation - Home"/>
   
   
 </a></div>
+    
+      <div class="navbar-item">
+<div class="version-switcher__container dropdown pst-js-only">
+  <button id="pst-version-switcher-button-2"
+    type="button"
+    class="version-switcher__button btn btn-sm dropdown-toggle"
+    data-bs-toggle="dropdown"
+    aria-haspopup="listbox"
+    aria-controls="pst-version-switcher-list-2"
+    aria-label="Version switcher list"
+  >
+    Choose version  <!-- this text may get changed later by javascript -->
+    <span class="caret"></span>
+  </button>
+  <div id="pst-version-switcher-list-2"
+    class="version-switcher__menu dropdown-menu list-group-flush py-0"
+    role="listbox" aria-labelledby="pst-version-switcher-button-2">
+    <!-- dropdown will be populated by javascript on page load -->
+  </div>
+</div></div>
     
   </div>
   
@@ -582,7 +609,7 @@ an example of that.</p>
 <span class="w">        </span><span class="no">CLAVR-x Cloud Top Height</span>
 <span class="w">      </span><span class="nt">product_defaults</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Cloud-Height</span>
 <span class="w">      </span><span class="nt">spec</span><span class="p">:</span>
-<span class="w">        </span><span class="nt">variables</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;cld_height_acha&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;latitude&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;longitude&quot;</span><span class="p p-Indicator">]</span>
+<span class="w">        </span><span class="nt">variables</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">"cld_height_acha"</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">"latitude"</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">"longitude"</span><span class="p p-Indicator">]</span>
 </pre></div>
 </div>
 <p>The variables defined in the product above directly correlate to the variables contained
@@ -648,11 +675,11 @@ subclasses <code class="docutils literal notranslate"><span class="pre">BaseRead
 
 
 <span class="k">class</span><span class="w"> </span><span class="nc">MyAtmsReaderPlugin</span><span class="p">(</span><span class="n">BaseReaderPlugin</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Read My ATMS data.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Read My ATMS data."""</span>
 
-    <span class="n">interface</span> <span class="o">=</span> <span class="s2">&quot;readers&quot;</span>
-    <span class="n">family</span> <span class="o">=</span> <span class="s2">&quot;standard&quot;</span>
-    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;my_atms&quot;</span>
+    <span class="n">interface</span> <span class="o">=</span> <span class="s2">"readers"</span>
+    <span class="n">family</span> <span class="o">=</span> <span class="s2">"standard"</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">"my_atms"</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">call</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fnames</span><span class="p">,</span> <span class="n">metadata_only</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">chans</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">area_def</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
              <span class="n">self_register</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>  <span class="c1"># main entry point, with important kwargs</span>
@@ -674,15 +701,15 @@ reader at runtime to load in your data.</p>
 required, it gives users the option to only load in the metadata if that’s all they need.
 This allows GeoIPS to not load in very large files multiple times.</p>
 <p>See below for an example of both of those keypoints.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">xarrays</span><span class="p">[</span><span class="n">data_type</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;start_datetime&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">start_date</span>
-<span class="n">xarrays</span><span class="p">[</span><span class="n">data_type</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;end_datetime&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">end_date</span>
-<span class="n">xarrays</span><span class="p">[</span><span class="n">data_type</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;source_name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;viirs&quot;</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">xarrays</span><span class="p">[</span><span class="n">data_type</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"start_datetime"</span><span class="p">]</span> <span class="o">=</span> <span class="n">start_date</span>
+<span class="n">xarrays</span><span class="p">[</span><span class="n">data_type</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"end_datetime"</span><span class="p">]</span> <span class="o">=</span> <span class="n">end_date</span>
+<span class="n">xarrays</span><span class="p">[</span><span class="n">data_type</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"source_name"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"viirs"</span>
 
 <span class="k">if</span> <span class="n">metadata_only</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
     <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
-        <span class="s2">&quot;metadata_only is True, reading only first file for metadata information and returning&quot;</span>
+        <span class="s2">"metadata_only is True, reading only first file for metadata information and returning"</span>
     <span class="p">)</span>
-    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;METADATA&quot;</span><span class="p">:</span> <span class="n">xarrays</span><span class="p">[</span><span class="n">data_type</span><span class="p">]}</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s2">"METADATA"</span><span class="p">:</span> <span class="n">xarrays</span><span class="p">[</span><span class="n">data_type</span><span class="p">]}</span>
 </pre></div>
 </div>
 <p>The last keypoint of a GeoIPS reader is the <em>read</em> function. Again, while not required,
@@ -692,8 +719,8 @@ and ease of use in the future. See below for an example of invoking a read funct
 <span class="k">for</span> <span class="n">fname</span> <span class="ow">in</span> <span class="n">fnames</span><span class="p">:</span>
     <span class="n">xarray_objs</span><span class="p">[</span><span class="n">basename</span><span class="p">(</span><span class="n">fname</span><span class="p">)]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">read_xarray_netcdf</span><span class="p">(</span><span class="n">fname</span><span class="p">)</span>  <span class="c1"># read function invoked via self</span>
 
-<span class="n">xarray_objs</span><span class="p">[</span><span class="s2">&quot;METADATA&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">xarray_objs</span><span class="o">.</span><span class="n">vallues</span><span class="p">())[</span><span class="mi">0</span><span class="p">][[]]</span>
-<span class="sd">&quot;&quot;&quot;Different approach to the above code section that reads data and then sets the metadata afterward&quot;&quot;&quot;</span>
+<span class="n">xarray_objs</span><span class="p">[</span><span class="s2">"METADATA"</span><span class="p">]</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">xarray_objs</span><span class="o">.</span><span class="n">vallues</span><span class="p">())[</span><span class="mi">0</span><span class="p">][[]]</span>
+<span class="sd">"""Different approach to the above code section that reads data and then sets the metadata afterward"""</span>
 
 <span class="k">return</span> <span class="n">xarray_objs</span>
 </pre></div>
@@ -725,26 +752,26 @@ can be a challenge for readers, and in this case, GMI stores each element of tim
 separately, as it only comes as a 1D variable. It needs to be converted to 2D to mesh
 with the 2D latitude, longitude, and tb data.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">read_gmi_file</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="n">xarray_gmi</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Read a single GMI file fname.&quot;&quot;&quot;</span>
-    <span class="n">fileobj</span> <span class="o">=</span> <span class="n">h5py</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;r&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="sd">"""Read a single GMI file fname."""</span>
+    <span class="n">fileobj</span> <span class="o">=</span> <span class="n">h5py</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">"r"</span><span class="p">)</span>
     <span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
     <span class="kn">import</span><span class="w"> </span><span class="nn">xarray</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">xr</span>
     <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span>
 
     <span class="c1"># get the variables ( tbt/lon(nscan,npix), tb(nscan,npix,nChan),....., time(ns))</span>
 
-    <span class="n">lon</span> <span class="o">=</span> <span class="n">fileobj</span><span class="p">[</span><span class="s2">&quot;S1&quot;</span><span class="p">][</span><span class="s2">&quot;Longitude&quot;</span><span class="p">][()]</span>
-    <span class="n">lat</span> <span class="o">=</span> <span class="n">fileobj</span><span class="p">[</span><span class="s2">&quot;S1&quot;</span><span class="p">][</span><span class="s2">&quot;Latitude&quot;</span><span class="p">][()]</span>
-    <span class="n">tb</span> <span class="o">=</span> <span class="n">fileobj</span><span class="p">[</span><span class="s2">&quot;S1&quot;</span><span class="p">][</span><span class="s2">&quot;Tb&quot;</span><span class="p">][()]</span>
-    <span class="n">tb_hi</span> <span class="o">=</span> <span class="n">fileobj</span><span class="p">[</span><span class="s2">&quot;S2&quot;</span><span class="p">][</span><span class="s2">&quot;Tb&quot;</span><span class="p">][()]</span>  <span class="c1"># for 166 and 183-7 GHz</span>
+    <span class="n">lon</span> <span class="o">=</span> <span class="n">fileobj</span><span class="p">[</span><span class="s2">"S1"</span><span class="p">][</span><span class="s2">"Longitude"</span><span class="p">][()]</span>
+    <span class="n">lat</span> <span class="o">=</span> <span class="n">fileobj</span><span class="p">[</span><span class="s2">"S1"</span><span class="p">][</span><span class="s2">"Latitude"</span><span class="p">][()]</span>
+    <span class="n">tb</span> <span class="o">=</span> <span class="n">fileobj</span><span class="p">[</span><span class="s2">"S1"</span><span class="p">][</span><span class="s2">"Tb"</span><span class="p">][()]</span>
+    <span class="n">tb_hi</span> <span class="o">=</span> <span class="n">fileobj</span><span class="p">[</span><span class="s2">"S2"</span><span class="p">][</span><span class="s2">"Tb"</span><span class="p">][()]</span>  <span class="c1"># for 166 and 183-7 GHz</span>
 
     <span class="c1"># time info for each scan</span>
-    <span class="n">yy</span> <span class="o">=</span> <span class="n">fileobj</span><span class="p">[</span><span class="s2">&quot;S1&quot;</span><span class="p">][</span><span class="s2">&quot;ScanTime&quot;</span><span class="p">][</span><span class="s2">&quot;Year&quot;</span><span class="p">][()]</span>
-    <span class="n">mo</span> <span class="o">=</span> <span class="n">fileobj</span><span class="p">[</span><span class="s2">&quot;S1&quot;</span><span class="p">][</span><span class="s2">&quot;ScanTime&quot;</span><span class="p">][</span><span class="s2">&quot;Month&quot;</span><span class="p">][()]</span>
-    <span class="n">dd</span> <span class="o">=</span> <span class="n">fileobj</span><span class="p">[</span><span class="s2">&quot;S1&quot;</span><span class="p">][</span><span class="s2">&quot;ScanTime&quot;</span><span class="p">][</span><span class="s2">&quot;DayOfMonth&quot;</span><span class="p">][()]</span>
-    <span class="n">hh</span> <span class="o">=</span> <span class="n">fileobj</span><span class="p">[</span><span class="s2">&quot;S1&quot;</span><span class="p">][</span><span class="s2">&quot;ScanTime&quot;</span><span class="p">][</span><span class="s2">&quot;Hour&quot;</span><span class="p">][()]</span>
-    <span class="n">mm</span> <span class="o">=</span> <span class="n">fileobj</span><span class="p">[</span><span class="s2">&quot;S1&quot;</span><span class="p">][</span><span class="s2">&quot;ScanTime&quot;</span><span class="p">][</span><span class="s2">&quot;Minute&quot;</span><span class="p">][()]</span>
-    <span class="n">ss</span> <span class="o">=</span> <span class="n">fileobj</span><span class="p">[</span><span class="s2">&quot;S1&quot;</span><span class="p">][</span><span class="s2">&quot;ScanTime&quot;</span><span class="p">][</span><span class="s2">&quot;Second&quot;</span><span class="p">][()]</span>
+    <span class="n">yy</span> <span class="o">=</span> <span class="n">fileobj</span><span class="p">[</span><span class="s2">"S1"</span><span class="p">][</span><span class="s2">"ScanTime"</span><span class="p">][</span><span class="s2">"Year"</span><span class="p">][()]</span>
+    <span class="n">mo</span> <span class="o">=</span> <span class="n">fileobj</span><span class="p">[</span><span class="s2">"S1"</span><span class="p">][</span><span class="s2">"ScanTime"</span><span class="p">][</span><span class="s2">"Month"</span><span class="p">][()]</span>
+    <span class="n">dd</span> <span class="o">=</span> <span class="n">fileobj</span><span class="p">[</span><span class="s2">"S1"</span><span class="p">][</span><span class="s2">"ScanTime"</span><span class="p">][</span><span class="s2">"DayOfMonth"</span><span class="p">][()]</span>
+    <span class="n">hh</span> <span class="o">=</span> <span class="n">fileobj</span><span class="p">[</span><span class="s2">"S1"</span><span class="p">][</span><span class="s2">"ScanTime"</span><span class="p">][</span><span class="s2">"Hour"</span><span class="p">][()]</span>
+    <span class="n">mm</span> <span class="o">=</span> <span class="n">fileobj</span><span class="p">[</span><span class="s2">"S1"</span><span class="p">][</span><span class="s2">"ScanTime"</span><span class="p">][</span><span class="s2">"Minute"</span><span class="p">][()]</span>
+    <span class="n">ss</span> <span class="o">=</span> <span class="n">fileobj</span><span class="p">[</span><span class="s2">"S1"</span><span class="p">][</span><span class="s2">"ScanTime"</span><span class="p">][</span><span class="s2">"Second"</span><span class="p">][()]</span>
 
     <span class="c1"># setup time in datetime64 format required by geoips</span>
 
@@ -753,7 +780,7 @@ with the 2D latitude, longitude, and tb data.</p>
     <span class="n">time_scan</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">nscan</span><span class="p">,</span> <span class="n">npix</span><span class="p">))</span>
 
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nscan</span><span class="p">):</span>
-        <span class="n">time_scan</span><span class="p">[</span><span class="n">i</span><span class="p">:]</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">%04d%02d%02d%02d%02d%02d</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span>
+        <span class="n">time_scan</span><span class="p">[</span><span class="n">i</span><span class="p">:]</span> <span class="o">=</span> <span class="s2">"</span><span class="si">%04d%02d%02d%02d%02d%02d</span><span class="s2">"</span> <span class="o">%</span> <span class="p">(</span>
             <span class="n">yy</span><span class="p">[</span><span class="n">i</span><span class="p">],</span>
             <span class="n">mo</span><span class="p">[</span><span class="n">i</span><span class="p">],</span>
             <span class="n">dd</span><span class="p">[</span><span class="n">i</span><span class="p">],</span>
@@ -783,87 +810,87 @@ with the 2D latitude, longitude, and tb data.</p>
 
     <span class="c1">#          ------  setup xarray variables   ------</span>
 
-    <span class="c1"># namelist_gmi  = [&#39;latitude&#39;, &#39;longitude&#39;, &#39;V10&#39;, &#39;H10&#39;, &#39;V19&#39;,&#39;H19&#39;,&#39;V23&#39;, &#39;V37&#39;, &#39;H37&#39;, &#39;V89&#39; ,&#39;H89&#39;,</span>
-    <span class="c1">#                   &#39;V166&#39;, &#39;H166&#39;, &#39;V183-3&#39;,&#39;V183-7&#39;, &#39;time&#39;]</span>
+    <span class="c1"># namelist_gmi  = ['latitude', 'longitude', 'V10', 'H10', 'V19','H19','V23', 'V37', 'H37', 'V89' ,'H89',</span>
+    <span class="c1">#                   'V166', 'H166', 'V183-3','V183-7', 'time']</span>
 
     <span class="n">final_xarray</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">()</span>
-    <span class="k">if</span> <span class="s2">&quot;latitude&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">xarray_gmi</span><span class="o">.</span><span class="n">variables</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+    <span class="k">if</span> <span class="s2">"latitude"</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">xarray_gmi</span><span class="o">.</span><span class="n">variables</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
         <span class="c1"># setup GMI xarray</span>
-        <span class="n">final_xarray</span><span class="p">[</span><span class="s2">&quot;latitude&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">lat</span><span class="p">)</span>
-        <span class="n">final_xarray</span><span class="p">[</span><span class="s2">&quot;longitude&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">lon</span><span class="p">)</span>
-        <span class="n">final_xarray</span><span class="p">[</span><span class="s2">&quot;V10&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">V10</span><span class="p">)</span>
-        <span class="n">final_xarray</span><span class="p">[</span><span class="s2">&quot;H10&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">H10</span><span class="p">)</span>
-        <span class="n">final_xarray</span><span class="p">[</span><span class="s2">&quot;V19&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">V19</span><span class="p">)</span>
-        <span class="n">final_xarray</span><span class="p">[</span><span class="s2">&quot;H19&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">H19</span><span class="p">)</span>
-        <span class="n">final_xarray</span><span class="p">[</span><span class="s2">&quot;V23&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">V23</span><span class="p">)</span>
-        <span class="n">final_xarray</span><span class="p">[</span><span class="s2">&quot;V37&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">V37</span><span class="p">)</span>
-        <span class="n">final_xarray</span><span class="p">[</span><span class="s2">&quot;H37&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">H37</span><span class="p">)</span>
-        <span class="n">final_xarray</span><span class="p">[</span><span class="s2">&quot;V89&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">V89</span><span class="p">)</span>
-        <span class="n">final_xarray</span><span class="p">[</span><span class="s2">&quot;H89&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">H89</span><span class="p">)</span>
-        <span class="n">final_xarray</span><span class="p">[</span><span class="s2">&quot;V166&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">V166</span><span class="p">)</span>
-        <span class="n">final_xarray</span><span class="p">[</span><span class="s2">&quot;H166&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">H166</span><span class="p">)</span>
-        <span class="n">final_xarray</span><span class="p">[</span><span class="s2">&quot;V183-3&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">V183_3</span><span class="p">)</span>
-        <span class="n">final_xarray</span><span class="p">[</span><span class="s2">&quot;V183-7&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">V183_7</span><span class="p">)</span>
-        <span class="n">final_xarray</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
+        <span class="n">final_xarray</span><span class="p">[</span><span class="s2">"latitude"</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">lat</span><span class="p">)</span>
+        <span class="n">final_xarray</span><span class="p">[</span><span class="s2">"longitude"</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">lon</span><span class="p">)</span>
+        <span class="n">final_xarray</span><span class="p">[</span><span class="s2">"V10"</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">V10</span><span class="p">)</span>
+        <span class="n">final_xarray</span><span class="p">[</span><span class="s2">"H10"</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">H10</span><span class="p">)</span>
+        <span class="n">final_xarray</span><span class="p">[</span><span class="s2">"V19"</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">V19</span><span class="p">)</span>
+        <span class="n">final_xarray</span><span class="p">[</span><span class="s2">"H19"</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">H19</span><span class="p">)</span>
+        <span class="n">final_xarray</span><span class="p">[</span><span class="s2">"V23"</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">V23</span><span class="p">)</span>
+        <span class="n">final_xarray</span><span class="p">[</span><span class="s2">"V37"</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">V37</span><span class="p">)</span>
+        <span class="n">final_xarray</span><span class="p">[</span><span class="s2">"H37"</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">H37</span><span class="p">)</span>
+        <span class="n">final_xarray</span><span class="p">[</span><span class="s2">"V89"</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">V89</span><span class="p">)</span>
+        <span class="n">final_xarray</span><span class="p">[</span><span class="s2">"H89"</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">H89</span><span class="p">)</span>
+        <span class="n">final_xarray</span><span class="p">[</span><span class="s2">"V166"</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">V166</span><span class="p">)</span>
+        <span class="n">final_xarray</span><span class="p">[</span><span class="s2">"H166"</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">H166</span><span class="p">)</span>
+        <span class="n">final_xarray</span><span class="p">[</span><span class="s2">"V183-3"</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">V183_3</span><span class="p">)</span>
+        <span class="n">final_xarray</span><span class="p">[</span><span class="s2">"V183-7"</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">V183_7</span><span class="p">)</span>
+        <span class="n">final_xarray</span><span class="p">[</span><span class="s2">"time"</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
             <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">time_scan</span><span class="p">)</span>
             <span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
-            <span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s2">&quot;%Y%m</span><span class="si">%d</span><span class="s2">%H%M%S&quot;</span><span class="p">)</span>
+            <span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s2">"%Y%m</span><span class="si">%d</span><span class="s2">%H%M%S"</span><span class="p">)</span>
         <span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="n">final_xarray</span><span class="p">[</span><span class="s2">&quot;latitude&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
-            <span class="n">numpy</span><span class="o">.</span><span class="n">vstack</span><span class="p">([</span><span class="n">xarray_gmi</span><span class="p">[</span><span class="s2">&quot;latitude&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_masked_array</span><span class="p">(),</span> <span class="n">lat</span><span class="p">])</span>
+        <span class="n">final_xarray</span><span class="p">[</span><span class="s2">"latitude"</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
+            <span class="n">numpy</span><span class="o">.</span><span class="n">vstack</span><span class="p">([</span><span class="n">xarray_gmi</span><span class="p">[</span><span class="s2">"latitude"</span><span class="p">]</span><span class="o">.</span><span class="n">to_masked_array</span><span class="p">(),</span> <span class="n">lat</span><span class="p">])</span>
         <span class="p">)</span>
-        <span class="n">final_xarray</span><span class="p">[</span><span class="s2">&quot;longitude&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
-            <span class="n">numpy</span><span class="o">.</span><span class="n">vstack</span><span class="p">([</span><span class="n">xarray_gmi</span><span class="p">[</span><span class="s2">&quot;longitude&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_masked_array</span><span class="p">(),</span> <span class="n">lon</span><span class="p">])</span>
+        <span class="n">final_xarray</span><span class="p">[</span><span class="s2">"longitude"</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
+            <span class="n">numpy</span><span class="o">.</span><span class="n">vstack</span><span class="p">([</span><span class="n">xarray_gmi</span><span class="p">[</span><span class="s2">"longitude"</span><span class="p">]</span><span class="o">.</span><span class="n">to_masked_array</span><span class="p">(),</span> <span class="n">lon</span><span class="p">])</span>
         <span class="p">)</span>
-        <span class="n">final_xarray</span><span class="p">[</span><span class="s2">&quot;V10&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
-            <span class="n">numpy</span><span class="o">.</span><span class="n">vstack</span><span class="p">([</span><span class="n">xarray_gmi</span><span class="p">[</span><span class="s2">&quot;V10&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_masked_array</span><span class="p">(),</span> <span class="n">V10</span><span class="p">])</span>
+        <span class="n">final_xarray</span><span class="p">[</span><span class="s2">"V10"</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
+            <span class="n">numpy</span><span class="o">.</span><span class="n">vstack</span><span class="p">([</span><span class="n">xarray_gmi</span><span class="p">[</span><span class="s2">"V10"</span><span class="p">]</span><span class="o">.</span><span class="n">to_masked_array</span><span class="p">(),</span> <span class="n">V10</span><span class="p">])</span>
         <span class="p">)</span>
-        <span class="n">final_xarray</span><span class="p">[</span><span class="s2">&quot;H10&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
-            <span class="n">numpy</span><span class="o">.</span><span class="n">vstack</span><span class="p">([</span><span class="n">xarray_gmi</span><span class="p">[</span><span class="s2">&quot;H10&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_masked_array</span><span class="p">(),</span> <span class="n">H10</span><span class="p">])</span>
+        <span class="n">final_xarray</span><span class="p">[</span><span class="s2">"H10"</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
+            <span class="n">numpy</span><span class="o">.</span><span class="n">vstack</span><span class="p">([</span><span class="n">xarray_gmi</span><span class="p">[</span><span class="s2">"H10"</span><span class="p">]</span><span class="o">.</span><span class="n">to_masked_array</span><span class="p">(),</span> <span class="n">H10</span><span class="p">])</span>
         <span class="p">)</span>
-        <span class="n">final_xarray</span><span class="p">[</span><span class="s2">&quot;V19&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
-            <span class="n">numpy</span><span class="o">.</span><span class="n">vstack</span><span class="p">([</span><span class="n">xarray_gmi</span><span class="p">[</span><span class="s2">&quot;V19&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_masked_array</span><span class="p">(),</span> <span class="n">V19</span><span class="p">])</span>
+        <span class="n">final_xarray</span><span class="p">[</span><span class="s2">"V19"</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
+            <span class="n">numpy</span><span class="o">.</span><span class="n">vstack</span><span class="p">([</span><span class="n">xarray_gmi</span><span class="p">[</span><span class="s2">"V19"</span><span class="p">]</span><span class="o">.</span><span class="n">to_masked_array</span><span class="p">(),</span> <span class="n">V19</span><span class="p">])</span>
         <span class="p">)</span>
-        <span class="n">final_xarray</span><span class="p">[</span><span class="s2">&quot;H19&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
-            <span class="n">numpy</span><span class="o">.</span><span class="n">vstack</span><span class="p">([</span><span class="n">xarray_gmi</span><span class="p">[</span><span class="s2">&quot;H19&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_masked_array</span><span class="p">(),</span> <span class="n">H19</span><span class="p">])</span>
+        <span class="n">final_xarray</span><span class="p">[</span><span class="s2">"H19"</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
+            <span class="n">numpy</span><span class="o">.</span><span class="n">vstack</span><span class="p">([</span><span class="n">xarray_gmi</span><span class="p">[</span><span class="s2">"H19"</span><span class="p">]</span><span class="o">.</span><span class="n">to_masked_array</span><span class="p">(),</span> <span class="n">H19</span><span class="p">])</span>
         <span class="p">)</span>
-        <span class="n">final_xarray</span><span class="p">[</span><span class="s2">&quot;V23&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
-            <span class="n">numpy</span><span class="o">.</span><span class="n">vstack</span><span class="p">([</span><span class="n">xarray_gmi</span><span class="p">[</span><span class="s2">&quot;V23&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_masked_array</span><span class="p">(),</span> <span class="n">V23</span><span class="p">])</span>
+        <span class="n">final_xarray</span><span class="p">[</span><span class="s2">"V23"</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
+            <span class="n">numpy</span><span class="o">.</span><span class="n">vstack</span><span class="p">([</span><span class="n">xarray_gmi</span><span class="p">[</span><span class="s2">"V23"</span><span class="p">]</span><span class="o">.</span><span class="n">to_masked_array</span><span class="p">(),</span> <span class="n">V23</span><span class="p">])</span>
         <span class="p">)</span>
-        <span class="n">final_xarray</span><span class="p">[</span><span class="s2">&quot;V37&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
-            <span class="n">numpy</span><span class="o">.</span><span class="n">vstack</span><span class="p">([</span><span class="n">xarray_gmi</span><span class="p">[</span><span class="s2">&quot;V37&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_masked_array</span><span class="p">(),</span> <span class="n">V37</span><span class="p">])</span>
+        <span class="n">final_xarray</span><span class="p">[</span><span class="s2">"V37"</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
+            <span class="n">numpy</span><span class="o">.</span><span class="n">vstack</span><span class="p">([</span><span class="n">xarray_gmi</span><span class="p">[</span><span class="s2">"V37"</span><span class="p">]</span><span class="o">.</span><span class="n">to_masked_array</span><span class="p">(),</span> <span class="n">V37</span><span class="p">])</span>
         <span class="p">)</span>
-        <span class="n">final_xarray</span><span class="p">[</span><span class="s2">&quot;H37&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
-            <span class="n">numpy</span><span class="o">.</span><span class="n">vstack</span><span class="p">([</span><span class="n">xarray_gmi</span><span class="p">[</span><span class="s2">&quot;H37&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_masked_array</span><span class="p">(),</span> <span class="n">H37</span><span class="p">])</span>
+        <span class="n">final_xarray</span><span class="p">[</span><span class="s2">"H37"</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
+            <span class="n">numpy</span><span class="o">.</span><span class="n">vstack</span><span class="p">([</span><span class="n">xarray_gmi</span><span class="p">[</span><span class="s2">"H37"</span><span class="p">]</span><span class="o">.</span><span class="n">to_masked_array</span><span class="p">(),</span> <span class="n">H37</span><span class="p">])</span>
         <span class="p">)</span>
-        <span class="n">final_xarray</span><span class="p">[</span><span class="s2">&quot;V89&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
-            <span class="n">numpy</span><span class="o">.</span><span class="n">vstack</span><span class="p">([</span><span class="n">xarray_gmi</span><span class="p">[</span><span class="s2">&quot;V89&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_masked_array</span><span class="p">(),</span> <span class="n">V89</span><span class="p">])</span>
+        <span class="n">final_xarray</span><span class="p">[</span><span class="s2">"V89"</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
+            <span class="n">numpy</span><span class="o">.</span><span class="n">vstack</span><span class="p">([</span><span class="n">xarray_gmi</span><span class="p">[</span><span class="s2">"V89"</span><span class="p">]</span><span class="o">.</span><span class="n">to_masked_array</span><span class="p">(),</span> <span class="n">V89</span><span class="p">])</span>
         <span class="p">)</span>
-        <span class="n">final_xarray</span><span class="p">[</span><span class="s2">&quot;H89&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
-            <span class="n">numpy</span><span class="o">.</span><span class="n">vstack</span><span class="p">([</span><span class="n">xarray_gmi</span><span class="p">[</span><span class="s2">&quot;H89&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_masked_array</span><span class="p">(),</span> <span class="n">H89</span><span class="p">])</span>
+        <span class="n">final_xarray</span><span class="p">[</span><span class="s2">"H89"</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
+            <span class="n">numpy</span><span class="o">.</span><span class="n">vstack</span><span class="p">([</span><span class="n">xarray_gmi</span><span class="p">[</span><span class="s2">"H89"</span><span class="p">]</span><span class="o">.</span><span class="n">to_masked_array</span><span class="p">(),</span> <span class="n">H89</span><span class="p">])</span>
         <span class="p">)</span>
-        <span class="n">final_xarray</span><span class="p">[</span><span class="s2">&quot;V166&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
-            <span class="n">numpy</span><span class="o">.</span><span class="n">vstack</span><span class="p">([</span><span class="n">xarray_gmi</span><span class="p">[</span><span class="s2">&quot;V166&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_masked_array</span><span class="p">(),</span> <span class="n">V166</span><span class="p">])</span>
+        <span class="n">final_xarray</span><span class="p">[</span><span class="s2">"V166"</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
+            <span class="n">numpy</span><span class="o">.</span><span class="n">vstack</span><span class="p">([</span><span class="n">xarray_gmi</span><span class="p">[</span><span class="s2">"V166"</span><span class="p">]</span><span class="o">.</span><span class="n">to_masked_array</span><span class="p">(),</span> <span class="n">V166</span><span class="p">])</span>
         <span class="p">)</span>
-        <span class="n">final_xarray</span><span class="p">[</span><span class="s2">&quot;H166&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
-            <span class="n">numpy</span><span class="o">.</span><span class="n">vstack</span><span class="p">([</span><span class="n">xarray_gmi</span><span class="p">[</span><span class="s2">&quot;H166&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_masked_array</span><span class="p">(),</span> <span class="n">H166</span><span class="p">])</span>
+        <span class="n">final_xarray</span><span class="p">[</span><span class="s2">"H166"</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
+            <span class="n">numpy</span><span class="o">.</span><span class="n">vstack</span><span class="p">([</span><span class="n">xarray_gmi</span><span class="p">[</span><span class="s2">"H166"</span><span class="p">]</span><span class="o">.</span><span class="n">to_masked_array</span><span class="p">(),</span> <span class="n">H166</span><span class="p">])</span>
         <span class="p">)</span>
-        <span class="n">final_xarray</span><span class="p">[</span><span class="s2">&quot;V183-3&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
-            <span class="n">numpy</span><span class="o">.</span><span class="n">vstack</span><span class="p">([</span><span class="n">xarray_gmi</span><span class="p">[</span><span class="s2">&quot;V183-3&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_masked_array</span><span class="p">(),</span> <span class="n">V183_3</span><span class="p">])</span>
+        <span class="n">final_xarray</span><span class="p">[</span><span class="s2">"V183-3"</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
+            <span class="n">numpy</span><span class="o">.</span><span class="n">vstack</span><span class="p">([</span><span class="n">xarray_gmi</span><span class="p">[</span><span class="s2">"V183-3"</span><span class="p">]</span><span class="o">.</span><span class="n">to_masked_array</span><span class="p">(),</span> <span class="n">V183_3</span><span class="p">])</span>
         <span class="p">)</span>
-        <span class="n">final_xarray</span><span class="p">[</span><span class="s2">&quot;V183-7&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
-            <span class="n">numpy</span><span class="o">.</span><span class="n">vstack</span><span class="p">([</span><span class="n">xarray_gmi</span><span class="p">[</span><span class="s2">&quot;V183-7&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_masked_array</span><span class="p">(),</span> <span class="n">V183_7</span><span class="p">])</span>
+        <span class="n">final_xarray</span><span class="p">[</span><span class="s2">"V183-7"</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
+            <span class="n">numpy</span><span class="o">.</span><span class="n">vstack</span><span class="p">([</span><span class="n">xarray_gmi</span><span class="p">[</span><span class="s2">"V183-7"</span><span class="p">]</span><span class="o">.</span><span class="n">to_masked_array</span><span class="p">(),</span> <span class="n">V183_7</span><span class="p">])</span>
         <span class="p">)</span>
         <span class="n">new_time</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
             <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">time_scan</span><span class="p">)</span>
             <span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
-            <span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s2">&quot;%Y%m</span><span class="si">%d</span><span class="s2">%H%M%S&quot;</span><span class="p">)</span>
+            <span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s2">"%Y%m</span><span class="si">%d</span><span class="s2">%H%M%S"</span><span class="p">)</span>
         <span class="p">)</span>
-        <span class="n">final_xarray</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
+        <span class="n">final_xarray</span><span class="p">[</span><span class="s2">"time"</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
             <span class="n">numpy</span><span class="o">.</span><span class="n">vstack</span><span class="p">(</span>
                 <span class="p">[</span>
-                    <span class="n">xarray_gmi</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_masked_array</span><span class="p">(),</span>
+                    <span class="n">xarray_gmi</span><span class="p">[</span><span class="s2">"time"</span><span class="p">]</span><span class="o">.</span><span class="n">to_masked_array</span><span class="p">(),</span>
                     <span class="n">new_time</span><span class="o">.</span><span class="n">to_masked_array</span><span class="p">(),</span>
                 <span class="p">]</span>
             <span class="p">)</span>

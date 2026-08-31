@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>geoips.plugins.classes.readers.scat_noaa_winds_netcdf &#8212; GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation</title>
+    <title>geoips.plugins.classes.readers.scat_noaa_winds_netcdf &#8212; GeoIPS, Geolocated Information Processing System 0.0.0 documentation</title>
   
   
   
@@ -40,7 +40,7 @@
   <link rel="preload" as="script" href="../../../../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
 <link rel="preload" as="script" href="../../../../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
 
-    <script data-url_root="../../../../../" id="documentation_options" src="../../../../../_static/documentation_options.js?v=6727bded"></script>
+    <script data-url_root="../../../../../" id="documentation_options" src="../../../../../_static/documentation_options.js?v=525cde36"></script>
     <script src="../../../../../_static/doctools.js?v=888ff710"></script>
     <script src="../../../../../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../../../_static/design-tabs.js?v=f930bc37"></script>
@@ -401,14 +401,21 @@ mermaid.initialize(
 window.addEventListener("load", load);
 window.runMermaid = runMermaid;</script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_modules/geoips/plugins/classes/readers/scat_noaa_winds_netcdf';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.17.1';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://nrlmmd-geoips.github.io/geoips/versions.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = 'dev';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner =
+            false;
+        </script>
     <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
     <link rel="icon" href="../../../../../_static/nrlicon.ico"/>
     <link rel="index" title="Index" href="../../../../../genindex.html" />
     <link rel="search" title="Search" href="../../../../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2.0" />
-    <meta name="docbuild:last-update" content="Jul 23, 2026 17:03:57"/>
+  <meta name="docsearch:version" content="0.0" />
+    <meta name="docbuild:last-update" content="Aug 31, 2026 13:32:18"/>
   
     
     <script src="../../../../../_static/searchtools.js"></script>
@@ -480,11 +487,31 @@ window.runMermaid = runMermaid;</script>
       
     
     
-    <img src="../../../../../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation - Home"/>
-    <img src="../../../../../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation - Home"/>
+    <img src="../../../../../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 0.0.0 documentation - Home"/>
+    <img src="../../../../../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 0.0.0 documentation - Home"/>
   
   
 </a></div>
+    
+      <div class="navbar-item">
+<div class="version-switcher__container dropdown pst-js-only">
+  <button id="pst-version-switcher-button-2"
+    type="button"
+    class="version-switcher__button btn btn-sm dropdown-toggle"
+    data-bs-toggle="dropdown"
+    aria-haspopup="listbox"
+    aria-controls="pst-version-switcher-list-2"
+    aria-label="Version switcher list"
+  >
+    Choose version  <!-- this text may get changed later by javascript -->
+    <span class="caret"></span>
+  </button>
+  <div id="pst-version-switcher-list-2"
+    class="version-switcher__menu dropdown-menu list-group-flush py-0"
+    role="listbox" aria-labelledby="pst-version-switcher-button-2">
+    <!-- dropdown will be populated by javascript on page load -->
+  </div>
+</div></div>
     
   </div>
   
@@ -828,7 +855,7 @@ window.runMermaid = runMermaid;</script>
 <span></span><span class="c1"># # # This source code is subject to the license referenced at</span>
 <span class="c1"># # # https://github.com/NRLMMD-GEOIPS.</span>
 
-<span class="sd">&quot;&quot;&quot;Read derived surface winds from KNMI scatterometer netcdf data.&quot;&quot;&quot;</span>
+<span class="sd">"""Read derived surface winds from KNMI scatterometer netcdf data."""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">geoips.interfaces.class_based.readers</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseReaderPlugin</span>
 
@@ -852,18 +879,18 @@ window.runMermaid = runMermaid;</script>
 
 
 <div class="viewcode-block" id="ScatNoaaWindsNetcdfReaderPlugin"><a class="viewcode-back" href="../../../../../geoips_api/geoips.plugins.classes.readers.html#geoips.plugins.classes.readers.scat_noaa_winds_netcdf.ScatNoaaWindsNetcdfReaderPlugin">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">ScatNoaaWindsNetcdfReaderPlugin</span><span class="p">(</span><span class="n">BaseReaderPlugin</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Scat Noaa Winds Netcdf reader plugin class.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Scat Noaa Winds Netcdf reader plugin class."""</span>
 
-    <span class="n">interface</span> <span class="o">=</span> <span class="s2">&quot;readers&quot;</span>
-    <span class="n">family</span> <span class="o">=</span> <span class="s2">&quot;standard&quot;</span>
-    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;scat_noaa_winds_netcdf&quot;</span>
+    <span class="n">interface</span> <span class="o">=</span> <span class="s2">"readers"</span>
+    <span class="n">family</span> <span class="o">=</span> <span class="s2">"standard"</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">"scat_noaa_winds_netcdf"</span>
 
     <span class="n">MS_TO_KTS</span> <span class="o">=</span> <span class="mf">1.94384</span>
     <span class="n">DEG_TO_KM</span> <span class="o">=</span> <span class="mf">111.321</span>
-    <span class="n">source_names</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;ascat&quot;</span><span class="p">]</span>
+    <span class="n">source_names</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"ascat"</span><span class="p">]</span>
 
 <div class="viewcode-block" id="ScatNoaaWindsNetcdfReaderPlugin.read_noaa_data"><a class="viewcode-back" href="../../../../../geoips_api/geoips.plugins.classes.readers.html#geoips.plugins.classes.readers.scat_noaa_winds_netcdf.ScatNoaaWindsNetcdfReaderPlugin.read_noaa_data">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">read_noaa_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">wind_xarray</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Reformat ascat xarray object appropriately.</span>
+<span class="w">        </span><span class="sd">"""Reformat ascat xarray object appropriately.</span>
 
 <span class="sd">        Note: This uses a fixed TAI conversion value of 37 seconds for</span>
 <span class="sd">        conversion. Last updated: Jan. 2026.</span>
@@ -879,14 +906,14 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">            xarray dataset with wind variables</span>
 <span class="sd">        geoips_metadata: dict</span>
 <span class="sd">            dictionary of GeoIPS required metadata</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">geoips_metadata</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="n">geoips_metadata</span><span class="p">[</span><span class="s2">&quot;data_provider&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;noaa&quot;</span>
+        <span class="n">geoips_metadata</span><span class="p">[</span><span class="s2">"data_provider"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"noaa"</span>
         <span class="c1"># Setting standard geoips attributes</span>
-        <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Reading </span><span class="si">%s</span><span class="s2"> data&quot;</span><span class="p">,</span> <span class="n">wind_xarray</span><span class="o">.</span><span class="n">source</span><span class="p">)</span>
+        <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"Reading </span><span class="si">%s</span><span class="s2"> data"</span><span class="p">,</span> <span class="n">wind_xarray</span><span class="o">.</span><span class="n">source</span><span class="p">)</span>
 
-        <span class="n">geoips_metadata</span><span class="p">[</span><span class="s2">&quot;source_name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;ascat&quot;</span>
-        <span class="n">geoips_metadata</span><span class="p">[</span><span class="s2">&quot;platform_name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">wind_xarray</span><span class="o">.</span><span class="n">platform</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+        <span class="n">geoips_metadata</span><span class="p">[</span><span class="s2">"source_name"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"ascat"</span>
+        <span class="n">geoips_metadata</span><span class="p">[</span><span class="s2">"platform_name"</span><span class="p">]</span> <span class="o">=</span> <span class="n">wind_xarray</span><span class="o">.</span><span class="n">platform</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
 
         <span class="c1"># Convert TAI to UTC manually</span>
         <span class="c1"># Manually construct the time array, since xarray cannot auto decode these data</span>
@@ -894,93 +921,93 @@ window.runMermaid = runMermaid;</script>
         <span class="n">time_array</span> <span class="o">=</span> <span class="n">wind_xarray</span><span class="o">.</span><span class="n">time_seconds</span><span class="o">.</span><span class="n">data</span>
         <span class="n">og_shape</span> <span class="o">=</span> <span class="n">time_array</span><span class="o">.</span><span class="n">shape</span>
         <span class="n">utc_time</span> <span class="o">=</span> <span class="n">to_datetime</span><span class="p">(</span>
-            <span class="n">time_array</span><span class="o">.</span><span class="n">ravel</span><span class="p">(),</span> <span class="n">origin</span><span class="o">=</span><span class="n">Timestamp</span><span class="p">(</span><span class="s2">&quot;1990-01-01&quot;</span><span class="p">),</span> <span class="n">unit</span><span class="o">=</span><span class="s2">&quot;s&quot;</span>
-        <span class="p">)</span> <span class="o">-</span> <span class="n">to_timedelta</span><span class="p">(</span><span class="mi">37</span><span class="p">,</span> <span class="s2">&quot;s&quot;</span><span class="p">)</span>
+            <span class="n">time_array</span><span class="o">.</span><span class="n">ravel</span><span class="p">(),</span> <span class="n">origin</span><span class="o">=</span><span class="n">Timestamp</span><span class="p">(</span><span class="s2">"1990-01-01"</span><span class="p">),</span> <span class="n">unit</span><span class="o">=</span><span class="s2">"s"</span>
+        <span class="p">)</span> <span class="o">-</span> <span class="n">to_timedelta</span><span class="p">(</span><span class="mi">37</span><span class="p">,</span> <span class="s2">"s"</span><span class="p">)</span>
         <span class="n">utc_time</span> <span class="o">=</span> <span class="n">utc_time</span><span class="o">.</span><span class="n">to_pydatetime</span><span class="p">()</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">og_shape</span><span class="p">)</span>
 
-        <span class="n">wind_xarray</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">utc_time</span>
-        <span class="n">wind_xarray</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;units&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Time in UTC&quot;</span>
-        <span class="n">wind_xarray</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;valid_min&quot;</span><span class="p">)</span>
-        <span class="n">wind_xarray</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;valid_max&quot;</span><span class="p">)</span>
+        <span class="n">wind_xarray</span><span class="p">[</span><span class="s2">"time"</span><span class="p">]</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">utc_time</span>
+        <span class="n">wind_xarray</span><span class="p">[</span><span class="s2">"time"</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"units"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"Time in UTC"</span>
+        <span class="n">wind_xarray</span><span class="p">[</span><span class="s2">"time"</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">"valid_min"</span><span class="p">)</span>
+        <span class="n">wind_xarray</span><span class="p">[</span><span class="s2">"time"</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">"valid_max"</span><span class="p">)</span>
 
         <span class="c1"># In NOAA files, pixel size is only mentioned in the title</span>
         <span class="c1"># e.g. L2OVW50kmASCAT</span>
         <span class="n">psize_string</span> <span class="o">=</span> <span class="n">wind_xarray</span><span class="o">.</span><span class="n">title</span>
-        <span class="k">for</span> <span class="n">string</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;L2OVW&quot;</span><span class="p">,</span> <span class="s2">&quot;kmASCAT&quot;</span><span class="p">]:</span>
-            <span class="n">psize_string</span> <span class="o">=</span> <span class="n">psize_string</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">string</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">string</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">"L2OVW"</span><span class="p">,</span> <span class="s2">"kmASCAT"</span><span class="p">]:</span>
+            <span class="n">psize_string</span> <span class="o">=</span> <span class="n">psize_string</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">string</span><span class="p">,</span> <span class="s2">""</span><span class="p">)</span>
         <span class="n">pixel_size</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">psize_string</span><span class="p">)</span>
 
         <span class="c1"># Interpolation Radius of Influence</span>
-        <span class="n">geoips_metadata</span><span class="p">[</span><span class="s2">&quot;interpolation_radius_of_influence&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pixel_size</span> <span class="o">*</span> <span class="mf">1000.0</span>
+        <span class="n">geoips_metadata</span><span class="p">[</span><span class="s2">"interpolation_radius_of_influence"</span><span class="p">]</span> <span class="o">=</span> <span class="n">pixel_size</span> <span class="o">*</span> <span class="mf">1000.0</span>
 
-        <span class="n">geoips_metadata</span><span class="p">[</span><span class="s2">&quot;sample_distance_km&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pixel_size</span>
+        <span class="n">geoips_metadata</span><span class="p">[</span><span class="s2">"sample_distance_km"</span><span class="p">]</span> <span class="o">=</span> <span class="n">pixel_size</span>
 
         <span class="c1"># setting wind_speed_kts appropriately</span>
-        <span class="n">wind_xarray</span><span class="p">[</span><span class="s2">&quot;wind_speed_kts&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">wind_xarray</span><span class="p">[</span><span class="s2">&quot;wind_speed&quot;</span><span class="p">]</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">MS_TO_KTS</span>
-        <span class="n">wind_xarray</span><span class="p">[</span><span class="s2">&quot;wind_speed_kts&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span> <span class="o">=</span> <span class="n">wind_xarray</span><span class="p">[</span><span class="s2">&quot;wind_speed&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span>
-        <span class="n">wind_xarray</span><span class="p">[</span><span class="s2">&quot;wind_speed_kts&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;units&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;kts&quot;</span>
+        <span class="n">wind_xarray</span><span class="p">[</span><span class="s2">"wind_speed_kts"</span><span class="p">]</span> <span class="o">=</span> <span class="n">wind_xarray</span><span class="p">[</span><span class="s2">"wind_speed"</span><span class="p">]</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">MS_TO_KTS</span>
+        <span class="n">wind_xarray</span><span class="p">[</span><span class="s2">"wind_speed_kts"</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span> <span class="o">=</span> <span class="n">wind_xarray</span><span class="p">[</span><span class="s2">"wind_speed"</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span>
+        <span class="n">wind_xarray</span><span class="p">[</span><span class="s2">"wind_speed_kts"</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"units"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"kts"</span>
 
         <span class="c1"># Save wind direction to standardized name across ascat readers</span>
-        <span class="n">wind_xarray</span><span class="p">[</span><span class="s2">&quot;wind_dir_deg_met&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">wind_xarray</span><span class="p">[</span><span class="s2">&quot;wind_dir&quot;</span><span class="p">]</span>
-        <span class="n">wind_xarray</span><span class="p">[</span><span class="s2">&quot;wind_dir_deg_met&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span> <span class="o">=</span> <span class="n">wind_xarray</span><span class="p">[</span><span class="s2">&quot;wind_dir&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span>
-        <span class="n">wind_xarray</span><span class="o">.</span><span class="n">wind_dir_deg_met</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;standard_name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;wind_from_direction&quot;</span>
-        <span class="n">wind_xarray</span><span class="o">.</span><span class="n">wind_dir_deg_met</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;valid_max&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">360</span>
+        <span class="n">wind_xarray</span><span class="p">[</span><span class="s2">"wind_dir_deg_met"</span><span class="p">]</span> <span class="o">=</span> <span class="n">wind_xarray</span><span class="p">[</span><span class="s2">"wind_dir"</span><span class="p">]</span>
+        <span class="n">wind_xarray</span><span class="p">[</span><span class="s2">"wind_dir_deg_met"</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span> <span class="o">=</span> <span class="n">wind_xarray</span><span class="p">[</span><span class="s2">"wind_dir"</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span>
+        <span class="n">wind_xarray</span><span class="o">.</span><span class="n">wind_dir_deg_met</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"standard_name"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"wind_from_direction"</span>
+        <span class="n">wind_xarray</span><span class="o">.</span><span class="n">wind_dir_deg_met</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"valid_max"</span><span class="p">]</span> <span class="o">=</span> <span class="mi">360</span>
 
         <span class="c1"># Set lat/lons/timestamp appropriately</span>
         <span class="c1"># Also rename wind ambiguity keys</span>
         <span class="n">wind_xarray</span> <span class="o">=</span> <span class="n">wind_xarray</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span>
             <span class="p">{</span>
-                <span class="s2">&quot;lat&quot;</span><span class="p">:</span> <span class="s2">&quot;latitude&quot;</span><span class="p">,</span>
-                <span class="s2">&quot;lon&quot;</span><span class="p">:</span> <span class="s2">&quot;longitude&quot;</span><span class="p">,</span>
-                <span class="s2">&quot;wind_speed_sol&quot;</span><span class="p">:</span> <span class="s2">&quot;wind_speed_ambiguity_kts&quot;</span><span class="p">,</span>
-                <span class="s2">&quot;wind_dir_sol&quot;</span><span class="p">:</span> <span class="s2">&quot;wind_dir_deg_ambiguity_met&quot;</span><span class="p">,</span>
+                <span class="s2">"lat"</span><span class="p">:</span> <span class="s2">"latitude"</span><span class="p">,</span>
+                <span class="s2">"lon"</span><span class="p">:</span> <span class="s2">"longitude"</span><span class="p">,</span>
+                <span class="s2">"wind_speed_sol"</span><span class="p">:</span> <span class="s2">"wind_speed_ambiguity_kts"</span><span class="p">,</span>
+                <span class="s2">"wind_dir_sol"</span><span class="p">:</span> <span class="s2">"wind_dir_deg_ambiguity_met"</span><span class="p">,</span>
             <span class="p">}</span>
         <span class="p">)</span>
 
         <span class="n">RAIN_FLAG_BIT</span> <span class="o">=</span> <span class="mi">9</span>
-        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">xarray</span><span class="p">,</span> <span class="s2">&quot;ufuncs&quot;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">xarray</span><span class="p">,</span> <span class="s2">"ufuncs"</span><span class="p">):</span>
             <span class="c1"># ufuncs no longer available as of xarray v2022.06 (at least)</span>
             <span class="c1"># ufuncs appears to be back as of v2025.3.1</span>
-            <span class="n">wind_xarray</span><span class="p">[</span><span class="s2">&quot;rain_flag&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xarray</span><span class="o">.</span><span class="n">ufuncs</span><span class="o">.</span><span class="n">logical_and</span><span class="p">(</span>
-                <span class="n">wind_xarray</span><span class="p">[</span><span class="s2">&quot;wvc_quality_flag&quot;</span><span class="p">],</span> <span class="p">(</span><span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">RAIN_FLAG_BIT</span><span class="p">)</span>
+            <span class="n">wind_xarray</span><span class="p">[</span><span class="s2">"rain_flag"</span><span class="p">]</span> <span class="o">=</span> <span class="n">xarray</span><span class="o">.</span><span class="n">ufuncs</span><span class="o">.</span><span class="n">logical_and</span><span class="p">(</span>
+                <span class="n">wind_xarray</span><span class="p">[</span><span class="s2">"wvc_quality_flag"</span><span class="p">],</span> <span class="p">(</span><span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">RAIN_FLAG_BIT</span><span class="p">)</span>
             <span class="p">)</span>
             <span class="c1"># rf variable used downstream for determining ambiguities</span>
-            <span class="n">rf</span> <span class="o">=</span> <span class="n">wind_xarray</span><span class="p">[</span><span class="s2">&quot;rain_flag&quot;</span><span class="p">]</span>
+            <span class="n">rf</span> <span class="o">=</span> <span class="n">wind_xarray</span><span class="p">[</span><span class="s2">"rain_flag"</span><span class="p">]</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="c1"># Can not figure out how to do the logical and in xarray now -</span>
             <span class="c1"># so do it in numpy.</span>
             <span class="c1"># This may not be the most efficient, especially if we are trying to use</span>
             <span class="c1"># dask / lazy processing.</span>
-            <span class="c1"># Dropping the &quot;.to_masked_array()&quot; appears to lose the nan values -</span>
+            <span class="c1"># Dropping the ".to_masked_array()" appears to lose the nan values -</span>
             <span class="c1"># but could perhaps do that then re-mask?</span>
             <span class="n">rf</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">logical_and</span><span class="p">(</span>
-                <span class="n">wind_xarray</span><span class="p">[</span><span class="s2">&quot;wvc_quality_flag&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_masked_array</span><span class="p">(),</span> <span class="p">(</span><span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">RAIN_FLAG_BIT</span><span class="p">)</span>
+                <span class="n">wind_xarray</span><span class="p">[</span><span class="s2">"wvc_quality_flag"</span><span class="p">]</span><span class="o">.</span><span class="n">to_masked_array</span><span class="p">(),</span> <span class="p">(</span><span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">RAIN_FLAG_BIT</span><span class="p">)</span>
             <span class="p">)</span>
             <span class="n">data_dims</span> <span class="o">=</span> <span class="p">{}</span>
-            <span class="k">for</span> <span class="n">dim</span> <span class="ow">in</span> <span class="n">wind_xarray</span><span class="p">[</span><span class="s2">&quot;wvc_quality_flag&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">dims</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">dim</span> <span class="ow">in</span> <span class="n">wind_xarray</span><span class="p">[</span><span class="s2">"wvc_quality_flag"</span><span class="p">]</span><span class="o">.</span><span class="n">dims</span><span class="p">:</span>
                 <span class="n">data_dims</span><span class="p">[</span><span class="n">dim</span><span class="p">]</span> <span class="o">=</span> <span class="n">wind_xarray</span><span class="o">.</span><span class="n">dims</span><span class="p">[</span><span class="n">dim</span><span class="p">]</span>
-            <span class="n">wind_xarray</span><span class="p">[</span><span class="s2">&quot;rain_flag&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xarray</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
+            <span class="n">wind_xarray</span><span class="p">[</span><span class="s2">"rain_flag"</span><span class="p">]</span> <span class="o">=</span> <span class="n">xarray</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
                 <span class="n">rf</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">),</span> <span class="n">coords</span><span class="o">=</span><span class="n">wind_xarray</span><span class="o">.</span><span class="n">coords</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="n">data_dims</span>
             <span class="p">)</span>
 
         <span class="c1"># Create rain flag for ambiguity products</span>
         <span class="c1"># The rain_flag variable is only 2D. We need to</span>
         <span class="c1"># create a rain_flag_ambiguity variable that has</span>
-        <span class="c1"># the same dimensions as &quot;wind_speed_ambiguity_kts&quot;</span>
-        <span class="n">ambs</span> <span class="o">=</span> <span class="n">wind_xarray</span><span class="p">[</span><span class="s2">&quot;wind_speed_ambiguity_kts&quot;</span><span class="p">]</span>
+        <span class="c1"># the same dimensions as "wind_speed_ambiguity_kts"</span>
+        <span class="n">ambs</span> <span class="o">=</span> <span class="n">wind_xarray</span><span class="p">[</span><span class="s2">"wind_speed_ambiguity_kts"</span><span class="p">]</span>
         <span class="c1"># Create data_dims dictionary for ambiguity variable</span>
         <span class="n">data_dims</span> <span class="o">=</span> <span class="p">{</span><span class="n">x</span><span class="p">:</span> <span class="n">wind_xarray</span><span class="o">.</span><span class="n">dims</span><span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">ambs</span><span class="o">.</span><span class="n">dims</span><span class="p">}</span>
         <span class="c1"># Create 3D rain flag by stacking 2D rain_flag by number of ambiguities</span>
-        <span class="n">rf_amb</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">dstack</span><span class="p">([</span><span class="n">rf</span><span class="p">]</span> <span class="o">*</span> <span class="n">data_dims</span><span class="p">[</span><span class="s2">&quot;MaxAmbiguity&quot;</span><span class="p">])</span>
+        <span class="n">rf_amb</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">dstack</span><span class="p">([</span><span class="n">rf</span><span class="p">]</span> <span class="o">*</span> <span class="n">data_dims</span><span class="p">[</span><span class="s2">"MaxAmbiguity"</span><span class="p">])</span>
         <span class="c1"># Set 3D rain flag values to NaN where ambiguities are NaN</span>
         <span class="n">nan_ambs</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">ambs</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
         <span class="n">rf_amb</span><span class="p">[</span><span class="n">nan_ambs</span><span class="p">]</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">nan</span>
         <span class="c1"># Store to xarray dataset</span>
-        <span class="n">wind_xarray</span><span class="p">[</span><span class="s2">&quot;rain_flag_ambiguity&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xarray</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
+        <span class="n">wind_xarray</span><span class="p">[</span><span class="s2">"rain_flag_ambiguity"</span><span class="p">]</span> <span class="o">=</span> <span class="n">xarray</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
             <span class="n">rf_amb</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">),</span> <span class="n">coords</span><span class="o">=</span><span class="n">wind_xarray</span><span class="o">.</span><span class="n">coords</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="n">data_dims</span>
         <span class="p">)</span>
 
-        <span class="n">wind_xarray</span> <span class="o">=</span> <span class="n">wind_xarray</span><span class="o">.</span><span class="n">set_coords</span><span class="p">([</span><span class="s2">&quot;time&quot;</span><span class="p">])</span>
+        <span class="n">wind_xarray</span> <span class="o">=</span> <span class="n">wind_xarray</span><span class="o">.</span><span class="n">set_coords</span><span class="p">([</span><span class="s2">"time"</span><span class="p">])</span>
         <span class="k">return</span> <span class="n">wind_xarray</span><span class="p">,</span> <span class="n">geoips_metadata</span></div>
 
 <div class="viewcode-block" id="ScatNoaaWindsNetcdfReaderPlugin.call"><a class="viewcode-back" href="../../../../../geoips_api/geoips.plugins.classes.readers.html#geoips.plugins.classes.readers.scat_noaa_winds_netcdf.ScatNoaaWindsNetcdfReaderPlugin.call">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">call</span><span class="p">(</span>
@@ -991,7 +1018,7 @@ window.runMermaid = runMermaid;</script>
         <span class="n">area_def</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">self_register</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
     <span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Read KNMI scatterometer derived winds from netcdf data.</span>
+<span class="w">        </span><span class="sd">"""Read KNMI scatterometer derived winds from netcdf data.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -1026,76 +1053,76 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">        :ref:`xarray_standards`</span>
 <span class="sd">            Additional information regarding required attributes and variables</span>
 <span class="sd">            for GeoIPS-formatted xarray Datasets.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">final_wind_xarrays</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="n">ingested</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">fname</span> <span class="ow">in</span> <span class="n">fnames</span><span class="p">:</span>
             <span class="n">wind_xarray</span> <span class="o">=</span> <span class="n">xarray</span><span class="o">.</span><span class="n">open_dataset</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">fname</span><span class="p">),</span> <span class="n">decode_times</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 
-            <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Read data from </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">fname</span><span class="p">)</span>
+            <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"Read data from </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="n">fname</span><span class="p">)</span>
 
-            <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">wind_xarray</span><span class="p">,</span> <span class="s2">&quot;title&quot;</span><span class="p">)</span> <span class="ow">and</span> <span class="s2">&quot;ASCAT&quot;</span> <span class="ow">in</span> <span class="n">wind_xarray</span><span class="o">.</span><span class="n">title</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">wind_xarray</span><span class="p">,</span> <span class="s2">"title"</span><span class="p">)</span> <span class="ow">and</span> <span class="s2">"ASCAT"</span> <span class="ow">in</span> <span class="n">wind_xarray</span><span class="o">.</span><span class="n">title</span><span class="p">:</span>
                 <span class="n">wind_xarray</span><span class="p">,</span> <span class="n">geoips_metadata</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">read_noaa_data</span><span class="p">(</span><span class="n">wind_xarray</span><span class="p">)</span>
 
-            <span class="n">geoips_metadata</span><span class="p">[</span><span class="s2">&quot;source_file_names&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">basename</span><span class="p">(</span><span class="n">fname</span><span class="p">)]</span>
-            <span class="n">geoips_metadata</span><span class="p">[</span><span class="s2">&quot;minimum_coverage&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">20</span>
+            <span class="n">geoips_metadata</span><span class="p">[</span><span class="s2">"source_file_names"</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">basename</span><span class="p">(</span><span class="n">fname</span><span class="p">)]</span>
+            <span class="n">geoips_metadata</span><span class="p">[</span><span class="s2">"minimum_coverage"</span><span class="p">]</span> <span class="o">=</span> <span class="mi">20</span>
             <span class="n">ingested</span> <span class="o">+=</span> <span class="p">[(</span><span class="n">wind_xarray</span><span class="p">,</span> <span class="n">geoips_metadata</span><span class="p">)]</span>
 
         <span class="k">for</span> <span class="n">curr_xobj</span><span class="p">,</span> <span class="n">curr_geoips_metadata</span> <span class="ow">in</span> <span class="n">ingested</span><span class="p">:</span>
             <span class="n">curr_file_metadata</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="n">curr_xobj</span><span class="o">.</span><span class="n">attrs</span><span class="p">)</span>
             <span class="n">curr_xobj</span><span class="o">.</span><span class="n">attrs</span> <span class="o">=</span> <span class="p">{</span><span class="o">**</span><span class="n">curr_file_metadata</span><span class="p">,</span> <span class="o">**</span><span class="n">curr_geoips_metadata</span><span class="p">}</span>
 
-            <span class="k">if</span> <span class="s2">&quot;WINDSPEED&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">final_wind_xarrays</span><span class="p">:</span>
+            <span class="k">if</span> <span class="s2">"WINDSPEED"</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">final_wind_xarrays</span><span class="p">:</span>
                 <span class="n">final_xobj</span> <span class="o">=</span> <span class="n">curr_xobj</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
                 <span class="n">final_xobj</span><span class="o">.</span><span class="n">attrs</span> <span class="o">=</span> <span class="n">curr_geoips_metadata</span>
-                <span class="n">final_xobj</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;source_file_attributes&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">curr_file_metadata</span><span class="p">]</span>
-                <span class="n">final_xobj</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;source_file_names&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">curr_geoips_metadata</span><span class="p">[</span>
-                    <span class="s2">&quot;source_file_names&quot;</span>
+                <span class="n">final_xobj</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"source_file_attributes"</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">curr_file_metadata</span><span class="p">]</span>
+                <span class="n">final_xobj</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"source_file_names"</span><span class="p">]</span> <span class="o">=</span> <span class="n">curr_geoips_metadata</span><span class="p">[</span>
+                    <span class="s2">"source_file_names"</span>
                 <span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-                <span class="n">final_wind_xarrays</span><span class="p">[</span><span class="s2">&quot;WINDSPEED&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">final_xobj</span>
+                <span class="n">final_wind_xarrays</span><span class="p">[</span><span class="s2">"WINDSPEED"</span><span class="p">]</span> <span class="o">=</span> <span class="n">final_xobj</span>
                 <span class="k">continue</span>
 
-            <span class="n">final_xobj</span> <span class="o">=</span> <span class="n">final_wind_xarrays</span><span class="p">[</span><span class="s2">&quot;WINDSPEED&quot;</span><span class="p">]</span>
+            <span class="n">final_xobj</span> <span class="o">=</span> <span class="n">final_wind_xarrays</span><span class="p">[</span><span class="s2">"WINDSPEED"</span><span class="p">]</span>
 
-            <span class="k">for</span> <span class="n">attr_name</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;source_name&quot;</span><span class="p">,</span> <span class="s2">&quot;platform_name&quot;</span><span class="p">]:</span>
+            <span class="k">for</span> <span class="n">attr_name</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">"source_name"</span><span class="p">,</span> <span class="s2">"platform_name"</span><span class="p">]:</span>
                 <span class="k">if</span> <span class="n">final_xobj</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="n">attr_name</span><span class="p">]</span> <span class="o">!=</span> <span class="n">curr_xobj</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="n">attr_name</span><span class="p">]:</span>
                     <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                        <span class="sa">f</span><span class="s2">&quot;Attribute &#39;</span><span class="si">{</span><span class="n">attr_name</span><span class="si">}</span><span class="s2">&#39; must match on all data files&quot;</span>
-                        <span class="sa">f</span><span class="s2">&quot;Expected &#39;</span><span class="si">{</span><span class="n">final_xobj</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="n">attr_name</span><span class="p">]</span><span class="si">}</span><span class="s2">&#39;,&quot;</span>
-                        <span class="sa">f</span><span class="s2">&quot;Current value &#39;</span><span class="si">{</span><span class="n">curr_xobj</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="n">attr_name</span><span class="p">]</span><span class="si">}</span><span class="s2">&#39;&quot;</span>
+                        <span class="sa">f</span><span class="s2">"Attribute '</span><span class="si">{</span><span class="n">attr_name</span><span class="si">}</span><span class="s2">' must match on all data files"</span>
+                        <span class="sa">f</span><span class="s2">"Expected '</span><span class="si">{</span><span class="n">final_xobj</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="n">attr_name</span><span class="p">]</span><span class="si">}</span><span class="s2">',"</span>
+                        <span class="sa">f</span><span class="s2">"Current value '</span><span class="si">{</span><span class="n">curr_xobj</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="n">attr_name</span><span class="p">]</span><span class="si">}</span><span class="s2">'"</span>
                     <span class="p">)</span>
-            <span class="n">final_xobj</span> <span class="o">=</span> <span class="n">xarray</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">final_xobj</span><span class="p">,</span> <span class="n">curr_xobj</span><span class="p">],</span> <span class="n">dim</span><span class="o">=</span><span class="s2">&quot;NUMROWS&quot;</span><span class="p">)</span>
-            <span class="n">final_xobj</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;source_file_names&quot;</span><span class="p">]</span> <span class="o">+=</span> <span class="n">curr_geoips_metadata</span><span class="p">[</span>
-                <span class="s2">&quot;source_file_names&quot;</span>
+            <span class="n">final_xobj</span> <span class="o">=</span> <span class="n">xarray</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">final_xobj</span><span class="p">,</span> <span class="n">curr_xobj</span><span class="p">],</span> <span class="n">dim</span><span class="o">=</span><span class="s2">"NUMROWS"</span><span class="p">)</span>
+            <span class="n">final_xobj</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"source_file_names"</span><span class="p">]</span> <span class="o">+=</span> <span class="n">curr_geoips_metadata</span><span class="p">[</span>
+                <span class="s2">"source_file_names"</span>
             <span class="p">]</span>
-            <span class="n">final_xobj</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;source_file_attributes&quot;</span><span class="p">]</span> <span class="o">+=</span> <span class="p">[</span><span class="n">curr_file_metadata</span><span class="p">]</span>
-            <span class="n">final_wind_xarrays</span><span class="p">[</span><span class="s2">&quot;WINDSPEED&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">final_xobj</span>
+            <span class="n">final_xobj</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"source_file_attributes"</span><span class="p">]</span> <span class="o">+=</span> <span class="p">[</span><span class="n">curr_file_metadata</span><span class="p">]</span>
+            <span class="n">final_wind_xarrays</span><span class="p">[</span><span class="s2">"WINDSPEED"</span><span class="p">]</span> <span class="o">=</span> <span class="n">final_xobj</span>
 
         <span class="k">for</span> <span class="n">wind_xarray</span> <span class="ow">in</span> <span class="n">final_wind_xarrays</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
-            <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Setting standard metadata&quot;</span><span class="p">)</span>
-            <span class="n">wind_xarray</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;start_datetime&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">get_min_from_xarray_time</span><span class="p">(</span>
-                <span class="n">wind_xarray</span><span class="p">,</span> <span class="s2">&quot;time&quot;</span>
+            <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"Setting standard metadata"</span><span class="p">)</span>
+            <span class="n">wind_xarray</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"start_datetime"</span><span class="p">]</span> <span class="o">=</span> <span class="n">get_min_from_xarray_time</span><span class="p">(</span>
+                <span class="n">wind_xarray</span><span class="p">,</span> <span class="s2">"time"</span>
             <span class="p">)</span>
-            <span class="n">wind_xarray</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;end_datetime&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">get_max_from_xarray_time</span><span class="p">(</span>
-                <span class="n">wind_xarray</span><span class="p">,</span> <span class="s2">&quot;time&quot;</span>
+            <span class="n">wind_xarray</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"end_datetime"</span><span class="p">]</span> <span class="o">=</span> <span class="n">get_max_from_xarray_time</span><span class="p">(</span>
+                <span class="n">wind_xarray</span><span class="p">,</span> <span class="s2">"time"</span>
             <span class="p">)</span>
 
-            <span class="k">if</span> <span class="s2">&quot;wind_speed_kts&quot;</span> <span class="ow">in</span> <span class="n">wind_xarray</span><span class="o">.</span><span class="n">variables</span><span class="p">:</span>
+            <span class="k">if</span> <span class="s2">"wind_speed_kts"</span> <span class="ow">in</span> <span class="n">wind_xarray</span><span class="o">.</span><span class="n">variables</span><span class="p">:</span>
                 <span class="c1"># These text files store wind speeds natively in kts</span>
-                <span class="n">wind_xarray</span><span class="p">[</span><span class="s2">&quot;wind_speed_kts&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;units&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;kts&quot;</span>
+                <span class="n">wind_xarray</span><span class="p">[</span><span class="s2">"wind_speed_kts"</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"units"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"kts"</span>
 
             <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
-                <span class="s2">&quot;Read data </span><span class="si">%s</span><span class="s2"> start_dt </span><span class="si">%s</span><span class="s2"> source </span><span class="si">%s</span><span class="s2"> platform </span><span class="si">%s</span><span class="s2"> data_provider </span><span class="si">%s</span><span class="s2"> roi &quot;</span>
-                <span class="s2">&quot;</span><span class="si">%s</span><span class="s2"> native resolution&quot;</span><span class="p">,</span>
-                <span class="n">wind_xarray</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;start_datetime&quot;</span><span class="p">],</span>
-                <span class="n">wind_xarray</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;source_name&quot;</span><span class="p">],</span>
-                <span class="n">wind_xarray</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;platform_name&quot;</span><span class="p">],</span>
-                <span class="n">wind_xarray</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;data_provider&quot;</span><span class="p">],</span>
-                <span class="n">wind_xarray</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;interpolation_radius_of_influence&quot;</span><span class="p">],</span>
-                <span class="n">wind_xarray</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;sample_distance_km&quot;</span><span class="p">],</span>
+                <span class="s2">"Read data </span><span class="si">%s</span><span class="s2"> start_dt </span><span class="si">%s</span><span class="s2"> source </span><span class="si">%s</span><span class="s2"> platform </span><span class="si">%s</span><span class="s2"> data_provider </span><span class="si">%s</span><span class="s2"> roi "</span>
+                <span class="s2">"</span><span class="si">%s</span><span class="s2"> native resolution"</span><span class="p">,</span>
+                <span class="n">wind_xarray</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"start_datetime"</span><span class="p">],</span>
+                <span class="n">wind_xarray</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"source_name"</span><span class="p">],</span>
+                <span class="n">wind_xarray</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"platform_name"</span><span class="p">],</span>
+                <span class="n">wind_xarray</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"data_provider"</span><span class="p">],</span>
+                <span class="n">wind_xarray</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"interpolation_radius_of_influence"</span><span class="p">],</span>
+                <span class="n">wind_xarray</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"sample_distance_km"</span><span class="p">],</span>
             <span class="p">)</span>
 
-        <span class="n">final_wind_xarrays</span><span class="p">[</span><span class="s2">&quot;METADATA&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">wind_xarray</span><span class="p">[[]]</span>
+        <span class="n">final_wind_xarrays</span><span class="p">[</span><span class="s2">"METADATA"</span><span class="p">]</span> <span class="o">=</span> <span class="n">wind_xarray</span><span class="p">[[]]</span>
 
         <span class="k">return</span> <span class="n">final_wind_xarrays</span></div></div>
 

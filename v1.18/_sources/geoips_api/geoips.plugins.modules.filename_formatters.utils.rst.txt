@@ -1,0 +1,21 @@
+geoips.plugins.modules.filename\_formatters.utils package
+=========================================================
+
+Submodules
+----------
+
+geoips.plugins.modules.filename\_formatters.utils.tc\_file\_naming module
+-------------------------------------------------------------------------
+
+.. automodule:: geoips.plugins.modules.filename_formatters.utils.tc_file_naming
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+Module contents
+---------------
+
+.. automodule:: geoips.plugins.modules.filename_formatters.utils
+   :members:
+   :show-inheritance:
+   :undoc-members:

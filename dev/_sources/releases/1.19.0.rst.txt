@@ -1,39 +1,79 @@
-Version 1.19.0 (2026-07-23)
+Version 1.19.0 (2026-08-31)
 ***************************
 
- * *Bug fixes*: Fix time in text winds output formatter
+ * *Release process*: Add 1.19.0 release note
+ * *Release process*: Update internal and github.com 'tagged_version'
+ * *Documentation*: Add release note for version 1.19.0
+ * *Documentation*: Update tagged versions
  * *Bug fixes*: Fix time in smap reader due to xarray version change.
  * *Bug fixes*: Fix broken jsonschema resolution specification to allow number not just int.
+ * *Bug fixes*: Fix time in text winds output formatter
  * *Bug fixes*: Add patch release note templates
  * *Testing*: Remove full_setup and site_setup from integration test script
  * *Installation*: Add clavr-x orb executable install to site install.
- * *Documentation*: Add release note for version 1.19.0
- * *Documentation*: Update tagged versions
- * *Release process*: Add 1.19.0 release note
- * *Release process*: Update internal and github.com 'tagged_version'
  * *Bug fix*: Do not pad xarray datasets in config_based procflow when the output format plugin family is "xarray_data"
    and the area_definition is "self_registered"
 
-Bug fixes
-=========
+Release process
+===============
 
-Fix time in text winds output formatter
----------------------------------------
+Add 1.19.0 release note
+-----------------------
 
-Ensure we properly convert timestamps in xarray object to values for print in text
-winds output formatter.  Previously manually converted by dividing by 10e-6, update
-to use pandas for conversions to avoid hard coding the units.  This works for both
-xarray 2026.2.0 and 2026.4.0 (2026.4.0 broke smap time handling)
-
-Additionally updated text output checker to limit diff output to 10k characters, to
-avoid potentially VERY large log output.
+Currently tagged internal version 1.18.2.
 
 geoips#1067 - 1.19.0 updates
 
 ::
 
-     modified: geoips/plugins/classes/output_checkers/text.py
-     modified: geoips/plugins/modules/output_formatters/text_winds.py
+     added: docs/source/releases/1.19.0/1.19.0-internal-release.yaml
+
+Update internal and github.com 'tagged_version'
+-----------------------------------------------
+
+Updated 'update_this_release_note' file in geoips repo for the
+next internal version-
+1.19.1
+next github.com version-
+1.20.0
+
+geoips#1067 - 1.19.0 updates
+
+::
+
+     modified: .github/versions/tagged_version
+
+Documentation
+=============
+
+Add release note for version 1.19.0
+-----------------------------------
+
+Release note on release branch to force tag/release, package/publish,
+and deploy docs.
+
+Additionally add any updated files from geoips_ci/sync
+
+geoips#1067 - 1.19.0 updates
+
+::
+
+     added: docs/source/releases/latest/1.19.0-release-note.yaml
+     modified: geoips_ci/sync updated files
+
+Update tagged versions
+----------------------
+
+* Tagged version: 1.19.0
+
+geoips#1067 - 1.19.0 updates
+
+::
+
+     modified: .github/versions/tagged_version
+
+Bug fixes
+=========
 
 Fix time in smap reader due to xarray version change.
 -----------------------------------------------------
@@ -61,6 +101,24 @@ geoips#1067 - 1.19.0 updates*
 ::
 
      modified: geoips/schema/sectors/specs/area_definition.yaml
+
+Fix time in text winds output formatter
+---------------------------------------
+
+Ensure we properly convert timestamps in xarray object to values for print in text
+winds output formatter.  Previously manually converted by dividing by 10e-6, update
+to use pandas for conversions to avoid hard coding the units.  This works for both
+xarray 2026.2.0 and 2026.4.0 (2026.4.0 broke smap time handling)
+
+Additionally updated text output checker to limit diff output to 10k characters, to
+avoid potentially VERY large log output.
+
+geoips#1067 - 1.19.0 updates
+
+::
+
+     modified: geoips/plugins/classes/output_checkers/text.py
+     modified: geoips/plugins/modules/output_formatters/text_winds.py
 
 Add patch release note templates
 --------------------------------
@@ -114,64 +172,6 @@ geoips#1067 - 1.19.0 updates
 ::
 
      modified: tests/integration_tests/site_install.sh
-
-Documentation
-=============
-
-Add release note for version 1.19.0
------------------------------------
-
-Release note on release branch to force tag/release, package/publish,
-and deploy docs.
-
-Additionally add any updated files from geoips_ci/sync
-
-geoips#1067 - 1.19.0 updates
-
-::
-
-     added: docs/source/releases/latest/1.19.0-release-note.yaml
-     modified: geoips_ci/sync updated files
-
-Update tagged versions
-----------------------
-
-* Tagged version: 1.19.0
-
-geoips#1067 - 1.19.0 updates
-
-::
-
-     modified: .github/versions/tagged_version
-
-Release process
-===============
-
-Add 1.19.0 release note
------------------------
-
-Currently tagged internal version 1.18.2.
-
-geoips#1067 - 1.19.0 updates
-
-::
-
-     added: docs/source/releases/1.19.0/1.19.0-internal-release.yaml
-
-Update internal and github.com 'tagged_version'
------------------------------------------------
-
-Updated 'update_this_release_note' file in geoips repo for the
-next internal version-
-1.19.1
-next github.com version-
-1.20.0
-
-geoips#1067 - 1.19.0 updates
-
-::
-
-     modified: .github/versions/tagged_version
 
 Bug fix
 =======

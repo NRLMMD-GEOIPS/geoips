@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Extend GeoIPS with new Products &#8212; GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation</title>
+    <title>Extend GeoIPS with new Products &#8212; GeoIPS, Geolocated Information Processing System 0.0.0 documentation</title>
   
   
   
@@ -41,11 +41,18 @@
   <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
 
-    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=6727bded"></script>
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=525cde36"></script>
     <script src="../../../_static/doctools.js?v=888ff710"></script>
     <script src="../../../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'tutorials/extending-with-plugins/product/index';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.17.1';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://nrlmmd-geoips.github.io/geoips/versions.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = 'dev';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner =
+            false;
+        </script>
     <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
     <link rel="icon" href="../../../_static/nrlicon.ico"/>
     <link rel="index" title="Index" href="../../../genindex.html" />
@@ -54,8 +61,8 @@
     <link rel="prev" title="Extend GeoIPS with new Product Defaults" href="../product_default.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2.0" />
-    <meta name="docbuild:last-update" content="Jul 23, 2026 17:03:57"/>
+  <meta name="docsearch:version" content="0.0" />
+    <meta name="docbuild:last-update" content="Aug 31, 2026 13:32:18"/>
   
     
     <script src="../../../_static/searchtools.js"></script>
@@ -127,11 +134,31 @@
       
     
     
-    <img src="../../../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation - Home"/>
-    <img src="../../../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation - Home"/>
+    <img src="../../../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 0.0.0 documentation - Home"/>
+    <img src="../../../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 0.0.0 documentation - Home"/>
   
   
 </a></div>
+    
+      <div class="navbar-item">
+<div class="version-switcher__container dropdown pst-js-only">
+  <button id="pst-version-switcher-button-2"
+    type="button"
+    class="version-switcher__button btn btn-sm dropdown-toggle"
+    data-bs-toggle="dropdown"
+    aria-haspopup="listbox"
+    aria-controls="pst-version-switcher-list-2"
+    aria-label="Version switcher list"
+  >
+    Choose version  <!-- this text may get changed later by javascript -->
+    <span class="caret"></span>
+  </button>
+  <div id="pst-version-switcher-list-2"
+    class="version-switcher__menu dropdown-menu list-group-flush py-0"
+    role="listbox" aria-labelledby="pst-version-switcher-button-2">
+    <!-- dropdown will be populated by javascript on page load -->
+  </div>
+</div></div>
     
   </div>
   
@@ -568,13 +595,13 @@ coding language, similar to Python in that aspect. Feel free to remove the comme
 they just describe what each property does.</p>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">spec</span><span class="p">:</span>
 <span class="w">  </span><span class="nt">products</span><span class="p">:</span>
-<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">My-Cloud-Top-Height</span><span class="w"> </span><span class="c1"># The name of the product you&#39;re defining (can be anything)</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">My-Cloud-Top-Height</span><span class="w"> </span><span class="c1"># The name of the product you're defining (can be anything)</span>
 <span class="w">      </span><span class="nt">source_names</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">clavrx</span><span class="p p-Indicator">]</span><span class="w"> </span><span class="c1"># Defined as metadata in the corresponding reader</span>
 <span class="w">      </span><span class="nt">docstring</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span><span class="w"> </span><span class="c1"># Pipe says to YAML this will be a multiline comment, can be anything</span>
 <span class="w">        </span><span class="no">CLAVR-x Cloud Top Height</span>
 <span class="w">      </span><span class="nt">product_defaults</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Cloud-Height</span><span class="w"> </span><span class="c1"># See the Product Defaults section for more info</span>
 <span class="w">      </span><span class="nt">spec</span><span class="p">:</span><span class="w"> </span><span class="c1"># Variables are the necessary variables which are needed to produce your product</span>
-<span class="w">        </span><span class="nt">variables</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;cld_height_acha&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;latitude&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;longitude&quot;</span><span class="p p-Indicator">]</span>
+<span class="w">        </span><span class="nt">variables</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">"cld_height_acha"</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">"latitude"</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">"longitude"</span><span class="p p-Indicator">]</span>
 </pre></div>
 </div>
 <p>To use the product you just created, run it through an <a class="reference internal" href="../../../functionality/order-based-processing/index.html#order-based-processing"><span class="std std-ref">Order-Based Processing
@@ -679,14 +706,14 @@ and other types of plugins should be somewhat intuitive after completing this tu
 <span class="w">        </span><span class="no">CLAVR-x Cloud Top Height</span>
 <span class="w">      </span><span class="nt">product_defaults</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Cloud-Height</span>
 <span class="w">      </span><span class="nt">spec</span><span class="p">:</span>
-<span class="w">        </span><span class="nt">variables</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;cld_height_acha&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;latitude&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;longitude&quot;</span><span class="p p-Indicator">]</span>
+<span class="w">        </span><span class="nt">variables</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">"cld_height_acha"</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">"latitude"</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">"longitude"</span><span class="p p-Indicator">]</span>
 <span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">My-Cloud-Base-Height</span>
 <span class="w">      </span><span class="nt">source_names</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">clavrx</span><span class="p p-Indicator">]</span>
 <span class="w">      </span><span class="nt">docstring</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
 <span class="w">        </span><span class="no">CLAVR-x Cloud Base Height</span>
 <span class="w">      </span><span class="nt">product_defaults</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Cloud-Height</span>
 <span class="w">      </span><span class="nt">spec</span><span class="p">:</span>
-<span class="w">        </span><span class="nt">variables</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;cld_height_base&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;latitude&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;longitude&quot;</span><span class="p p-Indicator">]</span>
+<span class="w">        </span><span class="nt">variables</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">"cld_height_base"</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">"latitude"</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">"longitude"</span><span class="p p-Indicator">]</span>
 </pre></div>
 </div>
 <p>Now that we have products for both Cloud Top Height and Cloud Base Height, we can
@@ -715,21 +742,21 @@ for My-Cloud-Depth.</p>
 <span class="w">        </span><span class="no">CLAVR-x Cloud Top Height</span>
 <span class="w">      </span><span class="nt">product_defaults</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Cloud-Height</span>
 <span class="w">      </span><span class="nt">spec</span><span class="p">:</span>
-<span class="w">        </span><span class="nt">variables</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;cld_height_acha&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;latitude&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;longitude&quot;</span><span class="p p-Indicator">]</span>
+<span class="w">        </span><span class="nt">variables</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">"cld_height_acha"</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">"latitude"</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">"longitude"</span><span class="p p-Indicator">]</span>
 <span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">My-Cloud-Base-Height</span>
 <span class="w">      </span><span class="nt">source_names</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">clavrx</span><span class="p p-Indicator">]</span>
 <span class="w">      </span><span class="nt">docstring</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
 <span class="w">        </span><span class="no">CLAVR-x Cloud Base Height</span>
 <span class="w">      </span><span class="nt">product_defaults</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Cloud-Height</span>
 <span class="w">      </span><span class="nt">spec</span><span class="p">:</span>
-<span class="w">        </span><span class="nt">variables</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;cld_height_base&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;latitude&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;longitude&quot;</span><span class="p p-Indicator">]</span>
+<span class="w">        </span><span class="nt">variables</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">"cld_height_base"</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">"latitude"</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">"longitude"</span><span class="p p-Indicator">]</span>
 <span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">My-Cloud-Depth</span>
 <span class="w">      </span><span class="nt">source_names</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">clavrx</span><span class="p p-Indicator">]</span>
 <span class="w">      </span><span class="nt">docstring</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
 <span class="w">        </span><span class="no">CLAVR-x Cloud Depth</span>
 <span class="w">      </span><span class="nt">product_defaults</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Cloud-Height</span>
 <span class="w">      </span><span class="nt">spec</span><span class="p">:</span>
-<span class="w">        </span><span class="nt">variables</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;cld_height_acha&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;cld_height_base&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;latitude&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;longitude&quot;</span><span class="p p-Indicator">]</span>
+<span class="w">        </span><span class="nt">variables</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">"cld_height_acha"</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">"cld_height_base"</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">"latitude"</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">"longitude"</span><span class="p p-Indicator">]</span>
 </pre></div>
 </div>
 <p>We now have two variables, but if we examine the <a class="reference external" href="https://github.com/NRLMMD-GEOIPS/geoips_clavrx/blob/main/geoips_clavrx/plugins/yaml/product_defaults/Cloud-Height.yaml">Cloud-Height Product Defaults</a>
@@ -761,21 +788,21 @@ below.</p>
 <span class="w">          </span><span class="no">CLAVR-x Cloud Top Height</span>
 <span class="w">        </span><span class="nt">product_defaults</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Cloud-Height</span>
 <span class="w">        </span><span class="nt">spec</span><span class="p">:</span>
-<span class="w">          </span><span class="nt">variables</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;cld_height_acha&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;latitude&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;longitude&quot;</span><span class="p p-Indicator">]</span>
+<span class="w">          </span><span class="nt">variables</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">"cld_height_acha"</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">"latitude"</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">"longitude"</span><span class="p p-Indicator">]</span>
 <span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">My-Cloud-Base-Height</span>
 <span class="w">        </span><span class="nt">source_names</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">clavrx</span><span class="p p-Indicator">]</span>
 <span class="w">        </span><span class="nt">docstring</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
 <span class="w">          </span><span class="no">CLAVR-x Cloud Base Height</span>
 <span class="w">        </span><span class="nt">product_defaults</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Cloud-Height</span>
 <span class="w">        </span><span class="nt">spec</span><span class="p">:</span>
-<span class="w">          </span><span class="nt">variables</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;cld_height_base&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;latitude&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;longitude&quot;</span><span class="p p-Indicator">]</span>
+<span class="w">          </span><span class="nt">variables</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">"cld_height_base"</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">"latitude"</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">"longitude"</span><span class="p p-Indicator">]</span>
 <span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">My-Cloud-Depth</span>
 <span class="w">        </span><span class="nt">source_names</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">clavrx</span><span class="p p-Indicator">]</span>
 <span class="w">        </span><span class="nt">docstring</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
 <span class="w">          </span><span class="no">CLAVR-x Cloud Depth</span>
 <span class="w">        </span><span class="nt">product_defaults</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Cloud-Height</span>
 <span class="w">        </span><span class="nt">spec</span><span class="p">:</span>
-<span class="w">          </span><span class="nt">variables</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;cld_height_acha&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;cld_height_base&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;latitude&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;longitude&quot;</span><span class="p p-Indicator">]</span>
+<span class="w">          </span><span class="nt">variables</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">"cld_height_acha"</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">"cld_height_base"</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">"latitude"</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">"longitude"</span><span class="p p-Indicator">]</span>
 <span class="w">          </span><span class="nt">algorithm</span><span class="p">:</span>
 <span class="w">            </span><span class="nt">plugin</span><span class="p">:</span>
 <span class="w">              </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">my_cloud_depth</span>

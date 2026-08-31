@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Extend GeoIPS with a new Colormapper &#8212; GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation</title>
+    <title>Extend GeoIPS with a new Colormapper &#8212; GeoIPS, Geolocated Information Processing System 0.0.0 documentation</title>
   
   
   
@@ -41,11 +41,18 @@
   <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
 
-    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=6727bded"></script>
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=525cde36"></script>
     <script src="../../../_static/doctools.js?v=888ff710"></script>
     <script src="../../../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'tutorials/extending-with-plugins/colormapper/index';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.17.1';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://nrlmmd-geoips.github.io/geoips/versions.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = 'dev';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner =
+            false;
+        </script>
     <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
     <link rel="icon" href="../../../_static/nrlicon.ico"/>
     <link rel="index" title="Index" href="../../../genindex.html" />
@@ -54,8 +61,8 @@
     <link rel="prev" title="Extend GeoIPS with a new Algorithm" href="../algorithm.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2.0" />
-    <meta name="docbuild:last-update" content="Jul 23, 2026 17:03:57"/>
+  <meta name="docsearch:version" content="0.0" />
+    <meta name="docbuild:last-update" content="Aug 31, 2026 13:32:18"/>
   
     
     <script src="../../../_static/searchtools.js"></script>
@@ -127,11 +134,31 @@
       
     
     
-    <img src="../../../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation - Home"/>
-    <img src="../../../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation - Home"/>
+    <img src="../../../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 0.0.0 documentation - Home"/>
+    <img src="../../../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 0.0.0 documentation - Home"/>
   
   
 </a></div>
+    
+      <div class="navbar-item">
+<div class="version-switcher__container dropdown pst-js-only">
+  <button id="pst-version-switcher-button-2"
+    type="button"
+    class="version-switcher__button btn btn-sm dropdown-toggle"
+    data-bs-toggle="dropdown"
+    aria-haspopup="listbox"
+    aria-controls="pst-version-switcher-list-2"
+    aria-label="Version switcher list"
+  >
+    Choose version  <!-- this text may get changed later by javascript -->
+    <span class="caret"></span>
+  </button>
+  <div id="pst-version-switcher-list-2"
+    class="version-switcher__menu dropdown-menu list-group-flush py-0"
+    role="listbox" aria-labelledby="pst-version-switcher-button-2">
+    <!-- dropdown will be populated by javascript on page load -->
+  </div>
+</div></div>
     
   </div>
   
@@ -606,7 +633,7 @@ of colormappers that make use of the python-based method, see this <a class="ref
 <p>We will now step through a sample colormapper used for <code class="docutils literal notranslate"><span class="pre">pmw_89pct</span></code>. As with every
 class-based plugin, it subclasses its interface base class, sets the
 <code class="docutils literal notranslate"><span class="pre">interface</span></code>/<code class="docutils literal notranslate"><span class="pre">family</span></code>/<code class="docutils literal notranslate"><span class="pre">name</span></code> class attributes, and implements a <code class="docutils literal notranslate"><span class="pre">call</span></code> method.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="sd">&quot;&quot;&quot;Module containing colormap for 89 pct product.&quot;&quot;&quot;</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="sd">"""Module containing colormap for 89 pct product."""</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>  <span class="c1"># optional... but be kind to everyone and provide some logging info please</span>
 
@@ -616,19 +643,19 @@ class-based plugin, it subclasses its interface base class, sets the
 
 
 <span class="k">class</span><span class="w"> </span><span class="nc">Pmw89pctColormapperPlugin</span><span class="p">(</span><span class="n">BaseColormapperPlugin</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Colormap for displaying ~89GHz PMW data for weak TCs.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Colormap for displaying ~89GHz PMW data for weak TCs."""</span>
 
-    <span class="n">interface</span> <span class="o">=</span> <span class="s2">&quot;colormappers&quot;</span>
-    <span class="n">family</span> <span class="o">=</span> <span class="s2">&quot;matplotlib&quot;</span>
-    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;pmw_89pct&quot;</span>
+    <span class="n">interface</span> <span class="o">=</span> <span class="s2">"colormappers"</span>
+    <span class="n">family</span> <span class="o">=</span> <span class="s2">"matplotlib"</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">"pmw_89pct"</span>
 
     <span class="c1"># Parameters are optional... but are useful for setting defaults!</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">call</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data_range</span><span class="o">=</span><span class="p">[</span><span class="mi">105</span><span class="p">,</span> <span class="mi">280</span><span class="p">],</span> <span class="n">cbar_label</span><span class="o">=</span><span class="s2">&quot;TB (K)&quot;</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Colormap for displaying ~89GHz PMW data for weak TCs.&quot;&quot;&quot;</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">call</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data_range</span><span class="o">=</span><span class="p">[</span><span class="mi">105</span><span class="p">,</span> <span class="mi">280</span><span class="p">],</span> <span class="n">cbar_label</span><span class="o">=</span><span class="s2">"TB (K)"</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""Colormap for displaying ~89GHz PMW data for weak TCs."""</span>
 
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Here you set the values at which you want the colors to transition, as well</span>
+<span class="w">        </span><span class="sd">"""Here you set the values at which you want the colors to transition, as well</span>
 <span class="sd">        as the colors each transition should be associated with. Gradient creation</span>
-<span class="sd">        will be handled by GeoIPS.&quot;&quot;&quot;</span>
+<span class="sd">        will be handled by GeoIPS."""</span>
         <span class="n">transition_vals</span> <span class="o">=</span> <span class="p">[</span>
             <span class="p">(</span><span class="n">data_range</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">125</span><span class="p">),</span>
             <span class="p">(</span><span class="mi">125</span><span class="p">,</span> <span class="mi">150</span><span class="p">),</span>
@@ -640,14 +667,14 @@ class-based plugin, it subclasses its interface base class, sets the
             <span class="p">(</span><span class="mi">265</span><span class="p">,</span> <span class="n">data_range</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span>
         <span class="p">]</span>
         <span class="n">transition_colors</span> <span class="o">=</span> <span class="p">[</span>
-            <span class="p">(</span><span class="s2">&quot;orange&quot;</span><span class="p">,</span> <span class="s2">&quot;chocolate&quot;</span><span class="p">),</span>
-            <span class="p">(</span><span class="s2">&quot;chocolate&quot;</span><span class="p">,</span> <span class="s2">&quot;indianred&quot;</span><span class="p">),</span>
-            <span class="p">(</span><span class="s2">&quot;indianred&quot;</span><span class="p">,</span> <span class="s2">&quot;firebrick&quot;</span><span class="p">),</span>
-            <span class="p">(</span><span class="s2">&quot;firebrick&quot;</span><span class="p">,</span> <span class="s2">&quot;red&quot;</span><span class="p">),</span>
-            <span class="p">(</span><span class="s2">&quot;gold&quot;</span><span class="p">,</span> <span class="s2">&quot;yellow&quot;</span><span class="p">),</span>
-            <span class="p">(</span><span class="s2">&quot;lime&quot;</span><span class="p">,</span> <span class="s2">&quot;limegreen&quot;</span><span class="p">),</span>
-            <span class="p">(</span><span class="s2">&quot;deepskyblue&quot;</span><span class="p">,</span> <span class="s2">&quot;blue&quot;</span><span class="p">),</span>
-            <span class="p">(</span><span class="s2">&quot;navy&quot;</span><span class="p">,</span> <span class="s2">&quot;slateblue&quot;</span><span class="p">),</span>
+            <span class="p">(</span><span class="s2">"orange"</span><span class="p">,</span> <span class="s2">"chocolate"</span><span class="p">),</span>
+            <span class="p">(</span><span class="s2">"chocolate"</span><span class="p">,</span> <span class="s2">"indianred"</span><span class="p">),</span>
+            <span class="p">(</span><span class="s2">"indianred"</span><span class="p">,</span> <span class="s2">"firebrick"</span><span class="p">),</span>
+            <span class="p">(</span><span class="s2">"firebrick"</span><span class="p">,</span> <span class="s2">"red"</span><span class="p">),</span>
+            <span class="p">(</span><span class="s2">"gold"</span><span class="p">,</span> <span class="s2">"yellow"</span><span class="p">),</span>
+            <span class="p">(</span><span class="s2">"lime"</span><span class="p">,</span> <span class="s2">"limegreen"</span><span class="p">),</span>
+            <span class="p">(</span><span class="s2">"deepskyblue"</span><span class="p">,</span> <span class="s2">"blue"</span><span class="p">),</span>
+            <span class="p">(</span><span class="s2">"navy"</span><span class="p">,</span> <span class="s2">"slateblue"</span><span class="p">),</span>
         <span class="p">]</span>
         <span class="n">ticks</span> <span class="o">=</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">xx</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="k">for</span> <span class="n">xx</span> <span class="ow">in</span> <span class="n">transition_vals</span><span class="p">]</span>
 
@@ -655,30 +682,30 @@ class-based plugin, it subclasses its interface base class, sets the
         <span class="n">max_tb</span> <span class="o">=</span> <span class="n">transition_vals</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="c1"># ways – either in the call function, as values here,</span>
         <span class="n">tickts</span> <span class="o">=</span> <span class="n">ticks</span> <span class="o">+</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">max_tb</span><span class="p">)]</span> <span class="c1"># or even in the mpl_colors_info section.</span>
 
-        <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Setting cmap&quot;</span><span class="p">)</span>  <span class="c1"># Lines below are where gradients are created</span>
+        <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"Setting cmap"</span><span class="p">)</span>  <span class="c1"># Lines below are where gradients are created</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">geoips.image_utils.colormap_utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">create_linear_segmented_colormap</span>
         <span class="n">mpl_cmap</span> <span class="o">=</span> <span class="n">create_linear_segmented_colormap</span><span class="p">(</span>
-            <span class="s2">&quot;89pct_cmap&quot;</span><span class="p">,</span> <span class="n">min_tb</span><span class="p">,</span> <span class="n">max_tb</span><span class="p">,</span> <span class="n">transition_vals</span><span class="p">,</span> <span class="n">transition_colors</span>
+            <span class="s2">"89pct_cmap"</span><span class="p">,</span> <span class="n">min_tb</span><span class="p">,</span> <span class="n">max_tb</span><span class="p">,</span> <span class="n">transition_vals</span><span class="p">,</span> <span class="n">transition_colors</span>
         <span class="p">)</span>
 
-        <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Setting norm&quot;</span><span class="p">)</span>
+        <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"Setting norm"</span><span class="p">)</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">matplotlib.colors</span><span class="w"> </span><span class="kn">import</span> <span class="n">Normalize</span>  <span class="c1"># Optional. You can import any mpl manipulations you want!</span>
         <span class="n">mpl_norm</span> <span class="o">=</span> <span class="n">Normalize</span><span class="p">(</span><span class="n">vmin</span><span class="o">=</span><span class="n">data_range</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">vmax</span><span class="o">=</span><span class="n">data_range</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
 
-        <span class="n">cbar_spacing</span> <span class="o">=</span> <span class="s2">&quot;proportional&quot;</span>
+        <span class="n">cbar_spacing</span> <span class="o">=</span> <span class="s2">"proportional"</span>
         <span class="n">mpl_tick_labels</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="n">mpl_boundaries</span> <span class="o">=</span> <span class="kc">None</span>
 
         <span class="n">mpl_colors_info</span> <span class="o">=</span> <span class="p">{</span>
-            <span class="s2">&quot;cmap&quot;</span><span class="p">:</span> <span class="n">mpl_cmap</span><span class="p">,</span>
-            <span class="s2">&quot;norm&quot;</span><span class="p">:</span> <span class="n">mpl_norm</span><span class="p">,</span>  <span class="c1"># Scales your values so the colorbar covers the specified range; Optional.</span>
-            <span class="s2">&quot;cbar_ticks&quot;</span><span class="p">:</span> <span class="n">ticks</span><span class="p">,</span>
-            <span class="s2">&quot;cbar_tick_labels&quot;</span><span class="p">:</span> <span class="n">mpl_tick_labels</span><span class="p">,</span>  <span class="c1"># Accepts a list of strings as labels.</span>
-            <span class="s2">&quot;cbar_label&quot;</span><span class="p">:</span> <span class="n">cbar_label</span><span class="p">,</span>
-            <span class="s2">&quot;boundaries&quot;</span><span class="p">:</span> <span class="n">mpl_boundaries</span><span class="p">,</span>
-            <span class="s2">&quot;cbar_spacing&quot;</span><span class="p">:</span> <span class="n">cbar_spacing</span><span class="p">,</span>
-            <span class="s2">&quot;colorbar&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
-            <span class="s2">&quot;cbar_full_width&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+            <span class="s2">"cmap"</span><span class="p">:</span> <span class="n">mpl_cmap</span><span class="p">,</span>
+            <span class="s2">"norm"</span><span class="p">:</span> <span class="n">mpl_norm</span><span class="p">,</span>  <span class="c1"># Scales your values so the colorbar covers the specified range; Optional.</span>
+            <span class="s2">"cbar_ticks"</span><span class="p">:</span> <span class="n">ticks</span><span class="p">,</span>
+            <span class="s2">"cbar_tick_labels"</span><span class="p">:</span> <span class="n">mpl_tick_labels</span><span class="p">,</span>  <span class="c1"># Accepts a list of strings as labels.</span>
+            <span class="s2">"cbar_label"</span><span class="p">:</span> <span class="n">cbar_label</span><span class="p">,</span>
+            <span class="s2">"boundaries"</span><span class="p">:</span> <span class="n">mpl_boundaries</span><span class="p">,</span>
+            <span class="s2">"cbar_spacing"</span><span class="p">:</span> <span class="n">cbar_spacing</span><span class="p">,</span>
+            <span class="s2">"colorbar"</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+            <span class="s2">"cbar_full_width"</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
         <span class="p">}</span>
         <span class="k">return</span> <span class="n">mpl_colors_info</span>
 </pre></div>
@@ -703,7 +730,7 @@ cd $MY_PKG_DIR/$MY_PKG_NAME/plugins/classes/colormappers
 <code class="docutils literal notranslate"><span class="pre">colorful_cloud_height.py</span></code>. Once you have that created, copy and paste the code below
 into your colormapper python file. Feel free to adjust any of the colors/parameters to
 what you need for your own colormap.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="sd">&quot;&quot;&quot;Module containing colormap for colorful cloud height products.&quot;&quot;&quot;</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="sd">"""Module containing colormap for colorful cloud height products."""</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">geoips.interfaces.class_based.colormappers</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseColormapperPlugin</span>
@@ -712,14 +739,14 @@ what you need for your own colormap.</p>
 
 
 <span class="k">class</span><span class="w"> </span><span class="nc">ColorfulCloudHeightColormapperPlugin</span><span class="p">(</span><span class="n">BaseColormapperPlugin</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Colorful cloud height colormap.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Colorful cloud height colormap."""</span>
 
-    <span class="n">interface</span> <span class="o">=</span> <span class="s2">&quot;colormappers&quot;</span>
-    <span class="n">family</span> <span class="o">=</span> <span class="s2">&quot;matplotlib&quot;</span>
-    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;colorful_cloud_height&quot;</span>
+    <span class="n">interface</span> <span class="o">=</span> <span class="s2">"colormappers"</span>
+    <span class="n">family</span> <span class="o">=</span> <span class="s2">"matplotlib"</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">"colorful_cloud_height"</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">call</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data_range</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">20</span><span class="p">]):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Colorful cloud height colormap.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Colorful cloud height colormap."""</span>
 
         <span class="n">transition_vals</span> <span class="o">=</span> <span class="p">[</span>
             <span class="p">(</span><span class="n">data_range</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">1</span><span class="p">),</span>
@@ -733,44 +760,44 @@ what you need for your own colormap.</p>
             <span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="n">data_range</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span>
         <span class="p">]</span>
          <span class="n">transition_colors</span> <span class="o">=</span> <span class="p">[</span>
-            <span class="p">(</span><span class="s2">&quot;pink&quot;</span><span class="p">,</span> <span class="s2">&quot;red&quot;</span><span class="p">),</span>
-            <span class="p">(</span><span class="s2">&quot;paleturquoise&quot;</span><span class="p">,</span> <span class="s2">&quot;teal&quot;</span><span class="p">),</span>
-            <span class="p">(</span><span class="s2">&quot;plum&quot;</span><span class="p">,</span> <span class="s2">&quot;rebeccapurple&quot;</span><span class="p">),</span>
-            <span class="p">(</span><span class="s2">&quot;yellow&quot;</span><span class="p">,</span> <span class="s2">&quot;chartreuse&quot;</span><span class="p">),</span>
-            <span class="p">(</span><span class="s2">&quot;limegreen&quot;</span><span class="p">,</span> <span class="s2">&quot;darkgreen&quot;</span><span class="p">),</span>
-            <span class="p">(</span><span class="s2">&quot;wheat&quot;</span><span class="p">,</span> <span class="s2">&quot;darkorange&quot;</span><span class="p">),</span>
-            <span class="p">(</span><span class="s2">&quot;darkgray&quot;</span><span class="p">,</span> <span class="s2">&quot;black&quot;</span><span class="p">),</span>
-            <span class="p">(</span><span class="s2">&quot;lightgray&quot;</span><span class="p">,</span> <span class="s2">&quot;silver&quot;</span><span class="p">),</span>
-            <span class="p">(</span><span class="s2">&quot;lightskyblue&quot;</span><span class="p">,</span> <span class="s2">&quot;deepskyblue&quot;</span><span class="p">),</span>
+            <span class="p">(</span><span class="s2">"pink"</span><span class="p">,</span> <span class="s2">"red"</span><span class="p">),</span>
+            <span class="p">(</span><span class="s2">"paleturquoise"</span><span class="p">,</span> <span class="s2">"teal"</span><span class="p">),</span>
+            <span class="p">(</span><span class="s2">"plum"</span><span class="p">,</span> <span class="s2">"rebeccapurple"</span><span class="p">),</span>
+            <span class="p">(</span><span class="s2">"yellow"</span><span class="p">,</span> <span class="s2">"chartreuse"</span><span class="p">),</span>
+            <span class="p">(</span><span class="s2">"limegreen"</span><span class="p">,</span> <span class="s2">"darkgreen"</span><span class="p">),</span>
+            <span class="p">(</span><span class="s2">"wheat"</span><span class="p">,</span> <span class="s2">"darkorange"</span><span class="p">),</span>
+            <span class="p">(</span><span class="s2">"darkgray"</span><span class="p">,</span> <span class="s2">"black"</span><span class="p">),</span>
+            <span class="p">(</span><span class="s2">"lightgray"</span><span class="p">,</span> <span class="s2">"silver"</span><span class="p">),</span>
+            <span class="p">(</span><span class="s2">"lightskyblue"</span><span class="p">,</span> <span class="s2">"deepskyblue"</span><span class="p">),</span>
         <span class="p">]</span>
 
         <span class="n">ticks</span> <span class="o">=</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">xx</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="k">for</span> <span class="n">xx</span> <span class="ow">in</span> <span class="n">transition_vals</span><span class="p">]</span>
         <span class="n">tickts</span> <span class="o">=</span> <span class="n">ticks</span> <span class="o">+</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">data_range</span><span class="p">[</span><span class="mi">1</span><span class="p">])]</span>
 
-        <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Setting cmap&quot;</span><span class="p">)</span>
+        <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"Setting cmap"</span><span class="p">)</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">geoips.image_utils.colormap_utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">create_linear_segmented_colormap</span>
         <span class="n">mpl_cmap</span> <span class="o">=</span> <span class="n">create_linear_segmented_colormap</span><span class="p">(</span>
-            <span class="s2">&quot;89pct_cmap&quot;</span><span class="p">,</span> <span class="n">data_range</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">data_range</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">transition_vals</span><span class="p">,</span> <span class="n">transition_colors</span>
+            <span class="s2">"89pct_cmap"</span><span class="p">,</span> <span class="n">data_range</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">data_range</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">transition_vals</span><span class="p">,</span> <span class="n">transition_colors</span>
         <span class="p">)</span>
 
-        <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Setting norm&quot;</span><span class="p">)</span>
+        <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"Setting norm"</span><span class="p">)</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">matplotlib.colors</span><span class="w"> </span><span class="kn">import</span> <span class="n">Normalize</span>
         <span class="n">mpl_norm</span> <span class="o">=</span> <span class="n">Normalize</span><span class="p">(</span><span class="n">vmin</span><span class="o">=</span><span class="n">data_range</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">vmax</span><span class="o">=</span><span class="n">data_range</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
 
-        <span class="n">cbar_spacing</span> <span class="o">=</span> <span class="s2">&quot;proportional&quot;</span>
+        <span class="n">cbar_spacing</span> <span class="o">=</span> <span class="s2">"proportional"</span>
         <span class="n">mpl_tick_labels</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="n">mpl_boundaries</span> <span class="o">=</span> <span class="kc">None</span>
 
         <span class="n">mpl_colors_info</span> <span class="o">=</span> <span class="p">{</span>
-            <span class="s2">&quot;cmap&quot;</span><span class="p">:</span> <span class="n">mpl_cmap</span><span class="p">,</span>
-            <span class="s2">&quot;norm&quot;</span><span class="p">:</span> <span class="n">mpl_norm</span><span class="p">,</span>
-            <span class="s2">&quot;cbar_ticks&quot;</span><span class="p">:</span> <span class="n">ticks</span><span class="p">,</span>
-            <span class="s2">&quot;cbar_tick_labels&quot;</span><span class="p">:</span> <span class="n">mpl_tick_labels</span><span class="p">,</span>
-            <span class="s2">&quot;cbar_label&quot;</span><span class="p">:</span> <span class="n">cbar_label</span><span class="p">,</span>
-            <span class="s2">&quot;boundaries&quot;</span><span class="p">:</span> <span class="n">mpl_boundaries</span><span class="p">,</span>
-            <span class="s2">&quot;cbar_spacing&quot;</span><span class="p">:</span> <span class="n">cbar_spacing</span><span class="p">,</span>
-            <span class="s2">&quot;colorbar&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
-            <span class="s2">&quot;cbar_full_width&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+            <span class="s2">"cmap"</span><span class="p">:</span> <span class="n">mpl_cmap</span><span class="p">,</span>
+            <span class="s2">"norm"</span><span class="p">:</span> <span class="n">mpl_norm</span><span class="p">,</span>
+            <span class="s2">"cbar_ticks"</span><span class="p">:</span> <span class="n">ticks</span><span class="p">,</span>
+            <span class="s2">"cbar_tick_labels"</span><span class="p">:</span> <span class="n">mpl_tick_labels</span><span class="p">,</span>
+            <span class="s2">"cbar_label"</span><span class="p">:</span> <span class="n">cbar_label</span><span class="p">,</span>
+            <span class="s2">"boundaries"</span><span class="p">:</span> <span class="n">mpl_boundaries</span><span class="p">,</span>
+            <span class="s2">"cbar_spacing"</span><span class="p">:</span> <span class="n">cbar_spacing</span><span class="p">,</span>
+            <span class="s2">"colorbar"</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+            <span class="s2">"cbar_full_width"</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
         <span class="p">}</span>
         <span class="k">return</span> <span class="n">mpl_colors_info</span>
 
@@ -782,8 +809,8 @@ what you need for your own colormap.</p>
 <code class="docutils literal notranslate"><span class="pre">pyproject.toml</span></code>. Modify your this file (found in the top level of your package
 directory) to include the code listed below. Note: if you named your package something
 other than <code class="docutils literal notranslate"><span class="pre">cool_plugins</span></code>, replace that with your package name.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">project</span><span class="o">.</span><span class="n">entry</span><span class="o">-</span><span class="n">points</span><span class="o">.</span><span class="s2">&quot;geoips.colormappers&quot;</span><span class="p">]</span>
-<span class="n">colorful_cloud_height</span> <span class="o">=</span> <span class="s2">&quot;cool_plugins.plugins.classes.colormappers.colorful_cloud_height&quot;</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">project</span><span class="o">.</span><span class="n">entry</span><span class="o">-</span><span class="n">points</span><span class="o">.</span><span class="s2">"geoips.colormappers"</span><span class="p">]</span>
+<span class="n">colorful_cloud_height</span> <span class="o">=</span> <span class="s2">"cool_plugins.plugins.classes.colormappers.colorful_cloud_height"</span>
 </pre></div>
 </div>
 <p>Once you’ve done that, you’ll have to reinstall your package since you modified
@@ -808,7 +835,7 @@ that file first.</p>
 <span class="w">    </span><span class="no">using a python-based custom colormapper.</span>
 <span class="w">  </span><span class="nt">product_defaults</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Cloud-Height</span>
 <span class="w">  </span><span class="nt">spec</span><span class="p">:</span>
-<span class="w">    </span><span class="nt">variables</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;cld_height_base&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;latitude&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;longitude&quot;</span><span class="p p-Indicator">]</span>
+<span class="w">    </span><span class="nt">variables</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">"cld_height_base"</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">"latitude"</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">"longitude"</span><span class="p p-Indicator">]</span>
 <span class="w">    </span><span class="nt">colormapper</span><span class="p">:</span>
 <span class="w">      </span><span class="nt">plugin</span><span class="p">:</span>
 <span class="w">        </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">colorful_cloud_height</span>

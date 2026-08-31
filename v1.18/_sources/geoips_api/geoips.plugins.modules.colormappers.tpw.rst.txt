@@ -1,0 +1,21 @@
+geoips.plugins.modules.colormappers.tpw package
+===============================================
+
+Submodules
+----------
+
+geoips.plugins.modules.colormappers.tpw.tpw\_pwat module
+--------------------------------------------------------
+
+.. automodule:: geoips.plugins.modules.colormappers.tpw.tpw_pwat
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+Module contents
+---------------
+
+.. automodule:: geoips.plugins.modules.colormappers.tpw
+   :members:
+   :show-inheritance:
+   :undoc-members:

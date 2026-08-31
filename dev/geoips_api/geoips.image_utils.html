@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>geoips.image_utils package &#8212; GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation</title>
+    <title>geoips.image_utils package &#8212; GeoIPS, Geolocated Information Processing System 0.0.0 documentation</title>
   
   
   
@@ -41,11 +41,18 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
 
-    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=6727bded"></script>
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=525cde36"></script>
     <script src="../_static/doctools.js?v=888ff710"></script>
     <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'geoips_api/geoips.image_utils';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.17.1';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://nrlmmd-geoips.github.io/geoips/versions.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = 'dev';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner =
+            false;
+        </script>
     <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
     <link rel="icon" href="../_static/nrlicon.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
@@ -54,8 +61,8 @@
     <link rel="prev" title="geoips.filenames package" href="geoips.filenames.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2.0" />
-    <meta name="docbuild:last-update" content="Jul 23, 2026 17:03:57"/>
+  <meta name="docsearch:version" content="0.0" />
+    <meta name="docbuild:last-update" content="Aug 31, 2026 13:32:18"/>
   
     
     <script src="../_static/searchtools.js"></script>
@@ -127,11 +134,31 @@
       
     
     
-    <img src="../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation - Home"/>
-    <img src="../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation - Home"/>
+    <img src="../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 0.0.0 documentation - Home"/>
+    <img src="../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 0.0.0 documentation - Home"/>
   
   
 </a></div>
+    
+      <div class="navbar-item">
+<div class="version-switcher__container dropdown pst-js-only">
+  <button id="pst-version-switcher-button-2"
+    type="button"
+    class="version-switcher__button btn btn-sm dropdown-toggle"
+    data-bs-toggle="dropdown"
+    aria-haspopup="listbox"
+    aria-controls="pst-version-switcher-list-2"
+    aria-label="Version switcher list"
+  >
+    Choose version  <!-- this text may get changed later by javascript -->
+    <span class="caret"></span>
+  </button>
+  <div id="pst-version-switcher-list-2"
+    class="version-switcher__menu dropdown-menu list-group-flush py-0"
+    role="listbox" aria-labelledby="pst-version-switcher-button-2">
+    <!-- dropdown will be populated by javascript on page load -->
+  </div>
+</div></div>
     
   </div>
   
@@ -579,24 +606,24 @@ specific range of colors corresponding to the transition_vals
 </dl>
 <p class="rubric">Notes</p>
 <p>Transition colors specified as:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[(</span><span class="s1">&#39;yellow&#39;</span><span class="p">,</span> <span class="s1">&#39;orange&#39;</span><span class="p">),</span>
- <span class="p">(</span><span class="s1">&#39;pink&#39;</span><span class="p">,</span> <span class="s1">&#39;red&#39;</span><span class="p">),</span>
- <span class="p">(</span><span class="s1">&#39;violet&#39;</span><span class="p">,</span> <span class="s1">&#39;purple&#39;</span><span class="p">)]</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[(</span><span class="s1">'yellow'</span><span class="p">,</span> <span class="s1">'orange'</span><span class="p">),</span>
+ <span class="p">(</span><span class="s1">'pink'</span><span class="p">,</span> <span class="s1">'red'</span><span class="p">),</span>
+ <span class="p">(</span><span class="s1">'violet'</span><span class="p">,</span> <span class="s1">'purple'</span><span class="p">)]</span>
 </pre></div>
 </div>
 <p>Where:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">TRANSITIONPOINT1</span> <span class="o">=</span> <span class="mf">0.0</span>
 <span class="n">TRANSITIONPOINT4</span> <span class="o">=</span> <span class="mf">1.0</span>
-<span class="n">cmdict</span> <span class="o">=</span> <span class="p">{</span> <span class="s1">&#39;red&#39;</span> <span class="p">:</span>  <span class="p">((</span><span class="n">TRANSITIONPOINT1</span><span class="p">,</span> <span class="n">IGNORED</span><span class="p">,</span> <span class="mi">1</span><span class="n">to2STARTCOLOR</span><span class="p">),</span>
+<span class="n">cmdict</span> <span class="o">=</span> <span class="p">{</span> <span class="s1">'red'</span> <span class="p">:</span>  <span class="p">((</span><span class="n">TRANSITIONPOINT1</span><span class="p">,</span> <span class="n">IGNORED</span><span class="p">,</span> <span class="mi">1</span><span class="n">to2STARTCOLOR</span><span class="p">),</span>
                  <span class="p">(</span><span class="n">TRANSITIONPOINT2</span><span class="p">,</span> <span class="mi">1</span><span class="n">to2ENDCOLOR</span><span class="p">,</span> <span class="mi">2</span><span class="n">to3STARTCOLOR</span><span class="p">),</span>
                  <span class="p">(</span><span class="n">TRANSITIONPOINT3</span><span class="p">,</span> <span class="mi">2</span><span class="n">to3ENDCOLOR</span><span class="p">,</span> <span class="mi">3</span><span class="n">to4STARTCOLOR</span><span class="p">),</span>
                  <span class="p">(</span><span class="n">TRANSITIONPOINT4</span><span class="p">,</span> <span class="mi">3</span><span class="n">to4ENDCOLOR</span><span class="p">,</span> <span class="n">IGNORED</span><span class="p">)),</span>
-       <span class="s1">&#39;green&#39;</span> <span class="p">:</span>  <span class="p">((</span><span class="n">TRANSITIONPOINT1</span><span class="p">,</span> <span class="n">IGNORED</span><span class="p">,</span> <span class="mi">1</span><span class="n">to2STARTCOLOR</span><span class="p">),</span>
+       <span class="s1">'green'</span> <span class="p">:</span>  <span class="p">((</span><span class="n">TRANSITIONPOINT1</span><span class="p">,</span> <span class="n">IGNORED</span><span class="p">,</span> <span class="mi">1</span><span class="n">to2STARTCOLOR</span><span class="p">),</span>
                  <span class="p">(</span><span class="n">TRANSITIONPOINT2</span><span class="p">,</span> <span class="mi">1</span><span class="n">to2ENDCOLOR</span><span class="p">,</span> <span class="mi">2</span><span class="n">to3STARTCOLOR</span><span class="p">),</span>
                  <span class="p">(</span><span class="n">TRANSITIONPOINT3</span><span class="p">,</span> <span class="mi">2</span><span class="n">to3ENDCOLOR</span><span class="p">,</span> <span class="mi">3</span><span class="n">to4STARTCOLOR</span><span class="p">),</span>
                  <span class="p">(</span><span class="n">TRANSITIONPOINT4</span><span class="p">,</span> <span class="mi">3</span><span class="n">to4ENDCOLOR</span><span class="p">,</span> <span class="n">IGNORED</span><span class="p">)),</span>
 
-       <span class="s1">&#39;blue&#39;</span> <span class="p">:</span>  <span class="p">((</span><span class="n">TRANSITIONPOINT1</span><span class="p">,</span> <span class="n">IGNORED</span><span class="p">,</span> <span class="mi">1</span><span class="n">to2STARTCOLOR</span><span class="p">),</span>
+       <span class="s1">'blue'</span> <span class="p">:</span>  <span class="p">((</span><span class="n">TRANSITIONPOINT1</span><span class="p">,</span> <span class="n">IGNORED</span><span class="p">,</span> <span class="mi">1</span><span class="n">to2STARTCOLOR</span><span class="p">),</span>
                  <span class="p">(</span><span class="n">TRANSITIONPOINT2</span><span class="p">,</span> <span class="mi">1</span><span class="n">to2ENDCOLOR</span><span class="p">,</span> <span class="mi">2</span><span class="n">to3STARTCOLOR</span><span class="p">),</span>
                  <span class="p">(</span><span class="n">TRANSITIONPOINT3</span><span class="p">,</span> <span class="mi">2</span><span class="n">to3ENDCOLOR</span><span class="p">,</span> <span class="mi">3</span><span class="n">to4STARTCOLOR</span><span class="p">),</span>
                  <span class="p">(</span><span class="n">TRANSITIONPOINT4</span><span class="p">,</span> <span class="mi">3</span><span class="n">to4ENDCOLOR</span><span class="p">,</span> <span class="n">IGNORED</span><span class="p">)),</span>
@@ -922,24 +949,24 @@ default is used.</p></li>
 </dl>
 <p class="rubric">Notes</p>
 <p>Defaults specified as:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">gridlines_info</span><span class="p">[</span><span class="s1">&#39;grid_lat_spacing&#39;</span><span class="p">]</span>      <span class="n">default</span> <span class="n">auto</span> <span class="n">calculated</span> <span class="mi">5</span> <span class="n">lat</span> <span class="n">grid</span> <span class="n">lines</span>
-<span class="n">gridlines_info</span><span class="p">[</span><span class="s1">&#39;grid_lon_spacing&#39;</span><span class="p">]</span>      <span class="n">default</span> <span class="n">auto</span> <span class="n">calculated</span> <span class="mi">5</span> <span class="n">lon</span> <span class="n">grid</span> <span class="n">lines</span>
-<span class="n">gridlines_info</span><span class="p">[</span><span class="s1">&#39;grid_lat_xoffset&#39;</span><span class="p">]</span>      <span class="n">default</span> <span class="kc">None</span> <span class="p">(</span><span class="mf">0.01</span> <span class="o">*</span> <span class="n">image</span> <span class="n">height</span><span class="p">)</span>
-<span class="n">gridlines_info</span><span class="p">[</span><span class="s1">&#39;grid_lon_xoffset&#39;</span><span class="p">]</span>      <span class="n">default</span> <span class="kc">None</span> <span class="p">(</span><span class="mf">0.01</span> <span class="o">*</span> <span class="n">image</span> <span class="n">width</span><span class="p">)</span>
-<span class="n">gridlines_info</span><span class="p">[</span><span class="s1">&#39;grid_lat_yoffset&#39;</span><span class="p">]</span>      <span class="n">default</span> <span class="kc">None</span> <span class="p">(</span><span class="mf">0.01</span> <span class="o">*</span> <span class="n">image</span> <span class="n">height</span><span class="p">)</span>
-<span class="n">gridlines_info</span><span class="p">[</span><span class="s1">&#39;grid_lon_yoffset&#39;</span><span class="p">]</span>      <span class="n">default</span> <span class="kc">None</span> <span class="p">(</span><span class="mf">0.01</span> <span class="o">*</span> <span class="n">image</span> <span class="n">width</span><span class="p">)</span>
-<span class="n">gridlines_info</span><span class="p">[</span><span class="s1">&#39;grid_lat_fontsize&#39;</span><span class="p">]</span>     <span class="n">default</span> <span class="kc">None</span> <span class="p">(</span><span class="n">plot</span> <span class="n">fontsize</span><span class="p">)</span>
-<span class="n">gridlines_info</span><span class="p">[</span><span class="s1">&#39;grid_lon_fontsize&#39;</span><span class="p">]</span>     <span class="n">default</span> <span class="kc">None</span> <span class="p">(</span><span class="n">plot</span> <span class="n">fontsize</span><span class="p">)</span>
-<span class="n">gridlines_info</span><span class="p">[</span><span class="s1">&#39;left_label&#39;</span><span class="p">]</span>            <span class="n">default</span> <span class="kc">True</span>
-<span class="n">gridlines_info</span><span class="p">[</span><span class="s1">&#39;right_label&#39;</span><span class="p">]</span>           <span class="n">default</span> <span class="kc">False</span>
-<span class="n">gridlines_info</span><span class="p">[</span><span class="s1">&#39;top_label&#39;</span><span class="p">]</span>             <span class="n">default</span> <span class="kc">True</span>
-<span class="n">gridlines_info</span><span class="p">[</span><span class="s1">&#39;bottom_label&#39;</span><span class="p">]</span>          <span class="n">default</span> <span class="kc">False</span>
-<span class="n">gridlines_info</span><span class="p">[</span><span class="s1">&#39;grid_lat_linewidth&#39;</span><span class="p">]</span>    <span class="n">default</span> <span class="mi">1</span>
-<span class="n">gridlines_info</span><span class="p">[</span><span class="s1">&#39;grid_lon_linewidth&#39;</span><span class="p">]</span>    <span class="n">default</span> <span class="mi">1</span>
-<span class="n">gridlines_info</span><span class="p">[</span><span class="s1">&#39;grid_lat_color&#39;</span><span class="p">]</span>        <span class="n">default</span> <span class="s1">&#39;black&#39;</span>
-<span class="n">gridlines_info</span><span class="p">[</span><span class="s1">&#39;grid_lon_color&#39;</span><span class="p">]</span>        <span class="n">default</span> <span class="s1">&#39;black&#39;</span>
-<span class="n">gridlines_info</span><span class="p">[</span><span class="s1">&#39;grid_lat_dashes&#39;</span><span class="p">]</span>       <span class="n">default</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span>
-<span class="n">gridlines_info</span><span class="p">[</span><span class="s1">&#39;grid_lon_dashes&#39;</span><span class="p">]</span>       <span class="n">default</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">gridlines_info</span><span class="p">[</span><span class="s1">'grid_lat_spacing'</span><span class="p">]</span>      <span class="n">default</span> <span class="n">auto</span> <span class="n">calculated</span> <span class="mi">5</span> <span class="n">lat</span> <span class="n">grid</span> <span class="n">lines</span>
+<span class="n">gridlines_info</span><span class="p">[</span><span class="s1">'grid_lon_spacing'</span><span class="p">]</span>      <span class="n">default</span> <span class="n">auto</span> <span class="n">calculated</span> <span class="mi">5</span> <span class="n">lon</span> <span class="n">grid</span> <span class="n">lines</span>
+<span class="n">gridlines_info</span><span class="p">[</span><span class="s1">'grid_lat_xoffset'</span><span class="p">]</span>      <span class="n">default</span> <span class="kc">None</span> <span class="p">(</span><span class="mf">0.01</span> <span class="o">*</span> <span class="n">image</span> <span class="n">height</span><span class="p">)</span>
+<span class="n">gridlines_info</span><span class="p">[</span><span class="s1">'grid_lon_xoffset'</span><span class="p">]</span>      <span class="n">default</span> <span class="kc">None</span> <span class="p">(</span><span class="mf">0.01</span> <span class="o">*</span> <span class="n">image</span> <span class="n">width</span><span class="p">)</span>
+<span class="n">gridlines_info</span><span class="p">[</span><span class="s1">'grid_lat_yoffset'</span><span class="p">]</span>      <span class="n">default</span> <span class="kc">None</span> <span class="p">(</span><span class="mf">0.01</span> <span class="o">*</span> <span class="n">image</span> <span class="n">height</span><span class="p">)</span>
+<span class="n">gridlines_info</span><span class="p">[</span><span class="s1">'grid_lon_yoffset'</span><span class="p">]</span>      <span class="n">default</span> <span class="kc">None</span> <span class="p">(</span><span class="mf">0.01</span> <span class="o">*</span> <span class="n">image</span> <span class="n">width</span><span class="p">)</span>
+<span class="n">gridlines_info</span><span class="p">[</span><span class="s1">'grid_lat_fontsize'</span><span class="p">]</span>     <span class="n">default</span> <span class="kc">None</span> <span class="p">(</span><span class="n">plot</span> <span class="n">fontsize</span><span class="p">)</span>
+<span class="n">gridlines_info</span><span class="p">[</span><span class="s1">'grid_lon_fontsize'</span><span class="p">]</span>     <span class="n">default</span> <span class="kc">None</span> <span class="p">(</span><span class="n">plot</span> <span class="n">fontsize</span><span class="p">)</span>
+<span class="n">gridlines_info</span><span class="p">[</span><span class="s1">'left_label'</span><span class="p">]</span>            <span class="n">default</span> <span class="kc">True</span>
+<span class="n">gridlines_info</span><span class="p">[</span><span class="s1">'right_label'</span><span class="p">]</span>           <span class="n">default</span> <span class="kc">False</span>
+<span class="n">gridlines_info</span><span class="p">[</span><span class="s1">'top_label'</span><span class="p">]</span>             <span class="n">default</span> <span class="kc">True</span>
+<span class="n">gridlines_info</span><span class="p">[</span><span class="s1">'bottom_label'</span><span class="p">]</span>          <span class="n">default</span> <span class="kc">False</span>
+<span class="n">gridlines_info</span><span class="p">[</span><span class="s1">'grid_lat_linewidth'</span><span class="p">]</span>    <span class="n">default</span> <span class="mi">1</span>
+<span class="n">gridlines_info</span><span class="p">[</span><span class="s1">'grid_lon_linewidth'</span><span class="p">]</span>    <span class="n">default</span> <span class="mi">1</span>
+<span class="n">gridlines_info</span><span class="p">[</span><span class="s1">'grid_lat_color'</span><span class="p">]</span>        <span class="n">default</span> <span class="s1">'black'</span>
+<span class="n">gridlines_info</span><span class="p">[</span><span class="s1">'grid_lon_color'</span><span class="p">]</span>        <span class="n">default</span> <span class="s1">'black'</span>
+<span class="n">gridlines_info</span><span class="p">[</span><span class="s1">'grid_lat_dashes'</span><span class="p">]</span>       <span class="n">default</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span>
+<span class="n">gridlines_info</span><span class="p">[</span><span class="s1">'grid_lon_dashes'</span><span class="p">]</span>       <span class="n">default</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -989,24 +1016,24 @@ colorbar use the same parameters</p>
 </dl>
 <p class="rubric">Notes</p>
 <p>Required mpl_colors_info fields:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mpl_colors_info</span><span class="p">[</span><span class="s1">&#39;cmap&#39;</span><span class="p">]</span> <span class="p">(</span><span class="n">Colormap</span><span class="p">):</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mpl_colors_info</span><span class="p">[</span><span class="s1">'cmap'</span><span class="p">]</span> <span class="p">(</span><span class="n">Colormap</span><span class="p">):</span>
     <span class="n">matplotlib</span><span class="o">.</span><span class="n">colors</span><span class="o">.</span><span class="n">Colormap</span> <span class="nb">object</span> <span class="p">(</span><span class="n">LinearSegmentedColormap</span><span class="p">,</span> <span class="n">etc</span><span class="p">)</span>
     <span class="n">this</span> <span class="ow">is</span> <span class="n">used</span> <span class="n">to</span> <span class="n">plot</span> <span class="n">the</span> <span class="n">image</span> <span class="ow">and</span> <span class="n">to</span> <span class="n">generated</span> <span class="n">the</span> <span class="n">colorbar</span>
-<span class="n">mpl_colors_info</span><span class="p">[</span><span class="s1">&#39;norm&#39;</span><span class="p">]</span> <span class="p">(</span><span class="n">Normalize</span><span class="p">):</span>
+<span class="n">mpl_colors_info</span><span class="p">[</span><span class="s1">'norm'</span><span class="p">]</span> <span class="p">(</span><span class="n">Normalize</span><span class="p">):</span>
     <span class="n">matplotlib</span><span class="o">.</span><span class="n">colors</span><span class="o">.</span><span class="n">Normalize</span> <span class="nb">object</span> <span class="p">(</span><span class="n">BoundaryNorm</span><span class="p">,</span> <span class="n">Normalize</span><span class="p">,</span> <span class="n">etc</span><span class="p">)</span>
     <span class="n">again</span><span class="p">,</span> <span class="n">this</span> <span class="n">should</span> <span class="n">be</span> <span class="n">used</span> <span class="n">to</span> <span class="n">plot</span> <span class="n">the</span> <span class="n">data</span> <span class="n">also</span>
-<span class="n">mpl_colors_info</span><span class="p">[</span><span class="s1">&#39;cbar_ticks&#39;</span><span class="p">]</span> <span class="p">(</span><span class="nb">list</span><span class="p">):</span>
+<span class="n">mpl_colors_info</span><span class="p">[</span><span class="s1">'cbar_ticks'</span><span class="p">]</span> <span class="p">(</span><span class="nb">list</span><span class="p">):</span>
     <span class="nb">list</span> <span class="n">of</span> <span class="n">floats</span> <span class="o">-</span> <span class="n">values</span> <span class="n">requiring</span> <span class="n">tick</span> <span class="n">marks</span> <span class="n">on</span> <span class="n">the</span> <span class="n">colorbar</span>
-<span class="n">mpl_colors_info</span><span class="p">[</span><span class="s1">&#39;cbar_tick_labels&#39;</span><span class="p">]</span> <span class="p">(</span><span class="nb">list</span><span class="p">)</span>
+<span class="n">mpl_colors_info</span><span class="p">[</span><span class="s1">'cbar_tick_labels'</span><span class="p">]</span> <span class="p">(</span><span class="nb">list</span><span class="p">)</span>
     <span class="nb">list</span> <span class="n">of</span> <span class="n">values</span> <span class="n">to</span> <span class="n">use</span> <span class="n">to</span> <span class="n">label</span> <span class="n">tick</span> <span class="n">marks</span><span class="p">,</span> <span class="k">if</span> <span class="n">other</span> <span class="n">than</span>
     <span class="n">found</span> <span class="ow">in</span> <span class="n">cbar_ticks</span>
-<span class="n">mpl_colors_info</span><span class="p">[</span><span class="s1">&#39;boundaries&#39;</span><span class="p">]</span> <span class="p">(</span><span class="nb">list</span><span class="p">):</span>
+<span class="n">mpl_colors_info</span><span class="p">[</span><span class="s1">'boundaries'</span><span class="p">]</span> <span class="p">(</span><span class="nb">list</span><span class="p">):</span>
     <span class="k">if</span> <span class="n">cmap_norm</span> <span class="ow">is</span> <span class="n">BoundaryNorm</span><span class="p">,</span> <span class="nb">list</span> <span class="n">of</span> <span class="n">boundaries</span> <span class="k">for</span> <span class="n">discrete</span> <span class="n">colors</span>
-<span class="n">mpl_colors_info</span><span class="p">[</span><span class="s1">&#39;cbar_spacing&#39;</span><span class="p">]</span> <span class="p">(</span><span class="n">string</span><span class="p">):</span>
-    <span class="n">DEFAULT</span> <span class="s1">&#39;proportional&#39;</span><span class="p">,</span> <span class="s1">&#39;uniform&#39;</span> <span class="ow">or</span> <span class="s1">&#39;proportional&#39;</span>
-<span class="n">mpl_colors_info</span><span class="p">[</span><span class="s1">&#39;cbar_label&#39;</span><span class="p">]</span> <span class="p">(</span><span class="n">string</span><span class="p">):</span>
+<span class="n">mpl_colors_info</span><span class="p">[</span><span class="s1">'cbar_spacing'</span><span class="p">]</span> <span class="p">(</span><span class="n">string</span><span class="p">):</span>
+    <span class="n">DEFAULT</span> <span class="s1">'proportional'</span><span class="p">,</span> <span class="s1">'uniform'</span> <span class="ow">or</span> <span class="s1">'proportional'</span>
+<span class="n">mpl_colors_info</span><span class="p">[</span><span class="s1">'cbar_label'</span><span class="p">]</span> <span class="p">(</span><span class="n">string</span><span class="p">):</span>
     <span class="n">string</span> <span class="n">label</span> <span class="k">for</span> <span class="n">colorbar</span>
-<span class="n">mpl_colors_info</span><span class="p">[</span><span class="s1">&#39;colorbar&#39;</span><span class="p">]:</span> <span class="p">(</span><span class="nb">bool</span><span class="p">)</span>
+<span class="n">mpl_colors_info</span><span class="p">[</span><span class="s1">'colorbar'</span><span class="p">]:</span> <span class="p">(</span><span class="nb">bool</span><span class="p">)</span>
     <span class="kc">True</span> <span class="k">if</span> <span class="n">a</span> <span class="n">colorbar</span> <span class="n">should</span> <span class="n">be</span> <span class="n">included</span> <span class="ow">in</span> <span class="n">the</span> <span class="n">image</span><span class="p">,</span> <span class="kc">False</span> <span class="k">if</span> <span class="n">no</span> <span class="n">cbar</span>
 </pre></div>
 </div>

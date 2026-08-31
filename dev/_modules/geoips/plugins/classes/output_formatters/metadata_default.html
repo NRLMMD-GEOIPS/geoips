@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>geoips.plugins.classes.output_formatters.metadata_default &#8212; GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation</title>
+    <title>geoips.plugins.classes.output_formatters.metadata_default &#8212; GeoIPS, Geolocated Information Processing System 0.0.0 documentation</title>
   
   
   
@@ -40,7 +40,7 @@
   <link rel="preload" as="script" href="../../../../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
 <link rel="preload" as="script" href="../../../../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
 
-    <script data-url_root="../../../../../" id="documentation_options" src="../../../../../_static/documentation_options.js?v=6727bded"></script>
+    <script data-url_root="../../../../../" id="documentation_options" src="../../../../../_static/documentation_options.js?v=525cde36"></script>
     <script src="../../../../../_static/doctools.js?v=888ff710"></script>
     <script src="../../../../../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../../../_static/design-tabs.js?v=f930bc37"></script>
@@ -401,14 +401,21 @@ mermaid.initialize(
 window.addEventListener("load", load);
 window.runMermaid = runMermaid;</script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_modules/geoips/plugins/classes/output_formatters/metadata_default';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.17.1';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://nrlmmd-geoips.github.io/geoips/versions.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = 'dev';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner =
+            false;
+        </script>
     <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
     <link rel="icon" href="../../../../../_static/nrlicon.ico"/>
     <link rel="index" title="Index" href="../../../../../genindex.html" />
     <link rel="search" title="Search" href="../../../../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2.0" />
-    <meta name="docbuild:last-update" content="Jul 23, 2026 17:03:57"/>
+  <meta name="docsearch:version" content="0.0" />
+    <meta name="docbuild:last-update" content="Aug 31, 2026 13:32:18"/>
   
     
     <script src="../../../../../_static/searchtools.js"></script>
@@ -480,11 +487,31 @@ window.runMermaid = runMermaid;</script>
       
     
     
-    <img src="../../../../../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation - Home"/>
-    <img src="../../../../../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation - Home"/>
+    <img src="../../../../../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 0.0.0 documentation - Home"/>
+    <img src="../../../../../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 0.0.0 documentation - Home"/>
   
   
 </a></div>
+    
+      <div class="navbar-item">
+<div class="version-switcher__container dropdown pst-js-only">
+  <button id="pst-version-switcher-button-2"
+    type="button"
+    class="version-switcher__button btn btn-sm dropdown-toggle"
+    data-bs-toggle="dropdown"
+    aria-haspopup="listbox"
+    aria-controls="pst-version-switcher-list-2"
+    aria-label="Version switcher list"
+  >
+    Choose version  <!-- this text may get changed later by javascript -->
+    <span class="caret"></span>
+  </button>
+  <div id="pst-version-switcher-list-2"
+    class="version-switcher__menu dropdown-menu list-group-flush py-0"
+    role="listbox" aria-labelledby="pst-version-switcher-button-2">
+    <!-- dropdown will be populated by javascript on page load -->
+  </div>
+</div></div>
     
   </div>
   
@@ -828,7 +855,7 @@ window.runMermaid = runMermaid;</script>
 <span></span><span class="c1"># # # This source code is subject to the license referenced at</span>
 <span class="c1"># # # https://github.com/NRLMMD-GEOIPS.</span>
 
-<span class="sd">&quot;&quot;&quot;Default YAML metadata output format.&quot;&quot;&quot;</span>
+<span class="sd">"""Default YAML metadata output format."""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">geoips.interfaces.class_based.output_formatters</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseOutputFormatterPlugin</span>
 
@@ -842,43 +869,43 @@ window.runMermaid = runMermaid;</script>
 
 
 <div class="viewcode-block" id="MetadataDefaultOutputFormatterPlugin"><a class="viewcode-back" href="../../../../../geoips_api/geoips.plugins.classes.output_formatters.html#geoips.plugins.classes.output_formatters.metadata_default.MetadataDefaultOutputFormatterPlugin">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">MetadataDefaultOutputFormatterPlugin</span><span class="p">(</span><span class="n">BaseOutputFormatterPlugin</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Metadata Default Output formatter plugin class.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Metadata Default Output formatter plugin class."""</span>
 
     <span class="c1"># Have the meta`data_default output unchanging - metadata_tc will pick up all the</span>
     <span class="c1"># fields in sector_info, so any tests that use metadata_tc will test the latest</span>
     <span class="c1"># iteration of the TC-specific outputs, and in general we will want to use</span>
     <span class="c1"># metadata_default to avoid unnecessarily changing all outputs.</span>
     <span class="n">default_fields</span> <span class="o">=</span> <span class="p">[</span>
-        <span class="s2">&quot;adjustment_id&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;aid_type&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;archer_fdeck&quot;</span><span class="p">,</span>  <span class="c1"># This is from recenter_tc plugins which run ARCHER.</span>
-        <span class="s2">&quot;bounding_box&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;clat&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;clon&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;deck_line&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;final_storm_name&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;interpolated_time&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;invest_number&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;parser_name&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;pressure&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;product_filename&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;recenter_type&quot;</span><span class="p">,</span>  <span class="c1"># This is from the recenter_tc plugin package</span>
-        <span class="s2">&quot;sector_type&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;source_file_names&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;source_filename&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;source_sector_file&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;storm_basin&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;storm_name&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;storm_num&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;storm_start_datetime&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;storm_year&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;synoptic_time&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;vmax&quot;</span><span class="p">,</span>
+        <span class="s2">"adjustment_id"</span><span class="p">,</span>
+        <span class="s2">"aid_type"</span><span class="p">,</span>
+        <span class="s2">"archer_fdeck"</span><span class="p">,</span>  <span class="c1"># This is from recenter_tc plugins which run ARCHER.</span>
+        <span class="s2">"bounding_box"</span><span class="p">,</span>
+        <span class="s2">"clat"</span><span class="p">,</span>
+        <span class="s2">"clon"</span><span class="p">,</span>
+        <span class="s2">"deck_line"</span><span class="p">,</span>
+        <span class="s2">"final_storm_name"</span><span class="p">,</span>
+        <span class="s2">"interpolated_time"</span><span class="p">,</span>
+        <span class="s2">"invest_number"</span><span class="p">,</span>
+        <span class="s2">"parser_name"</span><span class="p">,</span>
+        <span class="s2">"pressure"</span><span class="p">,</span>
+        <span class="s2">"product_filename"</span><span class="p">,</span>
+        <span class="s2">"recenter_type"</span><span class="p">,</span>  <span class="c1"># This is from the recenter_tc plugin package</span>
+        <span class="s2">"sector_type"</span><span class="p">,</span>
+        <span class="s2">"source_file_names"</span><span class="p">,</span>
+        <span class="s2">"source_filename"</span><span class="p">,</span>
+        <span class="s2">"source_sector_file"</span><span class="p">,</span>
+        <span class="s2">"storm_basin"</span><span class="p">,</span>
+        <span class="s2">"storm_name"</span><span class="p">,</span>
+        <span class="s2">"storm_num"</span><span class="p">,</span>
+        <span class="s2">"storm_start_datetime"</span><span class="p">,</span>
+        <span class="s2">"storm_year"</span><span class="p">,</span>
+        <span class="s2">"synoptic_time"</span><span class="p">,</span>
+        <span class="s2">"vmax"</span><span class="p">,</span>
     <span class="p">]</span>
 
-    <span class="n">interface</span> <span class="o">=</span> <span class="s2">&quot;output_formatters&quot;</span>
-    <span class="n">family</span> <span class="o">=</span> <span class="s2">&quot;standard_metadata&quot;</span>
-    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;metadata_default&quot;</span>
+    <span class="n">interface</span> <span class="o">=</span> <span class="s2">"output_formatters"</span>
+    <span class="n">family</span> <span class="o">=</span> <span class="s2">"standard_metadata"</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">"metadata_default"</span>
 
 <div class="viewcode-block" id="MetadataDefaultOutputFormatterPlugin.call"><a class="viewcode-back" href="../../../../../geoips_api/geoips.plugins.classes.output_formatters.html#geoips.plugins.classes.output_formatters.metadata_default.MetadataDefaultOutputFormatterPlugin.call">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">call</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
@@ -886,12 +913,12 @@ window.runMermaid = runMermaid;</script>
         <span class="n">xarray_obj</span><span class="p">,</span>
         <span class="n">metadata_yaml_filename</span><span class="p">,</span>
         <span class="n">product_filename</span><span class="p">,</span>
-        <span class="n">metadata_dir</span><span class="o">=</span><span class="s2">&quot;metadata&quot;</span><span class="p">,</span>
-        <span class="n">basedir</span><span class="o">=</span><span class="n">gpaths</span><span class="p">[</span><span class="s2">&quot;TCWWW&quot;</span><span class="p">],</span>
+        <span class="n">metadata_dir</span><span class="o">=</span><span class="s2">"metadata"</span><span class="p">,</span>
+        <span class="n">basedir</span><span class="o">=</span><span class="n">gpaths</span><span class="p">[</span><span class="s2">"TCWWW"</span><span class="p">],</span>
         <span class="n">output_dict</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">include_metadata_filename</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
     <span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Produce metadata yaml file of sector info associated with final_product.</span>
+<span class="w">        </span><span class="sd">"""Produce metadata yaml file of sector info associated with final_product.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -899,7 +926,7 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">            Pyresample AreaDefintion object</span>
 <span class="sd">        final_product : str</span>
 <span class="sd">            Product that is associated with the passed area_def</span>
-<span class="sd">        metadata_dir : str, default=&#39;metadata&#39;</span>
+<span class="sd">        metadata_dir : str, default='metadata'</span>
 <span class="sd">            Subdirectory name for metadata (using non-default allows for</span>
 <span class="sd">            non-operational outputs)</span>
 
@@ -907,17 +934,17 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">        -------</span>
 <span class="sd">        str</span>
 <span class="sd">            Metadata yaml filename, if one was produced.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">geoips.sector_utils.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">is_sector_type</span>
 
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">is_sector_type</span><span class="p">(</span><span class="n">area_def</span><span class="p">,</span> <span class="s2">&quot;tc&quot;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">is_sector_type</span><span class="p">(</span><span class="n">area_def</span><span class="p">,</span> <span class="s2">"tc"</span><span class="p">):</span>
             <span class="k">return</span> <span class="kc">None</span>
-        <span class="c1"># os.path.join does not take a list, so &quot;*&quot; it</span>
-        <span class="c1"># product_partial_path = product_filename.replace(gpaths[&#39;TCWWW&#39;],</span>
-        <span class="c1">#   &#39;https://www.nrlmry.navy.mil/tcdat&#39;)</span>
+        <span class="c1"># os.path.join does not take a list, so "*" it</span>
+        <span class="c1"># product_partial_path = product_filename.replace(gpaths['TCWWW'],</span>
+        <span class="c1">#   'https://www.nrlmry.navy.mil/tcdat')</span>
         <span class="n">product_partial_path</span> <span class="o">=</span> <span class="n">replace_geoips_paths</span><span class="p">(</span><span class="n">product_filename</span><span class="p">)</span>
         <span class="c1"># product_partial_path = pathjoin(</span>
-        <span class="c1">#   *final_product.split(&#39;/&#39;)[-5:-1]+[basename(final_product)])</span>
+        <span class="c1">#   *final_product.split('/')[-5:-1]+[basename(final_product)])</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">output_metadata_yaml</span><span class="p">(</span>
             <span class="n">metadata_yaml_filename</span><span class="p">,</span>
             <span class="n">area_def</span><span class="p">,</span>
@@ -928,18 +955,18 @@ window.runMermaid = runMermaid;</script>
         <span class="p">)</span></div>
 
 <div class="viewcode-block" id="MetadataDefaultOutputFormatterPlugin.remove_non_default_metadata"><a class="viewcode-back" href="../../../../../geoips_api/geoips.plugins.classes.output_formatters.html#geoips.plugins.classes.output_formatters.metadata_default.MetadataDefaultOutputFormatterPlugin.remove_non_default_metadata">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">remove_non_default_metadata</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sector_info</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Remove non default metadata from the sector_info dictionary.</span>
+<span class="w">        </span><span class="sd">"""Remove non default metadata from the sector_info dictionary.</span>
 
 <span class="sd">        Ensure we have a consistent set of metadata to include in the metadata default</span>
 <span class="sd">        output, to reduce unnecessary YAML metadata output comparison changes.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">return_sector_info</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">sector_info</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">default_fields</span><span class="p">:</span>
-                <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Retaining key &#39;</span><span class="si">%s</span><span class="s2">&#39; &#39;</span><span class="si">%s</span><span class="s2">&#39;&quot;</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">sector_info</span><span class="p">[</span><span class="n">key</span><span class="p">])</span>
+                <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"Retaining key '</span><span class="si">%s</span><span class="s2">' '</span><span class="si">%s</span><span class="s2">'"</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">sector_info</span><span class="p">[</span><span class="n">key</span><span class="p">])</span>
                 <span class="n">return_sector_info</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">sector_info</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Removing non default key &#39;</span><span class="si">%s</span><span class="s2">&#39; &#39;</span><span class="si">%s</span><span class="s2">&#39;&quot;</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">sector_info</span><span class="p">[</span><span class="n">key</span><span class="p">])</span>
+                <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"Removing non default key '</span><span class="si">%s</span><span class="s2">' '</span><span class="si">%s</span><span class="s2">'"</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">sector_info</span><span class="p">[</span><span class="n">key</span><span class="p">])</span>
         <span class="k">return</span> <span class="n">return_sector_info</span></div>
 
 <div class="viewcode-block" id="MetadataDefaultOutputFormatterPlugin.output_metadata_yaml"><a class="viewcode-back" href="../../../../../geoips_api/geoips.plugins.classes.output_formatters.html#geoips.plugins.classes.output_formatters.metadata_default.MetadataDefaultOutputFormatterPlugin.output_metadata_yaml">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">output_metadata_yaml</span><span class="p">(</span>
@@ -951,7 +978,7 @@ window.runMermaid = runMermaid;</script>
         <span class="n">output_dict</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">include_metadata_filename</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
     <span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Write out yaml file &quot;metadata_fname&quot; of sector info found in &quot;area_def&quot;.</span>
+<span class="w">        </span><span class="sd">"""Write out yaml file "metadata_fname" of sector info found in "area_def".</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -968,16 +995,16 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">        -------</span>
 <span class="sd">        str</span>
 <span class="sd">            Path to metadata filename if successfully produced.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">sector_info_kwargs</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="k">if</span> <span class="n">include_metadata_filename</span><span class="p">:</span>
-            <span class="n">sector_info_kwargs</span><span class="p">[</span><span class="s2">&quot;metadata_filename&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">metadata_fname</span>
+            <span class="n">sector_info_kwargs</span><span class="p">[</span><span class="s2">"metadata_filename"</span><span class="p">]</span> <span class="o">=</span> <span class="n">metadata_fname</span>
         <span class="k">if</span> <span class="n">product_filename</span><span class="p">:</span>
-            <span class="n">sector_info_kwargs</span><span class="p">[</span><span class="s2">&quot;product_filename&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">product_filename</span>
+            <span class="n">sector_info_kwargs</span><span class="p">[</span><span class="s2">"product_filename"</span><span class="p">]</span> <span class="o">=</span> <span class="n">product_filename</span>
         <span class="n">sector_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">update_sector_info_with_default_metadata</span><span class="p">(</span>
             <span class="n">area_def</span><span class="p">,</span> <span class="n">xarray_obj</span><span class="p">,</span> <span class="o">**</span><span class="n">sector_info_kwargs</span>
         <span class="p">)</span>
-        <span class="c1"># NOTE metadata_tc has it&#39;s own version of output_tc_metadata_yaml, so adding</span>
+        <span class="c1"># NOTE metadata_tc has it's own version of output_tc_metadata_yaml, so adding</span>
         <span class="c1"># this line here does NOT impact metadata_tc.  We CAN NOT remove non-default</span>
         <span class="c1"># metadata directly from update_sector_info_with_default_metadata, because</span>
         <span class="c1"># metadata_tc uses that one directly.</span>
@@ -987,7 +1014,7 @@ window.runMermaid = runMermaid;</script>
             <span class="n">sector_info</span><span class="p">,</span> <span class="n">metadata_fname</span><span class="p">,</span> <span class="n">force</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">replace_geoips_paths</span><span class="o">=</span><span class="kc">True</span>
         <span class="p">)</span>
         <span class="k">if</span> <span class="n">returns</span><span class="p">:</span>
-            <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;METADATASUCCESS Writing </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">metadata_fname</span><span class="p">)</span>
+            <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"METADATASUCCESS Writing </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="n">metadata_fname</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">returns</span></div></div>
 
 

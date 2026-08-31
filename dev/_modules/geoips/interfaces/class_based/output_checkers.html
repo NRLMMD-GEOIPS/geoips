@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>geoips.interfaces.class_based.output_checkers &#8212; GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation</title>
+    <title>geoips.interfaces.class_based.output_checkers &#8212; GeoIPS, Geolocated Information Processing System 0.0.0 documentation</title>
   
   
   
@@ -40,7 +40,7 @@
   <link rel="preload" as="script" href="../../../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
 <link rel="preload" as="script" href="../../../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
 
-    <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js?v=6727bded"></script>
+    <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js?v=525cde36"></script>
     <script src="../../../../_static/doctools.js?v=888ff710"></script>
     <script src="../../../../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../../_static/design-tabs.js?v=f930bc37"></script>
@@ -401,14 +401,21 @@ mermaid.initialize(
 window.addEventListener("load", load);
 window.runMermaid = runMermaid;</script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_modules/geoips/interfaces/class_based/output_checkers';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.17.1';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://nrlmmd-geoips.github.io/geoips/versions.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = 'dev';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner =
+            false;
+        </script>
     <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
     <link rel="icon" href="../../../../_static/nrlicon.ico"/>
     <link rel="index" title="Index" href="../../../../genindex.html" />
     <link rel="search" title="Search" href="../../../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2.0" />
-    <meta name="docbuild:last-update" content="Jul 23, 2026 17:03:57"/>
+  <meta name="docsearch:version" content="0.0" />
+    <meta name="docbuild:last-update" content="Aug 31, 2026 13:32:18"/>
   
     
     <script src="../../../../_static/searchtools.js"></script>
@@ -480,11 +487,31 @@ window.runMermaid = runMermaid;</script>
       
     
     
-    <img src="../../../../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation - Home"/>
-    <img src="../../../../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation - Home"/>
+    <img src="../../../../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 0.0.0 documentation - Home"/>
+    <img src="../../../../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 0.0.0 documentation - Home"/>
   
   
 </a></div>
+    
+      <div class="navbar-item">
+<div class="version-switcher__container dropdown pst-js-only">
+  <button id="pst-version-switcher-button-2"
+    type="button"
+    class="version-switcher__button btn btn-sm dropdown-toggle"
+    data-bs-toggle="dropdown"
+    aria-haspopup="listbox"
+    aria-controls="pst-version-switcher-list-2"
+    aria-label="Version switcher list"
+  >
+    Choose version  <!-- this text may get changed later by javascript -->
+    <span class="caret"></span>
+  </button>
+  <div id="pst-version-switcher-list-2"
+    class="version-switcher__menu dropdown-menu list-group-flush py-0"
+    role="listbox" aria-labelledby="pst-version-switcher-button-2">
+    <!-- dropdown will be populated by javascript on page load -->
+  </div>
+</div></div>
     
   </div>
   
@@ -828,7 +855,7 @@ window.runMermaid = runMermaid;</script>
 <span></span><span class="c1"># # # This source code is subject to the license referenced at</span>
 <span class="c1"># # # https://github.com/NRLMMD-GEOIPS.</span>
 
-<span class="sd">&quot;&quot;&quot;Output Checkers interface class.&quot;&quot;&quot;</span>
+<span class="sd">"""Output Checkers interface class."""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">glob</span><span class="w"> </span><span class="kn">import</span> <span class="n">glob</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">gzip</span>
@@ -851,7 +878,7 @@ window.runMermaid = runMermaid;</script>
 
 
 <div class="viewcode-block" id="write_bad_comparisons_to_file"><a class="viewcode-back" href="../../../../geoips_api/geoips.interfaces.class_based.html#geoips.interfaces.class_based.output_checkers.write_bad_comparisons_to_file">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">write_bad_comparisons_to_file</span><span class="p">(</span><span class="n">badcomps</span><span class="p">,</span> <span class="n">compare_products</span><span class="p">,</span> <span class="n">compare_strings</span><span class="p">,</span> <span class="n">diffdir</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Write text file with cp commands to update products with bad comparisons.</span>
+<span class="w">    </span><span class="sd">"""Write text file with cp commands to update products with bad comparisons.</span>
 
 <span class="sd">    Write a text file that can be sourced to replace test output comparison files</span>
 <span class="sd">    with the most recent outputs when the output checker returns a bad comparisons.</span>
@@ -872,21 +899,21 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    badcomps: list</span>
-<span class="sd">        List of files that returned a &quot;BAD COMPARISON&quot; from the output checker.</span>
+<span class="sd">        List of files that returned a "BAD COMPARISON" from the output checker.</span>
 <span class="sd">        These are the full paths to the files produced during the most recent</span>
 <span class="sd">        run.</span>
 <span class="sd">    compare_products: dict</span>
 <span class="sd">        dictionary of comparison products - including the original comparison</span>
 <span class="sd">        product file name, the gunzipped product file path if applicable,</span>
 <span class="sd">        and the path to the file that should be used for comparison against</span>
-<span class="sd">        &quot;badcomps&quot; files.</span>
+<span class="sd">        "badcomps" files.</span>
 <span class="sd">    compare_strings : list of str</span>
-<span class="sd">        List of all comparison &quot;tags&quot; included in goodcomps and badcomps lists.</span>
+<span class="sd">        List of all comparison "tags" included in goodcomps and badcomps lists.</span>
 
 <span class="sd">        * This list is used to remove the comparison tags from goodcomps and</span>
 <span class="sd">          badcomps to retrieve only the file path.</span>
 <span class="sd">    diffdir: str</span>
-<span class="sd">        Full path to write &quot;cp_BADCOMPARES.txt&quot; file.</span>
+<span class="sd">        Full path to write "cp_BADCOMPARES.txt" file.</span>
 <span class="sd">        NOTE: diffdir currently also is used to specify the path to the</span>
 <span class="sd">        output files. Eventually we should pass in 2 separate paths, one</span>
 <span class="sd">        to specify where to write the diff files, and a separate path</span>
@@ -897,49 +924,49 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">    int</span>
 <span class="sd">        Binary code: 0 if all comparisons were completed successfully, non-zero</span>
 <span class="sd">        if there were bad comparisons.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">for</span> <span class="n">badcompare</span> <span class="ow">in</span> <span class="n">badcomps</span><span class="p">:</span>
-        <span class="n">LOG</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;BADCOMPARE </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">badcompare</span><span class="p">)</span>
+        <span class="n">LOG</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">"BADCOMPARE </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="n">badcompare</span><span class="p">)</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">badcomps</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="n">fname_cp</span> <span class="o">=</span> <span class="n">join</span><span class="p">(</span><span class="n">diffdir</span><span class="p">,</span> <span class="s2">&quot;cp_BADCOMPARES.txt&quot;</span><span class="p">)</span>
-        <span class="n">fname_badcptest</span> <span class="o">=</span> <span class="n">join</span><span class="p">(</span><span class="n">diffdir</span><span class="p">,</span> <span class="s2">&quot;cptest_BADCOMPARES.txt&quot;</span><span class="p">)</span>
+        <span class="n">fname_cp</span> <span class="o">=</span> <span class="n">join</span><span class="p">(</span><span class="n">diffdir</span><span class="p">,</span> <span class="s2">"cp_BADCOMPARES.txt"</span><span class="p">)</span>
+        <span class="n">fname_badcptest</span> <span class="o">=</span> <span class="n">join</span><span class="p">(</span><span class="n">diffdir</span><span class="p">,</span> <span class="s2">"cptest_BADCOMPARES.txt"</span><span class="p">)</span>
         <span class="n">LOG</span><span class="o">.</span><span class="n">interactive</span><span class="p">(</span>
-            <span class="s2">&quot;BADCOMPARES Commands to copy </span><span class="si">%d</span><span class="s2"> files that had bad comparisons&quot;</span><span class="p">,</span>
+            <span class="s2">"BADCOMPARES Commands to copy </span><span class="si">%d</span><span class="s2"> files that had bad comparisons"</span><span class="p">,</span>
             <span class="nb">len</span><span class="p">(</span><span class="n">badcomps</span><span class="p">),</span>
         <span class="p">)</span>
-        <span class="n">LOG</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  source </span><span class="si">{</span><span class="n">fname_badcptest</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-        <span class="n">LOG</span><span class="o">.</span><span class="n">interactive</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  source </span><span class="si">{</span><span class="n">fname_cp</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">LOG</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  source </span><span class="si">{</span><span class="n">fname_badcptest</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+        <span class="n">LOG</span><span class="o">.</span><span class="n">interactive</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  source </span><span class="si">{</span><span class="n">fname_cp</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
         <span class="c1"># Include print statement for easy copy/paste at the command line</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;***</span><span class="se">\n</span><span class="s2">source </span><span class="si">{</span><span class="n">fname_cp</span><span class="si">}</span><span class="se">\n</span><span class="s2">***&quot;</span><span class="p">)</span>
-        <span class="n">comparison_path</span> <span class="o">=</span> <span class="n">join</span><span class="p">(</span><span class="n">diffdir</span><span class="p">,</span> <span class="s2">&quot;..&quot;</span><span class="p">)</span>
-        <span class="n">test_path</span> <span class="o">=</span> <span class="n">join</span><span class="p">(</span><span class="n">diffdir</span><span class="p">,</span> <span class="s2">&quot;BADCOMPARES&quot;</span><span class="p">)</span>
-        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">fname_cp</span><span class="p">,</span> <span class="s2">&quot;a&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fobj</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"***</span><span class="se">\n</span><span class="s2">source </span><span class="si">{</span><span class="n">fname_cp</span><span class="si">}</span><span class="se">\n</span><span class="s2">***"</span><span class="p">)</span>
+        <span class="n">comparison_path</span> <span class="o">=</span> <span class="n">join</span><span class="p">(</span><span class="n">diffdir</span><span class="p">,</span> <span class="s2">".."</span><span class="p">)</span>
+        <span class="n">test_path</span> <span class="o">=</span> <span class="n">join</span><span class="p">(</span><span class="n">diffdir</span><span class="p">,</span> <span class="s2">"BADCOMPARES"</span><span class="p">)</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">fname_cp</span><span class="p">,</span> <span class="s2">"a"</span><span class="p">)</span> <span class="k">as</span> <span class="n">fobj</span><span class="p">:</span>
             <span class="k">for</span> <span class="n">badcomp</span> <span class="ow">in</span> <span class="n">badcomps</span><span class="p">:</span>
                 <span class="k">if</span> <span class="n">compare_strings</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
                     <span class="k">for</span> <span class="n">compare_string</span> <span class="ow">in</span> <span class="n">compare_strings</span><span class="p">:</span>
-                        <span class="n">badcomp</span> <span class="o">=</span> <span class="n">badcomp</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">compare_string</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
-                <span class="n">fobj</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;cp -v </span><span class="si">{</span><span class="n">badcomp</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">comparison_path</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+                        <span class="n">badcomp</span> <span class="o">=</span> <span class="n">badcomp</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">compare_string</span><span class="p">,</span> <span class="s2">""</span><span class="p">)</span>
+                <span class="n">fobj</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">f</span><span class="s2">"cp -v </span><span class="si">{</span><span class="n">badcomp</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">comparison_path</span><span class="si">}</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span>
                 <span class="n">comparison_basename</span> <span class="o">=</span> <span class="n">basename</span><span class="p">(</span><span class="n">badcomp</span><span class="p">)</span>
                 <span class="n">comparison_filename</span> <span class="o">=</span> <span class="n">join</span><span class="p">(</span><span class="n">comparison_path</span><span class="p">,</span> <span class="n">comparison_basename</span><span class="p">)</span>
-                <span class="n">comparison_gz_filename</span> <span class="o">=</span> <span class="n">comparison_filename</span> <span class="o">+</span> <span class="s2">&quot;.gz&quot;</span>
+                <span class="n">comparison_gz_filename</span> <span class="o">=</span> <span class="n">comparison_filename</span> <span class="o">+</span> <span class="s2">".gz"</span>
                 <span class="k">if</span> <span class="p">(</span>
                     <span class="n">basename</span><span class="p">(</span><span class="n">comparison_gz_filename</span><span class="p">)</span> <span class="ow">in</span> <span class="n">compare_products</span>
                     <span class="ow">and</span> <span class="n">compare_products</span><span class="p">[</span><span class="n">basename</span><span class="p">(</span><span class="n">comparison_gz_filename</span><span class="p">)][</span>
-                        <span class="s2">&quot;gunzipped_comparison&quot;</span>
+                        <span class="s2">"gunzipped_comparison"</span>
                     <span class="p">]</span>
                 <span class="p">):</span>
-                    <span class="n">fobj</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;gzip </span><span class="si">{</span><span class="n">comparison_filename</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
-        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">fname_badcptest</span><span class="p">,</span> <span class="s2">&quot;a&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fobj</span><span class="p">:</span>
-            <span class="n">fobj</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;mkdir </span><span class="si">{</span><span class="n">test_path</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+                    <span class="n">fobj</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">f</span><span class="s2">"gzip </span><span class="si">{</span><span class="n">comparison_filename</span><span class="si">}</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">fname_badcptest</span><span class="p">,</span> <span class="s2">"a"</span><span class="p">)</span> <span class="k">as</span> <span class="n">fobj</span><span class="p">:</span>
+            <span class="n">fobj</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">f</span><span class="s2">"mkdir </span><span class="si">{</span><span class="n">test_path</span><span class="si">}</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span>
             <span class="k">for</span> <span class="n">badcomp</span> <span class="ow">in</span> <span class="n">badcomps</span><span class="p">:</span>
-                <span class="n">badcomp</span> <span class="o">=</span> <span class="n">badcomp</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;IMAGE &quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
-                <span class="n">badcomp</span> <span class="o">=</span> <span class="n">badcomp</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;TEXT &quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
-                <span class="n">badcomp</span> <span class="o">=</span> <span class="n">badcomp</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;GEOIPS NETCDF &quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
-                <span class="n">badcomp</span> <span class="o">=</span> <span class="n">badcomp</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;GEOTIFF &quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+                <span class="n">badcomp</span> <span class="o">=</span> <span class="n">badcomp</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">"IMAGE "</span><span class="p">,</span> <span class="s2">""</span><span class="p">)</span>
+                <span class="n">badcomp</span> <span class="o">=</span> <span class="n">badcomp</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">"TEXT "</span><span class="p">,</span> <span class="s2">""</span><span class="p">)</span>
+                <span class="n">badcomp</span> <span class="o">=</span> <span class="n">badcomp</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">"GEOIPS NETCDF "</span><span class="p">,</span> <span class="s2">""</span><span class="p">)</span>
+                <span class="n">badcomp</span> <span class="o">=</span> <span class="n">badcomp</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">"GEOTIFF "</span><span class="p">,</span> <span class="s2">""</span><span class="p">)</span>
                 <span class="c1"># For display purposes - tifs are easier to view</span>
-                <span class="n">test_basename</span> <span class="o">=</span> <span class="n">basename</span><span class="p">(</span><span class="n">badcomp</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;.jif&quot;</span><span class="p">,</span> <span class="s2">&quot;.tif&quot;</span><span class="p">)</span>
+                <span class="n">test_basename</span> <span class="o">=</span> <span class="n">basename</span><span class="p">(</span><span class="n">badcomp</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">".jif"</span><span class="p">,</span> <span class="s2">".tif"</span><span class="p">)</span>
                 <span class="n">test_filename</span> <span class="o">=</span> <span class="n">join</span><span class="p">(</span><span class="n">test_path</span><span class="p">,</span> <span class="n">test_basename</span><span class="p">)</span>
-                <span class="n">fobj</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;cp </span><span class="si">{</span><span class="n">badcomp</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">test_filename</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="n">fobj</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">f</span><span class="s2">"cp </span><span class="si">{</span><span class="n">badcomp</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">test_filename</span><span class="si">}</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span>
     <span class="c1"># Assemble the return value and return.</span>
     <span class="c1"># Bad comparisons are bits 0/1 of the return code.</span>
     <span class="n">retval</span> <span class="o">=</span> <span class="mi">0</span>
@@ -947,12 +974,12 @@ window.runMermaid = runMermaid;</script>
         <span class="n">retval</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">badcomps</span><span class="p">)</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">badcomps</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">4</span><span class="p">:</span>
             <span class="n">retval</span> <span class="o">=</span> <span class="mi">4</span>
-        <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;BADCOMPS </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">badcomps</span><span class="p">))</span>
+        <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"BADCOMPS </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">badcomps</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">retval</span> <span class="o">&lt;&lt;</span> <span class="mi">0</span></div>
 
 
 <div class="viewcode-block" id="write_remove_temp_files_to_file"><a class="viewcode-back" href="../../../../geoips_api/geoips.interfaces.class_based.html#geoips.interfaces.class_based.output_checkers.write_remove_temp_files_to_file">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">write_remove_temp_files_to_file</span><span class="p">(</span><span class="n">remove_temp_files</span><span class="p">,</span> <span class="n">diffdir</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Write text file with rm commands to remove temporary files.</span>
+<span class="w">    </span><span class="sd">"""Write text file with rm commands to remove temporary files.</span>
 
 <span class="sd">    Write a text file ``rm_TEMPFILES.txt`` that can be sourced to remove</span>
 <span class="sd">    temporary files that were created in the ``$GEOIPS_OUTDIRS`` scratch</span>
@@ -984,25 +1011,25 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">    -------</span>
 <span class="sd">    int</span>
 <span class="sd">        Binary code: 0 for successfully written ``rm_TEMPFILES.txt`` file.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">remove_temp_files</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="n">fname_rmtemp</span> <span class="o">=</span> <span class="n">join</span><span class="p">(</span><span class="n">diffdir</span><span class="p">,</span> <span class="s2">&quot;rm_TEMPFILES.txt&quot;</span><span class="p">)</span>
+        <span class="n">fname_rmtemp</span> <span class="o">=</span> <span class="n">join</span><span class="p">(</span><span class="n">diffdir</span><span class="p">,</span> <span class="s2">"rm_TEMPFILES.txt"</span><span class="p">)</span>
         <span class="n">LOG</span><span class="o">.</span><span class="n">interactive</span><span class="p">(</span>
-            <span class="s2">&quot;RMTEMPFILES Commands to remove </span><span class="si">%d</span><span class="s2"> &quot;</span>
-            <span class="s2">&quot;temp files from gunzipped files scratch path.&quot;</span><span class="p">,</span>
+            <span class="s2">"RMTEMPFILES Commands to remove </span><span class="si">%d</span><span class="s2"> "</span>
+            <span class="s2">"temp files from gunzipped files scratch path."</span><span class="p">,</span>
             <span class="nb">len</span><span class="p">(</span><span class="n">remove_temp_files</span><span class="p">),</span>
         <span class="p">)</span>
-        <span class="n">LOG</span><span class="o">.</span><span class="n">interactive</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  source </span><span class="si">{</span><span class="n">fname_rmtemp</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">LOG</span><span class="o">.</span><span class="n">interactive</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  source </span><span class="si">{</span><span class="n">fname_rmtemp</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
         <span class="c1"># Include print statement for easy copy/paste at the command line</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;***</span><span class="se">\n</span><span class="s2">source </span><span class="si">{</span><span class="n">fname_rmtemp</span><span class="si">}</span><span class="se">\n</span><span class="s2">***&quot;</span><span class="p">)</span>
-        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">fname_rmtemp</span><span class="p">,</span> <span class="s2">&quot;a&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fobj</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"***</span><span class="se">\n</span><span class="s2">source </span><span class="si">{</span><span class="n">fname_rmtemp</span><span class="si">}</span><span class="se">\n</span><span class="s2">***"</span><span class="p">)</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">fname_rmtemp</span><span class="p">,</span> <span class="s2">"a"</span><span class="p">)</span> <span class="k">as</span> <span class="n">fobj</span><span class="p">:</span>
             <span class="k">for</span> <span class="n">remove_temp_file</span> <span class="ow">in</span> <span class="n">remove_temp_files</span><span class="p">:</span>
-                <span class="n">fobj</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;rm -v </span><span class="si">{</span><span class="n">remove_temp_file</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="n">fobj</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">f</span><span class="s2">"rm -v </span><span class="si">{</span><span class="n">remove_temp_file</span><span class="si">}</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span>
     <span class="k">return</span> <span class="mi">0</span></div>
 
 
 <div class="viewcode-block" id="write_missing_products_to_file"><a class="viewcode-back" href="../../../../geoips_api/geoips.interfaces.class_based.html#geoips.interfaces.class_based.output_checkers.write_missing_products_to_file">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">write_missing_products_to_file</span><span class="p">(</span><span class="n">missingproducts</span><span class="p">,</span> <span class="n">compare_products</span><span class="p">,</span> <span class="n">diffdir</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Write text file with rm commands to remove products from comparison directory.</span>
+<span class="w">    </span><span class="sd">"""Write text file with rm commands to remove products from comparison directory.</span>
 
 <span class="sd">    Write a text file containing rm commands that can be sourced to remove</span>
 <span class="sd">    existing test output comparison files from the test comparison directories</span>
@@ -1026,16 +1053,16 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    missingproducts: list</span>
-<span class="sd">        List of files that returned a &quot;MISSING PRODUCT&quot; from the output checker.</span>
+<span class="sd">        List of files that returned a "MISSING PRODUCT" from the output checker.</span>
 <span class="sd">        These are the full paths to the files produced during the most recent</span>
 <span class="sd">        run.</span>
 <span class="sd">    compare_products: dict</span>
 <span class="sd">        dictionary of comparison products - including the original comparison</span>
 <span class="sd">        product file name, the gunzipped product file path if applicable,</span>
 <span class="sd">        and the path to the file that should be used for comparison against</span>
-<span class="sd">        &quot;missingproducts&quot; files.</span>
+<span class="sd">        "missingproducts" files.</span>
 <span class="sd">    diffdir: str</span>
-<span class="sd">        Full path to write &quot;rm_MISSINGPRODUCTS.txt&quot; file</span>
+<span class="sd">        Full path to write "rm_MISSINGPRODUCTS.txt" file</span>
 <span class="sd">        NOTE: diffdir currently also is used to specify the path to the</span>
 <span class="sd">        output files. Eventually we should pass in 2 separate paths, one</span>
 <span class="sd">        to specify where to write the diff files, and a separate path</span>
@@ -1046,35 +1073,35 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">    int</span>
 <span class="sd">        Binary code: 0 if all comparisons were completed successfully, non-zero</span>
 <span class="sd">        if there were missing products.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="c1"># This should be in loop below</span>
     <span class="c1"># for compareproduct in compare_products:</span>
     <span class="c1">#     LOG.warning(</span>
-    <span class="c1">#         &quot;MISSINGPRODUCT not in current run: %s&quot;,</span>
+    <span class="c1">#         "MISSINGPRODUCT not in current run: %s",</span>
     <span class="c1">#         basename(compareproduct),</span>
     <span class="c1">#     )</span>
     <span class="c1"># If we have any missingproducts, loop through in order to write them to</span>
     <span class="c1"># file for manual removal from the test comparison directories.</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">missingproducts</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
         <span class="c1"># Actual rm commands to remove files</span>
-        <span class="n">fname_rm</span> <span class="o">=</span> <span class="n">join</span><span class="p">(</span><span class="n">diffdir</span><span class="p">,</span> <span class="s2">&quot;rm_MISSINGPRODUCTS.txt&quot;</span><span class="p">)</span>
+        <span class="n">fname_rm</span> <span class="o">=</span> <span class="n">join</span><span class="p">(</span><span class="n">diffdir</span><span class="p">,</span> <span class="s2">"rm_MISSINGPRODUCTS.txt"</span><span class="p">)</span>
         <span class="c1"># cp commands to copy over the products for review to a temporary</span>
         <span class="c1"># directory.  This does not impact the actual test outputs.</span>
-        <span class="n">fname_missingprodcptest</span> <span class="o">=</span> <span class="n">join</span><span class="p">(</span><span class="n">diffdir</span><span class="p">,</span> <span class="s2">&quot;cptest_MISSINGPRODUCTS.txt&quot;</span><span class="p">)</span>
+        <span class="n">fname_missingprodcptest</span> <span class="o">=</span> <span class="n">join</span><span class="p">(</span><span class="n">diffdir</span><span class="p">,</span> <span class="s2">"cptest_MISSINGPRODUCTS.txt"</span><span class="p">)</span>
         <span class="n">LOG</span><span class="o">.</span><span class="n">interactive</span><span class="p">(</span>
-            <span class="s2">&quot;MISSINGPRODUCTS Commands to remove </span><span class="si">%d</span><span class="s2"> &quot;</span>
-            <span class="s2">&quot;incorrect files from test output path.&quot;</span><span class="p">,</span>
+            <span class="s2">"MISSINGPRODUCTS Commands to remove </span><span class="si">%d</span><span class="s2"> "</span>
+            <span class="s2">"incorrect files from test output path."</span><span class="p">,</span>
             <span class="nb">len</span><span class="p">(</span><span class="n">missingproducts</span><span class="p">),</span>
         <span class="p">)</span>
-        <span class="n">LOG</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;  source </span><span class="si">{0}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">fname_missingprodcptest</span><span class="p">))</span>
+        <span class="n">LOG</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">"  source </span><span class="si">{0}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">fname_missingprodcptest</span><span class="p">))</span>
         <span class="c1"># If there are missing products, ensure the source command to</span>
         <span class="c1"># remove them from the comparison test outputs directory is</span>
         <span class="c1"># printed at the interactive log level</span>
-        <span class="n">LOG</span><span class="o">.</span><span class="n">interactive</span><span class="p">(</span><span class="s2">&quot;  source </span><span class="si">{0}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">fname_rm</span><span class="p">))</span>
+        <span class="n">LOG</span><span class="o">.</span><span class="n">interactive</span><span class="p">(</span><span class="s2">"  source </span><span class="si">{0}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">fname_rm</span><span class="p">))</span>
         <span class="c1"># Include print statement for easy copy/paste at the command line</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;***</span><span class="se">\n</span><span class="s2">source </span><span class="si">{0}</span><span class="se">\n</span><span class="s2">***&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">fname_rm</span><span class="p">))</span>
-        <span class="n">test_path</span> <span class="o">=</span> <span class="n">join</span><span class="p">(</span><span class="n">diffdir</span><span class="p">,</span> <span class="s2">&quot;MISSINGPRODUCTS&quot;</span><span class="p">)</span>
-        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">fname_rm</span><span class="p">,</span> <span class="s2">&quot;a&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fobj</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"***</span><span class="se">\n</span><span class="s2">source </span><span class="si">{0}</span><span class="se">\n</span><span class="s2">***"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">fname_rm</span><span class="p">))</span>
+        <span class="n">test_path</span> <span class="o">=</span> <span class="n">join</span><span class="p">(</span><span class="n">diffdir</span><span class="p">,</span> <span class="s2">"MISSINGPRODUCTS"</span><span class="p">)</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">fname_rm</span><span class="p">,</span> <span class="s2">"a"</span><span class="p">)</span> <span class="k">as</span> <span class="n">fobj</span><span class="p">:</span>
             <span class="c1"># Now loop through each missing product to write them to the file</span>
             <span class="k">for</span> <span class="n">missingproduct</span> <span class="ow">in</span> <span class="n">missingproducts</span><span class="p">:</span>
                 <span class="n">missingproduct_basename</span> <span class="o">=</span> <span class="n">basename</span><span class="p">(</span><span class="n">missingproduct</span><span class="p">)</span>
@@ -1082,7 +1109,7 @@ window.runMermaid = runMermaid;</script>
                     <span class="c1"># Pull the file that is actually used for comparison from</span>
                     <span class="c1"># the compare_products dictionary.</span>
                     <span class="n">file_for_comparison</span> <span class="o">=</span> <span class="n">compare_products</span><span class="p">[</span><span class="n">compare_product</span><span class="p">][</span>
-                        <span class="s2">&quot;file_for_comparison&quot;</span>
+                        <span class="s2">"file_for_comparison"</span>
                     <span class="p">]</span>
                     <span class="n">file_for_comparison_basename</span> <span class="o">=</span> <span class="n">basename</span><span class="p">(</span><span class="n">file_for_comparison</span><span class="p">)</span>
                     <span class="c1"># If the basename of the current missing product matches the</span>
@@ -1091,33 +1118,33 @@ window.runMermaid = runMermaid;</script>
                     <span class="c1"># the test repo.</span>
                     <span class="k">if</span> <span class="n">missingproduct_basename</span> <span class="o">==</span> <span class="n">file_for_comparison_basename</span><span class="p">:</span>
                         <span class="n">comparison_filename</span> <span class="o">=</span> <span class="n">compare_products</span><span class="p">[</span><span class="n">compare_product</span><span class="p">][</span>
-                            <span class="s2">&quot;stored_comparison&quot;</span>
+                            <span class="s2">"stored_comparison"</span>
                         <span class="p">]</span>
-                        <span class="n">fobj</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  rm -v </span><span class="si">{</span><span class="n">comparison_filename</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
-                        <span class="n">LOG</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;    TEST OUTPUT: </span><span class="si">{</span><span class="n">comparison_filename</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                        <span class="n">fobj</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  rm -v </span><span class="si">{</span><span class="n">comparison_filename</span><span class="si">}</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span>
+                        <span class="n">LOG</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">"    TEST OUTPUT: </span><span class="si">{</span><span class="n">comparison_filename</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
                         <span class="n">LOG</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
-                            <span class="s2">&quot;MISSINGPRODUCT not in current run: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span>
+                            <span class="s2">"MISSINGPRODUCT not in current run: </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span>
                             <span class="n">basename</span><span class="p">(</span><span class="n">comparison_filename</span><span class="p">),</span>
                         <span class="p">)</span>
                     <span class="k">else</span><span class="p">:</span>
                         <span class="n">comparison_filename</span> <span class="o">=</span> <span class="n">compare_products</span><span class="p">[</span><span class="n">compare_product</span><span class="p">][</span>
-                            <span class="s2">&quot;stored_comparison&quot;</span>
+                            <span class="s2">"stored_comparison"</span>
                         <span class="p">]</span>
-                        <span class="n">fobj</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  rm -v </span><span class="si">{</span><span class="n">comparison_filename</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
-                        <span class="n">LOG</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;    TEST OUTPUT: </span><span class="si">{</span><span class="n">file_for_comparison</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                        <span class="n">fobj</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  rm -v </span><span class="si">{</span><span class="n">comparison_filename</span><span class="si">}</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span>
+                        <span class="n">LOG</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">"    TEST OUTPUT: </span><span class="si">{</span><span class="n">file_for_comparison</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
                         <span class="n">LOG</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
-                            <span class="s2">&quot;MISSINGPRODUCT not in current run: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span>
+                            <span class="s2">"MISSINGPRODUCT not in current run: </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span>
                             <span class="n">basename</span><span class="p">(</span><span class="n">comparison_filename</span><span class="p">),</span>
                         <span class="p">)</span>
         <span class="c1"># This is just for testing purposes - write out copy commands to</span>
         <span class="c1"># copy the missing product into a test location for easy review.</span>
-        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">fname_missingprodcptest</span><span class="p">,</span> <span class="s2">&quot;a&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fobj</span><span class="p">:</span>
-            <span class="n">fobj</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;mkdir </span><span class="si">{</span><span class="n">test_path</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">fname_missingprodcptest</span><span class="p">,</span> <span class="s2">"a"</span><span class="p">)</span> <span class="k">as</span> <span class="n">fobj</span><span class="p">:</span>
+            <span class="n">fobj</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">f</span><span class="s2">"mkdir </span><span class="si">{</span><span class="n">test_path</span><span class="si">}</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span>
             <span class="k">for</span> <span class="n">missingproduct</span> <span class="ow">in</span> <span class="n">missingproducts</span><span class="p">:</span>
                 <span class="c1"># For display purposes - tifs are easier to view</span>
-                <span class="n">test_basename</span> <span class="o">=</span> <span class="n">basename</span><span class="p">(</span><span class="n">missingproduct</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;.jif&quot;</span><span class="p">,</span> <span class="s2">&quot;.tif&quot;</span><span class="p">)</span>
+                <span class="n">test_basename</span> <span class="o">=</span> <span class="n">basename</span><span class="p">(</span><span class="n">missingproduct</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">".jif"</span><span class="p">,</span> <span class="s2">".tif"</span><span class="p">)</span>
                 <span class="n">test_filename</span> <span class="o">=</span> <span class="n">join</span><span class="p">(</span><span class="n">test_path</span><span class="p">,</span> <span class="n">test_basename</span><span class="p">)</span>
-                <span class="n">fobj</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;cp -v </span><span class="si">{</span><span class="n">missingproduct</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">test_filename</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="n">fobj</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">f</span><span class="s2">"cp -v </span><span class="si">{</span><span class="n">missingproduct</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">test_filename</span><span class="si">}</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span>
     <span class="c1"># Assemble the return value and return.</span>
     <span class="c1"># Missing products are bits 4/5 of the return code.</span>
     <span class="n">retval</span> <span class="o">=</span> <span class="mi">0</span>
@@ -1125,12 +1152,12 @@ window.runMermaid = runMermaid;</script>
         <span class="n">retval</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">missingproducts</span><span class="p">)</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">missingproducts</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">4</span><span class="p">:</span>
             <span class="n">retval</span> <span class="o">=</span> <span class="mi">4</span>
-        <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;MISSINGPRODUCTS </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">missingproducts</span><span class="p">))</span>
+        <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"MISSINGPRODUCTS </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">missingproducts</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">retval</span> <span class="o">&lt;&lt;</span> <span class="mi">4</span></div>
 
 
 <div class="viewcode-block" id="write_missing_comparisons_to_file"><a class="viewcode-back" href="../../../../geoips_api/geoips.interfaces.class_based.html#geoips.interfaces.class_based.output_checkers.write_missing_comparisons_to_file">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">write_missing_comparisons_to_file</span><span class="p">(</span><span class="n">missingcomps</span><span class="p">,</span> <span class="n">diffdir</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Write text file with cp commands to add products to comparison directory.</span>
+<span class="w">    </span><span class="sd">"""Write text file with cp commands to add products to comparison directory.</span>
 
 <span class="sd">    Write a text file containing cp commands that can be sourced to add</span>
 <span class="sd">    new test output comparison files to the test comparison directories</span>
@@ -1155,11 +1182,11 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    missingcomps: list</span>
-<span class="sd">        List of files that returned a &quot;MISSING COMPARE&quot; from the output checker.</span>
+<span class="sd">        List of files that returned a "MISSING COMPARE" from the output checker.</span>
 <span class="sd">        These are the full paths to the files produced during the most recent</span>
 <span class="sd">        run.</span>
 <span class="sd">    diffdir: str</span>
-<span class="sd">        Full path to write &quot;rm_MISSINGCOMPARE.txt&quot; file</span>
+<span class="sd">        Full path to write "rm_MISSINGCOMPARE.txt" file</span>
 <span class="sd">        NOTE: diffdir currently also is used to specify the path to the</span>
 <span class="sd">        output files. Eventually we should pass in 2 separate paths, one</span>
 <span class="sd">        to specify where to write the diff files, and a separate path</span>
@@ -1170,37 +1197,37 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">    int</span>
 <span class="sd">        Binary code: 0 if all comparisons were completed successfully, non-zero</span>
 <span class="sd">        if there were missing comparisons.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">for</span> <span class="n">missingcompare</span> <span class="ow">in</span> <span class="n">missingcomps</span><span class="p">:</span>
-        <span class="n">LOG</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;MISSINGCOMPARE not in comparepath: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">basename</span><span class="p">(</span><span class="n">missingcompare</span><span class="p">))</span>
+        <span class="n">LOG</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">"MISSINGCOMPARE not in comparepath: </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="n">basename</span><span class="p">(</span><span class="n">missingcompare</span><span class="p">))</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">missingcomps</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="n">fname_cp</span> <span class="o">=</span> <span class="n">join</span><span class="p">(</span><span class="n">diffdir</span><span class="p">,</span> <span class="s2">&quot;cp_MISSINGCOMPARE.txt&quot;</span><span class="p">)</span>
-        <span class="n">fname_missingcompcptest</span> <span class="o">=</span> <span class="n">join</span><span class="p">(</span><span class="n">diffdir</span><span class="p">,</span> <span class="s2">&quot;cptest_MISSINGCOMPARE.txt&quot;</span><span class="p">)</span>
+        <span class="n">fname_cp</span> <span class="o">=</span> <span class="n">join</span><span class="p">(</span><span class="n">diffdir</span><span class="p">,</span> <span class="s2">"cp_MISSINGCOMPARE.txt"</span><span class="p">)</span>
+        <span class="n">fname_missingcompcptest</span> <span class="o">=</span> <span class="n">join</span><span class="p">(</span><span class="n">diffdir</span><span class="p">,</span> <span class="s2">"cptest_MISSINGCOMPARE.txt"</span><span class="p">)</span>
         <span class="n">LOG</span><span class="o">.</span><span class="n">interactive</span><span class="p">(</span>
-            <span class="s2">&quot;MISSINGCOMPARE Commands to copy </span><span class="si">%d</span><span class="s2"> missing files to comparison path.&quot;</span><span class="p">,</span>
+            <span class="s2">"MISSINGCOMPARE Commands to copy </span><span class="si">%d</span><span class="s2"> missing files to comparison path."</span><span class="p">,</span>
             <span class="nb">len</span><span class="p">(</span><span class="n">missingcomps</span><span class="p">),</span>
         <span class="p">)</span>
-        <span class="n">LOG</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;  source </span><span class="si">{0}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">fname_missingcompcptest</span><span class="p">))</span>
-        <span class="n">LOG</span><span class="o">.</span><span class="n">interactive</span><span class="p">(</span><span class="s2">&quot;  source </span><span class="si">{0}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">fname_cp</span><span class="p">))</span>
+        <span class="n">LOG</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">"  source </span><span class="si">{0}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">fname_missingcompcptest</span><span class="p">))</span>
+        <span class="n">LOG</span><span class="o">.</span><span class="n">interactive</span><span class="p">(</span><span class="s2">"  source </span><span class="si">{0}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">fname_cp</span><span class="p">))</span>
         <span class="c1"># Include print statement for easy copy/paste at the command line</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;***</span><span class="se">\n</span><span class="s2">source </span><span class="si">{0}</span><span class="se">\n</span><span class="s2">***&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">fname_cp</span><span class="p">))</span>
-        <span class="n">comparison_path</span> <span class="o">=</span> <span class="n">join</span><span class="p">(</span><span class="n">diffdir</span><span class="p">,</span> <span class="s2">&quot;..&quot;</span><span class="p">)</span>
-        <span class="n">test_path</span> <span class="o">=</span> <span class="n">join</span><span class="p">(</span><span class="n">diffdir</span><span class="p">,</span> <span class="s2">&quot;MISSINGCOMPARE&quot;</span><span class="p">)</span>
-        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">fname_cp</span><span class="p">,</span> <span class="s2">&quot;a&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fobj</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"***</span><span class="se">\n</span><span class="s2">source </span><span class="si">{0}</span><span class="se">\n</span><span class="s2">***"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">fname_cp</span><span class="p">))</span>
+        <span class="n">comparison_path</span> <span class="o">=</span> <span class="n">join</span><span class="p">(</span><span class="n">diffdir</span><span class="p">,</span> <span class="s2">".."</span><span class="p">)</span>
+        <span class="n">test_path</span> <span class="o">=</span> <span class="n">join</span><span class="p">(</span><span class="n">diffdir</span><span class="p">,</span> <span class="s2">"MISSINGCOMPARE"</span><span class="p">)</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">fname_cp</span><span class="p">,</span> <span class="s2">"a"</span><span class="p">)</span> <span class="k">as</span> <span class="n">fobj</span><span class="p">:</span>
             <span class="k">for</span> <span class="n">missingcomp</span> <span class="ow">in</span> <span class="n">missingcomps</span><span class="p">:</span>
                 <span class="c1"># We are passing the missingcomp directly to the diff dir</span>
                 <span class="c1"># We have no knowledge if these should be gzipped or not,</span>
                 <span class="c1"># so they are just copied as is.  Developers must manually</span>
                 <span class="c1"># gzip before commiting if desired.</span>
-                <span class="n">fobj</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  cp -v </span><span class="si">{</span><span class="n">missingcomp</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">comparison_path</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
-                <span class="n">LOG</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;    CURR OUTPUT: </span><span class="si">{</span><span class="n">missingcomp</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">fname_missingcompcptest</span><span class="p">,</span> <span class="s2">&quot;a&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fobj</span><span class="p">:</span>
-            <span class="n">fobj</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;mkdir </span><span class="si">{</span><span class="n">test_path</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="n">fobj</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  cp -v </span><span class="si">{</span><span class="n">missingcomp</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">comparison_path</span><span class="si">}</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span>
+                <span class="n">LOG</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">"    CURR OUTPUT: </span><span class="si">{</span><span class="n">missingcomp</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">fname_missingcompcptest</span><span class="p">,</span> <span class="s2">"a"</span><span class="p">)</span> <span class="k">as</span> <span class="n">fobj</span><span class="p">:</span>
+            <span class="n">fobj</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">f</span><span class="s2">"mkdir </span><span class="si">{</span><span class="n">test_path</span><span class="si">}</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span>
             <span class="k">for</span> <span class="n">missingcomp</span> <span class="ow">in</span> <span class="n">missingcomps</span><span class="p">:</span>
                 <span class="c1"># For display purposes - tifs are easier to view</span>
-                <span class="n">test_basename</span> <span class="o">=</span> <span class="n">basename</span><span class="p">(</span><span class="n">missingcomp</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;.jif&quot;</span><span class="p">,</span> <span class="s2">&quot;.tif&quot;</span><span class="p">)</span>
+                <span class="n">test_basename</span> <span class="o">=</span> <span class="n">basename</span><span class="p">(</span><span class="n">missingcomp</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">".jif"</span><span class="p">,</span> <span class="s2">".tif"</span><span class="p">)</span>
                 <span class="n">test_filename</span> <span class="o">=</span> <span class="n">join</span><span class="p">(</span><span class="n">test_path</span><span class="p">,</span> <span class="n">test_basename</span><span class="p">)</span>
-                <span class="n">fobj</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;cp -v </span><span class="si">{</span><span class="n">missingcomp</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">test_filename</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="n">fobj</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">f</span><span class="s2">"cp -v </span><span class="si">{</span><span class="n">missingcomp</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">test_filename</span><span class="si">}</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span>
     <span class="c1"># Assemble the return value and return.</span>
     <span class="c1"># Missing comparisons are bits 2/3 of the return code.</span>
     <span class="n">retval</span> <span class="o">=</span> <span class="mi">0</span>
@@ -1208,12 +1235,12 @@ window.runMermaid = runMermaid;</script>
         <span class="n">retval</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">missingcomps</span><span class="p">)</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">missingcomps</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">4</span><span class="p">:</span>
             <span class="n">retval</span> <span class="o">=</span> <span class="mi">4</span>
-        <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;MISSINGCOMPS </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">missingcomps</span><span class="p">))</span>
+        <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"MISSINGCOMPS </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">missingcomps</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">retval</span> <span class="o">&lt;&lt;</span> <span class="mi">0</span></div>
 
 
 <div class="viewcode-block" id="write_good_comparisons_to_file"><a class="viewcode-back" href="../../../../geoips_api/geoips.interfaces.class_based.html#geoips.interfaces.class_based.output_checkers.write_good_comparisons_to_file">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">write_good_comparisons_to_file</span><span class="p">(</span><span class="n">goodcomps</span><span class="p">,</span> <span class="n">compare_strings</span><span class="p">,</span> <span class="n">diffdir</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Write all good comparisons to a file for easy collection of outputs.</span>
+<span class="w">    </span><span class="sd">"""Write all good comparisons to a file for easy collection of outputs.</span>
 
 <span class="sd">    During integration tests, if the current product output matches the</span>
 <span class="sd">    test output stored in the test comparison directories, the output</span>
@@ -1233,16 +1260,16 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    goodcomps: list</span>
-<span class="sd">        List of files that returned a &quot;GOOD COMPARE&quot; from the output checker.</span>
+<span class="sd">        List of files that returned a "GOOD COMPARE" from the output checker.</span>
 <span class="sd">        These are the full paths to the files produced during the most recent</span>
 <span class="sd">        run.</span>
 <span class="sd">    compare_strings : list of str</span>
-<span class="sd">        List of all comparison &quot;tags&quot; included in goodcomps and badcomps lists.</span>
+<span class="sd">        List of all comparison "tags" included in goodcomps and badcomps lists.</span>
 
 <span class="sd">        * This list is used to remove the comparison tags from goodcomps and</span>
 <span class="sd">          badcomps to retrieve only the file path when writing the cp commands.</span>
 <span class="sd">    diffdir: str</span>
-<span class="sd">        Full path to write &quot;cptest_GOODCOMPARE.txt&quot; file</span>
+<span class="sd">        Full path to write "cptest_GOODCOMPARE.txt" file</span>
 <span class="sd">        NOTE: diffdir currently also is used to specify the path to the</span>
 <span class="sd">        output files. Eventually we should pass in 2 separate paths, one</span>
 <span class="sd">        to specify where to write the diff files, and a separate path</span>
@@ -1252,28 +1279,28 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">    -------</span>
 <span class="sd">    int</span>
 <span class="sd">        Binary code: 0 for good comparisons</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">for</span> <span class="n">goodcompare</span> <span class="ow">in</span> <span class="n">goodcomps</span><span class="p">:</span>
-        <span class="n">LOG</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;GOODCOMPARE </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">goodcompare</span><span class="p">)</span>
+        <span class="n">LOG</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">"GOODCOMPARE </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="n">goodcompare</span><span class="p">)</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">goodcomps</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="n">fname_goodcptest</span> <span class="o">=</span> <span class="n">join</span><span class="p">(</span><span class="n">diffdir</span><span class="p">,</span> <span class="s2">&quot;cptest_GOODCOMPARE.txt&quot;</span><span class="p">)</span>
-        <span class="n">LOG</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;source </span><span class="si">{</span><span class="n">fname_goodcptest</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-        <span class="n">test_path</span> <span class="o">=</span> <span class="n">join</span><span class="p">(</span><span class="n">diffdir</span><span class="p">,</span> <span class="s2">&quot;GOODCOMPARE&quot;</span><span class="p">)</span>
-        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">fname_goodcptest</span><span class="p">,</span> <span class="s2">&quot;a&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fobj</span><span class="p">:</span>
-            <span class="n">fobj</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;mkdir </span><span class="si">{</span><span class="n">test_path</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">fname_goodcptest</span> <span class="o">=</span> <span class="n">join</span><span class="p">(</span><span class="n">diffdir</span><span class="p">,</span> <span class="s2">"cptest_GOODCOMPARE.txt"</span><span class="p">)</span>
+        <span class="n">LOG</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">"source </span><span class="si">{</span><span class="n">fname_goodcptest</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+        <span class="n">test_path</span> <span class="o">=</span> <span class="n">join</span><span class="p">(</span><span class="n">diffdir</span><span class="p">,</span> <span class="s2">"GOODCOMPARE"</span><span class="p">)</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">fname_goodcptest</span><span class="p">,</span> <span class="s2">"a"</span><span class="p">)</span> <span class="k">as</span> <span class="n">fobj</span><span class="p">:</span>
+            <span class="n">fobj</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">f</span><span class="s2">"mkdir </span><span class="si">{</span><span class="n">test_path</span><span class="si">}</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span>
             <span class="k">for</span> <span class="n">goodcomp</span> <span class="ow">in</span> <span class="n">goodcomps</span><span class="p">:</span>
                 <span class="k">if</span> <span class="n">compare_strings</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
                     <span class="k">for</span> <span class="n">compare_string</span> <span class="ow">in</span> <span class="n">compare_strings</span><span class="p">:</span>
-                        <span class="n">goodcomp</span> <span class="o">=</span> <span class="n">goodcomp</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">compare_string</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+                        <span class="n">goodcomp</span> <span class="o">=</span> <span class="n">goodcomp</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">compare_string</span><span class="p">,</span> <span class="s2">""</span><span class="p">)</span>
                 <span class="c1"># For display purposes - tifs are easier to view</span>
-                <span class="n">test_basename</span> <span class="o">=</span> <span class="n">basename</span><span class="p">(</span><span class="n">goodcomp</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;.jif&quot;</span><span class="p">,</span> <span class="s2">&quot;.tif&quot;</span><span class="p">)</span>
+                <span class="n">test_basename</span> <span class="o">=</span> <span class="n">basename</span><span class="p">(</span><span class="n">goodcomp</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">".jif"</span><span class="p">,</span> <span class="s2">".tif"</span><span class="p">)</span>
                 <span class="n">test_filename</span> <span class="o">=</span> <span class="n">join</span><span class="p">(</span><span class="n">test_path</span><span class="p">,</span> <span class="n">test_basename</span><span class="p">)</span>
-                <span class="n">fobj</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;cp </span><span class="si">{</span><span class="n">goodcomp</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">test_filename</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="n">fobj</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">f</span><span class="s2">"cp </span><span class="si">{</span><span class="n">goodcomp</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">test_filename</span><span class="si">}</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span>
     <span class="k">return</span> <span class="mi">0</span></div>
 
 
 <div class="viewcode-block" id="get_missing_products"><a class="viewcode-back" href="../../../../geoips_api/geoips.interfaces.class_based.html#geoips.interfaces.class_based.output_checkers.get_missing_products">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">get_missing_products</span><span class="p">(</span><span class="n">output_products_for_comparison</span><span class="p">,</span> <span class="n">compare_products</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get list of missing products from compare_products_dictionary.</span>
+<span class="w">    </span><span class="sd">"""Get list of missing products from compare_products_dictionary.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -1283,20 +1310,20 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">        Dictionary of products found in the test comparison directory.</span>
 <span class="sd">        Note the key of the compare_products dictionary is the filename that</span>
 <span class="sd">        is stored in the comparison directory (ie, this may be a gzipped file).</span>
-<span class="sd">        We must use the &quot;gunzipped_comparison&quot;, &quot;stored_comparison&quot;, and</span>
-<span class="sd">        &quot;file_for_comparison&quot; keys within that dictionary to ensure we are</span>
+<span class="sd">        We must use the "gunzipped_comparison", "stored_comparison", and</span>
+<span class="sd">        "file_for_comparison" keys within that dictionary to ensure we are</span>
 <span class="sd">        accessing the correct versions of the files.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    missingproducts : list</span>
 <span class="sd">        List of products that were missing from the current run.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">missingproducts</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">output_product_for_comparison</span> <span class="ow">in</span> <span class="n">output_products_for_comparison</span><span class="p">:</span>
         <span class="n">found_one</span> <span class="o">=</span> <span class="kc">False</span>
         <span class="c1"># compare_products is a dictionary,</span>
-        <span class="c1"># with &quot;basename(compare_product)&quot; as the keys.</span>
+        <span class="c1"># with "basename(compare_product)" as the keys.</span>
         <span class="c1"># Add the full paths to the missing files as the missingproducts.</span>
         <span class="k">for</span> <span class="n">basename_compare_product</span> <span class="ow">in</span> <span class="n">compare_products</span><span class="p">:</span>
             <span class="c1"># We want to check that file_for_comparison is in the list of</span>
@@ -1305,7 +1332,7 @@ window.runMermaid = runMermaid;</script>
             <span class="c1"># gunzipped_comparisons may be None, and stored_comparisons may be</span>
             <span class="c1"># gzipped.</span>
             <span class="n">file_for_comparison</span> <span class="o">=</span> <span class="n">compare_products</span><span class="p">[</span><span class="n">basename_compare_product</span><span class="p">][</span>
-                <span class="s2">&quot;file_for_comparison&quot;</span>
+                <span class="s2">"file_for_comparison"</span>
             <span class="p">]</span>
             <span class="k">if</span> <span class="n">basename</span><span class="p">(</span><span class="n">file_for_comparison</span><span class="p">)</span> <span class="o">==</span> <span class="n">basename</span><span class="p">(</span><span class="n">output_product_for_comparison</span><span class="p">):</span>
                 <span class="n">found_one</span> <span class="o">=</span> <span class="kc">True</span>
@@ -1315,7 +1342,7 @@ window.runMermaid = runMermaid;</script>
 
 
 <div class="viewcode-block" id="is_gz"><a class="viewcode-back" href="../../../../geoips_api/geoips.interfaces.class_based.html#geoips.interfaces.class_based.output_checkers.is_gz">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">is_gz</span><span class="p">(</span><span class="n">fname</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Check if fname is a gzip file.</span>
+<span class="w">    </span><span class="sd">"""Check if fname is a gzip file.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -1326,18 +1353,18 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">    -------</span>
 <span class="sd">    bool</span>
 <span class="sd">        True if it is a gz file, False otherwise.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="n">splitext</span><span class="p">(</span><span class="n">fname</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;.gz&quot;</span><span class="p">]:</span>
+<span class="sd">    """</span>
+    <span class="k">if</span> <span class="n">splitext</span><span class="p">(</span><span class="n">fname</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">".gz"</span><span class="p">]:</span>
         <span class="k">return</span> <span class="kc">True</span>
     <span class="c1"># If a file exists with the base fname appended with .gz,</span>
     <span class="c1"># then use that.</span>
-    <span class="k">if</span> <span class="n">glob</span><span class="p">(</span><span class="n">fname</span> <span class="o">+</span> <span class="s2">&quot;.gz&quot;</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">glob</span><span class="p">(</span><span class="n">fname</span> <span class="o">+</span> <span class="s2">".gz"</span><span class="p">):</span>
         <span class="k">return</span> <span class="kc">True</span>
     <span class="k">return</span> <span class="kc">False</span></div>
 
 
 <div class="viewcode-block" id="gunzip_product"><a class="viewcode-back" href="../../../../geoips_api/geoips.interfaces.class_based.html#geoips.interfaces.class_based.output_checkers.gunzip_product">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">gunzip_product</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="n">is_comparison_product</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">clobber</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Gunzip file fname.</span>
+<span class="w">    </span><span class="sd">"""Gunzip file fname.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -1353,48 +1380,48 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">    -------</span>
 <span class="sd">    str</span>
 <span class="sd">        Filename after gunzipping</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="c1"># If it is already a .gz file, use that.</span>
-    <span class="k">if</span> <span class="n">splitext</span><span class="p">(</span><span class="n">fname</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;.gz&quot;</span><span class="p">]:</span>
+    <span class="k">if</span> <span class="n">splitext</span><span class="p">(</span><span class="n">fname</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">".gz"</span><span class="p">]:</span>
         <span class="n">gz_fname</span> <span class="o">=</span> <span class="n">fname</span>
     <span class="c1"># Otherwise, see if the .gz version exists.</span>
-    <span class="k">elif</span> <span class="n">glob</span><span class="p">(</span><span class="n">fname</span> <span class="o">+</span> <span class="s2">&quot;.gz&quot;</span><span class="p">):</span>
-        <span class="n">gz_fname</span> <span class="o">=</span> <span class="n">fname</span> <span class="o">+</span> <span class="s2">&quot;.gz&quot;</span>
+    <span class="k">elif</span> <span class="n">glob</span><span class="p">(</span><span class="n">fname</span> <span class="o">+</span> <span class="s2">".gz"</span><span class="p">):</span>
+        <span class="n">gz_fname</span> <span class="o">=</span> <span class="n">fname</span> <span class="o">+</span> <span class="s2">".gz"</span>
 
-    <span class="n">messages</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Gunzipping product for comparisons&quot;</span><span class="p">]</span>
-    <span class="n">messages</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;gunzip </span><span class="si">{</span><span class="n">gz_fname</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">messages</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"Gunzipping product for comparisons"</span><span class="p">]</span>
+    <span class="n">messages</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">"gunzip </span><span class="si">{</span><span class="n">gz_fname</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
     <span class="n">log_with_emphasis</span><span class="p">(</span><span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">,</span> <span class="o">*</span><span class="n">messages</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">is_comparison_product</span><span class="p">:</span>
         <span class="n">save_dir</span> <span class="o">=</span> <span class="n">join</span><span class="p">(</span>
-            <span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;GEOIPS_OUTDIRS&quot;</span><span class="p">),</span>
-            <span class="s2">&quot;scratch&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;gunzipped_products&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;comparison_products&quot;</span><span class="p">,</span>
+            <span class="n">getenv</span><span class="p">(</span><span class="s2">"GEOIPS_OUTDIRS"</span><span class="p">),</span>
+            <span class="s2">"scratch"</span><span class="p">,</span>
+            <span class="s2">"gunzipped_products"</span><span class="p">,</span>
+            <span class="s2">"comparison_products"</span><span class="p">,</span>
         <span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">save_dir</span> <span class="o">=</span> <span class="n">join</span><span class="p">(</span>
-            <span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;GEOIPS_OUTDIRS&quot;</span><span class="p">),</span> <span class="s2">&quot;scratch&quot;</span><span class="p">,</span> <span class="s2">&quot;gunzipped_products&quot;</span><span class="p">,</span> <span class="s2">&quot;output_products&quot;</span>
+            <span class="n">getenv</span><span class="p">(</span><span class="s2">"GEOIPS_OUTDIRS"</span><span class="p">),</span> <span class="s2">"scratch"</span><span class="p">,</span> <span class="s2">"gunzipped_products"</span><span class="p">,</span> <span class="s2">"output_products"</span>
         <span class="p">)</span>
     <span class="n">make_dirs</span><span class="p">(</span><span class="n">save_dir</span><span class="p">)</span>
-    <span class="n">gunzip_basename</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">basename</span><span class="p">(</span><span class="n">gz_fname</span><span class="p">))</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;.gz&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+    <span class="n">gunzip_basename</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">basename</span><span class="p">(</span><span class="n">gz_fname</span><span class="p">))</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">".gz"</span><span class="p">,</span> <span class="s2">""</span><span class="p">)</span>
     <span class="n">gunzip_filename</span> <span class="o">=</span> <span class="n">join</span><span class="p">(</span><span class="n">save_dir</span><span class="p">,</span> <span class="n">gunzip_basename</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">clobber</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">exists</span><span class="p">(</span><span class="n">gunzip_filename</span><span class="p">):</span>
-        <span class="n">LOG</span><span class="o">.</span><span class="n">interactive</span><span class="p">(</span><span class="s2">&quot;Gunzipping file </span><span class="si">%s</span><span class="s2"> to </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">gz_fname</span><span class="p">,</span> <span class="n">save_dir</span><span class="p">)</span>
+        <span class="n">LOG</span><span class="o">.</span><span class="n">interactive</span><span class="p">(</span><span class="s2">"Gunzipping file </span><span class="si">%s</span><span class="s2"> to </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="n">gz_fname</span><span class="p">,</span> <span class="n">save_dir</span><span class="p">)</span>
         <span class="c1"># Read in the compressed data</span>
-        <span class="k">with</span> <span class="n">gzip</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">gz_fname</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f_in</span><span class="p">:</span>
-            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">gunzip_filename</span><span class="p">,</span> <span class="s2">&quot;wb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f_out</span><span class="p">:</span>
+        <span class="k">with</span> <span class="n">gzip</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">gz_fname</span><span class="p">,</span> <span class="s2">"rb"</span><span class="p">)</span> <span class="k">as</span> <span class="n">f_in</span><span class="p">:</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">gunzip_filename</span><span class="p">,</span> <span class="s2">"wb"</span><span class="p">)</span> <span class="k">as</span> <span class="n">f_out</span><span class="p">:</span>
                 <span class="n">copyfileobj</span><span class="p">(</span><span class="n">f_in</span><span class="p">,</span> <span class="n">f_out</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">gunzip_filename</span></div>
 
 
 <div class="viewcode-block" id="BaseOutputCheckerPlugin"><a class="viewcode-back" href="../../../../geoips_api/geoips.interfaces.class_based.html#geoips.interfaces.class_based.output_checkers.BaseOutputCheckerPlugin">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">BaseOutputCheckerPlugin</span><span class="p">(</span><span class="n">BaseClassPlugin</span><span class="p">,</span> <span class="n">abstract</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Output Checkers Base Plugin for comparing data outputs.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Output Checkers Base Plugin for comparing data outputs."""</span>
 
     <span class="n">data_tree</span> <span class="o">=</span> <span class="kc">False</span>
 
 <div class="viewcode-block" id="BaseOutputCheckerPlugin.is_gz"><a class="viewcode-back" href="../../../../geoips_api/geoips.interfaces.class_based.html#geoips.interfaces.class_based.output_checkers.BaseOutputCheckerPlugin.is_gz">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">is_gz</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fname</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Check if fname is a gzip file.</span>
+<span class="w">        </span><span class="sd">"""Check if fname is a gzip file.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -1405,11 +1432,11 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">        -------</span>
 <span class="sd">        bool</span>
 <span class="sd">            True if it is a gz file, False otherwise.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="n">is_gz</span><span class="p">(</span><span class="n">fname</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="BaseOutputCheckerPlugin.gunzip_product"><a class="viewcode-back" href="../../../../geoips_api/geoips.interfaces.class_based.html#geoips.interfaces.class_based.output_checkers.BaseOutputCheckerPlugin.gunzip_product">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">gunzip_product</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fname</span><span class="p">,</span> <span class="n">is_comparison_product</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">clobber</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Gunzip file fname.</span>
+<span class="w">        </span><span class="sd">"""Gunzip file fname.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -1425,11 +1452,11 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">        -------</span>
 <span class="sd">        str</span>
 <span class="sd">            Filename after gunzipping</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="n">gunzip_product</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="n">is_comparison_product</span><span class="p">,</span> <span class="n">clobber</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="BaseOutputCheckerPlugin.get_out_diff_fname"><a class="viewcode-back" href="../../../../geoips_api/geoips.interfaces.class_based.html#geoips.interfaces.class_based.output_checkers.BaseOutputCheckerPlugin.get_out_diff_fname">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_out_diff_fname</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">compare_product</span><span class="p">,</span> <span class="n">output_product</span><span class="p">,</span> <span class="n">ext</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">flag</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Obtain the filename for output and comparison product diff.</span>
+<span class="w">        </span><span class="sd">"""Obtain the filename for output and comparison product diff.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -1446,14 +1473,14 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">        -------</span>
 <span class="sd">        out_diff_fname : str</span>
 <span class="sd">            Full path to output diff file.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">flag</span><span class="p">:</span>
-            <span class="n">flag</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+            <span class="n">flag</span> <span class="o">=</span> <span class="s2">""</span>
         <span class="n">diffdir</span> <span class="o">=</span> <span class="n">join</span><span class="p">(</span>
-            <span class="n">dirname</span><span class="p">(</span><span class="n">compare_product</span><span class="p">),</span> <span class="s2">&quot;diff_test_output_dir_</span><span class="si">{0}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;USER&quot;</span><span class="p">))</span>
+            <span class="n">dirname</span><span class="p">(</span><span class="n">compare_product</span><span class="p">),</span> <span class="s2">"diff_test_output_dir_</span><span class="si">{0}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">getenv</span><span class="p">(</span><span class="s2">"USER"</span><span class="p">))</span>
         <span class="p">)</span>
         <span class="n">out_diff_fname</span> <span class="o">=</span> <span class="n">join</span><span class="p">(</span>
-            <span class="n">diffdir</span><span class="p">,</span> <span class="s2">&quot;diff_test_output_&quot;</span> <span class="o">+</span> <span class="n">flag</span> <span class="o">+</span> <span class="n">basename</span><span class="p">(</span><span class="n">output_product</span><span class="p">)</span>
+            <span class="n">diffdir</span><span class="p">,</span> <span class="s2">"diff_test_output_"</span> <span class="o">+</span> <span class="n">flag</span> <span class="o">+</span> <span class="n">basename</span><span class="p">(</span><span class="n">output_product</span><span class="p">)</span>
         <span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">exists</span><span class="p">(</span><span class="n">diffdir</span><span class="p">):</span>
             <span class="n">makedirs</span><span class="p">(</span><span class="n">diffdir</span><span class="p">)</span>
@@ -1461,12 +1488,12 @@ window.runMermaid = runMermaid;</script>
         <span class="k">if</span> <span class="n">ext</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">out_diff_fname</span> <span class="o">=</span> <span class="n">splitext</span><span class="p">(</span><span class="n">out_diff_fname</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">ext</span>
         <span class="c1"># Create a png diff image for simplicity</span>
-        <span class="k">elif</span> <span class="n">splitext</span><span class="p">(</span><span class="n">out_diff_fname</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;.jif&quot;</span><span class="p">:</span>
-            <span class="n">out_diff_fname</span> <span class="o">=</span> <span class="n">splitext</span><span class="p">(</span><span class="n">out_diff_fname</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;.png&quot;</span>
+        <span class="k">elif</span> <span class="n">splitext</span><span class="p">(</span><span class="n">out_diff_fname</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s2">".jif"</span><span class="p">:</span>
+            <span class="n">out_diff_fname</span> <span class="o">=</span> <span class="n">splitext</span><span class="p">(</span><span class="n">out_diff_fname</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="s2">".png"</span>
         <span class="k">return</span> <span class="n">out_diff_fname</span></div>
 
 <div class="viewcode-block" id="BaseOutputCheckerPlugin.get_compare_products"><a class="viewcode-back" href="../../../../geoips_api/geoips.interfaces.class_based.html#geoips.interfaces.class_based.output_checkers.BaseOutputCheckerPlugin.get_compare_products">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_compare_products</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">compare_path</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get dictionary of compare products from the compare_path.</span>
+<span class="w">        </span><span class="sd">"""Get dictionary of compare products from the compare_path.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -1484,22 +1511,22 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">            * stored_comparison is the actual name stored in the comparison test dir</span>
 <span class="sd">            * gunzipped comparison is the gunzipped version of the file, or None if</span>
 <span class="sd">              file was not gzipped</span>
-<span class="sd">            * file_for_comparison is &quot;compare_product&quot; if the file is not gzipped,</span>
-<span class="sd">              and &quot;gunzipped_comparison&quot; if file is gzipped.</span>
+<span class="sd">            * file_for_comparison is "compare_product" if the file is not gzipped,</span>
+<span class="sd">              and "gunzipped_comparison" if file is gzipped.</span>
 <span class="sd">        remove_temp_files: list</span>
 <span class="sd">            List of full paths to files that must be removed after processing</span>
 <span class="sd">            (gunzipped files in GEOIPS_OUTDIRS scratch directory)</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="c1"># Here we are collecting the basenames of the files for comparison, as</span>
         <span class="c1"># well as the associated gz filename if the original comparison product</span>
         <span class="c1"># was gzipped.</span>
         <span class="n">compare_products</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="n">remove_temp_files</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="c1"># Loop through all comparison products found in &quot;compare_path&quot;. We want</span>
+        <span class="c1"># Loop through all comparison products found in "compare_path". We want</span>
         <span class="c1"># to collect ALL products available for comparison.</span>
-        <span class="k">for</span> <span class="n">compare_product</span> <span class="ow">in</span> <span class="n">glob</span><span class="p">(</span><span class="n">compare_path</span> <span class="o">+</span> <span class="s2">&quot;/*&quot;</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">compare_product</span> <span class="ow">in</span> <span class="n">glob</span><span class="p">(</span><span class="n">compare_path</span> <span class="o">+</span> <span class="s2">"/*"</span><span class="p">):</span>
             <span class="k">if</span> <span class="n">isdir</span><span class="p">(</span><span class="n">compare_product</span><span class="p">):</span>
-                <span class="c1"># Skip &#39;diff&#39; output directory</span>
+                <span class="c1"># Skip 'diff' output directory</span>
                 <span class="k">continue</span>
             <span class="n">file_for_comparison</span> <span class="o">=</span> <span class="n">compare_product</span>
             <span class="n">compare_product_gunzipped</span> <span class="o">=</span> <span class="kc">None</span>
@@ -1518,12 +1545,12 @@ window.runMermaid = runMermaid;</script>
             <span class="c1"># stored_comparison is the actual name stored in the comparison test dir</span>
             <span class="c1"># gunzipped comparison is the gunzipped version of the file, or None if</span>
             <span class="c1">#   file was not gzipped</span>
-            <span class="c1"># file_for_comparison is &quot;compare_product&quot; if the file is not gzipped,</span>
-            <span class="c1">#   and &quot;gunzipped_comparison&quot; if file is gzipped.</span>
+            <span class="c1"># file_for_comparison is "compare_product" if the file is not gzipped,</span>
+            <span class="c1">#   and "gunzipped_comparison" if file is gzipped.</span>
             <span class="n">compare_products</span><span class="p">[</span><span class="n">basename</span><span class="p">(</span><span class="n">compare_product</span><span class="p">)]</span> <span class="o">=</span> <span class="p">{</span>
-                <span class="s2">&quot;stored_comparison&quot;</span><span class="p">:</span> <span class="n">compare_product</span><span class="p">,</span>
-                <span class="s2">&quot;gunzipped_comparison&quot;</span><span class="p">:</span> <span class="n">compare_product_gunzipped</span><span class="p">,</span>
-                <span class="s2">&quot;file_for_comparison&quot;</span><span class="p">:</span> <span class="n">file_for_comparison</span><span class="p">,</span>
+                <span class="s2">"stored_comparison"</span><span class="p">:</span> <span class="n">compare_product</span><span class="p">,</span>
+                <span class="s2">"gunzipped_comparison"</span><span class="p">:</span> <span class="n">compare_product_gunzipped</span><span class="p">,</span>
+                <span class="s2">"file_for_comparison"</span><span class="p">:</span> <span class="n">file_for_comparison</span><span class="p">,</span>
             <span class="p">}</span>
 
         <span class="k">return</span> <span class="n">compare_products</span><span class="p">,</span> <span class="n">remove_temp_files</span></div>
@@ -1534,7 +1561,7 @@ window.runMermaid = runMermaid;</script>
         <span class="n">compare_products</span><span class="p">,</span>
         <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
     <span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the final output products list from the original list of outputs.</span>
+<span class="w">        </span><span class="sd">"""Get the final output products list from the original list of outputs.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -1549,13 +1576,13 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">            * Keys: basename of actual output product as created during run</span>
 <span class="sd">              (ie, gzipped if applicable)</span>
 
-<span class="sd">              * key: &quot;file_for_comparison&quot;, value: full path to file that is used</span>
+<span class="sd">              * key: "file_for_comparison", value: full path to file that is used</span>
 <span class="sd">                when comparing against the current output (ie, could be temporary</span>
 <span class="sd">                gunzip location).</span>
-<span class="sd">              * key: &quot;gunzipped_comparison&quot;, value: None if original output file was</span>
+<span class="sd">              * key: "gunzipped_comparison", value: None if original output file was</span>
 <span class="sd">                not gzipped, full path to gunzipped file if original output file</span>
 <span class="sd">                was gzipped.</span>
-<span class="sd">              * key: &quot;stored_comparison&quot;, value: full path to file that is stored in</span>
+<span class="sd">              * key: "stored_comparison", value: full path to file that is stored in</span>
 <span class="sd">                the tests outputs location (ie, could be gzipped)</span>
 <span class="sd">        kwargs : dict</span>
 <span class="sd">            keyword arguments to pass directly through to test products function.</span>
@@ -1579,7 +1606,7 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">        remove_temp_files : list</span>
 <span class="sd">            List of full paths to files that should be removed from temporary scratch</span>
 <span class="sd">            directory.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">output_products_for_comparison</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="n">remove_temp_files</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="n">missingcomps</span> <span class="o">=</span> <span class="p">[]</span>
@@ -1588,7 +1615,7 @@ window.runMermaid = runMermaid;</script>
         <span class="n">compare_strings</span> <span class="o">=</span> <span class="p">[]</span>
 
         <span class="k">for</span> <span class="n">output_product</span> <span class="ow">in</span> <span class="n">output_products</span><span class="p">:</span>
-            <span class="c1"># Skip &#39;diff&#39; output directory</span>
+            <span class="c1"># Skip 'diff' output directory</span>
             <span class="k">if</span> <span class="n">isdir</span><span class="p">(</span><span class="n">output_product</span><span class="p">):</span>
                 <span class="k">continue</span>
 
@@ -1601,11 +1628,11 @@ window.runMermaid = runMermaid;</script>
                 <span class="p">)</span>
                 <span class="n">remove_temp_files</span> <span class="o">+=</span> <span class="p">[</span><span class="n">output_product_for_comparison</span><span class="p">]</span>
 
-            <span class="n">log_with_emphasis</span><span class="p">(</span><span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;COMPARE </span><span class="si">{</span><span class="n">output_product_for_comparison</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">log_with_emphasis</span><span class="p">(</span><span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">,</span> <span class="sa">f</span><span class="s2">"COMPARE </span><span class="si">{</span><span class="n">output_product_for_comparison</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
             <span class="n">found_one</span> <span class="o">=</span> <span class="kc">False</span>
             <span class="k">for</span> <span class="n">compare_product</span> <span class="ow">in</span> <span class="n">compare_products</span><span class="p">:</span>
                 <span class="n">file_for_comparison</span> <span class="o">=</span> <span class="n">compare_products</span><span class="p">[</span><span class="n">basename</span><span class="p">(</span><span class="n">compare_product</span><span class="p">)][</span>
-                    <span class="s2">&quot;file_for_comparison&quot;</span>
+                    <span class="s2">"file_for_comparison"</span>
                 <span class="p">]</span>
                 <span class="c1"># If the current output product matches the basename of the</span>
                 <span class="c1"># gunzipped comparison product, then we have a match and</span>
@@ -1627,13 +1654,13 @@ window.runMermaid = runMermaid;</script>
                         <span class="n">compare_strings</span><span class="p">,</span>
                         <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
                     <span class="p">)</span>
-            <span class="c1"># If we didn&#39;t find an exact filename match, then we have a missing</span>
+            <span class="c1"># If we didn't find an exact filename match, then we have a missing</span>
             <span class="c1"># comparison, so append to the missingcomps list.</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="n">found_one</span><span class="p">:</span>
                 <span class="n">missingcomps</span> <span class="o">+=</span> <span class="p">[</span><span class="n">output_product_for_comparison</span><span class="p">]</span>
             <span class="n">output_products_for_comparison</span> <span class="o">+=</span> <span class="p">[</span><span class="n">output_product_for_comparison</span><span class="p">]</span>
 
-            <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+            <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">""</span><span class="p">)</span>
         <span class="k">return</span> <span class="p">(</span>
             <span class="n">output_products_for_comparison</span><span class="p">,</span>
             <span class="n">missingcomps</span><span class="p">,</span>
@@ -1649,29 +1676,29 @@ window.runMermaid = runMermaid;</script>
         <span class="n">output_products</span><span class="p">,</span>
         <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
     <span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compare the &quot;correct&quot; imagery found the list of current output_products.</span>
+<span class="w">        </span><span class="sd">"""Compare the "correct" imagery found the list of current output_products.</span>
 
 <span class="sd">        Compares files produced in the current processing run with the list of</span>
-<span class="sd">        &quot;correct&quot; files contained in &quot;compare_path&quot;.</span>
+<span class="sd">        "correct" files contained in "compare_path".</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        compare_path : str</span>
-<span class="sd">            Path to directory of &quot;correct&quot; products - filenames must match</span>
+<span class="sd">            Path to directory of "correct" products - filenames must match</span>
 <span class="sd">            output_products</span>
 <span class="sd">        output_products : list of str</span>
 <span class="sd">            List of strings of current output products,</span>
 <span class="sd">            to compare with products in compare_path</span>
 <span class="sd">        kwargs: dict</span>
 <span class="sd">            Dictionary containing kwargs for comparing products.</span>
-<span class="sd">            This gets passed through to the &quot;test_products&quot; method.</span>
+<span class="sd">            This gets passed through to the "test_products" method.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        int</span>
 <span class="sd">            Binary code: 0 if all comparisons were completed successfully.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">log_with_emphasis</span><span class="p">(</span><span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;COMPARISONS OF KNOWN OUTPUTS IN </span><span class="si">{</span><span class="n">compare_path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="sd">        """</span>
+        <span class="n">log_with_emphasis</span><span class="p">(</span><span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">,</span> <span class="sa">f</span><span class="s2">"COMPARISONS OF KNOWN OUTPUTS IN </span><span class="si">{</span><span class="n">compare_path</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
         <span class="c1"># We gunzip comparison files to a temporary location, so keep track of</span>
         <span class="c1"># all the temporary files so we can remove them at the end.</span>
         <span class="n">remove_temp_files</span> <span class="o">=</span> <span class="p">[]</span>
@@ -1701,8 +1728,8 @@ window.runMermaid = runMermaid;</script>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">exists</span><span class="p">(</span><span class="n">compare_path</span><span class="p">):</span>
             <span class="n">log_with_emphasis</span><span class="p">(</span>
                 <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">,</span>
-                <span class="sa">f</span><span class="s2">&quot;COMPARE PATH DOES NOT EXIST: </span><span class="si">{</span><span class="n">compare_path</span><span class="si">}</span><span class="s2"> &quot;</span>
-                <span class="sa">f</span><span class="s2">&quot;Not comparing outputs.&quot;</span><span class="p">,</span>
+                <span class="sa">f</span><span class="s2">"COMPARE PATH DOES NOT EXIST: </span><span class="si">{</span><span class="n">compare_path</span><span class="si">}</span><span class="s2"> "</span>
+                <span class="sa">f</span><span class="s2">"Not comparing outputs."</span><span class="p">,</span>
             <span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">compare_filenames</span> <span class="o">=</span> <span class="p">[</span>
@@ -1710,8 +1737,8 @@ window.runMermaid = runMermaid;</script>
             <span class="p">]</span>
             <span class="n">log_with_emphasis</span><span class="p">(</span>
                 <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">,</span>
-                <span class="sa">f</span><span class="s2">&quot;DONE RUNNING COMPARISONS OF KNOWN OUTPUTS IN </span><span class="si">{</span><span class="n">compare_path</span><span class="si">}</span><span class="s2"> &quot;</span>
-                <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">compare_filenames</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+                <span class="sa">f</span><span class="s2">"DONE RUNNING COMPARISONS OF KNOWN OUTPUTS IN </span><span class="si">{</span><span class="n">compare_path</span><span class="si">}</span><span class="s2"> "</span>
+                <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">compare_filenames</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
             <span class="p">)</span>
 
         <span class="c1"># Identify all missing products based on the list of output products</span>
@@ -1720,7 +1747,7 @@ window.runMermaid = runMermaid;</script>
             <span class="n">output_products_for_comparison</span><span class="p">,</span> <span class="n">compare_products</span>
         <span class="p">)</span>
 
-        <span class="n">diffdir</span> <span class="o">=</span> <span class="n">join</span><span class="p">(</span><span class="n">compare_path</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;diff_test_output_dir_</span><span class="si">{</span><span class="n">getenv</span><span class="p">(</span><span class="s1">&#39;USER&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">diffdir</span> <span class="o">=</span> <span class="n">join</span><span class="p">(</span><span class="n">compare_path</span><span class="p">,</span> <span class="sa">f</span><span class="s2">"diff_test_output_dir_</span><span class="si">{</span><span class="n">getenv</span><span class="p">(</span><span class="s1">'USER'</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">exists</span><span class="p">(</span><span class="n">diffdir</span><span class="p">):</span>
             <span class="n">makedirs</span><span class="p">(</span><span class="n">diffdir</span><span class="p">)</span>
 
@@ -1735,27 +1762,27 @@ window.runMermaid = runMermaid;</script>
             <span class="n">badcomps</span><span class="p">,</span> <span class="n">compare_products</span><span class="p">,</span> <span class="n">compare_strings</span><span class="p">,</span> <span class="n">diffdir</span>
         <span class="p">)</span>
 
-        <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;retval: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="nb">bin</span><span class="p">(</span><span class="n">retval</span><span class="p">))</span>
+        <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"retval: </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="nb">bin</span><span class="p">(</span><span class="n">retval</span><span class="p">))</span>
         <span class="k">if</span> <span class="n">retval</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
             <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
-                <span class="s2">&quot;Nonzero return value indicates error, 6 bit binary code: &quot;</span> <span class="s2">&quot;WXY where:&quot;</span>
+                <span class="s2">"Nonzero return value indicates error, 6 bit binary code: "</span> <span class="s2">"WXY where:"</span>
             <span class="p">)</span>
             <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
                 <span class="p">(</span>
-                    <span class="s2">&quot;    Y (0-1): BADCOMP: number of bad comparisons found between&quot;</span>
-                    <span class="s2">&quot;comparepath and current run output path&quot;</span>
+                    <span class="s2">"    Y (0-1): BADCOMP: number of bad comparisons found between"</span>
+                    <span class="s2">"comparepath and current run output path"</span>
                 <span class="p">)</span>
             <span class="p">)</span>
             <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
                 <span class="p">(</span>
-                    <span class="s2">&quot;    X (2-3): MISSINGCOMP: Number of products missing in &quot;</span>
-                    <span class="s2">&quot;compare path but existing in current output path&quot;</span>
+                    <span class="s2">"    X (2-3): MISSINGCOMP: Number of products missing in "</span>
+                    <span class="s2">"compare path but existing in current output path"</span>
                 <span class="p">)</span>
             <span class="p">)</span>
             <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
                 <span class="p">(</span>
-                    <span class="s2">&quot;    W (4-5): MISSINGPROD: Number of products existing in &quot;</span>
-                    <span class="s2">&quot;comparepath, but missing in current output path&quot;</span>
+                    <span class="s2">"    W (4-5): MISSINGPROD: Number of products existing in "</span>
+                    <span class="s2">"comparepath, but missing in current output path"</span>
                 <span class="p">)</span>
             <span class="p">)</span>
 
@@ -1770,30 +1797,30 @@ window.runMermaid = runMermaid;</script>
         <span class="n">compare_strings</span><span class="p">,</span>
         <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
     <span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Test output_product against &quot;good&quot; product stored in &quot;compare_path&quot;.</span>
+<span class="w">        </span><span class="sd">"""Test output_product against "good" product stored in "compare_path".</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        output_product : str</span>
 <span class="sd">            * Full path to current output product</span>
 <span class="sd">        compare_product : str</span>
-<span class="sd">            * Full path to &quot;good&quot; comparison product</span>
+<span class="sd">            * Full path to "good" comparison product</span>
 <span class="sd">        goodcomps : list of str</span>
-<span class="sd">            * List of full paths to all &quot;good&quot; successful comparisons</span>
+<span class="sd">            * List of full paths to all "good" successful comparisons</span>
 <span class="sd">              (output and compare images match)</span>
-<span class="sd">            * Each str is prepended with a &quot;compare_string&quot; tag to identify which</span>
+<span class="sd">            * Each str is prepended with a "compare_string" tag to identify which</span>
 <span class="sd">              comparison type was performed.</span>
 <span class="sd">        badcomps : list of str</span>
-<span class="sd">            * List of full paths to all &quot;bad&quot; unsuccessful comparisons</span>
+<span class="sd">            * List of full paths to all "bad" unsuccessful comparisons</span>
 <span class="sd">              (output and compare images differ)</span>
-<span class="sd">            * Each str is prepended with a &quot;compare_string&quot; tag to identify which</span>
+<span class="sd">            * Each str is prepended with a "compare_string" tag to identify which</span>
 <span class="sd">              comparison type was performed.</span>
 <span class="sd">        compare_strings : list of str</span>
-<span class="sd">            * List of all comparison &quot;tags&quot; included in goodcomps and badcomps lists.</span>
+<span class="sd">            * List of all comparison "tags" included in goodcomps and badcomps lists.</span>
 <span class="sd">            * This list is used to remove the comparison tags from goodcomps and</span>
 <span class="sd">              badcomps to retrieve only the file path.</span>
 <span class="sd">        kwargs: dict</span>
-<span class="sd">            Additional arguments to pass through to &quot;outputs_match&quot; method.</span>
+<span class="sd">            Additional arguments to pass through to "outputs_match" method.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
@@ -1802,22 +1829,22 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">        badcomps: list of str</span>
 <span class="sd">            All current bad comparisons appended to the list passed in.</span>
 <span class="sd">        compare_strings: list of str</span>
-<span class="sd">            All current comparison &quot;tags&quot; added to the list passed in.</span>
+<span class="sd">            All current comparison "tags" added to the list passed in.</span>
 
 <span class="sd">        Raises</span>
 <span class="sd">        ------</span>
 <span class="sd">        TypeError</span>
 <span class="sd">            Raised when current output product does not have an associated</span>
 <span class="sd">            comparison test defined.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_gz</span><span class="p">(</span><span class="n">compare_product</span><span class="p">):</span>
             <span class="n">compare_product</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">gunzip_product</span><span class="p">(</span>
                 <span class="n">compare_product</span><span class="p">,</span> <span class="n">is_comparison_product</span><span class="o">=</span><span class="kc">True</span>
             <span class="p">)</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;netcdf&quot;</span><span class="p">:</span>
-            <span class="n">comp_str</span> <span class="o">=</span> <span class="s2">&quot;GEOIPS NETCDF &quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s2">"netcdf"</span><span class="p">:</span>
+            <span class="n">comp_str</span> <span class="o">=</span> <span class="s2">"GEOIPS NETCDF "</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">comp_str</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot; &quot;</span>
+            <span class="n">comp_str</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="o">+</span> <span class="s2">" "</span>
         <span class="n">compare_strings</span> <span class="o">+=</span> <span class="p">[</span><span class="n">comp_str</span><span class="p">]</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">outputs_match</span><span class="p">(</span>
@@ -1825,34 +1852,34 @@ window.runMermaid = runMermaid;</script>
             <span class="n">compare_product</span><span class="p">,</span>
             <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
         <span class="p">):</span>
-            <span class="n">goodcomps</span> <span class="o">+=</span> <span class="p">[</span><span class="n">comp_str</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="si">{0}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">output_product</span><span class="p">)]</span>
+            <span class="n">goodcomps</span> <span class="o">+=</span> <span class="p">[</span><span class="n">comp_str</span> <span class="o">+</span> <span class="s2">"</span><span class="si">{0}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">output_product</span><span class="p">)]</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">badcomps</span> <span class="o">+=</span> <span class="p">[</span><span class="n">comp_str</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="si">{0}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">output_product</span><span class="p">)]</span>
+            <span class="n">badcomps</span> <span class="o">+=</span> <span class="p">[</span><span class="n">comp_str</span> <span class="o">+</span> <span class="s2">"</span><span class="si">{0}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">output_product</span><span class="p">)]</span>
 
         <span class="k">return</span> <span class="n">goodcomps</span><span class="p">,</span> <span class="n">badcomps</span><span class="p">,</span> <span class="n">compare_strings</span></div></div>
 
 
 <div class="viewcode-block" id="OutputCheckersInterface"><a class="viewcode-back" href="../../../../geoips_api/geoips.interfaces.class_based.html#geoips.interfaces.class_based.output_checkers.OutputCheckersInterface">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">OutputCheckersInterface</span><span class="p">(</span><span class="n">BaseClassInterface</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Output Checkers routines to apply when comparing data outputs.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Output Checkers routines to apply when comparing data outputs."""</span>
 
-    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;output_checkers&quot;</span>
-    <span class="n">required_args</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;standard&quot;</span><span class="p">:</span> <span class="p">{}}</span>
-    <span class="n">required_kwargs</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;standard&quot;</span><span class="p">:</span> <span class="p">{}}</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">"output_checkers"</span>
+    <span class="n">required_args</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"standard"</span><span class="p">:</span> <span class="p">{}}</span>
+    <span class="n">required_kwargs</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"standard"</span><span class="p">:</span> <span class="p">{}}</span>
     <span class="n">plugin_class</span> <span class="o">=</span> <span class="n">BaseOutputCheckerPlugin</span>
     <span class="c1"># required_args = {</span>
-    <span class="c1">#     &quot;standard&quot;: [&quot;fname&quot;, &quot;output_product&quot;, &quot;compare_product&quot;],</span>
-    <span class="c1">#     &quot;print_gunzip&quot;: [&quot;fobj&quot;, &quot;gunzip_fname&quot;],</span>
-    <span class="c1">#     &quot;print_gzip&quot;: [&quot;fobj&quot;, &quot;gzip_fname&quot;],</span>
+    <span class="c1">#     "standard": ["fname", "output_product", "compare_product"],</span>
+    <span class="c1">#     "print_gunzip": ["fobj", "gunzip_fname"],</span>
+    <span class="c1">#     "print_gzip": ["fobj", "gzip_fname"],</span>
     <span class="c1"># }</span>
-    <span class="c1"># required_kwargs = {&quot;standard&quot;: {}}</span>
+    <span class="c1"># required_kwargs = {"standard": {}}</span>
     <span class="c1"># allowable_kwargs = {</span>
-    <span class="c1">#     &quot;test_product&quot;: [&quot;goodcomps&quot;, &quot;badcomps&quot;, &quot;compare_strings&quot;],</span>
-    <span class="c1">#     &quot;out_diffname&quot;: [&quot;ext&quot;, &quot;flag&quot;],</span>
-    <span class="c1">#     &quot;compare_outputs&quot;: [&quot;test_product_func&quot;],</span>
+    <span class="c1">#     "test_product": ["goodcomps", "badcomps", "compare_strings"],</span>
+    <span class="c1">#     "out_diffname": ["ext", "flag"],</span>
+    <span class="c1">#     "compare_outputs": ["test_product_func"],</span>
     <span class="c1"># }</span>
 
 <div class="viewcode-block" id="OutputCheckersInterface.identify_checker"><a class="viewcode-back" href="../../../../geoips_api/geoips.interfaces.class_based.html#geoips.interfaces.class_based.output_checkers.OutputCheckersInterface.identify_checker">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">identify_checker</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">checker_override_name</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Identify the correct output checker plugin and return its name.</span>
+<span class="w">        </span><span class="sd">"""Identify the correct output checker plugin and return its name.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -1868,7 +1895,7 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">        -------</span>
 <span class="sd">        string</span>
 <span class="sd">            - The name of the discovered output checker.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">plugin_names</span> <span class="o">=</span> <span class="p">[</span><span class="n">checker</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">checker</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_plugins</span><span class="p">()]</span>
         <span class="c1"># First, check if an override was requested for this file.</span>
         <span class="k">if</span> <span class="n">checker_override_name</span> <span class="ow">and</span> <span class="n">checker_override_name</span> <span class="ow">in</span> <span class="n">plugin_names</span><span class="p">:</span>
@@ -1888,11 +1915,11 @@ window.runMermaid = runMermaid;</script>
                 <span class="n">checker_name</span> <span class="o">=</span> <span class="n">output_checker</span><span class="o">.</span><span class="n">name</span>
                 <span class="k">break</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">checker_found</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;There isn&#39;t an output checker built for this data type.&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">"There isn't an output checker built for this data type."</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">checker_name</span></div>
 
 <div class="viewcode-block" id="OutputCheckersInterface.get_plugin"><a class="viewcode-back" href="../../../../geoips_api/geoips.interfaces.class_based.html#geoips.interfaces.class_based.output_checkers.OutputCheckersInterface.get_plugin">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_plugin</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">rebuild_registries</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the output checker plugin corresponding to checker_name.</span>
+<span class="w">        </span><span class="sd">"""Return the output checker plugin corresponding to checker_name.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -1906,23 +1933,23 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">              get_plugin fails, rebuild the plugin registry, call then call</span>
 <span class="sd">              get_plugin once more with rebuild_registries toggled off, so it only gets</span>
 <span class="sd">              rebuilt once.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">plug</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">get_plugin</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">rebuild_registries</span><span class="p">)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">valid_plugin</span><span class="p">(</span><span class="n">plug</span><span class="p">):</span>
             <span class="k">return</span> <span class="n">plug</span></div>
 
 <div class="viewcode-block" id="OutputCheckersInterface.valid_plugin"><a class="viewcode-back" href="../../../../geoips_api/geoips.interfaces.class_based.html#geoips.interfaces.class_based.output_checkers.OutputCheckersInterface.valid_plugin">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">valid_plugin</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">plugin</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Check the validity of the supplied output_checker plugin.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Check the validity of the supplied output_checker plugin."""</span>
         <span class="k">if</span> <span class="p">(</span>
-            <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">plugin</span><span class="p">,</span> <span class="s2">&quot;outputs_match&quot;</span><span class="p">)</span>
-            <span class="ow">or</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">plugin</span><span class="p">,</span> <span class="s2">&quot;correct_file_format&quot;</span><span class="p">)</span>
-            <span class="ow">or</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">plugin</span><span class="p">,</span> <span class="s2">&quot;call&quot;</span><span class="p">)</span>
+            <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">plugin</span><span class="p">,</span> <span class="s2">"outputs_match"</span><span class="p">)</span>
+            <span class="ow">or</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">plugin</span><span class="p">,</span> <span class="s2">"correct_file_format"</span><span class="p">)</span>
+            <span class="ow">or</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">plugin</span><span class="p">,</span> <span class="s2">"call"</span><span class="p">)</span>
         <span class="p">):</span>
             <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;The plugin &#39;</span><span class="si">{</span><span class="n">plugin</span><span class="o">.</span><span class="n">module_name</span><span class="si">}</span><span class="s2">&#39; is missing one or more of the &quot;</span>
-                <span class="s2">&quot;following functions.&quot;</span>
-                <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">[outputs_match, correct_file_format, call]. Please create those &quot;</span>
-                <span class="s2">&quot;before using this plugin.&quot;</span>
+                <span class="sa">f</span><span class="s2">"The plugin '</span><span class="si">{</span><span class="n">plugin</span><span class="o">.</span><span class="n">module_name</span><span class="si">}</span><span class="s2">' is missing one or more of the "</span>
+                <span class="s2">"following functions."</span>
+                <span class="s2">"</span><span class="se">\n</span><span class="s2">[outputs_match, correct_file_format, call]. Please create those "</span>
+                <span class="s2">"before using this plugin."</span>
             <span class="p">)</span>
         <span class="k">return</span> <span class="kc">True</span></div></div>
 

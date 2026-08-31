@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Extend GeoIPS with a new Algorithm &#8212; GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation</title>
+    <title>Extend GeoIPS with a new Algorithm &#8212; GeoIPS, Geolocated Information Processing System 0.0.0 documentation</title>
   
   
   
@@ -41,11 +41,18 @@
   <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
 
-    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=6727bded"></script>
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=525cde36"></script>
     <script src="../../_static/doctools.js?v=888ff710"></script>
     <script src="../../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../_static/design-tabs.js?v=f930bc37"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'tutorials/extending-with-plugins/algorithm';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.17.1';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://nrlmmd-geoips.github.io/geoips/versions.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = 'dev';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner =
+            false;
+        </script>
     <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
     <link rel="icon" href="../../_static/nrlicon.ico"/>
     <link rel="index" title="Index" href="../../genindex.html" />
@@ -54,8 +61,8 @@
     <link rel="prev" title="Extending GeoIPS with New Plugins" href="index.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2.0" />
-    <meta name="docbuild:last-update" content="Jul 23, 2026 17:03:57"/>
+  <meta name="docsearch:version" content="0.0" />
+    <meta name="docbuild:last-update" content="Aug 31, 2026 13:32:18"/>
   
     
     <script src="../../_static/searchtools.js"></script>
@@ -127,11 +134,31 @@
       
     
     
-    <img src="../../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation - Home"/>
-    <img src="../../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation - Home"/>
+    <img src="../../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 0.0.0 documentation - Home"/>
+    <img src="../../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 0.0.0 documentation - Home"/>
   
   
 </a></div>
+    
+      <div class="navbar-item">
+<div class="version-switcher__container dropdown pst-js-only">
+  <button id="pst-version-switcher-button-2"
+    type="button"
+    class="version-switcher__button btn btn-sm dropdown-toggle"
+    data-bs-toggle="dropdown"
+    aria-haspopup="listbox"
+    aria-controls="pst-version-switcher-list-2"
+    aria-label="Version switcher list"
+  >
+    Choose version  <!-- this text may get changed later by javascript -->
+    <span class="caret"></span>
+  </button>
+  <div id="pst-version-switcher-list-2"
+    class="version-switcher__menu dropdown-menu list-group-flush py-0"
+    role="listbox" aria-labelledby="pst-version-switcher-button-2">
+    <!-- dropdown will be populated by javascript on page load -->
+  </div>
+</div></div>
     
   </div>
   
@@ -549,14 +576,14 @@ to your package’s <code class="docutils literal notranslate"><span class="pre"
 <code class="docutils literal notranslate"><span class="pre">call</span></code> method. The <code class="docutils literal notranslate"><span class="pre">call</span></code> method is where the data manipulation happens; GeoIPS invokes
 it for you (directly, or as a step in an <a class="reference internal" href="../../functionality/order-based-processing/index.html#order-based-processing"><span class="std std-ref">OBP workflow</span></a>).</p>
 <p>The complete plugin looks like this:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="sd">&quot;&quot;&quot;Cloud depth product.</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="sd">"""Cloud depth product.</span>
 
 <span class="sd">Difference of cloud top height and cloud base height.</span>
 
 <span class="sd">This is the doc-owned example used by the :ref:`algorithm tutorial &lt;add-an-algorithm&gt;`.</span>
 <span class="sd">It is imported and executed by ``tests/unit_tests/docs/test_tutorial_examples.py``</span>
 <span class="sd">so the code shown in the tutorial is exercised in CI.</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
 
@@ -568,14 +595,14 @@ it for you (directly, or as a step in an <a class="reference internal" href="../
 
 
 <span class="k">class</span><span class="w"> </span><span class="nc">MyCloudDepthAlgorithmPlugin</span><span class="p">(</span><span class="n">BaseAlgorithmPlugin</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;My cloud depth algorithm plugin.</span>
+<span class="w">    </span><span class="sd">"""My cloud depth algorithm plugin.</span>
 
 <span class="sd">    Difference of cloud top height and cloud base height, scaled to kilometers.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
-    <span class="n">interface</span> <span class="o">=</span> <span class="s2">&quot;algorithms&quot;</span>
-    <span class="n">family</span> <span class="o">=</span> <span class="s2">&quot;xarray_to_xarray&quot;</span>
-    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;my_cloud_depth&quot;</span>
+    <span class="n">interface</span> <span class="o">=</span> <span class="s2">"algorithms"</span>
+    <span class="n">family</span> <span class="o">=</span> <span class="s2">"xarray_to_xarray"</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">"my_cloud_depth"</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">call</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
@@ -584,12 +611,12 @@ it for you (directly, or as a step in an <a class="reference internal" href="../
         <span class="n">product_name</span><span class="p">,</span>
         <span class="n">output_data_range</span><span class="p">,</span>  <span class="c1"># range of values the algorithm will output</span>
         <span class="n">scale_factor</span><span class="p">,</span>  <span class="c1"># converts input meters to output kilometers</span>
-        <span class="n">min_outbounds</span><span class="o">=</span><span class="s2">&quot;crop&quot;</span><span class="p">,</span>
-        <span class="n">max_outbounds</span><span class="o">=</span><span class="s2">&quot;mask&quot;</span><span class="p">,</span>
+        <span class="n">min_outbounds</span><span class="o">=</span><span class="s2">"crop"</span><span class="p">,</span>
+        <span class="n">max_outbounds</span><span class="o">=</span><span class="s2">"mask"</span><span class="p">,</span>
         <span class="n">norm</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
         <span class="n">inverse</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
     <span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Apply the cloud-depth manipulation steps to the input data.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Apply the cloud-depth manipulation steps to the input data."""</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">geoips.data_manipulations.corrections</span><span class="w"> </span><span class="kn">import</span> <span class="n">apply_data_range</span>
 
         <span class="n">cth</span> <span class="o">=</span> <span class="n">xobj</span><span class="p">[</span><span class="n">variables</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>

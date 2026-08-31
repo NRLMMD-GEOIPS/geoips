@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>geoips.interfaces.class_based.readers &#8212; GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation</title>
+    <title>geoips.interfaces.class_based.readers &#8212; GeoIPS, Geolocated Information Processing System 0.0.0 documentation</title>
   
   
   
@@ -40,7 +40,7 @@
   <link rel="preload" as="script" href="../../../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
 <link rel="preload" as="script" href="../../../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
 
-    <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js?v=6727bded"></script>
+    <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js?v=525cde36"></script>
     <script src="../../../../_static/doctools.js?v=888ff710"></script>
     <script src="../../../../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../../_static/design-tabs.js?v=f930bc37"></script>
@@ -401,14 +401,21 @@ mermaid.initialize(
 window.addEventListener("load", load);
 window.runMermaid = runMermaid;</script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_modules/geoips/interfaces/class_based/readers';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.17.1';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://nrlmmd-geoips.github.io/geoips/versions.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = 'dev';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner =
+            false;
+        </script>
     <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
     <link rel="icon" href="../../../../_static/nrlicon.ico"/>
     <link rel="index" title="Index" href="../../../../genindex.html" />
     <link rel="search" title="Search" href="../../../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2.0" />
-    <meta name="docbuild:last-update" content="Jul 23, 2026 17:03:57"/>
+  <meta name="docsearch:version" content="0.0" />
+    <meta name="docbuild:last-update" content="Aug 31, 2026 13:32:18"/>
   
     
     <script src="../../../../_static/searchtools.js"></script>
@@ -480,11 +487,31 @@ window.runMermaid = runMermaid;</script>
       
     
     
-    <img src="../../../../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation - Home"/>
-    <img src="../../../../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation - Home"/>
+    <img src="../../../../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 0.0.0 documentation - Home"/>
+    <img src="../../../../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 0.0.0 documentation - Home"/>
   
   
 </a></div>
+    
+      <div class="navbar-item">
+<div class="version-switcher__container dropdown pst-js-only">
+  <button id="pst-version-switcher-button-2"
+    type="button"
+    class="version-switcher__button btn btn-sm dropdown-toggle"
+    data-bs-toggle="dropdown"
+    aria-haspopup="listbox"
+    aria-controls="pst-version-switcher-list-2"
+    aria-label="Version switcher list"
+  >
+    Choose version  <!-- this text may get changed later by javascript -->
+    <span class="caret"></span>
+  </button>
+  <div id="pst-version-switcher-list-2"
+    class="version-switcher__menu dropdown-menu list-group-flush py-0"
+    role="listbox" aria-labelledby="pst-version-switcher-button-2">
+    <!-- dropdown will be populated by javascript on page load -->
+  </div>
+</div></div>
     
   </div>
   
@@ -828,7 +855,7 @@ window.runMermaid = runMermaid;</script>
 <span></span><span class="c1"># # # This source code is subject to the license referenced at</span>
 <span class="c1"># # # https://github.com/NRLMMD-GEOIPS.</span>
 
-<span class="sd">&quot;&quot;&quot;Readers interface class.&quot;&quot;&quot;</span>
+<span class="sd">"""Readers interface class."""</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">collections</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
@@ -855,9 +882,9 @@ window.runMermaid = runMermaid;</script>
 
 <span class="n">LOG</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
-<span class="k">with</span> <span class="n">import_optional_dependencies</span><span class="p">(</span><span class="n">loglevel</span><span class="o">=</span><span class="s2">&quot;info&quot;</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Attempt to import a package &amp; print to LOG.info if the import fails.&quot;&quot;&quot;</span>
-    <span class="c1"># If this reader is not installed on the system, don&#39;t fail alltogether,</span>
+<span class="k">with</span> <span class="n">import_optional_dependencies</span><span class="p">(</span><span class="n">loglevel</span><span class="o">=</span><span class="s2">"info"</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Attempt to import a package &amp; print to LOG.info if the import fails."""</span>
+    <span class="c1"># If this reader is not installed on the system, don't fail alltogether,</span>
     <span class="c1"># just skip this import. This reader will not work if the import fails</span>
     <span class="c1"># and the package will have to be installed to process data of this type.</span>
     <span class="kn">import</span><span class="w"> </span><span class="nn">numexpr</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">ne</span>
@@ -867,26 +894,26 @@ window.runMermaid = runMermaid;</script>
 
 
 <div class="viewcode-block" id="BaseReaderPlugin"><a class="viewcode-back" href="../../../../geoips_api/geoips.interfaces.class_based.html#geoips.interfaces.class_based.readers.BaseReaderPlugin">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">BaseReaderPlugin</span><span class="p">(</span><span class="n">BaseClassPlugin</span><span class="p">,</span> <span class="n">abstract</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Base class for GeoIPS reader plugins.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Base class for GeoIPS reader plugins."""</span>
 
     <span class="n">data_tree</span> <span class="o">=</span> <span class="kc">False</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_pre_call</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">_obp_initiated</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Strip injected upstream data for legacy (family-bearing) readers.</span>
+<span class="w">        </span><span class="sd">"""Strip injected upstream data for legacy (family-bearing) readers.</span>
 
-<span class="sd">        Under OBP the workflow engine routes the entry step&#39;s input tree to the</span>
+<span class="sd">        Under OBP the workflow engine routes the entry step's input tree to the</span>
 <span class="sd">        reader as ``data``. A legacy reader reads solely from ``filenames`` and its</span>
 <span class="sd">        ``call`` does not accept a ``data`` argument, so the injected tree is</span>
 <span class="sd">        dropped here (return ``None``); ``_invoke`` then calls the reader with</span>
 <span class="sd">        ``filenames`` only. A Datatree-native reader (``data_tree=True``)</span>
 <span class="sd">        keeps the tree via the standard pass-through in ``super()._pre_call``.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="n">_obp_initiated</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;data_tree&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">):</span>
+<span class="sd">        """</span>
+        <span class="k">if</span> <span class="n">_obp_initiated</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">"data_tree"</span><span class="p">,</span> <span class="kc">False</span><span class="p">):</span>
             <span class="k">return</span> <span class="kc">None</span>
         <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">_pre_call</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">_obp_initiated</span><span class="o">=</span><span class="n">_obp_initiated</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_normalize_obp_kwargs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Rename OBP reader kwargs for legacy readers.</span>
+<span class="w">        </span><span class="sd">"""Rename OBP reader kwargs for legacy readers.</span>
 
 <span class="sd">        Legacy (family-bearing) reader plugins expect ``fnames`` in their</span>
 <span class="sd">        ``call`` signature, but the OBP workflow interface uses ``filenames``.</span>
@@ -895,39 +922,39 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">        does not drop them and ``call`` receives the expected argument names.</span>
 
 <span class="sd">        Datatree-native readers (no ``family``) pass through unchanged.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">,</span> <span class="s2">&quot;family&quot;</span><span class="p">):</span>
+<span class="sd">        """</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">,</span> <span class="s2">"family"</span><span class="p">):</span>
             <span class="k">return</span> <span class="n">kwargs</span>
 
-        <span class="k">if</span> <span class="s2">&quot;filenames&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
-            <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;fnames&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;filenames&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s2">"filenames"</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+            <span class="n">kwargs</span><span class="p">[</span><span class="s2">"fnames"</span><span class="p">]</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">"filenames"</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="s2">&quot;chans&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+        <span class="k">if</span> <span class="s2">"chans"</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
             <span class="n">chans_message</span> <span class="o">=</span> <span class="p">(</span>
-                <span class="s2">&quot;&#39;chans&#39; is deprecated and will be removed in GeoIPS 2.0. Use&quot;</span>
-                <span class="s2">&quot; &#39;variables&#39; instead.&quot;</span>
+                <span class="s2">"'chans' is deprecated and will be removed in GeoIPS 2.0. Use"</span>
+                <span class="s2">" 'variables' instead."</span>
             <span class="p">)</span>
             <span class="n">LOG</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="n">chans_message</span><span class="p">)</span>
             <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="n">chans_message</span><span class="p">,</span> <span class="ne">DeprecationWarning</span><span class="p">,</span> <span class="n">stacklevel</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-            <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;variables&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
-        <span class="k">elif</span> <span class="s2">&quot;variables&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
-            <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;chans&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;variables&quot;</span><span class="p">)</span>
+            <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">"variables"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="s2">"variables"</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+            <span class="n">kwargs</span><span class="p">[</span><span class="s2">"chans"</span><span class="p">]</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">"variables"</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">kwargs</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_post_call</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">_obp_initiated</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Merge reader dict output into a ``DataTree`` for OBP.</span>
+<span class="w">        </span><span class="sd">"""Merge reader dict output into a ``DataTree`` for OBP.</span>
 
 <span class="sd">        Readers return ``{key: xr.Dataset}``.  This hook merges the dict</span>
 <span class="sd">        into a single ``xr.Dataset``, preserving ``METADATA`` attrs,</span>
 <span class="sd">        and wraps the result in a plain ``xr.DataTree`` so downstream</span>
 <span class="sd">        steps can access it via the standard tree-based data flow.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">if</span> <span class="n">_obp_initiated</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
-            <span class="n">metadata</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;METADATA&quot;</span><span class="p">)</span>
+            <span class="n">metadata</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">"METADATA"</span><span class="p">)</span>
             <span class="n">root_ds</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">()</span>
             <span class="n">root_ds</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">metadata</span><span class="o">.</span><span class="n">attrs</span><span class="p">)</span>
-            <span class="n">dt</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataTree</span><span class="p">(</span><span class="n">root_ds</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;name&quot;</span><span class="p">,</span> <span class="s2">&quot;reader&quot;</span><span class="p">))</span>
+            <span class="n">dt</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataTree</span><span class="p">(</span><span class="n">root_ds</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">"name"</span><span class="p">,</span> <span class="s2">"reader"</span><span class="p">))</span>
             <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
                 <span class="n">dt</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataTree</span><span class="p">(</span><span class="n">normalize_geoips_dataset_coords</span><span class="p">(</span><span class="n">val</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="n">key</span><span class="p">)</span>
             <span class="k">return</span> <span class="n">dt</span>
@@ -935,28 +962,28 @@ window.runMermaid = runMermaid;</script>
 
 
 <div class="viewcode-block" id="BaseAbiReaderPlugin"><a class="viewcode-back" href="../../../../geoips_api/geoips.interfaces.class_based.html#geoips.interfaces.class_based.readers.BaseAbiReaderPlugin">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">BaseAbiReaderPlugin</span><span class="p">(</span><span class="n">BaseReaderPlugin</span><span class="p">,</span> <span class="n">abstract</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Base class for ABI-based readers.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Base class for ABI-based readers."""</span>
 
     <span class="c1"># These should be added to the data file object</span>
     <span class="n">BADVALS</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="s2">&quot;Off_Of_Disk&quot;</span><span class="p">:</span> <span class="o">-</span><span class="mf">999.9</span><span class="p">,</span>
-        <span class="s2">&quot;Conditional&quot;</span><span class="p">:</span> <span class="o">-</span><span class="mf">999.8</span><span class="p">,</span>
-        <span class="s2">&quot;Out_Of_Valid_Range&quot;</span><span class="p">:</span> <span class="o">-</span><span class="mf">999.7</span><span class="p">,</span>
-        <span class="s2">&quot;No_Value&quot;</span><span class="p">:</span> <span class="o">-</span><span class="mf">999.6</span><span class="p">,</span>
-        <span class="s2">&quot;Uninitialized&quot;</span><span class="p">:</span> <span class="o">-</span><span class="mf">9999.9</span><span class="p">,</span>
+        <span class="s2">"Off_Of_Disk"</span><span class="p">:</span> <span class="o">-</span><span class="mf">999.9</span><span class="p">,</span>
+        <span class="s2">"Conditional"</span><span class="p">:</span> <span class="o">-</span><span class="mf">999.8</span><span class="p">,</span>
+        <span class="s2">"Out_Of_Valid_Range"</span><span class="p">:</span> <span class="o">-</span><span class="mf">999.7</span><span class="p">,</span>
+        <span class="s2">"No_Value"</span><span class="p">:</span> <span class="o">-</span><span class="mf">999.6</span><span class="p">,</span>
+        <span class="s2">"Uninitialized"</span><span class="p">:</span> <span class="o">-</span><span class="mf">9999.9</span><span class="p">,</span>
     <span class="p">}</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_get_imager_projection</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">df</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get imager projection.&quot;&quot;&quot;</span>
-        <span class="n">gip</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">variables</span><span class="p">[</span><span class="s2">&quot;goes_imager_projection&quot;</span><span class="p">]</span>
+<span class="w">        </span><span class="sd">"""Get imager projection."""</span>
+        <span class="n">gip</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">variables</span><span class="p">[</span><span class="s2">"goes_imager_projection"</span><span class="p">]</span>
         <span class="n">metadata</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="n">md_names</span> <span class="o">=</span> <span class="p">[</span>
-            <span class="s2">&quot;inverse_flattening&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;latitude_of_projection_origin&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;longitude_of_projection_origin&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;perspective_point_height&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;semi_major_axis&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;semi_minor_axis&quot;</span><span class="p">,</span>
+            <span class="s2">"inverse_flattening"</span><span class="p">,</span>
+            <span class="s2">"latitude_of_projection_origin"</span><span class="p">,</span>
+            <span class="s2">"longitude_of_projection_origin"</span><span class="p">,</span>
+            <span class="s2">"perspective_point_height"</span><span class="p">,</span>
+            <span class="s2">"semi_major_axis"</span><span class="p">,</span>
+            <span class="s2">"semi_minor_axis"</span><span class="p">,</span>
         <span class="p">]</span>
         <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">md_names</span><span class="p">:</span>
             <span class="k">try</span><span class="p">:</span>
@@ -965,24 +992,24 @@ window.runMermaid = runMermaid;</script>
                     <span class="n">metadata</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">metadata</span><span class="p">[</span><span class="n">name</span><span class="p">][()]</span>
             <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
                 <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
-                    <span class="s2">&quot;Warning! Lat lon extent metadata field missing: </span><span class="si">{0}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+                    <span class="s2">"Warning! Lat lon extent metadata field missing: </span><span class="si">{0}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
                 <span class="p">)</span>
-        <span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;grid_mapping&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">gip</span><span class="p">,</span> <span class="s2">&quot;grid_mapping_name&quot;</span><span class="p">)</span>
+        <span class="n">metadata</span><span class="p">[</span><span class="s2">"grid_mapping"</span><span class="p">]</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">gip</span><span class="p">,</span> <span class="s2">"grid_mapping_name"</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">metadata</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_get_lat_lon_extent_metadata</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">df</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get lat lon extent metadata.&quot;&quot;&quot;</span>
-        <span class="n">glle</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">variables</span><span class="p">[</span><span class="s2">&quot;geospatial_lat_lon_extent&quot;</span><span class="p">]</span>
+<span class="w">        </span><span class="sd">"""Get lat lon extent metadata."""</span>
+        <span class="n">glle</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">variables</span><span class="p">[</span><span class="s2">"geospatial_lat_lon_extent"</span><span class="p">]</span>
         <span class="n">metadata</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="n">md_names</span> <span class="o">=</span> <span class="p">[</span>
-            <span class="s2">&quot;geospatial_eastbound_longitude&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;geospatial_lat_center&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;geospatial_lat_nadir&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;geospatial_lon_center&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;geospatial_lon_nadir&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;geospatial_northbound_latitude&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;geospatial_southbound_latitude&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;geospatial_westbound_longitude&quot;</span><span class="p">,</span>
+            <span class="s2">"geospatial_eastbound_longitude"</span><span class="p">,</span>
+            <span class="s2">"geospatial_lat_center"</span><span class="p">,</span>
+            <span class="s2">"geospatial_lat_nadir"</span><span class="p">,</span>
+            <span class="s2">"geospatial_lon_center"</span><span class="p">,</span>
+            <span class="s2">"geospatial_lon_nadir"</span><span class="p">,</span>
+            <span class="s2">"geospatial_northbound_latitude"</span><span class="p">,</span>
+            <span class="s2">"geospatial_southbound_latitude"</span><span class="p">,</span>
+            <span class="s2">"geospatial_westbound_longitude"</span><span class="p">,</span>
         <span class="p">]</span>
         <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">md_names</span><span class="p">:</span>
             <span class="k">try</span><span class="p">:</span>
@@ -991,97 +1018,97 @@ window.runMermaid = runMermaid;</script>
                     <span class="n">metadata</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">metadata</span><span class="p">[</span><span class="n">name</span><span class="p">][()]</span>
             <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
                 <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
-                    <span class="s2">&quot;Warning! Lat lon extent metadata field missing: </span><span class="si">{0}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+                    <span class="s2">"Warning! Lat lon extent metadata field missing: </span><span class="si">{0}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
                 <span class="p">)</span>
         <span class="k">return</span> <span class="n">metadata</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_get_variable_metadata</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">df</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Gather all required variable level metadata.</span>
 
 <span class="sd">        Some are skipped or gathered later as needed.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">metadata</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="c1"># Note: We have skipped DQF, Rad, band_wavelength_star_look, num_star_looks,</span>
         <span class="c1">#       star_id, t, t_star_look, x_image, x_image_bounds, y_image,</span>
         <span class="c1">#       y_image_bounds, geospatial_lat_lon_extent, goes_imager_projection</span>
         <span class="n">md_names</span> <span class="o">=</span> <span class="p">[</span>
-            <span class="s2">&quot;band_id&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;band_wavelength&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;earth_sun_distance_anomaly_in_AU&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;esun&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;kappa0&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;max_radiance_value_of_valid_pixels&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;min_radiance_value_of_valid_pixels&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;missing_pixel_count&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;nominal_satellite_height&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;nominal_satellite_subpoint_lat&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;nominal_satellite_subpoint_lon&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;percent_uncorrectable_L0_errors&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;planck_bc1&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;planck_bc2&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;planck_fk1&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;planck_fk2&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;processing_parm_version_container&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;saturated_pixel_count&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;std_dev_radiance_value_of_valid_pixels&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;time_bounds&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;undersaturated_pixel_count&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;valid_pixel_count&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;x&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;y&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;yaw_flip_flag&quot;</span><span class="p">,</span>
+            <span class="s2">"band_id"</span><span class="p">,</span>
+            <span class="s2">"band_wavelength"</span><span class="p">,</span>
+            <span class="s2">"earth_sun_distance_anomaly_in_AU"</span><span class="p">,</span>
+            <span class="s2">"esun"</span><span class="p">,</span>
+            <span class="s2">"kappa0"</span><span class="p">,</span>
+            <span class="s2">"max_radiance_value_of_valid_pixels"</span><span class="p">,</span>
+            <span class="s2">"min_radiance_value_of_valid_pixels"</span><span class="p">,</span>
+            <span class="s2">"missing_pixel_count"</span><span class="p">,</span>
+            <span class="s2">"nominal_satellite_height"</span><span class="p">,</span>
+            <span class="s2">"nominal_satellite_subpoint_lat"</span><span class="p">,</span>
+            <span class="s2">"nominal_satellite_subpoint_lon"</span><span class="p">,</span>
+            <span class="s2">"percent_uncorrectable_L0_errors"</span><span class="p">,</span>
+            <span class="s2">"planck_bc1"</span><span class="p">,</span>
+            <span class="s2">"planck_bc2"</span><span class="p">,</span>
+            <span class="s2">"planck_fk1"</span><span class="p">,</span>
+            <span class="s2">"planck_fk2"</span><span class="p">,</span>
+            <span class="s2">"processing_parm_version_container"</span><span class="p">,</span>
+            <span class="s2">"saturated_pixel_count"</span><span class="p">,</span>
+            <span class="s2">"std_dev_radiance_value_of_valid_pixels"</span><span class="p">,</span>
+            <span class="s2">"time_bounds"</span><span class="p">,</span>
+            <span class="s2">"undersaturated_pixel_count"</span><span class="p">,</span>
+            <span class="s2">"valid_pixel_count"</span><span class="p">,</span>
+            <span class="s2">"x"</span><span class="p">,</span>
+            <span class="s2">"y"</span><span class="p">,</span>
+            <span class="s2">"yaw_flip_flag"</span><span class="p">,</span>
         <span class="p">]</span>
         <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">md_names</span><span class="p">:</span>
             <span class="k">try</span><span class="p">:</span>
                 <span class="n">metadata</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">variables</span><span class="p">[</span><span class="n">name</span><span class="p">][</span><span class="o">...</span><span class="p">]</span>
                 <span class="k">if</span> <span class="n">metadata</span><span class="p">[</span><span class="n">name</span><span class="p">]</span><span class="o">.</span><span class="n">size</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
                     <span class="n">metadata</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">metadata</span><span class="p">[</span><span class="n">name</span><span class="p">][()]</span>
-                <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="s2">&quot;y&quot;</span><span class="p">]:</span>
-                    <span class="n">metadata</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">_add_offset&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">variables</span><span class="p">[</span><span class="n">name</span><span class="p">]</span><span class="o">.</span><span class="n">add_offset</span>
-                    <span class="n">metadata</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">_scale_factor&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">variables</span><span class="p">[</span><span class="n">name</span><span class="p">]</span><span class="o">.</span><span class="n">scale_factor</span>
+                <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">"x"</span><span class="p">,</span> <span class="s2">"y"</span><span class="p">]:</span>
+                    <span class="n">metadata</span><span class="p">[</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">_add_offset"</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">variables</span><span class="p">[</span><span class="n">name</span><span class="p">]</span><span class="o">.</span><span class="n">add_offset</span>
+                    <span class="n">metadata</span><span class="p">[</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">_scale_factor"</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">variables</span><span class="p">[</span><span class="n">name</span><span class="p">]</span><span class="o">.</span><span class="n">scale_factor</span>
             <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
                 <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
-                    <span class="s2">&quot;Warning! Variable-level metadata field missing: </span><span class="si">{0}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+                    <span class="s2">"Warning! Variable-level metadata field missing: </span><span class="si">{0}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
                 <span class="p">)</span>
-        <span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;num_lines&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;y&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">size</span>
-        <span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;num_samples&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">size</span>
+        <span class="n">metadata</span><span class="p">[</span><span class="s2">"num_lines"</span><span class="p">]</span> <span class="o">=</span> <span class="n">metadata</span><span class="p">[</span><span class="s2">"y"</span><span class="p">]</span><span class="o">.</span><span class="n">size</span>
+        <span class="n">metadata</span><span class="p">[</span><span class="s2">"num_samples"</span><span class="p">]</span> <span class="o">=</span> <span class="n">metadata</span><span class="p">[</span><span class="s2">"x"</span><span class="p">]</span><span class="o">.</span><span class="n">size</span>
         <span class="k">return</span> <span class="n">metadata</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_get_file_metadata</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">df</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Gather all of the file-level metadata.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Gather all of the file-level metadata."""</span>
         <span class="n">metadata</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="n">md_names</span> <span class="o">=</span> <span class="p">[</span>
-            <span class="s2">&quot;id&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;dataset_name&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;naming_authority&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;institution&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;project&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;iso_series_metadata_id&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;Conventions&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;Metadata_Conventions&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;keywords_vocabulary&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;standard_name_vocabulary&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;title&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;summary&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;license&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;keywords&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;cdm_data_type&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;orbital_slot&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;platform_ID&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;instrument_type&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;processing_level&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;date_created&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;production_site&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;production_environment&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;production_data_source&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;timeline_id&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;scene_id&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;spatial_resolution&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;time_coverage_start&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;time_coverage_end&quot;</span><span class="p">,</span>
+            <span class="s2">"id"</span><span class="p">,</span>
+            <span class="s2">"dataset_name"</span><span class="p">,</span>
+            <span class="s2">"naming_authority"</span><span class="p">,</span>
+            <span class="s2">"institution"</span><span class="p">,</span>
+            <span class="s2">"project"</span><span class="p">,</span>
+            <span class="s2">"iso_series_metadata_id"</span><span class="p">,</span>
+            <span class="s2">"Conventions"</span><span class="p">,</span>
+            <span class="s2">"Metadata_Conventions"</span><span class="p">,</span>
+            <span class="s2">"keywords_vocabulary"</span><span class="p">,</span>
+            <span class="s2">"standard_name_vocabulary"</span><span class="p">,</span>
+            <span class="s2">"title"</span><span class="p">,</span>
+            <span class="s2">"summary"</span><span class="p">,</span>
+            <span class="s2">"license"</span><span class="p">,</span>
+            <span class="s2">"keywords"</span><span class="p">,</span>
+            <span class="s2">"cdm_data_type"</span><span class="p">,</span>
+            <span class="s2">"orbital_slot"</span><span class="p">,</span>
+            <span class="s2">"platform_ID"</span><span class="p">,</span>
+            <span class="s2">"instrument_type"</span><span class="p">,</span>
+            <span class="s2">"processing_level"</span><span class="p">,</span>
+            <span class="s2">"date_created"</span><span class="p">,</span>
+            <span class="s2">"production_site"</span><span class="p">,</span>
+            <span class="s2">"production_environment"</span><span class="p">,</span>
+            <span class="s2">"production_data_source"</span><span class="p">,</span>
+            <span class="s2">"timeline_id"</span><span class="p">,</span>
+            <span class="s2">"scene_id"</span><span class="p">,</span>
+            <span class="s2">"spatial_resolution"</span><span class="p">,</span>
+            <span class="s2">"time_coverage_start"</span><span class="p">,</span>
+            <span class="s2">"time_coverage_end"</span><span class="p">,</span>
         <span class="p">]</span>
-        <span class="n">metadata_dict</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="s2">&quot;instrument_ID&quot;</span><span class="p">}</span>
+        <span class="n">metadata_dict</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"id"</span><span class="p">:</span> <span class="s2">"instrument_ID"</span><span class="p">}</span>
         <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">md_names</span><span class="p">:</span>
             <span class="k">try</span><span class="p">:</span>
                 <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
@@ -1089,68 +1116,68 @@ window.runMermaid = runMermaid;</script>
                 <span class="k">else</span><span class="p">:</span>
                     <span class="n">metadata</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">metadata_dict</span><span class="p">[</span><span class="n">name</span><span class="p">])</span>
             <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
-                <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Warning! File-level metadata field missing: </span><span class="si">{0}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name</span><span class="p">))</span>
+                <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"Warning! File-level metadata field missing: </span><span class="si">{0}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name</span><span class="p">))</span>
         <span class="k">return</span> <span class="n">metadata</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_get_metadata</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">df</span><span class="p">,</span> <span class="n">fname</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Gather metadata for the data file and return as a dictionary.</span>
 
 <span class="sd">        Note: We are gathering all of the available metadata in case it is needed at</span>
 <span class="sd">        some point.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">metadata</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="c1"># Gather all file-level metadata</span>
-        <span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;file_info&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_file_metadata</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+        <span class="n">metadata</span><span class="p">[</span><span class="s2">"file_info"</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_file_metadata</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
         <span class="c1"># Gather all variable-level metadata</span>
-        <span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;var_info&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_variable_metadata</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+        <span class="n">metadata</span><span class="p">[</span><span class="s2">"var_info"</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_variable_metadata</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
         <span class="c1"># Gather lat lon extent info</span>
-        <span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;ll_info&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_lat_lon_extent_metadata</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+        <span class="n">metadata</span><span class="p">[</span><span class="s2">"ll_info"</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_lat_lon_extent_metadata</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
         <span class="c1"># Gather projection info</span>
-        <span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;projection&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_imager_projection</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+        <span class="n">metadata</span><span class="p">[</span><span class="s2">"projection"</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_imager_projection</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
         <span class="c1"># Gather some useful info to the top level</span>
         <span class="k">try</span><span class="p">:</span>
-            <span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;path&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">filepath</span><span class="p">()</span>
+            <span class="n">metadata</span><span class="p">[</span><span class="s2">"path"</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">filepath</span><span class="p">()</span>
         <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
             <span class="c1"># Without cython installed, df.filepath() does not work</span>
-            <span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;path&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">fname</span>
-        <span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;satellite&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;file_info&quot;</span><span class="p">][</span><span class="s2">&quot;platform_ID&quot;</span><span class="p">]</span>
-        <span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;sensor&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;ABI&quot;</span>
-        <span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;num_lines&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;var_info&quot;</span><span class="p">][</span><span class="s2">&quot;y&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">size</span>
-        <span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;num_samples&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;var_info&quot;</span><span class="p">][</span><span class="s2">&quot;x&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">size</span>
+            <span class="n">metadata</span><span class="p">[</span><span class="s2">"path"</span><span class="p">]</span> <span class="o">=</span> <span class="n">fname</span>
+        <span class="n">metadata</span><span class="p">[</span><span class="s2">"satellite"</span><span class="p">]</span> <span class="o">=</span> <span class="n">metadata</span><span class="p">[</span><span class="s2">"file_info"</span><span class="p">][</span><span class="s2">"platform_ID"</span><span class="p">]</span>
+        <span class="n">metadata</span><span class="p">[</span><span class="s2">"sensor"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"ABI"</span>
+        <span class="n">metadata</span><span class="p">[</span><span class="s2">"num_lines"</span><span class="p">]</span> <span class="o">=</span> <span class="n">metadata</span><span class="p">[</span><span class="s2">"var_info"</span><span class="p">][</span><span class="s2">"y"</span><span class="p">]</span><span class="o">.</span><span class="n">size</span>
+        <span class="n">metadata</span><span class="p">[</span><span class="s2">"num_samples"</span><span class="p">]</span> <span class="o">=</span> <span class="n">metadata</span><span class="p">[</span><span class="s2">"var_info"</span><span class="p">][</span><span class="s2">"x"</span><span class="p">]</span><span class="o">.</span><span class="n">size</span>
         <span class="k">return</span> <span class="n">metadata</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_get_geolocation_metadata</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">metadata</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Gather all of the metadata used in creating geolocation data for input file.</span>
 
 <span class="sd">        This is split out so we can easily create a cache of the data for creation</span>
 <span class="sd">        of a unique filename. This allows us to avoid recalculation of angles that</span>
 <span class="sd">        have already been calculated.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">geomet</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="c1"># G16 -&gt; goes-16</span>
-        <span class="n">geomet</span><span class="p">[</span><span class="s2">&quot;platform_name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;file_info&quot;</span><span class="p">][</span><span class="s2">&quot;platform_ID&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span>
-            <span class="s2">&quot;G&quot;</span><span class="p">,</span> <span class="s2">&quot;goes-&quot;</span>
+        <span class="n">geomet</span><span class="p">[</span><span class="s2">"platform_name"</span><span class="p">]</span> <span class="o">=</span> <span class="n">metadata</span><span class="p">[</span><span class="s2">"file_info"</span><span class="p">][</span><span class="s2">"platform_ID"</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span>
+            <span class="s2">"G"</span><span class="p">,</span> <span class="s2">"goes-"</span>
         <span class="p">)</span>
-        <span class="n">geomet</span><span class="p">[</span><span class="s2">&quot;Re&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;projection&quot;</span><span class="p">][</span><span class="s2">&quot;semi_major_axis&quot;</span><span class="p">]</span>
-        <span class="n">geomet</span><span class="p">[</span><span class="s2">&quot;Rp&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;projection&quot;</span><span class="p">][</span><span class="s2">&quot;semi_minor_axis&quot;</span><span class="p">]</span>
-        <span class="n">geomet</span><span class="p">[</span><span class="s2">&quot;invf&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;projection&quot;</span><span class="p">][</span><span class="s2">&quot;inverse_flattening&quot;</span><span class="p">]</span>
-        <span class="n">geomet</span><span class="p">[</span><span class="s2">&quot;e&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0818191910435</span>
-        <span class="n">geomet</span><span class="p">[</span><span class="s2">&quot;pphgt&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;projection&quot;</span><span class="p">][</span><span class="s2">&quot;perspective_point_height&quot;</span><span class="p">]</span>
-        <span class="n">geomet</span><span class="p">[</span><span class="s2">&quot;H_m&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">geomet</span><span class="p">[</span><span class="s2">&quot;Re&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">geomet</span><span class="p">[</span><span class="s2">&quot;pphgt&quot;</span><span class="p">]</span>
-        <span class="n">geomet</span><span class="p">[</span><span class="s2">&quot;lat0&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;projection&quot;</span><span class="p">][</span><span class="s2">&quot;latitude_of_projection_origin&quot;</span><span class="p">]</span>
-        <span class="n">geomet</span><span class="p">[</span><span class="s2">&quot;lon0&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;projection&quot;</span><span class="p">][</span><span class="s2">&quot;longitude_of_projection_origin&quot;</span><span class="p">]</span>
-        <span class="n">geomet</span><span class="p">[</span><span class="s2">&quot;scene&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;file_info&quot;</span><span class="p">][</span><span class="s2">&quot;scene_id&quot;</span><span class="p">]</span>
+        <span class="n">geomet</span><span class="p">[</span><span class="s2">"Re"</span><span class="p">]</span> <span class="o">=</span> <span class="n">metadata</span><span class="p">[</span><span class="s2">"projection"</span><span class="p">][</span><span class="s2">"semi_major_axis"</span><span class="p">]</span>
+        <span class="n">geomet</span><span class="p">[</span><span class="s2">"Rp"</span><span class="p">]</span> <span class="o">=</span> <span class="n">metadata</span><span class="p">[</span><span class="s2">"projection"</span><span class="p">][</span><span class="s2">"semi_minor_axis"</span><span class="p">]</span>
+        <span class="n">geomet</span><span class="p">[</span><span class="s2">"invf"</span><span class="p">]</span> <span class="o">=</span> <span class="n">metadata</span><span class="p">[</span><span class="s2">"projection"</span><span class="p">][</span><span class="s2">"inverse_flattening"</span><span class="p">]</span>
+        <span class="n">geomet</span><span class="p">[</span><span class="s2">"e"</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0818191910435</span>
+        <span class="n">geomet</span><span class="p">[</span><span class="s2">"pphgt"</span><span class="p">]</span> <span class="o">=</span> <span class="n">metadata</span><span class="p">[</span><span class="s2">"projection"</span><span class="p">][</span><span class="s2">"perspective_point_height"</span><span class="p">]</span>
+        <span class="n">geomet</span><span class="p">[</span><span class="s2">"H_m"</span><span class="p">]</span> <span class="o">=</span> <span class="n">geomet</span><span class="p">[</span><span class="s2">"Re"</span><span class="p">]</span> <span class="o">+</span> <span class="n">geomet</span><span class="p">[</span><span class="s2">"pphgt"</span><span class="p">]</span>
+        <span class="n">geomet</span><span class="p">[</span><span class="s2">"lat0"</span><span class="p">]</span> <span class="o">=</span> <span class="n">metadata</span><span class="p">[</span><span class="s2">"projection"</span><span class="p">][</span><span class="s2">"latitude_of_projection_origin"</span><span class="p">]</span>
+        <span class="n">geomet</span><span class="p">[</span><span class="s2">"lon0"</span><span class="p">]</span> <span class="o">=</span> <span class="n">metadata</span><span class="p">[</span><span class="s2">"projection"</span><span class="p">][</span><span class="s2">"longitude_of_projection_origin"</span><span class="p">]</span>
+        <span class="n">geomet</span><span class="p">[</span><span class="s2">"scene"</span><span class="p">]</span> <span class="o">=</span> <span class="n">metadata</span><span class="p">[</span><span class="s2">"file_info"</span><span class="p">][</span><span class="s2">"scene_id"</span><span class="p">]</span>
         <span class="c1"># Just getting the nadir resolution in kilometers.  Must extract from a string.</span>
-        <span class="n">geomet</span><span class="p">[</span><span class="s2">&quot;res_km&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span>
-            <span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;file_info&quot;</span><span class="p">][</span><span class="s2">&quot;spatial_resolution&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">()[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">:</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span>
+        <span class="n">geomet</span><span class="p">[</span><span class="s2">"res_km"</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span>
+            <span class="n">metadata</span><span class="p">[</span><span class="s2">"file_info"</span><span class="p">][</span><span class="s2">"spatial_resolution"</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">()[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">:</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span>
         <span class="p">)</span>
-        <span class="n">geomet</span><span class="p">[</span><span class="s2">&quot;roi_factor&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">5</span>  <span class="c1"># roi = res * roi_factor, was 10</span>
-        <span class="n">geomet</span><span class="p">[</span><span class="s2">&quot;num_lines&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;var_info&quot;</span><span class="p">][</span><span class="s2">&quot;num_lines&quot;</span><span class="p">]</span>
-        <span class="n">geomet</span><span class="p">[</span><span class="s2">&quot;num_samples&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;var_info&quot;</span><span class="p">][</span><span class="s2">&quot;num_samples&quot;</span><span class="p">]</span>
-        <span class="n">geomet</span><span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;var_info&quot;</span><span class="p">][</span><span class="s2">&quot;x&quot;</span><span class="p">]</span>
-        <span class="n">geomet</span><span class="p">[</span><span class="s2">&quot;y&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;var_info&quot;</span><span class="p">][</span><span class="s2">&quot;y&quot;</span><span class="p">]</span>
+        <span class="n">geomet</span><span class="p">[</span><span class="s2">"roi_factor"</span><span class="p">]</span> <span class="o">=</span> <span class="mi">5</span>  <span class="c1"># roi = res * roi_factor, was 10</span>
+        <span class="n">geomet</span><span class="p">[</span><span class="s2">"num_lines"</span><span class="p">]</span> <span class="o">=</span> <span class="n">metadata</span><span class="p">[</span><span class="s2">"var_info"</span><span class="p">][</span><span class="s2">"num_lines"</span><span class="p">]</span>
+        <span class="n">geomet</span><span class="p">[</span><span class="s2">"num_samples"</span><span class="p">]</span> <span class="o">=</span> <span class="n">metadata</span><span class="p">[</span><span class="s2">"var_info"</span><span class="p">][</span><span class="s2">"num_samples"</span><span class="p">]</span>
+        <span class="n">geomet</span><span class="p">[</span><span class="s2">"x"</span><span class="p">]</span> <span class="o">=</span> <span class="n">metadata</span><span class="p">[</span><span class="s2">"var_info"</span><span class="p">][</span><span class="s2">"x"</span><span class="p">]</span>
+        <span class="n">geomet</span><span class="p">[</span><span class="s2">"y"</span><span class="p">]</span> <span class="o">=</span> <span class="n">metadata</span><span class="p">[</span><span class="s2">"var_info"</span><span class="p">][</span><span class="s2">"y"</span><span class="p">]</span>
         <span class="k">return</span> <span class="n">geomet</span>
 
 <div class="viewcode-block" id="BaseAbiReaderPlugin.get_latitude_longitude"><a class="viewcode-back" href="../../../../geoips_api/geoips.interfaces.class_based.html#geoips.interfaces.class_based.readers.BaseAbiReaderPlugin.get_latitude_longitude">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_latitude_longitude</span><span class="p">(</span>
@@ -1158,22 +1185,22 @@ window.runMermaid = runMermaid;</script>
         <span class="n">metadata</span><span class="p">,</span>
         <span class="n">BADVALS</span><span class="p">,</span>
         <span class="n">sect</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-        <span class="n">geolocation_cache_backend</span><span class="o">=</span><span class="s2">&quot;memmap&quot;</span><span class="p">,</span>
+        <span class="n">geolocation_cache_backend</span><span class="o">=</span><span class="s2">"memmap"</span><span class="p">,</span>
         <span class="n">chunk_size</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">resource_tracker</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Get latitudes and longitudes.</span>
 
 <span class="sd">        This routine accepts a dictionary containing metadata as read from a NCDF4</span>
 <span class="sd">        format file, and returns latitudes and longitudes for a full disk.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">check_geolocation_cache_backend</span><span class="p">(</span><span class="n">geolocation_cache_backend</span><span class="p">)</span>
         <span class="c1"># If the filename format needs to change for the pre-generated geolocation</span>
         <span class="c1"># files, please discuss prior to changing.  It will force recreation of all</span>
         <span class="c1"># files, which can be problematic for large numbers of sectors</span>
         <span class="n">fname</span> <span class="o">=</span> <span class="n">get_geolocation_cache_filename</span><span class="p">(</span>
-            <span class="s2">&quot;GEOLL&quot;</span><span class="p">,</span>
+            <span class="s2">"GEOLL"</span><span class="p">,</span>
             <span class="n">metadata</span><span class="p">,</span>
             <span class="n">geolocation_cache_backend</span><span class="o">=</span><span class="n">geolocation_cache_backend</span><span class="p">,</span>
             <span class="n">chunk_size</span><span class="o">=</span><span class="n">chunk_size</span><span class="p">,</span>
@@ -1181,48 +1208,48 @@ window.runMermaid = runMermaid;</script>
         <span class="k">if</span> <span class="n">resource_tracker</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">key</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">fname</span><span class="p">)</span><span class="o">.</span><span class="n">name</span>
             <span class="k">if</span> <span class="n">sect</span><span class="p">:</span>
-                <span class="n">key</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;_</span><span class="si">{</span><span class="n">sect</span><span class="o">.</span><span class="n">area_id</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="n">key</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">"_</span><span class="si">{</span><span class="n">sect</span><span class="o">.</span><span class="n">area_id</span><span class="si">}</span><span class="s2">"</span>
             <span class="n">resource_tracker</span><span class="o">.</span><span class="n">track_resource_usage</span><span class="p">(</span>
-                <span class="n">logstr</span><span class="o">=</span><span class="s2">&quot;MEMUSG&quot;</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">key</span>
+                <span class="n">logstr</span><span class="o">=</span><span class="s2">"MEMUSG"</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">key</span>
             <span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">Path</span><span class="p">(</span><span class="n">fname</span><span class="p">)</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
             <span class="k">if</span> <span class="p">(</span>
                 <span class="n">sect</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
                 <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">DONT_AUTOGEN_GEOLOCATION</span>
-                <span class="ow">and</span> <span class="s2">&quot;tc2019&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">sect</span><span class="o">.</span><span class="n">name</span>
+                <span class="ow">and</span> <span class="s2">"tc2019"</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">sect</span><span class="o">.</span><span class="n">name</span>
             <span class="p">):</span>
                 <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span>
-                    <span class="sa">f</span><span class="s2">&quot;GETGEO Requested NO AUTOGEN GEOLOCATION. &quot;</span>
-                    <span class="sa">f</span><span class="s2">&quot;Could not create latlonfile for ad </span><span class="si">{</span><span class="n">metadata</span><span class="p">[</span><span class="s1">&#39;scene&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">fname</span><span class="si">}</span><span class="s2">&quot;</span>
+                    <span class="sa">f</span><span class="s2">"GETGEO Requested NO AUTOGEN GEOLOCATION. "</span>
+                    <span class="sa">f</span><span class="s2">"Could not create latlonfile for ad </span><span class="si">{</span><span class="n">metadata</span><span class="p">[</span><span class="s1">'scene'</span><span class="p">]</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">fname</span><span class="si">}</span><span class="s2">"</span>
                 <span class="p">)</span>
                 <span class="n">LOG</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
                 <span class="k">raise</span> <span class="n">AutoGenError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
 
-            <span class="n">LOG</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Calculating latitudes and longitudes.&quot;</span><span class="p">)</span>
+            <span class="n">LOG</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">"Calculating latitudes and longitudes."</span><span class="p">)</span>
 
             <span class="n">r2d</span> <span class="o">=</span> <span class="mf">180.0</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span>  <span class="c1"># NOQA</span>
 
-            <span class="n">lambda0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;lon0&quot;</span><span class="p">])</span>  <span class="c1"># NOQA</span>
-            <span class="n">Re</span> <span class="o">=</span> <span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;Re&quot;</span><span class="p">]</span>
-            <span class="c1"># invf = metadata[&#39;invf&#39;]</span>
-            <span class="n">Rp</span> <span class="o">=</span> <span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;Rp&quot;</span><span class="p">]</span>
+            <span class="n">lambda0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">radians</span><span class="p">(</span><span class="n">metadata</span><span class="p">[</span><span class="s2">"lon0"</span><span class="p">])</span>  <span class="c1"># NOQA</span>
+            <span class="n">Re</span> <span class="o">=</span> <span class="n">metadata</span><span class="p">[</span><span class="s2">"Re"</span><span class="p">]</span>
+            <span class="c1"># invf = metadata['invf']</span>
+            <span class="n">Rp</span> <span class="o">=</span> <span class="n">metadata</span><span class="p">[</span><span class="s2">"Rp"</span><span class="p">]</span>
             <span class="c1"># e = np.sqrt((1 / invf) * (2 - 1 / invf))</span>
-            <span class="n">H</span> <span class="o">=</span> <span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;H_m&quot;</span><span class="p">]</span>
+            <span class="n">H</span> <span class="o">=</span> <span class="n">metadata</span><span class="p">[</span><span class="s2">"H_m"</span><span class="p">]</span>
             <span class="n">c</span> <span class="o">=</span> <span class="n">H</span><span class="o">**</span><span class="mi">2</span> <span class="o">-</span> <span class="n">Re</span><span class="o">**</span><span class="mi">2</span>  <span class="c1"># NOQA</span>
 
             <span class="c1"># Python 3 netcdf reads create a masked array, while Python 2 netcdf reads</span>
             <span class="c1"># create ndarray. These should NOT be masked, so if we have a masked array,</span>
             <span class="c1"># fill it.</span>
-            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">MaskedArray</span><span class="p">):</span>
-                <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">(</span><span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">filled</span><span class="p">())</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">metadata</span><span class="p">[</span><span class="s2">"x"</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">MaskedArray</span><span class="p">):</span>
+                <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">(</span><span class="n">metadata</span><span class="p">[</span><span class="s2">"x"</span><span class="p">]</span><span class="o">.</span><span class="n">filled</span><span class="p">())</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">(</span><span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">])</span>
-            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;y&quot;</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">MaskedArray</span><span class="p">):</span>
-                <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">(</span><span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;y&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">filled</span><span class="p">())</span>
+                <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">(</span><span class="n">metadata</span><span class="p">[</span><span class="s2">"x"</span><span class="p">])</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">metadata</span><span class="p">[</span><span class="s2">"y"</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">MaskedArray</span><span class="p">):</span>
+                <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">(</span><span class="n">metadata</span><span class="p">[</span><span class="s2">"y"</span><span class="p">]</span><span class="o">.</span><span class="n">filled</span><span class="p">())</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">(</span><span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;y&quot;</span><span class="p">])</span>
+                <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">(</span><span class="n">metadata</span><span class="p">[</span><span class="s2">"y"</span><span class="p">])</span>
 
-            <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;      Making </span><span class="si">{0}</span><span class="s2"> by </span><span class="si">{1}</span><span class="s2"> grid.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">size</span><span class="p">,</span> <span class="n">y</span><span class="o">.</span><span class="n">size</span><span class="p">))</span>
+            <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"      Making </span><span class="si">{0}</span><span class="s2"> by </span><span class="si">{1}</span><span class="s2"> grid."</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">size</span><span class="p">,</span> <span class="n">y</span><span class="o">.</span><span class="n">size</span><span class="p">))</span>
             <span class="c1"># Need to transpose the latline, then repeat lonsize times</span>
             <span class="n">yT</span> <span class="o">=</span> <span class="n">y</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]</span><span class="o">.</span><span class="n">T</span>
             <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">([</span><span class="n">yT</span> <span class="k">for</span> <span class="n">num</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">size</span><span class="p">)])</span>
@@ -1247,59 +1274,59 @@ window.runMermaid = runMermaid;</script>
             <span class="n">lats</span> <span class="o">=</span> <span class="n">rs</span>
             <span class="n">lons</span> <span class="o">=</span> <span class="n">sz</span>
 
-            <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;      Calculating intermediate steps&quot;</span><span class="p">)</span>
+            <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"      Calculating intermediate steps"</span><span class="p">)</span>
             <span class="n">Rrat</span> <span class="o">=</span> <span class="n">Re</span><span class="o">**</span><span class="mi">2</span> <span class="o">/</span> <span class="n">Rp</span><span class="o">**</span><span class="mi">2</span>  <span class="c1"># NOQA</span>
-            <span class="n">ne</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="s2">&quot;cos(x)&quot;</span><span class="p">,</span> <span class="n">out</span><span class="o">=</span><span class="n">cosx</span><span class="p">)</span>  <span class="c1"># NOQA</span>
-            <span class="n">ne</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="s2">&quot;cos(y)&quot;</span><span class="p">,</span> <span class="n">out</span><span class="o">=</span><span class="n">cosy</span><span class="p">)</span>  <span class="c1"># NOQA</span>
-            <span class="n">ne</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="s2">&quot;sin(x)&quot;</span><span class="p">,</span> <span class="n">out</span><span class="o">=</span><span class="n">sinx</span><span class="p">)</span>  <span class="c1"># NOQA</span>
-            <span class="n">ne</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="s2">&quot;sin(y)&quot;</span><span class="p">,</span> <span class="n">out</span><span class="o">=</span><span class="n">siny</span><span class="p">)</span>  <span class="c1"># NOQA</span>
-            <span class="n">ne</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="s2">&quot;sinx**2 + cosx**2 * (cosy**2 + siny**2 * Rrat)&quot;</span><span class="p">,</span> <span class="n">out</span><span class="o">=</span><span class="n">a</span><span class="p">)</span>  <span class="c1"># NOQA</span>
-            <span class="n">ne</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="s2">&quot;-2 * H * cosx * cosy&quot;</span><span class="p">,</span> <span class="n">out</span><span class="o">=</span><span class="n">b</span><span class="p">)</span>  <span class="c1"># NOQA</span>
-            <span class="n">ne</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="s2">&quot;(-b - sqrt(b**2 - (4 * a * c))) / (2 * a)&quot;</span><span class="p">,</span> <span class="n">out</span><span class="o">=</span><span class="n">rs</span><span class="p">)</span>  <span class="c1"># NOQA</span>
+            <span class="n">ne</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="s2">"cos(x)"</span><span class="p">,</span> <span class="n">out</span><span class="o">=</span><span class="n">cosx</span><span class="p">)</span>  <span class="c1"># NOQA</span>
+            <span class="n">ne</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="s2">"cos(y)"</span><span class="p">,</span> <span class="n">out</span><span class="o">=</span><span class="n">cosy</span><span class="p">)</span>  <span class="c1"># NOQA</span>
+            <span class="n">ne</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="s2">"sin(x)"</span><span class="p">,</span> <span class="n">out</span><span class="o">=</span><span class="n">sinx</span><span class="p">)</span>  <span class="c1"># NOQA</span>
+            <span class="n">ne</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="s2">"sin(y)"</span><span class="p">,</span> <span class="n">out</span><span class="o">=</span><span class="n">siny</span><span class="p">)</span>  <span class="c1"># NOQA</span>
+            <span class="n">ne</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="s2">"sinx**2 + cosx**2 * (cosy**2 + siny**2 * Rrat)"</span><span class="p">,</span> <span class="n">out</span><span class="o">=</span><span class="n">a</span><span class="p">)</span>  <span class="c1"># NOQA</span>
+            <span class="n">ne</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="s2">"-2 * H * cosx * cosy"</span><span class="p">,</span> <span class="n">out</span><span class="o">=</span><span class="n">b</span><span class="p">)</span>  <span class="c1"># NOQA</span>
+            <span class="n">ne</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="s2">"(-b - sqrt(b**2 - (4 * a * c))) / (2 * a)"</span><span class="p">,</span> <span class="n">out</span><span class="o">=</span><span class="n">rs</span><span class="p">)</span>  <span class="c1"># NOQA</span>
             <span class="n">good_mask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">isfinite</span><span class="p">(</span><span class="n">rs</span><span class="p">)</span>
 
-            <span class="n">ne</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="s2">&quot;rs * cosx * cosy&quot;</span><span class="p">,</span> <span class="n">out</span><span class="o">=</span><span class="n">sx</span><span class="p">)</span>  <span class="c1"># NOQA</span>
-            <span class="n">ne</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="s2">&quot;rs * cosx * siny&quot;</span><span class="p">,</span> <span class="n">out</span><span class="o">=</span><span class="n">sz</span><span class="p">)</span>  <span class="c1"># NOQA</span>
-            <span class="n">ne</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="s2">&quot;rs * sinx&quot;</span><span class="p">,</span> <span class="n">out</span><span class="o">=</span><span class="n">sy</span><span class="p">)</span>  <span class="c1"># NOQA</span>
+            <span class="n">ne</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="s2">"rs * cosx * cosy"</span><span class="p">,</span> <span class="n">out</span><span class="o">=</span><span class="n">sx</span><span class="p">)</span>  <span class="c1"># NOQA</span>
+            <span class="n">ne</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="s2">"rs * cosx * siny"</span><span class="p">,</span> <span class="n">out</span><span class="o">=</span><span class="n">sz</span><span class="p">)</span>  <span class="c1"># NOQA</span>
+            <span class="n">ne</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="s2">"rs * sinx"</span><span class="p">,</span> <span class="n">out</span><span class="o">=</span><span class="n">sy</span><span class="p">)</span>  <span class="c1"># NOQA</span>
 
-            <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Calculating Latitudes&quot;</span><span class="p">)</span>
-            <span class="n">ne</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="s2">&quot;r2d * arctan(Rrat * sz / sqrt((H - sx)**2 + sy**2))&quot;</span><span class="p">,</span> <span class="n">out</span><span class="o">=</span><span class="n">lats</span><span class="p">)</span>
-            <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Calculating Longitudes&quot;</span><span class="p">)</span>
-            <span class="n">lons</span> <span class="o">=</span> <span class="n">ne</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="s2">&quot;r2d * (lambda0 + arctan(sy / (H - sx)))&quot;</span><span class="p">,</span> <span class="n">out</span><span class="o">=</span><span class="n">lons</span><span class="p">)</span>
-            <span class="n">lats</span><span class="p">[</span><span class="o">~</span><span class="n">good_mask</span><span class="p">]</span> <span class="o">=</span> <span class="n">BADVALS</span><span class="p">[</span><span class="s2">&quot;Off_Of_Disk&quot;</span><span class="p">]</span>
-            <span class="n">lons</span><span class="p">[</span><span class="o">~</span><span class="n">good_mask</span><span class="p">]</span> <span class="o">=</span> <span class="n">BADVALS</span><span class="p">[</span><span class="s2">&quot;Off_Of_Disk&quot;</span><span class="p">]</span>
-            <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Done calculating latitudes and longitudes&quot;</span><span class="p">)</span>
+            <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"Calculating Latitudes"</span><span class="p">)</span>
+            <span class="n">ne</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="s2">"r2d * arctan(Rrat * sz / sqrt((H - sx)**2 + sy**2))"</span><span class="p">,</span> <span class="n">out</span><span class="o">=</span><span class="n">lats</span><span class="p">)</span>
+            <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"Calculating Longitudes"</span><span class="p">)</span>
+            <span class="n">lons</span> <span class="o">=</span> <span class="n">ne</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="s2">"r2d * (lambda0 + arctan(sy / (H - sx)))"</span><span class="p">,</span> <span class="n">out</span><span class="o">=</span><span class="n">lons</span><span class="p">)</span>
+            <span class="n">lats</span><span class="p">[</span><span class="o">~</span><span class="n">good_mask</span><span class="p">]</span> <span class="o">=</span> <span class="n">BADVALS</span><span class="p">[</span><span class="s2">"Off_Of_Disk"</span><span class="p">]</span>
+            <span class="n">lons</span><span class="p">[</span><span class="o">~</span><span class="n">good_mask</span><span class="p">]</span> <span class="o">=</span> <span class="n">BADVALS</span><span class="p">[</span><span class="s2">"Off_Of_Disk"</span><span class="p">]</span>
+            <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"Done calculating latitudes and longitudes"</span><span class="p">)</span>
 
-            <span class="k">if</span> <span class="n">geolocation_cache_backend</span> <span class="o">==</span> <span class="s2">&quot;memmap&quot;</span><span class="p">:</span>
-                <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">df</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">geolocation_cache_backend</span> <span class="o">==</span> <span class="s2">"memmap"</span><span class="p">:</span>
+                <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="s2">"w"</span><span class="p">)</span> <span class="k">as</span> <span class="n">df</span><span class="p">:</span>
                     <span class="n">lats</span><span class="o">.</span><span class="n">tofile</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
                     <span class="n">lons</span><span class="o">.</span><span class="n">tofile</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
-            <span class="k">elif</span> <span class="n">geolocation_cache_backend</span> <span class="o">==</span> <span class="s2">&quot;zarr&quot;</span><span class="p">:</span>
+            <span class="k">elif</span> <span class="n">geolocation_cache_backend</span> <span class="o">==</span> <span class="s2">"zarr"</span><span class="p">:</span>
                 <span class="k">if</span> <span class="n">chunk_size</span><span class="p">:</span>
                     <span class="n">chunks</span> <span class="o">=</span> <span class="p">(</span><span class="n">chunk_size</span><span class="p">,</span> <span class="n">chunk_size</span><span class="p">)</span>
                 <span class="k">else</span><span class="p">:</span>
                     <span class="n">chunks</span> <span class="o">=</span> <span class="kc">None</span>
-                <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Storing to </span><span class="si">%s</span><span class="s2"> (chunks=</span><span class="si">%s</span><span class="s2">)&quot;</span><span class="p">,</span> <span class="n">fname</span><span class="p">,</span> <span class="n">chunks</span><span class="p">)</span>
+                <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"Storing to </span><span class="si">%s</span><span class="s2"> (chunks=</span><span class="si">%s</span><span class="s2">)"</span><span class="p">,</span> <span class="n">fname</span><span class="p">,</span> <span class="n">chunks</span><span class="p">)</span>
                 <span class="c1"># zarr does NOT have a close method, so you can NOT use the with context</span>
-                <span class="n">zf</span> <span class="o">=</span> <span class="n">zarr</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;w&quot;</span><span class="p">)</span>
+                <span class="n">zf</span> <span class="o">=</span> <span class="n">zarr</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">"w"</span><span class="p">)</span>
                 <span class="c1"># Assume both arrays have the same shape and dtype</span>
                 <span class="n">kwargs</span> <span class="o">=</span> <span class="p">{</span>
-                    <span class="s2">&quot;shape&quot;</span><span class="p">:</span> <span class="n">lats</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span>
-                    <span class="s2">&quot;dtype&quot;</span><span class="p">:</span> <span class="n">lats</span><span class="o">.</span><span class="n">dtype</span><span class="p">,</span>
+                    <span class="s2">"shape"</span><span class="p">:</span> <span class="n">lats</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span>
+                    <span class="s2">"dtype"</span><span class="p">:</span> <span class="n">lats</span><span class="o">.</span><span class="n">dtype</span><span class="p">,</span>
                 <span class="p">}</span>
-                <span class="c1"># As of Python 3.11, can&#39;t pass chunks=None into create_dataset</span>
+                <span class="c1"># As of Python 3.11, can't pass chunks=None into create_dataset</span>
                 <span class="k">if</span> <span class="n">chunks</span><span class="p">:</span>
-                    <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;chunks&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">chunks</span>
-                <span class="n">zf</span><span class="o">.</span><span class="n">create_dataset</span><span class="p">(</span><span class="s2">&quot;lats&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-                <span class="n">zf</span><span class="o">.</span><span class="n">create_dataset</span><span class="p">(</span><span class="s2">&quot;lons&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-                <span class="n">zf</span><span class="p">[</span><span class="s2">&quot;lats&quot;</span><span class="p">][:]</span> <span class="o">=</span> <span class="n">lats</span>
-                <span class="n">zf</span><span class="p">[</span><span class="s2">&quot;lons&quot;</span><span class="p">][:]</span> <span class="o">=</span> <span class="n">lons</span>
+                    <span class="n">kwargs</span><span class="p">[</span><span class="s2">"chunks"</span><span class="p">]</span> <span class="o">=</span> <span class="n">chunks</span>
+                <span class="n">zf</span><span class="o">.</span><span class="n">create_dataset</span><span class="p">(</span><span class="s2">"lats"</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+                <span class="n">zf</span><span class="o">.</span><span class="n">create_dataset</span><span class="p">(</span><span class="s2">"lons"</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+                <span class="n">zf</span><span class="p">[</span><span class="s2">"lats"</span><span class="p">][:]</span> <span class="o">=</span> <span class="n">lats</span>
+                <span class="n">zf</span><span class="p">[</span><span class="s2">"lons"</span><span class="p">][:]</span> <span class="o">=</span> <span class="n">lons</span>
             <span class="c1"># # Possible switch to xarray based geolocation files, but we lose</span>
             <span class="c1"># memmapping.</span>
             <span class="c1"># ds = xarray.Dataset(</span>
             <span class="c1">#     {</span>
-            <span class="c1">#         &#39;latitude&#39;:([&#39;x&#39;,&#39;y&#39;],lats),</span>
-            <span class="c1">#         &#39;longitude&#39;:([&#39;x&#39;,&#39;y&#39;],lons)</span>
+            <span class="c1">#         'latitude':(['x','y'],lats),</span>
+            <span class="c1">#         'longitude':(['x','y'],lons)</span>
             <span class="c1">#         }</span>
             <span class="c1">#     )</span>
             <span class="c1"># ds.to_netcdf(fname)</span>
@@ -1308,50 +1335,50 @@ window.runMermaid = runMermaid;</script>
             <span class="c1"># Nothing will be read until explicitly requested</span>
             <span class="c1"># We are mapping this here so that the lats and lons are available when</span>
             <span class="c1"># calculating satellite angles</span>
-            <span class="k">if</span> <span class="n">geolocation_cache_backend</span> <span class="o">==</span> <span class="s2">&quot;memmap&quot;</span><span class="p">:</span>
-                <span class="n">shape</span> <span class="o">=</span> <span class="p">(</span><span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;num_lines&quot;</span><span class="p">],</span> <span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;num_samples&quot;</span><span class="p">])</span>
-                <span class="n">offset</span> <span class="o">=</span> <span class="mi">8</span> <span class="o">*</span> <span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;num_samples&quot;</span><span class="p">]</span> <span class="o">*</span> <span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;num_lines&quot;</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">geolocation_cache_backend</span> <span class="o">==</span> <span class="s2">"memmap"</span><span class="p">:</span>
+                <span class="n">shape</span> <span class="o">=</span> <span class="p">(</span><span class="n">metadata</span><span class="p">[</span><span class="s2">"num_lines"</span><span class="p">],</span> <span class="n">metadata</span><span class="p">[</span><span class="s2">"num_samples"</span><span class="p">])</span>
+                <span class="n">offset</span> <span class="o">=</span> <span class="mi">8</span> <span class="o">*</span> <span class="n">metadata</span><span class="p">[</span><span class="s2">"num_samples"</span><span class="p">]</span> <span class="o">*</span> <span class="n">metadata</span><span class="p">[</span><span class="s2">"num_lines"</span><span class="p">]</span>
                 <span class="n">lats</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">memmap</span><span class="p">(</span>
-                    <span class="n">fname</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;r&quot;</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">,</span> <span class="n">offset</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="n">shape</span>
+                    <span class="n">fname</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">"r"</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">,</span> <span class="n">offset</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="n">shape</span>
                 <span class="p">)</span>
                 <span class="n">lons</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">memmap</span><span class="p">(</span>
-                    <span class="n">fname</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;r&quot;</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">,</span> <span class="n">offset</span><span class="o">=</span><span class="n">offset</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="n">shape</span>
+                    <span class="n">fname</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">"r"</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">,</span> <span class="n">offset</span><span class="o">=</span><span class="n">offset</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="n">shape</span>
                 <span class="p">)</span>
-            <span class="k">elif</span> <span class="n">geolocation_cache_backend</span> <span class="o">==</span> <span class="s2">&quot;zarr&quot;</span><span class="p">:</span>
+            <span class="k">elif</span> <span class="n">geolocation_cache_backend</span> <span class="o">==</span> <span class="s2">"zarr"</span><span class="p">:</span>
                 <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
-                    <span class="s2">&quot;GETGEO zarr to </span><span class="si">{}</span><span class="s2"> : lat/lon file for </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-                        <span class="n">fname</span><span class="p">,</span> <span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;scene&quot;</span><span class="p">]</span>
+                    <span class="s2">"GETGEO zarr to </span><span class="si">{}</span><span class="s2"> : lat/lon file for </span><span class="si">{}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                        <span class="n">fname</span><span class="p">,</span> <span class="n">metadata</span><span class="p">[</span><span class="s2">"scene"</span><span class="p">]</span>
                     <span class="p">)</span>
                 <span class="p">)</span>
                 <span class="c1"># zarr does NOT have a close method, so you can NOT use the with context</span>
-                <span class="n">zf</span> <span class="o">=</span> <span class="n">zarr</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;r&quot;</span><span class="p">)</span>
-                <span class="n">lats</span> <span class="o">=</span> <span class="n">zf</span><span class="p">[</span><span class="s2">&quot;lats&quot;</span><span class="p">]</span>
-                <span class="n">lons</span> <span class="o">=</span> <span class="n">zf</span><span class="p">[</span><span class="s2">&quot;lons&quot;</span><span class="p">]</span>
+                <span class="n">zf</span> <span class="o">=</span> <span class="n">zarr</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">"r"</span><span class="p">)</span>
+                <span class="n">lats</span> <span class="o">=</span> <span class="n">zf</span><span class="p">[</span><span class="s2">"lats"</span><span class="p">]</span>
+                <span class="n">lons</span> <span class="o">=</span> <span class="n">zf</span><span class="p">[</span><span class="s2">"lons"</span><span class="p">]</span>
         <span class="c1"># Possible switch to xarray based geolocation files, but we lose memmapping</span>
         <span class="c1"># saved_xarray = xarray.load_dataset(fname)</span>
-        <span class="c1"># lons = saved_xarray[&#39;longitude&#39;].to_masked_array()</span>
-        <span class="c1"># lats = saved_xarray[&#39;latitude&#39;].to_masked_array()</span>
+        <span class="c1"># lons = saved_xarray['longitude'].to_masked_array()</span>
+        <span class="c1"># lats = saved_xarray['latitude'].to_masked_array()</span>
         <span class="k">if</span> <span class="n">resource_tracker</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">resource_tracker</span><span class="o">.</span><span class="n">track_resource_usage</span><span class="p">(</span>
-                <span class="n">logstr</span><span class="o">=</span><span class="s2">&quot;MEMUSG&quot;</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">key</span>
+                <span class="n">logstr</span><span class="o">=</span><span class="s2">"MEMUSG"</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">key</span>
             <span class="p">)</span>
 
         <span class="k">return</span> <span class="n">lats</span><span class="p">,</span> <span class="n">lons</span></div></div>
 
 
 <div class="viewcode-block" id="ReadersInterface"><a class="viewcode-back" href="../../../../geoips_api/geoips.interfaces.class_based.html#geoips.interfaces.class_based.readers.ReadersInterface">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">ReadersInterface</span><span class="p">(</span><span class="n">BaseClassInterface</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Interface for ingesting a specific data type.</span>
+<span class="w">    </span><span class="sd">"""Interface for ingesting a specific data type.</span>
 
 <span class="sd">    Provides specification for ingensting a specific data type, and storing in</span>
 <span class="sd">    the GeoIPS xarray-based internal format.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
-    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;readers&quot;</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">"readers"</span>
     <span class="n">plugin_class</span> <span class="o">=</span> <span class="n">BaseReaderPlugin</span>
 
-    <span class="n">required_args</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;standard&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;fnames&quot;</span><span class="p">]}</span>
+    <span class="n">required_args</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"standard"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"fnames"</span><span class="p">]}</span>
     <span class="n">required_kwargs</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="s2">&quot;standard&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;metadata_only&quot;</span><span class="p">,</span> <span class="s2">&quot;chans&quot;</span><span class="p">,</span> <span class="s2">&quot;area_def&quot;</span><span class="p">,</span> <span class="s2">&quot;self_register&quot;</span><span class="p">]</span>
+        <span class="s2">"standard"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"metadata_only"</span><span class="p">,</span> <span class="s2">"chans"</span><span class="p">,</span> <span class="s2">"area_def"</span><span class="p">,</span> <span class="s2">"self_register"</span><span class="p">]</span>
     <span class="p">}</span>
 
 <div class="viewcode-block" id="ReadersInterface.read_data_to_xarray_dict"><a class="viewcode-back" href="../../../../geoips_api/geoips.interfaces.class_based.html#geoips.interfaces.class_based.readers.ReadersInterface.read_data_to_xarray_dict">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">read_data_to_xarray_dict</span><span class="p">(</span>
@@ -1364,24 +1391,24 @@ window.runMermaid = runMermaid;</script>
         <span class="n">self_register</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
         <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
     <span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Read in data potentially from multiple scan times into an xarray dict.</span>
+<span class="w">        </span><span class="sd">"""Read in data potentially from multiple scan times into an xarray dict.</span>
 
 <span class="sd">        This function does not require that you provide multiple scan times, but allows</span>
 <span class="sd">        for that in the case those are provided.</span>
 
 <span class="sd">        Call this with information specific to your reader to generate a dictionary of</span>
-<span class="sd">        xarray datasets created from the data provided in &#39;fnames&#39;.</span>
+<span class="sd">        xarray datasets created from the data provided in 'fnames'.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        fnames : list</span>
 <span class="sd">            * List of strings, full paths to files</span>
 <span class="sd">        all_metadata : dict</span>
-<span class="sd">            * Dictionary of metadata from all files in &#39;fnames&#39;</span>
+<span class="sd">            * Dictionary of metadata from all files in 'fnames'</span>
 <span class="sd">        read_single_time_func : python function</span>
 <span class="sd">            * Function which can be used to read a single scan time of files from a</span>
 <span class="sd">              reader plugin.</span>
-<span class="sd">            * Most likely named &#39;call_single_time&#39;.</span>
+<span class="sd">            * Most likely named 'call_single_time'.</span>
 <span class="sd">        metadata_only : bool, default=False</span>
 <span class="sd">            * Return before actually reading data if True</span>
 <span class="sd">        chans : list of str, default=None</span>
@@ -1407,12 +1434,12 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">        :ref:`xarray_standards`</span>
 <span class="sd">            Additional information regarding required attributes and variables</span>
 <span class="sd">            for GeoIPS-formatted xarray Datasets.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="c1"># Sort fnames. This should sort them by time and channel more often than not.</span>
         <span class="n">fnames</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">fnames</span><span class="p">)</span>
         <span class="c1"># We really only need to get the start time from all of these files. I wish</span>
         <span class="c1"># there were an easier and more efficient route, but this should work for the</span>
-        <span class="c1"># time being. Personally, I think it&#39;d be a good idea to add a new argument to</span>
+        <span class="c1"># time being. Personally, I think it'd be a good idea to add a new argument to</span>
         <span class="c1"># this method that accepts a function which calculates the start datetime of</span>
         <span class="c1"># all files provided.</span>
         <span class="n">all_file_metadata</span> <span class="o">=</span> <span class="p">[]</span>
@@ -1424,61 +1451,61 @@ window.runMermaid = runMermaid;</script>
                         <span class="p">[</span><span class="n">x</span><span class="p">],</span>
                         <span class="n">metadata_only</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
                         <span class="n">chans</span><span class="o">=</span><span class="n">chans</span><span class="p">,</span>
-                    <span class="p">)[</span><span class="s2">&quot;METADATA&quot;</span><span class="p">]</span>
+                    <span class="p">)[</span><span class="s2">"METADATA"</span><span class="p">]</span>
                 <span class="p">)</span>
                 <span class="n">updated_fnames</span> <span class="o">+=</span> <span class="p">[</span><span class="n">x</span><span class="p">]</span>
             <span class="k">except</span> <span class="n">NoValidFilesError</span><span class="p">:</span>
                 <span class="c1"># If the current file is not valid, just skip this one.</span>
-                <span class="c1"># print(f&quot;{str(e)}: No files found, skipping&quot;)</span>
+                <span class="c1"># print(f"{str(e)}: No files found, skipping")</span>
                 <span class="k">continue</span>
             <span class="k">except</span> <span class="p">(</span><span class="ne">ValueError</span><span class="p">,</span> <span class="n">HritError</span><span class="p">)</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-                <span class="c1"># Value error is raised for &#39;inconsistent&#39; metadata, or in this case</span>
+                <span class="c1"># Value error is raised for 'inconsistent' metadata, or in this case</span>
                 <span class="c1"># No appropriate file for the channels selected</span>
                 <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="ne">ValueError</span><span class="p">):</span>
                     <span class="n">st</span> <span class="o">=</span> <span class="kc">None</span>
                     <span class="n">et</span> <span class="o">=</span> <span class="kc">None</span>
                 <span class="k">else</span><span class="p">:</span>
-<span class="w">                    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">                    This occurs from the seviri_hrit reader in &#39;get_top_level_metadata&#39;</span>
+<span class="w">                    </span><span class="sd">"""</span>
+<span class="sd">                    This occurs from the seviri_hrit reader in 'get_top_level_metadata'</span>
 <span class="sd">                    Parse out the start and end datetimes, as this file still could be</span>
-<span class="sd">                    Relevant, but is missing &#39;block_2&#39;. If the set of files all are</span>
+<span class="sd">                    Relevant, but is missing 'block_2'. If the set of files all are</span>
 <span class="sd">                    missing block_2, or the projection of block_2 is not GEOS, it will</span>
-<span class="sd">                    cause an HritError in the for loop before, which doesn&#39;t have a try</span>
+<span class="sd">                    cause an HritError in the for loop before, which doesn't have a try</span>
 <span class="sd">                    except statement.</span>
 
 <span class="sd">                    Error Format:</span>
-<span class="sd">                    f&quot;Unknown projection encountered: {projection}.\n&quot;</span>
-<span class="sd">                    f&quot;start_datetime={st.isoformat()}\n&quot;</span>
-<span class="sd">                    f&quot;end_datetime={et.isoformat()}&quot;</span>
-<span class="sd">                    &quot;&quot;&quot;</span>
-                    <span class="n">emsg</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="sd">                    f"Unknown projection encountered: {projection}.\n"</span>
+<span class="sd">                    f"start_datetime={st.isoformat()}\n"</span>
+<span class="sd">                    f"end_datetime={et.isoformat()}"</span>
+<span class="sd">                    """</span>
+                    <span class="n">emsg</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span>
                     <span class="c1"># Recreate the datetime objects from the isoformat strings provided</span>
-                    <span class="n">st</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">fromisoformat</span><span class="p">(</span><span class="n">emsg</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;=&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">])</span>
-                    <span class="n">et</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">fromisoformat</span><span class="p">(</span><span class="n">emsg</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;=&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">])</span>
+                    <span class="n">st</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">fromisoformat</span><span class="p">(</span><span class="n">emsg</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">"="</span><span class="p">)[</span><span class="mi">1</span><span class="p">])</span>
+                    <span class="n">et</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">fromisoformat</span><span class="p">(</span><span class="n">emsg</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">"="</span><span class="p">)[</span><span class="mi">1</span><span class="p">])</span>
                 <span class="c1"># Add st, et as datetimes for the file, nonetheless if they are None</span>
                 <span class="c1"># or a valid datetime</span>
                 <span class="n">all_file_metadata</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
                     <span class="n">Dataset</span><span class="p">(</span><span class="n">attrs</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">start_datetime</span><span class="o">=</span><span class="n">st</span><span class="p">,</span> <span class="n">end_datetime</span><span class="o">=</span><span class="n">et</span><span class="p">))</span>
                 <span class="p">)</span>
                 <span class="n">updated_fnames</span> <span class="o">+=</span> <span class="p">[</span><span class="n">x</span><span class="p">]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">start_times</span> <span class="o">=</span> <span class="p">[</span><span class="n">md</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;start_datetime&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">md</span> <span class="ow">in</span> <span class="n">all_file_metadata</span><span class="p">]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">end_times</span> <span class="o">=</span> <span class="p">[</span><span class="n">md</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;end_datetime&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">md</span> <span class="ow">in</span> <span class="n">all_file_metadata</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">start_times</span> <span class="o">=</span> <span class="p">[</span><span class="n">md</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"start_datetime"</span><span class="p">]</span> <span class="k">for</span> <span class="n">md</span> <span class="ow">in</span> <span class="n">all_file_metadata</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">end_times</span> <span class="o">=</span> <span class="p">[</span><span class="n">md</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"end_datetime"</span><span class="p">]</span> <span class="k">for</span> <span class="n">md</span> <span class="ow">in</span> <span class="n">all_file_metadata</span><span class="p">]</span>
 
         <span class="c1"># Get unique start times and end times. We do this by initally creating a set</span>
         <span class="c1"># from all found start and end times. Keep in mind, some of these times could</span>
-        <span class="c1"># be &#39;None&#39; if a value error is raised from the reader call function. This</span>
+        <span class="c1"># be 'None' if a value error is raised from the reader call function. This</span>
         <span class="c1"># occurs when none of the selected channels were found in the file provided.</span>
-        <span class="c1"># Meaning, we don&#39;t need that file..</span>
-        <span class="c1"># Now, remove &#39;None&#39; from the set (the files the don&#39;t need). This leaves a list</span>
+        <span class="c1"># Meaning, we don't need that file..</span>
+        <span class="c1"># Now, remove 'None' from the set (the files the don't need). This leaves a list</span>
         <span class="c1"># of unique file times that have been found in datasets that contain the correct</span>
         <span class="c1"># channels.</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">unique_stimes</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">start_times</span><span class="p">)</span><span class="o">.</span><span class="n">difference</span><span class="p">(</span><span class="nb">set</span><span class="p">([</span><span class="kc">None</span><span class="p">])))</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">unique_etimes</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">end_times</span><span class="p">)</span><span class="o">.</span><span class="n">difference</span><span class="p">(</span><span class="nb">set</span><span class="p">([</span><span class="kc">None</span><span class="p">])))</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">unique_stimes</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">NoValidFilesError</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;No valid files found out of </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">fnames</span><span class="p">)</span><span class="si">}</span><span class="s2"> provided. &quot;</span>
-                <span class="sa">f</span><span class="s2">&quot;Requested channels: </span><span class="si">{</span><span class="n">chans</span><span class="si">}</span><span class="s2">. &quot;</span>
-                <span class="s2">&quot;Ensure files and channels match the reader&#39;s expectations.&quot;</span>
+                <span class="sa">f</span><span class="s2">"No valid files found out of </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">fnames</span><span class="p">)</span><span class="si">}</span><span class="s2"> provided. "</span>
+                <span class="sa">f</span><span class="s2">"Requested channels: </span><span class="si">{</span><span class="n">chans</span><span class="si">}</span><span class="s2">. "</span>
+                <span class="s2">"Ensure files and channels match the reader's expectations."</span>
             <span class="p">)</span>
         <span class="c1"># Set these values to this class so they can be used downstream for reading</span>
         <span class="c1"># data from the correct time steps</span>
@@ -1492,7 +1519,7 @@ window.runMermaid = runMermaid;</script>
                     <span class="nb">list</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">updated_fnames</span><span class="p">)[</span><span class="n">same_scan_time_files</span><span class="p">]),</span>
                     <span class="n">metadata_only</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
                     <span class="n">chans</span><span class="o">=</span><span class="n">chans</span><span class="p">,</span>
-                <span class="p">)[</span><span class="s2">&quot;METADATA&quot;</span><span class="p">]</span>
+                <span class="p">)[</span><span class="s2">"METADATA"</span><span class="p">]</span>
             <span class="p">)</span>
         <span class="n">all_metadata</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">concatenate_metadata</span><span class="p">(</span><span class="n">metadata_by_scan_time</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">metadata_only</span><span class="p">:</span>
@@ -1511,12 +1538,12 @@ window.runMermaid = runMermaid;</script>
         <span class="k">return</span> <span class="n">dict_xarrays</span></div>
 
 <div class="viewcode-block" id="ReadersInterface.concatenate_metadata"><a class="viewcode-back" href="../../../../geoips_api/geoips.interfaces.class_based.html#geoips.interfaces.class_based.readers.ReadersInterface.concatenate_metadata">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">concatenate_metadata</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">all_metadata</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Merge together metadata sourced from a list of files into one dictionary.</span>
+<span class="w">        </span><span class="sd">"""Merge together metadata sourced from a list of files into one dictionary.</span>
 
 <span class="sd">        Where the structure of the merged metadata is a nested dictionary of metadata.</span>
 
 <span class="sd">        Ie. (xarray_obj has no data and is merely just a container for metadata):</span>
-<span class="sd">        {&quot;METADATA&quot;: xobj.source_file_attributes: {fname: xobj, ..., &quot;fnamex&quot;: xobj}}</span>
+<span class="sd">        {"METADATA": xobj.source_file_attributes: {fname: xobj, ..., "fnamex": xobj}}</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -1527,32 +1554,32 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">        -------</span>
 <span class="sd">        md: dict of xarray Datasets</span>
 <span class="sd">            - All metadata merged into a dictionary of xarray Datasets</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">md</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;METADATA&quot;</span><span class="p">:</span> <span class="n">Dataset</span><span class="p">()}</span>
+<span class="sd">        """</span>
+        <span class="n">md</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"METADATA"</span><span class="p">:</span> <span class="n">Dataset</span><span class="p">()}</span>
 
         <span class="k">for</span> <span class="n">md_idx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">all_metadata</span><span class="p">)):</span>
             <span class="c1"># Set required attributes of the top-level metadata when this loop is</span>
             <span class="c1"># started</span>
             <span class="k">if</span> <span class="n">md_idx</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-                <span class="n">md</span><span class="p">[</span><span class="s2">&quot;METADATA&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span> <span class="o">=</span> <span class="n">all_metadata</span><span class="p">[</span><span class="n">md_idx</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span>
-                <span class="n">md</span><span class="p">[</span><span class="s2">&quot;METADATA&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;source_file_names&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
-                <span class="n">md</span><span class="p">[</span><span class="s2">&quot;METADATA&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;source_file_attributes&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
-                <span class="n">md</span><span class="p">[</span><span class="s2">&quot;METADATA&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;source_file_datetimes&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
-                <span class="n">md</span><span class="p">[</span><span class="s2">&quot;METADATA&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;end_datetime&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">all_metadata</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">end_datetime</span>
+                <span class="n">md</span><span class="p">[</span><span class="s2">"METADATA"</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span> <span class="o">=</span> <span class="n">all_metadata</span><span class="p">[</span><span class="n">md_idx</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span>
+                <span class="n">md</span><span class="p">[</span><span class="s2">"METADATA"</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"source_file_names"</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+                <span class="n">md</span><span class="p">[</span><span class="s2">"METADATA"</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"source_file_attributes"</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+                <span class="n">md</span><span class="p">[</span><span class="s2">"METADATA"</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"source_file_datetimes"</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+                <span class="n">md</span><span class="p">[</span><span class="s2">"METADATA"</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"end_datetime"</span><span class="p">]</span> <span class="o">=</span> <span class="n">all_metadata</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">end_datetime</span>
 
             <span class="c1"># Add to optional attributes of the top-level metadata for each xobj</span>
             <span class="c1"># provided</span>
-            <span class="n">md</span><span class="p">[</span><span class="s2">&quot;METADATA&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;source_file_names&quot;</span><span class="p">]</span> <span class="o">+=</span> <span class="p">[</span>
-                <span class="n">basename</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">all_metadata</span><span class="p">[</span><span class="n">md_idx</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;source_file_names&quot;</span><span class="p">]</span>
+            <span class="n">md</span><span class="p">[</span><span class="s2">"METADATA"</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"source_file_names"</span><span class="p">]</span> <span class="o">+=</span> <span class="p">[</span>
+                <span class="n">basename</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">all_metadata</span><span class="p">[</span><span class="n">md_idx</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"source_file_names"</span><span class="p">]</span>
             <span class="p">]</span>
-            <span class="n">md</span><span class="p">[</span><span class="s2">&quot;METADATA&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;source_file_datetimes&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+            <span class="n">md</span><span class="p">[</span><span class="s2">"METADATA"</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"source_file_datetimes"</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
                 <span class="p">[</span>
                     <span class="n">all_metadata</span><span class="p">[</span><span class="n">md_idx</span><span class="p">]</span><span class="o">.</span><span class="n">start_datetime</span><span class="p">,</span>
                     <span class="n">all_metadata</span><span class="p">[</span><span class="n">md_idx</span><span class="p">]</span><span class="o">.</span><span class="n">end_datetime</span><span class="p">,</span>
                 <span class="p">],</span>
             <span class="p">)</span>
-            <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">all_metadata</span><span class="p">[</span><span class="n">md_idx</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;source_file_names&quot;</span><span class="p">]:</span>
-                <span class="n">md</span><span class="p">[</span><span class="s2">&quot;METADATA&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;source_file_attributes&quot;</span><span class="p">][</span><span class="n">basename</span><span class="p">(</span><span class="n">x</span><span class="p">)]</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">all_metadata</span><span class="p">[</span><span class="n">md_idx</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"source_file_names"</span><span class="p">]:</span>
+                <span class="n">md</span><span class="p">[</span><span class="s2">"METADATA"</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"source_file_attributes"</span><span class="p">][</span><span class="n">basename</span><span class="p">(</span><span class="n">x</span><span class="p">)]</span> <span class="o">=</span> <span class="p">(</span>
                     <span class="n">all_metadata</span><span class="p">[</span><span class="n">md_idx</span><span class="p">]</span>
                 <span class="p">)</span>
 
@@ -1569,7 +1596,7 @@ window.runMermaid = runMermaid;</script>
         <span class="n">self_register</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
         <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
     <span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Read in data from a list of filenames.</span>
 
 <span class="sd">        Parameters</span>
@@ -1577,11 +1604,11 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">        fnames : list</span>
 <span class="sd">            * List of strings, full paths to files</span>
 <span class="sd">        all_metadata : dict</span>
-<span class="sd">            * Dictionary of metadata from all files in &#39;fnames&#39;</span>
+<span class="sd">            * Dictionary of metadata from all files in 'fnames'</span>
 <span class="sd">        read_single_time_func : python function</span>
 <span class="sd">            * Function which can be used to read a single scan time of files from a</span>
 <span class="sd">              reader plugin.</span>
-<span class="sd">            * Most likely named &#39;call_single_time&#39;.</span>
+<span class="sd">            * Most likely named 'call_single_time'.</span>
 <span class="sd">        metadata_only : bool, default=False</span>
 <span class="sd">            * Return before actually reading data if True</span>
 <span class="sd">        chans : list of str, default=None</span>
@@ -1607,7 +1634,7 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">        :ref:`xarray_standards`</span>
 <span class="sd">            Additional information regarding required attributes and variables</span>
 <span class="sd">            for GeoIPS-formatted xarray Datasets.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">ingested_xarrays</span> <span class="o">=</span> <span class="n">collections</span><span class="o">.</span><span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">time</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">unique_stimes</span><span class="p">:</span>
             <span class="n">scan_time_files</span> <span class="o">=</span> <span class="p">[</span><span class="n">dt</span> <span class="o">==</span> <span class="n">time</span> <span class="k">for</span> <span class="n">dt</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">start_times</span><span class="p">]</span>
@@ -1634,31 +1661,31 @@ window.runMermaid = runMermaid;</script>
             <span class="c1"># This is not hit if we are provided multiple scan times.</span>
             <span class="k">return</span> <span class="n">data_dict</span>
 
-        <span class="c1"># Now that we&#39;ve ingested all scan times, stack along time dimension</span>
-        <span class="n">metadata</span> <span class="o">=</span> <span class="n">all_metadata</span><span class="p">[</span><span class="s2">&quot;METADATA&quot;</span><span class="p">]</span>
+        <span class="c1"># Now that we've ingested all scan times, stack along time dimension</span>
+        <span class="n">metadata</span> <span class="o">=</span> <span class="n">all_metadata</span><span class="p">[</span><span class="s2">"METADATA"</span><span class="p">]</span>
         <span class="n">dict_xarrays</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="k">for</span> <span class="n">dname</span><span class="p">,</span> <span class="n">list_xarrays</span> <span class="ow">in</span> <span class="n">ingested_xarrays</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-            <span class="k">if</span> <span class="n">dname</span> <span class="o">==</span> <span class="s2">&quot;METADATA&quot;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">dname</span> <span class="o">==</span> <span class="s2">"METADATA"</span><span class="p">:</span>
                 <span class="k">continue</span>
-            <span class="n">merged_dset</span> <span class="o">=</span> <span class="n">concat</span><span class="p">(</span><span class="n">list_xarrays</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="s2">&quot;time&quot;</span><span class="p">)</span>
-            <span class="n">merged_dset</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;start_datetime&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">unique_stimes</span><span class="p">)</span>
-            <span class="n">merged_dset</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;end_datetime&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">unique_etimes</span><span class="p">)</span>
-            <span class="n">merged_dset</span> <span class="o">=</span> <span class="n">merged_dset</span><span class="o">.</span><span class="n">assign_coords</span><span class="p">({</span><span class="s2">&quot;time&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">unique_stimes</span><span class="p">})</span>
+            <span class="n">merged_dset</span> <span class="o">=</span> <span class="n">concat</span><span class="p">(</span><span class="n">list_xarrays</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="s2">"time"</span><span class="p">)</span>
+            <span class="n">merged_dset</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"start_datetime"</span><span class="p">]</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">unique_stimes</span><span class="p">)</span>
+            <span class="n">merged_dset</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"end_datetime"</span><span class="p">]</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">unique_etimes</span><span class="p">)</span>
+            <span class="n">merged_dset</span> <span class="o">=</span> <span class="n">merged_dset</span><span class="o">.</span><span class="n">assign_coords</span><span class="p">({</span><span class="s2">"time"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">unique_stimes</span><span class="p">})</span>
             <span class="n">dict_xarrays</span><span class="p">[</span><span class="n">dname</span><span class="p">]</span> <span class="o">=</span> <span class="n">merged_dset</span>
-            <span class="c1"># Override source_file_* attributes with what&#39;s set in all_metadata.</span>
-            <span class="n">dict_xarrays</span><span class="p">[</span><span class="n">dname</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;source_file_names&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">metadata</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span>
-                <span class="s2">&quot;source_file_names&quot;</span>
+            <span class="c1"># Override source_file_* attributes with what's set in all_metadata.</span>
+            <span class="n">dict_xarrays</span><span class="p">[</span><span class="n">dname</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"source_file_names"</span><span class="p">]</span> <span class="o">=</span> <span class="n">metadata</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span>
+                <span class="s2">"source_file_names"</span>
             <span class="p">]</span>
-            <span class="n">dict_xarrays</span><span class="p">[</span><span class="n">dname</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;source_file_attributes&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">metadata</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span>
-                <span class="s2">&quot;source_file_attributes&quot;</span>
+            <span class="n">dict_xarrays</span><span class="p">[</span><span class="n">dname</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"source_file_attributes"</span><span class="p">]</span> <span class="o">=</span> <span class="n">metadata</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span>
+                <span class="s2">"source_file_attributes"</span>
             <span class="p">]</span>
-            <span class="n">dict_xarrays</span><span class="p">[</span><span class="n">dname</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;source_file_datetimes&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">metadata</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span>
-                <span class="s2">&quot;source_file_datetimes&quot;</span>
+            <span class="n">dict_xarrays</span><span class="p">[</span><span class="n">dname</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"source_file_datetimes"</span><span class="p">]</span> <span class="o">=</span> <span class="n">metadata</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span>
+                <span class="s2">"source_file_datetimes"</span>
             <span class="p">]</span>
 
-        <span class="n">metadata</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;start_datetime&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">unique_stimes</span><span class="p">)</span>
-        <span class="n">metadata</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;end_datetime&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">unique_etimes</span><span class="p">)</span>
-        <span class="n">dict_xarrays</span><span class="p">[</span><span class="s2">&quot;METADATA&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">metadata</span>
+        <span class="n">metadata</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"start_datetime"</span><span class="p">]</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">unique_stimes</span><span class="p">)</span>
+        <span class="n">metadata</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"end_datetime"</span><span class="p">]</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">unique_etimes</span><span class="p">)</span>
+        <span class="n">dict_xarrays</span><span class="p">[</span><span class="s2">"METADATA"</span><span class="p">]</span> <span class="o">=</span> <span class="n">metadata</span>
 
         <span class="k">return</span> <span class="n">dict_xarrays</span></div></div>
 

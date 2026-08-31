@@ -1,0 +1,21 @@
+geoips.commandline.ancillary\_info package
+==========================================
+
+Submodules
+----------
+
+geoips.commandline.ancillary\_info.test\_data module
+----------------------------------------------------
+
+.. automodule:: geoips.commandline.ancillary_info.test_data
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+Module contents
+---------------
+
+.. automodule:: geoips.commandline.ancillary_info
+   :members:
+   :show-inheritance:
+   :undoc-members:

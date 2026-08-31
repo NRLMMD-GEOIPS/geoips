@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>geoips.plugins.classes.readers.amsr2_netcdf &#8212; GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation</title>
+    <title>geoips.plugins.classes.readers.amsr2_netcdf &#8212; GeoIPS, Geolocated Information Processing System 0.0.0 documentation</title>
   
   
   
@@ -40,7 +40,7 @@
   <link rel="preload" as="script" href="../../../../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
 <link rel="preload" as="script" href="../../../../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
 
-    <script data-url_root="../../../../../" id="documentation_options" src="../../../../../_static/documentation_options.js?v=6727bded"></script>
+    <script data-url_root="../../../../../" id="documentation_options" src="../../../../../_static/documentation_options.js?v=525cde36"></script>
     <script src="../../../../../_static/doctools.js?v=888ff710"></script>
     <script src="../../../../../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../../../_static/design-tabs.js?v=f930bc37"></script>
@@ -401,14 +401,21 @@ mermaid.initialize(
 window.addEventListener("load", load);
 window.runMermaid = runMermaid;</script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_modules/geoips/plugins/classes/readers/amsr2_netcdf';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.17.1';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://nrlmmd-geoips.github.io/geoips/versions.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = 'dev';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner =
+            false;
+        </script>
     <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
     <link rel="icon" href="../../../../../_static/nrlicon.ico"/>
     <link rel="index" title="Index" href="../../../../../genindex.html" />
     <link rel="search" title="Search" href="../../../../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2.0" />
-    <meta name="docbuild:last-update" content="Jul 23, 2026 17:03:57"/>
+  <meta name="docsearch:version" content="0.0" />
+    <meta name="docbuild:last-update" content="Aug 31, 2026 13:32:18"/>
   
     
     <script src="../../../../../_static/searchtools.js"></script>
@@ -480,11 +487,31 @@ window.runMermaid = runMermaid;</script>
       
     
     
-    <img src="../../../../../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation - Home"/>
-    <img src="../../../../../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation - Home"/>
+    <img src="../../../../../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 0.0.0 documentation - Home"/>
+    <img src="../../../../../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 0.0.0 documentation - Home"/>
   
   
 </a></div>
+    
+      <div class="navbar-item">
+<div class="version-switcher__container dropdown pst-js-only">
+  <button id="pst-version-switcher-button-2"
+    type="button"
+    class="version-switcher__button btn btn-sm dropdown-toggle"
+    data-bs-toggle="dropdown"
+    aria-haspopup="listbox"
+    aria-controls="pst-version-switcher-list-2"
+    aria-label="Version switcher list"
+  >
+    Choose version  <!-- this text may get changed later by javascript -->
+    <span class="caret"></span>
+  </button>
+  <div id="pst-version-switcher-list-2"
+    class="version-switcher__menu dropdown-menu list-group-flush py-0"
+    role="listbox" aria-labelledby="pst-version-switcher-button-2">
+    <!-- dropdown will be populated by javascript on page load -->
+  </div>
+</div></div>
     
   </div>
   
@@ -828,7 +855,7 @@ window.runMermaid = runMermaid;</script>
 <span></span><span class="c1"># # # This source code is subject to the license referenced at</span>
 <span class="c1"># # # https://github.com/NRLMMD-GEOIPS.</span>
 
-<span class="sd">&quot;&quot;&quot;Read Advanced Microwave Scanning Radiometer (AMSR2) data products.&quot;&quot;&quot;</span>
+<span class="sd">"""Read Advanced Microwave Scanning Radiometer (AMSR2) data products."""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">geoips.interfaces.class_based.readers</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseReaderPlugin</span>
 
@@ -845,185 +872,185 @@ window.runMermaid = runMermaid;</script>
 
 
 <div class="viewcode-block" id="Amsr2NetcdfReaderPlugin"><a class="viewcode-back" href="../../../../../geoips_api/geoips.plugins.classes.readers.html#geoips.plugins.classes.readers.amsr2_netcdf.Amsr2NetcdfReaderPlugin">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">Amsr2NetcdfReaderPlugin</span><span class="p">(</span><span class="n">BaseReaderPlugin</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Amsr2 Netcdf reader plugin class.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Amsr2 Netcdf reader plugin class."""</span>
 
-    <span class="n">interface</span> <span class="o">=</span> <span class="s2">&quot;readers&quot;</span>
-    <span class="n">family</span> <span class="o">=</span> <span class="s2">&quot;standard&quot;</span>
-    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;amsr2_netcdf&quot;</span>
+    <span class="n">interface</span> <span class="o">=</span> <span class="s2">"readers"</span>
+    <span class="n">family</span> <span class="o">=</span> <span class="s2">"standard"</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">"amsr2_netcdf"</span>
 
     <span class="n">varnames</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="s2">&quot;Brightness_Temperature_10_GHzH&quot;</span><span class="p">:</span> <span class="s2">&quot;tb10h&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;Brightness_Temperature_10_GHzV&quot;</span><span class="p">:</span> <span class="s2">&quot;tb10v&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;Brightness_Temperature_18_GHzH&quot;</span><span class="p">:</span> <span class="s2">&quot;tb18h&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;Brightness_Temperature_18_GHzV&quot;</span><span class="p">:</span> <span class="s2">&quot;tb18v&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;Brightness_Temperature_23_GHzH&quot;</span><span class="p">:</span> <span class="s2">&quot;tb23h&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;Brightness_Temperature_23_GHzV&quot;</span><span class="p">:</span> <span class="s2">&quot;tb23v&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;Brightness_Temperature_36_GHzH&quot;</span><span class="p">:</span> <span class="s2">&quot;tb36h&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;Brightness_Temperature_36_GHzV&quot;</span><span class="p">:</span> <span class="s2">&quot;tb36v&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;Brightness_Temperature_6_GHzH&quot;</span><span class="p">:</span> <span class="s2">&quot;tb6h&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;Brightness_Temperature_6_GHzV&quot;</span><span class="p">:</span> <span class="s2">&quot;tb6v&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;Brightness_Temperature_7_GHzH&quot;</span><span class="p">:</span> <span class="s2">&quot;tb7h&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;Brightness_Temperature_7_GHzV&quot;</span><span class="p">:</span> <span class="s2">&quot;tb7v&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;Brightness_Temperature_89_GHz_AH&quot;</span><span class="p">:</span> <span class="s2">&quot;tb89hA&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;Brightness_Temperature_89_GHz_AV&quot;</span><span class="p">:</span> <span class="s2">&quot;tb89vA&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;Brightness_Temperature_89_GHz_BH&quot;</span><span class="p">:</span> <span class="s2">&quot;tb89hB&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;Brightness_Temperature_89_GHz_BV&quot;</span><span class="p">:</span> <span class="s2">&quot;tb89hB&quot;</span><span class="p">,</span>
+        <span class="s2">"Brightness_Temperature_10_GHzH"</span><span class="p">:</span> <span class="s2">"tb10h"</span><span class="p">,</span>
+        <span class="s2">"Brightness_Temperature_10_GHzV"</span><span class="p">:</span> <span class="s2">"tb10v"</span><span class="p">,</span>
+        <span class="s2">"Brightness_Temperature_18_GHzH"</span><span class="p">:</span> <span class="s2">"tb18h"</span><span class="p">,</span>
+        <span class="s2">"Brightness_Temperature_18_GHzV"</span><span class="p">:</span> <span class="s2">"tb18v"</span><span class="p">,</span>
+        <span class="s2">"Brightness_Temperature_23_GHzH"</span><span class="p">:</span> <span class="s2">"tb23h"</span><span class="p">,</span>
+        <span class="s2">"Brightness_Temperature_23_GHzV"</span><span class="p">:</span> <span class="s2">"tb23v"</span><span class="p">,</span>
+        <span class="s2">"Brightness_Temperature_36_GHzH"</span><span class="p">:</span> <span class="s2">"tb36h"</span><span class="p">,</span>
+        <span class="s2">"Brightness_Temperature_36_GHzV"</span><span class="p">:</span> <span class="s2">"tb36v"</span><span class="p">,</span>
+        <span class="s2">"Brightness_Temperature_6_GHzH"</span><span class="p">:</span> <span class="s2">"tb6h"</span><span class="p">,</span>
+        <span class="s2">"Brightness_Temperature_6_GHzV"</span><span class="p">:</span> <span class="s2">"tb6v"</span><span class="p">,</span>
+        <span class="s2">"Brightness_Temperature_7_GHzH"</span><span class="p">:</span> <span class="s2">"tb7h"</span><span class="p">,</span>
+        <span class="s2">"Brightness_Temperature_7_GHzV"</span><span class="p">:</span> <span class="s2">"tb7v"</span><span class="p">,</span>
+        <span class="s2">"Brightness_Temperature_89_GHz_AH"</span><span class="p">:</span> <span class="s2">"tb89hA"</span><span class="p">,</span>
+        <span class="s2">"Brightness_Temperature_89_GHz_AV"</span><span class="p">:</span> <span class="s2">"tb89vA"</span><span class="p">,</span>
+        <span class="s2">"Brightness_Temperature_89_GHz_BH"</span><span class="p">:</span> <span class="s2">"tb89hB"</span><span class="p">,</span>
+        <span class="s2">"Brightness_Temperature_89_GHz_BV"</span><span class="p">:</span> <span class="s2">"tb89hB"</span><span class="p">,</span>
     <span class="p">}</span>
-    <span class="n">land_num</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;6&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;7&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;10&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s2">&quot;18&quot;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span> <span class="s2">&quot;23&quot;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span> <span class="s2">&quot;36&quot;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span> <span class="s2">&quot;89A&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;89B&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">}</span>
+    <span class="n">land_num</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"6"</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">"7"</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">"10"</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s2">"18"</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span> <span class="s2">"23"</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span> <span class="s2">"36"</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span> <span class="s2">"89A"</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">"89B"</span><span class="p">:</span> <span class="mi">1</span><span class="p">}</span>
     <span class="n">land_var</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="s2">&quot;6&quot;</span><span class="p">:</span> <span class="s2">&quot;Land_Ocean_Flag_6_to_36&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;7&quot;</span><span class="p">:</span> <span class="s2">&quot;Land_Ocean_Flag_6_to_36&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;10&quot;</span><span class="p">:</span> <span class="s2">&quot;Land_Ocean_Flag_6_to_36&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;18&quot;</span><span class="p">:</span> <span class="s2">&quot;Land_Ocean_Flag_6_to_36&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;23&quot;</span><span class="p">:</span> <span class="s2">&quot;Land_Ocean_Flag_6_to_36&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;36&quot;</span><span class="p">:</span> <span class="s2">&quot;Land_Ocean_Flag_6_to_36&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;89A&quot;</span><span class="p">:</span> <span class="s2">&quot;Land_Ocean_Flag_89&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;89B&quot;</span><span class="p">:</span> <span class="s2">&quot;Land_Ocean_Flag_89&quot;</span><span class="p">,</span>
+        <span class="s2">"6"</span><span class="p">:</span> <span class="s2">"Land_Ocean_Flag_6_to_36"</span><span class="p">,</span>
+        <span class="s2">"7"</span><span class="p">:</span> <span class="s2">"Land_Ocean_Flag_6_to_36"</span><span class="p">,</span>
+        <span class="s2">"10"</span><span class="p">:</span> <span class="s2">"Land_Ocean_Flag_6_to_36"</span><span class="p">,</span>
+        <span class="s2">"18"</span><span class="p">:</span> <span class="s2">"Land_Ocean_Flag_6_to_36"</span><span class="p">,</span>
+        <span class="s2">"23"</span><span class="p">:</span> <span class="s2">"Land_Ocean_Flag_6_to_36"</span><span class="p">,</span>
+        <span class="s2">"36"</span><span class="p">:</span> <span class="s2">"Land_Ocean_Flag_6_to_36"</span><span class="p">,</span>
+        <span class="s2">"89A"</span><span class="p">:</span> <span class="s2">"Land_Ocean_Flag_89"</span><span class="p">,</span>
+        <span class="s2">"89B"</span><span class="p">:</span> <span class="s2">"Land_Ocean_Flag_89"</span><span class="p">,</span>
     <span class="p">}</span>
     <span class="n">chan_nums</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="s2">&quot;Brightness_Temperature_6_GHzV&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
-        <span class="s2">&quot;Brightness_Temperature_6_GHzH&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
-        <span class="s2">&quot;Brightness_Temperature_7_GHzV&quot;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
-        <span class="s2">&quot;Brightness_Temperature_7_GHzH&quot;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
-        <span class="s2">&quot;Brightness_Temperature_10_GHzV&quot;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
-        <span class="s2">&quot;Brightness_Temperature_10_GHzH&quot;</span><span class="p">:</span> <span class="mi">6</span><span class="p">,</span>
-        <span class="s2">&quot;Brightness_Temperature_18_GHzV&quot;</span><span class="p">:</span> <span class="mi">7</span><span class="p">,</span>
-        <span class="s2">&quot;Brightness_Temperature_18_GHzH&quot;</span><span class="p">:</span> <span class="mi">8</span><span class="p">,</span>
-        <span class="s2">&quot;Brightness_Temperature_23_GHzV&quot;</span><span class="p">:</span> <span class="mi">9</span><span class="p">,</span>
-        <span class="s2">&quot;Brightness_Temperature_23_GHzH&quot;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
-        <span class="s2">&quot;Brightness_Temperature_36_GHzV&quot;</span><span class="p">:</span> <span class="mi">11</span><span class="p">,</span>
-        <span class="s2">&quot;Brightness_Temperature_36_GHzH&quot;</span><span class="p">:</span> <span class="mi">12</span><span class="p">,</span>
-        <span class="s2">&quot;Brightness_Temperature_89_GHz_AV&quot;</span><span class="p">:</span> <span class="mi">13</span><span class="p">,</span>
-        <span class="s2">&quot;Brightness_Temperature_89_GHz_AH&quot;</span><span class="p">:</span> <span class="mi">14</span><span class="p">,</span>
-        <span class="s2">&quot;Brightness_Temperature_89_GHz_BV&quot;</span><span class="p">:</span> <span class="mi">13</span><span class="p">,</span>
-        <span class="s2">&quot;Brightness_Temperature_89_GHz_BH&quot;</span><span class="p">:</span> <span class="mi">14</span><span class="p">,</span>
+        <span class="s2">"Brightness_Temperature_6_GHzV"</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="s2">"Brightness_Temperature_6_GHzH"</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+        <span class="s2">"Brightness_Temperature_7_GHzV"</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
+        <span class="s2">"Brightness_Temperature_7_GHzH"</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
+        <span class="s2">"Brightness_Temperature_10_GHzV"</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
+        <span class="s2">"Brightness_Temperature_10_GHzH"</span><span class="p">:</span> <span class="mi">6</span><span class="p">,</span>
+        <span class="s2">"Brightness_Temperature_18_GHzV"</span><span class="p">:</span> <span class="mi">7</span><span class="p">,</span>
+        <span class="s2">"Brightness_Temperature_18_GHzH"</span><span class="p">:</span> <span class="mi">8</span><span class="p">,</span>
+        <span class="s2">"Brightness_Temperature_23_GHzV"</span><span class="p">:</span> <span class="mi">9</span><span class="p">,</span>
+        <span class="s2">"Brightness_Temperature_23_GHzH"</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
+        <span class="s2">"Brightness_Temperature_36_GHzV"</span><span class="p">:</span> <span class="mi">11</span><span class="p">,</span>
+        <span class="s2">"Brightness_Temperature_36_GHzH"</span><span class="p">:</span> <span class="mi">12</span><span class="p">,</span>
+        <span class="s2">"Brightness_Temperature_89_GHz_AV"</span><span class="p">:</span> <span class="mi">13</span><span class="p">,</span>
+        <span class="s2">"Brightness_Temperature_89_GHz_AH"</span><span class="p">:</span> <span class="mi">14</span><span class="p">,</span>
+        <span class="s2">"Brightness_Temperature_89_GHz_BV"</span><span class="p">:</span> <span class="mi">13</span><span class="p">,</span>
+        <span class="s2">"Brightness_Temperature_89_GHz_BH"</span><span class="p">:</span> <span class="mi">14</span><span class="p">,</span>
     <span class="p">}</span>
-    <span class="n">source_names</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;amsr2&quot;</span><span class="p">]</span>
+    <span class="n">source_names</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"amsr2"</span><span class="p">]</span>
 
 <div class="viewcode-block" id="Amsr2NetcdfReaderPlugin.read_amsr2_winds"><a class="viewcode-back" href="../../../../../geoips_api/geoips.plugins.classes.readers.html#geoips.plugins.classes.readers.amsr2_netcdf.Amsr2NetcdfReaderPlugin.read_amsr2_winds">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">read_amsr2_winds</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">wind_xarray</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Reformat AMSR2 xarray object appropriately.</span>
+<span class="w">        </span><span class="sd">"""Reformat AMSR2 xarray object appropriately.</span>
 
 <span class="sd">        * variables: latitude, longitude, time, wind_speed_kts</span>
 <span class="sd">        * attributes: source_name, platform_name, data_provider,</span>
 <span class="sd">          interpolation_radius_of_influence</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">MS_TO_KTS</span> <span class="o">=</span> <span class="mf">1.94384</span>
-        <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Reading AMSR2 data&quot;</span><span class="p">)</span>
+        <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"Reading AMSR2 data"</span><span class="p">)</span>
         <span class="c1"># Set attributes appropriately</span>
-        <span class="n">wind_xarray</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;source_name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;amsr2&quot;</span>
-        <span class="n">wind_xarray</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;platform_name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;gcom-w1&quot;</span>
-        <span class="n">wind_xarray</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;interpolation_radius_of_influence&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">10000</span>
-        <span class="c1"># AMSR2 is one text file per datafile, so don&#39;t append</span>
-        <span class="n">wind_xarray</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;overwrite_text_file&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
-        <span class="n">wind_xarray</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;append_text_file&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="n">wind_xarray</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"source_name"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"amsr2"</span>
+        <span class="n">wind_xarray</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"platform_name"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"gcom-w1"</span>
+        <span class="n">wind_xarray</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"interpolation_radius_of_influence"</span><span class="p">]</span> <span class="o">=</span> <span class="mi">10000</span>
+        <span class="c1"># AMSR2 is one text file per datafile, so don't append</span>
+        <span class="n">wind_xarray</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"overwrite_text_file"</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="n">wind_xarray</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"append_text_file"</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
         <span class="c1"># https://www.ospo.noaa.gov/Products/atmosphere/gpds/about_amsr2.html</span>
         <span class="c1"># OCEAN Winds based on 37GHz, which is 7km x 12km ground resolution</span>
-        <span class="n">wind_xarray</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;sample_distance_km&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">7.0</span>
-        <span class="k">if</span> <span class="s2">&quot;creator_name&quot;</span> <span class="ow">in</span> <span class="n">wind_xarray</span><span class="o">.</span><span class="n">attrs</span> <span class="ow">and</span> <span class="s2">&quot;NOAA&quot;</span> <span class="ow">in</span> <span class="n">wind_xarray</span><span class="o">.</span><span class="n">creator_name</span><span class="p">:</span>
-            <span class="n">wind_xarray</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;data_provider&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;star&quot;</span>
+        <span class="n">wind_xarray</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"sample_distance_km"</span><span class="p">]</span> <span class="o">=</span> <span class="mf">7.0</span>
+        <span class="k">if</span> <span class="s2">"creator_name"</span> <span class="ow">in</span> <span class="n">wind_xarray</span><span class="o">.</span><span class="n">attrs</span> <span class="ow">and</span> <span class="s2">"NOAA"</span> <span class="ow">in</span> <span class="n">wind_xarray</span><span class="o">.</span><span class="n">creator_name</span><span class="p">:</span>
+            <span class="n">wind_xarray</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"data_provider"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"star"</span>
 
         <span class="c1"># Set lat/lons appropriately</span>
         <span class="n">wind_xarray</span> <span class="o">=</span> <span class="n">wind_xarray</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span>
             <span class="p">{</span>
-                <span class="s2">&quot;Latitude_for_Low_Resolution&quot;</span><span class="p">:</span> <span class="s2">&quot;latitude&quot;</span><span class="p">,</span>
-                <span class="s2">&quot;Longitude_for_Low_Resolution&quot;</span><span class="p">:</span> <span class="s2">&quot;longitude&quot;</span><span class="p">,</span>
+                <span class="s2">"Latitude_for_Low_Resolution"</span><span class="p">:</span> <span class="s2">"latitude"</span><span class="p">,</span>
+                <span class="s2">"Longitude_for_Low_Resolution"</span><span class="p">:</span> <span class="s2">"longitude"</span><span class="p">,</span>
             <span class="p">}</span>
         <span class="p">)</span>
-        <span class="n">wind_xarray</span> <span class="o">=</span> <span class="n">wind_xarray</span><span class="o">.</span><span class="n">set_coords</span><span class="p">([</span><span class="s2">&quot;latitude&quot;</span><span class="p">,</span> <span class="s2">&quot;longitude&quot;</span><span class="p">])</span>
+        <span class="n">wind_xarray</span> <span class="o">=</span> <span class="n">wind_xarray</span><span class="o">.</span><span class="n">set_coords</span><span class="p">([</span><span class="s2">"latitude"</span><span class="p">,</span> <span class="s2">"longitude"</span><span class="p">])</span>
         <span class="n">wind_xarray</span> <span class="o">=</span> <span class="n">wind_xarray</span><span class="o">.</span><span class="n">reset_coords</span><span class="p">(</span>
-            <span class="p">[</span><span class="s2">&quot;Latitude_for_High_Resolution&quot;</span><span class="p">,</span> <span class="s2">&quot;Longitude_for_High_Resolution&quot;</span><span class="p">]</span>
+            <span class="p">[</span><span class="s2">"Latitude_for_High_Resolution"</span><span class="p">,</span> <span class="s2">"Longitude_for_High_Resolution"</span><span class="p">]</span>
         <span class="p">)</span>
 
         <span class="c1"># Set wind_speed_kts appropriately</span>
         <span class="c1"># convert to kts</span>
-        <span class="n">wind_xarray</span><span class="p">[</span><span class="s2">&quot;wind_speed_kts&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">wind_xarray</span><span class="p">[</span><span class="s2">&quot;WSPD&quot;</span><span class="p">]</span> <span class="o">*</span> <span class="n">MS_TO_KTS</span>
+        <span class="n">wind_xarray</span><span class="p">[</span><span class="s2">"wind_speed_kts"</span><span class="p">]</span> <span class="o">=</span> <span class="n">wind_xarray</span><span class="p">[</span><span class="s2">"WSPD"</span><span class="p">]</span> <span class="o">*</span> <span class="n">MS_TO_KTS</span>
 
         <span class="c1"># # Only keep the good wind speeds</span>
-        <span class="c1"># wind_xarray[&#39;wind_speed_kts&#39;] = xarray.where(wind_xarray[&#39;WSPD_QC&#39;] == 0,</span>
-        <span class="c1"># wind_xarray[&#39;wind_speed_kts&#39;], numpy.nan)</span>
+        <span class="c1"># wind_xarray['wind_speed_kts'] = xarray.where(wind_xarray['WSPD_QC'] == 0,</span>
+        <span class="c1"># wind_xarray['wind_speed_kts'], numpy.nan)</span>
 
-        <span class="n">wind_xarray</span><span class="p">[</span><span class="s2">&quot;wind_speed_kts&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span> <span class="o">=</span> <span class="n">wind_xarray</span><span class="p">[</span><span class="s2">&quot;WSPD&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span>
-        <span class="n">wind_xarray</span><span class="p">[</span><span class="s2">&quot;wind_speed_kts&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;units&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;kts&quot;</span>
-        <span class="n">wind_xarray</span><span class="p">[</span><span class="s2">&quot;wind_speed_kts&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">wind_xarray</span><span class="p">[</span><span class="s2">&quot;wind_speed_kts&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">assign_coords</span><span class="p">(</span>
+        <span class="n">wind_xarray</span><span class="p">[</span><span class="s2">"wind_speed_kts"</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span> <span class="o">=</span> <span class="n">wind_xarray</span><span class="p">[</span><span class="s2">"WSPD"</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span>
+        <span class="n">wind_xarray</span><span class="p">[</span><span class="s2">"wind_speed_kts"</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"units"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"kts"</span>
+        <span class="n">wind_xarray</span><span class="p">[</span><span class="s2">"wind_speed_kts"</span><span class="p">]</span> <span class="o">=</span> <span class="n">wind_xarray</span><span class="p">[</span><span class="s2">"wind_speed_kts"</span><span class="p">]</span><span class="o">.</span><span class="n">assign_coords</span><span class="p">(</span>
             <span class="n">latitude</span><span class="o">=</span><span class="n">wind_xarray</span><span class="o">.</span><span class="n">latitude</span><span class="p">,</span> <span class="n">longitude</span><span class="o">=</span><span class="n">wind_xarray</span><span class="o">.</span><span class="n">longitude</span>
         <span class="p">)</span>
 
         <span class="c1"># Set time array appropriately</span>
 
         <span class="n">dtstrs</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Reading scan_times&quot;</span><span class="p">)</span>
-        <span class="k">for</span> <span class="n">scan_time</span> <span class="ow">in</span> <span class="n">wind_xarray</span><span class="p">[</span><span class="s2">&quot;Scan_Time&quot;</span><span class="p">]:</span>
+        <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"Reading scan_times"</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">scan_time</span> <span class="ow">in</span> <span class="n">wind_xarray</span><span class="p">[</span><span class="s2">"Scan_Time"</span><span class="p">]:</span>
             <span class="n">dtstrs</span> <span class="o">+=</span> <span class="p">[</span>
-                <span class="s2">&quot;</span><span class="si">{0:04.0f}{1:02.0f}{2:02.0f}</span><span class="s2">T</span><span class="si">{3:02.0f}{4:02.0f}{5:02.0f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="s2">"</span><span class="si">{0:04.0f}{1:02.0f}{2:02.0f}</span><span class="s2">T</span><span class="si">{3:02.0f}{4:02.0f}{5:02.0f}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
                     <span class="o">*</span><span class="nb">tuple</span><span class="p">([</span><span class="n">xx</span> <span class="k">for</span> <span class="n">xx</span> <span class="ow">in</span> <span class="n">scan_time</span><span class="o">.</span><span class="n">values</span><span class="p">])</span>
                 <span class="p">)</span>
             <span class="p">]</span>
         <span class="c1"># Have to set it on the actual xarray so it becomes a xarray format time series</span>
         <span class="c1"># (otherwise if you set it directly to ts, it is a pandas format time series,</span>
-        <span class="c1"># and expand_dims doesn&#39;t exist).</span>
+        <span class="c1"># and expand_dims doesn't exist).</span>
         <span class="n">time_array</span> <span class="o">=</span> <span class="n">pandas</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span>
-            <span class="n">dtstrs</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s2">&quot;%Y%m</span><span class="si">%d</span><span class="s2">T%H%M%S&quot;</span><span class="p">,</span> <span class="n">errors</span><span class="o">=</span><span class="s2">&quot;coerce&quot;</span>
+            <span class="n">dtstrs</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s2">"%Y%m</span><span class="si">%d</span><span class="s2">T%H%M%S"</span><span class="p">,</span> <span class="n">errors</span><span class="o">=</span><span class="s2">"coerce"</span>
         <span class="p">)</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
-        <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Setting list of times&quot;</span><span class="p">)</span>
-        <span class="n">tss</span> <span class="o">=</span> <span class="p">[</span><span class="n">time_array</span> <span class="k">for</span> <span class="n">ii</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">wind_xarray</span><span class="p">[</span><span class="s2">&quot;wind_speed_kts&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])]</span>
-        <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Setting time DataArray&quot;</span><span class="p">)</span>
-        <span class="n">wind_xarray</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xarray</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
+        <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"Setting list of times"</span><span class="p">)</span>
+        <span class="n">tss</span> <span class="o">=</span> <span class="p">[</span><span class="n">time_array</span> <span class="k">for</span> <span class="n">ii</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">wind_xarray</span><span class="p">[</span><span class="s2">"wind_speed_kts"</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])]</span>
+        <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"Setting time DataArray"</span><span class="p">)</span>
+        <span class="n">wind_xarray</span><span class="p">[</span><span class="s2">"time"</span><span class="p">]</span> <span class="o">=</span> <span class="n">xarray</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
             <span class="n">data</span><span class="o">=</span><span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">tss</span><span class="p">)</span><span class="o">.</span><span class="n">transpose</span><span class="p">(),</span>
             <span class="n">coords</span><span class="o">=</span><span class="n">wind_xarray</span><span class="o">.</span><span class="n">wind_speed_kts</span><span class="o">.</span><span class="n">coords</span><span class="p">,</span>
-            <span class="n">name</span><span class="o">=</span><span class="s2">&quot;time&quot;</span><span class="p">,</span>
+            <span class="n">name</span><span class="o">=</span><span class="s2">"time"</span><span class="p">,</span>
         <span class="p">)</span>
-        <span class="n">wind_xarray</span> <span class="o">=</span> <span class="n">wind_xarray</span><span class="o">.</span><span class="n">set_coords</span><span class="p">([</span><span class="s2">&quot;time&quot;</span><span class="p">])</span>
-        <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;WINDS&quot;</span><span class="p">:</span> <span class="n">wind_xarray</span><span class="p">}</span></div>
+        <span class="n">wind_xarray</span> <span class="o">=</span> <span class="n">wind_xarray</span><span class="o">.</span><span class="n">set_coords</span><span class="p">([</span><span class="s2">"time"</span><span class="p">])</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s2">"WINDS"</span><span class="p">:</span> <span class="n">wind_xarray</span><span class="p">}</span></div>
 
 <div class="viewcode-block" id="Amsr2NetcdfReaderPlugin.read_amsr2_mbt"><a class="viewcode-back" href="../../../../../geoips_api/geoips.plugins.classes.readers.html#geoips.plugins.classes.readers.amsr2_netcdf.Amsr2NetcdfReaderPlugin.read_amsr2_mbt">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">read_amsr2_mbt</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">full_xarray</span><span class="p">,</span> <span class="n">varname</span><span class="p">,</span> <span class="n">time_array</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Reformat AMSR2 xarray object appropriately.</span>
 
 <span class="sd">        * variables: latitude, longitude, time,</span>
 <span class="sd">          brightness temperature variables</span>
 <span class="sd">        * attributes: source_name, platform_name, data_provider,</span>
 <span class="sd">          interpolation_radius_of_influence</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Reading AMSR data </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">varname</span><span class="p">)</span>
+<span class="sd">        """</span>
+        <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"Reading AMSR data </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="n">varname</span><span class="p">)</span>
         <span class="n">sub_xarray</span> <span class="o">=</span> <span class="n">xarray</span><span class="o">.</span><span class="n">Dataset</span><span class="p">()</span>
         <span class="n">sub_xarray</span><span class="o">.</span><span class="n">attrs</span> <span class="o">=</span> <span class="n">full_xarray</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
         <span class="c1"># Set attributes appropriately</span>
 
         <span class="c1"># Mappings are Brightness_Temperature_89_GHz_AH -&gt; Latitude_for_89A, etc</span>
         <span class="c1"># Mappings are Brightness_Temperature_10_GHzH -&gt; Latitude_for_10, etc</span>
-        <span class="n">chanstr</span> <span class="o">=</span> <span class="n">varname</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;Brightness_Temperature_&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
-        <span class="n">chanstr</span> <span class="o">=</span> <span class="n">chanstr</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;_GHz_&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
-        <span class="n">chanstr</span> <span class="o">=</span> <span class="n">chanstr</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;_GHz&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
-        <span class="n">chanstr</span> <span class="o">=</span> <span class="n">chanstr</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;H&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
-        <span class="n">chanstr</span> <span class="o">=</span> <span class="n">chanstr</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;V&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+        <span class="n">chanstr</span> <span class="o">=</span> <span class="n">varname</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">"Brightness_Temperature_"</span><span class="p">,</span> <span class="s2">""</span><span class="p">)</span>
+        <span class="n">chanstr</span> <span class="o">=</span> <span class="n">chanstr</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">"_GHz_"</span><span class="p">,</span> <span class="s2">""</span><span class="p">)</span>
+        <span class="n">chanstr</span> <span class="o">=</span> <span class="n">chanstr</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">"_GHz"</span><span class="p">,</span> <span class="s2">""</span><span class="p">)</span>
+        <span class="n">chanstr</span> <span class="o">=</span> <span class="n">chanstr</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">"H"</span><span class="p">,</span> <span class="s2">""</span><span class="p">)</span>
+        <span class="n">chanstr</span> <span class="o">=</span> <span class="n">chanstr</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">"V"</span><span class="p">,</span> <span class="s2">""</span><span class="p">)</span>
 
         <span class="c1"># Set lat/lons appropriately</span>
-        <span class="n">sub_xarray</span><span class="p">[</span><span class="s2">&quot;latitude&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">full_xarray</span><span class="p">[</span><span class="s2">&quot;Latitude_for_</span><span class="si">{0}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">chanstr</span><span class="p">)]</span>
-        <span class="n">sub_xarray</span><span class="p">[</span><span class="s2">&quot;longitude&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">full_xarray</span><span class="p">[</span><span class="s2">&quot;Longitude_for_</span><span class="si">{0}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">chanstr</span><span class="p">)]</span>
+        <span class="n">sub_xarray</span><span class="p">[</span><span class="s2">"latitude"</span><span class="p">]</span> <span class="o">=</span> <span class="n">full_xarray</span><span class="p">[</span><span class="s2">"Latitude_for_</span><span class="si">{0}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">chanstr</span><span class="p">)]</span>
+        <span class="n">sub_xarray</span><span class="p">[</span><span class="s2">"longitude"</span><span class="p">]</span> <span class="o">=</span> <span class="n">full_xarray</span><span class="p">[</span><span class="s2">"Longitude_for_</span><span class="si">{0}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">chanstr</span><span class="p">)]</span>
         <span class="n">sub_xarray</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">varnames</span><span class="p">[</span><span class="n">varname</span><span class="p">]]</span> <span class="o">=</span> <span class="n">full_xarray</span><span class="p">[</span><span class="n">varname</span><span class="p">]</span>
-        <span class="n">sub_xarray</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">varnames</span><span class="p">[</span><span class="n">varname</span><span class="p">]]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;channel_number&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">chan_nums</span><span class="p">[</span>
+        <span class="n">sub_xarray</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">varnames</span><span class="p">[</span><span class="n">varname</span><span class="p">]]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"channel_number"</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">chan_nums</span><span class="p">[</span>
             <span class="n">varname</span>
         <span class="p">]</span>
-        <span class="n">sub_xarray</span><span class="o">.</span><span class="n">set_coords</span><span class="p">([</span><span class="s2">&quot;latitude&quot;</span><span class="p">,</span> <span class="s2">&quot;longitude&quot;</span><span class="p">])</span>
+        <span class="n">sub_xarray</span><span class="o">.</span><span class="n">set_coords</span><span class="p">([</span><span class="s2">"latitude"</span><span class="p">,</span> <span class="s2">"longitude"</span><span class="p">])</span>
 
         <span class="c1"># https://www.ospo.noaa.gov/Products/atmosphere/gpds/about_amsr2.html</span>
         <span class="c1"># 37GHz, 7km x 12km ground resolution</span>
         <span class="c1"># 89GHz, 3km x 5km ground resolution</span>
 
-        <span class="c1"># MTIFs need to be &quot;prettier&quot; for PMW products, so 2km resolution for all</span>
-        <span class="c1"># channels sub_xarray.attrs[&#39;sample_distance_km&#39;] = 3.0</span>
-        <span class="n">sub_xarray</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;sample_distance_km&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">2.0</span>
-        <span class="n">sub_xarray</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;interpolation_radius_of_influence&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">10000</span>
+        <span class="c1"># MTIFs need to be "prettier" for PMW products, so 2km resolution for all</span>
+        <span class="c1"># channels sub_xarray.attrs['sample_distance_km'] = 3.0</span>
+        <span class="n">sub_xarray</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"sample_distance_km"</span><span class="p">]</span> <span class="o">=</span> <span class="mf">2.0</span>
+        <span class="n">sub_xarray</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"interpolation_radius_of_influence"</span><span class="p">]</span> <span class="o">=</span> <span class="mi">10000</span>
         <span class="k">for</span> <span class="n">dim</span> <span class="ow">in</span> <span class="n">sub_xarray</span><span class="o">.</span><span class="n">sizes</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
-            <span class="k">if</span> <span class="s2">&quot;low_rez&quot;</span> <span class="ow">in</span> <span class="n">dim</span><span class="p">:</span>
-                <span class="c1"># MTIFs need to be &quot;prettier&quot; for PMW products, so 2km resolution for</span>
-                <span class="c1"># all channels. sub_xarray.attrs[&#39;sample_distance_km&#39;] = 7.0</span>
-                <span class="n">sub_xarray</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;sample_distance_km&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">2.0</span>
-                <span class="n">sub_xarray</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;interpolation_radius_of_influence&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">20000</span>
+            <span class="k">if</span> <span class="s2">"low_rez"</span> <span class="ow">in</span> <span class="n">dim</span><span class="p">:</span>
+                <span class="c1"># MTIFs need to be "prettier" for PMW products, so 2km resolution for</span>
+                <span class="c1"># all channels. sub_xarray.attrs['sample_distance_km'] = 7.0</span>
+                <span class="n">sub_xarray</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"sample_distance_km"</span><span class="p">]</span> <span class="o">=</span> <span class="mf">2.0</span>
+                <span class="n">sub_xarray</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"interpolation_radius_of_influence"</span><span class="p">]</span> <span class="o">=</span> <span class="mi">20000</span>
 
         <span class="c1"># See dictionaries above for appropriate land mask array locations for each</span>
         <span class="c1"># variable</span>
-        <span class="n">full_xarray</span><span class="p">[</span><span class="s2">&quot;LandMask&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xarray</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
+        <span class="n">full_xarray</span><span class="p">[</span><span class="s2">"LandMask"</span><span class="p">]</span> <span class="o">=</span> <span class="n">xarray</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
             <span class="n">full_xarray</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">land_var</span><span class="p">[</span><span class="n">chanstr</span><span class="p">]]</span><span class="o">.</span><span class="n">to_masked_array</span><span class="p">()[</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">land_num</span><span class="p">[</span><span class="n">chanstr</span><span class="p">],</span> <span class="p">:,</span> <span class="p">:</span>
             <span class="p">],</span>
@@ -1035,52 +1062,52 @@ window.runMermaid = runMermaid;</script>
             <span class="c1"># Set time appropriately</span>
             <span class="n">dtstrs</span> <span class="o">=</span> <span class="p">[]</span>
             <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
-                <span class="s2">&quot;Reading scan_times, for dims </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span>
+                <span class="s2">"Reading scan_times, for dims </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span>
                 <span class="n">sub_xarray</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">varnames</span><span class="p">[</span><span class="n">varname</span><span class="p">]]</span><span class="o">.</span><span class="n">dims</span><span class="p">,</span>
             <span class="p">)</span>
-            <span class="k">for</span> <span class="n">scan_time</span> <span class="ow">in</span> <span class="n">full_xarray</span><span class="p">[</span><span class="s2">&quot;Scan_Time&quot;</span><span class="p">]:</span>
+            <span class="k">for</span> <span class="n">scan_time</span> <span class="ow">in</span> <span class="n">full_xarray</span><span class="p">[</span><span class="s2">"Scan_Time"</span><span class="p">]:</span>
                 <span class="n">dtstrs</span> <span class="o">+=</span> <span class="p">[</span>
-                    <span class="s2">&quot;</span><span class="si">{0:04.0f}{1:02.0f}{2:02.0f}</span><span class="s2">T</span><span class="si">{3:02.0f}{4:02.0f}{5:02.0f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                    <span class="s2">"</span><span class="si">{0:04.0f}{1:02.0f}{2:02.0f}</span><span class="s2">T</span><span class="si">{3:02.0f}{4:02.0f}{5:02.0f}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
                         <span class="o">*</span><span class="nb">tuple</span><span class="p">([</span><span class="n">xx</span> <span class="k">for</span> <span class="n">xx</span> <span class="ow">in</span> <span class="n">scan_time</span><span class="o">.</span><span class="n">values</span><span class="p">])</span>
                     <span class="p">)</span>
                 <span class="p">]</span>
             <span class="c1"># Have to set it on the actual xarray so it becomes a xarray format time</span>
             <span class="c1"># series (otherwise if you set it directly to ts, it is a pandas format time</span>
-            <span class="c1"># series, and expand_dims doesn&#39;t exist).</span>
+            <span class="c1"># series, and expand_dims doesn't exist).</span>
             <span class="n">curr_time_array</span> <span class="o">=</span> <span class="n">pandas</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span>
-                <span class="n">dtstrs</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s2">&quot;%Y%m</span><span class="si">%d</span><span class="s2">T%H%M%S&quot;</span><span class="p">,</span> <span class="n">errors</span><span class="o">=</span><span class="s2">&quot;coerce&quot;</span>
+                <span class="n">dtstrs</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s2">"%Y%m</span><span class="si">%d</span><span class="s2">T%H%M%S"</span><span class="p">,</span> <span class="n">errors</span><span class="o">=</span><span class="s2">"coerce"</span>
             <span class="p">)</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
-            <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;    Setting list of times&quot;</span><span class="p">)</span>
+            <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"    Setting list of times"</span><span class="p">)</span>
             <span class="n">tss</span> <span class="o">=</span> <span class="p">[</span>
                 <span class="n">curr_time_array</span>
                 <span class="k">for</span> <span class="n">ii</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">sub_xarray</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">varnames</span><span class="p">[</span><span class="n">varname</span><span class="p">]]</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
             <span class="p">]</span>
-            <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;    Setting time DataArray&quot;</span><span class="p">)</span>
-            <span class="n">sub_xarray</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xarray</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
+            <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"    Setting time DataArray"</span><span class="p">)</span>
+            <span class="n">sub_xarray</span><span class="p">[</span><span class="s2">"time"</span><span class="p">]</span> <span class="o">=</span> <span class="n">xarray</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
                 <span class="n">data</span><span class="o">=</span><span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">tss</span><span class="p">)</span><span class="o">.</span><span class="n">transpose</span><span class="p">(),</span>
                 <span class="n">coords</span><span class="o">=</span><span class="n">full_xarray</span><span class="p">[</span><span class="n">varname</span><span class="p">]</span><span class="o">.</span><span class="n">coords</span><span class="p">,</span>
-                <span class="n">name</span><span class="o">=</span><span class="s2">&quot;time&quot;</span><span class="p">,</span>
+                <span class="n">name</span><span class="o">=</span><span class="s2">"time"</span><span class="p">,</span>
             <span class="p">)</span>
-            <span class="n">sub_xarray</span> <span class="o">=</span> <span class="n">sub_xarray</span><span class="o">.</span><span class="n">set_coords</span><span class="p">([</span><span class="s2">&quot;time&quot;</span><span class="p">])</span>
+            <span class="n">sub_xarray</span> <span class="o">=</span> <span class="n">sub_xarray</span><span class="o">.</span><span class="n">set_coords</span><span class="p">([</span><span class="s2">"time"</span><span class="p">])</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
-                <span class="s2">&quot;Using existing scan_times for dims </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span>
+                <span class="s2">"Using existing scan_times for dims </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span>
                 <span class="n">sub_xarray</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">varnames</span><span class="p">[</span><span class="n">varname</span><span class="p">]]</span><span class="o">.</span><span class="n">dims</span><span class="p">,</span>
             <span class="p">)</span>
-            <span class="n">sub_xarray</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">time_array</span>
+            <span class="n">sub_xarray</span><span class="p">[</span><span class="s2">"time"</span><span class="p">]</span> <span class="o">=</span> <span class="n">time_array</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">geoips.xarray_utils.time</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
             <span class="n">get_min_from_xarray_time</span><span class="p">,</span>
             <span class="n">get_max_from_xarray_time</span><span class="p">,</span>
         <span class="p">)</span>
 
-        <span class="n">sub_xarray</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;start_datetime&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">get_min_from_xarray_time</span><span class="p">(</span>
-            <span class="n">sub_xarray</span><span class="p">,</span> <span class="s2">&quot;time&quot;</span>
+        <span class="n">sub_xarray</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"start_datetime"</span><span class="p">]</span> <span class="o">=</span> <span class="n">get_min_from_xarray_time</span><span class="p">(</span>
+            <span class="n">sub_xarray</span><span class="p">,</span> <span class="s2">"time"</span>
         <span class="p">)</span>
-        <span class="n">sub_xarray</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;end_datetime&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">get_max_from_xarray_time</span><span class="p">(</span><span class="n">sub_xarray</span><span class="p">,</span> <span class="s2">&quot;time&quot;</span><span class="p">)</span>
+        <span class="n">sub_xarray</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"end_datetime"</span><span class="p">]</span> <span class="o">=</span> <span class="n">get_max_from_xarray_time</span><span class="p">(</span><span class="n">sub_xarray</span><span class="p">,</span> <span class="s2">"time"</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">sub_xarray</span></div>
 
 <div class="viewcode-block" id="Amsr2NetcdfReaderPlugin.read_amsr2_data"><a class="viewcode-back" href="../../../../../geoips_api/geoips.plugins.classes.readers.html#geoips.plugins.classes.readers.amsr2_netcdf.Amsr2NetcdfReaderPlugin.read_amsr2_data">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">read_amsr2_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">full_xarray</span><span class="p">,</span> <span class="n">chans</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Read non-AMSR2_OCEAN data.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Read non-AMSR2_OCEAN data."""</span>
         <span class="n">full_xarray</span> <span class="o">=</span> <span class="n">full_xarray</span><span class="o">.</span><span class="n">reset_coords</span><span class="p">(</span><span class="n">full_xarray</span><span class="o">.</span><span class="n">coords</span><span class="p">)</span>
 
         <span class="n">sunzen</span> <span class="o">=</span> <span class="mi">90</span> <span class="o">-</span> <span class="n">full_xarray</span><span class="o">.</span><span class="n">Sun_Elevation</span>
@@ -1094,25 +1121,25 @@ window.runMermaid = runMermaid;</script>
         <span class="c1"># Every single channel has a different set of Lat/Lons!</span>
         <span class="k">for</span> <span class="n">varname</span> <span class="ow">in</span> <span class="n">full_xarray</span><span class="o">.</span><span class="n">variables</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">chans</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">varname</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">chans</span><span class="p">:</span>
-                <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;SKIPPING: Variable </span><span class="si">%s</span><span class="s2"> not requested in </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">varname</span><span class="p">,</span> <span class="n">chans</span><span class="p">)</span>
-            <span class="k">if</span> <span class="s2">&quot;Brightness&quot;</span> <span class="ow">in</span> <span class="n">varname</span><span class="p">:</span>
+                <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"SKIPPING: Variable </span><span class="si">%s</span><span class="s2"> not requested in </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="n">varname</span><span class="p">,</span> <span class="n">chans</span><span class="p">)</span>
+            <span class="k">if</span> <span class="s2">"Brightness"</span> <span class="ow">in</span> <span class="n">varname</span><span class="p">:</span>
                 <span class="n">usetime</span> <span class="o">=</span> <span class="kc">None</span>
                 <span class="k">for</span> <span class="n">xra</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">xarrays</span><span class="o">.</span><span class="n">values</span><span class="p">()):</span>
                     <span class="k">if</span> <span class="n">xra</span><span class="o">.</span><span class="n">time</span><span class="o">.</span><span class="n">dims</span> <span class="o">==</span> <span class="n">full_xarray</span><span class="p">[</span><span class="n">varname</span><span class="p">]</span><span class="o">.</span><span class="n">dims</span><span class="p">:</span>
                         <span class="n">usetime</span> <span class="o">=</span> <span class="n">xra</span><span class="o">.</span><span class="n">time</span>
                 <span class="n">new_xarray</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">read_amsr2_mbt</span><span class="p">(</span><span class="n">full_xarray</span><span class="p">,</span> <span class="n">varname</span><span class="p">,</span> <span class="n">usetime</span><span class="p">)</span>
                 <span class="k">if</span> <span class="n">sunzen</span><span class="o">.</span><span class="n">dims</span> <span class="o">==</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">new_xarray</span><span class="o">.</span><span class="n">dims</span><span class="p">):</span>
-                    <span class="n">new_xarray</span><span class="p">[</span><span class="s2">&quot;satellite_azimuth_angle&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">satazm</span>
-                    <span class="n">new_xarray</span><span class="p">[</span><span class="s2">&quot;satellite_zenith_angle&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">satzen</span>
-                    <span class="n">new_xarray</span><span class="p">[</span><span class="s2">&quot;solar_zenith_angle&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">sunzen</span>
-                    <span class="n">new_xarray</span><span class="p">[</span><span class="s2">&quot;QualityFlag&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">loqf</span>
-                    <span class="n">new_xarray</span><span class="p">[</span><span class="s2">&quot;SunGlintFlag&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">sunglint_flag</span>
-                    <span class="n">new_xarray</span><span class="p">[</span><span class="s2">&quot;sensor_scan_angle&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">sensor_scan_angle</span>
+                    <span class="n">new_xarray</span><span class="p">[</span><span class="s2">"satellite_azimuth_angle"</span><span class="p">]</span> <span class="o">=</span> <span class="n">satazm</span>
+                    <span class="n">new_xarray</span><span class="p">[</span><span class="s2">"satellite_zenith_angle"</span><span class="p">]</span> <span class="o">=</span> <span class="n">satzen</span>
+                    <span class="n">new_xarray</span><span class="p">[</span><span class="s2">"solar_zenith_angle"</span><span class="p">]</span> <span class="o">=</span> <span class="n">sunzen</span>
+                    <span class="n">new_xarray</span><span class="p">[</span><span class="s2">"QualityFlag"</span><span class="p">]</span> <span class="o">=</span> <span class="n">loqf</span>
+                    <span class="n">new_xarray</span><span class="p">[</span><span class="s2">"SunGlintFlag"</span><span class="p">]</span> <span class="o">=</span> <span class="n">sunglint_flag</span>
+                    <span class="n">new_xarray</span><span class="p">[</span><span class="s2">"sensor_scan_angle"</span><span class="p">]</span> <span class="o">=</span> <span class="n">sensor_scan_angle</span>
                 <span class="k">elif</span> <span class="n">hiqf</span><span class="o">.</span><span class="n">dims</span> <span class="o">==</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">new_xarray</span><span class="o">.</span><span class="n">dims</span><span class="p">):</span>
-                    <span class="n">new_xarray</span><span class="p">[</span><span class="s2">&quot;QualityFlag&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">hiqf</span>
+                    <span class="n">new_xarray</span><span class="p">[</span><span class="s2">"QualityFlag"</span><span class="p">]</span> <span class="o">=</span> <span class="n">hiqf</span>
                 <span class="n">xarrays</span><span class="p">[</span><span class="n">varname</span><span class="p">]</span> <span class="o">=</span> <span class="n">new_xarray</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;SKIPPING variable </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">varname</span><span class="p">)</span>
+                <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"SKIPPING variable </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="n">varname</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">xarrays</span></div>
 
@@ -1123,9 +1150,9 @@ window.runMermaid = runMermaid;</script>
         <span class="n">chans</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">area_def</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">self_register</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-        <span class="n">test_arg</span><span class="o">=</span><span class="s2">&quot;AMSR2 Default Test Arg&quot;</span><span class="p">,</span>
+        <span class="n">test_arg</span><span class="o">=</span><span class="s2">"AMSR2 Default Test Arg"</span><span class="p">,</span>
     <span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Read AMSR2 netcdf data products.</span>
 
 <span class="sd">        Parameters</span>
@@ -1159,44 +1186,44 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">        :ref:`xarray_standards`</span>
 <span class="sd">            Additional information regarding required attributes and variables</span>
 <span class="sd">            for GeoIPS-formatted xarray Datasets.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">LOG</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;AMSR2 reader test_arg: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">test_arg</span><span class="p">)</span>
+<span class="sd">        """</span>
+        <span class="n">LOG</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">"AMSR2 reader test_arg: </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="n">test_arg</span><span class="p">)</span>
         <span class="n">ingested</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">fname</span> <span class="ow">in</span> <span class="n">fnames</span><span class="p">:</span>
             <span class="c1"># full_xarray = xarray.open_dataset(str(fname))</span>
             <span class="n">full_xarrays</span> <span class="o">=</span> <span class="p">[</span><span class="n">xarray</span><span class="o">.</span><span class="n">open_dataset</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">x</span><span class="p">))</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">fnames</span><span class="p">]</span>
-            <span class="n">full_xarray</span> <span class="o">=</span> <span class="n">xarray</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">full_xarrays</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="s2">&quot;Number_of_Scans&quot;</span><span class="p">)</span>
-            <span class="n">full_xarray</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;data_provider&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;unknown&quot;</span>
-            <span class="n">full_xarray</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;source_file_names&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">basename</span><span class="p">(</span><span class="n">fname</span><span class="p">)]</span>
-            <span class="n">full_xarray</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;source_name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;amsr2&quot;</span>
-            <span class="n">full_xarray</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;platform_name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;gcom-w1&quot;</span>
-            <span class="n">full_xarray</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;interpolation_radius_of_influence&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">10000</span>
+            <span class="n">full_xarray</span> <span class="o">=</span> <span class="n">xarray</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">full_xarrays</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="s2">"Number_of_Scans"</span><span class="p">)</span>
+            <span class="n">full_xarray</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"data_provider"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"unknown"</span>
+            <span class="n">full_xarray</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"source_file_names"</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">basename</span><span class="p">(</span><span class="n">fname</span><span class="p">)]</span>
+            <span class="n">full_xarray</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"source_name"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"amsr2"</span>
+            <span class="n">full_xarray</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"platform_name"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"gcom-w1"</span>
+            <span class="n">full_xarray</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"interpolation_radius_of_influence"</span><span class="p">]</span> <span class="o">=</span> <span class="mi">10000</span>
             <span class="k">if</span> <span class="p">(</span>
-                <span class="s2">&quot;creator_name&quot;</span> <span class="ow">in</span> <span class="n">full_xarray</span><span class="o">.</span><span class="n">attrs</span>
-                <span class="ow">and</span> <span class="s2">&quot;NOAA&quot;</span> <span class="ow">in</span> <span class="n">full_xarray</span><span class="o">.</span><span class="n">creator_name</span>
+                <span class="s2">"creator_name"</span> <span class="ow">in</span> <span class="n">full_xarray</span><span class="o">.</span><span class="n">attrs</span>
+                <span class="ow">and</span> <span class="s2">"NOAA"</span> <span class="ow">in</span> <span class="n">full_xarray</span><span class="o">.</span><span class="n">creator_name</span>
             <span class="p">):</span>
-                <span class="n">full_xarray</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;data_provider&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;star&quot;</span>
-            <span class="n">full_xarray</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;minimum_coverage&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">20</span>
-            <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Read data from </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">fname</span><span class="p">)</span>
+                <span class="n">full_xarray</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"data_provider"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"star"</span>
+            <span class="n">full_xarray</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"minimum_coverage"</span><span class="p">]</span> <span class="o">=</span> <span class="mi">20</span>
+            <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"Read data from </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="n">fname</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">metadata_only</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
                 <span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">datetime</span>
 
-                <span class="n">full_xarray</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;start_datetime&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span>
-                    <span class="n">full_xarray</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;time_coverage_start&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">:</span><span class="mi">19</span><span class="p">],</span> <span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2">T%H:%M:%S&quot;</span>
+                <span class="n">full_xarray</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"start_datetime"</span><span class="p">]</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span>
+                    <span class="n">full_xarray</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"time_coverage_start"</span><span class="p">][</span><span class="mi">0</span><span class="p">:</span><span class="mi">19</span><span class="p">],</span> <span class="s2">"%Y-%m-</span><span class="si">%d</span><span class="s2">T%H:%M:%S"</span>
                 <span class="p">)</span>
-                <span class="n">full_xarray</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;end_datetime&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span>
-                    <span class="n">full_xarray</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;time_coverage_end&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">:</span><span class="mi">19</span><span class="p">],</span> <span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2">T%H:%M:%S&quot;</span>
+                <span class="n">full_xarray</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"end_datetime"</span><span class="p">]</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span>
+                    <span class="n">full_xarray</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"time_coverage_end"</span><span class="p">][</span><span class="mi">0</span><span class="p">:</span><span class="mi">19</span><span class="p">],</span> <span class="s2">"%Y-%m-</span><span class="si">%d</span><span class="s2">T%H:%M:%S"</span>
                 <span class="p">)</span>
-                <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;metadata_only requested, returning without readind data&quot;</span><span class="p">)</span>
-                <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;METADATA&quot;</span><span class="p">:</span> <span class="n">full_xarray</span><span class="p">}</span>
+                <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"metadata_only requested, returning without readind data"</span><span class="p">)</span>
+                <span class="k">return</span> <span class="p">{</span><span class="s2">"METADATA"</span><span class="p">:</span> <span class="n">full_xarray</span><span class="p">}</span>
 
-            <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">full_xarray</span><span class="p">,</span> <span class="s2">&quot;title&quot;</span><span class="p">)</span> <span class="ow">and</span> <span class="s2">&quot;AMSR2_OCEAN&quot;</span> <span class="ow">in</span> <span class="n">full_xarray</span><span class="o">.</span><span class="n">title</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">full_xarray</span><span class="p">,</span> <span class="s2">"title"</span><span class="p">)</span> <span class="ow">and</span> <span class="s2">"AMSR2_OCEAN"</span> <span class="ow">in</span> <span class="n">full_xarray</span><span class="o">.</span><span class="n">title</span><span class="p">:</span>
                 <span class="n">xarrays</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">read_amsr2_winds</span><span class="p">(</span><span class="n">full_xarray</span><span class="p">)</span>
 
-            <span class="k">elif</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">full_xarray</span><span class="p">,</span> <span class="s2">&quot;title&quot;</span><span class="p">)</span> <span class="ow">and</span> <span class="s2">&quot;MBT&quot;</span> <span class="ow">in</span> <span class="n">full_xarray</span><span class="o">.</span><span class="n">title</span><span class="p">:</span>
+            <span class="k">elif</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">full_xarray</span><span class="p">,</span> <span class="s2">"title"</span><span class="p">)</span> <span class="ow">and</span> <span class="s2">"MBT"</span> <span class="ow">in</span> <span class="n">full_xarray</span><span class="o">.</span><span class="n">title</span><span class="p">:</span>
                 <span class="n">xarrays</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">read_amsr2_data</span><span class="p">(</span><span class="n">full_xarray</span><span class="p">,</span> <span class="n">chans</span><span class="p">)</span>
 
-            <span class="k">elif</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">full_xarray</span><span class="p">,</span> <span class="s2">&quot;title&quot;</span><span class="p">)</span> <span class="ow">and</span> <span class="s2">&quot;PRECIP&quot;</span> <span class="ow">in</span> <span class="n">full_xarray</span><span class="o">.</span><span class="n">title</span><span class="p">:</span>
+            <span class="k">elif</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">full_xarray</span><span class="p">,</span> <span class="s2">"title"</span><span class="p">)</span> <span class="ow">and</span> <span class="s2">"PRECIP"</span> <span class="ow">in</span> <span class="n">full_xarray</span><span class="o">.</span><span class="n">title</span><span class="p">:</span>
                 <span class="n">xarrays</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">read_amsr2_data</span><span class="p">(</span><span class="n">full_xarray</span><span class="p">,</span> <span class="n">chans</span><span class="p">)</span>
             <span class="n">ingested</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">xarrays</span><span class="p">)</span>
 
@@ -1204,22 +1231,22 @@ window.runMermaid = runMermaid;</script>
         <span class="n">final_xarrays</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="k">for</span> <span class="n">xr_key</span> <span class="ow">in</span> <span class="n">xarrays</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
             <span class="n">xars</span> <span class="o">=</span> <span class="p">[</span><span class="n">xar</span><span class="p">[</span><span class="n">xr_key</span><span class="p">]</span> <span class="k">for</span> <span class="n">xar</span> <span class="ow">in</span> <span class="n">ingested</span><span class="p">]</span>
-            <span class="n">final_xarrays</span><span class="p">[</span><span class="n">xr_key</span><span class="p">]</span> <span class="o">=</span> <span class="n">xarray</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">xars</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="s2">&quot;Number_of_Scans&quot;</span><span class="p">)</span>
+            <span class="n">final_xarrays</span><span class="p">[</span><span class="n">xr_key</span><span class="p">]</span> <span class="o">=</span> <span class="n">xarray</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">xars</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="s2">"Number_of_Scans"</span><span class="p">)</span>
 
         <span class="k">for</span> <span class="n">dsname</span><span class="p">,</span> <span class="n">curr_xarray</span> <span class="ow">in</span> <span class="n">final_xarrays</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-            <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Setting standard metadata&quot;</span><span class="p">)</span>
+            <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"Setting standard metadata"</span><span class="p">)</span>
             <span class="kn">from</span><span class="w"> </span><span class="nn">geoips.xarray_utils.time</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
                 <span class="n">get_min_from_xarray_time</span><span class="p">,</span>
                 <span class="n">get_max_from_xarray_time</span><span class="p">,</span>
             <span class="p">)</span>
 
-            <span class="n">curr_xarray</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;start_datetime&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">get_min_from_xarray_time</span><span class="p">(</span>
-                <span class="n">curr_xarray</span><span class="p">,</span> <span class="s2">&quot;time&quot;</span>
+            <span class="n">curr_xarray</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"start_datetime"</span><span class="p">]</span> <span class="o">=</span> <span class="n">get_min_from_xarray_time</span><span class="p">(</span>
+                <span class="n">curr_xarray</span><span class="p">,</span> <span class="s2">"time"</span>
             <span class="p">)</span>
-            <span class="n">curr_xarray</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;end_datetime&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">get_max_from_xarray_time</span><span class="p">(</span>
-                <span class="n">curr_xarray</span><span class="p">,</span> <span class="s2">&quot;time&quot;</span>
+            <span class="n">curr_xarray</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"end_datetime"</span><span class="p">]</span> <span class="o">=</span> <span class="n">get_max_from_xarray_time</span><span class="p">(</span>
+                <span class="n">curr_xarray</span><span class="p">,</span> <span class="s2">"time"</span>
             <span class="p">)</span>
-        <span class="n">final_xarrays</span><span class="p">[</span><span class="s2">&quot;METADATA&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">final_xarrays</span><span class="o">.</span><span class="n">values</span><span class="p">())[</span><span class="mi">0</span><span class="p">][[]]</span>
+        <span class="n">final_xarrays</span><span class="p">[</span><span class="s2">"METADATA"</span><span class="p">]</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">final_xarrays</span><span class="o">.</span><span class="n">values</span><span class="p">())[</span><span class="mi">0</span><span class="p">][[]]</span>
         <span class="k">return</span> <span class="n">final_xarrays</span></div></div>
 
 

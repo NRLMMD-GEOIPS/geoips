@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>geoips.config.plugins &#8212; GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation</title>
+    <title>geoips.config.plugins &#8212; GeoIPS, Geolocated Information Processing System 0.0.0 documentation</title>
   
   
   
@@ -40,7 +40,7 @@
   <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
 
-    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=6727bded"></script>
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=525cde36"></script>
     <script src="../../../_static/doctools.js?v=888ff710"></script>
     <script src="../../../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
@@ -401,14 +401,21 @@ mermaid.initialize(
 window.addEventListener("load", load);
 window.runMermaid = runMermaid;</script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_modules/geoips/config/plugins';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.17.1';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://nrlmmd-geoips.github.io/geoips/versions.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = 'dev';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner =
+            false;
+        </script>
     <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
     <link rel="icon" href="../../../_static/nrlicon.ico"/>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2.0" />
-    <meta name="docbuild:last-update" content="Jul 23, 2026 17:03:57"/>
+  <meta name="docsearch:version" content="0.0" />
+    <meta name="docbuild:last-update" content="Aug 31, 2026 13:32:18"/>
   
     
     <script src="../../../_static/searchtools.js"></script>
@@ -480,11 +487,31 @@ window.runMermaid = runMermaid;</script>
       
     
     
-    <img src="../../../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation - Home"/>
-    <img src="../../../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation - Home"/>
+    <img src="../../../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 0.0.0 documentation - Home"/>
+    <img src="../../../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 0.0.0 documentation - Home"/>
   
   
 </a></div>
+    
+      <div class="navbar-item">
+<div class="version-switcher__container dropdown pst-js-only">
+  <button id="pst-version-switcher-button-2"
+    type="button"
+    class="version-switcher__button btn btn-sm dropdown-toggle"
+    data-bs-toggle="dropdown"
+    aria-haspopup="listbox"
+    aria-controls="pst-version-switcher-list-2"
+    aria-label="Version switcher list"
+  >
+    Choose version  <!-- this text may get changed later by javascript -->
+    <span class="caret"></span>
+  </button>
+  <div id="pst-version-switcher-list-2"
+    class="version-switcher__menu dropdown-menu list-group-flush py-0"
+    role="listbox" aria-labelledby="pst-version-switcher-button-2">
+    <!-- dropdown will be populated by javascript on page load -->
+  </div>
+</div></div>
     
   </div>
   
@@ -828,7 +855,7 @@ window.runMermaid = runMermaid;</script>
 <span></span><span class="c1"># # # This source code is subject to the license referenced at</span>
 <span class="c1"># # # https://github.com/NRLMMD-GEOIPS.</span>
 
-<span class="sd">&quot;&quot;&quot;Plugin-contributed configuration support for GeoIPS.</span>
+<span class="sd">"""Plugin-contributed configuration support for GeoIPS.</span>
 
 <span class="sd">External plugin packages can register their own configuration settings with</span>
 <span class="sd">GeoIPS by exposing a :class:`ConfigPlugin` via the ``geoips.config_plugins``</span>
@@ -840,15 +867,15 @@ window.runMermaid = runMermaid;</script>
 
 
 <span class="sd">    class MyPkgSettings(BaseModel):</span>
-<span class="sd">        max_workers: int = Field(4, description=&quot;Max parallel workers.&quot;)</span>
+<span class="sd">        max_workers: int = Field(4, description="Max parallel workers.")</span>
 <span class="sd">        tile_cache: str | None = None</span>
 
 
-<span class="sd">    CONFIG_PLUGIN = ConfigPlugin(name=&quot;my_pkg&quot;, settings_model=MyPkgSettings)</span>
+<span class="sd">    CONFIG_PLUGIN = ConfigPlugin(name="my_pkg", settings_model=MyPkgSettings)</span>
 
 <span class="sd">    # in pyproject.toml</span>
-<span class="sd">    [project.entry-points.&quot;geoips.config_plugins&quot;]</span>
-<span class="sd">    my_pkg = &quot;my_pkg.config:CONFIG_PLUGIN&quot;</span>
+<span class="sd">    [project.entry-points."geoips.config_plugins"]</span>
+<span class="sd">    my_pkg = "my_pkg.config:CONFIG_PLUGIN"</span>
 
 <span class="sd">The settings are then available as ``config.plugins.my_pkg.max_workers``, may</span>
 <span class="sd">be set in ``.geoips.yaml`` under ``geoips.plugins.my_pkg``, and are overridable</span>
@@ -856,10 +883,10 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">``GEOIPS_PLUGIN_&lt;PKG&gt;_&lt;FIELD&gt;`` (e.g. ``GEOIPS_PLUGIN_MY_PKG_MAX_WORKERS``).</span>
 
 <span class="sd">Discovery and per-plugin validation are lazy: plugin modules are only imported</span>
-<span class="sd">when ``config.plugins`` is first accessed, and each plugin&#39;s settings are only</span>
+<span class="sd">when ``config.plugins`` is first accessed, and each plugin's settings are only</span>
 <span class="sd">validated on first access, so a misconfigured plugin cannot break importing</span>
 <span class="sd">``geoips.config`` for everyone.</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
@@ -878,15 +905,15 @@ window.runMermaid = runMermaid;</script>
 <span class="n">LOG</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
 <span class="c1">#: Entry-point group external packages use to register configuration.</span>
-<span class="n">CONFIG_PLUGIN_GROUP</span> <span class="o">=</span> <span class="s2">&quot;geoips.config_plugins&quot;</span>
+<span class="n">CONFIG_PLUGIN_GROUP</span> <span class="o">=</span> <span class="s2">"geoips.config_plugins"</span>
 
 <span class="c1">#: Prefix for auto-generated plugin environment variables.</span>
-<span class="n">ENV_VAR_PREFIX</span> <span class="o">=</span> <span class="s2">&quot;GEOIPS_PLUGIN&quot;</span>
+<span class="n">ENV_VAR_PREFIX</span> <span class="o">=</span> <span class="s2">"GEOIPS_PLUGIN"</span>
 
 
 <div class="viewcode-block" id="ConfigPlugin"><a class="viewcode-back" href="../../../geoips_api/geoips.config.html#geoips.config.plugins.ConfigPlugin">[docs]</a><span class="nd">@dataclass</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">ConfigPlugin</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Describes the configuration a plugin package contributes to GeoIPS.</span>
+<span class="w">    </span><span class="sd">"""Describes the configuration a plugin package contributes to GeoIPS.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -895,15 +922,15 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">        ``config.plugins.&lt;name&gt;`` and live under ``geoips.plugins.&lt;name&gt;`` in</span>
 <span class="sd">        the YAML config file. Must match the entry-point name.</span>
 <span class="sd">    settings_model : type[pydantic.BaseModel]</span>
-<span class="sd">        A pydantic model describing the plugin&#39;s settings. Fields should</span>
+<span class="sd">        A pydantic model describing the plugin's settings. Fields should</span>
 <span class="sd">        provide defaults (or be ``Optional``) so that importing GeoIPS never</span>
 <span class="sd">        fails when the plugin is installed but unconfigured.</span>
 <span class="sd">    env_overrides : Mapping[str, str], optional</span>
 <span class="sd">        Optional explicit environment-variable aliases mapping a full env var</span>
 <span class="sd">        name to a model-relative dotted field path (e.g.</span>
-<span class="sd">        ``{&quot;MY_LEGACY_VAR&quot;: &quot;max_workers&quot;}``). Auto-generated variables are</span>
+<span class="sd">        ``{"MY_LEGACY_VAR": "max_workers"}``). Auto-generated variables are</span>
 <span class="sd">        always available in addition to these.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
     <span class="n">settings_model</span><span class="p">:</span> <span class="nb">type</span><span class="p">[</span><span class="n">BaseModel</span><span class="p">]</span>
@@ -911,43 +938,43 @@ window.runMermaid = runMermaid;</script>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_sanitize</span><span class="p">(</span><span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Uppercase *text* and collapse non-alphanumerics into single underscores.&quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;[^A-Z0-9]+&quot;</span><span class="p">,</span> <span class="s2">&quot;_&quot;</span><span class="p">,</span> <span class="n">text</span><span class="o">.</span><span class="n">upper</span><span class="p">())</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="sd">"""Uppercase *text* and collapse non-alphanumerics into single underscores."""</span>
+    <span class="k">return</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s2">"[^A-Z0-9]+"</span><span class="p">,</span> <span class="s2">"_"</span><span class="p">,</span> <span class="n">text</span><span class="o">.</span><span class="n">upper</span><span class="p">())</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s2">"_"</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="env_var_for"><a class="viewcode-back" href="../../../geoips_api/geoips.config.html#geoips.config.plugins.env_var_for">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">env_var_for</span><span class="p">(</span><span class="n">pkg</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">dotted_field</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the auto-generated env var name for a plugin field.</span>
+<span class="w">    </span><span class="sd">"""Return the auto-generated env var name for a plugin field.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    pkg : str</span>
 <span class="sd">        The plugin name.</span>
 <span class="sd">    dotted_field : str</span>
-<span class="sd">        The model-relative dotted field path (e.g. ``&quot;cache.tile_dir&quot;``).</span>
+<span class="sd">        The model-relative dotted field path (e.g. ``"cache.tile_dir"``).</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    str</span>
 <span class="sd">        The environment variable name (e.g. ``GEOIPS_PLUGIN_MY_PKG_CACHE_TILE_DIR``).</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">ENV_VAR_PREFIX</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">_sanitize</span><span class="p">(</span><span class="n">pkg</span><span class="p">)</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">_sanitize</span><span class="p">(</span><span class="n">dotted_field</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span></div>
+<span class="sd">    """</span>
+    <span class="k">return</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">ENV_VAR_PREFIX</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">_sanitize</span><span class="p">(</span><span class="n">pkg</span><span class="p">)</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">_sanitize</span><span class="p">(</span><span class="n">dotted_field</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span></div>
 
 
 <div class="viewcode-block" id="is_nested_model"><a class="viewcode-back" href="../../../geoips_api/geoips.config.html#geoips.config.plugins.is_nested_model">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">is_nested_model</span><span class="p">(</span><span class="n">annotation</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">type</span><span class="p">[</span><span class="n">BaseModel</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the nested pydantic model for an annotation, or None.&quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">annotation</span> <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">annotation</span><span class="p">,</span> <span class="s2">&quot;model_fields&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="k">else</span> <span class="kc">None</span></div>
+<span class="w">    </span><span class="sd">"""Return the nested pydantic model for an annotation, or None."""</span>
+    <span class="k">return</span> <span class="n">annotation</span> <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">annotation</span><span class="p">,</span> <span class="s2">"model_fields"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="k">else</span> <span class="kc">None</span></div>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_field_leaf_paths</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">field_info</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">prefix</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">frozenset</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the dotted leaf paths contributed by a single field.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Return the dotted leaf paths contributed by a single field."""</span>
     <span class="n">nested</span> <span class="o">=</span> <span class="n">is_nested_model</span><span class="p">(</span><span class="n">field_info</span><span class="o">.</span><span class="n">annotation</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">nested</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="k">return</span> <span class="nb">frozenset</span><span class="p">({</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">prefix</span><span class="si">}{</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">})</span>
-    <span class="k">return</span> <span class="n">leaf_field_paths</span><span class="p">(</span><span class="n">nested</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">prefix</span><span class="si">}{</span><span class="n">name</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">frozenset</span><span class="p">({</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">prefix</span><span class="si">}{</span><span class="n">name</span><span class="si">}</span><span class="s2">"</span><span class="p">})</span>
+    <span class="k">return</span> <span class="n">leaf_field_paths</span><span class="p">(</span><span class="n">nested</span><span class="p">,</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">prefix</span><span class="si">}{</span><span class="n">name</span><span class="si">}</span><span class="s2">."</span><span class="p">)</span>
 
 
-<div class="viewcode-block" id="leaf_field_paths"><a class="viewcode-back" href="../../../geoips_api/geoips.config.html#geoips.config.plugins.leaf_field_paths">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">leaf_field_paths</span><span class="p">(</span><span class="n">model_cls</span><span class="p">:</span> <span class="nb">type</span><span class="p">[</span><span class="n">BaseModel</span><span class="p">],</span> <span class="n">prefix</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">frozenset</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the set of dotted leaf field paths for a pydantic model tree.&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="leaf_field_paths"><a class="viewcode-back" href="../../../geoips_api/geoips.config.html#geoips.config.plugins.leaf_field_paths">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">leaf_field_paths</span><span class="p">(</span><span class="n">model_cls</span><span class="p">:</span> <span class="nb">type</span><span class="p">[</span><span class="n">BaseModel</span><span class="p">],</span> <span class="n">prefix</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">""</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">frozenset</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">"""Return the set of dotted leaf field paths for a pydantic model tree."""</span>
     <span class="k">return</span> <span class="nb">frozenset</span><span class="p">()</span><span class="o">.</span><span class="n">union</span><span class="p">(</span>
         <span class="o">*</span><span class="p">(</span>
             <span class="n">_field_leaf_paths</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">field_info</span><span class="p">,</span> <span class="n">prefix</span><span class="p">)</span>
@@ -957,10 +984,10 @@ window.runMermaid = runMermaid;</script>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_annotation_at</span><span class="p">(</span><span class="n">model_cls</span><span class="p">:</span> <span class="nb">type</span><span class="p">[</span><span class="n">BaseModel</span><span class="p">],</span> <span class="n">dotted</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the type annotation for a dotted field path, or None if absent.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Return the type annotation for a dotted field path, or None if absent."""</span>
     <span class="n">current</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="n">model_cls</span>
-    <span class="k">for</span> <span class="n">part</span> <span class="ow">in</span> <span class="n">dotted</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">):</span>
-        <span class="n">fields</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">current</span><span class="p">,</span> <span class="s2">&quot;model_fields&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">part</span> <span class="ow">in</span> <span class="n">dotted</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">"."</span><span class="p">):</span>
+        <span class="n">fields</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">current</span><span class="p">,</span> <span class="s2">"model_fields"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">fields</span> <span class="ow">or</span> <span class="n">part</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">fields</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">None</span>
         <span class="n">current</span> <span class="o">=</span> <span class="n">fields</span><span class="p">[</span><span class="n">part</span><span class="p">]</span><span class="o">.</span><span class="n">annotation</span>
@@ -968,11 +995,11 @@ window.runMermaid = runMermaid;</script>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_model_defaults</span><span class="p">(</span><span class="n">model_cls</span><span class="p">:</span> <span class="nb">type</span><span class="p">[</span><span class="n">BaseModel</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return a nested dict of a model&#39;s default values.</span>
+<span class="w">    </span><span class="sd">"""Return a nested dict of a model's default values.</span>
 
 <span class="sd">    Fields without a default (required fields) are omitted; nested models are</span>
 <span class="sd">    recursed into.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">defaults</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">field_info</span> <span class="ow">in</span> <span class="n">model_cls</span><span class="o">.</span><span class="n">model_fields</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
         <span class="n">nested</span> <span class="o">=</span> <span class="n">is_nested_model</span><span class="p">(</span><span class="n">field_info</span><span class="o">.</span><span class="n">annotation</span><span class="p">)</span>
@@ -986,11 +1013,11 @@ window.runMermaid = runMermaid;</script>
 
 
 <div class="viewcode-block" id="full_model_defaults"><a class="viewcode-back" href="../../../geoips_api/geoips.config.html#geoips.config.plugins.full_model_defaults">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">full_model_defaults</span><span class="p">(</span><span class="n">model_cls</span><span class="p">:</span> <span class="nb">type</span><span class="p">[</span><span class="n">BaseModel</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return a full default dump of a model when instantiable, else partial.</span>
+<span class="w">    </span><span class="sd">"""Return a full default dump of a model when instantiable, else partial.</span>
 
 <span class="sd">    Uses ``model_dump()`` when the model has no required fields; otherwise</span>
 <span class="sd">    falls back to :func:`_model_defaults`, which omits required fields.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">model_cls</span><span class="p">()</span><span class="o">.</span><span class="n">model_dump</span><span class="p">()</span>
     <span class="k">except</span> <span class="n">ValidationError</span><span class="p">:</span>
@@ -998,46 +1025,46 @@ window.runMermaid = runMermaid;</script>
 
 
 <div class="viewcode-block" id="field_comment"><a class="viewcode-back" href="../../../geoips_api/geoips.config.html#geoips.config.plugins.field_comment">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">field_comment</span><span class="p">(</span><span class="n">model_cls</span><span class="p">:</span> <span class="nb">type</span><span class="p">[</span><span class="n">BaseModel</span><span class="p">],</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return a human-readable comment for a field.</span>
+<span class="w">    </span><span class="sd">"""Return a human-readable comment for a field.</span>
 
-<span class="sd">    Prefers the field&#39;s ``description``; appends ``(default: ...)`` for scalar</span>
+<span class="sd">    Prefers the field's ``description``; appends ``(default: ...)`` for scalar</span>
 <span class="sd">    fields with a simple default. Nested-model and factory defaults are not</span>
 <span class="sd">    expanded (their contents render as their own YAML lines).</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">field_info</span> <span class="o">=</span> <span class="n">model_cls</span><span class="o">.</span><span class="n">model_fields</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">field_info</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="k">return</span> <span class="s2">&quot;&quot;</span>
+        <span class="k">return</span> <span class="s2">""</span>
     <span class="n">parts</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">if</span> <span class="n">field_info</span><span class="o">.</span><span class="n">description</span><span class="p">:</span>
         <span class="n">parts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">field_info</span><span class="o">.</span><span class="n">description</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">field_info</span><span class="o">.</span><span class="n">default</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">PydanticUndefined</span><span class="p">:</span>
-        <span class="n">parts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;(default: </span><span class="si">{</span><span class="n">field_info</span><span class="o">.</span><span class="n">default</span><span class="si">!r}</span><span class="s2">)&quot;</span><span class="p">)</span>
+        <span class="n">parts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">"(default: </span><span class="si">{</span><span class="n">field_info</span><span class="o">.</span><span class="n">default</span><span class="si">!r}</span><span class="s2">)"</span><span class="p">)</span>
     <span class="k">elif</span> <span class="ow">not</span> <span class="n">field_info</span><span class="o">.</span><span class="n">description</span> <span class="ow">and</span> <span class="n">field_info</span><span class="o">.</span><span class="n">default_factory</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">parts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;(required)&quot;</span><span class="p">)</span>
-    <span class="k">return</span> <span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">parts</span><span class="p">)</span></div>
+        <span class="n">parts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">"(required)"</span><span class="p">)</span>
+    <span class="k">return</span> <span class="s2">" "</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">parts</span><span class="p">)</span></div>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_cast_env_value</span><span class="p">(</span><span class="n">annotation</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">raw</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Cast a raw env string toward a field annotation.</span>
+<span class="w">    </span><span class="sd">"""Cast a raw env string toward a field annotation.</span>
 
 <span class="sd">    Handles booleans, ``none``/``null``, and space-separated lists; other</span>
 <span class="sd">    values are returned as strings and coerced by pydantic during validation.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">lower</span> <span class="o">=</span> <span class="n">raw</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
-    <span class="k">if</span> <span class="n">lower</span> <span class="o">==</span> <span class="s2">&quot;true&quot;</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">lower</span> <span class="o">==</span> <span class="s2">"true"</span><span class="p">:</span>
         <span class="k">return</span> <span class="kc">True</span>
-    <span class="k">if</span> <span class="n">lower</span> <span class="o">==</span> <span class="s2">&quot;false&quot;</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">lower</span> <span class="o">==</span> <span class="s2">"false"</span><span class="p">:</span>
         <span class="k">return</span> <span class="kc">False</span>
-    <span class="k">if</span> <span class="n">lower</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;none&quot;</span><span class="p">,</span> <span class="s2">&quot;null&quot;</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">lower</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">"none"</span><span class="p">,</span> <span class="s2">"null"</span><span class="p">):</span>
         <span class="k">return</span> <span class="kc">None</span>
-    <span class="n">origin</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">annotation</span><span class="p">,</span> <span class="s2">&quot;__origin__&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+    <span class="n">origin</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">annotation</span><span class="p">,</span> <span class="s2">"__origin__"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">annotation</span> <span class="ow">in</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">,</span> <span class="nb">set</span><span class="p">)</span> <span class="ow">or</span> <span class="n">origin</span> <span class="ow">in</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">,</span> <span class="nb">set</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">raw</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
     <span class="k">return</span> <span class="n">raw</span>
 
 
 <div class="viewcode-block" id="plugin_field_env_map"><a class="viewcode-back" href="../../../geoips_api/geoips.config.html#geoips.config.plugins.plugin_field_env_map">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">plugin_field_env_map</span><span class="p">(</span><span class="n">plugin</span><span class="p">:</span> <span class="n">ConfigPlugin</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return a mapping of env var name to model-relative dotted field path.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Return a mapping of env var name to model-relative dotted field path."""</span>
     <span class="n">mapping</span> <span class="o">=</span> <span class="p">{</span>
         <span class="n">env_var_for</span><span class="p">(</span><span class="n">plugin</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">dotted</span><span class="p">):</span> <span class="n">dotted</span>
         <span class="k">for</span> <span class="n">dotted</span> <span class="ow">in</span> <span class="n">leaf_field_paths</span><span class="p">(</span><span class="n">plugin</span><span class="o">.</span><span class="n">settings_model</span><span class="p">)</span>
@@ -1049,14 +1076,14 @@ window.runMermaid = runMermaid;</script>
 <div class="viewcode-block" id="build_plugin_env_map"><a class="viewcode-back" href="../../../geoips_api/geoips.config.html#geoips.config.plugins.build_plugin_env_map">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">build_plugin_env_map</span><span class="p">(</span>
     <span class="n">plugins</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">ConfigPlugin</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the combined env var -&gt; ``plugins.&lt;pkg&gt;.&lt;field&gt;`` map.</span>
+<span class="w">    </span><span class="sd">"""Return the combined env var -&gt; ``plugins.&lt;pkg&gt;.&lt;field&gt;`` map.</span>
 
 <span class="sd">    Raises</span>
 <span class="sd">    ------</span>
 <span class="sd">    ConfigError</span>
 <span class="sd">        If a plugin env var collides with a core GeoIPS env var or with</span>
-<span class="sd">        another plugin&#39;s env var.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">        another plugin's env var.</span>
+<span class="sd">    """</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">geoips.config.schema</span><span class="w"> </span><span class="kn">import</span> <span class="n">GEOIPS_ENV_MAP</span>
 
     <span class="k">if</span> <span class="n">plugins</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -1065,24 +1092,24 @@ window.runMermaid = runMermaid;</script>
     <span class="n">env_map</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="k">for</span> <span class="n">pkg</span><span class="p">,</span> <span class="n">plugin</span> <span class="ow">in</span> <span class="n">plugins</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
         <span class="k">for</span> <span class="n">env_var</span><span class="p">,</span> <span class="n">rel_path</span> <span class="ow">in</span> <span class="n">plugin_field_env_map</span><span class="p">(</span><span class="n">plugin</span><span class="p">)</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-            <span class="n">target</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;plugins.</span><span class="si">{</span><span class="n">pkg</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">rel_path</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="n">target</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"plugins.</span><span class="si">{</span><span class="n">pkg</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">rel_path</span><span class="si">}</span><span class="s2">"</span>
             <span class="k">if</span> <span class="n">env_var</span> <span class="ow">in</span> <span class="n">GEOIPS_ENV_MAP</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="n">ConfigError</span><span class="p">(</span>
-                    <span class="sa">f</span><span class="s2">&quot;Plugin </span><span class="si">{</span><span class="n">pkg</span><span class="si">!r}</span><span class="s2"> env var </span><span class="si">{</span><span class="n">env_var</span><span class="si">!r}</span><span class="s2"> collides with a core &quot;</span>
-                    <span class="sa">f</span><span class="s2">&quot;GeoIPS env var. Use ConfigPlugin.env_overrides to rename it.&quot;</span>
+                    <span class="sa">f</span><span class="s2">"Plugin </span><span class="si">{</span><span class="n">pkg</span><span class="si">!r}</span><span class="s2"> env var </span><span class="si">{</span><span class="n">env_var</span><span class="si">!r}</span><span class="s2"> collides with a core "</span>
+                    <span class="sa">f</span><span class="s2">"GeoIPS env var. Use ConfigPlugin.env_overrides to rename it."</span>
                 <span class="p">)</span>
             <span class="k">if</span> <span class="n">env_var</span> <span class="ow">in</span> <span class="n">env_map</span> <span class="ow">and</span> <span class="n">env_map</span><span class="p">[</span><span class="n">env_var</span><span class="p">]</span> <span class="o">!=</span> <span class="n">target</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="n">ConfigError</span><span class="p">(</span>
-                    <span class="sa">f</span><span class="s2">&quot;Plugin </span><span class="si">{</span><span class="n">pkg</span><span class="si">!r}</span><span class="s2"> env var </span><span class="si">{</span><span class="n">env_var</span><span class="si">!r}</span><span class="s2"> collides with another &quot;</span>
-                    <span class="sa">f</span><span class="s2">&quot;plugin setting (</span><span class="si">{</span><span class="n">env_map</span><span class="p">[</span><span class="n">env_var</span><span class="p">]</span><span class="si">!r}</span><span class="s2">).&quot;</span>
+                    <span class="sa">f</span><span class="s2">"Plugin </span><span class="si">{</span><span class="n">pkg</span><span class="si">!r}</span><span class="s2"> env var </span><span class="si">{</span><span class="n">env_var</span><span class="si">!r}</span><span class="s2"> collides with another "</span>
+                    <span class="sa">f</span><span class="s2">"plugin setting (</span><span class="si">{</span><span class="n">env_map</span><span class="p">[</span><span class="n">env_var</span><span class="p">]</span><span class="si">!r}</span><span class="s2">)."</span>
                 <span class="p">)</span>
             <span class="n">env_map</span><span class="p">[</span><span class="n">env_var</span><span class="p">]</span> <span class="o">=</span> <span class="n">target</span>
     <span class="k">return</span> <span class="n">env_map</span></div>
 
 
 <div class="viewcode-block" id="cast_plugin_target"><a class="viewcode-back" href="../../../geoips_api/geoips.config.html#geoips.config.plugins.cast_plugin_target">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">cast_plugin_target</span><span class="p">(</span><span class="n">target</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">raw</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Cast a raw env value for a ``plugins.&lt;pkg&gt;.&lt;field&gt;`` target path.&quot;&quot;&quot;</span>
-    <span class="n">_</span><span class="p">,</span> <span class="n">pkg</span><span class="p">,</span> <span class="n">dotted</span> <span class="o">=</span> <span class="n">target</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="w">    </span><span class="sd">"""Cast a raw env value for a ``plugins.&lt;pkg&gt;.&lt;field&gt;`` target path."""</span>
+    <span class="n">_</span><span class="p">,</span> <span class="n">pkg</span><span class="p">,</span> <span class="n">dotted</span> <span class="o">=</span> <span class="n">target</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">"."</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
     <span class="n">plugins</span> <span class="o">=</span> <span class="n">discover_config_plugins</span><span class="p">()</span>
     <span class="n">plugin</span> <span class="o">=</span> <span class="n">plugins</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">pkg</span><span class="p">)</span>
     <span class="n">annotation</span> <span class="o">=</span> <span class="n">_annotation_at</span><span class="p">(</span><span class="n">plugin</span><span class="o">.</span><span class="n">settings_model</span><span class="p">,</span> <span class="n">dotted</span><span class="p">)</span> <span class="k">if</span> <span class="n">plugin</span> <span class="k">else</span> <span class="kc">None</span>
@@ -1093,7 +1120,7 @@ window.runMermaid = runMermaid;</script>
 
 
 <div class="viewcode-block" id="discover_config_plugins"><a class="viewcode-back" href="../../../geoips_api/geoips.config.html#geoips.config.plugins.discover_config_plugins">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">discover_config_plugins</span><span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="n">refresh</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">ConfigPlugin</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Discover and return all registered config plugins, keyed by name.</span>
+<span class="w">    </span><span class="sd">"""Discover and return all registered config plugins, keyed by name.</span>
 
 <span class="sd">    Results are cached after the first call unless *refresh* is True.</span>
 
@@ -1103,7 +1130,7 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">        If an entry point does not load a :class:`ConfigPlugin`, if its</span>
 <span class="sd">        declared name does not match the entry-point name, or if two plugins</span>
 <span class="sd">        share a name.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">global</span> <span class="n">_CACHE</span>
     <span class="k">if</span> <span class="n">_CACHE</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">refresh</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">_CACHE</span>
@@ -1113,16 +1140,16 @@ window.runMermaid = runMermaid;</script>
         <span class="n">obj</span> <span class="o">=</span> <span class="n">entry</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">ConfigPlugin</span><span class="p">):</span>
             <span class="k">raise</span> <span class="n">ConfigError</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;Entry point </span><span class="si">{</span><span class="n">entry</span><span class="o">.</span><span class="n">name</span><span class="si">!r}</span><span class="s2"> in </span><span class="si">{</span><span class="n">CONFIG_PLUGIN_GROUP</span><span class="si">!r}</span><span class="s2"> must &quot;</span>
-                <span class="sa">f</span><span class="s2">&quot;load a ConfigPlugin, got </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">.&quot;</span>
+                <span class="sa">f</span><span class="s2">"Entry point </span><span class="si">{</span><span class="n">entry</span><span class="o">.</span><span class="n">name</span><span class="si">!r}</span><span class="s2"> in </span><span class="si">{</span><span class="n">CONFIG_PLUGIN_GROUP</span><span class="si">!r}</span><span class="s2"> must "</span>
+                <span class="sa">f</span><span class="s2">"load a ConfigPlugin, got </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">."</span>
             <span class="p">)</span>
         <span class="k">if</span> <span class="n">obj</span><span class="o">.</span><span class="n">name</span> <span class="o">!=</span> <span class="n">entry</span><span class="o">.</span><span class="n">name</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">ConfigError</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;ConfigPlugin name </span><span class="si">{</span><span class="n">obj</span><span class="o">.</span><span class="n">name</span><span class="si">!r}</span><span class="s2"> does not match its entry-point &quot;</span>
-                <span class="sa">f</span><span class="s2">&quot;name </span><span class="si">{</span><span class="n">entry</span><span class="o">.</span><span class="n">name</span><span class="si">!r}</span><span class="s2">.&quot;</span>
+                <span class="sa">f</span><span class="s2">"ConfigPlugin name </span><span class="si">{</span><span class="n">obj</span><span class="o">.</span><span class="n">name</span><span class="si">!r}</span><span class="s2"> does not match its entry-point "</span>
+                <span class="sa">f</span><span class="s2">"name </span><span class="si">{</span><span class="n">entry</span><span class="o">.</span><span class="n">name</span><span class="si">!r}</span><span class="s2">."</span>
             <span class="p">)</span>
         <span class="k">if</span> <span class="n">obj</span><span class="o">.</span><span class="n">name</span> <span class="ow">in</span> <span class="n">plugins</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">ConfigError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Duplicate config plugin name </span><span class="si">{</span><span class="n">obj</span><span class="o">.</span><span class="n">name</span><span class="si">!r}</span><span class="s2">.&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">ConfigError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Duplicate config plugin name </span><span class="si">{</span><span class="n">obj</span><span class="o">.</span><span class="n">name</span><span class="si">!r}</span><span class="s2">."</span><span class="p">)</span>
         <span class="n">plugins</span><span class="p">[</span><span class="n">obj</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">obj</span>
 
     <span class="n">_CACHE</span> <span class="o">=</span> <span class="n">plugins</span>
@@ -1130,7 +1157,7 @@ window.runMermaid = runMermaid;</script>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_deep_update</span><span class="p">(</span><span class="n">base</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">override</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Recursively merge *override* into *base* in-place.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Recursively merge *override* into *base* in-place."""</span>
     <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">override</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
         <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">base</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">base</span><span class="p">[</span><span class="n">key</span><span class="p">],</span> <span class="nb">dict</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
             <span class="n">_deep_update</span><span class="p">(</span><span class="n">base</span><span class="p">[</span><span class="n">key</span><span class="p">],</span> <span class="n">value</span><span class="p">)</span>
@@ -1139,7 +1166,7 @@ window.runMermaid = runMermaid;</script>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_read_plugin_env</span><span class="p">(</span><span class="n">plugin</span><span class="p">:</span> <span class="n">ConfigPlugin</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return nested env overrides (relative to the model) for a plugin.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Return nested env overrides (relative to the model) for a plugin."""</span>
     <span class="n">overrides</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="k">for</span> <span class="n">env_var</span><span class="p">,</span> <span class="n">rel_path</span> <span class="ow">in</span> <span class="n">plugin_field_env_map</span><span class="p">(</span><span class="n">plugin</span><span class="p">)</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
         <span class="n">raw</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="n">env_var</span><span class="p">)</span>
@@ -1147,7 +1174,7 @@ window.runMermaid = runMermaid;</script>
             <span class="k">continue</span>
         <span class="n">annotation</span> <span class="o">=</span> <span class="n">_annotation_at</span><span class="p">(</span><span class="n">plugin</span><span class="o">.</span><span class="n">settings_model</span><span class="p">,</span> <span class="n">rel_path</span><span class="p">)</span>
         <span class="n">cast</span> <span class="o">=</span> <span class="n">_cast_env_value</span><span class="p">(</span><span class="n">annotation</span><span class="p">,</span> <span class="n">raw</span><span class="p">)</span>
-        <span class="n">parts</span> <span class="o">=</span> <span class="n">rel_path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)</span>
+        <span class="n">parts</span> <span class="o">=</span> <span class="n">rel_path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">"."</span><span class="p">)</span>
         <span class="n">node</span> <span class="o">=</span> <span class="n">overrides</span>
         <span class="k">for</span> <span class="n">part</span> <span class="ow">in</span> <span class="n">parts</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
             <span class="n">node</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="n">part</span><span class="p">,</span> <span class="p">{})</span>
@@ -1158,7 +1185,7 @@ window.runMermaid = runMermaid;</script>
 <div class="viewcode-block" id="resolve_plugin_settings"><a class="viewcode-back" href="../../../geoips_api/geoips.config.html#geoips.config.plugins.resolve_plugin_settings">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">resolve_plugin_settings</span><span class="p">(</span>
     <span class="n">plugin</span><span class="p">:</span> <span class="n">ConfigPlugin</span><span class="p">,</span> <span class="n">yaml_values</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BaseModel</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Resolve a plugin&#39;s settings with defaults &lt; YAML &lt; env precedence.</span>
+<span class="w">    </span><span class="sd">"""Resolve a plugin's settings with defaults &lt; YAML &lt; env precedence.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -1170,13 +1197,13 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    pydantic.BaseModel</span>
-<span class="sd">        A validated instance of the plugin&#39;s settings model.</span>
+<span class="sd">        A validated instance of the plugin's settings model.</span>
 
 <span class="sd">    Raises</span>
 <span class="sd">    ------</span>
 <span class="sd">    ConfigError</span>
-<span class="sd">        If the merged values fail validation against the plugin&#39;s model.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">        If the merged values fail validation against the plugin's model.</span>
+<span class="sd">    """</span>
     <span class="n">merged</span> <span class="o">=</span> <span class="n">_model_defaults</span><span class="p">(</span><span class="n">plugin</span><span class="o">.</span><span class="n">settings_model</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">yaml_values</span><span class="p">:</span>
         <span class="n">_deep_update</span><span class="p">(</span><span class="n">merged</span><span class="p">,</span> <span class="nb">dict</span><span class="p">(</span><span class="n">yaml_values</span><span class="p">))</span>
@@ -1185,57 +1212,57 @@ window.runMermaid = runMermaid;</script>
         <span class="k">return</span> <span class="n">plugin</span><span class="o">.</span><span class="n">settings_model</span><span class="o">.</span><span class="n">model_validate</span><span class="p">(</span><span class="n">merged</span><span class="p">)</span>
     <span class="k">except</span> <span class="n">ValidationError</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">ConfigError</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;Invalid configuration for plugin </span><span class="si">{</span><span class="n">plugin</span><span class="o">.</span><span class="n">name</span><span class="si">!r}</span><span class="s2">:</span><span class="se">\n</span><span class="si">{</span><span class="n">exc</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="sa">f</span><span class="s2">"Invalid configuration for plugin </span><span class="si">{</span><span class="n">plugin</span><span class="o">.</span><span class="n">name</span><span class="si">!r}</span><span class="s2">:</span><span class="se">\n</span><span class="si">{</span><span class="n">exc</span><span class="si">}</span><span class="s2">"</span>
         <span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">exc</span></div>
 
 
 <div class="viewcode-block" id="PluginSettingsNamespace"><a class="viewcode-back" href="../../../geoips_api/geoips.config.html#geoips.config.plugins.PluginSettingsNamespace">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">PluginSettingsNamespace</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Attribute/dict accessor for resolved plugin settings.</span>
+<span class="w">    </span><span class="sd">"""Attribute/dict accessor for resolved plugin settings.</span>
 
-<span class="sd">    Access a plugin&#39;s validated settings via ``config.plugins.&lt;name&gt;`` or</span>
-<span class="sd">    ``config.plugins[&quot;&lt;name&gt;&quot;]``. Iterating yields the registered plugin names.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    Access a plugin's validated settings via ``config.plugins.&lt;name&gt;`` or</span>
+<span class="sd">    ``config.plugins["&lt;name&gt;"]``. Iterating yields the registered plugin names.</span>
+<span class="sd">    """</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">resolver</span><span class="p">,</span> <span class="n">names</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_resolver</span> <span class="o">=</span> <span class="n">resolver</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_names</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">names</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__getattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BaseModel</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the resolved settings for plugin *name* via attribute access.&quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="n">name</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""Return the resolved settings for plugin *name* via attribute access."""</span>
+        <span class="k">if</span> <span class="n">name</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">"_"</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_resolver</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
         <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;No config plugin named </span><span class="si">{</span><span class="n">name</span><span class="si">!r}</span><span class="s2"> is registered.&quot;</span>
+                <span class="sa">f</span><span class="s2">"No config plugin named </span><span class="si">{</span><span class="n">name</span><span class="si">!r}</span><span class="s2"> is registered."</span>
             <span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="kc">None</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BaseModel</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the resolved settings for plugin *name* via item access.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Return the resolved settings for plugin *name* via item access."""</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_resolver</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
         <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="n">name</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="kc">None</span>
 
 <div class="viewcode-block" id="PluginSettingsNamespace.get"><a class="viewcode-back" href="../../../geoips_api/geoips.config.html#geoips.config.plugins.PluginSettingsNamespace.get">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">default</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the settings for *name*, or *default* if not registered.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Return the settings for *name*, or *default* if not registered."""</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_resolver</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
         <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">default</span></div>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Iterate over the registered plugin names.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Iterate over the registered plugin names."""</span>
         <span class="k">return</span> <span class="nb">iter</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_names</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__contains__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">object</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return True if a plugin named *name* is registered.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Return True if a plugin named *name* is registered."""</span>
         <span class="k">return</span> <span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_names</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return a debug representation listing the registered plugin names.&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;PluginSettingsNamespace(plugins=</span><span class="si">{</span><span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_names</span><span class="p">)</span><span class="si">!r}</span><span class="s2">)&quot;</span></div>
+<span class="w">        </span><span class="sd">"""Return a debug representation listing the registered plugin names."""</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">"PluginSettingsNamespace(plugins=</span><span class="si">{</span><span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_names</span><span class="p">)</span><span class="si">!r}</span><span class="s2">)"</span></div>
 </pre></div>
 
                 </article>

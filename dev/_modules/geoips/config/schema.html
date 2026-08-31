@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>geoips.config.schema &#8212; GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation</title>
+    <title>geoips.config.schema &#8212; GeoIPS, Geolocated Information Processing System 0.0.0 documentation</title>
   
   
   
@@ -40,7 +40,7 @@
   <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
 
-    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=6727bded"></script>
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=525cde36"></script>
     <script src="../../../_static/doctools.js?v=888ff710"></script>
     <script src="../../../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
@@ -401,14 +401,21 @@ mermaid.initialize(
 window.addEventListener("load", load);
 window.runMermaid = runMermaid;</script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_modules/geoips/config/schema';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.17.1';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://nrlmmd-geoips.github.io/geoips/versions.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = 'dev';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner =
+            false;
+        </script>
     <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
     <link rel="icon" href="../../../_static/nrlicon.ico"/>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2.0" />
-    <meta name="docbuild:last-update" content="Jul 23, 2026 17:03:57"/>
+  <meta name="docsearch:version" content="0.0" />
+    <meta name="docbuild:last-update" content="Aug 31, 2026 13:32:18"/>
   
     
     <script src="../../../_static/searchtools.js"></script>
@@ -480,11 +487,31 @@ window.runMermaid = runMermaid;</script>
       
     
     
-    <img src="../../../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation - Home"/>
-    <img src="../../../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation - Home"/>
+    <img src="../../../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 0.0.0 documentation - Home"/>
+    <img src="../../../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 0.0.0 documentation - Home"/>
   
   
 </a></div>
+    
+      <div class="navbar-item">
+<div class="version-switcher__container dropdown pst-js-only">
+  <button id="pst-version-switcher-button-2"
+    type="button"
+    class="version-switcher__button btn btn-sm dropdown-toggle"
+    data-bs-toggle="dropdown"
+    aria-haspopup="listbox"
+    aria-controls="pst-version-switcher-list-2"
+    aria-label="Version switcher list"
+  >
+    Choose version  <!-- this text may get changed later by javascript -->
+    <span class="caret"></span>
+  </button>
+  <div id="pst-version-switcher-list-2"
+    class="version-switcher__menu dropdown-menu list-group-flush py-0"
+    role="listbox" aria-labelledby="pst-version-switcher-button-2">
+    <!-- dropdown will be populated by javascript on page load -->
+  </div>
+</div></div>
     
   </div>
   
@@ -828,182 +855,182 @@ window.runMermaid = runMermaid;</script>
 <span></span><span class="c1"># # # This source code is subject to the license referenced at</span>
 <span class="c1"># # # https://github.com/NRLMMD-GEOIPS.</span>
 
-<span class="sd">&quot;&quot;&quot;Pydantic schema models for GeoIPS configuration.</span>
+<span class="sd">"""Pydantic schema models for GeoIPS configuration.</span>
 
 <span class="sd">Defines the structure, types, and defaults for all GeoIPS configuration</span>
 <span class="sd">values. Models are frozen (immutable) to prevent accidental mutation.</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">pydantic</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">ConfigDict</span><span class="p">,</span> <span class="n">Field</span>
 
 
 <div class="viewcode-block" id="OutputPathsSettings"><a class="viewcode-back" href="../../../geoips_api/geoips.config.html#geoips.config.schema.OutputPathsSettings">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">OutputPathsSettings</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Sub-paths for data output directories.</span>
+<span class="w">    </span><span class="sd">"""Sub-paths for data output directories.</span>
 
 <span class="sd">    Defaults are relative to ``outdirs``. The config loader resolves</span>
 <span class="sd">    relative paths to absolute at initialization time. Environment</span>
 <span class="sd">    variables or project YAML may override with absolute paths.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="n">model_config</span> <span class="o">=</span> <span class="n">ConfigDict</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
     <span class="n">presectored_data</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
-        <span class="s2">&quot;preprocessed/sectored&quot;</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Pre-sectored intermediate data.&quot;</span>
+        <span class="s2">"preprocessed/sectored"</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Pre-sectored intermediate data."</span>
     <span class="p">)</span>
     <span class="n">preread_data</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
-        <span class="s2">&quot;preprocessed/unsectored&quot;</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Pre-read (unsectored) data.&quot;</span>
+        <span class="s2">"preprocessed/unsectored"</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Pre-read (unsectored) data."</span>
     <span class="p">)</span>
     <span class="n">preregistered_data</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
-        <span class="s2">&quot;preprocessed/registered&quot;</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Pre-registered intermediate data.&quot;</span>
+        <span class="s2">"preprocessed/registered"</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Pre-registered intermediate data."</span>
     <span class="p">)</span>
     <span class="n">precalculated_data</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
-        <span class="s2">&quot;preprocessed/algorithms&quot;</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Pre-calculated algorithm data.&quot;</span>
+        <span class="s2">"preprocessed/algorithms"</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Pre-calculated algorithm data."</span>
     <span class="p">)</span>
     <span class="n">clean_imagery</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
-        <span class="s2">&quot;preprocessed/clean_imagery&quot;</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Clean (unannotated) imagery.&quot;</span>
+        <span class="s2">"preprocessed/clean_imagery"</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Clean (unannotated) imagery."</span>
     <span class="p">)</span>
     <span class="n">annotated_imagery</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
-        <span class="s2">&quot;preprocessed/annotated_imagery&quot;</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Annotated imagery output.&quot;</span>
+        <span class="s2">"preprocessed/annotated_imagery"</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Annotated imagery output."</span>
     <span class="p">)</span>
     <span class="n">geotiff_imagery</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
-        <span class="s2">&quot;preprocessed/geotiff_imagery&quot;</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;GeoTIFF imagery output.&quot;</span>
+        <span class="s2">"preprocessed/geotiff_imagery"</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"GeoTIFF imagery output."</span>
     <span class="p">)</span>
     <span class="n">final_data</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
-        <span class="s2">&quot;preprocessed/final&quot;</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Final processed data output.&quot;</span>
+        <span class="s2">"preprocessed/final"</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Final processed data output."</span>
     <span class="p">)</span>
     <span class="n">pregenerated_geolocation</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
-        <span class="s2">&quot;preprocessed/geolocation&quot;</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Pre-generated geolocation data.&quot;</span>
+        <span class="s2">"preprocessed/geolocation"</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Pre-generated geolocation data."</span>
     <span class="p">)</span>
-    <span class="n">scratch</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="s2">&quot;scratch&quot;</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;General scratch directory.&quot;</span><span class="p">)</span>
-    <span class="n">localscratch</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="s2">&quot;scratch&quot;</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Node-local scratch directory.&quot;</span><span class="p">)</span>
-    <span class="n">sharedscratch</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="s2">&quot;scratch&quot;</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Shared scratch directory.&quot;</span><span class="p">)</span>
-    <span class="n">logdir</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="s2">&quot;logs&quot;</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Log file directory.&quot;</span><span class="p">)</span>
-    <span class="n">geoipsdata</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="s2">&quot;geoipsdata&quot;</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Miscellaneous GeoIPS data.&quot;</span><span class="p">)</span>
+    <span class="n">scratch</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="s2">"scratch"</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"General scratch directory."</span><span class="p">)</span>
+    <span class="n">localscratch</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="s2">"scratch"</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Node-local scratch directory."</span><span class="p">)</span>
+    <span class="n">sharedscratch</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="s2">"scratch"</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Shared scratch directory."</span><span class="p">)</span>
+    <span class="n">logdir</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="s2">"logs"</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Log file directory."</span><span class="p">)</span>
+    <span class="n">geoipsdata</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="s2">"geoipsdata"</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Miscellaneous GeoIPS data."</span><span class="p">)</span>
     <span class="n">ancildat_autogen</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
-        <span class="s2">&quot;ancildat_autogen&quot;</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Auto-generated ancillary data.&quot;</span>
+        <span class="s2">"ancildat_autogen"</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Auto-generated ancillary data."</span>
     <span class="p">)</span>
-    <span class="n">ancildat</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="s2">&quot;ancildat&quot;</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Static ancillary data.&quot;</span><span class="p">)</span>
-    <span class="n">tcwww</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="s2">&quot;preprocessed/tcwww&quot;</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;TC web output.&quot;</span><span class="p">)</span>
+    <span class="n">ancildat</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="s2">"ancildat"</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Static ancillary data."</span><span class="p">)</span>
+    <span class="n">tcwww</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="s2">"preprocessed/tcwww"</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"TC web output."</span><span class="p">)</span>
     <span class="n">tcprivatewww</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
-        <span class="s2">&quot;preprocessed/tcprivatewww&quot;</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Private TC web output.&quot;</span>
+        <span class="s2">"preprocessed/tcprivatewww"</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Private TC web output."</span>
     <span class="p">)</span>
-    <span class="n">publicwww</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="s2">&quot;preprocessed/publicwww&quot;</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Public web output.&quot;</span><span class="p">)</span>
+    <span class="n">publicwww</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="s2">"preprocessed/publicwww"</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Public web output."</span><span class="p">)</span>
     <span class="n">privatewww</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
-        <span class="s2">&quot;preprocessed/privatewww&quot;</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Private web output.&quot;</span>
+        <span class="s2">"preprocessed/privatewww"</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Private web output."</span>
     <span class="p">)</span>
     <span class="n">tc_decks_db</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
-        <span class="s2">&quot;longterm_files/tc/tc_decks.db&quot;</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;TC decks database file.&quot;</span>
+        <span class="s2">"longterm_files/tc/tc_decks.db"</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"TC decks database file."</span>
     <span class="p">)</span>
     <span class="n">tc_decks_dir</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
-        <span class="s2">&quot;longterm_files/tc/decks&quot;</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;TC deck files directory.&quot;</span>
+        <span class="s2">"longterm_files/tc/decks"</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"TC deck files directory."</span>
     <span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="CacheSettings"><a class="viewcode-back" href="../../../geoips_api/geoips.config.html#geoips.config.schema.CacheSettings">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">CacheSettings</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Cache directory and backend configuration.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Cache directory and backend configuration."""</span>
 
     <span class="n">model_config</span> <span class="o">=</span> <span class="n">ConfigDict</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
     <span class="n">cache_dir</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
-        <span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Base cache directory (defaults to the platform cache dir).&quot;</span>
+        <span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Base cache directory (defaults to the platform cache dir)."</span>
     <span class="p">)</span>
     <span class="n">data_cache_dir</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
-        <span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Data cache directory (defaults to cache_dir).&quot;</span>
+        <span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Data cache directory (defaults to cache_dir)."</span>
     <span class="p">)</span>
     <span class="n">satpy_data_cache_dir</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
-        <span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Satpy data cache directory (defaults to cache_dir).&quot;</span>
+        <span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Satpy data cache directory (defaults to cache_dir)."</span>
     <span class="p">)</span>
     <span class="n">geolocation_cache_backend</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
-        <span class="s2">&quot;memmap&quot;</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Geolocation cache backend (e.g. &#39;memmap&#39;).&quot;</span>
+        <span class="s2">"memmap"</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Geolocation cache backend (e.g. 'memmap')."</span>
     <span class="p">)</span>
     <span class="n">data_cache_shortterm_geolocation_dynamic</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
-        <span class="s2">&quot;shortterm/geolocation/dynamic&quot;</span><span class="p">,</span>
-        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Short-term dynamic geolocation cache subpath.&quot;</span><span class="p">,</span>
+        <span class="s2">"shortterm/geolocation/dynamic"</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">"Short-term dynamic geolocation cache subpath."</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">data_cache_longterm_geolocation_static</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
-        <span class="s2">&quot;longterm/geolocation/static&quot;</span><span class="p">,</span>
-        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Long-term static geolocation cache subpath.&quot;</span><span class="p">,</span>
+        <span class="s2">"longterm/geolocation/static"</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">"Long-term static geolocation cache subpath."</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">data_cache_shortterm_geolocation_solar_angles</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
-        <span class="s2">&quot;shortterm/geolocation/solar&quot;</span><span class="p">,</span>
-        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Short-term solar-angle geolocation cache subpath.&quot;</span><span class="p">,</span>
+        <span class="s2">"shortterm/geolocation/solar"</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">"Short-term solar-angle geolocation cache subpath."</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">data_cache_shortterm_calibrated_data</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
-        <span class="s2">&quot;shortterm/calibrated_data&quot;</span><span class="p">,</span>
-        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Short-term calibrated data cache subpath.&quot;</span><span class="p">,</span>
+        <span class="s2">"shortterm/calibrated_data"</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">"Short-term calibrated data cache subpath."</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">satpy_cache_shortterm_calibrated_data</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
-        <span class="s2">&quot;shortterm/calibrated_data&quot;</span><span class="p">,</span>
-        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Short-term Satpy calibrated data cache subpath.&quot;</span><span class="p">,</span>
+        <span class="s2">"shortterm/calibrated_data"</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">"Short-term Satpy calibrated data cache subpath."</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">satpy_cache_shortterm_geolocation_solar_angles</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
-        <span class="s2">&quot;shortterm/geolocation/solar&quot;</span><span class="p">,</span>
-        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Short-term Satpy solar-angle cache subpath.&quot;</span><span class="p">,</span>
+        <span class="s2">"shortterm/geolocation/solar"</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">"Short-term Satpy solar-angle cache subpath."</span><span class="p">,</span>
     <span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="FeatureSettings"><a class="viewcode-back" href="../../../geoips_api/geoips.config.html#geoips.config.schema.FeatureSettings">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">FeatureSettings</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Boolean feature toggles controlling GeoIPS behavior.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Boolean feature toggles controlling GeoIPS behavior."""</span>
 
     <span class="n">model_config</span> <span class="o">=</span> <span class="n">ConfigDict</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
-    <span class="n">no_color</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="kc">False</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Disable colored console output.&quot;</span><span class="p">)</span>
+    <span class="n">no_color</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="kc">False</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Disable colored console output."</span><span class="p">)</span>
     <span class="n">use_pydantic</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
-        <span class="kc">False</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Use pydantic-based plugin validation.&quot;</span>
+        <span class="kc">False</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Use pydantic-based plugin validation."</span>
     <span class="p">)</span>
     <span class="n">rebuild_registries</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
-        <span class="kc">True</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Rebuild plugin registries automatically when needed.&quot;</span>
+        <span class="kc">True</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Rebuild plugin registries automatically when needed."</span>
     <span class="p">)</span>
     <span class="n">operational_user</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
-        <span class="kc">False</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Enable operational-user behavior.&quot;</span>
+        <span class="kc">False</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Enable operational-user behavior."</span>
     <span class="p">)</span>
     <span class="n">rich_console_output</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
-        <span class="kc">False</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Enable rich-formatted console output.&quot;</span>
+        <span class="kc">False</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Enable rich-formatted console output."</span>
     <span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="LoggingSettings"><a class="viewcode-back" href="../../../geoips_api/geoips.config.html#geoips.config.schema.LoggingSettings">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">LoggingSettings</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Logging format and level configuration.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Logging format and level configuration."""</span>
 
     <span class="n">model_config</span> <span class="o">=</span> <span class="n">ConfigDict</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
     <span class="n">level</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
-        <span class="s2">&quot;interactive&quot;</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Logging level (interactive, info, debug, ...).&quot;</span>
+        <span class="s2">"interactive"</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Logging level (interactive, info, debug, ...)."</span>
     <span class="p">)</span>
     <span class="n">fmt_string</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
-        <span class="s2">&quot;</span><span class="si">%(asctime)s</span><span class="s2"> </span><span class="si">%(module)12s</span><span class="s2">.py:</span><span class="si">%(lineno)-4d</span><span class="s2"> </span><span class="si">%(levelname)7s</span><span class="s2">: </span><span class="si">%(message)s</span><span class="s2">&quot;</span><span class="p">,</span>
-        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Logging message format string.&quot;</span><span class="p">,</span>
+        <span class="s2">"</span><span class="si">%(asctime)s</span><span class="s2"> </span><span class="si">%(module)12s</span><span class="s2">.py:</span><span class="si">%(lineno)-4d</span><span class="s2"> </span><span class="si">%(levelname)7s</span><span class="s2">: </span><span class="si">%(message)s</span><span class="s2">"</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">"Logging message format string."</span><span class="p">,</span>
     <span class="p">)</span>
-    <span class="n">datefmt_string</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%d</span><span class="s2">_%H%M%S&quot;</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Logging date format string.&quot;</span><span class="p">)</span></div>
+    <span class="n">datefmt_string</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="s2">"</span><span class="si">%d</span><span class="s2">_%H%M%S"</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Logging date format string."</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="TestSettings"><a class="viewcode-back" href="../../../geoips_api/geoips.config.html#geoips.config.schema.TestSettings">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">TestSettings</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Test-related configuration for output checking and comparison.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Test-related configuration for output checking and comparison."""</span>
 
     <span class="n">model_config</span> <span class="o">=</span> <span class="n">ConfigDict</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
     <span class="n">output_checker_threshold_image</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
-        <span class="mf">0.05</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Image comparison difference threshold.&quot;</span>
+        <span class="mf">0.05</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Image comparison difference threshold."</span>
     <span class="p">)</span>
     <span class="n">print_text_output_checker_to_console</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
-        <span class="kc">True</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Print text output-checker diffs to the console.&quot;</span>
+        <span class="kc">True</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Print text output-checker diffs to the console."</span>
     <span class="p">)</span>
     <span class="n">prompt_to_overwrite_comparison_file_if_mismatch</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
-        <span class="kc">False</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Prompt to overwrite comparison files on mismatch.&quot;</span>
+        <span class="kc">False</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Prompt to overwrite comparison files on mismatch."</span>
     <span class="p">)</span>
     <span class="n">suppress_pytest_failed_log_contents</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
-        <span class="kc">False</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Suppress log contents for failed pytest output.&quot;</span>
+        <span class="kc">False</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Suppress log contents for failed pytest output."</span>
     <span class="p">)</span>
     <span class="n">sector_create_annotated_outputs</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
-        <span class="kc">False</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Create annotated outputs during sector tests.&quot;</span>
+        <span class="kc">False</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Create annotated outputs during sector tests."</span>
     <span class="p">)</span>
     <span class="n">sector_create_geotiff_outputs</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
-        <span class="kc">False</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Create GeoTIFF outputs during sector tests.&quot;</span>
+        <span class="kc">False</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Create GeoTIFF outputs during sector tests."</span>
     <span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="GeoSettings"><a class="viewcode-back" href="../../../geoips_api/geoips.config.html#geoips.config.schema.GeoSettings">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">GeoSettings</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Root configuration model for all GeoIPS settings.</span>
+<span class="w">    </span><span class="sd">"""Root configuration model for all GeoIPS settings.</span>
 
 <span class="sd">    Frozen (immutable) after creation. All values are validated against</span>
 <span class="sd">    the declared types. Nested models isolate related config groups.</span>
@@ -1011,186 +1038,186 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">    The config loader resolves auto-derived paths (``basedir``,</span>
 <span class="sd">    ``packages_dir``, ``cache_dir``, ``boxname``, output paths) at</span>
 <span class="sd">    initialization time.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="n">model_config</span> <span class="o">=</span> <span class="n">ConfigDict</span><span class="p">(</span><span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
-    <span class="n">outdirs</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s2">&quot;Base directory for all GeoIPS output.&quot;</span><span class="p">)</span>
+    <span class="n">outdirs</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s2">"Base directory for all GeoIPS output."</span><span class="p">)</span>
     <span class="n">packages_dir</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
-        <span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Directory containing GeoIPS plugin packages.&quot;</span>
+        <span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Directory containing GeoIPS plugin packages."</span>
     <span class="p">)</span>
     <span class="n">basedir</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
-        <span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Base directory for the GeoIPS installation/source.&quot;</span>
+        <span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Base directory for the GeoIPS installation/source."</span>
     <span class="p">)</span>
     <span class="n">testdata_dir</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
-        <span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Directory containing GeoIPS test data.&quot;</span>
+        <span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Directory containing GeoIPS test data."</span>
     <span class="p">)</span>
     <span class="n">dependencies_dir</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
-        <span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Directory for external dependencies.&quot;</span>
+        <span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Directory for external dependencies."</span>
     <span class="p">)</span>
     <span class="n">base_path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
-        <span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Path to the installed geoips package (auto-derived).&quot;</span>
+        <span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Path to the installed geoips package (auto-derived)."</span>
     <span class="p">)</span>
 
     <span class="n">output_paths</span><span class="p">:</span> <span class="n">OutputPathsSettings</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
-        <span class="n">default_factory</span><span class="o">=</span><span class="n">OutputPathsSettings</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Output sub-directories.&quot;</span>
+        <span class="n">default_factory</span><span class="o">=</span><span class="n">OutputPathsSettings</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Output sub-directories."</span>
     <span class="p">)</span>
     <span class="n">cache</span><span class="p">:</span> <span class="n">CacheSettings</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
-        <span class="n">default_factory</span><span class="o">=</span><span class="n">CacheSettings</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Cache directories and backend.&quot;</span>
+        <span class="n">default_factory</span><span class="o">=</span><span class="n">CacheSettings</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Cache directories and backend."</span>
     <span class="p">)</span>
     <span class="n">features</span><span class="p">:</span> <span class="n">FeatureSettings</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
-        <span class="n">default_factory</span><span class="o">=</span><span class="n">FeatureSettings</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Boolean feature toggles.&quot;</span>
+        <span class="n">default_factory</span><span class="o">=</span><span class="n">FeatureSettings</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Boolean feature toggles."</span>
     <span class="p">)</span>
     <span class="n">logging</span><span class="p">:</span> <span class="n">LoggingSettings</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
-        <span class="n">default_factory</span><span class="o">=</span><span class="n">LoggingSettings</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Logging configuration.&quot;</span>
+        <span class="n">default_factory</span><span class="o">=</span><span class="n">LoggingSettings</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Logging configuration."</span>
     <span class="p">)</span>
     <span class="n">test</span><span class="p">:</span> <span class="n">TestSettings</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
-        <span class="n">default_factory</span><span class="o">=</span><span class="n">TestSettings</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Test/comparison configuration.&quot;</span>
+        <span class="n">default_factory</span><span class="o">=</span><span class="n">TestSettings</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Test/comparison configuration."</span>
     <span class="p">)</span>
 
-    <span class="n">version</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="s2">&quot;0.0.0&quot;</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;GeoIPS version string.&quot;</span><span class="p">)</span>
-    <span class="n">copyright</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="s2">&quot;NRL-Monterey&quot;</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Copyright holder.&quot;</span><span class="p">)</span>
+    <span class="n">version</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="s2">"0.0.0"</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"GeoIPS version string."</span><span class="p">)</span>
+    <span class="n">copyright</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="s2">"NRL-Monterey"</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Copyright holder."</span><span class="p">)</span>
     <span class="n">copyright_abbreviated</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
-        <span class="s2">&quot;NRLMRY&quot;</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Abbreviated copyright holder.&quot;</span>
+        <span class="s2">"NRLMRY"</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Abbreviated copyright holder."</span>
     <span class="p">)</span>
     <span class="n">docs_url</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
-        <span class="s2">&quot;https://nrlmmd-geoips.github.io/geoips/&quot;</span><span class="p">,</span>
-        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;URL for the GeoIPS documentation.&quot;</span><span class="p">,</span>
+        <span class="s2">"https://nrlmmd-geoips.github.io/geoips/"</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">"URL for the GeoIPS documentation."</span><span class="p">,</span>
     <span class="p">)</span>
-    <span class="n">rcfile</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Path to a GeoIPS rc file, if any.&quot;</span><span class="p">)</span>
-    <span class="n">default_queue</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Default job scheduler queue.&quot;</span><span class="p">)</span>
+    <span class="n">rcfile</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="s2">""</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Path to a GeoIPS rc file, if any."</span><span class="p">)</span>
+    <span class="n">default_queue</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Default job scheduler queue."</span><span class="p">)</span>
     <span class="n">boxname</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
-        <span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Hostname/box identifier (auto-derived).&quot;</span>
+        <span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Hostname/box identifier (auto-derived)."</span>
     <span class="p">)</span>
-    <span class="n">warning_level</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="s2">&quot;default&quot;</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Python warnings filter level.&quot;</span><span class="p">)</span>
-    <span class="n">home</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Home directory (auto-derived).&quot;</span><span class="p">)</span>
+    <span class="n">warning_level</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="s2">"default"</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Python warnings filter level."</span><span class="p">)</span>
+    <span class="n">home</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Home directory (auto-derived)."</span><span class="p">)</span>
 
     <span class="n">replace_output_paths</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
         <span class="n">default_factory</span><span class="o">=</span><span class="nb">list</span><span class="p">,</span>
-        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Path names to replace when building output filenames.&quot;</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">"Path names to replace when building output filenames."</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">pregenerated_static_geolocation</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
-        <span class="s2">&quot;longterm_files/geolocation&quot;</span><span class="p">,</span>
-        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Sub-path for pre-generated static geolocation.&quot;</span><span class="p">,</span>
+        <span class="s2">"longterm_files/geolocation"</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">"Sub-path for pre-generated static geolocation."</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">pregenerated_dynamic_geolocation</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
-        <span class="s2">&quot;longterm_files/geolocation_dynamic&quot;</span><span class="p">,</span>
-        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Sub-path for pre-generated dynamic geolocation.&quot;</span><span class="p">,</span>
+        <span class="s2">"longterm_files/geolocation_dynamic"</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">"Sub-path for pre-generated dynamic geolocation."</span><span class="p">,</span>
     <span class="p">)</span>
-    <span class="n">tc_decks_type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="s2">&quot;bdecks&quot;</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;TC decks type (e.g. &#39;bdecks&#39;).&quot;</span><span class="p">)</span>
+    <span class="n">tc_decks_type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="s2">"bdecks"</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"TC decks type (e.g. 'bdecks')."</span><span class="p">)</span>
     <span class="n">tc_template</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
-        <span class="s2">&quot;plugins/yaml/sectors/dynamic/tc_web_template.yaml&quot;</span><span class="p">,</span>
-        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Path to the TC web sector template.&quot;</span><span class="p">,</span>
+        <span class="s2">"plugins/yaml/sectors/dynamic/tc_web_template.yaml"</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">"Path to the TC web sector template."</span><span class="p">,</span>
     <span class="p">)</span>
 
-    <span class="n">tcwww_url</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;URL for TC web output.&quot;</span><span class="p">)</span>
+    <span class="n">tcwww_url</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"URL for TC web output."</span><span class="p">)</span>
     <span class="n">tcprivatewww_url</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
-        <span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;URL for private TC web output.&quot;</span>
+        <span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"URL for private TC web output."</span>
     <span class="p">)</span>
-    <span class="n">publicwww_url</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;URL for public web output.&quot;</span><span class="p">)</span>
-    <span class="n">privatewww_url</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;URL for private web output.&quot;</span><span class="p">)</span></div>
+    <span class="n">publicwww_url</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"URL for public web output."</span><span class="p">)</span>
+    <span class="n">privatewww_url</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"URL for private web output."</span><span class="p">)</span></div>
 
 
 <span class="n">GEOIPS_ENV_MAP</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s2">&quot;GEOIPS_OUTDIRS&quot;</span><span class="p">:</span> <span class="s2">&quot;outdirs&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;GEOIPS_PACKAGES_DIR&quot;</span><span class="p">:</span> <span class="s2">&quot;packages_dir&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;GEOIPS_BASEDIR&quot;</span><span class="p">:</span> <span class="s2">&quot;basedir&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;GEOIPS_TESTDATA_DIR&quot;</span><span class="p">:</span> <span class="s2">&quot;testdata_dir&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;GEOIPS_DEPENDENCIES_DIR&quot;</span><span class="p">:</span> <span class="s2">&quot;dependencies_dir&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;GEOIPS_CACHE_DIR&quot;</span><span class="p">:</span> <span class="s2">&quot;cache.cache_dir&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;GEOIPS_DATA_CACHE_DIR&quot;</span><span class="p">:</span> <span class="s2">&quot;cache.data_cache_dir&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;SATPY_DATA_CACHE_DIR&quot;</span><span class="p">:</span> <span class="s2">&quot;cache.satpy_data_cache_dir&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;GEOIPS_GEOLOCATION_CACHE_BACKEND&quot;</span><span class="p">:</span> <span class="s2">&quot;cache.geolocation_cache_backend&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;GEOIPS_DATA_CACHE_DIR_SHORTTERM_GEOLOCATION_DYNAMIC&quot;</span><span class="p">:</span> <span class="p">(</span>
-        <span class="s2">&quot;cache.data_cache_shortterm_geolocation_dynamic&quot;</span>
+    <span class="s2">"GEOIPS_OUTDIRS"</span><span class="p">:</span> <span class="s2">"outdirs"</span><span class="p">,</span>
+    <span class="s2">"GEOIPS_PACKAGES_DIR"</span><span class="p">:</span> <span class="s2">"packages_dir"</span><span class="p">,</span>
+    <span class="s2">"GEOIPS_BASEDIR"</span><span class="p">:</span> <span class="s2">"basedir"</span><span class="p">,</span>
+    <span class="s2">"GEOIPS_TESTDATA_DIR"</span><span class="p">:</span> <span class="s2">"testdata_dir"</span><span class="p">,</span>
+    <span class="s2">"GEOIPS_DEPENDENCIES_DIR"</span><span class="p">:</span> <span class="s2">"dependencies_dir"</span><span class="p">,</span>
+    <span class="s2">"GEOIPS_CACHE_DIR"</span><span class="p">:</span> <span class="s2">"cache.cache_dir"</span><span class="p">,</span>
+    <span class="s2">"GEOIPS_DATA_CACHE_DIR"</span><span class="p">:</span> <span class="s2">"cache.data_cache_dir"</span><span class="p">,</span>
+    <span class="s2">"SATPY_DATA_CACHE_DIR"</span><span class="p">:</span> <span class="s2">"cache.satpy_data_cache_dir"</span><span class="p">,</span>
+    <span class="s2">"GEOIPS_GEOLOCATION_CACHE_BACKEND"</span><span class="p">:</span> <span class="s2">"cache.geolocation_cache_backend"</span><span class="p">,</span>
+    <span class="s2">"GEOIPS_DATA_CACHE_DIR_SHORTTERM_GEOLOCATION_DYNAMIC"</span><span class="p">:</span> <span class="p">(</span>
+        <span class="s2">"cache.data_cache_shortterm_geolocation_dynamic"</span>
     <span class="p">),</span>
-    <span class="s2">&quot;GEOIPS_DATA_CACHE_DIR_LONGTERM_GEOLOCATION_STATIC&quot;</span><span class="p">:</span> <span class="p">(</span>
-        <span class="s2">&quot;cache.data_cache_longterm_geolocation_static&quot;</span>
+    <span class="s2">"GEOIPS_DATA_CACHE_DIR_LONGTERM_GEOLOCATION_STATIC"</span><span class="p">:</span> <span class="p">(</span>
+        <span class="s2">"cache.data_cache_longterm_geolocation_static"</span>
     <span class="p">),</span>
-    <span class="s2">&quot;GEOIPS_DATA_CACHE_DIR_SHORTTERM_GEOLOCATION_SOLAR_ANGLES&quot;</span><span class="p">:</span> <span class="p">(</span>
-        <span class="s2">&quot;cache.data_cache_shortterm_geolocation_solar_angles&quot;</span>
+    <span class="s2">"GEOIPS_DATA_CACHE_DIR_SHORTTERM_GEOLOCATION_SOLAR_ANGLES"</span><span class="p">:</span> <span class="p">(</span>
+        <span class="s2">"cache.data_cache_shortterm_geolocation_solar_angles"</span>
     <span class="p">),</span>
-    <span class="s2">&quot;GEOIPS_DATA_CACHE_DIR_SHORTTERM_CALIBRATED_DATA&quot;</span><span class="p">:</span> <span class="p">(</span>
-        <span class="s2">&quot;cache.data_cache_shortterm_calibrated_data&quot;</span>
+    <span class="s2">"GEOIPS_DATA_CACHE_DIR_SHORTTERM_CALIBRATED_DATA"</span><span class="p">:</span> <span class="p">(</span>
+        <span class="s2">"cache.data_cache_shortterm_calibrated_data"</span>
     <span class="p">),</span>
-    <span class="s2">&quot;SATPY_DATA_CACHE_DIR_SHORTTERM_CALIBRATED_DATA&quot;</span><span class="p">:</span> <span class="p">(</span>
-        <span class="s2">&quot;cache.satpy_cache_shortterm_calibrated_data&quot;</span>
+    <span class="s2">"SATPY_DATA_CACHE_DIR_SHORTTERM_CALIBRATED_DATA"</span><span class="p">:</span> <span class="p">(</span>
+        <span class="s2">"cache.satpy_cache_shortterm_calibrated_data"</span>
     <span class="p">),</span>
-    <span class="s2">&quot;SATPY_DATA_CACHE_DIR_SHORTTERM_GEOLOCATION_SOLAR_ANGLES&quot;</span><span class="p">:</span> <span class="p">(</span>
-        <span class="s2">&quot;cache.satpy_cache_shortterm_geolocation_solar_angles&quot;</span>
+    <span class="s2">"SATPY_DATA_CACHE_DIR_SHORTTERM_GEOLOCATION_SOLAR_ANGLES"</span><span class="p">:</span> <span class="p">(</span>
+        <span class="s2">"cache.satpy_cache_shortterm_geolocation_solar_angles"</span>
     <span class="p">),</span>
-    <span class="s2">&quot;GEOIPS_NO_COLOR&quot;</span><span class="p">:</span> <span class="s2">&quot;features.no_color&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;NO_COLOR&quot;</span><span class="p">:</span> <span class="s2">&quot;features.no_color&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;GEOIPS_USE_PYDANTIC&quot;</span><span class="p">:</span> <span class="s2">&quot;features.use_pydantic&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;GEOIPS_REBUILD_REGISTRIES&quot;</span><span class="p">:</span> <span class="s2">&quot;features.rebuild_registries&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;GEOIPS_OPERATIONAL_USER&quot;</span><span class="p">:</span> <span class="s2">&quot;features.operational_user&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;GEOIPS_RICH_CONSOLE_OUTPUT&quot;</span><span class="p">:</span> <span class="s2">&quot;features.rich_console_output&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;GEOIPS_LOGGING_LEVEL&quot;</span><span class="p">:</span> <span class="s2">&quot;logging.level&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;GEOIPS_LOGGING_FMT_STRING&quot;</span><span class="p">:</span> <span class="s2">&quot;logging.fmt_string&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;GEOIPS_LOGGING_DATEFMT_STRING&quot;</span><span class="p">:</span> <span class="s2">&quot;logging.datefmt_string&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;GEOIPS_WARNING_LEVEL&quot;</span><span class="p">:</span> <span class="s2">&quot;warning_level&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;GEOIPS_TEST_OUTPUT_CHECKER_THRESHOLD_IMAGE&quot;</span><span class="p">:</span> <span class="p">(</span>
-        <span class="s2">&quot;test.output_checker_threshold_image&quot;</span>
+    <span class="s2">"GEOIPS_NO_COLOR"</span><span class="p">:</span> <span class="s2">"features.no_color"</span><span class="p">,</span>
+    <span class="s2">"NO_COLOR"</span><span class="p">:</span> <span class="s2">"features.no_color"</span><span class="p">,</span>
+    <span class="s2">"GEOIPS_USE_PYDANTIC"</span><span class="p">:</span> <span class="s2">"features.use_pydantic"</span><span class="p">,</span>
+    <span class="s2">"GEOIPS_REBUILD_REGISTRIES"</span><span class="p">:</span> <span class="s2">"features.rebuild_registries"</span><span class="p">,</span>
+    <span class="s2">"GEOIPS_OPERATIONAL_USER"</span><span class="p">:</span> <span class="s2">"features.operational_user"</span><span class="p">,</span>
+    <span class="s2">"GEOIPS_RICH_CONSOLE_OUTPUT"</span><span class="p">:</span> <span class="s2">"features.rich_console_output"</span><span class="p">,</span>
+    <span class="s2">"GEOIPS_LOGGING_LEVEL"</span><span class="p">:</span> <span class="s2">"logging.level"</span><span class="p">,</span>
+    <span class="s2">"GEOIPS_LOGGING_FMT_STRING"</span><span class="p">:</span> <span class="s2">"logging.fmt_string"</span><span class="p">,</span>
+    <span class="s2">"GEOIPS_LOGGING_DATEFMT_STRING"</span><span class="p">:</span> <span class="s2">"logging.datefmt_string"</span><span class="p">,</span>
+    <span class="s2">"GEOIPS_WARNING_LEVEL"</span><span class="p">:</span> <span class="s2">"warning_level"</span><span class="p">,</span>
+    <span class="s2">"GEOIPS_TEST_OUTPUT_CHECKER_THRESHOLD_IMAGE"</span><span class="p">:</span> <span class="p">(</span>
+        <span class="s2">"test.output_checker_threshold_image"</span>
     <span class="p">),</span>
-    <span class="s2">&quot;GEOIPS_TEST_PRINT_TEXT_OUTPUT_CHECKER_TO_CONSOLE&quot;</span><span class="p">:</span> <span class="p">(</span>
-        <span class="s2">&quot;test.print_text_output_checker_to_console&quot;</span>
+    <span class="s2">"GEOIPS_TEST_PRINT_TEXT_OUTPUT_CHECKER_TO_CONSOLE"</span><span class="p">:</span> <span class="p">(</span>
+        <span class="s2">"test.print_text_output_checker_to_console"</span>
     <span class="p">),</span>
-    <span class="s2">&quot;GEOIPS_TEST_PROMPT_TO_OVERWRITE_COMPARISON_FILE_IF_MISMATCH&quot;</span><span class="p">:</span> <span class="p">(</span>
-        <span class="s2">&quot;test.prompt_to_overwrite_comparison_file_if_mismatch&quot;</span>
+    <span class="s2">"GEOIPS_TEST_PROMPT_TO_OVERWRITE_COMPARISON_FILE_IF_MISMATCH"</span><span class="p">:</span> <span class="p">(</span>
+        <span class="s2">"test.prompt_to_overwrite_comparison_file_if_mismatch"</span>
     <span class="p">),</span>
-    <span class="s2">&quot;GEOIPS_TEST_SUPPRESS_PYTEST_FAILED_LOG_CONTENTS&quot;</span><span class="p">:</span> <span class="p">(</span>
-        <span class="s2">&quot;test.suppress_pytest_failed_log_contents&quot;</span>
+    <span class="s2">"GEOIPS_TEST_SUPPRESS_PYTEST_FAILED_LOG_CONTENTS"</span><span class="p">:</span> <span class="p">(</span>
+        <span class="s2">"test.suppress_pytest_failed_log_contents"</span>
     <span class="p">),</span>
-    <span class="s2">&quot;GEOIPS_TEST_SECTOR_CREATE_ANNOTATED_OUTPUTS&quot;</span><span class="p">:</span> <span class="p">(</span>
-        <span class="s2">&quot;test.sector_create_annotated_outputs&quot;</span>
+    <span class="s2">"GEOIPS_TEST_SECTOR_CREATE_ANNOTATED_OUTPUTS"</span><span class="p">:</span> <span class="p">(</span>
+        <span class="s2">"test.sector_create_annotated_outputs"</span>
     <span class="p">),</span>
-    <span class="s2">&quot;GEOIPS_TEST_SECTOR_CREATE_GEOTIFF_OUTPUTS&quot;</span><span class="p">:</span> <span class="p">(</span><span class="s2">&quot;test.sector_create_geotiff_outputs&quot;</span><span class="p">),</span>
-    <span class="s2">&quot;GEOIPS_VERSION&quot;</span><span class="p">:</span> <span class="s2">&quot;version&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;GEOIPS_COPYRIGHT&quot;</span><span class="p">:</span> <span class="s2">&quot;copyright&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;GEOIPS_COPYRIGHT_ABBREVIATED&quot;</span><span class="p">:</span> <span class="s2">&quot;copyright_abbreviated&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;GEOIPS_DOCS_URL&quot;</span><span class="p">:</span> <span class="s2">&quot;docs_url&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;GEOIPS_RCFILE&quot;</span><span class="p">:</span> <span class="s2">&quot;rcfile&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;DEFAULT_QUEUE&quot;</span><span class="p">:</span> <span class="s2">&quot;default_queue&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;BOXNAME&quot;</span><span class="p">:</span> <span class="s2">&quot;boxname&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;GEOIPS_REPLACE_OUTPUT_PATHS&quot;</span><span class="p">:</span> <span class="s2">&quot;replace_output_paths&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;GEOIPS_PREGENERATED_STATIC_GEOLOCATION&quot;</span><span class="p">:</span> <span class="s2">&quot;pregenerated_static_geolocation&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;GEOIPS_PREGENERATED_DYNAMIC_GEOLOCATION&quot;</span><span class="p">:</span> <span class="p">(</span><span class="s2">&quot;pregenerated_dynamic_geolocation&quot;</span><span class="p">),</span>
-    <span class="s2">&quot;GEOIPS_TC_DECKS_TYPE&quot;</span><span class="p">:</span> <span class="s2">&quot;tc_decks_type&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;GEOIPS_TC_DECKS_DB&quot;</span><span class="p">:</span> <span class="s2">&quot;output_paths.tc_decks_db&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;GEOIPS_TC_DECKS_DIR&quot;</span><span class="p">:</span> <span class="s2">&quot;output_paths.tc_decks_dir&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;GEOIPS_ANCILDAT_AUTOGEN&quot;</span><span class="p">:</span> <span class="s2">&quot;output_paths.ancildat_autogen&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;GEOIPS_ANCILDAT&quot;</span><span class="p">:</span> <span class="s2">&quot;output_paths.ancildat&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;PRESECTORED_DATA_PATH&quot;</span><span class="p">:</span> <span class="s2">&quot;output_paths.presectored_data&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;PREREAD_DATA_PATH&quot;</span><span class="p">:</span> <span class="s2">&quot;output_paths.preread_data&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;PREREGISTERED_DATA_PATH&quot;</span><span class="p">:</span> <span class="s2">&quot;output_paths.preregistered_data&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;PRECALCULATED_DATA_PATH&quot;</span><span class="p">:</span> <span class="s2">&quot;output_paths.precalculated_data&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;CLEAN_IMAGERY_PATH&quot;</span><span class="p">:</span> <span class="s2">&quot;output_paths.clean_imagery&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;ANNOTATED_IMAGERY_PATH&quot;</span><span class="p">:</span> <span class="s2">&quot;output_paths.annotated_imagery&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;GEOTIFF_IMAGERY_PATH&quot;</span><span class="p">:</span> <span class="s2">&quot;output_paths.geotiff_imagery&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;FINAL_DATA_PATH&quot;</span><span class="p">:</span> <span class="s2">&quot;output_paths.final_data&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;PREGENERATED_GEOLOCATION_PATH&quot;</span><span class="p">:</span> <span class="s2">&quot;output_paths.pregenerated_geolocation&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;SCRATCH&quot;</span><span class="p">:</span> <span class="s2">&quot;output_paths.scratch&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;LOCALSCRATCH&quot;</span><span class="p">:</span> <span class="s2">&quot;output_paths.localscratch&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;SHAREDSCRATCH&quot;</span><span class="p">:</span> <span class="s2">&quot;output_paths.sharedscratch&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;LOGDIR&quot;</span><span class="p">:</span> <span class="s2">&quot;output_paths.logdir&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;GEOIPSDATA&quot;</span><span class="p">:</span> <span class="s2">&quot;output_paths.geoipsdata&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;TCWWW&quot;</span><span class="p">:</span> <span class="s2">&quot;output_paths.tcwww&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;TCPRIVATEWWW&quot;</span><span class="p">:</span> <span class="s2">&quot;output_paths.tcprivatewww&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;PUBLICWWW&quot;</span><span class="p">:</span> <span class="s2">&quot;output_paths.publicwww&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;PRIVATEWWW&quot;</span><span class="p">:</span> <span class="s2">&quot;output_paths.privatewww&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;TCWWW_URL&quot;</span><span class="p">:</span> <span class="s2">&quot;tcwww_url&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;TCPRIVATEWWW_URL&quot;</span><span class="p">:</span> <span class="s2">&quot;tcprivatewww_url&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;PUBLICWWW_URL&quot;</span><span class="p">:</span> <span class="s2">&quot;publicwww_url&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;PRIVATEWWW_URL&quot;</span><span class="p">:</span> <span class="s2">&quot;privatewww_url&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;TC_TEMPLATE&quot;</span><span class="p">:</span> <span class="s2">&quot;tc_template&quot;</span><span class="p">,</span>
+    <span class="s2">"GEOIPS_TEST_SECTOR_CREATE_GEOTIFF_OUTPUTS"</span><span class="p">:</span> <span class="p">(</span><span class="s2">"test.sector_create_geotiff_outputs"</span><span class="p">),</span>
+    <span class="s2">"GEOIPS_VERSION"</span><span class="p">:</span> <span class="s2">"version"</span><span class="p">,</span>
+    <span class="s2">"GEOIPS_COPYRIGHT"</span><span class="p">:</span> <span class="s2">"copyright"</span><span class="p">,</span>
+    <span class="s2">"GEOIPS_COPYRIGHT_ABBREVIATED"</span><span class="p">:</span> <span class="s2">"copyright_abbreviated"</span><span class="p">,</span>
+    <span class="s2">"GEOIPS_DOCS_URL"</span><span class="p">:</span> <span class="s2">"docs_url"</span><span class="p">,</span>
+    <span class="s2">"GEOIPS_RCFILE"</span><span class="p">:</span> <span class="s2">"rcfile"</span><span class="p">,</span>
+    <span class="s2">"DEFAULT_QUEUE"</span><span class="p">:</span> <span class="s2">"default_queue"</span><span class="p">,</span>
+    <span class="s2">"BOXNAME"</span><span class="p">:</span> <span class="s2">"boxname"</span><span class="p">,</span>
+    <span class="s2">"GEOIPS_REPLACE_OUTPUT_PATHS"</span><span class="p">:</span> <span class="s2">"replace_output_paths"</span><span class="p">,</span>
+    <span class="s2">"GEOIPS_PREGENERATED_STATIC_GEOLOCATION"</span><span class="p">:</span> <span class="s2">"pregenerated_static_geolocation"</span><span class="p">,</span>
+    <span class="s2">"GEOIPS_PREGENERATED_DYNAMIC_GEOLOCATION"</span><span class="p">:</span> <span class="p">(</span><span class="s2">"pregenerated_dynamic_geolocation"</span><span class="p">),</span>
+    <span class="s2">"GEOIPS_TC_DECKS_TYPE"</span><span class="p">:</span> <span class="s2">"tc_decks_type"</span><span class="p">,</span>
+    <span class="s2">"GEOIPS_TC_DECKS_DB"</span><span class="p">:</span> <span class="s2">"output_paths.tc_decks_db"</span><span class="p">,</span>
+    <span class="s2">"GEOIPS_TC_DECKS_DIR"</span><span class="p">:</span> <span class="s2">"output_paths.tc_decks_dir"</span><span class="p">,</span>
+    <span class="s2">"GEOIPS_ANCILDAT_AUTOGEN"</span><span class="p">:</span> <span class="s2">"output_paths.ancildat_autogen"</span><span class="p">,</span>
+    <span class="s2">"GEOIPS_ANCILDAT"</span><span class="p">:</span> <span class="s2">"output_paths.ancildat"</span><span class="p">,</span>
+    <span class="s2">"PRESECTORED_DATA_PATH"</span><span class="p">:</span> <span class="s2">"output_paths.presectored_data"</span><span class="p">,</span>
+    <span class="s2">"PREREAD_DATA_PATH"</span><span class="p">:</span> <span class="s2">"output_paths.preread_data"</span><span class="p">,</span>
+    <span class="s2">"PREREGISTERED_DATA_PATH"</span><span class="p">:</span> <span class="s2">"output_paths.preregistered_data"</span><span class="p">,</span>
+    <span class="s2">"PRECALCULATED_DATA_PATH"</span><span class="p">:</span> <span class="s2">"output_paths.precalculated_data"</span><span class="p">,</span>
+    <span class="s2">"CLEAN_IMAGERY_PATH"</span><span class="p">:</span> <span class="s2">"output_paths.clean_imagery"</span><span class="p">,</span>
+    <span class="s2">"ANNOTATED_IMAGERY_PATH"</span><span class="p">:</span> <span class="s2">"output_paths.annotated_imagery"</span><span class="p">,</span>
+    <span class="s2">"GEOTIFF_IMAGERY_PATH"</span><span class="p">:</span> <span class="s2">"output_paths.geotiff_imagery"</span><span class="p">,</span>
+    <span class="s2">"FINAL_DATA_PATH"</span><span class="p">:</span> <span class="s2">"output_paths.final_data"</span><span class="p">,</span>
+    <span class="s2">"PREGENERATED_GEOLOCATION_PATH"</span><span class="p">:</span> <span class="s2">"output_paths.pregenerated_geolocation"</span><span class="p">,</span>
+    <span class="s2">"SCRATCH"</span><span class="p">:</span> <span class="s2">"output_paths.scratch"</span><span class="p">,</span>
+    <span class="s2">"LOCALSCRATCH"</span><span class="p">:</span> <span class="s2">"output_paths.localscratch"</span><span class="p">,</span>
+    <span class="s2">"SHAREDSCRATCH"</span><span class="p">:</span> <span class="s2">"output_paths.sharedscratch"</span><span class="p">,</span>
+    <span class="s2">"LOGDIR"</span><span class="p">:</span> <span class="s2">"output_paths.logdir"</span><span class="p">,</span>
+    <span class="s2">"GEOIPSDATA"</span><span class="p">:</span> <span class="s2">"output_paths.geoipsdata"</span><span class="p">,</span>
+    <span class="s2">"TCWWW"</span><span class="p">:</span> <span class="s2">"output_paths.tcwww"</span><span class="p">,</span>
+    <span class="s2">"TCPRIVATEWWW"</span><span class="p">:</span> <span class="s2">"output_paths.tcprivatewww"</span><span class="p">,</span>
+    <span class="s2">"PUBLICWWW"</span><span class="p">:</span> <span class="s2">"output_paths.publicwww"</span><span class="p">,</span>
+    <span class="s2">"PRIVATEWWW"</span><span class="p">:</span> <span class="s2">"output_paths.privatewww"</span><span class="p">,</span>
+    <span class="s2">"TCWWW_URL"</span><span class="p">:</span> <span class="s2">"tcwww_url"</span><span class="p">,</span>
+    <span class="s2">"TCPRIVATEWWW_URL"</span><span class="p">:</span> <span class="s2">"tcprivatewww_url"</span><span class="p">,</span>
+    <span class="s2">"PUBLICWWW_URL"</span><span class="p">:</span> <span class="s2">"publicwww_url"</span><span class="p">,</span>
+    <span class="s2">"PRIVATEWWW_URL"</span><span class="p">:</span> <span class="s2">"privatewww_url"</span><span class="p">,</span>
+    <span class="s2">"TC_TEMPLATE"</span><span class="p">:</span> <span class="s2">"tc_template"</span><span class="p">,</span>
 <span class="p">}</span>
-<span class="sd">&quot;&quot;&quot;Mapping from environment variable names to dotted model field paths.</span>
+<span class="sd">"""Mapping from environment variable names to dotted model field paths.</span>
 
 <span class="sd">Used by the config loader to apply env var overrides on top of the</span>
 <span class="sd">settings model. Keys are environment variable names (with or without a</span>
 <span class="sd">``GEOIPS_`` prefix), and values are dot-separated field paths into the</span>
 <span class="sd">configuration model tree (e.g. ``features.no_color``).</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 </pre></div>
 
                 </article>

@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>geoips.plugins.classes.readers.atms_hdf5 &#8212; GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation</title>
+    <title>geoips.plugins.classes.readers.atms_hdf5 &#8212; GeoIPS, Geolocated Information Processing System 0.0.0 documentation</title>
   
   
   
@@ -40,7 +40,7 @@
   <link rel="preload" as="script" href="../../../../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
 <link rel="preload" as="script" href="../../../../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
 
-    <script data-url_root="../../../../../" id="documentation_options" src="../../../../../_static/documentation_options.js?v=6727bded"></script>
+    <script data-url_root="../../../../../" id="documentation_options" src="../../../../../_static/documentation_options.js?v=525cde36"></script>
     <script src="../../../../../_static/doctools.js?v=888ff710"></script>
     <script src="../../../../../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../../../_static/design-tabs.js?v=f930bc37"></script>
@@ -401,14 +401,21 @@ mermaid.initialize(
 window.addEventListener("load", load);
 window.runMermaid = runMermaid;</script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_modules/geoips/plugins/classes/readers/atms_hdf5';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.17.1';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://nrlmmd-geoips.github.io/geoips/versions.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = 'dev';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner =
+            false;
+        </script>
     <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
     <link rel="icon" href="../../../../../_static/nrlicon.ico"/>
     <link rel="index" title="Index" href="../../../../../genindex.html" />
     <link rel="search" title="Search" href="../../../../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2.0" />
-    <meta name="docbuild:last-update" content="Jul 23, 2026 17:03:57"/>
+  <meta name="docsearch:version" content="0.0" />
+    <meta name="docbuild:last-update" content="Aug 31, 2026 13:32:18"/>
   
     
     <script src="../../../../../_static/searchtools.js"></script>
@@ -480,11 +487,31 @@ window.runMermaid = runMermaid;</script>
       
     
     
-    <img src="../../../../../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation - Home"/>
-    <img src="../../../../../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation - Home"/>
+    <img src="../../../../../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 0.0.0 documentation - Home"/>
+    <img src="../../../../../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 0.0.0 documentation - Home"/>
   
   
 </a></div>
+    
+      <div class="navbar-item">
+<div class="version-switcher__container dropdown pst-js-only">
+  <button id="pst-version-switcher-button-2"
+    type="button"
+    class="version-switcher__button btn btn-sm dropdown-toggle"
+    data-bs-toggle="dropdown"
+    aria-haspopup="listbox"
+    aria-controls="pst-version-switcher-list-2"
+    aria-label="Version switcher list"
+  >
+    Choose version  <!-- this text may get changed later by javascript -->
+    <span class="caret"></span>
+  </button>
+  <div id="pst-version-switcher-list-2"
+    class="version-switcher__menu dropdown-menu list-group-flush py-0"
+    role="listbox" aria-labelledby="pst-version-switcher-button-2">
+    <!-- dropdown will be populated by javascript on page load -->
+  </div>
+</div></div>
     
   </div>
   
@@ -828,7 +855,7 @@ window.runMermaid = runMermaid;</script>
 <span></span><span class="c1"># # # This source code is subject to the license referenced at</span>
 <span class="c1"># # # https://github.com/NRLMMD-GEOIPS.</span>
 
-<span class="sd">&quot;&quot;&quot;Reader to read a granule NOAA ATMS SDR TBs in h5 format.</span>
+<span class="sd">"""Reader to read a granule NOAA ATMS SDR TBs in h5 format.</span>
 
 <span class="sd">Output variables in xarray object for geoips processing system</span>
 
@@ -839,9 +866,9 @@ window.runMermaid = runMermaid;</script>
 
 <span class="sd">Example of ATMS file names::</span>
 
-<span class="sd">    &#39;SATMS_j01_d20210809_t0959306_e1000023_b19296_fnmoc_ops.h5&#39;</span>
+<span class="sd">    'SATMS_j01_d20210809_t0959306_e1000023_b19296_fnmoc_ops.h5'</span>
 <span class="sd">        SDR TBs variables</span>
-<span class="sd">    &#39;GATMO_j01_d20210809_t0959306_e1000023_b19296_fnmoc_ops.h5&#39;</span>
+<span class="sd">    'GATMO_j01_d20210809_t0959306_e1000023_b19296_fnmoc_ops.h5'</span>
 <span class="sd">        SDR Geolocation variables</span>
 
 <span class="sd">Dataset info::</span>
@@ -873,7 +900,7 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">    21     183.1+-1.8         H</span>
 <span class="sd">    22     183.1+-1.0         H</span>
 
-<span class="sd">    BeamTime[12,96]:  microsecond, i.e., 1*10^-6.  IET &quot;IDPS Epoch Time&quot; is used</span>
+<span class="sd">    BeamTime[12,96]:  microsecond, i.e., 1*10^-6.  IET "IDPS Epoch Time" is used</span>
 <span class="sd">                      It is a signed 64-bit integer giving microseconds since</span>
 <span class="sd">                      00:00:00.000000 Jan 1 1958.</span>
 <span class="sd">    BrightnessTemperatureFactors[2]: 1: scale (unitless); 2: offset (K)</span>
@@ -901,9 +928,9 @@ window.runMermaid = runMermaid;</script>
 
 <span class="sd">The example files are:</span>
 
-<span class="sd">* ``SATMS_j01_d20210809_t0959306_e1000023_b19296_fnmoc_ops.h5``: for TBs.  &#39;b&#39;: orbit#</span>
+<span class="sd">* ``SATMS_j01_d20210809_t0959306_e1000023_b19296_fnmoc_ops.h5``: for TBs.  'b': orbit#</span>
 <span class="sd">* ``GATMO_j01_d20210809_t0959306_e1000023_b19296_fnmoc_ops.h5``: for geolocations</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">geoips.interfaces.class_based.readers</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseReaderPlugin</span>
 
@@ -922,40 +949,40 @@ window.runMermaid = runMermaid;</script>
 
 
 <div class="viewcode-block" id="AtmsHdf5ReaderPlugin"><a class="viewcode-back" href="../../../../../geoips_api/geoips.plugins.classes.readers.html#geoips.plugins.classes.readers.atms_hdf5.AtmsHdf5ReaderPlugin">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">AtmsHdf5ReaderPlugin</span><span class="p">(</span><span class="n">BaseReaderPlugin</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Atms Hdf5 reader plugin class.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Atms Hdf5 reader plugin class."""</span>
 
-    <span class="n">interface</span> <span class="o">=</span> <span class="s2">&quot;readers&quot;</span>
-    <span class="n">family</span> <span class="o">=</span> <span class="s2">&quot;standard&quot;</span>
-    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;atms_hdf5&quot;</span>
+    <span class="n">interface</span> <span class="o">=</span> <span class="s2">"readers"</span>
+    <span class="n">family</span> <span class="o">=</span> <span class="s2">"standard"</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">"atms_hdf5"</span>
 
-    <span class="n">source_names</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;atms&quot;</span><span class="p">]</span>
+    <span class="n">source_names</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"atms"</span><span class="p">]</span>
 
     <span class="c1"># list of variables selected from input files</span>
     <span class="n">atms_vars</span> <span class="o">=</span> <span class="p">[</span>
-        <span class="s2">&quot;BrightnessTemperature&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;BrightnessTemperatureFactors&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;BeamTime&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;Latitude&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;Longitude&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;SatelliteAzimuthAngle&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;SatelliteZenithAngle&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;SolarAzimuthAngle&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;SolarZenithAngle&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;StartTime&quot;</span><span class="p">,</span>
+        <span class="s2">"BrightnessTemperature"</span><span class="p">,</span>
+        <span class="s2">"BrightnessTemperatureFactors"</span><span class="p">,</span>
+        <span class="s2">"BeamTime"</span><span class="p">,</span>
+        <span class="s2">"Latitude"</span><span class="p">,</span>
+        <span class="s2">"Longitude"</span><span class="p">,</span>
+        <span class="s2">"SatelliteAzimuthAngle"</span><span class="p">,</span>
+        <span class="s2">"SatelliteZenithAngle"</span><span class="p">,</span>
+        <span class="s2">"SolarAzimuthAngle"</span><span class="p">,</span>
+        <span class="s2">"SolarZenithAngle"</span><span class="p">,</span>
+        <span class="s2">"StartTime"</span><span class="p">,</span>
     <span class="p">]</span>
 
     <span class="c1"># unify common names for sat/sun-zenith and azimuth angles</span>
     <span class="n">xvarnames</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="s2">&quot;SolarZenithAngle&quot;</span><span class="p">:</span> <span class="s2">&quot;solar_zenith_angle&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;SolarAzimuthAngle&quot;</span><span class="p">:</span> <span class="s2">&quot;solar_azimuth_angle&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;SatelliteZenithAngle&quot;</span><span class="p">:</span> <span class="s2">&quot;satellite_zenith_angle&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;SatelliteAzimuthAngle&quot;</span><span class="p">:</span> <span class="s2">&quot;satellite_azimuth_angle&quot;</span><span class="p">,</span>
+        <span class="s2">"SolarZenithAngle"</span><span class="p">:</span> <span class="s2">"solar_zenith_angle"</span><span class="p">,</span>
+        <span class="s2">"SolarAzimuthAngle"</span><span class="p">:</span> <span class="s2">"solar_azimuth_angle"</span><span class="p">,</span>
+        <span class="s2">"SatelliteZenithAngle"</span><span class="p">:</span> <span class="s2">"satellite_zenith_angle"</span><span class="p">,</span>
+        <span class="s2">"SatelliteAzimuthAngle"</span><span class="p">:</span> <span class="s2">"satellite_azimuth_angle"</span><span class="p">,</span>
     <span class="p">}</span>
 
     <span class="c1"># final_xarray = xr.Dataset()  # define a xarray to hold all selected variables</span>
 
 <div class="viewcode-block" id="AtmsHdf5ReaderPlugin.convert_epoch_to_datetime64"><a class="viewcode-back" href="../../../../../geoips_api/geoips.plugins.classes.readers.html#geoips.plugins.classes.readers.atms_hdf5.AtmsHdf5ReaderPlugin.convert_epoch_to_datetime64">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">convert_epoch_to_datetime64</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">time_array</span><span class="p">,</span> <span class="n">use_shape</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Convert time to datetime object.</span>
+<span class="w">        </span><span class="sd">"""Convert time to datetime object.</span>
 
 <span class="sd">        Note: This uses a fixed TAI conversion value of 37 seconds for</span>
 <span class="sd">        conversion. Last updated: Jan. 2026.</span>
@@ -971,13 +998,13 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">        -------</span>
 <span class="sd">        array</span>
 <span class="sd">            array of converted datetime objects</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="c1"># Convert TAI to UTC manually</span>
         <span class="c1"># ATMS Epoch starts at 1958-01-01, not 1970-01-01</span>
         <span class="n">og_shape</span> <span class="o">=</span> <span class="n">time_array</span><span class="o">.</span><span class="n">shape</span>
         <span class="n">utc_time</span> <span class="o">=</span> <span class="n">to_datetime</span><span class="p">(</span>
-            <span class="n">time_array</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span> <span class="o">/</span> <span class="mf">1e6</span><span class="p">,</span> <span class="n">origin</span><span class="o">=</span><span class="n">Timestamp</span><span class="p">(</span><span class="s2">&quot;1958-01-01&quot;</span><span class="p">),</span> <span class="n">unit</span><span class="o">=</span><span class="s2">&quot;s&quot;</span>
-        <span class="p">)</span> <span class="o">-</span> <span class="n">to_timedelta</span><span class="p">(</span><span class="mi">37</span><span class="p">,</span> <span class="s2">&quot;s&quot;</span><span class="p">)</span>
+            <span class="n">time_array</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span> <span class="o">/</span> <span class="mf">1e6</span><span class="p">,</span> <span class="n">origin</span><span class="o">=</span><span class="n">Timestamp</span><span class="p">(</span><span class="s2">"1958-01-01"</span><span class="p">),</span> <span class="n">unit</span><span class="o">=</span><span class="s2">"s"</span>
+        <span class="p">)</span> <span class="o">-</span> <span class="n">to_timedelta</span><span class="p">(</span><span class="mi">37</span><span class="p">,</span> <span class="s2">"s"</span><span class="p">)</span>
         <span class="n">utc_time</span> <span class="o">=</span> <span class="n">utc_time</span><span class="o">.</span><span class="n">to_pydatetime</span><span class="p">()</span>
         <span class="c1"># Either convert 1D array to 2D, or return original shape</span>
         <span class="k">if</span> <span class="n">time_array</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">and</span> <span class="n">use_shape</span><span class="p">:</span>
@@ -991,15 +1018,15 @@ window.runMermaid = runMermaid;</script>
         <span class="k">return</span> <span class="n">converted_time</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">datetime64</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="AtmsHdf5ReaderPlugin.read_atms_file"><a class="viewcode-back" href="../../../../../geoips_api/geoips.plugins.classes.readers.html#geoips.plugins.classes.readers.atms_hdf5.AtmsHdf5ReaderPlugin.read_atms_file">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">read_atms_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fname</span><span class="p">,</span> <span class="n">xarray_atms</span><span class="p">,</span> <span class="n">metadata_only</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Read ATCF data from file fname.&quot;&quot;&quot;</span>
-        <span class="n">fileobj</span> <span class="o">=</span> <span class="n">h5py</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;r&quot;</span><span class="p">)</span>
+<span class="w">        </span><span class="sd">"""Read ATCF data from file fname."""</span>
+        <span class="n">fileobj</span> <span class="o">=</span> <span class="n">h5py</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">"r"</span><span class="p">)</span>
 
         <span class="c1"># check for available variables from nput file</span>
         <span class="c1"># Do not read the BT data unless metadata_only is False</span>
-        <span class="k">if</span> <span class="s2">&quot;ATMS-SDR_All&quot;</span> <span class="ow">in</span> <span class="n">fileobj</span><span class="p">[</span><span class="s2">&quot;All_Data&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>  <span class="c1"># for TB-data</span>
-            <span class="n">data_select</span> <span class="o">=</span> <span class="n">fileobj</span><span class="p">[</span><span class="s2">&quot;All_Data&quot;</span><span class="p">][</span><span class="s2">&quot;ATMS-SDR_All&quot;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="s2">"ATMS-SDR_All"</span> <span class="ow">in</span> <span class="n">fileobj</span><span class="p">[</span><span class="s2">"All_Data"</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>  <span class="c1"># for TB-data</span>
+            <span class="n">data_select</span> <span class="o">=</span> <span class="n">fileobj</span><span class="p">[</span><span class="s2">"All_Data"</span><span class="p">][</span><span class="s2">"ATMS-SDR_All"</span><span class="p">]</span>
 
-            <span class="n">tb_time</span> <span class="o">=</span> <span class="n">data_select</span><span class="p">[</span><span class="s2">&quot;BeamTime&quot;</span><span class="p">][()]</span>
+            <span class="n">tb_time</span> <span class="o">=</span> <span class="n">data_select</span><span class="p">[</span><span class="s2">"BeamTime"</span><span class="p">][()]</span>
             <span class="c1">#  get UTC time in datetime64 format required by geoips for each pixel</span>
             <span class="n">time_scan</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">convert_epoch_to_datetime64</span><span class="p">(</span><span class="n">tb_time</span><span class="p">)</span>
 
@@ -1007,8 +1034,8 @@ window.runMermaid = runMermaid;</script>
             <span class="k">if</span> <span class="n">metadata_only</span><span class="p">:</span>
                 <span class="n">V23</span> <span class="o">=</span> <span class="n">V31</span> <span class="o">=</span> <span class="n">H50</span> <span class="o">=</span> <span class="n">V89</span> <span class="o">=</span> <span class="n">H165</span> <span class="o">=</span> <span class="n">H183</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="n">time_scan</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="n">tb</span> <span class="o">=</span> <span class="n">data_select</span><span class="p">[</span><span class="s2">&quot;BrightnessTemperature&quot;</span><span class="p">][()]</span>
-                <span class="n">tb_factor</span> <span class="o">=</span> <span class="n">data_select</span><span class="p">[</span><span class="s2">&quot;BrightnessTemperatureFactors&quot;</span><span class="p">][()]</span>
+                <span class="n">tb</span> <span class="o">=</span> <span class="n">data_select</span><span class="p">[</span><span class="s2">"BrightnessTemperature"</span><span class="p">][()]</span>
+                <span class="n">tb_factor</span> <span class="o">=</span> <span class="n">data_select</span><span class="p">[</span><span class="s2">"BrightnessTemperatureFactors"</span><span class="p">][()]</span>
 
                 <span class="c1"># convert tb to actual values</span>
                 <span class="n">tbs</span> <span class="o">=</span> <span class="n">tb</span> <span class="o">*</span> <span class="n">tb_factor</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">tb_factor</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
@@ -1023,43 +1050,43 @@ window.runMermaid = runMermaid;</script>
 
             <span class="c1"># make dict of numpy arrays</span>
             <span class="n">ingested</span> <span class="o">=</span> <span class="p">{</span>
-                <span class="s2">&quot;V23&quot;</span><span class="p">:</span> <span class="n">V23</span><span class="p">,</span>
-                <span class="s2">&quot;V31&quot;</span><span class="p">:</span> <span class="n">V31</span><span class="p">,</span>
-                <span class="s2">&quot;H50&quot;</span><span class="p">:</span> <span class="n">H50</span><span class="p">,</span>
-                <span class="s2">&quot;V89&quot;</span><span class="p">:</span> <span class="n">V89</span><span class="p">,</span>
-                <span class="s2">&quot;H165&quot;</span><span class="p">:</span> <span class="n">H165</span><span class="p">,</span>
-                <span class="s2">&quot;H183&quot;</span><span class="p">:</span> <span class="n">H183</span><span class="p">,</span>
-                <span class="s2">&quot;sdr_time&quot;</span><span class="p">:</span> <span class="n">time_scan</span><span class="p">,</span>
+                <span class="s2">"V23"</span><span class="p">:</span> <span class="n">V23</span><span class="p">,</span>
+                <span class="s2">"V31"</span><span class="p">:</span> <span class="n">V31</span><span class="p">,</span>
+                <span class="s2">"H50"</span><span class="p">:</span> <span class="n">H50</span><span class="p">,</span>
+                <span class="s2">"V89"</span><span class="p">:</span> <span class="n">V89</span><span class="p">,</span>
+                <span class="s2">"H165"</span><span class="p">:</span> <span class="n">H165</span><span class="p">,</span>
+                <span class="s2">"H183"</span><span class="p">:</span> <span class="n">H183</span><span class="p">,</span>
+                <span class="s2">"sdr_time"</span><span class="p">:</span> <span class="n">time_scan</span><span class="p">,</span>
             <span class="p">}</span>
 
-        <span class="k">if</span> <span class="s2">&quot;ATMS-SDR-GEO_All&quot;</span> <span class="ow">in</span> <span class="n">fileobj</span><span class="p">[</span><span class="s2">&quot;All_Data&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>  <span class="c1"># for geo-data</span>
-            <span class="n">data_select</span> <span class="o">=</span> <span class="n">fileobj</span><span class="p">[</span><span class="s2">&quot;All_Data&quot;</span><span class="p">][</span><span class="s2">&quot;ATMS-SDR-GEO_All&quot;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="s2">"ATMS-SDR-GEO_All"</span> <span class="ow">in</span> <span class="n">fileobj</span><span class="p">[</span><span class="s2">"All_Data"</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>  <span class="c1"># for geo-data</span>
+            <span class="n">data_select</span> <span class="o">=</span> <span class="n">fileobj</span><span class="p">[</span><span class="s2">"All_Data"</span><span class="p">][</span><span class="s2">"ATMS-SDR-GEO_All"</span><span class="p">]</span>
 
             <span class="c1"># We will always read in latitude regardless if metadata_only is True.</span>
             <span class="c1"># Do this so we can filter out bad data, which can cause the start time</span>
             <span class="c1"># to be somewhere around 1957....</span>
-            <span class="n">lat</span> <span class="o">=</span> <span class="n">data_select</span><span class="p">[</span><span class="s2">&quot;Latitude&quot;</span><span class="p">][()]</span>
-            <span class="n">StartTime</span> <span class="o">=</span> <span class="n">data_select</span><span class="p">[</span><span class="s2">&quot;StartTime&quot;</span><span class="p">][()]</span>
+            <span class="n">lat</span> <span class="o">=</span> <span class="n">data_select</span><span class="p">[</span><span class="s2">"Latitude"</span><span class="p">][()]</span>
+            <span class="n">StartTime</span> <span class="o">=</span> <span class="n">data_select</span><span class="p">[</span><span class="s2">"StartTime"</span><span class="p">][()]</span>
             <span class="c1">#  get UTC time in datetime64 format required by geoips for each pixel</span>
             <span class="n">time_scan</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">convert_epoch_to_datetime64</span><span class="p">(</span><span class="n">StartTime</span><span class="p">,</span> <span class="n">use_shape</span><span class="o">=</span><span class="n">lat</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
 
             <span class="n">ingested</span> <span class="o">=</span> <span class="p">{</span>
-                <span class="s2">&quot;latitude&quot;</span><span class="p">:</span> <span class="n">lat</span><span class="p">,</span>
-                <span class="s2">&quot;geo_time&quot;</span><span class="p">:</span> <span class="n">time_scan</span><span class="p">,</span>
-                <span class="s2">&quot;valid_indices&quot;</span><span class="p">:</span> <span class="o">~</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">lat</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">90</span><span class="p">),</span>
+                <span class="s2">"latitude"</span><span class="p">:</span> <span class="n">lat</span><span class="p">,</span>
+                <span class="s2">"geo_time"</span><span class="p">:</span> <span class="n">time_scan</span><span class="p">,</span>
+                <span class="s2">"valid_indices"</span><span class="p">:</span> <span class="o">~</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">lat</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">90</span><span class="p">),</span>
             <span class="p">}</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="n">metadata_only</span><span class="p">:</span>
-                <span class="n">ingested</span><span class="p">[</span><span class="s2">&quot;longitude&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">data_select</span><span class="p">[</span><span class="s2">&quot;Longitude&quot;</span><span class="p">][()]</span>
-                <span class="n">ingested</span><span class="p">[</span><span class="s2">&quot;solar_zenith_angle&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">data_select</span><span class="p">[</span><span class="s2">&quot;SolarZenithAngle&quot;</span><span class="p">][()]</span>
-                <span class="n">ingested</span><span class="p">[</span><span class="s2">&quot;solar_azimuth_angle&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">data_select</span><span class="p">[</span><span class="s2">&quot;SolarAzimuthAngle&quot;</span><span class="p">][()]</span>
-                <span class="n">ingested</span><span class="p">[</span><span class="s2">&quot;satellite_zenith_angle&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">data_select</span><span class="p">[</span>
-                    <span class="s2">&quot;SatelliteZenithAngle&quot;</span>
+                <span class="n">ingested</span><span class="p">[</span><span class="s2">"longitude"</span><span class="p">]</span> <span class="o">=</span> <span class="n">data_select</span><span class="p">[</span><span class="s2">"Longitude"</span><span class="p">][()]</span>
+                <span class="n">ingested</span><span class="p">[</span><span class="s2">"solar_zenith_angle"</span><span class="p">]</span> <span class="o">=</span> <span class="n">data_select</span><span class="p">[</span><span class="s2">"SolarZenithAngle"</span><span class="p">][()]</span>
+                <span class="n">ingested</span><span class="p">[</span><span class="s2">"solar_azimuth_angle"</span><span class="p">]</span> <span class="o">=</span> <span class="n">data_select</span><span class="p">[</span><span class="s2">"SolarAzimuthAngle"</span><span class="p">][()]</span>
+                <span class="n">ingested</span><span class="p">[</span><span class="s2">"satellite_zenith_angle"</span><span class="p">]</span> <span class="o">=</span> <span class="n">data_select</span><span class="p">[</span>
+                    <span class="s2">"SatelliteZenithAngle"</span>
                 <span class="p">][()]</span>
-                <span class="n">ingested</span><span class="p">[</span><span class="s2">&quot;satellite_azimuth_angle&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">data_select</span><span class="p">[</span>
-                    <span class="s2">&quot;SatelliteAzimuthAngle&quot;</span>
+                <span class="n">ingested</span><span class="p">[</span><span class="s2">"satellite_azimuth_angle"</span><span class="p">]</span> <span class="o">=</span> <span class="n">data_select</span><span class="p">[</span>
+                    <span class="s2">"SatelliteAzimuthAngle"</span>
                 <span class="p">][()]</span>
 
-        <span class="n">platform_name</span> <span class="o">=</span> <span class="n">fileobj</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;Platform_Short_Name&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span>
+        <span class="n">platform_name</span> <span class="o">=</span> <span class="n">fileobj</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"Platform_Short_Name"</span><span class="p">][</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">"utf-8"</span><span class="p">)</span>
 
         <span class="c1"># close the h5 object</span>
         <span class="n">fileobj</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
@@ -1072,25 +1099,25 @@ window.runMermaid = runMermaid;</script>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">merged_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">([</span><span class="n">xarray_atms</span><span class="p">[</span><span class="n">key</span><span class="p">],</span> <span class="n">data</span><span class="p">])</span>
                 <span class="n">final_xarray</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
-                    <span class="n">merged_array</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;dim_&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">merged_array</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="s2">&quot;dim_1&quot;</span><span class="p">]</span>
+                    <span class="n">merged_array</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="p">[</span><span class="s2">"dim_"</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">merged_array</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="s2">"dim_1"</span><span class="p">]</span>
                 <span class="p">)</span>
         <span class="c1"># Set official time to either sdr_time or geo_time</span>
         <span class="n">final_keys</span> <span class="o">=</span> <span class="n">final_xarray</span><span class="o">.</span><span class="n">variables</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
-        <span class="k">if</span> <span class="s2">&quot;sdr_time&quot;</span> <span class="ow">in</span> <span class="n">final_keys</span><span class="p">:</span>
-            <span class="n">final_xarray</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">final_xarray</span><span class="p">[</span><span class="s2">&quot;sdr_time&quot;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="s2">"sdr_time"</span> <span class="ow">in</span> <span class="n">final_keys</span><span class="p">:</span>
+            <span class="n">final_xarray</span><span class="p">[</span><span class="s2">"time"</span><span class="p">]</span> <span class="o">=</span> <span class="n">final_xarray</span><span class="p">[</span><span class="s2">"sdr_time"</span><span class="p">]</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">final_xarray</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">final_xarray</span><span class="p">[</span><span class="s2">&quot;geo_time&quot;</span><span class="p">]</span>
+            <span class="n">final_xarray</span><span class="p">[</span><span class="s2">"time"</span><span class="p">]</span> <span class="o">=</span> <span class="n">final_xarray</span><span class="p">[</span><span class="s2">"geo_time"</span><span class="p">]</span>
 
         <span class="c1"># Map platform names found in data file attributes to consistent</span>
         <span class="c1"># GeoIPS naming conventions (match VIIRS reader).</span>
-        <span class="k">if</span> <span class="n">platform_name</span> <span class="o">==</span> <span class="s2">&quot;J01&quot;</span><span class="p">:</span>
-            <span class="n">platform_name</span> <span class="o">=</span> <span class="s2">&quot;noaa-20&quot;</span>
-        <span class="k">elif</span> <span class="n">platform_name</span> <span class="o">==</span> <span class="s2">&quot;J02&quot;</span><span class="p">:</span>
-            <span class="n">platform_name</span> <span class="o">=</span> <span class="s2">&quot;noaa-21&quot;</span>
-        <span class="k">elif</span> <span class="n">platform_name</span> <span class="o">==</span> <span class="s2">&quot;NPP&quot;</span><span class="p">:</span>
-            <span class="n">platform_name</span> <span class="o">=</span> <span class="s2">&quot;npp&quot;</span>
-        <span class="n">final_xarray</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;platform_name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">platform_name</span>
-        <span class="n">final_xarray</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;data_provider&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;NOAA&quot;</span>
+        <span class="k">if</span> <span class="n">platform_name</span> <span class="o">==</span> <span class="s2">"J01"</span><span class="p">:</span>
+            <span class="n">platform_name</span> <span class="o">=</span> <span class="s2">"noaa-20"</span>
+        <span class="k">elif</span> <span class="n">platform_name</span> <span class="o">==</span> <span class="s2">"J02"</span><span class="p">:</span>
+            <span class="n">platform_name</span> <span class="o">=</span> <span class="s2">"noaa-21"</span>
+        <span class="k">elif</span> <span class="n">platform_name</span> <span class="o">==</span> <span class="s2">"NPP"</span><span class="p">:</span>
+            <span class="n">platform_name</span> <span class="o">=</span> <span class="s2">"npp"</span>
+        <span class="n">final_xarray</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"platform_name"</span><span class="p">]</span> <span class="o">=</span> <span class="n">platform_name</span>
+        <span class="n">final_xarray</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"data_provider"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"NOAA"</span>
 
         <span class="k">return</span> <span class="n">final_xarray</span></div>
 
@@ -1102,7 +1129,7 @@ window.runMermaid = runMermaid;</script>
         <span class="n">area_def</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">self_register</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
     <span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Read ATMS hdf5 data products.</span>
+<span class="w">        </span><span class="sd">"""Read ATMS hdf5 data products.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -1137,11 +1164,11 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">        :ref:`xarray_standards`</span>
 <span class="sd">            Additional information regarding required attributes and variables</span>
 <span class="sd">            for GeoIPS-formatted xarray Datasets.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Reading files </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">fnames</span><span class="p">)</span>
+<span class="sd">        """</span>
+        <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"Reading files </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="n">fnames</span><span class="p">)</span>
 
         <span class="c1"># if metadata_only is True:  # read-in datafiles first time if</span>
-        <span class="c1"># &#39;metadata_only= True&#39;</span>
+        <span class="c1"># 'metadata_only= True'</span>
         <span class="n">xarray_atms</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">()</span>
         <span class="n">source_file_names</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">fname</span> <span class="ow">in</span> <span class="n">fnames</span><span class="p">:</span>
@@ -1149,7 +1176,7 @@ window.runMermaid = runMermaid;</script>
                 <span class="n">fname</span><span class="p">,</span> <span class="n">xarray_atms</span><span class="p">,</span> <span class="n">metadata_only</span><span class="o">=</span><span class="n">metadata_only</span>
             <span class="p">)</span>
             <span class="n">source_file_names</span> <span class="o">+=</span> <span class="p">[</span><span class="n">basename</span><span class="p">(</span><span class="n">fname</span><span class="p">)]</span>  <span class="c1"># name of last file from input files</span>
-        <span class="n">xarray_atms</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;source_file_names&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">source_file_names</span>
+        <span class="n">xarray_atms</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"source_file_names"</span><span class="p">]</span> <span class="o">=</span> <span class="n">source_file_names</span>
 
         <span class="c1"># setup attributers</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">geoips.xarray_utils.time</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
@@ -1157,25 +1184,25 @@ window.runMermaid = runMermaid;</script>
             <span class="n">get_min_from_xarray_time</span><span class="p">,</span>
         <span class="p">)</span>
 
-        <span class="k">if</span> <span class="s2">&quot;valid_indices&quot;</span> <span class="ow">in</span> <span class="n">xarray_atms</span><span class="p">:</span>
-            <span class="n">xarray_atms</span> <span class="o">=</span> <span class="n">xarray_atms</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">xarray_atms</span><span class="p">[</span><span class="s2">&quot;valid_indices&quot;</span><span class="p">])</span>
+        <span class="k">if</span> <span class="s2">"valid_indices"</span> <span class="ow">in</span> <span class="n">xarray_atms</span><span class="p">:</span>
+            <span class="n">xarray_atms</span> <span class="o">=</span> <span class="n">xarray_atms</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">xarray_atms</span><span class="p">[</span><span class="s2">"valid_indices"</span><span class="p">])</span>
 
-        <span class="n">xarray_atms</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;start_datetime&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">get_min_from_xarray_time</span><span class="p">(</span>
-            <span class="n">xarray_atms</span><span class="p">,</span> <span class="s2">&quot;time&quot;</span>
+        <span class="n">xarray_atms</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"start_datetime"</span><span class="p">]</span> <span class="o">=</span> <span class="n">get_min_from_xarray_time</span><span class="p">(</span>
+            <span class="n">xarray_atms</span><span class="p">,</span> <span class="s2">"time"</span>
         <span class="p">)</span>
-        <span class="n">xarray_atms</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;end_datetime&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">get_max_from_xarray_time</span><span class="p">(</span>
-            <span class="n">xarray_atms</span><span class="p">,</span> <span class="s2">&quot;time&quot;</span>
+        <span class="n">xarray_atms</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"end_datetime"</span><span class="p">]</span> <span class="o">=</span> <span class="n">get_max_from_xarray_time</span><span class="p">(</span>
+            <span class="n">xarray_atms</span><span class="p">,</span> <span class="s2">"time"</span>
         <span class="p">)</span>
-        <span class="n">xarray_atms</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;source_name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;atms&quot;</span>
+        <span class="n">xarray_atms</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"source_name"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"atms"</span>
 
-        <span class="c1"># MTIFs need to be &quot;prettier&quot; for PMW products, so 2km resolution for</span>
+        <span class="c1"># MTIFs need to be "prettier" for PMW products, so 2km resolution for</span>
         <span class="c1"># final image</span>
-        <span class="n">xarray_atms</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;sample_distance_km&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">2</span>
-        <span class="n">xarray_atms</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;interpolation_radius_of_influence&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">xarray_atms</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"sample_distance_km"</span><span class="p">]</span> <span class="o">=</span> <span class="mi">2</span>
+        <span class="n">xarray_atms</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"interpolation_radius_of_influence"</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
             <span class="mi">30000</span>  <span class="c1"># could be tuned if needed</span>
         <span class="p">)</span>
 
-        <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;METADATA&quot;</span><span class="p">:</span> <span class="n">xarray_atms</span><span class="p">[[]],</span> <span class="s2">&quot;ATMS&quot;</span><span class="p">:</span> <span class="n">xarray_atms</span><span class="p">}</span></div></div>
+        <span class="k">return</span> <span class="p">{</span><span class="s2">"METADATA"</span><span class="p">:</span> <span class="n">xarray_atms</span><span class="p">[[]],</span> <span class="s2">"ATMS"</span><span class="p">:</span> <span class="n">xarray_atms</span><span class="p">}</span></div></div>
 
 
 <span class="n">PLUGIN_CLASS</span> <span class="o">=</span> <span class="n">AtmsHdf5ReaderPlugin</span>

@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>geoips.sector_utils.overpass_predictor &#8212; GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation</title>
+    <title>geoips.sector_utils.overpass_predictor &#8212; GeoIPS, Geolocated Information Processing System 0.0.0 documentation</title>
   
   
   
@@ -40,7 +40,7 @@
   <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
 
-    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=6727bded"></script>
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=525cde36"></script>
     <script src="../../../_static/doctools.js?v=888ff710"></script>
     <script src="../../../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
@@ -401,14 +401,21 @@ mermaid.initialize(
 window.addEventListener("load", load);
 window.runMermaid = runMermaid;</script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_modules/geoips/sector_utils/overpass_predictor';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.17.1';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://nrlmmd-geoips.github.io/geoips/versions.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = 'dev';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner =
+            false;
+        </script>
     <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
     <link rel="icon" href="../../../_static/nrlicon.ico"/>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2.0" />
-    <meta name="docbuild:last-update" content="Jul 23, 2026 17:03:57"/>
+  <meta name="docsearch:version" content="0.0" />
+    <meta name="docbuild:last-update" content="Aug 31, 2026 13:32:18"/>
   
     
     <script src="../../../_static/searchtools.js"></script>
@@ -480,11 +487,31 @@ window.runMermaid = runMermaid;</script>
       
     
     
-    <img src="../../../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation - Home"/>
-    <img src="../../../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation - Home"/>
+    <img src="../../../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 0.0.0 documentation - Home"/>
+    <img src="../../../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 0.0.0 documentation - Home"/>
   
   
 </a></div>
+    
+      <div class="navbar-item">
+<div class="version-switcher__container dropdown pst-js-only">
+  <button id="pst-version-switcher-button-2"
+    type="button"
+    class="version-switcher__button btn btn-sm dropdown-toggle"
+    data-bs-toggle="dropdown"
+    aria-haspopup="listbox"
+    aria-controls="pst-version-switcher-list-2"
+    aria-label="Version switcher list"
+  >
+    Choose version  <!-- this text may get changed later by javascript -->
+    <span class="caret"></span>
+  </button>
+  <div id="pst-version-switcher-list-2"
+    class="version-switcher__menu dropdown-menu list-group-flush py-0"
+    role="listbox" aria-labelledby="pst-version-switcher-button-2">
+    <!-- dropdown will be populated by javascript on page load -->
+  </div>
+</div></div>
     
   </div>
   
@@ -828,7 +855,7 @@ window.runMermaid = runMermaid;</script>
 <span></span><span class="c1"># # # This source code is subject to the license referenced at</span>
 <span class="c1"># # # https://github.com/NRLMMD-GEOIPS.</span>
 
-<span class="sd">&quot;&quot;&quot;Overpass predictor, based on Two Line Element files.&quot;&quot;&quot;</span>
+<span class="sd">"""Overpass predictor, based on Two Line Element files."""</span>
 
 <span class="c1"># Standard libraries</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">timedelta</span>
@@ -845,11 +872,11 @@ window.runMermaid = runMermaid;</script>
 
 
 <div class="viewcode-block" id="check_tle_name_to_passed_names"><a class="viewcode-back" href="../../../geoips_api/geoips.sector_utils.html#geoips.sector_utils.overpass_predictor.check_tle_name_to_passed_names">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">check_tle_name_to_passed_names</span><span class="p">(</span><span class="n">tle_name</span><span class="p">,</span> <span class="n">satellite_names_list</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Check if the satellite name in the TLE files is in the satellite names list.</span>
+<span class="w">    </span><span class="sd">"""Check if the satellite name in the TLE files is in the satellite names list.</span>
 
 <span class="sd">    Satellite names in the TLE files may be longer than the names passed to the</span>
-<span class="sd">    overpass predictor For example, a user might request &#39;GCOM-W1&#39;, and the name</span>
-<span class="sd">    in the TLE file is &#39;GCOM-W1 (SHIZUKU)&#39;.</span>
+<span class="sd">    overpass predictor For example, a user might request 'GCOM-W1', and the name</span>
+<span class="sd">    in the TLE file is 'GCOM-W1 (SHIZUKU)'.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -862,16 +889,16 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">    -------</span>
 <span class="sd">    bool</span>
 <span class="sd">        True if tle_name is in the passed satellite names list</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="c1"># For every TLE and satellite name, split the string by &quot; (&quot;, and remove</span>
+<span class="sd">    """</span>
+    <span class="c1"># For every TLE and satellite name, split the string by " (", and remove</span>
     <span class="c1"># the right parenthesis (if present). This allows us to check two satellite names</span>
     <span class="c1"># if provided in the TLE file. For example, take OCEANSAT-3, which has the following</span>
-    <span class="c1"># name in the file downloaded from celestrak: &quot;EOS-6 (OCEANSAT-3)&quot;. Splitting the</span>
-    <span class="c1"># names allows us to check if &quot;EOS-6&quot; OR &quot;OCEANSAT-3&quot; are in the</span>
+    <span class="c1"># name in the file downloaded from celestrak: "EOS-6 (OCEANSAT-3)". Splitting the</span>
+    <span class="c1"># names allows us to check if "EOS-6" OR "OCEANSAT-3" are in the</span>
     <span class="c1">#  satellite_names_list.</span>
-    <span class="n">split_tle_name</span> <span class="o">=</span> <span class="n">tle_name</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;)&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot; (&quot;</span><span class="p">)</span>
+    <span class="n">split_tle_name</span> <span class="o">=</span> <span class="n">tle_name</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">")"</span><span class="p">,</span> <span class="s2">""</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">" ("</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">sat</span> <span class="ow">in</span> <span class="n">satellite_names_list</span><span class="p">:</span>
-        <span class="n">split_sat_name</span> <span class="o">=</span> <span class="n">sat</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;)&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot; (&quot;</span><span class="p">)</span>
+        <span class="n">split_sat_name</span> <span class="o">=</span> <span class="n">sat</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">")"</span><span class="p">,</span> <span class="s2">""</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">" ("</span><span class="p">)</span>
         <span class="k">if</span> <span class="nb">any</span><span class="p">([</span><span class="n">x</span> <span class="ow">in</span> <span class="n">split_tle_name</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">split_sat_name</span><span class="p">]):</span>
             <span class="n">satellite_in_list</span> <span class="o">=</span> <span class="kc">True</span>
             <span class="k">break</span>
@@ -881,7 +908,7 @@ window.runMermaid = runMermaid;</script>
 
 
 <div class="viewcode-block" id="read_satellite_tle"><a class="viewcode-back" href="../../../geoips_api/geoips.sector_utils.html#geoips.sector_utils.overpass_predictor.read_satellite_tle">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">read_satellite_tle</span><span class="p">(</span><span class="n">tlefile</span><span class="p">,</span> <span class="n">satellite_list</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Open and extract satellite infromation from TLE file.</span>
+<span class="w">    </span><span class="sd">"""Open and extract satellite infromation from TLE file.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -894,24 +921,24 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">    -------</span>
 <span class="sd">    dict</span>
 <span class="sd">        satellite TLE data</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">tlefile</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">tfile</span><span class="p">:</span>
+<span class="sd">    """</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">tlefile</span><span class="p">,</span> <span class="s2">"r"</span><span class="p">)</span> <span class="k">as</span> <span class="n">tfile</span><span class="p">:</span>
         <span class="n">tle_content</span> <span class="o">=</span> <span class="n">tfile</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span>
     <span class="n">satellite_tles</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">tle_content</span><span class="p">):</span>
-        <span class="k">if</span> <span class="n">line</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;1&quot;</span><span class="p">,</span> <span class="s2">&quot;2&quot;</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="n">line</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">"1"</span><span class="p">,</span> <span class="s2">"2"</span><span class="p">]:</span>
             <span class="k">continue</span>
         <span class="n">satellite</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
         <span class="k">if</span> <span class="n">check_tle_name_to_passed_names</span><span class="p">(</span><span class="n">satellite</span><span class="p">,</span> <span class="n">satellite_list</span><span class="p">):</span>
             <span class="n">line1</span> <span class="o">=</span> <span class="n">tle_content</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
             <span class="n">line2</span> <span class="o">=</span> <span class="n">tle_content</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
-            <span class="n">clean_name</span> <span class="o">=</span> <span class="n">satellite</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot; (&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
-            <span class="n">satellite_tles</span><span class="p">[</span><span class="n">clean_name</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;line1&quot;</span><span class="p">:</span> <span class="n">line1</span><span class="p">,</span> <span class="s2">&quot;line2&quot;</span><span class="p">:</span> <span class="n">line2</span><span class="p">}</span>
+            <span class="n">clean_name</span> <span class="o">=</span> <span class="n">satellite</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">" ("</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">satellite_tles</span><span class="p">[</span><span class="n">clean_name</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"line1"</span><span class="p">:</span> <span class="n">line1</span><span class="p">,</span> <span class="s2">"line2"</span><span class="p">:</span> <span class="n">line2</span><span class="p">}</span>
     <span class="k">return</span> <span class="n">satellite_tles</span></div>
 
 
 <div class="viewcode-block" id="floor_minute"><a class="viewcode-back" href="../../../geoips_api/geoips.sector_utils.html#geoips.sector_utils.overpass_predictor.floor_minute">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">floor_minute</span><span class="p">(</span><span class="n">datetime_obj</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Remove seconds and microseconds from datetime object.</span>
+<span class="w">    </span><span class="sd">"""Remove seconds and microseconds from datetime object.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -922,14 +949,14 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">    -------</span>
 <span class="sd">    datetime.datetime</span>
 <span class="sd">        datetime with no seconds/microseconds</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">second</span> <span class="o">=</span> <span class="n">datetime_obj</span><span class="o">.</span><span class="n">second</span>
     <span class="n">micro</span> <span class="o">=</span> <span class="n">datetime_obj</span><span class="o">.</span><span class="n">microsecond</span>
     <span class="k">return</span> <span class="n">datetime_obj</span> <span class="o">-</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">seconds</span><span class="o">=</span><span class="n">second</span><span class="p">,</span> <span class="n">microseconds</span><span class="o">=</span><span class="n">micro</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="calculate_overpass"><a class="viewcode-back" href="../../../geoips_api/geoips.sector_utils.html#geoips.sector_utils.overpass_predictor.calculate_overpass">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">calculate_overpass</span><span class="p">(</span><span class="n">tle</span><span class="p">,</span> <span class="n">observer_lat</span><span class="p">,</span> <span class="n">observer_lon</span><span class="p">,</span> <span class="n">date</span><span class="p">,</span> <span class="n">satellite_name</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Calculate next overpass for a satellite at an observer location and time.</span>
+<span class="w">    </span><span class="sd">"""Calculate next overpass for a satellite at an observer location and time.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -948,11 +975,11 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">    -------</span>
 <span class="sd">    dict</span>
 <span class="sd">        next overpass information</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">sector</span> <span class="o">=</span> <span class="n">ephem</span><span class="o">.</span><span class="n">Observer</span><span class="p">()</span>
     <span class="n">sector</span><span class="o">.</span><span class="n">lon</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">observer_lon</span><span class="p">)</span>
     <span class="n">sector</span><span class="o">.</span><span class="n">lat</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">observer_lat</span><span class="p">)</span>
-    <span class="n">sector</span><span class="o">.</span><span class="n">date</span> <span class="o">=</span> <span class="n">date</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y/%m/</span><span class="si">%d</span><span class="s2"> %H:%M:%S&quot;</span><span class="p">)</span>
+    <span class="n">sector</span><span class="o">.</span><span class="n">date</span> <span class="o">=</span> <span class="n">date</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">"%Y/%m/</span><span class="si">%d</span><span class="s2"> %H:%M:%S"</span><span class="p">)</span>
     <span class="n">sector</span><span class="o">.</span><span class="n">elevation</span> <span class="o">=</span> <span class="mf">0.0</span>
     <span class="n">moon</span> <span class="o">=</span> <span class="n">ephem</span><span class="o">.</span><span class="n">Moon</span><span class="p">()</span>
     <span class="n">sun</span> <span class="o">=</span> <span class="n">ephem</span><span class="o">.</span><span class="n">Sun</span><span class="p">()</span>
@@ -960,14 +987,14 @@ window.runMermaid = runMermaid;</script>
     <span class="n">sun</span><span class="o">.</span><span class="n">compute</span><span class="p">(</span><span class="n">sector</span><span class="p">)</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">sun</span><span class="o">.</span><span class="n">rise_time</span><span class="p">:</span>
         <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
-            <span class="s2">&quot;</span><span class="si">%s</span><span class="s2">:Something went wrong when calculating sun rise time for </span><span class="si">%s</span><span class="s2">!&quot;</span><span class="p">,</span>
+            <span class="s2">"</span><span class="si">%s</span><span class="s2">:Something went wrong when calculating sun rise time for </span><span class="si">%s</span><span class="s2">!"</span><span class="p">,</span>
             <span class="n">satellite_name</span><span class="p">,</span>
             <span class="n">date</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="k">return</span> <span class="kc">None</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">sun</span><span class="o">.</span><span class="n">set_time</span><span class="p">:</span>
         <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
-            <span class="s2">&quot;</span><span class="si">%s</span><span class="s2">:Something went wrong when calculating sun set time for </span><span class="si">%s</span><span class="s2">!&quot;</span><span class="p">,</span>
+            <span class="s2">"</span><span class="si">%s</span><span class="s2">:Something went wrong when calculating sun set time for </span><span class="si">%s</span><span class="s2">!"</span><span class="p">,</span>
             <span class="n">satellite_name</span><span class="p">,</span>
             <span class="n">date</span><span class="p">,</span>
         <span class="p">)</span>
@@ -977,39 +1004,39 @@ window.runMermaid = runMermaid;</script>
     <span class="k">if</span> <span class="n">sunset</span> <span class="o">&lt;=</span> <span class="n">sunrise</span><span class="p">:</span>
         <span class="n">sunset</span> <span class="o">+=</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">days</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
     <span class="n">opass_info</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="s2">&quot;check datetime&quot;</span><span class="p">:</span> <span class="n">date</span><span class="p">,</span>
-        <span class="s2">&quot;sunrise&quot;</span><span class="p">:</span> <span class="n">sunrise</span><span class="p">,</span>
-        <span class="s2">&quot;sunset&quot;</span><span class="p">:</span> <span class="n">sunset</span><span class="p">,</span>
-        <span class="s2">&quot;moon phase&quot;</span><span class="p">:</span> <span class="n">moon</span><span class="o">.</span><span class="n">phase</span><span class="p">,</span>
+        <span class="s2">"check datetime"</span><span class="p">:</span> <span class="n">date</span><span class="p">,</span>
+        <span class="s2">"sunrise"</span><span class="p">:</span> <span class="n">sunrise</span><span class="p">,</span>
+        <span class="s2">"sunset"</span><span class="p">:</span> <span class="n">sunset</span><span class="p">,</span>
+        <span class="s2">"moon phase"</span><span class="p">:</span> <span class="n">moon</span><span class="o">.</span><span class="n">phase</span><span class="p">,</span>
     <span class="p">}</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">opass</span> <span class="o">=</span> <span class="n">sector</span><span class="o">.</span><span class="n">next_pass</span><span class="p">(</span><span class="n">tle</span><span class="p">)</span>
         <span class="n">is_geostationary</span> <span class="o">=</span> <span class="kc">False</span>
         <span class="n">max_alt_time</span> <span class="o">=</span> <span class="n">floor_minute</span><span class="p">(</span><span class="n">opass</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">datetime</span><span class="p">())</span>
-        <span class="n">opass_info</span><span class="p">[</span><span class="s2">&quot;rise time&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">floor_minute</span><span class="p">(</span><span class="n">opass</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">datetime</span><span class="p">())</span>
-        <span class="n">opass_info</span><span class="p">[</span><span class="s2">&quot;max altitude time&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">max_alt_time</span>
-        <span class="n">opass_info</span><span class="p">[</span><span class="s2">&quot;max altitude&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">opass</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
-        <span class="n">opass_info</span><span class="p">[</span><span class="s2">&quot;set time&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">floor_minute</span><span class="p">(</span><span class="n">opass</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span><span class="o">.</span><span class="n">datetime</span><span class="p">())</span>
-        <span class="n">opass_info</span><span class="p">[</span><span class="s2">&quot;is daytime&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">max_alt_time</span> <span class="o">&gt;=</span> <span class="n">sunrise</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">max_alt_time</span> <span class="o">&lt;</span> <span class="n">sunset</span><span class="p">)</span>
-        <span class="n">opass_info</span><span class="p">[</span><span class="s2">&quot;is geostationary&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="n">opass_info</span><span class="p">[</span><span class="s2">"rise time"</span><span class="p">]</span> <span class="o">=</span> <span class="n">floor_minute</span><span class="p">(</span><span class="n">opass</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">datetime</span><span class="p">())</span>
+        <span class="n">opass_info</span><span class="p">[</span><span class="s2">"max altitude time"</span><span class="p">]</span> <span class="o">=</span> <span class="n">max_alt_time</span>
+        <span class="n">opass_info</span><span class="p">[</span><span class="s2">"max altitude"</span><span class="p">]</span> <span class="o">=</span> <span class="n">opass</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+        <span class="n">opass_info</span><span class="p">[</span><span class="s2">"set time"</span><span class="p">]</span> <span class="o">=</span> <span class="n">floor_minute</span><span class="p">(</span><span class="n">opass</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span><span class="o">.</span><span class="n">datetime</span><span class="p">())</span>
+        <span class="n">opass_info</span><span class="p">[</span><span class="s2">"is daytime"</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">max_alt_time</span> <span class="o">&gt;=</span> <span class="n">sunrise</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">max_alt_time</span> <span class="o">&lt;</span> <span class="n">sunset</span><span class="p">)</span>
+        <span class="n">opass_info</span><span class="p">[</span><span class="s2">"is geostationary"</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
     <span class="k">except</span> <span class="ne">ValueError</span> <span class="k">as</span> <span class="n">resp</span><span class="p">:</span>
-        <span class="k">if</span> <span class="s2">&quot;circumpolar&quot;</span> <span class="ow">in</span> <span class="nb">str</span><span class="p">(</span><span class="n">resp</span><span class="p">):</span>
+        <span class="k">if</span> <span class="s2">"circumpolar"</span> <span class="ow">in</span> <span class="nb">str</span><span class="p">(</span><span class="n">resp</span><span class="p">):</span>
             <span class="n">is_geostationary</span> <span class="o">=</span> <span class="kc">True</span>
             <span class="n">is_above_horizon</span> <span class="o">=</span> <span class="kc">True</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="c1"># LOG.info(resp)</span>
             <span class="k">return</span> <span class="kc">None</span>
-        <span class="n">opass_info</span><span class="p">[</span><span class="s2">&quot;rise time&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">date</span>
-        <span class="n">opass_info</span><span class="p">[</span><span class="s2">&quot;max altitude time&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">date</span>
-        <span class="n">opass_info</span><span class="p">[</span><span class="s2">&quot;max altitude&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">date</span>
-        <span class="n">opass_info</span><span class="p">[</span><span class="s2">&quot;set time&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">date</span>
-        <span class="n">opass_info</span><span class="p">[</span><span class="s2">&quot;is geostationary&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">is_geostationary</span>
-        <span class="n">opass_info</span><span class="p">[</span><span class="s2">&quot;above horizon&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">is_above_horizon</span>
-        <span class="n">opass_info</span><span class="p">[</span><span class="s2">&quot;is daytime&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">date</span> <span class="o">&gt;=</span> <span class="n">sunrise</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">date</span> <span class="o">&lt;</span> <span class="n">sunset</span><span class="p">)</span>
+        <span class="n">opass_info</span><span class="p">[</span><span class="s2">"rise time"</span><span class="p">]</span> <span class="o">=</span> <span class="n">date</span>
+        <span class="n">opass_info</span><span class="p">[</span><span class="s2">"max altitude time"</span><span class="p">]</span> <span class="o">=</span> <span class="n">date</span>
+        <span class="n">opass_info</span><span class="p">[</span><span class="s2">"max altitude"</span><span class="p">]</span> <span class="o">=</span> <span class="n">date</span>
+        <span class="n">opass_info</span><span class="p">[</span><span class="s2">"set time"</span><span class="p">]</span> <span class="o">=</span> <span class="n">date</span>
+        <span class="n">opass_info</span><span class="p">[</span><span class="s2">"is geostationary"</span><span class="p">]</span> <span class="o">=</span> <span class="n">is_geostationary</span>
+        <span class="n">opass_info</span><span class="p">[</span><span class="s2">"above horizon"</span><span class="p">]</span> <span class="o">=</span> <span class="n">is_above_horizon</span>
+        <span class="n">opass_info</span><span class="p">[</span><span class="s2">"is daytime"</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">date</span> <span class="o">&gt;=</span> <span class="n">sunrise</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">date</span> <span class="o">&lt;</span> <span class="n">sunset</span><span class="p">)</span>
     <span class="k">except</span> <span class="ne">AttributeError</span> <span class="k">as</span> <span class="n">resp</span><span class="p">:</span>
         <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
-            <span class="s2">&quot;</span><span class="si">%s</span><span class="s2">: Something when wrong with calculating the next overpass for </span><span class="si">%s</span><span class="s2"> &quot;</span>
-            <span class="s2">&quot;(AttributeError)&quot;</span><span class="p">,</span>
+            <span class="s2">"</span><span class="si">%s</span><span class="s2">: Something when wrong with calculating the next overpass for </span><span class="si">%s</span><span class="s2"> "</span>
+            <span class="s2">"(AttributeError)"</span><span class="p">,</span>
             <span class="n">satellite_name</span><span class="p">,</span>
             <span class="n">date</span><span class="p">,</span>
         <span class="p">)</span>
@@ -1017,8 +1044,8 @@ window.runMermaid = runMermaid;</script>
         <span class="k">return</span> <span class="kc">None</span>
     <span class="k">except</span> <span class="ne">TypeError</span> <span class="k">as</span> <span class="n">resp</span><span class="p">:</span>
         <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
-            <span class="s2">&quot;</span><span class="si">%s</span><span class="s2">: Something when wrong with calculating the next overpass for </span><span class="si">%s</span><span class="s2"> &quot;</span>
-            <span class="s2">&quot;(TypeError)&quot;</span><span class="p">,</span>
+            <span class="s2">"</span><span class="si">%s</span><span class="s2">: Something when wrong with calculating the next overpass for </span><span class="si">%s</span><span class="s2"> "</span>
+            <span class="s2">"(TypeError)"</span><span class="p">,</span>
             <span class="n">satellite_name</span><span class="p">,</span>
             <span class="n">date</span><span class="p">,</span>
         <span class="p">)</span>
@@ -1027,23 +1054,23 @@ window.runMermaid = runMermaid;</script>
     <span class="k">if</span> <span class="n">is_geostationary</span><span class="p">:</span>
         <span class="n">tle</span><span class="o">.</span><span class="n">compute</span><span class="p">(</span><span class="n">sector</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="n">tle</span><span class="o">.</span><span class="n">compute</span><span class="p">(</span><span class="n">opass_info</span><span class="p">[</span><span class="s2">&quot;max altitude time&quot;</span><span class="p">])</span>
-    <span class="n">opass_info</span><span class="p">[</span><span class="s2">&quot;sublon&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">degrees</span><span class="p">(</span><span class="n">tle</span><span class="o">.</span><span class="n">sublong</span><span class="p">)</span>
-    <span class="n">opass_info</span><span class="p">[</span><span class="s2">&quot;sublat&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">degrees</span><span class="p">(</span><span class="n">tle</span><span class="o">.</span><span class="n">sublat</span><span class="p">)</span>
+        <span class="n">tle</span><span class="o">.</span><span class="n">compute</span><span class="p">(</span><span class="n">opass_info</span><span class="p">[</span><span class="s2">"max altitude time"</span><span class="p">])</span>
+    <span class="n">opass_info</span><span class="p">[</span><span class="s2">"sublon"</span><span class="p">]</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">degrees</span><span class="p">(</span><span class="n">tle</span><span class="o">.</span><span class="n">sublong</span><span class="p">)</span>
+    <span class="n">opass_info</span><span class="p">[</span><span class="s2">"sublat"</span><span class="p">]</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">degrees</span><span class="p">(</span><span class="n">tle</span><span class="o">.</span><span class="n">sublat</span><span class="p">)</span>
     <span class="n">ptsatdeg</span> <span class="o">=</span> <span class="n">spherical_geometry</span><span class="o">.</span><span class="n">Coordinate</span><span class="p">(</span>
-        <span class="n">lon</span><span class="o">=</span><span class="n">opass_info</span><span class="p">[</span><span class="s2">&quot;sublon&quot;</span><span class="p">],</span> <span class="n">lat</span><span class="o">=</span><span class="n">opass_info</span><span class="p">[</span><span class="s2">&quot;sublat&quot;</span><span class="p">]</span>
+        <span class="n">lon</span><span class="o">=</span><span class="n">opass_info</span><span class="p">[</span><span class="s2">"sublon"</span><span class="p">],</span> <span class="n">lat</span><span class="o">=</span><span class="n">opass_info</span><span class="p">[</span><span class="s2">"sublat"</span><span class="p">]</span>
     <span class="p">)</span>
     <span class="n">ptsecdeg</span> <span class="o">=</span> <span class="n">spherical_geometry</span><span class="o">.</span><span class="n">Coordinate</span><span class="p">(</span>
         <span class="n">lon</span><span class="o">=</span><span class="n">math</span><span class="o">.</span><span class="n">degrees</span><span class="p">(</span><span class="n">sector</span><span class="o">.</span><span class="n">lon</span><span class="p">),</span> <span class="n">lat</span><span class="o">=</span><span class="n">math</span><span class="o">.</span><span class="n">degrees</span><span class="p">(</span><span class="n">sector</span><span class="o">.</span><span class="n">lat</span><span class="p">)</span>
     <span class="p">)</span>
     <span class="n">earth_radius_km</span> <span class="o">=</span> <span class="mf">6730.0</span>
     <span class="n">cpa_km</span> <span class="o">=</span> <span class="n">ptsatdeg</span><span class="o">.</span><span class="n">distance</span><span class="p">(</span><span class="n">ptsecdeg</span><span class="p">)</span> <span class="o">*</span> <span class="n">earth_radius_km</span>
-    <span class="n">opass_info</span><span class="p">[</span><span class="s2">&quot;closest pass approach (km)&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">cpa_km</span>
+    <span class="n">opass_info</span><span class="p">[</span><span class="s2">"closest pass approach (km)"</span><span class="p">]</span> <span class="o">=</span> <span class="n">cpa_km</span>
     <span class="k">return</span> <span class="n">opass_info</span></div>
 
 
 <div class="viewcode-block" id="create_sector_observers"><a class="viewcode-back" href="../../../geoips_api/geoips.sector_utils.html#geoips.sector_utils.overpass_predictor.create_sector_observers">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">create_sector_observers</span><span class="p">(</span><span class="n">ll_lon</span><span class="p">,</span> <span class="n">ll_lat</span><span class="p">,</span> <span class="n">ur_lon</span><span class="p">,</span> <span class="n">ur_lat</span><span class="p">,</span> <span class="n">spacing</span><span class="o">=</span><span class="mi">50</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Create multiple prediction points for large sectors.</span>
+<span class="w">    </span><span class="sd">"""Create multiple prediction points for large sectors.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -1062,7 +1089,7 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">    -------</span>
 <span class="sd">    list</span>
 <span class="sd">        List of observer points for sector.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">if</span> <span class="n">ur_lon</span> <span class="o">&lt;</span> <span class="n">ll_lon</span><span class="p">:</span>
         <span class="c1"># Check if sector crosses dateline.</span>
         <span class="c1"># Convert lons to 0 - 360 just to make things easier.</span>
@@ -1070,7 +1097,7 @@ window.runMermaid = runMermaid;</script>
     <span class="c1"># Find how wide and tall the sector is</span>
     <span class="n">lon_delta</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">((</span><span class="n">ur_lon</span> <span class="o">-</span> <span class="n">spacing</span><span class="p">)</span> <span class="o">-</span> <span class="p">(</span><span class="n">ll_lon</span> <span class="o">-</span> <span class="n">spacing</span><span class="p">))</span>
     <span class="n">lat_delta</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">((</span><span class="n">ur_lat</span> <span class="o">-</span> <span class="n">spacing</span><span class="p">)</span> <span class="o">-</span> <span class="p">(</span><span class="n">ll_lat</span> <span class="o">-</span> <span class="n">spacing</span><span class="p">))</span>
-    <span class="c1"># Determine how many observers we&#39;d expect for this sector.</span>
+    <span class="c1"># Determine how many observers we'd expect for this sector.</span>
     <span class="n">n_lat_points</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">lat_delta</span><span class="p">)</span> <span class="o">/</span> <span class="n">spacing</span><span class="p">)</span>
     <span class="n">n_lon_points</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">lon_delta</span><span class="p">)</span> <span class="o">/</span> <span class="n">spacing</span><span class="p">)</span>
     <span class="c1"># Create list of latitude observer points.</span>
@@ -1108,7 +1135,7 @@ window.runMermaid = runMermaid;</script>
     <span class="n">start_datetime</span><span class="p">,</span>
     <span class="n">observer_spacing</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span>
 <span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Estimate next satellite overpass information with ephem.</span>
+<span class="w">    </span><span class="sd">"""Estimate next satellite overpass information with ephem.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -1130,20 +1157,20 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">    -------</span>
 <span class="sd">    dict</span>
 <span class="sd">        dictionary holding next overpass information</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">tle</span> <span class="o">=</span> <span class="n">ephem</span><span class="o">.</span><span class="n">readtle</span><span class="p">(</span><span class="n">tlefile</span><span class="p">,</span> <span class="n">satellite_tle</span><span class="p">[</span><span class="s2">&quot;line1&quot;</span><span class="p">],</span> <span class="n">satellite_tle</span><span class="p">[</span><span class="s2">&quot;line2&quot;</span><span class="p">])</span>
+<span class="sd">    """</span>
+    <span class="n">tle</span> <span class="o">=</span> <span class="n">ephem</span><span class="o">.</span><span class="n">readtle</span><span class="p">(</span><span class="n">tlefile</span><span class="p">,</span> <span class="n">satellite_tle</span><span class="p">[</span><span class="s2">"line1"</span><span class="p">],</span> <span class="n">satellite_tle</span><span class="p">[</span><span class="s2">"line2"</span><span class="p">])</span>
     <span class="n">ll_lon</span><span class="p">,</span> <span class="n">ll_lat</span><span class="p">,</span> <span class="n">ur_lon</span><span class="p">,</span> <span class="n">ur_lat</span> <span class="o">=</span> <span class="n">area_def</span><span class="o">.</span><span class="n">area_extent_ll</span>
     <span class="n">observers</span> <span class="o">=</span> <span class="n">create_sector_observers</span><span class="p">(</span>
         <span class="n">ll_lon</span><span class="p">,</span> <span class="n">ll_lat</span><span class="p">,</span> <span class="n">ur_lon</span><span class="p">,</span> <span class="n">ur_lat</span><span class="p">,</span> <span class="n">spacing</span><span class="o">=</span><span class="n">observer_spacing</span>
     <span class="p">)</span>
     <span class="n">total_observers</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">observers</span><span class="p">)</span>
     <span class="n">overpasses</span> <span class="o">=</span> <span class="p">{}</span>
-    <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">area_def</span><span class="p">,</span> <span class="s2">&quot;sector_info&quot;</span><span class="p">)</span> <span class="ow">and</span> <span class="s2">&quot;storm_id&quot;</span> <span class="ow">in</span> <span class="n">area_def</span><span class="o">.</span><span class="n">sector_info</span><span class="p">:</span>
-        <span class="n">adef_name</span> <span class="o">=</span> <span class="n">area_def</span><span class="o">.</span><span class="n">sector_info</span><span class="p">[</span><span class="s2">&quot;storm_id&quot;</span><span class="p">]</span>
+    <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">area_def</span><span class="p">,</span> <span class="s2">"sector_info"</span><span class="p">)</span> <span class="ow">and</span> <span class="s2">"storm_id"</span> <span class="ow">in</span> <span class="n">area_def</span><span class="o">.</span><span class="n">sector_info</span><span class="p">:</span>
+        <span class="n">adef_name</span> <span class="o">=</span> <span class="n">area_def</span><span class="o">.</span><span class="n">sector_info</span><span class="p">[</span><span class="s2">"storm_id"</span><span class="p">]</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">adef_name</span> <span class="o">=</span> <span class="n">area_def</span><span class="o">.</span><span class="n">area_id</span>
     <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
-        <span class="s2">&quot;Running </span><span class="si">%s</span><span class="s2"> overpass predictor for </span><span class="si">%s</span><span class="s2">. Total observers: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span>
+        <span class="s2">"Running </span><span class="si">%s</span><span class="s2"> overpass predictor for </span><span class="si">%s</span><span class="s2">. Total observers: </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span>
         <span class="n">satellite_name</span><span class="p">,</span>
         <span class="n">adef_name</span><span class="p">,</span>
         <span class="n">total_observers</span><span class="p">,</span>
@@ -1157,11 +1184,11 @@ window.runMermaid = runMermaid;</script>
             <span class="c1"># Either something went wrong in the predictor, or found a</span>
             <span class="c1"># geostationary satellite that does not overpass the sector, ever!</span>
             <span class="k">continue</span>
-        <span class="n">opass_key</span> <span class="o">=</span> <span class="s2">&quot;_&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+        <span class="n">opass_key</span> <span class="o">=</span> <span class="s2">"_"</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
             <span class="p">[</span>
                 <span class="n">satellite_name</span><span class="p">,</span>
                 <span class="n">adef_name</span><span class="p">,</span>
-                <span class="n">opass_info</span><span class="p">[</span><span class="s2">&quot;max altitude time&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y%m</span><span class="si">%d</span><span class="s2">T%H%MZ&quot;</span><span class="p">),</span>
+                <span class="n">opass_info</span><span class="p">[</span><span class="s2">"max altitude time"</span><span class="p">]</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">"%Y%m</span><span class="si">%d</span><span class="s2">T%H%MZ"</span><span class="p">),</span>
             <span class="p">]</span>
         <span class="p">)</span>
         <span class="k">if</span> <span class="n">opass_key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">overpasses</span><span class="p">:</span>
@@ -1172,7 +1199,7 @@ window.runMermaid = runMermaid;</script>
 <div class="viewcode-block" id="predict_overpass_area_def"><a class="viewcode-back" href="../../../geoips_api/geoips.sector_utils.html#geoips.sector_utils.overpass_predictor.predict_overpass_area_def">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">predict_overpass_area_def</span><span class="p">(</span>
     <span class="n">tlefile</span><span class="p">,</span> <span class="n">area_definition</span><span class="p">,</span> <span class="n">satellite_list</span><span class="p">,</span> <span class="n">start_datetime</span><span class="p">,</span> <span class="n">observer_spacing</span><span class="o">=</span><span class="mi">50</span>
 <span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Predict satellite overpass for an area_definition.</span>
+<span class="w">    </span><span class="sd">"""Predict satellite overpass for an area_definition.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -1193,9 +1220,9 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">    dict</span>
 <span class="sd">        dictionary holding next satellite overpass estimates</span>
 <span class="sd">        (sorted by satellite -&gt; overpass info)</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">satellite_list</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;satellite_list must be type list&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">"satellite_list must be type list"</span><span class="p">)</span>
     <span class="n">area_def_overpasses</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="n">satellite_tle_dict</span> <span class="o">=</span> <span class="n">read_satellite_tle</span><span class="p">(</span><span class="n">tlefile</span><span class="p">,</span> <span class="n">satellite_list</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">satellite</span><span class="p">,</span> <span class="n">sat_tle</span> <span class="ow">in</span> <span class="n">satellite_tle_dict</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
@@ -1220,7 +1247,7 @@ window.runMermaid = runMermaid;</script>
     <span class="n">start_datetime</span><span class="p">,</span>
     <span class="n">observer_spacing</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span>
 <span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Predict satellite overpass for sectors from a given yaml sector file.</span>
+<span class="w">    </span><span class="sd">"""Predict satellite overpass for sectors from a given yaml sector file.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -1243,11 +1270,11 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">    dict</span>
 <span class="sd">        dictionary holding next satellite overpass estimates for sectors</span>
 <span class="sd">        (sorted by sector -&gt; satellite -&gt; overpass info)</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">geoips.sector_utils.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">create_areadefinition_from_yaml</span>
 
     <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">satellite_list</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;satellite_list must be type list&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">"satellite_list must be type list"</span><span class="p">)</span>
     <span class="n">sector_overpasses</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="k">for</span> <span class="n">yaml_sector</span> <span class="ow">in</span> <span class="n">sector_list</span><span class="p">:</span>
         <span class="n">sector_area_def</span> <span class="o">=</span> <span class="n">create_areadefinition_from_yaml</span><span class="p">(</span><span class="n">sectorfile</span><span class="p">,</span> <span class="n">yaml_sector</span><span class="p">)</span>

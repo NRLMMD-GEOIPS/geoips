@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>geoips.plugins.classes.output_formatters.windspeed_awips2_formatter &#8212; GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation</title>
+    <title>geoips.plugins.classes.output_formatters.windspeed_awips2_formatter &#8212; GeoIPS, Geolocated Information Processing System 0.0.0 documentation</title>
   
   
   
@@ -40,7 +40,7 @@
   <link rel="preload" as="script" href="../../../../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
 <link rel="preload" as="script" href="../../../../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
 
-    <script data-url_root="../../../../../" id="documentation_options" src="../../../../../_static/documentation_options.js?v=6727bded"></script>
+    <script data-url_root="../../../../../" id="documentation_options" src="../../../../../_static/documentation_options.js?v=525cde36"></script>
     <script src="../../../../../_static/doctools.js?v=888ff710"></script>
     <script src="../../../../../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../../../_static/design-tabs.js?v=f930bc37"></script>
@@ -401,14 +401,21 @@ mermaid.initialize(
 window.addEventListener("load", load);
 window.runMermaid = runMermaid;</script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_modules/geoips/plugins/classes/output_formatters/windspeed_awips2_formatter';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.17.1';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://nrlmmd-geoips.github.io/geoips/versions.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = 'dev';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner =
+            false;
+        </script>
     <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
     <link rel="icon" href="../../../../../_static/nrlicon.ico"/>
     <link rel="index" title="Index" href="../../../../../genindex.html" />
     <link rel="search" title="Search" href="../../../../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2.0" />
-    <meta name="docbuild:last-update" content="Jul 23, 2026 17:03:57"/>
+  <meta name="docsearch:version" content="0.0" />
+    <meta name="docbuild:last-update" content="Aug 31, 2026 13:32:18"/>
   
     
     <script src="../../../../../_static/searchtools.js"></script>
@@ -480,11 +487,31 @@ window.runMermaid = runMermaid;</script>
       
     
     
-    <img src="../../../../../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation - Home"/>
-    <img src="../../../../../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation - Home"/>
+    <img src="../../../../../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 0.0.0 documentation - Home"/>
+    <img src="../../../../../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 0.0.0 documentation - Home"/>
   
   
 </a></div>
+    
+      <div class="navbar-item">
+<div class="version-switcher__container dropdown pst-js-only">
+  <button id="pst-version-switcher-button-2"
+    type="button"
+    class="version-switcher__button btn btn-sm dropdown-toggle"
+    data-bs-toggle="dropdown"
+    aria-haspopup="listbox"
+    aria-controls="pst-version-switcher-list-2"
+    aria-label="Version switcher list"
+  >
+    Choose version  <!-- this text may get changed later by javascript -->
+    <span class="caret"></span>
+  </button>
+  <div id="pst-version-switcher-list-2"
+    class="version-switcher__menu dropdown-menu list-group-flush py-0"
+    role="listbox" aria-labelledby="pst-version-switcher-button-2">
+    <!-- dropdown will be populated by javascript on page load -->
+  </div>
+</div></div>
     
   </div>
   
@@ -828,7 +855,7 @@ window.runMermaid = runMermaid;</script>
 <span></span><span class="c1"># # # This source code is subject to the license referenced at</span>
 <span class="c1"># # # https://github.com/NRLMMD-GEOIPS.</span>
 
-<span class="sd">&quot;&quot;&quot;Routines for writing SMAP or SMOS windspeed data in AWIPS2 compatible format.&quot;&quot;&quot;</span>
+<span class="sd">"""Routines for writing SMAP or SMOS windspeed data in AWIPS2 compatible format."""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">geoips.interfaces.class_based.output_formatters</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseOutputFormatterPlugin</span>
 
@@ -848,18 +875,18 @@ window.runMermaid = runMermaid;</script>
 
 
 <div class="viewcode-block" id="WindspeedAwips2FormatterOutputFormatterPlugin"><a class="viewcode-back" href="../../../../../geoips_api/geoips.plugins.classes.output_formatters.html#geoips.plugins.classes.output_formatters.windspeed_awips2_formatter.WindspeedAwips2FormatterOutputFormatterPlugin">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">WindspeedAwips2FormatterOutputFormatterPlugin</span><span class="p">(</span><span class="n">BaseOutputFormatterPlugin</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Windspeed Awips2 Formatter Output formatter plugin class.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Windspeed Awips2 Formatter Output formatter plugin class."""</span>
 
-    <span class="n">interface</span> <span class="o">=</span> <span class="s2">&quot;output_formatters&quot;</span>
-    <span class="n">family</span> <span class="o">=</span> <span class="s2">&quot;xrdict_to_outlist&quot;</span>
-    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;windspeed_awips2_formatter&quot;</span>
+    <span class="n">interface</span> <span class="o">=</span> <span class="s2">"output_formatters"</span>
+    <span class="n">family</span> <span class="o">=</span> <span class="s2">"xrdict_to_outlist"</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">"windspeed_awips2_formatter"</span>
 
 <div class="viewcode-block" id="WindspeedAwips2FormatterOutputFormatterPlugin.call"><a class="viewcode-back" href="../../../../../geoips_api/geoips.plugins.classes.output_formatters.html#geoips.plugins.classes.output_formatters.windspeed_awips2_formatter.WindspeedAwips2FormatterOutputFormatterPlugin.call">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">call</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">xarray_dict</span><span class="p">,</span>
-        <span class="n">working_directory</span><span class="o">=</span><span class="n">geoips_variables</span><span class="p">[</span><span class="s2">&quot;GEOIPS_OUTDIRS&quot;</span><span class="p">],</span>
+        <span class="n">working_directory</span><span class="o">=</span><span class="n">geoips_variables</span><span class="p">[</span><span class="s2">"GEOIPS_OUTDIRS"</span><span class="p">],</span>
     <span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Write AWIPS2 compatible NetCDF files from SMAP or SMOS windspeed data.</span>
+<span class="w">        </span><span class="sd">"""Write AWIPS2 compatible NetCDF files from SMAP or SMOS windspeed data.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -869,31 +896,31 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        List[str]</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">working_dir</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">working_directory</span><span class="p">)</span>
-        <span class="n">utc_date_format</span> <span class="o">=</span> <span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2"> %H:%M:%S UTC&quot;</span>
+        <span class="n">utc_date_format</span> <span class="o">=</span> <span class="s2">"%Y-%m-</span><span class="si">%d</span><span class="s2"> %H:%M:%S UTC"</span>
         <span class="n">success_outputs</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="k">if</span> <span class="n">xarray_dict</span><span class="p">[</span><span class="s2">&quot;METADATA&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;source_name&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;smap-spd&quot;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">xarray_dict</span><span class="p">[</span><span class="s2">"METADATA"</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"source_name"</span><span class="p">]</span> <span class="o">==</span> <span class="s2">"smap-spd"</span><span class="p">:</span>
             <span class="n">success_outputs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">write_smap_awips2</span><span class="p">(</span>
                 <span class="n">xarray_dict</span><span class="p">,</span> <span class="n">working_dir</span><span class="p">,</span> <span class="n">utc_date_format</span>
             <span class="p">)</span>
-        <span class="k">elif</span> <span class="n">xarray_dict</span><span class="p">[</span><span class="s2">&quot;METADATA&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;source_name&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;smos-spd&quot;</span><span class="p">:</span>
+        <span class="k">elif</span> <span class="n">xarray_dict</span><span class="p">[</span><span class="s2">"METADATA"</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"source_name"</span><span class="p">]</span> <span class="o">==</span> <span class="s2">"smos-spd"</span><span class="p">:</span>
             <span class="n">success_outputs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">write_smos_awips2</span><span class="p">(</span>
                 <span class="n">xarray_dict</span><span class="p">,</span> <span class="n">working_dir</span><span class="p">,</span> <span class="n">utc_date_format</span>
             <span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">LOG</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
                 <span class="p">(</span>
-                    <span class="s2">&quot;Unrecognized source_name, &#39;</span><span class="si">%s</span><span class="s2">&#39; cannot be converted into &quot;</span>
-                    <span class="o">+</span> <span class="s2">&quot;AWIPS2-compatible windspeed NetCDF file&quot;</span>
+                    <span class="s2">"Unrecognized source_name, '</span><span class="si">%s</span><span class="s2">' cannot be converted into "</span>
+                    <span class="o">+</span> <span class="s2">"AWIPS2-compatible windspeed NetCDF file"</span>
                 <span class="p">),</span>
-                <span class="n">xarray_dict</span><span class="p">[</span><span class="s2">&quot;METADATA&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;source_name&quot;</span><span class="p">],</span>
+                <span class="n">xarray_dict</span><span class="p">[</span><span class="s2">"METADATA"</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"source_name"</span><span class="p">],</span>
             <span class="p">)</span>
 
         <span class="k">return</span> <span class="n">success_outputs</span></div>
 
 <div class="viewcode-block" id="WindspeedAwips2FormatterOutputFormatterPlugin.write_smap_awips2"><a class="viewcode-back" href="../../../../../geoips_api/geoips.plugins.classes.output_formatters.html#geoips.plugins.classes.output_formatters.windspeed_awips2_formatter.WindspeedAwips2FormatterOutputFormatterPlugin.write_smap_awips2">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">write_smap_awips2</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">xarray_dict</span><span class="p">,</span> <span class="n">working_dir</span><span class="p">,</span> <span class="n">utc_date_format</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Write AWIPS2 style NetCDF file containing SMAP data to the disk.</span>
+<span class="w">        </span><span class="sd">"""Write AWIPS2 style NetCDF file containing SMAP data to the disk.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -904,20 +931,20 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        List[str]</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">success_outputs</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="n">ascending_nodes</span> <span class="o">=</span> <span class="n">xarray_dict</span><span class="p">[</span><span class="s2">&quot;WINDSPEED_1&quot;</span><span class="p">]</span>
-        <span class="n">descending_nodes</span> <span class="o">=</span> <span class="n">xarray_dict</span><span class="p">[</span><span class="s2">&quot;WINDSPEED_2&quot;</span><span class="p">]</span>
-        <span class="n">asc_times</span> <span class="o">=</span> <span class="n">ascending_nodes</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">]</span>
-        <span class="n">des_times</span> <span class="o">=</span> <span class="n">descending_nodes</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">]</span>
-        <span class="n">asc_speeds</span> <span class="o">=</span> <span class="n">ascending_nodes</span><span class="p">[</span><span class="s2">&quot;wind_speed_kts&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
-        <span class="n">des_speeds</span> <span class="o">=</span> <span class="n">descending_nodes</span><span class="p">[</span><span class="s2">&quot;wind_speed_kts&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
-        <span class="n">longitude</span> <span class="o">=</span> <span class="n">ascending_nodes</span><span class="p">[</span><span class="s2">&quot;longitude&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
-        <span class="n">latitude</span> <span class="o">=</span> <span class="n">ascending_nodes</span><span class="p">[</span><span class="s2">&quot;latitude&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+        <span class="n">ascending_nodes</span> <span class="o">=</span> <span class="n">xarray_dict</span><span class="p">[</span><span class="s2">"WINDSPEED_1"</span><span class="p">]</span>
+        <span class="n">descending_nodes</span> <span class="o">=</span> <span class="n">xarray_dict</span><span class="p">[</span><span class="s2">"WINDSPEED_2"</span><span class="p">]</span>
+        <span class="n">asc_times</span> <span class="o">=</span> <span class="n">ascending_nodes</span><span class="p">[</span><span class="s2">"time"</span><span class="p">]</span>
+        <span class="n">des_times</span> <span class="o">=</span> <span class="n">descending_nodes</span><span class="p">[</span><span class="s2">"time"</span><span class="p">]</span>
+        <span class="n">asc_speeds</span> <span class="o">=</span> <span class="n">ascending_nodes</span><span class="p">[</span><span class="s2">"wind_speed_kts"</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+        <span class="n">des_speeds</span> <span class="o">=</span> <span class="n">descending_nodes</span><span class="p">[</span><span class="s2">"wind_speed_kts"</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+        <span class="n">longitude</span> <span class="o">=</span> <span class="n">ascending_nodes</span><span class="p">[</span><span class="s2">"longitude"</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+        <span class="n">latitude</span> <span class="o">=</span> <span class="n">ascending_nodes</span><span class="p">[</span><span class="s2">"latitude"</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
 
-        <span class="n">start_datetime</span> <span class="o">=</span> <span class="n">xarray_dict</span><span class="p">[</span><span class="s2">&quot;METADATA&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;start_datetime&quot;</span><span class="p">]</span>
+        <span class="n">start_datetime</span> <span class="o">=</span> <span class="n">xarray_dict</span><span class="p">[</span><span class="s2">"METADATA"</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"start_datetime"</span><span class="p">]</span>
         <span class="n">mintime</span><span class="p">,</span> <span class="n">maxtime</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_min_max_times_from_two_nodes</span><span class="p">(</span>
-            <span class="n">ascending_nodes</span><span class="p">,</span> <span class="n">descending_nodes</span><span class="p">,</span> <span class="s2">&quot;time&quot;</span>
+            <span class="n">ascending_nodes</span><span class="p">,</span> <span class="n">descending_nodes</span><span class="p">,</span> <span class="s2">"time"</span>
         <span class="p">)</span>
 
         <span class="c1"># create roughly one section per hour</span>
@@ -929,10 +956,10 @@ window.runMermaid = runMermaid;</script>
                 <span class="n">seconds</span><span class="o">=</span><span class="n">seconds_per_section</span> <span class="o">*</span> <span class="n">section_index</span>
             <span class="p">)</span>
             <span class="n">split_end</span> <span class="o">=</span> <span class="n">split_start</span> <span class="o">+</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">seconds</span><span class="o">=</span><span class="n">seconds_per_section</span><span class="p">)</span>
-            <span class="n">base_file</span> <span class="o">=</span> <span class="s2">&quot;CIRA_A2WIND_SMAP_&quot;</span> <span class="o">+</span> <span class="n">split_start</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y%m</span><span class="si">%d</span><span class="s2">_%H%M&quot;</span><span class="p">)</span>
-            <span class="n">awips2_file</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">working_dir</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">base_file</span><span class="si">}</span><span class="s2">.nc&quot;</span><span class="p">)</span>
+            <span class="n">base_file</span> <span class="o">=</span> <span class="s2">"CIRA_A2WIND_SMAP_"</span> <span class="o">+</span> <span class="n">split_start</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">"%Y%m</span><span class="si">%d</span><span class="s2">_%H%M"</span><span class="p">)</span>
+            <span class="n">awips2_file</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">working_dir</span><span class="p">,</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">base_file</span><span class="si">}</span><span class="s2">.nc"</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">awips2_file</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
-                <span class="n">LOG</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;awips2 file already exists! Overwriting: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">awips2_file</span><span class="p">)</span>
+                <span class="n">LOG</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">"awips2 file already exists! Overwriting: </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="n">awips2_file</span><span class="p">)</span>
 
             <span class="n">timestamp_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">(</span><span class="n">asc_times</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="o">-</span><span class="mf">999.0</span><span class="p">)</span>
             <span class="n">new_smap_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">(</span><span class="n">asc_times</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="o">-</span><span class="mf">999.0</span><span class="p">)</span>
@@ -965,13 +992,13 @@ window.runMermaid = runMermaid;</script>
                 <span class="n">datetime</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="n">split_start</span><span class="p">,</span> <span class="n">utc_date_format</span><span class="p">),</span>
             <span class="p">)</span>
 
-            <span class="n">new_xarray_dict</span><span class="o">.</span><span class="n">to_netcdf</span><span class="p">(</span><span class="n">awips2_file</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s2">&quot;NETCDF4&quot;</span><span class="p">)</span>
+            <span class="n">new_xarray_dict</span><span class="o">.</span><span class="n">to_netcdf</span><span class="p">(</span><span class="n">awips2_file</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s2">"NETCDF4"</span><span class="p">)</span>
 
             <span class="n">success_outputs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">awips2_file</span><span class="p">))</span>
         <span class="k">return</span> <span class="n">success_outputs</span></div>
 
 <div class="viewcode-block" id="WindspeedAwips2FormatterOutputFormatterPlugin.make_smap_data_mask"><a class="viewcode-back" href="../../../../../geoips_api/geoips.plugins.classes.output_formatters.html#geoips.plugins.classes.output_formatters.windspeed_awips2_formatter.WindspeedAwips2FormatterOutputFormatterPlugin.make_smap_data_mask">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">make_smap_data_mask</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">times</span><span class="p">,</span> <span class="n">split_start</span><span class="p">,</span> <span class="n">split_end</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create a mask for only the valid times between the defined start and end.</span>
+<span class="w">        </span><span class="sd">"""Create a mask for only the valid times between the defined start and end.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -982,7 +1009,7 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        tuple[NDArray[intp], ...]</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">valid_mask</span> <span class="o">=</span> <span class="p">(</span>
             <span class="p">(</span><span class="n">times</span> <span class="o">&gt;=</span> <span class="n">np</span><span class="o">.</span><span class="n">datetime64</span><span class="p">(</span><span class="n">split_start</span><span class="p">))</span>
             <span class="o">&amp;</span> <span class="p">(</span><span class="n">times</span> <span class="o">&lt;</span> <span class="n">np</span><span class="o">.</span><span class="n">datetime64</span><span class="p">(</span><span class="n">split_end</span><span class="p">))</span>
@@ -992,7 +1019,7 @@ window.runMermaid = runMermaid;</script>
         <span class="k">return</span> <span class="n">mask</span></div>
 
 <div class="viewcode-block" id="WindspeedAwips2FormatterOutputFormatterPlugin.write_smos_awips2"><a class="viewcode-back" href="../../../../../geoips_api/geoips.plugins.classes.output_formatters.html#geoips.plugins.classes.output_formatters.windspeed_awips2_formatter.WindspeedAwips2FormatterOutputFormatterPlugin.write_smos_awips2">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">write_smos_awips2</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">xarray_dict</span><span class="p">,</span> <span class="n">working_dir</span><span class="p">,</span> <span class="n">utc_date_format</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Write AWIPS2 style NetCDF file containing SMOS data to the disk.</span>
+<span class="w">        </span><span class="sd">"""Write AWIPS2 style NetCDF file containing SMOS data to the disk.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -1003,13 +1030,13 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        List[str]</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">success_outputs</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="n">dataset</span> <span class="o">=</span> <span class="n">xarray_dict</span><span class="p">[</span><span class="s2">&quot;WINDSPEED&quot;</span><span class="p">]</span>
-        <span class="n">time_array</span> <span class="o">=</span> <span class="n">xarray_dict</span><span class="p">[</span><span class="s2">&quot;WINDSPEED&quot;</span><span class="p">][</span><span class="s2">&quot;time&quot;</span><span class="p">]</span>
-        <span class="n">wind_speed_array</span> <span class="o">=</span> <span class="n">xarray_dict</span><span class="p">[</span><span class="s2">&quot;WINDSPEED&quot;</span><span class="p">][</span><span class="s2">&quot;wind_speed_kts&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
-        <span class="n">longitude</span> <span class="o">=</span> <span class="n">xarray_dict</span><span class="p">[</span><span class="s2">&quot;WINDSPEED&quot;</span><span class="p">][</span><span class="s2">&quot;longitude&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
-        <span class="n">latitude</span> <span class="o">=</span> <span class="n">xarray_dict</span><span class="p">[</span><span class="s2">&quot;WINDSPEED&quot;</span><span class="p">][</span><span class="s2">&quot;latitude&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+        <span class="n">dataset</span> <span class="o">=</span> <span class="n">xarray_dict</span><span class="p">[</span><span class="s2">"WINDSPEED"</span><span class="p">]</span>
+        <span class="n">time_array</span> <span class="o">=</span> <span class="n">xarray_dict</span><span class="p">[</span><span class="s2">"WINDSPEED"</span><span class="p">][</span><span class="s2">"time"</span><span class="p">]</span>
+        <span class="n">wind_speed_array</span> <span class="o">=</span> <span class="n">xarray_dict</span><span class="p">[</span><span class="s2">"WINDSPEED"</span><span class="p">][</span><span class="s2">"wind_speed_kts"</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+        <span class="n">longitude</span> <span class="o">=</span> <span class="n">xarray_dict</span><span class="p">[</span><span class="s2">"WINDSPEED"</span><span class="p">][</span><span class="s2">"longitude"</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+        <span class="n">latitude</span> <span class="o">=</span> <span class="n">xarray_dict</span><span class="p">[</span><span class="s2">"WINDSPEED"</span><span class="p">][</span><span class="s2">"latitude"</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
 
         <span class="n">quality_mask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span>
             <span class="p">(</span><span class="n">wind_speed_array</span> <span class="o">&gt;=</span> <span class="mf">0.0</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">logical_not</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">wind_speed_array</span><span class="p">)))</span>
@@ -1033,30 +1060,30 @@ window.runMermaid = runMermaid;</script>
             <span class="n">new_time_data</span><span class="p">,</span>
         <span class="p">)</span>
 
-        <span class="n">start_time</span> <span class="o">=</span> <span class="n">dataset</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;start_datetime&quot;</span><span class="p">]</span>
-        <span class="c1"># end_time = dataset.attrs[&quot;end_datetime&quot;]</span>
-        <span class="n">new_xarray_dict</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;time_coverage_start&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">dataset</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span>
-            <span class="s2">&quot;time_coverage_start&quot;</span>
+        <span class="n">start_time</span> <span class="o">=</span> <span class="n">dataset</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"start_datetime"</span><span class="p">]</span>
+        <span class="c1"># end_time = dataset.attrs["end_datetime"]</span>
+        <span class="n">new_xarray_dict</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"time_coverage_start"</span><span class="p">]</span> <span class="o">=</span> <span class="n">dataset</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span>
+            <span class="s2">"time_coverage_start"</span>
         <span class="p">]</span>
-        <span class="n">new_xarray_dict</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;time_coverage_end&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">dataset</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;time_coverage_end&quot;</span><span class="p">]</span>
-        <span class="n">new_xarray_dict</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;time_coverage_resolution&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">dataset</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span>
-            <span class="s2">&quot;time_coverage_resolution&quot;</span>
+        <span class="n">new_xarray_dict</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"time_coverage_end"</span><span class="p">]</span> <span class="o">=</span> <span class="n">dataset</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"time_coverage_end"</span><span class="p">]</span>
+        <span class="n">new_xarray_dict</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"time_coverage_resolution"</span><span class="p">]</span> <span class="o">=</span> <span class="n">dataset</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span>
+            <span class="s2">"time_coverage_resolution"</span>
         <span class="p">]</span>
-        <span class="n">new_xarray_dict</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;answrs:acquistion_time&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">start_time</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span>
+        <span class="n">new_xarray_dict</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"answrs:acquistion_time"</span><span class="p">]</span> <span class="o">=</span> <span class="n">start_time</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span>
             <span class="n">utc_date_format</span>
         <span class="p">)</span>
 
-        <span class="n">base_file</span> <span class="o">=</span> <span class="s2">&quot;CIRA_A2WIND_SMOS_&quot;</span> <span class="o">+</span> <span class="n">start_time</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y%m</span><span class="si">%d</span><span class="s2">_%H%M&quot;</span><span class="p">)</span>
-        <span class="n">awips2_file</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">working_dir</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">base_file</span><span class="si">}</span><span class="s2">.nc&quot;</span><span class="p">)</span>
+        <span class="n">base_file</span> <span class="o">=</span> <span class="s2">"CIRA_A2WIND_SMOS_"</span> <span class="o">+</span> <span class="n">start_time</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">"%Y%m</span><span class="si">%d</span><span class="s2">_%H%M"</span><span class="p">)</span>
+        <span class="n">awips2_file</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">working_dir</span><span class="p">,</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">base_file</span><span class="si">}</span><span class="s2">.nc"</span><span class="p">)</span>
 
-        <span class="n">new_xarray_dict</span><span class="o">.</span><span class="n">to_netcdf</span><span class="p">(</span><span class="n">awips2_file</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s2">&quot;NETCDF4&quot;</span><span class="p">)</span>
+        <span class="n">new_xarray_dict</span><span class="o">.</span><span class="n">to_netcdf</span><span class="p">(</span><span class="n">awips2_file</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s2">"NETCDF4"</span><span class="p">)</span>
 
         <span class="n">success_outputs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">awips2_file</span><span class="p">))</span>
 
         <span class="k">return</span> <span class="n">success_outputs</span></div>
 
 <div class="viewcode-block" id="WindspeedAwips2FormatterOutputFormatterPlugin.make_smos_dataset"><a class="viewcode-back" href="../../../../../geoips_api/geoips.plugins.classes.output_formatters.html#geoips.plugins.classes.output_formatters.windspeed_awips2_formatter.WindspeedAwips2FormatterOutputFormatterPlugin.make_smos_dataset">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">make_smos_dataset</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lat</span><span class="p">,</span> <span class="n">lon</span><span class="p">,</span> <span class="n">smos_data</span><span class="p">,</span> <span class="n">timestamp_data</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create an xarray.Dataset with the final SMOS data.</span>
+<span class="w">        </span><span class="sd">"""Create an xarray.Dataset with the final SMOS data.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -1069,89 +1096,89 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        new_dataset : xarray.Dataset</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">latitude</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
             <span class="n">lat</span><span class="p">,</span>
-            <span class="n">dims</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;y&quot;</span><span class="p">,</span> <span class="s2">&quot;x&quot;</span><span class="p">),</span>
+            <span class="n">dims</span><span class="o">=</span><span class="p">(</span><span class="s2">"y"</span><span class="p">,</span> <span class="s2">"x"</span><span class="p">),</span>
             <span class="n">attrs</span><span class="o">=</span><span class="p">{</span>
-                <span class="s2">&quot;units&quot;</span><span class="p">:</span> <span class="s2">&quot;degrees_north&quot;</span><span class="p">,</span>
-                <span class="s2">&quot;long_name&quot;</span><span class="p">:</span> <span class="s2">&quot;Latitude array in decimal degrees&quot;</span><span class="p">,</span>
-                <span class="s2">&quot;standard_name&quot;</span><span class="p">:</span> <span class="s2">&quot;latitude&quot;</span><span class="p">,</span>
+                <span class="s2">"units"</span><span class="p">:</span> <span class="s2">"degrees_north"</span><span class="p">,</span>
+                <span class="s2">"long_name"</span><span class="p">:</span> <span class="s2">"Latitude array in decimal degrees"</span><span class="p">,</span>
+                <span class="s2">"standard_name"</span><span class="p">:</span> <span class="s2">"latitude"</span><span class="p">,</span>
             <span class="p">},</span>
         <span class="p">)</span>
         <span class="n">longitude</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
             <span class="n">lon</span><span class="p">,</span>
-            <span class="n">dims</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;y&quot;</span><span class="p">,</span> <span class="s2">&quot;x&quot;</span><span class="p">),</span>
+            <span class="n">dims</span><span class="o">=</span><span class="p">(</span><span class="s2">"y"</span><span class="p">,</span> <span class="s2">"x"</span><span class="p">),</span>
             <span class="n">attrs</span><span class="o">=</span><span class="p">{</span>
-                <span class="s2">&quot;units&quot;</span><span class="p">:</span> <span class="s2">&quot;degrees_east&quot;</span><span class="p">,</span>
-                <span class="s2">&quot;long_name&quot;</span><span class="p">:</span> <span class="s2">&quot;Longitude array in decimal degrees&quot;</span><span class="p">,</span>
-                <span class="s2">&quot;standard_name&quot;</span><span class="p">:</span> <span class="s2">&quot;longitude&quot;</span><span class="p">,</span>
+                <span class="s2">"units"</span><span class="p">:</span> <span class="s2">"degrees_east"</span><span class="p">,</span>
+                <span class="s2">"long_name"</span><span class="p">:</span> <span class="s2">"Longitude array in decimal degrees"</span><span class="p">,</span>
+                <span class="s2">"standard_name"</span><span class="p">:</span> <span class="s2">"longitude"</span><span class="p">,</span>
             <span class="p">},</span>
         <span class="p">)</span>
         <span class="n">smos_wind</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
             <span class="n">smos_data</span><span class="p">,</span>
-            <span class="n">dims</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;y&quot;</span><span class="p">,</span> <span class="s2">&quot;x&quot;</span><span class="p">),</span>
+            <span class="n">dims</span><span class="o">=</span><span class="p">(</span><span class="s2">"y"</span><span class="p">,</span> <span class="s2">"x"</span><span class="p">),</span>
             <span class="n">attrs</span><span class="o">=</span><span class="p">{</span>
-                <span class="s2">&quot;units&quot;</span><span class="p">:</span> <span class="s2">&quot;m s-1&quot;</span><span class="p">,</span>
-                <span class="s2">&quot;long_name&quot;</span><span class="p">:</span> <span class="s2">&quot;SMOS-derived wind speed at 10-m height neutral stability&quot;</span><span class="p">,</span>
-                <span class="s2">&quot;standard_name&quot;</span><span class="p">:</span> <span class="s2">&quot;wind_speed&quot;</span><span class="p">,</span>
-                <span class="s2">&quot;scale_factor&quot;</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">,</span>
-                <span class="s2">&quot;add_offset&quot;</span><span class="p">:</span> <span class="mf">0.0</span><span class="p">,</span>
-                <span class="s2">&quot;coverage_content_type&quot;</span><span class="p">:</span> <span class="s2">&quot;physicalMeasurement&quot;</span><span class="p">,</span>
-                <span class="s2">&quot;_FillValue&quot;</span><span class="p">:</span> <span class="o">-</span><span class="mf">999.0</span><span class="p">,</span>
-                <span class="s2">&quot;valid_min&quot;</span><span class="p">:</span> <span class="mf">0.0</span><span class="p">,</span>
-                <span class="s2">&quot;valid_max&quot;</span><span class="p">:</span> <span class="mf">100.0</span><span class="p">,</span>
-                <span class="s2">&quot;grid_mapping&quot;</span><span class="p">:</span> <span class="s2">&quot;NONE&quot;</span><span class="p">,</span>
-                <span class="s2">&quot;source&quot;</span><span class="p">:</span> <span class="s2">&quot;SMOS imagery European Space Agency (ESA)&quot;</span><span class="p">,</span>
-                <span class="s2">&quot;reference&quot;</span><span class="p">:</span> <span class="s2">&quot;NONE&quot;</span><span class="p">,</span>
-                <span class="s2">&quot;platform&quot;</span><span class="p">:</span> <span class="s2">&quot;SMOS WEST&quot;</span><span class="p">,</span>
-                <span class="s2">&quot;instrument&quot;</span><span class="p">:</span> <span class="s2">&quot;SMOS&quot;</span><span class="p">,</span>
-                <span class="s2">&quot;Comment&quot;</span><span class="p">:</span> <span class="s2">&quot;NONE&quot;</span><span class="p">,</span>
-                <span class="s2">&quot;coordinates&quot;</span><span class="p">:</span> <span class="s2">&quot;longitude latitude&quot;</span><span class="p">,</span>
+                <span class="s2">"units"</span><span class="p">:</span> <span class="s2">"m s-1"</span><span class="p">,</span>
+                <span class="s2">"long_name"</span><span class="p">:</span> <span class="s2">"SMOS-derived wind speed at 10-m height neutral stability"</span><span class="p">,</span>
+                <span class="s2">"standard_name"</span><span class="p">:</span> <span class="s2">"wind_speed"</span><span class="p">,</span>
+                <span class="s2">"scale_factor"</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">,</span>
+                <span class="s2">"add_offset"</span><span class="p">:</span> <span class="mf">0.0</span><span class="p">,</span>
+                <span class="s2">"coverage_content_type"</span><span class="p">:</span> <span class="s2">"physicalMeasurement"</span><span class="p">,</span>
+                <span class="s2">"_FillValue"</span><span class="p">:</span> <span class="o">-</span><span class="mf">999.0</span><span class="p">,</span>
+                <span class="s2">"valid_min"</span><span class="p">:</span> <span class="mf">0.0</span><span class="p">,</span>
+                <span class="s2">"valid_max"</span><span class="p">:</span> <span class="mf">100.0</span><span class="p">,</span>
+                <span class="s2">"grid_mapping"</span><span class="p">:</span> <span class="s2">"NONE"</span><span class="p">,</span>
+                <span class="s2">"source"</span><span class="p">:</span> <span class="s2">"SMOS imagery European Space Agency (ESA)"</span><span class="p">,</span>
+                <span class="s2">"reference"</span><span class="p">:</span> <span class="s2">"NONE"</span><span class="p">,</span>
+                <span class="s2">"platform"</span><span class="p">:</span> <span class="s2">"SMOS WEST"</span><span class="p">,</span>
+                <span class="s2">"instrument"</span><span class="p">:</span> <span class="s2">"SMOS"</span><span class="p">,</span>
+                <span class="s2">"Comment"</span><span class="p">:</span> <span class="s2">"NONE"</span><span class="p">,</span>
+                <span class="s2">"coordinates"</span><span class="p">:</span> <span class="s2">"longitude latitude"</span><span class="p">,</span>
             <span class="p">},</span>
         <span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
         <span class="n">timestamps</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
             <span class="n">timestamp_data</span><span class="p">,</span>
-            <span class="n">dims</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;y&quot;</span><span class="p">,</span> <span class="s2">&quot;x&quot;</span><span class="p">),</span>
+            <span class="n">dims</span><span class="o">=</span><span class="p">(</span><span class="s2">"y"</span><span class="p">,</span> <span class="s2">"x"</span><span class="p">),</span>
             <span class="n">attrs</span><span class="o">=</span><span class="p">{</span>
-                <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;SMAP_TIME&quot;</span><span class="p">,</span>
-                <span class="s2">&quot;long_name&quot;</span><span class="p">:</span> <span class="s2">&quot;time of observation at nadir&quot;</span><span class="p">,</span>
-                <span class="s2">&quot;coordinates&quot;</span><span class="p">:</span> <span class="s2">&quot;longitude latitude&quot;</span><span class="p">,</span>
-                <span class="s2">&quot;units&quot;</span><span class="p">:</span> <span class="s2">&quot;Z&quot;</span><span class="p">,</span>
-                <span class="s2">&quot;_FillValue&quot;</span><span class="p">:</span> <span class="o">-</span><span class="mf">999.0</span><span class="p">,</span>
+                <span class="s2">"name"</span><span class="p">:</span> <span class="s2">"SMAP_TIME"</span><span class="p">,</span>
+                <span class="s2">"long_name"</span><span class="p">:</span> <span class="s2">"time of observation at nadir"</span><span class="p">,</span>
+                <span class="s2">"coordinates"</span><span class="p">:</span> <span class="s2">"longitude latitude"</span><span class="p">,</span>
+                <span class="s2">"units"</span><span class="p">:</span> <span class="s2">"Z"</span><span class="p">,</span>
+                <span class="s2">"_FillValue"</span><span class="p">:</span> <span class="o">-</span><span class="mf">999.0</span><span class="p">,</span>
             <span class="p">},</span>
         <span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
         <span class="n">new_dataset</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">(</span>
             <span class="p">{</span>
-                <span class="s2">&quot;latitude&quot;</span><span class="p">:</span> <span class="n">latitude</span><span class="p">,</span>
-                <span class="s2">&quot;longitude&quot;</span><span class="p">:</span> <span class="n">longitude</span><span class="p">,</span>
-                <span class="s2">&quot;smos_wind&quot;</span><span class="p">:</span> <span class="n">smos_wind</span><span class="p">,</span>
-                <span class="s2">&quot;TTIME&quot;</span><span class="p">:</span> <span class="n">timestamps</span><span class="p">,</span>
+                <span class="s2">"latitude"</span><span class="p">:</span> <span class="n">latitude</span><span class="p">,</span>
+                <span class="s2">"longitude"</span><span class="p">:</span> <span class="n">longitude</span><span class="p">,</span>
+                <span class="s2">"smos_wind"</span><span class="p">:</span> <span class="n">smos_wind</span><span class="p">,</span>
+                <span class="s2">"TTIME"</span><span class="p">:</span> <span class="n">timestamps</span><span class="p">,</span>
             <span class="p">},</span>
             <span class="n">attrs</span><span class="o">=</span><span class="p">{</span>
-                <span class="s2">&quot;title&quot;</span><span class="p">:</span> <span class="s2">&quot;SMOS winds at 10-m height neutral stability&quot;</span><span class="p">,</span>
-                <span class="s2">&quot;source&quot;</span><span class="p">:</span> <span class="s2">&quot;SMOS imagery European Space Agency (ESA)&quot;</span><span class="p">,</span>
-                <span class="s2">&quot;Conventions&quot;</span><span class="p">:</span> <span class="s2">&quot;CF-1.6&quot;</span><span class="p">,</span>
-                <span class="s2">&quot;license&quot;</span><span class="p">:</span> <span class="s2">&quot;These data are available for use without restriction&quot;</span><span class="p">,</span>
-                <span class="s2">&quot;sensor&quot;</span><span class="p">:</span> <span class="s2">&quot;SMOS&quot;</span><span class="p">,</span>
-                <span class="s2">&quot;grid_mapping&quot;</span><span class="p">:</span> <span class="s2">&quot;Ground Projection samples in meters&quot;</span><span class="p">,</span>
-                <span class="s2">&quot;keywords&quot;</span><span class="p">:</span> <span class="s2">&quot;Ocean &gt; Wind Speed&quot;</span><span class="p">,</span>
-                <span class="s2">&quot;keywords_vocabulary&quot;</span><span class="p">:</span> <span class="s2">&quot;UNKNOWN&quot;</span><span class="p">,</span>
-                <span class="s2">&quot;standard_name_vocabulary&quot;</span><span class="p">:</span> <span class="s2">&quot;UNKNOWN&quot;</span><span class="p">,</span>
-                <span class="s2">&quot;process_level&quot;</span><span class="p">:</span> <span class="s2">&quot;Level 2&quot;</span><span class="p">,</span>
-                <span class="s2">&quot;processing_level&quot;</span><span class="p">:</span> <span class="s2">&quot;Level 2&quot;</span><span class="p">,</span>
-                <span class="s2">&quot;cdm_data_type&quot;</span><span class="p">:</span> <span class="s2">&quot;Grid&quot;</span><span class="p">,</span>
-                <span class="s2">&quot;feature_type&quot;</span><span class="p">:</span> <span class="s2">&quot;Grid&quot;</span><span class="p">,</span>
-                <span class="s2">&quot;summary&quot;</span><span class="p">:</span> <span class="s2">&quot;&#39;SMOS wind measurements&#39;&quot;</span><span class="p">,</span>
-                <span class="s2">&quot;netcdf_version_id&quot;</span><span class="p">:</span> <span class="s2">&quot;4.3.2&quot;</span><span class="p">,</span>
-                <span class="s2">&quot;rows&quot;</span><span class="p">:</span> <span class="s2">&quot; 721.&quot;</span><span class="p">,</span>
-                <span class="s2">&quot;columns&quot;</span><span class="p">:</span> <span class="s2">&quot; 1440.&quot;</span><span class="p">,</span>
-                <span class="s2">&quot;geospatial_vertical_min&quot;</span><span class="p">:</span> <span class="s2">&quot;10&quot;</span><span class="p">,</span>
-                <span class="s2">&quot;geospatial_vertical_max&quot;</span><span class="p">:</span> <span class="s2">&quot;10&quot;</span><span class="p">,</span>
-                <span class="s2">&quot;geospatial_units&quot;</span><span class="p">:</span> <span class="s2">&quot;meters&quot;</span><span class="p">,</span>
-                <span class="s2">&quot;geospatial_resolution&quot;</span><span class="p">:</span> <span class="s2">&quot;1&quot;</span><span class="p">,</span>
-                <span class="s2">&quot;answrs:answrs_product_name&quot;</span><span class="p">:</span> <span class="s2">&quot;SMOS-derived wind speed&quot;</span><span class="p">,</span>
-                <span class="s2">&quot;answrs:platform_name&quot;</span><span class="p">:</span> <span class="s2">&quot;SMOS&quot;</span><span class="p">,</span>
+                <span class="s2">"title"</span><span class="p">:</span> <span class="s2">"SMOS winds at 10-m height neutral stability"</span><span class="p">,</span>
+                <span class="s2">"source"</span><span class="p">:</span> <span class="s2">"SMOS imagery European Space Agency (ESA)"</span><span class="p">,</span>
+                <span class="s2">"Conventions"</span><span class="p">:</span> <span class="s2">"CF-1.6"</span><span class="p">,</span>
+                <span class="s2">"license"</span><span class="p">:</span> <span class="s2">"These data are available for use without restriction"</span><span class="p">,</span>
+                <span class="s2">"sensor"</span><span class="p">:</span> <span class="s2">"SMOS"</span><span class="p">,</span>
+                <span class="s2">"grid_mapping"</span><span class="p">:</span> <span class="s2">"Ground Projection samples in meters"</span><span class="p">,</span>
+                <span class="s2">"keywords"</span><span class="p">:</span> <span class="s2">"Ocean &gt; Wind Speed"</span><span class="p">,</span>
+                <span class="s2">"keywords_vocabulary"</span><span class="p">:</span> <span class="s2">"UNKNOWN"</span><span class="p">,</span>
+                <span class="s2">"standard_name_vocabulary"</span><span class="p">:</span> <span class="s2">"UNKNOWN"</span><span class="p">,</span>
+                <span class="s2">"process_level"</span><span class="p">:</span> <span class="s2">"Level 2"</span><span class="p">,</span>
+                <span class="s2">"processing_level"</span><span class="p">:</span> <span class="s2">"Level 2"</span><span class="p">,</span>
+                <span class="s2">"cdm_data_type"</span><span class="p">:</span> <span class="s2">"Grid"</span><span class="p">,</span>
+                <span class="s2">"feature_type"</span><span class="p">:</span> <span class="s2">"Grid"</span><span class="p">,</span>
+                <span class="s2">"summary"</span><span class="p">:</span> <span class="s2">"'SMOS wind measurements'"</span><span class="p">,</span>
+                <span class="s2">"netcdf_version_id"</span><span class="p">:</span> <span class="s2">"4.3.2"</span><span class="p">,</span>
+                <span class="s2">"rows"</span><span class="p">:</span> <span class="s2">" 721."</span><span class="p">,</span>
+                <span class="s2">"columns"</span><span class="p">:</span> <span class="s2">" 1440."</span><span class="p">,</span>
+                <span class="s2">"geospatial_vertical_min"</span><span class="p">:</span> <span class="s2">"10"</span><span class="p">,</span>
+                <span class="s2">"geospatial_vertical_max"</span><span class="p">:</span> <span class="s2">"10"</span><span class="p">,</span>
+                <span class="s2">"geospatial_units"</span><span class="p">:</span> <span class="s2">"meters"</span><span class="p">,</span>
+                <span class="s2">"geospatial_resolution"</span><span class="p">:</span> <span class="s2">"1"</span><span class="p">,</span>
+                <span class="s2">"answrs:answrs_product_name"</span><span class="p">:</span> <span class="s2">"SMOS-derived wind speed"</span><span class="p">,</span>
+                <span class="s2">"answrs:platform_name"</span><span class="p">:</span> <span class="s2">"SMOS"</span><span class="p">,</span>
             <span class="p">},</span>
         <span class="p">)</span>
 
@@ -1165,7 +1192,7 @@ window.runMermaid = runMermaid;</script>
         <span class="n">timestamp_data</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
         <span class="n">acquisition_time</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
     <span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create an xarray.Dataset with the final SMAP data.</span>
+<span class="w">        </span><span class="sd">"""Create an xarray.Dataset with the final SMAP data.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -1178,71 +1205,71 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        new_dataset : xarray.Dataset</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">latitude</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
             <span class="n">lat</span><span class="p">,</span>
-            <span class="n">dims</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;y&quot;</span><span class="p">,</span> <span class="s2">&quot;x&quot;</span><span class="p">),</span>
+            <span class="n">dims</span><span class="o">=</span><span class="p">(</span><span class="s2">"y"</span><span class="p">,</span> <span class="s2">"x"</span><span class="p">),</span>
             <span class="n">attrs</span><span class="o">=</span><span class="p">{</span>
-                <span class="s2">&quot;units&quot;</span><span class="p">:</span> <span class="s2">&quot;degrees_north&quot;</span><span class="p">,</span>
-                <span class="s2">&quot;long_name&quot;</span><span class="p">:</span> <span class="s2">&quot;Latitude array in decimal degrees&quot;</span><span class="p">,</span>
-                <span class="s2">&quot;standard_name&quot;</span><span class="p">:</span> <span class="s2">&quot;latitude&quot;</span><span class="p">,</span>
+                <span class="s2">"units"</span><span class="p">:</span> <span class="s2">"degrees_north"</span><span class="p">,</span>
+                <span class="s2">"long_name"</span><span class="p">:</span> <span class="s2">"Latitude array in decimal degrees"</span><span class="p">,</span>
+                <span class="s2">"standard_name"</span><span class="p">:</span> <span class="s2">"latitude"</span><span class="p">,</span>
             <span class="p">},</span>
         <span class="p">)</span>
         <span class="n">longitude</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
             <span class="n">lon</span><span class="p">,</span>
-            <span class="n">dims</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;y&quot;</span><span class="p">,</span> <span class="s2">&quot;x&quot;</span><span class="p">),</span>
+            <span class="n">dims</span><span class="o">=</span><span class="p">(</span><span class="s2">"y"</span><span class="p">,</span> <span class="s2">"x"</span><span class="p">),</span>
             <span class="n">attrs</span><span class="o">=</span><span class="p">{</span>
-                <span class="s2">&quot;units&quot;</span><span class="p">:</span> <span class="s2">&quot;degrees_east&quot;</span><span class="p">,</span>
-                <span class="s2">&quot;long_name&quot;</span><span class="p">:</span> <span class="s2">&quot;Longitude array in decimal degrees&quot;</span><span class="p">,</span>
-                <span class="s2">&quot;standard_name&quot;</span><span class="p">:</span> <span class="s2">&quot;longitude&quot;</span><span class="p">,</span>
+                <span class="s2">"units"</span><span class="p">:</span> <span class="s2">"degrees_east"</span><span class="p">,</span>
+                <span class="s2">"long_name"</span><span class="p">:</span> <span class="s2">"Longitude array in decimal degrees"</span><span class="p">,</span>
+                <span class="s2">"standard_name"</span><span class="p">:</span> <span class="s2">"longitude"</span><span class="p">,</span>
             <span class="p">},</span>
         <span class="p">)</span>
         <span class="n">smap_wind</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
             <span class="n">new_smap_data</span><span class="p">,</span>
-            <span class="n">dims</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;y&quot;</span><span class="p">,</span> <span class="s2">&quot;x&quot;</span><span class="p">),</span>
+            <span class="n">dims</span><span class="o">=</span><span class="p">(</span><span class="s2">"y"</span><span class="p">,</span> <span class="s2">"x"</span><span class="p">),</span>
             <span class="n">attrs</span><span class="o">=</span><span class="p">{</span>
-                <span class="s2">&quot;units&quot;</span><span class="p">:</span> <span class="s2">&quot;kts&quot;</span><span class="p">,</span>
-                <span class="s2">&quot;long_name&quot;</span><span class="p">:</span> <span class="s2">&quot;SMAP-derived wind speed at 10-m height neutral stability&quot;</span><span class="p">,</span>
-                <span class="s2">&quot;standard_name&quot;</span><span class="p">:</span> <span class="s2">&quot;wind_speed&quot;</span><span class="p">,</span>
-                <span class="s2">&quot;scale_factor&quot;</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">,</span>
-                <span class="s2">&quot;add_offset&quot;</span><span class="p">:</span> <span class="mf">0.0</span><span class="p">,</span>
-                <span class="s2">&quot;coverage_content_type&quot;</span><span class="p">:</span> <span class="s2">&quot;physicalMeasurement&quot;</span><span class="p">,</span>
-                <span class="s2">&quot;_FillValue&quot;</span><span class="p">:</span> <span class="o">-</span><span class="mf">999.0</span><span class="p">,</span>
-                <span class="s2">&quot;valid_min&quot;</span><span class="p">:</span> <span class="mf">0.0</span><span class="p">,</span>
-                <span class="s2">&quot;valid_max&quot;</span><span class="p">:</span> <span class="mf">100.0</span><span class="p">,</span>
-                <span class="s2">&quot;grid_mapping&quot;</span><span class="p">:</span> <span class="s2">&quot;NONE&quot;</span><span class="p">,</span>
-                <span class="s2">&quot;source&quot;</span><span class="p">:</span> <span class="s2">&quot;RSS&quot;</span><span class="p">,</span>
-                <span class="s2">&quot;reference&quot;</span><span class="p">:</span> <span class="s2">&quot;NONE&quot;</span><span class="p">,</span>
-                <span class="s2">&quot;platform&quot;</span><span class="p">:</span> <span class="s2">&quot;SMAP&quot;</span><span class="p">,</span>
-                <span class="s2">&quot;instrument&quot;</span><span class="p">:</span> <span class="s2">&quot;SMAP&quot;</span><span class="p">,</span>
-                <span class="s2">&quot;coordinates&quot;</span><span class="p">:</span> <span class="s2">&quot;longitude latitude&quot;</span><span class="p">,</span>
+                <span class="s2">"units"</span><span class="p">:</span> <span class="s2">"kts"</span><span class="p">,</span>
+                <span class="s2">"long_name"</span><span class="p">:</span> <span class="s2">"SMAP-derived wind speed at 10-m height neutral stability"</span><span class="p">,</span>
+                <span class="s2">"standard_name"</span><span class="p">:</span> <span class="s2">"wind_speed"</span><span class="p">,</span>
+                <span class="s2">"scale_factor"</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">,</span>
+                <span class="s2">"add_offset"</span><span class="p">:</span> <span class="mf">0.0</span><span class="p">,</span>
+                <span class="s2">"coverage_content_type"</span><span class="p">:</span> <span class="s2">"physicalMeasurement"</span><span class="p">,</span>
+                <span class="s2">"_FillValue"</span><span class="p">:</span> <span class="o">-</span><span class="mf">999.0</span><span class="p">,</span>
+                <span class="s2">"valid_min"</span><span class="p">:</span> <span class="mf">0.0</span><span class="p">,</span>
+                <span class="s2">"valid_max"</span><span class="p">:</span> <span class="mf">100.0</span><span class="p">,</span>
+                <span class="s2">"grid_mapping"</span><span class="p">:</span> <span class="s2">"NONE"</span><span class="p">,</span>
+                <span class="s2">"source"</span><span class="p">:</span> <span class="s2">"RSS"</span><span class="p">,</span>
+                <span class="s2">"reference"</span><span class="p">:</span> <span class="s2">"NONE"</span><span class="p">,</span>
+                <span class="s2">"platform"</span><span class="p">:</span> <span class="s2">"SMAP"</span><span class="p">,</span>
+                <span class="s2">"instrument"</span><span class="p">:</span> <span class="s2">"SMAP"</span><span class="p">,</span>
+                <span class="s2">"coordinates"</span><span class="p">:</span> <span class="s2">"longitude latitude"</span><span class="p">,</span>
             <span class="p">},</span>
         <span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
         <span class="n">timestamps</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
             <span class="n">timestamp_data</span><span class="p">,</span>
-            <span class="n">dims</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;y&quot;</span><span class="p">,</span> <span class="s2">&quot;x&quot;</span><span class="p">),</span>
+            <span class="n">dims</span><span class="o">=</span><span class="p">(</span><span class="s2">"y"</span><span class="p">,</span> <span class="s2">"x"</span><span class="p">),</span>
             <span class="n">attrs</span><span class="o">=</span><span class="p">{</span>
-                <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;SMAP_TIME&quot;</span><span class="p">,</span>
-                <span class="s2">&quot;long_name&quot;</span><span class="p">:</span> <span class="s2">&quot;time of observation at nadir&quot;</span><span class="p">,</span>
-                <span class="s2">&quot;coordinates&quot;</span><span class="p">:</span> <span class="s2">&quot;longitude latitude&quot;</span><span class="p">,</span>
-                <span class="s2">&quot;units&quot;</span><span class="p">:</span> <span class="s2">&quot;Z&quot;</span><span class="p">,</span>
-                <span class="s2">&quot;_FillValue&quot;</span><span class="p">:</span> <span class="o">-</span><span class="mf">999.0</span><span class="p">,</span>
+                <span class="s2">"name"</span><span class="p">:</span> <span class="s2">"SMAP_TIME"</span><span class="p">,</span>
+                <span class="s2">"long_name"</span><span class="p">:</span> <span class="s2">"time of observation at nadir"</span><span class="p">,</span>
+                <span class="s2">"coordinates"</span><span class="p">:</span> <span class="s2">"longitude latitude"</span><span class="p">,</span>
+                <span class="s2">"units"</span><span class="p">:</span> <span class="s2">"Z"</span><span class="p">,</span>
+                <span class="s2">"_FillValue"</span><span class="p">:</span> <span class="o">-</span><span class="mf">999.0</span><span class="p">,</span>
             <span class="p">},</span>
         <span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
         <span class="n">new_dataset</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">(</span>
             <span class="p">{</span>
-                <span class="s2">&quot;latitude&quot;</span><span class="p">:</span> <span class="n">latitude</span><span class="p">,</span>
-                <span class="s2">&quot;longitude&quot;</span><span class="p">:</span> <span class="n">longitude</span><span class="p">,</span>
-                <span class="s2">&quot;smap_wind&quot;</span><span class="p">:</span> <span class="n">smap_wind</span><span class="p">,</span>
-                <span class="s2">&quot;TTIME&quot;</span><span class="p">:</span> <span class="n">timestamps</span><span class="p">,</span>
+                <span class="s2">"latitude"</span><span class="p">:</span> <span class="n">latitude</span><span class="p">,</span>
+                <span class="s2">"longitude"</span><span class="p">:</span> <span class="n">longitude</span><span class="p">,</span>
+                <span class="s2">"smap_wind"</span><span class="p">:</span> <span class="n">smap_wind</span><span class="p">,</span>
+                <span class="s2">"TTIME"</span><span class="p">:</span> <span class="n">timestamps</span><span class="p">,</span>
             <span class="p">},</span>
             <span class="n">attrs</span><span class="o">=</span><span class="p">{</span>
-                <span class="s2">&quot;title&quot;</span><span class="p">:</span> <span class="s2">&quot;SMAP winds at 10-m height neutral stability&quot;</span><span class="p">,</span>
-                <span class="s2">&quot;source&quot;</span><span class="p">:</span> <span class="s2">&quot;RSS/CIRA&quot;</span><span class="p">,</span>
-                <span class="s2">&quot;answrs:answrs_product_name&quot;</span><span class="p">:</span> <span class="s2">&quot;SMAP-derived wind speed&quot;</span><span class="p">,</span>
-                <span class="s2">&quot;answrs:platform_name&quot;</span><span class="p">:</span> <span class="s2">&quot;SMAP&quot;</span><span class="p">,</span>
-                <span class="s2">&quot;answrs:acquistion_time&quot;</span><span class="p">:</span> <span class="n">acquisition_time</span><span class="p">,</span>
-                <span class="s2">&quot;answrs:acq_date_time_begin&quot;</span><span class="p">:</span> <span class="n">acquisition_time</span><span class="p">,</span>
+                <span class="s2">"title"</span><span class="p">:</span> <span class="s2">"SMAP winds at 10-m height neutral stability"</span><span class="p">,</span>
+                <span class="s2">"source"</span><span class="p">:</span> <span class="s2">"RSS/CIRA"</span><span class="p">,</span>
+                <span class="s2">"answrs:answrs_product_name"</span><span class="p">:</span> <span class="s2">"SMAP-derived wind speed"</span><span class="p">,</span>
+                <span class="s2">"answrs:platform_name"</span><span class="p">:</span> <span class="s2">"SMAP"</span><span class="p">,</span>
+                <span class="s2">"answrs:acquistion_time"</span><span class="p">:</span> <span class="n">acquisition_time</span><span class="p">,</span>
+                <span class="s2">"answrs:acq_date_time_begin"</span><span class="p">:</span> <span class="n">acquisition_time</span><span class="p">,</span>
             <span class="p">},</span>
         <span class="p">)</span>
 
@@ -1254,7 +1281,7 @@ window.runMermaid = runMermaid;</script>
         <span class="n">descending_nodes</span><span class="p">:</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span> <span class="o">|</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">,</span>
         <span class="n">varname</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
     <span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Find the minimum and maximum time values from two xarray objects.</span>
+<span class="w">        </span><span class="sd">"""Find the minimum and maximum time values from two xarray objects.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -1266,7 +1293,7 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">        -------</span>
 <span class="sd">        mintime : datetime.datetime</span>
 <span class="sd">        maxtime : datetime.datetime</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">asc_min</span> <span class="o">=</span> <span class="n">get_min_from_xarray_time</span><span class="p">(</span><span class="n">ascending_nodes</span><span class="p">,</span> <span class="n">varname</span><span class="p">)</span>
         <span class="n">des_min</span> <span class="o">=</span> <span class="n">get_min_from_xarray_time</span><span class="p">(</span><span class="n">descending_nodes</span><span class="p">,</span> <span class="n">varname</span><span class="p">)</span>
         <span class="n">asc_max</span> <span class="o">=</span> <span class="n">get_max_from_xarray_time</span><span class="p">(</span><span class="n">ascending_nodes</span><span class="p">,</span> <span class="n">varname</span><span class="p">)</span>

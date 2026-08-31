@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Unit Testing &#8212; GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation</title>
+    <title>Unit Testing &#8212; GeoIPS, Geolocated Information Processing System 0.0.0 documentation</title>
   
   
   
@@ -41,11 +41,18 @@
   <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
 
-    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=6727bded"></script>
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=525cde36"></script>
     <script src="../../_static/doctools.js?v=888ff710"></script>
     <script src="../../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../_static/design-tabs.js?v=f930bc37"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'architecture/test-infrastructure/unit-tests';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.17.1';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://nrlmmd-geoips.github.io/geoips/versions.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = 'dev';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner =
+            false;
+        </script>
     <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
     <link rel="icon" href="../../_static/nrlicon.ico"/>
     <link rel="index" title="Index" href="../../genindex.html" />
@@ -54,8 +61,8 @@
     <link rel="prev" title="Test Infrastructure" href="index.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2.0" />
-    <meta name="docbuild:last-update" content="Jul 23, 2026 17:03:57"/>
+  <meta name="docsearch:version" content="0.0" />
+    <meta name="docbuild:last-update" content="Aug 31, 2026 13:32:18"/>
   
     
     <script src="../../_static/searchtools.js"></script>
@@ -127,11 +134,31 @@
       
     
     
-    <img src="../../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation - Home"/>
-    <img src="../../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation - Home"/>
+    <img src="../../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 0.0.0 documentation - Home"/>
+    <img src="../../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 0.0.0 documentation - Home"/>
   
   
 </a></div>
+    
+      <div class="navbar-item">
+<div class="version-switcher__container dropdown pst-js-only">
+  <button id="pst-version-switcher-button-2"
+    type="button"
+    class="version-switcher__button btn btn-sm dropdown-toggle"
+    data-bs-toggle="dropdown"
+    aria-haspopup="listbox"
+    aria-controls="pst-version-switcher-list-2"
+    aria-label="Version switcher list"
+  >
+    Choose version  <!-- this text may get changed later by javascript -->
+    <span class="caret"></span>
+  </button>
+  <div id="pst-version-switcher-list-2"
+    class="version-switcher__menu dropdown-menu list-group-flush py-0"
+    role="listbox" aria-labelledby="pst-version-switcher-button-2">
+    <!-- dropdown will be populated by javascript on page load -->
+  </div>
+</div></div>
     
   </div>
   
@@ -552,22 +579,22 @@ include two functions to allow for unit testing. These functions are
 called from the unit testing framework for each reader. Both of these
 functions are described below, with the reader sar_winds_netcdf as an example:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">get_test_files</span><span class="p">(</span><span class="n">test_data_dir</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Generate testing xarray from test data.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Generate testing xarray from test data."""</span>
     <span class="c1"># filepath is the locaiton of test data in $GEOIPS_TESTDATA_DIR</span>
-    <span class="n">filepath</span> <span class="o">=</span> <span class="n">test_data_dir</span> <span class="o">+</span> <span class="s2">&quot;/test_data_sar/data/*.nc&quot;</span>
+    <span class="n">filepath</span> <span class="o">=</span> <span class="n">test_data_dir</span> <span class="o">+</span> <span class="s2">"/test_data_sar/data/*.nc"</span>
     <span class="n">filelist</span> <span class="o">=</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">filelist</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
         <span class="c1"># check that the filelist is non-empty</span>
-        <span class="k">raise</span> <span class="ne">NameError</span><span class="p">(</span><span class="s2">&quot;No files found&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">NameError</span><span class="p">(</span><span class="s2">"No files found"</span><span class="p">)</span>
     <span class="c1"># Call the reader</span>
     <span class="n">tmp_xr</span> <span class="o">=</span> <span class="n">call</span><span class="p">(</span><span class="n">filelist</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">tmp_xr</span>
 
 <span class="k">def</span><span class="w"> </span><span class="nf">get_test_parameters</span><span class="p">():</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Generate test data key for unit testing.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Generate test data key for unit testing."""</span>
     <span class="c1"># Return a key and variable with data in them to check contents</span>
-    <span class="k">return</span> <span class="p">[{</span><span class="s2">&quot;data_key&quot;</span><span class="p">:</span> <span class="s2">&quot;WINDSPEED&quot;</span><span class="p">,</span> <span class="s2">&quot;data_var&quot;</span><span class="p">:</span> <span class="s2">&quot;wind_speed_kts&quot;</span><span class="p">}]</span>
+    <span class="k">return</span> <span class="p">[{</span><span class="s2">"data_key"</span><span class="p">:</span> <span class="s2">"WINDSPEED"</span><span class="p">,</span> <span class="s2">"data_var"</span><span class="p">:</span> <span class="s2">"wind_speed_kts"</span><span class="p">}]</span>
 </pre></div>
 </div>
 </section>

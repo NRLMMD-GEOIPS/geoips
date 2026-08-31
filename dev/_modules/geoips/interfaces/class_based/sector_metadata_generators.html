@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>geoips.interfaces.class_based.sector_metadata_generators &#8212; GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation</title>
+    <title>geoips.interfaces.class_based.sector_metadata_generators &#8212; GeoIPS, Geolocated Information Processing System 0.0.0 documentation</title>
   
   
   
@@ -40,7 +40,7 @@
   <link rel="preload" as="script" href="../../../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
 <link rel="preload" as="script" href="../../../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
 
-    <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js?v=6727bded"></script>
+    <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js?v=525cde36"></script>
     <script src="../../../../_static/doctools.js?v=888ff710"></script>
     <script src="../../../../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../../_static/design-tabs.js?v=f930bc37"></script>
@@ -401,14 +401,21 @@ mermaid.initialize(
 window.addEventListener("load", load);
 window.runMermaid = runMermaid;</script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_modules/geoips/interfaces/class_based/sector_metadata_generators';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.17.1';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://nrlmmd-geoips.github.io/geoips/versions.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = 'dev';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner =
+            false;
+        </script>
     <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
     <link rel="icon" href="../../../../_static/nrlicon.ico"/>
     <link rel="index" title="Index" href="../../../../genindex.html" />
     <link rel="search" title="Search" href="../../../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2.0" />
-    <meta name="docbuild:last-update" content="Jul 23, 2026 17:03:57"/>
+  <meta name="docsearch:version" content="0.0" />
+    <meta name="docbuild:last-update" content="Aug 31, 2026 13:32:18"/>
   
     
     <script src="../../../../_static/searchtools.js"></script>
@@ -480,11 +487,31 @@ window.runMermaid = runMermaid;</script>
       
     
     
-    <img src="../../../../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation - Home"/>
-    <img src="../../../../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation - Home"/>
+    <img src="../../../../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 0.0.0 documentation - Home"/>
+    <img src="../../../../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 0.0.0 documentation - Home"/>
   
   
 </a></div>
+    
+      <div class="navbar-item">
+<div class="version-switcher__container dropdown pst-js-only">
+  <button id="pst-version-switcher-button-2"
+    type="button"
+    class="version-switcher__button btn btn-sm dropdown-toggle"
+    data-bs-toggle="dropdown"
+    aria-haspopup="listbox"
+    aria-controls="pst-version-switcher-list-2"
+    aria-label="Version switcher list"
+  >
+    Choose version  <!-- this text may get changed later by javascript -->
+    <span class="caret"></span>
+  </button>
+  <div id="pst-version-switcher-list-2"
+    class="version-switcher__menu dropdown-menu list-group-flush py-0"
+    role="listbox" aria-labelledby="pst-version-switcher-button-2">
+    <!-- dropdown will be populated by javascript on page load -->
+  </div>
+</div></div>
     
   </div>
   
@@ -828,14 +855,14 @@ window.runMermaid = runMermaid;</script>
 <span></span><span class="c1"># # # This source code is subject to the license referenced at</span>
 <span class="c1"># # # https://github.com/NRLMMD-GEOIPS.</span>
 
-<span class="sd">&quot;&quot;&quot;Sector metadata generators interface class.&quot;&quot;&quot;</span>
+<span class="sd">"""Sector metadata generators interface class."""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">geoips.interfaces.class_based_plugin</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseClassPlugin</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">geoips.interfaces.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseClassInterface</span>
 
 
 <div class="viewcode-block" id="BaseSectorMetadataGeneratorPlugin"><a class="viewcode-back" href="../../../../geoips_api/geoips.interfaces.class_based.html#geoips.interfaces.class_based.sector_metadata_generators.BaseSectorMetadataGeneratorPlugin">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">BaseSectorMetadataGeneratorPlugin</span><span class="p">(</span><span class="n">BaseClassPlugin</span><span class="p">,</span> <span class="n">abstract</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Base class for GeoIPS sector_metadata_generator plugins.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Base class for GeoIPS sector_metadata_generator plugins."""</span>
 
     <span class="n">data_tree</span> <span class="o">=</span> <span class="kc">False</span>
 
@@ -843,12 +870,12 @@ window.runMermaid = runMermaid;</script>
 
 
 <div class="viewcode-block" id="DeckSectorMetaGeneratorPlugin"><a class="viewcode-back" href="../../../../geoips_api/geoips.interfaces.class_based.html#geoips.interfaces.class_based.sector_metadata_generators.DeckSectorMetaGeneratorPlugin">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">DeckSectorMetaGeneratorPlugin</span><span class="p">(</span><span class="n">BaseSectorMetadataGeneratorPlugin</span><span class="p">,</span> <span class="n">abstract</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Base class for GeoIPS deck-based sector_metadata_generator plugins.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Base class for GeoIPS deck-based sector_metadata_generator plugins."""</span>
 
 <div class="viewcode-block" id="DeckSectorMetaGeneratorPlugin.assemble_invest_storm_id"><a class="viewcode-back" href="../../../../geoips_api/geoips.interfaces.class_based.html#geoips.interfaces.class_based.sector_metadata_generators.DeckSectorMetaGeneratorPlugin.assemble_invest_storm_id">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">assemble_invest_storm_id</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">storm_basin</span><span class="p">,</span> <span class="n">invest_number</span><span class="p">,</span> <span class="n">storm_year</span><span class="p">,</span> <span class="n">storm_start_datetime</span>
     <span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Assemble invest storm ID from basin, invest number, year, and start datetime.</span>
+<span class="w">        </span><span class="sd">"""Assemble invest storm ID from basin, invest number, year, and start datetime.</span>
 
 <span class="sd">        Of format bbNNyyyyYYYYMMDD, where</span>
 
@@ -862,16 +889,16 @@ window.runMermaid = runMermaid;</script>
 
 <span class="sd">        * numbered storm bbNNyyyy</span>
 <span class="sd">        * invest storm bbNNyyyyYYYYMMDDHH (ugly, but consistent with no delimiters)</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="s2">&quot;</span><span class="si">%s%02d%04d%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span>
+<span class="sd">        """</span>
+        <span class="k">return</span> <span class="s2">"</span><span class="si">%s%02d%04d%s</span><span class="s2">"</span> <span class="o">%</span> <span class="p">(</span>
             <span class="n">storm_basin</span><span class="o">.</span><span class="n">lower</span><span class="p">(),</span>
             <span class="nb">int</span><span class="p">(</span><span class="n">invest_number</span><span class="p">),</span>
             <span class="nb">int</span><span class="p">(</span><span class="n">storm_year</span><span class="p">),</span>
-            <span class="n">storm_start_datetime</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y%m</span><span class="si">%d</span><span class="s2">%H&quot;</span><span class="p">),</span>
+            <span class="n">storm_start_datetime</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">"%Y%m</span><span class="si">%d</span><span class="s2">%H"</span><span class="p">),</span>
         <span class="p">)</span></div>
 
 <div class="viewcode-block" id="DeckSectorMetaGeneratorPlugin.assemble_numbered_storm_id"><a class="viewcode-back" href="../../../../geoips_api/geoips.interfaces.class_based.html#geoips.interfaces.class_based.sector_metadata_generators.DeckSectorMetaGeneratorPlugin.assemble_numbered_storm_id">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">assemble_numbered_storm_id</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">storm_basin</span><span class="p">,</span> <span class="n">storm_number</span><span class="p">,</span> <span class="n">storm_year</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Assemble numbered storm ID from storm basin, number, and year.</span>
+<span class="w">        </span><span class="sd">"""Assemble numbered storm ID from storm basin, number, and year.</span>
 
 <span class="sd">        Of format bbNNyyyy, where</span>
 
@@ -884,8 +911,8 @@ window.runMermaid = runMermaid;</script>
 
 <span class="sd">        * numbered storm bbNNyyyy</span>
 <span class="sd">        * invest storm bbNNyyyyYYYYMMDDHH (ugly, but consistent with no delimiters)</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="s2">&quot;</span><span class="si">%s%02d%04d</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span>
+<span class="sd">        """</span>
+        <span class="k">return</span> <span class="s2">"</span><span class="si">%s%02d%04d</span><span class="s2">"</span> <span class="o">%</span> <span class="p">(</span>
             <span class="n">storm_basin</span><span class="o">.</span><span class="n">lower</span><span class="p">(),</span>
             <span class="nb">int</span><span class="p">(</span><span class="n">storm_number</span><span class="p">),</span>
             <span class="nb">int</span><span class="p">(</span><span class="n">storm_year</span><span class="p">),</span>
@@ -893,18 +920,18 @@ window.runMermaid = runMermaid;</script>
 
 
 <div class="viewcode-block" id="SectorMetadataGeneratorsInterface"><a class="viewcode-back" href="../../../../geoips_api/geoips.interfaces.class_based.html#geoips.interfaces.class_based.sector_metadata_generators.SectorMetadataGeneratorsInterface">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">SectorMetadataGeneratorsInterface</span><span class="p">(</span><span class="n">BaseClassInterface</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Interface for generating appropriate metadata for a sector.</span>
+<span class="w">    </span><span class="sd">"""Interface for generating appropriate metadata for a sector.</span>
 
 <span class="sd">    Provides specification for generating a dictionary-based set of</span>
-<span class="sd">    metadata that corresponds to a given sector.  The sector &quot;family&quot;</span>
+<span class="sd">    metadata that corresponds to a given sector.  The sector "family"</span>
 <span class="sd">    determines the formatting and contents of the metadata dictionary.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
-    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;sector_metadata_generators&quot;</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">"sector_metadata_generators"</span>
     <span class="n">plugin_class</span> <span class="o">=</span> <span class="n">BaseSectorMetadataGeneratorPlugin</span>
 
-    <span class="n">required_args</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;tc&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;trackfile_name&quot;</span><span class="p">],</span> <span class="s2">&quot;volc&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;trackfile_name&quot;</span><span class="p">]}</span>
-    <span class="n">required_kwargs</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;tc&quot;</span><span class="p">:</span> <span class="p">[],</span> <span class="s2">&quot;volc&quot;</span><span class="p">:</span> <span class="p">[]}</span></div>
+    <span class="n">required_args</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"tc"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"trackfile_name"</span><span class="p">],</span> <span class="s2">"volc"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"trackfile_name"</span><span class="p">]}</span>
+    <span class="n">required_kwargs</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"tc"</span><span class="p">:</span> <span class="p">[],</span> <span class="s2">"volc"</span><span class="p">:</span> <span class="p">[]}</span></div>
 
 
 <span class="n">sector_metadata_generators</span> <span class="o">=</span> <span class="n">SectorMetadataGeneratorsInterface</span><span class="p">()</span>

@@ -1,0 +1,428 @@
+.. dropdown:: Distribution Statement
+
+ | # # # This source code is subject to the license referenced at
+ | # # # https://github.com/NRLMMD-GEOIPS.
+
+Version 1.12.2a0 (2024-02-21)
+*****************************
+
+* Enhancements
+
+  * Add function to list all available interfaces for each interface 'family'
+  * Added log with emphasis function
+  * Introduced a documentation for coding standards within the build/dev directory.
+  * Introduced documentation for coding standards for module imports.
+  * Introduced documentation for coding standards for bringing code to standard.
+  * Introduced documentation for PEP8 standards.
+  * Added documentation for current linters and configuration.
+
+* Bug fixes
+
+  * Fix polar data not showing up in imagery
+  * Ensure that log.interactive works from plugins when imported independently.
+  * Make add_log_level a callable class to fix AttributeErrors.
+  * Remove inconsistent unit test test_log_interactive_non_geoips
+  * Modify algorithm_interpolator_colormapper to only provide input xarray
+  * Re-write Dockerfile to restore functionality (installing geoips/passing tests)
+  * Fix bad filename wrapping with log_with_emphasis
+  * Fix log_with_emphasis to deal with empty strings gracefully
+  * Fixed broken unit test in test_log_setup.py
+* Documentation
+
+  * Added documentation for create_plugin_registries and PluginRegistry Class
+  * Fix log_with_emphasis to deal with empty strings gracefully
+  * Add documentation about optional pdflatex dependency
+* Refactor
+
+  * Make JSON Plugin Registries Readable
+  * Modify create_plugin_registries to use argparse instead of sys.argv
+  * Refactor optional imports in readers to use a context manager function
+* Testing Updates
+
+  * Move pytest validation from plugin_registry.py to unit tests.
+* Documentation
+
+  * Add documentation about optional pdflatex dependency
+
+Testing Updates
+===============
+
+Move PyTest Validation from plugin_registry.py to Unit tests
+------------------------------------------------------------
+*From GEOIPS#426: 2024-02-02, GeoIPS won't run pip install . w/out [test] target*
+
+GeoIPS currently fails to run if installed by simply calling ``pip install .``. It must,
+instead, be installed with pip install .[test]. This is because pytest is used in
+geoips/plugin_registry.py but is not included in the base GeoIPS installation
+requirements.
+
+To remediate this, we've since moved the pytest validation functionality off of the
+PluginRegistry class itself, and moved it into unit tests at
+``tests/unit_tests/plugin_registries/test_plugin_registries.py``, under class
+PluginRegistryValidator. This removes the need for PyTest to be a GeoIPS dependency,
+and is now a Unit Test dependency. If users want to validate their plugin registry, they
+will have to manually install pytest to validate from now on.
+
+Unit-Test validation of the plugin registry is performed to ensure it's in the correct
+state. This was initially automatically done when it was created, but since it invoked
+pytest and that's only a required dependency in the ``test`` extra, we have decided
+to move this to a unit-test module so that end-users don't need to install pytest.
+All in all, the user doesn't really need to validate their own registry. It
+should not be created if an error occurs (eg. duplicate plugin names under the same
+interface, poorly formatted plugin, etc.), however as developers we wanted the ability
+to unit test the PluginRegistry to make sure everything was being done as expected.
+
+::
+
+    modified: geoips/plugin_registry.py
+    modified: tests/unit_tests/plugin_registries/test_plugin_registries.py
+
+Enhancements
+============
+
+Add function to list all available interfaces for each interface 'family'
+-------------------------------------------------------------------------
+
+*From GEOIPS#397: 2023-11-02, Add function to geoips.interfaces to list all interfaces of each type*
+
+Added a function which lists all interfaces found for each interface family. Rather than
+referring to a hard-coded list of interfaces that currently exist, we make assumptions
+on the directory structure of the geoips package and list the corresponding interface
+modules via the members of 'geoips.interfaces'.
+
+::
+
+    modified: geoips/interfaces/__init__.py
+
+Documentation Scaffold for Coding Standards
+-------------------------------------------
+This update introduces a scaffold for the documentation of coding standards
+for the project, aiming to ultimately enhance code consistency and quality. It
+outlines the anticipated content and structure for these standards, providing
+a clear framework for future contributions. The new documentation file is
+located in the build/dev directory so that it is exempt from sphinx builds.
+
+
+Added Log with Emphasis function
+--------------------------------
+
+Scattered throughout GeoIPS (and other packages too), are many Log statements that use
+'***********************...' to emphasize the content in between them. While this is
+easy to see in the Log output, it's extremely cluttered in the actual code. For this
+reason, I've added a 'log_with_emphasis' function to handle this. All you need to do now
+is 'log_with_emphasis(LOG.<log_type>, message)', and it will do the rest for you.
+
+::
+
+    modified: geoips/geoips/commandline/log_setup.py
+    modified: geoips/geoips/interfaces/module_based/output_checkers.py
+    modified: geoips/geoips/plugins/modules/output_checkers/geotiff.py
+    modified: geoips/geoips/plugins/modules/output_checkers/image.py
+    modified: geoips/geoips/plugins/modules/output_checkers/netcdf.py
+    modified: geoips/geoips/plugins/modules/output_checkers/text.py
+    modified: geoips/geoips/plugins/modules/procflows/single_source.py
+    removed: geoips/tests/unit_tests/commandline/log_setup.py
+    added: geoips/tests/unit_tests/commandline/test_log_setup.py
+    added: tests/scripts/abi.static.Infrared.netcdf_geoips.sh
+    added: tests/outputs/abi.static.Infrared.netcdf_geoips/20200918.195020.goes-16.Infrared_latitude_longitude.denver.nc
+
+Introduced documentation for coding standards for module imports.
+-----------------------------------------------------------------
+
+Throughout GeoIPS, we have inconsistent module imports. These new standards (added to
+our documentation) will help us be more intentional in how we import modules going
+forward.
+
+::
+    modified: docs/dev/coding_standards.rst
+
+Introduced documentation for PEP8 standards.
+--------------------------------------------
+
+Throughout GeoIPS, we have inconsistent coding standards. PEP8 (added to
+our documentation) is an external standard we already use, and so we want
+that to be explicit in our documentation.
+
+::
+    modified: docs/dev/coding_standards.rst
+
+Added documentation for current linters and configuration.
+----------------------------------------------------------
+
+GeoIPS makes use of a number of different linters and linter plugins. This
+documentation lists and briefly describes each linter and gives configuration
+information.
+
+::
+    modified: docs/dev/coding_standards.rst
+
+Introduced documentation for coding standards on how/when to bring code to standard
+-----------------------------------------------------------------------------------
+
+Throughout GeoIPS, we have inconsistent coding practices. These new standards (added to
+our documentation) will help us be more intentional in how we bring old code
+up to date going forward.
+
+::
+    modified: docs/dev/coding_standards.rst
+
+Bug Fixes
+=========
+
+Fix polar data not showing up in imagery
+----------------------------------------
+
+*From GEOIPS#431: 2024-02-06, Look into polar projections in pyresample wrappers*
+
+Currently products with polar projection sectors do not plot. Initial investigations
+indicate pre-sectoring the data does not work well with data over the poles. It seems
+passing ``--no-presectoring`` option at the command line helps - but there may be
+additional issues with polar projections.
+
+It was found that we are misinterpreting how pyresample's AreaDefinition attribute
+``area_extent_ll`` is formulated. For polar sectors, when looking at such attribute,
+it has been found that ``min_lat`` and ``max_lat`` values are extremely close to each
+other, if not equal. While internally the AreaDefinition includes data from min_lat to
+max_lat over the poles, we are interpretting those values as a line or a very small
+swath, which usually misses some, if not all of the data you're attempting to plot.
+
+We've added additional checks within ``geoips/xarray_utils/data.py`` --
+``sector_xarray_spatial``, to modify the area_extent_ll to reflect the actual bounds
+we want to include in our sectored data. While it may capture a greater area than
+necessary, we fix the problem of missing data for polar imagery.
+
+::
+
+    added: geoips/plugins/yaml/gridline_annotators/north_pole.yaml
+    added: tests/scripts/viirsclearnight.Night-Vis-IR-GeoIPS1.imagery_annotated.sh
+    added: tests/unit_tests/xarray_utils/data.py
+    modified: geoips/plugins/yaml/sectors/static/abu_dhabi.yaml
+    modified: geoips/plugins/yaml/sectors/static/north_pole.yaml
+    modified: geoips/plugins/yaml/sectors/static/south_pole.yaml
+    modified: geoips/plugins/modules/procflows/single_source.py
+    modified: geoips/xarray_utils/data.py
+
+algorithm_interpolator_colormapper incorrectly interpolates data
+----------------------------------------------------------------
+
+This was found during the development for the GLM reader. Apparently, at line 1033 of
+single_source.py procflow, when trying to interpolate data under the
+algorithm_interpolator_colormapper family, we call 'interp_plugin' with the same
+input and output xarray. This makes no sense, and needs to be fixed. It wasn't changing
+the data in this format. To fix it, we leave input_xarray as 'alg_xarray', and set
+output_xarray to 'None'. This is handled properly in the interpolator, and will modify
+coordinate arrays to fit the shape of the interpolated data. I've checked config_based,
+and this doesn't occur for that procflow.
+
+::
+
+    modified: geoips/geoips/plugins/modules/procflows/single_source.py
+
+Make add_log_level a callable class, ensure log.interactive works consistently
+------------------------------------------------------------------------------
+
+*From GEOIPS#446: 2024-02-21, Move addition of interactive log level into __init__*
+*From GEOIPS#446: 2024-02-21, Make add_log_level a callable class to fix AttributeErrors*
+
+Remove call to ``add_log_level()`` from ``setup_logging()`` and into ``geoips/__init__.py``.
+This makes ``log.interactive()`` available to all components of GeoIPS, regardless of how
+they are accessed. Previously, if a plugin was used without the rest of GeoIPS (e.g. a
+reader) it would raise an ``AttributeError`` if it called ``log.interactive()``.
+
+This additionally makes add_log_level into a callable class called LogLevelAdder which must
+be instantiated prior to use. This fixes a problem where AttributeErrors were raised from
+time to time. The way that they occurred required them to be ignored, even when they were
+useful. Now, only useful AttributeErrors should be raised.
+
+::
+
+    modified: geoips/__init__.py
+    modified: geoips/commandline/log_setup.py
+    added: tests/unit_tests/commandline/log_setup.py
+
+Update Dockerfile to install rasterio properly
+----------------------------------------------
+
+..
+    *From GEOIPS#NN: 2024-03-XX, TODO*
+
+Previously building the provided Dockerfile did not build a working image.
+It failed on the last step (installation of geoips) and hangs on installing rasterio.
+This fix updates the Dockerfile to install rasterio dependancies (``gdal-bin`` and
+``libgdal-dev``) and additionally installs software-properties-common for access to
+add-apt-repository to aid in gdal installation.
+
+::
+    modified: Dockerfile
+
+Remove inconsistent unit test test_log_interactive_non_geoips
+-------------------------------------------------------------
+
+The recently added ``test_log_interactive_non_geoips`` unit test is inconsistent. It
+sometimes successfully raises an ``AttributeError`` but not always. This is due to
+GeoIPS polluting the ``logging`` class when adding new logging levels. The polluted
+``logging`` class does not appear to be a problem, though, since it adds functionality
+without impacting existing functionality. It appears safe to allow this pollution.
+
+::
+
+    modified: tests/unit_tests/commandline/log_setup.py
+
+Remove unnessesary checks for and mentions of imagemagick
+---------------------------------------------------------
+..
+  *From NRLMMD-GEOIPS/geoips#: YYYY-MM-DD, Removed unnecessary requirement for imagemagick*
+
+In v1.11.3a0 imagemagick functionality was replaced with other libraries. As such,
+imagemagick was no longder a dependancy. However, the installation docs, Dockerfile,
+and setup scripts were not updated to reflect this change at the time. This fixes a
+bug during installation where the user is forced to install imagemagick to pass tests
+despite it no longer being used. It also updates the documentation accordingly.
+
+::
+
+    modified: Dockerfile
+    modified: setup.sh
+    modified: setup/check_system_requirements.sh
+    modified: docs/source/starter/expert_installation.rst
+    modified: docs/source/starter/mac_installation.rst
+
+
+Add make to expert installation dependencies
+--------------------------------------------
+..
+  *From NRLMMD-GEOIPS/geoips#454: 2024-03-15, Add make to expert installation dependencies*
+
+
+`pypublicdecompwt` is a dependency of geoips. `make` is a dependency of `pypublicdecompwt`.
+To install `pypublicdecompwt` you need `make`, but it's not listed as a dependency on
+the expert installation instructions. It was added.
+
+::
+
+    modified: docs/source/starter/expert_installation.rst
+
+Fix bad filename wrapping with log_with_emphasis
+------------------------------------------------
+
+*From issue GEOIPS#468*
+
+Fixes poor wrapping for long filenames when logged with emphasis. Now does not auto-wrap
+long filenames and prints as is. Additionally, any word logged over 74 chars will not be
+broken.
+
+Update log_with_emphasis to deal with empty strings
+---------------------------------------------------
+
+Previously, when calling log_with_emphasis(log, "test", "") an error is thrown.
+This is a problem if you're logging out a message that ends with "" for any reason,
+and log_with_emphasis has now been updated to gracefully deal with this case.
+
+Fixed broken unit test in test_log_setup.py
+-------------------------------------------
+
+*Stems from GEOIPS#464, 2024-04-15: Finish log with emphasis function*
+
+*Finish log with emphasis PR (#464)* introduced a couple of bugs that weren't caught by
+GeoIPS devs. This PR fixes those bugs and ensues that both the unit tests and accociated
+scripts pass without failure. This fix changes a bug in test_log_setup.py where
+``generate_random_messages(add_long_word=True)`` would return a ``map`` object rather
+than an iterable list of strings. ``map`` objects have no length attribute and caused
+failures within ``geoips/commandline/log_setup:log_with_emphasis``. We also added a type
+cast in ``log_with_emphasis`` that prevents non-string objects from raising an error due
+to a ``len(object)`` call, where the object had no attribute length. Developers should
+think about what is sent to ``log_with_emphasis`` if they want to print something that
+is not a string.
+
+::
+
+    modified: geoips/commandline/log_setup.py
+    modified: tests/unit_tests/commandline/test_log_setup.py
+
+Refactor
+========
+
+Refactor optional imports in readers to use context manager function
+--------------------------------------------------------------------
+
+*From GEOIPS#338: 2023-07-19, Clean up optional dependencies*
+
+Some GeoIPS readers include optional dependency statements that are required to read
+certain file formats. While keeping these imports as optional is ok, we should clean up
+the manner in which this is implemented. To do so, we've created a separate
+``geoips.utils.context_managers.py`` script which can handle optional imports scattered
+throughout the GeoIPS codebase. This is essentially replacing our old manner of optional
+dependencies with a new method that keeps things clean.
+
+::
+
+    modified: geoips/plugins/modules/procflows/config_based.py
+    modified: geoips/plugins/modules/readers/abi_netcdf.py
+    modified: geoips/plugins/modules/readers/ahi_hsd.py
+    modified: geoips/plugins/modules/readers/ewsg_netcdf.py
+    modified: geoips/plugins/modules/readers/modis_hdf4.py
+    modified: geoips/plugins/modules/readers/seviri_hrit.py
+    modified: geoips/plugins/modules/readers/utils/geostationary_geolocation.py
+    modified: geoips/plugins/modules/readers/viirs_netcdf.py
+    modified: geoips/utils/memusg.py
+    added: geoips/utils/context_managers.py
+    added: tests/unit_tests/utils/context_managers.py
+
+Modify create_plugin_registries to use argparse
+-----------------------------------------------
+
+*From issue GEOIPS#416: 2023-12-21,
+Replace create_plugin_registries 'sys.argv' calls with 'argparse' library'*
+
+Currently create_plugin_registries.py uses sys.argv calls to generate its arguments
+rather than argparse. This doesn't follow GeoIPS conventions nor that of the CLI that
+will soon be updated. We should replace these calls with argparse architecture, so that
+this code follows current conventions, as does other GeoIPS code.
+
+::
+
+    modified: geoips/geoips/create_plugin_registries.py
+
+Make JSON Plugin Registries Readable
+------------------------------------
+
+*From GEOIPS#429: 2024-02-02, Plugin Registries Should Be Readable*
+
+Currently, the JSON output of the plugin registries is a hodge-podge full of text. We
+should refactor the way in which these plugin registries are outputted, so that they are
+in a human readable, interpretable format. To do so, we need to add the argument
+``indent=4`` to the ``json.dump`` call in ``write_plugin_registries``.
+
+::
+
+    modified: geoips/create_plugin_registries.py
+
+Documentation
+=============
+
+Added Documentation for create_plugin_registries and PluginRegistry Class
+-------------------------------------------------------------------------
+
+With the addition of create_plugin_registries and the new PluginRegistry Class, we have
+a need to add documentation describing what these do, how they are used, and the
+benefits that come from adding them to the main GeoIPS code. This branch does exactly
+that, and adds a section under 'UserGuide' describing what these pieces of code actually
+do. To support automatically adding usage information to the documentation
+we've also added a dependency on sphinxcontrib-autoprogram and enabled it in
+the sphinx configuration file.
+
+::
+
+    modified: geoips/docs/source/_templates/conf_PKG.py
+    modified: geoips/docs/source/userguide/index.rst
+    added: geops/docs/source/userguide/plugin_registries.rst
+    modified: geiops/create_plugin_registries.py
+    modified: pyproject.toml
+
+Added documentation about optional pdflatex dependency to docs building script
+as well as the expert installation instructions.
+
+::
+
+    modified: docs/build_docs.sh
+    modified: docs/source/starter/expert_installation.rst

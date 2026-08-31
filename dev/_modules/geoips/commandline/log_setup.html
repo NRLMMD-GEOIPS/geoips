@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>geoips.commandline.log_setup &#8212; GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation</title>
+    <title>geoips.commandline.log_setup &#8212; GeoIPS, Geolocated Information Processing System 0.0.0 documentation</title>
   
   
   
@@ -40,7 +40,7 @@
   <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
 
-    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=6727bded"></script>
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=525cde36"></script>
     <script src="../../../_static/doctools.js?v=888ff710"></script>
     <script src="../../../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
@@ -401,14 +401,21 @@ mermaid.initialize(
 window.addEventListener("load", load);
 window.runMermaid = runMermaid;</script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_modules/geoips/commandline/log_setup';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.17.1';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://nrlmmd-geoips.github.io/geoips/versions.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = 'dev';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner =
+            false;
+        </script>
     <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
     <link rel="icon" href="../../../_static/nrlicon.ico"/>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2.0" />
-    <meta name="docbuild:last-update" content="Jul 23, 2026 17:03:57"/>
+  <meta name="docsearch:version" content="0.0" />
+    <meta name="docbuild:last-update" content="Aug 31, 2026 13:32:18"/>
   
     
     <script src="../../../_static/searchtools.js"></script>
@@ -480,11 +487,31 @@ window.runMermaid = runMermaid;</script>
       
     
     
-    <img src="../../../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation - Home"/>
-    <img src="../../../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation - Home"/>
+    <img src="../../../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 0.0.0 documentation - Home"/>
+    <img src="../../../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 0.0.0 documentation - Home"/>
   
   
 </a></div>
+    
+      <div class="navbar-item">
+<div class="version-switcher__container dropdown pst-js-only">
+  <button id="pst-version-switcher-button-2"
+    type="button"
+    class="version-switcher__button btn btn-sm dropdown-toggle"
+    data-bs-toggle="dropdown"
+    aria-haspopup="listbox"
+    aria-controls="pst-version-switcher-list-2"
+    aria-label="Version switcher list"
+  >
+    Choose version  <!-- this text may get changed later by javascript -->
+    <span class="caret"></span>
+  </button>
+  <div id="pst-version-switcher-list-2"
+    class="version-switcher__menu dropdown-menu list-group-flush py-0"
+    role="listbox" aria-labelledby="pst-version-switcher-button-2">
+    <!-- dropdown will be populated by javascript on page load -->
+  </div>
+</div></div>
     
   </div>
   
@@ -828,7 +855,7 @@ window.runMermaid = runMermaid;</script>
 <span></span><span class="c1"># # # This source code is subject to the license referenced at</span>
 <span class="c1"># # # https://github.com/NRLMMD-GEOIPS.</span>
 
-<span class="sd">&quot;&quot;&quot;Geoips module for setting up logging handlers with a specified verbosity.&quot;&quot;&quot;</span>
+<span class="sd">"""Geoips module for setting up logging handlers with a specified verbosity."""</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
@@ -842,7 +869,7 @@ window.runMermaid = runMermaid;</script>
 
 
 <div class="viewcode-block" id="log_with_emphasis"><a class="viewcode-back" href="../../../geoips_api/geoips.commandline.html#geoips.commandline.log_setup.log_with_emphasis">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">log_with_emphasis</span><span class="p">(</span><span class="n">print_func</span><span class="p">,</span> <span class="o">*</span><span class="n">messages</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Print messages boxed in asterisks using the specified print function.</span>
+<span class="w">    </span><span class="sd">"""Print messages boxed in asterisks using the specified print function.</span>
 
 <span class="sd">    Print one or more messages using the specified print function. The messages</span>
 <span class="sd">    will be surrounded in asterisks. Long messages will be word wrapped to fit</span>
@@ -856,7 +883,7 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">        etc, or the ``print`` function itself).</span>
 <span class="sd">    messages: one or more strings</span>
 <span class="sd">        The messages to be logged with emphasis</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">wrapped_messages</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="c1"># Even though only strings should be passed here, we are going to allow any type of</span>
     <span class="c1"># object to be passed for the time being. Best not to overthink the situation and</span>
@@ -872,34 +899,34 @@ window.runMermaid = runMermaid;</script>
         <span class="n">max_message_len</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="mi">74</span><span class="p">,</span> <span class="nb">max</span><span class="p">([</span><span class="nb">len</span><span class="p">(</span><span class="n">wmessage</span><span class="p">)</span> <span class="k">for</span> <span class="n">wmessage</span> <span class="ow">in</span> <span class="n">wrapped_messages</span><span class="p">]))</span>
     <span class="k">except</span> <span class="ne">ValueError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-            <span class="s2">&quot;No proper messages were provided for logging.</span><span class="se">\n</span><span class="s2">&quot;</span>
-            <span class="o">+</span> <span class="s2">&quot;Make sure the messages are not all empty strings.&quot;</span>
+            <span class="s2">"No proper messages were provided for logging.</span><span class="se">\n</span><span class="s2">"</span>
+            <span class="o">+</span> <span class="s2">"Make sure the messages are not all empty strings."</span>
         <span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span>
-    <span class="c1"># adding +6 to max_message_len as we add &#39;** &#39; and &#39; **&#39; pre/post-fixes (6 chars)</span>
-    <span class="n">print_func</span><span class="p">(</span><span class="s2">&quot;*&quot;</span> <span class="o">*</span> <span class="p">(</span><span class="n">max_message_len</span> <span class="o">+</span> <span class="mi">6</span><span class="p">))</span>
+    <span class="c1"># adding +6 to max_message_len as we add '** ' and ' **' pre/post-fixes (6 chars)</span>
+    <span class="n">print_func</span><span class="p">(</span><span class="s2">"*"</span> <span class="o">*</span> <span class="p">(</span><span class="n">max_message_len</span> <span class="o">+</span> <span class="mi">6</span><span class="p">))</span>
     <span class="k">for</span> <span class="n">wrapped_message</span> <span class="ow">in</span> <span class="n">wrapped_messages</span><span class="p">:</span>
         <span class="c1"># for each of the wrapped messages, if the length of such message is less</span>
         <span class="c1"># than max message length, add some whitespace to make some things match,</span>
-        <span class="c1"># this is what the &#39;ljust(len)&#39; function does</span>
-        <span class="n">print_func</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;** </span><span class="si">{</span><span class="n">wrapped_message</span><span class="o">.</span><span class="n">ljust</span><span class="p">(</span><span class="n">max_message_len</span><span class="p">)</span><span class="si">}</span><span class="s2"> **&quot;</span><span class="p">)</span>
-    <span class="n">print_func</span><span class="p">(</span><span class="s2">&quot;*&quot;</span> <span class="o">*</span> <span class="p">(</span><span class="n">max_message_len</span> <span class="o">+</span> <span class="mi">6</span><span class="p">))</span>
-    <span class="n">print_func</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span></div>
+        <span class="c1"># this is what the 'ljust(len)' function does</span>
+        <span class="n">print_func</span><span class="p">(</span><span class="sa">f</span><span class="s2">"** </span><span class="si">{</span><span class="n">wrapped_message</span><span class="o">.</span><span class="n">ljust</span><span class="p">(</span><span class="n">max_message_len</span><span class="p">)</span><span class="si">}</span><span class="s2"> **"</span><span class="p">)</span>
+    <span class="n">print_func</span><span class="p">(</span><span class="s2">"*"</span> <span class="o">*</span> <span class="p">(</span><span class="n">max_message_len</span> <span class="o">+</span> <span class="mi">6</span><span class="p">))</span>
+    <span class="n">print_func</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="LogLevelAdder"><a class="viewcode-back" href="../../../geoips_api/geoips.commandline.html#geoips.commandline.log_setup.LogLevelAdder">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">LogLevelAdder</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Create a callable that can add a new logging level.</span>
+<span class="w">    </span><span class="sd">"""Create a callable that can add a new logging level.</span>
 
 <span class="sd">    Initialize simply as `add_log_level = LogLevelAdder()` and add a new level by</span>
 <span class="sd">    calling `add_log_level` with the name of the new log level and its level number.</span>
 
 <span class="sd">    For further call information, see the docstring for LogLevelAdder.__call__().</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">level_name</span><span class="p">,</span> <span class="n">level_num</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Comprehensively adds a new logging level to the `logging` module.</span>
+<span class="w">        </span><span class="sd">"""Comprehensively adds a new logging level to the `logging` module.</span>
 
 <span class="sd">        Comprehensively adds a new logging level named `level_name` to the `logging`</span>
-<span class="sd">        module and the currently configured logging class. The new logging level&#39;s</span>
+<span class="sd">        module and the currently configured logging class. The new logging level's</span>
 <span class="sd">        precidence is set by `level_num`. For example, a level_num of `15` would create</span>
 <span class="sd">        a logging level that falls between `logging.DEBUG` and `logging.INFO` whose</span>
 <span class="sd">        level_num are `10` and `20`, respectively.</span>
@@ -931,23 +958,23 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">        Example</span>
 <span class="sd">        -------</span>
 <span class="sd">        &gt;&gt;&gt; add_logging_level = LogLevelAdder()</span>
-<span class="sd">        &gt;&gt;&gt; add_logging_level(&#39;TRACE&#39;, logging.DEBUG - 5)</span>
-<span class="sd">        &gt;&gt;&gt; logging.getLogger(__name__).setLevel(&quot;TRACE&quot;)</span>
-<span class="sd">        &gt;&gt;&gt; logging.getLogger(__name__).trace(&#39;that worked&#39;)</span>
-<span class="sd">        &gt;&gt;&gt; logging.trace(&#39;so did this&#39;)</span>
+<span class="sd">        &gt;&gt;&gt; add_logging_level('TRACE', logging.DEBUG - 5)</span>
+<span class="sd">        &gt;&gt;&gt; logging.getLogger(__name__).setLevel("TRACE")</span>
+<span class="sd">        &gt;&gt;&gt; logging.getLogger(__name__).trace('that worked')</span>
+<span class="sd">        &gt;&gt;&gt; logging.trace('so did this')</span>
 <span class="sd">        &gt;&gt;&gt; logging.TRACE</span>
 <span class="sd">        5</span>
 
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">methodName</span> <span class="o">=</span> <span class="n">level_name</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
 
         <span class="c1"># Add the log level</span>
         <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">logging</span><span class="p">,</span> <span class="n">level_name</span><span class="p">):</span>
             <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">logging</span><span class="p">,</span> <span class="n">level_name</span><span class="p">)</span> <span class="o">!=</span> <span class="n">level_num</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span>
-                    <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">level_name</span><span class="si">}</span><span class="s2"> level already defined in logging module and its &quot;</span>
-                    <span class="sa">f</span><span class="s2">&quot;value (</span><span class="si">{</span><span class="nb">getattr</span><span class="p">(</span><span class="n">logging</span><span class="p">,</span><span class="w"> </span><span class="n">level_name</span><span class="p">)</span><span class="si">}</span><span class="s2">) differs from the &quot;</span>
-                    <span class="sa">f</span><span class="s2">&quot;requested value (</span><span class="si">{</span><span class="n">level_num</span><span class="si">}</span><span class="s2">).&quot;</span>
+                    <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">level_name</span><span class="si">}</span><span class="s2"> level already defined in logging module and its "</span>
+                    <span class="sa">f</span><span class="s2">"value (</span><span class="si">{</span><span class="nb">getattr</span><span class="p">(</span><span class="n">logging</span><span class="p">,</span><span class="w"> </span><span class="n">level_name</span><span class="p">)</span><span class="si">}</span><span class="s2">) differs from the "</span>
+                    <span class="sa">f</span><span class="s2">"requested value (</span><span class="si">{</span><span class="n">level_num</span><span class="si">}</span><span class="s2">)."</span>
                 <span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">logging</span><span class="o">.</span><span class="n">addLevelName</span><span class="p">(</span><span class="n">level_num</span><span class="p">,</span> <span class="n">level_name</span><span class="p">)</span>
@@ -958,8 +985,8 @@ window.runMermaid = runMermaid;</script>
         <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">logging</span><span class="p">,</span> <span class="n">methodName</span><span class="p">):</span>
             <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">logging</span><span class="p">,</span> <span class="n">methodName</span><span class="p">)</span> <span class="o">!=</span> <span class="n">logToRoot</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span>
-                    <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">methodName</span><span class="si">}</span><span class="s2"> method already defined in logging module and &quot;</span>
-                    <span class="sa">f</span><span class="s2">&quot;differs from the requested method.&quot;</span>
+                    <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">methodName</span><span class="si">}</span><span class="s2"> method already defined in logging module and "</span>
+                    <span class="sa">f</span><span class="s2">"differs from the requested method."</span>
                 <span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="nb">setattr</span><span class="p">(</span><span class="n">logging</span><span class="p">,</span> <span class="n">methodName</span><span class="p">,</span> <span class="n">logToRoot</span><span class="p">)</span>
@@ -971,14 +998,14 @@ window.runMermaid = runMermaid;</script>
         <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">loggerClass</span><span class="p">,</span> <span class="n">methodName</span><span class="p">):</span>
             <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">loggerClass</span><span class="p">,</span> <span class="n">methodName</span><span class="p">)</span> <span class="o">!=</span> <span class="n">logForLevel</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span>
-                    <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">methodName</span><span class="si">}</span><span class="s2"> method already defined in logger class and differs &quot;</span>
-                    <span class="sa">f</span><span class="s2">&quot;from the requested method.&quot;</span>
+                    <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">methodName</span><span class="si">}</span><span class="s2"> method already defined in logger class and differs "</span>
+                    <span class="sa">f</span><span class="s2">"from the requested method."</span>
                 <span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="nb">setattr</span><span class="p">(</span><span class="n">loggerClass</span><span class="p">,</span> <span class="n">methodName</span><span class="p">,</span> <span class="n">logForLevel</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_get_logForLevel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">level_num</span><span class="p">):</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;_logForLevel_funcs&quot;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">"_logForLevel_funcs"</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_logForLevel_funcs</span> <span class="o">=</span> <span class="p">{}</span>
 
         <span class="k">if</span> <span class="n">level_num</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_logForLevel_funcs</span><span class="p">:</span>
@@ -991,7 +1018,7 @@ window.runMermaid = runMermaid;</script>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_logForLevel_funcs</span><span class="p">[</span><span class="n">level_num</span><span class="p">]</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_get_logToRoot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">level_num</span><span class="p">):</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;_logToRoot_funcs&quot;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">"_logToRoot_funcs"</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_logToRoot_funcs</span> <span class="o">=</span> <span class="p">{}</span>
 
         <span class="k">if</span> <span class="n">level_num</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_logToRoot_funcs</span><span class="p">:</span>
@@ -1007,14 +1034,14 @@ window.runMermaid = runMermaid;</script>
 
 
 <div class="viewcode-block" id="setup_logging"><a class="viewcode-back" href="../../../geoips_api/geoips.commandline.html#geoips.commandline.log_setup.setup_logging">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">setup_logging</span><span class="p">(</span><span class="n">logging_level</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">fmt_string</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">datefmt_string</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get a new logger instance for GeoIPS.</span>
+<span class="w">    </span><span class="sd">"""Get a new logger instance for GeoIPS.</span>
 
-<span class="sd">    Get a new logger instance for GeoIPS. This will set the logger&#39;s logging level, its</span>
+<span class="sd">    Get a new logger instance for GeoIPS. This will set the logger's logging level, its</span>
 <span class="sd">    formatter, and add a `StreamHandler` pointing to `sys.stdout`.</span>
 
 <span class="sd">    This is most often used at the top-level of an applcation to set up the root logger</span>
 <span class="sd">    for the application (e.g. in a command line script). Once configured, the root</span>
-<span class="sd">    logger&#39;s properties will be inherited by lower-level logger instances. So, to use</span>
+<span class="sd">    logger's properties will be inherited by lower-level logger instances. So, to use</span>
 <span class="sd">    the same logging configuration in submodules, simply instantiate a new logger</span>
 <span class="sd">    instance via `LOG = logging.getLogger(__name__)` and it will behave the same as the</span>
 <span class="sd">    root logger.</span>
@@ -1033,7 +1060,7 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">        Explicitly specify the log formatter datefmt string. If None, default</span>
 <span class="sd">        to the value set in geoips/filenames/base_paths (which in the future</span>
 <span class="sd">        will be replaced with a GeoIPS config file).</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">log</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">()</span>
 
     <span class="c1">###########################################################################</span>
@@ -1041,7 +1068,7 @@ window.runMermaid = runMermaid;</script>
 
     <span class="c1"># If logging_level was not specified, default to base_path specification here.</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">logging_level</span><span class="p">:</span>
-        <span class="n">logging_level</span> <span class="o">=</span> <span class="n">gpaths</span><span class="p">[</span><span class="s2">&quot;GEOIPS_LOGGING_LEVEL&quot;</span><span class="p">]</span>
+        <span class="n">logging_level</span> <span class="o">=</span> <span class="n">gpaths</span><span class="p">[</span><span class="s2">"GEOIPS_LOGGING_LEVEL"</span><span class="p">]</span>
     <span class="n">log</span><span class="o">.</span><span class="n">setLevel</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="n">logging</span><span class="p">,</span> <span class="n">logging_level</span><span class="o">.</span><span class="n">upper</span><span class="p">()))</span>
 
     <span class="c1">###########################################################################</span>
@@ -1054,19 +1081,19 @@ window.runMermaid = runMermaid;</script>
         <span class="c1"># Username and hostname were not directly supported by logging.Formatter,</span>
         <span class="c1"># so we added the capability to include them via os.getenv and</span>
         <span class="c1"># socket.gethostname and f-string formatting.</span>
-        <span class="n">fmt_string</span> <span class="o">=</span> <span class="n">gpaths</span><span class="p">[</span><span class="s2">&quot;GEOIPS_LOGGING_FMT_STRING&quot;</span><span class="p">]</span>
+        <span class="n">fmt_string</span> <span class="o">=</span> <span class="n">gpaths</span><span class="p">[</span><span class="s2">"GEOIPS_LOGGING_FMT_STRING"</span><span class="p">]</span>
     <span class="k">if</span> <span class="n">datefmt_string</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">datefmt_string</span> <span class="o">=</span> <span class="n">gpaths</span><span class="p">[</span><span class="s2">&quot;GEOIPS_LOGGING_DATEFMT_STRING&quot;</span><span class="p">]</span>
+        <span class="n">datefmt_string</span> <span class="o">=</span> <span class="n">gpaths</span><span class="p">[</span><span class="s2">"GEOIPS_LOGGING_DATEFMT_STRING"</span><span class="p">]</span>
 
     <span class="c1">###########################################################################</span>
     <span class="c1"># Now replace any variables specified as {varname} within the format string.</span>
 
-    <span class="n">username</span> <span class="o">=</span> <span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;USER&quot;</span><span class="p">)</span>
+    <span class="n">username</span> <span class="o">=</span> <span class="n">getenv</span><span class="p">(</span><span class="s2">"USER"</span><span class="p">)</span>
     <span class="n">hostname</span> <span class="o">=</span> <span class="n">gethostname</span><span class="p">()</span>
 
     <span class="c1"># These are the variables explicitly supported in the format string, no other</span>
     <span class="c1"># variables specified with {varname} are supported.</span>
-    <span class="n">fmt_vars</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;username&quot;</span><span class="p">:</span> <span class="n">username</span><span class="p">,</span> <span class="s2">&quot;hostname&quot;</span><span class="p">:</span> <span class="n">hostname</span><span class="p">}</span>
+    <span class="n">fmt_vars</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"username"</span><span class="p">:</span> <span class="n">username</span><span class="p">,</span> <span class="s2">"hostname"</span><span class="p">:</span> <span class="n">hostname</span><span class="p">}</span>
     <span class="c1"># Identify which of the above variables are actually in the format string.</span>
     <span class="n">fmt_kwargs</span> <span class="o">=</span> <span class="p">{</span><span class="n">x</span><span class="p">:</span> <span class="n">y</span> <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">fmt_vars</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">fmt_string</span><span class="p">}</span>
     <span class="c1"># Pass each of the variables specified in the format string as keyword</span>
@@ -1091,8 +1118,8 @@ window.runMermaid = runMermaid;</script>
     <span class="c1">###########################################################################</span>
     <span class="c1"># Print username and host at the info level at the beginning of the log output</span>
 
-    <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;USER: </span><span class="si">{</span><span class="n">username</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-    <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;HOST: </span><span class="si">{</span><span class="n">hostname</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">"USER: </span><span class="si">{</span><span class="n">username</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+    <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">"HOST: </span><span class="si">{</span><span class="n">hostname</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 
     <span class="c1">###########################################################################</span>
     <span class="c1"># Return the resulting log for use throughout GeoIPS</span>

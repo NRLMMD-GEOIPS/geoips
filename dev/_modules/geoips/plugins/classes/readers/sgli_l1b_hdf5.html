@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>geoips.plugins.classes.readers.sgli_l1b_hdf5 &#8212; GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation</title>
+    <title>geoips.plugins.classes.readers.sgli_l1b_hdf5 &#8212; GeoIPS, Geolocated Information Processing System 0.0.0 documentation</title>
   
   
   
@@ -40,7 +40,7 @@
   <link rel="preload" as="script" href="../../../../../_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
 <link rel="preload" as="script" href="../../../../../_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
 
-    <script data-url_root="../../../../../" id="documentation_options" src="../../../../../_static/documentation_options.js?v=6727bded"></script>
+    <script data-url_root="../../../../../" id="documentation_options" src="../../../../../_static/documentation_options.js?v=525cde36"></script>
     <script src="../../../../../_static/doctools.js?v=888ff710"></script>
     <script src="../../../../../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../../../_static/design-tabs.js?v=f930bc37"></script>
@@ -401,14 +401,21 @@ mermaid.initialize(
 window.addEventListener("load", load);
 window.runMermaid = runMermaid;</script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_modules/geoips/plugins/classes/readers/sgli_l1b_hdf5';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.17.1';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://nrlmmd-geoips.github.io/geoips/versions.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = 'dev';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner =
+            false;
+        </script>
     <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
     <link rel="icon" href="../../../../../_static/nrlicon.ico"/>
     <link rel="index" title="Index" href="../../../../../genindex.html" />
     <link rel="search" title="Search" href="../../../../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="2.0" />
-    <meta name="docbuild:last-update" content="Jul 23, 2026 17:03:57"/>
+  <meta name="docsearch:version" content="0.0" />
+    <meta name="docbuild:last-update" content="Aug 31, 2026 13:32:18"/>
   
     
     <script src="../../../../../_static/searchtools.js"></script>
@@ -480,11 +487,31 @@ window.runMermaid = runMermaid;</script>
       
     
     
-    <img src="../../../../../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation - Home"/>
-    <img src="../../../../../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 2.0.0a0 documentation - Home"/>
+    <img src="../../../../../_static/geoips_logo.png" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 0.0.0 documentation - Home"/>
+    <img src="../../../../../_static/geoips_logo.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 0.0.0 documentation - Home"/>
   
   
 </a></div>
+    
+      <div class="navbar-item">
+<div class="version-switcher__container dropdown pst-js-only">
+  <button id="pst-version-switcher-button-2"
+    type="button"
+    class="version-switcher__button btn btn-sm dropdown-toggle"
+    data-bs-toggle="dropdown"
+    aria-haspopup="listbox"
+    aria-controls="pst-version-switcher-list-2"
+    aria-label="Version switcher list"
+  >
+    Choose version  <!-- this text may get changed later by javascript -->
+    <span class="caret"></span>
+  </button>
+  <div id="pst-version-switcher-list-2"
+    class="version-switcher__menu dropdown-menu list-group-flush py-0"
+    role="listbox" aria-labelledby="pst-version-switcher-button-2">
+    <!-- dropdown will be populated by javascript on page load -->
+  </div>
+</div></div>
     
   </div>
   
@@ -828,10 +855,10 @@ window.runMermaid = runMermaid;</script>
 <span></span><span class="c1"># # # This source code is subject to the license referenced at</span>
 <span class="c1"># # # https://github.com/NRLMMD-GEOIPS.</span>
 
-<span class="sd">&quot;&quot;&quot;Reader to read GCOM-C1 SGLI files.</span>
+<span class="sd">"""Reader to read GCOM-C1 SGLI files.</span>
 
 <span class="sd">(NRL-Monterey, Oct. 2025)</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">geoips.interfaces.class_based.readers</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseReaderPlugin</span>
 
@@ -850,15 +877,15 @@ window.runMermaid = runMermaid;</script>
 
 
 <div class="viewcode-block" id="SgliL1BHdf5ReaderPlugin"><a class="viewcode-back" href="../../../../../geoips_api/geoips.plugins.classes.readers.html#geoips.plugins.classes.readers.sgli_l1b_hdf5.SgliL1BHdf5ReaderPlugin">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">SgliL1BHdf5ReaderPlugin</span><span class="p">(</span><span class="n">BaseReaderPlugin</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Sgli L1 B Hdf5 reader plugin class.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Sgli L1 B Hdf5 reader plugin class."""</span>
 
-    <span class="n">interface</span> <span class="o">=</span> <span class="s2">&quot;readers&quot;</span>
-    <span class="n">family</span> <span class="o">=</span> <span class="s2">&quot;standard&quot;</span>
-    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;sgli_l1b_hdf5&quot;</span>
+    <span class="n">interface</span> <span class="o">=</span> <span class="s2">"readers"</span>
+    <span class="n">family</span> <span class="o">=</span> <span class="s2">"standard"</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">"sgli_l1b_hdf5"</span>
 
-    <span class="n">source_names</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;sgli&quot;</span><span class="p">]</span>
+    <span class="n">source_names</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"sgli"</span><span class="p">]</span>
 
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Channel Info:</span>
 <span class="sd">    channel name, center wavelength (um), resolution (km)</span>
 <span class="sd">    SW01, 1.05, 1</span>
@@ -883,28 +910,28 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">    P01, .6735, 1</span>
 <span class="sd">    P02, .8685, 1</span>
 <span class="sd">    (Pol-chans are seperated by stokes polarization: I,Q,U)</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
-    <span class="n">ir_chans</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;Lt_SW01&quot;</span><span class="p">,</span> <span class="s2">&quot;Lt_SW02&quot;</span><span class="p">,</span> <span class="s2">&quot;Lt_SW03&quot;</span><span class="p">,</span> <span class="s2">&quot;Lt_SW04&quot;</span><span class="p">,</span> <span class="s2">&quot;Lt_TI01&quot;</span><span class="p">,</span> <span class="s2">&quot;Lt_TI02&quot;</span><span class="p">}</span>
+    <span class="n">ir_chans</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"Lt_SW01"</span><span class="p">,</span> <span class="s2">"Lt_SW02"</span><span class="p">,</span> <span class="s2">"Lt_SW03"</span><span class="p">,</span> <span class="s2">"Lt_SW04"</span><span class="p">,</span> <span class="s2">"Lt_TI01"</span><span class="p">,</span> <span class="s2">"Lt_TI02"</span><span class="p">}</span>
     <span class="n">vis_chans</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="s2">&quot;Lt_VN01&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;Lt_VN02&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;Lt_VN03&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;Lt_VN04&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;Lt_VN05&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;Lt_VN06&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;Lt_VN07&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;Lt_VN08&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;Lt_VN09&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;Lt_VN10&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;Lt_VN11&quot;</span><span class="p">,</span>
+        <span class="s2">"Lt_VN01"</span><span class="p">,</span>
+        <span class="s2">"Lt_VN02"</span><span class="p">,</span>
+        <span class="s2">"Lt_VN03"</span><span class="p">,</span>
+        <span class="s2">"Lt_VN04"</span><span class="p">,</span>
+        <span class="s2">"Lt_VN05"</span><span class="p">,</span>
+        <span class="s2">"Lt_VN06"</span><span class="p">,</span>
+        <span class="s2">"Lt_VN07"</span><span class="p">,</span>
+        <span class="s2">"Lt_VN08"</span><span class="p">,</span>
+        <span class="s2">"Lt_VN09"</span><span class="p">,</span>
+        <span class="s2">"Lt_VN10"</span><span class="p">,</span>
+        <span class="s2">"Lt_VN11"</span><span class="p">,</span>
     <span class="p">}</span>
-    <span class="n">pol_chans</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;Lt_PI01&quot;</span><span class="p">,</span> <span class="s2">&quot;Lt_PI02&quot;</span><span class="p">,</span> <span class="s2">&quot;Lt_PQ01&quot;</span><span class="p">,</span> <span class="s2">&quot;Lt_PQ02&quot;</span><span class="p">,</span> <span class="s2">&quot;Lt_PU01&quot;</span><span class="p">,</span> <span class="s2">&quot;Lt_PU02&quot;</span><span class="p">}</span>
+    <span class="n">pol_chans</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"Lt_PI01"</span><span class="p">,</span> <span class="s2">"Lt_PI02"</span><span class="p">,</span> <span class="s2">"Lt_PQ01"</span><span class="p">,</span> <span class="s2">"Lt_PQ02"</span><span class="p">,</span> <span class="s2">"Lt_PU01"</span><span class="p">,</span> <span class="s2">"Lt_PU02"</span><span class="p">}</span>
 
-    <span class="n">res_mapping</span> <span class="o">=</span> <span class="p">{</span><span class="mi">1000</span><span class="p">:</span> <span class="s2">&quot;LOW&quot;</span><span class="p">,</span> <span class="mi">500</span><span class="p">:</span> <span class="s2">&quot;MED&quot;</span><span class="p">,</span> <span class="mi">250</span><span class="p">:</span> <span class="s2">&quot;HIGH&quot;</span><span class="p">}</span>
+    <span class="n">res_mapping</span> <span class="o">=</span> <span class="p">{</span><span class="mi">1000</span><span class="p">:</span> <span class="s2">"LOW"</span><span class="p">,</span> <span class="mi">500</span><span class="p">:</span> <span class="s2">"MED"</span><span class="p">,</span> <span class="mi">250</span><span class="p">:</span> <span class="s2">"HIGH"</span><span class="p">}</span>
 
 <div class="viewcode-block" id="SgliL1BHdf5ReaderPlugin.commit_to_dict"><a class="viewcode-back" href="../../../../../geoips_api/geoips.plugins.classes.readers.html#geoips.plugins.classes.readers.sgli_l1b_hdf5.SgliL1BHdf5ReaderPlugin.commit_to_dict">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">commit_to_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data_dict</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">tmp_xry</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Commit data as a list item to a dictionary.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Commit data as a list item to a dictionary."""</span>
         <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">data_dict</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
             <span class="n">data_dict</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tmp_xry</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
@@ -913,7 +940,7 @@ window.runMermaid = runMermaid;</script>
         <span class="k">return</span> <span class="n">data_dict</span></div>
 
 <div class="viewcode-block" id="SgliL1BHdf5ReaderPlugin.rad_to_temp"><a class="viewcode-back" href="../../../../../geoips_api/geoips.plugins.classes.readers.html#geoips.plugins.classes.readers.sgli_l1b_hdf5.SgliL1BHdf5ReaderPlugin.rad_to_temp">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">rad_to_temp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rad</span><span class="p">,</span> <span class="n">center_wl</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Convert Radiance to Temp.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Convert Radiance to Temp."""</span>
         <span class="n">c1</span> <span class="o">=</span> <span class="mf">1.1911042e8</span>
         <span class="n">c2</span> <span class="o">=</span> <span class="mf">1.4387752e4</span>
         <span class="n">temp</span> <span class="o">=</span> <span class="n">c2</span> <span class="o">/</span> <span class="p">(</span><span class="n">center_wl</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">c1</span> <span class="o">/</span> <span class="p">((</span><span class="n">center_wl</span><span class="o">**</span><span class="mi">5</span><span class="p">)</span> <span class="o">*</span> <span class="n">rad</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)))</span>
@@ -921,7 +948,7 @@ window.runMermaid = runMermaid;</script>
         <span class="k">return</span> <span class="n">temp</span></div>
 
 <div class="viewcode-block" id="SgliL1BHdf5ReaderPlugin.read_irs"><a class="viewcode-back" href="../../../../../geoips_api/geoips.plugins.classes.readers.html#geoips.plugins.classes.readers.sgli_l1b_hdf5.SgliL1BHdf5ReaderPlugin.read_irs">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">read_irs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">infile</span><span class="p">,</span> <span class="n">data_chans</span><span class="o">=</span><span class="n">ir_chans</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Read the infrared scanner (SWIR &amp; TIR) data.</span>
+<span class="w">        </span><span class="sd">"""Read the infrared scanner (SWIR &amp; TIR) data.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -935,42 +962,42 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">        -------</span>
 <span class="sd">        xrt : xr.Dataset</span>
 <span class="sd">            * Dataset of all channels in data_chans extracted from the file</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="c1"># three possible resolutions</span>
         <span class="c1"># HIGH (250m) MED (500m) LOW (1km)</span>
-        <span class="n">xrt</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">(</span><span class="n">attrs</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;res_types&quot;</span><span class="p">:</span> <span class="p">[]})</span>
+        <span class="n">xrt</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">(</span><span class="n">attrs</span><span class="o">=</span><span class="p">{</span><span class="s2">"res_types"</span><span class="p">:</span> <span class="p">[]})</span>
         <span class="k">with</span> <span class="n">h5File</span><span class="p">(</span><span class="n">infile</span><span class="p">)</span> <span class="k">as</span> <span class="n">irs_h5</span><span class="p">:</span>
             <span class="c1"># load all respective channels</span>
             <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">data_chans</span><span class="p">:</span>
-                <span class="n">raw_chan</span> <span class="o">=</span> <span class="n">irs_h5</span><span class="p">[</span><span class="s2">&quot;Image_data&quot;</span><span class="p">][</span><span class="n">k</span><span class="p">]</span>
+                <span class="n">raw_chan</span> <span class="o">=</span> <span class="n">irs_h5</span><span class="p">[</span><span class="s2">"Image_data"</span><span class="p">][</span><span class="n">k</span><span class="p">]</span>
                 <span class="c1"># mask data, top two bits are masked</span>
-                <span class="n">chan_name</span> <span class="o">=</span> <span class="n">k</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+                <span class="n">chan_name</span> <span class="o">=</span> <span class="n">k</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">"_"</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
                 <span class="n">raw_img</span> <span class="o">=</span> <span class="n">raw_chan</span><span class="p">[</span><span class="o">...</span><span class="p">]</span> <span class="o">&amp;</span> <span class="mh">0x3FFF</span>
                 <span class="n">raw_ma</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">raw_img</span> <span class="o">==</span> <span class="mi">16383</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="n">raw_img</span><span class="p">)</span>
                 <span class="c1"># create radiance, reflectance</span>
-                <span class="n">toa_rad</span> <span class="o">=</span> <span class="p">(</span><span class="n">raw_chan</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;Slope&quot;</span><span class="p">][</span><span class="o">...</span><span class="p">]</span> <span class="o">*</span> <span class="n">raw_ma</span><span class="p">)</span> <span class="o">+</span> <span class="n">raw_chan</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span>
-                    <span class="s2">&quot;Offset&quot;</span>
+                <span class="n">toa_rad</span> <span class="o">=</span> <span class="p">(</span><span class="n">raw_chan</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"Slope"</span><span class="p">][</span><span class="o">...</span><span class="p">]</span> <span class="o">*</span> <span class="n">raw_ma</span><span class="p">)</span> <span class="o">+</span> <span class="n">raw_chan</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span>
+                    <span class="s2">"Offset"</span>
                 <span class="p">][</span><span class="o">...</span><span class="p">]</span>
                 <span class="n">ref_flag</span> <span class="o">=</span> <span class="kc">False</span>
-                <span class="k">if</span> <span class="s2">&quot;Slope_reflectance&quot;</span> <span class="ow">in</span> <span class="n">raw_chan</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                <span class="k">if</span> <span class="s2">"Slope_reflectance"</span> <span class="ow">in</span> <span class="n">raw_chan</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
                     <span class="n">toa_ref</span> <span class="o">=</span> <span class="p">(</span>
-                        <span class="n">raw_chan</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;Slope_reflectance&quot;</span><span class="p">][</span><span class="o">...</span><span class="p">]</span> <span class="o">*</span> <span class="n">raw_ma</span>
-                    <span class="p">)</span> <span class="o">+</span> <span class="n">raw_chan</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;Offset_reflectance&quot;</span><span class="p">][</span><span class="o">...</span><span class="p">]</span>
+                        <span class="n">raw_chan</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"Slope_reflectance"</span><span class="p">][</span><span class="o">...</span><span class="p">]</span> <span class="o">*</span> <span class="n">raw_ma</span>
+                    <span class="p">)</span> <span class="o">+</span> <span class="n">raw_chan</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"Offset_reflectance"</span><span class="p">][</span><span class="o">...</span><span class="p">]</span>
                     <span class="n">ref_flag</span> <span class="o">=</span> <span class="kc">True</span>
 
                 <span class="n">res_type</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">res_mapping</span><span class="p">[</span>
-                    <span class="nb">int</span><span class="p">(</span><span class="n">raw_chan</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;Spatial_resolution&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
+                    <span class="nb">int</span><span class="p">(</span><span class="n">raw_chan</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"Spatial_resolution"</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
                 <span class="p">]</span>
-                <span class="k">if</span> <span class="n">res_type</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">xrt</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;res_types&quot;</span><span class="p">]:</span>
+                <span class="k">if</span> <span class="n">res_type</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">xrt</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"res_types"</span><span class="p">]:</span>
                     <span class="c1"># commit geo values</span>
-                    <span class="n">xrt</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;res_types&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">res_type</span><span class="p">)</span>
+                    <span class="n">xrt</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"res_types"</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">res_type</span><span class="p">)</span>
                     <span class="c1"># load geo channels</span>
-                    <span class="n">lat</span> <span class="o">=</span> <span class="n">irs_h5</span><span class="p">[</span><span class="s2">&quot;Geometry_data&quot;</span><span class="p">][</span><span class="s2">&quot;Latitude&quot;</span><span class="p">][</span><span class="o">...</span><span class="p">]</span>
-                    <span class="n">lon</span> <span class="o">=</span> <span class="n">irs_h5</span><span class="p">[</span><span class="s2">&quot;Geometry_data&quot;</span><span class="p">][</span><span class="s2">&quot;Longitude&quot;</span><span class="p">][</span><span class="o">...</span><span class="p">]</span>
-                    <span class="n">sol_azi_angle</span> <span class="o">=</span> <span class="n">irs_h5</span><span class="p">[</span><span class="s2">&quot;Geometry_data&quot;</span><span class="p">][</span><span class="s2">&quot;Solar_azimuth&quot;</span><span class="p">][</span><span class="o">...</span><span class="p">]</span> <span class="o">*</span> <span class="mf">0.01</span>
-                    <span class="n">sol_zen_angle</span> <span class="o">=</span> <span class="n">irs_h5</span><span class="p">[</span><span class="s2">&quot;Geometry_data&quot;</span><span class="p">][</span><span class="s2">&quot;Solar_zenith&quot;</span><span class="p">][</span><span class="o">...</span><span class="p">]</span> <span class="o">*</span> <span class="mf">0.01</span>
-                    <span class="n">sat_azi</span> <span class="o">=</span> <span class="n">irs_h5</span><span class="p">[</span><span class="s2">&quot;Geometry_data&quot;</span><span class="p">][</span><span class="s2">&quot;Sensor_azimuth&quot;</span><span class="p">][</span><span class="o">...</span><span class="p">]</span> <span class="o">*</span> <span class="mf">0.01</span>
-                    <span class="n">sat_zen</span> <span class="o">=</span> <span class="n">irs_h5</span><span class="p">[</span><span class="s2">&quot;Geometry_data&quot;</span><span class="p">][</span><span class="s2">&quot;Sensor_zenith&quot;</span><span class="p">][</span><span class="o">...</span><span class="p">]</span> <span class="o">*</span> <span class="mf">0.01</span>
+                    <span class="n">lat</span> <span class="o">=</span> <span class="n">irs_h5</span><span class="p">[</span><span class="s2">"Geometry_data"</span><span class="p">][</span><span class="s2">"Latitude"</span><span class="p">][</span><span class="o">...</span><span class="p">]</span>
+                    <span class="n">lon</span> <span class="o">=</span> <span class="n">irs_h5</span><span class="p">[</span><span class="s2">"Geometry_data"</span><span class="p">][</span><span class="s2">"Longitude"</span><span class="p">][</span><span class="o">...</span><span class="p">]</span>
+                    <span class="n">sol_azi_angle</span> <span class="o">=</span> <span class="n">irs_h5</span><span class="p">[</span><span class="s2">"Geometry_data"</span><span class="p">][</span><span class="s2">"Solar_azimuth"</span><span class="p">][</span><span class="o">...</span><span class="p">]</span> <span class="o">*</span> <span class="mf">0.01</span>
+                    <span class="n">sol_zen_angle</span> <span class="o">=</span> <span class="n">irs_h5</span><span class="p">[</span><span class="s2">"Geometry_data"</span><span class="p">][</span><span class="s2">"Solar_zenith"</span><span class="p">][</span><span class="o">...</span><span class="p">]</span> <span class="o">*</span> <span class="mf">0.01</span>
+                    <span class="n">sat_azi</span> <span class="o">=</span> <span class="n">irs_h5</span><span class="p">[</span><span class="s2">"Geometry_data"</span><span class="p">][</span><span class="s2">"Sensor_azimuth"</span><span class="p">][</span><span class="o">...</span><span class="p">]</span> <span class="o">*</span> <span class="mf">0.01</span>
+                    <span class="n">sat_zen</span> <span class="o">=</span> <span class="n">irs_h5</span><span class="p">[</span><span class="s2">"Geometry_data"</span><span class="p">][</span><span class="s2">"Sensor_zenith"</span><span class="p">][</span><span class="o">...</span><span class="p">]</span> <span class="o">*</span> <span class="mf">0.01</span>
                     <span class="c1"># zoom if needed</span>
                     <span class="k">if</span> <span class="n">lat</span><span class="o">.</span><span class="n">shape</span> <span class="o">!=</span> <span class="n">raw_img</span><span class="o">.</span><span class="n">shape</span><span class="p">:</span>
                         <span class="n">coef</span> <span class="o">=</span> <span class="p">(</span>
@@ -984,39 +1011,39 @@ window.runMermaid = runMermaid;</script>
                         <span class="n">sol_zen_angle</span> <span class="o">=</span> <span class="n">zoom</span><span class="p">(</span><span class="n">sol_zen_angle</span><span class="p">,</span> <span class="n">coef</span><span class="p">)</span>
                         <span class="n">sol_azi_angle</span> <span class="o">=</span> <span class="n">zoom</span><span class="p">(</span><span class="n">sol_azi_angle</span><span class="p">,</span> <span class="n">coef</span><span class="p">)</span>
 
-                    <span class="n">xrt</span><span class="p">[</span><span class="n">res_type</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;lat&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
-                        <span class="n">lat</span><span class="o">.</span><span class="n">ravel</span><span class="p">(),</span> <span class="n">dims</span><span class="o">=</span><span class="p">(</span><span class="n">res_type</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;_dim0&quot;</span><span class="p">)</span>
+                    <span class="n">xrt</span><span class="p">[</span><span class="n">res_type</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">+</span> <span class="s2">"lat"</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
+                        <span class="n">lat</span><span class="o">.</span><span class="n">ravel</span><span class="p">(),</span> <span class="n">dims</span><span class="o">=</span><span class="p">(</span><span class="n">res_type</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">+</span> <span class="s2">"_dim0"</span><span class="p">)</span>
                     <span class="p">)</span>
-                    <span class="n">xrt</span><span class="p">[</span><span class="n">res_type</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;lon&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
-                        <span class="n">lon</span><span class="o">.</span><span class="n">ravel</span><span class="p">(),</span> <span class="n">dims</span><span class="o">=</span><span class="p">(</span><span class="n">res_type</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;_dim0&quot;</span><span class="p">)</span>
+                    <span class="n">xrt</span><span class="p">[</span><span class="n">res_type</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">+</span> <span class="s2">"lon"</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
+                        <span class="n">lon</span><span class="o">.</span><span class="n">ravel</span><span class="p">(),</span> <span class="n">dims</span><span class="o">=</span><span class="p">(</span><span class="n">res_type</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">+</span> <span class="s2">"_dim0"</span><span class="p">)</span>
                     <span class="p">)</span>
-                    <span class="n">xrt</span><span class="p">[</span><span class="n">res_type</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;sat_zen&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
-                        <span class="n">sat_zen</span><span class="o">.</span><span class="n">ravel</span><span class="p">(),</span> <span class="n">dims</span><span class="o">=</span><span class="p">(</span><span class="n">res_type</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;_dim0&quot;</span><span class="p">)</span>
+                    <span class="n">xrt</span><span class="p">[</span><span class="n">res_type</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">+</span> <span class="s2">"sat_zen"</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
+                        <span class="n">sat_zen</span><span class="o">.</span><span class="n">ravel</span><span class="p">(),</span> <span class="n">dims</span><span class="o">=</span><span class="p">(</span><span class="n">res_type</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">+</span> <span class="s2">"_dim0"</span><span class="p">)</span>
                     <span class="p">)</span>
-                    <span class="n">xrt</span><span class="p">[</span><span class="n">res_type</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;sat_azi&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
-                        <span class="n">sat_azi</span><span class="o">.</span><span class="n">ravel</span><span class="p">(),</span> <span class="n">dims</span><span class="o">=</span><span class="p">(</span><span class="n">res_type</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;_dim0&quot;</span><span class="p">)</span>
+                    <span class="n">xrt</span><span class="p">[</span><span class="n">res_type</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">+</span> <span class="s2">"sat_azi"</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
+                        <span class="n">sat_azi</span><span class="o">.</span><span class="n">ravel</span><span class="p">(),</span> <span class="n">dims</span><span class="o">=</span><span class="p">(</span><span class="n">res_type</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">+</span> <span class="s2">"_dim0"</span><span class="p">)</span>
                     <span class="p">)</span>
-                    <span class="n">xrt</span><span class="p">[</span><span class="n">res_type</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;sol_zen&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
-                        <span class="n">sol_zen_angle</span><span class="o">.</span><span class="n">ravel</span><span class="p">(),</span> <span class="n">dims</span><span class="o">=</span><span class="p">(</span><span class="n">res_type</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;_dim0&quot;</span><span class="p">)</span>
+                    <span class="n">xrt</span><span class="p">[</span><span class="n">res_type</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">+</span> <span class="s2">"sol_zen"</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
+                        <span class="n">sol_zen_angle</span><span class="o">.</span><span class="n">ravel</span><span class="p">(),</span> <span class="n">dims</span><span class="o">=</span><span class="p">(</span><span class="n">res_type</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">+</span> <span class="s2">"_dim0"</span><span class="p">)</span>
                     <span class="p">)</span>
-                    <span class="n">xrt</span><span class="p">[</span><span class="n">res_type</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;sol_azi&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
-                        <span class="n">sol_azi_angle</span><span class="o">.</span><span class="n">ravel</span><span class="p">(),</span> <span class="n">dims</span><span class="o">=</span><span class="p">(</span><span class="n">res_type</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;_dim0&quot;</span><span class="p">)</span>
+                    <span class="n">xrt</span><span class="p">[</span><span class="n">res_type</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">+</span> <span class="s2">"sol_azi"</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
+                        <span class="n">sol_azi_angle</span><span class="o">.</span><span class="n">ravel</span><span class="p">(),</span> <span class="n">dims</span><span class="o">=</span><span class="p">(</span><span class="n">res_type</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">+</span> <span class="s2">"_dim0"</span><span class="p">)</span>
                     <span class="p">)</span>
                 <span class="c1"># commit data to xarray</span>
-                <span class="n">xrt</span><span class="p">[</span><span class="n">chan_name</span> <span class="o">+</span> <span class="s2">&quot;Rad&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
-                    <span class="n">toa_rad</span><span class="o">.</span><span class="n">ravel</span><span class="p">(),</span> <span class="n">dims</span><span class="o">=</span><span class="p">(</span><span class="n">res_type</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;_dim0&quot;</span><span class="p">,)</span>
+                <span class="n">xrt</span><span class="p">[</span><span class="n">chan_name</span> <span class="o">+</span> <span class="s2">"Rad"</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
+                    <span class="n">toa_rad</span><span class="o">.</span><span class="n">ravel</span><span class="p">(),</span> <span class="n">dims</span><span class="o">=</span><span class="p">(</span><span class="n">res_type</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">+</span> <span class="s2">"_dim0"</span><span class="p">,)</span>
                 <span class="p">)</span>
                 <span class="n">temp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">rad_to_temp</span><span class="p">(</span>
-                    <span class="n">toa_rad</span><span class="p">,</span> <span class="n">raw_chan</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;Center_wavelength&quot;</span><span class="p">][</span><span class="o">...</span><span class="p">]</span> <span class="o">/</span> <span class="mi">1000</span>
+                    <span class="n">toa_rad</span><span class="p">,</span> <span class="n">raw_chan</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"Center_wavelength"</span><span class="p">][</span><span class="o">...</span><span class="p">]</span> <span class="o">/</span> <span class="mi">1000</span>
                 <span class="p">)</span>
-                <span class="n">xrt</span><span class="p">[</span><span class="n">chan_name</span> <span class="o">+</span> <span class="s2">&quot;BT&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
-                    <span class="n">temp</span><span class="o">.</span><span class="n">ravel</span><span class="p">(),</span> <span class="n">dims</span><span class="o">=</span><span class="p">(</span><span class="n">res_type</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;_dim0&quot;</span><span class="p">,)</span>
+                <span class="n">xrt</span><span class="p">[</span><span class="n">chan_name</span> <span class="o">+</span> <span class="s2">"BT"</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
+                    <span class="n">temp</span><span class="o">.</span><span class="n">ravel</span><span class="p">(),</span> <span class="n">dims</span><span class="o">=</span><span class="p">(</span><span class="n">res_type</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">+</span> <span class="s2">"_dim0"</span><span class="p">,)</span>
                 <span class="p">)</span>
 
                 <span class="k">if</span> <span class="n">ref_flag</span><span class="p">:</span>
-                    <span class="n">xrt</span><span class="p">[</span><span class="n">chan_name</span> <span class="o">+</span> <span class="s2">&quot;Ref&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
+                    <span class="n">xrt</span><span class="p">[</span><span class="n">chan_name</span> <span class="o">+</span> <span class="s2">"Ref"</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
                         <span class="n">toa_ref</span><span class="o">.</span><span class="n">ravel</span><span class="p">(),</span>
-                        <span class="n">dims</span><span class="o">=</span><span class="p">(</span><span class="n">res_type</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;_dim0&quot;</span><span class="p">,),</span>
+                        <span class="n">dims</span><span class="o">=</span><span class="p">(</span><span class="n">res_type</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">+</span> <span class="s2">"_dim0"</span><span class="p">,),</span>
                     <span class="p">)</span>
 
         <span class="k">return</span> <span class="n">xrt</span></div>
@@ -1029,7 +1056,7 @@ window.runMermaid = runMermaid;</script>
         <span class="n">area_def</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">self_register</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
     <span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Read GCOM-C1 SGLI data.</span>
+<span class="w">        </span><span class="sd">"""Read GCOM-C1 SGLI data.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -1057,17 +1084,17 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">              Attributes.</span>
 <span class="sd">            * Dictionary keys can be any descriptive dataset ids.</span>
 <span class="sd">            * Conforms to geoips xarray standards, see more in geoips documentation.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">base_fnames</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="n">basename</span><span class="p">,</span> <span class="n">fnames</span><span class="p">))</span>
         <span class="n">fnames</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">fnames</span><span class="p">)</span>
 
         <span class="c1"># approximate for metadata only</span>
-        <span class="n">dtime_start</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">base_fnames</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">][:</span><span class="mi">10</span><span class="p">],</span> <span class="s2">&quot;%Y%m</span><span class="si">%d</span><span class="s2">%H%M&quot;</span><span class="p">)</span>
-        <span class="n">dtime_end</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">base_fnames</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">][:</span><span class="mi">10</span><span class="p">],</span> <span class="s2">&quot;%Y%m</span><span class="si">%d</span><span class="s2">%H%M&quot;</span><span class="p">)</span>
+        <span class="n">dtime_start</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">base_fnames</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">"_"</span><span class="p">)[</span><span class="mi">1</span><span class="p">][:</span><span class="mi">10</span><span class="p">],</span> <span class="s2">"%Y%m</span><span class="si">%d</span><span class="s2">%H%M"</span><span class="p">)</span>
+        <span class="n">dtime_end</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">base_fnames</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">"_"</span><span class="p">)[</span><span class="mi">1</span><span class="p">][:</span><span class="mi">10</span><span class="p">],</span> <span class="s2">"%Y%m</span><span class="si">%d</span><span class="s2">%H%M"</span><span class="p">)</span>
 
         <span class="c1"># if mixed res assume low</span>
-        <span class="n">res_types</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">)[</span><span class="mi">3</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">base_fnames</span><span class="p">)</span>
-        <span class="n">res_dict</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;K&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;L&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;Q&quot;</span><span class="p">:</span> <span class="mf">0.25</span><span class="p">}</span>
+        <span class="n">res_types</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">"_"</span><span class="p">)[</span><span class="mi">3</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">base_fnames</span><span class="p">)</span>
+        <span class="n">res_dict</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"K"</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">"L"</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">"Q"</span><span class="p">:</span> <span class="mf">0.25</span><span class="p">}</span>
 
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">res_types</span><span class="p">))</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
             <span class="n">res</span> <span class="o">=</span> <span class="mi">1</span>
@@ -1076,25 +1103,25 @@ window.runMermaid = runMermaid;</script>
 
         <span class="n">tmp_xr</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">(</span>
             <span class="n">attrs</span><span class="o">=</span><span class="p">{</span>
-                <span class="s2">&quot;source_file_name&quot;</span><span class="p">:</span> <span class="n">base_fnames</span><span class="p">,</span>
-                <span class="s2">&quot;start_datetime&quot;</span><span class="p">:</span> <span class="n">dtime_start</span><span class="p">,</span>
-                <span class="s2">&quot;end_datetime&quot;</span><span class="p">:</span> <span class="n">dtime_end</span><span class="p">,</span>
-                <span class="s2">&quot;source_name&quot;</span><span class="p">:</span> <span class="s2">&quot;sgli&quot;</span><span class="p">,</span>
-                <span class="s2">&quot;platform_name&quot;</span><span class="p">:</span> <span class="s2">&quot;GCOM-C1&quot;</span><span class="p">,</span>
-                <span class="s2">&quot;data_provider&quot;</span><span class="p">:</span> <span class="s2">&quot;JAXA&quot;</span><span class="p">,</span>
-                <span class="s2">&quot;sample_distance_km&quot;</span><span class="p">:</span> <span class="n">res</span><span class="p">,</span>
-                <span class="s2">&quot;interpolation_radius_of_influence&quot;</span><span class="p">:</span> <span class="mi">3000</span><span class="p">,</span>
+                <span class="s2">"source_file_name"</span><span class="p">:</span> <span class="n">base_fnames</span><span class="p">,</span>
+                <span class="s2">"start_datetime"</span><span class="p">:</span> <span class="n">dtime_start</span><span class="p">,</span>
+                <span class="s2">"end_datetime"</span><span class="p">:</span> <span class="n">dtime_end</span><span class="p">,</span>
+                <span class="s2">"source_name"</span><span class="p">:</span> <span class="s2">"sgli"</span><span class="p">,</span>
+                <span class="s2">"platform_name"</span><span class="p">:</span> <span class="s2">"GCOM-C1"</span><span class="p">,</span>
+                <span class="s2">"data_provider"</span><span class="p">:</span> <span class="s2">"JAXA"</span><span class="p">,</span>
+                <span class="s2">"sample_distance_km"</span><span class="p">:</span> <span class="n">res</span><span class="p">,</span>
+                <span class="s2">"interpolation_radius_of_influence"</span><span class="p">:</span> <span class="mi">3000</span><span class="p">,</span>
             <span class="p">}</span>
         <span class="p">)</span>
         <span class="k">if</span> <span class="n">metadata_only</span><span class="p">:</span>
-            <span class="n">tmp_dict</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;METADATA&quot;</span><span class="p">:</span> <span class="n">tmp_xr</span><span class="p">}</span>
+            <span class="n">tmp_dict</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"METADATA"</span><span class="p">:</span> <span class="n">tmp_xr</span><span class="p">}</span>
             <span class="k">return</span> <span class="n">tmp_dict</span>
 
         <span class="n">vnr_chans</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">vis_chans</span>
         <span class="n">irs_chans</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ir_chans</span>
 
         <span class="k">if</span> <span class="n">chans</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">req_chans</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="s2">&quot;Lt_&quot;</span> <span class="o">+</span> <span class="n">i</span><span class="p">[:</span><span class="mi">4</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">chans</span><span class="p">)</span>
+            <span class="n">req_chans</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="s2">"Lt_"</span> <span class="o">+</span> <span class="n">i</span><span class="p">[:</span><span class="mi">4</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">chans</span><span class="p">)</span>
             <span class="n">irs_chans</span> <span class="o">=</span> <span class="n">req_chans</span> <span class="o">&amp;</span> <span class="bp">self</span><span class="o">.</span><span class="n">ir_chans</span>
             <span class="n">vnr_chans</span> <span class="o">=</span> <span class="n">req_chans</span> <span class="o">&amp;</span> <span class="bp">self</span><span class="o">.</span><span class="n">vis_chans</span>
             <span class="n">polo_chans</span> <span class="o">=</span> <span class="n">req_chans</span> <span class="o">&amp;</span> <span class="bp">self</span><span class="o">.</span><span class="n">pol_chans</span>
@@ -1104,7 +1131,7 @@ window.runMermaid = runMermaid;</script>
                 <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">polo_chans</span><span class="p">))</span> <span class="o">==</span> <span class="mi">0</span>
             <span class="p">):</span>
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                    <span class="s2">&quot;No channels found for SGLI, check requestd channels: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                    <span class="s2">"No channels found for SGLI, check requestd channels: </span><span class="si">{}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
                         <span class="n">req_chans</span>
                     <span class="p">)</span>
                 <span class="p">)</span>
@@ -1113,30 +1140,30 @@ window.runMermaid = runMermaid;</script>
         <span class="n">res_list</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">fnames</span><span class="p">:</span>
             <span class="n">f_basename</span> <span class="o">=</span> <span class="n">basename</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
-            <span class="k">if</span> <span class="s2">&quot;IRS&quot;</span> <span class="ow">in</span> <span class="n">f_basename</span><span class="p">:</span>
+            <span class="k">if</span> <span class="s2">"IRS"</span> <span class="ow">in</span> <span class="n">f_basename</span><span class="p">:</span>
                 <span class="n">data_xarray</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">read_irs</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">data_chans</span><span class="o">=</span><span class="n">irs_chans</span><span class="p">)</span>
-                <span class="n">data_xr_dict</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">commit_to_dict</span><span class="p">(</span><span class="n">data_xr_dict</span><span class="p">,</span> <span class="s2">&quot;IRS&quot;</span><span class="p">,</span> <span class="n">data_xarray</span><span class="p">)</span>
-            <span class="k">elif</span> <span class="s2">&quot;VNR&quot;</span> <span class="ow">in</span> <span class="n">f_basename</span><span class="p">:</span>
+                <span class="n">data_xr_dict</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">commit_to_dict</span><span class="p">(</span><span class="n">data_xr_dict</span><span class="p">,</span> <span class="s2">"IRS"</span><span class="p">,</span> <span class="n">data_xarray</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="s2">"VNR"</span> <span class="ow">in</span> <span class="n">f_basename</span><span class="p">:</span>
                 <span class="n">data_xarray</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">read_irs</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">data_chans</span><span class="o">=</span><span class="n">vnr_chans</span><span class="p">)</span>
-                <span class="n">data_xr_dict</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">commit_to_dict</span><span class="p">(</span><span class="n">data_xr_dict</span><span class="p">,</span> <span class="s2">&quot;VNR&quot;</span><span class="p">,</span> <span class="n">data_xarray</span><span class="p">)</span>
-            <span class="k">elif</span> <span class="s2">&quot;POL&quot;</span> <span class="ow">in</span> <span class="n">f_basename</span><span class="p">:</span>
+                <span class="n">data_xr_dict</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">commit_to_dict</span><span class="p">(</span><span class="n">data_xr_dict</span><span class="p">,</span> <span class="s2">"VNR"</span><span class="p">,</span> <span class="n">data_xarray</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="s2">"POL"</span> <span class="ow">in</span> <span class="n">f_basename</span><span class="p">:</span>
                 <span class="n">data_xarray</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">read_irs</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">data_chans</span><span class="o">=</span><span class="n">polo_chans</span><span class="p">)</span>
-                <span class="n">data_xr_dict</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">commit_to_dict</span><span class="p">(</span><span class="n">data_xr_dict</span><span class="p">,</span> <span class="s2">&quot;POL&quot;</span><span class="p">,</span> <span class="n">data_xarray</span><span class="p">)</span>
+                <span class="n">data_xr_dict</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">commit_to_dict</span><span class="p">(</span><span class="n">data_xr_dict</span><span class="p">,</span> <span class="s2">"POL"</span><span class="p">,</span> <span class="n">data_xarray</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="n">LOG</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;No data type readable in file: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">f_basename</span><span class="p">))</span>
+                <span class="n">LOG</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">"No data type readable in file: </span><span class="si">{}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">f_basename</span><span class="p">))</span>
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                    <span class="s2">&quot;No matching file key for IRS, VNR, or POL in filename.&quot;</span>
+                    <span class="s2">"No matching file key for IRS, VNR, or POL in filename."</span>
                 <span class="p">)</span>
 
-            <span class="n">res_list</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">data_xarray</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;res_types&quot;</span><span class="p">])</span>
+            <span class="n">res_list</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">data_xarray</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"res_types"</span><span class="p">])</span>
 
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">data_xr_dict</span><span class="o">.</span><span class="n">keys</span><span class="p">()))</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
             <span class="n">single_key</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">data_xr_dict</span><span class="o">.</span><span class="n">keys</span><span class="p">())[</span><span class="mi">0</span><span class="p">]</span>
-            <span class="n">full_xarray</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">data_xr_dict</span><span class="p">[</span><span class="n">single_key</span><span class="p">],</span> <span class="n">dim</span><span class="o">=</span><span class="s2">&quot;dimN&quot;</span><span class="p">)</span>
+            <span class="n">full_xarray</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">data_xr_dict</span><span class="p">[</span><span class="n">single_key</span><span class="p">],</span> <span class="n">dim</span><span class="o">=</span><span class="s2">"dimN"</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="c1"># multi-file merge/concat</span>
             <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">data_xr_dict</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
-                <span class="n">data_xr_dict</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">data_xr_dict</span><span class="p">[</span><span class="n">k</span><span class="p">],</span> <span class="n">dim</span><span class="o">=</span><span class="s2">&quot;dimN&quot;</span><span class="p">)</span>
+                <span class="n">data_xr_dict</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">data_xr_dict</span><span class="p">[</span><span class="n">k</span><span class="p">],</span> <span class="n">dim</span><span class="o">=</span><span class="s2">"dimN"</span><span class="p">)</span>
             <span class="n">full_xarray</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">data_xr_dict</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
 
         <span class="n">final_data</span> <span class="o">=</span> <span class="p">{}</span>
@@ -1145,22 +1172,22 @@ window.runMermaid = runMermaid;</script>
         <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="nb">set</span><span class="p">(</span><span class="n">res_list</span><span class="p">):</span>
 
             <span class="n">res_pop</span> <span class="o">=</span> <span class="n">res_avail</span> <span class="o">-</span> <span class="p">{</span><span class="n">r</span><span class="p">}</span>
-            <span class="n">res_pop</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;_dim0&quot;</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">res_pop</span><span class="p">]</span>
+            <span class="n">res_pop</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">+</span> <span class="s2">"_dim0"</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">res_pop</span><span class="p">]</span>
             <span class="n">final_data</span><span class="p">[</span><span class="n">r</span><span class="p">]</span> <span class="o">=</span> <span class="n">full_xarray</span><span class="o">.</span><span class="n">drop_dims</span><span class="p">(</span><span class="n">res_pop</span><span class="p">)</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span>
                 <span class="p">{</span>
-                    <span class="n">r</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;lat&quot;</span><span class="p">:</span> <span class="s2">&quot;latitude&quot;</span><span class="p">,</span>
-                    <span class="n">r</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;lon&quot;</span><span class="p">:</span> <span class="s2">&quot;longitude&quot;</span><span class="p">,</span>
-                    <span class="n">r</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;_dim0&quot;</span><span class="p">:</span> <span class="s2">&quot;dim_0&quot;</span><span class="p">,</span>
-                    <span class="n">r</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;sat_zen&quot;</span><span class="p">:</span> <span class="s2">&quot;satellite_zenith_angle&quot;</span><span class="p">,</span>
-                    <span class="n">r</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;sat_azi&quot;</span><span class="p">:</span> <span class="s2">&quot;satellite_azimuth_angle&quot;</span><span class="p">,</span>
-                    <span class="n">r</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;sol_zen&quot;</span><span class="p">:</span> <span class="s2">&quot;solar_zenith_angle&quot;</span><span class="p">,</span>
-                    <span class="n">r</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;sol_azi&quot;</span><span class="p">:</span> <span class="s2">&quot;solar_azimuth_angle&quot;</span><span class="p">,</span>
+                    <span class="n">r</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">+</span> <span class="s2">"lat"</span><span class="p">:</span> <span class="s2">"latitude"</span><span class="p">,</span>
+                    <span class="n">r</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">+</span> <span class="s2">"lon"</span><span class="p">:</span> <span class="s2">"longitude"</span><span class="p">,</span>
+                    <span class="n">r</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">+</span> <span class="s2">"_dim0"</span><span class="p">:</span> <span class="s2">"dim_0"</span><span class="p">,</span>
+                    <span class="n">r</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">+</span> <span class="s2">"sat_zen"</span><span class="p">:</span> <span class="s2">"satellite_zenith_angle"</span><span class="p">,</span>
+                    <span class="n">r</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">+</span> <span class="s2">"sat_azi"</span><span class="p">:</span> <span class="s2">"satellite_azimuth_angle"</span><span class="p">,</span>
+                    <span class="n">r</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">+</span> <span class="s2">"sol_zen"</span><span class="p">:</span> <span class="s2">"solar_zenith_angle"</span><span class="p">,</span>
+                    <span class="n">r</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">+</span> <span class="s2">"sol_azi"</span><span class="p">:</span> <span class="s2">"solar_azimuth_angle"</span><span class="p">,</span>
                 <span class="p">}</span>
             <span class="p">)</span>
-            <span class="n">final_data</span><span class="p">[</span><span class="n">r</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;res_types&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">r</span>
+            <span class="n">final_data</span><span class="p">[</span><span class="n">r</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"res_types"</span><span class="p">]</span> <span class="o">=</span> <span class="n">r</span>
             <span class="n">final_data</span><span class="p">[</span><span class="n">r</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span> <span class="o">|=</span> <span class="n">tmp_xr</span><span class="o">.</span><span class="n">attrs</span>
 
-        <span class="n">final_data</span> <span class="o">|=</span> <span class="p">{</span><span class="s2">&quot;METADATA&quot;</span><span class="p">:</span> <span class="n">tmp_xr</span><span class="p">}</span>
+        <span class="n">final_data</span> <span class="o">|=</span> <span class="p">{</span><span class="s2">"METADATA"</span><span class="p">:</span> <span class="n">tmp_xr</span><span class="p">}</span>
 
         <span class="k">return</span> <span class="n">final_data</span></div></div>
 
