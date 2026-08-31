@@ -12,12 +12,9 @@ from geoips.interfaces.base import (
 class OutputCheckersInterface(BaseClassInterface):
     """Output Checkers routines to apply when comparing data outputs."""
 
-    from geoips.interfaces.class_based.bases import BaseOutputCheckerPlugin
-
     name = "output_checkers"
     required_args = {"standard": {}}
     required_kwargs = {"standard": {}}
-    plugin_class = BaseOutputCheckerPlugin
     # required_args = {
     #     "standard": ["fname", "output_product", "compare_product"],
     #     "print_gunzip": ["fobj", "gunzip_fname"],

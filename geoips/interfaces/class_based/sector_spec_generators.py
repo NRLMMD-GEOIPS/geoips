@@ -15,10 +15,7 @@ class SectorSpecGeneratorsInterface(BaseClassInterface):
     and width/height are predetermined)
     """
 
-    from geoips.interfaces.class_based.bases import BaseSectorSpecGeneratorPlugin
-
     name = "sector_spec_generators"
-    plugin_class = BaseSectorSpecGeneratorPlugin
 
     required_args = {"area_definition": []}
     required_kwargs = {"area_definition": []}

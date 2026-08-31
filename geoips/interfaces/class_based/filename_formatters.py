@@ -13,10 +13,7 @@ class FilenameFormattersInterface(BaseClassInterface):
     GeoIPS xarray objects.
     """
 
-    from geoips.interfaces.class_based.bases import BaseFilenameFormatterPlugin
-
     name = "filename_formatters"
-    plugin_class = BaseFilenameFormatterPlugin
 
     required_args = {
         "standard": ["area_def", "xarray_obj", "product_name"],

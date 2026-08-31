@@ -21,10 +21,7 @@ class ProcflowsInterface(BaseClassInterface):
       possible outputs for a given set of data files.
     """
 
-    from geoips.interfaces.class_based.bases import BaseProcflowPlugin
-
     name = "procflows"
-    plugin_class = BaseProcflowPlugin
 
     required_args = {
         "standard": ["fnames"],

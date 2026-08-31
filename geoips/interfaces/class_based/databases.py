@@ -9,10 +9,7 @@ from geoips.interfaces.base import BaseClassInterface
 class DatabasesInterface(BaseClassInterface):
     """Interface for database table writers/queriers."""
 
-    from geoips.interfaces.class_based.bases import BaseDatabasePlugin
-
     name = "databases"
-    plugin_class = BaseDatabasePlugin
 
     required_args = {
         "xarray_area_def_to_table": ["product_filename", "xarray_obj", "area_def"],

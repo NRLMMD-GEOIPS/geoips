@@ -14,10 +14,7 @@ class SectorMetadataGeneratorsInterface(BaseClassInterface):
     determines the formatting and contents of the metadata dictionary.
     """
 
-    from geoips.interfaces.class_based.bases import BaseSectorMetadataGeneratorPlugin
-
     name = "sector_metadata_generators"
-    plugin_class = BaseSectorMetadataGeneratorPlugin
 
     required_args = {"tc": ["trackfile_name"], "volc": ["trackfile_name"]}
     required_kwargs = {"tc": [], "volc": []}

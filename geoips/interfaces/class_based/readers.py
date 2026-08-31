@@ -22,10 +22,7 @@ class ReadersInterface(BaseClassInterface):
     the GeoIPS xarray-based internal format.
     """
 
-    from geoips.interfaces.class_based.bases import BaseReaderPlugin
-
     name = "readers"
-    plugin_class = BaseReaderPlugin
 
     required_args = {"standard": ["fnames"]}
     required_kwargs = {

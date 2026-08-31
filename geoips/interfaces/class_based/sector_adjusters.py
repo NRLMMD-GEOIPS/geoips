@@ -13,10 +13,7 @@ class SectorAdjustersInterface(BaseClassInterface):
     on the data itself.
     """
 
-    from geoips.interfaces.class_based.bases import BaseSectorAdjusterPlugin
-
     name = "sector_adjusters"
-    plugin_class = BaseSectorAdjusterPlugin
 
     required_args = {
         "list_xarray_list_variables_to_area_def_out_fnames": [

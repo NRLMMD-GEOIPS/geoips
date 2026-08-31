@@ -9,10 +9,7 @@ from geoips.interfaces.base import BaseClassInterface
 class CoverageCheckersInterface(BaseClassInterface):
     """Interpolation routine to apply when reprojecting data."""
 
-    from geoips.interfaces.class_based.bases import BaseCoverageCheckerPlugin
-
     name = "coverage_checkers"
-    plugin_class = BaseCoverageCheckerPlugin
 
     required_args = {"standard": ["xarray_obj", "variable_name"]}
     required_kwargs = {"standard": {}}

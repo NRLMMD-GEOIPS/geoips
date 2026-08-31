@@ -9,10 +9,7 @@ from geoips.interfaces.base import BaseClassInterface
 class OutputFormattersInterface(BaseClassInterface):
     """Data format for the resulting output product (e.g. netCDF, png)."""
 
-    from geoips.interfaces.class_based.bases import BaseOutputFormatterPlugin
-
     name = "output_formatters"
-    plugin_class = BaseOutputFormatterPlugin
 
     required_args = {
         "image": ["xarray_obj", "area_def", "product_name", "output_fnames"],

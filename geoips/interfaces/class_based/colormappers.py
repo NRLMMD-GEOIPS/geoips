@@ -9,10 +9,7 @@ from geoips.interfaces.base import BaseClassInterface
 class ColormappersInterface(BaseClassInterface):
     """Interface for the colormapper to apply to the resulting product."""
 
-    from geoips.interfaces.class_based.bases import BaseColormapperPlugin
-
     name = "colormappers"
-    plugin_class = BaseColormapperPlugin
 
     required_args = {
         "matplotlib": [],
