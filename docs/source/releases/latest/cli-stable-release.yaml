@@ -11,26 +11,61 @@ refactor:
 
     New commands added include `geoips --version`, `geoips test-data remove`, as well
     as other future commands planned in https://github.com/NRLMMD-GEOIPS/geoips/issues/1479.
+
+    Additionally, changed where class-based, base plugins are stored within GeoIPS and
+    updated the imports respectively in an attempt to speed up the start up time of the
+    CLI. Updates still to come with that.
+
+    Lastly, updated the help formatter for the CLI to highlight different sections of
+    the help output in order to make it more clear to the user what they are seeing.
   files:
-    deleted:
-    - ''
-    moved:
-    - ''
     added:
-      - geoips/commandline/geoips_install.py
+      - geoips/commandline/geoips_lint.py
       - geoips/commandline/geoips_registry.py
       - geoips/commandline/geoips_sector.py
+      - geoips/commandline/geoips_test_data.py
+      - geoips/interfaces/class_based/bases/__init__.py
+      - geoips/interfaces/class_based/bases/algorithms.py
+      - geoips/interfaces/class_based/bases/colormappers.py
+      - geoips/interfaces/class_based/bases/coverage_checkers.py
+      - geoips/interfaces/class_based/bases/databases.py
+      - geoips/interfaces/class_based/bases/filename_formatters.py
+      - geoips/interfaces/class_based/bases/interpolators.py
+      - geoips/interfaces/class_based/bases/output_checkers.py
+      - geoips/interfaces/class_based/bases/output_formatters.py
+      - geoips/interfaces/class_based/bases/procflows.py
+      - geoips/interfaces/class_based/bases/readers.py
+      - geoips/interfaces/class_based/bases/sector_adjusters.py
+      - geoips/interfaces/class_based/bases/sector_metadata_generators.py
+      - geoips/interfaces/class_based/bases/sector_spec_generators.py
+      - geoips/interfaces/class_based/bases/title_formatters.py
+      - geoips/interfaces/class_based/bases/validators.py
     modified:
+      - .flake8
       - geoips/_version.py
       - geoips/commandline/ancillary_info/alias_mapping.yaml
       - geoips/commandline/ancillary_info/cmd_instructions.yaml
       - geoips/commandline/commandline_interface.py
       - geoips/commandline/geoips_command.py
       - geoips/commandline/geoips_config.py
-      - geoips/commandline/geoips_lint.py
       - geoips/commandline/geoips_test.py
       - geoips/commandline/geoips_tree.py
       - geoips/commandline/geoips_validate.py
+      - geoips/interfaces/class_based/algorithms.py
+      - geoips/interfaces/class_based/colormappers.py
+      - geoips/interfaces/class_based/coverage_checkers.py
+      - geoips/interfaces/class_based/databases.py
+      - geoips/interfaces/class_based/filename_formatters.py
+      - geoips/interfaces/class_based/interpolators.py
+      - geoips/interfaces/class_based/output_checkers.py
+      - geoips/interfaces/class_based/output_formatters.py
+      - geoips/interfaces/class_based/procflows.py
+      - geoips/interfaces/class_based/readers.py
+      - geoips/interfaces/class_based/sector_adjusters.py
+      - geoips/interfaces/class_based/sector_metadata_generators.py
+      - geoips/interfaces/class_based/sector_spec_generators.py
+      - geoips/interfaces/class_based/title_formatters.py
+      - geoips/interfaces/class_based/validators.py
       - pyproject.toml
   related-issue:
     number: null
