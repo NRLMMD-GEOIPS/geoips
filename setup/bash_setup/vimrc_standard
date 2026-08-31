@@ -1,7 +1,0 @@
-:syntax on
-:set expandtab
-:set ts=4
-:set nowrap
-:set sw=4
-:colorscheme desert
-:set paste

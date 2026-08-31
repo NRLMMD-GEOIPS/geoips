@@ -1,3 +1,0 @@
-$id: bases.interface
-description: "The name of the interface that the plugin belongs to"
-$ref: bases.valid_identifier
