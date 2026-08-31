@@ -1,0 +1,12 @@
+bug fix:
+- title: 'Use correct end datetimes for multi-file fire datasets'
+  description: |
+    Previously, the end datetime for a multi-file ABI L2 fire dataset was the
+    end datetime of the first file. Updating so that it is the end datetime
+    for the whole dataset.
+  files:
+    modified:
+    - 'geoips/plugins/modules/readers/abi_l2_netcdf.py'
+  date:
+    start: 2025-08-22
+    finish: 2025-08-22

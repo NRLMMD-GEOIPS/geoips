@@ -8,6 +8,7 @@ See geoips/commandline/ancillary_info/cmd_instructions.yaml for more information
 
 import pytest
 
+from geoips.geoips_utils import is_editable
 from tests.unit_tests.commandline.cli_top_level_tester import BaseCliTest
 
 
@@ -61,6 +62,8 @@ class TestGeoipsTestLinting(BaseCliTest):
         # The args provided are valid, so test that the output is actually correct
         if "-h" in args:
             assert "To use, type `geoips test linting -p <package-name>`" in output
+        elif not is_editable("geoips"):
+            pytest.xfail("GeoIPS is not in editable mode and linting cannot proceed.")
         else:
             # Checking that output from geoips test linting command reports succeeds
             for linter in ["bandit", "black", "flake8"]:

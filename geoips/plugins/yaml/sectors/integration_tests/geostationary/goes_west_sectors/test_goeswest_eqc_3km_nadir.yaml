@@ -1,0 +1,46 @@
+interface: sectors
+family: area_definition_static
+name: test_goeswest_eqc_3km_nadir
+docstring: |
+  GOES West subsector at nadir, centered at 0 latitude, -137 longitude
+  300x300 at 3km resolution
+
+  This sector in the middle of the Pacific Ocean, containing
+  all ocean pixels, near the center of scan for GOES West.
+
+  It is a very small sector that can be used for any basic GOES West test processing
+  that is not reliant on specific meteorological features or time of day being
+  contained within the dataset.
+metadata:
+  region:
+    continent: Tests
+    country: x
+    area: Goes_West
+    subarea: x
+    state: x
+    city: x
+spec:
+  area_id: test_goeswest_eqc_3km_nadir
+  description: |
+    GOES West subsector at nadir, centered at 0 latitude, -137 longitude
+    300x300 at 3km resolution
+
+    This sector in the middle of the Pacific Ocean, containing
+    all ocean pixels, near the center of scan for GOES West.
+
+    It is a very small sector that can be used for any basic GOES West test processing
+    that is not reliant on specific meteorological features or time of day being
+    contained within the dataset.
+  projection:
+    a: 6371228.0
+    lat_0: 0
+    lon_0: -137
+    proj: eqc
+    units: m
+  resolution:
+    - 3000
+    - 3000
+  shape:
+    height: 300
+    width: 300
+  center: [0, 0]

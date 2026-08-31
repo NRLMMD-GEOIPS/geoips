@@ -11,8 +11,8 @@ spec:
         output_data_range: [0.05, 50.0]
         min_outbounds: mask
         max_outbounds: crop
-        norm: null
-        inverse: null
+        norm: false
+        inverse: false
   mtif_type: rain
   colormapper:
     plugin:

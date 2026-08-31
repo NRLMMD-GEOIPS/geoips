@@ -1,0 +1,15 @@
+documentation:
+- title: 'Add docs level in doc build directory for deploy_pages.sh'
+  description: 'Used to write built docs to top level build directory, now write in docs directory.'
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - 'docs/deploy_pages.sh'
+  date:
+    start: 2025-08-07
+    finish: 2025-08-07

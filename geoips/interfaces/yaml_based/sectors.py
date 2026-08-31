@@ -3,54 +3,17 @@
 
 """Sector interface module."""
 
+from importlib.resources import files
+
 from cartopy import feature as cfeature
 import numpy as np
-from pyresample import kd_tree
+from pyresample import kd_tree, load_area
+import xarray as xr
 
+from geoips.filenames.base_paths import PATHS as gpaths
 from geoips.interfaces.base import BaseYamlPlugin, BaseYamlInterface
 from geoips.image_utils.mpl_utils import create_figure_and_main_ax_and_mapobj
-
-# Uncomment when ready to switch from JsonSchema to Pydantic
-# from geoips.pydantic.sectors import SectorPluginModel
-
-# Commenting these out for PR #260
-# Will work on this again after the 2023 workshop
-#
-# def center_to_area_definition(sector):
-#     """Return a pyresample AreaDefinition for the input sector.
-#
-#     The input sector must supply location information in the center format.
-#     """
-#     if not sector.family.startswith("center"):
-#         raise ValueError("Sector does not supply location as center coordinates.")
-#     raise NotImplementedError
-#
-#
-# def corners_to_area_definition(sector):
-#     """Return a pyresample AreaDefinition for the input sector.
-#
-#     The input sector must supply location information in the "corners" format.
-#     """
-#     if not sector.family.startswith("center"):
-#         raise ValueError("Sector does not supply location as corner coordinates.")
-#
-#     ad_info = {
-#         "area_id": sector.name,
-#         "projection": {
-#             "units": "m",
-#             "a": 6371228.0,
-#             "proj": sector.spec.projection,
-#             "lat_0": sector.spec.center.lat,
-#             "lon_0": sector.spec.center.lon,
-#         },
-#         "width": sector.shape[0],
-#         "height": sector.shape[1],
-#         "resolution": [sector.resolution, sector.resolution],
-#         "center": [0, 0],
-#     }
-#
-#     ad = create_area_def(**ad_info)
-#     raise NotImplementedError
+from geoips.utils.types.datatree_ditto import DataTreeDitto
 
 
 class SectorPluginBase(BaseYamlPlugin):
@@ -61,13 +24,54 @@ class SectorPluginBase(BaseYamlPlugin):
     `geoips.interfaces.sectors`.
     """
 
+    data_tree = True
+
+    def call(self, data=None, **kwargs):
+        r"""Return a DataTree with the sector's area-definition metadata.
+
+        Parameters
+        ----------
+        data : xr.DataTree or None
+            Upstream DataTree (unused for sectors).
+        \\*\\*kwargs
+            Step arguments (unused).
+
+        Returns
+        -------
+        xr.DataTree
+            A ``DataTreeDitto`` whose ``ds.attrs`` carry ``area_id``,
+            ``area_extent``, ``shape``, and ``projection`` for downstream
+            consumers (e.g. interpolator, filename formatter). Per the
+            DataTree spec, this metadata lives in the step node's ``attrs``
+            (there is no separate ``/metadata`` node).
+        """
+        ad = self.area_definition
+        region = self.get("metadata", {}).get("region", {})
+        if region:
+            ad.sector_info = dict(region)
+        ds = xr.Dataset(
+            attrs={
+                "area_definition": ad,
+                "area_id": getattr(ad, "area_id", self.name),
+                "area_extent": getattr(ad, "area_extent", None),
+                "shape": getattr(ad, "shape", None),
+                "width": getattr(ad, "width", None),
+                "height": getattr(ad, "height", None),
+                "proj_dict": str(getattr(ad, "proj_dict", {})),
+                "plugin_kind": "sector",
+                "output_key": "area_def",
+            }
+        )
+        return DataTreeDitto(ds, name=self.name)
+
+    def __call__(self, data=None, **kwargs):
+        """See ``call``."""
+        return self.call(data=data, **kwargs)
+
     @property
     def area_definition(self):
         """Return the pyresample AreaDefinition for the sector."""
         # if self.family.startswith(("area_definition", "generated")):
-        from pyresample import load_area
-        from importlib.resources import files
-
         if self.family.startswith("area_definition"):
             abspath = str(files(self.package) / self.relpath)
             ad = load_area(abspath, "spec")
@@ -77,7 +81,15 @@ class SectorPluginBase(BaseYamlPlugin):
         #     ad = corners_to_area_definition(self)
         return ad
 
-    def create_test_plot(self, fname, return_fig_ax_map=False, overlay=False):
+    def create_test_plot(
+        self,
+        fname,
+        return_fig_ax_map=False,
+        overlay=False,
+        gridlines=False,
+        gridline_labels=[],
+        noborder=True,
+    ):
         """Create a test PNG image for this sector.
 
         Parameters
@@ -91,7 +103,14 @@ class SectorPluginBase(BaseYamlPlugin):
             - If true, overlay this sector on the global grid and make it slightly
               transparent. Useful for projecting tiny sectors on the global grid to get
               a sense of where they'll end up and what they'll look like.
-
+        gridlines: bool, default=False
+            - If true, add latitude longitude gridlines to the sector image.
+        gridline_labels: list[constants], default=[]
+            - A list of constants (strings) that refer to which gridline labels to turn
+              on.
+        noborder: bool, default=True
+            - If true, no border will be added to the axes instance. Otherwise, add
+              a simple border (useful for gridline labels).
         """
         if overlay:
             global_sector = sectors.get_plugin("global_cylindrical")
@@ -100,7 +119,9 @@ class SectorPluginBase(BaseYamlPlugin):
                 global_area_def.shape[1],
                 global_area_def.shape[0],
                 global_area_def,
-                noborder=True,
+                noborder=noborder,
+                gridlines=gridlines,
+                gridline_labels=gridline_labels,
             )
 
             # Create a dummy 2D numpy array of data for self.area_definition
@@ -145,7 +166,9 @@ class SectorPluginBase(BaseYamlPlugin):
                 self.area_definition.shape[1],
                 self.area_definition.shape[0],
                 self.area_definition,
-                noborder=True,
+                noborder=noborder,
+                gridlines=gridlines,
+                gridline_labels=gridline_labels,
             )
         ax.add_feature(cfeature.COASTLINE)
         ax.add_feature(cfeature.BORDERS)
@@ -160,8 +183,10 @@ class SectorsInterface(BaseYamlInterface):
 
     name = "sectors"
     plugin_class = SectorPluginBase
-    # Uncomment when ready to switch from JsonSchema to Pydantic
-    # validator = SectorPluginModel
+    use_pydantic = gpaths["GEOIPS_USE_PYDANTIC"]
+    # if sectors.get_plugin(<name>) is found to be a dynamic sector. Otherwise, a static
+    # sector plugin model (I.e. SectorPluginModel) will be used for all other sector
+    # types.
 
 
 sectors = SectorsInterface()

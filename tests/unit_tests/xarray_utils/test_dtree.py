@@ -3,7 +3,6 @@
 
 """Takes in a dictionary of xarrays and converts to xarray datatree."""
 
-
 import pytest
 import xarray
 import numpy as np

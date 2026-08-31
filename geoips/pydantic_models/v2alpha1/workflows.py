@@ -1,4 +1,4 @@
-# # # This source code is protected under the license referenced at
+# # # This source code is subject to the license referenced at
 # # # https://github.com/NRLMMD-GEOIPS.
 
 """Workflow plugin models.
@@ -132,7 +132,7 @@ class ReaderArgumentsModel(PermissiveFrozenModel):
     )
     metadata_only: bool = Field(False, description="Read metadata only.")
     self_register: List[str] = Field(None, description="Enable self-registration.")
-    fnames: List[str] = Field(
+    filenames: List[str] = Field(
         None, description="full path to the file(s) for static dataset inputs."
     )
 

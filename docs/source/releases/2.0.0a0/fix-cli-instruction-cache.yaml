@@ -1,0 +1,22 @@
+bug fix:
+- title: 'Hash-based CLI instruction cache invalidation'
+  description: |
+    Cache CLI command instructions off a source content hash instead of mtime.
+    mtime is problematic across checkouts and left a stale cache which created some issues.
+  files:
+    added:
+    - 'docs/source/releases/latest/fix-cli-instruction-cache.yaml'
+    deleted:
+    - ''
+    moved:
+    - ''
+    modified:
+    - 'geoips/utils/cache_files.py'
+    - 'tests/unit_tests/utils/cache_files.py'
+    - 'tests/unit_tests/commandline/test_get_commandline_instructions.py'
+  related-issue:
+    number: null
+    repo_url: ''
+  date:
+    start: null
+    finish: null

@@ -7,8 +7,8 @@ See geoips/commandline/ancillary_info/cmd_instructions.yaml for more information
 """
 
 import json
-from importlib import resources
-from pathlib import Path
+
+from pluginify.config import REGISTRY_DIRECTORY
 import pytest
 
 from geoips import interfaces
@@ -125,9 +125,10 @@ class TestGeoipsListInterface(BaseCliTest):
         if "No plugins found under" in output and "-p" in args:
             # No plugins were found under the selected interface, within a
             # certain package; ensure that is correct.
-            with open(
-                Path(resources.files(args[-1]).joinpath("registered_plugins.json")), "r"
-            ) as fo:
+            registry_file = REGISTRY_DIRECTORY.joinpath(
+                f"geoips.plugin_packages/{args[-1]}/registered_plugins.json"
+            )
+            with open(registry_file, "r") as fo:
                 plugin_registry = json.load(fo)
 
             # assert that the provided interface doesn't exist within that package's

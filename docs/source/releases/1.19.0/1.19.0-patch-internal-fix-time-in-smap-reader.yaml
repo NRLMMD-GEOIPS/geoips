@@ -1,0 +1,20 @@
+bug fixes:
+- title: Fix time in smap reader due to xarray version change.
+  description: |
+    xarray 2026.2.0 stored timestamps internally as ns, and it appears by default in
+    2026.4.0 timestamps were being stored internally as ms.  No longer decode times
+    in xarray.open_dataset, and manually convert times using pandas to ensure proper
+    values.  Tested with both 2026.2.0 and 2026.4.0.
+  files:
+    modified:
+    - 'geoips/plugins/modules/readers/smap_remss_winds_netcdf.py'
+    - 'geoips/plugins/modules/readers/utils/remss_reader.py'
+    deleted:
+    - ''
+    moved:
+    - ''
+  related-issue:
+    internal: geoips#1067 - 1.19.0 updates
+  date:
+    start: 2026-06-01
+    finish: 2026-06-01

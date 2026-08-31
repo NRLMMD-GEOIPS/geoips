@@ -13,9 +13,12 @@ Other models defined here validate field types within child plugin models.
 from __future__ import annotations
 
 # Python Standard Libraries
+from glob import glob
 import keyword
 import logging
-from typing import Any, ClassVar, Dict, Union, Tuple, Type
+import os
+from pathlib import Path
+from typing import Any, ClassVar, Dict, List, Union, Tuple, Type
 import warnings
 
 # Third-Party Libraries
@@ -41,6 +44,67 @@ LOG = logging.getLogger(__name__)
 
 ColorTuple = Union[Tuple[float, float, float], Tuple[float, float, float, float]]
 ColorType = Union[ColorTuple, str]
+
+
+def _generate_filenames_from_value(value: Any) -> List[Path] | None:  # NOQA
+    """Generate a list of filenames (filepaths) from an input value.
+
+    This method handles the input for fnames as follows:
+    - asserts that fnames is one or more valid, existing filepaths
+    - converts them to pathlib.Path objects
+
+    Parameters
+    ----------
+    value: Any[PathLike]
+        Input values for 'fnames'. Should be either a list of one or more strings /
+        valid instances of pathlib.Path objects. Strings may contain wildcard
+        characters that can be used with glob to generate a list of file paths.
+
+    Returns
+    -------
+    list[PosixPath]
+        A valid list of pathlib.Path objects.
+
+    Raises
+    ------
+    ValueError
+        If the input type is other than a list of pathlib.Path objects.
+    """
+    try:
+        os.fspath(value)
+        items = [value]
+    except TypeError:
+        items = value
+
+    fnames = []
+    uniterable_or_bad_type = False
+    try:
+        for item in items:
+            path = Path(item)
+
+            matches = glob(str(path))
+            if matches:
+                fnames.extend([Path(fname) for fname in matches])
+            else:
+                fnames.append(path)
+    except TypeError:
+        # occurs when items is not iterable or an item can't be cast as a path,
+        # raise a value error now
+        uniterable_or_bad_type = True
+
+    error_str = (
+        f"Error: input argument for {fnames} could not be associated with one "
+        "or more existing file paths. Please ensure this data exists before "
+        "continuing."
+    )
+
+    if not fnames or uniterable_or_bad_type:
+        raise ValueError(error_str)
+
+    if not any([fname.exists() for fname in fnames]):
+        raise ValueError(error_str)
+
+    return fnames
 
 
 class CoreBaseModel(BaseModel):
@@ -106,6 +170,8 @@ class CoreBaseModel(BaseModel):
         # Do not enable this configuration at model level. Restrict your usage to
         # field level if required
         allow_inf_nan=False,
+        # serialize enum fields using their underlying values instead of enum instances
+        use_enum_values=True,
     )
 
     def __str__(self) -> str:
@@ -288,6 +354,49 @@ def python_identifier(val: str) -> str:
 PythonIdentifier = Annotated[str, AfterValidator(python_identifier)]
 
 
+def step_reference(val: str) -> str:
+    """Validate a workflow step reference, optionally into a sub-workflow.
+
+    A step reference is one or more Python identifiers joined by ``.`` (dots).
+    A single segment (e.g. ``"reader"``) refers to a top-level step. A dotted
+    reference (e.g. ``"subwf.algo"`` or ``"split.scope.algo"``) refers to a
+    step nested inside a ``workflow`` or ``split`` container step; each segment
+    must itself be a valid Python identifier.
+
+    Parameters
+    ----------
+    val : str
+        The input string to validate.
+
+    Returns
+    -------
+    str
+        The input string if every dot-separated segment is a valid Python
+        identifier.
+
+    Raises
+    ------
+    ValueError
+        If *val* is empty or any segment is not a valid Python identifier.
+    """
+    if not val:
+        raise ValueError("Step reference must be a non-empty string.")
+    segments = val.split(".")
+    for segment in segments:
+        # Reuse python_identifier so keyword/identifier rules stay consistent.
+        try:
+            python_identifier(segment)
+        except ValueError as e:
+            LOG.warning(e)
+    return val
+
+
+# Create the StepReference type: a dot-separated path of Python identifiers,
+# used by ``depends_on`` to reference top-level steps or steps nested inside
+# ``workflow``/``split`` container steps.
+StepReference = Annotated[str, AfterValidator(step_reference)]
+
+
 def get_interfaces(namespace) -> set[str]:
     """Return a set of distinct interfaces.
 
@@ -340,6 +449,7 @@ class PluginModelMetadata(ModelMetaclass):
         if not hasattr(cls, "apiVersion") or cls.apiVersion is None:
             cls.apiVersion = "geoips/v1"
         cls._namespace = f"{cls.apiVersion.split('/')[0]}.plugin_packages"
+
         return cls
 
 
@@ -355,18 +465,25 @@ class PluginModel(FrozenModel, metaclass=PluginModelMetadata):
     for more information about how this is used.
     """
 
+    # apiVersion: ClassVar[str | None] = None
     apiVersion: str = Field("geoips/v1", description="apiVersion")
     _namespace: ClassVar[str | None] = None
+    # Exclude the variable below from model serialization as it is only used for logic
+    # used in before validators. I.e. this will not be included in
+    # PluginModel.model_dump()
+    is_registered: bool = Field(
+        True, exclude=True, description="Whether or not this plugin is registered."
+    )
 
     interface: PythonIdentifier = Field(
         ...,
         description=(
             "Name of the plugin's interface. "
-            " Run geoips list interfaces to see available options."
+            "Run geoips list interfaces to see available options."
         ),
     )
     family: PythonIdentifier = Field(..., description="Family of the plugin.")
-    name: PythonIdentifier = Field(..., description="Plugin name.")
+    name: str = Field(..., description="Plugin name.")
     docstring: str = Field(..., description="Docstring for the plugin in numpy format.")
     description: str = Field(
         None,
@@ -406,9 +523,48 @@ class PluginModel(FrozenModel, metaclass=PluginModelMetadata):
         else:
             ints = get_interface_module(cls._namespace)
         try:
-            metadata = getattr(ints, interface_name).get_plugin_metadata(
-                values.get("name")
-            )
+            if (
+                interface_name == "products"
+                or interface_name is None
+                or "source_names" in values
+            ):
+                # need different logic for products as they use get_plugin_metadata via
+                # 'source_name', 'plugin_name'
+                if values.get("family") == "list":
+                    # product list
+                    if not isinstance(
+                        values.get("spec", {}), dict
+                    ) or "products" not in values.get("spec", {}):
+                        # Missing 'products' field, raise appropriate error.
+                        raise ValueError(
+                            "Error: Product list plugin is missing the 'products' field"
+                            " in its 'spec' entry."
+                        )
+
+                    first_product_name = values.get("spec", {}).get("products")[0][
+                        "name"
+                    ]
+                    metadata = getattr(ints, interface_name).get_plugin_metadata(
+                        values.get("name"), first_product_name
+                    )
+                else:
+                    # singular product
+                    source_names = values.get("source_names")
+                    if source_names is None:
+                        raise ValueError(
+                            "Error: product plugin is missing the 'source_names' field."
+                        )
+                    metadata = getattr(ints, "products").get_plugin_metadata(
+                        source_names[0], values.get("name")
+                    )
+            else:
+                is_registered = values.get("is_registered", True)
+                if is_registered:
+                    metadata = getattr(ints, interface_name).get_plugin_metadata(
+                        values.get("name")
+                    )
+                else:
+                    metadata = {"package": "unregistered"}
         except AttributeError as e:
             raise ValueError(
                 f"Invalid interface: '{interface_name}'."
@@ -427,6 +583,7 @@ class PluginModel(FrozenModel, metaclass=PluginModelMetadata):
         return values
 
     @field_validator("interface", mode="before")
+    @classmethod
     def _validate_interface(cls, value: PythonIdentifier) -> PythonIdentifier:
         """
         Validate the input for the 'interface' field.
@@ -482,6 +639,7 @@ class PluginModel(FrozenModel, metaclass=PluginModelMetadata):
         return values
 
     @field_validator("description", mode="after")
+    @classmethod
     def _validate_one_line_description(cls: type[PluginModel], value: str) -> str:
         """
         Validate that the description adheres to required single line standards.
@@ -549,4 +707,33 @@ class PluginModel(FrozenModel, metaclass=PluginModelMetadata):
                 stacklevel=2,
             )
 
+        return value
+
+    @field_validator("apiVersion", mode="before")
+    @classmethod
+    def _validate_apiVersion(cls, value: str) -> str:
+        """Validate input for the 'apiVersion' field.
+
+        Ensure GeoIPS-prefixed API versions contain a '/' separator between
+        the package name and version (e.g. 'geoips/v1').
+
+        Parameters
+        ----------
+        value : str
+            The input string representing the API version.
+
+        Returns
+        -------
+        str
+            The validated API version string.
+
+        Raises
+        ------
+        ValueError
+            If the value does not contain '/v' to indicate a version.
+        """
+        if "/v" not in value:
+            raise ValueError(
+                f"'{value}' must contain package name, separator /, and version name"
+            )
         return value

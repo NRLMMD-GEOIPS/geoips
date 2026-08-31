@@ -1,0 +1,29 @@
+bug fixes:
+- title: Update base_paths.py so all global env vars are cast to bool/None appropriately
+  description: |
+    Added a new function to specifically cast explicit strings to True, False, or None,
+    and just return the original value for all other values. Call this new function
+    from the get_env_var call for the global variable defaults in base_paths.py.
+
+    99% sure the boolean-based env vars in the global env var defaults dict would
+    not have actually been set to booleans, since the get_env_var function was
+    previously not casting strings to boolean. The incorrectly specified env vars
+    included
+
+    * GEOIPS_TEST_PRINT_TEXT_OUTPUT_CHECKER_TO_CONSOLE
+    * GEOIPS_RICH_CONSOLE_OUTPUT
+    * GEOIPS_PROMPT_TO_OVERWRITE_COMPARISON_FILE_IF_MISMATCH
+
+    Note this means we can't have variables defined in the geoips global defaults
+    dictionary with the explicit strings of case insensitive "true", "false",
+    "none", or "null", as they will be cast to True, False, None, or None respectively.
+  files:
+    modified:
+    - tests/integration_tests/test_integration.py
+    - geoips/filenames/base_paths.py
+  related-issue:
+    internal: geoips#1029 - 1.18.0 updates
+  date:
+    start: 2026-03-05
+    finish: 2026-03-06
+

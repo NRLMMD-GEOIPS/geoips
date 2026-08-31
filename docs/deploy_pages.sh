@@ -41,7 +41,7 @@ if [[ "$failed" == "true" ]]; then
     exit 1
 fi
 geoips_repo_url=$2
-docpath=$repopath/build/sphinx/html
+docpath=$repopath/docs/build/sphinx/html
 
 echo "docpath=$docpath"
 

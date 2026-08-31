@@ -1,0 +1,18 @@
+bug fixes:
+- title: Add patch release note templates 
+  description: |
+    * Add internal and os patch release note templates
+    * Add no-bug-fixes-required-on-this-release release note template (which just needs to be copied into
+      place with appropriate X.Y.Z, not edited)
+    * Add release note for patch-internal, using template!
+  files:
+    added:
+    - docs/source/releases/1.19.0/1.19.0-patch-internal-add-patch-release-note-templates.yaml
+    - docs/templates/X.Y.Z-patch-internal-name-desc.yaml
+    - docs/templates/X.Y.Z-patch-os-name-desc.yaml
+    - docs/templates/X.Y.Z-no-bug-fixes-required-on-this-release.yaml
+  related-issue:
+    internal: geoips#1067 - 1.19.0 updates*
+  date:
+    start: 2026-05-26
+    finish: 2026-05-26

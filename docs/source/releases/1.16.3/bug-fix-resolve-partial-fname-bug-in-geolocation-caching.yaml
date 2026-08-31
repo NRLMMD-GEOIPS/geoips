@@ -1,0 +1,21 @@
+bug fixes:
+- title: 'Ensure we write to fname_partial before moving it to fname'
+  description: |
+    memmap geolocation caching was initially updated correctly to
+    write to fname_partial, then move fname_partial to fname, but
+    zarr was still writing to fname.  Update all instances of
+    partial geolocation cache files to write to the partial
+    geolocation cache filename initially, then move the partial
+    file to the final fname.
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - 'geoips/plugins/modules/readers/utils/geostationary_geolocation.py'
+  date:
+    start: 2025-08-13
+    finish: 2025-08-14

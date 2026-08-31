@@ -1,0 +1,39 @@
+testing:
+  - title: Update to standard geostationary test data repository locations
+    description: |
+      test_data_ahi_day -> test_data_ahi
+      test_data_abi_day -> test_data_abi
+      test_data_mtg_fci_day -> test_data_fci
+      test_data_geokompsat -> test_data_ami
+    files:
+      modified:
+      - tests/scripts/abi.config_based_exclude_goes17.sh
+      - tests/scripts/documentation_imagery.sh
+      - tests/scripts/fci.static.Visible.imagery_annotated.sh
+      - tests/scripts/fci.unprojected_image.Infrared.sh
+    date:
+      start: 2025-07-10
+      finish: 2025-07-10
+    related-issue:
+      internal: GEOIPS#861 - 1.16.2 internal bug fixes
+  - title: Remove all instances of test_data_noaa_aws.
+    description: |
+      No longer use test datasets from the test_data_noaa_aws repository, ensure all
+      required test datasets are moved to either test_data_abi, test_data_ahi, or
+      test_data_ami.
+    files:
+      modified:
+        - abi.config_based_dmw_overlay.sh
+        - abi.static.dmw.imagery_windbarbs_high.sh
+        - ahi.tc.WV.geotiff.sh
+        - ami.WV-Upper.unprojected_image.sh
+        - ami.static.Infrared.imagery_clean.sh
+        - ami.static.Visible.imagery_clean.sh
+        - ami.static.mst.absdiff-IR-BD.imagery_clean.sh
+        - ami.tc.WV.geotiff.sh
+        - documentation_imagery.sh
+    date:
+      start: 2025-07-10
+      finish: 2025-07-10
+    related-issue:
+      internal: GEOIPS#861 - 1.16.2 internal bug fixes

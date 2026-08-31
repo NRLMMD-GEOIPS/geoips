@@ -1,0 +1,28 @@
+Release Process:
+- title: Add 1.17.0 release note
+  description: |
+    Currently tagged internal version 1.16.3.
+  files:
+    added:
+    - docs/source/releases/1.17.0/1.17.0-internal-release.yaml
+  related-issue:
+    internal: geoips#959 - 1.17.0 updates*
+  date:
+    start: 2025-10-15
+    finish: 2025-10-15
+- title: Update internal and github.com 'upcoming_version' and 'tagged_version'
+  description: |
+    Updated 'update_this_release_note' file in geoips repo for the
+    next internal version-
+    1.17.1
+    next github.com version-
+    1.18.0
+  files:
+    modified:
+    - .github/versions/upcoming_version
+    - .github/versions/tagged_version
+  related-issue:
+    internal: geoips#959 - 1.17.0 updates*
+  date:
+    start: 2025-10-15
+    finish: 2025-10-15

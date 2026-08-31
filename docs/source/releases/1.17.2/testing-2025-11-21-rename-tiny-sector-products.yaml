@@ -1,0 +1,45 @@
+testing:
+  - title: Rename tiny sector products
+    description: |
+      Just channel based, not Infrared. Had to update all the tiny sector test outputs,
+      update the tiny sector pytest script for variable names, as well as update the
+      product names in the integration test product YAMLs.
+
+      Additionally, the tiny_sectors_geostationary.sh script required an update ONLY to
+      the comment identifying a possible product_name.  Added detailed usage and
+      explanation of the tiny_sectors_geostationary.sh script while I was at it.
+    files:
+      renamed:
+        - "geoips/plugins/yaml/products/integration_tests/Test-Day-Night.yaml"
+        - "geoips/plugins/yaml/products/integration_tests/Test-Day-Only.yaml"
+        - "geoips/plugins/yaml/products/integration_tests/Test-Night-Only.yaml"
+        - "tests/integration_tests/tiny_sectors/outputs/test_goes*Test-ABI-B14-*/*.goes*.abi.Test-ABI-B14-*.test_goes*.png"
+      modified:
+        - "geoips/plugins/yaml/products/integration_tests/Test-Infrared-Day-Night.yaml"
+        - "geoips/plugins/yaml/products/integration_tests/Test-Infrared-Day-Only.yaml"
+        - "geoips/plugins/yaml/products/integration_tests/Test-Infrared-Night-Only.yaml"
+        - "setup/bash_setup/screenrc_standard"
+        - "tests/integration_tests/test_tiny_sectors_geoips.py"
+        - "tests/integration_tests/tiny_sectors/tiny_sectors_geostationary.sh"
+    date:
+      start: 2025-11-21
+      finish: 2025-11-21
+    related-issue:
+      internal: geoips#959 - 1.17.2 updates
+  - title: Update global_terminator_satzen.sh to only take arguments and not run a fixed list with no arguments.
+    description: |
+      Now we can call pytest -m tiny_sector_global_example and it will run them all,
+      so just specify explicitly in the test_tiny_sectors_geoips.py script.
+
+      Also add comments to the test script and procflow config and pytest script
+      explaining what it is for
+    files:
+      modified:
+        - "tests/example_scripts/global_terminator_satzen.sh"
+        - "tests/example_scripts/satzen.yaml"
+        - "tests/integration_tests/test_tiny_sectors_geoips.py"
+    date:
+      start: 2025-11-21
+      finish: 2025-11-21
+    related-issue:
+      internal: geoips#959 - 1.17.2 updates

@@ -1,0 +1,28 @@
+enhancement:
+- title: 'SGLI reader, products, and Cloud Phase RGB'
+  description: 'SGLI readers, and nominal products. Added EUMETSAT
+  based Cloud Phase RGB product for both VIIRS and SGLI. Upgraded
+  RGB-Default algorithm to better handle kwargs and data manipulation
+  steps. Fixed west pac sector to have clean region name for output,
+  removed spacing. Modified data.py to catch a case for accepting all
+  variables from a product yaml file.'
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - 'docs/source/releases/latest/977-gcomc1-sgli.yaml'
+    - 'geoips/plugins/modules/readers/sgli_l1b_hdf5.py'
+    - 'geoips/plugins/yaml/products/sgli.yaml'
+    - 'tests/outputs/sgli.static.IR-RGB.imagery_clean/20251018.000200.GCOM-C1.sgli.IR-RGB.korea.76p68.JAXA.1p0.png'
+    - 'tests/scripts/sgli.static.IR-RGB.imagery_clean.sh'
+    modified:
+    - 'geoips/plugins/modules/algorithms/RGB_Default.py'
+    - 'geoips/plugins/yaml/products/viirs.yaml'
+    - 'geoips/plugins/yaml/sectors/static/w_pacific.yaml'
+    - 'geoips/xarray_utils/data.py'
+    - 'tests/integration_tests/test_integration.py'
+  date:
+    start: 2025-10-23
+    finish: 2025-10-23

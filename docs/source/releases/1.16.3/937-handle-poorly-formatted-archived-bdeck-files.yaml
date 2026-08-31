@@ -1,0 +1,21 @@
+bug fix:
+- title: 'Skip bad lines in bdecks if storm start datetime is older than 2 years'
+  description: |
+    Compare the storm start datetime to the current time. If the difference is more 
+    than 2 years with respect to the walltime, treat the deck file as an archived file. 
+    If we identify we are parsing an archived deck file, skip any bad lines in the file 
+    and log a warning rather than raising an error.
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - 'geoips/plugins/modules/sector_metadata_generators/bdeck_parser.py'
+  related-issue:
+    internal: GEOIPS#937
+  date:
+    start: 2025-08-29
+    finish: 2025-09-02

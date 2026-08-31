@@ -8,20 +8,31 @@ Will implement a plethora of commands, but for the meantime, we'll work on
 'geoips validate'.
 """
 
-import os
 import abc
 import argparse
-import warnings
+from ast import literal_eval
+from collections.abc import Mapping
 from importlib import metadata, resources
 import json
+import os
+from pathlib import Path
 from shutil import get_terminal_size
+from typing import List, Union
+import warnings
 
 from colorama import Fore, Style
+from pluginify.config import REGISTRY_DIRECTORY
 from tabulate import tabulate
-import yaml
 
-from geoips.commandline.cmd_instructions import cmd_instructions, alias_mapping
+from pydantic import ValidationError
+import geoips_yaml_utils as yaml
+
+from geoips.commandline.ancillary_info import cmd_instructions, alias_mapping
 from geoips.commandline.log_setup import setup_logging
+from geoips.errors import PluginError
+from geoips.filenames.base_paths import PATHS
+from geoips.interfaces import workflows
+from geoips.pydantic_models.v1.workflows import WorkflowPluginModel
 
 
 class PluginPackages:
@@ -255,6 +266,10 @@ class GeoipsCommand(abc.ABC):
                     break
                 if self.name == "install-github" and self.parent.name == "config":
                     break
+                if self.name == "create" and self.parent.name == "config":
+                    break
+                if self.name == "validate" and self.parent.name == "config":
+                    break
                 self.parent_parsers.insert(
                     0,
                     getattr(ParentParsers, f"{curr_parent.name}_parser"),
@@ -276,7 +291,10 @@ class GeoipsCommand(abc.ABC):
                 # command which has epilog text, which in this case, is a warning saying
                 # this procflow is in development and is subject to change at any time
                 if self.name == "order_based":
-                    epilog = self.warning
+                    if PATHS["NO_COLOR"]:
+                        epilog = self.warning_no_color
+                    else:
+                        epilog = self.warning_with_color
                 else:
                     epilog = None
                 # If the command's name exists w/in the alias mapping, then
@@ -430,7 +448,7 @@ class GeoipsExecutableCommand(GeoipsCommand):
     def __init__(self, LOG, parent=None, legacy=False):
         """Initialize GeoipsExecutableCommand.
 
-        This is a child of GeoipsCommand and will invoke the functionaly of
+        This is a child of GeoipsCommand and will invoke the functionality of
         GeoipsCommand __init__ func alongside additional logic needed to set up
         executable-based commands. This will instantiate each subcommand class with a
         parser and point towards the correct default function to call if that subcommand
@@ -455,7 +473,7 @@ class GeoipsExecutableCommand(GeoipsCommand):
               suppressing or displaying help information for '--procflow'.
         """
         super().__init__(LOG=LOG, parent=parent, legacy=legacy)
-        # Since this class is exectuable (ie. not the cli, top-level list...),
+        # Since this class is executable (ie. not the cli, top-level list...),
         # add available arguments for that command and set that function to
         # the command's executable function (__call__) if that command is called.
         self.add_arguments()
@@ -513,11 +531,18 @@ class GeoipsExecutableCommand(GeoipsCommand):
                     key = "GeoIPS Package"
                 elif key == "Relpath":
                     key = "Relative Path"
-                formatted_line = Fore.CYAN + key + ":" + Style.RESET_ALL
-                formatted_line += Fore.YELLOW + value + Style.RESET_ALL
+
+                if PATHS["NO_COLOR"]:
+                    formatted_line = f"{key}:{value}"
+                else:
+                    formatted_line = Fore.CYAN + key + ":" + Style.RESET_ALL
+                    formatted_line += Fore.YELLOW + value + Style.RESET_ALL
                 print(formatted_line)
             else:
-                formatted_line = "\t" + Fore.YELLOW + line + Style.RESET_ALL
+                if PATHS["NO_COLOR"]:
+                    formatted_line = f"\t{line}"
+                else:
+                    formatted_line = "\t" + Fore.YELLOW + line + Style.RESET_ALL
                 print(formatted_line)
 
     def _get_registry_by_interface_and_package(self, interface, package_name):
@@ -564,9 +589,10 @@ class GeoipsExecutableCommand(GeoipsCommand):
             else:
                 interface_registry = None
         else:
-            with open(
-                resources.files(package_name) / "registered_plugins.json", "r"
-            ) as fo:
+            registry_file = REGISTRY_DIRECTORY.joinpath(
+                f"geoips.plugin_packages/{package_name}/registered_plugins.json"
+            )
+            with open(registry_file, "r") as fo:
                 interface_registry = json.load(fo)
             if interface.name in interface_registry[interface.interface_type]:
                 interface_registry = interface_registry[interface.interface_type][
@@ -733,6 +759,146 @@ class GeoipsExecutableCommand(GeoipsCommand):
                     plugin_entry.append(plugin_dict[plugin_key][header])
             table_data.append(plugin_entry)
         return table_data
+
+
+class GeoipsWorkflowCommand(GeoipsExecutableCommand):
+    """Executable command class used for two workflow-specific commands.
+
+    Those commands include ``geoips test workflow`` and ``geoips run order_based``.
+    This class has been created to share functionality for detecting input workflows
+    and casting them to the validating that their input matches one of three types.
+
+    Accepted inputs include the name of a registered workflow plugin, a .json or .yaml
+    filepath to an unregistered workflow plugin, or a dictionary representing a
+    workflow that will be literally evaluated as such.
+    """
+
+    def ensure_valid_json_or_yaml_path(self, value: str) -> Path:
+        """Ensure 'value' is a valid path to a json/yaml file and convert to a Path object.  # NOQA
+
+        Parameters
+        ----------
+        value: str
+            - The input value for the filepath to typecheck against.
+
+        Returns
+        -------
+        path: Path
+            - A json or yaml pathlib.Path object.
+        """
+        path = Path(value)
+
+        if path.suffix.lower() not in {".json", ".yaml", ".yml"}:
+            return False
+
+        if not path.exists():
+            return False
+
+        return path
+
+    def workflow_type(self, value: Union[str, List[Path], dict]):
+        """Cast input value to a workflow type.
+
+        If value cannot be cast to an accepted workflow type, argparse will raise an
+        error denoting that your argument value could not be associated with an
+        accepted type.
+
+        Parameters
+        ----------
+        value: Union[str, List[Path], dict]
+            - The input value of a potential workflow.
+
+        Returns
+        -------
+        workflow: WorkflowPlugin-like
+            - The same input value as long as it could be cast to any of the accepted
+              workflow types. Workflow has been automatically expanded in the case that
+              we need to apply overrides to it. Doesn't change the functionality of the
+              OBP if overrides don't occur.
+        """
+        # unregistered generated workflow
+        if isinstance(value, Mapping):
+            workflow = value
+        else:
+            try:
+                workflow = literal_eval(value)
+            except (ValueError, SyntaxError, TypeError):
+                # Ignore these errors, could still be valid input
+                workflow = None
+
+        if isinstance(workflow, Mapping):
+            # Validate the generated workflow with is_registered set to false as this
+            # plugin has been dynamically generated
+            try:
+                workflow = WorkflowPluginModel(
+                    **workflow,
+                    is_registered=False,
+                    # Adding context in pydantic is akin to passing in values that are
+                    # usually None to an Objects __init__ function. It will construct
+                    # differently if those parameters are provided. In this case, we are
+                    # telling pydantic to expand the workflow, rather than validate just
+                    # what's in the data provided
+                    context={"expand": True},
+                ).model_dump()
+            except (ValidationError, ValueError, TypeError) as e:
+                self.parser.error(f"Could not parse workflow dict: {e}")
+        # unregistered workflow @ filepath (any path that exists on disk)
+        elif isinstance(value, str) and self.ensure_valid_json_or_yaml_path(value):
+            # since the filepath was valid and exists, load the data and validate it
+            filepath = self.ensure_valid_json_or_yaml_path(value)
+            if filepath.suffix.lower() == ".json":
+                loader = json.load
+            else:
+                loader = yaml.safe_load
+
+            with open(filepath, "r") as f:
+                workflow = loader(f)
+
+            # This assumes if you pass the filepath option that the plugin itself is
+            # not registered. Validate that it's formatted correctly.
+            try:
+                workflow = WorkflowPluginModel(
+                    **workflow,
+                    is_registered=False,
+                    # Adding context in pydantic is akin to passing in values that are
+                    # usually None to an Objects __init__ function. It will construct
+                    # differently if those parameters are provided. In this case, we are
+                    # telling pydantic to expand the workflow, rather than validate just
+                    # what's in the data provided
+                    context={"expand": True},
+                ).model_dump()
+            except (ValidationError, ValueError, TypeError) as e:
+                self.parser.error(f"Could not parse workflow file '{value}': {e}")
+        # registered named workflow
+        elif isinstance(value, str):
+            # Whether to rebuild the plugin registry before resolving the named
+            # workflow is gated on the ``GEOIPS_REBUILD_REGISTRIES`` config so a
+            # stale registry is refreshed automatically only when the user has
+            # opted in (never silently against their configuration).
+            # ``non_existent`` names are used by tests to assert failure without
+            # triggering a rebuild, so the rebuild is force-disabled for them.
+            rbr = (
+                False if "non_existent" in value else PATHS["GEOIPS_REBUILD_REGISTRIES"]
+            )
+            try:
+                workflow = workflows.get_plugin(
+                    value, _expand=True, rebuild_registries=rbr
+                )
+            except PluginError:
+                self.parser.error(
+                    f"Error: could not load workflow plugin under name '{value}'."
+                )
+            except ValidationError as e:
+                self.parser.error(f"Workflow '{value}' failed validation:\n{e}")
+        else:
+            self.parser.error(
+                "Error: positional argument 'workflow' could not be associated with an"
+                f" accepted type. Input = {value} ; accepted types = "
+                "[str, Path, dict]. If you provided a Path, make sure it's either a "
+                ".json or .yaml file and that the file exists."
+            )
+
+        return workflow
 
 
 class CommandClassFactory:

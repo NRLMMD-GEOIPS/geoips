@@ -1,0 +1,23 @@
+bug fix:
+  - title: "Do not include requirements in pip requirements files for archival purposes"
+    description: |
+      Clean up environment file directory. Ensure old pip requirements files are not
+      identified as valid current requirements files - we only want to keep them for
+      archival purposes, and not actually use them.
+
+      Also, always copy to requirements_envtag.txt in create_environment_files so
+      we are tracking the most recent versions of everything for various installation
+      methods.
+    files:
+      deleted:
+        - ""
+      moved:
+        - ""
+      added:
+        - ""
+      modified:
+        - "environments/all files"
+        - "setup/check_system_requirements.sh"
+    date:
+      start: 2025-12-29
+      finish: 2025-12-29

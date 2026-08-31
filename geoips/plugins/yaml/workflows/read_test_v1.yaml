@@ -7,24 +7,49 @@ docstring: |
 
   This product utilizes channel 14 (11.2 µm) and highlights areas of deep convection within a Tropical Cyclone.
 description: 11.2 µm Infrared.
+# test:
+#   fnames: >-
+#     !ENV ${GEOIPS_TESTDATA_DIR}/test_data_abi/data/
+#     goes16_20200918_1950/*
+#   compare_path: >-
+#     !ENV ${GEOIPS_TESTDATA_DIR}/geoips/tests/outputs/
+#     abi.static.<product>.imagery_clean
+# command_line_args:
+  # compare_path: !ENV ${GEOIPS_PACKAGES_DIR}/geoips/tests/outputs/abi.static.<product>.imagery_clean
+  # logging_level: info
 spec:
+  retention: keep_referenced
+  globals:
+    presector: False
+    product_db: False
+    product_db_writer: null
+    product_db_writer_kwargs: null
+    product_name: null
+    reader_defined_area_def: False
+    sector_list: []
+    window_start_time: null
+    window_end_time: null
   steps:
-    reader:
+    read_abi_L1_data:
       kind: reader
       name: abi_netcdf
+      keep: true
       arguments:
         variables: ['B14BT']
-    algorithm:
-      kind: algorithm
-      name: single_channel
-      arguments:
-        variables: ['B14BT']
-        output_data_range: [-90.0, 30.0]
-        input_units: Kelvin
-        output_units: celsius
-        min_outbounds: crop
-        max_outbounds: crop
-        norm: null
-        inverse: null
-    # workflow:
-    #     name: read_test
+    # interpolate_using_gaussian:
+    #   kind: interpolator
+    #   name: interp_gauss
+    #   arguments:
+    #     sigmaval: 10000
+    # algorithm:
+    #   kind: algorithm
+    #   name: single_channel
+    #   arguments:
+    #     variables: ['B14BT']
+    #     output_data_range: [-90.0, 30.0]
+    #     input_units: Kelvin
+    #     output_units: celsius
+    #     min_outbounds: crop
+    #     max_outbounds: crop
+    #     norm: null
+    #     inverse: null

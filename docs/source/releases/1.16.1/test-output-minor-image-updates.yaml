@@ -15,7 +15,7 @@ bug fix:
     - tests/outputs/viirs.static.visible.imagery_clean/20240925.043006.NOAA-21.viirs.Visible.se_asia.7p30.NOAA.1p0.png
     - tests/outputs/mimic_coarse.static.TPW-CIMSS.imagery_annotated/20210723.000000.tpw.mimic.TPW-CIMSS.global_cylindrical.83p60.cimss.20p0.png
   related-issue:
-    internal: GEOIPS#861
+    internal: geoips#861
   date:
     start: 2025-06-08
     finish: 2025-06-08

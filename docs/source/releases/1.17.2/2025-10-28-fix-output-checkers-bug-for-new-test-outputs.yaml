@@ -1,0 +1,21 @@
+bug fix:
+- title: 'Do not attempt to list output comparison directory if it does not exist.'
+  description: |
+    This was preventing new test scripts from running with a comparison path
+    that did not already have an existing output directory.  Update so log is
+    printed noting that the output directory does not exist if it does not yet
+    exist, else list the directory.
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - 'geoips/interfaces/module_based/output_checkers.py'
+  related-issue:
+    internal: geoips#959 - 1.17.2 bug fixes
+  date:
+    start: 2025-10-28
+    finish: 2025-10-28

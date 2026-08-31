@@ -1,0 +1,20 @@
+bug fix:
+- title: 'geokompsat sector vs geokompsat-subsector'
+  description: |
+    geokompsat-subsector doesn't exist. Since this will be replaced with tiny sectors
+    soon anyway, just use the existing geokompsat sector
+  files:
+    deleted:
+    - ''
+    moved:
+    - '20231208.030032.GK-2A.ami.Infrared.geokompsat.45p56.nmsc.10p0.png -> tests/outputs/ami.static.Infrared.imagery_clean/20231208.030032.GK-2A.ami.Infrared.geokompsat-subsector-27deg.100p00.nmsc.10p0.png'
+    - '20231208.030032.GK-2A.ami.Visible.geokompsat-subsector-27deg.100p00.nmsc.10p0.png <- tests/outputs/ami.static.Visible.imagery_clean/20231208.030032.GK-2A.ami.Visible.geokompsat.45p56.nmsc.10p0.png'
+    added:
+    - ''
+    modified:
+    - ''
+  related-issue:
+    internal: GEOIPS#861
+  date:
+    start: 2025-07-10
+    finish: 2025-07-10

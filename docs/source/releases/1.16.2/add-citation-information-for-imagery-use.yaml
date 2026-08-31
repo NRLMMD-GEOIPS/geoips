@@ -1,0 +1,19 @@
+documentation:
+- title: 'Add citation information for imagery use.'
+  description: |
+    Citation information for imagery use.
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - 'README.md'
+  related-issue:
+    number: null
+    repo_url: null
+  date:
+    start: 2025-05-21
+    finish: 2025-05-22

@@ -1,0 +1,61 @@
+testing:
+- title: 'Add link_integration_test_packages shell script'
+  description: |
+    This links any package within $GEOIPS_PACKAGES_DIR that has a tests/integration_tests
+    folder into pytest_packages - allowing running all packages at once.
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - 'tests/utils/link_integration_test_packages.sh'
+    modified:
+    - ''
+  related-issue:
+    number: 861
+  date:
+    start: 2025-06-18
+    finish: 2025-07-09
+- title: 'Allow removing tgz file after decompressing test datasets'
+  description: |
+    If the GEOIPS_TEST_DATA_REMOVE_TGZ env var is set to True, then remove the tgz
+    file after successfully extracting the tgz file.  Also add the --skip-old-files
+    option to tar to speed up re-extractions
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - 'tests/utils/uncompress_test_data.sh'
+  related-issue:
+    number: 861
+  date:
+    start: 2025-06-18
+    finish: 2025-07-09
+- title: 'Add site, system, and all options to interactive_pytest.sh, and --tg=short'
+  description: |
+    Allow calling interactive_pytest.sh with common options for geoips-site,
+    geoips-system, or all.
+
+    Also add --tb=short for more useful output.
+
+    Also default to putting logs in $GEOIPS_OUTDIRS/logs/pytests/interactive_pytest,
+    since we now write pytest test_integration.py logs to pytests/integration.
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - 'tests/utils/interactive_pytest.sh'
+  related-issue:
+    number: 861
+  date:
+    start: 2025-06-18
+    finish: 2025-07-09

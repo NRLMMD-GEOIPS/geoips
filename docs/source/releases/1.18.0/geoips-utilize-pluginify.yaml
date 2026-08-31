@@ -1,0 +1,79 @@
+refactor:
+- title: 'GeoIPS Utilize Pluginify Package'
+  description: |
+    In an effort to share our plugin registry code as an independent package outside of
+    GeoIPS, this PR removes all references to plugin registry code. I've created a
+    separate package called 'pluginify' which copied over all of the deleted code, then
+    modified it to be mostly agnostic of GeoIPS, besides a few references in
+    documentation and optional imports for testing. The optional import will be removed
+    soon. I've posted this repository on TestPyPi and it can currently be installed
+    via `python3 -m pip install --index-url https://test.pypi.org/simple/ --no-deps pluginify`
+    or it can be cloned via 'https://github.com/NRLMMD-GEOIPS/pluginify.git' and
+    installed with `pip install -e`. We hope to have this on main PyPi once this is
+    fully tested.
+
+    Essentially, a package has to implement it's own interfaces and validators for
+    plugins of those interfaces. They then can make use of pluginify's code to create
+    plugin registries and load / create plugins as was previously done in GeoIPS. The
+    benefit of moving this code out of GeoIPS is that other python packages can create
+    their own interfaces / plugin types alongside validators without having to install
+    the large dependency that is GeoIPS.
+  files:
+    deleted:
+      - docs/source/concepts/architecture/plugin-registries.rst
+      - docs/source/concepts/functionality/plugin-registries.rst
+      - geoips/commandline/cmd_instructions.py
+      - geoips/create_plugin_registries.py
+      - geoips/plugin_registry.py
+      - tests/unit_tests/commandline/test_geoips_config_create_registries.py
+      - tests/unit_tests/commandline/test_geoips_config_delete_registries.py
+      - tests/unit_tests/plugin_registries/files/bad/invalid_interfaces.yaml
+      - tests/unit_tests/plugin_registries/files/bad/missing_lowest_keys.yaml
+      - tests/unit_tests/plugin_registries/files/bad/missing_plugin_types.yaml
+      - tests/unit_tests/plugin_registries/files/good/data_fusion.yaml
+      - tests/unit_tests/plugin_registries/files/good/geoips.yaml
+      - tests/unit_tests/plugin_registries/files/good/geoips_clavrx.yaml
+      - tests/unit_tests/plugin_registries/files/good/geoips_plugin_example.yaml
+      - tests/unit_tests/plugin_registries/files/good/overcast_package.yaml
+      - tests/unit_tests/plugin_registries/files/good/recenter_tc.yaml
+      - tests/unit_tests/plugin_registries/files/good/template_basic_plugin.yaml
+      - tests/unit_tests/plugin_registries/files/good/template_fusion_plugin.yaml
+      - tests/unit_tests/plugin_registries/test_plugin_registries.py
+    modified:
+      - .cspell.json
+      - Dockerfile
+      - docs/source/_templates/sphinx_conf.template.py
+      - docs/source/concepts/architecture/index.rst
+      - docs/source/concepts/functionality/command-line/index.rst
+      - docs/source/concepts/functionality/index.rst
+      - docs/source/_templates/sphinx_conf.template.py
+      - geoips/commandline/ancillary_info/alias_mapping.yaml
+      - geoips/commandline/ancillary_info/cmd_instructions.yaml
+      - geoips/commandline/geoips_command.py
+      - geoips/commandline/geoips_config.py
+      - geoips/commandline/geoips_describe.py
+      - geoips/commandline/geoips_list.py
+      - geoips/commandline/geoips_test.py
+      - geoips/errors.py
+      - geoips/geoips_utils.py
+      - geoips/interfaces/base.py
+      - geoips/plugins/modules/algorithms/absdiff_mst.py
+      - geoips/plugins/modules/output_formatters/imagery_annotated.py
+      - geoips/plugins/modules/procflows/config_based.py
+      - geoips/sector_utils/utils.py
+      - pyproject.toml
+      - tests/unit_tests/commandline/cli_top_level_tester.py
+      - tests/unit_tests/commandline/test_geoips_test_linting.py
+      - tests/unit_tests/commandline/test_geoips_list_interface.py
+      - tests/unit_tests/commandline/test_geoips_list_plugins.py
+      - tests/unit_tests/commandline/test_geoips_list_source_names.py
+      - tests/unit_tests/commandline/test_geoips_validate.py
+      - tests/unit_tests/plugins/test_get_plugin.py
+      - tests/unit_tests/plugins/test_get_plugin_metadata.py
+      - tests/utils/test_interfaces.py
+  related-issue:
+    number: null
+    repo_url: ''
+  date:
+    start: null
+    finish: null

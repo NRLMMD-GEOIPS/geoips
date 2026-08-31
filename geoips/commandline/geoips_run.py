@@ -6,12 +6,22 @@
 Runs the appropriate script based on the args provided.
 """
 
+from os.path import abspath
+
 from colorama import Fore, Style
+
+import geoips_yaml_utils as yaml
 
 from geoips.commandline.args import add_args
 from geoips.commandline.run_procflow import main
-from geoips.commandline.geoips_command import GeoipsCommand, GeoipsExecutableCommand
-from geoips.interfaces import procflows
+from geoips.commandline.geoips_command import (
+    GeoipsCommand,
+    GeoipsExecutableCommand,
+    GeoipsWorkflowCommand,
+)
+from geoips.filenames.base_paths import PATHS
+from geoips.interfaces import procflows, workflows
+from geoips.pydantic_models.v1.workflows import WorkflowPluginModel
 from geoips.utils.context_managers import import_optional_dependencies
 
 data_fusion_installed = False
@@ -115,7 +125,7 @@ class GeoipsRunDataFusion(GeoipsExecutableCommand):
             )
 
 
-class GeoipsRunOrderBased(GeoipsExecutableCommand):
+class GeoipsRunOrderBased(GeoipsWorkflowCommand):
     """Run command for executing an order based process-workflow (procflow).
 
     Makes use of workflow plugins and additional commandline arguments that single
@@ -124,26 +134,270 @@ class GeoipsRunOrderBased(GeoipsExecutableCommand):
 
     name = "order_based"
     command_classes = []
-    warning = (
-        Fore.RED
-        + "\nWARNING: "
-        + Fore.YELLOW
-        + "`geoips run order_based` is experimental and is subject to "
-        + "change. This warning will be removed once this command is "
-        + "stable.\n"
+    warning_with_color = (
+        Fore.YELLOW
+        + "\nNote: "
         + Style.RESET_ALL
+        + "`geoips run order_based` (Order-Based Processing) is the recommended "
+        + "processing path in GeoIPS 2.0. It is still stabilizing, so some interfaces "
+        + "may change between releases.\n"
     )
+    warning_no_color = (
+        "\nNote: `geoips run order_based` (Order-Based Processing) is the recommended "
+        "processing path in GeoIPS 2.0. It is still stabilizing, so some interfaces "
+        "may change between releases.\n"
+    )
+
+    def dict_type(self, value):
+        """Ensure an dictionary-based override can be cast as a dictionary.
+
+        This is used to validate the input of -S, -K, and -G flags.
+
+        Parameters
+        ----------
+        value: str
+            The full global override string for a geoips run order_based command.
+        """
+        try:
+            return yaml.safe_load(value)
+        except Exception as e:
+            raise self.parser.error(f"Invalid dictionary input: {value}") from e
+
+    def global_override_type(self, value: str):
+        """Ensure an override string fits the following format.
+
+        Expected Format
+        ---------------
+        '<global_variable_name>=<some_value>'
+
+        Parameters
+        ----------
+        value: str
+            The full global override string for a geoips run order_based command.
+
+        Returns
+        -------
+        override_dict: dict
+            The validated contents of an override string in a dictionary.
+        """
+        try:
+            override = workflows.global_override_type(value)
+        except ValueError:
+            raise self.parser.error(
+                f"Invalid format '{value}'. Expected '<global_variable_name>=<value>'"
+            )
+        return override
+
+    def kind_override_type(self, value: str):
+        """Ensure an override string fits the following format.
+
+        Expected Format
+        ---------------
+        '<kind>.<argument_name>=<some_value>'
+
+        Parameters
+        ----------
+        value: str
+            The full kind override string for a geoips run order_based command.
+
+        Returns
+        -------
+        override_dict: dict
+            The validated contents of an override string in a dictionary.
+        """
+        try:
+            override = workflows.kind_override_type(value)
+        except ValueError:
+            raise self.parser.error(
+                f"Invalid format '{value}'. Expected '<kind>.<argument_name>=<value>'"
+            )
+        return override
+
+    def step_override_type(self, value: str):
+        """Ensure an override string fits the following format.
+
+        Expected Format
+        ---------------
+        '<step_id>.<string1>.<optional_string2>.<optional_string3>...=<some_value>'
+
+        Parameters
+        ----------
+        value: str
+            The full step override string for a geoips run order_based command.
+
+        Returns
+        -------
+        override_dict: dict
+            The validated contents of an override string in a dictionary.
+        """
+        try:
+            override = workflows.step_override_type(value)
+        except ValueError:
+            raise self.parser.error(
+                f"Invalid format '{value}'. Expected '<step_id>.<...>=<value>'"
+            )
+        return override
 
     def add_arguments(self):
         """Add arguments to the run-subparser for the 'run order-based' command."""
+        # Required arguments
         self.parser.add_argument(
-            "-w",
-            "--workflow",
-            type=str,
-            required=True,
-            help="The name of the workflow plugin to execute. REQUIRED.",
+            "workflow",
+            type=self.workflow_type,
+            help=(
+                "Workflow instance. Can be the name of a registered workflow plugin, "
+                "a .json or .yaml path to an unregistered workflow plugin, or a "
+                "dictionary that will be literally evaluated as a workflow."
+            ),
         )
-        add_args(parser=self.parser, legacy=self.legacy)
+        self.parser.add_argument(
+            "filenames",
+            nargs="+",
+            type=abspath,
+            help="""Fully qualified paths to data files to be processed.""",
+        )
+        # dict-based override arguments
+        self.parser.add_argument(
+            "-S",
+            "--step-override-dict",
+            default={},
+            type=self.dict_type,
+            help=(
+                "One or more step overrides to apply to your workflow. In a dictionary "
+                "format. See geoips.pydantic_models.v1.workflows for more info on the "
+                "correct format."
+            ),
+        )
+        self.parser.add_argument(
+            "-K",
+            "--kind-override-dict",
+            default={},
+            type=self.dict_type,
+            help=(
+                "One or more kind overrides to apply to your workflow. In a dictionary "
+                "format. See geoips.pydantic_models.v1.workflows for more info on the "
+                "correct format."
+            ),
+        )
+        self.parser.add_argument(
+            "-G",
+            "--global-override-dict",
+            default={},
+            type=self.dict_type,
+            help=(
+                "One or more global overrides to apply to your workflow. In a "
+                "dictionary format. See geoips.pydantic_models.v1.workflows for more "
+                "info on the correct format."
+            ),
+        )
+        # string-based override arguments
+        self.parser.add_argument(
+            "-s",
+            "--step-override-strings",
+            default=[],
+            type=self.step_override_type,
+            action="append",
+            help=(
+                "Step override string to apply to your workflow. An "
+                "override string should take on the following format:\n "
+                "'<step_id>.<string1>.<optional_string2>...<argument>=<some_value>'"
+            ),
+        )
+        self.parser.add_argument(
+            "-k",
+            "--kind-override-strings",
+            default=[],
+            type=self.kind_override_type,
+            action="append",
+            help=(
+                "Kind override string to apply to your workflow. An "
+                "override string should take on the following format:\n "
+                "'<kind>.<argument_name>=<some_value>'"
+            ),
+        )
+        self.parser.add_argument(
+            "-g",
+            "--global-override-strings",
+            default=[],
+            type=self.global_override_type,
+            action="append",
+            help=(
+                "Global override string to apply to your workflow. An "
+                "override string should take on the following format:\n "
+                "'<global_variable_name>=<some_value>'"
+            ),
+        )
+        self.parser.add_argument(
+            "-wt",
+            "--write-tokens",
+            default=False,
+            action="store_true",
+            help=(
+                "Write tokens for the output of every step in a workflow. Used for "
+                "quick comparison against known token outputs."
+            ),
+        )
+
+        # Turning off all additional procflow args for this command. We want this
+        # command to have a limited set of arguments to start.
+        # add_args(parser=self.parser, legacy=self.legacy)
+
+    def _apply_overrides(self, workflow, args):
+        """Override a workflow via dictionary and string overrides.
+
+        Parameters
+        ----------
+        workflow: WorkflowPlugin-like
+            - The workflow to override.
+        args: Namespace()
+            - The input argument namespace.
+
+        Returns
+        -------
+        workflow: WorkflowPlugin-like
+            - The overridden workflow.
+        """
+        s_override_dict = args.step_override_dict
+        k_override_dict = args.kind_override_dict
+        g_override_dict = args.global_override_dict
+
+        s_override_strings = args.step_override_strings
+        k_override_strings = args.kind_override_strings
+        g_override_strings = args.global_override_strings
+
+        # apply dict-based overrides
+        if any(
+            [
+                s_override_dict,
+                k_override_dict,
+                g_override_dict,
+            ]
+        ):
+            workflow = workflows._override_workflow_dict_format(
+                workflow,
+                goverrides=g_override_dict,
+                koverrides=k_override_dict,
+                soverrides=s_override_dict,
+            )
+            WorkflowPluginModel(**workflow, is_registered=False)
+
+        # apply string-based overrides
+        if any(
+            [
+                s_override_strings,
+                k_override_strings,
+                g_override_strings,
+            ]
+        ):
+            workflow = workflows._override_workflow_string_format(
+                workflow,
+                goverrides=g_override_strings,
+                koverrides=k_override_strings,
+                soverrides=s_override_strings,
+            )
+            WorkflowPluginModel(**workflow, is_registered=False)
+
+        return workflow
 
     def __call__(self, args):
         """Run the provided GeoIPS command.
@@ -157,9 +411,16 @@ class GeoipsRunOrderBased(GeoipsExecutableCommand):
             - The argument namespace to parse through.
         """
         workflow = args.workflow
+
+        workflow = self._apply_overrides(workflow, args)
+
         obp = procflows.get_plugin("order_based")
-        obp(workflow, args.filenames, args)
-        print(self.warning)
+        obp(workflow_spec=workflow, filenames=args.filenames, command_line_args=args)
+
+        if PATHS["NO_COLOR"]:
+            print(self.warning_no_color)
+        else:
+            print(self.warning_with_color)
 
 
 class GeoipsRunSingleSource(GeoipsExecutableCommand):

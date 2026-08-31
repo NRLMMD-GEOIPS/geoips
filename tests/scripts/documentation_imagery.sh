@@ -103,14 +103,14 @@ check_returns $retval $output_image
 # ABI Reader - GOES-17
 ####################################################################
 
-geoips run single_source $GEOIPS_TESTDATA_DIR/test_data_abi_day/data/goes17_20210718_0150/OR_ABI-L1b-RadF-M6C14_G17_s20211990150319_e20211990159386_c20211990159442.nc \
+geoips run single_source $GEOIPS_TESTDATA_DIR/test_data_abi/data/goes17_20210718_0150/OR_ABI-L1b-RadF-M6C14_G17_s20211990150319_e20211990159386_c20211990159442.nc \
              --reader_name abi_netcdf \
              --product_name Infrared-Gray \
              --output_formatter imagery_annotated \
              --minimum_coverage 0 \
              --filename_formatter geoips_fname \
              --resampled_read \
-             --sector_list global_cylindrical
+             --sector_list test_goes17_eqc_3km_day_20210718T0150Z
 curr_retval=$?
 echo ""
 output_image=$globdir/Infrared-Gray/abi/20210718.015031.goes-17.abi.Infrared-Gray.global.22p79.noaa.20p0.png
@@ -124,7 +124,7 @@ check_returns $retval $output_image
 # ABI Reader - GOES-16
 ####################################################################
 
-geoips run single_source $GEOIPS_TESTDATA_DIR/test_data_noaa_aws/data/goes16/20200918/1950/OR_ABI-L1b-RadF-M6C14_G16_s20202621950205_e20202621959513_c20202622000009.nc \
+geoips run single_source $GEOIPS_TESTDATA_DIR/test_data_abi/data/goes16_20200918_1950/OR_ABI-L1b-RadF-M6C14_G16_s20202621950205_e20202621959513_c20202622000009.nc \
              --reader_name abi_netcdf \
              --product_name Infrared-Gray \
              --output_formatter imagery_annotated \
@@ -145,16 +145,16 @@ check_returns $retval $output_image
 # AHI Reader
 ####################################################################
 
-geoips run single_source $GEOIPS_TESTDATA_DIR/test_data_ahi_day/data/20200405_0000/HS_H08_20200405_0000_B13_FLDK_R20_S0110.DAT \
-             $GEOIPS_TESTDATA_DIR/test_data_ahi_day/data/20200405_0000/HS_H08_20200405_0000_B13_FLDK_R20_S0210.DAT \
-             $GEOIPS_TESTDATA_DIR/test_data_ahi_day/data/20200405_0000/HS_H08_20200405_0000_B13_FLDK_R20_S0310.DAT \
-             $GEOIPS_TESTDATA_DIR/test_data_ahi_day/data/20200405_0000/HS_H08_20200405_0000_B13_FLDK_R20_S0410.DAT \
-             $GEOIPS_TESTDATA_DIR/test_data_ahi_day/data/20200405_0000/HS_H08_20200405_0000_B13_FLDK_R20_S0510.DAT \
-             $GEOIPS_TESTDATA_DIR/test_data_ahi_day/data/20200405_0000/HS_H08_20200405_0000_B13_FLDK_R20_S0610.DAT \
-             $GEOIPS_TESTDATA_DIR/test_data_ahi_day/data/20200405_0000/HS_H08_20200405_0000_B13_FLDK_R20_S0710.DAT \
-             $GEOIPS_TESTDATA_DIR/test_data_ahi_day/data/20200405_0000/HS_H08_20200405_0000_B13_FLDK_R20_S0810.DAT \
-             $GEOIPS_TESTDATA_DIR/test_data_ahi_day/data/20200405_0000/HS_H08_20200405_0000_B13_FLDK_R20_S0910.DAT \
-             $GEOIPS_TESTDATA_DIR/test_data_ahi_day/data/20200405_0000/HS_H08_20200405_0000_B13_FLDK_R20_S1010.DAT \
+geoips run single_source $GEOIPS_TESTDATA_DIR/test_data_ahi/data/20200405_0000/HS_H08_20200405_0000_B13_FLDK_R20_S0110.DAT \
+             $GEOIPS_TESTDATA_DIR/test_data_ahi/data/20200405_0000/HS_H08_20200405_0000_B13_FLDK_R20_S0210.DAT \
+             $GEOIPS_TESTDATA_DIR/test_data_ahi/data/20200405_0000/HS_H08_20200405_0000_B13_FLDK_R20_S0310.DAT \
+             $GEOIPS_TESTDATA_DIR/test_data_ahi/data/20200405_0000/HS_H08_20200405_0000_B13_FLDK_R20_S0410.DAT \
+             $GEOIPS_TESTDATA_DIR/test_data_ahi/data/20200405_0000/HS_H08_20200405_0000_B13_FLDK_R20_S0510.DAT \
+             $GEOIPS_TESTDATA_DIR/test_data_ahi/data/20200405_0000/HS_H08_20200405_0000_B13_FLDK_R20_S0610.DAT \
+             $GEOIPS_TESTDATA_DIR/test_data_ahi/data/20200405_0000/HS_H08_20200405_0000_B13_FLDK_R20_S0710.DAT \
+             $GEOIPS_TESTDATA_DIR/test_data_ahi/data/20200405_0000/HS_H08_20200405_0000_B13_FLDK_R20_S0810.DAT \
+             $GEOIPS_TESTDATA_DIR/test_data_ahi/data/20200405_0000/HS_H08_20200405_0000_B13_FLDK_R20_S0910.DAT \
+             $GEOIPS_TESTDATA_DIR/test_data_ahi/data/20200405_0000/HS_H08_20200405_0000_B13_FLDK_R20_S1010.DAT \
              --reader_name ahi_hsd \
              --product_name Infrared-Gray \
              --output_formatter imagery_annotated \

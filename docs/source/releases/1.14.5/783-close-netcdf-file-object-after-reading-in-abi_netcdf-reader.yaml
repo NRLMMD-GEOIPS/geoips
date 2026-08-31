@@ -27,7 +27,7 @@ bug fix:
     modified:
     - 'geoips/plugins/modules/readers/abi_netcdf.py'
   related-issue:
-    internal: GEOIPS#783 - numpy bug fixes
+    internal: geoips#783 - numpy bug fixes
   date:
     start: 2025-03-19
     finish: 2025-03-20

@@ -18,7 +18,7 @@ bug fix:
     - geoips/plugins/modules/readers/seviri_hrit.py
     - geoips/plugins/modules/readers/utils/geostationary_geolocation.py
   related-issue:
-    internal: GEOIPS#861
+    internal: geoips#861
   date:
     start: 2025-06-04
     finish: 2025-06-04

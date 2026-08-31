@@ -1,0 +1,11 @@
+documentation:
+- title: 'Fix documentation contact info.'
+  description: 'Add contact info to contact page.'
+  files:
+    modified: ['docs/source/_templates/index.template.rst']
+  related-issue:
+    number: null
+    repo_url: ''
+  date:
+    start: 2024-03-09
+    finish: 2026-05-13

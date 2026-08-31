@@ -13,8 +13,7 @@ enhancement:
     modified:
     - ''
   related-issue:
-    number: 818
-    repo_url: '/GEOIPS/geoips'
+    internal: geoips#818
   date:
     start: 2025-04-11
     finish: 2025-04-11

@@ -1,0 +1,13 @@
+bug fixes:
+- title: Add test_data_sgli to full_install.sh
+  description: |
+    * test_data_sgli included in geoips tests/scripts.
+  files:
+    modified:
+    - tests/integration_tests/full_install.sh
+  related-issue:
+    internal: geoips#1029 - 1.18.0 updates
+  date:
+    start: 2026-03-09
+    finish: 2026-03-09
+

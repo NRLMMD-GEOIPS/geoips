@@ -8,21 +8,26 @@ Runs the appropriate tests based on the arguments provided.
 
 from glob import glob
 from importlib import resources
-import warnings
-
-# from os import listdir
-from os import environ, makedirs
+import logging
+from os import makedirs
 from os.path import basename, exists, join
 import sys
+import warnings
 
 # from pytest import main as invoke_pytest
 from subprocess import call
 
-from geoips.commandline.geoips_command import GeoipsCommand, GeoipsExecutableCommand
+from geoips.commandline.geoips_command import (
+    GeoipsCommand,
+    GeoipsExecutableCommand,
+    GeoipsWorkflowCommand,
+)
 from geoips.errors import PluginError
+from geoips.filenames.base_paths import PATHS
 from geoips.geoips_utils import is_editable
-from geoips.interfaces import sectors
+from geoips.interfaces import procflows, sectors, workflows
 
+LOG = logging.getLogger(__name__)
 
 # class GeoipsTestUnitTest(GeoipsExecutableCommand):
 #     """Test Command for running GeoIPS Unit Tests."""
@@ -140,7 +145,7 @@ class GeoipsTestSector(GeoipsExecutableCommand):
             "--outdir",
             "-o",
             type=str,
-            default=f"{environ['GEOIPS_OUTDIRS']}",
+            default=PATHS["GEOIPS_OUTDIRS"],
             help="The output directory to create your sector image in.",
         )
         self.parser.add_argument(
@@ -151,6 +156,24 @@ class GeoipsTestSector(GeoipsExecutableCommand):
                 "Overlay this sector on the global_cylindrical grid. Useful for testing"
                 "small sectors, where their domain might be difficult to interpret in "
                 "a geospatial context."
+            ),
+        )
+        self.parser.add_argument(
+            "--gridlines",
+            "-g",
+            default=False,
+            action="store_true",
+            help="Add a latitude / longitude gridline overlay to your sector.",
+        )
+        self.parser.add_argument(
+            "--labels",
+            "-l",
+            default=["left", "bottom"],
+            choices=["left", "right", "top", "bottom"],
+            nargs="*",
+            help=(
+                "A list of strings which set where gridline labels will be set on the "
+                "sector. Specify no values to disable labels."
             ),
         )
 
@@ -170,6 +193,10 @@ class GeoipsTestSector(GeoipsExecutableCommand):
         sector_name = args.sector_name
         outdir = args.outdir
         overlay = args.overlay
+        gridlines = args.gridlines
+        labels = args.labels
+        noborder = False if len(labels) else True
+
         # If the path to outdir doesn't already exist, make that path
         if not exists(outdir):
             makedirs(outdir)
@@ -194,10 +221,16 @@ class GeoipsTestSector(GeoipsExecutableCommand):
             raise self.parser.error(
                 f"Sector '{sector_name}' is not a valid plugin.\nPlease use a plugin "
                 "found under 'geoips list interface sectors' or create a new plugin "
-                f"named '{sector_name}' and run 'create_plugin_registries'."
+                f"named '{sector_name}' and run 'pluginify create'."
             )
         print(f"Creating {fname}.")
-        sect.create_test_plot(fname, overlay=overlay)
+        sect.create_test_plot(
+            fname,
+            overlay=overlay,
+            gridlines=gridlines,
+            gridline_labels=labels,
+            noborder=noborder,
+        )
 
 
 class GeoipsTestScript(GeoipsExecutableCommand):
@@ -342,9 +375,87 @@ class GeoipsTestLinting(GeoipsExecutableCommand):
             call(["bash", lint_path, linter, package_path], shell=False)
 
 
+class GeoipsTestWorkflow(GeoipsWorkflowCommand):
+    """Command class for testing a workflow plugin.
+
+    If a workflow plugin has a ``test`` section at the same level as ``spec``, then this
+    command can be ran to test the output of a workflow plugin. The ``test`` section
+    should include all parameters needed to produce a replicable output which can be
+    created by executing all the steps listed in the given workflow.
+    """
+
+    name = "workflow"
+    command_classes = []
+
+    def add_arguments(self):
+        """Add arguments to the describe-subparser for the describe Interface cmd."""
+        self.parser.add_argument(
+            "workflow",
+            type=self.workflow_type,
+            help=(
+                "Workflow instance. Can be the name of a registered workflow plugin, "
+                "a .json or .yaml path to an unregistered workflow plugin, or a "
+                "dictionary that will be literally evaluated as a workflow."
+            ),
+        )
+
+    def __call__(self, args):
+        """CLI 'geoips test workflow <workflow_type>' command.
+
+        This occurs when a user attempts to test the output of a select workflow plugin.
+
+        This command will not proceed if the workflow plugin is missing a ``test``
+        section specifying the parameters needed to properly test the given workflow.
+
+        Printed to Terminal
+        -------------------
+        test output: str
+            - The captured print and log statements from executing a given workflow.
+
+        Parameters
+        ----------
+        args: Argparse Namespace()
+            - The list argument namespace to parse through
+        """
+        workflow = args.workflow
+
+        try:
+            test_section = workflow["test"]
+        except KeyError:
+            test_section = None
+
+        if test_section is None:
+            self.parser.error(
+                f"Error: cannot test '{workflow['name']}' workflow plugin as it is "
+                "missing a ``test`` section. Please create this content before "
+                "attempting to test this plugin again."
+            )
+
+        fnames = test_section.get("filenames", test_section.get("fnames", []))
+        LOG.info(
+            "Testing workflow %r with %d input file(s).",
+            workflow["name"],
+            len(fnames),
+        )
+        LOG.debug("Workflow test input files: %s", fnames)
+        workflow = workflows._override_expanded_workflow(workflow)
+
+        obp = procflows.get_plugin("order_based")
+
+        # TODO: Add additional logic here for other parameters included in a workflow
+        # test section, such as 'compare_path'. 'overrides' section not passed to obp
+        # as the override has already been applied to the workflow plugin.
+        obp(workflow_spec=workflow, filenames=fnames)
+
+
 class GeoipsTest(GeoipsCommand):
     """Top-Level test command for testing GeoIPS and its corresponding packages."""
 
     name = "test"
-    command_classes = [GeoipsTestLinting, GeoipsTestScript, GeoipsTestSector]
-    # command_classes = [GeoipsTestLinting, GeoipsTestScript, GeoipsTestUnitTest]
+
+    command_classes = [
+        GeoipsTestLinting,
+        GeoipsTestScript,
+        GeoipsTestSector,
+        GeoipsTestWorkflow,
+    ]

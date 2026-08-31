@@ -1,3 +1,8 @@
+.. dropdown:: Distribution Statement
+
+ | # # # This source code is subject to the license referenced at
+ | # # # https://github.com/NRLMMD-GEOIPS.
+
 Running GeoIPS Pytest Tests
 ===========================
 
@@ -399,6 +404,24 @@ Managing Pytest Output and Logging
 
 Pytest can generate substantial output, especially when running comprehensive test suites with verbose logging.
 This section covers techniques for capturing, redirecting, and managing pytest output effectively.
+
+**GeoIPS specific log output control**
+
+There is a GeoIPS specific environment variable to control the amount of output that
+gets printed to the terminal.  By default, all log output gets printed to the terminal
+for FAILED tests (to ensure we see the failures as they happen).  Given the GeoIPS
+pytest-based integration tests automatically write individual log files to disk for
+each test, you may suppress this full log output if you desire to keep your terminal
+output clean.
+
+Default - Include all failed log output in the terminal::
+
+    export GEOIPS_TEST_SUPPRESS_PYTEST_FAILED_LOG_CONTENTS=False
+
+Keep terminal output clean and minimal with full output in individual test logs::
+
+    export GEOIPS_TEST_SUPPRESS_PYTEST_FAILED_LOG_CONTENTS=True
+
 
 **Redirecting Output to Files**
 

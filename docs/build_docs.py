@@ -18,7 +18,7 @@ import brassy.actions.build_release_notes as brassy_build
 import brassy.utils.CLI  # noqa # because of a brassy bug; will be fixed in next vers
 from rich.logging import RichHandler
 from rich.traceback import install as install_rich_tracebacks
-from rich.logging import Console
+from rich.console import Console
 from rich.progress import Progress
 import rich_argparse
 import pygit2
@@ -549,12 +549,15 @@ def build_module_apidocs_with_sphinx(
     Exception
         If the sphinx-apidoc command fails.
     """
+    v2alpha1_path = os.path.join(module_path, "pydantic_models", "v2alpha1")
     arguments = [
         "--no-toc",
         "-o",  # flag for output path
         apidoc_build_path,  # output path
         module_path,  # module path
         "*/lib/*",  # exclude path
+        v2alpha1_path,  # Exclude path
+        os.path.join(v2alpha1_path, "*"),  # Exclude path
     ]
     # See https://github.com/sphinx-doc/sphinx/issues/8664
     # and https://www.sphinx-doc.org/en/master/man/sphinx-apidoc.html
@@ -682,7 +685,7 @@ def build_release_notes_with_brassy(
     releases_dir : str
         The path to the main directory containing individual release directories.
     license_url : str
-        The URL pointing to the license or distribution statement for the release notes.
+        The URL pointing to the license statement for the release notes.
     log : logging.Logger, optional
         Logger instance used for logging debug and warning messages. By default,
         uses a logger with the module's name.
@@ -692,7 +695,7 @@ def build_release_notes_with_brassy(
     Notes
     -----
     Each subdirectory in `releases_dir` is assumed to correspond to a release version.
-    This function generates a header file containing a distribution statement that
+    This function generates a header file containing license information that
     includes `license_url`. For each release directory, an `.rst` file with the
     release notes is created and processed by `build_release_note_from_dir_with_brassy`.
     The function will ignore directories named "upcoming" and log a warning.
@@ -738,6 +741,7 @@ def build_release_notes_with_brassy(
                     f"Skipping release dir {release_dir}"
                     "because it's version is 'upcoming'"
                 )
+                continue
             log.debug(f"Setting version of {release_filename} to {release_version}")
             build_release_note_from_dir_with_brassy(
                 release_dir, release_filename, release_version, header_file.name

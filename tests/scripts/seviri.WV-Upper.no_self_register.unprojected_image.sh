@@ -12,7 +12,7 @@ geoips run single_source $GEOIPS_TESTDATA_DIR/test_data_seviri/data/20250624/120
     --product_name WV-Upper-No-SR \
     --compare_path "$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/seviri.WV-Upper.no_self_register.unprojected_image" \
     --output_formatter unprojected_image \
-    --output_formatter_kwargs '{"x_size": "1000", "y_size": "1000"}' \
+    --output_formatter_kwargs '{"x_size": "300", "y_size": "300"}' \
     --filename_formatter basic_fname
 retval=$?
 

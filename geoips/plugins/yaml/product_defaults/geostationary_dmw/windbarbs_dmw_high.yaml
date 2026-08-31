@@ -14,8 +14,8 @@ spec:
         output_units: kts
         min_outbounds: crop
         max_outbounds: crop
-        norm: null
-        inverse: null
+        norm: false
+        inverse: false
   colormapper:
     plugin:
       name: matplotlib_linear_norm

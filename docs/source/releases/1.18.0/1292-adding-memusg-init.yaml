@@ -1,0 +1,20 @@
+bug fix:
+- title: 'Adding missing init file in memusg directory'
+  description: |
+    GeoIPS pytest causes many errors because of a missing __init__.py file in the /geoips/utils/memusg directory.
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - 'docs/source/releases/latest/1292-adding-memusg-init.yaml'
+    - 'geoips/utils/memusg/__init__.py'
+    modified:
+    - ''
+  related-issue:
+    number: 1293
+    repo_url: 'https://github.com/NRLMMD-GEOIPS/geoips'
+  date:
+    start: 2026/04/14
+    finish: 2026/04/14

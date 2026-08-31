@@ -12,13 +12,13 @@ bug fix:
     modified:
     - 'docs/build_docs.sh'
   related-issue:
-    internal: GEOIPS#861
+    internal: geoips#861
   date:
     start: 2025-06-08
     finish: 2025-06-08
 - title: 'Do not include trailing underscore in release notes'
   description: |
-    Remove trailing underscore from GEOIPS in release note.
+    Remove trailing underscore from geoips in release note.
     sphinx thinks the trailing underscore is a link, and fails
     because it is not defined.
   files:
@@ -31,7 +31,7 @@ bug fix:
     modified:
     - 'docs/source/releases/1.15.2/update-geolocation-paths-to-include-geoips.yaml'
   related-issue:
-    internal: GEOIPS#861
+    internal: geoips#861
   date:
     start: 2025-06-04
     finish: 2025-06-04
@@ -50,7 +50,7 @@ bug fix:
     modified:
     - 'geoips/plugins/modules/readers/aws_netcdf.py'
   related-issue:
-    internal: GEOIPS#861
+    internal: geoips#861
   date:
     start: 2025-06-04
     finish: 2025-06-04
@@ -67,7 +67,7 @@ bug fix:
     modified:
     - 'docs/source/releases/1.16.0/865-auto-populate-repo-url-and-start-date-for-brassy-changelogs.yaml'
   related-issue:
-    internal: GEOIPS#861
+    internal: geoips#861
   date:
     start: 2025-06-04
     finish: 2025-06-04

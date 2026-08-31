@@ -1,0 +1,15 @@
+compare_path_invalid_type:
+  description: "compare_path must be a valid filepath"
+  key: compare_path
+  val: true
+  cls: OutputCheckersArgumentsModel
+  err_str:
+    - "Input is not a valid path"
+    - "Input should be a valid string"
+
+output_products_invalid_type:
+  description: "output_products must be a list of filepaths."
+  key: output_products
+  val: "/tmp/output.png"
+  cls: OutputCheckersArgumentsModel
+  err_str: "Input should be a valid list"

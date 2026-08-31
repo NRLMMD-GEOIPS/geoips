@@ -1,0 +1,29 @@
+enhancement:
+- title: 'Add cache_solar_angles and geolocation_only kwargs to all geostationary readers'
+  description: |
+    Add the cache_solar_angles kwarg to all geostationary readers - this was previously
+    only supported with the abi_netcdf reader. Now have the ability to cache the solar
+    angles for any supported geostationary satellite.
+
+    Add new geolocation_only kwarg to all geostationary readers. This allows the user to
+    only return an xarray dataset of the geolocation information for a given scan.
+
+    Provide more information if a partial cache file timeout is encountered.
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - 'geoips/plugins/modules/readers/abi_netcdf.py'
+    - 'geoips/plugins/modules/readers/ahi_hsd.py'
+    - 'geoips/plugins/modules/readers/ami_netcdf.py'
+    - 'geoips/plugins/modules/readers/ewsg_netcdf.py'
+    - 'geoips/plugins/modules/readers/fci_netcdf.py'
+    - 'geoips/plugins/modules/readers/seviri_hrit.py'
+    - 'geoips/plugins/modules/readers/utils/geostationary_geolocation.py'
+  date:
+    start: 2025-08-29
+    finish: null

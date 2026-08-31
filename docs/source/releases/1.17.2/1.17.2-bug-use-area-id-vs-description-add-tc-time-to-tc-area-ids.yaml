@@ -1,0 +1,64 @@
+bug fix:
+  - title: Use area_def.area_id rather than description as the unique identifier
+    description: |
+      Description is not guaranteed to be unique between sectors (it is not validated
+      in any way), but area_id is expected to match the sector plugin name, which
+      explicitly must be unique. Also, descriptions can be very long and unwieldy (many
+      lines) when used as an identifier in logs... area_id is more appropriate.
+
+      Update all instances of area_def.description to area_def.area_id.
+
+      Additionally, this required the below update to include the synoptic time in the
+      TC area ids, to ensure uniqueness, and using the storm_id in the sector_info
+      for filtering command line requested TC sector list (so we do not have to include
+      a specific time in the command line sector list request, but just the storm ID
+      and geoips will find the closest time).
+    files:
+      modified:
+        - "geoips/plugins/modules/procflows/config_based.py"
+        - "geoips/plugins/modules/procflows/single_source.py"
+    date:
+      start: 2025-11-17
+      finish: 2025-11-17
+    related-issue:
+      internal: geoips#959 - 1.17.2 updates
+  - title: Include synoptic time in TC area_def area_ids, and filter sector list based on parsed storm_id
+    description: |
+      Update the TC area defs to include the synoptic time in the area_id,
+      to ensure uniqueness for each storm location (since they are each unique sectors),
+      and update the tc sector_list filtering to use the sector_info storm_id rather than
+      the area_def.area_id when determining which sectors to process, allowing us to
+      only request the storm id command line and allow geoips to determine the appropriate
+      time programmatically.
+
+      This required adding the storm_id field to the bdeck_parser to ensure the
+      geoips-style storm id is included in the output fields.
+
+      There is also one test output that uses metadata_tc vs metadata_default.  Update
+      sar nrcs test output metadata YAML with new storm_id field, since metadata_tc
+      includes ALL sector_info fields in the output (metadata_default includes only
+      a specific list of fields, new fields are not included, to avoid unnecessary
+      updates to test outputs).
+    files:
+      modified:
+        - "add storm_id: geoips/plugins/modules/sector_metadata_generators/bdeck_parser.py"
+        - "get_tc_area_id: geoips/sector_utils/tc_tracks.py"
+        - "get_tc/trackfile_area_defs: geoips/sector_utils/utils.py"
+        - "add storm_id: tests/outputs/sar.tc.nrcs.imagery_annotated/20181025_203206_WP312018_sar-spd_sentinel-1_nrcs_130kts_58p51_res1p0-cr300.png.yaml"
+    date:
+      start: 2025-11-17
+      finish: 2025-11-18
+    related-issue:
+      internal: geoips#959 - 1.17.2 updates
+  - title: Use storm_id rather than area_id in text_winds_tc_fname
+    description: |
+      So the text_winds_tc_fname filenames do not change, update to use storm_id rather
+      than area_id.
+    files:
+      modified:
+        - "geoips/plugins/modules/filename_formatters/text_winds_tc_fname.py"
+    date:
+      start: 2025-11-18
+      finish: 2025-11-18
+    related-issue:
+      internal: geoips#959 - 1.17.2 updates

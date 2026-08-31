@@ -11,8 +11,8 @@ geoips run single_source $GEOIPS_TESTDATA_DIR/test_data_seviri/data/20250624/120
              --reader_name seviri_hrit \
              --product_name Dust_RGB \
              --output_formatter imagery_clean \
-             --compare_path "$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/seviri.Dust-RGB.imagery_clean" \
-             --sector_list global_cylindrical \
+             --compare_path "$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/seviri.Dust_RGB.imagery_clean" \
+             --sector_list test_meteoeu_eqc_3km_landocean \
              --filename_formatter geoips_fname
 retval=$?
 

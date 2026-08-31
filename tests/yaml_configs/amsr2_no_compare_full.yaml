@@ -54,9 +54,6 @@ outputs:
     filename_formatters_kwargs:
       all:
         basedir: !ENV ${GEOIPS_OUTDIRS}/scratch
-    file_path_modifications:
-      unique_invest_dirs: true
-      existing_invest_dirs_allowable_time_diff: 6
     metadata_filename_formatters:
       all: metadata_default_fname
     metadata_output_formatter: metadata_tc
@@ -120,9 +117,6 @@ outputs:
     requested_sector_type: tcweb_bdeck_recenter
     output_formatter: imagery_annotated
     filename_formatters: ["tc_fname"]
-    file_path_modifications:
-      unique_invest_dirs: true
-      existing_invest_dirs_allowable_time_diff: 6
     metadata_filename_formatters:
       all: metadata_default_fname
     metadata_output_formatter: metadata_tc

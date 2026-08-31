@@ -1,0 +1,235 @@
+# =========================== short test summary info ============================        
+# Very slight change in coverage for VIIRS
+# FAILED geoips_clavrx/tests/integration_tests/test_geoips_clavrx.py::test_integ_preprocess_test_script[$repopath/tests/scripts/clavrx_proc_to_geoips.sh viirs]
+# Missing some ancillary data, working on it.
+# FAILED geoips_clavrx/tests/integration_tests/test_geoips_clavrx.py::test_integ_preprocess_test_script[$repopath/tests/scripts/clavrx_proc_to_geoips.sh fci]
+# Every time I run it, the test image output changes with very slight speckling
+# in the diff image. I have no idea why.
+# FAILED geoips_proxyvis/tests/integration_tests/test_geoips_proxyvis.py::test_integ_full_test_script[$repopath/tests/scripts/goes_east.sh]
+# = 3 failed, 5664 passed, 2 skipped, 82 deselected, 52 xfailed, 65 warnings in 20045.47s (5:34:05) =
+# 
+#         User time (seconds): 19790.51
+#         System time (seconds): 7470.11
+#         Elapsed (wall clock) time (h:mm:ss or m:ss): 5:34:10
+#         Percent of CPU this job got: 135%
+#         Maximum resident set size (kbytes): 87593144
+# 
+# geoips_packages  all
+# args
+# return     1
+# total time 20050
+# Wed Jun  3 02:34:09 UTC 2026
+# Log file   logs/pytests/interactive_pytest/20260602.205956_geoips_packages_all.log
+# 
+# Final return value: 1
+accessible-pygments==0.0.5
+affine==2.4.0
+akima86==0.1.1
+alabaster==0.7.16
+alphashape==1.3.1
+# -e git+https://ancildat.git@32265ad62092da8593789ad77957b8913e2baa3f#egg=ancildat
+annotated-doc==0.0.4
+annotated-types==0.7.0
+archer @ git+https://github.com/mindyls/archer.git@1380d3e1d24f5a869c09031df4a01aaca5d0d68f
+astroid==4.0.4
+asttokens==3.0.1
+attrs==26.1.0
+babel==2.18.0
+bandit==1.9.4
+beautifulsoup4==4.14.3
+black==26.5.1
+brassy==0.4.1.post1
+Cartopy==0.25.0
+certifi==2026.5.20
+cffi==2.0.0
+cftime==1.6.5
+charset-normalizer==3.4.7
+click==8.4.1
+click-log==0.4.0
+click-plugins==1.1.1.2
+cligj==0.7.2
+cloudpickle==3.1.2
+colorama==0.4.6
+configobj==5.0.9
+contourpy==1.3.3
+coverage==7.14.1
+cycler==0.12.1
+dask==2026.3.0
+# -e git+https://data_fusion.git@0d8c8c2e1f1ac632387761a46f6d9271b2adb9d4#egg=data_fusion
+dateparser==1.4.0
+decorator==5.3.1
+defusedxml==0.7.1
+dill==0.4.1
+doc8==2.0.0
+docstring_parser==0.18.0
+docutils==0.20.1
+donfig==0.8.1.post1
+ephem==4.2.1
+eval_type_backport==0.3.1
+execnet==2.1.2
+executing==2.2.1
+flake8==7.3.0
+flake8-docstrings==1.7.0
+flake8-rst==0.8.0
+flake8-rst-docstrings==0.4.0
+flexcache==0.3
+flexparser==0.4
+fonttools==4.63.0
+# -e git+https://fortran_utils.git@e04c9777f70cd4a5aee2681c8aba1ceb61a53019#egg=fortran_utils
+fsspec==2026.4.0
+# -e git+https://geocolor.git@0ee02fc05fcd08f67efa837d73536b147658f9e1#egg=geocolor
+# -e git+https://geoips.git@789b2c2df0fdfb48395b209424e6b239afcc0ebd#egg=geoips
+# -e git+https://geoips_clavrx.git@b0ea9d7434a9e9ccf6697b2e13f5eb988be88798#egg=geoips_clavrx
+# -e git+https://geoips_debra.git@021cd0afda71c06729d83f8d3aab3952f43ccb29#egg=geoips_debra
+# -e git+https://geoips_nucaps.git@40bfe55624c9eec58fba3541894da43d022f4825#egg=geoips_nucaps
+# -e git+https://geoips_plugin_example.git@3f407e952ccbf5c06b07f7abcd469a7e152da729#egg=geoips_plugin_example
+# -e git+https://geoips_proxyvis.git@d4a877ada5813037eb21eaef0744059c1df7fe56#egg=geoips_proxyvis
+# -e git+https://geoips_tomorrowio.git@4afbdaaa9adfa31851cdd3e89d12e0c55378af0e#egg=geoips_tomorrowio
+# -e git+https://geoips_tropics.git@72e1f73281f663e502ca4e9e6aba9195f0d41655#egg=geoips_tropics
+# -e git+https://geoips_wsfm.git@85c6cef2cca5e903b43fda535e7b773b9b5f4f8b#egg=geoips_wsfm
+google-crc32c==1.8.0
+h5py==3.16.0
+hdf5plugin==6.0.0
+idna==3.17
+ImageIO==2.37.3
+imagesize==2.0.0
+importlib_metadata==9.0.0
+iniconfig==2.3.0
+ipython==9.14.0
+ipython_pygments_lexers==1.1.1
+isodate==0.7.2
+isort==8.0.1
+jedi==0.20.0
+Jinja2==3.1.6
+jsonschema==4.26.0
+jsonschema-specifications==2025.9.1
+kiwisolver==1.5.0
+lazy-loader==0.5
+lexeme-type==1.0.0
+locket==1.0.0
+# -e git+https://lunarref.git@0246456635c06a817977f8cb85acc6d6769d3681#egg=lunarref
+m2r2==0.3.4
+markdown-it-py==4.2.0
+MarkupSafe==3.0.3
+matplotlib==3.10.9
+matplotlib-inline==0.2.2
+mccabe==0.7.0
+mdurl==0.1.2
+MetPy==1.7.1
+mistune==0.8.4
+morecantile==7.0.3
+# -e git+https://template_basic_plugin.git@a1fab99d4913ddad02cc83ce0f418fcf72f5f1e7#egg=my_package
+mypy_extensions==1.1.0
+netCDF4==1.7.4
+networkx==3.6.1
+numcodecs==0.16.5
+numexpr==2.14.1
+numpy==2.4.6
+packaging==26.2  # was conda feedstock
+pandas==3.0.3
+parso==0.8.7
+partd==1.4.2
+pathlib_abc==0.5.2
+pathspec==1.1.1
+pexpect==4.9.0
+pillow==12.2.0
+pinkrst==0.0.1.post2
+Pint==0.25.3
+pixelmatch==0.4.0
+platformdirs==4.10.0
+pluggy==1.6.0
+# -e git+https://pluginify.git@2e93c9fad37b4232c2491bf4b48c6a8529a77ab9#egg=pluginify
+pooch==1.9.0
+prettier==0.0.7
+prompt_toolkit==3.0.52
+proxy_vis @ git+https://github.com/galina-cira/proxyvis@6a936c9adae1ad47ed0b8d1a392cb7cd194123c2
+psutil==7.2.2
+ptyprocess==0.7.0
+pure_eval==0.2.3
+pyaml_env==1.2.2
+pycodestyle==2.14.0
+pycparser==3.0
+pydantic==2.13.4
+pydantic_core==2.46.4
+pydata-sphinx-theme==0.17.1
+pydocstyle==6.3.0
+pyflakes==3.4.0
+pygit2==1.19.2
+Pygments==2.20.0
+pygrib==2.1.8
+pyhdf==0.11.6
+pykdtree==1.4.3
+pylint==4.0.5
+pyorbital==1.12.1
+pyparsing==3.3.2
+pyproj==3.7.2
+pyPublicDecompWT==2.8.1.6
+pyresample==1.35.0
+# -e git+https://pyrocb.git@50f11d6da6bda79348cb6e56a923b565d0ed02b0#egg=pyrocb
+pyshp==3.0.9
+pysolar==0.13
+pytest==9.0.3
+pytest-cov==7.1.0
+pytest-mock==3.15.1
+pytest-xdist==3.8.0
+python-dateutil==2.9.0.post0
+pytokens==0.4.1
+pytz==2026.2
+PyYAML==6.0.3
+rasterio==1.4.4
+# -e git+https://rayleigh.git@e01967591b1c4f42c283793eb23eb51d44b2a985#egg=rayleigh
+# -e git+https://recenter_tc.git@a306d3d4c3b956d94003decd62f7da5b4fde4482#egg=recenter_tc
+referencing==0.37.0
+regex==2026.5.9
+requests==2.34.2
+restructuredtext_lint==2.0.2
+rich==15.0.0
+rich-argparse==1.8.0
+rio-cogeo==7.0.2
+rpds-py==2026.5.1
+rtree==1.4.1
+# -e git+https://ryglickicane.git@6b9b02a4bdd6b1db0bde3bfdfaed3c2716bbc824#egg=ryglickicane
+satpy==0.60.0
+scikit-image==0.26.0
+scipy==1.17.1
+shapely==2.1.2
+shellingham==1.5.4
+six==1.17.0
+snowballstemmer==3.1.0
+soupsieve==2.8.4
+Sphinx==7.1.2
+sphinx-argparse==0.5.2
+sphinx_design==0.7.0
+sphinxcontrib-applehelp==2.0.0
+sphinxcontrib-autoprogram==0.1.9
+sphinxcontrib-devhelp==2.0.0
+sphinxcontrib-htmlhelp==2.1.0
+sphinxcontrib-jsmath==1.0.1
+sphinxcontrib-mermaid==2.0.2
+sphinxcontrib-qthelp==2.0.0
+sphinxcontrib-serializinghtml==2.0.0
+sphinxcontrib-typer==0.8.1
+stack-data==0.6.3
+stevedore==5.8.0
+# -e git+https://synth_green.git@226f9429164a9246e3b7182b42cb8f8e6edf26c1#egg=synth_green
+tabulate==0.10.0
+# -e git+https://tc_mint.git@172c668aef51fe9bd701a1784368d06bc2905a91#egg=tc_mint
+tifffile==2026.3.3
+tomlkit==0.15.0
+toolz==1.1.0
+tqdm==4.67.3
+traitlets==5.15.0
+trimesh==4.12.2
+trollimage==1.28.0
+trollsift==1.0.0
+# -e git+https://true_color.git@d35f86cf035e632fd670cf8c04450626f1797fbc#egg=true_color
+typer==0.26.4
+typing-inspection==0.4.2
+typing_extensions==4.15.0
+tzlocal==5.3.1
+universal_pathlib==0.3.10
+urllib3==2.7.0
+wcwidth==0.7.0
+xarray==2026.4.0
+zarr==3.1.6
+zipp==4.1.0

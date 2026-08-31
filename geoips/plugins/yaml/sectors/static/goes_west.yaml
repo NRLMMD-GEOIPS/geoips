@@ -12,7 +12,7 @@ metadata:
     city: x
 spec:
   area_id: goes_west
-  description: GOES-West Coverage
+  description: GOES-West Coverage.
   projection:
     a: 6371228.0
     lat_0: 0

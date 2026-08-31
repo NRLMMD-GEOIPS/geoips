@@ -1,0 +1,92 @@
+testing:
+- title: 'Add small sectors to use in integration tests'
+  description: |
+    To make integration tests more efficient, create a standard set of test sectors that can be used for
+    specific integration test cases. This will include
+    
+    * general full disk test sectors (not dependent on dataset)
+
+      * By convention, all full disk sectors cover the full spatial extent of a geostationary satellite, with varying height/width as needed (825x800 is a good size to start, resulting in approximately 20km resolution)
+    * general tiny subsector (not dependent on dataset)
+
+      * By convention, all tiny subsectors are 300x300, with varying resolution as needed (3km is a good size to start)
+    * tiny sectors with specific meteorological / time of day features (tied to specific test dataset)
+
+      * All sectors must include some clouds, some clear sky, some land, and some ocean
+      * edge of scan
+      * daytime
+      * nighttime
+      * terminator
+      * nadir
+      * daytime edge of scan
+      * nighttime edge of scan
+
+    Additionally, add a test script to facilitate producing Google-Earthable geotiff outputs for better
+    evaluation of test sector contents.
+
+    Updated test scripts to include tiny sectors. 
+    
+    Test script runtimes | Total Time (Dev) --> Total Time (Postal Sectors)
+
+    * 'tests/scripts/abi.static.nasa_dust_rgb.imagery_clean.sh'
+
+      * 0:00:38.284668 --> 0:00:09.897544
+    * 'tests/scripts/abi.static.Infrared.imagery_annotated_enhanced.sh'
+
+      * 0:00:52.321328 --> 0:00:12.346580
+    * 'tests/scripts/abi.static.Infrared.imagery_clean.sh'
+
+      * 0:00:04.044630 --> 0:00:04.069393
+    * 'tests/scripts/abi.static.Infrared.netcdf_geoips.sh'
+
+      * 0:00:08.500480 -->  0:00:04.528118
+    * 'tests/scripts/abi.static.Visible.imagery_clean.sh'
+
+      * 0:00:35.988887 --> 0:00:08.115040
+    * 'tests/scripts/abi.config_based_output_full_zarr_cache_backend.sh'
+
+      * 0:00:44.383611  -->  0:00:27.752275
+    * 'tests/scripts/abi.config_based_output_low_memory.sh'
+
+      * 0:00:30.170003 --> 0:00:31.170880
+    * 'tests/scripts/abi.config_based_output_low_memory_zarr_backend.sh'
+
+      * 0:00:59.344232 --> 0:00:23.456041
+    * 'tests/scripts/abi.config_based_output.sh'
+
+      *  0:00:51.753695 --> 0:00:32.305332
+        
+    Notes on plugin names
+
+    * Plugin names are of the format
+
+      * test_<satellite>_<proj>_<res>_<OPTIONAL:edge|nadir>_<day|night|terminator>_<OPTIONAL:tc|ar|volc>_<YYYYMMDDTHHMMZ>.yaml
+      * E.g., test_goes16_eqc_3km_edge_day_tc_20200918T1950Z
+    * Parsing sector names is not required, so optional field is fine to include only as needed within the file name.
+    * If we require tracking / using the metadata included in the plugin names, we will add explicit metadata to the plugins themselves that can be used for sorting / searching the available test plugins
+    * If we want to sort differently than the hard coded plugin name order, we will additionally implement sorting within the CLI based on the plugin metadata (we just picked a reasonable order for reasonable sorting)
+    * Filenames for individual test sector plugins do NOT have to match the plugin names (to avoid excessively long filenames on disk)
+    * For now, must manually update area_id and name to match exactly, and must manually update both description and docstring to match exactly.  Eventually plugins will be set up to automatically populate area_id and description if they are not set (name and docstring are required), but for now must copy/paste.
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - 'geoips/plugins/yaml/sectors/test/geostationary/goes_east_subsectors/test_goes16_eqc_3km_subsector.yaml'
+    - 'geoips/plugins/yaml/sectors/test/geostationary/goes_east_subsectors/test_goes16_eqc_3km_nadir.yaml' 
+    - 'geoips/plugins/yaml/sectors/test/geostationary/goes_east_subsectors/test_goes16_longlat_20km_fulldisk.yaml'
+    - 'geoips/plugins/yaml/sectors/integration_tests/geostationary/goes_east_sectors/goes16_20200918T1950Z/test_goes16_eqc_3km_day_20200918T1950Z.yaml'
+    - 'geoips/plugins/yaml/sectors/integration_tests/geostationary/goes_east_sectors/goes16_20200918T1950Z/test_goes16_eqc_3km_edge_day_20200918T1950Z.yaml'
+    - 'geoips/plugins/yaml/sectors/integration_tests/geostationary/goes_east_sectors/goes16_20200918T1950Z/test_goes16_eqc_3km_night_20200918T1950Z.yaml'
+    - 'geoips/plugins/yaml/sectors/integration_tests/geostationary/goes_east_sectors/goes16_20200918T1950Z/test_goes16_eqc_3km_edge_night_20200918T1950Z.yaml'
+    - 'geoips/plugins/yaml/sectors/integration_tests/geostationary/goes_east_sectors/goes16_20200918T1950Z/test_goes16_eqc_3km_terminator_20200918T1950Z.yaml'
+    - 'geoips/plugins/yaml/sectors/test/test_sectors.sh'
+    - 'geoips/plugins/yaml/sectors/test/test_geoips_run.sh'
+    modified:
+    - ''
+  related-issue:
+    internal: GEOIPS#841 - tiny sectors
+  date:
+    start: 2025-04-28
+    finish: 2025-05-28

@@ -283,7 +283,7 @@ def add_args(parser, arglist=None, legacy=False):
             nargs="?",
             default=None,
             help="""Specify sector adjuster to be used within processing, located in:
-                            <package>.plugins.modules.sector_adjusters.
+                            <package>.plugins.classes.sector_adjusters.
                                 <myadjuster>.<myadjuster>""",
         )
     if arglist is None or "sector_adjuster_kwargs" in arglist:
@@ -355,7 +355,7 @@ def add_args(parser, arglist=None, legacy=False):
             nargs="?",
             default=None,
             help="""Specify TC trackfile parser to use with trackfiles, located in:
-                            geoips*.plugins.modules.sector_metadata_generators .
+                            geoips*.plugins.classes.sector_metadata_generators .
                                 myparsername.myparsername,
                             The trackfile_parser string should be the parser module
                             name (no .py)""",
@@ -473,7 +473,7 @@ def add_args(parser, arglist=None, legacy=False):
         prod_group.add_argument(
             "--product_spec_override",
             nargs="?",
-            default={},
+            default=None,
             type=literal_eval,
             help="""Specify product spec fields to override the default specifications.
                             Should be formatted as a json dictionary string""",
@@ -636,6 +636,37 @@ def add_args(parser, arglist=None, legacy=False):
             help="""If true, do not pre-sector data prior to running the algorithm.
                     This is less efficient, but allows the original dataset to
                     be passed to the algorithm in full.""",
+        )
+
+    if arglist is None or "disable_nan_array_removal" in arglist:
+        procflow_group.add_argument(
+            "--disable_nan_array_removal",
+            action="store_true",
+            help="""If true, do not remove arrays of all nans before passing to
+                    interpolator or algorithm steps.  This process can be very slow
+                    and use a large amount of memory for large arrays, so allow
+                    turning it off if we know in advance that we do not have to worry
+                    about handling arrays comprised on all nans.""",
+        )
+
+    if arglist is None or "output_checker_name" in arglist:
+        procflow_group.add_argument(
+            "--output_checker_name",
+            default=None,
+            help="""Output Checker Name Override.
+                    - By default, GeoIPS determines the appropriate
+                      output_checker plugin to use for comparisons based on
+                      the file extension of the output.
+                    - If a particular file extension is not explicitly
+                      supported, but is expected to be able to utilize one of
+                      the existing output checkers (e.g. using the "text"
+                      output checker with a CSV file), this argument allows the
+                      name of the checker to be passed in to override the default.
+                    - I.e., to force the use of the "text" ouput checker with a
+                      product that produces a CSV output output_checker plugin,
+                      you would pass:
+                        --output_checker_name text
+                    """,
         )
 
     if arglist is None or "output_checker_kwargs" in arglist:
@@ -882,6 +913,12 @@ def add_args(parser, arglist=None, legacy=False):
         )
 
     prod_db_group = parser.add_argument_group(title="Product database specifications")
+    prod_db_group.add_argument(
+        "--write_stats_to_json",
+        action="store_true",
+        help="""Write resource usage statistics gathered in config_based processing to
+                a JSON file.""",
+    )
     if arglist is None or "product_db" in arglist:
         prod_db_group.add_argument(
             "--product_db",
@@ -893,7 +930,7 @@ def add_args(parser, arglist=None, legacy=False):
             default=None,
             help="""If --product_db_writer is passed, the specific product
                     database writer will be located in
-                    geoips*.plugins.modules.postgres_database.
+                    geoips*.plugins.classes.postgres_database.
                         mywriter_name.mywriter_name,
                     The writer_name string should be the reader module name
                     (no .py)""",

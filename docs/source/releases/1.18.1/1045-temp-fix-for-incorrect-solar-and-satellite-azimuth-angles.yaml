@@ -1,0 +1,30 @@
+temporary bug fix:
+- title: 'Temporary fix for incorrect solar and satellite azimuth angles'
+  description: |
+    This is a temporary bug fix for satellite and solar angle calculations. Proper and
+    longterm fix will be to update the backend calculations.
+
+    There is a bug in the satellite azimuth calculation where it is off by 180°
+    It doesn't seem like it is an issue with the output being 0-360 vs -180 - 180.
+    Converting to -180 - 180 will not yield the correct result.
+
+    There is another bug in the solar azimuth calculation that causes the output to
+    be in radians, and in 0-360. If the full disk solar azimuth angle array has
+    minimum greater than zero, then we are dealing with the bugged calculation.
+    Need to apply the following corrections -
+    1 - Convert from radians to degrees
+    2 - Convert from 0-360 to -180 - 180
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - 'geoips/plugins/modules/readers/utils/geostationary_geolocation.py'
+  related-issue:
+    internal: "geoips#1045"
+  date:
+    start: 2026-03-31
+    finish: 2026-03-31

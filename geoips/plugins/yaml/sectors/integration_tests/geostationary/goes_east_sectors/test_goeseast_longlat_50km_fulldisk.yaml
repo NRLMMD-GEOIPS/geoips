@@ -1,0 +1,43 @@
+interface: sectors
+family: area_definition_static
+name: test_goeseast_longlat_50km_fulldisk
+docstring: |
+  GOES-East coverage, EPSG:4326 with prime meridian at -75.2
+
+  ~50km resolution, 150 deg long x 144 deg lat, 310x300, centered on -75.2
+
+  Low resolution full disk test sector for GOES East test processing that is not
+  dependent specific meteorological features or time of day within the dataset.
+metadata:
+  region:
+    continent: Tests
+    country: x
+    area: Goes_East
+    subarea: x
+    state: x
+    city: x
+spec:
+  area_id: test_goeseast_longlat_50km_fulldisk
+  description: |
+    GOES-East coverage, EPSG:4326 with prime meridian at -75.2
+
+    ~50km resolution, 150 deg long x 144 deg lat, 310x300, centered on -75.2
+
+    Low resolution full disk test sector for GOES East test processing that is not
+    dependent specific meteorological features or time of day within the dataset.
+  projection:
+    lat_0: 0
+    lon_0: 0
+    pm: -75.2
+    proj: longlat
+    datum: "WGS84"
+  shape:
+    height: 300
+    width: 310
+  # This is wrt -75.2 prime meridian being "0"
+  # Units are degrees, so xy in degrees not meters
+  # 150 deg x 144 deg sector, ~16650km x 15984km,
+  # 310x300 pixels, ~50km x 50km res
+  area_extent:
+    lower_left_xy: [-75, -72]
+    upper_right_xy: [75, 72]
