@@ -10,12 +10,9 @@ import logging
 
 from geoips.commandline.geoips_command import (
     GeoipsCommand,
-    GeoipsExecutableCommand,
     GeoipsWorkflowCommand,
 )
-from geoips.errors import PluginError
-from geoips.filenames.base_paths import PATHS
-from geoips.interfaces import procflows, sectors, workflows
+from geoips.interfaces import procflows, workflows
 
 LOG = logging.getLogger(__name__)
 
