@@ -26,14 +26,14 @@ class GeoipsLint(GeoipsExecutableCommand):
     command_classes = []
 
     def add_arguments(self):
-        """Add arguments to the test-subparser for the Test Linting Command."""
+        """Add arguments to the lint-subparser for the lint Command."""
         self.parser.add_argument(
-            "--package-name",
-            "-p",
+            "package_name",
+            nargs="?",
             type=str,
             default="geoips",
             choices=self.plugin_package_names,
-            help="GeoIPS Package that we want to run linting tests on.",
+            help="GeoIPS Package to run linting tests on. Defaults to 'geoips'.",
         )
 
     def __call__(self, args):

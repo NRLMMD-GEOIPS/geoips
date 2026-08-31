@@ -485,30 +485,6 @@ configuration options.
     As we continue to develop the GeoIPS CLI,
     we expect the functionality of this command to grow.
 
-config install
-^^^^^^^^^^^^^^
-
-GeoIPS relies on test datasets to test its processing workflows.
-Test datasets must be installed before tests can be run.
-
-``config install`` installs test datasets hosted on CIRA's NextCloud instance for
-testing processing workflows.
-
-For example:
-
-.. code-block:: bash
-
-    geoips cfg install test_data_clavrx
-    geoips config install test_data_clavrx
-    geoips config install test_data_clavrx test_data_noaa_aws
-    geoips config install all
-
-
-.. note::
-
-    To list installable test datasets,
-    see ``geoips list test-datasets``.
-
 .. _geoips_config_create-registries:
 
 :ref:`geoips config create-registries <geoips_config_create-registries>`
@@ -549,6 +525,35 @@ If no registry files are found, nothing occurs. For example:
     geoips config delete-registries
     geoips config delete-registries --packages geoips geoips_clavrx
     geoips config delete-registries --namespace <different_namespace>
+
+.. _geoips_lint:
+
+lint
+----
+
+GeoIPS and GeoIPS Plugin Packages routintely run linters to
+confirm functionality, uniform syntax and interoperability.
+
+``geoips lint`` can execute linting services to make your code adhere to commonly
+accepted coding practices.
+
+Checking code often is a good practice.
+
+geoips lint
+^^^^^^^^^^^
+
+This command runs ``bandit``, ``black``, and ``flake8``.
+
+.. note::
+
+    We may support more linters in the future.
+
+For example:
+
+.. code-block:: bash
+
+    geoips lint # (defaults to 'geoips' package)
+    geoips lint <package_name> # only runs tests in provided plugin package
 
 .. _geoips_run:
 
@@ -601,36 +606,27 @@ they can, so prefer OBP for new work.
         --logging_level info \
         --sector_list goes_east
 
-.. _geoips_test:
+.. _geoips_sector:
 
-test
-----
+sector
+------
 
-GeoIPS and GeoIPS packages implement tests and linters to
-confirm functionality, uniform syntax and interoperability.
+GeoIPS provides a collection of ``sector`` commands used to display the geospatial
+region of a sector plugin as an interactive frame or image saved to disk. This is
+useful for the development of sector plugins as these commands visualize the domain in
+which a sector plugin actually encapsulates.
 
-``geoips test`` can execute linting, and output / integration test scripts.
-
-Checking code often is a good practice.
-
-test linting
-^^^^^^^^^^^^
-
-This command runs ``bandit``, ``black``, and ``flake8``.
+display
+^^^^^^^
 
 .. note::
 
-    We may support more linters in the future.
+    This section has not been implemented yet as the command does not currently exist.
+    Please check this documentation at a later date once that command has been
+    completed.
 
-For example:
-
-.. code-block:: bash
-
-    geoips test linting # (defaults to 'geoips' package)
-    geoips test linting -p <package_name> # only runs tests in provided plugin package
-
-test sector
-^^^^^^^^^^^
+plot
+^^^^
 
 This command produces a .png image depicting the area of interest covered by the sector
 including any coastlines contained in the sector.
@@ -639,13 +635,13 @@ For example:
 
 .. code-block:: bash
 
-    geoips test sector <sector_name>
+    geoips sector plot <sector_name>
 
 
 An additional output directory can be specified with ``--outdir``. For example:
 .. code-block:: bash
 
-    geoips test sector <sector_name> --outdir <output_directory_path>
+    geoips sector plot <sector_name> --outdir <output_directory_path>
 
 After creating a new sector plugin, run ``create_plugin_registries``
 to add the sector to your registry.
@@ -658,7 +654,7 @@ This is useful for small sectors. For example:
 
 .. code-block:: bash
 
-    geoips test sector canada --overlay
+    geoips sector plot canada --overlay
 
 .. image:: canada.png
    :width: 800
@@ -669,8 +665,8 @@ command. This can be applied with the ``--overlay`` flag as well. For example:
 
 .. code-block:: bash
 
-    geoips test sector australia --gridlines
-    geoips test sector australia --gridlines --overlay
+    geoips sector plot australia --gridlines
+    geoips sector plot australia --gridlines --overlay
 
 By default, latitude / longitude labels are added to the sector if gridlines are
 requested. To disable this, or change the location of where the labels are added, use
@@ -683,50 +679,19 @@ For example:
 
 .. code-block:: bash
 
-    geoips test sector australia --gridlines --labels top right
-    geoips test sector australia --gridlines --labels
-    geoips test sector australia --gridlines --overlay --labels bottom
+    geoips sector plot australia --gridlines --labels top right
+    geoips sector plot australia --gridlines --labels
+    geoips sector plot australia --gridlines --overlay --labels bottom
 
-test script
-^^^^^^^^^^^
+.. _geoips_test:
 
-``script`` executes an output-based test script which will return a numerical value
-based on the output of the test.
+test
+----
 
-A 0 is a success. Any non-zero number indicate a failure,
-and sometimes provide information on what kind of failure occurred.
-
-.. note::
-
-    ``script`` only supports bash scripts ending in ``.sh``
-
-For example:
-
-.. code-block:: bash
-
-    geoips test script <script_name> # (defaults to 'geoips' package)
-
-``script`` can execute integration tests in the 'geoips' package.
-
-For example:
-
-.. code-block:: bash
-
-    geoips test script --integration <script_name>
-
-To run a test script, or run your integration tests, you must first place your
-integration / normal test scripts in one of these file locations:
-
-* Output Test scripts: ``<package_name>/tests/scripts/<script_name>``
-* Integration Tests: ``<package_name>/tests/integration_tests/<script_name>``
-
-You can run test scripts in plugin packages by specifying the
-plugin package with ``-p`` or ``--package_name``. For example:
-
-.. code-block:: bash
-
-    geoips test script --package_name <package_name> <script_name>
-    geoips test script -p <package_name> <script_name>
+GeoIPS test currently only supports one command, ``geoips test workflow``. This is used
+to execute workflows in a reproducible manner for testing purposes. This way, we can
+ensure that the output of each step remains consistent with previous versions of GeoIPS
+regardless of the changes made between releases.
 
 test workflow
 ^^^^^^^^^^^^^
@@ -744,6 +709,48 @@ For example:
 
 This command should be used only for testing workflow plugins in a simple, reproducible
 manner.
+
+.. _geoips_test-data:
+
+test-data
+---------
+
+Since GeoIPS is designed around processing geolocated data, this package will need data
+to process on. GeoIPS provides a variety of CLI commands centered around pulling,
+updating, and removing test datasets for one or more of your plugin packages.
+
+pull
+^^^^
+
+GeoIPS relies on test datasets to test its processing workflows.
+Test datasets must be pulled locally before tests can be run.
+
+``test-data pull`` pulls test datasets hosted on CIRA's NextCloud instance for
+testing processing workflows.
+
+For example:
+
+.. code-block:: bash
+
+    geoips test-data pulltest_data_clavrx
+    geoips test-data pull test_data_clavrx
+    geoips test-data pull test_data_clavrx test_data_noaa_aws
+    geoips test-data pull all
+
+
+.. note::
+
+    To list installable test datasets,
+    see ``geoips list test-datasets``.
+
+Alternatively, you can pull test datasets from remote GitHub repositories if you have
+access to them. This is only used in very specific instances where the test data is
+not available to the public. The following section depicts how to pull data from a
+remote GitHub repository.
+
+.. code:: bash
+
+    geoips test-data pull <gh_testdata_name> -g
 
 tree
 ----
