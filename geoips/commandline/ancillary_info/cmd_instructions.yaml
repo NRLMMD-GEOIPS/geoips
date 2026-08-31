@@ -273,19 +273,19 @@ instructions:
     output_info:
       - Bandit, Black, and Flake8 results
   geoips_list:
-    help: |
-      List off available GeoIPS artifacts provided further commands. Current artifacts
-      available for listing are: ["algorithms", "colormappers", "coverage_checkers",
-      "databases", "filename_formatters", "interpolators", "output_checkers",
-      "output_formatters", "procflows", "readers", "sector_adjusters",
-      "sector_metadata_generators", "sector_spec_generators", "title_formatters",
-      "validators", "feature_annotators", "gridline_annotators", "product_defaults",
-      "products", "sectors", "interfaces", "packages", "plugins", "scripts",
-      "test-datasets", "unit-tests", "workflows"].
-    usage: |
-      To use, type `geoips list <cmd> <sub-cmd>`.
+    help: List GeoIPS interfaces, plugins, plugin packages, and test resources.
+    description: |
+      List resources available in the current GeoIPS environment, including
+      interfaces, registered plugins, installed plugin packages, plugin
+      registries, scripts, source names, unit tests, and test datasets.
+
+      Interface names can also be used as subcommands. For example,
+      `geoips list algorithms` lists plugins registered with the algorithms
+      interface. Use `geoips list plugins` to list plugins across all
+      interfaces.
+    usage: geoips list COMMAND
     output_info:
-      - Additional info related to the artifact[s] being listed.
+      - Information about the requested GeoIPS resources
   geoips_list_common:
     help: |
       Common optional arguments shared between list commands.
