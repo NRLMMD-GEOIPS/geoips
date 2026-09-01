@@ -180,11 +180,20 @@ class BaseCliTest(abc.ABC):
                 pkg_idx = idx + 1
                 pkg_name = args[pkg_idx]
                 break
+            elif arg == "lint" and len(args) > idx + 1:
+                # That means a package was provided. It might not be valid, but we
+                # don't care. We'll test this in the if statements below.
+                pkg_idx = idx + 1
+                pkg_name = args[pkg_idx]
+                break
 
         if pkg_name is not None and pkg_name not in self.plugin_package_names:
             # If the package provided is not a valid package, check for that error
             # instead
-            assert f"{args[2]}: error: argument --package-name/-p: invalid" in error
+            assert (
+                f"{args[2]}: error: argument --package-name/-p: invalid" in error
+                or "error: argument package_name: invalid" in error
+            )
             return False
 
         # There are a few commands that require GeoIPS to be installed in editable mode
@@ -353,8 +362,8 @@ class BaseCliTest(abc.ABC):
             case _ if "-h" in args:
                 # Can't capture help messages using monkeypatch... yet
                 return False
-            case _ if "linting" in args:
-                # Can't capture linting output using monkeypatch... yet
+            case _ if "lint" in args:
+                # Can't capture lint output using monkeypatch... yet
                 return False
             case _ if "test" in args and "script" in args:
                 # Can't capture bash script output using monkeypatch... yet
