@@ -8,7 +8,7 @@ from geoips.filenames.base_paths import PATHS as gpaths
 
 
 class ProductsInterface(BaseYamlInterface):
-    """GeoIPS interface for Products plugins."""
+    """GeoIPS interface for Product plugins."""
 
     name = "products"
     use_pydantic = gpaths["GEOIPS_USE_PYDANTIC"]
@@ -27,7 +27,7 @@ class ProductsInterface(BaseYamlInterface):
                 ProductsPluginValidator,
             )
 
-            self._validator = ProductsPluginValidator
+            self._validator = ProductsPluginValidator()
 
         return self._validator
 
