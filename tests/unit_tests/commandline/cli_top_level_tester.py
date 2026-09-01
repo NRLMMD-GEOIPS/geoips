@@ -363,8 +363,8 @@ class BaseCliTest(abc.ABC):
             case _ if "lint" in args:
                 # Can't capture lint output using monkeypatch... yet
                 return False
-            case _ if "test" in args and "script" in args:
-                # Can't capture bash script output using monkeypatch... yet
+            case _ if "test" in args and "workflow" in args:
+                # Can't capture bash output using monkeypatch... yet
                 return False
             case _ if (
                 "run" in args
