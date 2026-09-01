@@ -22,7 +22,7 @@ CLI commands are split up into two groups by their functionality:
  - `Discovery commands`_ help you discover available GeoIPS functionality
    (e.g. interfaces, plugins, etc.)
  - `Action commands`_ perform actions using GeoIPS functionality (e.g.
-   configure GeoIPS, run a procflow, install test datasets, run tests, etc.))
+   configure GeoIPS, run a procflow, install test datasets, run tests, etc.)
 
 ..
     Commenting this out for now until the linked document is corrected.
@@ -485,47 +485,6 @@ configuration options.
     As we continue to develop the GeoIPS CLI,
     we expect the functionality of this command to grow.
 
-.. _geoips_config_create-registries:
-
-:ref:`geoips config create-registries <geoips_config_create-registries>`
-
-``config create-registries`` creates plugin registry files.
-These files for GeoIPS to locate and use plugins.
-You should never edit these files.
-
-
-This occurs in the ``geoips.plugin_packages`` namespace by default.
-It contains all plugin packages registered under GeoIPS.
-You may specify a different name space.
-
-You can pass ``--packages`` to limit the plugins processed.
-
-JSON files are output by default.
-You may also output yaml files for ease of viewing by passing ``--save-type yaml``.
-
-
-For example:
-
-::
-
-    geoips config create-registries
-    geoips config create-registries --packages geoips geoips_clavrx
-    geoips config create-registries --save-type yaml
-    geoips config create-registries --namespace <different_namespace>
-
-.. _geoips_config_delete-registries:
-
-:ref:`geoips config delete-registries <geoips_config_delete-registries>`
-
-``config delete-registries`` removes the plugin registry files.
-If no registry files are found, nothing occurs. For example:
-
-::
-
-    geoips config delete-registries
-    geoips config delete-registries --packages geoips geoips_clavrx
-    geoips config delete-registries --namespace <different_namespace>
-
 .. _geoips_lint:
 
 lint
@@ -554,6 +513,60 @@ For example:
 
     geoips lint # (defaults to 'geoips' package)
     geoips lint <package_name> # only runs tests in provided plugin package
+
+registry
+--------
+
+GeoIPS provides two ``registry`` commands which interact with a 3rd party package called
+``pluginify`` to create plugin registry files for one or more of your GeoIPS packages
+registered under the GeoIPS namespace. These file allow GeoIPS to efficiently locate and
+load plugins from various different packages. The following sections will detail the
+CLI commands that interact with registry files.
+
+create
+^^^^^^
+
+.. _geoips_config_create-registries:
+
+:ref:`geoips config create-registries <geoips_config_create-registries>`
+
+``registry create`` creates plugin registry files.
+These files for GeoIPS to locate and use plugins.
+You should never edit these files.
+
+This occurs in the ``geoips.plugin_packages`` namespace by default.
+It contains all plugin packages registered under GeoIPS.
+You may specify a different name space.
+
+You can pass ``--packages`` to limit the plugins processed.
+
+JSON files are output by default.
+You may also output yaml files for ease of viewing by passing ``--save-type yaml``.
+
+For example:
+
+::
+
+    geoips registry create
+    geoips registry create --packages geoips geoips_clavrx
+    geoips registry create --save-type yaml
+    geoips registry create --namespace <different_namespace>
+
+delete
+^^^^^^
+
+.. _geoips_config_delete-registries:
+
+:ref:`geoips config delete-registries <geoips_config_delete-registries>`
+
+``registry delete`` removes the plugin registry files.
+If no registry files are found, nothing occurs. For example:
+
+::
+
+    geoips registry delete
+    geoips registry delete --packages geoips geoips_clavrx
+    geoips registry delete --namespace <different_namespace>
 
 .. _geoips_run:
 
@@ -767,17 +780,20 @@ For example, running ``geoips tree`` returns:
 
     geoips
         geoips config
-            geoips config install
+            geoips config create
+            geoips config validate
         geoips describe
             geoips describe algorithms
             geoips describe colormappers
             geoips describe coverage-checkers
+            geoips describe databases
             geoips describe feature-annotators
             geoips describe filename-formatters
             geoips describe gridline-annotators
             geoips describe interpolators
             geoips describe output-checkers
             geoips describe output-formatters
+            geoips describe package
             geoips describe procflows
             geoips describe product-defaults
             geoips describe products
@@ -787,42 +803,57 @@ For example, running ``geoips tree`` returns:
             geoips describe sector-spec-generators
             geoips describe sectors
             geoips describe title-formatters
-            geoips describe package
+            geoips describe validators
+            geoips describe workflows
+            geoips describe workflows
+        geoips expand
+        geoips lint
         geoips list
             geoips list algorithms
             geoips list colormappers
             geoips list coverage-checkers
+            geoips list databases
             geoips list feature-annotators
             geoips list filename-formatters
             geoips list gridline-annotators
+            geoips list interfaces
             geoips list interpolators
             geoips list output-checkers
             geoips list output-formatters
+            geoips list packages
+            geoips list plugins
             geoips list procflows
             geoips list product-defaults
             geoips list products
             geoips list readers
+            geoips list registries
+            geoips list registries
+            geoips list scripts
             geoips list sector-adjusters
             geoips list sector-metadata-generators
             geoips list sector-spec-generators
             geoips list sectors
-            geoips list title-formatters
-            geoips list interfaces
-            geoips list packages
-            geoips list plugins
-            geoips list scripts
+            geoips list source-names
             geoips list test-datasets
+            geoips list title-formatters
             geoips list unit-tests
+            geoips list validators
+            geoips list workflows
+            geoips list workflows
+        geoips registry
+            geoips registry create
+            geoips registry delete
         geoips run
+            geoips run config_based
+            geoips run data_fusion
             geoips run order_based
             geoips run single_source
-            geoips run data_fusion
-            geoips run config_based
+        geoips sector
+            geoips sector plot
         geoips test
-            geoips test linting
-            geoips test script
-            geoips test sector
             geoips test workflow
+        geoips test-data
+            geoips test-data pull
         geoips tree
         geoips validate
 
