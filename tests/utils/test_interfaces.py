@@ -189,13 +189,16 @@ def main():
                 # Make sure that if we are dealing with a class-based interface that it
                 # has 'plugin_class' set and that attribute refers to a
                 # Base<interface>Plugin class.
-                assert (
-                    hasattr(curr_interface, "plugin_class")
-                    and curr_interface.plugin_class.__name__.startswith("Base")
-                    and curr_interface.plugin_class.__name__.endswith("Plugin")
-                ), (
-                    f"{curr_interface.name} is either missing or has improperly set its"
-                    "plugin_class attribute."
+                assert hasattr(curr_interface, "_get_plugin_class"), (
+                    f"{curr_interface.name} is missing required '_get_plugin_class' "
+                    "method."
+                )
+                plugin_class = curr_interface._get_plugin_class()
+                assert plugin_class.__name__.startswith(
+                    "Base"
+                ) and plugin_class.__name__.endswith("Plugin"), (
+                    f"{curr_interface.name} interface '_get_plugin_class' is not "
+                    "returning a valid BasePlugin object to inherit from."
                 )
         except Exception as resp:
             LOG.info(traceback.format_exc())

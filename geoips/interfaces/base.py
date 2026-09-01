@@ -249,7 +249,6 @@ class BaseClassInterface(pluginify_base_class):
 
     apiVersion = "geoips/v1"
 
-    @staticmethod
     def _get_plugin_class(self):
         """Get the 'plugin_class' for a class-based interface.
 
