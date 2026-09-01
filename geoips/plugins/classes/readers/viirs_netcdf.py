@@ -47,7 +47,7 @@ of VIIRS files, additional adjust of execution of the VIIRS files will be needed
 (discussion with Mindy on how to do it).
 """
 
-from geoips.interfaces.class_based.readers import BaseReaderPlugin
+from geoips.interfaces.class_based.bases.readers import BaseReaderPlugin
 
 # Python Standard Libraries
 from collections import defaultdict

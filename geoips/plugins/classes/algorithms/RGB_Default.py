@@ -6,7 +6,7 @@
 This algorithm expects two VIIRS channels (DNBRad and M16BT) for a RGB image
 """
 
-from geoips.interfaces.class_based.algorithms import BaseAlgorithmPlugin
+from geoips.interfaces.class_based.bases.algorithms import BaseAlgorithmPlugin
 
 import logging
 

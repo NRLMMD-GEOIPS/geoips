@@ -3,7 +3,7 @@
 
 """Module containing WV (water vapor) algorithm colormap."""
 
-from geoips.interfaces.class_based.colormappers import BaseColormapperPlugin
+from geoips.interfaces.class_based.bases.colormappers import BaseColormapperPlugin
 
 import logging
 
