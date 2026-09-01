@@ -12,9 +12,9 @@ refactor:
     New commands added include `geoips --version`, `geoips test-data remove`, as well
     as other future commands planned in https://github.com/NRLMMD-GEOIPS/geoips/issues/1479.
 
-    Additionally, changed where class-based, base plugins are stored within GeoIPS and
-    updated the imports respectively in an attempt to speed up the start up time of the
-    CLI. Updates still to come with that.
+    Additionally, changed where yaml and class-based, base plugins are stored within
+    GeoIPS and updated the imports respectively in an attempt to speed up the start up
+    time of the CLI.
 
     Lastly, updated the help formatter for the CLI to highlight different sections of
     the help output in order to make it more clear to the user what they are seeing.
@@ -40,8 +40,12 @@ refactor:
       - geoips/interfaces/class_based/bases/sector_spec_generators.py
       - geoips/interfaces/class_based/bases/title_formatters.py
       - geoips/interfaces/class_based/bases/validators.py
+      - geoips/interfaces/yaml_based/bases/products.py
+      - geoips/interfaces/yaml_based/bases/sectors.py
     modified:
       - .flake8
+      - docs/source/functionality/command-line/index.rst
+      - docs/source/releases/latest/cli-stable-release.yaml
       - geoips/_version.py
       - geoips/commandline/ancillary_info/alias_mapping.yaml
       - geoips/commandline/ancillary_info/cmd_instructions.yaml
@@ -51,6 +55,7 @@ refactor:
       - geoips/commandline/geoips_test.py
       - geoips/commandline/geoips_tree.py
       - geoips/commandline/geoips_validate.py
+      - geoips/interfaces/base.py
       - geoips/interfaces/class_based/algorithms.py
       - geoips/interfaces/class_based/colormappers.py
       - geoips/interfaces/class_based/coverage_checkers.py
@@ -66,7 +71,11 @@ refactor:
       - geoips/interfaces/class_based/sector_spec_generators.py
       - geoips/interfaces/class_based/title_formatters.py
       - geoips/interfaces/class_based/validators.py
+      - geoips/interfaces/yaml_based/products.py
+      - geoips/interfaces/yaml_based/sectors.py
       - pyproject.toml
+      - tests/unit_tests/plugins/yaml/sectors/test_sectors_jsonschema.py
+      - tests/utils/test_interfaces.py
   related-issue:
     number: null
     repo_url: ''
