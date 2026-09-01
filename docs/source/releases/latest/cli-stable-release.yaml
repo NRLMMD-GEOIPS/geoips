@@ -76,6 +76,9 @@ refactor:
       - pyproject.toml
       - tests/unit_tests/plugins/yaml/sectors/test_sectors_jsonschema.py
       - tests/utils/test_interfaces.py
+    renamed:
+      - tests/unit_tests/commandline/test_geoips_test_linting.py -> tests/unit_tests/commandline/test_geoips_lint.py
+      - tests/unit_tests/commandline/test_geoips_test_sector.py -> tests/unit_tests/commandline/test_geoips_sector_plot.py
   related-issue:
     number: null
     repo_url: ''
