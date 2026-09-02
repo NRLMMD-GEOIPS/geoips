@@ -251,8 +251,8 @@ class ParentParsers:
                 """,
     )
 
-    config_parser = argparse.ArgumentParser(add_help=False)
-    config_parser.add_argument(
+    registry_parser = argparse.ArgumentParser(add_help=False)
+    registry_parser.add_argument(
         "-n",
         "--namespace",
         default="geoips.plugin_packages",
@@ -262,7 +262,7 @@ class ParentParsers:
             "If not specified, this defaults to 'geoips.plugin_packages'."
         ),
     )
-    config_parser.add_argument(
+    registry_parser.add_argument(
         "-p",
         "--packages",
         default=None,
